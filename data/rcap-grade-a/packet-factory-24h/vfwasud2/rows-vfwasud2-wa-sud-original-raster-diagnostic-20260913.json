@@ -1,0 +1,514 @@
+{
+  "schemaVersion": "rcap-independent-verifier-return/v1",
+  "lane": "VFWASUD2",
+  "laneKind": "independent-verification",
+  "status": "CHANGES_REQUIRED",
+  "verdict": "CHANGES_REQUIRED",
+  "reviewer": "/root/resolver_review",
+  "generatedAt": "2026-09-13T17:11:53.237657+00:00",
+  "verifiedAtBase": "dac2698a60762ad8294d629e626744061e9ebd90",
+  "rows": [
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "itemId": "wa_vac_substance_use_disorder-set",
+      "jurisdiction": "WA",
+      "lane": "VFWASUD2",
+      "laneKind": "independent-verification",
+      "reviewer": "/root/resolver_review",
+      "sessionIdentity": "/root/resolver_review/wa-sud-raster-diagnostic-20260913",
+      "reviewPhase": "ORIGINAL_RASTER_DIAGNOSTIC",
+      "verifiedAt": "2026-09-13T17:11:53.237657+00:00",
+      "verifiedAtBase": "dac2698a60762ad8294d629e626744061e9ebd90",
+      "packetCommitSha": "fc78ab3ac5e3ab94c332117fc40ef7a5edc65c6a",
+      "status": "CHANGES_REQUIRED",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "diagnosticDisposition": "CHANGES_REQUIRED",
+      "scope": "Bounded original-page diagnostic only: pages5/6/7 of canonical and boundary. Six direct views; all20originalPNG identities verified. No repeated semantic/final acceptance.",
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "failedObligations": [
+        {
+          "id": "WA-SUD-ORPHAN-NOTICE-ORDER-001",
+          "result": "CHANGES_REQUIRED",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "componentId": "wa-96060-6-notice-order-3",
+          "affectedFixtures": [
+            "canonical",
+            "boundary"
+          ],
+          "affectedPages": [
+            5,
+            6
+          ],
+          "finding": "Both original page6 images contain only judicial decision., the two-word end of the final notice/order disclaimer begun on page5. They are nearly blank overflow pages, not missing source or substantive legal text. Page7 begins the separate program-evidence checklist normally.",
+          "rasterMeasurements": [
+            {
+              "kind": "canonical",
+              "document": "canonical.pdf",
+              "page": 6,
+              "png": "wa_vac_substance_use_disorder-set/canonical/page-006.png",
+              "bytes": 35370,
+              "pngSha256": "8ca3f03c534400a444d8ed99da7bfee18e87adf5f620abbb87cc7d0462c980d3",
+              "pngWidth": 2040,
+              "pngHeight": 2640,
+              "paper": {
+                "x0": 204,
+                "y0": 3,
+                "x1": 2243,
+                "y1": 2642,
+                "width": 2040,
+                "height": 2640
+              },
+              "pxPerPt": 3.3333333333333335,
+              "expectedPxPerPt": 3.333333333333333,
+              "pageWidthPt": 612,
+              "pageHeightPt": 792,
+              "expectedPx": {
+                "width": 2039.9999999999998,
+                "height": 2639.9999999999995,
+                "tolerancePx": 6.666666666666666
+              },
+              "calibrationResidualPx": 0,
+              "inkFractionInsidePaper": 0.0003702465834818776,
+              "nonblank": false,
+              "croppedToThePage": true
+            },
+            {
+              "kind": "boundary",
+              "document": "boundary.pdf",
+              "page": 6,
+              "png": "wa_vac_substance_use_disorder-set/boundary/page-006.png",
+              "bytes": 35370,
+              "pngSha256": "8ca3f03c534400a444d8ed99da7bfee18e87adf5f620abbb87cc7d0462c980d3",
+              "pngWidth": 2040,
+              "pngHeight": 2640,
+              "paper": {
+                "x0": 204,
+                "y0": 3,
+                "x1": 2243,
+                "y1": 2642,
+                "width": 2040,
+                "height": 2640
+              },
+              "pxPerPt": 3.3333333333333335,
+              "expectedPxPerPt": 3.333333333333333,
+              "pageWidthPt": 612,
+              "pageHeightPt": 792,
+              "expectedPx": {
+                "width": 2039.9999999999998,
+                "height": 2639.9999999999995,
+                "tolerancePx": 6.666666666666666
+              },
+              "calibrationResidualPx": 0,
+              "inkFractionInsidePaper": 0.0003702465834818776,
+              "nonblank": false,
+              "croppedToThePage": true
+            }
+          ],
+          "remedy": "Recover at least one wrapped line of vertical space within the notice/order component only, for example by reducing an unnecessary paragraph gap. Preserve the complete disclaimer and all other wording, 11pt legibility, captions, recipient/service blanks, court findings/elections/signature/date blanks and component boundaries. Do not lower the raster ink threshold or delete the overflow sentence. Rebuild both fixtures with native reports/page manifests reflecting actual pagination; expected9pages each if this is the only pagination change, but measure rather than hard-code the result.",
+          "closureEvidence": "Bound current repaired PDF/code/report hashes; compare logical text and protected/required field classifications to retained semantic evidence; prove notice/order disclaimer remains together without a two-word overflow page. Run unchanged raster gate on the newly frozen packet bytes and obtain independent original-page visual review."
+        }
+      ],
+      "proofObligations": {
+        "CLIPPING_AND_OVERLAP": {
+          "result": "FAIL",
+          "measured": true,
+          "scope": "notice/order page5-to6 overflow in both fixtures",
+          "findingId": "WA-SUD-ORPHAN-NOTICE-ORDER-001"
+        }
+      },
+      "priorSemanticReview": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-repair-semantic-pass-20260913.json",
+        "sha256": "2763787f73e340e1443e4fc8c2c6f420daf7d7d776a3bdbbcca4e327854de4c7",
+        "byteLength": 33374
+      },
+      "priorSemanticPassPreserved": true,
+      "currentArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "e1bde8bedab7892ac6b6e280043a1b92373182f7b3f53d76435368d0e3655a37",
+          "byteLength": 23496,
+          "fixture": "canonical",
+          "pages": 10,
+          "matchesFrozenCommit": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "d9b1ef68487d86ebe3bb053d4068e903e93e57058718b2629920eecf5fde1aa6",
+          "byteLength": 23758,
+          "fixture": "boundary",
+          "pages": 10,
+          "matchesFrozenCommit": true
+        }
+      ],
+      "rasterEvidence": {
+        "runId": "34770011177",
+        "verdict": "RASTER_FAIL",
+        "frozenCommit": "fc78ab3ac5e3ab94c332117fc40ef7a5edc65c6a",
+        "originalArchive": {
+          "path": "/tmp/rcap-raster-artifacts/34770011177/wa_vac_substance_use_disorder-set.zip",
+          "sha256": "d8f6cc4ffd821ee6ad34367b0efd7a8dbd16fb5824aec8c14025ac1fcf5593a8",
+          "byteLength": 4645869
+        },
+        "verdictBinding": {
+          "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34770011177/wa_vac_substance_use_disorder-set.verdict.json",
+          "sha256": "0ddb6adc8f73397b0573b383d9e5e65953fc3026913513d6ceaf578e2dd02d40",
+          "byteLength": 20534
+        },
+        "originalInventory": {
+          "archiveMember": "PAGE_IMAGES_SHA256.json",
+          "sha256": "f1972189f062ef9299b793e59ca9165df05ec62b833773e361acc6211cdf8b7b",
+          "byteLength": 6211,
+          "entries": 20
+        },
+        "pages": [
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-001.png",
+            "bytes": 270191,
+            "sha256": "45586b9e470e144d6fc9e8537775cea3d3cfcbdc47438ed1160b6eb5af75d021",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-002.png",
+            "bytes": 353299,
+            "sha256": "418e2e4d9455eae388ef08c3f85b55b731e35a703a4cf536a6d994364bbd15d4",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-003.png",
+            "bytes": 258124,
+            "sha256": "a018254027aace32d9fc7e2b7bc84cf777ad92ba310abe11e23c0eae2f8fc2ef",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-004.png",
+            "bytes": 196257,
+            "sha256": "6bca67ad3fc9016dbf58bd77eb17fba2eea85e4bfbe92a7e1b92d4fb91289972",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-005.png",
+            "bytes": 287858,
+            "sha256": "a4a22f65cce619d61a5ecf2da52c8f5b84afc87fa1a8a4bfeca71ea122f1f58f",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": true
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-006.png",
+            "bytes": 35370,
+            "sha256": "8ca3f03c534400a444d8ed99da7bfee18e87adf5f620abbb87cc7d0462c980d3",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": true
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-007.png",
+            "bytes": 340928,
+            "sha256": "80ae05fb44c2c497f65e03aad3b5b4d495fc120639658723b42de784a672490f",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": true
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-008.png",
+            "bytes": 112244,
+            "sha256": "d275b8c12a594890dbe6762ece38d6d7748816038c2683a9e6f0c115854ab4d7",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-009.png",
+            "bytes": 412181,
+            "sha256": "1579bbebcc5d5131354aaacf13a26c2cbea60acde677ba5a7f8309b418990001",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/canonical/page-010.png",
+            "bytes": 204892,
+            "sha256": "447d4818e65a759ffcc024c7d0f93ee77ada81e2b4408eaa83479abad57d7519",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-001.png",
+            "bytes": 298406,
+            "sha256": "d4e2e45759611043982c9f1bf20613bc083ca753832df7c3dbe73c5c37f66530",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-002.png",
+            "bytes": 352793,
+            "sha256": "d4bdd98e968a7d96d6571dd46f2f331808955f035929717416e795872562664e",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-003.png",
+            "bytes": 268545,
+            "sha256": "4c3fbc5c59df004e100562088155cb8845ce5ce15742bc172ad86b4f1a341111",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-004.png",
+            "bytes": 201624,
+            "sha256": "a49e9cab82ac57261b8de3f718ce5974acf16412810f0ff87b0970f95d5a71f5",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-005.png",
+            "bytes": 293048,
+            "sha256": "558b3ced206f1858d39304748b287847c18734bdc831037223b9748db2c93552",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": true
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-006.png",
+            "bytes": 35370,
+            "sha256": "8ca3f03c534400a444d8ed99da7bfee18e87adf5f620abbb87cc7d0462c980d3",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": true
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-007.png",
+            "bytes": 345566,
+            "sha256": "3c41e98f49e1ab0c6c2647fe3f8265e3abdb4b9b3ef22eb7e740517180686c43",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": true
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-008.png",
+            "bytes": 112244,
+            "sha256": "d275b8c12a594890dbe6762ece38d6d7748816038c2683a9e6f0c115854ab4d7",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-009.png",
+            "bytes": 417257,
+            "sha256": "abaa473fe2f464721181259eec62a476822bbf77cd574deb0b85147e194716ff",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          },
+          {
+            "runId": "34770011177",
+            "familyId": "wa_vac_substance_use_disorder-set",
+            "member": "wa_vac_substance_use_disorder-set/boundary/page-010.png",
+            "bytes": 204892,
+            "sha256": "447d4818e65a759ffcc024c7d0f93ee77ada81e2b4408eaa83479abad57d7519",
+            "pngWidth": 2040,
+            "pngHeight": 2640,
+            "canvasDimensions": [
+              2448,
+              3168
+            ],
+            "originalArchiveAndExtractedBytesIdentical": true,
+            "directlyViewed": false
+          }
+        ],
+        "documentsDigest": "18538fffd1fb7a693430812db820543c0b8a0d2c29f8a1577abd1122cfed29a7",
+        "problems": [
+          "canonical.pdf page 6: blank (ink 3.70e-4)",
+          "boundary.pdf page 6: blank (ink 3.70e-4)"
+        ],
+        "environmentProblems": []
+      },
+      "visualReview": {
+        "directlyViewedPages": 6,
+        "originalImageIdentityChecks": 20,
+        "nearBlankOverflowPages": 2,
+        "allOtherPagesVisuallyReviewedHere": false
+      },
+      "repairRecommendation": "Recover at least one wrapped line of vertical space within the notice/order component only, for example by reducing an unnecessary paragraph gap. Preserve the complete disclaimer and all other wording, 11pt legibility, captions, recipient/service blanks, court findings/elections/signature/date blanks and component boundaries. Do not lower the raster ink threshold or delete the overflow sentence. Rebuild both fixtures with native reports/page manifests reflecting actual pagination; expected9pages each if this is the only pagination change, but measure rather than hard-code the result.",
+      "proofBoundSuccessorPath": {
+        "existingNativeSemanticReturn": {
+          "path": "data/rcap-grade-a/packet-factory-24h/vfwasud1/rows-vfwasud1-wa-sud-repair-semantic-pass-20260913.json",
+          "sha256": "2763787f73e340e1443e4fc8c2c6f420daf7d7d776a3bdbbcca4e327854de4c7",
+          "byteLength": 33374
+        },
+        "mappingHelper": {
+          "path": "scripts/grade-a-packet-factory-24h/wa-sud-custom-mapping.mjs",
+          "sha256": "e3d7c77259f0f7de24ccde680f2de698ba028ed2bdf86b93c886cbbaff9d8519",
+          "byteLength": 12098
+        },
+        "currentBehavior": "The helper fixes semantic return hash2763787f..., candidate6632fd3, all14old candidate bindings and10pages per PDF. Its successor-selected-review branch accepts later verdict selection only while all those old bytes remain unchanged. Therefore a layout-only replacement cannot enter through that branch automatically.",
+        "requiredProofBoundPath": [
+          "Existing PF05 worker authors only bounded notice/order pagination repair, preserves frozen PDFs/source/semantic return and creates a new native author return with full new code/output/report/page-manifest hashes and repair-parent binding.",
+          "A distinct reviewer creates an additive current-byte layout/semantic successor return: bind old semantic return and this diagnostic; verify exact unchanged authority, logical wording, required/protected field classifications and all changed layout/report bytes. Inherited semantic conclusions must be named and limited; do not copy old PASS onto new PDF hashes.",
+          "Independently reviewed narrow mapping certificate/version must explicitly bind the new candidate commit, new review path+SHA, exact new complete output manifest and measured pagecounts; retain historical certificate/old decision evidence. No arbitrary latest-review/path selection, hash bypass or relaxed ancestry/page checks.",
+          "The generator selects the newly certified custom packet and keeps normal source/completeness/failure/rasters/final-review gates. Freeze and dispatch new current bytes; only a successful unchanged raster gate plus independent final original-page review can close visual acceptance."
+        ],
+        "availableAutomaticLayoutSuccessor": false,
+        "mappingEditedByReviewer": false
+      },
+      "finalAcceptance": false,
+      "terminalPromotionAuthorized": false,
+      "runtimeSelectable": false,
+      "commercialAuthorityGranted": false,
+      "commercialRoutesOpened": 0,
+      "candidateEditedByReviewer": false,
+      "sourceOrQueueModified": false,
+      "frozenBytesPreserved": true,
+      "newRasterPerformed": false
+    }
+  ],
+  "grantsNothing": true
+}

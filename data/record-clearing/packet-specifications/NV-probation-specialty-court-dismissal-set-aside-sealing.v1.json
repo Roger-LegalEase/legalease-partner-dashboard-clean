@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 2,
+  "specificationId": "nv-probation-specialty-court-dismissal-set-aside-sealing",
+  "specificationVersion": "1.0.0",
+  "routeKey": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+  "jurisdiction": "NV",
+  "pathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
+  "pathwayLabel": "Probation or specialty-court dismissal / set-aside sealing",
+  "packetFamily": "nv_seal_probation_family-set",
+  "packetFamilyLabel": "Nevada Treatment-Program Discharge, Conditional-Dismissal, or Set-Aside Sealing",
+  "trackId": "nv_seal_probation_family",
+  "packetSetId": "nv_seal_probation_family-set",
+  "packetSetVersion": "1.0.0",
+  "profileId": "NV",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "legalSectionsBound": true,
+  "legalSectionsBoundBy": {
+    "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "postApprovalAuditVerdict": "COVERED_BY_EXISTING_APPROVAL",
+    "scope": "The exact existing family documents and canonical and boundary artifact hashes recorded below; no runtime, technical, payment, sponsorship, or production authority."
+  },
+  "generatedBy": "route-productization worker from existing owner-approved records; no new registry or source",
+  "derivedFrom": [
+    "data/record-clearing/legal-design-intake/NV.memo.json#nv_seal_probation_family",
+    "data/record-clearing/legal-design-packet-set-manifests.json#nv_seal_probation_family-set",
+    "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json#OWN-ADOPT-2026-09-02-BATCH-53",
+    "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json#nv_seal_probation_family-set"
+  ],
+  "specificationNote": "This specification binds the one Nevada runtime route to the exact eight-component census-v1 family already approved at canonical SHA-256 533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7 and boundary SHA-256 d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca. It preserves the automatic subsection 1 branch and the conditional subsection 2 petition branch, substitutes no official form, and grants no fulfillment or commercial authority.",
+  "statutoryAuthority": {
+    "primary": "NRS 176A.245; NRS 176A.265; NRS 176A.295; NRS 176A.240; NRS 176A.260; NRS 176A.290; NRS 176A.850; NRS 179.2445; NRS 179.275",
+    "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-176A.html",
+    "ruleStatement": "Each of NRS 176A.245, 176A.265, and 176A.295 has two mechanisms. Subsection 1 directs the applicable court to seal qualifying records after discharge from probation or dismissal under the corresponding treatment program, without a participant filing and without a hearing unless the Division petitions for good cause not to seal and requests a hearing. Subsection 2 requires a defendant's petition, not sooner than seven years after conditional dismissal or setting aside of judgment, for a charge under NRS 200.485, NRS 484C.110, or NRS 484C.120. Subsection 3 bars relief for charges under NRS 200.508 or NRS 200.5099.",
+    "reliefIsMandatoryOnMotion": false,
+    "doNotImport": [
+      "Do not import the ordinary NRS 179.245 petition, its sample pleadings, or its process into this route.",
+      "Do not apply the NRS 179.245(9) sex-trafficking fee waiver to a petition under NRS 176A.245, NRS 176A.265, or NRS 176A.295.",
+      "Do not invent a statewide filing fee, waiver form, service recipient, service method, or proposed-order practice where the approved route record preserves those as local questions.",
+      "Do not describe Nevada record sealing as expungement, destruction of records, restoration of firearm rights, or relief reaching federal, tribal, military, or out-of-state records."
+    ]
+  },
+  "sourceIdentities": [
+    {
+      "sourceId": "NV.memo:nv_seal_probation_family",
+      "kind": "legal_design_intake_track",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/legal-design-intake/NV.memo.json",
+      "note": "The approved track supplies both mechanisms, exclusions, waiting period, destination, components, participant actions, fee and service treatment, and self-help stops."
+    },
+    {
+      "sourceId": "nv_seal_probation_family-set@1.0.0",
+      "kind": "owner_approved_packet_set_manifest",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "note": "The manifest supplies the exact eight component ids, roles, requirements, strategies, order, and required-before-filing actions."
+    },
+    {
+      "sourceId": "nv_seal_probation_family-set-production-field-map@census-v1",
+      "kind": "production_field_map",
+      "verification": "present_in_repository",
+      "location": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/production-field-map.json",
+      "note": "componentRoutes assigns all eight rendered components to the exact obligation route and no other route."
+    },
+    {
+      "sourceId": "nv_seal_probation_family-set-rendered-artifacts@census-v1",
+      "kind": "rendered_artifact_manifest",
+      "verification": "present_in_repository",
+      "location": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/reports/rendered-artifacts.json",
+      "note": "The canonical and boundary artifacts each carry all eight components in ten pages."
+    },
+    {
+      "sourceId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "kind": "owner_exact_digest_adoption",
+      "verification": "present_in_repository",
+      "location": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+      "note": "Limited family-level legal-design adoption of the exact canonical and boundary hashes; grants no runtime or commercial authority."
+    },
+    {
+      "sourceId": "POST-APPROVAL-AUDIT:nv_seal_probation_family-set",
+      "kind": "post_approval_change_audit",
+      "verification": "present_in_repository",
+      "location": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+      "note": "Records COVERED_BY_EXISTING_APPROVAL for this one route and the exact two artifact hashes."
+    }
+  ],
+  "requiredFacts": [
+    {
+      "factId": "participant_full_legal_name",
+      "use": "participant or petitioner identity across all eight components",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant"
+    },
+    {
+      "factId": "date_of_birth",
+      "use": "petitioner identity in the subsection 2 petition contact block",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The current approved field map writes this participant-held fact even though the factory-v2 required-input list does not name it separately.",
+      "ownership": "participant"
+    },
+    {
+      "factId": "mailing_address",
+      "use": "petitioner contact block in the subsection 2 petition",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the address separately.",
+      "ownership": "participant"
+    },
+    {
+      "factId": "phone_number",
+      "use": "petitioner contact block in the subsection 2 petition",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the telephone separately.",
+      "ownership": "participant"
+    },
+    {
+      "factId": "email_address",
+      "use": "petitioner contact block in the subsection 2 petition",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the email separately.",
+      "ownership": "participant"
+    }
+  ],
+  "finalVerificationRequirements": [
+    "Confirm from the court record which of the programs under NRS 176A.240, NRS 176A.260, or NRS 176A.290 handled the case.",
+    "Confirm the branch: subsection 1 requires no participant filing; subsection 2 applies only to a charge under NRS 200.485, NRS 484C.110, or NRS 484C.120 that was conditionally dismissed or whose judgment was set aside.",
+    "Confirm that neither NRS 200.508 nor NRS 200.5099 was charged and that the program was completed.",
+    "For the subsection 2 branch, confirm from the record that seven years have elapsed from the conditional dismissal or set-aside date.",
+    "Copy the court, county, case number, program, charge, resolution, resolution date, and every named agency or officer from the participant's records rather than memory.",
+    "The participant signs and dates the petition and declaration personally; the judge completes the order's date and signature.",
+    "Before a subsection 2 filing, ask the clerk of the court that handled the case about any local fee, any required service on the Division or prosecutor, and proposed-order practice."
+  ],
+  "fieldOwnership": {
+    "participantOwnedFacts": [
+      "participant_full_legal_name",
+      "date_of_birth",
+      "mailing_address",
+      "phone_number",
+      "email_address"
+    ],
+    "serverOwnedRouteFacts": [
+      "jurisdiction",
+      "pathway_id",
+      "route_key",
+      "packet_family"
+    ],
+    "participantAtSigningFields": [
+      "primary_filing.petitioner_signature",
+      "primary_filing.signature_date",
+      "declaration_and_verification.declarant_signature",
+      "declaration_and_verification.declarant_signature_date"
+    ],
+    "participantAtServiceFields": [],
+    "notaryOwnedFields": [],
+    "prosecutorOwnedFields": [],
+    "courtOwnedFields": [
+      "proposed_order.order_date",
+      "proposed_order.judge_signature"
+    ]
+  },
+  "documents": [
+    {
+      "documentId": "detection_and_routing",
+      "role": "detection_and_routing",
+      "title": "Which Programme Section Your Case Ran Under",
+      "order": 1,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "manifestComponentId": "nv_seal_probation_family-detection-and-routing-1",
+      "sections": [
+        {
+          "heading": "Identify the treatment program",
+          "kind": "route_detection"
+        },
+        {
+          "heading": "When this packet is not the route",
+          "kind": "hearing_and_objection_stops"
+        }
+      ]
+    },
+    {
+      "documentId": "branch_screen",
+      "role": "branch_screen",
+      "title": "The Question That Decides Whether Anything Is Filed",
+      "order": 2,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "manifestComponentId": "nv_seal_probation_family-branch-screen-2",
+      "sections": [
+        {
+          "heading": "Subsection 1 or subsection 2",
+          "kind": "route_branch_screen"
+        },
+        {
+          "heading": "Barred charges",
+          "kind": "hearing_and_objection_stops"
+        }
+      ]
+    },
+    {
+      "documentId": "discharge_type_screen",
+      "role": "discharge_type_screen",
+      "title": "Honourable or Dishonourable Discharge",
+      "order": 3,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "manifestComponentId": "nv_seal_probation_family-discharge-type-screen-3",
+      "sections": [
+        {
+          "heading": "Check the discharge in the court record",
+          "kind": "discharge_type_screen"
+        }
+      ]
+    },
+    {
+      "documentId": "primary_filing",
+      "role": "primary_filing",
+      "title": "Petition to Seal Records Under Subsection 2 of NRS 176A.245, 176A.265 or 176A.295",
+      "order": 4,
+      "outputStrategy": "custom_pleading",
+      "presentation": "pleading",
+      "requirement": "conditional",
+      "conditionDescription": "Generated only on the subsection 2 branch: a violation of NRS 200.485, NRS 484C.110 or NRS 484C.120, conditionally dismissed or the judgment of conviction set aside, and not sooner than seven years after.",
+      "includeWhen": "subsection_2_petition_branch",
+      "manifestComponentId": "nv_seal_probation_family-primary-filing-4",
+      "sections": [
+        {
+          "heading": "Petition caption",
+          "kind": "pleading_caption",
+          "fields": [
+            "court_identity",
+            "underlying_case_number",
+            "participant_full_legal_name"
+          ]
+        },
+        {
+          "heading": "Subsection 2 allegations and request",
+          "kind": "pleading_numbered_assertions",
+          "fields": [
+            "programme_section",
+            "charge_wording",
+            "resolution_kind",
+            "resolution_date"
+          ]
+        },
+        {
+          "heading": "Petitioner contact and signature",
+          "kind": "pro_se_signature_block",
+          "fields": [
+            "participant_full_legal_name",
+            "date_of_birth",
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ]
+        }
+      ]
+    },
+    {
+      "documentId": "proposed_order",
+      "role": "proposed_order",
+      "title": "Proposed Order Sealing Records",
+      "order": 5,
+      "outputStrategy": "custom_pleading",
+      "presentation": "pleading",
+      "requirement": "conditional",
+      "conditionDescription": "Accompanies the subsection 2 petition.",
+      "includeWhen": "subsection_2_petition_branch",
+      "manifestComponentId": "nv_seal_probation_family-proposed-order-5",
+      "sections": [
+        {
+          "heading": "Order caption",
+          "kind": "pleading_caption",
+          "fields": [
+            "order_court_identity",
+            "order_case_number",
+            "participant_full_legal_name"
+          ]
+        },
+        {
+          "heading": "Agencies and officers whose records are sealed",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "named_agencies_and_officers"
+          ]
+        },
+        {
+          "heading": "Court signature",
+          "kind": "court_signature_block"
+        }
+      ]
+    },
+    {
+      "documentId": "declaration_and_verification",
+      "role": "declaration_and_verification",
+      "title": "Declaration in Support of the Petition",
+      "order": 6,
+      "outputStrategy": "custom_pleading",
+      "presentation": "pleading",
+      "requirement": "conditional",
+      "conditionDescription": "Accompanies the subsection 2 petition.",
+      "includeWhen": "subsection_2_petition_branch",
+      "manifestComponentId": "nv_seal_probation_family-declaration-and-verification-6",
+      "sections": [
+        {
+          "heading": "Declaration",
+          "kind": "declaration",
+          "fields": [
+            "participant_full_legal_name",
+            "declared_programme",
+            "declared_resolution"
+          ]
+        },
+        {
+          "heading": "Declarant signature",
+          "kind": "pro_se_signature_block"
+        }
+      ]
+    },
+    {
+      "documentId": "filing_and_service_instructions",
+      "role": "filing_and_service_instructions",
+      "title": "Filing and Service Instructions for the Subsection 2 Petition",
+      "order": 7,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "conditional",
+      "conditionDescription": "Accompanies the subsection 2 petition.",
+      "includeWhen": "subsection_2_petition_branch",
+      "manifestComponentId": "nv_seal_probation_family-filing-and-service-instructions-7",
+      "sections": [
+        {
+          "heading": "Where to file",
+          "kind": "filing_destination"
+        },
+        {
+          "heading": "Fee and waiver",
+          "kind": "fee_and_waiver"
+        },
+        {
+          "heading": "Service and notice",
+          "kind": "service_and_notice"
+        },
+        {
+          "heading": "What happens next",
+          "kind": "post_filing_timeline"
+        },
+        {
+          "heading": "When to stop and get help",
+          "kind": "hearing_and_objection_stops"
+        },
+        {
+          "heading": "Before filing",
+          "kind": "participant_checklist"
+        }
+      ]
+    },
+    {
+      "documentId": "referral_instructions",
+      "role": "referral_instructions",
+      "title": "The Automatic Branch: Where to Go When Nothing Is Filed",
+      "order": 8,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "manifestComponentId": "nv_seal_probation_family-referral-instructions-8",
+      "sections": [
+        {
+          "heading": "The automatic subsection 1 branch",
+          "kind": "filing_destination"
+        },
+        {
+          "heading": "When the court record is unclear",
+          "kind": "hearing_and_objection_stops"
+        }
+      ]
+    }
+  ],
+  "filingDestination": {
+    "statement": "On subsection 1, the participant files nothing and follows up with the court that supervised the program. On subsection 2, file the petition in the Nevada justice court, municipal court, or district court that handled the underlying case, as applicable.",
+    "office": "Clerk of the Nevada justice court, municipal court, or district court that handled the case",
+    "newCaseOrExisting": "confirm_with_court_that_handled_the_case",
+    "sourceOfRule": "NV.memo.json track nv_seal_probation_family, destination and rules.filing"
+  },
+  "feeAndWaiver": {
+    "feeIdentified": false,
+    "statement": "NRS 176A.245, NRS 176A.265, and NRS 176A.295 prescribe no fee. Before filing a subsection 2 petition, ask the clerk whether that court charges a filing fee; this specification states no amount.",
+    "waiverApplicable": false,
+    "waiverStatement": "These sections prescribe no fee waiver. The NRS 179.245(9) sex-trafficking fee waiver is confined by its text to a petition under NRS 179.245 and is not authority for a waiver here.",
+    "sourceOfRule": "NV.memo.json track nv_seal_probation_family, rules.fees and rules.feeWaiver"
+  },
+  "serviceAndNotice": {
+    "serviceRequired": false,
+    "statement": "The sections prescribe no participant service on either branch. On subsection 1 there is nothing to serve. On subsection 2, whether local practice requires service on the Division of Parole and Probation or the prosecutor is not established by the sections and must be confirmed with the clerk before filing. After an order, the court sends it to each named agency or officer, and a copy also goes to the Central Repository under NRS 179.275.",
+    "certificateOfServiceIncluded": false,
+    "whyNoCertificate": "The approved packet set includes no certificate of service because the governing sections prescribe none; local service remains a question for the court clerk.",
+    "sourceOfRule": "NV.memo.json track nv_seal_probation_family, rules.notice and rules.service"
+  },
+  "copyRequirements": {
+    "statement": "The approved route record states no universal participant copy count for the subsection 2 petition.",
+    "originalPlusCopies": "Confirm the filing and copy practice with the clerk of the court that handled the case.",
+    "sourceOfRule": "NV.memo.json track nv_seal_probation_family and the approved packet-set manifest"
+  },
+  "postFilingTimeline": [
+    {
+      "step": "On subsection 1, file nothing; the applicable court acts after discharge from probation or dismissal when the statutory conditions are met.",
+      "timing": "after discharge or dismissal under the corresponding treatment program"
+    },
+    {
+      "step": "On subsection 2, file the petition, proposed order, and declaration in the court that handled the case.",
+      "timing": "not sooner than seven years after the conditional dismissal or setting aside of judgment"
+    },
+    {
+      "step": "The court orders qualifying records sealed without a hearing unless the Division petitions for good cause not to seal and requests a hearing.",
+      "timing": "after the applicable statutory mechanism is before the court"
+    },
+    {
+      "step": "The court sends the sealing order to each agency or officer named in it and to the Central Repository; each named custodian reports compliance to the court.",
+      "timing": "after entry of the sealing order"
+    }
+  ],
+  "hearingAndObjectionStops": [
+    {
+      "situation": "The charge was under NRS 200.508 or NRS 200.5099.",
+      "whatItMeans": "Subsection 3 bars sealing under these sections on both branches.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The Division petitions for good cause not to seal and requests a hearing.",
+      "whatItMeans": "That is a contested proceeding; stop and get legal help.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "Whether the participant fulfilled the terms and conditions imposed by the court and the Division is disputed or unclear.",
+      "whatItMeans": "Both branches turn on that condition, so the packet cannot resolve the dispute.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The program was not completed and the participant was sentenced rather than discharged or the case dismissed.",
+      "whatItMeans": "Sealing under these sections is not available on the approved route record.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The seven-year period has not elapsed or its start date is uncertain.",
+      "whatItMeans": "The subsection 2 petition cannot be filed before the period elapses, and the record must establish the disposition and date.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The discharge was dishonourable.",
+      "whatItMeans": "NRS 179.2445(2) removes the presumption on a later NRS 179.245 petition; get help before using an ordinary conviction route.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "Records are in more than one county or court, or federal, tribal, military, or out-of-state records are involved.",
+      "whatItMeans": "Court practice or the reach of a Nevada order is outside this packet's self-help scope.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "There is a pending charge, an offence-category question, a firearm-rights goal, or an immigration question.",
+      "whatItMeans": "Those issues require individualized legal advice and are outside this packet's self-help scope.",
+      "stopAndGetHelp": true
+    }
+  ],
+  "attachments": [],
+  "participantChecklist": [
+    {
+      "id": "supply-case-and-court",
+      "text": "Case number and the identity of the court that handled the case — Petition caption, on the subsection 2 branch only.",
+      "requiredBeforeFiling": true,
+      "requirement": "required",
+      "kind": "complete_field"
+    },
+    {
+      "id": "supply-agencies-and-officers",
+      "text": "The list of agencies and officers to be named in the sealing order — Proposed order, on the subsection 2 branch only.",
+      "requiredBeforeFiling": true,
+      "requirement": "required",
+      "kind": "complete_field"
+    },
+    {
+      "id": "supply-signature-and-date",
+      "text": "Signature and date — Petition and declaration, on the subsection 2 branch only.",
+      "requiredBeforeFiling": true,
+      "requirement": "required",
+      "kind": "complete_field"
+    },
+    {
+      "id": "sign-personally",
+      "text": "On the subsection 2 branch the petitioner signs the petition and the declaration personally. On the subsection 1 branch nothing is generated for the participant to sign.",
+      "requiredBeforeFiling": true,
+      "requirement": "required",
+      "kind": "sign"
+    },
+    {
+      "id": "no-notarization",
+      "text": "None required. The sections prescribe no verification or notarization.",
+      "requiredBeforeFiling": true,
+      "requirement": "required",
+      "kind": "notarize"
+    },
+    {
+      "id": "confirm-local-fee",
+      "text": "None is prescribed. Neither NRS 176A.245, NRS 176A.265 nor NRS 176A.295 imposes, authorises or mentions a fee, on either branch. Whether a particular clerk charges a filing fee for the subsection 2 petition is not established by the sections and is recorded as an open question rather than asserted either way. The NRS 179.245(9) sex-trafficking fee waiver is confined by its own words to a petition for sealing under NRS 179.245 and does not by its terms reach these sections.",
+      "requiredBeforeFiling": true,
+      "requirement": "required",
+      "kind": "pay_fee"
+    },
+    {
+      "id": "no-prescribed-waiver",
+      "text": "None prescribed by these sections. NRS 179.245(9) waives fees related to a petition for sealing under NRS 179.245 where the petitioner was being sex trafficked when the crime was committed; its text is confined to that section and it is not authority for a waiver here.",
+      "requiredBeforeFiling": true,
+      "requirement": "conditional",
+      "kind": "apply_fee_waiver"
+    },
+    {
+      "id": "confirm-local-service",
+      "text": "Before filing on subsection 2, ask the clerk whether the petition must be served on the Division of Parole and Probation or the prosecutor; the sections prescribe no participant service.",
+      "requiredBeforeFiling": true,
+      "requirement": "required",
+      "kind": "serve_party"
+    },
+    {
+      "id": "file-in-court-of-origin",
+      "text": "File a subsection 2 petition in the justice, municipal, or district court that handled the case; file nothing on subsection 1.",
+      "requiredBeforeFiling": false,
+      "requirement": "required",
+      "kind": "file"
+    }
+  ]
+}

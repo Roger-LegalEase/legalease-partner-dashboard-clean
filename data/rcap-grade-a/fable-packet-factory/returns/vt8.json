@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "rcap-fable-worker-return/v1",
+  "worker": "FABLE-VT8",
+  "role": "independent verification",
+  "independence": "This worker built, repaired, rendered and rastered none of these six packets, and edited no packet, overlay, build script, fixture or field map. Every verdict below is a read.",
+  "lanes": ["VF01", "VF02"],
+  "branch": null,
+  "branchNote": "No branch was created and nothing was committed or pushed. The Captain's mid-task correction established that this container's working tree is shared with six other agents and is checked out on fable/r13 with another agent's uncommitted Pennsylvania repair in it. All work is left uncommitted in the working tree for the Captain to stage by named path. See workingTreeIncident below for one git command that was run before the correction arrived and what it did.",
+  "baseSha": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+  "baseShaIsPerRow": "verifiedAtBase is carried on each of the six rows, not only here, because these rows.json files are shared across workers and a document-level base does not belong to the rows under it.",
+  "readAt": "2026-09-02",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "overlayDirectoriesModified": 0,
+  "packetsModified": 0,
+  "familiesPromoted": 0,
+  "approvalsGranted": 0,
+
+  "filesWritten": [
+    "data/rcap-grade-a/packet-factory-24h/vf01/rows.json — three rows appended; all five prior rows and every document-level field preserved byte-for-byte, verified by comparison against a pre-write copy",
+    "data/rcap-grade-a/packet-factory-24h/vf02/rows.json — three rows appended; all nine prior rows and every document-level field preserved byte-for-byte, verified the same way",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json — six asserts and six releases, one family at a time, never in parallel",
+    "data/rcap-grade-a/fable-packet-factory/returns/vt8.json — this file"
+  ],
+  "filesNotTouched": [
+    "MASTER_QUEUE.json",
+    "RASTER_QUEUE.json",
+    "ACTIVE_ASSIGNMENTS.json",
+    "any other lane's rows.json",
+    "any packet, overlay, build script, fixture or field map",
+    "Production, Supabase, Stripe, secrets, migrations"
+  ],
+
+  "claimDiscipline": {
+    "asserted": 6,
+    "refused": 0,
+    "released": 6,
+    "reissueOrTransferUsed": false,
+    "note": "Every family was asserted before any of its artifacts were read, and all six grants were open to the correct lane. Releases were run sequentially after the rows were written. verify-claim-ledger.mjs returns CLAIM_LEDGER_OK over 688 claims afterwards."
+  },
+
+  "corpus": {
+    "mounted": true,
+    "how": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh resolved and extracted the pinned Master Library in this container.",
+    "archiveSha256Verified": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "governanceChecksumsVerified": true,
+    "scope": "51 jurisdictions, 499 files, 329 PDFs",
+    "consequence": "SOURCE_IDENTITY was recomputed from the source bytes for every family in this read that binds one, rather than scored NOT_MEASURABLE_HERE. Ten binaries were rehashed in total and every hash and byte length matched its receipt.",
+    "supersedesADocumentLevelLimitation": "vf02/rows.json carries a document-level sourceIdentityLimitation saying the corpus is absent and the bootstrap cannot resolve the release asset (HTTP 403). That was true for the earlier read and is not true here. It was left in place, because it correctly describes the rows written under it, and a note recording that it does not apply to these three rows was added alongside."
+  },
+
+  "method": {
+    "obligations": "All fifteen canonical proof obligations were scored by name on all six families. No family was scored over a subset.",
+    "nineCounters": "Produced by running node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId> in this container against the committed bytes, never read from a builder's own report.",
+    "feeAndServiceStandard": "DETERMINATION_FEE_AND_WAIVER_STANDARD.json was read before FEE_AND_WAIVER or SERVICE was scored on any family, and its amendment A1 test was applied first on every one: ask whether the repository establishes the answer, and only where it does not may a named checkable authority stand in. The authority for what the repository holds was taken to be the committed packet-set manifest entry for the family's own packetSetId, plus its legal-design intake memo and its own local-filing records.",
+    "independentRechecks": [
+      "Re-ran scripts/lib/pdf-stroked-boxes.mjs against the two Arkansas source binaries to test the family's claim that zero stroked rectangles exist on any page — confirmed, 0 rectangles and 0 checkbox candidates across all six pages.",
+      "Extracted the text of Vermont form 200-00130A from the corpus bytes to test that the fee sentence and the service sentence the packet quotes are actually in it — both are, verbatim.",
+      "Recomputed SHA-256 for every artifact declared in each family's rendered-artifacts.json rather than trusting the report: 35 for Ohio, 40 for California, and every fixture for the other four.",
+      "Read committed full-resolution boundary rasters directly for the three families whose visual evidence is not backed by a central RASTER_PASS or an actual-writes byte proof."
+    ]
+  },
+
+  "verdicts": [
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "VF01",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "rasterState": "RASTER_PASS",
+      "failed": ["COMPONENT_SET", "SERVICE"],
+      "unmeasured": [],
+      "wasJustRepaired": true,
+      "whatTheRepairFixed": "The five instruction-level obligations the earlier read failed were rewritten and four now hold — REQUIRED_BEFORE_FILING, FILING_DESTINATION, FEE_AND_WAIVER and SELF_HELP_STOP all pass on a fresh read of the current text.",
+      "whyItStillFails": [
+        "COMPONENT_SET — the canonical completeness gate refuses this family before it counts anything. verify-packet-completeness.mjs returns FAIL_COMPONENT_SET at 0/0 written with auditable:false, because readFieldRows() recognises none of the four schemas it reads: this family's documents carry writeBoxes / withheldBeforeTheFactory / roleRefusals instead of fields / writableAnchors / withheld / maps, so `shape` stays null and the verifier early-returns at line 179. No component is actually missing — all three roles the packet-set manifest declares are present by direct read — so the repair is the field map's schema, not the packet. The Ohio host solved the identical refusal by adopting the documents-and-decisions shape in commit 3b44dcbec.",
+        "SERVICE — the committed packet-set manifest for this packetSetId holds 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.' Neither the three-day deadline nor the 30-day objection window appears anywhere in the family directory, and participant-instructions.md states the opposite conclusion: 'The form sets no separate service deadline.' That is true about the form and false about the repository. The recipients and the methods are correct and need no repair; only the timing is missing."
+      ],
+      "nineCountersMeasured": false,
+      "whyCountersNotMeasured": "The verifier's early return means the nine zeros it prints are initialisation values, not measurements. They are recorded as null in the row rather than zero so no reader mistakes a refusal for a clean count. The obligations that would have depended on them were measured instead by direct read of the field map and the participant blanks report: 8 write boxes, 22 withheld blanks, 41 disclosed blanks, 0 blanks lacking a reason, 0 blanks lacking a refusal class, 0 selection controls, 0 glyphs outside a measured blank."
+    },
+    {
+      "familyId": "mn_prosecutor_agreed-set",
+      "lane": "VF01",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33574304514",
+      "failed": [],
+      "unmeasured": [],
+      "note": "All fifteen pass and all nine counters are zero, measured here. A composed family with no binary to bind; SOURCE_IDENTITY was scored by verifying that the two codified grounds the receipt names are present and say what it says they say. FEE_AND_WAIVER and SERVICE both pass on the named-authority limb, and the repository genuinely establishes neither — the manifest records no fee identified for the prosecutor application and no service rule, because the mechanism has no adverse party at the participant's stage."
+    },
+    {
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "lane": "VF01",
+      "verdict": "PASS",
+      "rasterState": "RASTER_NOT_ELIGIBLE_CENTRALLY",
+      "failed": [],
+      "unmeasured": [],
+      "wasJustRepaired": true,
+      "whyNotTheStrongestVerdict": "Zero obligations failed and zero went unmeasured, so the fifteen would carry PASS_COMPLETE_INDEPENDENT. It is held at PASS for one reason that is not a defect in the packet: the central raster workflow has never run on this family, because RASTER_QUEUE.json lists it notEligible for 'no fixtures directory'. Every other PASS_COMPLETE_INDEPENDENT row in these two lanes is bound to a RASTER_PASS receipt, and awarding the strongest verdict without one would make this row mean something different from its neighbours. CLIPPING_AND_OVERLAP was measured instead by reading the committed full-resolution boundary rasters directly.",
+      "repairVerified": "The FIX02 repair's two claims were re-measured rather than accepted: 34 of 35 declared artifacts recompute to their declared hash here with 0 mismatches, and the completeness verifier now returns PASS_COMPLETE at 24/52 written with all nine counters zero, where it previously refused the family at 0/0."
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "lane": "VF02",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "rasterState": "RASTER_NOT_ELIGIBLE_CENTRALLY",
+      "failed": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE"],
+      "unmeasured": [],
+      "wasJustRepaired": true,
+      "whatTheRepairFixed": "KNOWN_PREFILLS and REPEATING_ROWS, the two obligations the earlier read failed. Both now hold: PASS_COMPLETE at 14/129 written, all nine counters zero, and coverage.unmapped 0 across 131 terminal fields on four XFA forms.",
+      "whyItStillFails": "One sentence in participant-instructions.md declares four things unestablished, and the repository establishes three of them for this exact packetSetId. The sentence is: 'The filing fee and whether it can be waived, who must be served and by what method, and the address of the court are not established in this repository. Ask the clerk of the Superior Court in the county of the arrest.' The manifest holds the service rule in full (serve the prosecuting attorney of the city or county of arrest, and the arresting agency, at least 15 days before the hearing), the filing rule in full (a two-branch venue rule, a 15-day deadline, one arrest per petition), and the waiver answer (FW-001). The strings 'FW-001', '15 days' and 'prosecuting attorney' appear nowhere in the family directory. Only the fee amount is genuinely open, and the manifest says so in the same terms the packet does — 'Unresolved and county-specific. Do not publish a figure.'",
+      "aggravatingFact": "The packet ships and fully maps CR-106, the Judicial Council's own Proof of Service for criminal record clearing, while telling the participant the repository does not know who must be served. The participant has the instrument for proving service, has been told the parties are unknown, and has a 15-day deadline nobody mentioned.",
+      "repairIsNarrow": "All three failures live in one paragraph of one file. No artifact byte moves, no field map changes, no source is refetched, and the nine counters stay zero. The repair is to state what the packet-set manifest already holds and keep the honest 'ask the clerk' for the fee amount alone.",
+      "reversedUnderTheDetermination": true,
+      "howItReversed": "This is a reversal in the direction the determination anticipated but on the amendment rather than the main rule. The earlier read predates DET-FEE-AND-WAIVER-001; amendment A1's test — ask first whether the repository establishes the answer — is what turns these three from acceptable referrals into failures."
+    },
+    {
+      "familyId": "ct-nolle-auto-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33574304514",
+      "failed": [],
+      "unmeasured": [],
+      "note": "All fifteen pass and all nine counters are zero, measured here. The strongest FEE_AND_WAIVER answer available: the packet states that no fee is charged and cites C.G.S. § 54-142a(k) for it, which is the determination's first met limb, and the manifest agrees exactly. The family is also unusually disciplined about what it does not build — it composes no filable instrument at all, asserts the absence of any signature line or caption from the output bytes on every build, and pins the § 54-142a(c)(2) motion branch as unavailable so that opening it forces a deliberate rebuild."
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "lane": "VF02",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "rasterState": "RASTER_PASS",
+      "rasterWorkflowRunId": "33576906816",
+      "failed": [],
+      "unmeasured": [],
+      "wasJustRepaired": true,
+      "priorVerdict": "FAIL_REPAIR_REQUIRED on filingDestination, feeAndWaiver and service (VF01, PR 157), recorded in VERMONT_REPAIR.json",
+      "note": "The FIX03 repair answered all three with sources rather than with the named-authority fallback the determination would have allowed. It located the Vermont Judiciary's own filing-instruction form 200-00130A in the held corpus and quoted its fee rule and its service rule verbatim, so this family carries an actual sourced amount — no fee to seal or expunge except a $90 fee for 23 V.S.A. § 1201(a) convictions, with the waiver form 600-00228 shipped as component 3 of the packet — and an actual sourced service rule, that the court provides the copy to the prosecutor rather than the participant. I verified both quotations against the source bytes in this container: the form is in the corpus at the SHA-256 the packet cites, and both sentences are in it word for word. This is the strongest of the six."
+    }
+  ],
+
+  "summary": {
+    "families": 6,
+    "PASS_COMPLETE_INDEPENDENT": 3,
+    "PASS": 1,
+    "FAIL_REPAIR_REQUIRED": 2,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0,
+    "STOPPED": 0,
+    "obligationsScoredPerFamily": 15,
+    "familiesWithAnyUnmeasuredObligation": 0
+  },
+
+  "theFourRepairedFamiliesOwedASecondRead": {
+    "instruction": "ar-misdemeanor-dwi-seal-set, ca-851-91-set, rcap-oh-custom-pleading-clean-tracks and vt_seal_felony-set were repaired and owed a genuine second read of what is there now.",
+    "outcome": [
+      "vt_seal_felony-set — repair holds completely; moves from FAIL_REPAIR_REQUIRED to PASS_COMPLETE_INDEPENDENT.",
+      "rcap-oh-custom-pleading-clean-tracks — repair holds on both obligations it targeted; moves to PASS, held off the strongest verdict only by the missing central raster receipt.",
+      "ar-misdemeanor-dwi-seal-set — repair holds on four of the five obligations it targeted, but the family fails on two the repair did not reach, one of them newly found.",
+      "ca-851-91-set — repair holds on both obligations it targeted, and the family fails on three different ones under the fee determination."
+    ],
+    "honestReading": "Two of the four repairs closed everything that was open. The other two closed exactly what they were dispatched to close and left a different defect standing, which is why the second read was worth doing rather than a formality."
+  },
+
+  "whatCouldNotBeMeasured": [
+    {
+      "what": "The nine completeness counters for ar-misdemeanor-dwi-seal-set.",
+      "why": "The canonical verifier refuses the family's production-field-map.json schema and early-returns before counting. This is recorded as the COMPONENT_SET failure rather than as an environment limitation, because the completeness contract's own words are that an unreadable field map is refused rather than read as empty. The obligations that would have relied on those counters were measured by direct read instead, and the row says so."
+    },
+    {
+      "what": "A central, hash-bound RASTER_PASS for rcap-oh-custom-pleading-clean-tracks and ca-851-91-set.",
+      "why": "Neither family has ever been dispatched to the central raster workflow — see the Captain decisions below. CLIPPING_AND_OVERLAP was measured for both by reading their committed full-resolution boundary rasters directly in this container, which is a real measurement but not the central gate's receipt. It is the sole reason the Ohio family is capped at PASS."
+    }
+  ],
+  "everythingElseWasMeasured": "No obligation on any of the six families was recorded NOT_MEASURABLE_HERE. The corpus mounted, so SOURCE_IDENTITY was recomputed from bytes everywhere it applies.",
+
+  "forTheCaptainToDecide": [
+    {
+      "id": "VT8-C1",
+      "severity": "blocks two families from the strongest verdict",
+      "finding": "RASTER_QUEUE.json cannot see the fixtures of two families that have them. rcap-oh-custom-pleading-clean-tracks is listed notEligible for 'no fixtures directory' while holding eight fixture PDFs at tracks/<trackId>/rendered/<fixture>/<fixture>.pdf; ca-851-91-set is listed notEligible for 'no canonical PDF' and 'no boundary PDF' while holding sixteen at fixtures/<variant>/<form>.pdf. The queue generator looks for fixtures/canonical.pdf and fixtures/boundary.pdf. Both families have rendered, hash-stable fixtures and local rasters, and neither has ever reached the central visual gate.",
+      "consequence": "Lane contract L4 refuses to prove a family without a hash-bound RASTER_PASS from the central workflow, so neither family can be promoted no matter how it verifies. The Ohio family is otherwise clean on all fifteen obligations.",
+      "decision": "Whether to teach the raster-queue generator to find multi-document and per-variant fixture layouts. This is a queue-generator change, not a packet repair, and it is outside a verifier's hands."
+    },
+    {
+      "id": "VT8-C2",
+      "severity": "a shared-contract question with two families already blocked on it",
+      "finding": "The completeness contract's readFieldRows() reads four field-map schemas and refuses anything else as unauditable. ar-misdemeanor-dwi-seal-set emits a fifth shape — documents[] carrying writeBoxes, withheldBeforeTheFactory, roleRefusals, refusedByTheFactory and protectedRulesHandedToTheFactory — and is refused at 0/0 written. The Ohio family hit the same refusal from the other direction (no field map at all) and its FIX02 repair solved it by adopting the contract's documents-and-decisions shape.",
+      "consequence": "The Arkansas family cannot show completeness by the gate that defines it, even though every component the manifest declares is present.",
+      "decision": "Whether the Arkansas host should be repaired to emit a schema the contract reads — the narrow fix, inside the family's owned path — or whether readFieldRows() should learn the writeBoxes shape, which is a shared-contract change touching every family that uses it. The Arkansas build-findings.json already flags a related shared-module gap it declined to patch for the same reason.",
+      "recommendation": "The narrow fix, on the Ohio precedent. A verifier should not be the one to widen a shared contract."
+    },
+    {
+      "id": "VT8-C3",
+      "severity": "informational, but it changes what a queue row means",
+      "finding": "MASTER_QUEUE.json records ar-misdemeanor-dwi-seal-set as SOURCE_IDENTITY_NOT_EXACT with sourceBound false and the reason 'MISSING_DOCUMENT — no held corpus entry for this form number and no exact custody binding'. That is wrong against the bytes. Both ACIC forms are in the mounted corpus and both recompute to the receipt's exact pinned SHA-256 and byte length. The queue resolves by form number against a committed index, and these two files are indexed under their ACIC document ids in STATES/AR/05_SOURCE_GATED rather than under a form number, so the lookup misses documents the corpus holds.",
+      "consequence": "Left alone, this sends the source conveyor after two files the repository already has, and it understates the family's real source posture.",
+      "decision": "Whether the same form-number lookup is hiding held sources for other families in 05_SOURCE_GATED. I checked only this one."
+    },
+    {
+      "id": "VT8-C4",
+      "severity": "a boundary question the determination may want to settle",
+      "finding": "Two of my six failures — ar-misdemeanor-dwi-seal-set SERVICE and all three ca-851-91-set failures — turn on treating the committed packet-set manifest's participantActionRequired entries as a held source that establishes the answer for amendment A1's test. A1 settled that the track registry counts as such a source for FILING_DESTINATION. I have read the packet-set manifest the same way, for FILING_DESTINATION, FEE_AND_WAIVER and SERVICE alike, because it is committed, keyed to the family's own packetSetId, and states rules in operative terms.",
+      "consequence": "If the Captain agrees, both failures stand and the California repair is a short, well-specified instruction edit. If the manifest is not a held source for this purpose, the California family passes fifteen of fifteen and the Arkansas SERVICE failure falls away, leaving Arkansas failing on COMPONENT_SET alone.",
+      "decision": "Confirm or narrow the class of records that count as 'the repository establishing the answer'. I have flagged this rather than assuming it settled, which is what the verifier who raised A1 did.",
+      "myReading": "The manifest should count. A1's reasoning is that naming an authority is what honesty requires when the record is empty and is not a way to avoid stating what the record contains, and the record here is not empty — it holds a 15-day service deadline and two named recipients."
+    },
+    {
+      "id": "VT8-C5",
+      "severity": "advisory, no verdict turns on it",
+      "finding": "Three smaller things a repairer or Captain may want, none of which I scored as a failure: (a) each per-track Ohio packet-set manifest declares hearing_and_objection_instructions as a required component and the family ships no content for it, so a participant is never told when the prosecutor may object or that a hearing may be set; (b) Ohio's rendered-artifacts.json and companion-guidance.md both name a companion BCI PDF path that holds nothing — the bytes check out against the corpus and the exclusion was disclosed in the C11 and FIX02 commits, but a reader without the corpus cannot verify that one row; (c) vt_seal_felony-set has the thinnest SELF_HELP_STOP of the six, with no stop-condition list and no flag on the § 7602 waiting periods or offence exclusions, and it shares a build host with four sibling Vermont families, so strengthening it is one change reaching five packets."
+    }
+  ],
+
+  "workingTreeIncident": {
+    "what": "Before the Captain's correction arrived, this worker ran `git checkout -b fable/vt8 ebc44031…` once, as the original brief instructed.",
+    "effect": "None on any file. The tree is now on fable/r13, moved there by another agent afterwards, and every branch involved — fable/vt8 through fable/vt13, fable/r12, fable/r13 and claude/legalease-sprint-captain-utucnw — points at the same commit ebc44031, so no working-tree file was ever moved and the uncommitted Pennsylvania repair in the tree was untouched. Verified by reading git reflog, git branch -v and git status.",
+    "afterTheCorrection": "No further git write command was run. No commit, add, stash, reset, rebase, merge, push or further checkout. The branch fable/vt8 was left in place because deleting it would itself be a git write; it is an unused pointer at the base commit and the Captain may delete it.",
+    "oneOtherCorrection": {
+      "what": "Running scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs to check that these rows parse cleanly also rewrote data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json, which this worker was told not to touch.",
+      "fix": "Restored immediately and exactly from HEAD with `git show HEAD:<path> > <path>`, a read and a file write rather than a change of git state. git status reports the file clean against HEAD.",
+      "whatTheRunShowed": "It accepted all six rows and downgraded none of them for narrow scoring, which is the thing worth knowing from it."
+    }
+  },
+
+  "checksRunAfterWriting": {
+    "priorRowsPreserved": "Both files compared against pre-write copies: every prior row and every prior document-level field is byte-for-byte identical. Only rows were appended and one new document-level key, vt8Read, was added to each.",
+    "laneContracts": "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs — 9/9 passed, LANE_CONTRACTS_HELD. L9 in particular passes, so no PASS_COMPLETE_INDEPENDENT here was awarded over a subset of the obligations and none was downgraded.",
+    "claimLedger": "node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs — CLAIM_LEDGER_OK, 688 claims."
+  },
+
+  "grantsNothing": "This return records six readings. It promotes no family, opens no commercial route, creates no fulfilment record, grants no approval, marks no packet proven and changes no route's availability. The two PASS_COMPLETE_INDEPENDENT verdicts and the one PASS are statements about proof obligations, not about commercial readiness; rcap-oh-custom-pleading-clean-tracks in particular declares on its own face that its drafts are review artifacts and not filing-ready, and that remains true whatever this row says."
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "commands": [
+    {
+      "command": "node scripts/rcap-official-forms/test-standard-font-fit-fallback.mjs",
+      "result": "PASS",
+      "assertions": 13
+    },
+    {
+      "command": "node scripts/rcap-nm-flat-forms/test-known-fact-not-written-counter.mjs",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "command": "node scripts/test-co-conviction-boundary-fit-counter.mjs",
+      "result": "PASS",
+      "assertions": 6
+    },
+    {
+      "command": "node scripts/rcap-nm-flat-forms/test-nm-participant-control-actors.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/rcap-nm-flat-forms/test-nm-form-4-222-statewide.mjs",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_conviction-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_identity_theft-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nm_release_without_conviction-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_conviction-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9
+    },
+    {
+      "command": "node scripts/build-census-v1-nm_conviction-set.mjs --no-raster",
+      "result": "COMPLETED"
+    },
+    {
+      "command": "node scripts/build-census-v1-nm_identity_theft-set.mjs --no-raster",
+      "result": "COMPLETED"
+    },
+    {
+      "command": "node scripts/build-census-v1-nm_release_without_conviction-set.mjs --no-raster",
+      "result": "COMPLETED"
+    },
+    {
+      "command": "node scripts/build-census-v1-co_motion_seal_conviction-set.mjs --no-raster",
+      "result": "COMPLETED"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  ],
+  "summary": {
+    "commandsPassed": 14,
+    "commandsFailed": 0,
+    "newFocusedAssertionsPassed": 24,
+    "nativeFamilyCountersChecked": 36,
+    "nativeFamilyCountersNonzero": 0,
+    "packetBuildsCompleted": 4,
+    "packetBuildsFailed": 0
+  }
+}

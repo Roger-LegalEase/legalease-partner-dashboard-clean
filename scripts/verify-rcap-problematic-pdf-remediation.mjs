@@ -481,10 +481,47 @@ async function runChecks() {
   const evidenceDir = "docs/record-clearing/pdf-visual-evidence";
   if (fs.existsSync(abs(evidenceDir))) {
     const placement = readJson(PLACEMENT, { families: [] });
+    /**
+     * Live visual-review records also make an image current.
+     *
+     * The three sources above are placement evidence, contact-sheet proofs and
+     * master rows. None of them is where an INDEPENDENT visual review records
+     * what it looked at, so a raster committed by one read as an orphan while
+     * being cited by a live record and by the output-level review packages built
+     * on it. That is the wrong answer, and the wrong repair is a verdict record:
+     * a page nobody has approved must not be registered as approved to satisfy a
+     * check about orphans.
+     *
+     * So the current channel reads the review records themselves. Any committed
+     * record under data/rcap-lane-c/ whose name says it is a visual review, and
+     * any path in it pointing into the evidence directory, counts.
+     */
+    const visualReviewReferences = [];
+    const collectEvidencePaths = (value) => {
+      if (typeof value === "string") {
+        if (value.startsWith(`${evidenceDir}/`)) visualReviewReferences.push(value);
+        return;
+      }
+      if (Array.isArray(value)) { for (const item of value) collectEvidencePaths(item); return; }
+      if (value && typeof value === "object") { for (const item of Object.values(value)) collectEvidencePaths(item); }
+    };
+    const walkForReviewRecords = (dir) => {
+      if (!fs.existsSync(abs(dir))) return;
+      for (const entry of fs.readdirSync(abs(dir), { withFileTypes: true })) {
+        const rel = `${dir}/${entry.name}`;
+        if (entry.isDirectory()) { walkForReviewRecords(rel); continue; }
+        if (!/visual-review.*\.json$/.test(entry.name)) continue;
+        collectEvidencePaths(readJson(rel, null));
+      }
+    };
+    walkForReviewRecords("data/rcap-lane-c");
     const referenced = new Set([
       ...(placement.families ?? []).flatMap((f) => f.renderedEvidence ?? []),
       ...(sheetProof.families ?? []).map((f) => f.renderedEvidence).filter(Boolean),
-      ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean)
+      ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean),
+      ...visualReviewReferences,
+      // A directory is current when anything inside it is.
+      ...visualReviewReferences.map((p) => p.split("/").slice(0, 4).join("/"))
     ]);
     /**
      * Three lifecycle states, not two.

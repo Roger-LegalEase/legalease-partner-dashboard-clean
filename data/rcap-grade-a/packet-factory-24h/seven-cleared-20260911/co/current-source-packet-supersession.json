@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "rcap-current-family-source-packet-supersession/v1",
+  "recordedOn": "2026-09-11",
+  "scope": ["co_motion_seal_conviction-set", "co_motion_seal_nonconviction-set"],
+  "currentSourceAuthority": {
+    "path": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json",
+    "sha256": "cd427f907b35214c58818f251c9eed6fc1aa618d3fa0be1b6b14a542c9789103",
+    "dispositions": ["USER-UPLOAD-20260911-co_motion_seal_conviction-set", "USER-UPLOAD-20260911-co_motion_seal_nonconviction-set"]
+  },
+  "preservedHistoricalRecords": [
+    { "path": "data/record-clearing/legal-design-intake/CO.memo.json", "sha256": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591", "staleClaimPreserved": "JDF 205/JDF 206 were not held" },
+    { "path": "data/record-clearing/legal-design-track-registry.json", "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0", "staleClaimsPreserved": ["JDF 205/JDF 206 were not held", "acquire JDF 615"] },
+    { "path": "data/record-clearing/legal-design-packet-set-manifests.json", "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c", "historicalIncompleteStatePreserved": true }
+  ],
+  "currentFamilyPacketSets": [
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "requiredAtInitialFiling": ["JDF-612", "JDF-613", "JDF-614", "JDF-615"],
+      "conditionalFeeWaiverPair": ["JDF-205", "JDF-206"],
+      "sourceSha256": { "JDF-612": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e", "JDF-613": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677", "JDF-614": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b", "JDF-615": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647", "JDF-205": "45b12f9ace73c369607a5b508d7010f2bc0eeaac1fa1a7357493d61dfb831f6b", "JDF-206": "36ad409286aa60f7af3195c5534a0f969a4682079271ba4cc6068f31cee71dc4" },
+      "currentJdf615Preserved": true,
+      "uploadedOlderJdf615Used": false
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "requiredAtInitialFiling": ["JDF-477", "JDF-492", "JDF-493", "JDF-478"],
+      "sourceSha256": { "JDF-477": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643", "JDF-492": "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996", "JDF-493": "3dbd29f70847fc488fdba00b0a549b2276ea335bcfd1e72eb19ac2dd220d68d9", "JDF-478": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159" }
+    }
+  ],
+  "supersessionRule": "The preserved older records remain evidence of their former state. For these two family builds after USER-UPLOAD-20260911, the exact current source adoption and current-byte packet evidence supersede only the stated stale availability and incomplete-set claims.",
+  "promotionEffect": "None until exact-byte raster acceptance and independent review are admitted."
+}

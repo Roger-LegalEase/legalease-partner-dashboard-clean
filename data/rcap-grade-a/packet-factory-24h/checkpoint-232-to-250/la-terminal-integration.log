@@ -1,0 +1,51 @@
+
+> legalease-partner-dashboard-clean@0.1.0 rcap:integrate-packet-factory
+> node scripts/grade-a-packet-factory-24h/integrate.mjs
+
+
+== identity-refresh annotations survive
+   121 annotations across 76 families are what keep drifted shared-record pins honest. A build that failed after wiping its output directory can destroy one, and the next successful build reports zeros over the gap.
+
+== gate coverage matches its verdicts
+   The queue used to describe what the gate renders from an assumption rather than from the gate, and the assumption went stale: 36 rows said their boundary fixture went unrendered while the same run's verdict named it rendered and measured.
+
+== governance state survives
+   296 product-wiring records carry governance state and 61 carry withdrawn receipts. A rebuild that strips an acceptance receipt is invisible in a diff and turns into a silent withdrawal at the next generate.
+
+== builder self-tests actually run
+   A guard nothing invokes is not a guard. Assertions written to protect a repaired packet sat behind a flag no CI job and no chain step passed, and VF61 proved a repaired defect walks straight back into the delivered bytes with the build reporting success.
+
+== extract verifier returns
+   Reads every lane's return and selects the current verdict per family. Must precede generate.mjs, which reads its output.
+   | 30 row(s) refused and carried into data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json:
+
+== completeness audit
+   Rewrites PACKET_COMPLETENESS_MATRIX.json. A family merged since the last audit has no counters, and the raster gate refuses it as "no completeness audit" however finished its packet is.
+
+== product wiring
+   A declared product wiring is the fourth condition of the terminal transition. Without it a family with a PASS, a bound RASTER_PASS and no legal input stops at VERIFIED_PASS.
+
+== generate (first pass)
+   Derives every family state from the records above and writes the dispatch.
+
+== raster queue
+   Enrols newly eligible families and folds admitted receipts into their rows. Reads the queue the first pass just wrote.
+   | 242 queued (1 RASTER_PENDING) · 104 not eligible
+
+== generate (second pass)
+   Re-derives state now that the raster queue carries the new receipts. Without it an admitted family stays BUILT_RASTER_PENDING.
+
+== transitions (1)
+   la-985-1-interim-expungement-set: VERIFY_PENDING -> COMPLETE_PACKET_PROVEN
+
+== terminal 234 of 346 (was 233)
+   COMPLETE_PACKET_PROVEN 218 (was 217)
+   FAIL_REPAIR_REQUIRED 34
+   SOURCE_READY 33
+   LEGAL_BLOCKED 19
+   PRODUCT_PATH_PENDING 18
+   SOURCE_BLOCKED 6
+   BUILT_RASTER_PENDING 1
+   WRONG_DELIVERY_TYPE 1
+
+Every step exited 0. These counts are this run's, not the previous one's.

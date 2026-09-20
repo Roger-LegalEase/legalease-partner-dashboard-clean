@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-production-hotfix-release/v1",
+  "title": "Production hotfix restoring the Final verification page on expungement.ai",
+  "applicationSha": "3e3a528b5762ece971c53186d1a45a48e5633a9c",
+  "toolsSha": "6cf016bff140ca7ddf8ff3910d364a8872f51013",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+  "activatedDeploymentId": "dpl_3HHSPuppRrsvN12kgvTWX39zeLLG",
+  "recoveryTargetDeploymentId": "dpl_EpRfqnBuTTsuZZmDikXhsRZ3EojX",
+  "recoveryTargetNote": "The pre-migration deployment dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL is retired as a rollback target: it writes the pending-result columns the applied forward chain renamed, so recovering onto it would reopen the save failure this release closes.",
+  "acceptancePreviewDeploymentId": "dpl_4MCQr3YdM2GuPHvcY8n4NzzGBajP",
+  "workerSourceSha": "3e3a528b5762ece971c53186d1a45a48e5633a9c",
+  "workerDigest": "sha256:cb5e419bf741dec0158ee4fb8894d201d2054472f494e9e6edae872a2d96fed9",
+  "runs": {
+    "acceptancePreviewDeploy": {
+      "runId": 35141124813,
+      "conclusion": "success"
+    },
+    "productionPreflight": {
+      "runId": 35142233495,
+      "conclusion": "success"
+    },
+    "productionSmoke": {
+      "runId": 35142492175,
+      "conclusion": "success"
+    },
+    "productionActivate": {
+      "runId": 35142875519,
+      "conclusion": "success"
+    },
+    "productionPublicVerify": {
+      "runId": 35143085653,
+      "conclusion": "success"
+    },
+    "productionSaveTransitionVerify": {
+      "runId": 35143327329,
+      "conclusion": "success"
+    },
+    "productionWorkerDeploy": {
+      "runId": 35143706112,
+      "conclusion": "failure"
+    }
+  },
+  "provenInProduction": [
+    "Preflight proved the staged Production-target deployment and the accepted Preview are the exact hotfix identity, with no Production alias, environment or database mutation.",
+    "Smoke passed all ten verdicts on the staged deployment, including save_claim_schema_read_back_exact: consumer_pending_screening_results carries claim_token_hash, claim_pending_screening_result and participant_claim_events are present, and the legacy matter_id, source_session_id and pending_token_hash columns are absent.",
+    "Activation promoted the staged deployment without a rebuild; all seven Production domains resolve to it, health is 200, the runtime maps to the canonical Production Supabase project, environment metadata is unchanged and the recovery target remains READY.",
+    "Public verification: expungement.ai and www serve the activated deployment, all eleven build assets match the canonical domain, exactly one Supabase origin is exposed, and a fresh-context Mississippi screening walk reaches the non-conviction pathway without opening checkout.",
+    "Public journey: signed-out Save wrote a pending result (HTTP 200) and handed off to account creation; authentication claimed it atomically (HTTP 200); the matter rendered and survived reload; a signed-in save claimed straight into a second matter; a replayed claim token minted no third matter; the packet-information builder completed 90 saved steps all HTTP 200; the review page rendered the real Final verification panel (unverified before, verified after) and Final verification returned HTTP 200; the next legitimate action \"Pay $50 and generate my packet\" was located and recorded as not taken."
+  ],
+  "untestedInProduction": [
+    "Payment. No Checkout session was created and no charge exists. The authorized fulfillment test still needs its promo code or sponsorship.",
+    "Packet generation and delivery. No render job was started, so no generated document has been inspected in Production.",
+    "The production render worker. It was not redeployed and still runs whatever image was last deployed to it."
+  ],
+  "workerDeployRefusal": {
+    "runId": 35143706112,
+    "verdict": "refused: candidate workerSourceSha, candidate workerDigest, image acceptance of this digest",
+    "reason": "The deploy gate requires data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json to name this worker tuple with productionAuthorized true, and requires worker-publication-evidence.json to carry a successful image acceptance for this digest. The run checked out claude/hotfix-release-3e3a528b5, whose binding is the older cc4d8275 candidate because that branch was cut from the live application line before the MVLP freeze; the integration branch instead carries the MVLP candidate 436520e4. Neither names 3e3a528b5, and this release produced no Grade-A candidate binding for it.",
+    "decision": "Stood down rather than rewriting the binding. The gate is a source, fingerprint and acceptance check, and editing the record to satisfy it would be the equivalence workaround the owner forbade. The worker was left unchanged, which is the state that preceded this hotfix; no live behaviour regressed.",
+    "toReopen": "Run the Grade-A regression set against 3e3a528b5 and record a real candidate binding plus the image acceptance receipt, then re-dispatch production_worker_deploy."
+  }
+}

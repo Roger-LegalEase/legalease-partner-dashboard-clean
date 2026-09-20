@@ -41,6 +41,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -121,6 +122,7 @@ jobs:
           BROWSER_VERSION: ${{ steps.browser.outputs.version }}
           REQUESTED_SCALE: ${{ inputs.requested_scale }}
           WORKFLOW_RUN_ID: ${{ github.run_id }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p raster-out
@@ -254,6 +256,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm ci --cache /tmp/npm-cache
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Install the pinned encrypted-PDF reader
+        run: python -m pip install --disable-pip-version-check pikepdf==10.12.0
       - name: Provision the browser
         run: |
           set -euo pipefail
@@ -268,6 +274,7 @@ jobs:
           COMMIT_SHA: ${{ inputs.commit_sha }}
           REQUESTED_SCALE: ${{ inputs.requested_scale }}
           WORKFLOW_RUN_ID: ${{ github.run_id }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           node scripts/rcap-raster-batch.mjs \
             --manifest "$MANIFEST_PATH" \
@@ -276,6 +283,36 @@ jobs:
             --scale "$REQUESTED_SCALE" \
             --run-id "$WORKFLOW_RUN_ID" \
             --out raster-out
+
+      # The verdict and the page digests, printed where a reader without
+      # artifact access can still see them.
+      #
+      # The gate's evidence has only ever existed inside the uploaded zip, and
+      # an agent session whose egress policy denies Actions artifact blob
+      # storage can read this job's LOG and nothing else. So a family passed
+      # the gate and stayed BUILT_RASTER_PENDING for want of bytes that had
+      # already been measured -- Delaware, Nebraska, and the seven families of
+      # run 34352802308. This prints the same bytes the zip carries: the
+      # verdict document verbatim, and a SHA-256 for every rendered page.
+      #
+      # It weakens nothing. Nothing here is a new verdict, the artifact upload
+      # is unchanged and still authoritative, and the admit path still checks
+      # the zip against the run, the jobs and the family's current inventory.
+      # A reader who has the zip should keep using it; this is for one who
+      # cannot get it.
+      - name: Print the verdict and the page digests to the log
+        if: always()
+        run: |
+          set -uo pipefail
+          for v in raster-out/*.verdict.json; do
+            [ -e "$v" ] || continue
+            echo "===== BEGIN VERDICT $(basename "$v") ====="
+            cat "$v"
+            echo "===== END VERDICT $(basename "$v") ====="
+          done
+          echo "===== BEGIN PAGE DIGESTS ====="
+          find raster-out -type f -name '*.png' -print0 | sort -z | xargs -0 -r sha256sum
+          echo "===== END PAGE DIGESTS ====="
 
       - name: Refuse a modified packet byte
         run: |
@@ -293,12 +330,14 @@ jobs:
       # artifact label is slugged, and the receipt records both so a receipt can
       # still be traced back to its family.
       - name: Artifact-safe label for this family
+        if: always()
         env:
           FAMILY: ${{ matrix.family }}
         run: |
           printf 'FAMILY_SLUG=%s\n' "$(printf '%s' "$FAMILY" | tr -c 'A-Za-z0-9._-' '_')" >> "$GITHUB_ENV"
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: rcap-raster-${{ env.FAMILY_SLUG }}-${{ github.run_id }}
           path: raster-out/

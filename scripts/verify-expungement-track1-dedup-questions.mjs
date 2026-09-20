@@ -212,9 +212,11 @@ function evaluate(profile, publicProfile, answers) {
   const pathway = selectPathway(profile, answers);
   if (!pathway) return { resultCode: "needs_review", paymentAllowed: false };
   const plan = packetPlanForPathway(profile, pathway.id);
-  if (plan?.mode === "automatic_relief_verification_and_guidance") return { resultCode: "guidance_only", paymentAllowed: false };
+  if (plan?.mode === "automatic_relief_verification_and_guidance") {
+    return { resultCode: "guidance_only", paymentAllowed: false, pathwayId: pathway.id, closedByProfile: true };
+  }
   const resultCode = sourceCaution(profile, answers, pathway.id) ? "packet_ready_with_caution" : "packet_ready";
-  return { resultCode, paymentAllowed: isPacketPlanFulfillmentReady(plan) };
+  return { resultCode, paymentAllowed: isPacketPlanFulfillmentReady(plan), pathwayId: pathway.id, closedByProfile: false };
 }
 
 function representativeValue(question) {
@@ -317,8 +319,31 @@ for (const code of modifiedCodes) {
   const currentAnswers = representativeAnswers(currentPublicProfile);
   const mainResult = evaluate(mainEngine, mainPublicProfile, mainAnswers);
   const currentResult = evaluate(currentEngine, currentPublicProfile, currentAnswers);
-  assert(mainResult.resultCode === currentResult.resultCode, `${code} resultCode changed from ${mainResult.resultCode} to ${currentResult.resultCode}.`);
-  assert(mainResult.paymentAllowed === currentResult.paymentAllowed, `${code} paymentAllowed changed from ${mainResult.paymentAllowed} to ${currentResult.paymentAllowed}.`);
+  /*
+   * The comparison is against main, so a route that main still sells and this
+   * branch has DELIBERATELY CLOSED reads here as a regression. Oregon is that
+   * case: owner delivery-type decision OWN-DT-2026-09-02-Q1 and the held_guidance
+   * route ratification moved or_conviction_setaside-set to guidance, the compiled
+   * profile carries outcomeMode guidance_status with paymentAuthority closed, and
+   * this verifier reported "OR resultCode changed from packet_ready_with_caution
+   * to guidance_only" as a failure of the question de-duplication.
+   *
+   * Reopening Oregon to make this pass would reverse an owner decision and open
+   * payment on a held route, so the check is made DIRECTIONAL instead. A
+   * difference is tolerated only when it strictly narrows AND the compiled
+   * profile itself declares the closure -- the selected pathway's packet plan is
+   * the automatic relief-verification-and-guidance mode, which is what derives
+   * routePaymentAuthority closed. Widening is still a failure, and so is a
+   * narrowing the profile does not declare, which is exactly the accidental kind
+   * a de-duplication edit would cause.
+   */
+  const closedByProfile = currentResult.closedByProfile === true
+    && currentResult.resultCode === "guidance_only"
+    && currentResult.paymentAllowed === false;
+  assert(mainResult.resultCode === currentResult.resultCode || closedByProfile,
+    `${code} resultCode changed from ${mainResult.resultCode} to ${currentResult.resultCode}.`);
+  assert(mainResult.paymentAllowed === currentResult.paymentAllowed || (mainResult.paymentAllowed && closedByProfile),
+    `${code} paymentAllowed changed from ${mainResult.paymentAllowed} to ${currentResult.paymentAllowed}.`);
 }
 
 assert(duplicateFields.length === 15, `Expected 15 removal declarations, found ${duplicateFields.length}.`);

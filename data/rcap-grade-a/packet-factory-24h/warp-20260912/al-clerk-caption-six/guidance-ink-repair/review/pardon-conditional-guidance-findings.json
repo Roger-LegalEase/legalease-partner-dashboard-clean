@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-independent-guidance-findings/v1",
+  "familyId": "al-pardoned-felony-set",
+  "reviewedGuidanceCommit": "7f142bbd9ac403d9d1cf79da4eecad6ab6cbdf8d",
+  "currentGuide": {
+    "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/participant-instructions.md",
+    "sha256": "135bd363d45b873a4748dcd7012bd26dd2e163aa111e4412e582e5e8e84c55d2",
+    "byteLength": 15415
+  },
+  "frozenGuide": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/review/snapshots/al-pardoned-felony-set/participant-instructions.md",
+    "sha256": "135bd363d45b873a4748dcd7012bd26dd2e163aa111e4412e582e5e8e84c55d2",
+    "byteLength": 15415
+  },
+  "sourceText": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/CR-65-source-text.txt",
+    "sha256": "c12204e83e0d71f9c4636fbd1c20c6fdbb9355aebfa7ca4ec5ea241eb53bdcf4",
+    "byteLength": 21967
+  },
+  "sourcePdf": {
+    "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+    "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+    "byteLength": 468056
+  },
+  "findings": [
+    {
+      "id": "AL-PARDON-GUIDE-02A",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "fieldId": "CR-65:Check Box11.4",
+      "sourcePage": 4,
+      "sourceQuote": "the conviction is not an offense involving moral turpitude, as provided in Section 17-3-30.1, or was classified as a felony at the time of the conviction, but has been reclassified as a misdemeanor, pursuant to Act 2015-185, and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition.",
+      "guideSection": "Check Box11.4",
+      "currentGuideExcerpt": "\u2014 left empty by this packet\n\nThe form prints: \"the conviction is not an offense involving moral turpitude, as provided in Section 17-3-30.1 ... and I have not been arrested for any offense, excluding minor traffic violations, 15 years prior to the filing of the petition.\"\n\nWhat the held record says: The held record says nothing about moral turpitude and holds no 15-year arrest history for you. Both halves of this box are yours to establish.",
+      "actualDefect": "The shortened quotation removes the alternative for a felony reclassified as a misdemeanor under Act 2015-185; the following sentence then treats the remaining text as two universally necessary halves. This changes the source condition rather than merely shortening it.",
+      "sourceBranchLogic": "Preserve the complete disjunction: not an offense involving moral turpitude, OR the qualifying felony-to-misdemeanor reclassification clause with its printed 15-year arrest-history condition. Do not convert the wording into a universal conjunction of non-moral-turpitude plus 15-year arrest history. Unclear classification or branch applicability requires the existing attorney stop, not an invented eligibility determination.",
+      "requiredRepair": "Restore the full official condition and remove the false both-halves instruction. Ask for the facts relevant to the applicable printed branch; leave the sworn control for the participant and preserve the existing stop if its truth cannot be established."
+    },
+    {
+      "id": "AL-PARDON-GUIDE-02B",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "fieldId": "CR-65:Check Box11.6",
+      "sourcePage": 4,
+      "sourceQuote": "At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit for a conviction of an offense enumerated in 49 C.F.R. \u00a7 383.51.",
+      "guideSection": "Check Box11.6",
+      "currentGuideExcerpt": "\u2014 left empty by this packet\n\nThe form prints: \"At the time of the offense, I was not operating a commercial motor vehicle or was not holding a commercial driver license or commercial learner permit.\"\n\nWhat the held record says: The held record holds no commercial-licence fact for you and never asks for one.",
+      "actualDefect": "The guidance quotation omits the limiting words for a conviction of an offense enumerated in 49 C.F.R. \u00a7 383.51. It presents the commercial vehicle/license condition without the offense applicability qualifier printed on the official form.",
+      "sourceBranchLogic": "Retain the enumerated-offense qualifier when explaining the commercial-vehicle/license attestation; the guide must not assert a universal commercial-status restriction for every conviction.",
+      "requiredRepair": "Restore the complete official quotation and preserve the offense applicability qualifier in any paraphrase or question. Leave judicial decisions and unsupported participant attestations blank."
+    }
+  ],
+  "pdfStatus": "All 22 current original pages remain the exact successful central bytes. All 16 Section V checkbox appearances are unselected. The two new failures concern participant guidance, not source acquisition, preselected controls or a raster defect.",
+  "reviewHistoryCorrection": {
+    "priorReview": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-al-clerk-caption-six-initial-fail-20260912.json",
+      "sha256": "01cc1f3f4d160e06e520a65ea6c3b8f44016583605c76b3bff80216faee03761",
+      "byteLength": 318179
+    },
+    "priorRowPointer": "/rows/5",
+    "priorObligation": "ROUTE_OPTIONS",
+    "priorResult": "PASS",
+    "disposition": "Preserve prior record. The earlier review correctly measured empty appearances and guide coverage but missed these two source-condition omissions. That earlier ROUTE_OPTIONS PASS is explicitly superseded by this measured current-guidance FAIL. Prior oath and fee failures are repaired; no whole-family acceptance is issued."
+  }
+}

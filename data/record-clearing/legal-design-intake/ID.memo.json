@@ -1,0 +1,946 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "ID",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "id_isp_expungement",
+      "legalName": "Application for Expungement of a Non-Conviction Record, I.C. § 67-3004(10)",
+      "publicName": "Expungement of a Non-Conviction Record",
+      "controllingAuthority": {
+        "citations": ["I.C. § 67-3004(10)"],
+        "summary": "Expungement reaches only non-conviction records held by the state police. The Idaho State Police Bureau of Criminal Identification publishes a single statewide application and rejects anything incomplete."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "fingerprint and criminal history record taken in connection with the incident",
+        "official court file, which may be sealed"
+      ],
+      "eligibleDispositions": [
+        "arrested or served a criminal summons and not charged by indictment or information within one year of the arrest or summons",
+        "acquitted of all offenses arising from the arrest or summons",
+        "all charges dismissed"
+      ],
+      "exclusions": [
+        "A dismissal granted under § 19-2604(1).",
+        "The form adds that the process does not apply to a person convicted of a sex offense, and directs those users to the Idaho Central Registry sex offender FAQ rather than to the Criminal History Unit."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "No-charge route: arrested or served a criminal summons and not charged",
+          "duration": "One year from the arrest or summons"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Idaho State Police, Bureau of Criminal Identification. Statewide, single agency."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Idaho State Police, Bureau of Criminal Identification",
+        "detail": "Mail to 700 S. Stratford Dr., Ste. 120, Meridian, ID 83642, or fax to 208-884-7193."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+          "notes": "ISP BCI Expungement Application. Uploaded copy carries no revision marking, which makes drift undetectable."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseEndedHow",
+          "question": "How did the case end — were you never charged, acquitted of everything, or were all the charges dismissed?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissalUnder192604",
+          "question": "Was the dismissal granted under Idaho Code § 19-2604(1), after probation or a withheld judgment? A § 19-2604(1) dismissal is excluded from this route.",
+          "requirement": "required"
+        },
+        {
+          "key": "allChargesResolvedFavourably",
+          "question": "Did every charge arising from that arrest end in dismissal or acquittal, or did some of them end in a guilty plea?",
+          "requirement": "required"
+        },
+        {
+          "key": "chargedWithinOneYear",
+          "question": "Were you charged by indictment or information within one year of the arrest or summons?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only on the no-charge route, where the one-year period decides eligibility."
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified court order of acquittal stating not guilty of the charged crimes, or certified court order of dismissal showing which crimes were dismissed",
+          "obtainedFrom": "The court that heard the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that heard the case for a certified copy of the order of acquittal or dismissal.",
+          "confirms": "caseEndedHow"
+        },
+        {
+          "name": "One charging document: criminal citation, or criminal complaint and summons showing service by the sheriff's office, or an indictment, or an information",
+          "obtainedFrom": "The court that heard the case",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request a copy from the court that heard the case."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature of requestor and date",
+          "whereInPacket": "ISP BCI Expungement Application, signature block",
+          "why": "The applicant signs their own application. Counsel's amendment directs the participant to confirm the disposition before signing."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Idaho Code § 67-3004, Fingerprinting and identification, shielding of records from disclosure",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH30/SECT67-3004/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Idaho State Police, Bureau of Criminal Identification, Expungement Application, as uploaded",
+          "url": "https://isp.idaho.gov/BCI/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Mail to Idaho State Police, 700 S. Stratford Dr., Ste. 120, Meridian, ID 83642, or fax to 208-884-7193. Allow about 30 days for processing. An incomplete application, or one missing the required documentation, is not processed and is returned to the applicant.",
+        "fees": "Not stated on the form. Unresolved — see the open question on the ISP fee.",
+        "feeWaiver": "The source review does not address a fee waiver for this administrative application.",
+        "notice": "The source review does not state a notice requirement for this administrative application.",
+        "service": "The source review does not state a service requirement for this administrative application.",
+        "participantSignature": "Signature of requestor and date, required on the application.",
+        "notarization": "The source review does not state a notarization requirement for this application."
+      },
+      "selfHelpStopConditions": [
+        "The offense classification is genuinely unclear.",
+        "A § 19-2604 dismissal already happened or is being contemplated, because the sequencing changes what relief remains.",
+        "The record involves sex offender registration.",
+        "The record is federal, tribal, or from another state.",
+        "Immigration, professional licensing, peace officer employment, or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether the ISP charges a fee for a § 67-3004(10) expungement application, and whether there is now an online or emailed submission channel in addition to mail and fax.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether the ISP charges a fee for a § 67-3004(10) expungement application, and whether there is now an online or emailed submission channel in addition to mail and fax.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "The revision date of the current ISP BCI Expungement Application. The uploaded copy carries no revision marking, which makes drift undetectable.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "Any current § 19-2604 statutory amendments or local form requirements must be source-approved before release."
+          }
+        },
+        {
+          "question": "Whether the 2024, 2025, or 2026 sessions amended § 67-3004 or § 19-2604. The Legislature's published statute reflects amendments through 2023 chapter 108 and is updated each July 1.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "Any current § 19-2604 statutory amendments or local form requirements must be source-approved before release."
+          }
+        },
+        {
+          "question": "Whether the § 67-3004(10) court-file sealing happens automatically when the ISP expunges, or requires a separate request to the court. The statute says the person \"may have the official court file thereof sealed,\" which reads as a separate step.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether the § 67-3004(10) court-file sealing happens automatically when the ISP expunges, or requires a separate request to the court. The statute says the person \"may have the official court file thereof sealed,\" which reads as a separate step.",
+            "counselQuestion": "If court-file sealing requires a separate request, does this track need a second component or a second packet for that request? Neither the addendum nor the decision matrix says, so the impact has not been classified as build-blocking or release-blocking."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations. The limitation is the § 19-2604(1) screen.\" The amendment supersedes the original operational sentence that intake must establish the disposition by reviewing a record: \"Intake asks the participant, explains the branches, and fails closed only if the participant cannot identify the disposition needed to choose a packet.\"",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask how the case ended, explain that a § 19-2604 dismissal is excluded, and generate from the participant's answer.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / Limitations reclassified as participant instructions (ID-1)",
+              "sourceStatement": "Ask how the case ended, explain that a § 19-2604 dismissal is excluded, and generate from the participant's answer. The certified acquittal or dismissal order is `required_before_submission`. LegalEase does not inspect it."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The certified acquittal or dismissal order is required before submission. LegalEase does not inspect it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / Limitations reclassified as participant instructions (ID-1)",
+              "sourceStatement": "The certified acquittal or dismissal order is `required_before_submission`. LegalEase does not inspect it."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Tell the participant to confirm the disposition before signing and submitting.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "First-Batch Changes by Jurisdiction / Idaho / ID-1",
+              "sourceStatement": "tell the participant to confirm the disposition before signing and submitting."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "An incomplete application, or one missing the required documentation, is not processed and is returned to the applicant.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACK 1 - NON-CONVICTION EXPUNGEMENT / Filing and post-filing",
+              "sourceStatement": "An incomplete application, or one missing the required documentation, is **not processed** and is returned to the applicant.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A self-addressed stamped envelope is optional, and is needed to receive notification.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACK 1 - NON-CONVICTION EXPUNGEMENT / Packet components",
+              "sourceStatement": "Self-addressed stamped envelope | Optional, needed to receive notification",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "A dismissal granted under § 19-2604(1) is excluded from this route. Taking the set-aside first permanently forecloses the non-conviction expungement route for that record.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / Limitations reclassified as participant instructions (ID-1)",
+              "sourceStatement": "Ask how the case ended, explain that a § 19-2604 dismissal is excluded, and generate from the participant's answer."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The form states the process does not apply to a person convicted of a sex offense, and directs those users to the Idaho Central Registry sex offender FAQ rather than to the Criminal History Unit.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACK 1 - NON-CONVICTION EXPUNGEMENT",
+              "sourceStatement": "The form adds that the process does not apply to a person convicted of a sex offense, and directs those users to the Idaho Central Registry sex offender FAQ rather than to the Criminal History Unit.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase fails closed only if the participant cannot identify the disposition needed to choose a packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / Superseded operational statements",
+              "sourceStatement": "Intake asks the participant, explains the branches, and fails closed only if the participant cannot identify the disposition needed to choose a packet."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "id_clean_slate_shield",
+      "legalName": "Petition to Shield Records from Public Disclosure, I.C. § 67-3004(11)",
+      "publicName": "Shielding a Record from Public Disclosure",
+      "controllingAuthority": {
+        "citations": [
+          "I.C. § 67-3004(11), added by 2023 chapter 108, effective January 1, 2024",
+          "Idaho Supreme Court, Petition to Shield Records from Public Disclosure, 01/01/2024"
+        ],
+        "summary": "Shielding hides a court record from the public but does not destroy it. The court shall order shielding if it finds eligibility, that the petitioner has been held accountable, and that shielding would not compromise public safety or the safety of any victims. Paragraph (l) makes the procedures subject to the rules of the Idaho Supreme Court."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["arrest", "prosecution", "conviction"],
+      "eligibleDispositions": [
+        "arrested for, prosecuted for, or convicted of a misdemeanor that is not on the assaultive or violent list",
+        "arrested for, prosecuted for, or convicted of felony possession of a controlled substance under § 37-2732(a), (c), or (e)"
+      ],
+      "exclusions": [
+        "The thirteen assaultive or violent misdemeanors under § 67-3004(11)(b): assault (§ 18-901); battery (§ 18-903); domestic battery (§ 18-918); stalking in the second degree (§ 18-7906); violation of a protection order or no contact order (§§ 18-7907 and 18-920); telephone harassment (§ 18-6710); vehicular manslaughter (§ 18-4006(3)(c)); excessive driving under the influence (§ 18-8004C); domestic assault (§ 18-918(3)(a)); battery upon law enforcement (§ 18-915(1)(b)); injury to children (§ 18-1501); sexual battery (§ 18-924); and indecent exposure (§ 18-4116).",
+        "One petition granted per lifetime, covering one eligible crime, or more than one eligible crime if committed in a single incident or transaction, § 67-3004(11)(k)."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Completion of the sentence in full, including all ordered probation, parole, fines, and restitution. Unpaid fines or restitution stop the clock from starting.",
+          "duration": "Five years"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The county court where the underlying criminal case was filed. The proceeding occurs in the underlying criminal case, § 67-3004(11)(e). E-filing available through iCourt."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "District court, in the underlying criminal case",
+        "detail": "File in the county court where the underlying criminal case was filed, or e-file through iCourt. No filing fee. The court notifies the prosecuting attorney of the hearing date; service on the prosecutor is not the petitioner's job."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ISC-PETITION-TO-SHIELD-67-3004-11",
+          "officialSourceUrl": "https://isc.idaho.gov/files/Petition-to-Shield-Records-from-Public-Disclosure-IC67-3004-11.pdf",
+          "notes": "Petition to Shield Records from Public Disclosure, I.C. § 67-3004(11), 01/01/2024. Statewide approved form."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "priorShieldingPetition",
+          "question": "Have you ever had a shielding petition granted in Idaho before? Only one is allowed in a lifetime.",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndStatute",
+          "question": "What was the exact charge and statute section, and was it a misdemeanor or a felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceCompletionDate",
+          "question": "On what date did you finish your sentence, including all probation, parole, fines and restitution?",
+          "requirement": "required"
+        },
+        {
+          "key": "laterConvictions",
+          "question": "Have you been convicted of any felony or misdemeanor since then?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCasesOrSupervision",
+          "question": "Do you have any misdemeanor or felony case pending, are you on probation or parole for a later conviction, or is any restraining order in effect against you?",
+          "requirement": "required"
+        },
+        {
+          "key": "accountabilityFacts",
+          "question": "In your own words, how have you been held accountable, and why would shielding this record not compromise public safety or the safety of any victim?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumberAndCounty",
+          "question": "What is the case number, and which county was the case filed in?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Criminal history report",
+          "obtainedFrom": "Idaho State Police, Bureau of Criminal Identification",
+          "requirement": "conditional",
+          "conditionDescription": "Not required as an attachment, but needed to build the petition accurately.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request a criminal history report from the Idaho State Police Bureau of Criminal Identification.",
+          "confirms": "offenceAndStatute"
+        },
+        {
+          "name": "Case information from the iCourt Portal",
+          "obtainedFrom": "iCourt Portal at mycourts.idaho.gov, or the court where the case was filed",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant does not already know the case number, charges, statute sections, level, supervision end date, or completion date.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Look the case up on the iCourt Portal at mycourts.idaho.gov, or ask the court where the case was filed.",
+          "confirms": "caseNumberAndCounty"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Checkbox election matching the person's situation",
+          "whereInPacket": "Petition to Shield Records from Public Disclosure, election section",
+          "why": "The election follows from the participant's own answers about their situation."
+        },
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition to Shield Records from Public Disclosure, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Idaho Code § 67-3004, complete current text including subsections (10) and (11)(a) through (l)",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH30/SECT67-3004/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Idaho Supreme Court, Petition to Shield Records from Public Disclosure, I.C. § 67-3004(11), 01/01/2024",
+          "url": "https://isc.idaho.gov/files/Petition-to-Shield-Records-from-Public-Disclosure-IC67-3004-11.pdf",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Idaho Supreme Court, Instructions for Requesting Shielding of Records from Public Disclosure, 01/01/2024",
+          "url": "https://isc.idaho.gov/files/Clean-Slate-Instructions.pdf",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File in the county court where the underlying criminal case was filed, or e-file through iCourt. Complete the petition in black ink or by typing. For paper filing, bring an original plus one copy; the clerk date-stamps the copy.",
+        "fees": "none",
+        "feeWaiver": "none",
+        "notice": "On the filing of the petition the court shall set a hearing date and notify the prosecuting attorney, who must give any readily identifiable victim the notifications required by article I, section 22 of the Idaho Constitution.",
+        "service": "none. Service on the prosecutor is not the petitioner's job; the court notifies the prosecuting attorney of the hearing date.",
+        "participantSignature": "The petitioner signs the petition.",
+        "notarization": "The source review does not state a notarization requirement for this petition."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor opposes the Clean Slate petition or a victim appears and objects.",
+        "The court signals it will take testimony.",
+        "The offense classification against the thirteen-item list or against § 37-2732(a), (c), or (e) is genuinely unclear.",
+        "The person has any subsequent charge, conviction, active supervision, or restraining order inside the five-year window or before the hearing.",
+        "Restitution or fines remain unpaid, which means the clock has not started.",
+        "The person has already used their one lifetime shielding petition, or is choosing between records and needs advice on which to spend it on.",
+        "A § 19-2604 dismissal already happened or is being contemplated, because the sequencing changes what relief remains.",
+        "The record involves sex offender registration.",
+        "A DUI is involved and the § 18-8004 versus § 18-8004C question controls.",
+        "The person wants their firearm rights or civil rights back, which is §§ 18-310 and 18-3316 territory and is untouched by shielding.",
+        "The record is federal, tribal, or from another state.",
+        "Immigration, professional licensing, peace officer employment, or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether ordinary misdemeanor DUI under § 18-8004 is being shielded in practice, given that only § 18-8004C appears on the assaultive or violent list. Check with a public defender office or the Supreme Court self-help program before routing DUI users either way.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "**ID-2:** the ordinary-DUI classification issue remains dispositive where it changes route eligibility."
+          }
+        },
+        {
+          "question": "Whether the Idaho Supreme Court publishes an order form to accompany the Petition to Shield, and whether courts expect the petitioner to lodge one.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "TRACK 2 - CLEAN SLATE SHIELDING / Packet components",
+            "sourceStatement": "Proposed order | Unresolved. See open question 2.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "How § 37-2732(a), (c), and (e) map to the offenses that appear on a real Idaho criminal history, since the shielding track turns on that mapping for every felony drug user.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "How § 37-2732(a), (c), and (e) map to the offenses that appear on a real Idaho criminal history, since the shielding track turns on that mapping for every felony drug user.",
+            "counselQuestion": "Does the § 37-2732(a)/(c)/(e) offense-mapping question block the build of the felony-drug branch, or is it a release-gated instruction? The Batch 1 decision matrix lists only the ordinary-DUI classification and ID-3/ID-4 as Idaho blockers, and does not name this mapping either way."
+          }
+        },
+        {
+          "question": "Whether a person whose shielding is later revoked under § 67-3004(11)(g) has used up the one lifetime petition, or may petition again. The statute does not say.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether a person whose shielding is later revoked under § 67-3004(11)(g) has used up the one lifetime petition, or may petition again. The statute does not say.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Whether the 2024, 2025, or 2026 sessions amended § 67-3004 or § 19-2604. The Legislature's published statute reflects amendments through 2023 chapter 108 and is updated each July 1.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "Any current § 19-2604 statutory amendments or local form requirements must be source-approved before release."
+          }
+        },
+        {
+          "question": "Whether Idaho recognizes any general discretionary sealing of adult criminal court records outside § 67-3004. The internal reference asserts a \"discretionary, case-by-case court sealing\" but cites no authority, and none was located here. Do not build on that sentence until it is sourced. This concerns a possible additional route, not this track.",
+          "impact": "nonblocking_research_note",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "PART 5 - JURISDICTION COMPLETENESS / Open questions",
+            "sourceStatement": "Whether Idaho recognizes any general discretionary sealing of adult criminal court records outside § 67-3004. The internal reference asserts a \"discretionary, case-by-case court sealing\" but cites no authority, and none was located here. Do not build on that sentence until it is sourced.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved with limitations. Three limitations: the one-per-lifetime rule makes track selection consequential and should carry an explicit warning; the DUI question in section 0.3 item 4 needs Lawrence's answer before any DUI user is routed; and the accountability and public-safety showing is the substance of the petition and needs an approved approach rather than a template paragraph.\" The amendment resolves the operational treatment of the narrative and the hearing; the DUI classification remains a true blocker.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "The participant answers the one-per-lifetime, offense, completion, later-conviction, pending-case, accountability, and public-safety questions. LegalEase provides approved prompts and warnings but does not judge the showing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / Limitations reclassified as participant instructions (ID-2)",
+              "sourceStatement": "The participant answers the one-per-lifetime, offense, completion, later-conviction, pending-case, accountability, and public-safety questions. LegalEase provides approved prompts and warnings but does not judge the showing."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The mandatory hearing does not block generation; actual opposition or contested testimony triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / Limitations reclassified as participant instructions (ID-2)",
+              "sourceStatement": "The mandatory hearing does not block generation; actual opposition or contested testimony triggers handoff."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The one-per-lifetime consequence remains a required warning, with an explicit prompt to consider which record to spend the petition on when the person has more than one eligible.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "First-Batch Changes by Jurisdiction / Idaho / ID-2",
+              "sourceStatement": "The one-per-lifetime consequence remains a required warning."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The five-year clock runs from the later of supervision end and the date fines and restitution were paid, and the clean-record conditions are re-checked at the hearing date rather than only at filing.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "OVERALL JURISDICTION DECISION / Required before any track opens for fulfillment",
+              "sourceStatement": "Build the five-year clock off the later of supervision end and the date fines and restitution were paid, and re-check the clean-record conditions at the hearing date rather than only at filing.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "For paper filing, bring an original plus one copy, with the clerk date-stamping the copy. There is no filing fee.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACK 2 - CLEAN SLATE SHIELDING / Packet components",
+              "sourceStatement": "Original plus one copy, with the clerk date-stamping the copy | Required for paper filing",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Shielding has no effect on the operation of §§ 18-310 and 18-3316, the civil rights and firearm provisions. The proceedings are deemed never to have occurred subject to four carve-outs: judicial proceedings; the peace officer licensing process; paragraph (i); and paragraph (j), which gives POST-certified peace officers and prosecuting attorneys complete access.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACK 2 - CLEAN SLATE SHIELDING / Legal effect and limits",
+              "sourceStatement": "The proceedings are deemed never to have occurred and the person may lawfully reply accordingly, subject to four carve-outs: judicial proceedings; the peace officer licensing process; paragraph (i), which preserves the operation of §§ 18-310 and 18-3316; and paragraph (j), which gives POST-certified peace officers and prosecuting attorneys complete access for victim communication, in-court purposes, hearings, investigations, and enhancements.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "One petition granted per lifetime, covering one eligible crime, or more than one eligible crime if committed in a single incident or transaction, § 67-3004(11)(k).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACK 2 - CLEAN SLATE SHIELDING",
+              "sourceStatement": "Case-count limitation: one petition granted per lifetime, covering one eligible crime, or more than one eligible crime if committed in a single incident or transaction, § 67-3004(11)(k)",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The ordinary-DUI classification issue remains dispositive where it changes route eligibility. Only excessive DUI under § 18-8004C is on the exclusion list; a standard misdemeanor DUI under § 18-8004 is not named.",
+            "undeterminedElement": "eligibility_branch",
+            "provenance": {
+              "classificationBasis": "batch_decision_matrix",
+              "sourceFile": "00-Batch-1-Amendment-Decision-Matrix.md",
+              "sourceHeading": "True blockers after amendment / Idaho",
+              "sourceStatement": "Ordinary-DUI classification; ID-3/ID-4 accepted statewide/local pleading vehicle and requirements"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "id_set_aside_dismissal",
+      "legalName": "Application for Set-Aside, Dismissal and Discharge, I.C. § 19-2604(1)",
+      "publicName": "Set aside your conviction and have the case dismissed",
+      "controllingAuthority": {
+        "citations": ["I.C. § 19-2604(1)"],
+        "summary": "Where sentence was imposed but suspended, or was withheld, on the defendant's application and a satisfactory showing of compliance with probation, or graduation from an authorized drug court or mental health court program, the court may terminate the sentence or set aside the plea or conviction and finally dismiss the case and discharge the defendant. Final dismissal restores civil rights. It does not hide the record and it is not an expungement."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["conviction", "withheld judgment"],
+      "eligibleDispositions": [
+        "sentence imposed but suspended",
+        "sentence withheld",
+        "graduation from an authorized drug court or mental health court program with compliance during any subsequent probation"
+      ],
+      "exclusions": [
+        "An offense requiring sex offender registration under § 18-8304 is not subject to dismissal or reduction under this section. \"Conviction\" here includes a plea or finding of guilt notwithstanding the form of the judgment or a withheld judgment."
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The sentencing court."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Sentencing court",
+        "detail": "The defendant's application is made to the court that imposed or withheld sentence. County practice on § 19-2604 applications is unverified."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "The statute contemplates \"the defendant's application\". No statewide Supreme Court form for a § 19-2604 application was located in this review, and the pleading specification is blocked pending confirmation of the accepted filing vehicle."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "sentenceType",
+          "question": "Was your sentence suspended, or was judgment withheld?",
+          "requirement": "required"
+        },
+        {
+          "key": "probationCompliance",
+          "question": "Did you comply at all times with the terms and conditions of probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "drugOrMentalHealthCourtGraduation",
+          "question": "Did you graduate from an authorized drug court or mental health court program, and comply during any subsequent probation?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked on the program-graduation route rather than the probation-compliance route."
+        },
+        {
+          "key": "stillOnProbation",
+          "question": "Are you still on probation?",
+          "requirement": "required"
+        },
+        {
+          "key": "sexOffenderRegistration",
+          "question": "Does the offense require sex offender registration under § 18-8304? Those offenses are excluded from this route.",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Idaho Code § 19-2604, Discharge of defendant, amendment of judgment",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/title19/t19ch26/sect19-2604/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Blocked pending confirmation of the accepted statewide or county-specific filing vehicle. The statute contemplates an application to the sentencing court.",
+        "feeWaiver": "The source review does not address a fee waiver for this application.",
+        "fees": "The source review does not state a filing fee for this application.",
+        "notice": "The source review does not state a notice requirement for this application.",
+        "service": "Blocked pending confirmation. The addendum lists service among the items counsel must confirm.",
+        "participantSignature": "The defendant makes the application. The signature block is part of the unresolved pleading specification.",
+        "notarization": "The source review does not state a notarization requirement for this application."
+      },
+      "selfHelpStopConditions": [
+        "A § 19-2604 dismissal already happened or is being contemplated, because the sequencing changes what relief remains.",
+        "The record involves sex offender registration.",
+        "The person wants their firearm rights or civil rights back, which is §§ 18-310 and 18-3316 territory.",
+        "The record is federal, tribal, or from another state.",
+        "Immigration, professional licensing, peace officer employment, or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether any statewide form or approved template exists for a § 19-2604 application, and how county practice varies. This gates tracks 3 and 4.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "**ID-3 and ID-4:** accepted statewide versus county-specific filing vehicle and complete pleading requirements remain unresolved. This is a true output-strategy blocker, not a record-review requirement."
+          }
+        },
+        {
+          "question": "The current statutory elements, caption, venue, required attachments, service, proposed-order practice, and any county variation for a § 19-2604 custom pleading.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / Provisional custom-pleading routes",
+            "sourceStatement": "A custom pleading is permissible in principle if counsel confirms the current statutory elements, caption, venue, required attachments, service, proposed-order practice, and any county variation."
+          }
+        },
+        {
+          "question": "Whether the 2024, 2025, or 2026 sessions amended § 67-3004 or § 19-2604.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "Any current § 19-2604 statutory amendments or local form requirements must be source-approved before release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment moves this track off \"Additional research required\" to \"custom_pleading, legal-design blocked pending statewide/local filing confirmation\", which the addendum describes as accurately separating the known remedy from the unresolved output specification. The remedy, authority, effect, exclusion and sequencing warning are imported; the filing vehicle is preserved as a blocker.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Accepted statewide versus county-specific filing vehicle and complete pleading requirements remain unresolved. This is a true output-strategy blocker, not a record-review requirement.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / True blockers retained",
+              "sourceStatement": "**ID-3 and ID-4:** accepted statewide versus county-specific filing vehicle and complete pleading requirements remain unresolved. This is a true output-strategy blocker, not a record-review requirement."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Warn that a dismissal granted under § 19-2604(1) permanently disqualifies the record from the § 67-3004(10) ISP expungement. It does not disqualify the record from Clean Slate shielding.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 - SET-ASIDE, DISMISSAL, AND FELONY REDUCTION",
+              "sourceStatement": "Consequence to warn about: a dismissal granted under § 19-2604(1) permanently disqualifies the record from the § 67-3004(10) ISP expungement. It does not disqualify the record from Clean Slate shielding.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Final dismissal restores civil rights. It does not hide the record, and it is not an expungement.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 - SET-ASIDE, DISMISSAL, AND FELONY REDUCTION",
+              "sourceStatement": "Effect: final dismissal restores civil rights. It does **not** hide the record, and it is not an expungement.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Add the § 19-2604 question to intake for every user, before any recommendation. The answer determines whether track 1 is still available.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "OVERALL JURISDICTION DECISION / Required before any track opens for fulfillment",
+              "sourceStatement": "Add the § 19-2604 question to intake for every user, before any recommendation. The answer determines whether track 1 is still available.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "An offense requiring sex offender registration under § 18-8304 is not subject to dismissal or reduction under this section.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 - SET-ASIDE, DISMISSAL, AND FELONY REDUCTION",
+              "sourceStatement": "Exclusion: an offense requiring sex offender registration under § 18-8304 is not subject to dismissal or reduction under this section.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "id_felony_reduction",
+      "legalName": "Application to Amend Judgment to a Misdemeanor, I.C. § 19-2604(2)",
+      "publicName": "Reduce a felony to a misdemeanor",
+      "controllingAuthority": {
+        "citations": ["I.C. § 19-2604(2)"],
+        "summary": "The court may amend a judgment of conviction from a term in the custody of the Board of Correction to confinement in a penal facility for days served before sentencing, and the amended judgment may be deemed a misdemeanor conviction."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": ["felony conviction"],
+      "eligibleDispositions": [
+        "judgment of conviction imposing a term in the custody of the Board of Correction"
+      ],
+      "exclusions": [
+        "An offense requiring sex offender registration under § 18-8304 is not subject to dismissal or reduction under this section. \"Conviction\" here includes a plea or finding of guilt notwithstanding the form of the judgment or a withheld judgment."
+      ],
+      "waitingPeriods": [],
+      "outputStrategy": "custom_pleading",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The sentencing court."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Sentencing court",
+        "detail": "The application is made to the court that entered the judgment of conviction. County practice on § 19-2604 applications is unverified."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "No statewide Supreme Court form for a § 19-2604 application was located in this review, and the pleading specification is blocked pending confirmation of the accepted filing vehicle."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "judgmentType",
+          "question": "Does your judgment of conviction impose a term in the custody of the Board of Correction?",
+          "requirement": "required"
+        },
+        {
+          "key": "daysServedBeforeSentencing",
+          "question": "How many days did you serve before sentencing?",
+          "requirement": "required"
+        },
+        {
+          "key": "sexOffenderRegistration",
+          "question": "Does the offense require sex offender registration under § 18-8304? Those offenses are excluded from this route.",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Idaho Code § 19-2604, Discharge of defendant, amendment of judgment",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/title19/t19ch26/sect19-2604/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Blocked pending confirmation of the accepted statewide or county-specific filing vehicle.",
+        "fees": "The source review does not state a filing fee for this application.",
+        "feeWaiver": "The source review does not address a fee waiver for this application.",
+        "notice": "The source review does not state a notice requirement for this application.",
+        "service": "Blocked pending confirmation. The addendum lists service among the items counsel must confirm.",
+        "participantSignature": "The defendant makes the application. The signature block is part of the unresolved pleading specification.",
+        "notarization": "The source review does not state a notarization requirement for this application."
+      },
+      "selfHelpStopConditions": [
+        "A § 19-2604 dismissal already happened or is being contemplated, because the sequencing changes what relief remains.",
+        "The record involves sex offender registration.",
+        "The record is federal, tribal, or from another state.",
+        "Immigration, professional licensing, peace officer employment, or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether any statewide form or approved template exists for a § 19-2604 application, and how county practice varies. This gates tracks 3 and 4.",
+          "impact": "build_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "**ID-3 and ID-4:** accepted statewide versus county-specific filing vehicle and complete pleading requirements remain unresolved. This is a true output-strategy blocker, not a record-review requirement."
+          }
+        },
+        {
+          "question": "The current statutory elements, caption, venue, required attachments, service, proposed-order practice, and any county variation for a § 19-2604 custom pleading.",
+          "impact": "build_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / Provisional custom-pleading routes",
+            "sourceStatement": "A custom pleading is permissible in principle if counsel confirms the current statutory elements, caption, venue, required attachments, service, proposed-order practice, and any county variation."
+          }
+        },
+        {
+          "question": "Whether the 2024, 2025, or 2026 sessions amended § 67-3004 or § 19-2604.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+            "sourceHeading": "Idaho operational amendments / True blockers retained",
+            "sourceStatement": "Any current § 19-2604 statutory amendments or local form requirements must be source-approved before release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment moves this track off \"Additional research required\" to \"custom_pleading, legal-design blocked pending statewide/local filing confirmation\", separating the known remedy from the unresolved output specification. The remedy, authority, effect and exclusion are imported; the filing vehicle is preserved as a blocker.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "Accepted statewide versus county-specific filing vehicle and complete pleading requirements remain unresolved. This is a true output-strategy blocker, not a record-review requirement.",
+            "undeterminedElement": "correct_form",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "Idaho operational amendments / True blockers retained",
+              "sourceStatement": "**ID-3 and ID-4:** accepted statewide versus county-specific filing vehicle and complete pleading requirements remain unresolved. This is a true output-strategy blocker, not a record-review requirement."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "A reduction under § 19-2604(2) does not hide the record and is not an expungement.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 - SET-ASIDE, DISMISSAL, AND FELONY REDUCTION",
+              "sourceStatement": "Effect: final dismissal restores civil rights. It does **not** hide the record, and it is not an expungement.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "An offense requiring sex offender registration under § 18-8304 is not subject to dismissal or reduction under this section.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Idaho-Legal-Review.md",
+              "sourceHeading": "TRACKS 3 and 4 - SET-ASIDE, DISMISSAL, AND FELONY REDUCTION",
+              "sourceStatement": "Exclusion: an offense requiring sex offender registration under § 18-8304 is not subject to dismissal or reduction under this section.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

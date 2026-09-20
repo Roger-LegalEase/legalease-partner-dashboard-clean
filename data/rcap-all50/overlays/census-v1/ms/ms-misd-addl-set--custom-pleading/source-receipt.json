@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ms-misd-addl-set",
+  "worklistGroupId": "ms-misd-addl-set",
+  "jurisdiction": "MS",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+  ],
+  "routeSelectionId": "ms-misd-addl-composed-set",
+  "statutoryAuthority": "Miss. Code Ann. §§ 9-11-15(3) and 21-23-7(6)",
+  "legalName": "Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6))",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/MS.memo.json",
+      "track": "ms-misd-addl"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ms-misd-addl-set"
+    },
+    {
+      "record": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+      "read": "packetGenerator.feeRules, searched for a fee answer for §§ 9-11-15(3) and 21-23-7(6) and holding none: its only fee line is keyed to § 99-19-71"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "Miss. Code Ann. § 9-11-15 — Justice court; expungement of misdemeanor convictions (added by Laws 2016 ch. 406 § 1)",
+      "url": "https://law.justia.com/codes/mississippi/title-9/chapter-11/section-9-11-15/",
+      "retrievedOn": "2026-07-30"
+    },
+    {
+      "title": "Miss. Code Ann. § 21-23-7 — Municipal court; expungement of misdemeanor convictions (last amended Laws 2021 ch. 356)",
+      "url": "https://law.justia.com/codes/mississippi/title-21/chapter-23/section-21-23-7/",
+      "retrievedOn": "2026-07-30"
+    },
+    {
+      "title": "Miss. Code Ann. § 99-19-72 — Filing fee levied on petitions under § 99-19-71 (read to confirm it does not reach these sections)",
+      "url": "https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-72/",
+      "retrievedOn": "2026-07-30"
+    }
+  ],
+  "formIdentityNote": "No official form exists for a § 9-11-15(3) or § 21-23-7(6) petition. Mississippi has no statewide expungement form and neither section prescribes one. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. The two sections are modelled as one family with two venue branches because the committed record compared their complete text word for word and found every operative element identical.",
+  "composedComponentsAuthoredByThisBuild": [
+    "ms-misd-addl-primary-filing-1",
+    "ms-misd-addl-proposed-order-2",
+    "ms-misd-addl-certificate-of-service-3",
+    "ms-misd-addl-attachment-4",
+    "ms-misd-addl-instructions-5"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "what, if anything, a given Mississippi justice court or municipal court charges to file this petition — § 99-19-72's fee does not reach these sections and neither section specifies a fee of its own",
+    "whether any fee-waiver route exists in these courts, which the committed record records as not established",
+    "that the participant meets the two-year good-conduct element, which runs against their entire record in every court",
+    "whether notarization is required — the committed record records it as not established and a simple truth statement is used"
+  ]
+}

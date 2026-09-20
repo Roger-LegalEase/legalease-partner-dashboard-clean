@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ct-missed-erasure-set",
+  "routeKeys": [
+    "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-1-record-and-assessment",
+    "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-2-despp-submission"
+  ],
+  "routeSelectionId": "ct-missed-erasure-composed-set",
+  "renderStrategy": "composed_pleading",
+  "jurisdiction": "CT",
+  "statute": "C.G.S. § 54-142t(g)",
+  "legalName": "Request for Review of a Missed Automatic Erasure, C.G.S. § 54-142t(g)",
+  "implementationStrategy": "participant_agency_application",
+  "officialForm": null,
+  "componentSet": [
+    "process_guidance"
+  ],
+  "componentConditions": {},
+  "dispositionVocabulary": [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned"
+  ],
+  "routeSelectionsMade": [],
+  "routeSelectionNote": "Two statutory stages, one buildable: the stage-1 guidance is rendered, and stage 2 is deliberately absent because DESPP's determined form and manner is a recorded output blocker no build may improvise around. Nothing is filed and no election is rendered; the guidance states the stage boundary and the attorney handoff at the contested hearing in terms.",
+  "requiredBeforeFilingCount": 0,
+  "requiredBeforeFiling": [],
+  "maps": [
+    {
+      "formNumber": "process_guidance",
+      "documentId": "process_guidance",
+      "documentRole": "process_guidance",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:unit:CT:ct-missed-erasure:ct-missed-erasure-stage-1-record-and-assessment"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "the legal-design intake record (data/record-clearing/legal-design-intake/CT.memo.json, track ct-missed-erasure, reviewedAsOf 2026-07-30) and the packet-set manifest (data/record-clearing/legal-design-packet-set-manifests.json, ct-missed-erasure-set)",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "process_guidance.participant_name",
+          "fieldName": "process_guidance.participant_name",
+          "page": 1,
+          "printedLabel": "Person the process guidance is prepared for",
+          "printedLine": "Person the process guidance is prepared for",
+          "effectiveLabel": "Person the process guidance is prepared for",
+          "regionHeading": "Person the process guidance is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "process_guidance"
+        }
+      ],
+      "canonicalRefusals": [],
+      "boundaryWrites": [
+        {
+          "field": "process_guidance.participant_name",
+          "fieldName": "process_guidance.participant_name",
+          "page": 1,
+          "printedLabel": "Person the process guidance is prepared for",
+          "printedLine": "Person the process guidance is prepared for",
+          "effectiveLabel": "Person the process guidance is prepared for",
+          "regionHeading": "Person the process guidance is prepared for",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "process_guidance"
+        }
+      ],
+      "boundaryRefusals": []
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

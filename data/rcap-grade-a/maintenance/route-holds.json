@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-route-holds/v1",
+  "whatThisIs": "The single route-scoped hold carrier. The repository already carries two hold mechanisms and neither is route-scoped: ConsumerDeliveryRouteState (src/lib/rcap/render/consumer-delivery-control.ts) is a path-wide kill switch that can only disable the whole consumer delivery path, and the deploymentReadiness block in data/rcap-codex/release-readiness.json records configuration completeness for a deployment, not for a route. Neither can hold ONE route while its siblings keep operating. This record exists precisely to fill that gap: it is the single route-scoped hold carrier, consumed by the availability derivation in packet-route-resolver.",
+  "whatThisIsNot": "Not a kill switch (that is ConsumerDeliveryRouteState), not a deployment-readiness record (that is release-readiness.json deploymentReadiness), and not a route-state mutator: a hold row makes a route unavailable at the availability derivation; it approves nothing, invalidates nothing, and never edits launch-graph, fulfillment-authority, or registry records.",
+  "authoredBy": "Captain or owner, by hand, in a reviewed commit. No generator writes this file and no workflow commits to it. The nightly source monitor CREATES REVIEW TASKS that may lead a person to add a hold here; it never adds one itself.",
+  "consumedBy": "The runtime availability layer (RM-1 / packet-route-resolver) reads this file read-tolerantly: a malformed file is treated as 'hold everything it cannot parse', never as 'no holds'. Verified by scripts/verify-rcap-route-holds.mjs (schema + release discipline + --mutations), wired into npm test.",
+  "rowShape": {
+    "routeId": "EXACT launch-graph pathwayKey, e.g. 'VT:expungement-of-criminal-history-record-13-vsa-7602'. Holds name exact routeIds only. A jurisdiction code ('VT'), a wildcard ('VT:*', '*', 'ALL'), or any other path-wide or jurisdiction-wide expression is refused by the verifier — jurisdiction-scoped permission is a documented anti-pattern in this repository, and jurisdiction-scoped holds would be the same defect inverted.",
+    "holdType": "MAINTENANCE_HOLD | LEGAL_HOLD",
+    "reason": "Why the hold exists, in prose a reviewer can act on.",
+    "evidence": "String or array of strings: review-task paths, issue URLs, monitor report references, decision-record paths.",
+    "placedBy": "Who placed it (person, not agent id).",
+    "placedAt": "RFC3339 timestamp.",
+    "releasedAt": "null while the hold is active; RFC3339 timestamp once released. Present on every row.",
+    "reacceptance": "null while active. A released row MUST carry { \"reference\": <repo path or record id of the reacceptance evidence — the fresh acceptance/verification record that justified release>, \"note\": <optional prose> }. A release without a reacceptance reference fails verification: routes come back through re-verified evidence, never through deletion of the hold."
+  },
+  "rules": [
+    "Holds are appended, released in place, and preserved: do not delete a released row — the row is the history of the outage.",
+    "One route may carry a MAINTENANCE_HOLD and a LEGAL_HOLD at the same time; two active holds of the same type on the same route are a duplicate and fail verification.",
+    "Placing or releasing a hold changes no other record. Availability is derived; route state, authority and registry records are untouched.",
+    "The response procedure for source changes is docs/rcap/EVERGREEN_ROUTE_MAINTENANCE.md."
+  ],
+  "holds": [
+    {
+      "routeId": "KS:conviction-or-diversion-216614",
+      "holdType": "LEGAL_HOLD",
+      "reason": "The Kansas Judicial Council publishes these expungement forms for non-commercial use only and prohibits sale, republication or transfer for value without express permission. The nine KJC sources are held and current -- this is not a missing source. What is missing is the issuer permission that commercial distribution of their material would require.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json -- captainAttention: the KJC pages state the forms are non-commercial use only and cannot be sold, republished or transferred for value without permission",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_VERIFICATION.json -- five of the nine KJC binaries recomputed byte-exact here and are already in the corpus index"
+      ],
+      "placedBy": "Roger Roman (owner decision, applied by Captain)",
+      "holdCode": "ISSUER_PERMISSION_REQUIRED_FOR_COMMERCIAL_DISTRIBUTION",
+      "releasedHow": "Obtain express Kansas Judicial Council permission for commercial distribution, or establish that the shipping artifact reproduces no KJC material. Either releases this hold; nothing else does.",
+      "whatThisDoesNotSay": "It does not say the source is missing, stale or wrong. All nine KJC sources are held and current, and the publisher-current 02/2013 revision of the arrest petition is a separate intervening-law question that this hold does not decide.",
+      "whyTheMunicipalRoutesAreNotHeld": "KS:municipal-conviction-or-diversion-expungement-under-12-4516 and KS:municipal-arrest-record-expungement-under-12-4516a are deliberately absent. rcap-ks-custom-pleading binds no KJC source -- its source receipt carries three committed records, none of them a KJC form, and its documents array is empty. It is a composed pleading, so it reproduces no KJC material and the restriction does not reach it.",
+      "placedAt": "2026-09-02T18:05:04.159Z",
+      "releasedAt": null,
+      "reacceptance": null
+    },
+    {
+      "routeId": "KS:prostitution-coercion",
+      "holdType": "LEGAL_HOLD",
+      "reason": "The Kansas Judicial Council publishes these expungement forms for non-commercial use only and prohibits sale, republication or transfer for value without express permission. The nine KJC sources are held and current -- this is not a missing source. What is missing is the issuer permission that commercial distribution of their material would require.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json -- captainAttention: the KJC pages state the forms are non-commercial use only and cannot be sold, republished or transferred for value without permission",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_VERIFICATION.json -- five of the nine KJC binaries recomputed byte-exact here and are already in the corpus index"
+      ],
+      "placedBy": "Roger Roman (owner decision, applied by Captain)",
+      "holdCode": "ISSUER_PERMISSION_REQUIRED_FOR_COMMERCIAL_DISTRIBUTION",
+      "releasedHow": "Obtain express Kansas Judicial Council permission for commercial distribution, or establish that the shipping artifact reproduces no KJC material. Either releases this hold; nothing else does.",
+      "whatThisDoesNotSay": "It does not say the source is missing, stale or wrong. All nine KJC sources are held and current, and the publisher-current 02/2013 revision of the arrest petition is a separate intervening-law question that this hold does not decide.",
+      "whyTheMunicipalRoutesAreNotHeld": "KS:municipal-conviction-or-diversion-expungement-under-12-4516 and KS:municipal-arrest-record-expungement-under-12-4516a are deliberately absent. rcap-ks-custom-pleading binds no KJC source -- its source receipt carries three committed records, none of them a KJC form, and its documents array is empty. It is a composed pleading, so it reproduces no KJC material and the restriction does not reach it.",
+      "placedAt": "2026-09-02T18:05:04.159Z",
+      "releasedAt": null,
+      "reacceptance": null
+    },
+    {
+      "routeId": "KS:specialty-court-accelerated",
+      "holdType": "LEGAL_HOLD",
+      "reason": "The Kansas Judicial Council publishes these expungement forms for non-commercial use only and prohibits sale, republication or transfer for value without express permission. The nine KJC sources are held and current -- this is not a missing source. What is missing is the issuer permission that commercial distribution of their material would require.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json -- captainAttention: the KJC pages state the forms are non-commercial use only and cannot be sold, republished or transferred for value without permission",
+        "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_VERIFICATION.json -- five of the nine KJC binaries recomputed byte-exact here and are already in the corpus index"
+      ],
+      "placedBy": "Roger Roman (owner decision, applied by Captain)",
+      "holdCode": "ISSUER_PERMISSION_REQUIRED_FOR_COMMERCIAL_DISTRIBUTION",
+      "releasedHow": "Obtain express Kansas Judicial Council permission for commercial distribution, or establish that the shipping artifact reproduces no KJC material. Either releases this hold; nothing else does.",
+      "whatThisDoesNotSay": "It does not say the source is missing, stale or wrong. All nine KJC sources are held and current, and the publisher-current 02/2013 revision of the arrest petition is a separate intervening-law question that this hold does not decide.",
+      "whyTheMunicipalRoutesAreNotHeld": "KS:municipal-conviction-or-diversion-expungement-under-12-4516 and KS:municipal-arrest-record-expungement-under-12-4516a are deliberately absent. rcap-ks-custom-pleading binds no KJC source -- its source receipt carries three committed records, none of them a KJC form, and its documents array is empty. It is a composed pleading, so it reproduces no KJC material and the restriction does not reach it.",
+      "placedAt": "2026-09-02T18:05:04.159Z",
+      "releasedAt": null,
+      "reacceptance": null
+    }
+  ]
+}

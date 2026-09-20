@@ -1,0 +1,388 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX121",
+  "laneKind": "repair",
+  "dispatch": "The synthesized-widget-border cohort defect on the three New Jersey conviction families, plus the obligations recorded against them.",
+  "generatedAtBase": "deead9f25",
+  "worktree": "/home/user/pf23-worktree",
+  "branch": "pf23-fix-20260909",
+  "subjects": [
+    "nj_disorderly_persons-set",
+    "nj_indictable_conviction-set",
+    "nj_ordinance-set"
+  ],
+  "notThisLanesSubject": "nj_arrest_no_conviction-set and nj_clean_slate-set. Both are in the FIX80 cohort and neither is in this assignment. Neither was claimed, read as family content, built or restored-over by this lane. Their delivered digests are unchanged at this base and this lane never invoked their builders.",
+  "priorReturnsInThisDirectoryNotOverwritten": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix121/rows.json",
+      "whatItWas": "An earlier FIX121 session at base ea720b40f, integrated as commit 4322c4bba. It rendered the disorderly-persons counting disclosure and the objections paragraph."
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix121/rows-fix121-nj-20260909.json",
+      "whatItWas": "A FIX121 session at base e064bf4ab. It ran the forced-election experiment on all three and returned BLOCKED_LEGAL_INPUT on ROUTE_OPTIONS for each."
+    }
+  ],
+  "whatThisReturnAdds": "The delivered-bytes measurement of the FIX80 border cohort's prediction for these three families, and the executed counterfactual for suppressSynthesizedWidgetBorders. The prediction does not hold on the delivered bytes and the option is a measured no-op here.",
+  "theBorderDefectAsDispatchedAndWhatTheBytesSay": {
+    "dispatched": "199 exposed widgets each, 597 between them, the largest concentration in the fleet; pdf-lib's default appearance provider synthesizes a bordered rectangle the size of the widget /Rect and the shared flattening step stamps it, growing the ink extent about 0.6pt so it reads at high dpi as a doubled, thickened outline.",
+    "measuredOnTheDeliveredBytes": "NOT REPRODUCIBLE. There is no synthesized border in any delivered fixture of any of the three.",
+    "howItWasMeasured": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs, written by this lane and committed at 7560b5a32, run over each delivered fixture with the pinned source passed for placement proof. It tokenizes each flattened appearance stream rather than pattern-matching it, so an S inside a string operand is not read as a stroke, and it counts ink by operator semantics: a path-painting operator (S s f F f* B B* b b* sh) marks the page whatever its operand, and a show-text operator marks it only if it carries a non-empty string operand.",
+    "perFixture": {
+      "canonical": {
+        "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+        "flattenedAppearances": 263,
+        "carryingAPathPaintingOperator": 0,
+        "strokeOnly": 0,
+        "showTextOnlyWithNonEmptyOperand": 48,
+        "marksNothing": 215,
+        "addedGlyphsReadFromOutputBytes": 631,
+        "addedNonWhitespaceGlyphs": 568,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "appearancesNotPlacedAtTheirOwnSourceWidgetRect": 0
+      },
+      "boundary": {
+        "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+        "flattenedAppearances": 263,
+        "carryingAPathPaintingOperator": 0,
+        "strokeOnly": 0,
+        "showTextOnlyWithNonEmptyOperand": 48,
+        "marksNothing": 215,
+        "addedGlyphsReadFromOutputBytes": 2479,
+        "addedNonWhitespaceGlyphs": 2286,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "appearancesNotPlacedAtTheirOwnSourceWidgetRect": 0
+      }
+    },
+    "strokeOnlyAppearancesRequiringSourceAccounting": "None. The acceptance test that asks, for every stroke-only appearance that remains, which pinned-source /AP /N stream it matches byte for byte, is vacuous on these fixtures because the count is zero on both.",
+    "whyTheCohortPredictedItAnyway": "MK_BORDER_COHORT.json is a static prediction over the pinned SOURCE form. Its exposure test is: unwritten, displayed, and no usable /AP /N. On CN-10557 that is true of 199 widgets. What it does not read is whether pdf-lib will PAINT the rectangle it constructs. Read first-hand from the pinned source with pdf-lib: of 269 widgets, 269 carry /MK, only 2 carry /MK /BC (value [0.5 0.5 0.5], the Print and Clear pushbuttons), and ZERO carry a /BS dictionary of any kind, so no widget on this form declares a border width. pdf-lib's drawRectangle strokes only when a border width is set and fills only when a colour is set; with neither it emits the path and closes it without a painting operator. That is exactly the shape of all 215 marks-nothing appearances in the delivered bytes: a construct-and-clip preamble around an empty <> Tj.",
+    "theSecondReasonItIsNotThere": "The shared New Jersey host already passes FIX50's suppressSynthesizedAppearances at scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:3467, which installs an EMPTY appearance for the current state of an unwritten check box or radio widget that has none. That is what accounts for the 22 wholly empty /Btn appearance streams."
+  },
+  "theExecutedCounterfactual": {
+    "question": "Does suppressSynthesizedWidgetBorders change these delivered bytes?",
+    "method": "The option was added behind an environment guard at the single chokepoint that can carry it (scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:3467, inside finalizeEastOfficialForm's call to finalizeOfficialForm), all three families were rebuilt with it ON, the delivered digests were taken with sha256sum, and the host was then restored with git checkout and confirmed byte-identical to the committed file. Build reproducibility was established first: an unmodified rebuild of nj_disorderly_persons-set left git status --porcelain empty, which is what made an in-tree experiment safe.",
+    "result": "BYTE-IDENTICAL. With the option ON, all three families deliver canonical 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f and boundary 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494 -- the exact committed digests. The option is a measured no-op on this form. It removes nothing and adds nothing.",
+    "negativeControl": "Because the bytes do not move, the option cannot over-suppress here: it removes no ink the official form draws, no mark the packet legitimately makes, and nothing in any signature, notary or jurat area. That is proved by digest identity rather than argued.",
+    "whatWasShipped": "NOTHING. No packet byte was moved and the shared host is unchanged in the committed tree. Shipping a no-op flag through shared code that also reaches thirteen other families would put fourteen families' receipts at risk for no measured gain."
+  },
+  "theDirectionalRasterDifference": {
+    "method": "pdftoppm -r 300 -gray -png over the pinned source and over each delivered fixture, then a per-pixel comparison at threshold 128 counting dark pixels present in one and absent in the other, both directions, all 43 pages.",
+    "canonical": {
+      "addedDarkPixelsTotal": 127486,
+      "removedDarkPixelsTotal": 2591,
+      "pagesWithAddedInk": [
+        18,
+        23,
+        24,
+        27,
+        30,
+        31,
+        35,
+        38,
+        40,
+        43
+      ],
+      "pagesWithRemovedInk": [
+        18
+      ],
+      "addedInkReading": "Every page carrying added ink is a page carrying a participant write. The 33 pages with no write carry ZERO added dark pixels, which is the direct refutation of a synthesized border: a border stamped at 199 widgets would land on pages this packet never writes on."
+    },
+    "boundary": {
+      "addedDarkPixelsTotal": 269667,
+      "removedDarkPixelsTotal": 2591,
+      "pagesWithAddedInk": [
+        18,
+        23,
+        24,
+        27,
+        30,
+        31,
+        35,
+        38,
+        40,
+        43
+      ],
+      "pagesWithRemovedInk": [
+        18
+      ]
+    },
+    "theRemovedInkIdentified": "All 2,591 removed dark pixels are one band on page 18, at 300 dpi rows 83-119 and columns 2145-2475, which is PDF points x 514.8-594.0 and y 763.4-772.1 from the page bottom. Cropped and looked at: it is the source form's own Print and Clear pushbuttons. Those are the only two widgets on CN-10557 that carry /MK /BC. They are command controls and a filing must not carry them; the shared step drops them deliberately under SUPPRESS_CONTROL_APPEARANCE. This is correct behaviour and predates this lane.",
+    "signatureNotaryAndJuratAreas": "Zero removed dark pixels on every page other than 18. Delivered page 24 is the Verification -- the notarised jurat under N.J.S.A. 2C:52-7 -- and it carries 0 removed and only added participant-name ink."
+  },
+  "sharedModuleChanges": {
+    "shipped": "none",
+    "temporaryAndReverted": {
+      "file": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "line": 3467,
+      "whatItWas": "One line added inside finalizeEastOfficialForm's finalizeOfficialForm call, guarded by FIX121_PROBE_BORDERS, then reverted with git checkout and confirmed byte-identical against a pre-edit copy.",
+      "restoredFileSha256": "0b1506cda50ba546b6f856de2c9ec92fa8b7efcac77242104cd0228a0fbb3357"
+    },
+    "added": {
+      "file": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs",
+      "commit": "7560b5a32",
+      "whatItIs": "A read-only delivered-bytes classifier. It opens PDFs and writes no packet byte, no manifest and no receipt."
+    }
+  },
+  "packetPdfBytesMoved": 0,
+  "overlayDirectoriesModified": 0,
+  "centralManifestsEdited": 0,
+  "rasterPngsCommitted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "receiptsRelabelled": "none. No existing receipt was edited, re-pointed or re-described by this lane.",
+  "grantsNothing": "This lane measures and repairs. It sets no verdict, issues no PASS and opens no route. RASTER_PASS comes from the central workflow over the exact bytes it rasters, and these bytes did not move.",
+  "rows": [
+    {
+      "itemId": "FIX121-MKB-001",
+      "familyId": "nj_disorderly_persons-set",
+      "lane": "FIX121",
+      "status": "STOPPED",
+      "statusMeaning": "This lane did not finish this family. STOPPED records that, and records nothing about the family's quality.",
+      "repairedByThisLane": false,
+      "statusReason": "The one obligation this lane could have repaired -- the FIX80 synthesized-widget-border defect -- is NOT PRESENT in the delivered bytes, measured rather than assumed, so there was nothing to repair and nothing was shipped. The recorded verifier obligation that IS live, ROUTE_OPTIONS, still reproduces at this base and is blocked on legal input that no build lane can supply.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "routeStatute": "N.J.S.A. 2C:52-3",
+      "claim": "CLAIM_OK FIX121 nj_disorderly_persons-set (repair, grant set bad9f02c8275ef7f), exit 0, asserted before any artifact of this family was read.",
+      "vf11Verdict": "FAIL_REPAIR_REQUIRED",
+      "vf11FailedObligations": [
+        "COMPONENT_SET",
+        "ROUTE_OPTIONS"
+      ],
+      "vf11VerifiedAtBase": "df524f2fd",
+      "obligationsRepairedByThisLane": [],
+      "obligationsStillOpen": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "OPEN",
+          "reproducedAtThisBase": "Yes. node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set returns FAIL_ROUTE_SELECTION with requiredOptionsMissing 1 at base deead9f25, and reports/actual-writes.json carries selections [] on both fixtures.",
+          "whyThisLaneDidNotRepairIt": "It was measured to exhaustion by the FIX121 session at base e064bf4ab, whose return is committed at data/rcap-grade-a/packet-factory-24h/fix121/rows-fix121-nj-20260909.json and which recorded the exact delivered digests this base still carries -- so the family has not moved since and that analysis stands unchanged. It forced the election on behind a flag, rebuilt all three, and measured that closing the counter makes the document WORSE: requiredOptionsMissing falls to 0 while delivered page 19 shows a marked X beside item (d) standing over nine wholly blank cells, on a petition verified under N.J.S.A. 2C:52-7. A repair lane does not repeat that analysis, and this lane did not.",
+          "theBlockerInOneSentence": "Item (d) of CN-10557 is one compound sworn sentence over nine cells, three of which (guiltyFinal1, guiltyTimeType, guiltyFineDt) are facts no intake question on this track collects; and even complete, item (d) is the single conviction disposition shared by all three conviction routes and states no statutory section at all.",
+          "whoOwnsIt": "Counsel and the Captain. It is a legal-design question about the packet's component set, not a build fix."
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersUnchangedBecause": "This lane shipped no change to this family. Before and after are the same measurement.",
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set at base deead9f25.",
+      "whyTwoCountersAreNullAndNotZero": "invisibleWrites and visualDefects are reported UNMEASURED by the completeness verifier, so they are null rather than 0. This lane DID measure two specific things inside the visual class and they are recorded above -- zero flattened appearances carrying a path-painting operator, and a directional 300 dpi raster difference in both directions over all 43 pages of both fixtures -- but a synthesized-border measurement is not a visualDefects measurement, and reporting 0 for a counter on the strength of a narrower reading is the failure mode this factory keeps finding. It stays null.",
+      "whatTheZerosDoNotEstablish": "requiredComponentsMissing 0 is not evidence about the packet-set manifest: verify-packet-completeness.mjs checks the field map's documents against the render and never opens data/record-clearing/legal-design-packet-set-manifests.json. That is why VF11 could fail COMPONENT_SET against a green counter.",
+      "deliveredArtifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+          "byteLength": 571718,
+          "pages": 43,
+          "addedGlyphsReadFromOutputBytes": 631,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+          "byteLength": 574020,
+          "pages": 43,
+          "addedGlyphsReadFromOutputBytes": 2479,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsMeasuredWith": "sha256sum, and independently by the classifier via crypto. Never transcribed by hand.",
+      "shaUnchangedByThisLane": true,
+      "stillByteIdenticalToItsTwoSiblings": "Yes. All three families deliver the same canonical and the same boundary digest. That clone is recorded in CLONED_FAMILY_PACKETS.json and is not repaired by this lane; the FIX121 session at e064bf4ab measured that it is a symptom of the same emptiness as ROUTE_OPTIONS rather than a consequence of it.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateBasis": "The bytes did not move, so no fresh central raster is owed BY THIS LANE and no existing receipt was relabelled. This lane's own 300 dpi renders were local measurement and are not a receipt.",
+      "verdict": null,
+      "verdictBasis": "This lane sets no verdict and issues no PASS. Independent verification is a different lane and RASTER_PASS comes from the central workflow.",
+      "componentSetObligation": {
+        "obligation": "COMPONENT_SET",
+        "state": "ADDRESSED_IN_THE_COMMITTED_TREE_BY_AN_EARLIER_FIX121_SESSION_NOT_BY_THIS_LANE",
+        "readAtAppearanceLevelByThisLane": "Both limbs VF11 named are on the delivered page. participant-instructions.md carries the heading '## How the offence count works on this route', and the six strings VF11 tested at 0 hits each now return 1 hit each: 'no more than five', 'five disorderly', 'same day', 'closely related', 'sequence of events', 'comparatively short'. The section quotes the track registry's mechanism whole, states in terms that the packet performs no count and holds no offence history, and names the intake question. The objections limb is answered under '## Who must be served', which quotes the track's own rules.notice that the objection window is recorded as an open question and states no period.",
+        "whyNoVerdict": "It was repaired by the FIX121 lane and a lane does not verify its own repair, nor a predecessor session's under the same lane name. An independent read owes the verdict."
+      }
+    },
+    {
+      "itemId": "FIX121-MKB-002",
+      "familyId": "nj_indictable_conviction-set",
+      "lane": "FIX121",
+      "status": "STOPPED",
+      "statusMeaning": "This lane did not finish this family. STOPPED records that, and records nothing about the family's quality.",
+      "repairedByThisLane": false,
+      "statusReason": "The one obligation this lane could have repaired -- the FIX80 synthesized-widget-border defect -- is NOT PRESENT in the delivered bytes, measured rather than assumed, so there was nothing to repair and nothing was shipped. The recorded verifier obligation that IS live, ROUTE_OPTIONS, still reproduces at this base and is blocked on legal input that no build lane can supply.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
+      "routeStatute": "N.J.S.A. 2C:52-2",
+      "claim": "CLAIM_OK FIX121 nj_indictable_conviction-set (repair, grant set bad9f02c8275ef7f), exit 0, asserted before any artifact of this family was read.",
+      "vf11Verdict": "FAIL_REPAIR_REQUIRED",
+      "vf11FailedObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "vf11VerifiedAtBase": "df524f2fd",
+      "obligationsRepairedByThisLane": [],
+      "obligationsStillOpen": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "OPEN",
+          "reproducedAtThisBase": "Yes. node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set returns FAIL_ROUTE_SELECTION with requiredOptionsMissing 1 at base deead9f25, and reports/actual-writes.json carries selections [] on both fixtures.",
+          "whyThisLaneDidNotRepairIt": "It was measured to exhaustion by the FIX121 session at base e064bf4ab, whose return is committed at data/rcap-grade-a/packet-factory-24h/fix121/rows-fix121-nj-20260909.json and which recorded the exact delivered digests this base still carries -- so the family has not moved since and that analysis stands unchanged. It forced the election on behind a flag, rebuilt all three, and measured that closing the counter makes the document WORSE: requiredOptionsMissing falls to 0 while delivered page 19 shows a marked X beside item (d) standing over nine wholly blank cells, on a petition verified under N.J.S.A. 2C:52-7. A repair lane does not repeat that analysis, and this lane did not.",
+          "theBlockerInOneSentence": "Item (d) of CN-10557 is one compound sworn sentence over nine cells, three of which (guiltyFinal1, guiltyTimeType, guiltyFineDt) are facts no intake question on this track collects; and even complete, item (d) is the single conviction disposition shared by all three conviction routes and states no statutory section at all.",
+          "whoOwnsIt": "Counsel and the Captain. It is a legal-design question about the packet's component set, not a build fix."
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersUnchangedBecause": "This lane shipped no change to this family. Before and after are the same measurement.",
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_indictable_conviction-set at base deead9f25.",
+      "whyTwoCountersAreNullAndNotZero": "invisibleWrites and visualDefects are reported UNMEASURED by the completeness verifier, so they are null rather than 0. This lane DID measure two specific things inside the visual class and they are recorded above -- zero flattened appearances carrying a path-painting operator, and a directional 300 dpi raster difference in both directions over all 43 pages of both fixtures -- but a synthesized-border measurement is not a visualDefects measurement, and reporting 0 for a counter on the strength of a narrower reading is the failure mode this factory keeps finding. It stays null.",
+      "whatTheZerosDoNotEstablish": "requiredComponentsMissing 0 is not evidence about the packet-set manifest: verify-packet-completeness.mjs checks the field map's documents against the render and never opens data/record-clearing/legal-design-packet-set-manifests.json. That is why VF11 could fail COMPONENT_SET against a green counter.",
+      "deliveredArtifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+          "byteLength": 571718,
+          "pages": 43,
+          "addedGlyphsReadFromOutputBytes": 631,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+          "byteLength": 574020,
+          "pages": 43,
+          "addedGlyphsReadFromOutputBytes": 2479,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsMeasuredWith": "sha256sum, and independently by the classifier via crypto. Never transcribed by hand.",
+      "shaUnchangedByThisLane": true,
+      "stillByteIdenticalToItsTwoSiblings": "Yes. All three families deliver the same canonical and the same boundary digest. That clone is recorded in CLONED_FAMILY_PACKETS.json and is not repaired by this lane; the FIX121 session at e064bf4ab measured that it is a symptom of the same emptiness as ROUTE_OPTIONS rather than a consequence of it.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateBasis": "The bytes did not move, so no fresh central raster is owed BY THIS LANE and no existing receipt was relabelled. This lane's own 300 dpi renders were local measurement and are not a receipt.",
+      "verdict": null,
+      "verdictBasis": "This lane sets no verdict and issues no PASS. Independent verification is a different lane and RASTER_PASS comes from the central workflow."
+    },
+    {
+      "itemId": "FIX121-MKB-003",
+      "familyId": "nj_ordinance-set",
+      "lane": "FIX121",
+      "status": "STOPPED",
+      "statusMeaning": "This lane did not finish this family. STOPPED records that, and records nothing about the family's quality.",
+      "repairedByThisLane": false,
+      "statusReason": "The one obligation this lane could have repaired -- the FIX80 synthesized-widget-border defect -- is NOT PRESENT in the delivered bytes, measured rather than assumed, so there was nothing to repair and nothing was shipped. The recorded verifier obligation that IS live, ROUTE_OPTIONS, still reproduces at this base and is blocked on legal input that no build lane can supply.",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nj_ordinance-set.mjs",
+      "routeStatute": "N.J.S.A. 2C:52-4",
+      "claim": "CLAIM_OK FIX121 nj_ordinance-set (repair, grant set bad9f02c8275ef7f), exit 0, asserted before any artifact of this family was read.",
+      "vf11Verdict": "FAIL_REPAIR_REQUIRED",
+      "vf11FailedObligations": [
+        "ROUTE_OPTIONS"
+      ],
+      "vf11VerifiedAtBase": "df524f2fd",
+      "obligationsRepairedByThisLane": [],
+      "obligationsStillOpen": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "state": "OPEN",
+          "reproducedAtThisBase": "Yes. node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set returns FAIL_ROUTE_SELECTION with requiredOptionsMissing 1 at base deead9f25, and reports/actual-writes.json carries selections [] on both fixtures.",
+          "whyThisLaneDidNotRepairIt": "It was measured to exhaustion by the FIX121 session at base e064bf4ab, whose return is committed at data/rcap-grade-a/packet-factory-24h/fix121/rows-fix121-nj-20260909.json and which recorded the exact delivered digests this base still carries -- so the family has not moved since and that analysis stands unchanged. It forced the election on behind a flag, rebuilt all three, and measured that closing the counter makes the document WORSE: requiredOptionsMissing falls to 0 while delivered page 19 shows a marked X beside item (d) standing over nine wholly blank cells, on a petition verified under N.J.S.A. 2C:52-7. A repair lane does not repeat that analysis, and this lane did not.",
+          "theBlockerInOneSentence": "Item (d) of CN-10557 is one compound sworn sentence over nine cells, three of which (guiltyFinal1, guiltyTimeType, guiltyFineDt) are facts no intake question on this track collects; and even complete, item (d) is the single conviction disposition shared by all three conviction routes and states no statutory section at all.",
+          "whoOwnsIt": "Counsel and the Captain. It is a legal-design question about the packet's component set, not a build fix."
+        }
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersUnchangedBecause": "This lane shipped no change to this family. Before and after are the same measurement.",
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set at base deead9f25.",
+      "whyTwoCountersAreNullAndNotZero": "invisibleWrites and visualDefects are reported UNMEASURED by the completeness verifier, so they are null rather than 0. This lane DID measure two specific things inside the visual class and they are recorded above -- zero flattened appearances carrying a path-painting operator, and a directional 300 dpi raster difference in both directions over all 43 pages of both fixtures -- but a synthesized-border measurement is not a visualDefects measurement, and reporting 0 for a counter on the strength of a narrower reading is the failure mode this factory keeps finding. It stays null.",
+      "whatTheZerosDoNotEstablish": "requiredComponentsMissing 0 is not evidence about the packet-set manifest: verify-packet-completeness.mjs checks the field map's documents against the render and never opens data/record-clearing/legal-design-packet-set-manifests.json. That is why VF11 could fail COMPONENT_SET against a green counter.",
+      "deliveredArtifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+          "byteLength": 571718,
+          "pages": 43,
+          "addedGlyphsReadFromOutputBytes": 631,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+          "byteLength": 574020,
+          "pages": 43,
+          "addedGlyphsReadFromOutputBytes": 2479,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0
+        }
+      ],
+      "digestsMeasuredWith": "sha256sum, and independently by the classifier via crypto. Never transcribed by hand.",
+      "shaUnchangedByThisLane": true,
+      "stillByteIdenticalToItsTwoSiblings": "Yes. All three families deliver the same canonical and the same boundary digest. That clone is recorded in CLONED_FAMILY_PACKETS.json and is not repaired by this lane; the FIX121 session at e064bf4ab measured that it is a symptom of the same emptiness as ROUTE_OPTIONS rather than a consequence of it.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterStateBasis": "The bytes did not move, so no fresh central raster is owed BY THIS LANE and no existing receipt was relabelled. This lane's own 300 dpi renders were local measurement and are not a receipt.",
+      "verdict": null,
+      "verdictBasis": "This lane sets no verdict and issues no PASS. Independent verification is a different lane and RASTER_PASS comes from the central workflow."
+    }
+  ]
+}

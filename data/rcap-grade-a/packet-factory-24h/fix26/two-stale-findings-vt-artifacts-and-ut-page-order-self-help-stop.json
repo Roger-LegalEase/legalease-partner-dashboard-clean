@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX26-ARTIFACTS-AND-PAGE-ORDER",
+  "assignmentId": "FIX26",
+  "assignedBase": "79f886f26a16cde736a830c842bb7ea06b14f174",
+  "branch": "fix26-artifacts-and-page-order",
+  "laneKind": "repair",
+  "theTwoWereNotOneRoot": "They are two jobs and they share nothing: one Vermont family failing ARTIFACTS on a derived-record lag, one Utah family failing PAGE_ORDER and SELF_HELP_STOP on packet content. Different states, different builders, different obligations, different causes. They are reported separately below and were investigated separately.",
+  "summary": "Neither finding reproduces at the assigned tip, and this lane changed no packet byte in either family. Vermont's ARTIFACTS finding named two things - the product wiring pinning a pre-repair PDF and no central acceptance receipt binding the repaired bytes - and both were corrected between vf35's read base and this tip, in the family's own product-wiring.json and nowhere else: the fixture bytes never moved at all. Utah's PAGE_ORDER and SELF_HELP_STOP were both repaired by commit e621bb5a1, which is an ancestor of this tip; the delivered page sequence now is the packet-set manifest's 1..9 and all eight committed stop conditions are carried verbatim. Both families were rebuilt in a throwaway worktree to prove the committed bytes come from their builders, and both reproduce byte-for-byte. Nothing was written into the delivered tree.",
+  "howStalenessWasEstablishedRatherThanAssumed": {
+    "method": "For each family, the verifier row's own recorded artifact hashes were compared against the current fixtures, then the row's read base was diffed against this tip over the family directory and every record the finding named. A finding is stale only where the exact thing it describes is demonstrably no longer true of the current bytes and records.",
+    "vermont": "vf35 recorded no artifact hashes of its own, so the check ran against what its finding named: product-wiring.json and the central raster row. git diff 5c718222..HEAD over the family directory returns exactly one changed file, product-wiring.json, and its diff is the finding being fixed - proposedRepresentation sha256 cafc3111 -> 8e4c9321 and acceptanceReceipt null -> a RASTER_PASS receipt bound to 8e4c9321. Both fixture blobs are bit-identical at 5c718222 and at HEAD.",
+    "utah": "The selected verdict recorded canonical dd21a446 and boundary 7002b834. The current fixtures are b6614145 and 9a3c2721. The row describes bytes the family no longer ships, which is exactly the case the brief warns of, and the reordering commit that replaced them is an ancestor of this tip."
+  },
+  "preflight": {
+    "worktree": "/home/user/fix26-worktree, created at 79f886f26a16cde736a830c842bb7ea06b14f174",
+    "sparseCheckoutInherited": false,
+    "coreSparseCheckoutConfig": "unset (git config --get core.sparseCheckout exits 1)",
+    "worktreeIsSparse": false,
+    "skipWorktreeBits": 0,
+    "trackedFiles": 15885,
+    "trackedFilesMissingFromDisk": 0,
+    "gitDiffFilesCount": 0,
+    "indexBlobHashesRehashFromDisk": "yes - git diff-files names nothing, so every tracked blob hash re-derives from the file on disk",
+    "masterLibrarySourceDir": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1"
+  },
+  "deterministicRebuild": {
+    "where": "An isolated throwaway worktree at the same commit (/home/user/fix26-scratch, since removed). The delivered worktree was never built in and ends this lane with an empty git status.",
+    "whyNotInTheDeliveredTree": "Both builders would have damaged a record this lane had no mandate to touch, and the measurements below are the evidence for that rather than a precaution.",
+    "vermont": {
+      "command": "node scripts/build-census-v1-vt_seal_nonconviction-set.mjs --no-raster",
+      "allEightPdfsReproduceByteForByte": true,
+      "recursiveDirectoryComparison": "Two files differ and only two: build-status.json and reports/rendered-artifacts.json. Both differ solely because --no-raster drops raster evidence.",
+      "whatANoRasterRebuildWouldHaveDestroyed": "reports/rendered-artifacts.json loses rasterEngine, gains rasterSkipped true, and loses the whole rasterPages array carrying all 16 committed page-raster hashes; build-status.json regresses rasterState from rendered_locally_pending_central_acceptance to BUILT_RASTER_PENDING and rasterEngine to null. This family holds a live central receipt over those exact bytes, so the rebuild would have erased the local half of a standing hash-bound record while changing no PDF byte. That is why the delivered tree was not built in."
+    },
+    "utah": {
+      "command": "node scripts/build-census-v1-ut_pet_limitations-set.mjs",
+      "noRasterIsNotAvailableOnThisHost": "The shared Utah host rejects it. runUtahCompletenessRepair throws 'unsupported option' on any argv entry beginning with -- except --check, which itself throws because this repair lane does not self-verify. There is no way to rebuild this family without rastering, so the brief's --no-raster instruction cannot be honoured here and the family was therefore not rebuilt in the delivered tree at all.",
+      "bothPdfsReproduceByteForByte": true,
+      "recursiveDirectoryComparison": "The two PDFs are identical. 22 of the 38 raster PNGs differ, and build-findings.json, production-field-map.json and reports/rendered-artifacts.json differ with them. participant-instructions.md differs by exactly one line, and it is not the self-help section.",
+      "whatARebuildWouldHaveCost": "22 committed raster pages replaced by bytes rendered from this container's browser that no central raster has read, on a family whose central row is already RASTER_PENDING. No packet page would have changed."
+    }
+  },
+  "guideAgainstTheHeldRecord": {
+    "why": "Run on both families independently of the failed obligations, because a guide here has repeatedly denied a fact the repository states plainly.",
+    "vermont": {
+      "memo": "data/record-clearing/legal-design-intake/VT.memo.json track vt_seal_nonconviction",
+      "fees": "AGREES. Memo: no filing fee, the 32 V.S.A. 1431(e) $90 fee reaching only a 23 V.S.A. 1201(a) sealing. Guide: 'There is no filing fee on this non-conviction sealing track', with the same statutory reason.",
+      "feeWaiver": "AGREES. Memo makes 600-00228 conditional on a fee actually being charged. Guide ships the form, names it, and says plainly not to complete or file it on this track.",
+      "notice": "NOT DENIED, AND NOT CARRIED. The memo places victim notice on the respondent under 7608, not on the participant. The guide is silent on it. Silence about an obligation the participant does not bear is not a denial, and NOTICE is not a scored obligation for this family, so nothing was changed.",
+      "service": "AGREES. Memo: the participant does not serve the prosecutor with process; the stipulation goes to the prosecuting office and the respondent files it. Guide states both.",
+      "filing": "AGREES. Memo: Criminal Division of the Vermont Superior Court in the county that handled the case. Guide names it and tells the participant how to identify the unit from the docket number.",
+      "destinationDetail": "AGREES. The automatic no-filing branch and the two filing branches are distinguished."
+    },
+    "utah": {
+      "memo": "data/record-clearing/legal-design-intake/UT.memo.json track ut_pet_limitations",
+      "fees": "AGREES, and this is the live owner correction Q4. The memo says the Utah Courts page directs filers to the cover sheet rather than publishing a figure and records the exact amount as an open release-blocking question. The guide publishes no current amount, attributes $150 and $65 only to the exact official forms that visibly print them, and sends the participant to the district-court clerk and to BCI. The owner correction is satisfied on the current bytes.",
+      "feeWaiver": "AGREES. Both the court waiver route and BCI's separate indigency-linked waiver are preserved.",
+      "notice": "AGREES. The 35-day prosecutor window, the 60-day victim window and the 14-day reply are reflected, and form 1169XX ships for the reply.",
+      "service": "DIVERGES, AND THE DIVERGENCE IS ALREADY RECORDED. The memo says the petitioner does not effect service in the ordinary case because the court sends the filing to the prosecuting attorney; the guide additionally carries BCI's own published instruction to mail or email the prosecutor copies after filing. The build finding preserves the differing coded-track statement as a state-pack fidelity issue rather than importing it silently, and the independent reader scored SERVICE PASS on that basis. Not a scored failure here, not this lane's grant, and not changed.",
+      "filing": "AGREES. The court that decided the case, the certificate still valid on the filing date, and the 180-day certificate life.",
+      "destinationDetail": "AGREES. The two destinations are given in their fixed sequence, BCI first and the court second."
+    }
+  },
+  "fixturesMoved": {
+    "answer": "No fixture byte moved in either family in this lane. Vermont's have not moved since the verifier read them either; Utah's moved before this tip, by another lane's commit.",
+    "vt_seal_nonconviction-set": {
+      "movedByThisLane": false,
+      "movedSinceTheVerifierRead": false,
+      "canonical": {"sha256": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb", "byteLength": 857428, "atVerifierBase5c718222": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb"},
+      "boundary": {"sha256": "dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5", "byteLength": 857944, "atVerifierBase5c718222": "dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5"},
+      "rasterOwed": false,
+      "receiptStanding": "The receipt stands. RASTER_PASS, workflow run 33836771479, job 100911322211, receipt artifact 9923703809, bound to canonical 8e4c9321 and boundary dbd775f8, 2 documents and 16 pages measured, 0 problems, coversTheWholeFamily true. Those are the bytes on disk now, so no fresh raster is owed."
+    },
+    "ut_pet_limitations-set": {
+      "movedByThisLane": false,
+      "movedSinceTheVerifierRead": true,
+      "movedBy": "e621bb5a1 'Repair Utah limitations order and self-help stops' and 4bcb03efb 'Correct Utah post-reorder evidence page', both ancestors of 79f886f26",
+      "canonical": {"sha256": "b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5", "byteLength": 3024894, "atVerifierBaseC28d4957": "dd21a4460eba9fa2ab92a267788fe1b4c2a98301f5607f2163975a9ffd257f57"},
+      "boundary": {"sha256": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4", "byteLength": 3025534, "atVerifierBaseC28d4957": "7002b83486f9abcaa1a3e423a56e955addd083347e02297da0a7e78deaba40e7"},
+      "rasterOwed": true,
+      "receiptStanding": "No standing receipt. The receipt the verifier read - RASTER_PASS, run 33850403312, job 100953975776, artifact 9928635798 - is bound to dd21a446 and 7002b834, which the family no longer ships. RASTER_QUEUE already pins the current digests at currentRasterState RASTER_PENDING with no receipt. A fresh whole-family central raster is owed on b6614145 and 9a3c2721. This lane did not create that debt and does not discharge it."
+    }
+  },
+  "observationsNotScoredAsFailures": [
+    {
+      "what": "Every Utah guide in the corpus cites a compiled state profile by a digest the repository no longer holds.",
+      "detail": "participant-instructions.md, build-findings.json and production-field-map.json in all six Utah families cite UT-COMPILED-STATE-PROFILE at SHA-256 73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d. src/lib/rcap-engine/compiled/profiles/UT-utah.json at this tip hashes 8d5cf4015c48ae25b9e0161ea929be95b7df2c58ef4ff0a3975e94770eff9965. 18 files carry the stale digest and none carries the current one.",
+      "cause": "78e79be41 'Give five proven families a runtime route identity of their own' rewrote the compiled profile. At the Utah repair commit e621bb5a1 the profile still hashed 73dd7ea9 and every guide cited it correctly, so this is drift after the fact rather than a build error.",
+      "substanceIsUnaffected": "The builder asserts the exact sentences it quotes are still present in the profile before it will cite it, and that assertion passes at this tip. What is stale is the digest, not the quoted law.",
+      "whyThisLaneDidNotFixIt": "It is neither of this lane's two obligations, it reaches five families this lane holds no grant over, and on the Utah host the only way to refresh the citation is a full rebuild that must raster locally. Correcting one Utah family in isolation would trade a stale digest for a raster debt and leave the other five stale. It belongs to a lane holding the Utah cohort."
+    },
+    {
+      "what": "The Vermont raster row's ineligibility reason is circular against its own receipt.",
+      "detail": "RASTER_QUEUE lists vt_seal_nonconviction-set under notEligible and marks its row historicalOnly with currentGateAuthority false, because 'the current failed obligations have not been repaired'. The only failed obligation is ARTIFACTS, and its finding is that no central receipt bound the repaired bytes - while the same row carries a RASTER_PASS receipt bound to exactly those bytes. The record refuses the family on the strength of a finding its own contents answer.",
+      "whyThisLaneDidNotFixIt": "It is central queue state, derived by Captain's generator, and no repair lane should hand-edit it. It should clear on the next regeneration once this row is read."
+    },
+    {
+      "what": "verify-source-carried-values-are-dispositioned.mjs reports 2 UNDISPOSITIONED values at this tip.",
+      "detail": "Both are rcap-tx-custom-pleading / tx-expunction-fee-waiver-statement, fields 'Value / Valor 11' and 'Amount Cantidad 15'. Pre-existing at the assigned tip, in neither of this lane's families, and unchanged by this lane."
+    }
+  ],
+  "verifiersRun": {
+    "verifyPacketCompleteness": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, run before and after on both families. Both PASS_COMPLETE with nine zeros throughout - Vermont 27/167 written, Utah 38/444 written. Recorded as the starting condition, not as evidence of anything.",
+    "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED. 248 receipts compared against HEAD, 52 carrying an identityRefresh. Nothing to restore: no build ran in this worktree.",
+    "verifySourceCarriedValuesAreDispositioned": "19 dispositioned, 0 not examinable, 2 undispositioned - both Texas, both pre-existing at the assigned tip. Nothing this lane touched newly fails it, because this lane touched no builder and no packet."
+  },
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/fix26/two-stale-findings-vt-artifacts-and-ut-page-order-self-help-stop.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  ],
+  "centralStateEdits": "claim-ledger.json only, through claim.mjs, to assert and then release the two grants this lane held. No manifest, queue, verdict, promotion record, product-wiring.json or build-status.json was edited.",
+  "packetBytesChanged": 0,
+  "buildScriptsChanged": 0,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_nonconviction-set",
+      "jurisdiction": "VT",
+      "routeKeys": [
+        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
+        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition",
+        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition"
+      ],
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "whyNotRepaired": "The finding no longer reproduces. Nothing was broken at this tip, so nothing was repaired, and reporting a repair would have been false.",
+      "failedObligationNames": ["ARTIFACTS"],
+      "obligationsAddressed": {
+        "ARTIFACTS": {
+          "findingAsWritten": "All local packet and selective-raster artifacts rehash, but at the read base product wiring and the central raster row still pinned the pre-repair PDFs and no central acceptance receipt bound the repaired bytes.",
+          "reproducesAtThisTip": false,
+          "theFindingHasThreeLimbsAndAllThreeWereTested": {
+            "localArtifactsRehash": "TRUE THEN, TRUE NOW. All 18 artifacts declared in reports/rendered-artifacts.json - canonical.pdf, boundary.pdf and 16 raster page PNGs - were recomputed from the committed bytes. 18 of 18 bind on both SHA-256 and, where declared, byte length. 0 mismatches.",
+            "productWiringPinnedThePreRepairPdf": "TRUE THEN, FALSE NOW. At 5c718222 product-wiring.json proposedRepresentation.components[0].sha256 was cafc3111e0c8d1669df9e9aae3d4d77a1847f9ead1ccbf70006155cee5703898, which is not any byte this family ships. At 79f886f26 it is 8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb, which is canonical.pdf on disk.",
+            "noCentralAcceptanceReceiptBoundTheRepairedBytes": "TRUE THEN, FALSE NOW. At 5c718222 binding.acceptanceReceipt was null. At 79f886f26 it is RASTER_PASS, workflow run 33836771479, job 100911322211, receipt artifact 9923703809, boundToCanonicalSha256 8e4c9321, coversTheWholeFamily true. The central RASTER_QUEUE row carries the same receipt with boundToBoundarySha256 dbd775f8 as well, documentsCovered canonical.pdf and boundary.pdf, documentsNotCovered empty, 2 documents and 16 pages measured, 0 problems found, admitted by a fail-closed receipt ingestion that validated every queued and local PDF hash."
+          },
+          "whatActuallyChangedBetweenTheReadAndThisTip": "git diff 5c718222..HEAD over the whole family directory returns exactly one changed file - product-wiring.json - and its complete diff is the two limbs above. Both fixture blobs are bit-identical at both commits. The packet was never wrong; the derived record was behind the packet, and it has caught up.",
+          "howTheRowDescribedBytesItHadHashedRatherThanTheFamily": "vf35 hashed the wiring and the queue as it found them and reported them accurately. Those records are regenerated centrally rather than by the family's builder, so a verdict against them expires when the generator next runs, while the packet it describes has not moved. That is the shape the brief warned of and it is the shape found here."
+        }
+      },
+      "artifacts": {
+        "canonical": {"path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb", "byteLength": 857428, "pageCount": 8},
+        "boundary": {"path": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5", "byteLength": 857944, "pageCount": 8},
+        "declaredArtifactsRehashed": 18,
+        "mismatches": 0,
+        "digestsMovedInThisLane": false,
+        "rebuildReproducesThem": true
+      },
+      "pageOrderUnchanged": "Not an obligation for this family and not touched. The delivered eight-page sequence is petition 200-00130 pages 1-2, stipulation and order 200-00132 pages 3-4, fee-waiver 600-00228 pages 5-6, process guidance pages 7-8.",
+      "countersBefore": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "countersAfter": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "rasterOwed": false,
+      "rasterNote": "The receipt stands. It binds canonical 8e4c9321 and boundary dbd775f8, which are the bytes on disk, and it covers the whole family. No fixture byte moved in this lane, so no fresh central raster is owed and none should be enrolled on this account.",
+      "whatIsActuallyOwedNext": "An independent reread at this tip. The packet needs no work; the last verdict was reached against records that have since been corrected.",
+      "claimReleased": true,
+      "selfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "ut_pet_limitations-set",
+      "familyId": "ut_pet_limitations-set",
+      "jurisdiction": "UT",
+      "routeKeys": [
+        "obligation:unit:UT:ut_pet_limitations:ut_pet_limitations-bci-certificate",
+        "obligation:unit:UT:ut_pet_limitations:ut_pet_limitations-court-petition"
+      ],
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": false,
+      "whyNotRepaired": "Both obligations were already repaired at this tip, by commit e621bb5a1 'Repair Utah limitations order and self-help stops', which is an ancestor of the assigned base. This lane verified the repair rather than redoing it, and claiming it would have credited another lane's work to this one.",
+      "failedObligationNames": ["PAGE_ORDER", "SELF_HELP_STOP"],
+      "obligationsAddressed": {
+        "PAGE_ORDER": {
+          "findingAsWritten": "The rendered page manifest does not match the controlling packet-set component order. The packet-set manifest orders BCI application (1), optional third-party release (2), cover sheet (3), petition (4), order (5), acceptance (6), consent (7), victim statement (8), reply (9), then guidance (10). Both rendered PDFs instead place petition and order on pages 1-5, cover sheet on 6-7, forms 6-9 on 8-16, and the BCI components last on 17-19.",
+          "reproducesAtThisTip": false,
+          "controllingManifest": "data/record-clearing/legal-design-packet-set-manifests.json packetSetId ut_pet_limitations-set, ten components in order: bci_certificate_application, bci_third_party_release, civil_cover_sheet, petition, proposed_order, acceptance_of_service, consent_and_waiver_of_hearing, victim_notice_form, reply_to_prosecutor_or_victim_statement, filing_and_timing_instructions.",
+          "deliveredSequenceNow": "Pages 1-2 UT-BCI-EXP-APPLICATION (component 1), page 3 UT-BCI-THIRD-PARTY-RELEASE (2), pages 4-5 form 1044XX civil cover sheet (3), pages 6-7 form 1000EX petition (4), pages 8-10 form 1020EX proposed order (5), page 11 form 1146XX acceptance of service (6), pages 12-13 form 1148XX consent and waiver of hearing (7), pages 14-16 form 1149XX victim's or prosecutor's statement (8), pages 17-19 form 1169XX reply (9). Component 10, filing_and_timing_instructions, is the separately delivered participant-instructions.md. Identical in both fixtures.",
+          "manifestOrderMatchesDeliveredOrder": true
+        },
+        "SELF_HELP_STOP": {
+          "findingAsWritten": "The packet does not state where self-help ends. The route's current committed track has eight stop conditions, including a hard stop for non-US citizens and a stop when a prosecutor or victim objects or the court schedules a hearing. None is presented as a stop; the instructions instead say that if a hearing is scheduled the participant should attend it, directing continued self-help at the exact event the route record says ends it.",
+          "reproducesAtThisTip": false,
+          "recordConsulted": "data/record-clearing/legal-design-intake/UT.memo.json track ut_pet_limitations selfHelpStopConditions, which is byte-identical to data/record-clearing/legal-design-track-registry.json for the same track. Eight conditions in both.",
+          "theRecordIsNotSilent": "It holds eight. The brief's fallback - say the record is silent - does not apply, and nothing was composed.",
+          "carriedVerbatim": "8 of 8. Each condition was tested as an exact substring of participant-instructions.md; 0 missing. They appear under a heading 'When to stop and get a lawyer' introduced as the committed track registry's own words.",
+          "theExactSentenceTheVerifierNamedIsGone": "The old line read 'The prosecutor or a victim in your case may object; if the court schedules a hearing, attend it.' It now reads that both are recorded as the point where this packet's self-help ends, tells the participant to get a lawyer or a legal-aid office rather than argue it, and adds that the Self-Help Center answers procedural questions and is not a substitute for a lawyer at a contested hearing. The instruction to press on alone at the event that ends self-help has been removed.",
+          "hardStopForNonCitizens": "Present and carried first, verbatim, including 'This is a hard stop, not a caveat.'",
+          "noStopConditionWasInvented": true
+        }
+      },
+      "proofFitRatherThanTruncation": {
+        "why": "The page order changed between the verifier's bytes and this tip, so the change had to be shown to be sequence alone.",
+        "method": "pdftotext -layout, one page at a time, whitespace stripped with tr -d '[:space:]', SHA-256 per page. Run over the pre-reorder fixtures extracted from c28d49571e86efb3dee1fa46d45369ed8f7528fa and over the current fixtures, for both canonical and boundary.",
+        "pageCountBeforeAndAfter": [19, 19],
+        "perPageCharacterStreamMultisetIdentical": true,
+        "everyPostPageStreamFoundInPreExactlyOnce": true,
+        "permutationPostPageToPrePage": [17, 18, 19, 6, 7, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+        "samePermutationInBothFixtures": true,
+        "conclusion": "Every page's whitespace-stripped character stream is byte-identical before and after and appears exactly once on each side. No character was added, dropped or truncated; only sequence moved. The permutation is precisely the manifest's order being restored - the two BCI components and the cover sheet lifted from the tail to the head, everything else following in place.",
+        "canonicalPerPageDigestsInDeliveredOrder": ["c17dccac59a06856", "c4bc2061c3114ab3", "716d2cd6a6b744b3", "afdf42564108c144", "90914cc3c8b6513d", "0f09f6a5711acc11", "2ca7d7cab47dfb0d", "dadf77b7adab8d7b", "148675683a2c4450", "b4c156c3065c213a", "9cf23d8e81428a77", "bbf12347a3eb4b32", "6b911be5a693bef5", "a3c7ada30cf8d99c", "4689b8e4cf841be9", "1ecd9ba258d7a78e", "e3ee10a7d3587533", "7f5023e66eb57a4f", "d1fd5f6f1d626236"],
+        "digestNote": "First 16 hex characters of the SHA-256 of the whitespace-stripped page text."
+      },
+      "artifacts": {
+        "canonical": {"path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "b66141455c34b548b8ce48bd3c94d73298b588f8cef604a757d154362971c6a5", "byteLength": 3024894, "pageCount": 19},
+        "boundary": {"path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "9a3c27215e66dedbfac637d63417a8459f5600e534aee825f940900aef6f02d4", "byteLength": 3025534, "pageCount": 19},
+        "declaredArtifactsRehashed": 40,
+        "mismatches": 0,
+        "digestsMovedInThisLane": false,
+        "digestsMovedBeforeThisTip": true,
+        "rebuildReproducesThem": true
+      },
+      "countersBefore": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "countersAfter": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0},
+      "rasterOwed": true,
+      "rasterNote": "A fresh whole-family central raster is owed, and this lane neither created that debt nor discharges it. The reordering commit moved both fixtures away from the bytes the last receipt binds - run 33850403312 was bound to dd21a446 and 7002b834, which the family no longer ships - so no standing receipt survives. RASTER_QUEUE already pins the current digests at currentRasterState RASTER_PENDING with no receipt attached, which is the correct posture. Nothing was rastered locally into the delivered tree.",
+      "whatIsActuallyOwedNext": "A central raster on b6614145 and 9a3c2721, then an independent reread. The packet content for both scored obligations is correct at this tip.",
+      "ownerCorrectionQ4": "Checked because it is marked live. The unconfirmed court filing fee is absent and the clerk and BCI referrals are present, so the correction is satisfied on the current bytes. It is not one of this lane's obligations and nothing was changed for it.",
+      "claimReleased": true,
+      "selfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

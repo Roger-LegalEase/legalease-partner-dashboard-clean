@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-repair-obligation-block/v1",
+  "familyId": "wa_vac_treaty_fishing-set",
+  "obligation": "ROUTE_OPTIONS",
+  "status": "BLOCKED_LEGAL_INPUT",
+  "recordedBy": "FIX10",
+  "assignmentId": "FABLE-R21",
+  "recordedAt": "2026-09-02",
+  "route": {
+    "routeKey": "obligation:track-only:WA:wa_vac_treaty_fishing",
+    "legalName": "Vacate a pre-1975 conviction connected to the exercise of treaty Indian fishing rights, RCW 9.96.060(4)"
+  },
+  "whyThisIsRecordedNow": "wa_vac_homicide_victim_prostitution-set already carries a block of exactly this shape. This family has the same defect and had no block. Recording it makes the two consistent; it does not create a new failure. It also records a second, sharper cause that the homicide family does not have.",
+  "whatWasReadFirstHand": {
+    "form": "CrRLJ 09.0100, Petition and Declaration for Order Vacating Conviction, rev. 11/2024",
+    "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+    "verification": "re-read from the Master Library for this lane; the bytes hash to the digest recorded in source-receipt.json and in the committed corpus index",
+    "electionsTheFormFaceCarries": [
+      "section 3 checkbox: Conviction as Victim",
+      "section 5 checkbox: Prior Offense (RCW 46.61.5055 prior offense)",
+      "section 6 checkbox: Domestic Violence (RCW 9.96.060(2)(f))",
+      "section 7 checkbox: Offenses not otherwise specified above"
+    ],
+    "finding": "No printed section names RCW 9.96.060(4), and the words 'treaty' and 'fishing' do not appear anywhere on the form's face."
+  },
+  "theSecondCause": {
+    "finding": "This route has its own official Washington Courts instruments, and this packet is not built on them.",
+    "heldInTheCorpusButNotUsable": [
+      "STATES/WA/05_SOURCE_GATED/WA__SOURCE-GATED__CR-09.0500__...motion-and-decl-vacate-conv-treaty-indian-fishing-rights__REV-UNKNOWN__EN.doc",
+      "STATES/WA/05_SOURCE_GATED/WA__SOURCE-GATED__CR-09.0600__...notice-of-hearing__REV-UNKNOWN__EN.doc",
+      "STATES/WA/05_SOURCE_GATED/WA__SOURCE-GATED__CR-09.0700__...or-vacating-conv-treaty-indian-fishing-rights-final__REV-UNKNOWN__EN.doc"
+    ],
+    "whyTheyAreNotBound": "All three are legacy .doc files carrying revision UNKNOWN, they sit under 05_SOURCE_GATED rather than 02_PACKET_FORMS, and none of them appears in the committed corpus index (data/rcap-all50/local-source-corpus-index.json). There is no pinned PDF to census, so the family binds the general courts-of-limited-jurisdiction petition instead.",
+    "corroboration": "The compiled Washington profile records this route as 'Treaty Indian fishing-rights conviction — Special vacation route — Washington Courts has separate forms', and src/lib/rcap/state-packs/washington/filing-instructions.ts names CR 09.0500, CR 09.0600 and CR 09.0700 as the forms for it. Both records say the dedicated instruments exist; neither supplies bytes this factory can pin.",
+    "whatWouldUnblockIt": "Acquire CR 09.0500, CR 09.0600 and CR 09.0700 as official PDFs with an exact revision, index them in the committed corpus index, and rebuild this family on them. That is a source-acquisition obligation, not a repair this lane can perform."
+  },
+  "theExactQuestion": "For the RCW 9.96.060(4) treaty Indian fishing-rights vacate route: is CrRLJ 09.0100 (rev. 11/2024) the correct instrument at all, given that Washington Courts publishes CR 09.0500/09.0600/09.0700 for this route; and if it is used, which of its four printed grounds, if any, states the RCW 9.96.060(4) ground? The route also reaches felonies, in which case the superior court instruments would apply instead, and neither the form nor CrRLJ 09.0300 addresses a felony on this route.",
+  "whyNotRepairedAsBytes": "The form carries no election for this route's ground, so there is nothing to mark. The correct instruments are not pinned, so there is nothing to rebuild on. Both missing items are inputs — one legal, one source — and neither is a mark.",
+  "packetBytesChanged": false,
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

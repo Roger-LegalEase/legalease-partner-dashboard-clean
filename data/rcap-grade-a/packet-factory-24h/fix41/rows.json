@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX41-TX-CUSTOM-PLEADING-SPLITTER",
+  "assignmentId": "FIX41",
+  "assignedBase": "aefd46f7c",
+  "branch": "fix41-tx-custom-pleading-splitter",
+  "laneKind": "repair",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX41 rcap-tx-custom-pleading -> CLAIM_OK FIX41 rcap-tx-custom-pleading (repair, grant set 0045ba22c77294b9), exit 0. Asserted before any family artifact was read or written."
+  ],
+  "scope": "The one failed obligation, CLIPPING_AND_OVERLAP, on the one granted family. Nothing else in VF01's row was disturbed: no pagination constant, no wrap rule, no component, no field map, no source pin, no route key, no appearance-registry entry and not one line of participant-instructions.md changed.",
+  "preflight": {
+    "worktree": "/home/user/fix41-worktree, branch fix41-tx-custom-pleading-splitter from aefd46f7c on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written and the pinned source re-hashes unchanged.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, exported as scripts/verify-packet-build-environment.mjs resolves it",
+    "command": "node scripts/verify-packet-build-environment.mjs --family rcap-tx-custom-pleading --codex-cloud --minimum-captain-sha b7c9035a9fd056e34d7530416d5ffa1c06e24f41",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/14 passed, 3 failed, 3 not applicable, run after the repair.",
+    "theThreeFailures": [
+      "worktree_clean: the five paths this repair itself changed. It is the expected state of a repair lane mid-flight, not an environment defect.",
+      "private_is_git_ignored: private/ is mounted as a SYMLINK, which the .gitignore 'private/' pattern does not match the way the checker tests it. git status does not list it and nothing under it was staged or committed; the check is recorded as failing rather than argued away.",
+      "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled - 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'. Alabama, not this family's source, and the same pre-existing corpus gap VF01 and FIX24 recorded at their own bases."
+    ],
+    "whatPassedThatMatters": "family_sources_bind 1/1 by exact SHA-256; master_library_complete at 499 files / 329 PDFs / 51 jurisdictions; stale_artifact_block_consulted with 0 artifacts under this family held; Captain-base ancestry present.",
+    "throwawayCheckout": "/home/user/fix41-throwaway, detached at aefd46f7c, used for the control rebuild and as the source of the pre-repair bytes every before/after comparison below is made against. Nothing there was committed.",
+    "otherWorktreesTouched": 0,
+    "subagentsCreated": 0
+  },
+  "hostChanged": {
+    "file": "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
+    "familiesReached": 1,
+    "changes": [
+      "the private character-accumulating splitToken inside renderComposedPdf deleted and replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) imported from scripts/rcap-custom-pleading/split-token.mjs",
+      "assert.equal(splitToken.hardSplits, 0, ...) added after every composed document is laid out"
+    ],
+    "whatWasNotChanged": "No pagination constant, no wrap rule, no line height, no column width, no component set, no field map, no source pin, no route key, no appearance-registry entry, and no line of instructions. The call site on the wrap() line is untouched: the same name is now bound to the shared splitter.",
+    "diffSize": "17 insertions, 9 deletions in one file, 12 of the insertions a comment."
+  },
+  "otherFamiliesOnThisHost": {
+    "gate": "Every family this builder reaches must stay byte-identical or be reported and left uncommitted.",
+    "finding": "THIS BUILDER IS A SINGLE-FAMILY HOST. It reaches no other family, so no other family can move.",
+    "howThatWasEstablished": "Three ways, none of them by assumption. (1) No file in scripts/ imports it: grep -rln 'rcap-tx-custom-pleading.mjs' scripts/ returns only the file itself. (2) It declares one FAMILY_ID (line 150, 'rcap-tx-custom-pleading') and one output root (line 151, OUT = data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading); every write in the script goes under OUT. (3) Only two committed records anywhere name it as their builder, and both belong to this family: its own product-wiring.json rebuiltFrom and its own build-status.json builtBy. The eight further component ids this family carries are the same Statement's identity inside eight sibling packet SETS, declared under servesComponentIdsInOtherPacketSets and not separate renders.",
+    "corpusWideConfirmation": "SCAN01 was run whole-corpus (249 family directories) before and after the repair. Exactly one family's defect count moved: rcap-tx-custom-pleading, 6 -> 0. Every one of the other 248 is unchanged defect-for-defect.",
+    "table": [],
+    "control": "Before anything was changed, the family was rebuilt at the assigned base in the throwaway checkout with the builder unmodified. It reproduced its committed bytes exactly - git status in the throwaway showed no modified tracked path - so every digest movement below is attributable to the edit and not to build noise. There is no identityRefresh rebuild trap on this builder."
+  },
+  "rows": [
+    {
+      "itemId": "rcap-tx-custom-pleading",
+      "familyId": "rcap-tx-custom-pleading",
+      "jurisdiction": "TX",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
+      "verdictRepaired": {
+        "lane": "vf01",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "9efb77c08",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The RASTER_PASS receipt for workflow run 33962404350 / job 101296759138 is bound to canonical a2f87783.. and boundary a037710f.., digests this repair supersedes. It stops binding and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane.",
+        "INDEPENDENT VERIFICATION. This lane built these bytes and verifies none of them. product-wiring.json acceptanceReceipt is null and no verdict was written."
+      ],
+      "whatChanged": "One change, in one function, in one file.\n\nTHE SPLITTER. renderComposedPdf in scripts/build-census-v1-rcap-tx-custom-pleading.mjs defined its own splitToken that accumulated CHARACTERS and cut at whichever glyph first reached the 468pt margin. It is deleted. In its place the builder imports the shared separator-aware splitter, createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) from scripts/rcap-custom-pleading/split-token.mjs, built from this builder's own font metrics (Times-Roman 11pt) and its own column width (612 - 2*72 = 468pt). A route key too long for the column now breaks only at one of its own separators - after a colon, underscore, slash, dot or hyphen - so the broken line ends on the separator and announces itself as continuing. The call site in wrap() is unchanged; the same local name is now bound to the shared splitter.\n\nTHE ASSERTION. assert.equal(splitToken.hardSplits, 0, ...) runs after every composed document is laid out. A future route key with no separator to break on now FAILS THE BUILD instead of shipping chopped. hardSplits is zero on both fixtures today, which is why the build completes.\n\nWHAT PAGE 16 SHIPPED BEFORE, READ OFF THE DELIVERED BYTES: three keys chopped mid-word in BOTH fixtures - '...-after-the-limi' / 'tations-period', '...-after-the-limit' / 'ations-period', '...-innocence-reli' / 'ef'. AFTER: the same three break as '...-after-the-' / 'limitations-period', '...-after-the-' / 'limitations-period' and '...-actual-innocence-' / 'relief'. All nine route keys reconstruct from the delivered text of both fixtures, 9 of 9, and the page's widest measured token falls from 467.66pt to 459.99pt.",
+      "placementDiff": {
+        "method": "pdftotext -layout page by page, old bytes from the throwaway checkout at the base against the new bytes here, md5 per page.",
+        "canonicalPagesWhosePrintedTextChanged": {
+          "16": "37 -> 37 non-empty lines; only the three break points inside the route trailer moved"
+        },
+        "boundaryPagesWhosePrintedTextChanged": {
+          "16": "37 -> 37 non-empty lines; the same three break points"
+        },
+        "pagesUnchanged": "1-15 of both fixtures, character-identical. Pages 1-12 are the pinned official Statement slice and pages 13-15 the first three composed instruction pages.",
+        "pageCountBefore": 16,
+        "pageCountAfter": 16,
+        "noPageAddedOrRemoved": true
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "a2f87783f7f1d993be0668f25dc2d42dfa5c14863848b24c60d50b19230c2957",
+          "oldByteLength": 385717,
+          "newSha256": "ba6c19326906bfc43c16e8cf2b0fe9dd6a2d0114b18668bfadc16289e98b8aba",
+          "newByteLength": 385709,
+          "pagesBefore": 16,
+          "pagesAfter": 16
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "a037710fc690fea8ea63a5dc7b1304863206cc4144a9caa0b843b071898699df",
+          "oldByteLength": 385952,
+          "newSha256": "15f79e7c32e1cc0298f847c16ebc8c3c92cef661f475a9754fa4e86fd7808c64",
+          "newByteLength": 385944,
+          "pagesBefore": 16,
+          "pagesAfter": 16
+        },
+        "digestsMovedInThisLane": true,
+        "officialPagesUntouched": "Pages 1-12 of both fixtures are the pinned official Statement slice, SHA-256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d. Their extracted text is character-identical before and after and the issuer-original binary re-hashes unchanged."
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again with no other change: the SHA-256 of both fixtures and the md5 of every JSON under the family directory are identical across the two runs.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, both measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-tx-custom-pleading: PASS_COMPLETE, 9/152 written, exit 0. They are the starting condition, not the evidence. VF01 said so plainly and it is worth repeating: no counter can see a chopped token, because every character is present and the ink is inside its column. The repair is proved at token and appearance level instead.",
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, run at the base in the throwaway and again here after the rebuild. Its raw-sweep.json output was NOT committed.",
+        "thisFamilyBefore": {
+          "hard_split_token": 6,
+          "route_key_only_page": 0,
+          "fragment_page": 0,
+          "thin_page": 0
+        },
+        "thisFamilyAfter": {
+          "hard_split_token": 0,
+          "route_key_only_page": 0,
+          "fragment_page": 0,
+          "thin_page": 0
+        },
+        "corpusBefore": {
+          "hard_split_token": 76,
+          "thin_page": 39,
+          "fragment_page": 46,
+          "route_key_only_page": 17,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "corpusAfter": {
+          "hard_split_token": 70,
+          "thin_page": 39,
+          "fragment_page": 46,
+          "route_key_only_page": 17,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "readHonestly": "All six hard splits that disappeared corpus-wide are this family's, three per fixture. Nothing else moved in any class, and no page changed class: this family had no fragment page and no route-key-only page before, and has none after. The builder profile SCAN01 records for it moves from 'G0 original row-by-row, original splitter' / 'char-by-char (fault 1 present)' to 'G2 splitter repaired, no Rule 1b' / 'separator-aware (repaired)'.",
+        "ruleOneBNotAdopted": "SCAN01 still classes this builder as having no block-aware pagination. That is true and deliberate: adopting a pagination rule was not in scope, would move pages, and no defect in this family calls for one. It is named so the G2 label is not read as a claim to more than was done."
+      },
+      "appearanceCheck": {
+        "method": "Composed content-stream text read page by page with pdftotext -layout in both fixtures, then delivered page 16 of both rastered locally at 150 dpi with pdftoppm into /tmp/fix41-raster and read by eye. A break is counted a HARD SPLIT when the two printed lines rejoin with no separator at the end of the first.",
+        "page16CarriesNoSplitKey": true,
+        "page16RouteKeysReconstructed": "9 of 9 in canonical, 9 of 9 in boundary",
+        "hardSplitsAfter": 0,
+        "pagesThatBecameRouteKeyOnly": 0,
+        "pagesThatBecameFragments": 0,
+        "whatTheRasterShows": "Page 16 of both fixtures carries seventeen lines of WHEN TO STOP AND GET HELP INSTEAD prose, the WHAT THIS FORM IS NOT paragraph and then the nine-key route trailer, every key breaking on its own hyphen. No ink lands outside the 468pt column, no line overlaps its neighbour, and the page is nowhere near empty.",
+        "rasteredLocally": "/tmp/fix41-raster/canon-16.png and /tmp/fix41-raster/bound-16.png. Nothing was rastered into the delivered tree and no rasterState was set."
+      },
+      "everythingElseHeldStill": {
+        "method": "flattenedWidgets() over both fixtures, old bytes against new, comparing page, rectangle to two decimals and drawn text for every appearance.",
+        "widgetAppearances": "138 before, 138 after, byte-for-byte identical in BOTH fixtures. Not one delivered appearance moved, gained ink or lost it.",
+        "theTwoSwornZerosStillDrawNothing": "Confirmed on the new bytes: standalone zeros number ZERO in each fixture. The source's Value/Valor 11 = '0' on page 7, its Amount Cantidad 15 = '0' on page 8 and its Today = '12/15/2022' on page 11 all still draw nothing, exactly as FIX24's appearance-registry entry intends.",
+        "thePage11DateOfBirthBlankIsUnchanged": "Confirmed. Page 11 carries the same two non-empty appearances as before - the participant's name and address - and no date of birth. It remains the declared, captioned, disclosed participant blank VF01 accepted, for the same structural reason: 'Month / Mes' is one field with two widgets, the second inside the notary's block on page 12, so inking page 11 would be a protected write. Nothing this lane did touches that ruling either way.",
+        "theEightKnownPrefills": "All eight print unchanged in each fixture, including the boundary fixture's 79-character address and 59-character e-mail, which still fit inside their rules.",
+        "the26StopConditions": "Still present verbatim, 26 of 26, in both fixtures. Pages 15 and 16's prose is character-identical to the pre-repair bytes; only the trailer's three break points moved."
+      },
+      "verifiersRun": {
+        "verifyPacketCompleteness": "PASS_COMPLETE, nine counters zero, run before and after",
+        "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+        "scan01": "whole-corpus before and after; see scan01 above",
+        "sharedSplitterUnitTests": "node --test scripts/rcap-custom-pleading/split-token.test.mjs - 0 failures",
+        "buildAssertions": "the builder now asserts splitToken.hardSplits === 0 after every composed document, and it passed on both fixtures"
+      },
+      "productWiring": {
+        "regeneratedBy": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family rcap-tx-custom-pleading",
+        "result": "1 record refreshed; the canonical component digest re-pinned a2f87783f7f1 -> ba6c19326906 and acceptanceReceipt set to null, because the RASTER_PASS receipt it carried is bound to superseded bytes.",
+        "acceptanceReceipt": null,
+        "routeKeysUnchanged": "the same nine, in the same order"
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-rcap-tx-custom-pleading.mjs",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/tx/rcap-tx-custom-pleading--custom-pleading/product-wiring.json",
+        "data/rcap-grade-a/packet-factory-24h/fix41/rows.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repair. It approves nothing, promotes nothing, sets no price and opens no commercial route."
+    }
+  ],
+  "notDone": [
+    "The central raster. The new bytes carry no acceptance receipt and RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not touched.",
+    "Independent verification of these bytes. This lane built them and verifies none of them; VF01's verdict is answered on the one obligation it failed, not re-issued.",
+    "The page-11 date-of-birth blank is left exactly as VF01 accepted it. Per-widget writing in the shared finalizer would be a factory-wide change and is not owed for this verdict.",
+    "Rule 1b / block-aware pagination was not adopted for this builder. No defect in this family calls for it and it would move pages."
+  ],
+  "packetBytesChanged": 2,
+  "overlayDirectoriesModified": 1,
+  "buildersModified": 1,
+  "centralStateEdits": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": 0,
+  "grantsNothing": "This return is a repair record. It promotes nothing, approves no output and opens no commercial route. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not that record."
+}

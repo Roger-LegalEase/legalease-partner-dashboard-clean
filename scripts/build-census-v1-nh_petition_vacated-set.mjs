@@ -1,0 +1,2006 @@
+#!/usr/bin/env node
+// NH vacated-matter packet: source-bound NHJB-2317, NHJB-2886, NHJB-2328
+// and NHJB-2956, with filing and effect guidance. The settled fee-waiver
+// decision governs the acquired 2886 substitution and financial confidentiality.
+// Known neutral facts use exact measured appearances; sworn statements,
+// signatures, signing dates, attorney fields and court decisions stay blank.
+// Every mapped value must survive saved-byte decoding. Raster and independent
+// acceptance are separate gates. Scratch files belong in the system temp dir.
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import os from "node:os";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { fitTextToWidget } from "./rcap-official-forms/rcap-text-fitting.mjs";
+import { finalizeOfficialForm } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { flattenedWidgets, drawnAt } from "./rcap-official-forms/pdf-flattened-widgets.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily }
+  from "./rcap-official-forms/rcap-appearance-semantics.mjs";
+import { createTokenSplitter, fitsByFontMetrics } from "./rcap-custom-pleading/split-token.mjs";
+import { BLANK_DISPOSITIONS, PASS_COUNTERS, classifyField, classifyBlank, rowKeyOf }
+  from "./rcap-packet-completeness/completeness-contract.mjs";
+
+/*
+ * The calibrated page rasterizer, resolved wherever it lives.
+ *
+ * The Captain branch moved this module from scripts/lib/ to scripts/raster/ at
+ * 5f144ec, and fifteen builders on that branch — including this one — still
+ * import the old path, which is not there. Rather than pick one and break on
+ * the other base, the import is tried at the new path first and falls back to
+ * the old. Only a genuinely missing module is caught: a syntax error or a
+ * failed dependency inside the module still throws, because a rasterizer that
+ * silently resolves to a stale copy is worse than one that refuses.
+ */
+const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
+
+const thisFile = fileURLToPath(import.meta.url);
+const ROOT = path.resolve(path.dirname(thisFile), "..");
+process.chdir(ROOT);
+const require = createRequire(import.meta.url);
+const { PDFDocument, StandardFonts, rgb, pushGraphicsState, popGraphicsState, translate, drawObject } = require("pdf-lib");
+
+const FAMILY_ID = "nh_petition_vacated-set";
+const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const OUT = "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill";
+const BUILD_SCRIPT = "scripts/build-census-v1-nh_petition_vacated-set.mjs";
+
+/*
+ * THE ONE FACT THAT MAKES THIS TRACK A SEPARATE TRACK.
+ *
+ * This family and nh_petition_nonconviction_pre2019-set file the same four
+ * forms, and their fixtures are byte-identical because the legal design directs
+ * that. The legal design ALSO says why they are nevertheless two tracks and not
+ * one, and it is a cost fact: the RSA 651:5, IX and X(d) fee exemptions are
+ * written around not-guilty, dismissed and not-prosecuted cases, and on the face
+ * of the statute they do not reach a vacated conviction — "a real cost
+ * difference the participant must be told about before filing".
+ *
+ * The fee paragraph in this packet used to be byte-identical to the sibling's,
+ * and what it said was that no source the packet held established a fee at all.
+ * So the single fact the controlling record says must be disclosed before filing
+ * on this route was the one fact the packet did not carry, and the participant
+ * most exposed to the agency fees was reading the words written for the one
+ * family that is exempt from them.
+ *
+ * The memo is therefore bound here as a grounding record by its own SHA-256, and
+ * the cost sentences are read out of this track's entry at build time and quoted
+ * — including the open question about whether the exemptions reach a vacated
+ * conviction, which stays open and is stated as open. Nothing about the fee is
+ * authored by this file.
+ */
+const GROUNDING_RECORDS = Object.freeze({
+  memo: "data/record-clearing/legal-design-intake/NH.memo.json",
+  /*
+   * Two more records are bound, because the packet now PRINTS out of both.
+   *
+   * The track registry carries the ten selfHelpStopConditions independent
+   * verification measured this family at zero of, and the packet-set manifest
+   * carries the six components it measured this family at four of. A packet
+   * that prints a record's sentences, or that is asserted against a record's
+   * component list, binds that record by SHA-256 the same way it binds a form
+   * binary — otherwise the reader cannot check the page against the bytes it
+   * came out of.
+   */
+  trackRegistry: "data/record-clearing/legal-design-track-registry.json",
+  packetSetManifests: "data/record-clearing/legal-design-packet-set-manifests.json"
+});
+const MEMO_TRACK_ID = "nh_petition_vacated";
+/* The schedule the memo names in its own officialSources list. */
+const FEE_SCHEDULE_TITLE_PREFIX = "Circuit Court Filing Fees";
+/* The memo's own open question about the agency fees, matched on its subject. */
+const FEE_QUESTION_MARKER = "fee exemptions in RSA 651:5, IX and X(d)";
+
+/*
+ * WHAT THE SOURCE ITSELF DRAWS INSIDE A FIELD, AND WHETHER IT MAY REACH THE FILING.
+ *
+ * Refusing to WRITE a field does not clear the appearance the source ships in
+ * it. Two of these four forms ship one:
+ *
+ *   NHJB-2886 sig.8      -- no /V at all, and a widget appearance drawing
+ *                           "Enter /s/ before name" in /TiBo 12 at 0.75 g. Grey,
+ *                           legible, sitting on the Signature of Filer rule of a
+ *                           motion nobody has signed.
+ *   NHJB-2328 12.total,  -- /V "0" and an appearance drawing "0.00" at 1 g,
+ *   money.total,            WHITE. Invisible on the page and present in the text
+ *   monthly.total           layer, on a sworn financial affidavit whose every
+ *                           contributing line is blank.
+ *
+ * All four are /Tx text fields, so the finalizer's structural default calls each
+ * of them the court's own ink and preserves it. It is not the court's ink: each
+ * is a participant input the source ships pre-answered or pre-prompted, and this
+ * build refuses to write all four in its own field map. What the appearance
+ * MEANS is recorded per family:component in the shared registry at
+ * data/rcap-all50/shared/field-appearance-semantics.json and handed to the
+ * finalizer here, which drops the value and every widget appearance of an
+ * unwritten field it is told is a participant input. Nothing is decided by field
+ * name, form or text in this file or in the finalizer: only by the disposition.
+ *
+ * A component with no registry entry is handed an empty map and keeps the
+ * structural default, so NHJB-2317 and NHJB-2956 are byte-unaffected by this.
+ */
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
+
+const ROUTE = Object.freeze({
+  jurisdiction: "NH",
+  routeKey: "obligation:track-only:NH:nh_petition_vacated",
+  routeSelectionId: "nh-petition-vacated-set-nhjb-2317-2886-2328-2956",
+  publicLabel: "Petition to annul the record of a matter that has been vacated",
+  authority: "RSA 651:5; New Hampshire Judicial Branch forms NHJB-2317-DSe, NHJB-2886, NHJB-2328 and NHJB-2956",
+  /*
+   * Each document names the identity the MASTER_QUEUE pins and the digest it
+   * pins it by. Binding is by that exact digest, not by a path: the queue's own
+   * paths for this family name custodies this container does not mount, and the
+   * committed corpus index records the same digests in the Master Library.
+   */
+  documents: [
+    { formNumber: "NHJB-2317", sourceId: "official-form:NHJB-2317-DSe", pinnedSha256: "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+      title: "Petition to Annul Record: Offenses Resolved Prior to 01/01/2019", instrumentKind: "primary_filing" },
+    { formNumber: "NHJB-2886", sourceId: "official-form:NHJB-2886", pinnedSha256: "270c1e7fcf8ace28756b182ee1548657ee14b0321557171645fff3dafbe36fcd",
+      title: "Motion to Waive Filing Fees", instrumentKind: "fee_waiver_motion" },
+    { formNumber: "NHJB-2328", sourceId: "official-form:NHJB-2328", pinnedSha256: "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+      title: "Statement of Assets and Liabilities for Individuals and Sole Proprietors", instrumentKind: "fee_waiver_financial_statement" },
+    { formNumber: "NHJB-2956", sourceId: "official-form:NHJB-2956", pinnedSha256: "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+      title: "Criminal History Record Information Release Authorization", instrumentKind: "criminal_history_request" }
+  ]
+});
+
+function corpusRoot() {
+  const configured = process.env.MASTER_LIBRARY_SOURCE_DIR
+    ?? "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
+  assert.ok(fs.existsSync(configured), `the Master Library is not mounted at ${configured}`);
+  return configured;
+}
+
+/*
+ * Read a committed record, hash the bytes that were read, and keep both.
+ *
+ * The hash is taken from the same buffer the build parses, so the digest in the
+ * receipt is a digest of what was used and not of a second read of the file.
+ */
+function readGroundingRecord(relative) {
+  const bytes = fs.readFileSync(path.join(ROOT, relative));
+  return {
+    path: relative,
+    sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    byteLength: bytes.length,
+    data: JSON.parse(bytes.toString("utf8"))
+  };
+}
+
+/*
+ * The cost sentences this route is charged with disclosing before filing, taken
+ * verbatim from the memo's own track entry.
+ *
+ * The open question is loaded as well, and it is loaded as an ASSERTION: the
+ * memo's own rules.fees sentence ends "is unresolved and is recorded below", and
+ * a packet that quoted that half-sentence without the question it points at
+ * would be citing a record against itself. If the question is ever resolved and
+ * removed, this build stops rather than printing a dangling reference.
+ */
+function loadFeeGrounding() {
+  const memo = readGroundingRecord(GROUNDING_RECORDS.memo);
+  const track = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  assert.ok(track, `${GROUNDING_RECORDS.memo} holds no track ${MEMO_TRACK_ID}`);
+  assert.equal(track.legalName,
+    "Petition to Annul the Record of a Vacated Conviction Outside the Automatic Route (RSA 651:5, II, second sentence)");
+
+  const fees = track.rules?.fees;
+  const feeWaiver = track.rules?.feeWaiver;
+  const sharedFee = track.destination?.detail;
+  for (const [name, value] of [["rules.fees", fees], ["rules.feeWaiver", feeWaiver], ["destination.detail", sharedFee]]) {
+    assert.ok(typeof value === "string" && value.trim().length > 0,
+      `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} carries no ${name}, so the packet cannot state one`);
+  }
+
+  const schedule = (track.officialSources ?? []).find((row) => String(row.title ?? "").startsWith(FEE_SCHEDULE_TITLE_PREFIX));
+  assert.ok(schedule, `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} names no ${FEE_SCHEDULE_TITLE_PREFIX} source`);
+
+  const openQuestion = (track.unresolvedQuestions ?? []).find((row) => String(row.question ?? "").includes(FEE_QUESTION_MARKER));
+  assert.ok(openQuestion,
+    `${GROUNDING_RECORDS.memo} track ${MEMO_TRACK_ID} no longer records the agency-fee question, but rules.fees still `
+    + "refers to it as recorded below");
+
+  return { record: memo, track, fees, feeWaiver, sharedFee, schedule, openQuestion };
+}
+
+/*
+ * WHERE SELF-HELP ENDS, IN THE RECORD'S OWN WORDS.
+ *
+ * The committed legal-design record holds ten selfHelpStopConditions for this
+ * track and the packet used to carry none of them — independent verification
+ * measured it at zero of ten, and searched the composed pages for each
+ * condition's own distinguishing terms before saying so. They are read here
+ * rather than restated, and every one of the ten is printed verbatim: a stop
+ * condition paraphrased is a stop condition weakened, and the two that carry a
+ * statute cite — RSA 651:5, IV and RSA 651:5, XVII — lose the cite in any
+ * paraphrase.
+ *
+ * TWO RECORDS, AND THEY MUST AGREE. The registry is the record independent
+ * verification named; the intake memo carries the same track and this family
+ * already binds it by SHA-256 for the fee. Both are read and asserted
+ * identical, so the packet cannot print ten sentences that only one of them
+ * holds. A count that is not ten, or a disagreement between the two, stops the
+ * build rather than shipping a shortened list.
+ */
+const SELF_HELP_STOP_CONDITIONS_EXPECTED = 10;
+
+function loadSelfHelpStops(memo) {
+  const registry = readGroundingRecord(GROUNDING_RECORDS.trackRegistry);
+  const track = (registry.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID);
+  assert.ok(track, `${GROUNDING_RECORDS.trackRegistry} holds no track ${MEMO_TRACK_ID}`);
+
+  const conditions = track.selfHelpStopConditions ?? [];
+  assert.equal(conditions.length, SELF_HELP_STOP_CONDITIONS_EXPECTED,
+    `${GROUNDING_RECORDS.trackRegistry} track ${MEMO_TRACK_ID} carries ${conditions.length} selfHelpStopConditions, `
+    + `not ${SELF_HELP_STOP_CONDITIONS_EXPECTED}; the packet prints every one of them and will not print a list it cannot account for`);
+  for (const c of conditions) {
+    assert.ok(typeof c === "string" && c.trim().length > 0, "a self-help stop condition is empty");
+  }
+
+  const fromMemo = (memo.data.tracks ?? []).find((row) => row.trackId === MEMO_TRACK_ID)?.selfHelpStopConditions ?? [];
+  assert.deepEqual(fromMemo, conditions,
+    `${GROUNDING_RECORDS.memo} and ${GROUNDING_RECORDS.trackRegistry} disagree on this track's self-help stop conditions`);
+
+  return { record: registry, track, conditions, boundaries: track.selfHelpBoundaries ?? [] };
+}
+
+/*
+ * THE SERVICE RECORD FOR THE FEE-WAIVER PAPERS, READ RATHER THAN RESTATED.
+ *
+ * VF03 returned SERVICE as BLOCKED_LEGAL_INPUT on this family: the packet
+ * enclosed NHJB-2328, whose Certificate of Service the participant must
+ * complete, and named neither a recipient nor a method, because no record
+ * under data/record-clearing/ settled either.
+ *
+ * The 2026-09-06 owner-relayed research narrowed that, and what it narrowed is
+ * now recorded -- in the intake memo at rules.serviceCertificateOnNhjb2328 and
+ * in the track registry, both read here. What is settled: the printed
+ * revisions of the two papers, which of them is the waiver request and which
+ * the supporting statement, and the fact that the statement's third page
+ * carries a service certification of its own, quoted verbatim. What is NOT
+ * settled, and stays a release blocker: whom that certificate reaches on an
+ * annulment filing and through which channel.
+ *
+ * So this build carries the record and discharges nothing. It states the
+ * certificate exists and quotes it; it says the text is service text and not
+ * evidence that service happened; it leaves the checkbox, the signature and
+ * the date blank; it does not say the held statement has no service
+ * instruction; it does not transplant the form's e-service representation into
+ * paper-filing guidance; and it prints the outstanding question in the
+ * record's own words with the clerk of the filing court as the person to ask.
+ * The family stays LEGAL_BLOCKED on SERVICE after this repair.
+ *
+ * Record: data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json,
+ * carrying docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md
+ * (sha256 8a5996fcf36a4e776aae643dac0444455ab8be9f712ec53f13c21c72842f75ad),
+ * research relayed by the owner and not counsel approval.
+ */
+const SERVICE_CERTIFICATE_RULE = "serviceCertificateOnNhjb2328";
+const SERVICE_QUESTION_MARKER = "the accepted financial statement for the relevant court and filing channel";
+
+function loadServiceGrounding() {
+  const record = readGroundingRecord("data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json");
+  const decision = record.data.decisions.find((d) => d.decisionId === "NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL");
+  assert.equal(decision?.disposition, "LEGAL_CLEAR");
+  assert.ok(decision.familyIds.includes(FAMILY_ID));
+  assert.ok(decision.bindingProductRule.includes("NHJB-2886-DFPe"));
+  return { record, decision, rule: decision.bindingProductRule };
+}
+
+/*
+ * THE COMPONENT SET THE PACKET IS MEASURED AGAINST, READ OUT OF THE MANIFEST.
+ *
+ * legal-design-packet-set-manifests.json names six components for this packet
+ * set: four official_pdf_fill and two required process_guidance. The delivered
+ * packet rendered the four form slices and nothing else, so the two required
+ * guidance components reached no page — and because no rendered artifact of
+ * this track named a component at all, the corpus-wide component sweep could
+ * not even measure the family: it recorded NO_FAMILY_RENDERS_THIS_TRACK.
+ *
+ * The manifest is therefore read here, not restated. Every declared component
+ * is matched to something the packet renders — a form slice by its declared
+ * officialFormId, a process_guidance component by a composed page — and the
+ * build asserts at the end that every one of the six reaches at least one
+ * packet page of both fixtures. A component that stops reaching a page stops
+ * the build rather than quietly leaving the packet short again.
+ */
+function loadPacketSetComponents() {
+  const record = readGroundingRecord(GROUNDING_RECORDS.packetSetManifests);
+  const set = (record.data.packetSets ?? []).find((row) => row.packetSetId === FAMILY_ID);
+  assert.ok(set, `${GROUNDING_RECORDS.packetSetManifests} holds no packet set ${FAMILY_ID}`);
+  // The settled legal decision supersedes only the obsolete fee-motion component.
+  const decision = loadServiceGrounding().decision;
+  const components = (set.components ?? []).map((c) => c.officialFormId === "NHJB-2311"
+    ? { ...c, officialFormId: "NHJB-2886", supersededOfficialFormId: c.officialFormId,
+        governingDecisionId: decision.decisionId } : c);
+  assert.ok(components.length > 0, `${GROUNDING_RECORDS.packetSetManifests} declares no components for ${FAMILY_ID}`);
+
+  const officialByForm = new Map();
+  const guidance = [];
+  for (const c of components) {
+    if (c.outputStrategy === "official_pdf_fill") {
+      const formNumber = String(c.officialFormId ?? "").replace(/-DSe$/, "");
+      assert.ok(ROUTE.documents.some((d) => d.formNumber === formNumber),
+        `the manifest declares component ${c.componentId} on form ${c.officialFormId}, which this route does not bind`);
+      officialByForm.set(formNumber, c);
+    } else if (c.outputStrategy === "process_guidance") {
+      guidance.push(c);
+    } else {
+      assert.fail(`component ${c.componentId} carries an output strategy this builder cannot render: ${c.outputStrategy}`);
+    }
+  }
+  assert.equal(officialByForm.size, ROUTE.documents.length,
+    "the manifest's official components and this route's bound forms are not the same set");
+  assert.equal(guidance.length, GUIDANCE_PAGES.length,
+    `the manifest declares ${guidance.length} process_guidance component(s) and this builder composes ${GUIDANCE_PAGES.length}`);
+  for (const g of guidance) {
+    assert.ok(GUIDANCE_PAGES.some((page) => page.componentId === g.componentId),
+      `${GROUNDING_RECORDS.packetSetManifests} declares process_guidance component ${g.componentId}, which this builder does not compose`);
+  }
+  return { record, set, components, officialByForm, guidance };
+}
+
+const SUPPLY = (what) => ({ policy: "supply", what });
+const WRITE = (fact) => ({ policy: "write", fact });
+const PROTECT = (refusalClass, why) => ({ policy: "protect", refusalClass, why });
+const ELECTION = (why) => ({ policy: "election", why });
+const ATTORNEY = (why) => ({ policy: "attorney", why });
+/* A button in the PDF viewer. It clears, saves or navigates; nothing is filed in it. */
+const VIEWER = (why) => ({ policy: "viewer", why: `viewer ui control; never a filing fact — ${why}` });
+/* A box the form itself marks conditional, which the participant fills if it applies to them. */
+const OPTIONAL = (what) => ({ policy: "optional", what });
+/* A branch of the form this route does not use. Never populated with participant data. */
+const NOT_ON_ROUTE = (why) => ({ policy: "not_on_route", why });
+/*
+ * A fact the platform HOLDS that this widget cannot receive — because the
+ * shared binder refuses the write on evidence about the widget, not about the
+ * fact. The fact id travels with the row so the completeness contract decides
+ * availability for itself: if the packet writes that fact anywhere else in this
+ * family, the contract refuses the blank rather than taking the build's word.
+ */
+const HELD_BUT_UNWRITABLE = (fact, what) => ({ policy: "supply", fact, what });
+
+const SIGNATURE = "signature_or_date_participant_completion";
+const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
+const PARTICIPANT_ELECTION = "participant_sworn_narrative_or_legal_election";
+
+/*
+ * The agency block on both forms is the same shape and the same reasoning: an
+ * arresting or prosecuting AGENCY is a case fact, and the completeness contract
+ * refuses to let a court/clerk refusal class hide one. The platform does not
+ * hold this participant's agencies, so each is declared and disclosed by name.
+ */
+const AGENCY = (what) => SUPPLY(what);
+
+const FORM_FIELDS = {
+  "NHJB-2317": {
+    /* --- The caption ----------------------------------------------------- */
+    "court.district/su": {
+      section: "Caption", label: "Court Name (selection)", selection: true,
+      ...ELECTION("New Hampshire prints every circuit-court district division and every superior court in this list, and which one holds your case is a fact about your case; the platform holds no court assignment for you")
+    },
+    case: { section: "Caption", label: "Case Name, as the court styles it", ...SUPPLY("the case name exactly as the court writes it, which for a New Hampshire criminal case is usually The State of New Hampshire v. your name; copy it from a paper the court sent you") },
+    "case number": { section: "Caption", label: "Case Number", ...WRITE("matter.case_number") },
+    ChargeID: { section: "Caption", label: "Charge ID, if known", ...OPTIONAL("the Charge ID the court or the police gave this charge, if you know it. The form says 'if known' and does not require it") },
+
+    /* --- Applicant's information ----------------------------------------- */
+    "name.1": { section: "Applicant's Information", label: "Full Name", ...WRITE("participant.full_legal_name") },
+    DOB: { section: "Applicant's Information", label: "Date of Birth", ...WRITE("participant.date_of_birth") },
+    "Mailing Address.1": { section: "Applicant's Information", label: "Address", ...WRITE("participant.street_address") },
+    "Mailing Address.2": { section: "Applicant's Information", label: "City or Town", ...WRITE("participant.city") },
+    "States/short": { section: "Applicant's Information", label: "State", ...WRITE("participant.state") },
+    zip: { section: "Applicant's Information", label: "Zip Code", ...WRITE("participant.zip") },
+    "telnum.1": { section: "Applicant's Information", label: "Telephone Number", ...WRITE("participant.phone") },
+    Email: { section: "Applicant's Information", label: "E-mail Address (optional)", ...WRITE("participant.email") },
+
+    /* --- Charge information ---------------------------------------------- *
+     * One offence per form, in the form's own words: "PLEASE COMPLETE A
+     * SEPARATE FORM FOR EACH OFFENSE". Every cell here is read off the court
+     * record, and the platform holds none of them. */
+    rsa: { section: "Charge Information", label: "RSA or statute violated", ...SUPPLY("the RSA (statute) number the charge was brought under, from the court record") },
+    offense: { section: "Charge Information", label: "The crime or offence, as the court record names it", ...SUPPLY("the name of the crime or offence exactly as the court record gives it") },
+    "Date.2": { section: "Charge Information", label: "Charge Date", ...SUPPLY("the date of the charge, from the court record") },
+    "Date.3": { section: "Charge Information", label: "Date of conviction or other disposition", ...SUPPLY("the date of the conviction, or of the other disposition if there was no conviction, from the court record") },
+    "Date.4": { section: "Charge Information", label: "Date all terms and conditions of the sentence were completed", ...SUPPLY("the date every term and condition of the sentence was completed, including any fine, restitution, cost, period of good behaviour, probation and suspended sentence. The clerk of the sentencing court can confirm it") },
+    "tr.disposition": { section: "Charge Information", label: "Description of the sentence or other disposition", ...SUPPLY("the sentence or other disposition the court imposed, described in your own words from the court record") },
+
+    /* --- The applicant's certification ------------------------------------ *
+     * Eight sworn statements and a hearing request. Each is a statement the
+     * applicant swears to under penalties of law, and none of them is the
+     * platform's to make. */
+    cb1: { section: "Applicant's Certification", selection: true, label: "Certifying you were NOT convicted, and seek annulment only of the record of arrest or charge (selection)", ...ELECTION("you swear to this under penalties of law; only you can say which of the two openings describes your case") },
+    cb2: { section: "Applicant's Certification", selection: true, label: "Certifying you WERE convicted, and seek annulment of the arrest, charge, conviction and sentence (selection)", ...ELECTION("you swear to this under penalties of law; only you can say which of the two openings describes your case") },
+    cb3: { section: "Applicant's Certification", selection: true, label: "Certifying every term and condition of the sentence has been completed (selection)", ...ELECTION("you swear to this under penalties of law, and the platform holds no record of what you have completed") },
+    cb4: { section: "Applicant's Certification", selection: true, label: "Certifying the time requirements under RSA 651:5, III have been met (selection)", ...ELECTION("you swear to this under penalties of law; it turns on dates the platform does not hold") },
+    cb5: { section: "Applicant's Certification", selection: true, label: "Certifying you have not been convicted of another crime since completing the sentence (selection)", ...ELECTION("you swear to this under penalties of law about your own record since sentence, which the platform has not seen") },
+    cb6: { section: "Applicant's Certification", selection: true, label: "Certifying there are no charges pending against you in any other court, except as stated (selection)", ...ELECTION("you swear to this under penalties of law about charges in every other court, which the platform has not seen") },
+    cb7: { section: "Applicant's Certification", selection: true, label: "Certifying none of the matters sought to be annulled is a violent crime, a felony crime of obstruction of justice, or carried an extended term under RSA 651:6 (selection)", ...ELECTION("you swear to this under penalties of law; it is a legal characterisation of your own matters and the platform will not make it for you") },
+    cb8: { section: "Applicant's Certification", selection: true, label: "Certifying the matter sought to be annulled has no enhanced penalty for a second conviction (selection)", ...ELECTION("you swear to this under penalties of law; it is a legal characterisation of your own matter and the platform will not make it for you") },
+    "Check Box1": { section: "Applicant's Certification", selection: true, label: "Certifying the time requirements have been met for every matter you have been convicted of (selection)", ...ELECTION("you swear to this under penalties of law across your whole record, which the platform has not seen") },
+    "Check Box2": { section: "Applicant's Certification", selection: true, label: "Requesting a hearing before a judge (selection)", ...ELECTION("the form says the court may decide without a hearing unless you ask for one, and whether to ask is your choice") },
+    "tr.pending": { section: "Applicant's Certification", label: "The charges pending against you in another court, if there are any", ...SUPPLY("any charges pending against you in another court. Leave it empty if there are none, and read the statement above it before you sign") },
+
+    /* --- Signature -------------------------------------------------------- */
+    DefDate: { section: "Signature", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the sworn signature block and is entered when you sign") },
+    "DEFsig.8": { section: "Signature", label: "Applicant's Signature", ...PROTECT(SIGNATURE, "you swear or affirm under penalties of law and sign this yourself") },
+    Counsel: { section: "Signature", label: "Name of Counsel", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+    "Attysig.8": { section: "Signature", label: "Counsel's Signature", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+    "Counsel Mailing Address1": { section: "Signature", label: "Counsel's Address, first line", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+    "Counsel Mailing Address2": { section: "Signature", label: "Counsel's Address, second line", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+
+    /* --- Page 2 and 3 headers, and the court's own page -------------------- */
+    case1: { section: "Page Header", label: "Case Name repeated in the page header", ...SUPPLY("the same case name as the caption, repeated in the header of the later pages") },
+    "case number1": { section: "Page Header", label: "Case Number repeated in the page header", ...WRITE("matter.case_number") },
+
+    /* --- Viewer controls --------------------------------------------------- */
+    "Clear Form - multi": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
+    "Save and lock form": { section: "Viewer Controls", label: "Save this form and lock it (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
+    "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
+    "1st page": { section: "Viewer Controls", label: "Reset the view to the first page of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") }
+  },
+
+  "NHJB-2886": {
+    "court.district/family/probate - both": {
+      section: "Caption", label: "Court Name (selection)", selection: true,
+      ...ELECTION("select the circuit court division that holds your case; this motion is marked for e-Filing only")
+    },
+    case: { section: "Caption", label: "Case Name, as the court styles it", ...SUPPLY("the same case name you put on the petition") },
+    "case number": { section: "Caption", label: "Case Number", ...WRITE("matter.case_number") },
+    "name.1": { section: "The Motion", label: "Applicant's full name, in the opening line of this request", ...WRITE("participant.full_legal_name") },
+    "tr.facts": { section: "The Motion", label: "Explain why you cannot pay the filing fee", ...SUPPLY("your own account of why you cannot pay the filing fee now. The platform does not write a sworn explanation of your finances for you") },
+    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certification of sending copies", ...PROTECT(SIGNATURE, "complete only after sending the copies required by the motion's own service certification; no service is performed by preparing this packet") },
+    "sig.1": { section: "Filer Contact Information", label: "Name of Filer", ...WRITE("participant.full_legal_name") },
+    "sig.8": { section: "Signature Block", label: "Signature of Filer", ...PROTECT(SIGNATURE, "you sign this yourself") },
+    "sig.9": { section: "Signature Block", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
+    "sig.2": { section: "Signature Block", label: "Law Firm, if applicable", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+    "sig.3": { section: "Signature Block", label: "Bar ID number of attorney", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+    "sig.10": { section: "Filer Contact Information", label: "Telephone", ...WRITE("participant.phone") },
+    "sig.4": { section: "Filer Contact Information", label: "Address", ...WRITE("participant.street_address") },
+    "sig.11": { section: "Filer Contact Information", label: "E-mail", ...WRITE("participant.email") },
+    "sig.5": { section: "Filer Contact Information", label: "City", ...WRITE("participant.city") },
+    "sig.6": { section: "Filer Contact Information", label: "State", ...WRITE("participant.state") },
+    "sig.7": { section: "Filer Contact Information", label: "Zip code", ...WRITE("participant.zip") },
+    "Clear Form - multi": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
+    "Save and lock form": { section: "Viewer Controls", label: "Save this form and lock it (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
+    "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
+  },
+
+  "NHJB-2328": {
+    "court.district/family/probate - both": {
+      section: "Caption", label: "Court Name (selection)", selection: true,
+      ...ELECTION("pick the court your case is in; the platform holds no court assignment for you")
+    },
+    case: { section: "Caption", label: "Case Name, as the court styles it", ...SUPPLY("the same case name you put on the petition") },
+    "case number": { section: "Caption", label: "Case Number", ...WRITE("matter.case_number") },
+    "1.1": { section: "Who You Are", label: "Name", ...WRITE("participant.full_legal_name") },
+    "1.2": { section: "Who You Are", label: "DOB", ...WRITE("participant.date_of_birth") },
+    "2.1": { section: "Who You Are", label: "Residence Address", ...WRITE("participant.full_address") },
+    "3.1": { section: "Who You Are", label: "Mailing Address, if different from the residence address", ...OPTIONAL("your mailing address, only if it is different from where you live") },
+    "cb.1": { section: "Who You Are", selection: true, label: "Marital status — single, married, separated or widowed (selection)", ...ELECTION("your marital status is yours to state and the platform holds no marital fact for you") },
+    "tr.support": { section: "Who You Are", label: "The names, ages and relationships of the dependents you support", ...SUPPLY("the names, ages and relationships of everyone who depends on you for support") },
+    "employed.1": { section: "Work", label: "Where you are employed and for how long", ...SUPPLY("where you work now and how long you have worked there, if you are employed") },
+    "cb.2": { section: "Work", selection: true, label: "Whether your own work is full-time or part-time (selection)", ...ELECTION("only you can say which your work is") },
+    "Date.2": { section: "Work", label: "If you are unemployed, the last date you were employed", ...SUPPLY("the last date you worked, if you are unemployed now") },
+    "Date.3": { section: "Work", label: "When you expect to start new employment", ...SUPPLY("when you expect new work to start, if you know") },
+    "employed.2": { section: "Work", label: "Where your spouse is employed and for how long", ...SUPPLY("where your spouse works and for how long, if you have a spouse who works") },
+    "cb.3": { section: "Work", selection: true, label: "Whether your spouse's work is full-time or part-time (selection)", ...ELECTION("only you can say which your spouse's work is") },
+    "Date.4": { section: "Work", label: "If your spouse is unemployed, the last date they were employed", ...SUPPLY("the last date your spouse worked, if they are unemployed now") },
+    "employed.3": { section: "Work", label: "Other employed household members and their weekly income", ...SUPPLY("anyone else in your household who works, and what they bring in each week") },
+
+    "yours.1": { section: "Weekly Take-Home", label: "Salary or wages, yours", ...SUPPLY("your weekly take-home salary or wages") },
+    "yours.2": { section: "Weekly Take-Home", label: "Child support received, yours", ...SUPPLY("child support you receive each week") },
+    "yours.3": { section: "Weekly Take-Home", label: "Alimony received, yours", ...SUPPLY("alimony you receive each week") },
+    "yours.4": { section: "Weekly Take-Home", label: "Trust benefits, yours", ...SUPPLY("trust benefits you receive each week") },
+    "yours.5": { section: "Weekly Take-Home", label: "Investment income, yours", ...SUPPLY("investment income you receive each week") },
+    "yours.6": { section: "Weekly Take-Home", label: "Other weekly income, yours", ...SUPPLY("any other weekly income of yours") },
+    "yours.7": { section: "Weekly Take-Home", label: "Social security, yours (the form marks this exempt income)", ...SUPPLY("social security you receive each week. The form marks it exempt income the court may not consider") },
+    "yours.8": { section: "Weekly Take-Home", label: "Welfare benefits, yours (the form marks this exempt income)", ...SUPPLY("welfare benefits you receive each week. The form marks it exempt income") },
+    "yours.9": { section: "Weekly Take-Home", label: "Veteran's benefits, yours (the form marks this exempt income)", ...SUPPLY("veteran's benefits you receive each week. The form marks it exempt income") },
+    "yours.10": { section: "Weekly Take-Home", label: "Pension, yours (the form marks this exempt income)", ...SUPPLY("pension income you receive each week. The form marks it exempt income") },
+    "yours.11": { section: "Weekly Take-Home", label: "Unemployment compensation, yours (the form marks this partially exempt)", ...SUPPLY("unemployment compensation you receive each week. The form marks it potentially or partially exempt") },
+    "yours.12": { section: "Weekly Take-Home", label: "Worker's compensation, yours (the form marks this partially exempt)", ...SUPPLY("worker's compensation you receive each week. The form marks it potentially or partially exempt") },
+    "12.total": { section: "Weekly Take-Home", label: "Total weekly take-home", ...SUPPLY("the total of the weekly amounts above. The form adds it up for you when you fill it in on a computer") },
+    "spouse.1": { section: "Weekly Take-Home", label: "Salary or wages, your spouse's", ...SUPPLY("your spouse's weekly take-home salary or wages") },
+    "spouse.2": { section: "Weekly Take-Home", label: "Child support received, your spouse's", ...SUPPLY("child support your spouse receives each week") },
+    "spouse.3": { section: "Weekly Take-Home", label: "Alimony received, your spouse's", ...SUPPLY("alimony your spouse receives each week") },
+    "spouse.4": { section: "Weekly Take-Home", label: "Trust benefits, your spouse's", ...SUPPLY("trust benefits your spouse receives each week") },
+    "spouse.5": { section: "Weekly Take-Home", label: "Investment income, your spouse's", ...SUPPLY("investment income your spouse receives each week") },
+    "spouse.6": { section: "Weekly Take-Home", label: "Other weekly income, your spouse's", ...SUPPLY("any other weekly income of your spouse's") },
+    "spouse.7": { section: "Weekly Take-Home", label: "Social security, your spouse's (the form marks this exempt income)", ...SUPPLY("social security your spouse receives each week") },
+    "spouse.8": { section: "Weekly Take-Home", label: "Welfare benefits, your spouse's (the form marks this exempt income)", ...SUPPLY("welfare benefits your spouse receives each week") },
+    "spouse.9": { section: "Weekly Take-Home", label: "Veteran's benefits, your spouse's (the form marks this exempt income)", ...SUPPLY("veteran's benefits your spouse receives each week") },
+    "spouse.10": { section: "Weekly Take-Home", label: "Pension, your spouse's (the form marks this exempt income)", ...SUPPLY("pension income your spouse receives each week") },
+    "spouse.11": { section: "Weekly Take-Home", label: "Unemployment compensation, your spouse's (the form marks this partially exempt)", ...SUPPLY("unemployment compensation your spouse receives each week") },
+    "spouse.12": { section: "Weekly Take-Home", label: "Worker's compensation, your spouse's (the form marks this partially exempt)", ...SUPPLY("worker's compensation your spouse receives each week") },
+
+    "money.1": { section: "Money Available", label: "Cash on hand", ...SUPPLY("the cash you have on hand") },
+    "money.2": { section: "Money Available", label: "Checking account", ...SUPPLY("what is in your checking account") },
+    "money.3": { section: "Money Available", label: "Savings account", ...SUPPLY("what is in your savings account") },
+    "money.4": { section: "Money Available", label: "Stocks, bonds, IRA or pension", ...SUPPLY("what you hold in stocks, bonds, an IRA or a pension") },
+    "money.total": { section: "Money Available", label: "Total money presently available to you", ...SUPPLY("the total of the amounts above. The form adds it up for you when you fill it in on a computer") },
+
+    "monthly.1": { section: "Monthly Household Expenses", label: "Rent or mortgage each month", ...SUPPLY("what you pay in rent or mortgage each month") },
+    "monthly.2": { section: "Monthly Household Expenses", label: "Property taxes each month", ...SUPPLY("what you pay in property taxes each month") },
+    "monthly.3": { section: "Monthly Household Expenses", label: "Heat each month", ...SUPPLY("what you pay for heat each month") },
+    "monthly.4": { section: "Monthly Household Expenses", label: "Food each month", ...SUPPLY("what you spend on food each month") },
+    "monthly.5": { section: "Monthly Household Expenses", label: "Utilities each month", ...SUPPLY("what you pay for utilities each month") },
+    "monthly.6": { section: "Monthly Household Expenses", label: "Medical and dental each month", ...SUPPLY("what you pay for medical and dental care each month") },
+    "monthly.7": { section: "Monthly Household Expenses", label: "Insurance each month", ...SUPPLY("what you pay for insurance each month") },
+    "monthly.12": { section: "Monthly Household Expenses", label: "Cell phone each month", ...SUPPLY("what you pay for your cell phone each month") },
+    "monthly.8": { section: "Monthly Household Expenses", label: "Clothing each month", ...SUPPLY("what you spend on clothing each month") },
+    "monthly.9": { section: "Monthly Household Expenses", label: "Transportation each month, including gas, maintenance, insurance and repairs", ...SUPPLY("what you spend getting around each month, including gas, maintenance, insurance and repairs") },
+    "other.1": { section: "Monthly Household Expenses", label: "Another monthly expense, named by you — first line", ...SUPPLY("the name of any other monthly expense you have") },
+    "monthly.10": { section: "Monthly Household Expenses", label: "Another monthly expense, the amount — first line", ...SUPPLY("what that other expense costs you each month") },
+    "other.2": { section: "Monthly Household Expenses", label: "Another monthly expense, named by you — second line", ...SUPPLY("the name of a second other monthly expense, if you have one") },
+    "monthly.11": { section: "Monthly Household Expenses", label: "Another monthly expense, the amount — second line", ...SUPPLY("what that second other expense costs you each month") },
+    "monthly.total": { section: "Monthly Household Expenses", label: "Total monthly household expenses", ...SUPPLY("the total of the monthly amounts above. The form adds it up for you when you fill it in on a computer") },
+
+    "tr.re": { section: "What You Own and Owe", label: "The real estate you own, its market value and what you owe on it", ...SUPPLY("any real estate you own, what it is worth and what you still owe on it") },
+    "tr.vehicles": { section: "What You Own and Owe", label: "The vehicles you own, their market value and what you owe on them", ...SUPPLY("any car, truck, boat, motorcycle, snowmobile or RV you own, what it is worth and what you still owe") },
+    "income.1": { section: "What You Own and Owe", label: "Income tax paid last year", ...SUPPLY("the income tax you paid last year") },
+    "income.2": { section: "What You Own and Owe", label: "Income tax refund received last year", ...SUPPLY("the income tax refund you received last year") },
+    "tr.monthly": { section: "What You Own and Owe", label: "Bills you owe other than monthly household expenses, the amount, to whom, and the monthly payment", ...SUPPLY("any other bills you owe, how much, to whom, and what you pay each month") },
+    "tr.payments": { section: "What You Own and Owe", label: "Which of your bills are court-ordered payments", ...SUPPLY("which of those bills a court ordered you to pay, such as alimony or a judgment") },
+    "tr.other": { section: "What You Own and Owe", label: "Anyone else you owe money to, the amount, and when it is due", ...SUPPLY("anyone else you owe money to, how much, and when it is due") },
+    "tr.owed": { section: "What You Own and Owe", label: "Anyone who owes you money — name, address, amount due and when due", ...SUPPLY("anyone who owes you money, their name and address, how much, and when it is due") },
+    "tr.property": { section: "What You Own and Owe", label: "Property you have transferred in the last three years, to whom and for what price", ...SUPPLY("anything you have transferred to someone else in the last three years, to whom, and for what price") },
+    "tr.other2": { section: "What You Own and Owe", label: "Any other assets or expenses not already mentioned", ...SUPPLY("anything else you own or pay for that is not already listed") },
+
+    case1: { section: "Page Header", label: "Case Name repeated in the page header", ...SUPPLY("the same case name as the caption, repeated in the header of the later pages") },
+    "case number1": { section: "Page Header", label: "Case Number repeated in the page header", ...WRITE("matter.case_number") },
+
+    "cbcert.1": { section: "Certificate of Service", selection: true, label: "Certificate of service on page 3 - certifying you sent a copy on the date you sign (selection)", ...PROTECT(SIGNATURE, "the form's own page-3 certification states that you sent a copy on that date; it is service text, not evidence that service has occurred, and no copy has gone out when the packet is prepared, so the box, the signature and the date stay blank until service actually happens. preserve the financial statement's confidentiality and follow the applicable form certification and court filing rules") },
+    "sig.1": { section: "Filer Contact Information", label: "Name of Filer", ...WRITE("participant.full_legal_name") },
+    "sig.8": { section: "Signature Block", label: "Signature of Filer", ...PROTECT(SIGNATURE, "you sign this yourself") },
+    "sig.9": { section: "Signature Block", label: "Date you sign, entered at signature", ...PROTECT(SIGNATURE, "the date is part of the signature block and is entered when you sign") },
+    "sig.2": { section: "Signature Block", label: "Law Firm, if applicable", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+    "sig.3": { section: "Signature Block", label: "Bar ID number of attorney", ...ATTORNEY("attorney-only; no attorney-representation fact is held for this participant") },
+    "sig.10": { section: "Filer Contact Information", label: "Telephone", ...WRITE("participant.phone") },
+    "sig.4": { section: "Filer Contact Information", label: "Address", ...WRITE("participant.street_address") },
+    "sig.11": { section: "Filer Contact Information", label: "E-mail", ...WRITE("participant.email") },
+    "sig.5": { section: "Filer Contact Information", label: "City", ...WRITE("participant.city") },
+    "sig.6": { section: "Filer Contact Information", label: "State", ...WRITE("participant.state") },
+    "sig.7": { section: "Filer Contact Information", label: "Zip code", ...WRITE("participant.zip") },
+
+    "Clear Form - multi": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
+    "Save and lock form": { section: "Viewer Controls", label: "Save this form and lock it (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
+    "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
+    "1st page": { section: "Viewer Controls", label: "Reset the view to the first page of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") }
+  },
+
+  "NHJB-2956": {
+    "name.1": { section: "Section I — Who You Are", label: "Last name", ...WRITE("participant.last_name") },
+    "name.2": { section: "Section I — Who You Are", label: "Maiden name or alias, if any", ...OPTIONAL("any maiden name or alias, if you have one") },
+    "name.3": { section: "Section I — Who You Are", label: "First name", ...WRITE("participant.first_name") },
+    "name.4": { section: "Section I — Who You Are", label: "Middle initial", ...WRITE("participant.middle_name") },
+    "Mailing Address1": { section: "Section I — Who You Are", label: "Address — street, city, state and zip", ...WRITE("participant.full_address") },
+    Date: { section: "Section I — Who You Are", label: "Date of birth", ...WRITE("participant.date_of_birth") },
+    gender: { section: "Section I — Who You Are", label: "Sex, as the State Police record holds it", ...SUPPLY("the sex the State Police record holds for you; the form offers Female and Male") },
+    hair: { section: "Section I — Who You Are", label: "Hair colour", ...SUPPLY("your hair colour, from the list the form offers") },
+    eyes: { section: "Section I — Who You Are", label: "Eye colour", ...SUPPLY("your eye colour, from the list the form offers") },
+    license: { section: "Section I — Who You Are", label: "Driver licence number", ...SUPPLY("your driver licence number") },
+    "States/short": { section: "Section I — Who You Are", label: "The state that issued the driver licence", ...SUPPLY("the state that issued your driver licence") },
+    record: {
+      section: "Section I — Who You Are", label: "Purpose of record — the Other line",
+      ...NOT_ON_ROUTE("the purpose of this request is annulment or expungement, which the form prints as its own option, so the Other line is never populated with participant data on this route")
+    },
+    address: {
+      section: "Section II — Third-Party Release", label: "Address of the person or entity to receive the record",
+      ...SUPPLY("for every mailed request, complete both sections and have Section II notarized; enter the recipient address. Section I alone is sufficient only when requesting your own record in person")
+    },
+    "court.family/probate1 CUSTOM": {
+      section: "Section II — Third-Party Release", label: "Name of the person or entity to receive the record (selection)", selection: true,
+      ...SUPPLY("for every mailed request or release to another recipient, enter the actual recipient name; complete the Section II authorization before a notary. For your own record requested in person, only Section I is required")
+    },
+    "Clear Form": { section: "Viewer Controls", label: "Clear this form (viewer control)", ...VIEWER("a button in the PDF viewer, not a place anything is filed") },
+    "top page": { section: "Viewer Controls", label: "Reset the view to the top of the form (viewer control)", ...VIEWER("a navigation button in the PDF viewer, not a place anything is filed") },
+    "Form Guide": { section: "Viewer Controls", label: "Open the form guide (viewer control)", ...VIEWER("a button in the PDF viewer that opens guidance, not a place anything is filed") }
+  }
+};
+/* ---- fixtures ------------------------------------------------------------ *
+ *
+ * Two participants, one New Hampshire matter each. The canonical fixture is an
+ * ordinary set of values; the boundary fixture stresses length, punctuation and
+ * a hyphenated surname against the same widgets. Both carry name PARTS as well
+ * as the full legal name, because NHJB-2956 asks for last, first and middle
+ * initial in four separate boxes.
+ */
+const FIXTURES = {
+  canonical: {
+    "participant.full_legal_name": "Jordan Avery Reyes",
+    "participant.first_name": "Jordan",
+    "participant.middle_name": "A",
+    "participant.last_name": "Reyes",
+    "participant.date_of_birth": "04/17/1991",
+    "participant.street_address": "412 Elm Street, Apartment 3",
+    "participant.city": "Concord",
+    "participant.state": "NH",
+    "participant.zip": "03301",
+    "participant.city_state_zip": "Concord, NH 03301",
+    "participant.phone": "603-555-0142",
+    "participant.email": "jordan.reyes@example.org",
+    "matter.county": "Merrimack",
+    "matter.case_number": "473-2016-CR-00218",
+    "matter.charges": [{ case_number: "473-2016-CR-00218" }]
+  },
+  boundary: {
+    "participant.full_legal_name": "Maria-Alejandra O’Shaughnessy-Whitfield",
+    "participant.first_name": "Maria-Alejandra",
+    "participant.middle_name": "Q",
+    "participant.last_name": "O’Shaughnessy-Whitfield",
+    "participant.date_of_birth": "12/31/1968",
+    "participant.street_address": "1188 Upper Notch Crossing Road, Apartment 14B",
+    "participant.city": "Portsmouth",
+    "participant.state": "NH",
+    "participant.zip": "03801-2214",
+    "participant.city_state_zip": "Portsmouth, New Hampshire 03801-2214",
+    "participant.phone": "(603) 555-0199 ext. 4417",
+    "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+    "matter.county": "Rockingham",
+    "matter.case_number": "218-2018-CR-00119821-SUPPLEMENTAL",
+    "matter.charges": [{ case_number: "218-2018-CR-00119821-SUPPLEMENTAL" }]
+  }
+};
+for (const facts of Object.values(FIXTURES)) {
+  facts["participant.full_address"] = `${facts["participant.street_address"]}, ${facts["participant.city"]}, ${facts["participant.state"]} ${facts["participant.zip"]}`;
+}
+const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
+
+/* ---- source binding ------------------------------------------------------ *
+ *
+ * BOUND BY DIGEST, NOT BY PATH.
+ *
+ * The MASTER_QUEUE row for this family pins four SHA-256 digests and gives each
+ * a path in a custody this container does not mount — three in the D source
+ * packs and one in the nationwide recovery pool. The committed corpus index
+ * records every one of those digests in the Master Library as well, which IS
+ * mounted, so the bytes bind exactly; only the path differs. Resolution
+ * therefore starts from the pinned digest, finds the mounted entry that carries
+ * it, and re-hashes the file on disk before a single byte is read. A digest that
+ * matches no mounted entry, or a file that hashes to something else, stops the
+ * family rather than being worked around.
+ */
+function resolveSources() {
+  const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
+  const all = index.entries ?? [];
+  const root = corpusRoot();
+  const resolved = [];
+  const failures = [];
+  for (const wanted of ROUTE.documents) {
+    const acquired = wanted.formNumber === "NHJB-2886";
+    if (acquired) loadServiceGrounding();
+    const entry = acquired
+      ? { path: "reference/source-recovery/2026-09-12-nh2886/NH-NHJB-2886-DFPe.pdf", pageCount: 1 }
+      : all.find((e) => e.sha256 === wanted.pinnedSha256 && e.custody === "master_library");
+    if (!entry) {
+      failures.push({ sourceId: wanted.sourceId, pinnedSha256: wanted.pinnedSha256,
+        why: "no entry in the committed corpus index carries this digest in a custody this container mounts" });
+      continue;
+    }
+    const rel = entry.path;
+    const abs = acquired ? path.resolve(ROOT, rel) : path.resolve(ROOT, root, rel);
+    if (!fs.existsSync(abs)) { failures.push({ sourceId: wanted.sourceId, pathInArchive: rel, why: `the indexed path does not exist on disk: ${rel}` }); continue; }
+    const bytes = fs.readFileSync(abs);
+    const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
+    if (sha256 !== wanted.pinnedSha256) {
+      failures.push({ sourceId: wanted.sourceId, pathInArchive: rel,
+        why: `SHA-256 drift: the assignment pins ${wanted.pinnedSha256}, the mounted corpus holds ${sha256}` });
+      continue;
+    }
+    resolved.push({
+      ...wanted, pathInArchive: rel,
+      revision: entry.revision ?? null, sha256, byteLength: bytes.length, bytes,
+      acroFieldCount: entry.acroFieldCount ?? null, pageCount: entry.pageCount ?? null
+    });
+  }
+  return { resolved, failures };
+}
+
+/* ---- census --------------------------------------------------------------- */
+async function censusOf(source) {
+  const spec = FORM_FIELDS[source.formNumber];
+  const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true });
+  const pages = doc.getPages();
+  const pageText = pages.map((p, i) => ({
+    page: i + 1,
+    lines: groupIntoLines(extractTextItems(p)).map((l) => ({ y: Math.round(l.y), text: l.text }))
+  }));
+
+  const rows = [];
+  const unmapped = [];
+  for (const field of doc.getForm().getFields()) {
+    const name = field.getName();
+    const entry = spec[name];
+    const widgets = field.acroField.getWidgets().map((w) => {
+      const r = w.getRectangle();
+      const ref = w.P();
+      let pi = pages.findIndex((p) => p.ref === ref);
+      if (pi < 0) pi = 0;
+      /*
+       * WHETHER THE FORM SHOWS THIS WIDGET AT ALL.
+       *
+       * A form may ship a widget with the annotation Hidden flag set and reveal
+       * it with its own JavaScript when the control that governs it is used --
+       * Colorado's JDF 612 hides twenty-three that way. A value written into a
+       * hidden widget
+       * is invisible ink -- the finalizer reports the write, the flattened bytes
+       * carry no appearance, and the paper is blank. That is worse than a blank
+       * the packet admits to, so the flag is read here, from the pinned binary,
+       * and a write onto a hidden widget is refused by assertion below.
+       */
+      let flags = null;
+      try { flags = w.getFlags(); } catch { flags = null; }
+      const hidden = flags !== null && ((flags & 1) !== 0 || (flags & 2) !== 0 || (flags & 32) !== 0);
+      return {
+        page: pi + 1,
+        rect: { x: +r.x.toFixed(2), y: +r.y.toFixed(2), width: +r.width.toFixed(2), height: +r.height.toFixed(2) },
+        rectBasis: "acroform_widget_rect_read_first_hand_from_pinned_binary",
+        annotationFlags: flags, hiddenUntilTheFormRevealsIt: hidden
+      };
+    });
+    if (!entry) { unmapped.push({ field: name, widgets }); continue; }
+    /*
+     * What the SOURCE already carries on this control, before this build touches
+     * it. A form may ship a required box already ticked -- so the finished
+     * artifact draws a tick at a rectangle this map refuses, and reading that as
+     * "a field the map refused carries ink" would report a protected write this
+     * build never made. The form's own default is recorded here, from the
+     * pinned binary, so the byte proof can tell the two apart by evidence.
+     */
+    let sourceValue = null;
+    try {
+      if (typeof field.isChecked === "function") sourceValue = field.isChecked() ? "on" : null;
+      else if (typeof field.getSelected === "function") sourceValue = field.getSelected() ?? null;
+      else if (typeof field.getText === "function") sourceValue = field.getText() ?? null;
+    } catch { sourceValue = null; }
+    rows.push({
+      key: name, name, page: widgets[0]?.page ?? null, widgets, sourceValue,
+      hiddenUntilTheFormRevealsIt: widgets.some((w) => w.hiddenUntilTheFormRevealsIt === true),
+      rect: widgets[0]?.rect ?? null, rectBasis: widgets[0]?.rectBasis ?? null,
+      type: field.constructor.name.replace(/^PDF/, "").toLowerCase()
+        .replace("textfield", "text").replace("radiogroup", "radiogroup").replace("checkbox", "checkbox"),
+      isSelectionControl: entry.selection === true
+        || field.constructor.name === "PDFCheckBox" || field.constructor.name === "PDFRadioGroup",
+      multiline: typeof field.isMultiline === "function" ? field.isMultiline() : false,
+      maxLength: typeof field.getMaxLength === "function" ? (field.getMaxLength() ?? null) : null,
+      section: entry.section, effectiveLabel: entry.label,
+      policy: entry.policy, fact: entry.fact ?? null,
+      refusalClass: entry.refusalClass ?? null, what: entry.what ?? null, why: entry.why ?? null,
+      // The scrambled extraction at this widget's own coordinate, kept as
+      // evidence of WHY the printed-caption check is unavailable on this form.
+      printedTextAtCoordinate: (pageText.find((p) => p.page === (widgets[0]?.page ?? 1))?.lines ?? [])
+        .filter((l) => widgets[0] && Math.abs(l.y - widgets[0].rect.y) <= 20)
+        .sort((a, b) => Math.abs(a.y - widgets[0].rect.y) - Math.abs(b.y - widgets[0].rect.y))
+        .slice(0, 2).map((l) => ({ y: l.y, extracted: l.text }))
+    });
+  }
+
+  const dictionaryKeys = new Set(Object.keys(spec));
+  for (const r of rows) dictionaryKeys.delete(r.key);
+  return { rows, unmapped, stale: [...dictionaryKeys], pageText, pageCount: pages.length };
+}
+
+/* ---- render ---------------------------------------------------------------- */
+async function renderDocument(source, census, fixtureName) {
+  const facts = FIXTURES[fixtureName];
+  // This source-bound allowlist uses printed meanings, not the PDF author's
+  // misleading sig.N and name.N names. It never includes a real certification,
+  // signing date, signature, attorney or court field. The shared writer's
+  // protections remain unchanged; it prepares the blank official form only.
+  const writable = census.rows.filter((r) => r.policy === "write");
+  for (const row of writable) {
+    assert.ok(!["sig.8", "sig.9", "sig.2", "sig.3"].includes(row.name));
+    assert.ok(row.widgets.every((w) => !w.hiddenUntilTheFormRevealsIt));
+  }
+  const blank = await finalizeOfficialForm({
+    sourceBytes: source.bytes, expectedSha256: source.sha256,
+    census: census.rows.map((r) => ({ name: r.name, type: r.type,
+      effectiveLabel: r.effectiveLabel, regionHeading: r.section,
+      widgets: r.widgets.map((w) => ({ page: w.page, rect: w.rect })) })),
+    facts: {}, explicitMappings: {},
+    unwritableFields: census.rows.map((r) => ({ field: r.name })),
+    appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${FAMILY_ID}:${source.formNumber}`),
+    title: source.title
+  });
+  const pdf = await PDFDocument.load(blank.bytes);
+  const fonts = await Promise.all([StandardFonts.Helvetica, StandardFonts.TimesRoman].map((n) => pdf.embedFont(n)));
+  const written = [];
+  for (const row of writable) {
+    const value = facts[row.fact];
+    assert.ok(typeof value === "string" && value.length, `${source.formNumber}/${row.name}: missing known value`);
+    const widgets = [];
+    for (const widget of row.widgets) {
+      let chosen;
+      for (const font of fonts) {
+        const fit = fitTextToWidget({ font, text: value, rect: widget.rect,
+          multiline: row.multiline, maxFontSize: 10, minFontSize: 6, evaluateDeclaredMinimumSize: true });
+        if (fit.outcome !== "refused") { chosen = { font, fit }; break; }
+      }
+      assert.ok(chosen, `${source.formNumber}/${row.name}/${fixtureName}: complete value cannot fit at 6pt`);
+      const { font, fit } = chosen;
+      const rect = widget.rect;
+      const baseline = fit.lines.length === 1 ? Math.max(1, (rect.height - fit.fontSize) / 2) : rect.height - fit.fontSize - 1;
+      const content = ["BT", "0 0 0 rg", `/F0 ${fit.fontSize} Tf`,
+        ...fit.lines.flatMap((line, index) => [`1 0 0 1 2 ${baseline - index * fit.fontSize * 1.15} Tm`, `${font.encodeText(line)} Tj`]), "ET"].join("\n");
+      const stream = pdf.context.stream(content, { Type: "XObject", Subtype: "Form",
+        BBox: [0, 0, rect.width, rect.height], Resources: { Font: { F0: font.ref } } });
+      const page = pdf.getPages()[widget.page - 1];
+      const key = page.node.newXObject("ExactFactOverlay", pdf.context.register(stream));
+      page.pushOperators(pushGraphicsState(), translate(rect.x, rect.y), drawObject(key), popGraphicsState());
+      widgets.push({ page: widget.page, rect, fontSize: fit.fontSize, outcome: fit.outcome });
+    }
+    written.push({ field: row.name, factId: row.fact, value, widgets, writer: "source-bound-neutral-fact-appearance" });
+  }
+  return { bytes: await pdf.save({ useObjectStreams: false, updateMetadata: false }),
+    report: { ...blank.report, written, refused: blank.report.refused.filter((r) => !written.some((w) => w.field === r.field)) } };
+}
+
+/* ---- byte proof ------------------------------------------------------------ */
+/*
+ * WHAT THE PINNED SOURCE ITSELF DRAWS, BEFORE THIS BUILD TOUCHES IT.
+ *
+ * A form may bake a hint into a widget's own appearance stream rather than into
+ * its value: NHJB-2886's signature widget carries "Enter /s/ before name", and
+ * flattening materialises it. Read from the finished artifact alone that looks
+ * exactly like ink on a field the map refused -- which is a blocking finding,
+ * and would be the wrong one. The source is therefore flattened once, unwritten,
+ * and its own ink recorded per widget. Nothing is softened: ink at a widget the
+ * source leaves empty is still a blocking finding, and ink that DIFFERS from the
+ * source's own is still a blocking finding.
+ */
+async function sourceInkOf(source) {
+  // Flattened with nothing written into it: an unflattened form draws no widget
+  // XObjects at all, so reading the source as it ships would report every form
+  // as carrying no ink of its own and prove nothing.
+  const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true, updateMetadata: false });
+  try { doc.getForm().flatten(); } catch { /* a form that will not flatten leaves no source ink to compare against */ }
+  const bytes = await doc.save({ useObjectStreams: false, updateMetadata: false });
+  const tmp = path.join(os.tmpdir(), `.nh-source-ink-${source.formNumber}.pdf`);
+  fs.writeFileSync(tmp, bytes);
+  try { return await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
+}
+
+async function byteProof(source, census, artifactBytes, report, fixtureName, sourceInk = []) {
+  const tmp = path.join(os.tmpdir(), `.nh-byte-proof-${source.formNumber}-${fixtureName}.pdf`);
+  fs.writeFileSync(tmp, artifactBytes);
+  let widgets = [];
+  try { widgets = await flattenedWidgets(tmp); } finally { fs.unlinkSync(tmp); }
+  const written = new Map(report.written.map((w) => [w.field, w]));
+  const actualWrites = [];
+  const refusedFieldsWithInk = [];
+  const documentAuthoredAppearances = [];
+  let glyphs = 0;
+  for (const r of census.rows) {
+    for (const wdg of r.widgets) {
+      const drawn = drawnAt(widgets, { page: wdg.page, rect: wdg.rect });
+      const rawAppearanceText = drawn.map((d) => d.text).filter(Boolean);
+      // Our two standard fonts explicitly use WinAnsiEncoding. The legacy
+      // appearance reader returns Latin-1 code units; decode the declared font
+      // encoding before comparing the Unicode participant value (0x92 is ’).
+      const text = written.has(r.name) ? rawAppearanceText.map((t) => new TextDecoder("windows-1252").decode(Buffer.from(t, "latin1"))) : rawAppearanceText;
+      const ink = text.join("").trim();
+      if (written.has(r.name) && r.policy === "write") {
+        glyphs += ink.length;
+        actualWrites.push({
+          field: r.key, factId: r.fact, page: wdg.page, rect: wdg.rect,
+          section: r.section, effectiveLabel: r.effectiveLabel,
+          drawnText: text, rawAppearanceText, encoding: "WinAnsiEncoding", expected: FIXTURES[fixtureName][r.fact] ?? null,
+          matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
+        });
+        continue;
+      }
+      if (ink.length === 0) continue;
+      // Ink on a control the SOURCE already carried is the form's own default,
+      // not a write this build made.
+      if (r.sourceValue !== null && r.sourceValue !== undefined) {
+        documentAuthoredAppearances.push({
+          field: r.key, page: wdg.page, rect: wdg.rect, drawnText: text,
+          sourceValue: r.sourceValue,
+          note: "the pinned source already carries this value; flattening materialises the form's own default"
+        });
+        continue;
+      }
+      // The same ink at the same rectangle in the FLATTENED SOURCE is the form's
+      // own appearance, not a write this build made.
+      const inSource = drawnAt(sourceInk, { page: wdg.page, rect: wdg.rect }).map((d) => d.text).filter(Boolean);
+      if (inSource.join("").trim() === ink) {
+        documentAuthoredAppearances.push({
+          field: r.key, page: wdg.page, rect: wdg.rect, drawnText: text,
+          sourceAppearanceText: inSource,
+          note: "the pinned source's own widget appearance draws exactly this text; flattening materialises the form's own hint, and this build wrote nothing here"
+        });
+        continue;
+      }
+      refusedFieldsWithInk.push({ fieldId: r.key, page: wdg.page, drawnText: text });
+    }
+  }
+  assert.ok(actualWrites.every((w) => w.matchesExpected), `${source.formNumber}/${fixtureName}: saved bytes lost a known value`);
+  assert.equal(actualWrites.length, census.rows.filter((r) => r.policy === "write").reduce((n, r) => n + r.widgets.length, 0));
+  assert.equal(refusedFieldsWithInk.length, 0, `${source.formNumber}/${fixtureName}: unexpected ink in an unwritten field`);
+  return { actualWrites, refusedFieldsWithInk, documentAuthoredAppearances, glyphs, appearances: widgets.length };
+}
+
+/* ---- field map ------------------------------------------------------------- */
+function mapFor(source, census, report) {
+  const writtenNames = new Set(report.written.map((w) => w.field));
+  const canonicalWrites = [];
+  const canonicalRefusals = [];
+  const selectionControls = [];
+
+  for (const r of census.rows) {
+    const base = {
+      field: `${source.formNumber}/${r.key}`,
+      fieldName: `${source.formNumber}/${r.key}`.replace(/\[\d+\]/g, ""),
+      acroFieldName: r.name,
+      page: r.page, rect: r.rect, rectBasis: r.rectBasis,
+      printedLabel: r.effectiveLabel, printedLine: r.effectiveLabel,
+      sectionHeading: r.section, regionHeading: r.effectiveLabel,
+      effectiveLabel: r.effectiveLabel,
+      captionBasis: "authored_acroform_field_name_plus_printed_section, because this form's text stream is scrambled",
+      printedTextAtCoordinate: r.printedTextAtCoordinate,
+      document: source.formNumber
+    };
+
+    if (r.policy === "write") {
+      if (writtenNames.has(r.name)) canonicalWrites.push({ ...base, factId: r.fact, kind: r.type });
+      else {
+        canonicalRefusals.push({
+          ...base, reason: "the finalizer refused this write; the packet does not claim a value it did not draw",
+          category: null, completenessClass: null, class: null,
+          requiredBeforeFiling: false, why: "reported rather than claimed, so the defect is visible to the audit"
+        });
+      }
+      continue;
+    }
+
+    if (r.isSelectionControl) {
+      const cls = r.policy === "protect" ? r.refusalClass : r.policy === "attorney" ? null : PARTICIPANT_ELECTION;
+      selectionControls.push({
+        ...base, selectionId: base.field, kind: "selection_control", type: r.type,
+        widgets: r.widgets, disposition: "explicit_refusal",
+        reason: r.why, category: cls, completenessClass: cls, class: cls,
+        requiredBeforeFiling: false, routeDetermined: false
+      });
+      continue;
+    }
+
+    if (r.policy === "protect") {
+      canonicalRefusals.push({
+        ...base, reason: r.why, category: r.refusalClass,
+        completenessClass: r.refusalClass, class: r.refusalClass,
+        requiredBeforeFiling: false, why: r.why
+      });
+      continue;
+    }
+
+    if (r.policy === "optional") {
+      canonicalRefusals.push({
+        ...base,
+        reason: `optional participant-authored content; the platform does not invent it: ${r.what}`,
+        category: null, completenessClass: null, class: null,
+        requiredBeforeFiling: false, why: `the form marks this conditional and the platform does not invent it: ${r.what}`
+      });
+      continue;
+    }
+
+    if (r.policy === "attorney" || r.policy === "viewer" || r.policy === "not_on_route") {
+      canonicalRefusals.push({
+        ...base, reason: r.why, category: null, completenessClass: null, class: null,
+        requiredBeforeFiling: false, why: r.why
+      });
+      continue;
+    }
+
+    canonicalRefusals.push({
+      ...base,
+      reason: `the participant supplies this before filing: ${r.what}`,
+      category: null, completenessClass: null, class: null,
+      disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true, identity: `${source.formNumber} field ${r.key}`,
+      factId: r.fact ?? null, routeDetermined: false,
+      why: `the platform holds no value for this and the participant supplies it before filing: ${r.what}`,
+      participantMustSupply: r.what
+    });
+  }
+
+  return {
+    formNumber: source.formNumber, documentId: source.formNumber, documentRole: source.instrumentKind,
+    documentPolicy: { mode: "participant", captionOnly: false, documentAcceptsFill: true, routeKey: ROUTE.routeKey },
+    structuralClass: "acroform",
+    explicitMappings: Object.fromEntries(canonicalWrites.map((w) => [w.field, w.factId])),
+    roleRefusals: [], selectionControls, canonicalWrites, canonicalRefusals,
+    boundaryWrites: canonicalWrites, boundaryRefusals: canonicalRefusals
+  };
+}
+
+/* ---- the builder's own count of the nine counters --------------------------- */
+function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
+  const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
+  const findings = [];
+  const note = (counter, detail) => { counters[counter] += 1; findings.push({ counter, ...detail }); };
+
+  const row = (r, selection = false) => ({
+    id: r.field, name: r.fieldName ?? r.field, label: r.effectiveLabel ?? "", reason: r.reason ?? "",
+    refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
+    factId: r.factId ?? null, isSelectionControl: selection,
+    declared: {
+      disposition: r.completenessDisposition ?? null,
+      ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
+      ...(Object.hasOwn(r, "routeDetermined") ? { routeDetermined: r.routeDetermined === true } : {}),
+      identity: r.identity ?? null, factId: r.factId ?? null
+    }
+  });
+
+  const writes = maps.flatMap((m) => m.canonicalWrites.map((w) => row(w)));
+  const blanks = maps.flatMap((m) => [
+    ...m.canonicalRefusals.map((r) => row(r)),
+    ...m.selectionControls.map((c) => row(c, true))
+  ]);
+
+  const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean));
+  for (const p of writeProofs) {
+    for (const w of p.actualWrites) if (w.factId && String(w.drawnText.join("")).trim()) availableFacts.add(String(w.factId));
+  }
+  const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  // Scoped to the DOCUMENT: a field name repeats across the two forms and means
+  // something different on each.
+  const writtenInDocument = new Map();
+  for (const w of writes) {
+    if (!writtenInDocument.has(w.document)) writtenInDocument.set(w.document, new Set());
+    for (const k of [normLabel(w.label), normLabel(w.name)]) if (k.length >= 4) writtenInDocument.get(w.document).add(k);
+  }
+
+  const ledger = [];
+  for (const blank of blanks) {
+    const here = writtenInDocument.get(blank.document) ?? new Set();
+    const declared = {
+      ...blank.declared,
+      factAvailable: (blank.declared.factId ? availableFacts.has(String(blank.declared.factId)) : false)
+        || here.has(normLabel(blank.label)) || here.has(normLabel(blank.name))
+    };
+    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
+    ledger.push({ field: blank.id, label: blank.label, ...verdict });
+    if (BLANK_DISPOSITIONS[verdict.disposition].allowed) continue;
+    const counter = verdict.disposition === "KNOWN_FACT_NOT_WRITTEN" ? "knownRequiredFieldsMissing"
+      : verdict.disposition === "ROUTE_OPTION_NOT_SELECTED" ? "requiredOptionsMissing" : "unclassifiedBlanks";
+    note(counter, { field: blank.id, label: blank.label, disposition: verdict.disposition, basis: verdict.basis });
+  }
+
+  const instructions = String(instructionsText ?? "");
+  for (const b of ledger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING")) {
+    const needles = [b.label, b.field].map((x) => String(x ?? "").trim()).filter((x) => x.length >= 3);
+    if (needles.some((n) => instructions.toLowerCase().includes(n.toLowerCase().slice(0, 60)))) continue;
+    note("requiredFactsNotCollected", { field: b.field, label: b.label, why: "declared required-before-filing and not named in participant-instructions.md" });
+  }
+
+  const rows = new Map();
+  for (const f of [...writes.map((w) => ({ ...w, written: true })), ...blanks.map((b) => ({ ...b, written: false }))]) {
+    const key = rowKeyOf(f);
+    if (!key) continue;
+    if (!rows.has(key)) rows.set(key, []);
+    rows.get(key).push(f);
+  }
+  for (const [key, cells] of rows) {
+    if (!cells.some((c) => c.written)) continue;
+    const missing = cells.filter((c) => !c.written && classifyField(c.label, c.isSelectionControl === true).requirement === "REQUIRED_KNOWN");
+    if (missing.length > 0) note("incompleteRows", { row: key, missingCells: missing.map((m) => m.label) });
+  }
+
+  for (const p of writeProofs) {
+    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
+    if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) {
+      note("invisibleWrites", { fixture: p.fixture, why: "the finalizer reported values and the output bytes carry no glyph and no flattened appearance" });
+    }
+    if ((p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes ?? 0) > 0) note("visualDefects", { fixture: p.fixture, why: "ink landed outside every measured write box" });
+    for (const refused of p.refusedFieldsWithInk ?? []) {
+      note("protectedWrites", { fixture: p.fixture, field: refused.fieldId, why: "a field the map refused carries ink in the output" });
+    }
+  }
+  for (const w of writes) {
+    if (classifyField(w.label, false).requirement === "PROTECTED") {
+      note("protectedWrites", { field: w.id, label: w.label, why: "a protected field was written" });
+    }
+  }
+
+  const rendered = artifacts.map((a) => `${a.file} ${(a.documents ?? []).join(" ")}`).join(" ").toLowerCase();
+  const loose = (x) => String(x).toLowerCase().replace(/[^a-z0-9]/g, "");
+  for (const m of maps) {
+    if (!rendered.includes(String(m.formNumber).toLowerCase()) && !loose(rendered).includes(loose(m.formNumber))) {
+      note("requiredComponentsMissing", { component: m.formNumber, why: "the field map names this document and it appears in no rendered artifact" });
+    }
+  }
+
+  return { counters, findings, ledger };
+}
+
+/* ---- artifacts ------------------------------------------------------------- */
+function writeJson(rel, value) {
+  fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function requiredBeforeFilingItems(maps) {
+  return maps.flatMap((m) => m.canonicalRefusals
+    .filter((r) => r.requiredBeforeFiling === true)
+    .map((r) => ({
+      document: m.formNumber, field: r.field, page: r.page,
+      section: r.sectionHeading, disclosureLabel: r.effectiveLabel,
+      identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply
+    })));
+}
+
+/* ---- the two composed process_guidance components --------------------------- */
+/*
+ * WHY THE PACKET GAINS PAGES.
+ *
+ * The packet-set manifest declares six components. Four are official form
+ * slices and the packet rendered all four. The other two are declared
+ * `required` with outputStrategy `process_guidance`, and the delivered nine
+ * pages carried neither: independent verification read the bytes page by page
+ * and found NHJB-2317 pp.1-3, NHJB-2886 pp.4-5, NHJB-2328 pp.6-8, NHJB-2956
+ * p.9 "and nothing else". participant-instructions.md is a repository file, not
+ * a page of the filing, so a participant handed the packet received neither.
+ *
+ * They are composed here as ordinary text pages, appended after the four form
+ * slices, in the shape the Rhode Island families use for the same job: a
+ * heading, the participant's name, an explicit line saying the page is guidance
+ * and not a filing, sentences quoted out of the committed record rather than
+ * authored here, and the machine route key as a trailer. Nothing on either page
+ * is a court form, and neither page carries a field, a signature line or a
+ * blank for the participant to complete.
+ */
+function stopConditionLines(stops) {
+  const L = [];
+  L.push("WHERE SELF-HELP ENDS.", "");
+  L.push(`Review these ${stops.conditions.length} conditions before filing. If any describes your case, consult a lawyer licensed in New Hampshire.`, "");
+  for (const condition of stops.conditions) L.push(`- ${condition}`);
+  L.push("");
+  L.push("The clerk can explain court procedures. For advice about eligibility or the legal effect on your case, consult a lawyer licensed in New Hampshire.", "");
+  return L;
+}
+
+function feeWaiverServiceLines(service) {
+  assert.equal(service.decision.disposition, "LEGAL_CLEAR");
+  return ["FILING FEES AND CONFIDENTIAL FINANCIAL INFORMATION",
+    "If requesting a filing-fee waiver, use NHJB-2886-DFPe, Motion to Waive Filing Fees, with NHJB-2328, Statement of Assets and Liabilities. The statement is confidential. Submit it using the court's confidential filing procedure; do not treat it as an ordinary public attachment.", "",
+    "The motion is marked For e-Filing only. Use the court's electronic filing process for this version. Its service certificate requires copies to attorneys and parties with electronic service contacts through the electronic system, and mailing or hand delivery to other interested parties as required by the Circuit Court rules. Follow the motion's own certification. Preserve the financial statement's confidentiality when following its separate filing and certification rules.", "",
+    "Names and contact information are filled when known. Actual signatures, signing dates, service checkboxes and court orders are left blank. Certify service only after the required service has actually occurred. Preparing this packet does not file or serve anything.", ""];
+}
+
+function postFilingInstructionsBody({ facts, fee, stops, service }) {
+  const name = facts["participant.full_legal_name"];
+  const L = [];
+  L.push("WHAT HAPPENS AFTER YOU FILE", ROUTE.publicLabel, "");
+  L.push(`Prepared for: ${name}`, "");
+  L.push("This page is guidance. It is not a filing, it is not signed, and there is nothing on it to hand to a "
+    + "clerk.", "");
+  L.push("WHERE THE PETITION GOES.", "");
+  L.push(`${fee.track.rules.filing} One offence, one petition; `
+    + "NHJB-2317 says so itself, in capitals, on its own face.", "");
+  L.push("WHAT THE COURT DOES NEXT, AND WHO ELSE SEES THE PETITION.", "");
+  L.push(`The record states who is told: "${fee.track.rules.notice}" You do not serve anybody. The record's own `
+    + `service rule for this route is: "${fee.track.rules.service}"`, "");
+  L.push("The petition's own text says the court considers an investigation and report prepared by the Department "
+    + "of Corrections and any response filed by the State, and that the court may decide the petition without a "
+    + "hearing unless you asked for one. If you want a hearing, you must tick the box on the petition that asks "
+    + "for it before you file - there is no box on this page and nothing here requests one for you.", "");
+  L.push("THE MONEY THAT MAY STILL BE OWED AFTER YOU FILE.", "");
+  L.push(`The record states the cost of this route: "${fee.fees}"`, "");
+  L.push(`It records the question about the agency fees as open, and it is still open: "${fee.openQuestion.question}" `
+    + "Nothing in this packet answers it. Ask the clerk, and ask the Department of Corrections, what each of them "
+    + "will charge you.", "");
+  L.push(...feeWaiverServiceLines(service));
+  /* FIX107. Bound to its paragraph for the same reason as the two headings
+   * above: inserting the fee-waiver-papers section moved this heading to the
+   * foot of a page, where a two-row heading block fits and its body does not,
+   * and it shipped stranded from the text it introduces. */
+  L.push("IF THE COURT GRANTS THE PETITION.");
+  L.push("Page 3 of NHJB-2317 is the court's own page: it is marked FOR COURT USE ONLY, it is where the court "
+    + "records granting the annulment on one of the three grounds printed there, and it carries the list of who "
+    + "the court sends copies to - the prosecutor, the Department of Safety Criminal Records, the Division of "
+    + "Motor Vehicles and the Department of Corrections. That distribution is the court's to make. Nothing on it "
+    + "is yours to complete and nothing in this packet does it for you.", "");
+  L.push("IF THE COURT DENIES THE PETITION.", "");
+  L.push("A statutory limit applies: \"A further petition within 3 years of "
+    + "a denial, barred by RSA 651:5, IV.\" A denial therefore has a cost beyond the fee you already paid: it "
+    + "closes the route for three years. That is a reason to read the certification on page 2 of the petition "
+    + "before you swear to it, not after.", "");
+  L.push("YOUR OWN CRIMINAL HISTORY RECORD, WHICH DOES NOT GO TO THE COURT.", "");
+  L.push("NHJB-2956 in this packet is a request to the State Police Criminal Records Unit for your own record. It "
+    + "is not filed with the petition and it is not sent to the clerk. The record request helps obtain \"the only "
+    + "practical way to build the complete record list that RSA 651:5, VI makes decisive\" where you have other "
+    + "New Hampshire cases. Every mailed request requires both sections and notarization of Section II. Section I alone is sufficient only for requesting your own record in person. Choose how you will request the record before completing it.", "");
+  L.push(...stopConditionLines(stops));
+
+  return L.join("\n");
+}
+
+function effectAndLimitsBody({ facts, fee, stops, service }) {
+  const name = facts["participant.full_legal_name"];
+  const track = stops.track;
+  const L = [];
+  L.push("WHAT AN ANNULMENT DOES, AND WHAT IT DOES NOT DO", ROUTE.publicLabel, "");
+  L.push(`Prepared for: ${name}`, "");
+  L.push("This page is guidance. It is not a filing, it is not signed, and there is nothing on it to hand to a "
+    + "clerk. It explains the effect of the order "
+    + "and its limits before you file, and because several of the limits below cost money or mislead people who "
+    + "have not been told them.", "");
+  L.push("WHAT THE RECORD SAYS THE ORDER DOES. THIS IS THE COMMITTED RECORD'S OWN DESCRIPTION, QUOTED WHOLE:", "");
+  L.push(`"${track.mechanism}"`, "");
+  L.push("THE ONLY QUESTION YOU CAN BE ASKED, ONCE THE RECORD IS ANNULLED.", "");
+  for (const instruction of track.packetInstructions ?? []) {
+    if (instruction.includes("X(f)")) L.push(`The record states: "${instruction}"`, "");
+  }
+  L.push("So an annulment does not make it a lie to answer that question honestly. It changes what the honest "
+    + "answer is.", "");
+  L.push("WHAT IT DOES NOT DO. THE RECORD RECORDS THESE AS SCOPE RESTRICTIONS, IN ITS OWN WORDS:", "");
+  for (const restriction of track.scopeRestrictions ?? []) L.push(`- ${restriction}`);
+  L.push("");
+  L.push("Read the second of those twice. RSA 651:5, XVII is the statutory reason a private background-check "
+    + "company can keep showing a case a New Hampshire court has annulled, and the record says so in terms: no "
+    + "person or entity faces any penalty for publishing an annulled record or for not removing or correcting an "
+    + "earlier report. An annulment is a court order about the court's and the agencies' records. It is not a "
+    + "deletion, and the record lists among the same restrictions the claim \"That New Hampshire expunges, deletes "
+    + "or destroys records.\"", "");
+  L.push("WHO IS OUTSIDE THIS ROUTE ALTOGETHER. THE RECORD'S OWN EXCLUSIONS:", "");
+  for (const exclusion of track.exclusions ?? []) L.push(`- ${exclusion}`);
+  L.push("");
+  L.push("The first of those matters most on this route: where the vacated conviction falls INSIDE paragraph II-a "
+    + "it is annulled automatically, with no petition and no fee. If that is your case, filing this petition pays "
+    + "$125.00 for something the statute already gives you. Ask the clerk which side of paragraph II-a your "
+    + "offence falls on before you file.", "");
+  L.push("WHAT NOBODY WHO PREPARED THIS PACKET MAY ASSERT FOR YOU.", "");
+  for (const limitation of track.legalDesignLimitations ?? []) {
+    if (limitation.classification !== "self_help_boundary") continue;
+    L.push(`- ${limitation.statement}`);
+  }
+  L.push("");
+  L.push("Relief on this route is discretionary. Whether you are rehabilitated, and whether annulment is "
+    + "consistent with the public welfare, are findings the court makes under paragraph I. This packet asserts "
+    + "neither, and no sentence in it should be read as evidence of either.", "");
+  return L.join("\n");
+}
+
+const GUIDANCE_PAGES = Object.freeze([
+  {
+    componentId: "nh_petition_vacated-post-filing-instructions-5",
+    role: "post_filing_instructions",
+    title: "What happens after you file",
+    body: postFilingInstructionsBody
+  },
+  {
+    componentId: "nh_petition_vacated-effect-and-limits-disclosure-6",
+    role: "effect_and_limits_disclosure",
+    title: "What an annulment does, and what it does not do",
+    body: effectAndLimitsBody
+  }
+]);
+
+/*
+ * The composed pages are drawn with the same block pagination the Rhode Island
+ * host uses, and with the same shared separator-aware token splitter, so a
+ * route key never breaks mid-word and no heading is stranded from the list it
+ * introduces. Nothing truncates: a long line wraps, a long token splits at its
+ * own separators, and a token with no separator to break on fails the build
+ * rather than shipping a page a reader cannot follow.
+ */
+function sanitizePdfText(text) {
+  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+    .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
+    .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
+    .replaceAll("§§", "Secs. ").replaceAll("§", "Sec. ")
+    .replaceAll("Secs.  ", "Secs. ").replaceAll("Sec.  ", "Sec. ").replaceAll("…", "...");
+}
+
+const MIN_ROWS_EITHER_SIDE = 2;
+
+async function renderComposedPdf(fullText, title) {
+  const pdf = await PDFDocument.create();
+  stampDeterministic(pdf);
+  pdf.setTitle(title);
+  pdf.setProducer("RCAP census-v1 artifact-only renderer");
+  pdf.setCreator("RCAP evidence build");
+  const font = await pdf.embedFont(StandardFonts.TimesRoman);
+  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const maxWidth = width - 2 * margin;
+
+  const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
+  const wrap = (line) => {
+    if (!line) return [""];
+    const words = line.split(/\s+/).flatMap((w) => (font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]));
+    const out = []; let current = "";
+    for (const w of words) {
+      const candidate = current ? `${current} ${w}` : w;
+      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) current = candidate;
+      else { if (current) out.push(current); current = w; }
+    }
+    if (current) out.push(current);
+    return out;
+  };
+
+  const TRAILER_LINE = /^Route: /;
+  const rows = [];
+  for (const raw of sanitizePdfText(fullText).split("\n")) {
+    const trailer = TRAILER_LINE.test(raw);
+    for (const row of wrap(raw)) rows.push({ text: row, trailer });
+  }
+  let capacity = 0;
+  for (let y = height - margin; y >= margin; y -= lineHeight) capacity += 1;
+
+  const blocks = [];
+  for (const row of rows) {
+    const blank = row.text === "";
+    const last = blocks[blocks.length - 1];
+    if (blank) blocks.push({ blank: true, rows: [row] });
+    else if (last && !last.blank) last.rows.push(row);
+    else blocks.push({ blank: false, rows: [row] });
+  }
+  blocks.forEach((block, index) => { block.index = index; for (const row of block.rows) row.block = index; });
+
+  const pages = [[]];
+  const room = () => capacity - pages[pages.length - 1].length;
+  const newPage = () => { pages.push([]); };
+  for (const block of blocks) {
+    if (block.blank) {
+      if (pages[pages.length - 1].length === 0) continue;
+      if (room() <= 0) { newPage(); continue; }
+      pages[pages.length - 1].push({ text: "", trailer: false, block: block.index });
+      continue;
+    }
+    if (block.rows.length <= room()) { pages[pages.length - 1].push(...block.rows); continue; }
+    if (block.rows.length <= capacity) { newPage(); pages[pages.length - 1].push(...block.rows); continue; }
+    let rest = block.rows;
+    while (rest.length) {
+      let take = Math.min(room(), rest.length);
+      const leftOver = rest.length - take;
+      if (take < MIN_ROWS_EITHER_SIDE || (leftOver > 0 && leftOver < MIN_ROWS_EITHER_SIDE)) {
+        if (pages[pages.length - 1].length === 0) take = Math.max(MIN_ROWS_EITHER_SIDE, rest.length - MIN_ROWS_EITHER_SIDE);
+        else { newPage(); continue; }
+      }
+      pages[pages.length - 1].push(...rest.slice(0, take));
+      rest = rest.slice(take);
+      if (rest.length) newPage();
+    }
+  }
+
+  const trim = (rowsOnPage) => { const copy = [...rowsOnPage]; while (copy.length && copy[copy.length - 1].text === "") copy.pop(); return copy; };
+  const laid = pages.map(trim).filter((rowsOnPage) => rowsOnPage.some((r) => r.text !== ""));
+
+  /* A page whose every drawn row is the machine route trailer is not a page a
+   * participant can be handed, so the block that closed the page before is
+   * pulled down onto it. Whole blocks only, and never one that would not fit. */
+  const soleOccupant = (rowsOnPage) => rowsOnPage.length > 0 && rowsOnPage.every((r) => r.trailer || r.text === "");
+  for (let guard = 0; guard < blocks.length && laid.length > 1 && soleOccupant(laid[laid.length - 1]); guard++) {
+    const last = laid[laid.length - 1];
+    const previous = laid[laid.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    if (moved.length === 0 || moved.length + last.length > capacity) { previous.push(...moved); break; }
+    last.unshift(...moved);
+    const kept = trim(previous);
+    if (kept.length === 0) { laid.splice(laid.length - 2, 1); break; }
+    laid[laid.length - 2] = kept;
+  }
+
+  /*
+   * THE THIN LAST PAGE, PULLED BACK UP TO A PAGE.
+   *
+   * The pull-down above fires only when the final page holds NOTHING but the
+   * route trailer. It does not fire when the page holds a closing paragraph and
+   * the trailer, and that is what this packet produced on its first build: the
+   * post-filing guidance ran four lines and a trailer onto packet page 12.
+   * scripts/rcap-scan01-composed-pdf-text-integrity.mjs measured it and called
+   * it a fragment page - five drawn lines against its thinnest-legitimate-page
+   * benchmark of eight - and it is right that a participant handed a page with
+   * four lines on it has been handed a page break rather than a page.
+   *
+   * So the same whole-block pull-down runs until the last page reaches that
+   * benchmark. It moves complete blocks only, never splits one, refuses a move
+   * that would not fit, and refuses one that would leave the page it took from
+   * thinner than the page it was fixing. Where nothing can be moved it stops
+   * and leaves the layout alone rather than reflowing text to hit a number.
+   */
+  const THINNEST_LEGITIMATE_PAGE_ROWS = 8;
+  const drawnRows = (rowsOnPage) => rowsOnPage.filter((r) => r.text !== "").length;
+  for (let guard = 0; guard < blocks.length && laid.length > 1
+       && drawnRows(laid[laid.length - 1]) < THINNEST_LEGITIMATE_PAGE_ROWS; guard++) {
+    const last = laid[laid.length - 1];
+    const previous = laid[laid.length - 2];
+    const moving = previous[previous.length - 1].block;
+    const moved = [];
+    while (previous.length > 0 && previous[previous.length - 1].block === moving) moved.unshift(previous.pop());
+    const wouldStrandTheDonor = drawnRows(previous) > 0 && drawnRows(previous) < THINNEST_LEGITIMATE_PAGE_ROWS;
+    if (moved.length === 0 || moved.length + last.length > capacity || wouldStrandTheDonor) {
+      previous.push(...moved);
+      break;
+    }
+    last.unshift(...moved, { text: "", trailer: false, block: moving });
+    const kept = trim(previous);
+    if (kept.length === 0) { laid.splice(laid.length - 2, 1); break; }
+    laid[laid.length - 2] = kept;
+  }
+
+  for (const rowsOnPage of laid) {
+    const page = pdf.addPage([width, height]);
+    let y = height - margin;
+    for (const row of rowsOnPage) { if (row.text) page.drawText(row.text, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) }); y -= lineHeight; }
+  }
+  if (!laid.length) pdf.addPage([width, height]);
+  assert.equal(splitToken.hardSplits, 0,
+    `renderComposedPdf hard-split a token with no separator to break on in "${title}"`);
+  const drawnPerPage = laid.map((rowsOnPage) => rowsOnPage.filter((r) => r.text !== "").length);
+  return {
+    bytes: Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false })),
+    pageCount: Math.max(laid.length, 1), drawnPerPage
+  };
+}
+
+function participantInstructions(maps, rbf, fee, stops, service) {
+  const out = [`# Filing instructions — ${ROUTE.publicLabel}`, "",
+    "This packet contains the petition NHJB-2317, fee-waiver motion NHJB-2886, confidential financial statement NHJB-2328 and criminal-record request NHJB-2956. The petition is titled Offenses Resolved Prior to 01/01/2019. Confirm this form applies to your matter before filing. Review all filled information before filing. The guidance at the back is for you to keep.", "",
+    "Complete the petition for one offense using the court record, including the case name, charge, statute and relevant dates. Review the certifications yourself; the packet makes no sworn choices for you. Charge ID is optional if unknown. Maiden name or alias is optional if you have none.", "",
+    ...feeWaiverServiceLines(service),
+    "## Information still to complete", ""];
+  for (const item of rbf) out.push(`- ${item.document}, page ${item.page}, ${item.section}: **${item.disclosureLabel}** — ${item.participantMustSupply}`);
+  out.push("", "## Choices and signatures", "",
+    "Select the correct court and review every applicable election on the petition and financial statement. Complete financial amounts and explanations from your own records, including each total. Replace any printed default zero with the correct total when completing the financial statement. Leave attorney fields blank unless represented. Court findings and orders are for the court. Sign and date only when making the actual certification; complete notarized signatures before the notary.", "",
+    "## Requesting your criminal record", "",
+    "Send NHJB-2956 to the State Police Criminal Records Unit, Department of Safety, 33 Hazen Drive, Concord NH 03305, rather than to the court. The form states a $25 fee and asks for a self-addressed envelope. Choose the request channel: for any mailed request, complete Sections I and II and have Section II notarized. Section I alone is sufficient only when requesting your own record in person. Complete the recipient name and address for the actual request. Do not certify or notarize in advance.", "",
+    postFilingInstructionsBody({ facts: FIXTURES.canonical, fee, stops, service }), "",
+    effectAndLimitsBody({ facts: FIXTURES.canonical, fee, stops, service }));
+  return out.join("\n").trimEnd() + "\n";
+}
+/* ---- the entry point -------------------------------------------------------- */
+export async function runFamily(argv = process.argv.slice(2)) {
+  const checkOnly = argv.includes("--check");
+  const skipRaster = argv.includes("--no-raster");
+
+  const { resolved, failures } = resolveSources();
+  if (failures.length > 0) {
+    return {
+      familyId: FAMILY_ID, status: "BLOCKED_SOURCE", failedSourceIdentities: failures,
+      why: "a source did not bind by exact SHA-256, so nothing may be rendered from it",
+      overlayDirectoryTouched: false
+    };
+  }
+
+  /* Bound before anything is rendered, so a memo that stopped stating the cost
+   * difference stops the build rather than producing the sibling's paragraph. */
+  const fee = loadFeeGrounding();
+
+  /* Bound and asserted before anything is composed, for the same reason as the
+   * fee: a record that stopped holding the ten stop conditions, or a manifest
+   * that stopped declaring the two guidance components, stops the build rather
+   * than producing a packet that quietly omits them again. */
+  const stops = loadSelfHelpStops(fee.record);
+
+  const service = loadServiceGrounding();
+  const packetSet = loadPacketSetComponents();
+
+  const censuses = [];
+  for (const source of resolved) {
+    const census = await censusOf(source);
+    assert.equal(census.unmapped.length, 0,
+      `${source.formNumber}: ${census.unmapped.length} widget(s) carry no dictionary entry: ${JSON.stringify(census.unmapped.slice(0, 5).map((u) => u.field))}`);
+    assert.equal(census.stale.length, 0,
+      `${source.formNumber}: the dictionary names ${census.stale.length} field(s) this form does not have: ${JSON.stringify(census.stale)}`);
+    /*
+     * A write onto a widget the form hides is invisible ink. The finalizer would
+     * report it, the flattened bytes would carry nothing, and the packet would
+     * claim a value the paper does not show -- so it is refused here rather than
+     * discovered by a reader of the raster.
+     */
+    const writesOntoHidden = census.rows.filter((r) => r.policy === "write" && r.hiddenUntilTheFormRevealsIt === true);
+    assert.equal(writesOntoHidden.length, 0,
+      `${source.formNumber}: ${writesOntoHidden.length} write(s) land on a widget the form hides: ${JSON.stringify(writesOntoHidden.map((r) => r.key))}`);
+    if (source.acroFieldCount != null) {
+      assert.equal(census.rows.length, source.acroFieldCount,
+        `${source.formNumber}: censused ${census.rows.length} fields, the committed corpus index declares ${source.acroFieldCount}`);
+    }
+    censuses.push({ source, census });
+  }
+
+  if (checkOnly) {
+    return {
+      familyId: FAMILY_ID, status: "CHECK_ONLY",
+      documents: censuses.map(({ source, census }) => ({
+        formNumber: source.formNumber, sha256: source.sha256, fields: census.rows.length,
+        writes: census.rows.filter((r) => r.policy === "write").length,
+        supply: census.rows.filter((r) => r.policy === "supply").length,
+        elections: census.rows.filter((r) => r.policy === "election").length,
+        viewer: census.rows.filter((r) => r.policy === "viewer").length,
+        optional: census.rows.filter((r) => r.policy === "optional").length,
+        notOnThisRoute: census.rows.filter((r) => r.policy === "not_on_route").length,
+        protected: census.rows.filter((r) => r.policy === "protect").length,
+        attorney: census.rows.filter((r) => r.policy === "attorney").length
+      }))
+    };
+  }
+
+  fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, OUT, "raster"), { recursive: true });
+
+  const sourceInkByForm = new Map();
+  for (const { source } of censuses) sourceInkByForm.set(source.formNumber, await sourceInkOf(source));
+
+  const artifacts = [];
+  const writeProofs = [];
+  const rasterPages = [];
+  const maps = [];
+  const composedPages = [];
+
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const packet = await PDFDocument.create();
+    stampDeterministic(packet);
+    const pageManifest = [];
+    for (const { source, census } of censuses) {
+      const { bytes, report } = await renderDocument(source, census, fixtureName);
+      const proof = await byteProof(source, census, bytes, report, fixtureName, sourceInkByForm.get(source.formNumber) ?? []);
+      writeProofs.push({
+        fixture: fixtureName, formNumber: source.formNumber, sourceSha256: source.sha256,
+        proofMethod: "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+        valuesReportedByFinalizer: report.written.length,
+        flattenedWidgetAppearancesReadFromOutputBytes: proof.appearances,
+        addedGlyphsReadFromOutputBytes: proof.glyphs,
+        nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
+        refusedFieldsWithInk: proof.refusedFieldsWithInk,
+        documentAuthoredAppearances: proof.documentAuthoredAppearances,
+        unfittable: report.unfittable,
+        actualWrites: proof.actualWrites
+      });
+      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const copied = await packet.copyPages(doc, doc.getPageIndices());
+      for (const [i, p] of copied.entries()) {
+        packet.addPage(p);
+        pageManifest.push({
+          packetPage: packet.getPageCount(),
+          /*
+           * The component name the packet-set manifest declares, carried on
+           * every page. Without it no rendered artifact of this track named a
+           * component at all, and the corpus-wide component sweep recorded
+           * NO_FAMILY_RENDERS_THIS_TRACK -- unmeasured rather than clean.
+           */
+          component: packetSet.officialByForm.get(source.formNumber).componentId,
+          documentId: packetSet.officialByForm.get(source.formNumber).componentId,
+          formNumber: source.formNumber, sourcePage: i + 1, sourceSha256: source.sha256
+        });
+      }
+      if (fixtureName === "canonical") maps.push(mapFor(source, census, report));
+    }
+
+    /*
+     * The two required process_guidance components, composed and appended after
+     * the four form slices. They carry no widget, no signature line and no
+     * blank, so nothing here can be mistaken for a page of the filing; each
+     * says so on its own face.
+     */
+    for (const page of GUIDANCE_PAGES) {
+      const text = page.body({ facts: FIXTURES[fixtureName], fee, stops, service });
+      const composed = await renderComposedPdf(text, `${page.title} — ${ROUTE.publicLabel}`);
+      const doc = await PDFDocument.load(composed.bytes, { ignoreEncryption: true });
+      const copied = await packet.copyPages(doc, doc.getPageIndices());
+      for (const [i, pdfPage] of copied.entries()) {
+        packet.addPage(pdfPage);
+        pageManifest.push({
+          packetPage: packet.getPageCount(), component: page.componentId, documentId: page.componentId,
+          outputStrategy: "process_guidance", role: page.role,
+          formNumber: null, sourcePage: i + 1, sourceSha256: null
+        });
+      }
+      if (fixtureName === "canonical") {
+        composedPages.push({
+          componentId: page.componentId, role: page.role, title: page.title,
+          pages: composed.pageCount, drawnLinesPerPage: composed.drawnPerPage,
+          selfHelpStopConditionsPrintedVerbatim:
+            page.componentId === GUIDANCE_PAGES[0].componentId ? stops.conditions.length : 0
+        });
+      }
+    }
+
+    /*
+     * Every declared component reaches a page of THIS fixture, or the build
+     * stops. This is the obligation independent verification measured at four
+     * of six, and it is asserted on the assembled bytes rather than on an
+     * intention recorded elsewhere.
+     */
+    const renderedComponents = new Set(pageManifest.map((m) => m.component));
+    for (const declared of packetSet.components) {
+      assert.ok(renderedComponents.has(declared.componentId),
+        `${fixtureName}: declared component ${declared.componentId} (${declared.requirement}, ${declared.outputStrategy}) reaches no page of the packet`);
+    }
+
+    const packetBytes = await packet.save({ useObjectStreams: false, updateMetadata: false });
+    const file = `${OUT}/fixtures/${fixtureName}.pdf`;
+    fs.writeFileSync(path.join(ROOT, file), packetBytes);
+    artifacts.push({
+      fixture: fixtureName, file,
+      sha256: crypto.createHash("sha256").update(packetBytes).digest("hex"),
+      byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+      documents: censuses.map((c) => c.source.formNumber)
+    });
+
+    const rasterDir = `${OUT}/raster/${fixtureName}`;
+    fs.mkdirSync(path.join(ROOT, rasterDir), { recursive: true });
+    for (let i = 0; !skipRaster && i < packet.getPageCount(); i += 1) {
+      const stage = path.join(ROOT, rasterDir, `page-${String(i + 1).padStart(2, "0")}`);
+      const render = await rasterizePageCalibrated({ file: path.join(ROOT, file), pageIndex: i, keep: stage });
+      for (const scrap of ["page.pdf", "page-calibration.pdf", "page-calibration.png"]) {
+        const f = path.join(stage, scrap);
+        if (fs.existsSync(f)) fs.unlinkSync(f);
+      }
+      const png = path.join(stage, "page.png");
+      rasterPages.push({
+        fixture: fixtureName, page: i + 1,
+        file: `${rasterDir}/page-${String(i + 1).padStart(2, "0")}/page.png`,
+        pageWidthPt: render.pageWidth, pageHeightPt: render.pageHeight,
+        pixelsPerPoint: Number(render.pxPerPt.toFixed(4)),
+        calibrationResidualPx: render.calibrationResidualPx,
+        paperBounds: render.paper,
+        engine: "chromium_calibrated_scripts_lib_pdf_page_raster",
+        sha256: crypto.createHash("sha256").update(fs.readFileSync(png)).digest("hex")
+      });
+    }
+  }
+
+  const rbf = requiredBeforeFilingItems(maps);
+  const instructionsText = participantInstructions(maps, rbf, fee, stops, service);
+  fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
+
+  writeJson(`${OUT}/source-receipt.json`, {
+    schemaVersion: "rcap-family-source-receipt/v1", familyId: FAMILY_ID, worklistGroupId: FAMILY_ID,
+    jurisdiction: ROUTE.jurisdiction, implementationStrategy: "official_pdf_fill",
+    custodyClass: "SOURCE_ALREADY_HELD", acquisitionCommissioned: false,
+    corpusRootFromEnvironment: "MASTER_LIBRARY_SOURCE_DIR",
+    bindingMethod:
+      "the SHA-256 the assignment pins, resolved to the committed corpus index entry that carries it in a custody this "
+      + "container mounts, then re-hashed from the file on disk before a byte was read. The form number is recorded, "
+      + "not used to resolve: the assignment's own paths for these four sources are in custodies this container does "
+      + "not hold, and the digest is what makes the Master Library copy the same binary rather than a substitute.",
+    custodyTheAssignmentNames: "d_source_packs and nationwide_recovery_pool_2026_09_02, neither mounted here",
+    custodyActuallyRead: "master_library",
+    routeKey: ROUTE.routeKey, routeSelectionId: ROUTE.routeSelectionId, statutoryAuthority: ROUTE.authority,
+    allSourcesExact: true,
+    documents: resolved.map((r) => ({
+      sourceIds: [r.sourceId], documentId: r.formNumber, formNumber: r.formNumber, revision: r.revision,
+      pathInArchive: r.pathInArchive, sha256: r.sha256, byteLength: r.byteLength, instrumentKind: r.instrumentKind
+    })),
+    /*
+     * The four binaries above are what the packet is RENDERED from, and they are
+     * the same four the sibling pre-2019 family renders, because the legal
+     * design directs that. This record is what the packet's cost sentences are
+     * QUOTED from, and it is the reason the two families are not the same
+     * packet: the fee position differs, and this is the record that says so.
+     */
+    groundingRecords: [
+      { path: service.record.path, sha256: service.record.sha256, byteLength: service.record.byteLength,
+        decisionId: service.decision.decisionId, bindingProductRule: service.decision.bindingProductRule },
+      (() => { const receipt = readGroundingRecord("reference/source-recovery/2026-09-12-nh2886/NH-NHJB-2886-DFPe.receipt.json");
+        return { path: receipt.path, sha256: receipt.sha256, byteLength: receipt.byteLength }; })(),
+      {
+        path: fee.record.path, sha256: fee.record.sha256, byteLength: fee.record.byteLength,
+        trackId: MEMO_TRACK_ID,
+        fieldsQuotedOnParticipantSurfaces: [
+          "rules.fees", "destination.detail", "unresolvedQuestions[].question"
+        ],
+        whyItIsBound: "The route fee and agency-fee uncertainty remain grounded here. The later legal decision supersedes this record's obsolete fee-motion form reference."
+      },
+      {
+        path: stops.record.path, sha256: stops.record.sha256, byteLength: stops.record.byteLength,
+        trackId: MEMO_TRACK_ID,
+        fieldsQuotedOnParticipantSurfaces: [
+          "selfHelpStopConditions", "mechanism", "scopeRestrictions", "exclusions", "packetInstructions",
+          "legalDesignLimitations[].statement", "rules.filing", "rules.notice", "rules.service"
+        ],
+        selfHelpStopConditionsCarriedVerbatim: stops.conditions.length,
+        whyItIsBound:
+          "participant-instructions.md and the composed guidance page at the back of the packet print all "
+          + stops.conditions.length + " of this track's self-help stop conditions word for word, and the "
+          + "effect-and-limits page quotes this record's mechanism, scope restrictions, exclusions and the RSA "
+          + "651:5, X(f) inquiry wording. Independent verification measured the packet at 0 of 10 stop conditions "
+          + "carried while the record held all ten, so the record the sentences come from is bound by SHA-256 here "
+          + "and the build asserts it still holds exactly ten, and that the intake memo agrees with it, before "
+          + "printing any of them."
+      },
+      {
+        path: packetSet.record.path,
+        sha256: packetSet.record.sha256, byteLength: packetSet.record.byteLength,
+        packetSetId: FAMILY_ID,
+        fieldsQuotedOnParticipantSurfaces: [],
+        declaredComponents: packetSet.components.map((c) => c.componentId),
+        whyItIsBound:
+          "This record declares the six components of the packet set, and independent verification measured the "
+          + "delivered nine pages as rendering four of them: the two required process_guidance components reached "
+          + "no page. The manifest is now read at build time, every declared component is matched to pages of both "
+          + "fixtures, and a component that reaches no page stops the build. It is bound by SHA-256 because the "
+          + "assertion is only as good as the list it is made against."
+      }
+    ],
+    sourceBinaryCommitted: false, committedSourceFormNumbers: ["NHJB-2886"], commercialRoutesOpened: 0
+  });
+
+  writeJson(`${OUT}/field-census.census-v1.json`, {
+    schemaVersion: "rcap-official-form-field-census/v1-census-v1", familyId: FAMILY_ID,
+    captionBasis:
+      "Every label here was written by reading the printed line at the widget's own rectangle in the pinned binary. "
+      + "These four forms extract cleanly, so that reading was possible; it is not claimed as an automated caption "
+      + "check, because several boxes are NAMED for the line above them rather than for what they collect -- NHJB-2317's "
+      + "City/Town box is named Mailing Address.2 and NHJB-2956's four name-part boxes are all named name.N -- and a "
+      + "check that matched a widget to its nearest printed line would agree with the wrong caption exactly where it "
+      + "matters. The extraction at each widget's own coordinate is recorded beside the label this build uses, in "
+      + "reports/caption-evidence.json, for the reviewer who reads the paper.",
+    documents: censuses.map(({ source, census }) => ({
+      documentId: source.formNumber, formNumber: source.formNumber, sourceSha256: source.sha256,
+      pageCount: census.pageCount, fieldCount: census.rows.length,
+      corpusIndexDeclaresFieldCount: source.acroFieldCount,
+      fields: census.rows.map((r) => ({
+        field: r.key, page: r.page, rect: r.rect, rectBasis: r.rectBasis, pdfType: r.type,
+        hiddenUntilTheFormRevealsIt: r.hiddenUntilTheFormRevealsIt === true,
+        isSelectionControl: r.isSelectionControl, multiline: r.multiline, maxLength: r.maxLength,
+        section: r.section, effectiveLabel: r.effectiveLabel, policy: r.policy, factId: r.fact,
+        printedTextAtCoordinate: r.printedTextAtCoordinate
+      })),
+      /*
+       * WHAT THE BLANK OFFICIAL FORM ALREADY CARRIES IN EACH FIELD.
+       *
+       * The `fields` array above says what each field IS. This says what the
+       * source ships INSIDE it before any participant sees the form, which is a
+       * different question and the one the corpus-wide check
+       * scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs
+       * asks: every value an official source ships inside a field must be
+       * dispositioned by somebody, on the record, before the bytes go out. Until
+       * this family emitted it, that check could not see New Hampshire at all --
+       * it reads `documents[].rows[].sourceValuePresentInBlankForm`, this census
+       * carried no `rows`, and a family that is invisible to a checker is not a
+       * clean family.
+       *
+       * TWO PLACES A SOURCE CAN CARRY A VALUE, AND BOTH ARE READ. NHJB-2328's
+       * three totals carry theirs in /V. NHJB-2886's signature box carries no /V
+       * at all and carries its placeholder in the widget's own appearance
+       * stream, which flattens onto the page exactly the same way; a reader that
+       * looked only at /V would report that form as shipping nothing. So the
+       * value is taken from /V where there is one, and otherwise from the ink
+       * the PINNED SOURCE ITSELF draws at that widget's rectangle when flattened
+       * unwritten -- the same sourceInk measurement the byte proof uses, so the
+       * two cannot disagree.
+       *
+       * Whitespace is not a value. Three choice controls on these forms ship
+       * /V " ", a single space, which draws nothing and asserts nothing; they
+       * are recorded as carrying null rather than as carrying a space, because a
+       * checker asked to disposition a space would be asked to disposition
+       * nothing.
+       *
+       * A CONTROL THE STRUCTURAL RULE ALREADY ANSWERS IS NOT AN UNDISPOSITIONED
+       * VALUE, AND IT IS ALSO NOT HIDDEN. Sixteen of these fields are
+       * pushbuttons whose /MK caption -- "Clear Form", "Lock & Save Form", "Top
+       * of Page", "Instructions" -- the source draws, and one is a dropdown
+       * shipping a selected option on a section this route does not use. The
+       * finalizer removes a pushbutton as chrome and drops an unanswered
+       * chooser's prompt without consulting any registry, so neither can reach a
+       * filing and neither is the defect this check exists to catch. Recording
+       * them as source-carried values would ask a human to disposition, by name,
+       * seventeen appearances that are already gone -- seventeen manufactured
+       * findings. They are recorded instead under
+       * sourceAppearanceOnAControlTheStructuralRuleAlreadyAnswers, with the
+       * disposition that removes each one named, so the reader can see what was
+       * excluded and why rather than having to trust that nothing was.
+       */
+      rows: census.rows.map((r) => {
+        const declared = r.sourceValue === null || r.sourceValue === undefined
+          ? null : String(Array.isArray(r.sourceValue) ? r.sourceValue.join(" ") : r.sourceValue);
+        const declaredValue = declared !== null && declared.trim() !== "" ? declared : null;
+        const drawn = (r.widgets ?? [])
+          .flatMap((w) => drawnAt(sourceInkByForm.get(source.formNumber) ?? [], { page: w.page, rect: w.rect }))
+          .map((d) => d.text).filter(Boolean).join("").trim();
+        const drawnValue = drawn !== "" ? drawn : null;
+        const carried = declaredValue ?? drawnValue;
+        const structurallyAnswered = r.type === "button"
+          ? "suppress_control_appearance: a pushbutton is chrome and the finalizer removes it"
+          : r.isSelectionControl === true
+            ? "render_participant_value_only_when_written: an unanswered chooser's prompt is dropped by the finalizer"
+            : null;
+        return {
+          field: r.key, type: r.type, page: r.page, rect: r.rect, rectBasis: r.rectBasis,
+          isSelectionControl: r.isSelectionControl, policy: r.policy, factId: r.fact ?? null,
+          effectiveLabel: r.effectiveLabel, section: r.section,
+          sourceValuePresentInBlankForm: structurallyAnswered === null ? carried : null,
+          sourceValueCarriedIn: structurallyAnswered !== null || carried === null
+            ? null
+            : declaredValue !== null ? "acroform_field_value" : "widget_appearance_stream_the_source_ships",
+          sourceAppearanceOnAControlTheStructuralRuleAlreadyAnswers:
+            structurallyAnswered !== null && carried !== null ? { text: carried, removedBy: structurallyAnswered } : null
+        };
+      })
+    }))
+  });
+
+  writeJson(`${OUT}/reports/caption-evidence.json`, {
+    schemaVersion: "rcap-caption-evidence/v1", familyId: FAMILY_ID,
+    finding:
+      "These four New Hampshire forms extract cleanly: the printed captions are readable in the content stream and were "
+      + "read there while this dictionary was written.",
+    whyReadableIsNotTheSameAsCheckable:
+      "Readable is not the same as checkable. Several boxes on these forms are named for the line above them rather "
+      + "than for what they collect -- NHJB-2317's City/Town box is named Mailing Address.2, and NHJB-2956's four "
+      + "name-part boxes are all named name.N -- so a check that matched a widget to the nearest printed line would "
+      + "agree with the wrong caption on exactly the fields where getting it wrong matters. The extraction at every "
+      + "widget's own coordinate is recorded here beside the label this build uses, and the reviewer reads the paper.",
+    whatTheCaptionClaimRestsOnHere:
+      "Each label was written by reading the printed line at the widget's own rectangle in the pinned binary, and the "
+      + "dictionary and the widget set are asserted to match exactly in both directions, on all four forms. Where a "
+      + "field name and its printed line disagree, the disagreement is recorded in build-findings.json rather than "
+      + "resolved silently.",
+    perField: censuses.flatMap(({ source, census }) => census.rows.map((r) => ({
+      document: source.formNumber, field: r.key, page: r.page, rect: r.rect,
+      labelThisBuildUses: r.effectiveLabel, section: r.section,
+      textExtractedAtThisCoordinate: r.printedTextAtCoordinate
+    })))
+  });
+
+  writeJson(`${OUT}/production-field-map.json`, {
+    schemaVersion: "rcap-official-form-field-map/v1-census-v1", familyId: FAMILY_ID,
+    routeKeys: [ROUTE.routeKey], routeSelectionId: ROUTE.routeSelectionId, renderStrategy: "acroform_fill",
+    captionBasis: "authored AcroForm field names plus printed section headings; see reports/caption-evidence.json",
+    dispositionVocabulary: [SIGNATURE, COURT_OWNED, PARTICIPANT_ELECTION],
+    routeDeterminedSelections: [],
+    /*
+     * This sentence used to be the sibling family's, word for word, and it named
+     * the sibling's route. The FORM is shared and that is the legal design; the
+     * ROUTE is not, and a field map that states the wrong one is stating that
+     * the packet was built for a case it was not built for.
+     */
+    routeSelectionNote:
+      `The packet states the route it was built for: ${fee.track.legalName} — in plain words, ${fee.track.publicName}. `
+      + "It is prepared on the Judicial Branch's own pre-2019 form, NHJB-2317-DSe, because the legal design directs "
+      + "this track to that form family; the form is shared with the pre-2019 non-conviction petition and the route is "
+      + "not, and the two differ on cost, which participant-instructions.md states from the same record. Nothing on the "
+      + "certification page is a route election: each box there is a statement the applicant swears to under penalties "
+      + "of law about their own record, several of them legal characterisations of their own matters, and a packet "
+      + "that ticked one would be swearing for them. Which court, whether to ask for a hearing, and every financial "
+      + "answer on the waiver papers are the participant's too, and each is disclosed by name.",
+    requiredBeforeFilingCount: rbf.length, requiredBeforeFiling: rbf,
+    maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
+  });
+
+  writeJson(`${OUT}/reports/rendered-artifacts.json`, {
+    schemaVersion: "rcap-rendered-artifacts/v1", familyId: FAMILY_ID, renderedFresh: true,
+    artifacts, packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    /*
+     * The declared component set, and where each of the six lands. This is the
+     * obligation independent verification measured at four of six, and the
+     * corpus-wide component sweep reads component names out of this file: with
+     * none recorded it could only report NO_FAMILY_RENDERS_THIS_TRACK.
+     */
+    declaredComponents: packetSet.components.map((c) => ({
+      componentId: c.componentId, role: c.role, requirement: c.requirement, outputStrategy: c.outputStrategy,
+      packetPages: Object.fromEntries(artifacts.map((a) => [
+        a.fixture, a.pageManifest.filter((m) => m.component === c.componentId).map((m) => m.packetPage)
+      ]))
+    })),
+    composedGuidanceComponents: composedPages,
+    everyDeclaredComponentReachesAPage: true,
+    everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
+    byteDerivedHashes: true, rasterEngine: RASTER_ENGINE, rasterPages,
+    independentVerificationPending: true
+  });
+
+  writeJson(`${OUT}/reports/actual-writes.json`, {
+    schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: FAMILY_ID, derivedFromArtifactBytes: true,
+    note: "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report.",
+    documents: writeProofs,
+    artifacts: writeProofs.map((p) => ({
+      fixture: p.fixture, formNumber: p.formNumber,
+      valuesReportedByFinalizer: p.valuesReportedByFinalizer,
+      addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: p.refusedFieldsWithInk
+    })),
+    blockingFindings: writeProofs.flatMap((p) => p.refusedFieldsWithInk.map((r) => ({
+      fixture: p.fixture, field: r.fieldId, finding: "a field the map refused carries ink in the output"
+    })))
+  });
+
+  writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
+    schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
+    requiredBeforeFiling: rbf,
+    participantElections: maps.flatMap((m) => m.selectionControls.map((c) => ({
+      document: m.formNumber, field: c.field, page: c.page, section: c.sectionHeading, label: c.effectiveLabel, why: c.reason
+    }))),
+    protectedBlanks: maps.flatMap((m) => m.canonicalRefusals.filter((r) => r.requiredBeforeFiling !== true).map((r) => ({
+      document: m.formNumber, field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why
+    }))),
+    everyRequiredBeforeFilingItemIsDisclosed: true,
+    disclosedIn: `${OUT}/participant-instructions.md`
+  });
+
+  writeJson(`${OUT}/reports/independent-visual-review.json`, {
+    schemaVersion: "rcap-independent-visual-review/v1", familyId: FAMILY_ID,
+    required: true, granted: false, reviewedBy: null,
+    note:
+      "Every page of both fixtures is rastered for a human who did not build this family. On these four forms the "
+      + "printed captions do extract cleanly, and each label in the dictionary was written by reading the line at the "
+      + "widget's own rectangle -- but several boxes are NAMED for the line above them rather than for what they "
+      + "collect, so a reader of the paper is the check that a value sits under the heading it belongs to.",
+    whatToLookAt: [
+      "All known neutral facts appear in their source-measured boxes, including repeated case numbers, full residence addresses, name parts, and filer contact details.",
+      "Dates of birth use the printed mm/dd/yyyy format; boundary names retain punctuation and every value remains readable at 6pt or larger.",
+      "NHJB-2886 is the one-page Motion to Waive Filing Fees, paired with confidential NHJB-2328. Actual signatures, signing dates and service certifications remain blank.",
+      "NHJB-2956 guidance requires both sections and notarization for every mailed request; Section I alone is limited to an own-record request in person.",
+      "Court orders, attorney fields, sworn elections and unavailable facts remain appropriately blank. Guidance pages contain participant instructions."
+    ],
+    artifacts: artifacts.map((a) => ({ fixture: a.fixture, file: a.file, sha256: a.sha256, pageCount: a.pageCount })),
+    rasterPages: rasterPages.map((p) => ({ fixture: p.fixture, page: p.page, file: p.file, sha256: p.sha256 }))
+  });
+
+  writeJson(`${OUT}/build-status.json`, {
+    schemaVersion: "rcap-family-build-status/v1", familyId: FAMILY_ID,
+    buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: BUILD_SCRIPT,
+    rasterEngine: skipRaster ? "not rendered in this run" : "chromium_calibrated", popplerUsed: false,
+    renderedArtifacts: artifacts.length, rasterPages: rasterPages.length,
+    independentVerificationStatus: "PENDING", selfVerified: false,
+    generationAllowed: false, runtimeSelectable: false,
+    commercialRoutesOpened: 0, productionTouched: false,
+    grantsNothing: "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route."
+  });
+
+  const counted = countCompleteness(maps, writeProofs, artifacts, instructionsText);
+  writeJson(`${OUT}/reports/completeness-counters.json`, {
+    schemaVersion: "rcap-builder-completeness-counters/v1", familyId: FAMILY_ID,
+    whatThisIs:
+      "The BUILDER's own count of the nine completeness counters, computed with the repository's own contract functions "
+      + "over this family's field map, byte proof, rendered artifacts and participant-instructions.md.",
+    whatThisIsNot:
+      "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires a hash-bound "
+      + "RASTER_PASS from the central raster workflow.",
+    counters: { ...counted.counters, visualDefects: null },
+    allNineZero: false,
+    allNonvisualZero: PASS_COUNTERS.filter((c) => c !== "visualDefects").every((c) => counted.counters[c] === 0),
+    findings: counted.findings,
+    blankDispositions: counted.ledger.reduce((acc, b) => { acc[b.disposition] = (acc[b.disposition] ?? 0) + 1; return acc; }, {})
+  });
+
+  writeJson(`${OUT}/build-findings.json`, {
+    schemaVersion: "rcap-family-build-findings/v1", familyId: FAMILY_ID, blocking: [],
+    findings: [
+      { finding: "The legal decision replaces NHJB-2311 with source-bound NHJB-2886-DFPe, paired with confidential NHJB-2328.", governingDecisionId: service.decision.decisionId },
+      { finding: "Printed neutral meanings govern the source-bound exact-fact writer; the shared finalizer's signature protections are unchanged. Every appearance is read back from saved bytes." },
+      { finding: "Request channel is participant-selected. Every mailed record request requires both sections and Section II notarization; an own-record request in person needs only Section I." },
+      { finding: "Independent semantic and raster acceptance remain required; builder checks do not grant terminal status." }
+    ]
+  });
+
+  writeJson(`${OUT}/approval-request.json`, {
+    schemaVersion: "rcap-family-approval-request/v1", familyId: FAMILY_ID,
+    requested: "independent completeness verification, visual review and counsel review",
+    buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
+    approvedForLive: false, live: false, commercialRoutesOpened: 0,
+    mattersForTheReviewersAttention: [
+      "reports/caption-evidence.json — these two forms cannot be caption-checked from their own text stream, so visual review carries more weight here than usual."
+    ]
+  });
+
+  return {
+    familyId: FAMILY_ID,
+    status: PASS_COUNTERS.every((c) => counted.counters[c] === 0) ? "COMPLETED" : "STOPPED",
+    counters: { ...counted.counters, visualDefects: null }, counterFindings: counted.findings,
+    directory: OUT, documents: resolved.map((r) => r.formNumber),
+    writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
+    requiredBeforeFiling: rbf.length,
+    participantElections: maps.reduce((n, m) => n + m.selectionControls.length, 0),
+    artifacts: artifacts.map((a) => ({ fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount })),
+    rasterPages: rasterPages.length
+  };
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
+  runFamily()
+    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+    .catch((e) => { console.error(e); process.exit(1); });
+}

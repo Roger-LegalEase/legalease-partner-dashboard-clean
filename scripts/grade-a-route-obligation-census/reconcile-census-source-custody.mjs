@@ -1,0 +1,565 @@
+#!/usr/bin/env node
+// The census's 295 source-acquisition tasks, against the corpus already held.
+//
+//   node scripts/grade-a-route-obligation-census/reconcile-census-source-custody.mjs
+//   node scripts/grade-a-route-obligation-census/reconcile-census-source-custody.mjs --check
+//
+// WHY THIS EXISTS
+//
+// The census reports 295 packet families needing official-source acquisition.
+// Acquisition is expensive and, for a source already sitting in the verified
+// private corpus, entirely wasted -- so before any of it is commissioned, each
+// task is reconciled against what is already held.
+//
+// The corpus is NOT reacquired here and nothing is fetched. This reads the
+// committed corpus index, which records 329 verified files with their state,
+// form number, revision and content hash.
+//
+// HOW A MATCH IS DECIDED, AND WHY CONSERVATIVELY
+//
+// The census names sources in ten different namespaces, and only two of them
+// identify a document: `source-sha256:` (an exact identity) and
+// `official-form:` (a label, often not the corpus's own form number -- the
+// census says "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS" where the corpus
+// says "AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346"). The rest
+// are components, compiled profiles, route contracts and reference URLs, which
+// are not documents and cannot be held or missing.
+//
+// So matching is tiered and the tier is recorded. A loose matcher would be the
+// dangerous kind of wrong: calling a source held when it is not suppresses the
+// acquisition of a real gap. Only an exact hash or a strong form-number match
+// within the same jurisdiction counts as held.
+//
+// And absence of a match is NOT reported as missing. A label this cannot
+// resolve is unresolved identity, not evidence of absence; only a precise
+// identity -- a content hash the corpus does not carry -- is genuinely missing.
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { nonFormCandidatesSetAside, resolveOfficialFormCandidates } from "../lib/official-form-asset-class.mjs";
+
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+process.chdir(rootDir);
+const CHECK = process.argv.includes("--check");
+
+const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
+const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
+const OUT = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
+const ACQUISITION = "OFFICIAL_SOURCE_ACQUISITION_REQUIRED";
+const IDENTITY_FINDINGS = "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json";
+
+const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
+const worklist = readJson(WORKLIST);
+const corpus = readJson(CORPUS_INDEX);
+
+const normalise = (value) => String(value ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+const tokens = (value) => String(value ?? "").toLowerCase().split(/[^a-z0-9]+/).filter((t) => t.length > 2);
+
+/*
+ * TIER 3: an identity established by reading the document, not by matching its
+ * name.
+ *
+ * Tiers 1 and 2 are both string tests, and a string test cannot bridge the gap
+ * this corpus actually has. The census names Alaska's form
+ * DPS-REQUEST-TO-SEAL-CRIM-INFO; the library files the same bytes as
+ * DPS-SEAL-REQ-2-04. Kentucky's AOC-RU-009 is printed on page one of a file the
+ * corpus indexes as "AOC-009 / records unit". Indiana names five documents that
+ * are five page ranges of one fifteen-page PDF. Iowa's "Certification of Service
+ * by Mailing or Delivery" is page two of the form it accompanies, not a document
+ * at all. No normalisation reaches any of those, and loosening one until it did
+ * would bind the wrong bytes somewhere else -- which is the failure this file's
+ * header calls the dangerous kind of wrong.
+ *
+ * What reaches them is somebody opening the file and reading what is printed on
+ * it. So a binding established that way is admitted here as its own tier,
+ * carrying its evidence, and it is admitted under three conditions that keep it
+ * as strict as the hash tier:
+ *
+ *   1. the finding says the identity was confirmed from the document's own text,
+ *      not inferred from a filename or a revision date;
+ *   2. it names an exact SHA-256; and
+ *   3. the committed corpus index holds that exact path at that exact hash.
+ *
+ * Condition 3 is what makes this a reading rather than an assertion: a finding
+ * about bytes this repository does not hold binds nothing, however well
+ * evidenced, and drops through to unresolved exactly as before. A finding whose
+ * hash has since moved binds nothing either.
+ *
+ * This is not a per-family allowance. Any finding meeting the three conditions
+ * binds, for any family, and the tier travels on the row so a reader can always
+ * see that this identity came from a person reading a page.
+ */
+const { global: identityFindings, byFamily: familyScopedFindings } = (() => {
+  const abs = path.join(rootDir, IDENTITY_FINDINGS);
+  if (!fs.existsSync(abs)) return { global: new Map(), byFamily: new Map() };
+  let doc;
+  try { doc = JSON.parse(fs.readFileSync(abs, "utf8")); } catch { return { global: new Map(), byFamily: new Map() }; }
+  const byLabel = new Map();
+  /*
+   * A LABEL THAT NAMES A DIFFERENT DOCUMENT IN EACH FAMILY.
+   *
+   * The map below is global, and for almost every label that is right: one
+   * `official-form:` string names one document, and the Indiana CCA forms and
+   * the Texas statement of inability really are the same statewide document in
+   * every family that names them. `servesFamilies` records which families a
+   * reading lane looked at, not an exclusive licence, so scoping every finding
+   * to it would falsely unbind fourteen of those.
+   *
+   * A few labels are not like that. `ACIC-UNIFORM-ORDER-TO-SEAL` is named by
+   * ar-felony-seal-set and ar-misdemeanor-seal-set, and Arkansas publishes a
+   * separate order for each; "Certification of Service by Mailing or Delivery"
+   * is named by two Iowa families and is not published at all -- it is printed
+   * inside each family's own application form. Globally, the first shape hands
+   * one family the other's document whenever only one half is held, and the
+   * second poisons the label so neither family binds.
+   *
+   * So the scope is opt-in and per artifact: a finding that sets
+   * `labelIsFamilySpecific` is admitted only for the families it names, and
+   * its label is withheld from the global map entirely -- because the whole
+   * content of that flag is that the label does not identify one document.
+   */
+  const familyScoped = new Map();
+  const scopedLabels = new Set();
+  for (const entry of doc.entries ?? []) {
+    for (const artifact of entry.artifacts ?? []) {
+      const held = artifact.held ?? {};
+      /*
+       * Only a reading of the document itself. The findings file distinguishes
+       * a dozen grades of confidence, and the line is drawn where its own
+       * author drew it: `confirmed_from_document_text`, with or without a page
+       * map, means somebody opened the file and read what is printed on it.
+       *
+       * Everything else stays out, and the near misses are the point of the
+       * line rather than an oversight. `confirmed_from_corpus_title` and
+       * `confirmed_from_corpus_title_and_section_number` are string tests
+       * against the index's own metadata -- a different field from tier 2, not
+       * a different method -- and thirty-seven bindings taken on one would be
+       * the dangerous kind of wrong this file's header names: a source called
+       * held suppresses the acquisition of a real gap.
+       * `confirmed_form_number_later_revision_held` is not an identity question
+       * at all; the corpus holds a LATER edition than the family names, and
+       * binding it silently would ship a different revision. This reconciler
+       * has a SOURCE_REVISION_STALE class for that, and it belongs there.
+       *
+       * Each of those is one document read away from qualifying. That is
+       * bounded, cheap work with a named outcome, which is a better place for
+       * them than an inference nobody can check later.
+       */
+      if (!/^confirmed_from_document_text(_|$)/.test(String(artifact.identityConfidence ?? ""))) continue;
+      if (!held.pathInArchive || !/^[0-9a-f]{64}$/.test(String(held.sha256 ?? ""))) continue;
+      const record = {
+        path: held.pathInArchive,
+        sha256: held.sha256,
+        officialTitle: artifact.officialTitle ?? null,
+        identityEvidence: artifact.identityEvidence ?? null
+      };
+      if (artifact.labelIsFamilySpecific === true) {
+        const families = artifact.servesFamilies ?? [];
+        /* A family-specific finding that names no family scopes to nothing and
+         * would silently disappear; refusing the flag is safer than a bind
+         * nobody asked for. */
+        if (families.length === 0) continue;
+        for (const label of artifact.namedInFamiliesAs ?? []) {
+          const key = normalise(label);
+          scopedLabels.add(key);
+          for (const familyId of families) {
+            const scopedKey = `${familyId}\u0000${key}`;
+            const prior = familyScoped.get(scopedKey);
+            /* The same poisoning rule, inside the family scope: two readings
+             * disagreeing about what this family's label names is unresolved. */
+            if (prior && prior.sha256 !== held.sha256) { familyScoped.set(scopedKey, null); continue; }
+            if (prior === null) continue;
+            familyScoped.set(scopedKey, record);
+          }
+        }
+        continue;
+      }
+      for (const label of artifact.namedInFamiliesAs ?? []) {
+        const key = normalise(label);
+        const prior = byLabel.get(key);
+        /* One label, one identity. Two findings disagreeing about what a label
+         * names is an unresolved identity, not a resolved one, so the label is
+         * poisoned rather than decided by whichever was read first. */
+        if (prior && prior.sha256 !== held.sha256) { byLabel.set(key, null); continue; }
+        if (prior === null) continue;
+        byLabel.set(key, record);
+      }
+    }
+  }
+  for (const key of scopedLabels) byLabel.delete(key);
+  return { global: byLabel, byFamily: familyScoped };
+})();
+
+/*
+ * ONE SET OF BYTES, HELD IN TWO CUSTODIES, AND ONLY ONE OF THEM NAMES THE FORM.
+ *
+ * This map was built with `new Map(entries.map(...))`, which is last-wins, and
+ * that was invisible for as long as every custody named its documents by the
+ * library's six-field standard. The Nationwide recovery pool does not: its
+ * files are named by whoever downloaded them, so `formNumber` is null on every
+ * one of them by design -- that is what keeps a partial custody out of the
+ * label-matching tiers below.
+ *
+ * Those two facts collided. Fourteen documents are held identically in the
+ * Master Library and in the recovery pool -- the same bytes, the same hash --
+ * and the pool is walked last, so `byHash` started answering with the entry
+ * that has no form number. The staleness test immediately below asks whether
+ * the held hash appears among the entries at `heldAs.formNumber`, and with that
+ * field null it can only answer no. Ten families went SOURCE_REVISION_STALE:
+ * two Montana MMRTA sets, two North Carolina sets, five Pennsylvania and one
+ * West Virginia, every one of them on bytes the corpus holds at the exact hash
+ * the census names. Nothing was stale. It was a map-ordering artifact, and it
+ * would have quietly commissioned the reacquisition of documents already held.
+ *
+ * So an entry that does not name a form number never displaces one that does.
+ * For identical bytes that is not a preference between two answers, it is a
+ * choice between an answer and a blank: `heldAs` is what every identity and
+ * revision test downstream reads, and one of the two entries carries that
+ * information while the other cannot. Everything else stays last-wins, so no
+ * binding that resolved before this resolves differently now.
+ */
+const byHash = new Map();
+for (const e of corpus.entries) {
+  const prior = byHash.get(e.sha256);
+  if (prior && prior.formNumber && !e.formNumber) continue;
+  byHash.set(e.sha256, e);
+}
+/*
+ * One form number, several documents.
+ *
+ * The library files an instruction sheet under the number of the form it
+ * explains: NC__INSTRUCTIONS__AOC-CR-287__… carries formNumber AOC-CR-287, the
+ * same as NC__FORM__AOC-CR-287__…. Building this map by last-write-wins let the
+ * instruction sheet displace the petition, and it did — the index lists FORM
+ * before INSTRUCTIONS, so INSTRUCTIONS was always the survivor. Two things went
+ * wrong at once, and both are the same bug:
+ *
+ *   - tier 1 bound `official-form:AOC-CR-287` to the two-page instruction
+ *     sheet rather than the petition and order the family actually files;
+ *   - the staleness test then compared the petition's held hash against the
+ *     instruction sheet's, which can never agree, and reported five North
+ *     Carolina families SOURCE_REVISION_STALE when nothing was stale.
+ *
+ * The library already records which is which. `assetClass` is the second field
+ * of its six-field name and it says FORM or INSTRUCTIONS in as many words; the
+ * indexer has been carrying it on every entry all along. So an INSTRUCTIONS
+ * entry never displaces a FORM entry at the same number. It still enters the
+ * map when no FORM entry claims that number, because an instruction sheet a
+ * family names by itself is a real component -- CR-106-INFO is exactly that.
+ */
+/*
+ * TIER 1 HAD NO UNIQUENESS RULE, AND TIER 2 ALWAYS DID.
+ *
+ * This map was built by insertion, so a form number naming two DIFFERENT
+ * documents resolved to whichever the walk reached last. Tier 2 refuses that
+ * case in as many words -- "an ambiguous match is not a match: two corpus
+ * entries that both satisfy the label mean the label does not identify
+ * either" -- and tier 1, which runs first and wins, did not.
+ *
+ * Nine form numbers are in that state. Four are language variants and are
+ * decided by preferring English, which is what these packets deliver. Five are
+ * not decidable at all: Montana files the OCA MMRTA proposed order and its
+ * certificate of service under one document id with both required, and Texas
+ * files the order and the petition for each nondisclosure section under one
+ * section number. Those need a route split or a label change, which is a
+ * modelling decision and not this resolver's to make silently.
+ *
+ * So an ambiguous form number now resolves to NOTHING at tier 1 and is
+ * reported. Montana's two MMRTA families lose this label and keep the two
+ * source-sha256 obligations that name the same two documents exactly, so
+ * nothing about what they hold changes -- only the false claim that one label
+ * identified one of them.
+ */
+const byFormNumber = new Map();
+const displacedByAssetClass = [];
+const ambiguousFormNumbers = [];
+const groupedByFormNumber = new Map();
+for (const entry of corpus.entries) {
+  if (!entry.formNumber) continue;
+  const key = normalise(entry.formNumber);
+  if (!groupedByFormNumber.has(key)) groupedByFormNumber.set(key, []);
+  groupedByFormNumber.get(key).push(entry);
+}
+for (const [key, group] of groupedByFormNumber) {
+  const { candidates, ambiguous } = resolveOfficialFormCandidates(group);
+  for (const dropped of nonFormCandidatesSetAside(group)) {
+    displacedByAssetClass.push({ formNumber: group[0].formNumber, keptFORM: candidates[0]?.path ?? null, notPreferred: dropped.path, assetClass: dropped.assetClass });
+  }
+  if (ambiguous) {
+    ambiguousFormNumbers.push({
+      formNumber: group[0].formNumber,
+      distinctDocuments: [...new Set(candidates.map((c) => c.sha256))].length,
+      candidates: candidates.map((c) => ({ path: c.path, sha256: c.sha256, revision: c.revision ?? null })),
+      resolvesTo: null,
+      why: "This form number names more than one distinct document even after preferring FORM over INSTRUCTIONS and English over other languages. A label that names two documents identifies neither. It needs a route split or a label change, not a resolver's guess."
+    });
+    continue;
+  }
+  if (candidates.length > 0) byFormNumber.set(key, candidates[0]);
+}
+/* Every entry at one form number, for the staleness test below. */
+const allByFormNumber = new Map();
+for (const entry of corpus.entries) {
+  if (!entry.formNumber) continue;
+  const key = normalise(entry.formNumber);
+  if (!allByFormNumber.has(key)) allByFormNumber.set(key, []);
+  allByFormNumber.get(key).push(entry);
+}
+
+/**
+ * A corpus entry for one `official-form:` label, or null.
+ *
+ * Tier 1 is normalised equality with a form number.
+ *
+ * Tier 2 is a token subset within the same jurisdiction: every meaningful token
+ * of the census label appears in the corpus form number's tokens, the label
+ * carries at least three such tokens, and exactly one corpus entry satisfies it.
+ * Containment of the normalised strings was tried first and is too brittle --
+ * the census says "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS" where the
+ * corpus says "AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346", and
+ * one inserted "TO" defeats it. Token subset resolves that pair and still
+ * refuses a two-token label like "CR-65", which could name almost anything.
+ *
+ * Uniqueness is required because an ambiguous match is not a match: two corpus
+ * entries that both satisfy the label mean the label does not identify either.
+ */
+function resolveFormLabel(label, jurisdictions, familyId) {
+  const key = normalise(label);
+  /* The family scope is consulted first and, where it applies, exclusively:
+   * its label was removed from the global map, so there is nothing to fall
+   * back to and nothing to fall back to it. */
+  const scoped = familyId ? familyScopedFindings.get(`${familyId}\u0000${key}`) : undefined;
+  if (scoped) {
+    const entry = corpus.entries.find((e) => e.path === scoped.path && e.sha256 === scoped.sha256);
+    if (entry) return { entry, tier: "exact_identity_confirmed_from_document_text", identityEvidence: scoped.identityEvidence, identityScope: familyId };
+  }
+  if (byFormNumber.has(key)) return { entry: byFormNumber.get(key), tier: "exact_form_number" };
+  /*
+   * TIER 3 IS CONSULTED BEFORE THE TOKEN FLOOR, not after it.
+   *
+   * The floor below exists to guard TIER 2: a two-token label like "CR-65"
+   * could satisfy almost any corpus entry by token subset, so a short label is
+   * refused rather than guessed at. Tier 3 does not use tokens at all — it
+   * matches a label to a document somebody opened and read — so the floor was
+   * never its guard, and placing the lookup after it silently threw away every
+   * read identity whose label is short.
+   *
+   * FABLE-A3 measured the cost: sixteen of its twenty-one confirmed identities
+   * could not bind despite satisfying all three admission conditions — all
+   * eleven New Mexico rule forms, Nebraska CC-6-12a, New Hampshire NHJB-3124-DS
+   * and two Kansas documents — and six families would resolve completely on the
+   * ordering alone. Two more from earlier lanes are the same shape:
+   * ky_expungement_certification-set, whose AOC-RU-009 tokenises to two, and
+   * nd-summary-marijuana-pardon-set's SFN-61663.
+   *
+   * Moving it above the floor admits nothing that did not already pass all
+   * three conditions: the finding must say the identity was confirmed from the
+   * document's own text, it must name an exact SHA-256, and the committed
+   * corpus index must hold that exact path at that exact hash.
+   */
+  const identifiedEarly = identityFindings.get(key);
+  if (identifiedEarly) {
+    const entry = corpus.entries.find((e) => e.path === identifiedEarly.path && e.sha256 === identifiedEarly.sha256);
+    if (entry) return { entry, tier: "exact_identity_confirmed_from_document_text", identityEvidence: identifiedEarly.identityEvidence };
+  }
+  const labelTokens = tokens(label);
+  if (labelTokens.length < 3) return null;
+  const candidates = corpus.entries.filter((e) => e.formNumber
+    && (jurisdictions.length === 0 || jurisdictions.includes(e.state)));
+  let matches = candidates.filter((entry) => {
+    const entryTokens = new Set(tokens(entry.formNumber));
+    return labelTokens.every((t) => entryTokens.has(t));
+  });
+  /*
+   * ONE DOCUMENT AT TWO PATHS IS ONE IDENTITY -- at tier 2 as well as tier 1.
+   *
+   * The uniqueness rule counts ENTRIES, and it has to, because two different
+   * documents satisfying one label means the label identifies neither. But two
+   * entries at the identical SHA-256 are not two documents. Since the D source
+   * packs became a second custody, the same official binary sits in both, so
+   * every tier-2 label in a covered jurisdiction matched twice and refused.
+   *
+   * That is the whole Arkansas defect, and it was recorded twice as something
+   * else. `official-form:ACIC-PETITION-TO-SEAL-ARREST` was called an id-alias
+   * mismatch against the corpus's AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460
+   * -- in DET-FEE-AND-WAIVER-001 A4 and again by an independent lane at its own
+   * base. The alias was never the problem: the token subset resolves it exactly,
+   * to one identity at hash f77e17b669, held at two paths. Counting the copies
+   * as rival candidates is what refused it, and ar-arrest-seal-set has read
+   * "names no resolved document source" ever since while hashing byte-exact.
+   *
+   * Collapsing by distinct hash keeps the rule the uniqueness test exists for:
+   * differing bytes under one label still refuse, and still must.
+   */
+  if (matches.length > 1 && new Set(matches.map((m) => m.sha256)).size === 1) {
+    matches = [matches.slice().sort((a, b) => a.path.localeCompare(b.path))[0]];
+  }
+  if (matches.length === 1) return { entry: matches[0], tier: "token_subset_same_jurisdiction" };
+  /* Unreachable for a short label now that the lookup above runs first; kept
+   * so a long label whose token subset was ambiguous still reaches tier 3. */
+  const identified = identityFindings.get(key);
+  if (identified) {
+    /* The corpus index is the arbiter, not the finding: the path must be held
+     * here and must still hash to what the finding recorded. */
+    const entry = corpus.entries.find((e) => e.path === identified.path && e.sha256 === identified.sha256);
+    if (entry) return { entry, tier: "exact_identity_confirmed_from_document_text", identityEvidence: identified.identityEvidence };
+  }
+  return null;
+}
+
+const CLASSES = ["SOURCE_ALREADY_HELD", "SOURCE_REVISION_STALE", "SOURCE_IDENTITY_UNRESOLVED", "SOURCE_GENUINELY_MISSING"];
+
+/**
+ * Whether an unresolved label names a document identity or merely describes one.
+ *
+ * This is the difference between "we know exactly what to go and get and we do
+ * not have it" and "we do not yet know what this is". Both need work; they need
+ * different work, and reporting all of them as one number tells an acquisition
+ * lane nothing.
+ *
+ * A form number has no spaces and carries a digit: CR-65, SCA-C907, HCJDC-159B.
+ * A statute or rule citation looks the same but is not a form -- Louisiana's
+ * LA-CCRP-ART-988 is a Code of Criminal Procedure article, and acquiring "it"
+ * means finding whatever form the article implies, which is identity work. So
+ * an article or section citation is unresolved however code-like it looks.
+ */
+const STATUTORY_REFERENCE = /(^|[^a-z])(art|article|sect|section|ch|chapter|stat)([^a-z]|$)/i;
+function looksLikeAFormNumber(label) {
+  const text = String(label).trim();
+  if (/\s/.test(text)) return false;
+  if (!/[0-9]/.test(text)) return false;
+  if (STATUTORY_REFERENCE.test(text)) return false;
+  return /^[A-Za-z0-9][A-Za-z0-9._/-]+$/.test(text);
+}
+
+const rows = [];
+for (const family of worklist.packetFamilies) {
+  if (!family.workTypes.includes(ACQUISITION)) continue;
+  const ids = [...new Set(family.routes.flatMap((r) => r.requiredSourceIds ?? []))];
+  const jurisdictions = family.jurisdictions ?? [];
+
+  const documentSources = [];
+  for (const id of ids) {
+    if (id.startsWith("source-sha256:")) {
+      const hash = id.slice("source-sha256:".length);
+      const entry = byHash.get(hash) ?? null;
+      documentSources.push({
+        sourceId: id, kind: "content_hash", resolved: Boolean(entry), tier: entry ? "exact_content_hash" : null,
+        heldAs: entry ? { path: entry.path, formNumber: entry.formNumber, revision: entry.revision, sha256: entry.sha256 } : null
+      });
+      continue;
+    }
+    if (id.startsWith("official-form:")) {
+      const label = id.slice("official-form:".length);
+      const match = resolveFormLabel(label, jurisdictions, family.worklistGroupId);
+      documentSources.push({
+        sourceId: id, kind: "form_label", resolved: Boolean(match), tier: match?.tier ?? null,
+        ...(match?.identityEvidence ? { identityEvidence: match.identityEvidence } : {}),
+        ...(match?.identityScope ? { identityScope: match.identityScope } : {}),
+        heldAs: match ? { path: match.entry.path, formNumber: match.entry.formNumber, revision: match.entry.revision, sha256: match.entry.sha256 } : null
+      });
+    }
+  }
+
+  const named = documentSources.length;
+  const resolved = documentSources.filter((s) => s.resolved);
+  const unresolvedHashes = documentSources.filter((s) => s.kind === "content_hash" && !s.resolved);
+  const unresolvedLabels = documentSources.filter((s) => s.kind === "form_label" && !s.resolved);
+
+  // A label that names a form number we do not hold is missing; one that
+  // describes a document, or cites a statute article, is unresolved identity.
+  const missingByFormNumber = unresolvedLabels.filter((s) => looksLikeAFormNumber(s.sourceId.slice("official-form:".length)));
+  const unresolvedIdentity = unresolvedLabels.filter((s) => !missingByFormNumber.includes(s));
+  for (const source of documentSources) {
+    if (source.resolved) continue;
+    source.absence = source.kind === "content_hash" ? "named_content_hash_not_in_corpus"
+      : missingByFormNumber.includes(source) ? "named_form_number_not_in_corpus"
+        : "label_does_not_identify_a_document";
+  }
+
+  let custodyClass;
+  if (named === 0) custodyClass = "SOURCE_IDENTITY_UNRESOLVED";
+  else if (unresolvedIdentity.length > 0) custodyClass = "SOURCE_IDENTITY_UNRESOLVED";
+  else if (unresolvedHashes.length > 0 || missingByFormNumber.length > 0) custodyClass = "SOURCE_GENUINELY_MISSING";
+  else custodyClass = "SOURCE_ALREADY_HELD";
+  // Revision staleness is only assertable where the census names an exact hash
+  // AND the corpus holds the same form under a different one.
+  if (custodyClass === "SOURCE_ALREADY_HELD") {
+    /*
+     * Stale means the corpus holds this form only under other revisions -- not
+     * that the one entry this map happened to keep is a different document.
+     * A form number routinely names several editions at once (AOC-CR-287 is
+     * held as REV-2020-12 in Spanish and Vietnamese and REV-2025-12 in
+     * English), and a Spanish edition is not a stale English one. So the test
+     * asks whether the held hash appears among ANY entry at that number.
+     */
+    const stale = resolved.filter((s) => s.kind === "content_hash" && s.heldAs
+      && !(allByFormNumber.get(normalise(s.heldAs.formNumber)) ?? []).some((e) => e.sha256 === s.heldAs.sha256));
+    if (stale.length > 0) custodyClass = "SOURCE_REVISION_STALE";
+  }
+
+  rows.push({
+    worklistGroupId: family.worklistGroupId,
+    packetFamilyId: family.packetFamilyId,
+    jurisdictions,
+    routeCount: family.routes.length,
+    custodyClass,
+    documentSourcesNamed: named,
+    documentSourcesResolved: resolved.length,
+    nonDocumentSourceIds: ids.length - named,
+    documentSources,
+    commissionAcquisition: custodyClass !== "SOURCE_ALREADY_HELD",
+    why: {
+      SOURCE_ALREADY_HELD: "Every document-shaped source this family names resolves to a file already in the verified corpus. Acquisition is not commissioned.",
+      SOURCE_REVISION_STALE: "The source is held, but under a different revision than the census names. Refresh rather than acquire.",
+      SOURCE_IDENTITY_UNRESOLVED: "This family names no document-shaped source, or names one that cannot be resolved to a corpus identity. Resolve the identity before commissioning anything: absence of a match is not evidence of absence.",
+      SOURCE_GENUINELY_MISSING: "The census names a document identity -- an exact content hash, or a form number -- that the verified corpus does not carry. This is a real acquisition and the target is known."
+    }[custodyClass]
+  });
+}
+rows.sort((a, b) => a.worklistGroupId.localeCompare(b.worklistGroupId));
+
+const counts = Object.fromEntries(CLASSES.map((c) => [c, rows.filter((r) => r.custodyClass === c).length]));
+const doc = {
+  schemaVersion: "rcap-census-source-custody-reconciliation/v1",
+  generatedBy: "scripts/grade-a-route-obligation-census/reconcile-census-source-custody.mjs",
+  question: "Which of the census's official-source acquisition tasks are already satisfied by the corpus we hold?",
+  corpusIndex: CORPUS_INDEX,
+  corpusFilesHeld: corpus.entries.length,
+  corpusWasNotReacquired: "Nothing was fetched. This reads the committed index of the already-verified private corpus.",
+  absenceVocabulary: {
+    named_content_hash_not_in_corpus: "An exact identity we do not hold. Acquire it.",
+    named_form_number_not_in_corpus: "A form number we do not hold. Acquire it; the target is known.",
+    label_does_not_identify_a_document: "A prose title or a statute citation. Resolve what document it means before commissioning anything."
+  },
+  matchingIsConservative:
+    "Only an exact content hash or a strong form-number match within the same jurisdiction counts as held. An unresolvable label is recorded as unresolved identity rather than as missing, because absence of a match is not evidence of absence -- and calling a held source missing wastes acquisition while calling a missing source held suppresses it.",
+  /* Form numbers that name more than one distinct document even after
+   * preferring FORM over INSTRUCTIONS and English over other languages. Each
+   * resolves to nothing rather than to an arbitrary one of its candidates, and
+   * is listed here so the refusal is actionable instead of silent: every one
+   * needs a route split or a label change. */
+  ambiguousFormNumbers,
+  whatAnAmbiguousFormNumberCosts:
+    "The label is refused at tier 1, so any obligation naming it stays unresolved. Where the family also names the same documents by source-sha256 -- as Montana's two MMRTA families do -- nothing it holds changes; only the false claim that one label identified one of two required documents.",
+  acquisitionTasks: rows.length,
+  counts,
+  commissionAcquisitionFor: rows.filter((r) => r.commissionAcquisition).length,
+  doNotCommissionAcquisitionFor: rows.filter((r) => !r.commissionAcquisition).length,
+  rows
+};
+
+const serialized = `${JSON.stringify(doc, null, 2)}\n`;
+const outPath = path.join(rootDir, OUT);
+if (CHECK) {
+  const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, "utf8") : "";
+  if (current !== serialized) { console.error(`${OUT} is stale. Run the reconciler.`); process.exit(1); }
+  console.log(`source-custody reconciliation current: ${rows.length} acquisition task(s).`);
+  process.exit(0);
+}
+fs.mkdirSync(path.dirname(outPath), { recursive: true });
+fs.writeFileSync(outPath, serialized);
+console.log(`Wrote ${OUT}`);
+console.log(`  ${rows.length} acquisition task(s) against ${corpus.entries.length} held file(s)`);
+for (const c of CLASSES) console.log(`  ${String(counts[c]).padStart(4)}  ${c}`);
+console.log(`  commission acquisition for ${doc.commissionAcquisitionFor}; do not commission for ${doc.doNotCommissionAcquisitionFor}`);

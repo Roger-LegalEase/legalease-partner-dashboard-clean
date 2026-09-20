@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "mn_petition_609a02_subd3-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "PENDING_INDEPENDENT_VERIFICATION",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "implementationStrategy": "official_pdf_fill",
+  "counselQuestionsRaised": [
+    "Item 9's eight subdivision-3 clauses are left for the participant with the registry's waiting periods printed beside them. Confirm that leaving the clause unticked is preferable to a runtime that selects it from a held disposition, and confirm the waiting-period wording carried into the instructions.",
+    "FEE102's caption plaintiff line and case-type line are left blank with the exact text to write given in the instructions, rather than written from EXP102's own printed caption. Confirm which the reviewer prefers.",
+    "The § 609A.02, subd. 4 predatory-offender registration bar is carried to the participant as a question and a stop condition and is not screened for here. Confirm that placement.",
+    "The packet delivers FEE102 unconditionally in both fixtures although the manifest marks it conditional. Confirm that shipping the waiver affidavit to every participant is preferable to omitting it from packets where no waiver is sought."
+  ],
+  "mattersForTheReviewersAttention": [
+    "Every write box is measured from the form's own rule strokes; the basis is recorded per cell in production-field-map.json under measuredCells, including the exact rule y, start x and end x that bounded it.",
+    "Please check the raster shows EXP105 carrying ONLY a defendant name and a date of birth in its caption, and nothing anywhere else on its four pages.",
+    "Please check the raster shows EXP104 carrying ONLY a defendant name in its caption, and no ink anywhere in the fifteen-box service list or the declaration block.",
+    "Item 7's criminal-record table on EXP102 page 3 is declared as SIX row-level required-before-filing blanks rather than as thirty-six individual cells. Each row entry names all six columns the row asks for. That is a deliberate granularity choice and it is stated here rather than left to be discovered.",
+    "The BOUNDARY fixture carries a 56-character email address and a 52-character street address to exercise the fitter on the narrowest declaration lines; the canonical fixture shows ordinary values.",
+    "EXP101, the court's instruction sheet, is delivered with no writes at all and is declared with no blanks: it is reference material, not a filing blank.",
+    "Two labels on EXP105 were rewritten during this build and the reason is worth checking. \"...whether the agency has or has not established...\" and \"...send a copy to each affected agency\" both classified as AGENCY_FACT, because the shared contract refuses the court-owned refusal class on an agency field - correctly, since an arresting agency name is a participant fact. Neither of these blanks holds an agency name: one is the court's has/has-not election on a subd. 5(b) finding and the other is the order paragraph directing the court administrator. The labels now name the blank rather than the sentence around it, and the full printed sentence is carried in each row's `why` so nothing is lost.",
+    "Four EXP102 elections were relabelled for the same kind of reason: their labels ended \"- Yes or No\", which matches the contract's ROUTE_ELECTION pattern written for California CR-180's Penal Code § 17 wobbler cells. Items 8, 11, 14 and 15 are participant questions, not route elections. Each label is now the form's own printed question."
+  ]
+}

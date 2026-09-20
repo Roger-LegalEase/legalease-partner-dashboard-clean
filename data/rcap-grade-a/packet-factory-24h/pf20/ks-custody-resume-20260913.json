@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-pf20-ks-custody-resume/v1",
+  "recordedAt": "2026-09-13",
+  "purpose": "Resume the saved Kansas arrest and registration-relief source handoff after restart without rebuilding or substituting custody.",
+  "status": "BLOCKED_SOURCE",
+  "terminalEffect": 0,
+  "captainHeadObserved": "7c57ca5584b8a754279097ff42cde98d862536da",
+  "comparisonPoint": "765cdcf73273d3dc81491d98dc07fa378fb51a57",
+  "savedWorkerReturn": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/rows.json",
+    "returnSchema": "rcap-packet-build-return/v1",
+    "commit": "041959548e42ecd687692ceb5cb1c0ace826da24",
+    "branch": "origin/codex/pf20-kansas-six-20260912",
+    "worker": null,
+    "baseSha": null,
+    "rows": [
+      {
+        "familyId": "ks-22-2410-arrest-set",
+        "status": "STOPPED",
+        "stopClass": "BLOCKED_SOURCE",
+        "counterMeasurement": null,
+        "blockerEvidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/source-access-blockers.json",
+        "overlayDirectoryTouched": false,
+        "selfVerified": false,
+        "savedBuildCandidate": false
+      },
+      {
+        "familyId": "ks-22-4908-registration-relief-set",
+        "status": "STOPPED",
+        "stopClass": "BLOCKED_SOURCE",
+        "counterMeasurement": null,
+        "blockerEvidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/source-access-blockers.json",
+        "overlayDirectoryTouched": false,
+        "selfVerified": false,
+        "savedBuildCandidate": false
+      }
+    ]
+  },
+  "savedSourceManifest": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/SOURCE_REACQUISITION_MANIFEST.json",
+    "commit": "22618ff592a9b6ac354624eb12511686cb83458b",
+    "sha256": "1e3fa95f52e77576de6c8900f0caa28213b18d688f1793f2fdeb1bcb95d0f316",
+    "historicalReceipt": "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json",
+    "workflow": "rcap-official-source-acquisition-batch.yml",
+    "dispatchRef": "codex/pf20-kansas-six-20260912",
+    "priorDispatchResult": "HTTP 403: Resource not accessible by integration",
+    "priorRunId": null
+  },
+  "savedBranchesPreserved": [
+    {
+      "branch": "pf20-ks-22-2410-arrest-20260912",
+      "commit": "50424aa3c0d792a4d0d3e98d8fe7daf405bc2acd",
+      "worktree": "/tmp/pf20-ks-22-2410-arrest-20260912",
+      "worktreeStatus": "missing; retained branch pointer",
+      "scope": "unrelated IA DCI77 reviewer return; no Kansas build candidate claimed"
+    },
+    {
+      "branch": "pf20-ks-22-2410-arrest-20260912b",
+      "commit": "84aa0003d1d06e2c7f58d4ac94945f63d56b96fc",
+      "worktree": "/tmp/pf20-ks-22-2410-arrest-20260912b",
+      "worktreeStatus": "missing; retained branch pointer",
+      "scope": "unrelated NH reviewer return; no Kansas build candidate claimed"
+    }
+  ],
+  "families": [
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "savedState": "STOPPED/BLOCKED_SOURCE",
+      "buildScript": "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
+      "buildScriptPresent": false,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill",
+      "overlayDirectoryTouchedBySavedReturn": false,
+      "missingInputs": [
+        {
+          "sourceId": "ksjc-order-expungement-arrest-record-cover-sheet-12-2016",
+          "sourceObligationId": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+          "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+          "expectedByteLength": 55112,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1620/638968300953030000"
+        },
+        {
+          "sourceId": "ksjc-petition-expungement-arrest-record-02-2013",
+          "sourceObligationId": "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+          "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "expectedByteLength": 51084,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1628/638968301226600000"
+        }
+      ]
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "savedState": "STOPPED/BLOCKED_SOURCE",
+      "buildScript": "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs",
+      "buildScriptPresent": false,
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill",
+      "overlayDirectoryTouchedBySavedReturn": false,
+      "missingInputs": [
+        {
+          "sourceId": "ksjc-order-relief-from-offender-registration-cover-sheet-06-2022",
+          "sourceObligationId": "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "expectedByteLength": 217564,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1462/638624730892300000"
+        },
+        {
+          "sourceId": "ksjc-petition-relief-from-offender-registration-06-2022",
+          "sourceObligationId": "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "expectedByteLength": 401878,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1474/638624730904830000"
+        }
+      ]
+    }
+  ],
+  "custodyVerification": {
+    "checkedAt": "2026-09-13",
+    "recoveryPool": {
+      "root": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "realpath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "rootExists": true,
+      "expectedSourcePathsExist": false,
+      "expectedDigestMatches": false,
+      "scope": "all PDF files in this recovery pool were checked for the four expected SHA-256 values"
+    },
+    "operationalNationwide": {
+      "root": "private/Nationwide Record Clearing",
+      "realpath": null,
+      "rootExists": false,
+      "expectedSourcePathsExist": false,
+      "expectedDigestMatches": false
+    },
+    "masterLibraryReferenceOnly": {
+      "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "realpath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "requireMasterLibraryEnvironment": "PASS",
+      "statesDirectoryEntries": 51,
+      "expectedSourcePathsExist": false,
+      "expectedDigestMatches": false,
+      "maySubstituteOperationalNationwide": false
+    },
+    "sourceStaging": {
+      "path": "/workspaces/.legalease-source-staging/CODEX-CS1-SRC1",
+      "exists": false
+    }
+  },
+  "resumeCondition": "Provide the four exact source PDFs through recorded custody, with each expected SHA-256 and byte length matching this manifest; then the PF20 build worker can resume both families. Do not use the Master Library or any nearest/changed edition as operational Nationwide custody.",
+  "nextExecutableAction": "Source custody owner: materialize or expose the four manifest-bound PDFs; PF20 then resumes the two bounded builds. This return performs no acquisition, build, overlay, raster, claim, or shared-manifest mutation.",
+  "evidenceHashes": {
+    "rows": "01da535d212a7c799c628d6cc073834feab006795654d5f6acb1a91c088e50ba",
+    "blockers": "6fb75cac73758cd459b4a8329d98c6b29f1d68cf2cff5c26e36ec5a5a7a8b490",
+    "reviewHandoff": "5ccabf2341afcbef49bd515e35d023fe4814d7167f0d1cb380fa82510ba45738",
+    "sourceManifest": "1e3fa95f52e77576de6c8900f0caa28213b18d688f1793f2fdeb1bcb95d0f316"
+  }
+}

@@ -1,0 +1,407 @@
+{
+  "schemaVersion": "rcap-s2-shared-host-assignment/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-s2-shared-host-dispatch.mjs",
+  "question": "Three repair lanes import a host none of them may change. Who changes it, and how do they consume the result?",
+  "thisIsAnAddendum": {
+    "parentManifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+    "siblingManifest": "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+    "why": "S1, R8, the seven shards and P1 to P4 are published against bases their workers may already hold. This record names them instead of regenerating them, and every collision check runs across all three."
+  },
+  "host": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+  "countReconciliation": {
+    "authoritative": 12,
+    "authority": "the transitive import graph over scripts/build-census-v1-*.mjs, recomputed at generation time",
+    "directImporters": 12,
+    "transitiveOnlyImporters": 0,
+    "whyTenWasQuoted": "10 of the 12 importers are BUILT families inside the S1-unaffected repair wave, and that is the number the family-level view showed. It was right about built families and silent about the rest.",
+    "whyTwelveWasQuoted": "12 scripts import the host. That is the number the prompt tables showed, because ownership is decided by scripts, not by families.",
+    "theTwoThatExplainTheGap": [
+      {
+        "familyId": "ne-setaside-noncustodial-set",
+        "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+        "owningLane": "R3_ROUTE_MAPPING_REMAINDER"
+      },
+      {
+        "familyId": "ne-trafficking-setaside-and-seal-set",
+        "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+        "owningLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+      }
+    ],
+    "scriptsInTheClosure": 13,
+    "builtFamiliesInTheClosure": 11,
+    "verdict": "Both numbers were correct about different populations and neither was stated with its scope. The import graph controls: 12 importers, 13 scripts in the closure once the host is counted."
+  },
+  "dependencyConsumption": {
+    "appliesTo": [
+      "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+      "P3_WV_CONVICTION_COMPLETENESS",
+      "P4_NE_SD_SETASIDE_COMPLETENESS"
+    ],
+    "theirOwnedPathsAreUnchanged": true,
+    "theirPromptsAreUnchanged": true,
+    "whyNothingOfTheirsChanges": "They already carry a stop condition sending an unresolvable host defect to Captain. This contract is what Captain does with it, so nothing they were dispatched with has to move underneath them.",
+    "whatTheyMayDoNow": [
+      "every blank disposition, route-option selection, row completion and component decision that does not require the host to change",
+      "the full per-family completeness ledger and the required_before_filing classification",
+      "everything except a re-render that depends on corrected host logic"
+    ],
+    "sequence": [
+      {
+        "step": 1,
+        "actor": "S2 worker",
+        "action": "returns on codex/s2-shared-ne-setaside-host-completeness with the corrected host and a before/after fleet audit"
+      },
+      {
+        "step": 2,
+        "actor": "Captain",
+        "action": "verifies the return, confirms it modified scripts/build-census-v1-ne-setaside-custodial-set.mjs and nothing else, and integrates it by cherry-picking the exact commit"
+      },
+      {
+        "step": 3,
+        "actor": "Captain",
+        "action": "runs the completeness fleet audit and publishes data/rcap-grade-a/launch-control/S2_CONTINUATION.json naming the integration commit, the per-family counter movement, and the exact continuation base"
+      },
+      {
+        "step": 4,
+        "actor": "P1, P3, P4",
+        "action": "rebase the worker branch onto the continuation base named in that record, then re-render"
+      },
+      {
+        "step": 5,
+        "actor": "Captain",
+        "action": "reruns the fleet audit and confirms every repaired family reaches PASS_COMPLETE"
+      }
+    ],
+    "continuationRecord": "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
+    "rule": "A lane may not re-render against a host it has not confirmed by ancestry. The continuation record names the commit; the worker checks that its base is an ancestor of it, and stops if it is not.",
+    "ancestryCheck": "git merge-base --is-ancestor <continuationBase> HEAD"
+  },
+  "totals": {
+    "assignments": 1,
+    "importers": 12,
+    "builtFamiliesInClosure": 11,
+    "overlayPathsOwned": 0,
+    "packetsRendered": 0,
+    "collisions": 0,
+    "placeholders": 0
+  },
+  "commercialPosture": "S2 corrects shared build logic. It opens no commercial route, renders no packet, proves nothing and approves nothing.",
+  "assignments": [
+    {
+      "assignmentId": "S2_SHARED_NE_SETASIDE_HOST_COMPLETENESS",
+      "wave": "completeness-repair-addendum",
+      "engine": "Codex",
+      "lane": "shared-host-fix",
+      "sequence": 1,
+      "workerBranch": "codex/s2-shared-ne-setaside-host-completeness",
+      "captainBaseSha": "09ada500b42b7e2181b30155412bb7e70176b70b",
+      "readAssignmentFrom": {
+        "branch": "claude/legalease-sprint-captain-utucnw",
+        "file": "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json",
+        "verify": "captainBaseSha must equal 09ada500b42b7e2181b30155412bb7e70176b70b"
+      },
+      "parentManifest": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+      "siblingManifest": "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+      "mission": "Correct the completeness defects carried by scripts/build-census-v1-ne-setaside-custodial-set.mjs, once, for all 12 scripts that import it. You render no packet and you touch no overlay directory: this lane changes shared logic and measures what that does to every importer.",
+      "itemKind": "sharedModule",
+      "itemCount": 1,
+      "items": [
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "hostImporters": {
+        "count": 12,
+        "direct": 12,
+        "families": [
+          {
+            "familyId": "ne-setaside-noncustodial-set",
+            "buildScript": "scripts/build-census-v1-ne-setaside-noncustodial-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+            "owningLane": "R3_ROUTE_MAPPING_REMAINDER",
+            "completenessResultNow": null,
+            "countersNow": null
+          },
+          {
+            "familyId": "ne-trafficking-setaside-and-seal-set",
+            "buildScript": "scripts/build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+            "owningLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+            "completenessResultNow": null,
+            "countersNow": null
+          },
+          {
+            "familyId": "sd_arrest_expungement-set",
+            "buildScript": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P4_NE_SD_SETASIDE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+            "countersNow": {
+              "knownRequiredFieldsMissing": 139,
+              "unclassifiedBlanks": 219
+            }
+          },
+          {
+            "familyId": "ut_pet_acquittal-set",
+            "buildScript": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 617
+            }
+          },
+          {
+            "familyId": "ut_pet_conviction-set",
+            "buildScript": "scripts/build-census-v1-ut_pet_conviction-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 617
+            }
+          },
+          {
+            "familyId": "ut_pet_dismissed_with_prejudice-set",
+            "buildScript": "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 617
+            }
+          },
+          {
+            "familyId": "ut_pet_dismissed_without_prejudice-set",
+            "buildScript": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 617
+            }
+          },
+          {
+            "familyId": "ut_pet_limitations-set",
+            "buildScript": "scripts/build-census-v1-ut_pet_limitations-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 617
+            }
+          },
+          {
+            "familyId": "ut_pet_no_charges-set",
+            "buildScript": "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 617
+            }
+          },
+          {
+            "familyId": "ut_pet_traffic-set",
+            "buildScript": "scripts/build-census-v1-ut_pet_traffic-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 296
+            }
+          },
+          {
+            "familyId": "wv_conv_multiple_misdemeanors-set",
+            "buildScript": "scripts/build-census-v1-wv_conv_multiple_misdemeanors-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P3_WV_CONVICTION_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 128
+            }
+          },
+          {
+            "familyId": "wv_conv_single_misdemeanor-set",
+            "buildScript": "scripts/build-census-v1-wv_conv_single_misdemeanor-set.mjs",
+            "importKind": "direct",
+            "c11Classification": "BUILT",
+            "owningLane": "P3_WV_CONVICTION_COMPLETENESS",
+            "completenessResultNow": "FAIL_MISSING_PREFILLS",
+            "countersNow": {
+              "unclassifiedBlanks": 272
+            }
+          }
+        ],
+        "hostFamily": {
+          "familyId": "ne-setaside-custodial-set",
+          "c11Classification": "BUILT",
+          "owningLane": "P4_NE_SD_SETASIDE_COMPLETENESS",
+          "completenessResultNow": "FAIL_MISSING_REQUIRED_FACTS",
+          "note": "The host is itself a built family. Its packet is repaired by its own lane, not by S2; S2 changes only the shared logic inside its build script."
+        }
+      },
+      "countReconciliation": {
+        "authoritative": 12,
+        "authority": "the transitive import graph over scripts/build-census-v1-*.mjs, recomputed at generation time",
+        "directImporters": 12,
+        "transitiveOnlyImporters": 0,
+        "whyTenWasQuoted": "10 of the 12 importers are BUILT families inside the S1-unaffected repair wave, and that is the number the family-level view showed. It was right about built families and silent about the rest.",
+        "whyTwelveWasQuoted": "12 scripts import the host. That is the number the prompt tables showed, because ownership is decided by scripts, not by families.",
+        "theTwoThatExplainTheGap": [
+          {
+            "familyId": "ne-setaside-noncustodial-set",
+            "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+            "owningLane": "R3_ROUTE_MAPPING_REMAINDER"
+          },
+          {
+            "familyId": "ne-trafficking-setaside-and-seal-set",
+            "c11Classification": "STOPPED_WITH_EXACT_BLOCKER",
+            "owningLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+          }
+        ],
+        "scriptsInTheClosure": 13,
+        "builtFamiliesInTheClosure": 11,
+        "verdict": "Both numbers were correct about different populations and neither was stated with its scope. The import graph controls: 12 importers, 13 scripts in the closure once the host is counted."
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/s2-shared-ne-setaside-host-completeness/**",
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs"
+      ],
+      "rendersNoPackets": true,
+      "modifiesNoOverlayDirectories": true,
+      "scopeOfCorrection": {
+        "inScope": [
+          "shared fact-map defects: a known participant or case fact the host refuses with a statement of build policy rather than a property of the field",
+          "blank-disposition defects: a blank the host leaves with no approved disposition from the closed vocabulary",
+          "route-option defects: an election the route determines that the host leaves to the participant",
+          "row-completion defects: a repeating row the host fills partially, which reads as a finished row and is not",
+          "component-policy defects: a document the host maps into the packet and never renders"
+        ],
+        "outOfScope": [
+          "any packet render",
+          "any overlay directory",
+          "any other build script, including the two S1 runners",
+          "any change that is a per-family correction rather than shared logic — if it belongs to one family it belongs to that family's lane"
+        ],
+        "rule": "Correct only what the host actually carries. A defect that turns out to be per-family is reported to the owning lane, not fixed here."
+      },
+      "requiredMeasurement": {
+        "before": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --write, captured before any edit",
+        "after": "the same command after the correction",
+        "report": "every one of the 11 built families in the closure, with counters before and after, plus any family outside the closure whose counters moved — a family outside the closure that moves means the change was not confined to this host",
+        "rule": "Report movement, not improvement. A counter that rises is as important as one that falls, and a family outside the closure that moves at all is a finding."
+      },
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json  (read from the Captain branch tip, not from the baseline)",
+        "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+        "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json",
+        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/wave-2/s2-shared-ne-setaside-host-completeness/rows.json — one row per defect corrected in the host: itemId, status, the defect class, the field classes it affected, and the importer families it reaches",
+        "data/rcap-grade-a/wave-2/s2-shared-ne-setaside-host-completeness/fleet-audit-before-after.json — the full completeness matrix before and after, and the per-family counter movement for every family in the closure",
+        "scripts/build-census-v1-ne-setaside-custodial-set.mjs — the corrected shared host"
+      ],
+      "outputSchema": {
+        "requirement": "WEC-5: the output schema is fixed, not left to the lane.",
+        "arrayKey": "rows",
+        "itemKeyField": "itemId",
+        "completionVocabulary": [
+          "COMPLETED",
+          "STOPPED"
+        ],
+        "rule": "Detail goes in separate fields. An unrecognised status is refused at integration rather than translated."
+      },
+      "focusedTests": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --mutations",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "WEC-6: every stop below states its scope. A ROW stop records that defect and continues; a LANE stop says why the rest are unsafe without it.",
+        "LANE STOP — you render no packet and you write into no overlay directory. Re-rendering belongs to P1, P3, P4 and the host family's own lane, after Captain publishes the continuation record.",
+        "LANE STOP — you own one build script. Do not touch the two S1 runners, any other build script, or any other lane's paths.",
+        "NEVER invent a fact. A fact the platform does not hold is classified required_before_filing and surfaced to the participant, not guessed. A guessed arresting agency is worse than a blank one: the blank is visible and the guess is not.",
+        "NEVER write a protected field — participant signature, signature date, certificate of mailing before mailing, or any court-only or prosecutor-only field.",
+        "ROW STOP — a defect that is per-family rather than shared is reported to the owning lane (R3_ROUTE_MAPPING_REMAINDER, R4_SOURCE_IDENTITY_AND_ACQUISITION, P4_NE_SD_SETASIDE_COMPLETENESS, P1_UT_PETITION_EXPUNGE_COMPLETENESS, P3_WV_CONVICTION_COMPLETENESS) and left alone.",
+        "ROW STOP — a correction that would move a family outside the closure stops and is reported. Its blast radius is the twelve importers and the host, and nothing else."
+      ],
+      "dependencyConsumption": {
+        "appliesTo": [
+          "P1_UT_PETITION_EXPUNGE_COMPLETENESS",
+          "P3_WV_CONVICTION_COMPLETENESS",
+          "P4_NE_SD_SETASIDE_COMPLETENESS"
+        ],
+        "theirOwnedPathsAreUnchanged": true,
+        "theirPromptsAreUnchanged": true,
+        "whyNothingOfTheirsChanges": "They already carry a stop condition sending an unresolvable host defect to Captain. This contract is what Captain does with it, so nothing they were dispatched with has to move underneath them.",
+        "whatTheyMayDoNow": [
+          "every blank disposition, route-option selection, row completion and component decision that does not require the host to change",
+          "the full per-family completeness ledger and the required_before_filing classification",
+          "everything except a re-render that depends on corrected host logic"
+        ],
+        "sequence": [
+          {
+            "step": 1,
+            "actor": "S2 worker",
+            "action": "returns on codex/s2-shared-ne-setaside-host-completeness with the corrected host and a before/after fleet audit"
+          },
+          {
+            "step": 2,
+            "actor": "Captain",
+            "action": "verifies the return, confirms it modified scripts/build-census-v1-ne-setaside-custodial-set.mjs and nothing else, and integrates it by cherry-picking the exact commit"
+          },
+          {
+            "step": 3,
+            "actor": "Captain",
+            "action": "runs the completeness fleet audit and publishes data/rcap-grade-a/launch-control/S2_CONTINUATION.json naming the integration commit, the per-family counter movement, and the exact continuation base"
+          },
+          {
+            "step": 4,
+            "actor": "P1, P3, P4",
+            "action": "rebase the worker branch onto the continuation base named in that record, then re-render"
+          },
+          {
+            "step": 5,
+            "actor": "Captain",
+            "action": "reruns the fleet audit and confirms every repaired family reaches PASS_COMPLETE"
+          }
+        ],
+        "continuationRecord": "data/rcap-grade-a/launch-control/S2_CONTINUATION.json",
+        "rule": "A lane may not re-render against a host it has not confirmed by ancestry. The continuation record names the commit; the worker checks that its base is an ancestor of it, and stops if it is not.",
+        "ancestryCheck": "git merge-base --is-ancestor <continuationBase> HEAD"
+      },
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "ASSIGNMENT READ FROM:",
+        "COMMIT:",
+        "HOST DEFECTS CORRECTED:",
+        "DEFECT CLASSES:",
+        "IMPORTER FAMILIES WHOSE COUNTERS MOVED:",
+        "FAMILIES OUTSIDE THE CLOSURE THAT MOVED: 0",
+        "PACKETS RENDERED: 0",
+        "OVERLAY DIRECTORIES MODIFIED: 0",
+        "FACTS CLASSIFIED REQUIRED_BEFORE_FILING:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/completeness-repair-prompts/S2_SHARED_NE_SETASIDE_HOST_COMPLETENESS.md",
+      "grantsNothing": "A corrected host is corrected logic. It renders no packet, proves no packet, opens no route and approves no output."
+    }
+  ]
+}

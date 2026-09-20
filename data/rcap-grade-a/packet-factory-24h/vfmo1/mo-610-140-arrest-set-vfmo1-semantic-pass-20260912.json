@@ -1,0 +1,711 @@
+{
+  "schemaVersion": "rcap-vfmo1-independent-semantic-review/v1",
+  "familyId": "mo-610-140-arrest-set",
+  "trackId": "mo-610-140-arrest-set",
+  "lane": "VFMO1",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS_PRE_RASTER_SEMANTIC",
+  "reviewedAtBase": "b579fb9c77f360744576ed8ad816c16a2e331520",
+  "packetCommitSha": "ba1b340fc49f7dd223964b6f2ea83a19c9033d09",
+  "repairCommitSha": "ba1b340fc49f7dd223964b6f2ea83a19c9033d09",
+  "manifestCommitSha": "fc79b511cef976062f95ac6b3f3d2fd8a51a405f",
+  "scope": "Bounded independent semantic review of current mo-610-140-arrest-set bytes against all eight prior VFMO1 defect classes applicable to this sibling, exact current source receipts, current component set, current guidance, current packet PDFs and focused saved-byte evidence. No raster visual acceptance is claimed.",
+  "claimEvidence": {
+    "lane": "VFMO1",
+    "assertedBeforeReads": true,
+    "grantSet": "e5dd61f91f9bf44d",
+    "grantCommit": "e5ce4836e",
+    "assertedLedgerGeneratedAtCommit": "c43d4d02c441f0dad3166de0cb1992ae6b527822",
+    "family": "mo-610-140-arrest-set",
+    "result": "CLAIM_OK"
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json",
+    "sha256": "67c903de9be7e2309c5f901c9160419bbcc0c0667c886009dfaefcd538b1199b",
+    "byteLength": 39914,
+    "priorVerifiedAtBase": "a03afb773",
+    "priorVerdict": "FAIL_REPAIR_REQUIRED",
+    "priorFailedFindingIds": [
+      "MO-S1",
+      "MO-S2",
+      "MO-S4",
+      "MO-S5",
+      "MO-S6",
+      "MO-S8"
+    ]
+  },
+  "resolvedFindings": [
+    {
+      "findingId": "MO-S1",
+      "status": "RESOLVED",
+      "obligation": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "details": "FI-05 Submitted by, Phone and Email Address are now written for canonical and boundary current fixtures; independent current-byte text checks and the saved-byte preflight find no omission.",
+      "priorFinding": "FI-05 source page 2 explicitly labels Submitted by, Phone and Email Address. All three held pro-se filer facts are blank in both fixtures of each family and incorrectly classified NOT_APPLICABLE_ON_THIS_ROUTE. The optional address-if-not-shown-above and attorney-only Bar ID conditions do not make the whole filer block inapplicable. Six missed facts per family.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.FI-05.pdf",
+          "sha256": "c79fe48ec8d87623345919b4cc78502eb4db7dca42c323bf0a776e2aef54c710",
+          "byteLength": 575195
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.FI-05.pdf",
+          "sha256": "5d416ddddd7d54e096c907389c22480fdd0f6b32aa3d86f950e865db4a78b0b3",
+          "byteLength": 577315
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "b5e11f5b809d3e84c957825f039e148a4a4063f53beb3447e1a1fa9d207266f5",
+          "byteLength": 83927
+        }
+      ]
+    },
+    {
+      "findingId": "MO-S2",
+      "status": "RESOLVED",
+      "obligation": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "details": "Current CR370 output carries the known Municipal Police Department name in both fixtures and the boundary Other agency name/address; duplicate and unknown agency preservation is covered by the focused negative controls.",
+      "priorFinding": "CR370 checks Municipal Police Dept. but omits the known department/city name in both fixtures. Boundary also checks Other but leaves its held agency name/address blank. Neutral defendant identity is participant-derived, not a judicial determination. Three missed fields per family.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.CR370.pdf",
+          "sha256": "beaae2a94237102352bfeef1e5d57fda999f3691875575fa464ecb0bab34a2b5",
+          "byteLength": 111762
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.CR370.pdf",
+          "sha256": "d19ac468086ab052c41a4fd38a7e5c3520edd8bb220269d54e69b2f025b8be40",
+          "byteLength": 111995
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "b5e11f5b809d3e84c957825f039e148a4a4063f53beb3447e1a1fa9d207266f5",
+          "byteLength": 83927
+        }
+      ]
+    },
+    {
+      "findingId": "MO-S4",
+      "status": "RESOLVED",
+      "obligation": [
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS"
+      ],
+      "details": "Current importFacts rejects filing-county mismatch and multi-county input, while current agency mapping preserves duplicate/unknown agencies and the guide states that extra records, OCNs and agencies continue.",
+      "priorFinding": "Read-only input tests accept filing county Clay while every held arrest/charge county remains Jackson; guides then falsely say records belong to the filing county. Duplicate police agencies and unknown agency kinds are also accepted, while first-match CR360 mapping omits the additional agency. Missing police label is accepted even with a known organization. Model county independently from municipality and preserve every supported agency; do not guess geography or silently drop rows.",
+      "evidence": [
+        {
+          "path": "/tmp/mo-vfmo1-focused-test-20260912.json",
+          "sha256": "243bfcaca11c7f0564fc8164fe2190621350f06a9cc527ec0112239e90eae847",
+          "byteLength": 1564
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "4666c9c2953ecd02465f67b41510b5ffe4d5945f472a305b4e0e1c59ca4beeab",
+          "byteLength": 5609
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.CR360.pdf",
+          "sha256": "8e53b2cb831dd003ccae5e9ba2ae07c0ff0e9e888d4cf59af850586387c08cb1",
+          "byteLength": 120228
+        }
+      ]
+    },
+    {
+      "findingId": "MO-S5",
+      "status": "RESOLVED",
+      "obligation": [
+        "ROUTE_OPTIONS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "details": "Current importFacts rejects future completion/arrest dates and missing married spouse name; current guidance binds timing to the planned filing date and requires the conditional spouse fact for a waiver.",
+      "priorFinding": "Elapsed/wait-confirmed booleans admit future arrest or completion dates with no planned filing reference. They can therefore produce sworn time-period text without reconciling known dates. GN10 married branch also accepts absent spouse name and silently renders the conditional required field blank without collection/handback. Require internally consistent participant facts or truthful unresolved status.",
+      "evidence": [
+        {
+          "path": "/tmp/mo-vfmo1-focused-test-20260912.json",
+          "sha256": "243bfcaca11c7f0564fc8164fe2190621350f06a9cc527ec0112239e90eae847",
+          "byteLength": 1564
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "4666c9c2953ecd02465f67b41510b5ffe4d5945f472a305b4e0e1c59ca4beeab",
+          "byteLength": 5609
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.GN10.pdf",
+          "sha256": "ca3e282f7eb95844061b62e4b272a14dbeaf63fdea251665f6633df898d06387",
+          "byteLength": 7219
+        }
+      ]
+    },
+    {
+      "findingId": "MO-S6",
+      "status": "RESOLVED",
+      "obligation": [
+        "SOURCE_IDENTITY"
+      ],
+      "details": "Current GN10 output retains the held Date File Stamp caption and one-page footer while preserving the exact one-page DOCX source identity; no second judicial order page is invented.",
+      "priorFinding": "The manual GN10 transcription omits the held DOCX caption\u2019s (Date File Stamp) label/space. Preserve the source\u2019s court-use caption even though its value stays blank. Exact DOCX custody is proven and its PAGE 1 of 1 footer disproves the old memo\u2019s two-page claim; this finding does not reopen source acquisition or require an invented second-page order.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.GN10.pdf",
+          "sha256": "ca3e282f7eb95844061b62e4b272a14dbeaf63fdea251665f6633df898d06387",
+          "byteLength": 7219
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/source-receipt.json",
+          "sha256": "5fc32e761a6fbc7a22b3d90260212caf2ae584c2d2f5a065b85178265327ff10",
+          "byteLength": 2236
+        }
+      ]
+    },
+    {
+      "findingId": "MO-S8",
+      "status": "RESOLVED",
+      "obligation": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "SELF_HELP_STOP",
+        "ARTIFACTS"
+      ],
+      "details": "Current arrest continuation includes a separate participant signature/date handback and the guide contains Case.net, filing/timing, prosecutor or contested-hearing, immigration, firearm, licensing and employment handoffs; current packet text has no held legal-record identifier leak.",
+      "priorFinding": "Required arrest continuation has no separate personal signature/date handback space and says review before signing CR360; memo rules require separate continuation signing. Guide omits the required Case.net no-case check, 60-day hearing and six-month decision timeline, prosecutor/contested-hearing referral, immigration and firearm/licensing/employment handoffs. It leaks repository\u2019s held legal record into participant copy. Keep actual clerk/counsel questions in plain participant terms; do not fabricate answers.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.continuation.pdf",
+          "sha256": "b0681feaf5a64bca52695d68e46141076496955e7467189c4bda4f8595be68b1",
+          "byteLength": 2842
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "4666c9c2953ecd02465f67b41510b5ffe4d5945f472a305b4e0e1c59ca4beeab",
+          "byteLength": 5609
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "3fb97bf4d5a758fabcf94b8e9d202139466534a8abd3b3a70b7dfabced4e98d0",
+          "byteLength": 5726
+        }
+      ]
+    }
+  ],
+  "sourceIdentity": {
+    "status": "PASS",
+    "allSourcesExact": true,
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/source-receipt.json",
+      "sha256": "5fc32e761a6fbc7a22b3d90260212caf2ae584c2d2f5a065b85178265327ff10",
+      "byteLength": 2236
+    },
+    "documents": [
+      {
+        "formNumber": "CR360",
+        "sourceId": "official-form:CR360",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
+        "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+        "byteLength": 707097,
+        "pages": 2,
+        "sha256Exact": true
+      },
+      {
+        "formNumber": "CR370",
+        "sourceId": "official-form:CR370",
+        "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
+        "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+        "byteLength": 103658,
+        "pages": 2,
+        "sha256Exact": true
+      },
+      {
+        "formNumber": "FI-05",
+        "sourceId": "official-form:FI-05",
+        "path": "reference/chat-parallel-2026-09-07/chat7/FI-05.pdf",
+        "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "byteLength": 298649,
+        "pages": 4,
+        "sha256Exact": true
+      },
+      {
+        "formNumber": "GN10",
+        "sourceId": "official-form:GN10",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+        "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+        "byteLength": 39193,
+        "pages": 1,
+        "sha256Exact": true
+      }
+    ],
+    "legalMemo": {
+      "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "sha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "byteLength": 494662
+    }
+  },
+  "deltaBasis": {
+    "priorFailureRecheckedAgainstCurrentBytes": true,
+    "currentSourceBytesRehashed": true,
+    "currentMetadataAndPdfIdentitiesRehashed": true,
+    "revalidatedCurrentFindings": [
+      "MO-S1",
+      "MO-S2",
+      "MO-S4",
+      "MO-S5",
+      "MO-S6",
+      "MO-S8"
+    ],
+    "priorNonvisualPassEvidenceReusedOnlyAfterCurrentBindings": false,
+    "visualEvidenceReused": false,
+    "reuseCondition": "No prior visual evidence is reused; current source bytes, current metadata, current packets and focused current checks were read or rehashed at this review base."
+  },
+  "obligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current route, fixture and packet-set manifest",
+      "finding": "Current arrest MO-610.140 route remains bound to mo-610-140-arrest-set and Jackson County filing facts."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "raw current source bytes rehashed against current family receipt",
+      "finding": "CR360, CR370, FI-05 and GN10 exact source identities and byte lengths match their receipts."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current packet-set manifest and rendered component coverage",
+      "finding": "Current canonical and boundary assemblies contain all required route components; the arrest continuation or conviction overflow continuation is present where required, and GN10 is included only in the waiver boundary fixture."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current component text/readback plus saved-byte proof",
+      "finding": "Known neutral participant, agency, filer, OCN and waiver facts are present in current fixtures; no known fact is silently dropped."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current guides, continuation and exact source-labeled writes",
+      "finding": "Current guide and packet preserve required Case.net/record, filing, agency, timing, continuation, waiver and participant handbacks for this route."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current import validation, fixture branch and focused negative controls",
+      "finding": "Current route and waiver/proposed-order branches are explicit; judicial determinations and protected choices remain blank or handback."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current CR360/CR370/continuation mapping and OCN audit",
+      "finding": "All supported agencies and conviction OCNs are retained, with overflow carried to the continuation and no silent row truncation."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current field map/refusal report and focused protected-input controls",
+      "finding": "Court assignments, findings, case/file stamps, judge fields and participant signatures/dates remain protected or later-completion fields."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "exact current PDF hash/length/page-count comparison",
+      "finding": "Both current packet PDFs match the frozen current manifest exactly."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current rendered-artifacts and packet coverage",
+      "finding": "Current packet components appear in declared order and every current canonical/boundary page is covered."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "basis": "central original raster not yet dispatched",
+      "finding": "Original-page geometry and pixel-level visual defects remain unmeasured in this semantic review."
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current guide plus filing-county negative controls",
+      "finding": "Current guidance binds the filing county and preserves clerk/counsel handoffs without inventing a different county."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current GN10 branch, waiver inputs and guide",
+      "finding": "GN10 is conditional on participant waiver facts, including spouse data when married; no fee, waiver or judicial result is inferred."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current agency respondent mapping and participant guidance",
+      "finding": "Agency defendants, prosecutor/statutory notice and contested-hearing handoffs remain explicit; no completed service act is fabricated."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current negative controls, route handbacks and guide stop language",
+      "finding": "Current route-specific eligibility, timing, county, multi-county, agency, collateral-rights, prior-relief and legal handbacks are explicit."
+    }
+  },
+  "obligationCounts": {
+    "pass": 14,
+    "fail": 0,
+    "notMeasurable": 1,
+    "failedObligationNames": [],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "nonvisualCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": true,
+    "visualMeasuredHere": false,
+    "basis": "Current focused saved-byte preflight, independent exact-text audit, current source hash audit, current field-map/refusal report and 1741-assertion focused suite; visual geometry remains unmeasured."
+  },
+  "currentCandidateBindings": {
+    "reviewedRepositoryHead": "b579fb9c77f360744576ed8ad816c16a2e331520",
+    "packetCommitSha": "ba1b340fc49f7dd223964b6f2ea83a19c9033d09",
+    "repairCommitSha": "ba1b340fc49f7dd223964b6f2ea83a19c9033d09",
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/mo-current-raster-manifest-20260912.json",
+      "sha256": "466f738af9081cbfcce4806ac884209e3e3df73131ce3a4ddefad5e440df489d",
+      "byteLength": 6067,
+      "packetCommitSha": "ba1b340fc49f7dd223964b6f2ea83a19c9033d09",
+      "familyId": "mo-610-140-arrest-set",
+      "documentsDigest": "649e682d3e3c88fb86a78a8c8f0d6d0031a6e6b9248a13745f9d63003a59a8e3",
+      "coverageComplete": true,
+      "expectedPages": 27
+    },
+    "currentArtifacts": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.packet.pdf",
+        "sha256": "f07fd49e8770119addd24e852e443b354e90ca5a8b029cad6145226377585b3b",
+        "byteLength": 801016,
+        "name": "canonical.packet.pdf",
+        "role": "canonical",
+        "pageCount": 13
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.packet.pdf",
+        "sha256": "233c9a0ba97f120c9c2dfdec828506c7d185ae1f795dbc11e68d0bdf1917a5eb",
+        "byteLength": 810709,
+        "name": "boundary.packet.pdf",
+        "role": "boundary",
+        "pageCount": 14
+      }
+    ],
+    "currentInputs": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.fixture.json",
+        "sha256": "c3a37fb888ddb81ae3c4cdce5dc4f5e9e69d590d73c2cf0f4a6d7b6f99a4fcbd",
+        "byteLength": 2023
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.fixture.json",
+        "sha256": "29f516defb76312ccabc363d403d14a3d3d811d5a877dea1a5ee7515e5ea0e2c",
+        "byteLength": 3582
+      }
+    ],
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/source-receipt.json",
+      "sha256": "5fc32e761a6fbc7a22b3d90260212caf2ae584c2d2f5a065b85178265327ff10",
+      "byteLength": 2236
+    },
+    "sourceDocuments": [
+      {
+        "formNumber": "CR360",
+        "sourceId": "official-form:CR360",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
+        "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+        "byteLength": 707097,
+        "pages": 2,
+        "sha256Exact": true
+      },
+      {
+        "formNumber": "CR370",
+        "sourceId": "official-form:CR370",
+        "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
+        "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+        "byteLength": 103658,
+        "pages": 2,
+        "sha256Exact": true
+      },
+      {
+        "formNumber": "FI-05",
+        "sourceId": "official-form:FI-05",
+        "path": "reference/chat-parallel-2026-09-07/chat7/FI-05.pdf",
+        "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "byteLength": 298649,
+        "pages": 4,
+        "sha256Exact": true
+      },
+      {
+        "formNumber": "GN10",
+        "sourceId": "official-form:GN10",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+        "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+        "byteLength": 39193,
+        "pages": 1,
+        "sha256Exact": true
+      }
+    ],
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/source-receipt.json",
+        "sha256": "5fc32e761a6fbc7a22b3d90260212caf2ae584c2d2f5a065b85178265327ff10",
+        "byteLength": 2236
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/packet-set-manifest.json",
+        "sha256": "b3010b288f699fe1963690674f00db877207b420976e15133d8cbb6d392d3b0a",
+        "byteLength": 2931
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/product-wiring.json",
+        "sha256": "5a7e2f1e0ac30e99c8b3b2d55a839de9be79d72bf4f262d254309a086e7d7835",
+        "byteLength": 3266
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/production-field-map.json",
+        "sha256": "b48f33f234d9618742b5a6f69b131059849ab8e00d8efd6d084c29bb63f5bff8",
+        "byteLength": 717319
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "b5e11f5b809d3e84c957825f039e148a4a4063f53beb3447e1a1fa9d207266f5",
+        "byteLength": 83927
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/completeness-counters.json",
+        "sha256": "6e474e4859a79db3503489615cbbc4f847a61708e515878c7a7a786f82835213",
+        "byteLength": 909
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "3fb97bf4d5a758fabcf94b8e9d202139466534a8abd3b3a70b7dfabced4e98d0",
+        "byteLength": 5726
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "4666c9c2953ecd02465f67b41510b5ffe4d5945f472a305b4e0e1c59ca4beeab",
+        "byteLength": 5609
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/filing-instructions.md",
+        "sha256": "4666c9c2953ecd02465f67b41510b5ffe4d5945f472a305b4e0e1c59ca4beeab",
+        "byteLength": 5609
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.packet.pdf",
+        "sha256": "f07fd49e8770119addd24e852e443b354e90ca5a8b029cad6145226377585b3b",
+        "byteLength": 801016
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.packet.pdf",
+        "sha256": "233c9a0ba97f120c9c2dfdec828506c7d185ae1f795dbc11e68d0bdf1917a5eb",
+        "byteLength": 810709
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.fixture.json",
+        "sha256": "c3a37fb888ddb81ae3c4cdce5dc4f5e9e69d590d73c2cf0f4a6d7b6f99a4fcbd",
+        "byteLength": 2023
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.fixture.json",
+        "sha256": "29f516defb76312ccabc363d403d14a3d3d811d5a877dea1a5ee7515e5ea0e2c",
+        "byteLength": 3582
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.coverage.json",
+        "sha256": "0ca00952e17e131d213665d655e8240cec44dc7b0b12bb1602d1d5069b73a980",
+        "byteLength": 1044
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.coverage.json",
+        "sha256": "dfb656b654348bec5d7e27db96c9f1094ba10b32dcb0653452891c4a54984e69",
+        "byteLength": 1247
+      }
+    ],
+    "productWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/product-wiring.json",
+      "sha256": "5a7e2f1e0ac30e99c8b3b2d55a839de9be79d72bf4f262d254309a086e7d7835",
+      "byteLength": 3266
+    },
+    "packetSetManifest": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/packet-set-manifest.json",
+      "sha256": "b3010b288f699fe1963690674f00db877207b420976e15133d8cbb6d392d3b0a",
+      "byteLength": 2931
+    },
+    "productionFieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/production-field-map.json",
+      "sha256": "b48f33f234d9618742b5a6f69b131059849ab8e00d8efd6d084c29bb63f5bff8",
+      "byteLength": 717319
+    },
+    "actualWrites": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/actual-writes.json",
+      "sha256": "b5e11f5b809d3e84c957825f039e148a4a4063f53beb3447e1a1fa9d207266f5",
+      "byteLength": 83927
+    },
+    "completenessCounters": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/completeness-counters.json",
+      "sha256": "6e474e4859a79db3503489615cbbc4f847a61708e515878c7a7a786f82835213",
+      "byteLength": 909
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "3fb97bf4d5a758fabcf94b8e9d202139466534a8abd3b3a70b7dfabced4e98d0",
+      "byteLength": 5726
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "4666c9c2953ecd02465f67b41510b5ffe4d5945f472a305b4e0e1c59ca4beeab",
+      "byteLength": 5609
+    },
+    "filingInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/filing-instructions.md",
+      "sha256": "4666c9c2953ecd02465f67b41510b5ffe4d5945f472a305b4e0e1c59ca4beeab",
+      "byteLength": 5609
+    },
+    "builder": {
+      "path": "scripts/mo-610-140-packet-host.mjs",
+      "sha256": "9a93a603b58160cbd2129362a1798cd67bf6b0fd4486b354369c76d7632ffc27",
+      "byteLength": 72222
+    },
+    "familyBuilder": {
+      "path": "scripts/build-census-v1-mo-610-140-arrest-set.mjs",
+      "sha256": "31ebae84395f05504cfd359a776cce5761ac190da4194f07e9d8bf0194dd804c",
+      "byteLength": 1414
+    },
+    "priorFailure": {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/independent-semantic-review/semantic-findings.json",
+      "sha256": "67c903de9be7e2309c5f901c9160419bbcc0c0667c886009dfaefcd538b1199b",
+      "byteLength": 39914
+    },
+    "currentHeadAtReview": "b579fb9c77f360744576ed8ad816c16a2e331520"
+  },
+  "derivedFactLineage": {
+    "basis": "Current family fixtures, exact source receipts and current map/readback text; no derived court determination or legal conclusion was invented.",
+    "currentFixtureFactsRead": true,
+    "sourceFidelityChecked": true
+  },
+  "independentByteProof": {
+    "status": "PASS_NONVISUAL",
+    "method": "Independent current-source/current-metadata/current-PDF text and hash audit, focused saved-byte preflight and focused builder control suite. No original raster PNGs or visual zero asserted.",
+    "checkReport": [
+      {
+        "path": "/tmp/mo-vfmo1-independent-semantic-audit-20260912.json",
+        "sha256": "6f1502be455436f47e868dba921f45a5ef6655539b09cc21c66febdf508b8241",
+        "byteLength": 62630,
+        "familyId": "mo-610-140-arrest-set",
+        "checks": 35
+      }
+    ],
+    "focusedSuite": {
+      "path": "/tmp/mo-vfmo1-focused-test-20260912.json",
+      "sha256": "243bfcaca11c7f0564fc8164fe2190621350f06a9cc527ec0112239e90eae847",
+      "byteLength": 1564,
+      "assertions": 1741,
+      "status": "PASS"
+    },
+    "savedBytePreflight": {
+      "path": "/tmp/mo-vfmo1-saved-byte-preflight-20260912.json",
+      "sha256": "55a868fc25c56d4baa6b43b362a57ddc13a5909b53b02a83c21024891c1c6ec2",
+      "byteLength": 17757,
+      "checkCount": 14,
+      "passedChecks": 14
+    },
+    "exactPdfBindings": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.packet.pdf",
+        "sha256": "f07fd49e8770119addd24e852e443b354e90ca5a8b029cad6145226377585b3b",
+        "byteLength": 801016,
+        "name": "canonical.packet.pdf",
+        "role": "canonical",
+        "pageCount": 13
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.packet.pdf",
+        "sha256": "233c9a0ba97f120c9c2dfdec828506c7d185ae1f795dbc11e68d0bdf1917a5eb",
+        "byteLength": 810709,
+        "name": "boundary.packet.pdf",
+        "role": "boundary",
+        "pageCount": 14
+      }
+    ],
+    "sourceCount": 4,
+    "allCurrentMetadataRehashed": true,
+    "currentHeadObserved": "b579fb9c77f360744576ed8ad816c16a2e331520"
+  },
+  "commandsActuallyPassed": [
+    "node scripts/test-mo-610-140-two.mjs > /tmp/mo-vfmo1-focused-test-20260912.json (PASS; 1741 assertions; both sibling audit counters zero)",
+    "python scripts/rcap-packet-recovery/mo-current-byte-preflight.py /tmp/mo-vfmo1-saved-byte-preflight-20260912.json (PASS; current packet bindings and known repairs)",
+    "python /tmp/build_mo_vfmo1_audit.py (PASS; current source, output-text, guide, negative-control and artifact checks)"
+  ],
+  "rasterDispatchAuthorized": true,
+  "rasterEvidence": {
+    "status": "NOT_DISPATCHED",
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/mo-current-raster-manifest-20260912.json",
+      "sha256": "466f738af9081cbfcce4806ac884209e3e3df73131ce3a4ddefad5e440df489d",
+      "byteLength": 6067
+    },
+    "requestedScale": 2.5,
+    "runId": null,
+    "artifactId": null,
+    "visualPagesMeasured": null,
+    "visualDefects": null,
+    "visualMeasuredHere": false
+  },
+  "finalAcceptance": false,
+  "unfinishedGates": [
+    "central Actions raster custody for the current 27 pages",
+    "independent original-page visual review and CLIPPING_AND_OVERLAP measurement",
+    "final independent acceptance row and native terminal integration"
+  ],
+  "visual": {
+    "status": "UNMEASURED_IN_THIS_CURRENT_REVIEW",
+    "visualDefects": null,
+    "rasterRunId": null
+  },
+  "runtimeAndCommercialBoundary": {
+    "productWiringStatus": "DECLARED_NOT_INSTALLED",
+    "generationAllowed": false,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "routeOpened": false,
+    "commercialAuthorityCreated": false,
+    "note": "This semantic PASS authorizes only raster evidence collection. It does not install a product path, approve a route or create Grade-A fulfillment authority."
+  },
+  "independence": {
+    "implementationEditsByReviewer": false,
+    "sourceEditsByReviewer": false,
+    "packetEditsByReviewer": false,
+    "productWiringEditsByReviewer": false,
+    "queueEditsByReviewer": false,
+    "manifestOrLedgerEditsByReviewer": false,
+    "semanticRecordWrittenByReviewer": true,
+    "visualAcceptanceClaimed": false,
+    "disclosure": "The MO repair, current packet bytes, declarations and frozen manifest were authored by the implementation/Captain lanes. VFMO1 independently re-read the exact current source bytes, family fixtures, guides, component output text, current PDFs, focused reports and prior findings; it made no implementation, source, packet, product-wiring, queue, raster-manifest or claim-ledger edits."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ak-mistaken-identity-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "THREE captions on PART II resolve, through the shared printed-label fallback, to participant.full_legal_name: NAME OF ARRESTING OFFICER, NAME OF TRIAL COURT and NAME OF APPELLATE COURT. On a flat overlay the caption IS the field name, so a builder that anchored any of them would print the applicant's own name where an officer's or a court's belongs. This is the same defect family as the Arkansas MONTH blank that took a participant's name into an arrest date.",
+      "consequence": "None is given a fact, so none is anchored and none can be written. Each is declared required-before-filing with the reason stated, and the instructions tell the participant why those three boxes are empty rather than leaving a reader to guess."
+    },
+    {
+      "finding": "Two more captions would take the WRONG case number if anchored: POLICE AGENCY CASE # and PROSECUTION CASE # both resolve to matter.case_number, which is the TRIAL COURT number the platform holds. The police, the prosecutor and the court number the same matter differently.",
+      "consequence": "Only TRIAL COURT CASE # is anchored. The other two are declared required-before-filing, with the disclosure saying which number belongs in each."
+    },
+    {
+      "finding": "DATE CHARGE DISMISSED resolves to matter.charge, not to a date: its caption carries the word CHARGE and the charge descriptor requires an explicit mapping rather than refusing outright.",
+      "consequence": "It is not anchored. Anchoring it would have printed the name of the offence into a date box."
+    },
+    {
+      "finding": "The form carries no AcroForm -- the corpus index records 0 fields -- so there is no widget rectangle to write into. PART II is a fully ruled table and its geometry is entirely derivable.",
+      "consequence": "Twenty-eight cells are measured from four strokes each and eight carry a fact. The mailing-address cell is 80 points deep because it expects several lines, so its value is placed directly under its own caption rather than on the floor of the cell; both rules are still measured and the box is recorded as sitting above the cell's own bottom rule."
+    },
+    {
+      "finding": "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A3. The compiled Alaska profile is named by the route obligation census as a required source for THIS route, and its fee line is keyed to an AS 12.62.180(b) sealing request -- this route's own subsection -- so A3 is satisfied rather than strained. What it establishes is that the cost is agency-dependent, which is a real answer and not a figure.",
+      "consequence": "The packet states that no held source gives an amount, states that the profile records the cost as agency-dependent, and names the Criminal Records and Identification Bureau with the street address the form prints on its own first page. It also states the DPS record-check fee the same profile records without an amount, and says there is no waiver because there is no filing fee."
+    },
+    {
+      "finding": "PART IV's I AGREE / I DO NOT AGREE boxes are not the participant's election. They belong to the arresting or citing officer and to the prosecutor, each of whom completes and signs their own section.",
+      "consequence": "They are recorded as third-party blanks rather than as participant elections, because a participant may not tick either one, and the requirement leads the instructions rather than sitting at the end of them: an applicant who cannot obtain those signatures cannot complete this application."
+    }
+  ]
+}

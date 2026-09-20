@@ -1,0 +1,315 @@
+{
+  "schemaVersion": "rcap-101-next-pass/ut-special-repair-scope/v1",
+  "familyId": "ut_pet_special_certificate-set",
+  "lane": "PF02",
+  "baseCommit": "daf6b0b2812edc93bb55bf60107cb6bdf681a89d",
+  "observedHead": "3bb298d136ccca78f63256dc6bef210692f42331",
+  "readOnly": true,
+  "filesChanged": "NONE",
+  "reportPath": "/tmp/rcap-101-next-pass-20260911/ut-special-repair-scope.json",
+  "preflight": {
+    "headAdvancedFromBase": true,
+    "scopedTrackedDiffBaseToHead": [],
+    "unrelatedTrackedWorkingTreeChanges": [
+      "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ri-nonconviction-raster-manifest-20260911.json",
+      "data/rcap-grade-a/packet-factory-24h/pf26/pa-caption-20260911/raster-manifest.json",
+      "docs/rcap/grade-a/handoffs/NONTERMINAL_101_2026-09-11.md"
+    ],
+    "ownRepositoryWrites": false,
+    "immutableInputRule": "Relevant tracked inputs were compared with and read at BASE after HEAD advanced."
+  },
+  "conclusion": {
+    "classification": "SOURCE_READY_DRAFT_INCOMPLETE",
+    "text": "All nine source-backed components are present at the pinned paths and exact SHA-256/byte lengths. No held form source is missing. The draft has four ad hoc mapped components, nine empty/unmeasured source maps, no native field census, and an intentionally unbound guidance component. Completion is a finite mapping/refusal/guidance repair; no external lookup or source repinning is needed.",
+    "sourceMissing": false,
+    "implementationScopeFinite": true,
+    "releaseStillBlocked": true,
+    "releaseBlockerClass": "controlling fee treatment and the legal memo's unresolved form-title/approval-date verification question; these are treatment/approval questions, not missing bytes"
+  },
+  "evidence": {
+    "readiness": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/ut-special-certificate-build-readiness.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/source-receipt.json",
+    "draftMap": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/production-field-map.json",
+    "draftWrites": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/actual-writes.json",
+    "blankInventory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/manual-blank-inventory.json",
+    "roleReview": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/conditional-role-review.json",
+    "pf02Correction": "data/rcap-grade-a/packet-factory-24h/pf02/ut-source-bound-correction-20260911",
+    "queue": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "registry": "data/record-clearing/legal-design-track-registry.json",
+    "legalMemo": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/01_LEGAL_REVIEW/UT__LEGAL-REVIEW__STATEWIDE__utah-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+    "sourcePinsExact": true,
+    "sourceCount": 9,
+    "boundGuidanceAuthorityRecords": 0,
+    "component10Treatment": "Intentional process_guidance with no official form URL/source hash; cite the registry and legal memo rather than pretending this is a tenth PDF."
+  },
+  "currentDraftDefects": {
+    "status": "official_forms_ingested",
+    "rasterState": "UNVERIFIED_NO_RASTER",
+    "mappedComponents": [
+      "petition-4",
+      "bci-application-1",
+      "civil-cover-sheet-3",
+      "proposed-order-5"
+    ],
+    "actualWrites": "Two fixtures contain only caption writes on 1001EX, 1021EX, 1044XX and three BCI fields; saved-byte readback proves those synthetic values only.",
+    "unmeasuredMaps": 9,
+    "fieldCensus": "field-census.census-v1.json is absent; production-field-map.json has nine maps with empty canonicalWrites, canonicalRefusals, roleRefusals and selectionControls.",
+    "roleInventory": "The manual inventory covers only the five conditional forms, uses generic protected roles, leaves 1146XX/1148XX actor decisions unresolved, and mislabels 1169XX as a victim/prosecutor statement.",
+    "rawBuilderDefects": [
+      "BCI NAME receives full legal name although the source is Last/First/Middle; MAILING ADDRESS receives street only although the source has Street/City/State/Zip.",
+      "Builder COMPONENTS marks 1149XX and 1169XX required while registry conditions both; 1169XX role is wrong.",
+      "Shared Utah host has no CONFIGS entry for this family."
+    ],
+    "guidance": "Current instructions cover stage order, 180 days, court transmission, no ordinary participant service and conditional forms; they omit special-track facts, timing windows, self-help stops, fee-waiver treatment and incomplete-record burden."
+  },
+  "componentRepairScope": [
+    {
+      "component": "1 BCI application",
+      "sourceLocation": "Held BCI PDF p1 instructions/payment; p2 NAME Last/First/Middle, prior names, DOB, gender, split mailing address, SSN, driver license/state, phone, email, indigency/waiver, declaration, payment, ID/fingerprint and Bureau Use Only.",
+      "existing": "Raw NAME, DOB and street-only MAILING ADDRESS.",
+      "missingParticipantFields": [
+        "split bci_name",
+        "all prior names or explicit none",
+        "gender",
+        "complete mailing address",
+        "SSN",
+        "driver-license number/state",
+        "phone",
+        "email",
+        "declaration petitioner name",
+        "ID and fingerprint-taker facts"
+      ],
+      "decisionsAndRefusals": [
+        "fee versus BCI waiver and payment method are genuine participant choices",
+        "signature/cardholder/date and BCI-use fields stay blank/protected",
+        "special certificate outcome/issue/expiry comes from BCI"
+      ]
+    },
+    {
+      "component": "2 BCI third-party release",
+      "sourceLocation": "Held release p1 recipient name/agency/address/phone/email plus applicant printed name/signature/date.",
+      "existing": "No map.",
+      "missingParticipantFields": [
+        "authorized recipient facts when certificate goes to someone other than petitioner"
+      ],
+      "decisionsAndRefusals": [
+        "conditional only on other-recipient delivery",
+        "recipient authorization and applicant signature/date are not invented"
+      ]
+    },
+    {
+      "component": "3 1044XX civil cover sheet",
+      "sourceLocation": "Held 1044XX p1 first Plaintiff/Petitioner and court/party/attorney blocks; p2 case-type/fee schedule including printed Expungement Petition - Criminal (E) row.",
+      "existing": "First petitioner name/address/city and combined phone/email.",
+      "missingParticipantFields": [
+        "District versus Justice and judicial district/county/court address",
+        "criminal-expungement case selection",
+        "attorney/LPP if represented",
+        "other party/attorney facts only if applicable",
+        "fee-waiver/e-filing choices if applicable"
+      ],
+      "decisionsAndRefusals": [
+        "do not infer venue, parties, attorney, damages, jury or case choices",
+        "retain printed fee row as source content but do not turn it into guidance"
+      ]
+    },
+    {
+      "component": "4 1001EX special petition",
+      "sourceLocation": "Held 1001EX p1 caption/venue; p1-p3 records-without/with-conviction branches and eligibility assertions; p3 special certificate ID/public-interest; p4 declaration/signature.",
+      "existing": "Five caption fields only.",
+      "missingParticipantFields": [
+        "venue/case facts",
+        "without-conviction versus with-conviction branch",
+        "arrest/agency/file and disposition facts",
+        "conviction case/eligibility answers",
+        "special certificate ID and issue date",
+        "paid-obligations answer",
+        "public-interest explanation",
+        "signing city/country/printed name/signature/date"
+      ],
+      "decisionsAndRefusals": [
+        "all eligibility checkboxes, route branch, evidence and public-interest text are participant/legal-judgment inputs",
+        "no ordinary certificate may satisfy special-certificate gate",
+        "judge/court fields and signatures are protected"
+      ]
+    },
+    {
+      "component": "5 1021EX proposed order",
+      "sourceLocation": "Held 1021EX p1 caption/venue/petitioner/case/judge; p1-p2 order findings, hearing/notice and judge signature/date.",
+      "existing": "Five caption fields only.",
+      "missingParticipantFields": [
+        "venue/case facts needed for caption",
+        "participant-prepared case-specific values where source provides them"
+      ],
+      "decisionsAndRefusals": [
+        "hearing, prosecutor/victim findings, eligibility findings, outcomes and judge fields remain explicit protected/later-completion blanks"
+      ]
+    },
+    {
+      "component": "6 1146XX acceptance of service",
+      "sourceLocation": "Held 1146XX p1 caption/court fields plus recipient/prosecutor acceptance, identity/contact, signature/date.",
+      "existing": "No map; generic required label.",
+      "missingParticipantFields": [
+        "none for ordinary participant completion; service facts only after an actual non-ordinary service event"
+      ],
+      "decisionsAndRefusals": [
+        "retain required artifact but actor-specific blank/refusal; court sends filing in ordinary case",
+        "recipient/prosecutor acceptance and signature/date stay third-party-owned"
+      ]
+    },
+    {
+      "component": "7 1148XX consent/waiver",
+      "sourceLocation": "Held 1148XX p1-p2 prosecutor identity/contact, court/case caption, consent/waiver/victim-notice elections and prosecutor signature.",
+      "existing": "No map; generic required label.",
+      "missingParticipantFields": [
+        "none for participant-authored consent"
+      ],
+      "decisionsAndRefusals": [
+        "prosecutor consent, waiver, no-refile and victim-notice choices are genuine responsible-party selections",
+        "participant presents but does not sign or decide"
+      ]
+    },
+    {
+      "component": "8 1149XX victim/prosecutor statement",
+      "sourceLocation": "Held 1149XX p1-p3 role/identity, court/case, statement/reasons/recommendation, signature/date and service certificates.",
+      "existing": "No map; builder labels required although registry says conditional.",
+      "missingParticipantFields": [
+        "none for participant auto-fill"
+      ],
+      "decisionsAndRefusals": [
+        "conditional only when victim exists and prosecutor requests it",
+        "victim/prosecutor/attorney identity, statement, recommendation and service are protected"
+      ]
+    },
+    {
+      "component": "9 1169XX reply",
+      "sourceLocation": "Held 1169XX p1-p3 instructions/caption, reply/reasons, declaration/signature/date and service rows.",
+      "existing": "No map; builder labels required and role review mislabels it as victim/prosecutor statement.",
+      "missingParticipantFields": [
+        "reply election and participant narrative/reasons",
+        "signing facts when participant elects to reply"
+      ],
+      "decisionsAndRefusals": [
+        "conditional only after victim/prosecutor/AP&P response and participant choice within 14 days after service",
+        "service certificate only after actual delivery; recipient/court fields protected"
+      ]
+    },
+    {
+      "component": "10 filing/timing guidance",
+      "sourceLocation": "No official PDF by registry design; registry track and Utah legal memo are the available authority.",
+      "existing": "BCI stage, special certificate/180 days, court stage, court sends, no ordinary participant service, conditional statements/reply.",
+      "missingGuidanceFacts": [
+        "all-state history including expunged cases",
+        "special versus ordinary certificate and issue-date check",
+        "court venue and District/Justice choice",
+        "60-day court window with 35-day prosecutor/60-day victim periods",
+        "14-day reply window",
+        "paid fines/fees/interest/restitution",
+        "pending/supervision/protective-order exclusions",
+        "incomplete-record evidence and petitioner burden",
+        "public-interest/conviction-count attorney stops",
+        "28-day certified copies",
+        "BCI/court waiver relationship",
+        "noncitizen/objection/hearing attorney boundary"
+      ],
+      "mustRefuse": [
+        "current BCI application/issuance fee amount",
+        "current court fee amount",
+        "LegalEase eligibility approval, consent, victim/court findings or ordinary participant service"
+      ]
+    }
+  ],
+  "smallestCompleteImplementation": {
+    "strategy": "Existing PF02 owner should use the shared Utah completeness pipeline behind the family builder; add a guarded special-family config and native census rather than a second raw mapper.",
+    "allowedFilesAndFunctions": [
+      {
+        "path": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+        "functions": [
+          "COMPONENTS",
+          "resolveExactSources",
+          "specialCertificateStageGate",
+          "buildUtahSpecialCertificate"
+        ],
+        "scope": "Keep exact pins/gate; seed native census and explicit map metadata; replace raw four-component writes; align 1149XX/1169XX conditions; cite registry/memo for component 10."
+      },
+      {
+        "path": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "functions": [
+          "CONFIGS",
+          "factsFor",
+          "addCaptionFacts",
+          "addPetitionPlans",
+          "addOrderPlans",
+          "addCoverSheetPlans",
+          "addBciPlans",
+          "textPlansFor",
+          "isCourtTypeElection",
+          "selectedControl",
+          "refusalFor",
+          "selectionRefusal",
+          "participantInstructions",
+          "repairFieldMap",
+          "runUtahCompletenessRepair"
+        ],
+        "scope": "Add guarded ut_pet_special_certificate-set config for 1001EX/1021EX; extend special caption/selection/refusal logic; use full BCI facts; encode genuine venue/branch/waiver/consent/reply decisions; emit actor-specific refusals and complete guidance."
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill",
+        "files": [
+          "field-census.census-v1.json",
+          "production-field-map.json",
+          "reports/actual-writes.json",
+          "reports/manual-blank-inventory.json",
+          "reports/conditional-role-review.json",
+          "participant-instructions.md",
+          "build-status.json"
+        ],
+        "scope": "Replace empty/unmeasured maps with source-label coverage for all nine PDFs, explicit writes/refusals/selections, correct conditional role rows and registry-grounded instructions."
+      }
+    ],
+    "doNotTouch": [
+      "source pins",
+      "central records/claims/state",
+      "live routes/runtime wiring",
+      "PF02 ownership/grant",
+      "other families",
+      "raster or external research"
+    ]
+  },
+  "finiteFocusedTests": [
+    "resolveExactSources: 9/9 path, SHA-256 and byteLength assertions",
+    "node scripts/lib/ut-special-certificate-stage-gate.test.mjs: special type/family/hash/date/<=180-day tests",
+    "native map completeness: every measured blank is one canonical write, typed refusal or selection control; zero unclassified/protected writes",
+    "conditional controls: third-party/1149XX/1169XX triggers, actor-owned 1146XX/1148XX, ordinary participant service false",
+    "canonical/boundary byte proof: registry component order, measured-value readback, special petition/order controls not silently defaulted",
+    "guidance assertions: 180/60/35/14/28-day and waiver/stop facts present; unresolved fee amounts refused",
+    "node --check family builder and shared host"
+  ],
+  "genuineUnknowns": [
+    {
+      "question": "Current BCI application/issuance fees and current District/Justice court filing fee.",
+      "impact": "Blocks final priced guidance/release, not source measurement or a draft that explicitly refuses amounts.",
+      "authority": "Registry releaseBlockers/unresolvedQuestions and Utah memo UNRESOLVED QUESTIONS AND IMPACT.",
+      "action": "Do not promote printed source rows ($65/$150) into packet-level fee claims without owner/legal treatment."
+    },
+    {
+      "question": "Legal memo still calls 1044XX/1146XX/1148XX/1149XX/1169XX title/approval-date mapping inferred although exact bytes are held.",
+      "impact": "Requires owner/counsel reconciliation before final release; not a missing-source blocker.",
+      "action": "Do not invent approval dates or expand to 1164XX/1170XX/1173XX."
+    },
+    {
+      "question": "Participant and responsible actors have not supplied certificate ID/date, venue/case facts, branch answers, incomplete-episode evidence, waiver election, or prosecutor/victim/court acts.",
+      "impact": "Runtime required inputs/protected blanks, not unresolved law.",
+      "action": "Encode questions, refusals and conditional selections; fail closed."
+    }
+  ],
+  "checks": {
+    "sourceHashesAndLengths": "PASS 9/9",
+    "stageGate": "PASS",
+    "familyBuilderSyntax": "PASS",
+    "scopedBaseDiff": "PASS no relevant tracked diff",
+    "buildOrRender": "NOT RUN by instruction",
+    "externalResearch": "NOT RUN by instruction"
+  },
+  "nextAction": "Existing PF02 owner can implement this finite census/map/refusal/guidance repair, run the focused tests, and stop at QA/attorney review pending until fee treatment and the memo's form-title/approval question are reconciled. No source repinning or route promotion follows from this report."
+}

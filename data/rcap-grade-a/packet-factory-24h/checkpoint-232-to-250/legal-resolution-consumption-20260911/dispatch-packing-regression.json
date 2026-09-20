@@ -1,0 +1,128 @@
+{
+  "capturedFrom": "/workspaces/legalease-partner-dashboard-clean",
+  "familyId": "de_pardon_expungement-set",
+  "before": {
+    "familyState": "BUILT_RASTER_PENDING",
+    "claims": [
+      {
+        "subjectType": "packet-family",
+        "subjectId": "de_pardon_expungement-set",
+        "itemId": null,
+        "familyId": "de_pardon_expungement-set",
+        "familyIds": [
+          "de_pardon_expungement-set"
+        ],
+        "sourceId": null,
+        "operation": "independent-verification",
+        "lane": "VF20",
+        "laneKind": "independent-verification",
+        "released": true,
+        "releasedAt": "2026-09-10T11:23:23.183Z",
+        "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      },
+      {
+        "subjectType": "packet-family",
+        "subjectId": "de_pardon_expungement-set",
+        "familyId": "de_pardon_expungement-set",
+        "itemId": null,
+        "familyIds": [
+          "de_pardon_expungement-set"
+        ],
+        "sourceId": null,
+        "operation": "packet-build",
+        "lane": "PF02",
+        "laneKind": "packet-build",
+        "released": false
+      }
+    ],
+    "releaseLog": [
+      {
+        "lane": "PF06",
+        "subjectType": "packet-family",
+        "subjectId": "de_pardon_expungement-set",
+        "operation": "packet-build",
+        "laneKind": "packet-build",
+        "releasedAt": "2026-09-09T14:02:41.907Z",
+        "reason": "PF06 2f16bad2c STOPPED/BLOCKED_SOURCE: declared digest has 0 hits across all 1859 files under all five mounted custody roots"
+      },
+      {
+        "lane": "VF20",
+        "subjectType": "packet-family",
+        "subjectId": "de_pardon_expungement-set",
+        "operation": "independent-verification",
+        "laneKind": "independent-verification",
+        "releasedAt": "2026-09-10T11:23:23.183Z",
+        "reason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      }
+    ]
+  },
+  "after": {
+    "familyState": "VERIFY_PENDING",
+    "claim": {
+      "subjectType": "packet-family",
+      "subjectId": "de_pardon_expungement-set",
+      "familyId": "de_pardon_expungement-set",
+      "itemId": null,
+      "familyIds": [
+        "de_pardon_expungement-set"
+      ],
+      "sourceId": null,
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "laneKind": "independent-verification",
+      "released": false
+    },
+    "assignment": {
+      "assignmentId": "VF02",
+      "lane": "independent-verification",
+      "itemKind": "streamingClaim"
+    },
+    "releaseLog": [
+      {
+        "lane": "PF06",
+        "subjectType": "packet-family",
+        "subjectId": "de_pardon_expungement-set",
+        "operation": "packet-build",
+        "laneKind": "packet-build",
+        "releasedAt": "2026-09-09T14:02:41.907Z",
+        "reason": "PF06 2f16bad2c STOPPED/BLOCKED_SOURCE: declared digest has 0 hits across all 1859 files under all five mounted custody roots"
+      },
+      {
+        "lane": "VF20",
+        "subjectType": "packet-family",
+        "subjectId": "de_pardon_expungement-set",
+        "operation": "independent-verification",
+        "laneKind": "independent-verification",
+        "releasedAt": "2026-09-10T11:23:23.183Z",
+        "reason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
+      }
+    ],
+    "ledgerCounts": {
+      "claims": 1024,
+      "releases": 2932,
+      "reissues": 966,
+      "transfers": 1034
+    },
+    "claimsDigest": "9f54673147ffd6bc41fe25fd2a40bf32e7ca96f7d6338f6de50756d346e669ef"
+  },
+  "assertions": {
+    "twoActualGeneratorPassesExitedZero": true,
+    "currentClaimMatchesAssignment": true,
+    "releasedVF20HistoryRetained": true,
+    "liveOwnershipGuardReportedNoMovedLiveClaims": true,
+    "focusedNegativeLiveVF20RemainsPinned": true,
+    "readOnlyCheckReachedOnlyPreexistingOrphanPromptDivergence": [
+      "PF26.md",
+      "VF09.md",
+      "VF10.md",
+      "VF11.md",
+      "VF12.md"
+    ]
+  },
+  "logs": [
+    "dispatch-generator-pass1.log",
+    "dispatch-generator-pass2.log",
+    "dispatch-generator-check.log",
+    "dispatch-packing-focused-tests.log"
+  ]
+}

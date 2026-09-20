@@ -1,0 +1,715 @@
+{
+ "schemaVersion": "rcap-packet-factory-lane-measurement/v1",
+ "lane": "FIX06",
+ "laneKind": "measurement",
+ "title": "How far does 'a builder attributes prose to a record it never opens' reach?",
+ "writtenAtBase": "d1c659467",
+ "worktree": "/home/user/pfc-worktree",
+ "branch": "pfc-ky-20260910",
+ "whyThisWasMeasured": "FIX06's Kentucky repair found that build-census-v1-ky_protective_order_record_expungement-set.mjs told a participant, twice, that the committed record establishes nothing about which caption block they occupy, while KY.memo.json answered it in five nodes -- and no code path in that builder had ever opened the file. Every 'the committed record says' line was a paraphrase in a string literal. This measures the population of that shape. It repairs nothing.",
+ "thisIsAMeasurementNotARepair": "No builder, module, family artifact or manifest was modified. No claim was asserted and none was needed: this touches no family's content. Every family named here has an owner, and a fix belongs to that owner with a claim asserted.",
+ "scope": {
+  "read": "309 scripts/build-census-v1-*.mjs and every relative .mjs each transitively imports inside scripts/ (closures of 1 to 20 files).",
+  "notRead": "No overlay directory, no delivered packet, no family artifact. The sparse checkout was NOT widened; this is a source-code question and needed none of it.",
+  "readOnly": true
+ },
+ "method": {
+  "step1_derivedThePhrasings": "The attribution vocabulary was derived from what builders actually write, not supplied. A frequency pass over all 309 builders produced the live phrasings: 'the record says' (105), 'the record states' (96), 'the committed record says' (74), 'the record names' (67), 'the committed record does' (64), 'the committed record states' (62), 'the committed record holds' (39), 'the record requires' (29), 'the record establishes' (24), plus 'in its own words', \"the record's own words\", 'verbatim from the record', 'the legal-design record', 'the route record', 'the source review' and 'according to the record'.",
+  "step2_participantFacingOnly": "Only prose regions that compose a participant-facing markdown guide are counted: a function that pushes lines AND contains a markdown heading literal, or that writes a .md file. Prose inside writeJson object literals -- build-findings observations, notes, rationales -- is INTERNAL and is excluded. Kentucky's defect was participant-facing; an internal note that paraphrases a record is not the same wrong.",
+  "step3_followedTheImports": "Reachability is computed over the transitive relative-import closure, because prose generated from a record loaded by a shared module two levels up still derives from it. Shared hosts matter here: composed-family-host.mjs, build-census-v1-ga-host.mjs and build-census-v1-nj_arrest_no_conviction-set.mjs are imported as hosts by 14, 9 and 13 builders respectively.",
+  "step4_whatCountsAsReachingTheRecord": "A path counts as a LEGAL-TREATMENT record when it is under data/record-clearing/, data/rcap-grade-a/route-obligation-census*, data/rcap-grade-a/legal-decisions/, src/lib/rcap-engine/compiled/profiles, src/lib/legal-authority/routes, src/lib/rcap/state-packs, data/rcap-all50/guidance-packets|composed-routes|pleadings. It does NOT count when it is data/rcap-all50/local-source-corpus-index.json (a source DIGEST index, not a statement of legal treatment), an overlays/ path (the builder's own output), data/rcap-all50/shared/ (rendering semantics), or lane bookkeeping. This distinction is the whole measurement: pre-repair Kentucky referenced the corpus index and its own output directory and nothing else, so a test that merely asked 'does it read any data file' scored it clean.",
+  "step5_conservativeOnPurpose": "A legal-treatment path literal appearing ANYWHERE in the closure counts as reachable, even if this pass cannot prove it is read. That deliberately UNDER-counts the defect. It was adopted after a first pass returned 76 by requiring a demonstrated read: inspection showed most of those 76 read their record through an object literal (RECORDS = Object.freeze({ memo: 'data/record-clearing/legal-design-intake/IN.memo.json', ... }) consumed via Object.entries) that the read-linkage test could not see. Those are DERIVES, and counting them would have been wrong."
+ },
+ "howTheMethodWasValidated": {
+  "groundTruthNegative": "The pre-repair Kentucky builder (git show 2b45ac2be:scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs) is classified ATTRIBUTES_WITHOUT_READING: 5 attributed sentences in renderFilingInstructions, zero legal-treatment records in the closure, only data/rcap-all50/local-source-corpus-index.json read.",
+  "groundTruthPositive": "The repaired Kentucky builder at this base is classified DERIVES_FROM_THE_RECORD: 8 attributed sentences and data/record-clearing/legal-design-intake/KY.memo.json in the closure, interpolated into the prose.",
+  "falsePositivesFoundAndRemoved": "A first cut returned 6 strong instances. Hand-reading all 6 showed 3 were attributions to the SOURCE DOCUMENT, not to a committed repository record: ak-courtview-set ('The form says so in its own words'), mi_setaside_marihuana-set ('The form itself routes two other applications away, in its own words') and pa_age70_deceased-set ('The petition says what happens next in its own words'). Quoting the form is legitimate -- the binary is read and digest-bound on every one of those builds -- so the detector now excludes an 'own words' or 'says/states' attribution whose subject is the form, petition, order, application, document, notice or instruction sheet. All three are reclassified NO_ATTRIBUTION_EMITTED. They are recorded here so the exclusion is auditable rather than invisible."
+ },
+ "population": {
+  "buildersScanned": 309,
+  "NO_ATTRIBUTION_EMITTED": 182,
+  "DERIVES_FROM_THE_RECORD": 104,
+  "ATTRIBUTES_WITHOUT_READING": 3,
+  "UNDECIDABLE": 20,
+  "headline": "3 of 309 builders emit participant-facing prose attributing a statement to a committed record while no legal-treatment record path appears anywhere in their import closure. 20 more cannot be decided from source alone. 104 attribute and demonstrably derive. 182 make no such attribution at all."
+ },
+ "whatTheClaimsAre": {
+  "note": "Counted across every attributed sentence in the 127 builders that emit one. A sentence can carry more than one kind.",
+  "tally": {
+   "VERBATIM_QUOTATION": 91,
+   "SIGNATURE_OR_NOTARISATION": 43,
+   "OTHER": 214,
+   "FEE": 103,
+   "SILENCE_OF_THE_RECORD": 88,
+   "OFFICIAL_PRACTICE": 43,
+   "SERVICE_OR_NOTICE": 47,
+   "DEADLINE": 3
+  },
+  "whyThisRanking": "The standing rules forbid a packet stating a filing fee, a clerk's practice, a service rule, a deadline, a signature or a notarisation the controlling record does not state, and forbid presenting a blank as the record speaking. FEE, SILENCE_OF_THE_RECORD and VERBATIM_QUOTATION are therefore the claims that matter most when the attribution is unbacked."
+ },
+ "ATTRIBUTES_WITHOUT_READING": [
+  {
+   "builder": "scripts/build-census-v1-mn_petition_15218-set.mjs",
+   "severity": 8,
+   "closureSize": 13,
+   "legalTreatmentRecordsInClosure": [],
+   "pathsItDoesRead": [
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-all50/shared/field-appearance-semantics.json"
+   ],
+   "handVerification": "CONFIRMED by hand in renderFilingInstructions. Two negative attributions: \"...the committed record for this route does not carry it. Ask the court administrator\" and \"The committed record for this route does not state a service method, a service deadline or a...\". These are claims that a record is SILENT -- the exact proposition Kentucky got wrong -- and they are about SERVICE and DEADLINES, which the standing rules name among the things a packet may never state unless the record does. No legal-treatment record path appears in the 13-file closure. Note this is the same family FIX07 used to prove the governance-erasure defect, so it is already known to the Captain by name.",
+   "worstClaim": "A service method and a filing deadline declared absent from a record the builder never opens.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-mn_petition_15218-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "SILENCE_OF_THE_RECORD",
+      "OFFICIAL_PRACTICE"
+     ],
+     "text": "court and the committed record for this route does not carry it. Ask the court administrator"
+    },
+    {
+     "file": "scripts/build-census-v1-mn_petition_15218-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "SERVICE_OR_NOTICE",
+      "DEADLINE",
+      "SILENCE_OF_THE_RECORD"
+     ],
+     "text": "The committed record for this route does not state a service method, a service deadline or a"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-hi_dag_danc_expungement-set.mjs",
+   "severity": 5,
+   "closureSize": 2,
+   "legalTreatmentRecordsInClosure": [],
+   "pathsItDoesRead": [
+    "data/rcap-all50/overlays/census-v1/hi/hi-dag-danc-expungement-set--official-pdf-fill",
+    "data/rcap-all50/local-source-corpus-index.json"
+   ],
+   "handVerification": "CONFIRMED by hand. The guide is one template literal written straight to participant-instructions.md. It states: \"Attach a copy of valid government-issued photo ID, a money order or cashier's check in the amount printed on the current form ($35 first-time or $50 non-first-time) ... No fee waiver is established by the held record.\" Two claims, both forbidden to a packet that has not read a record: a concrete FEE AMOUNT, and a NEGATIVE claim about what a 'held record' establishes. The import closure is two files -- the builder and scripts/lib/corpus-index-paths.mjs -- and neither names any legal-treatment record path. The only data paths present are the corpus digest index and the family's own output directory.",
+   "worstClaim": "A dollar fee amount and a fee-waiver silence, attributed to a record the builder never opens.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-hi_dag_danc_expungement-set.mjs",
+     "fn": "build",
+     "claims": [
+      "FEE"
+     ],
+     "text": ").join(\"\\n\")}\\n\\nAttach a copy of valid government-issued photo ID, a money order or cashier's check in the amount printed on the current form ($35 first-time or $50 non-first-time), and a stamped self-addressed envelope. No fee waiver is established by the he"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+   "severity": 4,
+   "closureSize": 14,
+   "legalTreatmentRecordsInClosure": [],
+   "pathsItDoesRead": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+    "data/rcap-all50/shared/field-appearance-semantics.json"
+   ],
+   "handVerification": "CONFIRMED by hand at scripts/build-census-v1-mi_setaside_trafficking-set.mjs:1891. The guide says \"Read what that instruction does and does not mean, exactly as the record states it:\" and then pushes a markdown BLOCKQUOTE of four sentences. 'Exactly as the record states it' followed by a blockquote is a verbatim-quotation claim, and the quoted text is a hardcoded string literal. No legal-treatment record path appears anywhere in the 14-file closure. This is the sharpest instance of the class: the packet does not merely paraphrase the record, it presents its own prose as a quotation.",
+   "worstClaim": "A blockquote presented as the record's exact words, composed entirely of builder-authored literals.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "VERBATIM_QUOTATION"
+     ],
+     "text": "Read what that instruction does and does not mean, exactly as the record states it:"
+    }
+   ]
+  }
+ ],
+ "UNDECIDABLE": [
+  {
+   "builder": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+   "severity": 29,
+   "closureSize": 12,
+   "legalTreatmentRecordsInClosure": [
+    "src/lib/legal-authority/routes/national-report-batch-b.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 3 legal-treatment record path(s), but 8 of 8 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderParticipantInstructions",
+     "claims": [
+      "VERBATIM_QUOTATION"
+     ],
+     "text": "That is a requirement of the committed record, not a summary of it. The record states:"
+    },
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderParticipantInstructions",
+     "claims": [
+      "SILENCE_OF_THE_RECORD"
+     ],
+     "text": "court actually does about the printed warning is not settled in the committed record. This"
+    },
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderParticipantInstructions",
+     "claims": [
+      "VERBATIM_QUOTATION"
+     ],
+     "text": "On documentation of victim status in particular, the record says:"
+    },
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "SILENCE_OF_THE_RECORD"
+     ],
+     "text": "the track record no longer carries exactly one stop condition stating this"
+    },
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "FEE"
+     ],
+     "text": "The committed record says no fee is expected: Administrative Order JB-05-26 lists no fee for a"
+    },
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "SERVICE_OR_NOTICE",
+      "OFFICIAL_PRACTICE"
+     ],
+     "text": "The committed record says § 2264(3) directs notice to the prosecutorial office that represented"
+    },
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "SERVICE_OR_NOTICE",
+      "SILENCE_OF_THE_RECORD"
+     ],
+     "text": "performs all notice, and by what method, is not settled in the committed record for this route."
+    },
+    {
+     "file": "scripts/build-census-v1-me-seal-survivor-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "The committed record puts it on the list of things automated assistance stops at:"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+   "severity": 12,
+   "closureSize": 13,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-registry.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 2 legal-treatment record path(s), but 3 of 3 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+     "fn": "renderParticipantInstructions",
+     "claims": [
+      "VERBATIM_QUOTATION"
+     ],
+     "text": "record's own words rather than in ours."
+    },
+    {
+     "file": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "SILENCE_OF_THE_RECORD",
+      "OFFICIAL_PRACTICE"
+     ],
+     "text": "court and the committed record for this route does not carry it. Ask the court administrator"
+    },
+    {
+     "file": "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs",
+     "fn": "renderFilingInstructions",
+     "claims": [
+      "SERVICE_OR_NOTICE",
+      "DEADLINE",
+      "SILENCE_OF_THE_RECORD"
+     ],
+     "text": "The committed record for this route does not state a service method, a service deadline or a"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-fl-administrative-set.mjs",
+   "severity": 10,
+   "closureSize": 9,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/FL.memo.json",
+    "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 3 legal-treatment record path(s), but 2 of 2 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-fl-administrative-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "FEE"
+     ],
+     "text": "The current submission mechanics and any fee are not established by the committed records."
+    },
+    {
+     "file": "scripts/build-census-v1-fl-administrative-set.mjs",
+     "fn": "main",
+     "claims": [
+      "FEE",
+      "SILENCE_OF_THE_RECORD"
+     ],
+     "text": "4. Before sending, confirm FDLE's current submission method, destination, required attachments, and any fee. The committed record does not establish those mechanics, so this packet does not guess them."
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+   "severity": 9,
+   "closureSize": 9,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/MS.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 2 legal-treatment record path(s), but 3 of 3 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "NONE, sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT) and the legal-design record resolves the strategy to"
+    },
+    {
+     "file": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "the legal-design record resolve this track to custom_pleading with localFormOverride. Districts maintain"
+    },
+    {
+     "file": "scripts/build-census-v1-ms-misd-1st-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "FEE",
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "court is a recorded open question, and the legal-design record directs that no fee amount be published"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+   "severity": 5,
+   "closureSize": 6,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/MD.memo.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 1 legal-treatment record path(s), but 2 of 2 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "VERBATIM_QUOTATION"
+     ],
+     "text": "Maryland record for this route states, in its own words:"
+    },
+    {
+     "file": "scripts/build-census-v1-md_pardon_expungement-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "The last of those can happen after you file, and you will not be the one who starts it. The record states the"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-me-nonconv-set.mjs",
+   "severity": 4,
+   "closureSize": 9,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/ME.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 2 legal-treatment record path(s), but 2 of 2 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-me-nonconv-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "exists, no court has any role, and the legal-design record states that generating a court form for this"
+    },
+    {
+     "file": "scripts/build-census-v1-me-nonconv-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "under 5 M.R.S. ch. 375 subch. 7 — which the legal-design record classifies as attorney work."
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+   "severity": 4,
+   "closureSize": 6,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/MO.memo.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 1 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "VERBATIM_QUOTATION"
+     ],
+     "text": "Missouri record for this route states, in its own words:"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-nd-deferred-imposition-records-set.mjs",
+   "severity": 4,
+   "closureSize": 9,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/ND.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 2 legal-treatment record path(s), but 2 of 2 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-nd-deferred-imposition-records-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT) and the legal-design record resolves the motion unit to custom_pleading."
+    },
+    {
+     "file": "scripts/build-census-v1-nd-deferred-imposition-records-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "did not operate. The legal-design record models these as one composed node with two alternative units."
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ms-nonconv-set.mjs",
+   "severity": 2,
+   "closureSize": 9,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "data/record-clearing/legal-design-intake/MS.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 4 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ms-nonconv-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "NONE, sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT) and the legal-design record resolves the strategy to"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+   "severity": 2,
+   "closureSize": 16,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-track-registry.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 1 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "SIGNATURE_OR_NOTARISATION"
+     ],
+     "text": "This packet prepares CC-1473 and its companion pages for you to read, complete, sign and file yourself. The committed track registry — `data/record-clearing/legal-design-track-registry.json`, track `va_exp_nonconviction`, field `selfHelpStopConditions` — recor"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+   "severity": 1,
+   "closureSize": 5,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/FL.memo.json",
+    "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 3 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "Review every prefilled fact against the source records before signing. Add every arrest and charge that belongs in the request; do not leave a partly completed additional row."
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ga-nonconv-post2013-set.mjs",
+   "severity": 1,
+   "closureSize": 6,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/GA.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 2 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ga-nonconv-post2013-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "- It does **not** let you say the record does not exist. § 35-3-37(u) says expressly that a restriction or sealing may be used to disqualify a person from employment or office in the same manner as a first offender discharge under § 42-8-63.1, and does not sup"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+   "severity": 1,
+   "closureSize": 6,
+   "legalTreatmentRecordsInClosure": [
+    "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/record-clearing/legal-design-intake/LA.memo.json",
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-specifications.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/record-clearing/legal-design-track-source-relationships.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 7 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "Conditionally obtain proof of successful completion of probation from the supervising probation office, or the Department of Public Safety and Corrections, Division of Probation and Parole, wherever completion may be questioned, which the committed record says"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
+   "severity": 1,
+   "closureSize": 6,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/NV.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 2 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-nv_seal_probation_family-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "3. **Count the seven years** from the date of the conditional dismissal or set-aside. If the period has not elapsed, or the record does not show clearly how the case was resolved, stop and get help."
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+   "severity": 1,
+   "closureSize": 15,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 4 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "The committed track registry for this route records these as the points where self-help ends, in its"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ri_deferred_sentence-set.mjs",
+   "severity": 1,
+   "closureSize": 16,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 4 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "The committed track registry for this route records these as the points where self-help ends, in its"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ri_first_offender_felony-set.mjs",
+   "severity": 1,
+   "closureSize": 16,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 4 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "The committed track registry for this route records these as the points where self-help ends, in its"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ri_first_offender_misdemeanor-set.mjs",
+   "severity": 1,
+   "closureSize": 16,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 4 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "The committed track registry for this route records these as the points where self-help ends, in its"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-ri_multiple_misdemeanors-set.mjs",
+   "severity": 1,
+   "closureSize": 16,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 4 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "The committed track registry for this route records these as the points where self-help ends, in its"
+    }
+   ]
+  },
+  {
+   "builder": "scripts/build-census-v1-vt_seal_under_25-set.mjs",
+   "severity": 1,
+   "closureSize": 9,
+   "legalTreatmentRecordsInClosure": [
+    "data/record-clearing/legal-design-intake/VT.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+   ],
+   "exactReasonItCannotBeDecided": "closure reaches 2 legal-treatment record path(s), but 1 of 1 attributed sentence(s) are fixed literals in a prose region that interpolates no record value, so this pass cannot show the sentence draws on the record it names",
+   "whatAnOwnerHasToCheck": "Whether the specific attributed sentence draws on one of the records listed above, or is a literal standing beside them. This pass can see that the record is in the closure and that the sentence is a fixed literal in a prose region that interpolates no record value; it cannot see whether an assertion elsewhere ties the two together.",
+   "attributedSentences": [
+    {
+     "file": "scripts/build-census-v1-vt_seal_under_25-set.mjs",
+     "fn": "participantInstructions",
+     "claims": [
+      "OTHER"
+     ],
+     "text": "amount the record directs be read live rather than stored."
+    }
+   ]
+  }
+ ],
+ "notableUndecidable": {
+  "scripts/build-census-v1-me-seal-survivor-set.mjs": "Highest severity in the whole population (8 attributed sentences). It reaches legal-design-track-registry.json and legal-design-packet-set-manifests.json, so it is NOT the Kentucky shape outright. But its fee sentence -- 'The committed record says no fee is expected: Administrative Order JB-05-26 lists no fee for a criminal post-judgment motion' -- is a fixed literal, and the builder contains no reference to a fees or feeWaiver field anywhere. It reads records, and not for this. Worth an owner's eyes first among the undecidable.",
+  "scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs": "Carries the SAME two silence sentences as mn_petition_15218-set, which is one of the three confirmed instances. The two are sibling Minnesota builders and the pair is already known to the Captain: they are the two families FIX02 and FIX07 used to prove the governance-erasure defect. juvenile_as_adult reaches the registry and manifests and 15218 reaches nothing, which is why they land in different buckets on identical prose. Whoever fixes one should look at the other in the same sitting.",
+  "scripts/build-census-v1-fl-administrative-set.mjs": "Two FEE claims, both negative: 'The current submission mechanics and any fee are not established by the committed records' and a step telling the participant to confirm 'any fee' because 'the committed record does...'. Negative fee claims are the safer direction to be wrong in, but they are still claims about what a record does not contain."
+ },
+ "whatThisDoesNotEstablish": [
+  "It does not establish that any of the 3 confirmed sentences is factually FALSE. Kentucky's was false because KY.memo.json answered the question; here the measurement is that the builder cannot know either way, because it never opens a record. A sentence may be true by the diligence of whoever typed it -- which is exactly how Kentucky's four filing-instruction sentences were true while the fifth was false.",
+  "It does not read a single delivered packet. A builder is the generator; whether a given family's committed guide currently carries the sentence has not been checked here, and for families rebuilt since it may differ.",
+  "It cannot see an attribution assembled at runtime from fragments, or one whose phrasing is outside the derived vocabulary. The 182 NO_ATTRIBUTION_EMITTED is a floor for 'clean', not a proof of it.",
+  "It sets no verdict, fails no family, promotes nothing and opens no route."
+ ],
+ "recommendation": {
+  "forTheThree": "Dispatch the owner of each with a claim asserted. The repair shape is the one Kentucky now carries: load the named record, hash it, derive the sentence from it, and assert so the build stops if the record stops saying it. Two of the three are negative claims ('the record does not state a service method / a deadline / a fee waiver'), and a negative claim is the one a builder must never make without opening the record, because it is unfalsifiable from the inside.",
+  "forTheTwenty": "Not a dispatch list. It is a list of twenty specific sentences an owner can decide in minutes each, with the records already named.",
+  "theGeneralFix": "There is no check for this today. A build-time gate could refuse any participant-facing sentence matching the attribution vocabulary unless the emitting builder's closure reaches a legal-treatment record -- the same shape as the governance-preservation check that now refuses a wiring write which would drop the six keys. That would have caught Kentucky at the moment of the write."
+ },
+ "evidenceIsReproducible": "Every classification in this file is derived from source text at base d1c659467 and can be recomputed from the builders alone.",
+ "grantsNothing": "A measurement approves nothing, promotes nothing and opens no commercial route. It names a population and its evidence so owners can be dispatched onto real instances."
+}

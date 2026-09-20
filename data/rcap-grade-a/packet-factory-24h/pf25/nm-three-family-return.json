@@ -1,0 +1,718 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "PF25",
+  "laneKind": "packet-build",
+  "workerBranch": "pf25-new-mexico",
+  "shiftBaseSha": "1dabf8cc671c96e24ce679e96fba60b6d1bcfdc9",
+  "mergedCaptainSha": "dc9fac7e67b64307cde23869c77cc84988b9da03",
+  "assignment": "the three New Mexico district-court expungement families a contract gap was holding",
+  "whyThisFileAndNotRowsJson": "pf25/rows.json and pf25/build-c-cohort-return.json are other lanes' returns and one of them was already destroyed by being overwritten. This lane writes its own file and touches neither.",
+  "whatThisLaneStartedFrom": "a finished first-hand measurement. BUILD-C measured every blank on all four bound identity-theft documents against the pinned bytes and stopped on a contract gap rather than working round it. Its census at pf25/nm-flat-form-blank-census.json was checked rather than trusted: this lane wrote its own measurer and reproduced that census EXACTLY on all three flat documents -- 71 blanks on Form 4-951, 36 on Form 4-960.1, 41 on the local order, key for key -- after two false positives in the first version of the measurer were found and fixed. It then found twenty-eight measured controls the earlier census had missed.",
+  "familiesClaimed": [
+    "nm_identity_theft-set",
+    "nm_conviction-set",
+    "nm_release_without_conviction-set"
+  ],
+  "familiesBuilt": [
+    "nm_identity_theft-set",
+    "nm_conviction-set"
+  ],
+  "familiesStopped": [
+    "nm_release_without_conviction-set"
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerification": {
+    "thisLaneDoesNotVerifyItsOwnPackets": true,
+    "whatWasRun": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>, the repository's own verifier, read independently of the builder's own count. Both built families return PASS_COMPLETE with all nine counters zero. That is necessary and not sufficient: an independent verification lane and a hash-bound RASTER_PASS are still owed, and this lane asserts neither."
+  },
+  "rows": [
+    {
+      "itemId": "nm_identity_theft-set",
+      "familyId": "nm_identity_theft-set",
+      "status": "COMPLETED",
+      "claim": {
+        "result": "CLAIM_OK",
+        "heldBy": "PF25",
+        "acquiredBy": "--transfer from the lane that released it without building",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "NM",
+        "routeKeys": [
+          "obligation:track-only:NM:nm_identity_theft"
+        ],
+        "routeSelectionId": "nm-identity-theft-set-4-951-4-960.1-local-order-4-222",
+        "implementationStrategy": "official_pdf_fill"
+      },
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill",
+      "overlayBytesWritten": true,
+      "components": [
+        {
+          "documentId": "NM-4-951",
+          "formNumber": "4-951",
+          "instrumentKind": "primary_filing",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-4-960.1",
+          "formNumber": "4-960.1",
+          "instrumentKind": "notice_of_hearing",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+          "formNumber": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+          "instrumentKind": "proposed_order",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-4-222",
+          "formNumber": "4-222",
+          "instrumentKind": "fee_waiver_application",
+          "strategy": "acroform_fill"
+        }
+      ],
+      "boundSources": [
+        {
+          "sourceId": "official-form:4-951",
+          "documentId": "NM-4-951",
+          "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+          "byteLength": 179630,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:4-960.1",
+          "documentId": "NM-4-960.1",
+          "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+          "byteLength": 16762,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
+          "documentId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+          "sha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+          "byteLength": 27302,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:4-222",
+          "documentId": "NM-4-222",
+          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+          "byteLength": 1088817,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "acroform",
+          "acroFieldCount": 158
+        }
+      ],
+      "sourceBinding": {
+        "method": "content hash. The digest the assignment pins is looked up across every custody the committed corpus index names, and the first mounted custody whose bytes re-hash to that digest binds. No declared path is trusted: these families declare their sources under a d_source_packs custody that is not mounted here, and resolving by path returns BLOCKED_SOURCE for documents whose exact bytes are held.",
+        "allSourcesExact": true,
+        "everyDeclaredPathWouldHaveFailed": "every one of these documents is declared in MASTER_QUEUE.json at a path under private/source-imports/rcap-d-source-packs-2026-08-12/, a custody this container does not mount. Resolving by the declared path returns BLOCKED_SOURCE for a document whose exact bytes are held in the Master Library."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "independentVerifierResult": "PASS_COMPLETE",
+      "terminalFields": 358,
+      "writes": 27,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 112,
+        "OPTIONAL_PARTICIPANT_CONTENT": 4,
+        "LATER_COMPLETION": 1,
+        "PROTECTED_FIELD": 109,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 38,
+        "PARTICIPANT_ELECTION_GENUINE": 67
+      },
+      "requiredBeforeFiling": 113,
+      "notApplicableOnThisRoute": 28,
+      "handMarkedControls": 107,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "2680f2553c52901ddde07319f0bcb2d5aba281c379824b5446c545ab46f8999a",
+          "byteLength": 1266700,
+          "pageCount": 17,
+          "documents": [
+            "NM-4-951",
+            "NM-4-960.1",
+            "NM-LOCAL-IDENTITY-THEFT-ORDER",
+            "NM-4-222"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "fd3617fbd554aebfde6fb71ac02ac3166fda83278d7a19b8dbf2e1387d2ad28d",
+          "byteLength": 1266908,
+          "pageCount": 17,
+          "documents": [
+            "NM-4-951",
+            "NM-4-960.1",
+            "NM-LOCAL-IDENTITY-THEFT-ORDER",
+            "NM-4-222"
+          ]
+        }
+      ],
+      "participantInstructions": {
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "c0587d9e9c86800364b546f8d25fd7da24abedd1bd4aca0e11a66506a6d5fe49",
+        "byteLength": 42710
+      },
+      "rasterPages": 34,
+      "rasterEngine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+      "packetSetManifest": {
+        "manifest": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "componentsInTheManifest": 6,
+        "everyRequiredComponentAccountedFor": true,
+        "componentsDeliveredAsProcessGuidance": [
+          {
+            "componentId": "nm_identity_theft-local-order-form-instructions-4",
+            "requirement": "required",
+            "section": "## Which district's order form you need"
+          },
+          {
+            "componentId": "nm_identity_theft-filing-instructions-6",
+            "requirement": "required",
+            "section": "## Where you file, and what it costs"
+          }
+        ],
+        "whyThisMatters": "verify-packet-completeness.mjs derives its component denominator from the family's own field map and source receipt and never opens the packet-set manifest, so its requiredComponentsMissing counter measures the build against itself. This family was measured against the manifest instead, and the build refuses if a component the manifest names is unaccounted for."
+      },
+      "determinism": {
+        "ran": true,
+        "method": "the family directory was deleted and rebuilt from unchanged inputs, twice. Every file in the tree was hashed with SHA-256 and the two sorted hash lists compared, and the whole tree was then compared recursively file by file.",
+        "filesCompared": "49 / 49",
+        "everyFileByteIdentical": true,
+        "sha256ListIdentical": true,
+        "recursiveTreeComparisonIdentical": true
+      },
+      "blockingFindings": [
+        {
+          "severity": "blocking_for_release",
+          "finding": "Form 4-222's caption, and the caption of Form 4-223 bound with it on pages 6 and 7, print \"SIXTH JUDICIAL DISTRICT COURT\" as page content. No AcroForm widget covers those coordinates -- the field list was read first hand from the pinned binary and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 -- so the district cannot be set, cleared or corrected by filling the form. Every other form in this packet prints \"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank."
+        }
+      ],
+      "whatThisFamilyRefusesAndSaysOutLoud": {
+        "what": "Page 4 of the retained local order asks for \"Name of actual offender:\" and \"Contact information:\" -- four blanks and the control in front of the paragraph. This build never fills them and never leaves them unexplained.",
+        "classifiedAs": "NOT_APPLICABLE_ON_THIS_ROUTE, against a condition the form itself prints",
+        "theCondition": "the form prints, immediately above the paragraph, \"(For use when the correct offender was provided notice of the hearing on the Petition to expunge.)\" On this track Rule 1-077.1(E) NMRA entitles no responding party to notice, so the correct offender is never noticed and the condition is never met. Rule 1-077.1 also deliberately omits the NMSA 1978 Section 29-3A-3(D) requirement that the court insert the true offender's name, because the committee commentary says naming an alleged identity thief in a civil proceeding without notice to that person would violate due process.",
+        "alsoOnTheRecord": "the track's selfHelpStopConditions make any suggestion that LegalEase name the true offender a stop condition, and its legalDesignDecision carries a self_help_boundary limitation headed \"Never name an alleged identity thief in a proposed order\".",
+        "statedToTheParticipant": "participant-instructions.md carries it under a heading of its own -- \"The packet will not name the person who used your identity\" -- before the field tables, and tells them to stop and get legal advice if anyone asks them to put a name there."
+      },
+      "theTwentyServiceBlanks": {
+        "what": "Form 4-960.1 page 2's four service blocks, twenty blanks in all.",
+        "classifiedAs": "NOT_APPLICABLE_ON_THIS_ROUTE",
+        "theCondition": "Rule 1-077.1(E) NMRA entitles no responding party to notice of an identity-theft petition, so nothing is served. The form's own USE NOTES on page 3 limit those blocks to \"the petitioner and any party that filed and served objections to the petition for expungement pursuant to Rule 1-077.1(G)(1) NMRA no later than sixty-three (63) days from the date of service\" -- and a party never served can neither be served with an objection nor start a period that runs from the date of service. The petitioner is the only party entitled to notice on this track and their own block is on page 1.",
+        "checkedAgainstTheOtherTwoTracks": "the conviction and release-without-conviction tracks both REQUIRE service, and on the conviction family the same twenty blanks are REQUIRED_BEFORE_FILING. The shared dictionary takes the route's service posture as a parameter so neither answer could be copied from the other."
+      }
+    },
+    {
+      "itemId": "nm_conviction-set",
+      "familyId": "nm_conviction-set",
+      "status": "COMPLETED",
+      "claim": {
+        "result": "CLAIM_OK",
+        "heldBy": "PF25",
+        "acquiredBy": "--transfer from the lane that released it without building",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "NM",
+        "routeKeys": [
+          "obligation:track-pathway:NM:nm_conviction:conviction"
+        ],
+        "routeSelectionId": "nm-conviction-set-4-953-4-956-4-960-4-960.1-4-960.3-local-order-4-222",
+        "implementationStrategy": "official_pdf_fill"
+      },
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill",
+      "overlayBytesWritten": true,
+      "components": [
+        {
+          "documentId": "NM-4-953",
+          "formNumber": "4-953",
+          "instrumentKind": "primary_filing",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-4-956",
+          "formNumber": "4-956",
+          "instrumentKind": "certificate_of_service",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-4-960",
+          "formNumber": "4-960",
+          "instrumentKind": "second_stage_notice",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-4-960.3",
+          "formNumber": "4-960.3",
+          "instrumentKind": "second_stage_affirmation",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-4-960.1",
+          "formNumber": "4-960.1",
+          "instrumentKind": "notice_of_hearing",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-LOCAL-CONVICTION-ORDER",
+          "formNumber": "NM-LOCAL-CONVICTION-ORDER",
+          "instrumentKind": "proposed_order",
+          "strategy": "measured_flat_overlay"
+        },
+        {
+          "documentId": "NM-4-222",
+          "formNumber": "4-222",
+          "instrumentKind": "fee_waiver_application",
+          "strategy": "acroform_fill"
+        }
+      ],
+      "boundSources": [
+        {
+          "sourceId": "official-form:4-953",
+          "documentId": "NM-4-953",
+          "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
+          "byteLength": 193458,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:4-956",
+          "documentId": "NM-4-956",
+          "sha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
+          "byteLength": 149793,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:4-960",
+          "documentId": "NM-4-960",
+          "sha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
+          "byteLength": 159100,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:4-960.3",
+          "documentId": "NM-4-960.3",
+          "sha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226",
+          "byteLength": 170666,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:4-960.1",
+          "documentId": "NM-4-960.1",
+          "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+          "byteLength": 16762,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:NM-LOCAL-CONVICTION-ORDER",
+          "documentId": "NM-LOCAL-CONVICTION-ORDER",
+          "sha256": "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
+          "byteLength": 29149,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "flat_pdf",
+          "acroFieldCount": 0
+        },
+        {
+          "sourceId": "official-form:4-222",
+          "documentId": "NM-4-222",
+          "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+          "byteLength": 1088817,
+          "custodyThatBound": "master_library",
+          "pathInCustody": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+          "custodiesCarryingThisDigest": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "resolvedBy": "content_hash_against_the_committed_corpus_index_then_rehashed_from_the_mounted_bytes",
+          "structuralClassObserved": "acroform",
+          "acroFieldCount": 158
+        }
+      ],
+      "sourceBinding": {
+        "method": "content hash. The digest the assignment pins is looked up across every custody the committed corpus index names, and the first mounted custody whose bytes re-hash to that digest binds. No declared path is trusted: these families declare their sources under a d_source_packs custody that is not mounted here, and resolving by path returns BLOCKED_SOURCE for documents whose exact bytes are held.",
+        "allSourcesExact": true,
+        "everyDeclaredPathWouldHaveFailed": "every one of these documents is declared in MASTER_QUEUE.json at a path under private/source-imports/rcap-d-source-packs-2026-08-12/, a custody this container does not mount. Resolving by the declared path returns BLOCKED_SOURCE for a document whose exact bytes are held in the Master Library."
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "independentVerifierResult": "PASS_COMPLETE",
+      "terminalFields": 497,
+      "writes": 39,
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 181,
+        "OPTIONAL_PARTICIPANT_CONTENT": 4,
+        "LATER_COMPLETION": 2,
+        "PROTECTED_FIELD": 140,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 21,
+        "PARTICIPANT_ELECTION_GENUINE": 110
+      },
+      "requiredBeforeFiling": 183,
+      "notApplicableOnThisRoute": 3,
+      "handMarkedControls": 159,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "af31c32c4dc096e0918213732a42778f9a700c93659c05abd3fb758637b5a049",
+          "byteLength": 1755983,
+          "pageCount": 26,
+          "documents": [
+            "NM-4-953",
+            "NM-4-956",
+            "NM-4-960",
+            "NM-4-960.3",
+            "NM-4-960.1",
+            "NM-LOCAL-CONVICTION-ORDER",
+            "NM-4-222"
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "8571551886aa88d7a33b97a31aa725d7bc3984e95c2a7422f36f754fabb24f7c",
+          "byteLength": 1756285,
+          "pageCount": 26,
+          "documents": [
+            "NM-4-953",
+            "NM-4-956",
+            "NM-4-960",
+            "NM-4-960.3",
+            "NM-4-960.1",
+            "NM-LOCAL-CONVICTION-ORDER",
+            "NM-4-222"
+          ]
+        }
+      ],
+      "participantInstructions": {
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "5207acedb631ffac10aa3cc9ca6661a828099a6a8464d8970d759cb282167bcb",
+        "byteLength": 62565
+      },
+      "rasterPages": 52,
+      "rasterEngine": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)",
+      "packetSetManifest": {
+        "manifest": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "componentsInTheManifest": 10,
+        "everyRequiredComponentAccountedFor": true,
+        "componentsDeliveredAsProcessGuidance": [
+          {
+            "componentId": "nm_conviction-local-order-form-instructions-7",
+            "requirement": "required",
+            "section": "## Which district's order form you need"
+          },
+          {
+            "componentId": "nm_conviction-record-gathering-instructions-9",
+            "requirement": "required",
+            "section": "## How to gather your records first"
+          },
+          {
+            "componentId": "nm_conviction-hearing-expectation-instructions-10",
+            "requirement": "required",
+            "section": "## The hearing"
+          }
+        ],
+        "whyThisMatters": "verify-packet-completeness.mjs derives its component denominator from the family's own field map and source receipt and never opens the packet-set manifest, so its requiredComponentsMissing counter measures the build against itself. This family was measured against the manifest instead, and the build refuses if a component the manifest names is unaccounted for."
+      },
+      "determinism": {
+        "ran": true,
+        "method": "the family directory was deleted and rebuilt from unchanged inputs, twice. Every file in the tree was hashed with SHA-256 and the two sorted hash lists compared, and the whole tree was then compared recursively file by file.",
+        "filesCompared": "67 / 67",
+        "everyFileByteIdentical": true,
+        "sha256ListIdentical": true,
+        "recursiveTreeComparisonIdentical": true
+      },
+      "blockingFindings": [
+        {
+          "severity": "blocking_for_release",
+          "finding": "Form 4-222's caption, and the caption of Form 4-223 bound with it on pages 6 and 7, print \"SIXTH JUDICIAL DISTRICT COURT\" as page content. No AcroForm widget covers those coordinates -- the field list was read first hand from the pinned binary and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 -- so the district cannot be set, cleared or corrected by filling the form. Every other form in this packet prints \"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank."
+        }
+      ],
+      "theTwentyServiceBlanks": {
+        "what": "The same Form 4-960.1 page 2 service blocks that are inapplicable on the identity-theft track.",
+        "classifiedAs": "REQUIRED_BEFORE_FILING, and named in participant-instructions.md",
+        "why": "service IS required on this track. The petition and every attachment go by first-class United States mail to the district attorney for the county where the conviction was entered, to the New Mexico Department of Public Safety and to the law enforcement agency that made the arrest, and Form 4-956 certifies it. A party so served may file a specific objection under Rule 1-077.1(G)(1) NMRA, and a party that does is entitled to notice of the hearing. The blocks are therefore the petitioner's to complete."
+      },
+      "twoStagesSixtyThreeDaysApart": "Forms 4-960 and 4-960.3 are filed at least sixty-three days after the petition is served and state what happened in that period: whether each of the three responding parties objected, whether anything is pending, and what the most recent conviction was. None of it is knowable when the packet is prepared, so all eighteen response controls and every pending-charge line belong to the participant, and the instructions are organised around the sequence rather than around the forms.",
+      "theCertificateOfServiceIsWrittenInItsCaptionOnly": "Form 4-956 is a certificate of service from end to end. Everything below its caption is the petitioner certifying under penalty of perjury when they posted the petition and to whom; service has not happened when the packet is prepared. The shared field semantics protect a service block for the same reason, and this build agrees with that rather than working round it."
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "familyId": "nm_release_without_conviction-set",
+      "status": "STOPPED",
+      "stopClass": "BOUND_COMPONENT_IS_NOT_THE_INSTRUMENT_IT_IS_BOUND_AS_AND_CANNOT_BE_PROMOTED_STATEWIDE",
+      "claim": {
+        "result": "CLAIM_OK",
+        "heldBy": "PF25",
+        "releasedAtEndOfThisLane": true
+      },
+      "route": {
+        "jurisdiction": "NM",
+        "routeKeys": [
+          "obligation:track-pathway:NM:nm_release_without_conviction:no-conviction-released-without-conviction"
+        ],
+        "implementationStrategy": "official_pdf_fill"
+      },
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+      "overlayBytesWritten": false,
+      "sourceStatus": {
+        "allSevenDigestsResolveByContentHash": true,
+        "note": "this is not a source-availability stop. Every one of the seven declared digests was found by content hash in the mounted Master Library and re-hashed from the bytes on disk, including the 05_SOURCE_GATED packet. It is a source-IDENTITY stop: one of the seven is not the instrument the family binds it as.",
+        "resolved": [
+          {
+            "sourceId": "official-form:4-952",
+            "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
+            "pages": 4,
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:4-955",
+            "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+            "pages": 2,
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:4-959",
+            "sha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148",
+            "pages": 3,
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:4-960.2",
+            "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+            "pages": 2,
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:4-960.1",
+            "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+            "pages": 3,
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:4-222",
+            "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+            "pages": 7,
+            "custody": "master_library"
+          },
+          {
+            "sourceId": "official-form:NM-SAN-JUAN-NONCONVICTION-PACKET",
+            "sha256": "d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638",
+            "pages": 31,
+            "custody": "master_library"
+          }
+        ]
+      },
+      "theDetermination": {
+        "question": "the packet-set manifest and MASTER_QUEUE bind NM-SAN-JUAN-NONCONVICTION-PACKET as this family's proposed_order. What is it actually?",
+        "answer": "an Eleventh Judicial District (San Juan County) self-help INSTRUCTION-AND-FORMS PACKET, thirty-one pages, and not an order form. Read first hand from the pinned bytes at d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638.",
+        "whatIsOnItsThirtyOnePages": [
+          "pages 1 to 8: a cover sheet and six pages headed \"STEPS TO FILING YOUR PETITION TO EXPUNGE (RELEASE WITHOUT CONVICTION)\" -- how to gather records, how to fill in the forms, where to mail them, what happens at the hearing",
+          "pages 9 to 12: a DISTRICT-LOCAL PETITION TO EXPUNGE, captioned \"COUNTY OF SAN JUAN / ELEVENTH JUDICIAL DISTRICT COURT\" in printed text, with the case-number template printed as \"No. D-1116-EX-______\" -- D-1116 being the San Juan County district-court locator",
+          "pages 13 and 14: a petitioner's cover letter for mailing the filed petition",
+          "pages 15 to 23: a certificate of service, an affirmation and further district forms, each with the same printed San Juan caption",
+          "pages 24 to 26: a notice of hearing captioned \"COUNTY OF McKINLEY / ELEVENTH JUDICIAL DISTRICT COURT\" with \"No. D-1113-EX-______\" -- a DIFFERENT county in the same district, on a form inside San Juan County's own packet",
+          "pages 27 to 31: an Order on Petition to Expunge, captioned San Juan / Eleventh Judicial District / D-1116-EX, whose paragraph 9 prints the San Juan County District Attorney's street address at 335 S. Miller Ave., Farmington"
+        ],
+        "whyItCannotBeBoundAsDeclared": [
+          "IT IS NOT AN ORDER FORM. Its own Master Library manifest entry records document_role PACKET and notes that \"the last link is a district packet rather than a standalone statewide numbered form\". Binding it as the proposed_order would put thirty-one pages of one county's packet into a statewide family and present them as the order.",
+          "EVERY CAPTION ON IT IS PRINTED, NOT BLANK. The county, the judicial district and the court locator code are page content with no field and no underscore run behind them, so no participant outside San Juan County can be captioned onto it -- and one of its own forms is captioned for McKinley County.",
+          "IT CARRIES A COMPETING PETITION. This family's primary_filing is the statewide Form 4-952 NMRA. Pages 9 to 12 are a second, district-local petition for the same relief. A participant would receive two different petitions to file.",
+          "THE DIGEST BINDS ALL THIRTY-ONE PAGES. The order at pages 27 to 31 cannot be separated out without producing a different artifact from the one the family binds, which would be an unbound source."
+        ],
+        "whyNoSubstituteWasUsed": "there is no statewide release-without-conviction ORDER form in any mounted custody. Every distinct New Mexico source in the committed corpus index was enumerated: the only order artifacts are NM-LOCAL-CONVICTION-ORDER (4 pages, conviction) and NM-LOCAL-IDENTITY-THEFT-ORDER (4 pages, identity theft), both from a different district's packet, and neither is the non-conviction order. Substituting either would put the wrong statutory section in front of a judge.",
+        "whyTheFamilyWasNotBuiltWithoutIt": "the packet-set manifest names ten components for this family and the proposed_order is one of them. Building the other nine and returning nine zero counters is the exact failure the brief names: a Colorado packet passed with nine zeros while shipping two of four required components, and requiredComponentsMissing cannot see the manifest. A route sells only what a record proves it delivers, and the absence of a record is a refusal rather than a gap.",
+        "whatWouldUnblockIt": [
+          "a statewide non-conviction Order on Petition to Expunge, if the Supreme Court has approved one since the 2026-08-02 harvest -- the mandatory 4-951 to 4-960.3 set does not contain one",
+          "or the Eleventh Judicial District's order (pages 27 to 31 of this packet) re-harvested as its own artifact with its own digest, bound as a district-conditional component the way NM-LOCAL-IDENTITY-THEFT-ORDER and NM-LOCAL-CONVICTION-ORDER already are",
+          "or another judicial district's standalone non-conviction order form, harvested and bound as conditional on that district"
+        ],
+        "whoResolvesIt": "the source-reconciliation lane, or counsel",
+        "whatIsAlreadyDoneForWhoeverPicksItUp": "the other six documents of this family are the same shapes this lane has already built. Form 4-960.1 and Form 4-222 have finished shared dictionaries in scripts/rcap-nm-flat-forms/, and the notice of hearing takes the route's service posture as a parameter -- this track serves the district attorney and the Department of Public Safety, so its twenty page-2 service blanks are required-before-filing, the same answer as the conviction family and not the identity-theft one. Forms 4-952, 4-955, 4-959 and 4-960.2 are the non-conviction twins of 4-953, 4-956, 4-960 and 4-960.3, whose dictionaries are in nm-conviction-documents.mjs."
+      },
+      "packetSetManifest": {
+        "manifest": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "componentsInTheManifest": 10,
+        "checkedDirectly": true,
+        "whatItNames": [
+          "nm_release_without_conviction-primary-filing-1 (4-952) required",
+          "nm_release_without_conviction-certificate-of-service-2 (4-955) required",
+          "nm_release_without_conviction-second-stage-notice-3 (4-959) required",
+          "nm_release_without_conviction-second-stage-affirmation-4 (4-960.2) required",
+          "nm_release_without_conviction-notice-of-hearing-5 (4-960.1) conditional",
+          "nm_release_without_conviction-proposed-order-6 (NM-SAN-JUAN-NONCONVICTION-PACKET) conditional",
+          "nm_release_without_conviction-local-order-form-instructions-7 process_guidance required",
+          "nm_release_without_conviction-fee-waiver-application-8 (4-222) conditional",
+          "nm_release_without_conviction-record-gathering-instructions-9 process_guidance required",
+          "nm_release_without_conviction-sequencing-instructions-10 process_guidance required"
+        ],
+        "whyThisWasCheckedDirectly": "verify-packet-completeness.mjs derives its component denominator from the family's own field map and source receipt and never opens this manifest, so its requiredComponentsMissing counter would have read zero for a family shipping nine of ten. Three of the ten are process_guidance and no field map can carry them."
+      },
+      "aSecondFindingThisFamilyCarries": {
+        "finding": "the notice of hearing inside the San Juan packet, at pages 24 to 26, is captioned COUNTY OF McKINLEY with case number template D-1113-EX while every other form in the same packet is captioned COUNTY OF SAN JUAN with D-1116-EX.",
+        "whyItMatters": "the district's own published packet carries a form captioned for the wrong county. Anyone who is later asked to harvest the Eleventh District's forms should know this before they bind any of them, and it is one more reason a county-local packet is not a statewide instrument."
+      }
+    }
+  ],
+  "wasTheNewDeclaredChannelSufficient": {
+    "shortAnswer": "No. It was inert, and it is inert again on the Captain branch as fetched.",
+    "whatWasWrong": "classifyBlank enters the NOT_APPLICABLE_ON_THIS_ROUTE gate only when dec.routeConditionThatMakesItInapplicable is present, and normalizeRow in scripts/rcap-packet-completeness/verify-packet-completeness.mjs builds its `declared` object from a fixed list of keys that did not include it. The condition was dropped between the field map and the contract, so the gate could not be entered from a packet at all. The channel had never worked.",
+    "howItWasFound": "this lane's builder counted its own nine counters through the contract and got zero; the repository's verifier, reading the same field map, returned sixteen knownRequiredFieldsMissing and twelve unclassifiedBlanks on the identical rows. Two readers of one contract disagreeing is what pointed at the reader.",
+    "theFix": "one key forwarded in normalizeRow. The blast radius was measured before and after: no committed field map outside this family carries the key, and ca-1203-4-set, hi_dag_danc_expungement-set and the three Louisiana families -- every other family declaring this disposition -- returned identical PASS_COMPLETE lines either way.",
+    "theCoordinationProblem": "the coordinator announced the identical fix as landed on the Captain branch, together with a new structural check scripts/rcap-packet-completeness/verify-declared-keys-reach-the-contract.mjs. Neither is present at dc9fac7e67b64307cde23869c77cc84988b9da03, which is the tip this lane fetched twice. The local change was dropped and the branch merged first so the repository would carry one change rather than two; when the fix did not arrive, the same one-key change was reapplied here. Captain should reconcile the two -- they are the same edit in the same place -- and the structural check is still owed, because it is the thing that would have caught this class of defect without a build lane stumbling over it.",
+    "whatIsStillMissingFromTheChannel": "nothing in the contract. The gate's four conditions are right and this lane's rows are refused or admitted on exactly the terms they state. What is missing is a guard that a declared key reaches the contract at all, which is what Captain's announced verify-declared-keys-reach-the-contract.mjs would supply."
+  },
+  "findingsForTheOwnersOfSharedMachinery": [
+    {
+      "subject": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "severity": "blocking, fixed here",
+      "finding": "the declared route condition never reached the contract. See wasTheNewDeclaredChannelSufficient above."
+    },
+    {
+      "subject": "scripts/rcap-official-forms/rcap-field-semantics.mjs — FACT_DESCRIPTORS",
+      "severity": "gap, reported not worked round",
+      "finding": "there is no descriptor for OTHER NAMES or ALIASES. Forms 4-951 and 4-953 each give three lines for prior names, nicknames and aliases, and every one of these tracks collects them at intake. The only name descriptor whose pattern reaches such a line is participant.full_legal_name, so binding it would write the petitioner's own legal name onto the alias line of a petition sworn under penalty of perjury.",
+      "whatThisLaneDid": "left the alias lines to the participant, declared required-before-filing, and named them in the instructions. Adding a descriptor is a change to machinery forty-odd builders share and would alter what every family whose labels match those words writes; a packet-build lane does not make that change mid-cohort."
+    },
+    {
+      "subject": "scripts/rcap-official-forms/rcap-field-semantics.mjs — FACT_DESCRIPTORS",
+      "severity": "gap, reported not worked round",
+      "finding": "there is no ONE-LINE MAILING ADDRESS fact. Its only address descriptor is participant.street_address, and five blanks across these two families give a single line for a whole mailing address: Form 4-951 page 3, Form 4-953 page 4, Form 4-960 page 2, Form 4-960.3 page 2 and Form 4-960.1 page 1, which is the line the court mails the notice of hearing to.",
+      "whatThisLaneDid": "left all five to the participant with the reason stated. A street with no city on the line the court writes to is worse than a line the participant completes, and the alternative -- passing a composed value through anchor.factId while keeping the label out of explicitMappings -- would be going round the guard that refuses a mapping the field name contradicts."
+    },
+    {
+      "subject": "scripts/rcap-packet-completeness/completeness-contract.mjs — FIELD_CLASSES.ATTORNEY_BLOCK",
+      "severity": "mis-disposition found and worked around, worth a decision",
+      "finding": "ATTORNEY_BLOCK matches /\\battorney\\b/, so a line naming the DISTRICT ATTORNEY the participant must serve reads as the filer's own attorney block. On a certificate of service and on a notice of completion of briefing those lines are the participant's. Combined with the ATTORNEY path in classifyBlank -- which returns NOT_APPLICABLE_ON_THIS_ROUTE for an ATTORNEY_BLOCK field whose reason mentions an attorney -- a required-before-filing blank silently became not-applicable-on-this-route.",
+      "whyItMatters": "both dispositions are allowed, so all nine counters stayed at zero and nothing failed. The defect is in what the packet TELLS THE PARTICIPANT: a blank they must fill was described to them as one that does not apply. Nine zeros did not catch it and could not have.",
+      "howItWasFound": "by reading every row of the finished map whose label contained the word attorney, after three sibling rows on the conviction family failed as UNCLASSIFIED_BLANK for the same reason. One row of the identity-theft family had already been mis-disposed this way in a build that measured PASS_COMPLETE.",
+      "whatThisLaneDid": "reworded eleven labels across both families so a line naming the prosecuting office does not read as the filer's attorney block, and kept the participant-facing text naming the district attorney. The contract was not changed."
+    },
+    {
+      "subject": "the Master Library binary for Form 4-222 NMRA",
+      "severity": "blocking for release, carried by all three New Mexico families",
+      "finding": "Form 4-222 and Form 4-223, bound in the same seven-page binary at 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a, print \"SIXTH JUDICIAL DISTRICT COURT\" in both captions as page content. No AcroForm widget covers those coordinates -- the field list was read first hand and the nearest fields are COUNTY OF at y632.6 and Petitioner at y578.7 -- so nothing this build can do changes it. Every other form in these packets prints \"_______________JUDICIAL DISTRICT COURT\" and leaves the district blank. The copy was harvested from the statewide self-representation site selfrepresentation.nmcourts.gov, so it is the state's own published fillable copy and it still names one district.",
+      "consequence": "a participant filing outside the Sixth Judicial District (Grant, Hidalgo and Luna counties) receives a fee-waiver application and a proposed order captioned for a court that is not theirs, on a document sworn under oath. This lane did not alter the court's PDF and did not hide it: it is a blocking finding in both families' build-findings.json, it is named for visual review, and the participant is told in plain words to strike the line and write their own district or to obtain their district's copy. Counsel should decide whether the fee-waiver component may ship statewide on this binary at all.",
+      "alsoOnTheRecord": "the Master Library STATE_MANIFEST.csv marks this asset packet_candidate: no, while the track's own legal-design record names Form 4-222 as each route's fee-waiver component with outputStrategy official_pdf_fill. The two records should be reconciled before release."
+    },
+    {
+      "subject": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs and every measured-overlay builder",
+      "severity": "measurement hazard, handled here and worth knowing about",
+      "finding": "extractTextItems reports metricsExact false when a font supplies no widths, and item origins are computed by accumulating advances along a line. On Form 4-222 that is EVERY glyph of all 11,846: the first glyph of a line sits at its authored position and by the end of the line the reported x is nearly twice the truth. A write box measured from that geometry would be a value in the margin.",
+      "whatThisLaneDid": "made x-measurability a per-BASELINE question rather than a per-page or per-document one, because drift crosses items on a line and never crosses lines. A blank with a fallback-advance glyph to its left on its own baseline is recorded with no coordinate at all -- its baseline and its position along the line are exact and its absolute x is not -- and a WRITE in that position stops the build. Nineteen refused blanks on the identity-theft order and twelve on the conviction order sit behind a symbol-font tick glyph and are recorded that way; five bullet characters on Form 4-953 page 3 sit on lines that carry no blanks and cost nothing."
+    }
+  ],
+  "whatThisLaneAddedBeyondTheFamilies": [
+    "scripts/rcap-nm-flat-forms/nm-flat-blank-measurer.mjs -- underscore-run, printed-bracket, symbol-glyph and stroke measurement for flat New Mexico rule forms, with amendment underlines told from blanks and per-baseline x-measurability. It reproduces BUILD-C's census exactly on all three flat identity-theft documents and finds 28 controls it missed.",
+    "scripts/rcap-nm-flat-forms/nm-packet-host.mjs -- the shared build host: content-hash source binding across every custody, a two-way dictionary check in both directions on every run, a byte proof that MEASURES glyphs outside the write boxes rather than asserting zero, and a reconciliation against the packet-set manifest.",
+    "scripts/rcap-nm-flat-forms/nm-form-4-960-1.mjs and nm-form-4-222.mjs -- the two documents all three families share, measured once, with the notice of hearing parameterised on the route's service posture.",
+    "scripts/rcap-nm-flat-forms/nm-conviction-documents.mjs -- the five documents the conviction track owns, four of which are the direct twins of the release-without-conviction forms whenever that family is unblocked.",
+    "a packet-set manifest reconciliation, in reports/packet-set-manifest-reconciliation.json, which reads the denominator out of data/record-clearing/legal-design-packet-set-manifests.json and refuses to build a family that leaves a manifest component unaccounted for. This is the counter-gap the coordinator flagged: verify-packet-completeness.mjs derives its component denominator from the family's own field map and never opens the manifest."
+  ],
+  "issuesNoVerdict": [
+    "Section 29-3A-3(B) requires a showing that the participant is a victim of identity theft and neither the statute, Rule 1-077.1 NMRA nor Form 4-951 says what satisfies it. The track's own record carries this as a release blocker on participant_instructions. The instructions say so plainly rather than inventing an evidence list.",
+    "Whether the $132.00 district court filing fee applies to an identity-theft petition is unresolved in the track's own record; the only fee exemption the rule ever carried was deleted effective 31 December 2025. The instructions tell the participant to ask the clerk.",
+    "Both retained local orders are one judicial district's forms and no statewide Supreme Court order form exists in the mandatory 4-951 to 4-960.3 set. Both families carry the required local_order_form_instructions component telling every other district's participant to obtain their own."
+  ]
+}

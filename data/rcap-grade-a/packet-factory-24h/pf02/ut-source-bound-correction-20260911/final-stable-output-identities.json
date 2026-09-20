@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-pf02-stable-build-proof/v1",
+  "lane": "PF02",
+  "itemId": "ut_pet_special_certificate-set",
+  "status": "INCOMPLETE",
+  "builder": {
+    "path": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+    "beforeTaskSha256": "0089257bec904635a0b386af6a7426930f5be1664e502f2fbd10d3ba6595dd16",
+    "finalSha256": "434c32d192a8fb7593737731257f6cc14d25cef5ff24febd40d3b7b90970937f"
+  },
+  "fixtures": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "50e75d06844f90e3d28101c7ef172000c06ad9f643074f19d913de742dc30c0c",
+      "bytes": 3074614,
+      "pages": 20
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "d9d8b904792feba796f54f75b2d7a2ccfde095458434d87e16ed75a724d5fd12",
+      "bytes": 3074671,
+      "pages": 20
+    }
+  ],
+  "determinismRuns": [
+    {"startedAt":"2026-09-11T10:27:14Z","builderExit":0,"canonicalSha256":"50e75d06844f90e3d28101c7ef172000c06ad9f643074f19d913de742dc30c0c","boundarySha256":"d9d8b904792feba796f54f75b2d7a2ccfde095458434d87e16ed75a724d5fd12"},
+    {"startedAt":"2026-09-11T10:27:22Z","builderExit":0,"canonicalSha256":"50e75d06844f90e3d28101c7ef172000c06ad9f643074f19d913de742dc30c0c","boundarySha256":"d9d8b904792feba796f54f75b2d7a2ccfde095458434d87e16ed75a724d5fd12"}
+  ],
+  "baselineContentComparison": {
+    "baselineCanonicalSha256": "01e69af47a0b299999a9f8d1d5ad9ff707a997ee4d1879e83b13c578c9474887",
+    "baselineBoundarySha256": "651777dc729c13b8f6d0ff4db30e282af8f4488974672c0ce37fee57aea99fba",
+    "objectsPerFixture": 589,
+    "onlyDifferingObject": "3 0 R",
+    "onlyDifferingFields": ["CreationDate", "ModDate"],
+    "finalValueForBothFields": "D:19700101000000Z",
+    "allStreamsUnchanged": true,
+    "pageCountUnchanged": true,
+    "byteLengthUnchanged": true
+  },
+  "report": {
+    "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/reports/conditional-role-review.json",
+    "sha256": "31a0661641d48d2971f717c3c07324a08f86cec9b2c7ac1cafee27839f64bf4f",
+    "component10SourceBound": false,
+    "component10SourcePath": null,
+    "component10SourceSha256": null,
+    "component10Role": "process guidance; source and measurement pending",
+    "reviewStatus": "DRAFT_PENDING_INDEPENDENT_SOURCE_LABEL_REVIEW"
+  },
+  "sourceReceipt": {
+    "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/source-receipt.json",
+    "sha256": "927643ee2e5eb4afb4430bd9bb57bb3b428eba00cfccac9d36134eb0e2981c3b",
+    "exactSourceIdentities": 9,
+    "unchanged": true
+  },
+  "stage": {
+    "status": "official_forms_ingested",
+    "rasterState": "UNVERIFIED_NO_RASTER",
+    "stageGateTestExit": 0
+  },
+  "noRaster": true,
+  "noApproval": true
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nc_145_5_misdemeanor-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "EIGHT WRITES ON A 107-FIELD FORM, and the ratio is the finding rather than a gap. An entire side of AOC-CR-298 belongs to the SBI, the AOC records officer, the court and the clerk; Side One carries a certificate of service that would be untrue if completed before service and a REQUEST BY JUDGE block that is the judge's. Of the remainder, the substance is conviction facts — offence class, disposition, sentence completion, restitution, prior expunctions — that no held record establishes for any participant.",
+      "consequence": "99 blanks are classified rather than written: protected where the field is the court's, the clerk's, the SBI's or a certificate of service; attorney-only where it is counsel's; a genuine participant election where the form offers a choice this route does not make; and required-before-filing, with the record it is copied from named, for every conviction fact. Each of the manifest's own obtain_document and confirm_answer items is carried into participant-instructions.md, and the manifest's own eighteen-line requiredBeforeFiling list is printed there verbatim from the committed bytes."
+    },
+    {
+      "finding": "AOC-CR-298 CARRIES THE FELONY FORM'S FIELD NAMES ON ITS TWO WAITING-PERIOD BOXES. Read from the pinned binary (sha256 8f526257..), the boxes beside paragraph 2 are named OneNonviolentFelonyWaitingPeriodCkBox and TwoOrThreeNonviolentFeloniesWaitingPeriodCkBox. What the page prints beside them, read from the same bytes, is \"For expunction of one nonviolent misdemeanor, at least three (3) years after the date of conviction listed above or when any active sentence, period of probation, and post-release supervision has been served, whichever occurred later\" and \"For expunction of more than one nonviolent misdemeanor ... at least seven (7) years after my last conviction ...\".",
+      "consequence": "Every caption in this family's map is quoted from the printed page and not from the field name, so the disclosure table, the participant instructions and the refusal records all state the three-year and seven-year MISDEMEANOR branches. Nothing is ticked either way: which branch applies is a fact about the participant's record. The name/caption mismatch is recorded here because a later builder or reviewer reading the field names alone would state felony counts and felony tiers on a misdemeanor petition, and because the committed track registry already names a transposed AOC-CR-297/AOC-CR-298 identity as a live rejection risk."
+    },
+    {
+      "finding": "CAPTION-CAPTURE DEFECT on Side One's identifier row, the same shared-host defect this jurisdiction's other families report, measured here on AOC-CR-298's own bytes. PetitionerZip is captured as \"Race\"; DLNo and DLState as \"Drivers License No.StateRaceSex\"; Race as \"State\"; Sex, AttorneyMailAddress and AttorneyCity as \"Full Social Security No\"; DOB as \"Date Of BirthFull Social Security No\"; SSN as \"NOTE TO PETITIONER\"; and AttorneyState as the opening of the whole NOTE TO PETITIONER paragraph.",
+      "consequence": "On THIS form the defect produces no mis-write. It cannot: finalizeOfficialForm resolves a field by NAME through form.getField() and fits the value to that field's own widget /Rect, so a captured caption selects a fact and tests a protected category but never positions ink. TWO of the affected blanks are therefore WRITTEN rather than refused — PetitionerZip and DOB, both facts the platform holds and both also written on AOC-CV-226 — after each rect was proved from the pinned form's own content stream to sit in its own printed cell. PetitionerZip's rect is x[255.81,315.08] y[633.38,646.63], the bottom-right cell of the block captioned \"Name And Address Of Petitioner (type or print full name)\" at y=685.56; the printed word \"Race\" is at x[224.28,240.62] y=625.56, which is 7.8pt BELOW that rect's lower edge and 15.2pt to the left of it, in the next printed row down beside the Race widget x[222.87,267.87] y[609.21,624.79]. DOB's rect is x[36.63,175.30] y[585.07,600.65] and the only caption printed above it is \"Date Of Birth\" at x[38.50,78.96] y=601.56; \"Full Social Security No.\" begins at x=177.80, 2.50pt clear of DOB's right edge and inside SSN's own rect x[177.21,315.08]. The remaining affected blanks stay refused, each declared required-before-filing or attorney-only with the true reason stated. Reported for the lane that owns scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs."
+    },
+    {
+      "finding": "THE CERTIFICATE OF SERVICE. AOC-CR-298 carries one on Side One, with four method boxes, the district attorney's email address of record, a date served, a signature of the person serving, and an acceptance block for the district attorney.",
+      "consequence": "Every field of it is left blank and classified protected, on the completeness contract's own ground that a certificate of mailing before mailing has happened must remain blank. The instructions tell the participant to serve FIRST and complete it after, and state that the 30-day hearing clock in the form's own NOTE TO CLERK runs from the date they write there."
+    },
+    {
+      "finding": "PARAGRAPH 2's TWO BRANCHES are a case characterization rather than a route election. The three-year and seven-year tiers turn on how many nonviolent misdemeanor convictions the participant is asking to expunge and when the last sentence finished; the committed track registry records the same two tiers and the same measuring point, and names offence classification and the absolute any-non-traffic-conviction bar as points where self-help stops.",
+      "consequence": "Both boxes are classified as genuine participant elections with that reason stated, and neither is ticked. The route determines the statute and the instrument, and states both; it does not determine how many misdemeanors a person has."
+    },
+    {
+      "finding": "PetitionerMailAddress, the second line of the petitioner's address block, binds participant.street_address exactly as PetitionerStreetAddress does.",
+      "consequence": "Refused by role. The platform holds one street address and writes it once; filling both would print the same street address twice on the face of the petition."
+    },
+    {
+      "finding": "AOC-CV-226's \"Full Permanent Mailing Address Of Applicant (if different than above)\" block binds the participant's address, because the form's printed ligature comes through as \"di(uerent\" and the shared if-different refusal therefore does not fire. The sibling family nc_145_5_felony-set records the same finding against the same binary.",
+      "consequence": "The whole block is refused by role, so the address is never written into the block that exists for a DIFFERENT one. The Street Number And Street Name line above it is where the address belongs, and it is written there through the finalizer's own narrativeAcrossFields channel — see the next finding."
+    },
+    {
+      "finding": "THE SHARED DESCRIPTOR LIST DOES NOT REACH A STREET-ADDRESS CAPTION WRITTEN THE WAY THE AOC WRITES THIS ONE. The sibling family nc_145_5_felony-set measured it against the live rules: descriptorsMatching returns [] for the field name \"ApplicantStreetNumberAndStreetNameLine1\", for the captured caption and for the caption the form actually prints, because participant.street_address requires one of street addr | mailing addr | addr line N | ^addr | address and none of the three carries any of them; decideBinding returns no_allowlisted_fact_matches before it consults explicitMappings, so an explicit mapping cannot reach it either.",
+      "consequence": "Reported for the lane that owns scripts/rcap-official-forms/rcap-field-semantics.mjs, which every builder in the corpus shares and this family does not open. In this family the fact is written through the finalizer's own opt-in narrativeAcrossFields channel, naming one fact id and one field: the module resolves participant.street_address from the same facts set as every other write, runs the same protect test on the caption and on the field name, fits it to that widget's own rectangle and refuses it whole rather than truncating. The write is recorded in reports/actual-writes.json with kind text_narrative_line. Without it the delivered affidavit would carry City, State and ZIP with the street line empty — an address with no street on a sworn document."
+    },
+    {
+      "finding": "CAPTION-CAPTURE TRUNCATION on AOC-CV-226. The shared capture caps an effective label at CAPTION_MAX_CHARS = 60; this form's street caption is 78 characters, so the capture returns it cut mid-word at \"Unit N\", a caption the form does not print. Nothing binds to it either way, but this family's field map, disclosure table and refusal records all quote the effective label.",
+      "consequence": "Corrected in this family's own CAPTION_CORRECTIONS table, measured from the pinned form's own content stream, and recorded under captionCorrectionsApplied exactly as the two AOC-CR-298 corrections are. The shared capture is untouched."
+    },
+    {
+      "finding": "FEE_AND_WAIVER, tested against A1-A4. The committed packet-set manifest is a held source under A2 and answers with a figure: \"$175 per petition\", with the indigency waiver on AOC-CV-226. The form's own face carries the same warning.",
+      "consequence": "The packet states the amount, carries the waiver instrument, states separately that G.S. 15A-150 expunction costs are not taxed against the petitioner, and draws attention to the words \"per petition\" where G.S. 15A-145.5(c4) may mean petitions in more than one county. Per A4 nothing in the packet says it does not state an amount, because it does state one."
+    },
+    {
+      "finding": "THE AFFIDAVITS THE PETITION CERTIFIES ARE ATTACHED ARE NOT IN THIS PACKET. Paragraph 3 certifies that the affidavits required by G.S. 15A-145.5(c1) are attached. The packet-set manifest carries a good_character_affidavit_request component with outputStrategy process_guidance, and two further process_guidance components — record_gathering_guidance and filing_and_followthrough_guidance — that this build does not render as separate documents. The committed track registry records why the last two are not separate units: \"The record-gathering step is preparation before filing and the follow-through step is ordinary post-filing handoff, so neither is a legally distinct unit. Both survive as required components and packet instructions on a single official_pdf_fill route.\"",
+      "consequence": "All three are carried in participant-instructions.md, and the absence of the affidavits is stated in terms rather than left to be discovered at the clerk's counter. A document mapped and not rendered is a missing companion form; a process-guidance component rendered as guidance is not."
+    },
+    {
+      "finding": "THE GUIDE IS PRINTED FROM THE RECORD, NOT FROM THE BUILDER. The committed packet-set manifest carries an eighteen-line requiredBeforeFiling list for this packet set. Three Illinois builders in this sprint printed none of their own packet set's list because they never referenced the registry, and nine zero counters never saw it.",
+      "consequence": "This build reads legal-design-packet-set-manifests.json at build time, locates packet set nc_145_5_misdemeanor-set, and prints its requiredBeforeFiling list verbatim into a dedicated section of participant-instructions.md, with the count and the record's SHA-256 stated beside it. If the record stops declaring that list — the packet set gone, or the list empty — the build STOPS with stopClass RECORD_NO_LONGER_DECLARES_WHAT_THE_PACKET_PRINTS rather than printing a guide the record no longer supports."
+    },
+    {
+      "finding": "SIXTY SYNTHESIZED CHECKBOX SQUARES, refused before they were drawn. pdf-lib's default appearance provider paints a stroked square sized to the widget /Rect for any check box whose current /AS state has no /AP /N entry, and flatten() stamps it. AOC-CR-298 and AOC-CV-226 both ship their unmarked boxes as /AS /Off with /Yes the only state in /AP /N, so a conforming viewer paints nothing for the current state and the form prints its own smaller box at each position.",
+      "consequence": "suppressSynthesizedAppearances is passed to the finalizer, which installs an EMPTY appearance for the state the source omitted so nothing is synthesized and nothing is flattened there. Verified on the delivered bytes by scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs."
+    },
+    {
+      "finding": "SOURCE RESOLUTION. All three of this family's binaries appear more than once in the committed corpus index at the same SHA-256 — under master_library, under d_source_packs and, for AOC-CV-226, in the nationwide recovery pool — and not every custody is mounted in every container.",
+      "consequence": "This build resolves an index entry by preferring one whose bytes are present AND hash to the pinned digest, rather than taking the first entry that carries the hash. The binding is still exact SHA-256 and the receipt records which custody supplied the bytes."
+    }
+  ],
+  "captionCorrectionsApplied": [
+    {
+      "document": "AOC-CR-298",
+      "field": "PetitionerZip",
+      "capturedLabel": "Race",
+      "measuredLabel": null,
+      "measuredAt": "page 1 rect x[255.81,315.08] y[633.38,646.63]; walking the pinned form's own page-1 content stream returns no text item inside the rect. The rect lies in the block whose single printed caption, \"Name And Address Of Petitioner (type or print full name)\", is at x=38.50 y=685.56. The printed \"Race\" is at x[224.28,240.62] y=625.56 -- 7.80pt below this rect's lower edge and 15.19pt to its left -- above the Race widget x[222.87,267.87] y[609.21,624.79]"
+    },
+    {
+      "document": "AOC-CR-298",
+      "field": "DOB",
+      "capturedLabel": "Date Of BirthFull Social Security No",
+      "measuredLabel": "Date Of Birth",
+      "measuredAt": "page 1 rect x[36.63,175.30] y[585.07,600.65]; the pinned form's own page-1 content stream prints \"Date Of Birth\" at x[38.50,78.96] y=601.56 directly above the rect, and \"Full Social Security No.\" at x[177.80,250.15] y=601.56, which begins 2.50pt beyond this rect's right edge and stands above SSN's own rect x[177.21,315.08]"
+    },
+    {
+      "document": "AOC-CV-226",
+      "field": "ApplicantStreetNumberAndStreetNameLine1",
+      "capturedLabel": "Street Number And Street Name, Including Apartment Or Unit N",
+      "measuredLabel": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+      "measuredAt": "page 1 rect x[37.24,315.01] y[659.06,675.41]; the pinned form's own page-1 content stream prints the caption once at y 677.4-686.0 spanning x[38.50,303.60], directly above the rect and inside the same ruled cell, and prints no text item inside the rect itself. The capture cut that caption at 60 characters, which is CAPTION_MAX_CHARS in scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs"
+    }
+  ]
+}

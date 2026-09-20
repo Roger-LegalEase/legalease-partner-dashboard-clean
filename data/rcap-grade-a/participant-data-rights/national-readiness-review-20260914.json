@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-national-release-readiness-review/v1",
+  "reviewer": "/root/prerequisite",
+  "recordedAt": "2026-09-14T12:00:40.377497+00:00",
+  "inspectedCandidateSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+  "scope": "Independent hosted acceptance preparation and isolated read-only control-plane preflight. No service requests or jobs executed.",
+  "helperFiles": [
+    {
+      "path": "scripts/rcap-production-readonly-preflight.mjs",
+      "sha256": "3d0fc0914fc4410066241a384580b858d8bb0dc1fbf326526b861e6ce38e18f7"
+    },
+    {
+      "path": "scripts/test-rcap-production-readonly-preflight.mjs",
+      "sha256": "0cb0ac09bffd785275cc9ccd96d857035ce57902a2b7df6eab9d55c67bf0f118"
+    }
+  ],
+  "validation": {
+    "command": "node scripts/test-rcap-production-readonly-preflight.mjs",
+    "passed": true,
+    "remoteDefectRefusals": 19,
+    "malformedIdentityRefusals": 10,
+    "positiveControl": true,
+    "absentCredentialRefusal": true,
+    "secretRedaction": true,
+    "onlyGET": true,
+    "redirectsRefused": true,
+    "requestTimeoutMs": 15000,
+    "immutableGitSourceRequired": true
+  },
+  "independentCodeReview": {
+    "reviewer": "/root",
+    "findingsAddressed": [
+      "Require Vercel gitSource.sha to equal candidate application SHA as well as caller metadata.",
+      "Add gitSource mismatch/missing controls.",
+      "Return fixed safe failedOperation and failedCase identifiers, never raw errors.",
+      "Bound each network request with AbortSignal timeout."
+    ]
+  },
+  "existingAcceptedEvidence": [
+    {
+      "record": "data/rcap-render/worker-publication-evidence.json",
+      "publicationRunId": 34298919203,
+      "acceptanceRunId": 34299263608,
+      "sourceSha": "1e95f1f067e2f26094228b6f0c922c875c25f33a",
+      "digest": "sha256:2bca8a36f2aaf20c5bc0e50b722a9ba02a84e20cb2af66306c49ed50c7776633",
+      "scope": "Immutable worker image properties only; no current candidate hosted journey acceptance."
+    },
+    {
+      "record": "docs/rcap/grade-a/MS_CLINIC_DEMO_PREVIEW_HANDOFF.md",
+      "runId": 33751219456,
+      "scope": "Historical protected-credential read-only synthetic project and Vercel preflight; supersedes blanket no-access claim for that execution environment."
+    },
+    {
+      "record": "data/rcap-staging-authorization-readiness.json",
+      "runId": 33787521004,
+      "scope": "Ten bounded nonproduction Clinic/claim/launch/private-delivery migrations exact hash readback. Does not include participant data-rights migration."
+    }
+  ],
+  "currentWorkerInputPlan": {
+    "method": "createWorkerInputPlan imported without writer",
+    "candidateSha": "41db064ec6f25149802504f410fab7ece2c61b96",
+    "rebuildRequired": true,
+    "changedPaths": 23,
+    "aggregateInputSha256": "sha256:b92232bb6de737b5bad67ee4d5dce86c057c884c0e5332d89149575ecfbedca8"
+  },
+  "specificGaps": [
+    "No current candidate-bound Preview and digest freeze identified; historical Preview441ee318 is stale.",
+    "Participant data-rights hosted record remains STOPPED; no later hosted export/matter/account-deletion receipt found. Existing ten-migration receipt is not data-rights acceptance.",
+    "Current hosted workflow has newer worker pins; GitHub fallback and old Production canary/smoke/activation retain superseded441ee318/67132df2 pins.",
+    "Current synthetic project marker/schema/row-purpose must be re-proven before hosted writes; historical evidence does not assert present service state.",
+    "Current complete Product Contract hosted case evidence, runtime identity, rollback rehearsal and final release authorization remain separate required receipts.",
+    "Existing launch-control generator consumes old data-rights readiness/residual records and has no general final-candidate receipt consumer; Captain and B are implementing current interfaces."
+  ],
+  "credentialNamesOnly": {
+    "presentInThisSession": [
+      "SUPABASE_ACCESS_TOKEN",
+      "HOSTED_STRIPE_TEST_SECRET",
+      "HOSTED_STRIPE_TEST_WEBHOOK_SECRET"
+    ],
+    "absentInThisSession": [
+      "VERCEL_TOKEN",
+      "VERCEL_AUTOMATION_BYPASS_SECRET"
+    ],
+    "protectedHostedWorkflowAlsoRequires": [
+      "HOSTED_CLINIC_DEMO_PASSWORD",
+      "HOSTED_CLINIC_DEMO_ACCESS_CODE"
+    ],
+    "credentialValuesReadOrPrinted": false,
+    "protectedCredentialValidityReverified": false
+  },
+  "newPreflightInterface": {
+    "command": "node scripts/rcap-production-readonly-preflight.mjs <reviewed-candidate-manifest.json>",
+    "output": "stdout JSON rcap-production-readonly-preflight/v1",
+    "requiredManifestFields": [
+      "applicationSha",
+      "workerSourceSha",
+      "workerDigest",
+      "previewDeploymentId",
+      "stagedDeploymentId",
+      "rollbackDeploymentId",
+      "vercelProjectId",
+      "vercelTeamId",
+      "productionProjectRef",
+      "acceptanceProjectRef"
+    ],
+    "scope": "GET-only control-plane identity, existing deployment tuple and source, READY rollback target, domain mappings and unchanged metadata hashes. Missing targets refuse. Not runtime-origin verification, hosted contract acceptance, rollback execution proof or release authority."
+  },
+  "oldProductionToolsNotExecuted": {
+    "scripts/rcap-production-canary.mjs": "May create --prod --skip-domain deployment if staged candidate missing. Not read-only.",
+    "scripts/rcap-production-canary-smoke.mjs": "Executes synthetic SQL inside ROLLBACK; not read-only.",
+    "scripts/rcap-production-activate.mjs": "Promotes and may rollback deployment; outside task."
+  },
+  "productionTouched": false,
+  "hostedWrites": false,
+  "jobsDispatched": 0,
+  "appCodeEdited": false,
+  "releaseAuthorityGranted": false
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "command": [
+      "node",
+      "--check",
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/syntax.log",
+    "output": ""
+  },
+  {
+    "command": [
+      "node",
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "--self-test-fix88"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/binding-selftest.log",
+    "output": "FIX88 source-independent binding regression: PASS (page 18 only, no diversion spill, whole-row withholding blocks both writers, deterministic synthetic bytes, source geometry drift denied; no packet acceptance)\n"
+  },
+  {
+    "command": [
+      "node",
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "--self-test"
+    ],
+    "exitCode": 1,
+    "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/existing-selftest.log",
+    "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: NJ-CN-10557: exact map names an unavailable fixture fact participant.state_zip\n    at selfTest (file:///workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2617:14)\n    at runEastFamily (file:///workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:6616:45)\n    at file:///workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:6639:9 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n"
+  },
+  {
+    "command": [
+      "node",
+      "node_modules/eslint/bin/eslint.js",
+      "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
+    ],
+    "exitCode": 0,
+    "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/eslint.log",
+    "output": "\n/workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs\n  370:36  warning  '_paRow1ChargeCell' is assigned a value but never used  @typescript-eslint/no-unused-vars\n\n\u2716 1 problem (0 errors, 1 warning)\n\n"
+  }
+]

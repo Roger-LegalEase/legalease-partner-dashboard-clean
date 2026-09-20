@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX52-WV-RASTER-BOOKKEEPING",
+  "assignmentId": "FIX52",
+  "assignedBase": "ed7c93900",
+  "branch": "fix52-wv-raster-bookkeeping",
+  "laneKind": "repair",
+  "scope": "ARTIFACTS only, on the one granted family wv_dui_deferral_expungement-set. Bookkeeping: 22 stale committed page images removed. No PDF, no builder, no field map, no shared record, no queue and no other family was touched.",
+  "rows": [
+    {
+      "itemId": "wv_dui_deferral_expungement-set",
+      "familyId": "wv_dui_deferral_expungement-set",
+      "jurisdiction": "WV",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs (not edited by this lane)",
+      "verdictRepaired": {
+        "lane": "vf04",
+        "wave": "VF04-WV-READ-20260905",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "30a8b3b71",
+        "failedObligationNames": ["ARTIFACTS"]
+      },
+      "obligationsRepaired": ["ARTIFACTS"],
+      "obligationsThisRowDoesNotDischarge": [
+        "This lane built none of the packet bytes and verifies none of them. No obligation is scored here and no verdict is written; an independent read of this family after this deletion is owed and is not performed here.",
+        "The owner re-review of this family, which FIX07 recorded as owed and which FIX46 made more urgent by moving the pinned bytes a second time, remains owed on canonical d3fd5538.. and boundary 776a7006... This lane neither performed it nor supplied page images for it; the images a re-review should open are the ones the central raster gate renders, workflow run 33977742636, not local files in this directory."
+      ],
+      "grantsConfirmed": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX52 wv_dui_deferral_expungement-set -> CLAIM_OK FIX52 wv_dui_deferral_expungement-set (repair, grant set 30b4589e8897ff78), exit 0"
+      ],
+      "fixtureIdentityConfirmedBeforeAnyEdit": {
+        "canonicalOnDisk": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+        "boundaryOnDisk": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+        "equalToVf04": true,
+        "note": "Recomputed with sha256sum from the bytes on disk at ed7c93900 before anything was changed. Both equal the digests VF04 read and the digests the live receipt binds."
+      },
+      "whatChanged": "DELETION ONLY, 22 FILES, ONE TREE. Removed with `git rm -r` on the exact path data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/raster: raster/canonical/page-01..11/page.png and raster/boundary/page-01..11/page.png. All 22 were last written at e0a02788b ('build to state_built') and depict a layout superseded twice, at 049b6d615 (FIX07) and 484718a33 (FIX46); raster/canonical/page-04/page.png showed the pre-repair bare route-key sheet. Nothing else in the family changed: reports/rendered-artifacts.json was NOT edited and its rasterSkipped true / rasterPages [] / everyPageRastered false / rasterEngine null now describe the committed directory exactly, which is what the repair asked for. WHY DELETION IS THIS FAMILY'S CONVENTION AND NOT AN INVENTED ONE: the builder does own a raster path (it renders unless --no-raster, scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs lines 1037-1058) but the family's last build ran with --no-raster, which is why the record already says rasterSkipped true; and the sibling custom-pleading families do NOT commit rasters as a class -- of the 96 directories matching data/rcap-all50/overlays/census-v1/*/*--custom-pleading, 74 ship no raster/ tree at all and 22 do, and at least one of those 22 (ms/ms-nonadj-set--custom-pleading) carries the same stale-residue pattern rather than a maintained convention. Committed local page images are build residue here; the authoritative raster is central, .github/workflows/rcap-packet-raster-acceptance-batch.yml, whose run 33977742636 is bound by hash to the two fixtures on disk. Deletion also adds no new bytes and cannot go stale again.",
+      "reRenderConsideredAndWhyNotTaken": "The alternative was measured rather than assumed. scripts/raster/pdf-page-raster.mjs resolves Chromium in this container and rasterizePageCalibrated succeeded on the current canonical.pdf; two renders of canonical page 4 produced byte-identical PNGs (aac0fdcc12621..), so a re-render was technically available and locally deterministic. It was not taken because the second half of the condition fails: sibling custom-pleading families do not commit rasters as a convention (74 of 96 have none), so committing 22 fresh binaries here would have been this lane inventing a convention rather than following one. The probe images were written under /tmp/fix52-probe and deleted after measuring.",
+      "noPdfByteMoved": {
+        "method": "The whole family directory at the base was copied to /tmp/fix52-before before any change. The builder was then run twice with --no-raster and md5 taken over every file in the family directory after each run.",
+        "twoRunsIdentical": true,
+        "rebuildMatchesCommittedTree": "git status --porcelain was empty after both rebuilds (before the deletion was staged): the builder reproduces the committed bytes exactly, fixtures included.",
+        "canonicalBefore": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+        "canonicalAfter": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+        "boundaryBefore": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+        "boundaryAfter": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782"
+      },
+      "digests": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256Before": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+          "sha256After": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+          "byteLengthBefore": 25304,
+          "byteLengthAfter": 25304,
+          "pagesBefore": 11,
+          "pagesAfter": 11
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256Before": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+          "sha256After": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+          "byteLengthBefore": 25786,
+          "byteLengthAfter": 25786,
+          "pagesBefore": 11,
+          "pagesAfter": 11
+        },
+        "digestsMovedInThisLane": false
+      },
+      "acceptanceReceipt": {
+        "unchanged": true,
+        "state": "RASTER_PASS",
+        "workflowRunId": "33977742636",
+        "jobId": 101337729588,
+        "renderedCommitSha": "b35fbc6edad561b60e6b078d1fd965d5c343bf06",
+        "boundToCanonicalSha256": "d3fd553816fc4666a47cd1e3a8ff49f0d867c2a9884cd978bb5c27326b81793e",
+        "boundToBoundarySha256": "776a7006a0a441823981cfb65ec01c79843aff271e59e365d372827f3c9ff782",
+        "note": "product-wiring.json was not opened for editing and still binds these two digests, which are the bytes on disk. Because no PDF byte moved, the receipt keeps binding and nothing new is owed from the central gate on account of this repair."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after, and VF04 said why that is the starting condition rather than the answer: the counters read the two fixture PDFs and the field map, and no instrument in this factory opens a PNG. The defect was in files no counter measures, and its repair moves no counter.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set -> PASS_COMPLETE, 15/46 written, nine counters zero, exit 0. Run before the deletion and again after.",
+        "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0",
+        "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 3 by clearSourceCarriedTextValues, exit 0",
+        "deterministicRebuild": "builder run twice with --no-raster; md5 over every file in the family directory identical across the two runs, and git status empty against the committed tree, exit 0 both runs"
+      },
+      "preflight": {
+        "worktree": "/home/user/fix52-worktree, branch fix52-wv-raster-bookkeeping from ed7c93900 on claude/legalease-sprint-captain-utucnw",
+        "coreSparseCheckout": "false",
+        "skipWorktreeBits": 0,
+        "privateCorpus": "mounted at private/ as a real directory whose children are symlinks into /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written. A bare symlink at private/ makes the checker's git check-ignore test fail for the mount rather than the repository, which is the failure VF04 and FIX46 recorded; mounting the children individually clears it.",
+        "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+        "masterLibrarySourceDir": "exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 as scripts/verify-packet-build-environment.mjs resolves it",
+        "environmentCheck": "node scripts/verify-packet-build-environment.mjs --family wv_dui_deferral_expungement-set -> PACKET_BUILD_ENVIRONMENT_NOT_READY, 12/13 registered checks passing, 4 not applicable, 1 failing. The single failure is corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled, the same pre-existing Alabama gap (LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf) that FIX08, FIX41, FIX46 and VF04 each recorded at their own bases. This family binds zero source binaries, so no source of its own is implicated, and this lane rendered nothing that a source could reach.",
+        "beforeBytes": "the whole family directory at the base was copied to /tmp/fix52-before before the first change; deleted after measuring",
+        "rasters": "/tmp/fix52-probe, deleted after measuring",
+        "otherWorktreesTouched": 0,
+        "subagentsCreated": 0
+      },
+      "whatWasNotDone": [
+        "INDEPENDENT VERIFICATION. This lane repaired the bookkeeping and verifies none of it. No obligation was scored, no verdict written; an independent read of the family after this deletion is owed.",
+        "THE WV OWNER RE-REVIEW. Still owed on canonical d3fd5538.. and boundary 776a7006... This lane supplied no page images for it and performed no visual review; a reviewer opens the fixtures, or the central gate's render of them.",
+        "No queue was opened: RASTER_QUEUE.json and MASTER_QUEUE.json were not read for editing and were not changed. No legal record, specification or fulfillment-authority entry was touched. No builder logic changed. No other family was touched."
+      ],
+      "filesChanged": [
+        "removed: data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/raster/canonical/page-01..11/page.png (11 files)",
+        "removed: data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/raster/boundary/page-01..11/page.png (11 files)",
+        "added: data/rcap-grade-a/packet-factory-24h/fix52/rows.json",
+        "modified (separate commit): data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row repairs one bookkeeping obligation. It promotes nothing, opens no route and grants no approval."
+    }
+  ]
+}

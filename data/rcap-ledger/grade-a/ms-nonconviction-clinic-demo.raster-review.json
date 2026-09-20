@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "rcap-grade-a-raster-review/v2",
+  "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "packetFamily": "ms-nonconv-set",
+  "reviewedOn": "2026-09-03",
+  "rasterizer": "pdftoppm 150dpi",
+  "pageDimensions": "1275x1650 RGB PNG",
+  "status": "AUTHOR_AND_INDEPENDENT_VISUAL_REVIEW_PASS_COUNSEL_AND_PREVIEW_ACCEPTANCE_HELD",
+  "reviewScope": "All 25 pages of the final 12-page canonical and 13-page boundary artifacts were inspected as rendered pixels for clipping, overlap, wrapping, caption fidelity, allegation continuity, signature ownership, jurat completeness, confidential-identifier isolation, service text, and instruction pagination. Text bounding-box scans found zero out-of-page words.",
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "sourcePdfSha256": "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+      "pageCount": 12,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-rasters/canonical",
+      "pageSha256": [
+        "2bad876006b0b8740d4f3d7bdaf7d6c65a7c85d3e4846928d3d0c3737f9a46e4",
+        "610cadc6085b189648bcacb4e78b626cde6f45afe3e48054955a640faad4d2e7",
+        "f85dceaa6d7f54a24f859dbf178c803b56862fb629e3d16b4449dbcf71c3996b",
+        "53d7223a994b85f4b00100b2805b85901d5df82a0a272ce58ec94f1fae3001c5",
+        "67440fae44f13645c8d822354c21f2c44ccaf301be99f2c695bd1ee605c2d8a3",
+        "7b622726e9f670e778db675527827e0da6102c9c4cc66efbae2bd5e3da0005b6",
+        "a8c0b48dfb54a94905eac61abb3523af8c6789e076fe58bb0e89264a67fe1d97",
+        "48095f4fcc246b9df6ca7f43834027f02ee4a18910486adba664a6b5b5ca02d4",
+        "dee4c33fad5f4df9af83cccf3ada1357dd44dd78074800f89f873c43c9c3ece1",
+        "b956e0375c7fddc6a21f794c89ec15a6fecc65a17fae54f1d48b300ea7af37d0",
+        "516b822abdbcaf5ff5aaaae6b52b37ca37e358c43c7720d47346693112e2f00d",
+        "8e75f584ccbac3141b0940dab6ab291095a3c9c1cb0a524f26ab74433bb32505"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "sourcePdfSha256": "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4",
+      "pageCount": 13,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-rasters/boundary",
+      "pageSha256": [
+        "2bad876006b0b8740d4f3d7bdaf7d6c65a7c85d3e4846928d3d0c3737f9a46e4",
+        "83884b6e7a9d3346c711d350f848249ab17fbf3fd80c0841113f92fc3a7a826a",
+        "8faf3083e322e0fc04790d2589549a161f0ce31c695aefb921a60dfac1bc6bf6",
+        "c8b1fbd9e20266ec72f5157d7e3dc602f7eda7bb58a3284770a93fbef18a87a4",
+        "375043c3d6f3d194ec52e3969a25783d4d974dcccd0c3b1df2c54b692361cfb1",
+        "b6b10d2414de9f392809f431c21e5a662ba35f238233cc538532d3b46f23406c",
+        "919171be81e98456ac39b164bc54ea34fcb7cfcd583bc026df2ef8d1c11624fc",
+        "b79d951bc6f3d5fa2ab08c1161a21d995e6366a42107649787b08597cd26ad10",
+        "f9c9b018fbc4194d62df44038fe67667ad7ef08dda567eaf80f2a004ea49fd08",
+        "4a1de7ab647c5fdc2dbb00c279930df56f6e1e856c33a6e4a58a62261a1e8df8",
+        "4af3ce3be09968257b18bb01a9e319e8f0b2ff5387e1555eb9548f472715ec52",
+        "516b822abdbcaf5ff5aaaae6b52b37ca37e358c43c7720d47346693112e2f00d",
+        "3ad1b3786ec7c38ce3716ef12aa16c0b29f6cf511b33bc7790e04461ce48fed9"
+      ]
+    }
+  ],
+  "defects": [
+    {
+      "id": "order-identity-classification-omitted",
+      "severity": "content",
+      "status": "closed",
+      "foundIn": "proposed-order identity block",
+      "resolution": "The charge classification is now rendered in the petition, proposed order, and confidential MCIC processing copy from the same verified fact."
+    },
+    {
+      "id": "continuation-header-overflow",
+      "severity": "layout",
+      "status": "closed",
+      "foundIn": "boundary pleading continuation pages",
+      "resolution": "The court name and case number now occupy separate continuation-header lines; the final boundary bounding-box scan reports zero out-of-page words."
+    },
+    {
+      "id": "service-address-punctuation",
+      "severity": "content",
+      "status": "closed",
+      "foundIn": "canonical and boundary service guidance",
+      "resolution": "Template interpolation collapses an isolated doubled full stop while preserving a required sentence boundary for values with or without terminal punctuation."
+    },
+    {
+      "id": "duplicated-order-entry-line",
+      "severity": "layout",
+      "status": "closed",
+      "foundIn": "proposed-order judicial signature block",
+      "resolution": "The proposed order now displays a single dated SO ORDERED AND ADJUDGED line."
+    },
+    {
+      "id": "guidance-paragraph-widow",
+      "severity": "layout",
+      "status": "closed",
+      "foundIn": "filing-instructions timeline",
+      "resolution": "Guidance paragraphs are preflighted as units before pagination, and the final instruction section occupies two readable pages without a stranded continuation line."
+    }
+  ],
+  "independentReview": {
+    "status": "passed",
+    "reviewer": "independent worker /root/ms_independent_review",
+    "reviewedAt": "2026-09-03",
+    "reviewedCommit": "03080f39222a9e6c609b2e319cdc5bf1c8639f6f",
+    "reviewedArtifacts": [
+      {
+        "fixture": "canonical",
+        "sha256": "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40"
+      },
+      {
+        "fixture": "boundary",
+        "sha256": "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+      }
+    ],
+    "summary": {
+      "pass": 15,
+      "fail": 0,
+      "hold": 0
+    },
+    "obligations": [
+      {
+        "label": "ROUTE_IDENTITY",
+        "verdict": "pass",
+        "finding": "The exact Mississippi route is consistently bound in the v2 specification, fulfillment record, wiring, fixtures, and runtime."
+      },
+      {
+        "label": "SOURCE_IDENTITY",
+        "verdict": "pass",
+        "finding": "The statute, design inputs, Lawrence formatting reference, MCIC authority, and notary authority are identified; freshness and legal approval remain external counsel holds."
+      },
+      {
+        "label": "COMPONENT_SET",
+        "verdict": "pass",
+        "finding": "Exactly five required components render: cover, petition, proposed order, service and attachment checklist, and filing instructions."
+      },
+      {
+        "label": "KNOWN_PREFILLS",
+        "verdict": "pass",
+        "finding": "Only verified synthetic fixture facts are populated; docket style is supplied rather than inferred, and act-owned fields remain blank."
+      },
+      {
+        "label": "REQUIRED_BEFORE_FILING",
+        "verdict": "pass",
+        "finding": "Participant delivery requires affirmative arrest and release facts, an enumerated protected MCIC method, a valid nonfuture court-confirmation date, a confirmed service address, and exact inserted Exhibit A and B states."
+      },
+      {
+        "label": "ROUTE_OPTIONS",
+        "verdict": "pass",
+        "finding": "The qualifying dispositions are covered, impact text is conditional on confirmation, and no fingerprint carveout appears."
+      },
+      {
+        "label": "REPEATING_ROWS",
+        "verdict": "pass",
+        "finding": "Long identity values and recordkeeping-agency content wrap in the boundary artifact without truncation."
+      },
+      {
+        "label": "PROTECTED_FIELDS",
+        "verdict": "pass",
+        "finding": "The full SSN appears only in the confidential MCIC addendum; public filings use the last four and service excludes the addendum."
+      },
+      {
+        "label": "ARTIFACTS",
+        "verdict": "pass",
+        "finding": "Current composition reproduces both checked-in PDF hashes byte-for-byte, and all 25 raster hashes match this receipt."
+      },
+      {
+        "label": "PAGE_ORDER",
+        "verdict": "pass",
+        "finding": "Both artifacts preserve the required component order, including the separately captioned order and confidential addendum."
+      },
+      {
+        "label": "CLIPPING_AND_OVERLAP",
+        "verdict": "pass",
+        "finding": "All 25 pages were inspected with no clipping, overlap, orphaned caption, or broken continuation header."
+      },
+      {
+        "label": "FILING_DESTINATION",
+        "verdict": "pass",
+        "finding": "Instructions direct filing to the court of origin and require confirmation of case numbering, local form, and filing method."
+      },
+      {
+        "label": "FEE_AND_WAIVER",
+        "verdict": "pass",
+        "finding": "No universal fee is guessed; the participant must confirm the fee and locally accepted waiver process."
+      },
+      {
+        "label": "SERVICE",
+        "verdict": "pass",
+        "finding": "The prosecutor, address, timing, and local practice must be confirmed; service fields stay blank until service and confidential identifiers are excluded."
+      },
+      {
+        "label": "SELF_HELP_STOP",
+        "verdict": "pass",
+        "finding": "Ambiguous dispositions, uncertain venue, diversion or nonadjudication, pending matters, prosecutor issues, and immigration concerns trigger explicit stops."
+      }
+    ],
+    "externalHolds": [
+      "Named Mississippi counsel must confirm current law and approve the exact output artifacts.",
+      "The classified nonproduction Preview journey has not been executed."
+    ],
+    "visualFinding": "All 25 exact final page rasters pass direct pixel inspection; continuation header bands, body content, and footers remain inside their margins.",
+    "nonblockingPolish": "The implementation plan is stored under docs/superpowers/plans/2026-09-03-ms-clinic-filing-revision.md; no filing artifact change is needed."
+  },
+  "remainingReview": "Author and independent visual review pass for the exact final hashes. Named Mississippi counsel and current-source review plus the classified nonproduction Preview journey remain held. This receipt grants no delivery authority."
+}

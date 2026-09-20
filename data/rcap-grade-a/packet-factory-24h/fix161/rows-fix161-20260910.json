@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "rcap-grade-a-lane-rows/v1",
+  "lane": "FIX161",
+  "laneKind": "complex_execution_repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/fixb-worktree",
+  "branch": "lane-fix161-20260910",
+  "repairedAtBase": "7d422c879f6eeac2ef9b2e36963750f771a3e147",
+  "respondingTo": "vf53 FAIL_REPAIR_REQUIRED on il-seal-2yr-set and oh_marijuana_expungement-set, FEE_AND_WAIVER alone, 14 of 15 obligations PASS on each. data/rcap-grade-a/packet-factory-24h/vf53/rows-vf53-20260910.json. vf53 established that the Illinois directive spans il-seal-2yr, il-seal-3yr and il-seal-edu and asked for it to be dispatched once across the three rather than family by family, which is why this lane holds all three even though only il-seal-2yr carries a recorded failure.",
+  "grantSet": "3fe402001547fb1c",
+  "claimCommandsRun": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX161 il-seal-2yr-set -> CLAIM_OK, exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX161 il-seal-3yr-set -> CLAIM_OK, exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX161 il-seal-edu-set -> CLAIM_OK, exit 0",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX161 oh_marijuana_expungement-set -> CLAIM_OK, exit 0"
+  ],
+  "restartRecovery": {
+    "whatHappened": "A container restart interrupted this lane mid-run. Nine files survived uncommitted: scripts/lib/il-sealing-unpaid-financial-obligation.mjs (new), edits to the il-seal-2yr, il-seal-3yr, il-seal-edu and nj_arrest_no_conviction builders, and regenerated participant-instructions.md for il-seal-2yr, il-seal-3yr, il-seal-edu and oh-marijuana-expungement.",
+    "whatWasDoneWithIt": "Reviewed against the committed record, then committed UNCHANGED as 1eb332331cfb8726d14a3fb8dfccde62b1757d54 before any build was run, so a second restart could not destroy it. Every later step is a separate commit on top. No rebase and no reset; the branch stayed on 7d422c879.",
+    "wasAnyOfItWrong": "No. Every claim in it was checked against the committed record before committing and each one held. The four registry packetInstructions read as the surviving code quotes them; both Illinois statutory cites, 20 ILCS 2630/5.2(a)(1)(M) and 20 ILCS 2630/5.2(d)(6)(C), are in the authority array of all three Illinois tracks; the Illinois and Ohio provenance sourceStatements read as quoted in data/record-clearing/legal-design-intake/IL.memo.json and OH.memo.json; and the Ohio guide's 'payable at filing' phrasing traces to that track's manualCompletionItems entry 'Presented to the clerk at filing'. Nothing was rewritten.",
+    "wasItBuilderProducedOrHandEdited": "Builder-produced, and this was proved rather than assumed. Rebuilding all four families from the committed builders left `git status --porcelain` completely empty, so the committed participant-instructions.md for each family is exactly the byte sequence its builder emits. No hand-edited markdown is present in any of the four families.",
+    "njArrestNoConviction": "Not this lane's family and not rebuilt. The interrupted run's only edit to scripts/build-census-v1-nj_arrest_no_conviction-set.mjs is additive and track-guarded on tracks.includes(\"oh_marijuana_expungement\"), because that script is the shared build host for oh_marijuana_expungement-set as product-wiring.json's maintenanceRelationship.sharedBuildHost records. The Ohio family was rebuilt through its own entry point scripts/build-census-v1-oh_marijuana_expungement-set.mjs, which calls runEastFamily(\"oh_marijuana_expungement-set\") and builds that family alone. All 99 files of nj-arrest-no-conviction-set--official-pdf-fill were sha256'd before and after every build in this lane and every one is byte-identical."
+  },
+  "scopeHeldTo": "Four packet families. No shared manifest under data/rcap-grade-a/packet-factory-24h/ was edited except this lane's own fix161/ directory. No route change, no runtime change, no production, no push.",
+  "builtAnything": "Rebuilt all four families from their committed builders, as determinism controls and to prove the committed guidance is builder-produced. No fixture byte moved in any of them.",
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "theDeterminismControlRanFirst": "Yes, for every family, and against the PRE-REPAIR builder rather than the repaired one, which is the control that actually distinguishes a deterministic builder from a deterministic edit. For each family the builder as it stood at 7d422c879 was extracted with `git show` to a temporary file under scripts/ (so its relative imports resolved), run with MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1, and `git status --porcelain` read over the whole worktree afterwards. In all four cases the pre-repair builder reproduced the committed canonical and boundary PDFs bit-identically and the ONLY modified path was that family's participant-instructions.md, reverted to its pre-repair text. The repaired builder was then run and `git status --porcelain` came back completely empty. Two runs, two controls: the first proves the guidance sentence is the only thing this repair moves, the second proves the committed bytes are exactly what the committed builders produce. All temporary control files were deleted; none was committed.",
+  "theOneSharedCauseTheGrantAskedAbout": "Both registries carry a participant-facing money statement in packetInstructions that no packet carried, and in both jurisdictions the statement answers the same question: whether money still owed on the case has to be cleared before the participant can file. It does not, in either state, and the record says so in each. vf53 measured zero hits for it across every guidance file and the delivered PDF text of both families. The harm is identical in shape too: a participant who owes money and is not told may wait, or not file at all, on a misunderstanding this repository already holds the answer to.",
+  "howTheRepairWasMade": "Guidance only, in participant language, in the section of each guide that vf53 named. The registry entries are build directives addressed to the builder, not participant prose, so they were carried by substance rather than reproduced verbatim; printing a build directive into a participant guide is its own defect and the sibling il-seal-nonconv-set demonstrates it (see outOfScopeObservedNotActedOn). Because the identical Illinois directive sits on all three Illinois tracks, the Illinois sentence is rendered from ONE exported constant in scripts/lib/il-sealing-unpaid-financial-obligation.mjs and imported by all three builders, so the three families cannot drift apart and there is one place to change it. The two builders that read the registry (il-seal-2yr, il-seal-3yr) additionally call assertRegistryStillDirectsTheUnpaidFinancialObligationNote, which throws if the directive ever leaves the registry, so the build refuses rather than shipping a legal statement under an authority the record has dropped. il-seal-edu's builder does not read the registry and imports the constant alone.",
+  "rows": [
+    {
+      "itemId": "il-seal-2yr-set",
+      "familyId": "il-seal-2yr-set",
+      "jurisdiction": "IL",
+      "disposition": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "wasTerminalBeforeThisLane": false,
+      "bytesBeforeRepair": {
+        "canonical": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+        "boundary": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e"
+      },
+      "bytesAfterRepair": {
+        "canonical": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+        "boundary": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e"
+      },
+      "pdfBytesMoved": false,
+      "whyNot": "The repair is one paragraph in participant-instructions.md. The delivered PDFs are fills of official AOIC forms; participant guidance has no place on them and adding prose to an official form would be a source-fidelity defect as well as a byte movement. Both fixtures were re-hashed off disk after the rebuild and both are unchanged.",
+      "acceptanceReceiptStillBinds": "Unchanged by this lane, and still in product-wiring.json. The receipt (workflowRunId 34407406641, verdict RASTER_PASS) binds canonical 090c596e..., which still matches. Its boundary coverage did NOT bind before this lane and does not now: vf53 recorded that the receipt binds boundary 9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553, which does not exist on disk, because FIX06 at cb736b20a moved the boundary to cb8874f3... That is pre-existing debt this lane neither created nor cleared.",
+      "freshCentralRasterOwed": "NO on account of this lane, which moved no fixture byte. The pre-existing boundary raster debt vf53 recorded is unchanged and still owed by whoever integrates FIX06's byte movement.",
+      "filesChanged": [
+        "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill/participant-instructions.md",
+        "scripts/build-census-v1-il-seal-2yr-set.mjs",
+        "scripts/lib/il-sealing-unpaid-financial-obligation.mjs"
+      ],
+      "filesDeliberatelyNotTouched": [
+        "fixtures/canonical.pdf and fixtures/boundary.pdf, for the reason in whyNot",
+        "product-wiring.json, so the RASTER_PASS receipt is left exactly as the raster owner wrote it",
+        "approval-request.json and reports/rendered-artifacts.json, whose recorded digests still match the bytes on disk",
+        "filing-instructions.md, which is a filing-mechanics document and not where vf53 located the obligation"
+      ],
+      "obligationResults": {
+        "FEE_AND_WAIVER": {
+          "resultBefore": "FAIL",
+          "resultAfterThisLane": "REPAIRED_BUT_NOT_SELF_SCORED",
+          "whyNotSelfScored": "This lane made the repair and does not score its own work. An obligation verdict on this family is owed to a lane that is not FIX161.",
+          "whatWasCarried": "One paragraph, placed as the last paragraph of the guide's 'What it costs, and the waiver' section, which is the section vf53 named: '**Unpaid fines and fees do not delay sealing.** A sentence terminates notwithstanding any outstanding financial legal obligation; \"terminate\" at § 5.2(a)(1)(M) covers unsatisfactory as well as satisfactory termination. Section 5.2(d)(6)(C) bars denial of a sealing petition for an unsatisfied financial obligation. If you still owe fines or fees on a case, that is not a reason to wait before filing. The one exception § 5.2(d)(6)(C) carries is court-ordered restitution, which is excluded unless it has been converted to a civil judgment.'",
+          "traceability": "The directive is packetInstructions[3] of track il-seal-2yr in data/record-clearing/legal-design-track-registry.json. The termination half is the sourceStatement of that instruction's own provenance in data/record-clearing/legal-design-intake/IL.memo.json: 'Terminate at (a)(1)(M) includes satisfactory or unsatisfactory termination, and a sentence is terminated notwithstanding any outstanding financial legal obligation.', from LegalEase-Illinois-Legal-Review-2026-07-30.md heading TRACK F. The denial half and the restitution carve-out are the directive's own words. Both cites are in this track's own authority array, and vf53 recorded that the route's statutoryOrAuthority string in the committed route-obligation census ends with 20 ILCS 2630/5.2(d)(6)(C).",
+          "whatWasDeliberatelyNotSaid": "The consequence of a court-ordered restitution obligation that has NOT been converted to a civil judgment. The record states the carve-out and stops; it does not say whether such an obligation can support denial. The guide reports the carve-out exactly as far as the record carries it and no further. Nothing the record leaves open is resolved and no rule is stated more strongly or more weakly than the record states it."
+        }
+      },
+      "countersThisLaneDidMeasure": {
+        "hitsForRestitutionInParticipantInstructions": 1,
+        "hitsFor52d6CInParticipantInstructions": 2,
+        "hitsForUnpaidCaseInsensitiveInParticipantInstructions": 1,
+        "hitsForOutstandingInParticipantInstructions": 1,
+        "hitsForAllFourTermsInFilingInstructions": 0,
+        "hitsForAllFourTermsInDeliveredCanonicalPdfText": 0,
+        "note": "vf53 measured zero for all four terms in all three surfaces. The guidance counters have moved off zero; the PDF-text counter is deliberately still zero, and filing-instructions.md is deliberately still zero. Measured with grep -o -F over the file and, for the PDF, over pdftotext output of the delivered canonical."
+      },
+      "countersThisLaneDidNotMeasure": {
+        "addedGlyphs": null,
+        "flattenedWidgetAppearances": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "rasterPixelCounts": null,
+        "whyAllNull": "This lane moved no PDF byte and rendered no raster, so it measured none of these. They are null because nothing was measured, not zero. vf53's measurements of them stand and are unaffected by a guidance-only change."
+      }
+    },
+    {
+      "itemId": "il-seal-3yr-set",
+      "familyId": "il-seal-3yr-set",
+      "jurisdiction": "IL",
+      "disposition": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill",
+      "wasTerminalBeforeThisLane": true,
+      "terminalStatusBefore": "COMPLETE_PACKET_PROVEN. product-wiring.json carries acceptanceReceipt verdict RASTER_PASS (workflowRunId 34407406641) bound to canonical a41c124a..., coversTheWholeFamily true, and lastIndependentVerification PASS_COMPLETE_INDEPENDENT by lane vf03 at b8a2495f4a84bff00aeb268c81deec6114dc581b.",
+      "bytesBeforeRepair": {
+        "canonical": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433",
+        "boundary": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb"
+      },
+      "bytesAfterRepair": {
+        "canonical": "a41c124a35be3eedc5442be0a9fdb900c3f36a026416ac4ca7675f8a36bfb433",
+        "boundary": "c8ca89313c78de63db38d91eaa00164e034e6a319070dbf591d38a537c01e9fb"
+      },
+      "pdfBytesMoved": false,
+      "whyNot": "This is the question the grant asked to be decided deliberately rather than discovered afterwards, so it was decided first and then verified in bytes. The repair is one paragraph of participant guidance. product-wiring.json's own re-raster condition is 'any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered', and the receipt's boundToCanonicalSha256 is the canonical PDF digest. participant-instructions.md is not a fixture and is not bound by the receipt. So the statement was placed where it belongs on its merits — an official AOIC form fill is the wrong place for participant prose in any case — and that choice happens also to cost nothing. Nothing forced a byte to move, and none did: after rebuilding from the repaired builder, `git status --porcelain` was completely empty and both fixtures re-hash to their pre-repair digests.",
+      "acceptanceReceiptStillBinds": "YES. boundToCanonicalSha256 a41c124a... equals the canonical digest hashed off disk after the rebuild. The receipt block in product-wiring.json was not touched and was not stripped by the rebuild; the file is unmodified in `git status`. This family is still terminal and owes no fresh raster.",
+      "freshCentralRasterOwed": "NO. No fixture byte moved, so the proven family is not withdrawn and no re-raster is owed.",
+      "filesChanged": [
+        "data/rcap-all50/overlays/census-v1/il/il-seal-3yr-set--official-pdf-fill/participant-instructions.md",
+        "scripts/build-census-v1-il-seal-3yr-set.mjs",
+        "scripts/lib/il-sealing-unpaid-financial-obligation.mjs"
+      ],
+      "filesDeliberatelyNotTouched": [
+        "fixtures/canonical.pdf and fixtures/boundary.pdf, because moving them would withdraw a proven family and owe a fresh raster for no gain",
+        "product-wiring.json, so the RASTER_PASS receipt and the vf03 PASS_COMPLETE_INDEPENDENT record are left exactly as their owners wrote them"
+      ],
+      "obligationResults": {
+        "FEE_AND_WAIVER": {
+          "resultBefore": "NOT_SEPARATELY_SCORED_BY_VF53_ON_THIS_FAMILY",
+          "resultAfterThisLane": "REPAIRED_BUT_NOT_SELF_SCORED",
+          "whyThisFamilyWasInScope": "vf53 did not verify this family. It established from the registry that the identical directive sits on il-seal-2yr, il-seal-3yr and il-seal-edu, that none of the three families carried it, and asked for it to be dispatched once across the three. This lane confirmed that independently: the packetInstructions entry on il-seal-3yr is character-for-character the entry on il-seal-2yr, and the pre-repair guide carried zero hits for restitution, 5.2(d)(6)(C), unpaid and outstanding.",
+          "whatWasCarried": "The same paragraph as il-seal-2yr, from the same shared constant, placed as the last paragraph of the same 'What it costs, and the waiver' section.",
+          "traceability": "packetInstructions[3] of track il-seal-3yr, identical to il-seal-2yr's. Both 20 ILCS 2630/5.2(a)(1)(M) and 20 ILCS 2630/5.2(d)(6)(C) are in this track's own authority array.",
+          "whatWasDeliberatelyNotSaid": "As il-seal-2yr: the consequence of an unconverted court-ordered restitution obligation, which the record does not state."
+        }
+      },
+      "countersThisLaneDidMeasure": {
+        "hitsForRestitutionInParticipantInstructions": 1,
+        "hitsFor52d6CInParticipantInstructions": 2,
+        "hitsForUnpaidCaseInsensitiveInParticipantInstructions": 1,
+        "hitsForOutstandingInParticipantInstructions": 1,
+        "hitsForAllFourTermsInFilingInstructions": 0,
+        "canonicalDigestMatchesAcceptanceReceipt": true
+      },
+      "countersThisLaneDidNotMeasure": {
+        "addedGlyphs": null,
+        "flattenedWidgetAppearances": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "rasterPixelCounts": null,
+        "whyAllNull": "No PDF byte moved and no raster was rendered, so none of these was measured. Null, not zero."
+      }
+    },
+    {
+      "itemId": "il-seal-edu-set",
+      "familyId": "il-seal-edu-set",
+      "jurisdiction": "IL",
+      "disposition": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill",
+      "wasTerminalBeforeThisLane": true,
+      "terminalStatusBefore": "COMPLETE_PACKET_PROVEN. product-wiring.json carries acceptanceReceipt verdict RASTER_PASS (workflowRunId 34352802308) bound to canonical 1c7dd513..., coversTheWholeFamily true, and lastIndependentVerification PASS_COMPLETE_INDEPENDENT by lane vf03 at d4653b258e2b09eebad4ec2b51edadbf9a26ae98.",
+      "bytesBeforeRepair": {
+        "canonical": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "boundary": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518"
+      },
+      "bytesAfterRepair": {
+        "canonical": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "boundary": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518"
+      },
+      "pdfBytesMoved": false,
+      "whyNot": "Same decision and same proof as il-seal-3yr-set. Guidance-only repair; participant-instructions.md is not a fixture and is not what the acceptance receipt binds. Rebuild from the repaired builder left `git status --porcelain` completely empty and both fixtures re-hash to their pre-repair digests.",
+      "acceptanceReceiptStillBinds": "YES. boundToCanonicalSha256 1c7dd513... equals the canonical digest hashed off disk after the rebuild. The receipt was not touched and not stripped. This family is still terminal.",
+      "freshCentralRasterOwed": "NO. No fixture byte moved.",
+      "filesChanged": [
+        "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/participant-instructions.md",
+        "scripts/build-census-v1-il-seal-edu-set.mjs",
+        "scripts/lib/il-sealing-unpaid-financial-obligation.mjs"
+      ],
+      "filesDeliberatelyNotTouched": [
+        "fixtures/canonical.pdf and fixtures/boundary.pdf",
+        "product-wiring.json, so the RASTER_PASS receipt and the vf03 independent-verification record are left as their owners wrote them"
+      ],
+      "obligationResults": {
+        "FEE_AND_WAIVER": {
+          "resultBefore": "NOT_SEPARATELY_SCORED_BY_VF53_ON_THIS_FAMILY",
+          "resultAfterThisLane": "REPAIRED_BUT_NOT_SELF_SCORED",
+          "whatWasCarried": "The same paragraph, from the same shared constant. This guide has no 'What it costs, and the waiver' heading of its own — it is a shorter guide that carries the fee and Rule 298 waiver line inside 'Filing and notice' — so the paragraph was placed immediately after that fee-and-waiver sentence, which is the same position in the argument that vf53 named for the other two.",
+          "traceability": "packetInstructions[3] of track il-seal-edu, identical to il-seal-2yr's and il-seal-3yr's. Both statutory cites are in this track's own authority array.",
+          "whatWasDeliberatelyNotSaid": "As the other two Illinois families. Additionally, this track carries a SIXTH packetInstruction the other two do not — that a denied waiver petition does not forfeit the ordinary two-year or three-year route but does not accelerate it either. That entry is outside the FEE_AND_WAIVER defect vf53 found, was not part of this grant, and was not touched; it is recorded under outOfScopeObservedNotActedOn so a verifier can decide whether it is separately carried.",
+          "builderNote": "This builder does not read the track registry, so it imports the shared constant alone and is not covered by the assert that guards the other two. If the directive ever leaves the registry, the il-seal-2yr and il-seal-3yr builds fail loudly and this one does not; that asymmetry is stated rather than hidden."
+        }
+      },
+      "countersThisLaneDidMeasure": {
+        "hitsForRestitutionInParticipantInstructions": 1,
+        "hitsFor52d6CInParticipantInstructions": 2,
+        "hitsForUnpaidCaseInsensitiveInParticipantInstructions": 1,
+        "hitsForOutstandingInParticipantInstructions": 1,
+        "hitsForAllFourTermsInFilingInstructions": 0,
+        "canonicalDigestMatchesAcceptanceReceipt": true
+      },
+      "countersThisLaneDidNotMeasure": {
+        "addedGlyphs": null,
+        "flattenedWidgetAppearances": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "rasterPixelCounts": null,
+        "whyAllNull": "No PDF byte moved and no raster was rendered. Null, not zero."
+      }
+    },
+    {
+      "itemId": "oh_marijuana_expungement-set",
+      "familyId": "oh_marijuana_expungement-set",
+      "jurisdiction": "OH",
+      "disposition": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading",
+      "wasTerminalBeforeThisLane": false,
+      "bytesBeforeRepair": {
+        "canonical": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+        "boundary": "330138cf065ddac35a13d93d49ad1f2636479f71c02e63f4a60a5f9ac7b846a8",
+        "companionOfficialSource": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb"
+      },
+      "bytesAfterRepair": {
+        "canonical": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+        "boundary": "330138cf065ddac35a13d93d49ad1f2636479f71c02e63f4a60a5f9ac7b846a8",
+        "companionOfficialSource": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb"
+      },
+      "pdfBytesMoved": false,
+      "whyNot": "vf53 asked for it explicitly: 'Guidance only; keep it out of the delivered PDFs so the pleading fixtures' currently-binding raster receipt is not disturbed.' Unlike the Illinois families this one renders its own pleading prose, so a byte movement was genuinely available and was declined. Both fixtures re-hash to their pre-repair digests after the rebuild and `git status --porcelain` was completely empty.",
+      "acceptanceReceiptStillBinds": "YES, on the two pleading fixtures. The receipt (workflowRunId 33598433649, verdict RASTER_PASS) binds canonical ddf3d484... and boundary 330138cf..., and both match the digests hashed off disk after the rebuild. vf53's recorded limit is unchanged and not this lane's to clear: that receipt's documents list covers only the two pleading PDFs, and the companion BCI PDF was absent from the family directory when the raster ran, so no central raster has ever rendered the delivered companion page.",
+      "freshCentralRasterOwed": "NO on account of this lane. The companion-page coverage gap vf53 recorded is unchanged and remains a coverage question for the raster owner.",
+      "filesChanged": [
+        "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/participant-instructions.md",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "filesDeliberatelyNotTouched": [
+        "tracks/oh_marijuana_expungement/rendered/canonical/canonical.pdf and .../boundary/boundary.pdf, so the binding receipt is not disturbed",
+        "companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf, an unchanged official source",
+        "product-wiring.json, so the RASTER_PASS receipt is left as the raster owner wrote it",
+        "tracks/oh_marijuana_expungement/participant-instructions.md and companion/companion-guidance.md, for the reason recorded in whatThisLaneCouldNotRepair"
+      ],
+      "obligationResults": {
+        "FEE_AND_WAIVER": {
+          "resultBefore": "FAIL",
+          "resultAfterThisLane": "REPAIRED_BUT_NOT_SELF_SCORED",
+          "whyNotSelfScored": "This lane made the repair. An obligation verdict is owed to a lane that is not FIX161.",
+          "whatWasCarried": "One paragraph, placed as the last paragraph of the guide's 'What this costs' section, which is the section vf53 named: '**Unpaid court costs do not delay eligibility.** \"Sentence\" does not include payment of court costs, so unpaid court costs do not delay eligibility for this route. The committed Ohio legal review this packet is built from calls that a common and expensive misunderstanding, so this packet states it rather than leaving you to ask. This is separate from the application fee above, which is payable at filing unless you are indigent.'",
+          "traceability": "The directive is packetInstructions[1] of track oh_marijuana_expungement in data/record-clearing/legal-design-track-registry.json. Its provenance in data/record-clearing/legal-design-intake/OH.memo.json is OH__LEGAL-REVIEW__STATEWIDE__ohio-record-clearing-legal-review__ASOF-2026-08-01__EN.md, heading HEADLINE FINDINGS 5. The 'payable at filing' clause is this track's own manualCompletionItems entry, whereInPacket 'Presented to the clerk at filing', and the indigency clause is rules.feeWaiver, 'Indigency excuses the fee under ORC 2953.321(G)'. The directive's own second sentence — that this is a common and expensive misunderstanding — is a build instruction, so it is rendered as attribution to the legal review rather than printed as participant prose.",
+          "whatWasDeliberatelyNotSaid": "The source sentence at HEADLINE FINDINGS 5 opens by defining final discharge as completion of the sentence, parole, fines and restitution, and the court-costs point qualifies that clock. That final-discharge half is NOT carried here, because § 2953.321 imposes no waiting period at all: this track's only waitingPeriods entry is 'none. The section imposes no waiting period; what it requires is that the disposition predate the effective date'. Describing a final-discharge clock in this guide would state a rule this route does not have. The court-costs point is carried; the clock it qualifies elsewhere is not imported into a route without one.",
+          "trackGuard": "The statement is emitted only when tracks.includes('oh_marijuana_expungement'). The shared build host also builds nj-arrest-no-conviction-set and the other Ohio clean-track family, and neither sees this text. Verified in bytes: all 99 files of the NJ family are byte-identical before and after."
+        }
+      },
+      "countersThisLaneDidMeasure": {
+        "hitsForCourtCostsInTopLevelParticipantInstructions": 3,
+        "hitsForDelayEligibilityInTopLevelParticipantInstructions": 2,
+        "hitsForDoesNotIncludeInTopLevelParticipantInstructions": 1,
+        "hitsForMisunderstandingInTopLevelParticipantInstructions": 1,
+        "hitsForUnpaidInTopLevelParticipantInstructions": 1,
+        "allHitsAreOnOneLine": "Yes, line 41. There is no duplicated statement anywhere else in the file.",
+        "hitsForAllFiveTermsInTrackLevelParticipantInstructions": 0,
+        "hitsForAllFiveTermsInCompanionGuidance": 0,
+        "hitsForAllFiveTermsInDeliveredCanonicalPdfText": 0,
+        "note": "vf53 measured zero for all five terms in all four surfaces. The top-level guide has moved off zero. The other three are deliberately still zero: the PDF because vf53 asked for the change to stay out of it, and the two secondary guidance files for the reason in whatThisLaneCouldNotRepair. Measured with grep -o -i -F, and for the PDF over pdftotext output of the delivered canonical."
+      },
+      "countersThisLaneDidNotMeasure": {
+        "addedGlyphs": null,
+        "flattenedWidgetAppearances": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "rasterPixelCounts": null,
+        "whyAllNull": "No PDF byte moved and no raster was rendered. Null, not zero."
+      }
+    }
+  ],
+  "verifierRun": {
+    "verifier": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+    "actualPrintedVerdicts": {
+      "il-seal-2yr-set": "FAIL il-seal-2yr-set   NOT_MEASURABLE_HERE   44/424 written",
+      "il-seal-3yr-set": "ok   il-seal-3yr-set   PASS_COMPLETE   44/424 written",
+      "il-seal-edu-set": "FAIL il-seal-edu-set   NOT_MEASURABLE_HERE   45/424 written",
+      "oh_marijuana_expungement-set": "ok   oh_marijuana_expungement-set   PASS_COMPLETE   6/14 written"
+    },
+    "actualExitStatus": "0 on every run, including the runs that printed the word FAIL.",
+    "whyTheseVerdictsProveNothingAboutThisRepair": "This verifier has no FEE_AND_WAIVER limb and no limb of any kind that reads packetInstructions: `grep -c 'fee_and_waiver|packetInstructions'` over the file returns 0. Its nine counters are knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites and visualDefects — none of which can observe whether a guidance file carries a directed statement. It therefore CANNOT see the defect vf53 found and cannot see the repair either. Its PASS_COMPLETE on oh_marijuana_expungement-set is not evidence the family is repaired, and its NOT_MEASURABLE_HERE on the two Illinois families is not evidence it is not. It is reported here because the grant asked for the actual printed verdict and exit status, not because it carries any weight.",
+    "defectsObservedInTheVerifierItself": [
+      "Exits 0 while printing FAIL. Confirmed on this run: a full-corpus pass printed 2 FAIL_MISSING_PREFILLS, 4 FAIL_ROUTE_SELECTION and 1 FAIL_MISSING_REQUIRED_FACTS and still exited 0. This is the defect the grant warned about and it reproduces exactly.",
+      "Prints PASS_COMPLETE with nine zeros for oh_marijuana_expungement-set. This is the second defect the grant warned about and it also reproduces exactly. Those zeros are not measurements; on the same run the same nine counters printed UNMEASURED for il-seal-edu-set, so the tool is inconsistent about whether an unmeasured counter is 0 or UNMEASURED, and on this family it chose 0.",
+      "THIRD DEFECT, NOT PREVIOUSLY RECORDED AND FOUND HERE: it silently ignores a bare positional family argument. `node verify-packet-completeness.mjs il-seal-2yr-set` audits all 294 families and prints an identical whole-corpus report no matter which family is named, with no error and no warning. The filter is `--family <id>` (line 31, ARGS.indexOf('--family') + 1) and nothing validates leftover positionals. A lane that ran it the obvious way would read a 294-family corpus verdict and believe it had measured one family. Both forms were run here and both are reported above; the per-family verdicts come from the `--family` form.",
+      "Labels NOT_MEASURABLE_HERE with the word FAIL. 'this could not be measured' and 'this failed' are different claims and the row prefix conflates them."
+    ],
+    "sharedManifestWritten": "No. --write was never passed, and `git status --porcelain` was empty after every verifier run, so data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json is untouched."
+  },
+  "whatThisLaneCouldNotRepair": [
+    "oh_marijuana_expungement-set ships a SECOND builder-produced guidance file, tracks/oh_marijuana_expungement/participant-instructions.md, which vf53 also searched and which still carries zero hits for the court-costs statement. It is written by trackInstructions() in the shared build host and it was confirmed to be live rather than stale: the rebuild rewrote it, byte-identically. It was left alone deliberately. By its own first line it is 'a statutory-content draft and review artifact', it has no 'What this costs' section, and it delegates the whole fee question in one line — 'Confirm the current filing fee and waiver practice. The frozen design records ...' — so it carries neither the $50/indigency statement that vf53 already scored PASS nor the new court-costs statement. Adding only the second would make it inconsistent in a new way rather than fixing it, and its content comes from a memoRequirements block that holds no court-costs field, so carrying the statement there would mean inventing a data field rather than rendering one. The honest position is that this family has two guidance surfaces and this repair reached one of them; whether the review artifact should carry participant money statements at all is a design question for the family's owner, not something this lane should settle by hand-editing generated output. companion/companion-guidance.md is silent for the same reason and was left for the same reason.",
+    "No obligation verdict. This lane repaired these four families and does not score them. FEE_AND_WAIVER on all four, and the other fourteen obligations, are owed to an independent lane."
+  ],
+  "outOfScopeObservedNotActedOnExceptAsNoted": [
+    "il-seal-nonconv-set--official-pdf-fill prints its build directives verbatim into participant-instructions.md, at lines 128-129: 'Deliver every generated Illinois form pre-flattened, because AOIC requires the PDF to be flattened before e-filing.' and 'Never use \\'expunge\\' as a synonym for \\'seal\\'. Say which remedy applies.' Both are instructions addressed to the builder, not to the participant — the second tells the reader to obey a copy rule they are not writing. vf53 named this family as the example of the defect. Confirmed here by reading the file. NOT this lane's grant and not touched. It does not carry the unpaid-fines directive at all: its packetInstructions has four entries and the unpaid-fines entry is not among them, so it is not a fifth Illinois family owed this repair.",
+    "il-seal-edu carries a sixth packetInstruction the other two Illinois tracks do not: 'Tell the participant that if a waiver petition is denied, the ordinary two-year or three-year period still applies to any later petition: filing early and losing does not forfeit the ordinary route, but it does not accelerate it either.' Whether the il-seal-edu guide carries it was not measured here — it is outside the FEE_AND_WAIVER defect this grant dispatched, and measuring it would be scoring an obligation on a family this lane just edited. Flagged so a verifier can look.",
+    "il-seal-2yr-set's boundary raster receipt binds a digest that does not exist on disk, recorded by vf53 and caused by FIX06 at cb736b20a. Unchanged by this lane and still owed."
+  ],
+  "grantsNothing": "This lane opened no commercial route, promoted no route, granted no approved_for_live, touched no production, ran no migration, and changed no runtime selectability. Every product-wiring.json in all four families is byte-unmodified, so paymentEligible and sponsorshipEligible remain false and commercialRoutesOpened remains 0. Repairing a guidance defect creates no fulfillment record and authorizes nothing."
+}

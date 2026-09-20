@@ -1,0 +1,76 @@
+{
+  "inMemoryPasswordlessDismissalMutation": false,
+  "reviewer": "/root/release_path_review",
+  "sourceSha256": "ab2376e4382a1c8797a72ea12d53372016add1e28663e54edb6cc6312749dd9e",
+  "baselineSourceSha256": "9cf347fbaaa3a2192035d0ceaf038350aec857bc7e90b6613be3bd1fd78e33d7",
+  "checks": [
+    {
+      "name": "Real React server render does not expose browser claim retry state",
+      "passed": true,
+      "actualReactServerRenderer": true,
+      "browserHydrationExercised": false
+    },
+    {
+      "name": "Malformed or absent claim tokens never enable retry",
+      "passed": true,
+      "cases": 4
+    },
+    {
+      "name": "Server snapshot omits URL retry state; client snapshot admits validated token",
+      "passed": true,
+      "actualBrowserHydration": false
+    },
+    {
+      "name": "Pending claim copy follows locale; explicit mode dismissal persists",
+      "passed": true,
+      "localeChanges": 2
+    },
+    {
+      "name": "Claim retry disables submission while in flight and restores retry after503",
+      "passed": true,
+      "networkAndAuth": "synthetic"
+    },
+    {
+      "name": "Definitive400 strips token and removes retry action",
+      "passed": true,
+      "remainingErrorCopy": "Existing generic pending-claim copy retained; no usable retry action"
+    },
+    {
+      "name": "Compare old/new pending retry during magic",
+      "passed": true,
+      "comparison": {
+        "before": {
+          "retryVisibleDuring": false,
+          "retryEnabledDuring": false,
+          "noticeAfterSuccess": true,
+          "retryAfterSuccess": false
+        },
+        "after": {
+          "retryVisibleDuring": false,
+          "retryEnabledDuring": false,
+          "noticeAfterSuccess": true,
+          "retryAfterSuccess": false
+        }
+      },
+      "behaviorChange": false
+    },
+    {
+      "name": "Compare old/new pending retry during oauth",
+      "passed": true,
+      "comparison": {
+        "before": {
+          "retryVisibleDuring": false,
+          "retryEnabledDuring": false
+        },
+        "after": {
+          "retryVisibleDuring": false,
+          "retryEnabledDuring": false
+        }
+      },
+      "behaviorChange": false
+    }
+  ],
+  "passed": 8,
+  "failed": 0,
+  "boundary": "Actual TSX and actual URL/claim helpers execute in VM with controlled hooks, JSX and synthetic network/auth ports. No React DOM hydration, browser, Supabase or production execution."
+}

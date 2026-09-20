@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF37",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-VF37",
+  "baseSha": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+  "dispatchSha": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+  "grantSet": "8e85c6354aed14c0",
+  "claimsAsserted": 1,
+  "claimsReleased": 0,
+  "measuredBy": "independent fifteen-obligation packet and FIX19 raster-evidence reread",
+  "independence": "VF37 did not build, repair or raster the Oklahoma family.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 0,
+    "PASS": 0,
+    "FAIL_REPAIR_REQUIRED": 1,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0,
+    "STOPPED": 0
+  },
+  "rows": [
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "lane": "VF37",
+      "verifiedAtBase": "5c718222cf837e14ae51146b268f4f82ec018f6b",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+      "queueStateAtRead": "FAIL_REPAIR_REQUIRED",
+      "legalInputStatusAtRead": "SETTLED",
+      "nineCounters": {"knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0, "allZero": true, "measuredHere": true, "verifierResult": "PASS_COMPLETE", "writtenFields": "85/254"},
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All 16 route keys agree across queue, receipt, field map, wiring and rendered footers."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All three committed source records rehash to their exact receipt pins."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both 80-page manifests contain all 53 components and no foreign component."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "All 85 canonical and boundary expected values occur and refused fields carry no ink."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "All 113 required-before-filing items are mapped and disclosed."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "All 16 route selections are represented with their distinctions preserved."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "No incomplete repeating row was found."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "All 56 protected blanks remain unfilled and refused fields carry no ink."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Both fixtures match their hashes, lengths and 80-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests contain unique sequential pages 1 through 80 and cover all components."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "FAIL", "finding": "FIX19 measured 160 pages but returned RASTER_FAIL: canonical page 39 is near-empty and contains only an orphaned '-expungement' footer fragment; independent Poppler rasterization reproduces the defect.", "evidence": "data/rcap-grade-a/codex-cloud/fix19-ok-raster-return.json"},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The district-court destination rules are correctly distinguished by track."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "Court-record, arrest-record and unresolved local fee positions are accurately separated."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "Notice and service instructions accurately preserve the track distinctions."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "All route-specific stop conditions are carried."}
+      },
+      "failedProofObligations": ["CLIPPING_AND_OVERLAP"],
+      "notMeasurableHere": [],
+      "remainingStatus": {
+        "repairPending": true,
+        "repairTarget": "canonical page 39 of ok_18_19_misdemeanor_conviction-primary-filing-2",
+        "rerasterRequiredAfterPacketChange": true,
+        "independentRereadRequiredAfterRepair": true
+      }
+    }
+  ],
+  "packetsBuiltOrRepairedHere": 0,
+  "overlayDirectoriesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": ["live", "delivery", "checkout", "payment", "sponsorship", "packet-credit consumption"]
+}

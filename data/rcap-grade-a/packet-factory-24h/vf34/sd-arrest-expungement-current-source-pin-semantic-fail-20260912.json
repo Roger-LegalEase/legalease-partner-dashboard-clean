@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "rcap-vf34-independent-semantic-review/v1",
+  "familyId": "sd_arrest_expungement-set",
+  "lane": "VF34",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "scope": "Bounded recheck of the repaired 18 civil/case-number placements, current source bindings, exact fixture bytes, and nonvisual write proof. No visual acceptance claimed.",
+  "reviewedAtBase": "4f5022da8c9ba6fb3c2cd92643da70cdab96b516",
+  "repositoryHeadAtReview": "18bf986f5dc411e3988358000d134da772b3dd29",
+  "claimEvidence": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF34 sd_arrest_expungement-set",
+    "result": "CLAIM_OK",
+    "grantId": "11a6e6b5a25c0148",
+    "assertedBeforeFamilyReads": true
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf34/sd-arrest-expungement-restart-semantic-fail-20260912.json",
+    "sha256": "fd98e9c1cf4ad77d25ef6dfab1e270882e3e4f2eb37291eee4bb1eeb9a93ab19",
+    "byteLength": 11463,
+    "findingId": "SD-CIVIL-CRIMINAL-CAPTION-SEPARATION",
+    "affectedWrites": 18
+  },
+  "repairResolution": {
+    "return": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fix112-sd-civil-captions-20260912.json",
+      "sha256": "1786ebf32f91d9e5277a49aa6b462f3d25ef5a41f9773f3d47a1ab75c1394a4f",
+      "byteLength": 8959
+    },
+    "packetCommitSha": "4f5022da8c9ba6fb3c2cd92643da70cdab96b516",
+    "resolvedFinding": "SD-CIVIL-CRIMINAL-CAPTION-SEPARATION",
+    "resolvedAffectedWrites": 18,
+    "independentCaptionRectangleCheck": {
+      "path": "/tmp/sd-caption-independent-byte-check.json",
+      "sha256": "8c3694f9dd1e1df27e944ebff0386c5fef394e19a1d196d86d06b897b7b36f45",
+      "byteLength": 5551,
+      "result": "PASS",
+      "basis": "Poppler pdftotext -bbox re-read at all 18 former write rectangles; no text and no criminal identifier at any refused civil placement."
+    }
+  },
+  "obligations": {
+    "ROUTE_IDENTITY": "PASS",
+    "SOURCE_IDENTITY": "FAIL_REPAIR_REQUIRED",
+    "COMPONENT_SET": "PASS",
+    "KNOWN_PREFILLS": "PASS for bounded repair",
+    "REQUIRED_BEFORE_FILING": "PASS for bounded repair",
+    "ROUTE_OPTIONS": "PASS for bounded repair",
+    "REPEATING_ROWS": "PASS",
+    "PROTECTED_FIELDS": "PASS_NONVISUAL",
+    "ARTIFACTS": "PASS_NONVISUAL",
+    "PAGE_ORDER": "PASS_NONVISUAL",
+    "CLIPPING_AND_OVERLAP": "NOT_MEASURABLE_HERE",
+    "FILING_DESTINATION": "PASS",
+    "FEE_AND_WAIVER": "PASS",
+    "SERVICE": "PASS",
+    "SELF_HELP_STOP": "PASS"
+  },
+  "obligationCounts": {
+    "pass": 13,
+    "fail": 1,
+    "notMeasurable": 1,
+    "failedObligationNames": [
+      "SOURCE_IDENTITY"
+    ],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "sourceIdentityFinding": {
+    "findingId": "SD-SOURCE-VERSION-PIN-DRIFT",
+    "severity": "BLOCKING",
+    "reason": "Current product-wiring binding.sourceVersion retains the superseded MASTER_QUEUE hashes for the two recovered source documents while source-receipt, rendered page manifests, and current candidate evidence bind the recovered bytes.",
+    "mismatches": [
+      {
+        "sourceId": "official-form:UJS-232",
+        "productWiringSha256": "308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737",
+        "currentReceiptSha256": "c76ac268d736a525fa2af7da552fd60ed08802a00ce4bdbbf08f8bd4829548f7",
+        "currentByteLength": 177827,
+        "recoveryRunId": "34693276437",
+        "artifactId": 10298531079
+      },
+      {
+        "sourceId": "official-form:UJS-394",
+        "productWiringSha256": "d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f",
+        "currentReceiptSha256": "5cbdcdf213532a92fa2a740d64e24bc607f9c14f53af848b77ac4993275dc448",
+        "currentByteLength": 188446,
+        "recoveryRunId": "34693277294",
+        "artifactId": 10298361572
+      }
+    ],
+    "requiredRepair": "Regenerate or otherwise update product-wiring.binding.sourceVersion to the exact six current source-receipt bindings, then rehash/review this record against the resulting current bytes."
+  },
+  "currentCandidateBindings": {
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/source-receipt.json",
+      "sha256": "2d52e06449ffe5e185cdfda96003f6454e135fabed40aace591a35c08b94c0c0",
+      "byteLength": 6032
+    },
+    "productWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/product-wiring.json",
+      "sha256": "8eee1d78c48377a3aaed5257fac95efbc775963014bac0bc08ad6e4777d30283",
+      "byteLength": 5364
+    },
+    "fieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/production-field-map.json",
+      "sha256": "16c3405922d1004f3c957600030a965bed8a92ed851bf2b9403616dc9b1eac74",
+      "byteLength": 255531
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "cbb3b983f0dbb11775a44a23f8f5bbe873a68b37386387f1a48eb296aec209a2",
+      "byteLength": 8444
+    },
+    "actualWrites": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/actual-writes.json",
+      "sha256": "1880873c111e3d00a8b58f461caecd1f01a93ba6bc7b5860aad047e7a4bc215c",
+      "byteLength": 68112
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "83f740714c78af73c58a712d2868415e10b2a12a34b978953c19a4699efbd65a",
+      "byteLength": 8189
+    },
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-raster-manifest-20260912.json",
+      "sha256": "59a2abc485e6a11da0021386a7365a73f85806dae586d07f535d2dbec2922b78",
+      "byteLength": 3089
+    },
+    "manifestPacketCommitSha": "4f5022da8c9ba6fb3c2cd92643da70cdab96b516",
+    "manifestDocumentsDigest": "2d0b647b8b1225c80d8b7b13c9dc2ba72da8b0b76a5196ff80eb9781214f1c9f",
+    "fixtures": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65",
+        "byteLength": 552108,
+        "pageCount": 14
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8",
+        "byteLength": 553419,
+        "pageCount": 14
+      }
+    ],
+    "actualWriteSummary": {
+      "canonicalMappedWrites": 56,
+      "boundaryMappedWrites": 56,
+      "canonicalOutsideBoxGlyphs": 0,
+      "boundaryOutsideBoxGlyphs": 0,
+      "protectedFieldsWritten": 0,
+      "refusedFieldsWithInk": []
+    },
+    "sourceDocumentsExactAgainstCurrentReceipt": {
+      "matched": 6,
+      "total": 6
+    },
+    "fixtureBytesExactAgainstManifest": {
+      "matched": 2,
+      "total": 2
+    }
+  },
+  "independentAudit": {
+    "path": "/tmp/sd-vf34-independent-audit.json",
+    "sha256": "eb437389d77f4e8da4115b24a81093ca323fc5473db62038202698788afc6f0f",
+    "byteLength": 6704,
+    "result": "6/6 current source files exact; 2/2 fixture bytes exact; 2 product-wiring sourceVersion mismatches; actual-write proof protected=0/outside-box=0."
+  },
+  "raster": {
+    "centralRasterAlreadyDispatched": "run34697291661",
+    "rasterDispatchAuthorized": false,
+    "visualStatus": "UNMEASURED",
+    "visualDefects": null,
+    "finalAcceptance": false,
+    "reason": "The current source pin mismatch prevents this independent semantic gate from authorizing terminal acceptance; central raster evidence, if completed, remains nonterminal until the source binding is repaired and re-reviewed."
+  },
+  "unfinishedGates": [
+    "repair product-wiring sourceVersion for UJS-232 and UJS-394",
+    "repeat independent SOURCE_IDENTITY check",
+    "central raster/original visual acceptance",
+    "native terminal integration"
+  ],
+  "independence": {
+    "implementationEditsByReviewer": false,
+    "sourceEditsByReviewer": false,
+    "sharedManifestOrLedgerEditsByReviewer": false
+  }
+}

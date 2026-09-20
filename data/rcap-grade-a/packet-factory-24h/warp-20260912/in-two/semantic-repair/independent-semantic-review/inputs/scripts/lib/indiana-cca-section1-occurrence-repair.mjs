@@ -1,0 +1,378 @@
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import { createRequire } from "node:module";
+
+import { finalizeFlatOverlay, isoDateInPrintedOrder }
+  from "../rcap-official-forms/rcap-official-form-finalize.mjs";
+import { extractTextItems } from "../rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+
+const require = createRequire(import.meta.url);
+const { PDFDocument, StandardFonts } = require("pdf-lib");
+
+export const IN_SECTION1_SOURCE_SHA = Object.freeze({
+  packet: "b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5",
+  inserts: "65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707"
+});
+
+const roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+const participantPages = Object.freeze({ packet: new Set([1, 2, 3, 5, 6, 7, 8, 9, 13]), inserts: new Set([1, 2, 4]) });
+const forbiddenInsertPages = new Set([3]);
+
+const PACKET_OCCURRENCE_FIELDS = Object.freeze([
+  "cap-PetitionerFullName", "cap-COUNTY", "Address", "PetDOB",
+  "County1", "County2", "County3", "County4", "County5", "County6",
+  "RelatedCriminalCauseNumbers"
+]);
+
+const INSERT_OCCURRENCE_FIELDS = Object.freeze([
+  "DD-ArrestOrSummons", "County", "ArrestDate", "DD-CountNumber",
+  "cap-PetitionerFullName", "PetDOB", "CountyCityArrest",
+  "DateChargesFiled", "DD-HowChargesFiled", "CauseNumber",
+  "OffenseDescript-Ct1", "DD-LevelChoice-Ct1", "DD-ChargeLevel-Ct1",
+  "DD-Misd/Felony-Ct1", "DateChargesDismissed", "Criminal Cause Number",
+  "Date of Dismissal", "ChargeDisposition-Ct1"
+]);
+
+export function indianaSection1OccurrenceManagedFields(docKey) {
+  assert.ok(docKey === "packet" || docKey === "inserts", `unsupported Indiana document ${docKey}`);
+  return [...(docKey === "packet" ? PACKET_OCCURRENCE_FIELDS : INSERT_OCCURRENCE_FIELDS)];
+}
+
+const normalized = (rect) => ({
+  x: Math.min(rect.x, rect.x + rect.width),
+  y: Math.min(rect.y, rect.y + rect.height),
+  width: Math.abs(rect.width),
+  height: Math.abs(rect.height)
+});
+
+const fullAddress = (facts) => [
+  facts["participant.street_address"],
+  facts["participant.city_state_zip"] ?? [facts["participant.city"], facts["participant.state"], facts["participant.zip"]].filter(Boolean).join(" ")
+].filter(Boolean).join("\n");
+
+const caseRows = (facts) => Array.isArray(facts["matter.charges"]) && facts["matter.charges"].length
+  ? facts["matter.charges"] : [facts];
+
+export function assertIndianaSection1Fixture(facts, trackId) {
+  assert.equal(facts["fixture.synthetic"], true, "Indiana verification fixtures must identify themselves as synthetic");
+  assert.equal(facts["participant.state"], "IN", "Indiana fixture address must use Indiana, not the corpus XX placeholder");
+  assert.match(String(facts["matter.court"] ?? ""), /(?:Circuit|Superior) Court$/,
+    "Indiana fixture must name a circuit or superior court type");
+  const rows = caseRows(facts);
+  assert.ok(rows.length > 0, "at least one in-scope arrest/case group is required");
+  for (const row of rows) {
+    assert.match(String(row.arrest_date ?? ""), /^\d{4}-\d{2}-\d{2}$/, "each case needs an arrest date");
+    assert.ok(row.arrest_city, "each synthetic case needs an explicit arrest city for Exhibit A");
+    assert.ok(row.disposition, "each case needs an explicit disposition");
+    assert.equal(row.conviction_date ?? null, null, "a Section 1 nonconviction fixture must not carry a conviction date");
+    if (trackId === "in_arrest_no_charges") {
+      assert.equal(row.disposition, "arrested_no_charges_filed");
+      assert.ok(row.arrest_date > "2022-06-30", "the specialized no-charge route is limited to arrests after June 30, 2022");
+      assert.equal(row.case_number ?? null, null, "a never-charged record must not invent a criminal cause number");
+      assert.equal(row.charge ?? null, null, "a never-charged record must not invent a filed charge");
+    } else {
+      assert.equal(row.disposition, "all_charges_dismissed_before_trial");
+      assert.ok(row.case_number && row.charge && row.disposition_date && row.charges_filed_date,
+        "a dismissed-charge fixture needs its cause, charge, filing date and dismissal date");
+    }
+  }
+  return true;
+}
+
+export function enrichIndianaSection1Fixture(facts, trackId) {
+  assertIndianaSection1Fixture(facts, trackId);
+  const rows = caseRows(facts);
+  const causeNumbers = rows.map((r) => r.case_number).filter(Boolean).sort().reverse();
+  return {
+    ...facts,
+    "participant.full_mailing_address": fullAddress(facts),
+    "matter.related_criminal_cause_numbers": causeNumbers.join("\n"),
+    "matter.case_group_count": rows.length,
+    "matter.latest_route_date": rows.map((r) => r.disposition_date ?? r.arrest_date).sort().at(-1),
+    "matter.charges": rows
+  };
+}
+
+export function factsForIndianaInsertCase(facts, caseIndex) {
+  const row = caseRows(facts)[caseIndex];
+  assert.ok(row, `missing Indiana insert case group ${caseIndex + 1}`);
+  return {
+    ...facts,
+    "matter.case_number": row.case_number ?? null,
+    "matter.charge": row.charge ?? null,
+    "matter.arrest_date": row.arrest_date,
+    "matter.arrest_city": row.arrest_city,
+    "matter.offense_date": row.offense_date ?? row.arrest_date,
+    "matter.disposition_date": row.disposition_date ?? null,
+    "matter.charges_filed_date": row.charges_filed_date ?? null,
+    "matter.disposition": row.disposition,
+    "matter.charge_level_word": row.charge_level_word ?? null,
+    "matter.charge_level": row.charge_level ?? null,
+    "matter.misdemeanor_or_felony": row.misdemeanor_or_felony ?? null,
+    "matter.prosecutor_declination_number": row.prosecutor_declination_number ?? null,
+    "matter.count_label": roman[caseIndex] ?? String(caseIndex + 1),
+    "matter.charges": [row]
+  };
+}
+
+function field(census, name) {
+  const found = census.fields.find((entry) => entry.name === name);
+  assert.ok(found, `pinned Indiana source no longer carries ${name}`);
+  return found;
+}
+
+const add = (anchors, census, fieldName, pages, factId, value, options = {}) => {
+  if (value === undefined || value === null || String(value).trim() === "") return;
+  const sourceField = field(census, fieldName);
+  sourceField.widgets.forEach((widget, widgetIndex) => {
+    if (!pages.has(widget.page)) return;
+    anchors.push({
+      sourceField: fieldName, sourceWidgetIndex: widgetIndex, page: widget.page,
+      sourceRect: normalized(widget.rect), factId, value: String(value),
+      fontSize: options.fontSize ?? 9, multiline: options.multiline === true,
+      actor: options.actor ?? "PARTICIPANT_OR_NEUTRAL_FACT"
+    });
+  });
+};
+
+const addAddress = (anchors, census, facts) => {
+  const sourceField = field(census, "Address");
+  const lines = [facts["participant.street_address"], facts["participant.city_state_zip"]];
+  sourceField.widgets.forEach((widget, widgetIndex) => {
+    if (!participantPages.packet.has(widget.page)) return;
+    const box = normalized(widget.rect);
+    lines.forEach((value, lineIndex) => anchors.push({
+      sourceField: "Address", sourceWidgetIndex: widgetIndex, page: widget.page,
+      sourceRect: { x: box.x + 2, y: box.y + box.height - 13 - lineIndex * 13, width: box.width - 4, height: 12 },
+      factId: lineIndex === 0 ? "participant.street_address" : "participant.city_state_zip",
+      value, fontSize: 9, actor: "PARTICIPANT_CONTACT"
+    }));
+  });
+};
+
+const addRelatedCauses = (anchors, census, facts) => {
+  const values = caseRows(facts).map((row) => row.case_number).filter(Boolean).sort().reverse();
+  const sourceField = field(census, "RelatedCriminalCauseNumbers");
+  sourceField.widgets.forEach((widget, widgetIndex) => {
+    const box = normalized(widget.rect);
+    values.forEach((value, lineIndex) => anchors.push({
+      sourceField: "RelatedCriminalCauseNumbers", sourceWidgetIndex: widgetIndex, page: widget.page,
+      sourceRect: { x: box.x + 2, y: box.y + box.height - 13 - lineIndex * 14, width: box.width - 4, height: 12 },
+      factId: `matter.charges[${lineIndex}].case_number`, value, fontSize: 8,
+      actor: "NEUTRAL_RECORD_IDENTIFIERS"
+    }));
+  });
+};
+
+export function indianaSection1OccurrencePlan({ docKey, census, facts, trackId }) {
+  assert.equal(census.fields.length, docKey === "packet" ? 68 : 77, "Indiana source field inventory drifted");
+  const anchors = [];
+  if (docKey === "packet") {
+    add(anchors, census, "cap-PetitionerFullName", participantPages.packet,
+      "participant.full_legal_name", facts["participant.full_legal_name"], { fontSize: 10 });
+    add(anchors, census, "cap-COUNTY", participantPages.packet,
+      "matter.county", facts["matter.county"], { fontSize: 10 });
+    addAddress(anchors, census, facts);
+    for (let i = 1; i <= 6; i++) add(anchors, census, `County${i}`, participantPages.packet,
+      "matter.county", facts["matter.county"], { fontSize: 9, actor: "NEUTRAL_SERVICE_RECIPIENT_IDENTITY" });
+    add(anchors, census, "PetDOB", new Set([3, 9]), "participant.date_of_birth",
+      isoDateInPrintedOrder(facts["participant.date_of_birth"], "month_day_year"), { fontSize: 9, actor: "NEUTRAL_IDENTITY" });
+    if (trackId === "in_section1_petition") addRelatedCauses(anchors, census, facts);
+  } else {
+    const p1 = new Set([1]);
+    const p4 = new Set([4]);
+    add(anchors, census, "DD-ArrestOrSummons", p1, "matter.record_type", "arrested");
+    add(anchors, census, "County", p1, "matter.county", facts["matter.county"]);
+    add(anchors, census, "ArrestDate", new Set([1, 4]), "matter.arrest_date",
+      isoDateInPrintedOrder(facts["matter.arrest_date"], "month_day_year"));
+    add(anchors, census, "DD-CountNumber", new Set([1, 4]), "matter.count_label", facts["matter.count_label"]);
+    add(anchors, census, "cap-PetitionerFullName", p4, "participant.full_legal_name", facts["participant.full_legal_name"]);
+    add(anchors, census, "PetDOB", p4, "participant.date_of_birth",
+      isoDateInPrintedOrder(facts["participant.date_of_birth"], "month_day_year"));
+    add(anchors, census, "CountyCityArrest", p4, "matter.arrest_city",
+      `${facts["matter.arrest_city"]} / ${facts["matter.county"]} County`, { fontSize: 8 });
+    if (trackId === "in_arrest_no_charges") {
+      add(anchors, census, "ChargeDisposition-Ct1", p4, "matter.disposition", "No Charges Filed");
+    } else {
+      add(anchors, census, "DateChargesFiled", p1, "matter.charges_filed_date",
+        isoDateInPrintedOrder(facts["matter.charges_filed_date"], "month_day_year"));
+      add(anchors, census, "DD-HowChargesFiled", p1, "matter.charge_filing_type", "criminal charged as an adult", { fontSize: 8 });
+      add(anchors, census, "CauseNumber", p1, "matter.case_number", facts["matter.case_number"]);
+      add(anchors, census, "OffenseDescript-Ct1", new Set([1, 4]), "matter.charge", facts["matter.charge"], { fontSize: 7 });
+      add(anchors, census, "DD-LevelChoice-Ct1", new Set([1, 4]), "matter.charge_level_word", facts["matter.charge_level_word"]);
+      add(anchors, census, "DD-ChargeLevel-Ct1", new Set([1, 4]), "matter.charge_level", facts["matter.charge_level"]);
+      add(anchors, census, "DD-Misd/Felony-Ct1", new Set([1, 4]), "matter.misdemeanor_or_felony", facts["matter.misdemeanor_or_felony"], { fontSize: 7 });
+      add(anchors, census, "DateChargesDismissed", p1, "matter.disposition_date",
+        isoDateInPrintedOrder(facts["matter.disposition_date"], "month_day_year"));
+      add(anchors, census, "Criminal Cause Number", p4, "matter.case_number", facts["matter.case_number"]);
+      add(anchors, census, "Date of Dismissal", p4, "matter.disposition_date",
+        isoDateInPrintedOrder(facts["matter.disposition_date"], "month_day_year"));
+      add(anchors, census, "ChargeDisposition-Ct1", p4, "matter.disposition", "Dismissed");
+    }
+  }
+  for (const anchor of anchors) {
+    assert.ok(participantPages[docKey].has(anchor.page), `${anchor.sourceField} targets an unapproved page ${anchor.page}`);
+    if (docKey === "inserts") assert.equal(forbiddenInsertPages.has(anchor.page), false,
+      `${anchor.sourceField} attempted to write the court FINDINGS page`);
+    assert.ok(anchor.sourceRect.width > 0 && anchor.sourceRect.height > 0, `${anchor.sourceField} has invalid source geometry`);
+  }
+  return anchors;
+}
+
+export async function applyIndianaSection1OccurrencePlan({ bytes, docKey, census, facts, trackId, officialSourceSha256 }) {
+  assert.equal(officialSourceSha256, IN_SECTION1_SOURCE_SHA[docKey],
+    `${docKey}: occurrence repair may run only against the pinned official source identity`);
+  const sourceHash = crypto.createHash("sha256").update(bytes).digest("hex");
+  const plan = indianaSection1OccurrencePlan({ docKey, census, facts, trackId });
+  const overlayFacts = {};
+  const anchors = plan.map((entry, index) => {
+    const key = `overlay.${index}`;
+    overlayFacts[key] = entry.value;
+    return {
+      label: `Full legal name held value ${index}`,
+      page: entry.page,
+      writeBox: entry.sourceRect,
+      factId: key,
+      fontSize: entry.fontSize,
+      standardFontFallback: StandardFonts.TimesRoman
+    };
+  });
+  const rendered = await finalizeFlatOverlay({
+    sourceBytes: bytes, expectedSha256: sourceHash, anchors, facts: overlayFacts,
+    // The shared flat finalizer's explicit-mapping gate requires a canonical
+    // participant fact before it will draw. The occurrence plan above is the
+    // stricter authority here: it pins source identity, field identity, page
+    // and rectangle and excludes every court Findings occurrence. The anchor's
+    // own factId still resolves the exact transformed value from overlayFacts.
+    explicitMappings: Object.fromEntries(anchors.map((a) => [a.label, "participant.full_legal_name"])),
+    minFontSize: 6, title: "Indiana Section 1 participant and neutral facts"
+  });
+  assert.equal(rendered.report.written.length, plan.length,
+    `every approved occurrence must render at the readable floor: ${JSON.stringify(rendered.report.refused)}`);
+  const occurrenceWrites = plan.map((entry, index) => ({
+    documentKey: docKey, field: entry.sourceField, sourceWidgetIndex: entry.sourceWidgetIndex, page: entry.page,
+    rect: entry.sourceRect, factId: entry.factId, value: entry.value, actor: entry.actor,
+    fontSize: rendered.report.written[index].fontSize, font: rendered.report.written[index].font,
+    sourceSha256: officialSourceSha256, intermediateSha256: sourceHash
+  }));
+  return { bytes: rendered.bytes, occurrenceWrites, overlayReport: rendered.report };
+}
+
+export async function concatenateIndianaInsertSets(renderedSets) {
+  assert.ok(renderedSets.length > 0, "at least one rendered insert set is required");
+  if (renderedSets.length === 1) return renderedSets[0];
+  const out = await PDFDocument.create();
+  for (const bytes of renderedSets) {
+    const source = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+    assert.equal(source.getPageCount(), 4, "each Indiana source insert set must remain four pages");
+    const copied = await out.copyPages(source, [0, 1, 2, 3]);
+    copied.forEach((page) => out.addPage(page));
+  }
+  out.setCreationDate(new Date("2026-09-12T00:00:00.000Z"));
+  out.setModificationDate(new Date("2026-09-12T00:00:00.000Z"));
+  return out.save({ useObjectStreams: false, updateMetadata: false });
+}
+
+const effectivePage = (write, docKey) => write.page + (docKey === "inserts" ? (write.caseIndex ?? 0) * 4 : 0);
+
+export async function verifyIndianaOccurrenceWritesFromBytes({ bytes, docKey, occurrenceWrites }) {
+  const pdf = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const pageItems = pdf.getPages().map((page) => extractTextItems(page));
+  const rows = occurrenceWrites.map((write) => {
+    const page = effectivePage(write, docKey);
+    const box = normalized(write.rect);
+    const matches = (pageItems[page - 1] ?? []).filter((item) =>
+      String(item.text ?? "").trim() === String(write.value).trim()
+      && item.x >= box.x - 2 && item.x <= box.x + box.width + 2
+      && item.y >= box.y - 2 && item.y <= box.y + box.height + 2);
+    return {
+      ...write, page, localSourcePage: write.page,
+      exactPositionedTextRuns: matches.length,
+      readback: matches.map((item) => ({ text: item.text, x: item.x, y: item.y,
+        width: item.width, size: item.size, baseFont: item.baseFont }))
+    };
+  });
+  const missing = rows.filter((row) => row.exactPositionedTextRuns === 0);
+  const duplicated = rows.filter((row) => row.exactPositionedTextRuns !== 1);
+  const protectedPageWrites = rows.filter((row) =>
+    docKey === "inserts" && ((row.page - 1) % 4) + 1 === 3);
+  assert.deepEqual(missing, [], "every occurrence write must read back at its exact source rectangle");
+  assert.deepEqual(duplicated, [], "each occurrence write must appear exactly once at its source rectangle");
+  assert.deepEqual(protectedPageWrites, [], "the occurrence path may not write an insert FINDINGS page");
+  return {
+    derivedFromSavedBytes: true,
+    documentSha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+    pageCount: pdf.getPageCount(), expectedWrites: rows.length, exactWritesRead: rows.length,
+    missingWrites: 0, duplicateWrites: 0, protectedPageWrites: 0, rows
+  };
+}
+
+const setPolicy = (doc, names, policy) => {
+  for (const name of names) doc.completeness.fields[name] = { ...(doc.completeness.fields[name] ?? {}), ...policy };
+};
+
+export function applyIndianaSection1CompletenessPolicy(doc, trackId) {
+  if (doc.key === "packet") {
+    setPolicy(doc, ["Fax"], {
+      requiredBeforeFiling: false, refusalClass: null,
+      completenessDisposition: "OPTIONAL_PARTICIPANT_CONTENT",
+      reason: "Optional participant-authored fax number; leave blank when the participant has no fax number."
+    });
+    return;
+  }
+  const offRoute = (names, condition) => setPolicy(doc, names, {
+    requiredBeforeFiling: false, refusalClass: null,
+    completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+    routeConditionThatMakesItInapplicable: condition, routeDetermined: false,
+    reason: condition
+  });
+  const conditional = (names, label, condition) => setPolicy(doc, names, {
+    requiredBeforeFiling: true, refusalClass: null, effectiveLabel: label,
+    conditionDescription: condition, reason: `${label}. ${condition}`
+  });
+
+  conditional(["NameArrestingOfficer", "ArrestingAgency", "LEACaseNumber"],
+    "Arresting officer, agency, and law-enforcement case number if known or available",
+    "Complete only when the source-identified record fact is known or available; do not invent it.");
+  conditional(["DescriptRelatedMatter", "ListRelatedMCCauseNumbers"],
+    "Related miscellaneous-criminal matter details if one exists",
+    "Complete only when an actual related miscellaneous-criminal matter exists.");
+  conditional(["AliasNamesDOBsSSNs"], "Alias identity history if any",
+    "Complete from the participant's actual alias history; do not assert none without an answer.");
+  setPolicy(doc, ["AddressesSinceArrest"], {
+    requiredBeforeFiling: true, refusalClass: null, effectiveLabel: "Addresses since arrest",
+    reason: "The source requires the participant's address history since the arrest; the current address alone is not the full answer."
+  });
+  if (trackId === "in_arrest_no_charges") {
+    conditional(["AssignedCaseNumber"], "Assigned prosecutor-declination number if one exists",
+      "Complete only if the prosecutor formally declined charges and the record carries an assigned number.");
+  }
+
+  const unusedRows = [];
+  for (let i = 2; i <= 7; i++) {
+    unusedRows.push(`OffenseDescript-Ct${i}`, `OffenseDescript-Exhibit-Ct${i}`,
+      `DD-LevelChoice-Ct${i}`, `DD-ChargeLevel-Ct${i}`, `DD-Misd/Felony-Ct${i}`, `ChargeDisposition-Ct${i}`);
+  }
+  offRoute(unusedRows,
+    "Each generated insert set represents one criminal cause/arrest group with one synthetic count; unused count rows have no additional held count.");
+
+  if (trackId === "in_arrest_no_charges") {
+    offRoute(["Criminal Cause Number", "DateChargesFiled", "DD-HowChargesFiled", "CauseNumber",
+      "OffenseDescript-Ct1", "DD-LevelChoice-Ct1", "DD-ChargeLevel-Ct1", "DD-Misd/Felony-Ct1",
+      "DateAcquittal", "DD-TypeChargesFiled", "AppellateCauseNumber",
+      "DateAppellateDecFinal", "Date of Dismissal", "Check Box17", "Check Box21", "Check Box23", "Check Box26"],
+    "The exact route and fixture state that no criminal charge was filed, so charged, acquittal, dismissal and appellate-vacatur branches are not reached.");
+    setPolicy(doc, ["DateChargesDismissed"], {
+      requiredBeforeFiling: true, refusalClass: null,
+      effectiveLabel: "Date supporting the no-charge disposition statement",
+      reason: "The source prints a date before the combined not-filed-or-dismissed statement; supply the date shown by the participant's actual record rather than inferring one."
+    });
+  } else {
+    offRoute(["AssignedCaseNumber", "DateAcquittal", "DD-TypeChargesFiled", "AppellateCauseNumber",
+      "DateAppellateDecFinal", "Check Box15", "Check Box21", "Check Box23", "Check Box26"],
+    "The exact fixture selects charges filed and all charges dismissed before trial; prosecutor-declination, acquittal and appellate-vacatur alternatives are not reached.");
+    setPolicy(doc, ["AssignedCaseNumber"], { effectiveLabel: "Unused prosecutor-declination assigned number" });
+    setPolicy(doc, ["Check Box21"], { effectiveLabel: "Unused acquittal outcome selection" });
+    setPolicy(doc, ["DateAcquittal"], { effectiveLabel: "Unused acquittal decision date" });
+  }
+}

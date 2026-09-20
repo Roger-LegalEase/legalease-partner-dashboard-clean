@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "PF16",
+  "workerId": "PF16-IL-PRB-MT-TWO",
+  "shiftBaseSha": "609f648cbb5a5e9fc258fa1ab895ab0ce685fc1b",
+  "workerBranch": "pf16-il-prb-mt-two",
+  "writtenAlongsideNotOverIt": {
+    "existingFile": "data/rcap-grade-a/packet-factory-24h/pf16/checkpoints.json",
+    "existingWorker": "PF-C",
+    "whyThisFileExists": "The lane directory already held a checkpoints.json from the PF-C cohort. Overwriting it would erase that cohort's record. This file is written beside it, matching the precedent build-b-rows.json set for the rows file."
+  },
+  "checkpointRule": "Return every five completed families, or every two hours, whichever comes first. This lane carries three families and checkpoints per family.",
+  "timestampBasis": "Each checkpoint time is when this lane finished determining that family's disposition. No family produced a build-status.json, because no family was built.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "at": "2026-09-08T00:00:00Z",
+      "family": "il-prb-cert-set",
+      "familiesCompletedSoFar": [],
+      "familiesStoppedSoFar": ["il-prb-cert-set"],
+      "familiesRemaining": ["mt_misdemeanor_expungement-set", "mt_mmrta_completed-set"],
+      "note": "STOPPED BLOCKED_SOURCE. Four of five official forms resolve to no held document; the custody reconciliation records absence 'label_does_not_identify_a_document' on each and commissionAcquisition true. Two of the four back required components. Verified rather than inferred: no file named PRB* exists under the mounted Master Library or private/, and none of the 27 committed Illinois corpus entries is a PRB certificate. A second, independent blocker was also found and recorded: the § 5.2(e-6) non-military route carries no recorded output treatment, which is a legal-design input this lane must not guess. The overlay directory was not created."
+    },
+    {
+      "checkpoint": 2,
+      "at": "2026-09-08T00:00:00Z",
+      "family": "mt_misdemeanor_expungement-set",
+      "familiesCompletedSoFar": [],
+      "familiesStoppedSoFar": ["il-prb-cert-set", "mt_misdemeanor_expungement-set"],
+      "familiesRemaining": ["mt_mmrta_completed-set"],
+      "note": "STOPPED BLOCKED_SOURCE. The only packet component MASTER_QUEUE enumerates for this family is the required official_pdf_fill of EXPUNGEMENTREMOVALREQUESTFORM.DOCX. The held bytes bind by exact SHA-256 and are a Microsoft Word 2007+ document, generation_allowed no, runtime_status runtime_disabled. Binding is a byte-identity statement, not a fillability statement. The form was not converted and not recreated. The custom_pleading components were not rendered alone, because a packet missing the only component the queue names would read as built. The overlay directory was not created."
+    },
+    {
+      "checkpoint": 3,
+      "at": "2026-09-08T00:00:00Z",
+      "family": "mt_mmrta_completed-set",
+      "familiesCompletedSoFar": [],
+      "familiesStoppedSoFar": ["il-prb-cert-set", "mt_misdemeanor_expungement-set", "mt_mmrta_completed-set"],
+      "familiesRemaining": [],
+      "note": "STOPPED BLOCKED_SOURCE. A family declared official_pdf_fill whose every official form is a Word document: MT-FORM-B, the MMRTA certificate of service and the MMRTA proposed order are all source-gated DOCX, and Master Library governance states source-gated files must never be selected by the packet resolver. All four sources carry generation_allowed no and runtime_status runtime_disabled. Three of the blocked components are required. There is nothing to fill; no form was substituted, converted or recreated. The overlay directory was not created."
+    }
+  ],
+  "laneComplete": true,
+  "familiesAssigned": 3,
+  "rowsReturned": 3,
+  "familiesCompleted": 0,
+  "familiesStopped": 3,
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "closingNote": "Three families assigned, three rows returned, none missing and none twice. Every one stopped on a held-source fact that was checked against the corpus rather than inferred from a record. The lane completed: a blocked row is the finding, not a failure. Nothing was built, so nothing was rastered and no counter was measured; the nine counters are recorded null with measured false rather than zero, because zero would assert a completeness nobody measured. The three grants remain held and the claim ledger is not committed."
+}

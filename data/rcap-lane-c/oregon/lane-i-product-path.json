@@ -1,0 +1,278 @@
+{
+  "schemaVersion": "rcap-lane-i-oregon-product-path/v1",
+  "lane": "I",
+  "generatedBy": "scripts/verify-rcap-lane-i-oregon-first-packet.mjs",
+  "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "posture": "Every step below was exercised against an in-memory counterfactual record that exists only inside one process. Nothing was written to the registry, no entitlement was created, no credit was consumed and no participant exists. The committed record refuses all ten admission points, which is the last row of this table.",
+  "tierA": {
+    "question": "If the owner signs both outstanding proofs and nothing else changes, does the product open?",
+    "authorityState": "INCOMPLETE",
+    "admitted": false,
+    "denialCode": "fulfillment_incomplete",
+    "answer": "No. A v1 record with every v1 proof is refused at every admission point because it cannot have answered the fileability question."
+  },
+  "tierB": {
+    "question": "And if the record is also raised to the admission schema with the fileability proof bound to the real filed PDF?",
+    "steps": [
+      {
+        "step": "consumer-checkout-admits",
+        "admissionPoint": "consumer_checkout",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "sponsored-entitlement-admits",
+        "admissionPoint": "sponsored_entitlement",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "packet-credit-admits-once",
+        "admissionPoint": "packet_credit_admission",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "generation-admits-on-first-credit",
+        "admissionPoint": "generation_admission",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "provider-dispatch-admits",
+        "admissionPoint": "provider_dispatch",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "artifact-attaches-commercially",
+        "admissionPoint": "artifact_commercial_attachment",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "briefcase-ready",
+        "admissionPoint": "briefcase_ready",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "first-private-download",
+        "admissionPoint": "private_download",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "repeat-download-costs-nothing",
+        "admissionPoint": "repeat_download",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "second-generation-on-a-spent-credit-is-refused",
+        "admissionPoint": "generation_admission",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "entitlement: this entitlement was already consumed; a second consumption is a double charge"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "render-retry-on-a-spent-credit-is-tolerated-so-a-failed-render-costs-no-second-credit",
+        "admissionPoint": "provider_dispatch",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "repeat-download-needs-no-entitlement-at-all",
+        "admissionPoint": "repeat_download",
+        "expected": "admitted",
+        "observed": "admitted",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "consumer-and-sponsored-parity",
+        "admissionPoint": "generation_admission",
+        "expected": "identical denials",
+        "observed": "identical denials",
+        "denialCode": null,
+        "contextDenials": [],
+        "result": "pass"
+      },
+      {
+        "step": "wrong-user-is-denied",
+        "admissionPoint": "private_download",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "ownership: the participant does not own this matter"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "wrong-matter-is-denied",
+        "admissionPoint": "private_download",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "final_verification: the snapshot belongs to a different matter"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "substituted-artifact-is-denied",
+        "admissionPoint": "private_download",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "storage: the stored artifact has no SHA-256 to bind delivery to"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "publicly-reachable-artifact-is-denied",
+        "admissionPoint": "private_download",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "storage: the artifact is not in private storage; packet files are never publicly reachable"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "a-repeat-download-with-no-prior-download-is-denied",
+        "admissionPoint": "repeat_download",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "storage: repeat_download was asked about an artifact with no prior download"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "an-invalidated-verification-denies-generation-though-the-payment-survives",
+        "admissionPoint": "generation_admission",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "final_verification: the snapshot was invalidated (a material answer changed); a payment survives this, generation authority does not"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "a-verification-taken-for-another-route-cannot-admit-this-one",
+        "admissionPoint": "private_download",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "participant_context_denied",
+        "contextDenials": [
+          "final_verification: the snapshot verifies OR:marijuana-specific-set-aside-redesignation, not OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+        ],
+        "result": "pass"
+      },
+      {
+        "step": "this-record-offered-for-another-route-is-a-binding-mismatch",
+        "admissionPoint": "private_download",
+        "expected": "denied",
+        "observed": "denied",
+        "denialCode": "route_binding_mismatch",
+        "contextDenials": [],
+        "result": "pass"
+      }
+    ]
+  },
+  "liveRecord": {
+    "admissionPoints": [
+      {
+        "admissionPoint": "consumer_checkout",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "sponsored_entitlement",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "packet_credit_admission",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "generation_admission",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "provider_dispatch",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "artifact_commercial_attachment",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "briefcase_ready",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "private_download",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "repeat_download",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      },
+      {
+        "admissionPoint": "launch_graph_commercial_status",
+        "admitted": false,
+        "denialCode": "fulfillment_incomplete"
+      }
+    ]
+  }
+}

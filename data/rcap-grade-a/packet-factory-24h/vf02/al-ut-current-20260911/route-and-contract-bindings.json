@@ -1,0 +1,307 @@
+{
+  "productContract": "docs/PRODUCT_CONTRACT.md",
+  "productContractSha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+  "alExactTrack": {
+    "jurisdiction": "AL",
+    "trackId": "al-pardon",
+    "legalName": "Application for Pardon, Alabama Board of Pardons and Paroles, Ala. Code \u00a7\u00a7 15-22-20 to 15-22-40",
+    "publicName": "Pardon",
+    "mechanism": "Alabama has a participant-filed application. Investigation and Board decision occur after submission; those outside decisions do not turn the application into guidance-only.",
+    "authority": [
+      "Ala. Code \u00a7\u00a7 15-22-20 to 15-22-40",
+      "Ala. Admin. Code ch. 640-X-6 and 640-X-7",
+      "Board of Pardons and Paroles form ABPP-3, revised June 2025"
+    ],
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2025-06-01",
+    "effectiveTo": null,
+    "recordTypes": [
+      "conviction"
+    ],
+    "dispositions": [
+      "convictions eligible for pardon under the Board's rules"
+    ],
+    "exclusions": [],
+    "waitingPeriods": [],
+    "outputStrategy": "official_pdf_fill",
+    "outputStrategyDeclared": "official_pdf_fill",
+    "compositionMode": null,
+    "units": [],
+    "geographicScope": "statewide",
+    "geographyKeys": [],
+    "venue": "Statewide Alabama Board of Pardons and Paroles process; application begins through the local probation office.",
+    "destination": {
+      "kind": "agency",
+      "name": "Alabama Board of Pardons and Paroles",
+      "detail": "The application begins through the local probation office. Investigation and Board decision occur after submission."
+    },
+    "packetSet": {
+      "packetSetId": "al-pardon-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "al-pardon-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ABPP-3",
+          "officialSourceUrl": "https://paroles.alabama.gov/resources/forms/",
+          "order": 1
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "complete_field",
+          "description": "Signature and date \u2014 ABPP-3, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The applicant signs their own application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "The source review does not state a notarization requirement.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "The source review does not state a fee for the pardon application.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "The source review does not address a fee waiver.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "The source review does not state a service requirement for the application.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "The application begins through the local probation office and goes to the Board of Pardons and Paroles.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Signature and date \u2014 ABPP-3, signature block.",
+        "The applicant signs their own application.",
+        "The source review does not state a notarization requirement.",
+        "The source review does not state a fee for the pardon application.",
+        "The source review does not address a fee waiver."
+      ]
+    },
+    "officialSources": [
+      {
+        "title": "Alabama Board of Pardons and Paroles, forms",
+        "url": "https://paroles.alabama.gov/resources/forms/",
+        "retrievedOn": "2026-07-30",
+        "sha256": null
+      }
+    ],
+    "rules": {
+      "filing": "The application begins through the local probation office and goes to the Board of Pardons and Paroles.",
+      "fees": "The source review does not state a fee for the pardon application.",
+      "feeWaiver": "The source review does not address a fee waiver.",
+      "notice": "Investigation and Board decision occur after submission.",
+      "service": "The source review does not state a service requirement for the application.",
+      "participantSignature": "The applicant signs their own application.",
+      "notarization": "The source review does not state a notarization requirement."
+    },
+    "generationRequirements": [
+      {
+        "key": "convictionDetails",
+        "question": "Which conviction do you want pardoned \u2014 which court, what offence, and when?",
+        "requirement": "required"
+      },
+      {
+        "key": "sentenceCompletion",
+        "question": "Have you completed the sentence, and on what date?",
+        "requirement": "required"
+      },
+      {
+        "key": "localProbationOffice",
+        "question": "Which local probation office serves the county you live in?",
+        "requirement": "required"
+      }
+    ],
+    "participantFilingRequirements": [],
+    "manualCompletionItems": [
+      {
+        "item": "Signature and date",
+        "whereInPacket": "ABPP-3, signature block",
+        "why": "The applicant signs their own application."
+      }
+    ],
+    "selfHelpBoundaries": [
+      "The participant needs individualized advocacy before the Board.",
+      "Immigration, licensing or firearm consequences are in play.",
+      "Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only."
+    ],
+    "postGenerationHandoffs": [
+      "Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only."
+    ],
+    "packetInstructions": [
+      "Use the June 2025 ABPP-3 revision. The October 2020 copy in the archive is obsolete and must not be used as the live source."
+    ],
+    "participantQuestions": [],
+    "scopeRestrictions": [
+      "official_pdf_fill on Board form ABPP-3, as a separate pardon product if included in scope."
+    ],
+    "buildBlockers": [],
+    "releaseBlockers": [
+      {
+        "question": "Board of Pardons and Paroles form ABPP-3, revised June 2025, has not been acquired. The archived October 2020 revision is obsolete and must not be used as the live source.",
+        "impact": "release_blocker",
+        "affectedElement": "correct_form",
+        "provenance": {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "TRACK AL-10 / missing source requirements",
+          "sourceStatement": "Board of Pardons and Paroles form ABPP-3, revised June 2025.",
+          "normalizerInferred": true
+        }
+      }
+    ],
+    "awaitingCounselClassification": [
+      {
+        "question": "Whether the pardon product is included in scope as a separate product.",
+        "impact": "counsel_classification_required",
+        "affectedElement": "output_strategy",
+        "provenance": {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+          "sourceStatement": "AL-10, pardon | `official_pdf_fill` on Board form ABPP-3, as a separate pardon product if included in scope",
+          "counselQuestion": "Is the Alabama pardon application included in product scope as a separate pardon product? The addendum resolves the packet identity as official_pdf_fill on ABPP-3 and conditions it on scope inclusion, without stating whether that scope decision is build-blocking or release-blocking."
+        }
+      }
+    ],
+    "openLegalQuestions": [],
+    "counselConfirmationRequired": true,
+    "counselQuestions": [
+      "Is the Alabama pardon application included in product scope as a separate pardon product? The addendum resolves the packet identity as official_pdf_fill on ABPP-3 and conditions it on scope inclusion, without stating whether that scope decision is build-blocking or release-blocking."
+    ],
+    "selfHelpStopConditions": [
+      "The participant needs individualized advocacy before the Board.",
+      "Immigration, licensing or firearm consequences are in play."
+    ],
+    "unresolvedQuestions": [
+      {
+        "question": "Board of Pardons and Paroles form ABPP-3, revised June 2025, has not been acquired. The archived October 2020 revision is obsolete and must not be used as the live source.",
+        "impact": "release_blocker",
+        "affectedElement": "correct_form",
+        "provenance": {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "TRACK AL-10 / missing source requirements",
+          "sourceStatement": "Board of Pardons and Paroles form ABPP-3, revised June 2025.",
+          "normalizerInferred": true
+        }
+      },
+      {
+        "question": "Whether the pardon product is included in scope as a separate product.",
+        "impact": "counsel_classification_required",
+        "affectedElement": "output_strategy",
+        "provenance": {
+          "classificationBasis": "counsel_confirmation_required",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+          "sourceStatement": "AL-10, pardon | `official_pdf_fill` on Board form ABPP-3, as a separate pardon product if included in scope",
+          "counselQuestion": "Is the Alabama pardon application included in product scope as a separate pardon product? The addendum resolves the packet identity as official_pdf_fill on ABPP-3 and conditions it on scope inclusion, without stating whether that scope decision is build-blocking or release-blocking."
+        }
+      }
+    ],
+    "guidanceRationales": [],
+    "guidanceRereviewCandidate": false,
+    "legalDesignStatus": "legal_design_approved_with_limitations",
+    "legalDesignLimitations": [
+      {
+        "classification": "scope_restriction",
+        "statement": "official_pdf_fill on Board form ABPP-3, as a separate pardon product if included in scope.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+          "sourceStatement": "AL-10, pardon | `official_pdf_fill` on Board form ABPP-3, as a separate pardon product if included in scope | Alabama has a participant-filed application. Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only. Official source confirmed: https://paroles.alabama.gov/resources/forms/"
+        }
+      },
+      {
+        "classification": "post_generation_handoff",
+        "statement": "Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only.",
+        "provenance": {
+          "classificationBasis": "explicit_state_addendum",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "Alabama operational amendments / Process-guidance routes that can produce a packet",
+          "sourceStatement": "Investigation and Board decision occur after submission. Those outside decisions do not turn the application into guidance-only."
+        }
+      },
+      {
+        "classification": "packet_instruction",
+        "statement": "Use the June 2025 ABPP-3 revision. The October 2020 copy in the archive is obsolete and must not be used as the live source.",
+        "provenance": {
+          "classificationBasis": "mechanical_translation",
+          "sourceFile": "LegalEase-Alabama-Legal-Review.md",
+          "sourceHeading": "TRACK AL-10 / missing source requirements",
+          "sourceStatement": "Board of Pardons and Paroles form ABPP-3, revised June 2025.",
+          "normalizerInferred": true
+        }
+      }
+    ],
+    "legalStatus": "legal_review_pending",
+    "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+    "implementationQueue": "F_source_problem",
+    "legalDesignBlockers": [],
+    "blockers": [
+      {
+        "kind": "output_review_gate",
+        "statement": "Output review pending: counsel approved the design, not the produced document."
+      },
+      {
+        "kind": "visual_review_gate",
+        "statement": "Visual review not started."
+      },
+      {
+        "kind": "technical_proof_gate",
+        "statement": "Technical proof not started."
+      },
+      {
+        "kind": "release_blocker",
+        "statement": "Open question blocks release (correct_form): Board of Pardons and Paroles form ABPP-3, revised June 2025, has not been acquired. The archived October 2020 revision is obsolete and must not be used as the live source."
+      },
+      {
+        "kind": "release_blocker",
+        "statement": "Impact unclassified, returned to counsel (output_strategy): Whether the pardon product is included in scope as a separate product."
+      },
+      {
+        "kind": "source_gate",
+        "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+      }
+    ]
+  },
+  "alExactTrackSha256": "a6ea3fa7730e81e422b7a10e71024ca67df812ea8b12db1c29578cfdafd5990e",
+  "utResolvedDecision": {
+    "decisionId": "UT-TRAFFICKING-PCRA-RULE-65C",
+    "priority": "P2",
+    "disposition": "LEGAL_CLEAR",
+    "familyIds": [
+      "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"
+    ],
+    "bindingProductRule": "Stop searching for an undefined trafficking-specific 1231XX form. Use the Post-Conviction Remedies Act ground in Utah Code Section 78B-9-104(1)(h) and the court's Rule 65C PCRA petition in the district court where the conviction was entered. Collect the qualifying offense, trafficking/force/fraud/coercion relationship and supporting evidence, and apply the burden/attachment/service treatment identified in the supplied disposition.",
+    "authority": "Utah Code Section 78B-9-104(1)(h) and Rule 65C cited in the supplied disposition."
+  },
+  "utResolvedDecisionSha256": "7f6efc829734e763862ade43c47e15c1a8c52736738dd078fccd896d5ce1d5ee",
+  "scope": "Artifact preparation and disabled product metadata only. Secure authenticated claim, payment, sponsorship, owner authorization and runtime fulfillment are not reimplemented or accepted by this packet review."
+}

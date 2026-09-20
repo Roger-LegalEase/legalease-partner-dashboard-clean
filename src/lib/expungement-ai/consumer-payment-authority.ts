@@ -1,5 +1,6 @@
 import "server-only";
 
+import { assertExpectedPacketVerificationHash } from "@/lib/expungement-ai/verification-cas";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 /**
@@ -61,10 +62,29 @@ export type ConsumerPaymentRecord = {
   reason?: string;
 };
 
+export type ConsumerCheckoutBindingResult =
+  | { outcome: "bound" }
+  | { outcome: "refused"; reason: string }
+  | { outcome: "unavailable"; reason: string };
+
 export type RecordConsumerPaymentInput = {
   briefcaseItemId: string;
   paymentStatus: "paid" | "refunded" | "unpaid";
+  /**
+   * What the provider actually collected. On an order a discount cleared to
+   * zero this is 0, not the regular price: recording $50 against a $0 order
+   * would be a false financial record, and the packet is no less owed for it.
+   */
   amountCents: number | null;
+  /** The undiscounted price of the packet. A discount never changes it. */
+  regularPriceCents: number;
+  /** What the provider itself took off, reconciled from the Session. */
+  discountCents: number;
+  /**
+   * False only for Stripe's zero-total flow, where no PaymentIntent exists.
+   * The order is still complete and still entitles the owner to the packet.
+   */
+  paymentRequired: boolean;
   currency: string | null;
   paymentProvider: string;
   /** The provider's own event identity. This is what makes a replay detectable. */
@@ -75,6 +95,8 @@ export type RecordConsumerPaymentInput = {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
+  /** Exact protected verification hash the payment RPC must compare atomically. */
+  expectedVerificationHash: string;
   authority: ConsumerPaymentAuthority;
   /** Free-text provenance for the audit trail, e.g. the route that recorded it. */
   recordedBy: string;
@@ -90,9 +112,39 @@ export type RecordConsumerPaymentInput = {
  * back as an opaque refusal. Neither is a substitute for the other.
  */
 function rejectEvidence(input: RecordConsumerPaymentInput): string | null {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch {
+    return "a canonical current verification hash is required";
+  }
   if (input.paymentStatus !== "paid") return null;
-  if (input.amountCents !== CONSUMER_PACKET_PRICE_CENTS) {
-    return `amount_cents must be ${CONSUMER_PACKET_PRICE_CENTS}`;
+  // The old rule was `amount_cents === 5000`. It was right only while no
+  // discount could exist. What has to hold now is that the order reconciles:
+  // the regular price is still the regular price, the discount came from the
+  // provider and cannot exceed it, and what was collected is exactly what
+  // remained — which is zero when a code cleared the total.
+  if (input.regularPriceCents !== CONSUMER_PACKET_PRICE_CENTS) {
+    return `regular_price_cents must be ${CONSUMER_PACKET_PRICE_CENTS}`;
+  }
+  if (!Number.isInteger(input.discountCents) || input.discountCents < 0) {
+    return "discount_cents must be a whole number of cents, not negative";
+  }
+  if (input.discountCents > input.regularPriceCents) {
+    return "discount_cents cannot exceed the regular price";
+  }
+  const amountDue = input.regularPriceCents - input.discountCents;
+  const expectedCollected = input.paymentRequired ? amountDue : 0;
+  if (input.amountCents !== expectedCollected) {
+    return `amount_cents must be ${expectedCollected} for this order`;
+  }
+  if (input.paymentRequired !== amountDue > 0) {
+    return "payment_required disagrees with the amount due after the discount";
+  }
+  if (input.paymentRequired && !input.paymentIntentId?.trim()) {
+    return "a payment intent is required when an amount was due";
+  }
+  if (!input.paymentRequired && input.paymentIntentId?.trim()) {
+    return "a no-cost order carries no payment intent";
   }
   if ((input.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {
     return `currency must be ${CONSUMER_PACKET_CURRENCY}`;
@@ -139,6 +191,8 @@ export async function recordConsumerPacketPayment(
     p_briefcase_item_id: input.briefcaseItemId,
     p_payment_status: input.paymentStatus,
     p_amount_cents: input.amountCents,
+    p_regular_price_cents: input.regularPriceCents,
+    p_discount_cents: input.discountCents,
     p_currency: input.currency,
     p_payment_provider: input.paymentProvider,
     p_provider_event_id: input.providerEventId,
@@ -149,7 +203,8 @@ export async function recordConsumerPacketPayment(
     p_recorded_by: input.recordedBy,
     p_product_id: input.productId,
     p_person_id: input.personId,
-    p_matter_id: input.matterId
+    p_matter_id: input.matterId,
+    p_expected_verification_hash: input.expectedVerificationHash
   });
 
   if (error) {
@@ -261,35 +316,36 @@ export async function persistConsumerCheckoutBinding(input: {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
-}): Promise<boolean> {
+  /** Exact protected verification hash the checkout-binding RPC must compare atomically. */
+  expectedVerificationHash: string;
+}): Promise<ConsumerCheckoutBindingResult> {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch {
+    return { outcome: "refused", reason: "invalid_expected_verification_hash" };
+  }
   const supabase = getSupabaseAdminClient();
-  if (!supabase) return false;
+  if (!supabase) return { outcome: "unavailable", reason: "checkout_binding_storage_unavailable" };
 
-  const { data, error } = await supabase
-    .from("consumer_briefcase_items")
-    .update({
-      payment_status: "unpaid",
-      payment_provider: input.paymentProvider,
-      checkout_session_id: input.checkoutSessionId,
-      amount_cents: CONSUMER_PACKET_PRICE_CENTS,
-      payment_product_id: input.productId,
-      payment_person_id: input.personId,
-      payment_matter_id: input.matterId,
-      packet_status: "not_started",
-      updated_at: new Date().toISOString()
-    })
-    .eq("id", input.briefcaseItemId)
-    .eq("user_id", input.userId)
-    .eq("payment_allowed", true)
-    .eq("status", "packet_ready")
-    .eq("payment_status", "unpaid")
-    .in("result_code", ["packet_ready", "packet_ready_with_caution"])
-    .in("packet_type", ["official_pdf_overlay", "custom_pleading", "legacy_packet"])
-    .not("pathway_label", "is", null)
-    .select("id, checkout_session_id")
-    .maybeSingle<{ id: string; checkout_session_id: string }>();
-
-  return !error
-    && data?.id === input.briefcaseItemId
-    && data.checkout_session_id === input.checkoutSessionId;
+  const { data, error } = await supabase.rpc("bind_consumer_checkout_verification", {
+    p_consumer_auth_user_id: input.userId,
+    p_briefcase_item_id: input.briefcaseItemId,
+    p_checkout_session_id: input.checkoutSessionId,
+    p_payment_provider: input.paymentProvider,
+    p_product_id: input.productId,
+    p_person_id: input.personId,
+    p_matter_id: input.matterId,
+    p_expected_verification_hash: input.expectedVerificationHash
+  });
+  if (error) return { outcome: "unavailable", reason: error.message };
+  const row = Array.isArray(data) ? data[0] : data;
+  if (row?.ok === true
+    && row.briefcase_item_id === input.briefcaseItemId
+    && row.checkout_session_id === input.checkoutSessionId) {
+    return { outcome: "bound" };
+  }
+  if (row?.ok === false) {
+    return { outcome: "refused", reason: typeof row.reason === "string" ? row.reason : "checkout_binding_refused" };
+  }
+  return { outcome: "unavailable", reason: "checkout_binding_response_invalid" };
 }

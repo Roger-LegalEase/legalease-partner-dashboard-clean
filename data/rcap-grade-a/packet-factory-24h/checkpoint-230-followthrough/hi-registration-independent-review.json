@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-hi-registration-independent-review/v1",
+  "reviewer": "/root/hi_route_review",
+  "reviewedAtBase": "c6a8059e9f473e002a2dc48e6493e92b2bfbd86c",
+  "registration": {
+    "path": "data/rcap-grade-a/route-artifact-acceptance/independent-registrations/rcap-hi-custom-pleading.json",
+    "reviewPath": "data/rcap-grade-a/route-artifact-acceptance/independent-returns/rcap-hi-custom-pleading.json",
+    "reviewSha256": "d16894f62c659fd2d3c6f9d8826dc64e0393baa2d6335b71b7eb4980668a719e",
+    "registeredRoutes": 5,
+    "registeredArtifacts": 10,
+    "allCurrentAndPinnedHashesExact": true,
+    "runtimeInstalled": false,
+    "paymentEligible": false,
+    "createsCommercialAuthority": false,
+    "changesFamilyVerdict": false
+  },
+  "focusedChecks": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/route-review-registration.mjs --review data/rcap-grade-a/route-artifact-acceptance/independent-returns/rcap-hi-custom-pleading.json --check",
+      "result": "PASS — 5 exact route reviews registered; no runtime or commercial authority created"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-route-review-registration.mjs",
+      "result": "PASS — 5 positive routes; 12 corrupt/stale/foreign evidence controls refused; no files written"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family rcap-hi-custom-pleading",
+      "result": "PASS — 0 records need creation, 0 need refresh, 1 unchanged"
+    }
+  ],
+  "routeScope": [
+    "hi-first-time-drug-offender",
+    "hi-first-time-property-offender",
+    "hi-marijuana-three-grams",
+    "hi-pre-2004-drug-offender",
+    "hi-under-21-dui"
+  ],
+  "evidenceBindings": {
+    "centralRasterRun": 34548353001,
+    "centralConclusion": "success",
+    "rasterVerdicts": "10/10 RASTER_PASS",
+    "rasterCommit": "c6a8059e9f473e002a2dc48e6493e92b2bfbd86c",
+    "independentReviewVerdict": "PASS_COMPLETE_INDEPENDENT",
+    "determinism": {
+      "reviewer": "VF01",
+      "path": "data/rcap-grade-a/packet-factory-24h/vf01/hi-evidence/rebuild-measurement/measurement.json",
+      "sha256": "4920a1ad8e78531740eae97f886b53cbcd7e113ce959f465d19921b93b13e22d",
+      "result": "MEASURED_ALL_12_REPRODUCE",
+      "identity": "All ten route PDF hashes and byte lengths match current committed and registered bytes; current builder hash equals VF01 staged builder hash."
+    }
+  },
+  "wiringChecks": {
+    "routeReviewRegistrationImports": [
+      "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs",
+      "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs"
+    ],
+    "exactAcceptanceGuard": "Registration checks central run/job success, exact commit, queue rows, current and pinned PDF hashes, route component sets, ten raster verdicts, and independent PASS_COMPLETE_INDEPENDENT before producing bindings.",
+    "consumer": "Registration is consumed through registeredRouteBindings() by generate-route-artifact-acceptance.mjs and generate-product-wiring.mjs; extract-verifier-returns.mjs does not scan independent-returns automatically."
+  },
+  "realRefusalGaps": [],
+  "noPromotion": "This review validates registration evidence only. It does not install runtime routes, create fulfillment authority, enable generation, or promote commercial status."
+}

@@ -1,0 +1,197 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.discharge_date",
+      "page": 1,
+      "printedContext": "Date probation was discharged, from the discharge order",
+      "disclosureLabel": "Date probation was discharged, from the discharge order",
+      "identity": "primary_filing field discharge_date",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date probation was discharged, copied from the discharge order"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.offense_description",
+      "page": 1,
+      "printedContext": "Offense in this case, worded exactly as the judgment words it",
+      "disclosureLabel": "Offense in this case, worded exactly as the judgment words it",
+      "identity": "primary_filing field offense_description",
+      "why": "no offense fact is held for a record the platform has not seen",
+      "participantMustSupply": "the offense, worded exactly as the judgment words it"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.original_case_number",
+      "page": 1,
+      "printedContext": "Original criminal case number in the caption of the motion",
+      "disclosureLabel": "Original criminal case number in the caption of the motion",
+      "identity": "primary_filing field original_case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the case number of the original criminal case, copied from the judgment or the discharge order"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.sentencing_court",
+      "page": 1,
+      "printedContext": "Court named in the caption - the court that sentenced you in the original criminal case, and its location",
+      "disclosureLabel": "Court named in the caption - the court that sentenced you in the original criminal case, and its location",
+      "identity": "primary_filing field sentencing_court",
+      "why": "the original case lives in the sentencing court's file, and which court that is belongs to the participant's record",
+      "participantMustSupply": "the name and location of the court that sentenced you - the office of that court can confirm both"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.sis_order_date",
+      "page": 1,
+      "printedContext": "Date of the order suspending imposition of sentence, from the court record",
+      "disclosureLabel": "Date of the order suspending imposition of sentence, from the court record",
+      "identity": "primary_filing field sis_order_date",
+      "why": "no disposition fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date of the SIS order, copied from the court record"
+    },
+    {
+      "document": "subsection_f_exclusions_statement",
+      "field": "subsection_f_exclusions_statement.exclusions_statement",
+      "page": 1,
+      "printedContext": "Your own statement addressing the exclusions in AS 12.55.085(f)",
+      "disclosureLabel": "Your own statement addressing the exclusions in AS 12.55.085(f)",
+      "identity": "subsection_f_exclusions_statement field exclusions_statement",
+      "why": "whether an offense falls within the (f) exclusions is an assertion the platform cannot make for the participant",
+      "participantMustSupply": "your own first-hand statement addressing the AS 12.55.085(f) exclusions - if you believe the offense may fall within them, stop and get legal help instead of filing"
+    },
+    {
+      "document": "compliance_at_discharge_statement",
+      "field": "compliance_at_discharge_statement.compliance_statement",
+      "page": 1,
+      "printedContext": "Your own statement of compliance and rehabilitation as of the date probation was discharged",
+      "disclosureLabel": "Your own statement of compliance and rehabilitation as of the date probation was discharged",
+      "identity": "compliance_at_discharge_statement field compliance_statement",
+      "why": "the platform prints the participant's own account and asserts nothing about compliance or rehabilitation",
+      "participantMustSupply": "your own first-hand account of compliance and rehabilitation as of the discharge date"
+    },
+    {
+      "document": "compliance_at_discharge_statement",
+      "field": "compliance_at_discharge_statement.evidence_list",
+      "page": 1,
+      "printedContext": "List of the evidence you attach in support",
+      "disclosureLabel": "List of the evidence you attach in support",
+      "identity": "compliance_at_discharge_statement field evidence_list",
+      "why": "what evidence exists is a fact of the participant's own records, which the platform has not seen",
+      "participantMustSupply": "a list of the evidence you attach - the route contract names evidence concerning compliance and rehabilitation as of discharge as a component, and what to include is yours to decide"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.prosecuting_office_address",
+      "page": 1,
+      "printedContext": "Name and mailing address of the prosecuting office served",
+      "disclosureLabel": "Name and mailing address of the prosecuting office served",
+      "identity": "prosecutor_service field prosecuting_office_address",
+      "why": "the platform holds no address for the prosecuting office and the participant writes it before service",
+      "participantMustSupply": "the name and mailing address of the prosecuting attorney's office for the original case - the office of the sentencing court can give it to you"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_case_number",
+      "page": 1,
+      "printedContext": "Original criminal case number in the caption of the proposed order",
+      "disclosureLabel": "Original criminal case number in the caption of the proposed order",
+      "identity": "proposed_order field order_case_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the same original criminal case number you wrote in the motion's caption"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_court_name",
+      "page": 1,
+      "printedContext": "Court named in the caption of the proposed order, and its location",
+      "disclosureLabel": "Court named in the caption of the proposed order, and its location",
+      "identity": "proposed_order field order_court_name",
+      "why": "the proposed order travels with the motion and carries the same caption the participant establishes",
+      "participantMustSupply": "the same court name and location you wrote in the motion's caption"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.defendant_signature",
+      "label": "Signature of the defendant on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the motion personally"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the defendant's signature on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    },
+    {
+      "document": "subsection_f_exclusions_statement",
+      "field": "subsection_f_exclusions_statement.statement_signature",
+      "label": "Signature of the defendant on the statement",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the statement personally"
+    },
+    {
+      "document": "subsection_f_exclusions_statement",
+      "field": "subsection_f_exclusions_statement.statement_signature_date",
+      "label": "Date beside the defendant's signature on the statement",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the statement is signed would be false"
+    },
+    {
+      "document": "compliance_at_discharge_statement",
+      "field": "compliance_at_discharge_statement.statement_signature",
+      "label": "Signature of the defendant on the statement",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the statement personally"
+    },
+    {
+      "document": "compliance_at_discharge_statement",
+      "field": "compliance_at_discharge_statement.statement_signature_date",
+      "label": "Date beside the defendant's signature on the statement",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the statement is signed would be false"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.service_date",
+      "label": "Date of service of the copy",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the copy is actually served would be false"
+    },
+    {
+      "document": "prosecutor_service",
+      "field": "prosecutor_service.service_signature",
+      "label": "Signature of the defendant on the service page",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs this page when the copy actually goes out"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_determination",
+      "label": "The determination line of the proposed order, decided by the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "every decision on the proposed order is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_signature",
+      "label": "Signature line of the proposed order, for the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court signs the order if, and only if, it grants the motion"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_date",
+      "label": "Date line of the proposed order, for the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court dates the order when it decides"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/participant-instructions.md"
+}

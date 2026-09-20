@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "independent-semantic-preflight/v1",
+  "familyId": "in_arrest_no_charges-set",
+  "reviewer": {
+    "name": "seven_independent_review",
+    "model": "GPT-6 Astra",
+    "reasoningEffort": "xhigh",
+    "independentOfBuilder": true
+  },
+  "packetPinnedCommit": "42faeb93ca26670ba01d7fecfe5ebbadabfcc916",
+  "reviewPhase": "PRE_RASTER_SEMANTIC_ONLY",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "rasterDispatchAuthorized": false,
+  "terminalPromotionAuthorized": false,
+  "measurementBinding": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/independent-semantic-review/in_arrest_no_charges-set-measurements.json",
+    "sha256": "40bb7f6a92acdb2b3d666c518f44d3df37b1b5dda24e79a83551a0f19cd6d4cb",
+    "byteLength": 543063
+  },
+  "frozenInputs": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/independent-semantic-review/frozen-inputs.json",
+    "sha256": "2cd59de0c826b7d47508faff36c69ae98bd4e29bd52c5beecf53051065197af8",
+    "byteLength": 18819
+  },
+  "trackBinding": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/independent-semantic-review/governing-track-extracts.json",
+    "sha256": "9c0ad89c2566c9362a6f1776d393ba2e4f041925c7f57f777097463ac198d1e7",
+    "byteLength": 47650
+  },
+  "contractBinding": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/independent-semantic-review/snapshot/docs/PRODUCT_CONTRACT.md",
+    "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+    "byteLength": 64438
+  },
+  "guideChecks": {
+    "containsPendingFilePublicDisclosure": false,
+    "containsDestroyedDisclosure": false,
+    "containsNoChargesCutoff": false,
+    "containsStatuteOfLimitations": false,
+    "containsInternalReportPath": true,
+    "threeServiceCertificatesPrintedOnBundlePages": [
+      2,
+      6,
+      7
+    ],
+    "guideCallsCertificatesFour": true,
+    "flatExhibitCourtChoices": [
+      "Expunged pursuant to I.C. §35-38-9-1",
+      "NOT expunged"
+    ],
+    "guideExplicitlyNamesFlatExhibitCourtChoices": false
+  },
+  "findings": [
+    {
+      "id": "IN-PREFLIGHT-BOUNDARY-AND-ADDRESS",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "ARTIFACTS"
+      ],
+      "finding": "Each boundary main bundle omits all 14 known name placements, eight known caption counties and both known addresses. Canonical address widgets contain only the street and omit held city/state/ZIP in both the Appearance and order distribution block. The shared guide falsely claims all five values/26 placements are already written for the delivered packet.",
+      "requiredRepair": "Fit the complete held values truthfully through source-faithful per-widget handling; do not suppress known facts because of inherited MaxLen or reclassify an overflow as court-owned. Bind guide assertions to actual fixture/matter writes."
+    },
+    {
+      "id": "IN-PREFLIGHT-SHARED-ACTOR-REFUSAL",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "Bundle PetDOB occurs on participant petition p3 and identity recital p9; blanket proposed_order_finding refusal suppresses both. Insert p4 Full Name and DOB are neutral PETITIONER IDENTIFICATION INFORMATION and occur only on p4, yet map says shared with court. Insert p1/p4 known arrest facts and neutral service recipient county fields are also left blank. Judicial determinations must be distinguished from neutral facts by physical occurrence, not by a document-wide court label.",
+      "requiredRepair": "Inventory every printed participant/neutral field and every held fact, including refused fields. Fill participant occurrences and supported neutral record recitals; preserve distinct judicial findings, decisions, service dates/methods/signatures and unknown agencies. Do not use a manual handback to conceal known omissions."
+    },
+    {
+      "id": "IN-PREFLIGHT-CONDITIONAL-HANDBACK",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "finding": "Insert map marks all refused non-checkbox fields required, including source labels NameArrestingOfficer/ArrestingAgency if known and LEACaseNumber if available, all alternative dismissal/acquittal/vacatur dates, unused offense rows and their dropdowns. Bundle Fax is required in the map although the guide correctly permits no fax. Guide charge-block directions and offence rows do not state their source condition that no-charge matters leave those sections blank. Exhibit A printed Date of Decision is incorrectly described as a mandatory dismissal date.",
+      "requiredRepair": "Use source-specific conditional/optional statuses and branch-specific participant instructions. No fabricated officer/report number/charge/conviction level/dismissal or appellate date. Preserve actual unanswered questions, and identify the date relevant to the selected disposition."
+    },
+    {
+      "id": "IN-PREFLIGHT-MULTIMATTER-COVERAGE",
+      "obligations": [
+        "COMPONENT_SET",
+        "REPEATING_ROWS"
+      ],
+      "finding": "Each boundary fixture contains three distinct criminal cause numbers/arrest records but delivers one unpopulated four-page insert set. The source DD-CountNumber tooltip requires a different count label for each criminal cause; current instructions only replace the three placeholders with this single set. The second and third case groups have no individualized Facts/Findings/Exhibit content or truthful per-case handoff.",
+      "requiredRepair": "After correcting route-inconsistent facts, enumerate the actual in-scope case groups and generate/assemble or explicitly govern every required source insert set. Distinguish multiple counts within one cause from multiple criminal causes. Do not reduce the boundary facts to evade repeated-record coverage."
+    },
+    {
+      "id": "IN-PREFLIGHT-DISCLOSURES-AND-COURT-CONTROLS",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "Both guides omit the governing track instruction to disclose that the expungement case file is public until the order is granted and that records are sealed/restricted rather than destroyed. Guides enumerate only eight court election squares on insert p3 and assign the four insert pages to the participant in the blank table; the two flat p4 Expunged / NOT expunged determinations are not separately identified as court-owned. Those flat choices are currently blank; no improper decision write is alleged.",
+      "requiredRepair": "Include the existing binding disclosures and distinguish the two flat Exhibit A judicial-result controls from neutral identity/record cells. Keep every judicial outcome blank."
+    },
+    {
+      "id": "IN-PREFLIGHT-PARTICIPANT-COPY",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "finding": "Participant instructions expose internal reports, committed-registry paths and detailed prior binder defect history. These do not help a participant make a filing choice. Source form IDs may remain when useful for locating an official form; repository implementation history belongs in evidence. The guide also calls the three certificates of service four; source pages2/6/7 contain three certificates, each with two method alternatives.",
+      "requiredRepair": "Use plain participant instructions, preserve historical engineering evidence separately, and correct the service-certificate count without inventing service or changing the governed clerk/form handoff."
+    },
+    {
+      "id": "IN-PREFLIGHT-FIXTURE-ROUTE-TRUTH",
+      "obligations": [
+        "ROUTE_IDENTITY",
+        "ARTIFACTS",
+        "ROUTE_OPTIONS"
+      ],
+      "finding": "Both fixtures carry criminal conviction dates, no explicit eligible disposition or vacatur facts, generic District Court and XX address facts. A nonconviction route requires a supported actual outcome; the builder cannot infer it from the family label. The marked one-year statement uses top-level arrest/disposition dates and the shared guide calls 2020-01-15 the latest held date even though boundary records continue through 2022-02-14.",
+      "requiredRepair": "Use explicit coherent in-scope disposition/case/date fixtures and prove the elected branch for every case. Keep ordinary waiting, vacatur and written-early-filing alternatives distinct. Correct fixture court identity without guessing a court for a participant."
+    },
+    {
+      "id": "IN-PREFLIGHT-ARREST-CUTOFF-AND-LIMITATIONS",
+      "obligations": [
+        "ROUTE_IDENTITY",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "finding": "The governed route mechanism requires arrest after June30,2022 and excludes earlier arrests to the general Section1 petition. Canonical arrest2019-03-08 and all three boundary arrests2019/2020/2021 fall outside this route. Guide omits the cutoff and also the binding notice that expungement does not shorten the statute of limitations and charges may still be filed.",
+      "requiredRepair": "Respect the existing cutoff in fixtures, route eligibility and participant guidance; route earlier arrests to the already-governed general Section1 treatment. Include the existing future-charge/limitations disclosure. Do not reopen source acquisition."
+    }
+  ],
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-FIXTURE-ROUTE-TRUTH, IN-PREFLIGHT-ARREST-CUTOFF-AND-LIMITATIONS"
+    },
+    "SOURCE_IDENTITY": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Exact held CCA source pins and all19source pages read; custody is resolved. No substitute source used."
+    },
+    "COMPONENT_SET": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-MULTIMATTER-COVERAGE"
+    },
+    "KNOWN_PREFILLS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-BOUNDARY-AND-ADDRESS, IN-PREFLIGHT-SHARED-ACTOR-REFUSAL"
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-BOUNDARY-AND-ADDRESS, IN-PREFLIGHT-SHARED-ACTOR-REFUSAL, IN-PREFLIGHT-CONDITIONAL-HANDBACK, IN-PREFLIGHT-DISCLOSURES-AND-COURT-CONTROLS, IN-PREFLIGHT-ARREST-CUTOFF-AND-LIMITATIONS"
+    },
+    "ROUTE_OPTIONS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-CONDITIONAL-HANDBACK, IN-PREFLIGHT-FIXTURE-ROUTE-TRUTH"
+    },
+    "REPEATING_ROWS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-BOUNDARY-AND-ADDRESS, IN-PREFLIGHT-MULTIMATTER-COVERAGE"
+    },
+    "PROTECTED_FIELDS": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Current widget readback has zero marks in all16 court-finding checkbox occurrences/family; current flat judicial decisions/signatures remain blank. Neutral identity classification and flat-control handback defects are separately failed; this is not a visual acceptance."
+    },
+    "ARTIFACTS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-BOUNDARY-AND-ADDRESS, IN-PREFLIGHT-PARTICIPANT-COPY, IN-PREFLIGHT-FIXTURE-ROUTE-TRUTH"
+    },
+    "PAGE_ORDER": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Both source component sequences are preserved as15-page main bundle plus4-page insert document; guide locates source replacement placeholders4/10/11. Multi-case completeness is separately failed."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "result": "NOT_MEASURABLE",
+      "measured": false,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Fresh central original-page visual review remains pending; old raster cannot approve these current bytes."
+    },
+    "FILING_DESTINATION": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Guide states circuit/superior court in county of charge/allegation or arrest if never charged and asks clerk for exact court."
+    },
+    "FEE_AND_WAIVER": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "No Section1 filing fee; no waiver application fabricated."
+    },
+    "SERVICE": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Court serves prosecutor under governed rule; guide tells participant to follow CCA forms and obtain clerk clarification, certify actual service only after it occurs; unknown dates/methods/addresses remain blank. The inaccurate count is recorded for copy repair."
+    },
+    "SELF_HELP_STOP": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW_ONLY",
+      "finding": "Confirmed findings: IN-PREFLIGHT-ARREST-CUTOFF-AND-LIMITATIONS"
+    }
+  },
+  "knownOmissionCountScope": "Exact enumerated measured occurrences in the independent audit, not a claim that other unresolved legal branches have a complete known-fact census. Route-inconsistent facts must be corrected before rendering.",
+  "knownMissingOccurrencesMeasured": 56,
+  "partialPostalAddressOccurrencesMeasured": 2,
+  "sourceWidgetOccurrencesInspected": 490,
+  "deliveredPagesTextInspected": 38,
+  "sourcePagesRead": 19,
+  "courtFindingCheckboxOccurrencesInspected": 16,
+  "courtFindingMarkedOccurrences": 0,
+  "sourceAcquisitionReopened": false,
+  "historicalEvidenceDisposition": {
+    "preserved": [
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf42/rows-vf42-20260910.json",
+        "sha256": "be95109b2626cfc2096e66d791d3264f973ae971b19d678a776f1c6a486ca30b",
+        "byteLength": 67993
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/fix132/in-choice-proof-20260911/rows-fix132-in-choice-proof-20260911.json",
+        "sha256": "cab065cf87072dd6a3e345cea77c7d3eb9f0774adc7f98b37104e0590967aa86",
+        "byteLength": 10986
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/current-byte-semantic-proof.json",
+        "sha256": "a58889232fab7690e786bef78d027fde8603f0e1e3a5dcceb2659465212861be",
+        "byteLength": 6719
+      }
+    ],
+    "supersedesNoHistoricalVisualVerdict": true,
+    "note": "B724 source appearance repair and current participant mark changes remain preserved; neither proves full semantic readiness. Current fresh failures add source/actor/held-fact/guide findings. No old FAIL or partial PASS was erased."
+  }
+}

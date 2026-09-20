@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-packet-factory-bounded-blocker-evidence/v1",
+  "assignmentId": "PF01",
+  "familyId": "ut_pet_remove_link-set",
+  "baseCommit": "1e09363c514ddfabfe493be8685bc466afd7f723",
+  "branch": "pf01-ut-remove-link-20260911",
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF01 'ut_pet_remove_link-set'",
+    "exitCode": 0,
+    "result": "CLAIM_OK PF01 ut_pet_remove_link-set (packet-build, grant set 8d36722f0fed3651)"
+  },
+  "status": "STOPPED",
+  "stopClass": "BLOCKED_REQUIRED_COMPONENT_CONTENT",
+  "bindingSelector": {
+    "source": "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json#bindingProductRule",
+    "requiredFact": "judgeOrCommissioner",
+    "acceptedFactSources": [
+      "clerk-confirmed",
+      "court-confirmed"
+    ],
+    "judge": [
+      "1501CR",
+      "1502CR",
+      "1110GE"
+    ],
+    "commissioner": [
+      "1501CR-C",
+      "1502CR",
+      "1111GE"
+    ],
+    "otherwise": {
+      "generateFilingPacket": false,
+      "status": "configuration_ambiguous",
+      "reason": "clerk-confirmation-required"
+    }
+  },
+  "heldExactSources": [
+    {
+      "formId": "1501CR",
+      "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR__69c37d4da60e.pdf",
+      "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+      "byteLength": 175626,
+      "pageCount": 4,
+      "pageSizePoints": [612, 792],
+      "acroForm": "none"
+    },
+    {
+      "formId": "1501CR-C",
+      "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1501CR-C__25e24089f588.pdf",
+      "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+      "byteLength": 177335,
+      "pageCount": 4,
+      "pageSizePoints": [612, 792],
+      "acroForm": "none"
+    },
+    {
+      "formId": "1502CR",
+      "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC4__1502CR__d23d74d35aaf.pdf",
+      "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+      "byteLength": 106034,
+      "pageCount": 3,
+      "pageSizePoints": [612, 792],
+      "acroForm": "none"
+    }
+  ],
+  "missingRequiredComponentContent": [
+    {
+      "formId": "1110GE",
+      "packetBranch": "judge",
+      "required": true,
+      "heldExactBinary": false,
+      "heldFaithfulContent": false,
+      "evidence": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC05_SOURCE_IDENTITY.json records heldInAnyMountedCustody false and says its candidate address was refused; the repository and mounted private source trees contain no 1110GE document."
+    },
+    {
+      "formId": "1111GE",
+      "packetBranch": "commissioner",
+      "required": true,
+      "heldExactBinary": false,
+      "heldFaithfulContent": false,
+      "evidence": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC05_SOURCE_IDENTITY.json records heldInAnyMountedCustody false and no binary address for 1111GE; the repository and mounted private source trees contain no 1111GE document."
+    }
+  ],
+  "nonSubstitutableHeldNotice": {
+    "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Utah/06_Notice_of_Hearing.pdf",
+    "sha256": "addcefc979d5a9b05bc1895204cf810762795fb86327bc2d882ed5c4cee8cd61",
+    "whyNotUsable": "Its printed face is Notice of Hearing - Expungement, approved 2010-07-16 and revised 2019-05-01. The Master Library legal review identifies this older expungement notice as form 1164XX. It does not print or establish 1111GE and cannot be silently substituted for the required commissioner component."
+  },
+  "recordConflict": {
+    "newerClassification": "SOURCE_RECOVERY_WAVE1_CLASSIFICATION_2026-09-11.json treats official-form:1110GE or 1111GE as satisfied by relationship and says no standalone binary is owed.",
+    "deliveryRequirement": "The later binding selector requires 1110GE in every judge packet and 1111GE in every commissioner packet.",
+    "measuredConsequence": "A branch packet cannot include the required notice from a relationship label alone. The held inputs establish titles and routing but do not establish either form's complete text, fields, geometry, revision, or official bytes.",
+    "prohibitedResolution": "Do not compose guessed notices, substitute 1164XX, or omit the required component."
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'ut_pet_remove_link-set' --codex-cloud --minimum-captain-sha 9385c2b0c2b8b0102bda92be0629a2453ba7a729",
+    "exitCode": 1,
+    "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed, 3 not applicable",
+    "familySourceFailure": "ut_pet_remove_link-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.",
+    "knownCheckoutFailures": [
+      "worktree_clean: preserved untracked private path",
+      "private_is_git_ignored: private is not ignored at this base",
+      "master_library_mounted: environment marker absent",
+      "corpus_matches_committed_index: 5 of 24 sampled entries absent"
+    ],
+    "custodyPreflightCorrectionDeferred": "The narrow familySources correction for the three recovered bodies would not supply 1110GE or 1111GE content and cannot make either branch complete. No shared verifier was changed."
+  },
+  "artifactState": {
+    "overlayDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill",
+    "exists": false,
+    "touched": false,
+    "builderCreated": false,
+    "testCreated": false,
+    "filingPacketsGenerated": 0,
+    "rasterGenerated": false
+  },
+  "exactRemainingGate": "Provide hash-bound, content-complete held inputs for both 1110GE and 1111GE, or a binding product/source determination that supplies a faithful governed composition for each required notice. Then reconcile familySources for the three recovered wave-1 PDFs and build both selector branches plus refusal fixtures.",
+  "commercialAuthorityGranted": false,
+  "productionTouched": false,
+  "selfVerified": false
+}

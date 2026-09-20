@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "rcap-codex-cloud-repair-return/v1",
+  "worker": "CODEX-CS1-FIX07-CT-DECRIMINALIZED",
+  "workerId": "CODEX-CS1-FIX07-CT-DECRIMINALIZED",
+  "base": "b5ab00da9d9163d7f3f517d574a99542b64b93ee",
+  "exactBase": "b5ab00da9d9163d7f3f517d574a99542b64b93ee",
+  "branch": "codex/cs1-fix07-ct-decriminalized-b5ab",
+  "commit": "d80097c61f68f01c29e92c09fec26e120841d949",
+  "commitScope": "focused FIX07 repair-row evidence commit preceding this self-referential return receipt",
+  "pushed": "YES",
+  "status": "BUILT_RASTER_PENDING",
+  "repairStatus": "COMPLETED",
+  "family": "ct-decriminalized-set",
+  "route": "obligation:track-only:CT:ct-decriminalized",
+  "lane": "FIX07",
+  "laneKind": "repair",
+  "repairedByThisLane": true,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 ct-decriminalized-set",
+    "result": "CLAIM_OK FIX07 ct-decriminalized-set (repair, grant set b66698003cc6a6c9)",
+    "assertedBeforeFamilyContent": true,
+    "released": false
+  },
+  "obligationsRepaired": [
+    "REQUIRED_BEFORE_FILING"
+  ],
+  "exactStatement": "The source review does not state a notarization requirement.",
+  "repair": "The exact supported non-statement is present in participant-instructions.md immediately before the personal-signing step and in the rendered filing-instructions component. It says neither that notarization is required nor that it is prohibited.",
+  "baseStateNote": "The exact Captain base already contained the same content repair and post-repair PDFs through commit d60aa409312c7258e92d6b9b7d7409c945197ea1. This FIX07 lane asserted its current claim, rebuilt every builder-generated family output twice from absent artifact state, reproduced the repaired outputs byte-for-byte, and recorded the reissued repair under the assigned worker without altering legal or source authority.",
+  "sourceMode": {
+    "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "sourceDocuments": 0,
+    "sourceResearchPerformed": false,
+    "sourceAcquisitionPerformed": false,
+    "corpusMounted": false,
+    "corpusRequired": false
+  },
+  "artifactsBefore": [
+    {
+      "fixture": "canonical",
+      "sha256": "089d79430041befc86af2d2480e51302ce1e150cdf8b6850739ae9fcfaf71955",
+      "byteLength": 10500,
+      "pageCount": 4
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "7afffea3a27b5527be354e8a14efcf1bc3639a7ea39d3925c79ec97dffdf5a73",
+      "byteLength": 10688,
+      "pageCount": 4
+    }
+  ],
+  "artifactsAfter": [
+    {
+      "fixture": "canonical",
+      "sha256": "9b6667f6ecbe38c2657b100a663727c227b6ce8f4e3244544041239b764218b2",
+      "byteLength": 10647,
+      "pageCount": 4
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "b5134f47d6b55ea57179437561767b8c38c65e8be8d10281224549c2df442d83",
+      "byteLength": 10835,
+      "pageCount": 4
+    }
+  ],
+  "newHashes": {
+    "canonical": "9b6667f6ecbe38c2657b100a663727c227b6ce8f4e3244544041239b764218b2",
+    "boundary": "b5134f47d6b55ea57179437561767b8c38c65e8be8d10281224549c2df442d83"
+  },
+  "newLengths": {
+    "canonical": 10647,
+    "boundary": 10835
+  },
+  "newPages": {
+    "canonical": 4,
+    "boundary": 4
+  },
+  "determinism": {
+    "cleanArtifactState": true,
+    "completeBuilderRuns": 2,
+    "builderReturnsIdentical": true,
+    "hashesIdentical": true,
+    "byteLengthsIdentical": true,
+    "pageCountsIdentical": true,
+    "completeComponentManifestsIdentical": true,
+    "allRegeneratedFilesIdentical": true,
+    "matchedRepairedCaptainBase": true,
+    "renderedArtifactsReportSha256": "82ac2ad74de79726b9a4fc55f9ccd36ee995d9f083e3278e424be96c69982d23"
+  },
+  "preservedContract": {
+    "routeIdentity": "obligation:track-only:CT:ct-decriminalized",
+    "codifiedSourceIdentityUnchanged": true,
+    "componentsUnchanged": [
+      "ct-decriminalized-primary-filing-1",
+      "ct-decriminalized-filing-instructions-2"
+    ],
+    "writesUnchanged": 6,
+    "classifiedBlanksUnchanged": 7,
+    "protectedFieldsUnchanged": true,
+    "filingDestinationUnchanged": true,
+    "feeAndWaiverUncertaintyUnchanged": true,
+    "serviceAndNoticeNonStatementsUnchanged": true,
+    "selfHelpStopsUnchanged": true
+  },
+  "textEvidence": {
+    "participantInstructionsOccurrences": 1,
+    "canonicalPdfOccurrences": 1,
+    "boundaryPdfOccurrences": 1,
+    "requiredClaimAdded": false,
+    "prohibitedClaimAdded": false
+  },
+  "visibleInspection": {
+    "artifactsInspected": 2,
+    "pagesInspected": 8,
+    "rasterDpi": 144,
+    "allPagesInspected": true,
+    "visibleWritesInspected": 12,
+    "allVisibleWritesObserved": true,
+    "notarizationStatementVisibleInBothFixtures": true,
+    "clippingFindings": 0,
+    "overlapFindings": 0,
+    "orphanedOrNearEmptyPages": 0,
+    "rasterReceiptCreated": false,
+    "visualAcceptanceIssued": false
+  },
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "tests": [
+    "branch, HEAD, merge base and clean worktree preflight => exact branch/base and clean",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 ct-decriminalized-set => CLAIM_OK before family content",
+    "node --check scripts/build-census-v1-ct-decriminalized-set.mjs => PASS",
+    "node scripts/build-census-v1-ct-decriminalized-set.mjs --check --no-raster => CHECK_ONLY; 3 records; 17 anchors; 2 components; 6 writes; 7 blanks",
+    "two complete node scripts/build-census-v1-ct-decriminalized-set.mjs --no-raster runs from absent family artifact state => deterministic COMPLETED / BUILT_RASTER_PENDING; all outputs and manifests identical",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-decriminalized-set => PASS_COMPLETE 6/13 written; all nine counters zero",
+    "exact contiguous-string assertions over participant-instructions.md and pdftotext extraction of canonical.pdf and boundary.pdf => one exact occurrence in each surface",
+    "byte-derived route/component/write audit => exact route; exact two-component manifest; 12/12 visible writes read from output bytes",
+    "144-DPI inspection of all eight pages => exact statement visible in both fixtures; no clipping, overlap, or orphaned/near-empty page",
+    "jq empty and git diff --check => PASS"
+  ],
+  "familyRepairPathsAlreadyAtExactBase": [
+    "scripts/build-census-v1-ct-decriminalized-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-decriminalized-set--custom-pleading/source-receipt.json"
+  ],
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/fix07/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix07-ct-decriminalized-b5ab/RETURN.json"
+  ],
+  "centralEdits": 0,
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "selfVerificationPerformed": 0,
+  "routes": 0,
+  "routesOpened": 0,
+  "Production": "NO",
+  "ProductionTouched": "NO"
+}

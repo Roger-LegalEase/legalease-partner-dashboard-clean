@@ -1,0 +1,153 @@
+{
+  "checkedSourceCommit": "bd4a10802acf881c39effa6fc63c9693fd99b339",
+  "implementationCommit": "00d2425ca20f03468523b5d3bfa00ada59d7d6c8",
+  "workflowRunId": "34112045004",
+  "timestamp": "2026-09-07T10:37:38.669225+00:00",
+  "results": [
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify.mjs"
+      ],
+      "exitCode": 1,
+      "status": "FAIL"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify.mjs",
+        "--mutations"
+      ],
+      "exitCode": 1,
+      "status": "FAIL"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs"
+      ],
+      "exitCode": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs",
+        "--mutations"
+      ],
+      "exitCode": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs"
+      ],
+      "exitCode": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-acq-promo-handoff.mjs",
+        "--mutations"
+      ],
+      "exitCode": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs"
+      ],
+      "exitCode": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs",
+        "--mutations"
+      ],
+      "exitCode": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs"
+      ],
+      "exitCode": 1,
+      "status": "FAIL"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs",
+        "--mutations"
+      ],
+      "exitCode": 1,
+      "status": "FAIL"
+    }
+  ],
+  "beforeStates": {
+    "COMPLETE_PACKET_PROVEN": 160,
+    "FAIL_REPAIR_REQUIRED": 42,
+    "PRODUCT_PATH_PENDING": 20,
+    "OUT_OF_SCOPE": 5,
+    "SOURCE_READY": 80,
+    "SOURCE_BLOCKED": 6,
+    "LEGAL_BLOCKED": 14,
+    "HANDOFF_READY": 2,
+    "GUIDANCE_READY": 9,
+    "BUILT_RASTER_PENDING": 1,
+    "VERIFY_PENDING": 6,
+    "WRONG_DELIVERY_TYPE": 1
+  },
+  "afterStates": {
+    "COMPLETE_PACKET_PROVEN": 158,
+    "FAIL_REPAIR_REQUIRED": 42,
+    "PRODUCT_PATH_PENDING": 20,
+    "OUT_OF_SCOPE": 5,
+    "SOURCE_READY": 80,
+    "VERIFY_PENDING": 9,
+    "SOURCE_BLOCKED": 6,
+    "LEGAL_BLOCKED": 14,
+    "HANDOFF_READY": 2,
+    "GUIDANCE_READY": 9,
+    "WRONG_DELIVERY_TYPE": 1
+  },
+  "beforeTerminal": 176,
+  "afterTerminal": 174,
+  "denominator": 346,
+  "transitions": [
+    {
+      "familyId": "ar-nonconviction-seal-set",
+      "before": "COMPLETE_PACKET_PROVEN",
+      "after": "VERIFY_PENDING"
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "before": "BUILT_RASTER_PENDING",
+      "after": "VERIFY_PENDING"
+    },
+    {
+      "familyId": "nc_145_5_felony-set",
+      "before": "COMPLETE_PACKET_PROVEN",
+      "after": "VERIFY_PENDING"
+    },
+    {
+      "familyId": "nc_146_acquittal_petition-set",
+      "before": "COMPLETE_PACKET_PROVEN",
+      "after": "VERIFY_PENDING"
+    },
+    {
+      "familyId": "rcap-wi-custom-pleading",
+      "before": "VERIFY_PENDING",
+      "after": "COMPLETE_PACKET_PROVEN"
+    }
+  ],
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "newIndependentApprovalOfChatGPTAuthoredPackets": false
+}

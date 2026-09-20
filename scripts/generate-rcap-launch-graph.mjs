@@ -49,7 +49,12 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 process.chdir(rootDir);
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
+// The governed reader for launch_graph_commercial_status. Imported after the
+// TypeScript loader is registered, because it is a .ts module.
+const { isOperationallySellable } = await import("../src/lib/rcap/render/commercial-admission.ts");
+
 const CHECK = process.argv.includes("--check");
+const JSON_ONLY = process.argv.includes("--json-only");
 const JSON_OUT = "data/rcap-ledger/launch-graph.json";
 const MD_OUT = "docs/record-clearing/LAUNCH_GRAPH.md";
 
@@ -77,8 +82,9 @@ const evidencePacket = read(EVIDENCE_PACKET);
 const ownerDecision = readOwnerLegalDecision();
 
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
-const { resolvePacketRoute } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+const { resolvePacketRoute, PACKET_ROUTE_AVAILABILITIES } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
 const { renderCustomPleading } = await import("../src/lib/record-clearing/renderers/custom-pleading-renderer.ts");
+const { packetSpecificationFor, specificationContentSha256 } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
 
 // ---------------------------------------------------------------------------
 // One denominator. Every consumed ledger must be talking about the same set of
@@ -232,7 +238,14 @@ for (const pathway of intended) {
   const profile = getProfileByJurisdiction(pathway.jurisdiction);
   const compiledPathway = profile?.pathways?.find((candidate) => candidate.id === pathway.pathwayId);
 
-  const resolution = resolvePacketRoute({ state: pathway.jurisdiction, pathway: pathway.pathwayId });
+  // This aggregate includes an automatic sibling. Report the productized
+  // track from its server-owned specification, never infer aggregate admission
+  // or choose the first track in the legal join. Other pathways keep their
+  // existing resolution until separately assigned.
+  const specification = key === "IL:felony-prostitution-relief" ? packetSpecificationFor(key) : null;
+  const selectedTrackId = specification?.trackId && trackIds.includes(specification.trackId)
+    ? specification.trackId : null;
+  const resolution = resolvePacketRoute({ state: pathway.jurisdiction, pathway: pathway.pathwayId, trackId: selectedTrackId });
 
   // Source assets: which official forms the packet specification names, and
   // whether this repository actually holds them.
@@ -257,7 +270,18 @@ for (const pathway of intended) {
     : null;
 
   const factoryResolves = resolution.routeKind === "factory_v2";
-  const artifact = factoryResolves ? probeArtifact({ ...pathway, registryTrackIds: trackIds }, sets, witness) : null;
+  const artifactSets = selectedTrackId ? sets.filter((set) => set.trackId === selectedTrackId) : sets;
+  const artifact = factoryResolves ? probeArtifact(
+    { ...pathway, registryTrackIds: selectedTrackId ? [selectedTrackId] : trackIds }, artifactSets, witness
+  ) : null;
+  if (artifact && selectedTrackId) {
+    artifact.scope = {
+      routeId: key,
+      trackId: selectedTrackId,
+      packetFamilyId: resolution.factoryV2.packetFamilyId,
+      specificationSha256: specificationContentSha256(specification)
+    };
+  }
 
   const gates = {
     publicWitnessReachesThisPathway: witness?.landedOnThisPathway === true,
@@ -281,12 +305,20 @@ for (const pathway of intended) {
     noProblematicPdfHold: problemAssets.length === 0
   };
   const unmetGates = Object.entries(gates).filter(([, met]) => !met).map(([name]) => name);
+  const fulfillmentAuthorityAdmitted = isOperationallySellable(pathway.pathwayKey ?? key);
 
   rows.push({
     pathwayKey: key,
     jurisdiction: pathway.jurisdiction,
     pathwayId: pathway.pathwayId,
     pathwayLabel: pathway.pathwayLabel,
+
+    // The resolver's derived availability word — read from the same resolution
+    // that already supplies routeKind and rendererKind, never recomputed here.
+    // It is reporting, not rollout: the two ready states are reachable only
+    // through a Grade-A record at the admission schema, and flipping the
+    // consumer path live remains the single nationwide owner-authorized action.
+    availability: resolution.availability,
 
     compiledPathway: { present: Boolean(compiledPathway), profileVersion: profile?.profileVersion ?? null },
     registryTracks: trackIds,
@@ -318,6 +350,7 @@ for (const pathway of intended) {
       hold: problemAssets.length > 0
     },
     renderer: {
+      ...(selectedTrackId ? { trackId: selectedTrackId } : {}),
       routeKind: resolution.routeKind,
       rendererKind: resolution.rendererKind,
       packetSetIds: resolution.factoryV2?.packetSetIds ?? [],
@@ -349,7 +382,14 @@ for (const pathway of intended) {
 
     operationalGates: gates,
     unmetOperationalGates: unmetGates,
-    operationallySellable: unmetGates.length === 0
+    // Grade-A fulfillment authority is an additional closed door. It cannot
+    // override any existing runtime, payment, source, legal, renderer or hold
+    // restriction represented by the operational gates above. Conversely,
+    // satisfying those older gates cannot substitute for the canonical
+    // fulfillment record. A route is sellable only at their intersection.
+    fulfillmentAuthorityAdmitted,
+    operationallySellable: fulfillmentAuthorityAdmitted && unmetGates.length === 0,
+    allOperationalGatesMet: unmetGates.length === 0
   });
 }
 
@@ -398,6 +438,27 @@ for (const row of rows) {
   for (const gate of row.unmetOperationalGates) unmetTally[gate] = (unmetTally[gate] ?? 0) + 1;
 }
 
+// ---------------------------------------------------------------------------
+// availability aggregation — totals and per-state counts, derived from the rows
+// and from nothing else, in the resolver's own vocabulary order.
+// ---------------------------------------------------------------------------
+const emptyAvailabilityCounts = () => Object.fromEntries(PACKET_ROUTE_AVAILABILITIES.map((word) => [word, 0]));
+const availabilityTotals = emptyAvailabilityCounts();
+const availabilityByState = {};
+for (const row of rows) {
+  availabilityTotals[row.availability] += 1;
+  if (!availabilityByState[row.jurisdiction]) availabilityByState[row.jurisdiction] = emptyAvailabilityCounts();
+  availabilityByState[row.jurisdiction][row.availability] += 1;
+}
+const availabilityBlock = {
+  vocabulary: [...PACKET_ROUTE_AVAILABILITIES],
+  source: "src/lib/rcap/documents/packet-route-resolver.ts (resolvePacketRoute().availability)",
+  notARolloutMechanism:
+    "Availability is derived reporting. PACKET_READY and CUSTOM_PLEADING_READY are reachable only through a current Grade-A fulfillment record at the admission schema version; flipping the consumer path live remains a single nationwide owner-authorized action through the consumer-delivery control under the all-51 launch rule.",
+  totals: availabilityTotals,
+  byState: Object.fromEntries(Object.entries(availabilityByState).sort(([a], [b]) => a.localeCompare(b)))
+};
+
 const graph = {
   schemaVersion: "rcap-launch-graph/v1",
   generatedBy: "scripts/generate-rcap-launch-graph.mjs",
@@ -437,6 +498,7 @@ const graph = {
   },
   counters,
   unmetOperationalGates: unmetTally,
+  availability: availabilityBlock,
   rows
 };
 
@@ -477,6 +539,19 @@ const md = [
   "Operationally sellable means all nine of: correct public witness; authoritative intended pathway;",
   "paymentAllowed=true; complete packet specification; owner-approved existing legal design; current",
   "technical approval; renderer selected; deterministic artifact proven; no problematic-PDF hold.",
+  "",
+  "## Availability",
+  "",
+  "The resolver's derived availability word, per route, aggregated here. Reporting, not rollout:",
+  "the two ready states are reachable only through a current Grade-A fulfillment record at the",
+  "admission schema version, and flipping the consumer path live remains a single nationwide",
+  "owner-authorized action through the consumer-delivery control under the all-51 launch rule.",
+  "",
+  "| Availability | Routes |",
+  "|---|---:|",
+  ...PACKET_ROUTE_AVAILABILITIES.map((word) => `| \`${word}\` | ${availabilityTotals[word]} |`),
+  "",
+  "Per-state counts are carried in `availability.byState` of the JSON ledger.",
   "",
   "## What is missing, and on how many routes",
   "",
@@ -519,8 +594,8 @@ if (CHECK) {
 }
 
 fs.writeFileSync(path.join(rootDir, JSON_OUT), serialized);
-fs.writeFileSync(path.join(rootDir, MD_OUT), md);
-console.log(`wrote ${JSON_OUT} and ${MD_OUT}`);
+if (!JSON_ONLY) fs.writeFileSync(path.join(rootDir, MD_OUT), md);
+console.log(`wrote ${JSON_OUT}${JSON_ONLY ? " (Markdown unchanged; full --check still checks both outputs)" : ` and ${MD_OUT}`}`);
 console.log("");
 console.log(`INTENDED PAID:                      ${pad(counters.intendedPaid)}`);
 console.log(`CORRECT-PATHWAY PUBLIC WITNESSES:   ${pad(counters.correctPathwayPublicWitnesses)}`);
@@ -533,6 +608,11 @@ console.log(`FACTORY_V2 RESOLVED:                ${pad(counters.factoryV2Resolve
 console.log(`PAYMENT ALLOWED:                    ${pad(counters.paymentAllowed)}`);
 console.log(`DETERMINISTICALLY RENDERED:         ${pad(counters.deterministicallyRendered)}   (composed text proven on ${counters.deterministicallyRenderedComposedText}; ${counters.officialFormsNamedButNotHeldInThisRepository} name an official form this repository does not hold)`);
 console.log(`OPERATIONALLY SELLABLE:             ${pad(counters.operationallySellable)}`);
+console.log("");
+console.log("Availability:");
+for (const word of PACKET_ROUTE_AVAILABILITIES) {
+  console.log(`  ${pad(availabilityTotals[word])}  ${word}`);
+}
 console.log("");
 console.log("Unmet operational gates:");
 for (const [gate, n] of Object.entries(unmetTally).sort((a, b) => b[1] - a[1])) {

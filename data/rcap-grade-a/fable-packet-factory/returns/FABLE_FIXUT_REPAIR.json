@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-repair-return/v1",
+  "assignmentId": "FIXUT",
+  "worker": "FABLE-FIXUT",
+  "branch": "fable/fixut",
+  "baseSha": "43e11ccd3",
+  "laneKind": "repair",
+  "lanesAssertedOn": [
+    "FIX07 (ut_pet_conviction-set)",
+    "FIX08 (ut_pet_dismissed_with_prejudice-set)"
+  ],
+  "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+  "scope": "Exactly the obligations VF10 failed, on exactly the two families it failed them on. FILING_DESTINATION, SERVICE, the $150 court filing fee, the 1305GE waiver route and the DET-FEE-AND-WAIVER-001 A4 application-fee repair all already passed and were not touched.",
+  "whatTheDispatchSaidVersusWhatWasThere": "The dispatch briefing described the A4 defect (the packet saying it 'does not state an amount' while its own delivered BCI Application prints $65.00 three times) as the defect to repair. That defect was ALREADY repaired at 43e11ccd3 by the statesBciApplicationFee flag on this host, and VF10 says so in terms: 'The A4 defect is repaired; a second one behind it is not.' The repair actually owed is the SECOND defect VF10 found behind it, and that is what this lane did. Nothing was re-derived: both findings were taken from the VF10 rows verbatim and reproduced against the committed bytes.",
+  "familiesRepaired": 2,
+  "familiesStopped": 0,
+  "nineCountersZeroOn": [
+    "ut_pet_conviction-set",
+    "ut_pet_dismissed_with_prejudice-set"
+  ],
+  "nineCountersRegressedOn": [],
+  "repositoryWideCounterCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --write",
+    "familiesAudited": 180,
+    "before": "173 PASS_COMPLETE, 4 FAIL_MISSING_REQUIRED_FACTS, 3 FAIL_ROUTE_SELECTION; counters: knownRequiredFieldsMissing 203, requiredFactsNotCollected 0, unclassifiedBlanks 143, incompleteRows 0, requiredOptionsMissing 80, requiredComponentsMissing 7, invisibleWrites 0, protectedWrites 0, visualDefects 0",
+    "after": "173 PASS_COMPLETE, 4 FAIL_MISSING_REQUIRED_FACTS, 3 FAIL_ROUTE_SELECTION; counters: knownRequiredFieldsMissing 203, requiredFactsNotCollected 0, unclassifiedBlanks 143, incompleteRows 0, requiredOptionsMissing 80, requiredComponentsMissing 7, invisibleWrites 0, protectedWrites 0, visualDefects 0",
+    "verdict": "byte-identical. PACKET_COMPLETENESS_MATRIX.json was rewritten by --write and git reports it unmodified, so not one counter cell moved for any of the 180 families, mine or anyone else's."
+  },
+  "gatesRun": [
+    "node scripts/verify-packet-build-environment.mjs -> PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --write -> 180 families, counters unchanged, matrix byte-identical",
+    "node scripts/grade-a-packet-factory-24h/verify.mjs -> 30/30 factory checks passed",
+    "node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs -> 9/9, LANE_CONTRACTS_HELD",
+    "node scripts/grade-a-packet-factory-24h/verify-claim-ledger.mjs -> CLAIM_LEDGER_OK 778 claims; DISC06 25/25 exercised"
+  ],
+  "determinism": {
+    "method": "Built all seven Utah families on this host at 43e11ccd3 before any edit (all seven reproduced byte-identical to the committed tree, so the baseline itself is proven deterministic), then built all seven again after the edit, then a third time.",
+    "result": "Build 2 and build 3 produce identical SHA-256 over every file of all seven family directories. Deterministic.",
+    "treeDigestsAfter": {
+      "ut-pet-acquittal-set--official-pdf-fill": "59c8b25088c12306f6ab0c893a0ee70b90d3d25ae7b9da27908b13750aeeabff",
+      "ut-pet-conviction-set--official-pdf-fill": "526e6438cb7f3c1285d3fd04a1d4a4b555285932dac6fc98f364c8e287fa4df3",
+      "ut-pet-dismissed-with-prejudice-set--official-pdf-fill": "89c64177c98d9f78551a4bb289d958d9425f54cca203b59ba15164819cf4ba65",
+      "ut-pet-dismissed-without-prejudice-set--official-pdf-fill": "01b855bbb2138269da8a3d0bacd470687ef2739a812598a6bcde7d622226bad5",
+      "ut-pet-limitations-set--official-pdf-fill": "240667558430fecf1636318f36d30bc77a08eee437cd35a9f348a7111286c63c",
+      "ut-pet-no-charges-set--official-pdf-fill": "26466ec6ca8fd71d6fd473c44802f8042806797d319b5a3a8736ef86a825b61b",
+      "ut-pet-traffic-set--official-pdf-fill": "c51976fece1b7a15a37a37f574299e5bf54fe68395ccd49e35663faf21fa1851"
+    },
+    "treeDigestNote": "sha256 over the sorted per-file sha256 listing of each family directory."
+  },
+  "sharedHostInvariance": {
+    "host": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+    "familiesOnHost": 7,
+    "familiesHeldByThisLane": [
+      "ut_pet_conviction-set",
+      "ut_pet_dismissed_with_prejudice-set"
+    ],
+    "siblingsProvenByteIdenticalToHead": [
+      {
+        "familyId": "ut_pet_acquittal-set",
+        "treeDigest": "59c8b25088c12306f6ab0c893a0ee70b90d3d25ae7b9da27908b13750aeeabff",
+        "unchanged": true
+      },
+      {
+        "familyId": "ut_pet_dismissed_without_prejudice-set",
+        "treeDigest": "01b855bbb2138269da8a3d0bacd470687ef2739a812598a6bcde7d622226bad5",
+        "unchanged": true
+      },
+      {
+        "familyId": "ut_pet_limitations-set",
+        "treeDigest": "240667558430fecf1636318f36d30bc77a08eee437cd35a9f348a7111286c63c",
+        "unchanged": true
+      },
+      {
+        "familyId": "ut_pet_no_charges-set",
+        "treeDigest": "26466ec6ca8fd71d6fd473c44802f8042806797d319b5a3a8736ef86a825b61b",
+        "unchanged": true
+      },
+      {
+        "familyId": "ut_pet_traffic-set",
+        "treeDigest": "c51976fece1b7a15a37a37f574299e5bf54fe68395ccd49e35663faf21fa1851",
+        "unchanged": true
+      }
+    ],
+    "proof": "After the edit, all seven families were rebuilt and `git status --porcelain` names six files, all inside the two directories this lane holds, plus the host script itself. The five sibling directories are not in the diff at all, and their tree digests equal the pre-edit digests exactly.",
+    "howItIsGuaranteedRatherThanObserved": "Every text change is inside a branch gated on a config flag set only on this lane's two families: certificateIssuanceFeeHeldPerCase (ut_pet_conviction-set), certificateIssuanceFeeHeldExemptUnlessAbeyance and statesPleaInAbeyanceDiscriminator (ut_pet_dismissed_with_prejudice-set). No existing branch's text was edited. The one structural change to shared code -- replacing the unflagged else with assert.fail -- is unreachable for every family, because the only two families that reached it now declare a flag."
+  },
+  "fixtureBytesChanged": {
+    "answer": "YES, for two families and for three files each. No PDF and no page raster moved.",
+    "whatDidNotMove": "Each of the two family directories holds 50 files: 2 PDFs, 38 PNG page rasters, 9 JSON and 1 Markdown. Both PDFs and all 38 rasters are byte-identical to 43e11ccd3 in both families -- the repair is entirely in the participant-facing Markdown and in the two build records. `git diff --name-only | grep -Ei '\\.(pdf|png|jpg)$'` returns nothing.",
+    "changedFiles": [
+      {
+        "familyId": "ut_pet_conviction-set",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
+        "oldSha256": "1e40d146e7b2ad3a1ae1188583d96582adfb17279523cb4415e8959dfa9f3697",
+        "newSha256": "447c41f84b2801e430179df796ac23aeb1be6581d4ac554412905dd13cfd75e8"
+      },
+      {
+        "familyId": "ut_pet_conviction-set",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/production-field-map.json",
+        "oldSha256": "0f78d0d866500de46dde92ea871585d5a797791c132b8941fe83143a28de0db4",
+        "newSha256": "965c1416bef58b0e45391bc724eb82269cf899678d026ce4dd80f1866698fe7c",
+        "whatChanged": "the UT-COMPILED-STATE-PROFILE authority row was added (11 inserted lines, 0 deleted) because this route now cites the compiled profile"
+      },
+      {
+        "familyId": "ut_pet_conviction-set",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/build-findings.json",
+        "oldSha256": "4e6f0f7f720dbbfc8d73f82c0969fe892ecb7b216ab2fcbc070155c09ddbb33e",
+        "newSha256": "639982624e6353c48b6e331fd830b02e474fcd390cdfb85b60adc19fe5c7dc9e"
+      },
+      {
+        "familyId": "ut_pet_dismissed_with_prejudice-set",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/participant-instructions.md",
+        "oldSha256": "332d579373cc7b86440232f05c60e89170f556f789ab3b78ae885b511498cc08",
+        "newSha256": "6320bc818530ea924187d6db68a55236c4b05439e0fe6cab553415eb268b4f25"
+      },
+      {
+        "familyId": "ut_pet_dismissed_with_prejudice-set",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/production-field-map.json",
+        "oldSha256": "b5b851afbddebe3f01dbcc2f321a0dde16d21a5707e2263474b121715e0e401d",
+        "newSha256": "20aac172fd01b60fc2ce432c63f6bc7cf99a581a4268a0303db17a4cad9893fd",
+        "whatChanged": "the UT-COMPILED-STATE-PROFILE authority row was added (13 inserted lines, 0 deleted), with supports feeAndWaiver, automaticExpungement and requiredBeforeFiling"
+      },
+      {
+        "familyId": "ut_pet_dismissed_with_prejudice-set",
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill/build-findings.json",
+        "oldSha256": "6bfe4f3c91bfe7910dac10316ea78c8c41e4bdd88c2a24b349e35d14718593d8",
+        "newSha256": "62b047a736cce78ee3768cbf8f7eb60bbbf5e9e5a5fa859b0894680c22696653"
+      },
+      {
+        "familyId": "(shared host, not a family artifact)",
+        "path": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "oldSha256": "5ad9e3d987d2bdecbba8df1d86859e6e540017b65d7fa90730fb7a29e1478d32",
+        "newSha256": "26ff30258baba625c20fe2998bbf58f9608c2a31be3e514906fca2ad770c8a2e"
+      }
+    ],
+    "visualGateAdvice": "The visual gate reads rasters. No raster changed for either family, and no raster changed for the five siblings. If the visual gate covers the participant-facing Markdown as delivered text, it needs re-dispatch for ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set only; every existing raster receipt on this host, for all seven families, is still hash-valid."
+  },
+  "rows": [
+    {
+      "familyId": "ut_pet_conviction-set",
+      "lane": "FIX07",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill",
+      "verdictRepaired": "FAIL_REPAIR_REQUIRED (VF10) -> repaired, awaiting a third independent read",
+      "obligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "VF10 found that the A4 application-fee repair had left a second, narrower defect standing behind it. The residual certificate paragraph read: 'The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant.' Both halves are false against the repository. (1) The refusal denies a figure the record holds. (2) 'cost more than the application' is contradicted by that same figure for a single eligible case, where the certificate EQUALS the $65 application fee rather than exceeding it. The wording had been written once and reused; it was never measured against the profile.",
+          "recordRelliedOnPath": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "recordRelliedOnQuote": "eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations",
+          "whyItReachesThisExactRoute": "A3, per fact and per route. The sentence has two limbs keyed by disposition class. The FIRST limb names 'eligible conviction' expressly, and this family's route IS an eligible conviction (config chargeLabel 'Eligible conviction', slug ut-pet-conviction-set). The exempting limb names 'dismissals, acquittals, or declinations' and does NOT name convictions, so it is not read across to this route -- the caution the Captain recorded is honoured in the direction it was written for. No competing statutory section exists for this fact, and no sibling remedy is borrowed.",
+          "whatChanged": "A new per-family flag certificateIssuanceFeeHeldPerCase: 'an eligible conviction' on this family only, gating a four-paragraph replacement for the condemned paragraph in scripts/build-census-v1-ut_pet_acquittal-set.mjs. It states the held $65-per-case figure, quotes the profile sentence with its repository path, says why the first limb and not the second reaches this route, carries the record's own 'may require' condition and the fact that the FAQ is published guidance rather than a statutory schedule, declines to promise a total (because how many certificates BCI's letter finds is what decides it), and keeps BCI at bci.utah.gov/expungements as the confirming authority. The $150 court filing fee, form 1305GE, Utah Code 78A-2-302 and CJA Rule 4-508, and the whole $65.00 application-fee and indigency-waiver block were left exactly as they were.",
+          "remeasurement": {
+            "grep -c 'cost more than the application'": 0,
+            "grep -c 'does not state that amount'": 0,
+            "grep -c 'does not state an amount'": 0,
+            "newTextQuoted": [
+              "**The certificate carries a further BCI charge, and the held record states a figure: $65 per case.** A certificate must be purchased for each eligible incident you want expunged, and BCI's instructions tell you to \"pay all associated fees as indicated in the BCI letter\" — that letter is where your own certificate list appears.",
+              "This packet has checked what this repository holds rather than sending you away to find out. The compiled Utah state profile, at `src/lib/rcap-engine/compiled/profiles/UT-utah.json`, records BCI's published expungement FAQ as saying that \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations\". Your route is an eligible conviction, which is the first disposition that sentence names, so the $65-per-case half is the half about your case. The exempting half — dismissals, acquittals and declinations — is not about your case, and this packet does not read it across to you.",
+              "**Read the figure with the condition the record puts on it.** It says an eligible conviction certificate *may require* an additional $65 per case, not that it always does, and it is BCI's published FAQ rather than an amount fixed by statute. It is also charged **per case**: if BCI's letter finds more than one eligible case, expect it once for each. This packet does not state your total, because how many certificates you need is what BCI's letter decides — but the per-case figure is held, so the packet states it instead of calling it unknowable.",
+              "**Confirm it with the office that charges it, before you pay.** Ask the Bureau of Criminal Identification, at bci.utah.gov/expungements, what your certificates cost on a case like yours, and ask at the same time whether its indigency waiver covers the certificate charge as well as the $65.00 application fee. Do not assume the court's $150 waiver covers either BCI amount: the court and BCI are two different offices with two different waivers."
+            ],
+            "authorityNowCited": "UT-COMPILED-STATE-PROFILE — src/lib/rcap-engine/compiled/profiles/UT-utah.json; SHA-256 73dd7ea988d0673dca3b8bf657f2df090d062c0821f8c0662a57ccfac8e7660d (feeAndWaiver), re-hashed on every build with the cited sentence asserted present."
+          },
+          "residualStated": "The record says 'may require', not 'requires', and it is BCI's published FAQ rather than a statutory schedule. Both are stated to the participant on the packet's face rather than smoothed away, and BCI remains the office to confirm with before paying."
+        }
+      ]
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "lane": "FIX08",
+      "directory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-with-prejudice-set--official-pdf-fill",
+      "verdictRepaired": "FAIL_REPAIR_REQUIRED (VF10) -> repaired, awaiting a third independent read",
+      "obligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Two limbs, both confirmed against the committed bytes. (1) This family shipped the conviction route's certificate paragraph word for word -- 'The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant' -- on a route where the repository holds the fee at ZERO. That is not a refusal A1 permits; it is a positive misstatement of a held fact, and it overstates the cost of the route the participant is holding. (2) The free-alternative paragraph disclosed automatic expungement 180 days after dismissal under Utah Code 77-40a-206 and omitted the profile's carve-out, so a participant whose dismissal followed a plea in abeyance was advised to wait out 180 days for relief the record says that path does not deliver.",
+          "recordRelliedOnPath": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "recordRelliedOnQuotes": [
+            "eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations",
+            "A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category",
+            "Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance",
+            "If the dismissal was after plea in abeyance, do not use the simple dismissed-with-prejudice automatic path.",
+            "Some plea-in-abeyance dismissals may qualify for Clean Slate timing, but others require petition analysis."
+          ],
+          "whyItReachesThisExactRoute": "A3, per fact and per route, applied to BOTH limbs of one sentence rather than to the convenient one. The exempting limb names 'dismissals' without qualification and this route is a dismissal, so the exemption is on-route -- the same reading already held for ut_pet_dismissed_without_prejudice-set. But the FIRST limb names 'plea-in-abeyance ... certificates', and a dismissal with prejudice can be how a completed plea in abeyance ends, so for some participants on this route the other limb is the one that reaches them. Where two limbs of one sentence can both reach a route depending on a fact the packet does not hold, A3 is satisfied by stating both limbs and the fact that chooses between them, not by picking the cheaper one. The abeyance carve-out quotes are on-route by name: every one of them is written about a dismissal with prejudice.",
+          "whatChanged": "A new per-family flag certificateIssuanceFeeHeldExemptUnlessAbeyance: 'a dismissal with prejudice' on this family only, gating its own three-paragraph fee branch rather than reusing the plain certificateIssuanceFeeHeldExempt text (which states the exemption unconditionally and would have been wrong for the abeyance case). It states the exemption with the profile path and sentence, then states the reversing fact from the same sentence's other limb with the profile's own exclusion line behind it, then keeps the existing candour paragraph about the FAQ not being a statutory schedule and adds the instruction to tell BCI whether the dismissal followed a plea in abeyance when asking. Separately, statesPleaInAbeyanceDiscriminator gates two paragraphs appended to the free-route disclosure: the exclusion, quoted twice from the profile plus the profile's own screening direction, and the Clean Slate line so that the exclusion closes ONE free route rather than implying there are none. The 180-day disclosure itself, the $150 fee, 1305GE and the application-fee block are unchanged.",
+          "remeasurement": {
+            "grep -c 'cost more than the application'": 0,
+            "grep -c 'does not state that amount'": 0,
+            "newTextQuoted": [
+              "**On this route the held record says the certificate carries no issuance fee — and one fact about your case can change that.** The compiled Utah state profile in this repository, at `src/lib/rcap-engine/compiled/profiles/UT-utah.json`, records BCI's published expungement FAQ as saying that \"eligible conviction, plea-in-abeyance, or special certificates may require an additional $65 per case; no certificate issuance fee is required for dismissals, acquittals, or declinations\". This packet is built for a dismissal with prejudice, and \"dismissals\" is one of the dispositions that sentence exempts, so on the held record the $65.00 application fee above is the only BCI amount an ordinary dismissal with prejudice carries.",
+              "**The exception is a plea in abeyance, and it is in the first half of the same sentence.** That half names \"plea-in-abeyance ... certificates\" among the ones that \"may require an additional $65 per case\". A dismissal with prejudice can be how a completed plea in abeyance ends. **If that is your case, expect the certificate charge — up to $65 per case — rather than the exemption.** The profile records the same division elsewhere: \"A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category\". Establishing which of the two you are is a required pre-filing check, and it is listed below.",
+              "**That free route has one exclusion, and it turns on the same fact as the certificate fee above.** The compiled Utah state profile, at `src/lib/rcap-engine/compiled/profiles/UT-utah.json`, records it twice: \"A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category\", and in the automatic-timing table, \"Dismissal with prejudice Goal: 180 days after dismissal/final appeal, unless dismissed after plea in abeyance\". **So if your case was dismissed with prejudice after you completed a plea in abeyance, do not wait out the 180 days expecting the automatic route to reach you — the record says this automatic path is not the one for you.** The profile's own screening direction says the same thing in the same words a clerk would: \"If the dismissal was after plea in abeyance, do not use the simple dismissed-with-prejudice automatic path.\"",
+              "**That is not the end of the free routes for a plea-in-abeyance dismissal; it is the end of *this* one.** The same profile records that \"Some plea-in-abeyance dismissals may qualify for Clean Slate timing, but others require petition analysis.\" So if your dismissal followed a plea in abeyance, ask the court that heard the case, or the Utah State Courts Self-Help Center on **888-583-0009**, whether Clean Slate reaches your case on its own timing, before you treat this petition as the only way. This petition remains available to you either way."
+            ]
+          },
+          "residualStated": "The exemption is BCI's published FAQ, not a fee fixed by statute, and this packet's own delivered materials describe a general sequence in which BCI issues a certificate on payment of an issuance fee. That tension is stated to the participant, and BCI remains the office to confirm with before paying."
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "VF10: the one required check that decides which route the participant is on was missing. The packet correctly added two dismissal-specific items its conviction sibling lacks and correctly said the certified copy states whether the dismissal was with or without prejudice. But the profile records a SECOND discriminator inside the 'with prejudice' answer, and the string 'abeyance' appeared zero times in the packet's instructions. Reproduced at 43e11ccd3: grep -c -i abeyance over the committed participant-instructions.md returned 0.",
+          "recordRelliedOnPath": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "recordRelliedOnQuotes": [
+            "A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category",
+            "If the dismissal was after plea in abeyance, do not use the simple dismissed-with-prejudice automatic path."
+          ],
+          "whyItReachesThisExactRoute": "Both sentences are written about a dismissal with prejudice by name. This is the only family on the shared host whose disposition they address, which is why statesPleaInAbeyanceDiscriminator is set on it alone.",
+          "whatChanged": "A pre-filing item gated on statesPleaInAbeyanceDiscriminator, added inside the statesManifestPreFilingItems block after the two existing dismissal items. The surrounding block's stated discipline is that every item is quoted from the family's own committed packet-set manifest, and this item is not -- so the item says so on its face rather than borrowing the manifest's authority: it names the compiled profile and its repository path as its source. It also tells the participant where the answer is found (the certified dismissal order and the case docket, or the clerk) and what it decides (both the free-route question and the certificate-fee question stated above), and asks them to correct the packet if the answer disagrees with what they told it.",
+          "remeasurement": {
+            "grep -o -i abeyance | wc -l, before": 0,
+            "grep -o -i abeyance | wc -l, after": 16,
+            "newItemQuoted": "- **Whether the dismissal followed a plea in abeyance.** The certified copy of the order and the case docket are where this is established; ask the clerk of the court that handled the case if the order does not say. This item is not from this family's packet-set manifest — it is from the compiled Utah state profile at `src/lib/rcap-engine/compiled/profiles/UT-utah.json`, which records that \"A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category\" and directs, \"If the dismissal was after plea in abeyance, do not use the simple dismissed-with-prejudice automatic path.\" **It decides two things stated above: whether the free 180-day automatic route reaches you at all, and which half of BCI's certificate-fee sentence applies to you.** Answer it before you file, and correct this packet if the answer disagrees with what you told it.",
+            "unchanged": "The four manifest-quoted items that already passed -- the paid-in-full bar on fines, fees, interest and restitution, the all-states case list, the certified copy of the dismissal order, and the dismissal date checked against it -- are untouched."
+          }
+        }
+      ]
+    }
+  ],
+  "structuralChangeToSharedCode": {
+    "what": "The unflagged else branch in the certificate-fee section of scripts/build-census-v1-ut_pet_acquittal-set.mjs -- the one carrying 'The certificates themselves cost more than the application, and this packet does not state that amount because BCI sets it per applicant' -- was replaced with assert.fail.",
+    "whyItIsSafe": "That branch served exactly two families, ut_pet_conviction-set and ut_pet_dismissed_with_prejudice-set, and both are held by this lane and now declare a flag. It is unreachable for all seven families, proven by the fact that all seven build successfully and five of them are byte-identical to HEAD.",
+    "whyItWasNotJustLeftInPlace": "Two independent reads have now condemned that paragraph, in opposite directions, on the only two routes it served. Leaving it as a silent fallback invites a future family to inherit a sentence that is true for no disposition on this host. Every non-traffic family must now declare which limb of the profile's fee sentence reaches its route, or declare expressly that neither does; a family that declares nothing refuses the build."
+  },
+  "defectFoundAndNotFixedBecauseItIsNotMine": [
+    {
+      "defect": "declarationNameBoxClearsPrePrintedI is NOT set on ut_pet_conviction-set or ut_pet_dismissed_with_prejudice-set, and the host's own comment records why: on packet page 18 the BCI Application's sworn declaration reads 'I, ______ , declare under criminal penalty...', the pre-printed 'I' occupies x=49.745-52.742, and the committed write box for 'Name of Petitioner' starts at x=50.5, so the participant's name is drawn over the declaration's first-person subject. The flag is set on three siblings and not on these two.",
+      "whyNotFixedHere": "VF10 failed these two families on FEE_AND_WAIVER and REQUIRED_BEFORE_FILING and on nothing else. This is a geometry defect on a raster, it is outside the obligations this lane was given, and repairing it would move 38 page rasters per family and invalidate raster receipts that are currently valid. The lane's mission text is explicit that a repair lane repairs exactly the obligations a verifier failed. Flagged for Captain to dispatch as its own repair; the fix is one word per family, exactly as the host's comment already says.",
+      "alsoAffects": "ut_pet_acquittal-set, which this lane does not hold either."
+    }
+  ],
+  "claimLedger": {
+    "mechanism": "Both FIX07 and FIX08 grants were already released (2026-09-02T05:32Z) when VF10 subsequently failed the families, so --assert answered ALREADY_RELEASED (exit 9) on both. data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json names neither subject anywhere, so neither is externally held and check E2 has nothing to refuse. Both grants were re-opened with claim.mjs --reissue and a stated reason, on the lanes ACTIVE_ASSIGNMENTS.json names for them, then asserted.",
+    "asserted": [
+      "CLAIM_OK FIX07 ut_pet_conviction-set (repair, grant set 989965804341dd5b)",
+      "CLAIM_OK FIX08 ut_pet_dismissed_with_prejudice-set (repair, grant set 989965804341dd5b)"
+    ],
+    "released": [
+      "RELEASED FIX07 ut_pet_conviction-set",
+      "RELEASED FIX08 ut_pet_dismissed_with_prejudice-set"
+    ],
+    "ledgerHandEdited": false,
+    "note": "Every ledger mutation was made by scripts/grade-a-packet-factory-24h/claim.mjs. verify-claim-ledger.mjs passes on the result."
+  },
+  "reverification": {
+    "thisLaneMayNotApproveItsOwnRepair": true,
+    "owed": "A third independent read, by a lane that is neither the builder nor either repairer of these families, scoring FEE_AND_WAIVER on both and REQUIRED_BEFORE_FILING on ut_pet_dismissed_with_prejudice-set. Captain routes it.",
+    "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_conviction-set / --family ut_pet_dismissed_with_prejudice-set"
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "This return is a repair record. It promotes no route, changes no price, opens no fulfillment path, and approves nothing. Both families remain FAIL_REPAIR_REQUIRED until an independent lane says otherwise."
+}

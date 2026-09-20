@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "rcap-family-scope-reconciliation/v1",
+  "sourceSha": "153047ae427485897dec0a4050fc11a277d8a43f",
+  "originalSourceReadyRow": {
+    "familyId": "composed-treatment:nc_146_dismissal_petition",
+    "state": "NC",
+    "track": "nc_146_dismissal_petition",
+    "routeKey": "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1",
+    "packetSetId": null,
+    "nativeDisposition": "SOURCE_READY",
+    "why": "Generic factory source readiness bound the ordinary CR-287/CR-287 instructions/CV-226 bytes; no DNA packet build or accepted terminal treatment exists. Final fallback emitted SOURCE_READY.",
+    "authoritativeInput": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "factoryOutput": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "factoryGenerator": "scripts/grade-a-packet-factory-24h/generate.mjs"
+  },
+  "cause": "The bound owner decision was only used in descriptive gap grouping; aggregate release counts still counted every native factory row as launch-required.",
+  "authority": "data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json",
+  "correction": "Exclude only the exact unresolved conditional DNA supplement from launch-required family and gap counts. Retain its native SOURCE_READY state and six missing dimensions as supplementalGaps. No terminal disposition or commercial authority is granted.",
+  "whyNot346Terminal": "Existing terminal meanings require substantive guidance, a legal-aid handoff, or deliberately unsupported relief. The scope decision establishes an optional unresolved supplement and explicitly supplies no new terminal disposition; none of those treatments or a completed DNA packet is evidenced.",
+  "preservation": {
+    "nativeFamilyRecordsExactlyUnchanged": 346,
+    "coreDismissal": "COMPLETE_PACKET_PROVEN",
+    "coreAcquittal": "COMPLETE_PACKET_PROVEN",
+    "dnaPacketComplete": false,
+    "inquirySent": false,
+    "originalBaselineAnchorPreserved": true
+  },
+  "counts": {
+    "inventory": 346,
+    "launchRequired": 345,
+    "requiredTerminal": 345,
+    "requiredSourceReady": 0,
+    "conditionalSupplementalUnresolved": 1,
+    "nativeInventorySourceReady": 1
+  },
+  "generatorRepairs": [
+    "Removed unused downstream national-worklist hash from factory inputs to break circular convergence.",
+    "Recognize only an explicitly selected-review-bound actual-writes report hash as review output; any other changed path or report byte retains lapse. This preserves the already-accepted CA packet.",
+    "Regenerated factory/conveyor/Washington controls, national worklist/freeze and launch control/status."
+  ],
+  "workflow": {
+    "bootstrap": "scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "guardUnchanged": true,
+    "failFastConvergence": true,
+    "readinessTracksCorpusAndScopeTests": true,
+    "hostedBootstrapPrerequisite": "SOURCE_CORPUS_READ_TOKEN with read access to the pinned private source-artifacts release is not configured; other required private custodies are not supplied by that release.",
+    "noLocalExtractionOrDownload": true
+  },
+  "tests": {
+    "targetedRegressions": "53/53 PASS",
+    "launchVerifier": "59/59 PASS",
+    "canonicalFactoryConvergence": "60 generated files PASS",
+    "canonicalConveyorConvergence": "PASS",
+    "canonicalWashingtonConvergence": "7 generated files PASS",
+    "nationalWorklistAndFreezeConvergence": "PASS",
+    "launchControlConvergence": "PASS",
+    "factoryVerifier": "33/37; F29/F32/F33 require absent historical failure-state subjects; F34 reports 41 stale live verifier grants. These failures remain visible.",
+    "factoryMutationSuite": "FAILED: baseline gates red; F1 fixture assumes two active packet builders and crashes. No assertions weakened."
+  },
+  "gradeAGoHold": "HOLD",
+  "evidence": [
+    {
+      "path": "private/transfers/nc-family-scope-20260914/former-source-ready-row.json",
+      "sha256": "bca1ddb1e7c18c8f16d5222c09819718dbb3ed4ab9f394ed7ba633eadc59f68a",
+      "bytes": 8573
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-all-tests.log",
+      "sha256": "599a6d2ed42ab20f8c05bb78c486e6668243bde57abe781a067f63a8f236fe22",
+      "bytes": 3417
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-conveyor-final-check.log",
+      "sha256": "ce1eff7e5f7889d22ec1ae90b2f9f71dd7580180622e1b317d4d119d24590858",
+      "bytes": 65
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-conveyor-generate.log",
+      "sha256": "4f632bb7d39b24fde118890fa0dc5e71494e72d2e41f7c588242c738cde146ea",
+      "bytes": 505
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-factory-final-check.log",
+      "sha256": "d2f83b165b96e67c22e87712baa2bd3cfabca4940333ab65fd8b9e5bee7a47c2",
+      "bytes": 126
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-factory-generate.log",
+      "sha256": "4065e34e680b9030e4008af44c77feaef8df9ea8bcc890646e6294bc969a5491",
+      "bytes": 1803
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-factory-mutations.log",
+      "sha256": "3fcaea8b75d60cd430146b78e69ece8ecc7ff5e76378dc07bfc03c496c22a821",
+      "bytes": 5405
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-factory-verify.log",
+      "sha256": "ee9f4e235aa217b77be5c4fe4b499f1d7a1a726dde2683cbd1fae8630ce8fe24",
+      "bytes": 3860
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-launch-final-check.log",
+      "sha256": "b067098e35dff4c63209b8f1aebb875bf1cb3318a51902a8735a7cc2baaaa574",
+      "bytes": 207
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-launch-final-verify.log",
+      "sha256": "d2b949704282934ed32ca81a018ca61d30dfb26997048c2c95827c830beac35c",
+      "bytes": 5291
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-wa-final-check.log",
+      "sha256": "85528199882eb48a21457e4e3f6d93226b10b088b5b75a3d32e1f47594618f41",
+      "bytes": 124
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-wa-generate.log",
+      "sha256": "80d26722919eaa348ffc31414410339d34b916c3f56477116d42f56fa786187d",
+      "bytes": 791
+    },
+    {
+      "path": "private/transfers/nc-family-scope-20260914/nc-worklist-final-check.log",
+      "sha256": "c9483efcb07fae82448e7da0e8951febe06e5168636049a99bd174da39b506dc",
+      "bytes": 254
+    }
+  ]
+}

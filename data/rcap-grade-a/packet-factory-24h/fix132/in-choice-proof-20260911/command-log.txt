@@ -1,0 +1,30 @@
+checkout=/tmp/rcap-in-choice-proof-20260911
+base=a83c8edf48e7f328b81270f9093dbed7f62e2fb3
+
+$ node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX132 in_arrest_no_charges-set
+exit=0
+CLAIM_OK FIX132 in_arrest_no_charges-set (repair, grant set 0c633886d426e7cc)
+
+$ node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX132 in_section1_petition-set
+exit=0
+CLAIM_OK FIX132 in_section1_petition-set (repair, grant set 0c633886d426e7cc)
+
+$ env MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 TMPDIR=/tmp node scripts/build-census-v1-in_arrest_no_charges-set.mjs
+exit=0
+IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE source verified sha256=b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 bytes=2946894; censused 68 fields across 15 pages; canonical wrote 5/refused 63/findings 0; boundary wrote 2/refused 66/findings 0.
+IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS source verified sha256=65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707 bytes=2904076; censused 77 fields across 4 pages; canonical wrote 0/refused 77/findings 0; boundary wrote 0/refused 77/findings 0.
+Verdict: repair invariants OK; 2 charge-caption blanks examined, 0 carrying a participant name.
+
+$ env MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 TMPDIR=/tmp node scripts/build-census-v1-in_section1_petition-set.mjs
+exit=0
+IN-CCA-SECTION1-NONCONVICTION-PETITION-AND-ORDER-BUNDLE source verified sha256=b04f2941c91f903e8b8a1718ff4f9bd9120f3744c97354fd810c296f89d041c5 bytes=2946894; censused 68 fields across 15 pages; canonical wrote 5/refused 63/findings 0; boundary wrote 2/refused 66/findings 0.
+IN-CCA-SECTION1-NONCONVICTION-INSERT-FORMS source verified sha256=65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707 bytes=2904076; censused 77 fields across 4 pages; canonical wrote 0/refused 77/findings 0; boundary wrote 0/refused 77/findings 0.
+Verdict: repair invariants OK; 2 charge-caption blanks examined, 0 carrying a participant name.
+
+$ node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-byte-proof.mjs
+exit=0
+Verdict: PASS; PDFDropdown and PDFOptionList classification probes exercised; 2 families; 8 artifacts; 264 per-artifact source choice widgets matched at their page/rectangle and exact decoded AP-stream SHA-256; 0 placement mismatches. Both controls rejected for each family: one source appearance removed, one source appearance stream mutated. These pinned sources currently contain 33 dropdown fields and 0 option-list fields per family.
+
+$ node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-preservation.mjs
+exit=0
+Verdict: PASS; 2 families; 33 source choice fields per family; packet appearances 105; insert appearances 140; no raster.

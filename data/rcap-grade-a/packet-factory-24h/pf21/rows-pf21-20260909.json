@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF21",
+  "workerId": "PF21-20260909 packet-build, worktree /home/user/v2mm-worktree",
+  "lane": "packet-build",
+  "engine": "Claude Code remote session",
+  "workerBranch": "v2mm-src-20260909",
+  "shiftBaseSha": "537fd26ff624d812c095fc504c724adda0022211",
+  "writtenAlongsideNotOverIt": {
+    "existingFiles": [
+      "data/rcap-grade-a/packet-factory-24h/pf21/rows.json",
+      "data/rcap-grade-a/packet-factory-24h/pf21/checkpoints.json"
+    ],
+    "whyThisFileExists": "the PF21 lane directory already holds an earlier shift return (CODEX-CS2-PF21-DE-PROCESS, de_mandatory_expungement-set). Neither existing file is overwritten or edited; this return is written beside them under the name the assignment gave.",
+    "itemsInCommonWithAnyExistingFile": [],
+    "whereTheTwoDisagree": "nowhere. The existing return covers de_mandatory_expungement-set; this one covers nd-regular-pardon-set, which appears in no existing PF21 return."
+  },
+  "familiesAssigned": [
+    "nd-regular-pardon-set",
+    "fl-juvenile-diversion-set"
+  ],
+  "familiesBuilt": [
+    "nd-regular-pardon-set"
+  ],
+  "familiesNotBuilt": [
+    {
+      "familyId": "fl-juvenile-diversion-set",
+      "why": "the assignment instructed this lane not to build it: its source does not resolve. It was not claimed, not read and not touched."
+    }
+  ],
+  "rowsReturned": 1,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF21 'nd-regular-pardon-set'",
+    "result": "CLAIM_OK PF21 nd-regular-pardon-set (packet-build, grant set 5eebad4c75905f1d)",
+    "assertedBeforeAnyFamilyArtifactWasRead": true,
+    "released": "nothing. The Captain owns releases."
+  },
+  "selfVerification": {
+    "packetsSelfVerified": 0,
+    "note": "This lane built these bytes and issues no verdict on them. The nine counters below are the BUILDER's own count, computed with the repository's own contract functions. PASS_COMPLETE additionally requires a hash-bound RASTER_PASS from the central raster workflow, which this lane did not and cannot produce."
+  },
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --family nd-regular-pardon-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+    "failuresAndWhyTheyAreReportedRatherThanCleared": [
+      {
+        "check": "worktree_clean",
+        "detail": "2 uncommitted paths at the time the gate was run — this lane's own new builder and overlay directory. Expected during a build and cleared by the commit this return accompanies."
+      },
+      {
+        "check": "family_sources_bind",
+        "detail": "\"nd-regular-pardon-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.\" The gate reads data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json, whose row for this family still records custodyClass SOURCE_GENUINELY_MISSING, documentSourcesResolved 0 and absence \"named_form_number_not_in_corpus\". That record predates the 2026-09-09 materialization and it is a central manifest this lane does not own, so it was not edited. The measurement contradicting it is in this return under sourceMeasurementThisLaneMade."
+      }
+    ],
+    "notClaimedAsPassed": "The gate did not pass. It is reported as it ran."
+  },
+  "sourceMeasurementThisLaneMade": {
+    "why": "Four committed records disagree with each other about whether this family has a source. Rather than pick one, the bytes were hashed directly.",
+    "what": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf is present, hashes to b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b at 211478 bytes, and carries 8 pages and 229 AcroForm fields with 0 hidden widgets and 0 fields carrying a shipped value.",
+    "agreesWith": [
+      "data/rcap-all50/local-source-corpus-index.json (byteLength 211478, pageCount 8, acroFieldCount 229, custody nationwide_recovery_pool_2026_09_02)",
+      "data/rcap-grade-a/packet-factory-24h/SOURCE_REMATERIALIZATION_REQUEST.json (expectedSha256, expectedByteLength, expectedPageCount 8, status FULFILLED)",
+      "MASTER_QUEUE.json sourceHashes[0].sha256"
+    ],
+    "contradicts": [
+      {
+        "record": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "says": "sourceReadiness.custodyClass = SOURCE_GENUINELY_MISSING, while the same row says sourceBound true and sourceReadiness.ready true",
+        "measured": "the bytes are in custody and hash to the declared digest"
+      },
+      {
+        "record": "data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json",
+        "says": "answer GENUINELY_ABSENT, resolvedSourceCount 0, buildableToday false, absenceClass ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+        "measured": "resolved, byte-exact"
+      },
+      {
+        "record": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+        "says": "custodyClass SOURCE_GENUINELY_MISSING, documentSourcesResolved 0, commissionAcquisition true",
+        "measured": "resolved, byte-exact; no acquisition was commissioned or performed"
+      },
+      {
+        "record": "data/rcap-all50/local-source-corpus-index.json",
+        "says": "formNumber null and assetClass null for this entry",
+        "measured": "true, and it is why a form-number lookup finds nothing while the bytes are present. Binding is by digest."
+      }
+    ],
+    "noRecordWasEdited": "All four are central manifests outside this lane's owned paths. None was modified.",
+    "nothingWasAcquired": "No court website was contacted. The bytes were already mounted; this lane only hashed them."
+  },
+  "rasterRule": {
+    "rasterState": "BUILT_RASTER_PENDING",
+    "localRaster": "16 pages rendered locally through scripts/raster/pdf-page-raster.mjs (Chromium, calibrated) into the overlay raster/ directory for a human reviewer. Poppler was not used to render.",
+    "notAReceipt": "A local render is not a raster receipt. Only the central workflow issues one, bound to the canonical and boundary SHA-256 recorded above.",
+    "visualDefectsBasis": "visualDefects is 0 because every page of both fixtures was read as an image and as text by this lane, and because nonWhitespaceGlyphsOutsideMeasuredWriteBoxes measured 0 in the output bytes. It is not a verdict."
+  },
+  "appearanceLevelChecksThisLaneRan": [
+    "Delivered canonical and boundary page text diffed against the pinned source page text. The canonical adds exactly three lines — the name, the date of birth, and the address/city/state/ZIP line — and the boundary exactly three. Nothing else was added anywhere on the eight pages: no build commentary, no internal vocabulary, no packet identifier, no route key.",
+    "Pages 1, 2, 4, 5 and 7 of both fixtures read as images. All five repeating tables empty; the victim Name column does not carry the applicant name; the three phone boxes, the SSN, race and place-of-birth boxes empty; signature and date empty; page 8 statute text unchanged.",
+    "The Pardon tick measured in the output bytes as a flattened appearance content stream of 34 bytes against 0 for the same widget in the pinned source; the other three relief boxes 0 in both. Confirmed visually as a filled box beside Pardon and three empty boxes.",
+    "The tick detector was mutation-tested: forcing a mark onto a box the field map refuses raised protectedWrites to 2 and returned STOPPED with exit 2. The mutation was run in a throwaway copy writing to a throwaway directory, both deleted; the delivered packet was rebuilt from clean afterwards and is byte-identical across three independent runs.",
+    "Row indices of all five repeating tables checked against page geometry, and column order against the x-order of each table printed heading. Recorded in reports/caption-evidence.json orderingChecks.",
+    "Every AcroForm field name traced to this form. No caption, label or field name in this packet derives from another jurisdiction; the packet contains zero mentions of any other state."
+  ],
+  "routeSeparationFromTheSiblingFamily": {
+    "siblingFamily": "nd-summary-marijuana-pardon-set",
+    "sameBoard": true,
+    "sameDocument": false,
+    "evidence": "Different digests and different instruments: SFN 14859 (b88cb559…, 8 pages, 229 fields, four relief types, 24 life-history questions, five repeating tables) against SFN 61663 (c59cd5b8…, the marijuana application carrying a fixed recital for possession of a controlled substance-marijuana and a five-year eligibility certification). SFN 14859 carries neither recital nor certification. Route keys differ. No text, field map or instruction was copied from the sibling family, and its directory was not modified.",
+    "filingDestination": "the same Pardon Advisory Board Clerk, because both are applications to the same board — that is the form own printed instruction on each, not a shared destination this lane chose."
+  },
+  "rows": [
+    {
+      "itemId": "nd-regular-pardon-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "jurisdiction": "ND",
+      "routeKeys": [
+        "obligation:track-only:ND:nd-regular-pardon"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "renderStrategy": "acroform_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/nd/nd-regular-pardon-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nd-regular-pardon-set.mjs",
+      "documents": [
+        {
+          "formNumber": "SFN-14859",
+          "title": "North Dakota Pardon Advisory Board Application",
+          "revisionPrinted": "12-2020",
+          "instrumentKind": "primary_filing",
+          "pages": 8,
+          "acroFields": 229
+        }
+      ],
+      "source": {
+        "sourceIds": [
+          "official-form:SFN-14859",
+          "ND-SFN-14859"
+        ],
+        "sha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+        "byteLength": 211478,
+        "custody": "nationwide_recovery_pool_2026_09_02",
+        "pathInArchive": "LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf",
+        "boundBy": "exact SHA-256 over the bytes on disk, hashed by this lane; not by filename and not by form number",
+        "custodyClass": "SOURCE_REMATERIALIZED_FROM_RECOVERED_ACQUISITION_ARCHIVE",
+        "acquisitionCommissioned": false,
+        "reAcquiredFromAnyWebsite": false
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "artifacts": {
+        "canonical": {
+          "sha256": "c0a8d543dc45047ff0ddf20558239ffe10ba3a3e8af3ef034922a7be5cbcd7c7",
+          "byteLength": 148314,
+          "pageCount": 8
+        },
+        "boundary": {
+          "sha256": "8cce6850a548e96559cb59f31128463e7277b0e4d487d26682388532bb735507",
+          "byteLength": 148403,
+          "pageCount": 8
+        }
+      },
+      "outputByteGlyphReadings": [
+        {
+          "fixture": "canonical",
+          "addedGlyphsReadFromOutputBytes": 60,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 229,
+          "routeSelectionMarksDrawn": 1
+        },
+        {
+          "fixture": "boundary",
+          "addedGlyphsReadFromOutputBytes": 127,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 229,
+          "routeSelectionMarksDrawn": 1
+        }
+      ],
+      "fieldDisposition": {
+        "totalFields": 229,
+        "participantValuesWritten": 6,
+        "routeDeterminedSelectionsMade": 1,
+        "requiredBeforeFiling": 166,
+        "participantElections": 51,
+        "offRouteBranches": 3,
+        "protectedBlanks": 2
+      },
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

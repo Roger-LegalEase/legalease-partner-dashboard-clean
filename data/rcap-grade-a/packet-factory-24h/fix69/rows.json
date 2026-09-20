@@ -1,0 +1,159 @@
+{
+  "lane": "FIX69",
+  "laneKind": "repair",
+  "generatedAtBase": "f27b9ef31",
+  "rows": [
+    {
+      "itemId": "mi_setaside_marihuana-set",
+      "familyId": "mi_setaside_marihuana-set",
+      "jurisdiction": "MI",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "familyDirectoryConfirmedAgainst": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json and VF05's row both name this directory; the MASTER_QUEUE row for mi_setaside_marihuana-set names it as its familyDirectory and it is the directory this builder writes (OUT).",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
+      "verdictRepaired": {
+        "lane": "VF05",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "d3312169e",
+        "failedObligationNames": ["KNOWN_PREFILLS"],
+        "theDefect": "MC 227a's `dinfo` box, page 1, rect 318.6,580.66 257.4x48, captioned \"Defendant's name, address, and telephone no.\", was delivered EMPTY in both fixtures while the builder's own FIXTURES hold participant.full_legal_name, participant.street_address and participant.phone for both personas. It was filed under REQUIRED_BEFORE_FILING, whose contract condition is GENUINELY UNAVAILABLE, on a reason that said in one sentence both that the platform holds no value for it and that the platform holds all three, and participant-instructions.md printed that same sentence to the participant."
+      },
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX69 mi_setaside_marihuana-set -> CLAIM_OK FIX69 mi_setaside_marihuana-set (repair, grant set 9e5d1c54a2083fcb), exit 0. Asserted before any family artifact was read or written.",
+      "canonicalShaConfirmedBeforeWork": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
+      "boundaryShaConfirmedBeforeWork": "ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99",
+      "obligationsRepaired": ["KNOWN_PREFILLS"],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. The delivered bytes moved, so the RASTER_PASS bound to c1506f35../ac7806c7.. no longer binds what is committed. A central raster of the new bytes is owed and is not claimed here; RASTER_QUEUE.json and MASTER_QUEUE.json were not opened or edited.",
+        "INDEPENDENT VERIFICATION. This lane wrote these bytes and verifies none of them. No verdict is written here and no obligation is scored; VF05's FAIL and VF09's earlier PASS both predate these bytes.",
+        "ACCEPTANCE RECEIPT. product-wiring.json was not opened or edited. Its binding.acceptanceReceipt still names the superseded canonical digest c1506f35.., and its blockersBeforeThisCouldEverBeEnabled sentence (\"a participant would receive an application carrying one value\") was already stale by one before this lane and is now stale by four. Both are for whoever re-earns the receipt.",
+        "The THIRD adopted packet_instruction VF05 raised as a separate open finding - the rebuttable-presumption statement in MI.memo.json under this track (burden, December 6 2018, \"not required to present evidence\") - is still absent from participant-instructions.md. Out of this grant and untouched.",
+        "scripts/build-census-v1-mi-setaside-marihuana-set.mjs (hyphenated), which also writes this overlay directory and would undo this repair if run, was not touched. The Captain's call, as VF05 and FIX51 both recorded."
+      ],
+      "whatChanged": "ONE FAMILY, ONE BOX. `dinfo` is now a COMPOSED WRITE instead of a SUPPLY refusal, composed exactly as the sibling scripts/build-census-v1-mi_setaside_trafficking-set.mjs composes the identically captioned box on MC 227b: the same shared finalizer channel (composedFieldValues in scripts/rcap-official-forms/rcap-official-form-finalize.mjs, which takes FACT IDS rather than text and refuses the whole box unless every named fact is held, so a partial contact block cannot reach the page), the same three fact ids in the order the printed caption names them (participant.full_legal_name, participant.street_address, participant.phone), the same one-fact-per-line layout and the same 9pt ceiling. In scripts/build-census-v1-mi_setaside_marihuana-set.mjs: a COMPOSE() helper beside the existing SUPPLY/WRITE/PROTECT/ELECTION/ATTORNEY helpers; the dinfo dictionary entry; the census row carries composedFrom/composedMaxFontSize/composedHow; renderDocument builds composedFieldValues and keeps the composed field out of unwritableFields (that role gate is not overridable) and passes fitTextPerWidget; byteProof proves a composed box FACT BY FACT against the ink the finished page carries and asserts that a box short of any one of its facts stops the build; mapFor emits the composed write with composed:true and no refusal row; countCompleteness counts a composed box's facts as held; and four in-build self-tests, modelled on the trafficking builder's \"the Parties box must be a composed write, not a refusal\", assert the fact ids and their order, that both fixtures hold all three, that dinfo is on the written side of the map and on no refusal side, and that both byte proofs found all three facts. THE READ-BACK ENCODING. The first build failed its own new assertion on the boundary fixture: the surname's U+2019 is drawn as WinAnsi 0x92 and this builder read the appearance back as Latin-1, which turns it into an invisible control character. That is the same reading error the trafficking family already corrected, and the same WIN_ANSI_HIGH translation is applied here to the read-back only; the apostrophe is on the page. RECORDS: the header comment, the dinfo row's `why` in production-field-map.json, the dinfo finding in build-findings.json and the apostrophe advisory beside it now record the repair; no record still says the platform cannot compose the block. The dinfo row leaves participant-instructions.md's supply table by itself (requiredBeforeFilingCount 26 -> 25) and the opening sentence now names what the platform filled in, contact block included; reports/independent-visual-review.json now asks the reviewer to look at three filled lines rather than at an empty box. NOT TOUCHED: every other field of MC 227a, the trafficking family, the shared finalizer, the shared completeness contract, every queue and every legal record.",
+      "pixelMeasurements": {
+        "rasterizer": "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated), rasters written under /tmp and deleted after measuring.",
+        "scaleCaveat": "300 dpi was requested (magnify 4.16667). The calibrated rasterizer clamps at 2448x3168 for a 612x792 page = 4.0 px/pt = 288 dpi, and magnify 5 returns the same raster, so every measurement below is at a measured 4.0 px/pt rather than at 4.1667. Page 2 was compared at the same scale, which is above the 150 dpi asked for.",
+        "dinfoRect": "page 1, x 318.6, y 580.66, width 257.4, height 48 (pt) = x 1274.4-2304.0, y 653.4-845.4 (px, top-left origin)",
+        "canonical": {
+          "changedPixelBboxPx": [1282, 675, 1950, 782],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": { "left": 1.9, "top": 5.41, "right": 88.5, "bottom": 15.84 },
+          "linesDrawn": 3,
+          "fontSizeDrawnPt": 9,
+          "darkPixelsInTheRectBeforeAfter": [7116, 16157],
+          "changedPixelsOutsideTheRect": 0
+        },
+        "boundary": {
+          "changedPixelBboxPx": [1284, 675, 2199, 829],
+          "insideTheRect": true,
+          "clearanceToRectEdgesPt": { "left": 2.4, "top": 5.41, "right": 26.25, "bottom": 4.09 },
+          "linesDrawn": 4,
+          "linesNote": "the boundary street address is 82 characters and wraps onto a second line, so the block draws four lines rather than three; all four sit inside the rect and the tightest clearance in the family is this fixture's 4.09pt at the foot.",
+          "fontSizeCeilingPt": 9,
+          "darkPixelsInTheRectBeforeAfter": [7116, 26185],
+          "changedPixelsOutsideTheRect": 0
+        },
+        "noInkOutsideTheBox": "0 changed pixels anywhere outside the dinfo rect on page 1, in either fixture, at a threshold of 24/255. Everything the repair added is inside the box.",
+        "noOverlapWithTheCaption": "Proved two ways. First, the printed caption's pixels are among the 0 that changed, so no glyph was drawn over it. Second, inside the rect not one new-ink pixel coincides with a pre-existing ink pixel, and the nearest pre-existing ink (the box's own rules) is 2 px = 0.5 pt away from the nearest new glyph in both fixtures.",
+        "everyOtherPage": "Page 2 of both fixtures is PIXEL-IDENTICAL before and after (ImageChops difference bounding box empty, 2448x3168 both). Page 1 differs only inside the dinfo rect, as measured above."
+      },
+      "digests": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "c1506f35f448464374ad7d080c9b71cde24a4902d90a15259248b3962995737b",
+          "newSha256": "d026a1bffa91702245c6938ab4438a29a83ae93f109dd9677d8253aca81e463f",
+          "oldByteLength": 262869,
+          "newByteLength": 262965,
+          "pagesBefore": 2,
+          "pagesAfter": 2
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "ac7806c7b4ed40e1dcac078b6dcd23e127aa3e9f31fb1d7d0097a4c411585e99",
+          "newSha256": "5180ce722fb75f08b366c3c7b7d9a0e43d4a36076593aeb704b14adc8b3f4f82",
+          "oldByteLength": 262883,
+          "newByteLength": 263064,
+          "pagesBefore": 2,
+          "pagesAfter": 2
+        },
+        "digestsMovedInThisLane": true,
+        "whyTheyMoved": "Two causes, and both are intended here. The ink: the composed contact block. The metadata: the committed fixtures carried a wall clock in /ModDate AND /CreationDate, which VF05 measured at 16 bytes per fixture and 32 across the family (FIX51 reported 8 per fixture and missed /CreationDate); this builder stamps RCAP_PACKET_PDF_DATE into both entries, so a rebuild normalises them. FIX51 restored the moved bytes because its grant was instructions-only. This grant rebuilds, so the artifact drift is resolved rather than restored: both fixtures now carry the deterministic date and rebuild byte-identically."
+      },
+      "deterministicRebuild": "Built TWICE in full, with raster (the mode the committed artifacts were produced in; build-status.json records rasterEngine chromium_calibrated and rasterPages 4). Every one of the 23 files in the family directory hashes identically across the two runs, fixtures and raster PNGs included: sha256sum over the whole directory after run 1 and after run 2 differ in no line.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Nine zeros before and nine zeros after; PASS_COMPLETE and exit 0 both times, 2/37 written before and 3/37 after. The counters could not see this defect and cannot see the repair either: no counter reads the builder's fixtures, which is exactly why VF05 had to compare the declaration with the held facts.",
+      "verifiers": {
+        "verify-packet-completeness.mjs": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family mi_setaside_marihuana-set -> PASS_COMPLETE, nine counters zero. BEFORE: 2/37 written, exit 0. AFTER: 3/37 written, exit 0.",
+        "verify-identity-refresh-survives-rebuild.mjs": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs -> EVERY_IDENTITY_REFRESH_SURVIVED, 249 receipts compared against HEAD, 53 carrying an identityRefresh, exit 0. Run after the rebuild, as FIX51 ran it.",
+        "verify-source-carried-values-are-dispositioned.mjs": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs -> EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, exit 0.",
+        "builderSelfTests": "This builder still has no --self-test branch (passing the flag runs an ordinary full build), so its self-tests are in-build assertions and they all ran on both delivered runs: the dictionary/widget-set equality in both directions, the 37-field census count, the composed byte proof fact by fact in both fixtures, and the four new dinfo assertions. node scripts/build-census-v1-mi_setaside_marihuana-set.mjs --check -> CHECK_ONLY, 37 fields, writes 2, composed 1, supply 25, elections 3, protected 5, attorney 1, exit 0. The assertions are not decorative: the first full build STOPPED on the composed byte proof, over the WinAnsi read-back, and shipped nothing.",
+        "environmentVerifier": "see preflight"
+      },
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family mi_setaside_marihuana-set, run on the clean tree at f27b9ef31 before any family artifact was edited, MASTER_LIBRARY_SOURCE_DIR exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable",
+        "failedChecks": [
+          "private_is_git_ignored - an artifact of this container rather than of the tree: private/ is a read-only symlink here. `git ls-files private/` returns 0 tracked paths, so no source byte can enter a commit.",
+          "corpus_matches_committed_index - 1 absent, 0 mismatched of 24 sampled; the absent entry is an Alabama form belonging to no Michigan family. VF05 resolved this identically."
+        ],
+        "checksThatMatterHere": "family_sources_bind 1/1 by exact SHA-256, master_library_mounted and master_library_complete (499 files, 329 PDFs, 51 jurisdictions), stale_artifact_block_consulted (2 artifacts under this family clear), worktree_clean, node 22.22.2, pdf-lib 1.17.1.",
+        "judgement": "Both failures are the two VF05 recorded on the same container shape and neither reaches the bytes built here; the one source this family binds resolves and re-hashes."
+      },
+      "acceptanceReceipt": null,
+      "sourceIdentity": "Unchanged and re-bound on every run: MC-227A, d361c2082ecc761fe4e9eadda0cabd307f2d6bb3c7af9a3917a9afecad698757, 262566 bytes, bound by exact SHA-256 against the committed corpus index before anything was rendered.",
+      "filesChanged": [
+        "scripts/build-census-v1-mi_setaside_marihuana-set.mjs",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/reports/independent-visual-review.json",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/raster/canonical/page-01/page.png",
+        "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/raster/boundary/page-01/page.png",
+        "data/rcap-grade-a/packet-factory-24h/fix69/rows.json"
+      ],
+      "rasterPngsCommitted": "The two page-01 PNGs above are the FAMILY's own tracked build artifacts, whose sha256 reports/rendered-artifacts.json and reports/independent-visual-review.json record; leaving them behind would commit a tree whose records name hashes the tree does not carry. They regenerate byte-identically on rebuild. The measurement rasters this lane made are a different thing: they were written under /tmp, are not in the repository, and were deleted.",
+      "otherFamiliesUnchanged": "CONFIRMED BY HASH: sha256sum over all 5438 files under data/rcap-all50/overlays/census-v1/ before the first edit and again on the finished tree differ in exactly the 13 files of this family listed above. Every other family directory is byte-identical, the trafficking family included.",
+      "hostScope": "SINGLE-FAMILY HOST. Every code change is inside this family's own builder. No shared helper, no shared contract and no shared verifier was edited, so no other family's bytes can have moved, and the hash comparison above shows none did.",
+      "queuesTouched": "none. MASTER_QUEUE.json and RASTER_QUEUE.json were read for the family directory and the raster binding and were not edited.",
+      "legalRecordsTouched": "none. MI.memo.json was not opened for writing.",
+      "whatWasNotDone": [
+        "CENTRAL RASTER ON THE NEW BYTES: owed and not done. The bytes moved, so the RASTER_PASS bound to c1506f35../ac7806c7.. is superseded and this family has no hash-bound raster receipt until the central workflow renders d026a1bf../5180ce72... The local rasters this lane measured are not that receipt and are not offered as one.",
+        "INDEPENDENT VERIFICATION: owed and not done. This lane built these bytes and scores nothing.",
+        "The acceptance receipt in product-wiring.json, the stale blockers sentence beside it, the rebuttable-presumption packet_instruction VF05 raised, and the duplicate hyphenated builder: all left untouched, as listed under obligationsThisRowDoesNotDischarge."
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row repairs one obligation on one family. It promotes no status, opens no route and approves no output."
+    }
+  ]
+}

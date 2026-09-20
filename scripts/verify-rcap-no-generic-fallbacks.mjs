@@ -2,6 +2,7 @@ import { register } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet as sharedEvaluatorRouteSet } from "./lib/route-ratification.mjs";
 
 // ============================================================================
 // PERMANENT RULE: NO GENERIC FALLBACK LOGIC ANYWHERE.
@@ -55,10 +56,19 @@ function record(check, severity, file, line, snippet) {
 // ---------------------------------------------------------------------------
 // Parse the mutually-exclusive control sets straight from evaluator.ts source.
 // ---------------------------------------------------------------------------
+/**
+ * The live payment gate, read from the one controlling registry.
+ *
+ * This used to parse the Sets out of evaluator.ts, on the reasoning that those
+ * sets ARE the gate and a re-implementation here would measure this script
+ * instead of the runtime. That was right while they were hand-written literals.
+ * They are projections now: the evaluator filters
+ * data/record-clearing/legal-decisions/route-ratification-registry.json, so
+ * reading the registry is reading the same list one step closer to the
+ * authority, and there is no second list left for it to drift from.
+ */
 function parseRouteSet(name) {
-  const m = evalSrc.match(new RegExp(`const ${name} = new Set\\(\\[([\\s\\S]*?)\\]\\)`, "m"));
-  if (!m) throw new Error(`Could not find control set ${name} in evaluator.ts`);
-  return new Set([...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]).filter((k) => /^[A-Z]{2}:/.test(k)));
+  return sharedEvaluatorRouteSet(name);
 }
 const RATIFIED_DEPLOYABLE = parseRouteSet("RATIFIED_DEPLOYABLE_ROUTES");
 const CORRECTED_AWAITING_RECONFIRM = parseRouteSet("CORRECTED_AWAITING_RECONFIRM_ROUTES");
@@ -411,7 +421,8 @@ const GATE_UNLOCK = {
   dc_offense_severity_group: "Not in offense severity group 1, 2, or 3",
   actual_innocence_basis: "The offense did not occur",
   dc_actual_innocence_basis: "The offense did not occur",
-  hi_court_order_confirmed: "Yes"
+  hi_court_order_confirmed: "Yes",
+  resolved_timing_bucket: "gt_10_years"
 };
 const OUTCOME_CANDIDATES = [
   "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -498,6 +509,14 @@ function buildAnswers(profile, pathway, outcome, offenseLevel, date, mutate) {
   // IL felony-prostitution needs a felony prostitution record.
   if (pathway.id === "felony-prostitution-relief") { answers.offense_level = "Felony"; if ("charge" in answers) answers.charge = "Felony prostitution conviction"; }
   for (const [k, v] of Object.entries(GATE_UNLOCK)) if (k in answers) answers[k] = v;
+  // These Maryland routes have maximum filing deadlines rather than minimum waits. A generic
+  // far-past anchor is correctly barred, so the both-direction harness supplies a timely date.
+  if (profile.jurisdiction.code === "MD" && pathway.id === "police-record-expungement-when-no-charge-was-filed-under-10-103") {
+    answers.arrest_date = "2026-01-01";
+  }
+  if (profile.jurisdiction.code === "MD" && pathway.id === "pardoned-conviction-expungement-under-crim-proc-10-105-a-8") {
+    answers.pardon_signed_date = "2026-01-01";
+  }
   // Name one specific source waiting rule so the engine does not fail closed on ambiguous waits.
   if ("waiting_rule_id" in answers) answers.waiting_rule_id = waitingRuleIdFor(profile, pathway) ?? "";
   if (mutate) mutate(answers);

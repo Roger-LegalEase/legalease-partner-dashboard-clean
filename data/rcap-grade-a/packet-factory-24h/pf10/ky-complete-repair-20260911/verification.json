@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rcap-pf10-ky-complete-repair-author-evidence/v1",
+  "assignmentId": "PF10",
+  "familyId": "ky_misdemeanor_expungement-set",
+  "status": "COMPLETED",
+  "baseCommit": "f2374504c93d5d1bb16192802cc004ab3bbf8ede",
+  "scope": "Scoped author repair evidence for all nine VF62 findings. It is not independent review, raster acceptance, route promotion, or commercial authority.",
+  "sourceIdentity": [
+    {
+      "documentId": "AOC-496.2",
+      "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "verified": true
+    },
+    {
+      "documentId": "AOC-496",
+      "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "verified": true
+    }
+  ],
+  "vf62Repairs": {
+    "KY-VF62-01": "Phone appearance is split around the source forms’ static parentheses and measured on both forms.",
+    "KY-VF62-02": "Only AOC-496.2 Text1’s duplicated default appearance is suppressed; the official static page instruction remains.",
+    "KY-VF62-03": "Explicit true US-citizenship fact is required; false and unknown stop before output.",
+    "KY-VF62-04": "Instructions identify the KRS 453.190 motion and affidavit request handoff through the filing clerk or legal aid, with court decision required before reliance and $50 waiver scope unresolved.",
+    "KY-VF62-05": "Instructions identify the AOC Records Unit, AOC-RU-009, official process URL, certification attachment, and 30-day filing window.",
+    "KY-VF62-06": "AOC-496.2 face carries conviction charges only. Dismissed/amended-away same-criminal-action nonfelony companions retain actual facts in an incorporated supplemental schedule; felony companions stop.",
+    "KY-VF62-07": "Held-source mailing-state choices, including Ohio, are accepted independently of Kentucky venue.",
+    "KY-VF62-08": "Schedule fallback compares text writes only and no longer triggers from a selected checkbox.",
+    "KY-VF62-09": "Participant pages use ordinary classification and printed-control language and omit internal build identifiers."
+  },
+  "counselDirectedCompanionTreatment": {
+    "implemented": true,
+    "paragraphOneAltered": false,
+    "dismissedOrAmendedCalledConvictions": false,
+    "felonyCompanions": "fail closed to independently applicable authority"
+  },
+  "unresolvedQuestion": "The unsuccessful-petition $50 refund treatment and whether the certification charge is within IFP relief remain unresolved. Guidance promises neither a refund nor a waiver.",
+  "commands": [
+    {
+      "command": "node scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs",
+      "result": "6 PDFs, 27 pages, RASTER_PENDING"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/test-ky-misdemeanor.mjs data/rcap-grade-a/packet-factory-24h/pf10/ky-complete-repair-20260911/author-qa.json",
+      "result": "33 passed, 0 failed"
+    },
+    {
+      "command": "node scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs --check",
+      "result": "CHECK_PASS_RASTER_PENDING; 6 packets; 2 sources; independent verification PENDING"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_misdemeanor_expungement-set",
+      "result": "PASS_COMPLETE; 45/66 written; nine zero counters"
+    },
+    {
+      "command": "two consecutive production builds followed by sorted whole-output-tree SHA-256",
+      "result": "f956319b294014df3f705108abbad1c9168d7a8848a34f46367adc14e8db7c8f both times"
+    }
+  ],
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "sha256": "dcfda55784b8bdcedba2946ff360810a5c0ec4fd738d9c4dd9da28fc1ffbbeb3",
+      "byteLength": 182600,
+      "pageCount": 4
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "72502d59382b0a058b94b78474065b99377f87a2e25c8af9735754bd64d6f461",
+      "byteLength": 341747,
+      "pageCount": 7
+    },
+    {
+      "fixture": "selectable/ordinary-violation",
+      "sha256": "dbd41f2b8b6652faf67d65be5b36c8ce6a396a73b423df5fd89d9d1bc72950f2",
+      "byteLength": 182576,
+      "pageCount": 4
+    },
+    {
+      "fixture": "selectable/ordinary-traffic",
+      "sha256": "017958fab9cf8e57fdff640fbd51530338fe82d5cdb8bdbb91fe2e4034df9425",
+      "byteLength": 182600,
+      "pageCount": 4
+    },
+    {
+      "fixture": "selectable/void-218a275-8",
+      "sha256": "172562e6b3bbc982e9562b8bfb39f77df3077898fdd697e12266a09785661bf3",
+      "byteLength": 182665,
+      "pageCount": 4
+    },
+    {
+      "fixture": "selectable/void-218a276-8",
+      "sha256": "a1d7ef34b529a7c9f2c579f8b1019ac85b4be2d41cf171577c2e7fd6ae478f4e",
+      "byteLength": 182657,
+      "pageCount": 4
+    }
+  ],
+  "rasterStatus": "RASTER_PENDING",
+  "freshRasterRequiredForHashes": true,
+  "priorRasterReceiptCoversChangedBytes": false,
+  "independentReviewStatus": "PENDING",
+  "modelMetadata": "gpt-5.6-sol; reasoning effort high"
+}

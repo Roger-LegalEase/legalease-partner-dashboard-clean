@@ -1,0 +1,1124 @@
+{
+  "schemaVersion": "rcap-remaining-family-handoff/v1",
+  "status": "RECONSTRUCTED_AFTER_RESTART",
+  "recordedAt": "2026-09-13T04:22:51Z",
+  "purpose": "Account for every currently nonterminal family exactly once from the current native queue and the latest durable returns. This is a scoped handoff, not a queue, claim, source-custody, or terminal-state mutation.",
+  "recovery": {
+    "preRestartCheckpointLocated": false,
+    "reconstructionBasis": [
+      "current Git records and HEAD",
+      "current native MASTER_QUEUE",
+      "current ACTIVE_ASSIGNMENTS and VERIFIER_RETURNS",
+      "durable worker returns and source-wave/legal decisions"
+    ],
+    "comparisonPointOnly": "765cdcf73273d3dc81491d98dc07fa378fb51a57; historical proven terminal count 310/346",
+    "reconstructedNote": "CAPTAIN_RESTART.md",
+    "sourceEnvironmentRule": "The Master Library remains reference-only and is not substituted for the operational Nationwide corpus."
+  },
+  "checkpoint": {
+    "captainHead": "35202abe0697ff5bc2851560c465a50f2eb26841",
+    "queuePath": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "queueSha256": "f5e9df20f3d0e3ed922b0739ab8a100107f03e1a085676dfedd8eeb5fe31cb14",
+    "activeAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "activeAssignmentsSha256": "3839586b290931ea523f355bf43251066b80578c72e9915f790330be35e644aa",
+    "verifierReturnsPath": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+    "verifierReturnsSha256": "1500ca8fd9816f4d957dcd7ed0213951243b26a18f2ede7ce1bef0b5e5f85031",
+    "denominator": 346,
+    "queueRows": 346,
+    "terminalDefinition": [
+      "COMPLETE_PACKET_PROVEN",
+      "GUIDANCE_READY",
+      "HANDOFF_READY",
+      "OUT_OF_SCOPE"
+    ],
+    "terminalCount": 311,
+    "terminalStateCounts": {
+      "COMPLETE_PACKET_PROVEN": 289,
+      "GUIDANCE_READY": 15,
+      "HANDOFF_READY": 2,
+      "OUT_OF_SCOPE": 5
+    },
+    "nonterminalCount": 35,
+    "nonterminalStates": {
+      "SOURCE_READY": 29,
+      "BUILT_RASTER_PENDING": 1,
+      "PRODUCT_PATH_PENDING": 3,
+      "WRONG_DELIVERY_TYPE": 1,
+      "VERIFYING": 1
+    },
+    "queueDenominatorRemaining": 345,
+    "queueDenominatorRemainingMeaning": "The native queue excludes one active family; it is not the count of nonterminal rows."
+  },
+  "latestRelevantReturns": [
+    "data/rcap-grade-a/packet-factory-24h/vfar1/act346-order-code-review-secondary-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-ky-adopted-service-repair-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-ky-adopted-service-semantic-pass-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf08/ky-adopted-service-raster-manifest-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-source-input-review-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-legal-design-resolution-draft-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/pf20/ks-custody-resume-20260913.json",
+    "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+    "data/rcap-grade-a/packet-factory-24h/pf05/resume-pf05-ut-paused-20260913.json",
+    "data/rcap-grade-a/packet-factory-24h/pf01/rows-pf01-20260911-ut-remove-link.json",
+    "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
+    "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-mapping-completion-acceptance-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+  ],
+  "families": [
+    {
+      "familyId": "ar-veterans-court-set",
+      "jurisdiction": "AR",
+      "queueState": "SOURCE_READY",
+      "owner": "OWNER+COUNSEL, then PF04",
+      "actualNextGate": "Resolve the VF44 owner/counsel adoption questions; after an adopted current-law/form strategy, PF04 may build and return the complete candidate.",
+      "exactBlocker": "The durable VF44 legal-design draft is NOT_ADOPTED. It leaves current citation treatment after Act 691, pre/post-adjudication scope, cross-court branch, criminal-history/appropriateness finding, service, fee/waiver, and stage-1 eligibility treatment unresolved. No build or raster authorization was granted.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-source-input-review-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-legal-design-resolution-draft-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ca-diversion-seal-set",
+      "jurisdiction": "CA",
+      "queueState": "SOURCE_READY",
+      "owner": "PF06",
+      "actualNextGate": "PF06/Captain: obtain exact San Diego PC851.90 dispositive-order identity or published court-preparation procedure; legal-design owner must adopt any changed order treatment before authoring the required companion.",
+      "exactBlocker": "Exact CRM307 is held but is petition/prosecutor response/hearing notice, not the required dispositive sealing order. One bounded official forms/guidance check did not establish the companion; CRM308 is an unrelated warrant order.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf20/rows-pf20-ca-diversion-order-prerequisite-20260913.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [
+        "2026-09-13 bounded official criminal-forms listing, linked Clearing Your Record guidance and 2019 publication notice: no dispositive PC851.90 order identity established; do not repeat unchanged search."
+      ]
+    },
+    {
+      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "jurisdiction": "UT",
+      "queueState": "SOURCE_READY",
+      "owner": "SOURCE CUSTODY OWNER, then PF01",
+      "actualNextGate": "Place the exact current Utah State Courts juvenile-expungement petition in governed custody; only then release PF01 to build it.",
+      "exactBlocker": "The source reconciliation is SOURCE_BLOCKED: the petition identity is known, but its current binary is not held in governed custody. The matching reference PDF is identity evidence only.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "docs/record-clearing/e3-job-graph.md",
+        "docs/record-clearing/retrieval-packets/compiled_pathway_UT_path-m-juvenile-expungement.md"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "composed-treatment:nc_146_dismissal_petition",
+      "jurisdiction": "NC",
+      "queueState": "SOURCE_READY",
+      "owner": "PF12",
+      "actualNextGate": "Build from the exact bound AOC-CR-287, instructions, and AOC-CV-226 inputs, preserving the composed treatment, then return for review.",
+      "exactBlocker": "None in the current queue/source binding beyond the PF12 build and ordinary acceptance gates.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "fl-expunction-set",
+      "jurisdiction": "FL",
+      "queueState": "SOURCE_READY",
+      "owner": "PF19",
+      "actualNextGate": "Build the expunction route from the exact FDLE40-021 binding and Rule 3.989 composed pleadings; preserve all participant branches and fee instructions.",
+      "exactBlocker": "None in the current source reconciliation beyond the PF19 build and ordinary acceptance gates.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "fl-sealing-set",
+      "jurisdiction": "FL",
+      "queueState": "BUILT_RASTER_PENDING",
+      "owner": "Existing distinct reviewer /root/resolver_review, then Captain integration",
+      "actualNextGate": "Read all 20 verified original images from run34776394081 and validate the native wiring expansion; submit a schema-valid independent final verdict.",
+      "exactBlocker": "Existing distinct reviewer reports usage limit; no final acceptance has been issued. Original raster PASS is already ingested and must not be rerun.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf01/fl-sealing-final-review-handoff-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34776394081/fl-sealing-set.ORIGINAL_EVIDENCE_VERIFIED.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [],
+      "updatedAt": "2026-09-13T19:20:04.299154+00:00",
+      "observedRasterReceiptState": "RASTER_PASS",
+      "finalAcceptance": "NOT_YET_ISSUED"
+    },
+    {
+      "familyId": "ia-12346-set",
+      "jurisdiction": "IA",
+      "queueState": "SOURCE_READY",
+      "owner": "PF23",
+      "actualNextGate": "Build from the exact Form 3 binding and render its embedded certification section as part of the filing flow.",
+      "exactBlocker": "None in the current source reconciliation; the recorded determination treats the certification as an embedded section, not a missing standalone document.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ia-901c3-set",
+      "jurisdiction": "IA",
+      "queueState": "SOURCE_READY",
+      "owner": "PF07",
+      "actualNextGate": "Build from the exact Form 2 binding, composing its embedded certification and optional filer-created continuation sheet.",
+      "exactBlocker": "None in the current source reconciliation; the recorded determination treats the continuation as filer-created content, not a missing official source document.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "il-prb-cert-set",
+      "jurisdiction": "IL",
+      "queueState": "SOURCE_READY",
+      "owner": "PF16",
+      "actualNextGate": "Build the four owner-custodied PRB application/acknowledgment instruments; keep EXP-AD Request only on the downstream court-petition stage.",
+      "exactBlocker": "None in the current source-wave custody. Older locator-only source-resolution entries are superseded by the exact-byte PRB recovery return; PF16 must consume the current bound set and preserve the route split.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_IDENTITY_RESOLUTION_SWEEP.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "jurisdiction": "KS",
+      "queueState": "SOURCE_READY",
+      "owner": "SOURCE CUSTODY OWNER, then PF20",
+      "actualNextGate": "Materialize or expose the two exact arrest-record PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build.",
+      "exactBlocker": "The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf20/ks-custody-resume-20260913.json",
+        "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [
+        "rcap-official-source-acquisition-batch.yml run 34666647147: both recorded KJC URLs returned HTTP 403",
+        "The four downloaded GitHub artifact archives contained only authoritative not_acquired receipts and no PDF body; direct URL retry was intentionally zero in this recovery."
+      ]
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "jurisdiction": "KS",
+      "queueState": "SOURCE_READY",
+      "owner": "SOURCE CUSTODY OWNER, then PF20",
+      "actualNextGate": "Materialize or expose the two exact registration-relief PDFs through recorded custody, verify each expected SHA-256 and byte length, then resume the bounded PF20 build.",
+      "exactBlocker": "The saved PF20 return and recovery report prove no build candidate and no exact current PDF bodies. The adopted KJC owner attestation resolves the commercial permission question, but does not waive source custody.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf20/ks-custody-resume-20260913.json",
+        "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [
+        "rcap-official-source-acquisition-batch.yml run 34666647147: both recorded KJC URLs returned HTTP 403",
+        "The four downloaded GitHub artifact archives contained only authoritative not_acquired receipts and no PDF body; direct URL retry was intentionally zero in this recovery."
+      ]
+    },
+    {
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "jurisdiction": "KY",
+      "queueState": "SOURCE_READY",
+      "owner": "PF03",
+      "actualNextGate": "Build the AOC-496.3 route, carrying full pardon as an eligibility branch and attaching the pardon as required; do not create a separate pardon instrument.",
+      "exactBlocker": "None in the adopted legal resolution beyond the PF03 build and ordinary acceptance gates. The stale route-election hold is retired by the current KY-FULL-PARDON-AOC-496-3 rule.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ky_protective_order_record_expungement-set",
+      "jurisdiction": "KY",
+      "queueState": "BUILT_RASTER_PENDING",
+      "owner": "CAPTAIN: central raster acceptance, then independent review/integration",
+      "actualNextGate": "Consume current-byte raster run 34737617513; on RASTER_PASS send the frozen exact PDFs through the independent visual/acceptance gate and integrate the result.",
+      "exactBlocker": "The current central raster run is pending. VF24 is PASS_PRE_RASTER_SEMANTIC with CLIPPING_AND_OVERLAP unmeasured; the adopted service decision remains adopted. No source or legal reopening is warranted.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-ky-adopted-service-repair-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/vf24/rows-vf24-ky-adopted-service-semantic-pass-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/ky-adopted-service-raster-manifest-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34737617513/dispatch-inputs.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mo-575-120-identity-theft-correction-set",
+      "jurisdiction": "MO",
+      "queueState": "SOURCE_READY",
+      "owner": "PF10",
+      "actualNextGate": "Build with the shared exact FI-05 source and the bound CR300, CR310, and GN10 component strategy; return all required participant and filing instructions.",
+      "exactBlocker": "None in the current queue source binding beyond the PF10 build. Historical CR310 locator and GN10 DOCX format caveats must be preserved in the build return; no fresh source hunt or silent conversion is authorized.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mo-610-122-arrest-expungement-set",
+      "jurisdiction": "MO",
+      "queueState": "SOURCE_READY",
+      "owner": "PF09",
+      "actualNextGate": "Build with the shared exact FI-05 source and the already-bound route forms; return the complete candidate for independent review.",
+      "exactBlocker": "None in the current queue source binding beyond the PF09 build. Historical source-format/locator caveats do not authorize a new hunt or silent conversion.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "mt_deferred_dismissal-set",
+      "jurisdiction": "MT",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "owner": "CAPTAIN \u2014 integrated",
+      "actualNextGate": "Current candidate complete and independently accepted; no more build, semantic review or raster. No commercial authority inferred.",
+      "exactBlocker": "None for packet-factory closure; original24page run34782464548 and VFMTFINAL2 accepted at c8381f44e6.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "data/rcap-grade-a/packet-factory-24h/pf04/mt-deferred-final-closure-20260913.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [],
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "PF04",
+        "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
+        "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used."
+      }
+    },
+    {
+      "familyId": "mt_misdemeanor_expungement-set",
+      "jurisdiction": "MT",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "owner": "CAPTAIN",
+      "actualNextGate": "Closed at terminal328 with independent original-page acceptance and native convergence.",
+      "exactBlocker": null,
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "data/rcap-grade-a/packet-factory-24h/pf16/mt-misdemeanor-complete-admission-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/vfmtmis1/rows-vfmtmis1-mt-misdemeanor-semantic-pass-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf16/mt-misdemeanor-raster-run-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf16/mt-misdemeanor-final-closure-20260913.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [],
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "PF16",
+        "actualNextGate": "Use the recorded exact DOCX source in the bounded custom-pleading build, preserving its source identity and returning the required participant/instructions components.",
+        "exactBlocker": "No missing source bytes are established. The recorded EXPUNGEMENTREMOVALREQUESTFORM input is DOCX, so no unrecorded DOCX-to-PDF conversion or assumed official PDF overlay may be used."
+      }
+    },
+    {
+      "familyId": "mt_mmrta_completed-set",
+      "jurisdiction": "MT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF16 \u2014 next implementation slot",
+      "actualNextGate": "Next free implementation slot consumes pf16/mt-mmrta-completed-exact-source-readiness-20260913.json and builds complete candidate using the existing converter/font configuration.",
+      "exactBlocker": "No source absence remains: original Form B, proposed order, service certificate and already-verified DOJ DOCX confirmed on existing worker at exact governed hashes. Awaiting implementation slot; reuse existing converter.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+        "data/rcap-grade-a/packet-factory-24h/pf16/mt-mmrta-completed-exact-source-readiness-20260913.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [],
+      "priorSourceBlockerRetained": "No missing source bytes are established. The current records identify DOCX inputs rather than PDF overlays; preserve that format strategy and do not silently convert or omit a component."
+    },
+    {
+      "familyId": "mt_mmrta_serving-set",
+      "jurisdiction": "MT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF15",
+      "actualNextGate": "Build the serving-record packet from exact Form A and all three identified supporting inputs, with every source and format stated in the return.",
+      "exactBlocker": "No missing source bytes are established. The current records identify DOCX inputs rather than PDF overlays; preserve that format strategy and do not silently convert or omit a component.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "nc_145_8a_youthful-set",
+      "jurisdiction": "NC",
+      "queueState": "SOURCE_READY",
+      "owner": "PF01",
+      "actualNextGate": "Build from the exact AOC-CR-293, instructions, AOC-CV-226, and bound AOC-CR-296 set; preserve the youthful route and all required components.",
+      "exactBlocker": "None in the current source-wave binding beyond the PF01 build and ordinary acceptance gates. Earlier missing/locator observations are superseded by the committed exact-byte wave return.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "nc_auto_146_a4_agency_followup-set",
+      "jurisdiction": "NC",
+      "queueState": "SOURCE_READY",
+      "owner": "PF05",
+      "actualNextGate": "Build from the exact AOC-G-260 agency-follow-up binding and return the complete candidate for independent review.",
+      "exactBlocker": "None in the current source binding beyond the PF05 build and ordinary acceptance gates.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "nd-prohibit-remote-public-access-set",
+      "jurisdiction": "ND",
+      "queueState": "COMPLETE_PACKET_PROVEN",
+      "owner": "CAPTAIN",
+      "actualNextGate": "Closed at terminal329 with independent original-page acceptance and native convergence.",
+      "exactBlocker": null,
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf24/nd-complete-render-repair-handoff-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/vfnd2/rows-vfnd2-nd-repair-semantic-pass-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf24/nd-repaired-raster-run-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf24/nd-final-closure-20260913.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [],
+      "updatedAt": "2026-09-13T19:20:04.299154+00:00",
+      "sourceAcquisition": {
+        "status": "NATIVE_SOURCE_ADMISSION_VALIDATED",
+        "bindings": [
+          {
+            "pathInRepository": "private/source-acquisition-20260913/nd-remote-declaration/ND-Declaration-In-Support-Remote-Access-Rev-Apr-2024.pdf",
+            "sha256": "5ab4d45d05b56f52832bf5c741aa8825a624ac9e49f9744ed68960a253881db4",
+            "byteLength": 1217361,
+            "pageCount": 3,
+            "acroFieldCount": 49,
+            "sourceUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Affidavit.pdf"
+          },
+          {
+            "url": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Instructions.pdf",
+            "label": "Instructions: Read before completing any forms!",
+            "pathInRepository": "private/source-acquisition-20260913/nd-remote-declaration/ND-Remote-Access-Instructions-Rev-Apr-2024.pdf",
+            "sha256": "8ac6b578144b134c3c2db3b4ef5f0f656131d5ed0d22413006e0c9072d786fab",
+            "byteLength": 281244,
+            "pageCount": 13,
+            "acroFieldCount": 0
+          },
+          {
+            "url": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Notice-of-Motion-to-Prohibit.pdf",
+            "label": "Notice of Motion to Prohibit Public Access to Court Records",
+            "pathInRepository": "private/source-acquisition-20260913/nd-remote-declaration/ND-Notice-of-Motion-Remote-Access.pdf",
+            "sha256": "f180368ef62486d916e06b9f2529d9ac9da33cd22444f5cb88d2283fd2b1a5b3",
+            "byteLength": 1151592,
+            "pageCount": 1,
+            "acroFieldCount": 8
+          },
+          {
+            "url": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Confidential%20Info%20Form%20Crim.pdf",
+            "label": "Confidential Information Form",
+            "pathInRepository": "private/source-acquisition-20260913/nd-remote-declaration/ND-Confidential-Information-Criminal.pdf",
+            "sha256": "21f101bb267fbdd3f2b1a9d563eb2f0807f51a414e9af8ac91e8575a238b0d37",
+            "byteLength": 1173749,
+            "pageCount": 2,
+            "acroFieldCount": 58
+          },
+          {
+            "url": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Affidavit%20Service%20Office%20Prohibit%20Public%20Access.pdf",
+            "label": "Declaration of Office Service",
+            "pathInRepository": "private/source-acquisition-20260913/nd-remote-declaration/ND-Declaration-Office-Service-Remote-Access.pdf",
+            "sha256": "757f503033b35ef6ef2d1d44318248d40d2398850b960f0c06a3ca2d8a0c2b23",
+            "byteLength": 1218593,
+            "pageCount": 2,
+            "acroFieldCount": 18
+          }
+        ],
+        "workerCustody": {
+          "sourceCodespace": "current Captain",
+          "destinationCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+          "destinationRoot": "/workspaces/legalease-partner-dashboard-clean",
+          "verifiedFiles": {
+            "private/source-acquisition-20260913/nd-remote-declaration/ND-Remote-Access-Instructions-Rev-Apr-2024.pdf": {
+              "sha256": "8ac6b578144b134c3c2db3b4ef5f0f656131d5ed0d22413006e0c9072d786fab",
+              "byteLength": 281244
+            },
+            "private/source-acquisition-20260913/nd-remote-declaration/ND-Notice-of-Motion-Remote-Access.pdf": {
+              "sha256": "f180368ef62486d916e06b9f2529d9ac9da33cd22444f5cb88d2283fd2b1a5b3",
+              "byteLength": 1151592
+            },
+            "private/source-acquisition-20260913/nd-remote-declaration/ND-Confidential-Information-Criminal.pdf": {
+              "sha256": "21f101bb267fbdd3f2b1a9d563eb2f0807f51a414e9af8ac91e8575a238b0d37",
+              "byteLength": 1173749
+            },
+            "private/source-acquisition-20260913/nd-remote-declaration/ND-Declaration-Office-Service-Remote-Access.pdf": {
+              "sha256": "757f503033b35ef6ef2d1d44318248d40d2398850b960f0c06a3ca2d8a0c2b23",
+              "byteLength": 1218593
+            },
+            "private/source-acquisition-20260913/nd-remote-declaration/ND-Declaration-In-Support-Remote-Access-Rev-Apr-2024.pdf": {
+              "sha256": "5ab4d45d05b56f52832bf5c741aa8825a624ac9e49f9744ed68960a253881db4",
+              "byteLength": 1217361
+            }
+          },
+          "result": "ALL_EXACT_MATCH",
+          "checkoutModified": false
+        },
+        "wrongEditionExcluded": "General AR41(5)(f)(1) declaration af76c52d1f9aa8b2e986fbd719655c8e3a1f1b8158f5f606d4a6da25d3465e5b is not substituted for this criminal remote-access Declaration.",
+        "nativeAdoptionPath": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json",
+        "indexAdmission": {
+          "historicalEntriesPreserved": 996,
+          "addedEntries": [
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-BRIEF-PROHIBIT-PUBLIC-ACCESS__60a50d5f3c2c.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "CODEX-CS2-SRC4__ND-BRIEF-PROHIBIT-PUBLIC-ACCESS__60a50d5f3c2c.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1224033,
+              "sha256": "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d",
+              "assetFormat": "pdf",
+              "pageCount": 4,
+              "acroFormPresent": true,
+              "acroFieldCount": 39,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-DECLARATION-OF-SERVICE__ad05e9e15182.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "CODEX-CS2-SRC4__ND-DECLARATION-OF-SERVICE__ad05e9e15182.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-DECLARATION-OF-SERVICE",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1212802,
+              "sha256": "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3",
+              "assetFormat": "pdf",
+              "pageCount": 2,
+              "acroFormPresent": true,
+              "acroFieldCount": 15,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-MOTION-PROHIBIT-PUBLIC-ACCESS__0bc80466174c.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "CODEX-CS2-SRC4__ND-MOTION-PROHIBIT-PUBLIC-ACCESS__0bc80466174c.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1151556,
+              "sha256": "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a",
+              "assetFormat": "pdf",
+              "pageCount": 1,
+              "acroFormPresent": true,
+              "acroFieldCount": 7,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC4__ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS__4e8d129f8ef2.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "CODEX-CS2-SRC4__ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS__4e8d129f8ef2.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1165106,
+              "sha256": "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250",
+              "assetFormat": "pdf",
+              "pageCount": 3,
+              "acroFormPresent": true,
+              "acroFieldCount": 28,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "private/source-acquisition-20260913/nd-remote-declaration/ND-Declaration-In-Support-Remote-Access-Rev-Apr-2024.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "ND-Declaration-In-Support-Remote-Access-Rev-Apr-2024.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-DECLARATION-SUPPORT-REMOTE-ACCESS",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1217361,
+              "sha256": "5ab4d45d05b56f52832bf5c741aa8825a624ac9e49f9744ed68960a253881db4",
+              "assetFormat": "pdf",
+              "pageCount": 3,
+              "acroFormPresent": true,
+              "acroFieldCount": 49,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-DECLARATION-SUPPORT-REMOTE-ACCESS",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "private/source-acquisition-20260913/nd-remote-declaration/ND-Remote-Access-Instructions-Rev-Apr-2024.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "ND-Remote-Access-Instructions-Rev-Apr-2024.pdf",
+              "state": "ND",
+              "assetClass": "AUTHORITY",
+              "formNumber": "ND-REMOTE-ACCESS-PACKET-INSTRUCTIONS",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 281244,
+              "sha256": "8ac6b578144b134c3c2db3b4ef5f0f656131d5ed0d22413006e0c9072d786fab",
+              "assetFormat": "pdf",
+              "pageCount": 13,
+              "acroFormPresent": true,
+              "acroFieldCount": 0,
+              "xfaPresent": false,
+              "structuralClassObserved": "flat_pdf",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-authority:ND-REMOTE-ACCESS-PACKET-INSTRUCTIONS",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "private/source-acquisition-20260913/nd-remote-declaration/ND-Notice-of-Motion-Remote-Access.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "ND-Notice-of-Motion-Remote-Access.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-NOTICE-MOTION-REMOTE-ACCESS",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1151592,
+              "sha256": "f180368ef62486d916e06b9f2529d9ac9da33cd22444f5cb88d2283fd2b1a5b3",
+              "assetFormat": "pdf",
+              "pageCount": 1,
+              "acroFormPresent": true,
+              "acroFieldCount": 8,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-NOTICE-MOTION-REMOTE-ACCESS",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "private/source-acquisition-20260913/nd-remote-declaration/ND-Confidential-Information-Criminal.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "ND-Confidential-Information-Criminal.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-CONFIDENTIAL-INFORMATION-CRIMINAL",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1173749,
+              "sha256": "21f101bb267fbdd3f2b1a9d563eb2f0807f51a414e9af8ac91e8575a238b0d37",
+              "assetFormat": "pdf",
+              "pageCount": 2,
+              "acroFormPresent": true,
+              "acroFieldCount": 58,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-CONFIDENTIAL-INFORMATION-CRIMINAL",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            },
+            {
+              "path": "private/source-acquisition-20260913/nd-remote-declaration/ND-Declaration-Office-Service-Remote-Access.pdf",
+              "custody": "nd_remote_packet_inputs_20260913",
+              "custodyType": "GOVERNED_EXACT_PACKET_INPUTS_PARTIAL",
+              "fileName": "ND-Declaration-Office-Service-Remote-Access.pdf",
+              "state": "ND",
+              "assetClass": "FORM",
+              "formNumber": "ND-DECLARATION-OFFICE-SERVICE-REMOTE-ACCESS",
+              "revision": null,
+              "language": "EN",
+              "byteLength": 1218593,
+              "sha256": "757f503033b35ef6ef2d1d44318248d40d2398850b960f0c06a3ca2d8a0c2b23",
+              "assetFormat": "pdf",
+              "pageCount": 2,
+              "acroFormPresent": true,
+              "acroFieldCount": 18,
+              "xfaPresent": false,
+              "structuralClassObserved": "acroform",
+              "structureReadBy": "pdf-lib1.17.1",
+              "loadError": null,
+              "sourceId": "official-form:ND-DECLARATION-OFFICE-SERVICE-REMOTE-ACCESS",
+              "adoptionEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            }
+          ],
+          "indexBeforeSha256": "cf1af3035ef444f822846372668df4653814dbd68c96b8525fa75908d3d2495c",
+          "indexAfterSha256": "ce7fe83110f26ad62f2aa4be81dd6d6198096131b6b614d70202bb45bda184ac"
+        }
+      },
+      "authorRequirementsEstablishedFromHeldInstructions": {
+        "instructionsSha256": "8ac6b578144b134c3c2db3b4ef5f0f656131d5ed0d22413006e0c9072d786fab",
+        "pages": "8\u201313",
+        "requirements": [
+          "Notice is a separate required document.",
+          "Declaration is a separate required participant statement; preserve its signature and perjury controls.",
+          "Proposed findings/order: complete caption only; remaining findings and order are court-owned.",
+          "Serve the notice, motion, brief, declaration, proposed findings/order and applicable exhibits on all parties; do not serve the Confidential Information Form.",
+          "Mail and office service use their own declarations and server qualifications; repeat proof for each served party.",
+          "File original completed documents and proof of service; retain confidential handling and the conditional fee-waiver instruction."
+        ],
+        "independentAcceptanceClaimed": false
+      },
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "Captain: source admission and component binding; existing PF24 implementation slot: complete candidate; distinct reviewer: independent acceptance",
+        "actualNextGate": "Captain implements the family-only builder in the existing worker checkout from the nine exact native-adopted inputs; author checks saved bytes and instructions before independent handoff.",
+        "exactBlocker": "No source bytes remain missing for the nine bound documents. Complete candidate implementation is now the executable gate. Existing independent reviewer remains unavailable on usage limit."
+      }
+    },
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "jurisdiction": "NE",
+      "queueState": "SOURCE_READY",
+      "owner": "PF01",
+      "actualNextGate": "Build the two-stage route from exact CC-6-12 custody: first trafficking-related set-aside/vacatur, then sealing only after that prerequisite exists.",
+      "exactBlocker": "None beyond the PF01 build; the adopted NE staged legal decision is binding and must remain an explicit conditional branch.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "or_contempt_setaside-set",
+      "jurisdiction": "OR",
+      "queueState": "SOURCE_READY",
+      "owner": "CAPTAIN / PF02",
+      "actualNextGate": "Build the separately scoped ORS 137.225(1)(a) family from exact held sources, preserving the historical aliases; do not reopen the terminal nonconviction sibling.",
+      "exactBlocker": "None in the current identity-reconciliation and mapping acceptance beyond the PF02 build and ordinary acceptance gates.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-identity-reconciliation-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-mapping-completion-acceptance-20260912.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "rcap-mo-custom-pleading",
+      "jurisdiction": "MO",
+      "queueState": "SOURCE_READY",
+      "owner": "PF17",
+      "actualNextGate": "Build the settled custom-pleading route from the exact FI-05 and GN10 bindings, preserving the recorded source format and participant stop conditions.",
+      "exactBlocker": "None in the current queue source binding beyond the PF17 build; GN10's recorded DOCX format is a build-strategy caveat, not permission to invent a PDF source.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "jurisdiction": "OH",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "owner": "Exact named-font input owner; PF08 resumes preserved correction after input",
+      "actualNextGate": "Supply exact Times New Roman or Arial font asset with complete required glyph coverage to existing renderer; then PF08 consumes coherent eight-fixture/four-branch repair and bound Franklin filing mechanics, fully builds and returns for independent acceptance.",
+      "exactBlocker": "Verified Times New Roman or Arial font bytes with required fixture glyph coverage unavailable in existing working runtime. Source Times New Roman font extracted from exact local order lacks required ASCII glyphs; no substitute-font compliance claim is permissible.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf32/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-96c1-bound-page-identity-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-source-only-integration-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-clean-tracks-delivery-mapping-independent-review-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/oh-continuation-20260913/oh-author-actionable-handoff.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [],
+      "priorDeliveryBlockerRetained": "Court/branch delivery bindings remain incomplete. Rules-container custody and exact96-C1 location are resolved; no repeat acquisition. Do not relabel96-C1 as expungement or waive any actual mandatory court-specific input."
+    },
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "jurisdiction": "SC",
+      "queueState": "WRONG_DELIVERY_TYPE",
+      "owner": "CAPTAIN / owner delivery gate",
+      "actualNextGate": "Keep the custom replacement closed and bind the mandatory SCCA-223A1 official delivery type or preserve the family as nonterminal; then run the required downstream gates for the corrected route.",
+      "exactBlocker": "Adopted owner decision OWN-DT-2026-09-02-SC-223A1 refuses replacing the mandatory SCCA-223A1 GS order with this custom pleading and keeps checkout disabled. The adopted SC fee treatment remains separate ($250 solicitor, $25 SLED when applicable, $35 clerk when applicable); the SCCA223C custody issue is tracked separately and is not a legal waiver.",
+      "evidence": [
+        "data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "tx_nd_dwi_conviction-set",
+      "jurisdiction": "TX",
+      "queueState": "SOURCE_READY",
+      "owner": "PF22",
+      "actualNextGate": "Build from the three separately bound Texas components and return the complete candidate for independent review.",
+      "exactBlocker": "None in the current source reconciliation beyond the PF22 build and ordinary acceptance gates.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ut_pet_cannabis-set",
+      "jurisdiction": "UT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF05 repair branch, then VFUT1",
+      "actualNextGate": "Resume the saved bounded typed-underscore-caption repair when storage is available, return a complete current-byte candidate, then send it to independent VFUT1 review.",
+      "exactBlocker": "The saved PF05 worker return is PAUSED_AT_SAFE_BOUNDARY with no files changed and no new candidate. The exact repair is the flat typed-underscore caption refusal; this is an active repair, not a source or legal permission to duplicate work.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/pf05/resume-pf05-ut-paused-20260913.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "ut_pet_remove_link-set",
+      "jurisdiction": "UT",
+      "queueState": "SOURCE_READY",
+      "owner": "PF01 / live author mt_deferred_final_review; VFUTNEXT1 independent packet review",
+      "actualNextGate": "Complete saved judge/commissioner4fixture54pagecandidate, native author return, semantic review then freeze/raster; all5source bridge fixed at6f574d9932.",
+      "exactBlocker": "No current source binding blocker. Existing native family source check5/5; implementation in progress.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/pf01/rows-pf01-20260911-ut-remove-link.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf01/ut-custody-bridge-20260913/handoff.json"
+      ],
+      "retrievalChannelsAlreadyFailed": [],
+      "priorContinuationGate": {
+        "queueState": "SOURCE_READY",
+        "owner": "PF01",
+        "actualNextGate": "Implement the clerk/court-confirmed judgeOrCommissioner selector and builder, then exercise both exact branches and the fail-closed ambiguous case.",
+        "exactBlocker": "No source bytes are missing under the current UT disposition. The family has no builder/artifacts yet and must use Judge = 1501CR + 1502CR + 1110GE or Commissioner = 1501CR-C + 1502CR + 1111GE; otherwise STOP configuration_ambiguous / clerk-confirmation-required."
+      }
+    },
+    {
+      "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+      "jurisdiction": "WA",
+      "queueState": "SOURCE_READY",
+      "owner": "CAPTAIN / PF24",
+      "actualNextGate": "Build from exact BLAKE-001, BLAKE-002, and BLAKE-005 bindings, resolving their packet component selection as mapping, then return for independent review.",
+      "exactBlocker": "None in current source custody. The bounded mapping question is whether BLAKE-002 is the courts-limited-jurisdiction alternative or a separate refund component; resolve it in the build return without new source acquisition.",
+      "evidence": [
+        "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "jurisdiction": "WA",
+      "queueState": "VERIFYING",
+      "owner": "CAPTAIN / bounded VF34 resolution, then independent review",
+      "actualNextGate": "Resolve the current route-specific component and prefill question under RCW 9.96.060(7), update the held route-specific candidate if required, and send the corrected current bytes through independent review.",
+      "exactBlocker": "VF34 is BLOCKED_LEGAL_INPUT on COMPONENT_SET, KNOWN_PREFILLS, and ROUTE_OPTIONS: the existing CrRLJ set does not establish a distinct family-member pleading, applicant/victim field placement, or a valid printed-ground election. The adopted WA decision requires the route-specific petition/order and forbids forcing it into the ordinary residual box.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf34/rows.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "jurisdiction": "WA",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "owner": "CAPTAIN",
+      "actualNextGate": "Map RCW 9.96.060(6) to a route-specific petition/declaration and notice/order vehicle, retain the clerk lookup for local fee/waiver, repair the recorded self-help stop text, and then return it to independent review.",
+      "exactBlocker": "VF06 records live ROUTE_OPTIONS and FEE_AND_WAIVER blocks: CrRLJ 09.0100 has no RCW 9.96.060(6) election and no held fee schedule establishes the local amount or waiver procedure. VF06 also measured SELF_HELP_STOP as failed for the registry's immigration, pending-charge, DV/protection-order, DUI, weapon/enhancement, and firearm-rights conditions.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "jurisdiction": "WV",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "owner": "CAPTAIN",
+      "actualNextGate": "Bind the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, then release the official-form build to the appropriate PF lane.",
+      "exactBlocker": "The current product-path decision leaves route-election mapping pending; there is no rendered artifact or completeness result. The exact SCA-C903 source is bound, so this is a route mapping gate rather than a source hunt.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    },
+    {
+      "familyId": "wv_nc_diversion_deferred-set",
+      "jurisdiction": "WV",
+      "queueState": "SOURCE_READY",
+      "owner": "PF08",
+      "actualNextGate": "PF08/legal-design owner: resolve existing artifact-level SCA-C903 deferred-adjudication applicability gate and bind required current-law supplement, or expressly adopt the scoped custom current-law petition treatment. Then existing PF08 author resumes.",
+      "exactBlocker": "Held SCA-C903 Rev.04/2010 excludes plea-based dismissal and omits diversion/deferred and same-transaction treatment. Native builder refused this family; required supplemental pleading is not bound. Accepted straight acquittal/dismissal owner adoption does not authorize this separate branch.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-wv-nc-diversion-deferred-pdftotext-repaired-20260913.json",
+        "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    }
+  ],
+  "knownMissingInputs": [
+    {
+      "scope": [
+        "ks-22-2410-arrest-set",
+        "ks-22-4908-registration-relief-set"
+      ],
+      "status": "EXACT_PDF_BODIES_ABSENT",
+      "custodyRootChecked": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "operationalNationwideRootPresent": false,
+      "recoveryEvidence": "private/source-acquisition-20260913/ks-exact-recovery/RECOVERY_REPORT.json",
+      "inputs": [
+        {
+          "familyId": "ks-22-2410-arrest-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+          "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+          "expectedByteLength": 55112,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1620/638968300953030000",
+          "status": "absent; recorded URL HTTP 403"
+        },
+        {
+          "familyId": "ks-22-2410-arrest-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+          "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "expectedByteLength": 51084,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1628/638968301226600000",
+          "status": "absent; recorded URL HTTP 403"
+        },
+        {
+          "familyId": "ks-22-4908-registration-relief-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "expectedByteLength": 217564,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1462/638624730892300000",
+          "status": "absent; recorded URL HTTP 403"
+        },
+        {
+          "familyId": "ks-22-4908-registration-relief-set",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "expectedByteLength": 401878,
+          "officialUrl": "https://www.kjc.ks.gov/home/showpublisheddocument/1474/638624730904830000",
+          "status": "absent; recorded URL HTTP 403"
+        }
+      ]
+    },
+    {
+      "scope": [
+        "census-pending-family:UT:path-m-juvenile-expungement"
+      ],
+      "status": "GOVERNED_CURRENT_BINARY_ABSENT",
+      "identityReference": {
+        "path": "reference/utah/11_Petition_to_Expunge_Records_Juvenile-Revised-2023-08-14.pdf",
+        "sha256": "b8488a2ebb43d9f94615a52bf52545283c47c147e45a9a4f02fa872cc1baf458",
+        "observedByteLength": 128760,
+        "meaning": "reference identity evidence only; it is not admitted operational Nationwide custody"
+      },
+      "expectedByteLength": null,
+      "exactRequirement": "Current Utah State Courts Petition to Expunge Juvenile Court Records binary in governed custody, hash-bound before PF01 build.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "docs/record-clearing/e3-job-graph.md",
+        "docs/record-clearing/retrieval-packets/compiled_pathway_UT_path-m-juvenile-expungement.md"
+      ],
+      "retrievalChannelsAlreadyFailed": []
+    }
+  ],
+  "freshnessOnlyRecordedGaps": [
+    {
+      "scope": [
+        "ky_protective_order_record_expungement-set"
+      ],
+      "effect": "Does not block the exact AOC-275.18 current-byte raster gate; preserve as freshness evidence only.",
+      "inputs": [
+        {
+          "recordedPath": "/tmp/ky-clerks-manual-2026-check.pdf",
+          "expectedSha256": "3d5c55025b617846b19537965a7ae453f4f8edbe00b7105ce5be1493882948b0",
+          "expectedByteLength": 5128994,
+          "officialUrl": "https://www.kycourts.gov/Courts/County-Information/Documents/ClerksManual.pdf",
+          "status": "NOT_RESTORED; recorded HTTP 403"
+        },
+        {
+          "recordedPath": "/tmp/ky-cr-201009-official.pdf",
+          "expectedSha256": "89fc9d0011f0424fcedd54160c8ad00af41469bbdb71711cbd3365f4caa2e56b",
+          "expectedByteLength": 3298823,
+          "officialUrl": "https://www.kycourts.gov/Courts/Supreme-Court/Supreme%20Court%20Orders/201009.pdf",
+          "status": "NOT_RESTORED; recorded HTTP 403"
+        }
+      ],
+      "evidence": "data/rcap-grade-a/packet-factory-24h/restart-recovery-20260913/ky-dependency-restoration.json",
+      "retrievalChannelsAlreadyFailed": [
+        "Recorded Kentucky Courts URLs returned HTTP 403 in the saved restoration record; no retry is required for the current exact AOC-275.18 gate."
+      ]
+    }
+  ],
+  "sourceFormatCaveats": [
+    {
+      "scope": [
+        "mt_deferred_dismissal-set",
+        "mt_misdemeanor_expungement-set",
+        "mt_mmrta_completed-set",
+        "mt_mmrta_serving-set",
+        "rcap-mo-custom-pleading",
+        "mo-575-120-identity-theft-correction-set"
+      ],
+      "meaning": "Current records identify some held DOCX inputs or historical locator-only labels. This is not a newly asserted missing-byte finding; builders must preserve exact source identity and use the recorded custom-composition strategy without silent conversion or a fresh source hunt.",
+      "evidence": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json"
+    }
+  ],
+  "decisionsPreserved": [
+    {
+      "decision": "NH remains closed.",
+      "evidence": "CAPTAIN_RESTART.md"
+    },
+    {
+      "decision": "Kansas KJC commercial redistribution hold is adopted as released by owner attestation; it does not waive exact source, build, review, raster, or acceptance gates.",
+      "evidence": "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json"
+    },
+    {
+      "decision": "KY protective-order service amendment/owner adoption remains adopted; no repeat approval request.",
+      "evidence": "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json"
+    },
+    {
+      "decision": "KY full pardon is an AOC-496.3 eligibility branch, not a separate instrument.",
+      "evidence": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+    },
+    {
+      "decision": "NE trafficking route is staged: set aside/vacatur first, CC 6:12 sealing second.",
+      "evidence": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+    },
+    {
+      "decision": "SC custom replacement of mandatory SCCA-223A1 is refused and checkout remains disabled.",
+      "evidence": "data/rcap-grade-a/legal-decisions/TERMINAL_TREATMENTS_WRONG_DELIVERY_TYPE.json"
+    },
+    {
+      "decision": "AR Act 346 is currently COMPLETE_PACKET_PROVEN after integration; its current-byte review chain is complete and must not be reopened by restart.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"
+    },
+    {
+      "decision": "The AR veterans VF44 proposal remains unadopted.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf44/ar-veterans-legal-design-resolution-draft-20260912.json"
+    }
+  ],
+  "countsByActualNextGate": {
+    "source_ready_build": 23,
+    "source_custody_blocked": 3,
+    "owner_counsel_adoption": 1,
+    "raster_acceptance_pending": 1,
+    "active_repair": 1,
+    "product_path_pending": 3,
+    "wrong_delivery_type": 1,
+    "legal_component_resolution": 1,
+    "bounded_implementation": 1,
+    "total": 35
+  },
+  "nearestExecutableHandoffs": [
+    {
+      "priority": 1,
+      "familyId": "ky_protective_order_record_expungement-set",
+      "action": "Consume raster run 34737617513; then independent visual acceptance and integration.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 2,
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "action": "Complete route-family/delivery binding and identify the exact local-court component input required by VF32.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 3,
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "action": "Map RCW 9.96.060(6), preserve fail-closed behavior, handle clerk fee lookup, and repair SELF_HELP_STOP.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 4,
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "action": "Bind disposition facts to SCA-C903 ground and release the official-form build.",
+      "owner": "CAPTAIN"
+    },
+    {
+      "priority": 5,
+      "familyId": "ut_pet_cannabis-set",
+      "action": "Resume the saved PF05 caption repair after the storage pause, then send the complete candidate to VFUT1.",
+      "owner": "PF05 repair branch"
+    }
+  ],
+  "noMutations": [
+    "No source acquisition or URL retry was performed by this handoff.",
+    "No packet generation, raster dispatch, claim release, queue edit, shared manifest edit, or source metadata write was performed.",
+    "No Master Library bytes were substituted for operational Nationwide custody.",
+    "This file is the only scoped handoff write and is intentionally left uncommitted for Captain integration."
+  ],
+  "latestCandidateContinuation": {
+    "terminal": 329,
+    "denominator": 346,
+    "newClosure": "nd-prohibit-remote-public-access-set",
+    "ndRasterRun": 34783681975,
+    "mtMisdemeanorRasterRun": 34783921430,
+    "earlierCheckpointPreservedAsHistory": true,
+    "allThreeRequestedCandidatesClosed": [
+      "mt_deferred_dismissal-set",
+      "mt_misdemeanor_expungement-set",
+      "nd-prohibit-remote-public-access-set"
+    ]
+  },
+  "currentCheckpoint": {
+    "commit": "f58fbd6d08",
+    "terminal": 329,
+    "denominator": 346,
+    "nonterminalFamilyIds": [
+      "ca-diversion-seal-set",
+      "composed-treatment:nc_146_dismissal_petition",
+      "il-prb-cert-set",
+      "mo-575-120-identity-theft-correction-set",
+      "mo-610-122-arrest-expungement-set",
+      "mt_mmrta_completed-set",
+      "mt_mmrta_serving-set",
+      "nc_145_8a_youthful-set",
+      "ne-trafficking-setaside-and-seal-set",
+      "or_contempt_setaside-set",
+      "rcap-mo-custom-pleading",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "rcap-sc-custom-pleading",
+      "ut_pet_remove_link-set",
+      "wa_blake_vacatur_and_lfo_refund-set",
+      "wa_vac_homicide_victim_prostitution-set",
+      "wv_nc_diversion_deferred-set"
+    ],
+    "historicalFamilyEntriesRetained": true
+  }
+}

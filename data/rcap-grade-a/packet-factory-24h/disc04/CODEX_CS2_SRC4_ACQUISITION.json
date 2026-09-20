@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "returnType": "source_acquisition_execution",
+  "workerId": "CODEX-CS2-SRC4",
+  "branch": "codex/cs2-src4",
+  "pinnedBaseSha": "47272aa1c6f013b8e73621767a5bf5dcfeaf9178",
+  "generatedAt": "2026-09-02T16:47:05Z",
+  "assignedIdentityCount": 7,
+  "assignedFamilyCount": 3,
+  "claimReleaseCount": 0,
+  "sourceBodiesCommittedToApplicationRepository": 0,
+  "productionTouched": false,
+  "identityAnswers": {
+    "michiganMc227": "No source-identity determination was made. Every family-qualified MC 227 claim available for this cohort returned ALREADY_RELEASED, so the execution override prohibited inspection or acquisition of MC 227. The exact refusals are recorded on the three Michigan identity rows.",
+    "northDakotaRemotePublicAccess": "North Dakota publishes all four assigned identities as four separate PDF instruments in one criminal-case remote-public-access form family. They are not a single combined packet and they are not drafting placeholders. The issuer page expressly warns that North Dakota Legal Self Help Center forms are not official court forms and courts are not required to accept them; nevertheless, each assigned PDF is published and currently linked by the North Dakota Supreme Court on its official judiciary host. None has a printed form number."
+  },
+  "resultCounts": {
+    "ACQUIRED_CURRENT_OFFICIAL_BINARY": 4,
+    "CLAIM_ASSERTION_REFUSED": 3
+  },
+  "claimSummary": {
+    "identityRowsAssertedSuccessfully": 4,
+    "identityRowsRefused": 3,
+    "underlyingFamilyQualifiedAssertionsSucceeded": 4,
+    "underlyingFamilyQualifiedAssertionsRefused": 4,
+    "successfulLanes": {
+      "DISC04": 0,
+      "DISC05": 4
+    }
+  },
+  "rows": [
+    {
+      "lane": "DISC04",
+      "jurisdiction": "MI",
+      "identity": "MC 227",
+      "familyIds": [
+        "mi_setaside_application-set"
+      ],
+      "itemIds": [
+        "mi_setaside_application-set::official-form:MC 227"
+      ],
+      "result": "CLAIM_ASSERTION_REFUSED",
+      "claimAssertions": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC04 \"mi_setaside_application-set::official-form:MC 227\"",
+          "exitCode": 9,
+          "exactRefusal": "ALREADY_RELEASED: mi_setaside_application-set::official-form:MC 227 at 2026-09-01T07:39:59.122Z"
+        }
+      ],
+      "sourceInspectionPerformed": false,
+      "acquisitionPerformed": false,
+      "identityFinding": "UNDETERMINED_DUE_TO_CLAIM_REFUSAL"
+    },
+    {
+      "lane": "DISC04",
+      "jurisdiction": "MI",
+      "identity": "MC 227 page 3 Proof of Service",
+      "familyIds": [
+        "mi_setaside_application-set",
+        "mi_setaside_first_owi-set"
+      ],
+      "itemIds": [
+        "mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service",
+        "mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service"
+      ],
+      "result": "CLAIM_ASSERTION_REFUSED",
+      "claimAssertions": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC04 \"mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service\"",
+          "exitCode": 9,
+          "exactRefusal": "ALREADY_RELEASED: mi_setaside_application-set::official-form:MC 227 page 3 Proof of Service at 2026-09-01T16:34:41.834Z"
+        },
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC04 \"mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service\"",
+          "exitCode": 9,
+          "exactRefusal": "ALREADY_RELEASED: mi_setaside_first_owi-set::official-form:MC 227 page 3 Proof of Service at 2026-09-01T16:34:41.987Z"
+        }
+      ],
+      "sourceInspectionPerformed": false,
+      "acquisitionPerformed": false,
+      "identityFinding": "UNDETERMINED_DUE_TO_CLAIM_REFUSAL",
+      "separateArtifactManufactured": false
+    },
+    {
+      "lane": "DISC04",
+      "jurisdiction": "MI",
+      "identity": "MC 227 item 2.c",
+      "familyIds": [
+        "mi_setaside_first_owi-set"
+      ],
+      "itemIds": [
+        "mi_setaside_first_owi-set::official-form:MC 227 item 2.c"
+      ],
+      "result": "CLAIM_ASSERTION_REFUSED",
+      "claimAssertions": [
+        {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC04 \"mi_setaside_first_owi-set::official-form:MC 227 item 2.c\"",
+          "exitCode": 9,
+          "exactRefusal": "ALREADY_RELEASED: mi_setaside_first_owi-set::official-form:MC 227 item 2.c at 2026-09-01T16:34:41.903Z"
+        }
+      ],
+      "sourceInspectionPerformed": false,
+      "acquisitionPerformed": false,
+      "identityFinding": "UNDETERMINED_DUE_TO_CLAIM_REFUSAL",
+      "separateArtifactManufactured": false
+    },
+    {
+      "lane": "DISC05",
+      "jurisdiction": "ND",
+      "identity": "ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "itemIds": [
+        "nd-prohibit-remote-public-access-set::official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS"
+      ],
+      "result": "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC05 \"nd-prohibit-remote-public-access-set::official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS\"",
+        "exitCode": 0,
+        "exactResponse": "CLAIM_OK DISC05 nd-prohibit-remote-public-access-set::official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS (source-discovery, grant set 32f903df3e90e8e7)"
+      },
+      "documentRelationship": "SEPARATE_INSTRUMENT_IN_ONE_FAMILY",
+      "officialLandingUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "officialSourceUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Motion%20Prohibit%20Public%20Access.pdf",
+      "finalResolvedUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Motion%20Prohibit%20Public%20Access.pdf",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "printedTitle": "Motion To Prohibit Public Access",
+      "printedFormNumber": null,
+      "printedRevisionOrEffectiveDate": "Rev Apr 2024",
+      "printedFooterIdentifier": "Mot Prohibit Pub Access/Rev Apr 2024",
+      "pageCount": 1,
+      "issuerClassification": "North Dakota Legal Self Help Center form; the issuer expressly states it is not an official court form and acceptance is not mandatory.",
+      "acquiredAt": "2026-09-02T16:47:05Z",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC4/north-dakota/Motion Prohibit Public Access.pdf",
+      "filename": "Motion Prohibit Public Access.pdf",
+      "byteLength": 1151556,
+      "sha256": "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a",
+      "mimeType": "application/pdf",
+      "privateArtifactReceipt": {
+        "provider": "Google Drive",
+        "fileId": "1BARTiKbxTJdej15_UbRWwO7133rzRNKX",
+        "url": "https://drive.google.com/file/d/1BARTiKbxTJdej15_UbRWwO7133rzRNKX/view?usp=drivesdk",
+        "storedTitle": "CODEX-CS2-SRC4__ND-MOTION-PROHIBIT-PUBLIC-ACCESS__0bc80466174c.pdf",
+        "mimeType": "application/pdf",
+        "byteLengthVerifiedByReadback": 1151556,
+        "createdAt": "2026-09-02T16:45:35.788Z",
+        "shared": false,
+        "visibility": "owner_only"
+      }
+    },
+    {
+      "lane": "DISC05",
+      "jurisdiction": "ND",
+      "identity": "ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "itemIds": [
+        "nd-prohibit-remote-public-access-set::official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS"
+      ],
+      "result": "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC05 \"nd-prohibit-remote-public-access-set::official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS\"",
+        "exitCode": 0,
+        "exactResponse": "CLAIM_OK DISC05 nd-prohibit-remote-public-access-set::official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS (source-discovery, grant set 32f903df3e90e8e7)"
+      },
+      "documentRelationship": "SEPARATE_INSTRUMENT_IN_ONE_FAMILY",
+      "officialLandingUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "officialSourceUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Brief.pdf",
+      "finalResolvedUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Brief.pdf",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "printedTitle": "Brief In Support Of Motion To Prohibit Public Access",
+      "printedFormNumber": null,
+      "printedRevisionOrEffectiveDate": "Rev Apr 2024",
+      "printedFooterIdentifier": "Brief Prohibit Pub Access/Rev Apr 2024",
+      "pageCount": 4,
+      "issuerClassification": "North Dakota Legal Self Help Center form; the issuer expressly states it is not an official court form and acceptance is not mandatory.",
+      "acquiredAt": "2026-09-02T16:47:05Z",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC4/north-dakota/Brief.pdf",
+      "filename": "Brief.pdf",
+      "byteLength": 1224033,
+      "sha256": "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d",
+      "mimeType": "application/pdf",
+      "privateArtifactReceipt": {
+        "provider": "Google Drive",
+        "fileId": "1iGbM-7o4S22e79V-CzGqQw4dL8HqIA0m",
+        "url": "https://drive.google.com/file/d/1iGbM-7o4S22e79V-CzGqQw4dL8HqIA0m/view?usp=drivesdk",
+        "storedTitle": "CODEX-CS2-SRC4__ND-BRIEF-PROHIBIT-PUBLIC-ACCESS__60a50d5f3c2c.pdf",
+        "mimeType": "application/pdf",
+        "byteLengthVerifiedByReadback": 1224033,
+        "createdAt": "2026-09-02T16:45:38.400Z",
+        "shared": false,
+        "visibility": "owner_only"
+      }
+    },
+    {
+      "lane": "DISC05",
+      "jurisdiction": "ND",
+      "identity": "ND-DECLARATION-OF-SERVICE",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "itemIds": [
+        "nd-prohibit-remote-public-access-set::official-form:ND-DECLARATION-OF-SERVICE"
+      ],
+      "result": "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC05 \"nd-prohibit-remote-public-access-set::official-form:ND-DECLARATION-OF-SERVICE\"",
+        "exitCode": 0,
+        "exactResponse": "CLAIM_OK DISC05 nd-prohibit-remote-public-access-set::official-form:ND-DECLARATION-OF-SERVICE (source-discovery, grant set 32f903df3e90e8e7)"
+      },
+      "documentRelationship": "SEPARATE_INSTRUMENT_IN_ONE_FAMILY",
+      "officialLandingUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "officialSourceUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Affidavit-Service-by-Mail.pdf",
+      "finalResolvedUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Affidavit-Service-by-Mail.pdf",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "printedTitle": "Declaration Of Service By Mail",
+      "printedFormNumber": null,
+      "printedRevisionOrEffectiveDate": "Apr 2024",
+      "printedFooterIdentifier": "DSM Prohibit Pub Access/Apr 2024",
+      "pageCount": 2,
+      "issuerClassification": "North Dakota Legal Self Help Center form; the issuer expressly states it is not an official court form and acceptance is not mandatory.",
+      "identityNote": "The assigned descriptive identity resolves to the issuer link labeled Declaration of Service by Mail. The source filename retains the older Affidavit-Service-by-Mail label, but the current document's printed title is Declaration Of Service By Mail.",
+      "acquiredAt": "2026-09-02T16:47:05Z",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC4/north-dakota/Affidavit-Service-by-Mail.pdf",
+      "filename": "Affidavit-Service-by-Mail.pdf",
+      "byteLength": 1212802,
+      "sha256": "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3",
+      "mimeType": "application/pdf",
+      "privateArtifactReceipt": {
+        "provider": "Google Drive",
+        "fileId": "1rrzO9uJ9jmVeebvzyboOkkgPhDKtD9Lu",
+        "url": "https://drive.google.com/file/d/1rrzO9uJ9jmVeebvzyboOkkgPhDKtD9Lu/view?usp=drivesdk",
+        "storedTitle": "CODEX-CS2-SRC4__ND-DECLARATION-OF-SERVICE__ad05e9e15182.pdf",
+        "mimeType": "application/pdf",
+        "byteLengthVerifiedByReadback": 1212802,
+        "createdAt": "2026-09-02T16:45:43.814Z",
+        "shared": false,
+        "visibility": "owner_only"
+      }
+    },
+    {
+      "lane": "DISC05",
+      "jurisdiction": "ND",
+      "identity": "ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+      "familyIds": [
+        "nd-prohibit-remote-public-access-set"
+      ],
+      "itemIds": [
+        "nd-prohibit-remote-public-access-set::official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS"
+      ],
+      "result": "ACQUIRED_CURRENT_OFFICIAL_BINARY",
+      "claimAssertion": {
+        "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert DISC05 \"nd-prohibit-remote-public-access-set::official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS\"",
+        "exitCode": 0,
+        "exactResponse": "CLAIM_OK DISC05 nd-prohibit-remote-public-access-set::official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS (source-discovery, grant set 32f903df3e90e8e7)"
+      },
+      "documentRelationship": "SEPARATE_INSTRUMENT_IN_ONE_FAMILY",
+      "officialLandingUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "officialSourceUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Proposed-Findings.pdf",
+      "finalResolvedUrl": "https://www.ndcourts.gov/Media/Default/Legal%20Resources/Legal%20Self%20Help/Other%20Forms/Prohibit%20Public%20Access/Proposed-Findings.pdf",
+      "issuingAuthority": "North Dakota Supreme Court — North Dakota Legal Self Help Center",
+      "printedTitle": "Findings Of Fact, Conclusions Of Law, And Order On Motion To Prohibit Public Access",
+      "printedFormNumber": null,
+      "printedRevisionOrEffectiveDate": "Rev Apr 2024",
+      "printedFooterIdentifier": "FFCLO Prohibit Public Access/Rev Apr 2024",
+      "pageCount": 3,
+      "issuerClassification": "North Dakota Legal Self Help Center form; the issuer expressly states it is not an official court form and acceptance is not mandatory.",
+      "identityNote": "The assigned descriptive identity and issuer link call this Proposed Findings, while the document is the proposed judicial instrument whose printed title is Findings Of Fact, Conclusions Of Law, And Order On Motion To Prohibit Public Access. The mapping is direct and not ambiguous.",
+      "acquiredAt": "2026-09-02T16:47:05Z",
+      "stagingPath": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC4/north-dakota/Proposed-Findings.pdf",
+      "filename": "Proposed-Findings.pdf",
+      "byteLength": 1165106,
+      "sha256": "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250",
+      "mimeType": "application/pdf",
+      "privateArtifactReceipt": {
+        "provider": "Google Drive",
+        "fileId": "1x1LmPZFuLjP0YUzGMJnsipHysTF1Fjt4",
+        "url": "https://drive.google.com/file/d/1x1LmPZFuLjP0YUzGMJnsipHysTF1Fjt4/view?usp=drivesdk",
+        "storedTitle": "CODEX-CS2-SRC4__ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS__4e8d129f8ef2.pdf",
+        "mimeType": "application/pdf",
+        "byteLengthVerifiedByReadback": 1165106,
+        "createdAt": "2026-09-02T16:45:40.968Z",
+        "shared": false,
+        "visibility": "owner_only"
+      }
+    }
+  ],
+  "privateUploadBlockedAfterAcquisition": [],
+  "supersededOrAmbiguousIdentities": [],
+  "preservation": {
+    "stagingRoot": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC4",
+    "successfullyAcquiredBytesRetained": true,
+    "deleteOnlyAfterCaptainConfirmsPrivateReceiptIngestion": true
+  }
+}

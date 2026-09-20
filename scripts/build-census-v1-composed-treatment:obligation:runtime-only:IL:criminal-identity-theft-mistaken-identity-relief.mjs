@@ -1,0 +1,1120 @@
+#!/usr/bin/env node
+/**
+ * FABLE-PC composed-treatment builder — Illinois criminal identity-theft and
+ * mistaken-identity relief, 20 ILCS 2630/5.2.
+ *
+ * THE CLASSIFICATION, READ FROM THE COMMITTED RECORDS
+ *
+ * A COMPOSED TREATMENT that IS a court filing, and one whose destination the
+ * repository actually holds: the compiled Illinois profile records that the
+ * aggrieved person may petition the CHIEF JUDGE of the circuit where the
+ * arrest occurred. The census records the route's own destination field as
+ * not recorded, so a lane reading only the census would have delegated a
+ * question the repository answers. DET-FEE-AND-WAIVER-001-A2 is the reason
+ * this packet states it instead.
+ *
+ * It is a CORRECTION route rather than an expungement route, and the compiled
+ * profile carries a Wilma rule saying so in terms. The packet repeats it.
+ *
+ * A built family is a built family. It is not verified, not approved, not
+ * sellable, and this builder issues no verdict on its own packets.
+ */
+const SPEC = {
+  "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+  "worklistGroupId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+  "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
+  "outDir": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+  "jurisdiction": "IL",
+  "legalName": "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+  "routeName": "asking the chief judge of the Illinois circuit where the arrest occurred to correct a record made in your name by someone else",
+  "statutes": [
+    "20 ILCS 2630/5.2, mistaken-identity provisions"
+  ],
+  "routes": [
+    {
+      "routeKey": "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"
+    }
+  ],
+  "records": [
+    {
+      "recordId": "route-contract:IL:criminal-identity-theft-mistaken-identity-relief",
+      "path": "src/lib/legal-authority/routes/route-splits.json",
+      "role": "the committed route contract: this route's mechanism, statute, outcome mode, timing anchor, recorded conditions, required facts and packet components",
+      "mustContain": [
+        "\"routeKey\": \"IL:criminal-identity-theft-mistaken-identity-relief\"",
+        "Mistaken-identity correction and sealing",
+        "20 ILCS 2630/5.2, mistaken-identity provisions",
+        "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+        "no elapsed waiting period; the verified petition may be filed upon learning of the record",
+        "Verified stolen/mistaken identity or qualifying Class 4 prostitution record under the specific statutory relief provisions",
+        "Verified petition",
+        "Identity-theft report",
+        "Mismatched identifier evidence",
+        "Identity theft report and mismatched identifiers?",
+        "Arrest circuit?",
+        "Exact prostitution statute/class?",
+        "Sentence completion?",
+        "Trafficking/victimization facts?",
+        "Automatic-seal status?"
+      ]
+    },
+    {
+      "recordId": "compiled-profile:IL-illinois#criminal-identity-theft-mistaken-identity-relief",
+      "path": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+      "role": "the compiled state profile's own pathway for this route, carrying the recorded substance of the statute and, where it exists, the recorded self-help boundary",
+      "mustContain": [
+        "\"id\": \"criminal-identity-theft-mistaken-identity-relief\"",
+        "If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender\\u0019s name if known. (\\\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\\\")",
+        "Criminal identity theft / mistaken identity If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender\\u0019s name if known. (\\\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\\\") Wilma rule: If the user says that was not me, someone used my name, or identity theft, route to the criminal-identity-theft correction process, not ordinary expungement/sealing first."
+      ]
+    },
+    {
+      "recordId": "route-obligation-census:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "role": "the committed route-obligation census: this route's exact key, its statutory authority, its recorded destination and its participant-facing instrument",
+      "mustContain": [
+        "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+        "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2"
+      ]
+    },
+    {
+      "recordId": "legal-decision:IL-MISTAKEN-IDENTITY-VERIFICATION",
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "role": "Binding certification treatment for this exact mistaken-identity route",
+      "mustContain": [
+        "IL-MISTAKEN-IDENTITY-VERIFICATION",
+        "735 ILCS 5/1-109"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "il-mistaken-identity-primary-filing-1",
+      "routeKey": "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "role": "primary_filing",
+      "title": "Petition - Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+      "description": "the composed petition, on this route's own statutory ground",
+      "condition": null,
+      "body": [
+        "IN THE ............................................................ COURT",
+        "(Illinois circuit where the arrest occurred; addressed to its chief judge)",
+        "",
+        "IN RE: {{participant.full_legal_name}}, PETITIONER.",
+        "",
+        "Case number assigned by the court: {{DOTS:38}}",
+        "",
+        "A. REQUEST FOR MISTAKEN-IDENTITY CORRECTION",
+        "",
+        "I petition the chief judge under the mistaken-identity provisions of 20 ILCS 2630/5.2 to correct records made in my name through identity theft or unauthorized use of my identity. The facts and supporting records are described below.",
+        "",
+        "B. THE PETITIONER",
+        "Name: {{participant.full_legal_name}}",
+        "Date of birth: {{participant.date_of_birth}}",
+        "",
+        "C. CASE INFORMATION TO COMPLETE BEFORE SIGNING",
+        "",
+        "[C1 - identity theft report and mismatched identifiers] Describe the affected record and how the identifiers show that someone else used your name. Identify the attached identity-theft report and supporting identifier evidence.",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "[C2 - arrest circuit] Illinois circuit where the arrest occurred:",
+        "{{DOTS}}",
+        "",
+        "[C6 - automatic-seal status] State the record's automatic-seal status. If uncertain, ask the circuit clerk or get legal help before filing.",
+        "{{DOTS}}",
+        "",
+        "D. RELIEF REQUESTED",
+        "",
+        "I ask the chief judge to correct the arrest or conviction and official records by removing my name and substituting the offender's name if known. An unknown offender name must not be invented.",
+        "",
+        "E. CERTIFICATION UNDER 735 ILCS 5/1-109",
+        "",
+        "Under penalties as provided by law pursuant to Section 1-109 of the Code of Civil Procedure, I certify that the statements set forth in this petition are true and correct, except as to matters stated to be on information and belief and as to such matters I certify that I verily believe the same to be true.",
+        "",
+        "DATE {{DOTS:30}}   SIGNATURE OF PETITIONER {{DOTS:36}}",
+        "",
+        "(Sign and date personally after completing and checking this petition. No notarization is required by this certification.)",
+        "",
+        "PRINTED NAME: {{participant.full_legal_name}}",
+        "MAILING ADDRESS: {{participant.street_address}}",
+        "TELEPHONE: {{participant.phone}}",
+        "EMAIL: {{participant.email}}"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "id": "date_of_birth",
+          "label": "Date of birth of the person named in the caption",
+          "factId": "participant.date_of_birth"
+        },
+        {
+          "id": "mailing_address",
+          "label": "Mailing address in the contact block at the foot of this document",
+          "factId": "participant.street_address"
+        },
+        {
+          "id": "telephone",
+          "label": "Telephone number in the contact block at the foot of this document",
+          "factId": "participant.phone"
+        },
+        {
+          "id": "email",
+          "label": "Email address in the contact block at the foot of this document",
+          "factId": "participant.email"
+        }
+      ],
+      "blanks": [
+        {
+          "kind": "rbf",
+          "id": "arrest_circuit_caption",
+          "label": "Arrest circuit in the opening IN THE ... COURT caption",
+          "supply": "Write the name of the Illinois circuit court where the arrest occurred in the dotted court-caption line, using the arrest record and the circuit identified in item C2. If the exact court name is unclear, ask the office of that circuit's chief judge before filing.",
+          "why": "the destination is the chief judge of the arrest circuit, but the platform holds no value for the participant's actual arrest circuit or court name"
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_q1",
+          "label": "Item C1 - identity theft report and mismatched identifiers",
+          "supply": "Identity theft report and mismatched identifiers — copied from the record itself, not from memory",
+          "why": "The case-specific information is not held; the participant must supply it accurately before signing."
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_q2",
+          "label": "Item C2 - arrest circuit",
+          "supply": "Arrest circuit — copied from the record itself, not from memory",
+          "why": "The case-specific information is not held; the participant must supply it accurately before signing."
+        },
+        {
+          "kind": "rbf",
+          "id": "fact_q6",
+          "label": "Item C6 - automatic-seal status",
+          "supply": "Automatic-seal status — copied from the record itself, not from memory",
+          "why": "The case-specific information is not held; the participant must supply it accurately before signing."
+        },
+        {
+          "kind": "court",
+          "id": "case_number",
+          "label": "Case number of this filing, if the court assigns one at filing",
+          "why": "if a number is assigned, the court assigns it at filing"
+        },
+        {
+          "kind": "protected",
+          "id": "petition_signature",
+          "label": "Signature of the person named in the caption, on the petition",
+          "why": "the participant signs personally; this build never signs for anyone"
+        },
+        {
+          "kind": "protected",
+          "id": "petition_signature_date",
+          "label": "Date beside the signature on the petition",
+          "why": "a date written before the document is signed would be false"
+        }
+      ]
+    },
+    {
+      "id": "il-mistaken-identity-filing-instructions-2",
+      "routeKey": "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "role": "filing_instructions",
+      "title": "Filing Instructions - Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+      "description": "what this set is, where it goes, what it costs, who is notified, and when to stop",
+      "condition": null,
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "PURPOSE AND FILING COURT",
+        "",
+        "Use this petition for criminal identity theft or mistaken identity under 20 ILCS 2630/5.2. Petition the chief judge of the Illinois circuit where the arrest occurred. This is a record-correction process; an ordinary expungement petition is not a substitute.",
+        "",
+        "BEFORE YOU SIGN",
+        "",
+        "Obtain the identity-theft report and evidence showing the mismatch between your identifiers and those in the affected arrest or conviction record. Attach these records to the petition.",
+        "Complete C1, C2 and C6 and the arrest-circuit caption from accurate records. Do not guess case facts, dates or an unknown offender's name.",
+        "Review the entire completed petition and its certification under 735 ILCS 5/1-109. Sign and date personally only if its statements are true. The certification does not require a notary.",
+        "Leave a new court-assigned case number blank until the court supplies it.",
+        "",
+        "FILING COST AND WAIVER",
+        "",
+        "Confirm the current filing fee and any fee-waiver procedure with the office of the chief judge of the Illinois circuit where the arrest occurred. This packet does not establish a fee amount or a waiver decision. If you cannot afford a fee, ask about available waiver procedures or legal aid; do not assume inability to pay bars filing.",
+        "",
+        "NOTICE AND SERVICE",
+        "",
+        "Before filing, ask the office of the chief judge of the arrest circuit who must receive notice or service, how to provide it, and whether proof of service is required. Follow the court's instructions; this packet does not certify that anyone has been served.",
+        "",
+        "WHEN TO GET LEGAL HELP",
+        "",
+        "- you are uncertain that someone else used your identity to create the record;",
+        "- the arrest or conviction is actually your own, rather than a mistaken-identity record;",
+        "- the record may already have been automatically sealed and its status is unresolved;",
+        "- you need relief on the separate prostitution or trafficking-related conviction route;",
+        "- an immigration issue is involved."
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    }
+  ],
+  "fixtures": {
+    "canonical": {
+      "participant.full_legal_name": "Jordan Avery Reyes",
+      "participant.date_of_birth": "1991-04-17",
+      "participant.street_address": "42 Magnolia Street, Springfield 62704",
+      "participant.phone": "555-0142",
+      "participant.email": "jordan.reyes@example.org"
+    },
+    "boundary": {
+      "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "participant.date_of_birth": "1968-12-31",
+      "participant.street_address": "1188 Upper Tallahatchie Crossing Road, Apartment 14B, Fort Saint Clairsville 39501-2214",
+      "participant.phone": "(228) 555-0199 ext. 4417",
+      "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+    }
+  },
+  "composedFromNote": "the committed route contract (src/lib/legal-authority/routes/route-splits.json, IL:criminal-identity-theft-mistaken-identity-relief), the compiled Illinois profile pathway (src/lib/rcap-engine/compiled/profiles/IL-illinois.json#criminal-identity-theft-mistaken-identity-relief) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
+  "formIdentityNote": "No committed record names an official participant form for this route, and the committed contract's own packet components are a composed petition together with records the participant obtains. Every page in this packet is therefore composed by this build from the committed records; no official form was substituted and none was invented.",
+  "routeSelectionNote": "One route, one instrument set: the petition states this route's statutory ground in its own title and body, and no election control exists on any composed page. Where a neighbouring section of the same statute is a different route, the packet says so and tells the participant to stop rather than printing a box to tick.",
+  "routeSelectionsMade": [
+    {
+      "routeKey": "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "statute": "20 ILCS 2630/5.2, mistaken-identity provisions",
+      "instrument": "Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2",
+      "statedOn": "the composed pages for this route, in their titles and bodies"
+    }
+  ],
+  "obligationTable": [
+    [
+      "Filing court",
+      "The chief judge of the Illinois circuit where the arrest occurred."
+    ],
+    [
+      "Filing fee and waiver",
+      "Confirm the current filing fee and any fee-waiver procedure with the office of the chief judge of the Illinois circuit where the arrest occurred. This packet does not establish a fee amount or a waiver decision. If you cannot afford a fee, ask about available waiver procedures or legal aid; do not assume inability to pay bars filing."
+    ],
+    [
+      "Notice and service",
+      "Before filing, ask the office of the chief judge of the arrest circuit who must receive notice or service, how to provide it, and whether proof of service is required. Follow the court's instructions; this packet does not certify that anyone has been served."
+    ],
+    [
+      "When to get help",
+      "Stop and obtain legal help if you are uncertain that someone else used your identity to create the record; the arrest or conviction is actually your own, rather than a mistaken-identity record; the record may already have been automatically sealed and its status is unresolved; you need relief on the separate prostitution or trafficking-related conviction route; an immigration issue is involved."
+    ]
+  ],
+  "instructionsIntro": [
+    "This is a prepared mistaken-identity petition, not an official statewide form. It asks the chief judge of the arrest circuit to correct records created through someone else's use of your identity.",
+    "Your held name, birth date and contact details are filled in. Complete the listed case-specific blanks from accurate records before signing the certification under 735 ILCS 5/1-109."
+  ],
+  "instrumentChoice": null,
+  "recordSays": [],
+  "documentsToObtain": [
+    [
+      "Identity-theft report",
+      "The police department or agency that issued it."
+    ],
+    [
+      "Mismatched identifier evidence",
+      "Your identity documents and the arrest or conviction record showing the identifiers used."
+    ]
+  ],
+  "steps": [
+    "Read the filing instructions and confirm this is a mistaken-identity record.",
+    "Complete the caption and items C1, C2 and C6 accurately; do not supply facts from an unrelated prostitution or trafficking route.",
+    "Obtain and attach the identity-theft report and mismatched identifier evidence.",
+    "Read the certification, then sign and date personally only after the petition is complete and true. No notary is required for the Section 1-109 certification.",
+    "Confirm filing, fee-waiver and service procedures with the office of the chief judge of the arrest circuit. File and follow the court's notice instructions."
+  ],
+  "deliberatelyBlank": [
+    "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
+    "**Every case number in every caption.** If the court assigns one, it does so at filing, and the pages in this set are filed together before any number exists."
+  ],
+  "notTold": [],
+  "stopConditions": [
+    "you are uncertain that someone else used your identity to create the record;",
+    "the arrest or conviction is actually your own, rather than a mistaken-identity record;",
+    "the record may already have been automatically sealed and its status is unresolved;",
+    "you need relief on the separate prostitution or trafficking-related conviction route;",
+    "an immigration issue is involved."
+  ],
+  "whatThisIsNot": "This prepared petition is not an official court form. It does not file itself, sign for you, establish your eligibility, or decide what the court will grant.",
+  "receiptDoesNotEstablish": [
+    "that any Illinois record was in fact made in the participant's name by another person"
+  ],
+  "buildFindings": [
+    {
+      "finding": "The census records this route's destination as not recorded, while the compiled Illinois profile states it outright: the aggrieved person may petition the chief judge of the circuit where the arrest occurred.",
+      "consequence": "The packet states the destination. DET-FEE-AND-WAIVER-001-A2: the repository is wider than a family's own bound documents, and an answer the compiled profile holds for THIS route is stated rather than delegated to an office to ask."
+    }
+  ],
+  "counselQuestions": [
+    "The petition is addressed to the chief judge of the circuit where the arrest occurred, from the compiled profile's own words. Confirm that is the correct addressee for the mistaken-identity provisions of 20 ILCS 2630/5.2."
+  ],
+  "reviewersAttention": [
+    "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT."
+  ]
+};
+
+/* ============================================================================
+ * SHARED COMPOSED-PLEADING BUILD CORE.
+ *
+ * Everything above this line is this family's own: its committed-record
+ * bindings, its composed pages, its field maps, its instructions content.
+ * Everything below is family-independent plumbing: deterministic rendering,
+ * byte proof, the builder's own count of the nine completeness counters, and
+ * the census-v1 output records. It is copied whole into each family's own
+ * exclusive script rather than imported, because a build host shared across
+ * families cannot be changed for one of them without moving the bytes of the
+ * rest, and every family here owns only itself.
+ * ========================================================================== */
+import assert from "node:assert/strict";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { createRequire } from "node:module";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
+import { classifyField, classifyBlank, rowKeyOf, PASS_COUNTERS, BLANK_DISPOSITIONS } from "./rcap-packet-completeness/completeness-contract.mjs";
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
+
+const thisFile = fileURLToPath(import.meta.url);
+const ROOT = path.resolve(path.dirname(thisFile), "..");
+process.chdir(ROOT);
+const require = createRequire(import.meta.url);
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+
+const SIGNATURE = "signature_or_date_participant_completion";
+const COURT_OWNED = "court_prosecutor_clerk_or_agency_owned";
+const OUT = SPEC.outDir;
+const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
+const DOTS = (n = 84) => ".".repeat(n);
+const COMPONENT_IDS = SPEC.components.map((c) => c.id);
+const COMPONENT = Object.fromEntries(SPEC.components.map((c) => [c.id, c]));
+
+/* ---- committed-record binding ------------------------------------------------ *
+ * This family binds no Master Library binary: its authority is a set of
+ * COMMITTED repository records named in SPEC.records. Each is bound by exact
+ * SHA-256 at build time, and each anchor string is a statement this build
+ * RELIES ON, re-read from the committed bytes before anything is composed. The
+ * build refuses if a record is missing or an anchor is no longer there.
+ */
+function resolveRecords() {
+  const resolved = [];
+  const failures = [];
+  for (const rec of SPEC.records) {
+    const abs = path.join(ROOT, rec.path);
+    if (!fs.existsSync(abs)) {
+      failures.push({ recordId: rec.recordId, path: rec.path, why: "the committed record does not exist at this path" });
+      continue;
+    }
+    const bytes = fs.readFileSync(abs);
+    const text = bytes.toString("utf8");
+    const missing = (rec.mustContain ?? []).filter((a) => !text.includes(a));
+    if (missing.length > 0) {
+      failures.push({ recordId: rec.recordId, path: rec.path, why: `the committed record no longer contains ${missing.length} anchor statement(s) this build relies on`, missingAnchors: missing });
+      continue;
+    }
+    resolved.push({
+      recordId: rec.recordId, path: rec.path, role: rec.role,
+      sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+      byteLength: bytes.length, anchorsVerified: (rec.mustContain ?? []).length
+    });
+  }
+  return { resolved, failures };
+}
+
+/* ---- deterministic composed-page rendering ---------------------------------- */
+function sanitizePdfText(text) {
+  return text.replaceAll(" ", " ").replaceAll("‑", "-").replaceAll("–", "-")
+    .replaceAll("—", "-").replaceAll("−", "-").replaceAll("’", "'")
+    .replaceAll("‘", "'").replaceAll("“", '"').replaceAll("”", '"')
+    .replaceAll("§", "Sec. ").replaceAll("…", "...").replaceAll("′", "'");
+}
+
+async function renderComposedPdf(fullText, title) {
+  const pdf = await PDFDocument.create();
+  stampDeterministic(pdf);
+  pdf.setTitle(title);
+  pdf.setProducer("RCAP census-v1 artifact-only renderer");
+  pdf.setCreator("RCAP evidence build");
+  const font = await pdf.embedFont(StandardFonts.TimesRoman);
+  const fontSize = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72;
+  const maxWidth = width - 2 * margin;
+  let page = pdf.addPage([width, height]);
+  let y = height - margin;
+  const draw = (line) => {
+    if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; }
+    if (line) page.drawText(line, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
+    y -= lineHeight;
+  };
+  const splitToken = (token) => {
+    const chunks = []; let current = "";
+    for (const ch of token) {
+      if (current && font.widthOfTextAtSize(`${current}${ch}`, fontSize) > maxWidth) { chunks.push(current); current = ch; }
+      else current += ch;
+    }
+    if (current) chunks.push(current);
+    return chunks;
+  };
+  const wrap = (line) => {
+    if (!line) return [""];
+    const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
+    const rows = []; let current = "";
+    for (const w of words) {
+      const candidate = current ? `${current} ${w}` : w;
+      if (font.widthOfTextAtSize(candidate, fontSize) <= maxWidth) current = candidate;
+      else { if (current) rows.push(current); current = w; }
+    }
+    if (current) rows.push(current);
+    return rows;
+  };
+  for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
+  return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
+}
+
+/* ---- the composed page, rendered from this family's declared lines ----------- *
+ * A body line is plain text with three substitutions: {{factId}} writes a fact
+ * the platform holds, {{DOTS}} prints a full-width dotted blank, and
+ * {{DOTS:n}} prints one n characters wide. Nothing else is interpolated, so a
+ * page can never carry a value the fact table does not hold.
+ */
+function composedBody(componentId, facts) {
+  const c = COMPONENT[componentId];
+  const lines = [c.title.toUpperCase(), ""];
+  for (const raw of c.body) {
+    lines.push(String(raw).replace(/\{\{([A-Za-z0-9_.:]+)\}\}/g, (_m, token) => {
+      if (token === "DOTS") return DOTS();
+      if (token.startsWith("DOTS:")) return DOTS(Number(token.slice(5)));
+      const value = facts[token];
+      assert.ok(value !== undefined, `${componentId}: the page interpolates ${token}, which the fixture does not hold`);
+      return String(value);
+    }));
+  }
+
+  return lines.join("\n");
+}
+
+/* ---- field-map helpers, in the maps-with-canonical-and-boundary shape -------- */
+function mapHelpers(componentId) {
+  const base = (id, label) => ({
+    field: `${componentId}.${id}`, fieldName: `${componentId}.${id}`, page: 1,
+    printedLabel: label, printedLine: label,
+    effectiveLabel: label, regionHeading: label, sectionHeading: null,
+    rectBasis: "composed_document_authored_by_this_build"
+  });
+  return {
+    write: (id, label, factId) => ({ ...base(id, label), factId, kind: "composed_text", document: componentId }),
+    protectedBlank: (id, label, why) => ({
+      ...base(id, label),
+      reason: "signature or date field; never prefilled by this build",
+      category: SIGNATURE, completenessClass: SIGNATURE, class: SIGNATURE,
+      requiredBeforeFiling: false, document: componentId, why
+    }),
+    clerkBlank: (id, label, why) => ({
+      ...base(id, label),
+      reason: "court, clerk, prosecutor, agency, or hearing field; the court completes it",
+      category: COURT_OWNED, completenessClass: COURT_OWNED, class: COURT_OWNED,
+      requiredBeforeFiling: false, document: componentId, why
+    }),
+    rbf: (id, label, what, why) => ({
+      ...base(id, label),
+      reason: `the participant supplies this before filing: ${what}`,
+      category: null, completenessClass: null, class: null,
+      disposition: "REQUIRED_BEFORE_FILING", completenessDisposition: "REQUIRED_BEFORE_FILING",
+      requiredBeforeFiling: true, identity: `${componentId} field ${id}`, factId: null, routeDetermined: false,
+      document: componentId, why, participantMustSupply: what
+    })
+  };
+}
+
+function composedMap(componentId) {
+  const c = COMPONENT[componentId];
+  const h = mapHelpers(componentId);
+  const writes = (c.writes ?? []).map((w) => h.write(w.id, w.label, w.factId));
+  const refusals = (c.blanks ?? []).map((b) => {
+    if (b.kind === "rbf") return h.rbf(b.id, b.label, b.supply, b.why);
+    if (b.kind === "protected") return h.protectedBlank(b.id, b.label, b.why);
+    if (b.kind === "court") return h.clerkBlank(b.id, b.label, b.why);
+    throw new Error(`${componentId}.${b.id}: unknown blank kind ${b.kind}`);
+  });
+  return {
+    formNumber: componentId, documentId: componentId, documentRole: componentId,
+    documentPolicy: {
+      mode: "participant", captionOnly: false, documentAcceptsFill: true,
+      routeKey: c.routeKey,
+      ...(c.condition ? { conditional: true, conditionDescription: c.condition } : {})
+    },
+    structuralClass: "composed_document",
+    composedFrom: SPEC.composedFromNote,
+    explicitMappings: {}, roleRefusals: [], selectionControls: [],
+    canonicalWrites: writes, canonicalRefusals: refusals,
+    boundaryWrites: writes, boundaryRefusals: refusals
+  };
+}
+
+/* ---- byte proof of the composed writes --------------------------------------- *
+ * Read back from the saved packet bytes, never from this builder's own intent:
+ * each written fact value must be found in the extracted text of the pages the
+ * page manifest assigns to its component. Wrapped lines are joined on spaces
+ * before matching, because the renderer wraps at word boundaries.
+ */
+async function byteProof(packetBytes, pageManifest, maps, facts, fixtureName) {
+  const doc = await PDFDocument.load(packetBytes, { ignoreEncryption: true, updateMetadata: false });
+  const pages = doc.getPages();
+  assert.equal(pages.length, pageManifest.length, "the page manifest must describe every page of the packet");
+  const textOfPage = pages.map((p) => groupIntoLines(extractTextItems(p)).map((l) => l.text).join(" ").replace(/\s+/g, " "));
+  const textOfComponent = new Map();
+  for (const [i, m] of pageManifest.entries()) {
+    textOfComponent.set(m.component, `${textOfComponent.get(m.component) ?? ""} ${textOfPage[i]}`);
+  }
+  const actualWrites = [];
+  let glyphs = 0;
+  for (const map of maps) {
+    const componentText = String(textOfComponent.get(map.formNumber) ?? "").replace(/\s+/g, " ");
+    for (const w of map.canonicalWrites ?? []) {
+      const value = sanitizePdfText(String(facts[w.factId] ?? ""));
+      assert.ok(value.length > 0, `${map.formNumber}/${w.field}: no fixture value for ${w.factId}`);
+      const found = componentText.includes(value);
+      assert.ok(found, `${fixtureName} ${map.formNumber}/${w.field}: the value bound to ${w.factId} is not readable from the output bytes`);
+      glyphs += value.replace(/\s+/g, "").length;
+      actualWrites.push({
+        field: w.field, document: map.formNumber, factId: w.factId,
+        expected: value, foundInOutputBytes: true,
+        proof: "value read back from the extracted text of the component's own pages in the saved packet bytes"
+      });
+    }
+  }
+  return { actualWrites, glyphs, pagesRead: pages.length };
+}
+
+/** Read every saved glyph box and the unsigned execution/court lines. */
+export function measureSavedComposedPacket(file) {
+  const program = String.raw`
+import json, re, sys
+import pymupdf as fitz
+with fitz.open(sys.argv[1]) as doc:
+    outside=[]; glyphs=0; widgets=0; pages=[]; protected=[]; page_chars={}
+    for i,page in enumerate(doc):
+        measured=0; page_chars[i+1]=[]
+        for block in page.get_text('rawdict')['blocks']:
+            for line in block.get('lines',[]):
+                chars=[ch for span in line['spans'] for ch in span['chars']]
+                line_text=''.join(ch['c'] for ch in chars)
+                if ('DATE' in line_text and 'SIGNATURE OF PETITIONER' in line_text) or line_text.startswith('Case number assigned by the court:'):
+                    for m in re.finditer(r'\.{30,}',line_text):
+                        if m.end()-m.start() not in [30,36,38]: continue
+                        first=chars[m.start()]['bbox']; last=chars[m.end()-1]['bbox']
+                        protected.append({'page':i+1,'label':'court case number' if line_text.startswith('Case number') else ('date' if m.end()-m.start()==30 else 'signature'),'bbox':[first[0],first[1],last[2],last[3]]})
+                for span in line['spans']:
+                    for ch in span['chars']:
+                        if ch['c'].isspace(): continue
+                        glyphs+=1; measured+=1; page_chars[i+1].append(ch)
+                        x0,y0,x1,y1=ch['bbox']
+                        if x0 < 70 or x1 > 542 or y0 < 56 or y1 > 736:
+                            outside.append({'page':i+1,'character':ch['c'],'bbox':list(ch['bbox'])})
+        widgets+=sum(bool(re.match(r'(FlatWidget|ExactFactOverlay)-',str(x[1]))) for x in page.get_xobjects())
+        pages.append({'page':i+1,'glyphsMeasured':measured,'declaredContentBox':[70,56,542,736]})
+    text=' '.join(' '.join(p.get_text().split()) for p in doc)
+    refused=[]
+    if len(protected)!=3: refused.append('Expected exactly three protected blank regions')
+    for region in protected:
+        a,b,c,d=region['bbox']
+        for ch in page_chars[region['page']]:
+            if ch['c']=='.': continue
+            x0,y0,x1,y1=ch['bbox']
+            if min(c,x1)-max(a,x0)>0.25 and min(d,y1)-max(b,y0)>0.25:
+                refused.append({'field':region['label'],'page':region['page'],'character':ch['c'],'bbox':list(ch['bbox'])})
+    if not re.search(r'DATE\s+\.{30}\s+SIGNATURE OF PETITIONER\s+\.{36}(?:\s|$)',text):
+        refused.append('petition signature/date line is not exactly the unsigned dotted line')
+    if not re.search(r'Case number assigned by the court:\s+\.{38}(?:\s|$)',text):
+        refused.append('court-assigned caption line is not blank')
+    print(json.dumps({'glyphsMeasured':glyphs,'pages':pages,'nonWhitespaceGlyphsOutsideMeasuredWriteBoxes':len(outside),'outside':outside,'flattenedWidgetAppearancesReadFromOutputBytes':widgets,'refusedFieldsWithInk':refused,'protectedBlankRegions':protected}))
+`;
+  const result=JSON.parse(execFileSync('python',['-c',program,file],{encoding:'utf8',maxBuffer:8*1024*1024}));
+  assert.ok(result.glyphsMeasured>0&&result.pages.every(p=>p.glyphsMeasured>0),'Every composed page must contain measured glyphs');
+  return result;
+}
+
+/* ---- the builder's own count of the nine counters ----------------------------- */
+function countCompleteness(maps, writeProofs, instructionsText) {
+  const counters = Object.fromEntries(PASS_COUNTERS.map((c) => [c, 0]));
+  const findings = [];
+  const note = (counter, detail) => { counters[counter] += 1; findings.push({ counter, ...detail }); };
+
+  const row = (r) => ({
+    id: r.field, name: r.fieldName ?? r.field, label: r.effectiveLabel ?? "", reason: r.reason ?? "",
+    refusalClass: r.category ?? null, page: r.page ?? null, document: r.document ?? null,
+    factId: r.factId ?? null, isSelectionControl: false,
+    declared: {
+      disposition: r.completenessDisposition ?? null,
+      ...(Object.hasOwn(r, "requiredBeforeFiling") ? { requiredBeforeFiling: r.requiredBeforeFiling === true } : {}),
+      ...(Object.hasOwn(r, "routeDetermined") ? { routeDetermined: r.routeDetermined === true } : {}),
+      identity: r.identity ?? null, factId: r.factId ?? null
+    }
+  });
+
+  const writes = [];
+  const blanks = [];
+  for (const m of maps) {
+    for (const w of m.canonicalWrites ?? []) writes.push(row(w));
+    for (const r of m.canonicalRefusals ?? []) blanks.push(row(r));
+  }
+
+  const availableFacts = new Set(writes.map((w) => w.factId).filter(Boolean));
+  const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  const writtenInDocument = new Map();
+  for (const w of writes) {
+    if (!writtenInDocument.has(w.document)) writtenInDocument.set(w.document, new Set());
+    for (const k of [normLabel(w.label), normLabel(w.name)]) if (k.length >= 4) writtenInDocument.get(w.document).add(k);
+  }
+
+  const ledger = [];
+  for (const blank of blanks) {
+    const here = writtenInDocument.get(blank.document) ?? new Set();
+    const declared = {
+      ...blank.declared,
+      factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
+        || here.has(normLabel(blank.label)) || here.has(normLabel(blank.name))
+    };
+    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
+    ledger.push({ ...blank, ...verdict });
+    const spec = BLANK_DISPOSITIONS[verdict.disposition];
+    if (spec.allowed) continue;
+    if (verdict.disposition === "KNOWN_FACT_NOT_WRITTEN") note("knownRequiredFieldsMissing", { field: blank.id, label: blank.label, basis: verdict.basis });
+    else if (verdict.disposition === "ROUTE_OPTION_NOT_SELECTED") note("requiredOptionsMissing", { field: blank.id, label: blank.label, basis: verdict.basis });
+    else note("unclassifiedBlanks", { field: blank.id, label: blank.label, basis: verdict.basis });
+  }
+
+  const hay = String(instructionsText ?? "").toLowerCase();
+  for (const b of ledger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING")) {
+    const needles = [b.label, b.id, b.declared?.identity].map((x) => String(x ?? "").trim()).filter((x) => x.length >= 3);
+    if (needles.some((n) => hay.includes(n.toLowerCase().slice(0, 60)))) continue;
+    note("requiredFactsNotCollected", { field: b.id, label: b.label, why: "classified required-before-filing and not named in participant-instructions.md" });
+  }
+
+  const rows = new Map();
+  for (const f of [...writes.map((w) => ({ ...w, written: true })), ...blanks.map((b) => ({ ...b, written: false }))]) {
+    const key = rowKeyOf(f);
+    if (!key) continue;
+    if (!rows.has(key)) rows.set(key, []);
+    rows.get(key).push(f);
+  }
+  for (const [key, cells] of rows) {
+    if (!cells.some((c) => c.written)) continue;
+    const missing = cells.filter((c) => !c.written && classifyField(c.label, false).requirement === "REQUIRED_KNOWN");
+    if (missing.length > 0) note("incompleteRows", { row: key, missingCells: missing.map((m) => m.label).slice(0, 6) });
+  }
+
+  for (const w of writes) {
+    if (classifyField(w.label, false).requirement === "PROTECTED") {
+      note("protectedWrites", { field: w.id, label: w.label, why: "a protected field was written" });
+    }
+  }
+
+  for (const p of writeProofs) {
+    const visible = (p.addedGlyphsReadFromOutputBytes ?? 0) + (p.flattenedWidgetAppearancesReadFromOutputBytes ?? 0);
+    if ((p.valuesReportedByFinalizer ?? 0) > 0 && visible === 0) note("invisibleWrites", { fixture: p.fixture, reportedByFinalizer: p.valuesReportedByFinalizer });
+    assert.ok(Number.isInteger(p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes), "Unmeasured geometry cannot count as zero");
+    for (const failure of p.refusedFieldsWithInk) note("protectedWrites", {fixture:p.fixture, failure});
+    if (p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes > 0) note("visualDefects", { fixture: p.fixture, glyphsOutside: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes });
+  }
+
+  return { counters, findings, ledger, terminalFields: writes.length + blanks.length, written: writes.length, blank: blanks.length };
+}
+
+/* ---- outputs ------------------------------------------------------------------- */
+function writeJson(rel, value) {
+  const absolute = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  /* A hand-written identityRefresh on a source pin this build did not move
+   * survives the rebuild; one whose source moved again does not. See
+   * scripts/rcap-packet-completeness/identity-refresh.mjs. */
+  fs.writeFileSync(absolute, `${JSON.stringify(preserveIdentityRefresh(fs, absolute, value), null, 2)}\n`);
+}
+
+/*
+ * The required-before-filing list, in the order the participant meets the
+ * blanks: component by component, and within a component in the order the
+ * committed record declares the facts. Sorting these alphabetically would print
+ * item C10 above item C2 on a page where they are numbered in sequence.
+ */
+function requiredBeforeFilingItems(maps) {
+  const order = Object.fromEntries(COMPONENT_IDS.map((c, i) => [c, i]));
+  return maps.flatMap((m) => (m.canonicalRefusals ?? [])
+    .filter((r) => r.requiredBeforeFiling === true)
+    .map((r, i) => ({
+      document: m.formNumber, field: r.field, page: r.page,
+      printedContext: r.printedLabel, disclosureLabel: r.effectiveLabel,
+      identity: r.identity, why: r.why, participantMustSupply: r.participantMustSupply,
+      declarationIndex: i
+    })))
+    .sort((a, b) => (order[a.document] - order[b.document]) || (a.declarationIndex - b.declarationIndex))
+    .map(({ declarationIndex, ...rest }) => rest);
+}
+
+function participantInstructions(maps, rbf) {
+  const byDoc = new Map();
+  for (const item of rbf) byDoc.set(item.document, [...(byDoc.get(item.document) ?? []), item]);
+  const out = [];
+  out.push(`# What you must do before you file — ${SPEC.routeName}`, "");
+  out.push(`This packet is prepared for **${SPEC.legalName}**.`, "");
+  for (const p of SPEC.instructionsIntro) out.push(p, "");
+
+  if (SPEC.instrumentChoice) {
+    out.push(`## ${SPEC.instrumentChoice.heading}`, "");
+    for (const p of SPEC.instrumentChoice.intro) out.push(p, "");
+    out.push("| Instrument | When it is yours |", "| --- | --- |");
+    for (const [instr, when] of SPEC.instrumentChoice.rows) out.push(`| ${instr} | ${when} |`);
+    out.push("");
+    for (const p of SPEC.instrumentChoice.footnotes ?? []) out.push(p, "");
+  }
+
+  out.push("## What is in this packet", "");
+  out.push("| Component | What it is |", "| --- | --- |");
+  for (const c of SPEC.components) out.push(`| ${c.title} | ${c.description} |`);
+  out.push("");
+
+  out.push("## Where this is filed, what it costs, and who must be served", "");
+  out.push("| Question | What to do |", "| --- | --- |");
+  for (const [q, answer] of SPEC.obligationTable) out.push(`| ${q} | ${answer} |`);
+  out.push("");
+
+  if ((SPEC.recordSays ?? []).length > 0) {
+    out.push("## What the committed record says you must know", "");
+    out.push("Each of these is carried here in the words of the committed record it comes from, because a participant who does not know it may file the wrong thing, or file something they did not need to file at all.", "");
+    for (const [where, what] of SPEC.recordSays) out.push(`- **${where}** — ${what}`);
+    out.push("");
+  }
+
+  if ((SPEC.documentsToObtain ?? []).length > 0) {
+    /*
+     * On three families in this lane the committed records say the participant
+     * files nothing at all, and a heading reading "before filing" would tell
+     * them the opposite of what the rest of the packet says. The heading is
+     * therefore the family's to state; every other family keeps the default.
+     */
+    out.push(`## ${SPEC.documentsHeading ?? "Documents you must obtain before filing"}`, "");
+    out.push("| Document | Where you get it |", "| --- | --- |");
+    for (const [doc, where] of SPEC.documentsToObtain) out.push(`| ${doc} | ${where} |`);
+    out.push("");
+  }
+
+  out.push("## The items you must supply", "");
+  out.push("Each is printed on its page as a labelled dotted blank. Fill every one that belongs to the page you are using, from the record itself, never from memory.", "");
+  for (const [doc, items] of byDoc) {
+    out.push(`### ${COMPONENT[doc]?.title ?? "Document"}`, "");
+    out.push("| The blank on the document | What to write |", "| --- | --- |");
+    for (const i of items) out.push(`| ${i.disclosureLabel} | ${i.participantMustSupply} |`);
+    out.push("");
+  }
+
+  out.push("## What you do, in order", "");
+  for (const [i, s] of SPEC.steps.entries()) out.push(`${i + 1}. ${s}`);
+  out.push("");
+
+  out.push("## Things the platform deliberately left blank", "");
+  for (const b of SPEC.deliberatelyBlank) out.push(`- ${b}`);
+  out.push("");
+
+  if ((SPEC.notTold ?? []).length > 0) {
+    out.push("## What this packet does not tell you", "");
+    for (const n of SPEC.notTold) out.push(`- ${n}`);
+    out.push("");
+  }
+
+  out.push("## When to stop and get help instead of filing", "");
+  for (const s of SPEC.stopConditions) out.push(`- ${s}`);
+  out.push("");
+
+  out.push("## What this packet is not", "");
+  out.push(SPEC.whatThisIsNot, "");
+
+  return `${out.join("\n")}\n`;
+}
+
+/* ---- the entry point ------------------------------------------------------------ */
+export async function runFamily(argv = process.argv.slice(2)) {
+  const checkOnly = argv.includes("--check");
+  const skipRaster = argv.includes("--no-raster");
+
+  const { resolved, failures } = resolveRecords();
+  if (failures.length > 0) {
+    return {
+      familyId: SPEC.familyId, status: "BLOCKED_SOURCE", failedSourceIdentities: failures,
+      why: "a committed record this family composes from is missing or no longer carries an anchor statement, so nothing may be composed against it",
+      overlayDirectoryTouched: false
+    };
+  }
+
+  if (checkOnly) {
+    const maps = COMPONENT_IDS.map((c) => composedMap(c));
+    return {
+      familyId: SPEC.familyId, status: "CHECK_ONLY",
+      recordsBound: resolved.length,
+      anchorsVerified: resolved.reduce((n, r) => n + r.anchorsVerified, 0),
+      components: COMPONENT_IDS,
+      writes: maps.reduce((n, m) => n + m.canonicalWrites.length, 0),
+      blanks: maps.reduce((n, m) => n + m.canonicalRefusals.length, 0)
+    };
+  }
+
+  fs.mkdirSync(path.join(ROOT, OUT, "fixtures"), { recursive: true });
+  fs.mkdirSync(path.join(ROOT, OUT, "reports"), { recursive: true });
+
+  const maps = COMPONENT_IDS.map((c) => composedMap(c));
+  const artifacts = [];
+  const writeProofs = [];
+  const rasterPages = [];
+  const pdfsDeclared = [];
+
+  for (const fixtureName of ["canonical", "boundary"]) {
+    const facts = SPEC.fixtures[fixtureName];
+    const packet = await PDFDocument.create();
+    stampDeterministic(packet);
+    packet.setTitle(`${SPEC.legalName} — ${fixtureName} fixture`);
+    const pageManifest = [];
+    const documents = [];
+
+    for (const componentId of COMPONENT_IDS) {
+      const body = composedBody(componentId, facts);
+      assert.ok(body.includes(facts["participant.full_legal_name"]),
+        `${componentId}: the composed page must carry the participant's name`);
+      const composedBytes = await renderComposedPdf(body, COMPONENT[componentId].title);
+      const composed = await PDFDocument.load(composedBytes, { ignoreEncryption: true, updateMetadata: false });
+      for (const [i, p] of (await packet.copyPages(composed, composed.getPageIndices())).entries()) {
+        packet.addPage(p);
+        pageManifest.push({ packetPage: packet.getPageCount(), component: componentId, documentId: componentId, sourcePage: i + 1, sourceSha256: null });
+      }
+      documents.push(componentId);
+    }
+
+    const packetBytes = Buffer.from(await packet.save({ useObjectStreams: false, updateMetadata: false }));
+    const file = `${OUT}/fixtures/${fixtureName}.pdf`;
+    fs.writeFileSync(path.join(ROOT, file), packetBytes);
+
+    const proof = await byteProof(packetBytes, pageManifest, maps, facts, fixtureName);
+    const measured = measureSavedComposedPacket(path.join(ROOT, file));
+    writeProofs.push({
+      fixture: fixtureName,
+      proofMethod: "every written fact value read back from the extracted text of its component's own pages in the saved packet bytes",
+      valuesReportedByFinalizer: proof.actualWrites.length,
+      addedGlyphsReadFromOutputBytes: proof.glyphs,
+      flattenedWidgetAppearancesReadFromOutputBytes: measured.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: measured.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      refusedFieldsWithInk: measured.refusedFieldsWithInk,
+      geometryMeasurement: measured,
+      actualWrites: proof.actualWrites
+    });
+
+    const sha256 = crypto.createHash("sha256").update(packetBytes).digest("hex");
+    artifacts.push({
+      fixture: fixtureName, file, sha256,
+      byteLength: packetBytes.length, pageCount: packet.getPageCount(), pageManifest,
+      documents, components: COMPONENT_IDS
+    });
+    pdfsDeclared.push({
+      file, documentId: "assembled_packet", role: "assembled_packet_of_composed_pleadings",
+      fixture: fixtureName, sha256, byteLength: packetBytes.length, pageCount: packet.getPageCount()
+    });
+
+    if (!skipRaster) {
+      const { rasterizePageCalibrated } = await import("./raster/pdf-page-raster.mjs");
+      const rasterDir = `${OUT}/raster/${fixtureName}`;
+      fs.mkdirSync(path.join(ROOT, rasterDir), { recursive: true });
+      for (let i = 0; i < packet.getPageCount(); i += 1) {
+        const stage = path.join(ROOT, rasterDir, `page-${String(i + 1).padStart(2, "0")}`);
+        const render = await rasterizePageCalibrated({ file: path.join(ROOT, file), pageIndex: i, keep: stage });
+        for (const scrap of ["page.pdf", "page-calibration.pdf", "page-calibration.png"]) {
+          const f = path.join(stage, scrap);
+          if (fs.existsSync(f)) fs.unlinkSync(f);
+        }
+        const png = path.join(stage, "page.png");
+        rasterPages.push({
+          fixture: fixtureName, page: i + 1,
+          file: `${rasterDir}/page-${String(i + 1).padStart(2, "0")}/page.png`,
+          component: pageManifest[i]?.component ?? null,
+          pageWidthPt: render.pageWidth, pageHeightPt: render.pageHeight,
+          pixelsPerPoint: Number(render.pxPerPt.toFixed(4)),
+          calibrationResidualPx: render.calibrationResidualPx,
+          paperBounds: render.paper,
+          engine: "chromium_calibrated_scripts_raster_pdf_page_raster",
+          sha256: crypto.createHash("sha256").update(fs.readFileSync(png)).digest("hex")
+        });
+      }
+    }
+  }
+
+  const rbf = requiredBeforeFilingItems(maps);
+  const instructionsText = participantInstructions(maps, rbf);
+  fs.writeFileSync(path.join(ROOT, OUT, "participant-instructions.md"), instructionsText);
+
+  writeJson(`${OUT}/source-receipt.json`, {
+    schemaVersion: "rcap-family-source-receipt/v1", familyId: SPEC.familyId, worklistGroupId: SPEC.worklistGroupId,
+    jurisdiction: SPEC.jurisdiction, implementationStrategy: "custom_pleading",
+    custodyClass: "CUSTOM_PLEADING_FROM_CODIFIED_TEXT", acquisitionCommissioned: false,
+    bindingMethod: "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+    routeKeys: SPEC.routes.map((r) => r.routeKey),
+    statutoryAuthority: SPEC.statutes, legalName: SPEC.legalName,
+    allSourcesExact: true,
+    formIdentityNote: SPEC.formIdentityNote,
+    /* Bound as committedRecords, not documents: these are the AUTHORITY this
+     * family composes from, not documents of the packet, and no rendered
+     * artifact should be expected to carry them. */
+    committedRecords: resolved.map((r) => ({
+      sourceIds: [`committed-record:${r.path}`], recordId: r.recordId,
+      pathInRepository: r.path, sha256: r.sha256, byteLength: r.byteLength,
+      instrumentKind: "committed_record_bound_as_authority",
+      role: r.role,
+      anchorStatementsVerified: r.anchorsVerified
+    })),
+    composedComponentsAuthoredByThisBuild: COMPONENT_IDS,
+    sourceBinaryCommitted: false, commercialRoutesOpened: 0,
+    whatThisReceiptDoesNotEstablish: [
+      "that any output is approved for participant delivery",
+      "that any record is eligible for the relief this family composes for",
+      ...(SPEC.receiptDoesNotEstablish ?? [])
+    ]
+  });
+
+  writeJson(`${OUT}/production-field-map.json`, {
+    schemaVersion: "rcap-official-form-field-map/v1-census-v1", familyId: SPEC.familyId,
+    routeKeys: SPEC.routes.map((r) => r.routeKey), renderStrategy: "composed_pleading",
+    jurisdiction: SPEC.jurisdiction, statutes: SPEC.statutes, legalName: SPEC.legalName,
+    implementationStrategy: "custom_pleading",
+    officialForm: null,
+    boundReferenceForm: null,
+    boundReferenceRole: "none — this family composes from committed records; no official binary is bound and none is included",
+    componentSet: COMPONENT_IDS,
+    componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
+    componentRoutes: Object.fromEntries(SPEC.components.map((c) => [c.id, c.routeKey])),
+    dispositionVocabulary: [SIGNATURE, COURT_OWNED],
+    routeSelectionsMade: SPEC.routeSelectionsMade ?? [],
+    routeSelectionNote: SPEC.routeSelectionNote,
+    participantFacingObligations: SPEC.obligationTable.map(([question, answer]) => ({ question, answer })),
+    requiredBeforeFilingCount: rbf.length,
+    requiredBeforeFiling: rbf,
+    maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
+  });
+
+  writeJson(`${OUT}/reports/rendered-artifacts.json`, {
+    schemaVersion: "rcap-rendered-artifacts/v1", familyId: SPEC.familyId,
+    renderedFresh: true, derivedFromBytes: true,
+    componentSet: COMPONENT_IDS,
+    componentConditions: Object.fromEntries(SPEC.components.filter((c) => c.condition).map((c) => [c.id, c.condition])),
+    boundReferenceSource: null,
+    pdfs: pdfsDeclared,
+    artifacts,
+    packets: artifacts.map((a) => ({ fixture: a.fixture, documents: a.documents })),
+    everyPageRastered: rasterPages.length === artifacts.reduce((n, a) => n + a.pageCount, 0),
+    byteDerivedHashes: true,
+    rasterEngine: skipRaster ? null : RASTER_ENGINE, rasterSkipped: skipRaster, rasterPages,
+    independentVerificationPending: true
+  });
+
+  writeJson(`${OUT}/reports/actual-writes.json`, {
+    schemaVersion: "rcap-actual-writes-byte-proof/v1", familyId: SPEC.familyId, derivedFromArtifactBytes: true,
+    note: "Every written fact value was read back from the extracted text of its component's own pages in the saved packet bytes, not from this builder's intent.",
+    documents: writeProofs,
+    artifacts: writeProofs.map((p) => ({
+      fixture: p.fixture,
+      valuesReportedByFinalizer: p.valuesReportedByFinalizer,
+      addedGlyphsReadFromOutputBytes: p.addedGlyphsReadFromOutputBytes,
+      flattenedWidgetAppearancesReadFromOutputBytes: p.flattenedWidgetAppearancesReadFromOutputBytes,
+      nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: p.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes,
+      geometryMeasurement: p.geometryMeasurement,
+      refusedFieldsWithInk: p.refusedFieldsWithInk
+    })),
+    blockingFindings: []
+  });
+
+  writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
+    schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: SPEC.familyId,
+    requiredBeforeFiling: rbf,
+    protectedBlanks: maps.flatMap((m) => (m.canonicalRefusals ?? [])
+      .filter((r) => r.requiredBeforeFiling !== true)
+      .map((r) => ({ document: m.formNumber, field: r.field, label: r.effectiveLabel, refusalClass: r.category ?? null, why: r.why ?? r.reason }))),
+    everyRequiredBeforeFilingItemIsDisclosed: true,
+    disclosedIn: `${OUT}/participant-instructions.md`
+  });
+
+  const counted = countCompleteness(maps, writeProofs, instructionsText);
+  writeJson(`${OUT}/reports/completeness-counters.json`, {
+    schemaVersion: "rcap-builder-completeness-counters/v1", familyId: SPEC.familyId,
+    whatThisIs:
+      "The BUILDER's own count of the nine completeness counters, computed with the repository's own contract "
+      + "functions over this family's field map, byte proof and participant-instructions.md.",
+    whatThisIsNot:
+      "A verdict. This lane does not verify its own packets, and PASS_COMPLETE additionally requires a hash-bound "
+      + "RASTER_PASS from the central raster workflow.",
+    counters: counted.counters,
+    allNineZero: PASS_COUNTERS.every((c) => counted.counters[c] === 0),
+    findings: counted.findings,
+    blankDispositions: counted.ledger.reduce((acc, b) => { acc[b.disposition] = (acc[b.disposition] ?? 0) + 1; return acc; }, {})
+  });
+
+  writeJson(`${OUT}/build-status.json`, {
+    schemaVersion: "rcap-family-build-status/v1", familyId: SPEC.familyId,
+    buildStatus: "state_built", reviewStatus: "qa_review_pending", builtBy: SPEC.buildScript,
+    rasterEngine: skipRaster ? "not rendered in this run" : "chromium_calibrated", popplerUsed: false,
+    renderedArtifacts: artifacts.length, rasterPages: rasterPages.length,
+    rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
+    independentVerificationStatus: "PENDING", selfVerified: false,
+    generationAllowed: false, runtimeSelectable: false,
+    commercialRoutesOpened: 0, productionTouched: false,
+    grantsNothing: "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route."
+  });
+
+  writeJson(`${OUT}/build-findings.json`, {
+    schemaVersion: "rcap-family-build-findings/v1", familyId: SPEC.familyId, blocking: [],
+    findings: SPEC.buildFindings
+  });
+
+  writeJson(`${OUT}/approval-request.json`, {
+    schemaVersion: "rcap-family-approval-request/v1", familyId: SPEC.familyId,
+    requested: "independent completeness verification, visual review and counsel review",
+    buildStatus: "state_built", status: "PENDING_INDEPENDENT_VERIFICATION",
+    approvedForLive: false, live: false, commercialRoutesOpened: 0,
+    counselQuestionsRaised: SPEC.counselQuestions,
+    mattersForTheReviewersAttention: SPEC.reviewersAttention
+  });
+
+  const allZero = PASS_COUNTERS.every((c) => counted.counters[c] === 0);
+  return {
+    familyId: SPEC.familyId,
+    status: allZero ? "COMPLETED" : "STOPPED",
+    ...(allZero ? {} : {
+      stopClass: "COMPLETENESS_COUNTER_NOT_ZERO",
+      nonZeroCounters: PASS_COUNTERS.filter((c) => counted.counters[c] > 0),
+      firstFindings: counted.findings.slice(0, 6)
+    }),
+    counters: counted.counters,
+    directory: OUT,
+    implementationStrategy: "custom_pleading",
+    recordsBound: resolved.map((r) => ({ recordId: r.recordId, sha256: r.sha256 })),
+    components: COMPONENT_IDS,
+    documents: COMPONENT_IDS,
+    writes: maps.reduce((n, m) => n + (m.canonicalWrites ?? []).length, 0),
+    requiredBeforeFiling: rbf.length,
+    artifactHashes: artifacts.map((a) => ({ fixture: a.fixture, packetSha256: a.sha256, pages: a.pageCount })),
+    rasterPages: rasterPages.length,
+    rasterState: skipRaster ? "BUILT_RASTER_PENDING" : "RASTER_LOCAL_PENDING_CENTRAL",
+    nineCountersZero: allZero,
+    packetsSelfVerified: 0, commercialRoutesOpened: 0, productionTouched: false
+  };
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
+  runFamily()
+    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+    .catch((e) => { console.error(e); process.exit(1); });
+}

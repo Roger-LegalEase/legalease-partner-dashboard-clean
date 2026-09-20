@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-legal-decision/v1",
+  "decisionId": "NJ-CN-10557-PARTICIPANT-NAME",
+  "decidedBy": "Roger Roman",
+  "decidedAt": "2026-09-01",
+  "recordedBy": "CAPTAIN-9H",
+  "jurisdiction": "NJ",
+  "document": "NJ-CN-10557",
+  "question": "Is the participant's own name the platform's to write on the New Jersey CN 10557 expungement packet, or the participant's?",
+  "decision": "YES — the participant's own name is a platform-written participant fact.",
+  "kind": "field classification",
+  "isNot": "a new legal-route decision. No route opens, changes or gains authority because of this.",
+  "prefillWhereTheFormSays": [
+    "your name",
+    "Petitioner",
+    "Criminal/Juvenile Records of",
+    "annexed Petition of",
+    "Verified Petition of",
+    "all information relating to"
+  ],
+  "alsoPrefill": "ordinary printed-name fields where no personal execution is required",
+  "historicalNames": "Use a former name or name at arrest ONLY in a field expressly requesting that historical name. The current full legal name is the default; a historical name is never a substitute for it.",
+  "doNotWrite": [
+    "the participant's signature",
+    "a notarized signature",
+    "signature dates requiring personal execution",
+    "the expungement docket number",
+    "hearing date or time",
+    "order-entry date",
+    "court findings",
+    "judge's signature",
+    "clerk-only or court-only fields"
+  ],
+  "basis": "The official packet expressly instructs the petitioner to fill the name fields, and separately identifies the docket number, court dates and judicial signature as fields to leave blank. The decision follows the form's own instructions rather than overriding them.",
+  "implementationState": {
+    "state": "DECISION_RECORDED_NOT_YET_RENDERED",
+    "alreadyInTheAllowlist": "SHARED_EXACT_FACT_ALLOWLIST['NJ-CN-10557'] already maps DefName -> participant.full_legal_name, so the decision's core instruction is what the code already intends.",
+    "whyNotRenderedYet": "The east host cannot complete a build of this family, so no artifact can be produced that reflects the decision. See blockingDefect.",
+    "committedArtifactIsStale": "The committed production-field-map shows DefName as 'refuse' with 170 of 179 fields refused. That artifact predates the current allowlist and cannot be refreshed until the build completes; it is not evidence about what the decision now requires."
+  },
+  "blockingDefect": {
+    "summary": "The east host aborts before writing any artifact, on an assertion unrelated to this decision.",
+    "assertion": "NJ-CN-10557/canonical: finalizer reported writes that have no artifact appearance",
+    "fields": [
+      "arrestOff1",
+      "dismissDt",
+      "dismissCrt",
+      "DefAddr2",
+      "DefAddr3",
+      "DefBirthDt",
+      "arrest1Dt"
+    ],
+    "notTheParticipantName": "DefName is NOT among the failing fields. The blocker is seven address, date-of-birth, charge and court fields whose values the finalizer reports writing and which do not appear in the flattened appearance streams.",
+    "correctingTheEscalation": "This decision was escalated on FIX-A's report that the finalizer refuses twelve terminal names as classified_unwritable_by_role. That reading came from the committed actual-writes.json, which records 173 such refusals from an older build. A live run does not fail there. The legal question was worth deciding and the answer is now settled, but it was not what blocks this family.",
+    "hazard": "A failed run of this host CLEARS the family's output directory before erroring. Restore the overlay from HEAD after any aborted build; FIX-A reported this and Captain reproduced it.",
+    "owner": "east-host repair, unassigned. Not a legal question and not FIX-A's current lane."
+  },
+  "authorizes": "nothing beyond field classification. No commercial route, no checkout, no sponsorship, no delivery, no PASS_COMPLETE. The family still needs a hash-bound RASTER_PASS and an independent read like any other.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

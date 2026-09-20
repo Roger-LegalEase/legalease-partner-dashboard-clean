@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-B11",
+  "lane": "PF04",
+  "branch": "fable/b11",
+  "returnedAt": "2026-09-01T20:30:00Z",
+  "mission": "Pioneer the AGENCY-APPLICATION deliverable: six participant_agency_application rows (CT trio, AL al-uncharged-arrest, NM dna-sample-profile-expungement, AK ak-correct-record), building guidance packets from committed evidence only, with the report discipline of the custom-pleading pattern and deterministic rebuilds.",
+
+  "laneTruth": {
+    "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "howRead": "subjectType packet-family, operation packet-build, released false, subjectId = full worklistGroupId; every buildable row asserted with claim.mjs --assert PF04 '<FULL_ID>' before any work and released with --release after its build commit",
+    "grantSet": "4d1573645992fad5 (prefix reported by claim.mjs at assert time)"
+  },
+
+  "rows": [
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "lane": "PF04",
+      "claimResult": "CLAIM_OK, then RELEASED after the build commit",
+      "status": "state_built",
+      "commit": "0e72eaff1",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-destruction-request--agency-application",
+      "buildScript": "scripts/build-census-v1-ct-destruction-request--agency-application.mjs",
+      "evidenceUsed": [
+        "data/record-clearing/legal-design-intake/CT.memo.json (track ct-destruction-request; ct-missed-erasure for the not-actually-erased handoff) @ 90d96d9d8a25ed7d",
+        "data/rcap-all50/guidance-packets/ct.json (committed complete_guidance record, trackId ct-destruction-request) @ 0acfc6fe64c87db9",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json @ e615283930c6a9aa",
+        "data/rcap-ledger/completed-output-counsel-manifest.json (family rcap-ct-guidance-implementation) @ 99e8029120d705df"
+      ],
+      "components": ["participant_instructions"],
+      "heldForms": [],
+      "keyDecisions": "No written request is generated: CT-14 records the clerk's accepted destination and format as unconfirmed (release blocker), so the instructions end at asking the clerk's office how it accepts the request. No fee asserted (source review states none); three-year rule stated; erased-vs-not-erased and immigration stops carried."
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "lane": "PF04",
+      "claimResult": "CLAIM_OK, then RELEASED after the build commit",
+      "status": "state_built",
+      "commit": "fb76dc2f8",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-provisional-pardon--agency-application",
+      "buildScript": "scripts/build-census-v1-ct-provisional-pardon--agency-application.mjs",
+      "evidenceUsed": [
+        "data/record-clearing/legal-design-intake/CT.memo.json (track ct-provisional-pardon) @ 90d96d9d8a25ed7d",
+        "data/rcap-all50/guidance-packets/ct.json (trackId ct-provisional-pardon) @ 0acfc6fe64c87db9",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json @ e615283930c6a9aa",
+        "data/rcap-ledger/completed-output-counsel-manifest.json @ 99e8029120d705df",
+        "data/rcap-all50/local-source-corpus-index.json (held DPS-0846-C) @ 59fb63edc571e8cb"
+      ],
+      "components": ["participant_instructions", "criminal_history_record_request_support (DPS-0846-C, source-referenced)"],
+      "heldForms": [
+        {
+          "formNumber": "DPS-0846-C",
+          "sha256": "8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e",
+          "byteLength": 104351,
+          "verifiedAgainstMountedBytes": false,
+          "note": "Master Library not mounted in this container; hash asserted against the committed corpus index, and the build script recomputes from mounted bytes (refusing on drift) whenever MASTER_LIBRARY_SOURCE_DIR is present. The DESPP-SPBI mailing address stated in the instructions is quoted from the pinned memo, flagged for source-freshness review."
+        }
+      ],
+      "keyDecisions": "No application generated (CT-11/CT-12: no stable Board document; an intake worksheet is not the legal filing packet). The no-erasure distinction is the first section. Board eligibility and fees delegated by name; DESPP record-request fee amount not stated (no held source states one)."
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "lane": "PF04",
+      "claimResult": "CLAIM_OK, then RELEASED after the build commit",
+      "status": "state_built",
+      "commit": "8c102b2e0",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-absolute-pardon--agency-application",
+      "buildScript": "scripts/build-census-v1-ct-absolute-pardon--agency-application.mjs",
+      "evidenceUsed": [
+        "data/record-clearing/legal-design-intake/CT.memo.json (tracks ct-absolute-pardon and ct-pardon-erasure for the s.54-142a(d) erasure consequence) @ 90d96d9d8a25ed7d",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json @ e615283930c6a9aa",
+        "data/rcap-ledger/completed-output-counsel-manifest.json (intendedPaidPathwaysUnblocked CT:absolute-pardon-resulting-in-erasure) @ 99e8029120d705df",
+        "data/rcap-all50/local-source-corpus-index.json (held DPS-0846-C) @ 59fb63edc571e8cb"
+      ],
+      "components": ["participant_instructions", "criminal_history_record_request_support (DPS-0846-C, source-referenced)"],
+      "heldForms": [
+        {
+          "formNumber": "DPS-0846-C",
+          "sha256": "8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e",
+          "byteLength": 104351,
+          "verifiedAgainstMountedBytes": false
+        }
+      ],
+      "keyDecisions": "The memo records every waiting-period figure and the no-fee claim as UNVERIFIED and directs that no number appear in participant-facing copy — so the packet quotes NONE (not even labelled unverified) and delegates every figure to the Board's published ePardon rules by name. States the recorded s.54-142a(d) consequence (pardon on/after 1974-10-01 erases without petition; pre-1974 petition branch excluded as a different route). Route record is paid_packet_intended / LAUNCH_GRAPH_CLOSED; nothing commercial opened."
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "lane": "PF04",
+      "claimResult": "CLAIM_OK, then RELEASED after the build commit",
+      "status": "state_built",
+      "commit": "7b938ece5",
+      "directory": "data/rcap-all50/overlays/census-v1/al/al-uncharged-arrest-record-challenge--agency-application",
+      "buildScript": "scripts/build-census-v1-al-uncharged-arrest-record-challenge--agency-application.mjs",
+      "evidenceUsed": [
+        "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json (researchTrackDecisions al-uncharged-arrest: OUTPUT AGENCY RECORD-CHALLENGE PACKET; route distinction) @ 0aad88eff0e3d12e",
+        "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json (LWD-2026-08-30-AL-Q4: administrative step chain, one-calendar-year window, 30-day court window) @ 764d59c2965e5cfe",
+        "data/record-clearing/legal-design-intake/AL.memo.json (historical blocker the decision resolved) @ 7d484d636a1612c8",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json @ e615283930c6a9aa",
+        "data/rcap-all50/local-source-corpus-index.json + data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/source-record.json (two agreeing records for held SBI-FORM-46) @ 59fb63edc571e8cb / c686a259c18ad847"
+      ],
+      "components": ["participant_instructions", "criminal_history_review_application (SBI-FORM-46, source-referenced)"],
+      "heldForms": [
+        {
+          "formNumber": "SBI-FORM-46",
+          "sha256": "02ce19decc585903f73456371c2f51f8c01b39befa9b9b80560454e901bfb5e7",
+          "byteLength": 438712,
+          "verifiedAgainstMountedBytes": false,
+          "note": "Retired from operational inventory only for having no naming surface; its retirement record defines being named by a guidance packet as the reversal condition. Named here as the s.41-9-645 review-step instrument."
+        }
+      ],
+      "keyDecisions": "Built on the 2026-08-28 research decision that superseded the memo's route-existence blocker. Carries the decision's route distinction verbatim in substance (wrong/incomplete record -> this route; accurate uncharged arrest -> separate Title 15 question, routed out; identity theft -> agency correction first). The de novo court route stays untouched (LWD-2026-08-30-AL-Q4 is hard_gate_pending); only its recorded 30-day urgency is stated as a warning. All submission mechanics and fees delegated to ALEA/ACJIC or the originating agency."
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "lane": "PF04",
+      "claimResult": "CLAIM_OK, then RELEASED after the build commit",
+      "status": "state_built",
+      "commit": "535a3a8db",
+      "directory": "data/rcap-all50/overlays/census-v1/nm/nm-dna-sample-profile-expungement--agency-application",
+      "buildScript": "scripts/build-census-v1-nm-dna-sample-profile-expungement--agency-application.mjs",
+      "evidenceUsed": [
+        "data/record-clearing/legal-design-intake/NM.memo.json (track nm_dna_expungement) @ 94fe9d381be4e2b0",
+        "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json (pathway dna-sample-profile-expungement: LD-NM-02 authority block, Lawrence hold_guidance) @ ec03515fa44ddab0",
+        "src/lib/legal-authority/routes/single-routes.json (route contract NM:dna-sample-profile-expungement) @ 3c96528143c0e863",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json @ e615283930c6a9aa"
+      ],
+      "components": ["participant_instructions"],
+      "heldForms": [],
+      "keyDecisions": "Renders exactly the substantive guidance the hold_guidance ratification permits. The receiving office is unidentified in every held source, so the packet's load-bearing feature is a STOP: confirm the administrative center with NM DPS before sending anything; no address and no fee named anywhere. 30/45-day periods stated as post-request processing, never prefiling waits (LD-NM-02 effective note). One-year condition stated as the no-charge branch's substantive lookback only. Explicitly not a court petition and does not use the Rule 1-077.1 NMRA form set. No NM corpus form referenced — none is bound to this route by any committed record."
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "lane": "none held",
+      "claimResult": "NOT_GRANTED: no packet-build lane holds agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record (claim.mjs exit 6)",
+      "status": "FULL_STOP_NOT_BUILT",
+      "commit": null,
+      "directory": null,
+      "buildScript": null,
+      "evidenceUsed": [],
+      "components": [],
+      "heldForms": [],
+      "keyDecisions": "The claim ledger holds no packet-build grant for this subjectId, so per the lane contract the refusal is a full stop for the row: nothing was read into a build, nothing was written, and no ledger surface was touched for it. Independently, MASTER_QUEUE marks the row SOURCE_BLOCKED (official-form:Request to Correct Criminal Justice Information — MISSING_DOCUMENT, no held corpus entry and no exact custody binding), so even a granted build would have needed the source conveyor first. Next action belongs to the captain: mint the grant (and resolve the source identity) before any builder is sent at this row."
+    }
+  ],
+
+  "whatWasMeasurable": {
+    "measured": [
+      "Evidence pinning: every statement-bearing evidence file is named with its exact SHA-256 and re-hashed on every build; drift refuses the build (verified live — the builds ran against the pinned hashes).",
+      "Anchor presence: 19/21/22/28/30 literal quotes per row (120 total) asserted present in the pinned evidence bytes on every build.",
+      "Held-form binding: DPS-0846-C and SBI-FORM-46 asserted against the committed corpus index (hash + byte length); recomputation against mounted Master Library bytes is coded and refusing, but the library is NOT mounted in this container, so verifiedAgainstMountedBytes=false this run — the committed hashes come from two agreeing committed records per form.",
+      "Determinism: every row built twice, full output tree byte-identical both times (sha256sum diff empty).",
+      "Content guards: no undeclared dollar figure, no signature/execution line, and every declared self-help stop and lookup delegation asserted present in the rendered instruction bytes."
+    ],
+    "notMeasurable": {
+      "what": "The nine field-level completeness counters.",
+      "why": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs counts owed writes against made writes over a production field map and fixture PDFs. An agency-application guidance family renders no paper instrument, no field map and no fixture, so those counters are undefined for it. The verifier ENUMERATES these families (approval-request.json present) but correctly refuses to audit them: '--family <id>' answers 'matches no auditable family', which is the honest state, and the 78 previously auditable families are unaffected. The verifier was NOT modified.",
+      "recordedWhere": "Each family's reports/rendered-artifacts.json carries a completenessAudit block stating the boundary and the substitute measurements."
+    }
+  },
+
+  "patternNote": {
+    "audience": "the next agency-application builder (and the captain dispatching one)",
+    "sharedBuilder": "scripts/rcap-agency-application/agency-application-build.mjs — reuse it; do not fork it. A row script is ~200 lines: evidence pins, anchors, optional heldForms, the instructions markdown, mustState/notHeld/findings/counselQuestions, then runCli(SPEC).",
+    "steps": [
+      "1. LANE TRUTH FIRST. Read the row's lane from the claim ledger (subjectType packet-family, operation packet-build, released false, subjectId = full worklistGroupId) and assert it with claim.mjs before reading anything else. NOT_GRANTED or ALREADY_RELEASED is a full stop for that row — record it and move on (AK in this return is the worked example).",
+      "2. FIND THE CONTROLLING EVIDENCE, NEWEST LAST. The legal-design memo is the start, not the end: a memo build_blocker may be superseded by a later counsel decision (AL: the 2026-08-28 research decision resolved the memo's route-existence blocker) or narrowed by a ratification (NM: hold_guidance permits exactly substantive guidance). Search data/record-clearing/legal-decisions/, the route-ratification registry, compiled profiles and route contracts, the census route record, and any committed guidance-packet or counsel-manifest record before concluding anything.",
+      "3. PIN AND ANCHOR. Every evidence file gets an exact SHA-256 pin; every load-bearing sentence in the instructions gets a literal quote anchor into a pinned file. Author anchors against the RAW file bytes (JSON escapes: quotes and newlines inside JSON strings will not match — pick quote spans without them). Run --check until clean before writing any output.",
+      "4. THE INSTRUCTIONS ANSWER FIVE QUESTIONS, from evidence only: which agency decides; what the application is; what the participant sends; what happens after; when to stop. Anything not held — a fee, an address, a processing time, an office name, an eligibility figure — is NEVER guessed: either quote it from pinned evidence or write a lookup instruction naming the checkable authority. When evidence says a figure is unverified and directs that no number be quoted (CT absolute pardon), quote none — not even labelled unverified.",
+      "5. HELD FORMS. Check the corpus index by state. A form is included as a source-referenced component ONLY when a committed record connects it to the route's own step (SBI-FORM-46: the counsel record's review step; DPS-0846-C: the memo's supportingDocuments). Bind by committed hash + byte length; never embed or redistribute bytes; let the shared builder recompute from mounted bytes when the library is present. A corpus form that merely shares the state is not a component (NM: the DPS-ROI form belongs to other routes and was left out).",
+      "6. NEGATIVE FACTS ARE DELIVERABLE CONTENT. 'No held source identifies the receiving office' becomes the packet's most important participant stop (NM), and 'the accepted format is unconfirmed' becomes the reason no instrument is drafted (CT destruction). Do not paper over a gap the evidence records — carry it.",
+      "7. DETERMINISM PROOF. Build twice, sha256sum the whole output tree, diff must be empty. The shared builder keeps timestamps and environment values out of every output; keep it that way — per-run facts (like whether the library was mounted) go to stdout and to this return, never into output files.",
+      "8. REPORTS. The shared builder writes the six-file set (participant-instructions.md, source-receipt.json, reports/rendered-artifacts.json, build-status.json, build-findings.json, approval-request.json). rendered-artifacts.json states the completeness-audit boundary in terms; do not weaken the completeness verifier to make these families 'auditable'.",
+      "9. BOUNDARIES. Never draft the agency's own application when no stable participant document is identified (an intake worksheet is not the legal filing packet). Never write a signature field. Never touch a sibling court route that is hard-gated (AL de novo). state_built is the end: release the claim after the build commit, open nothing commercial."
+    ],
+    "directoryConvention": "data/rcap-all50/overlays/census-v1/<state>/<readable-slug>--agency-application/ with buildScript scripts/build-census-v1-<readable-slug>--agency-application.mjs; the family's outputs carry the full worklistGroupId as familyId so the queue can join them. (The MASTER_QUEUE rows pre-print colon-laden '--official-pdf-fill' paths for these families; the readable --agency-application form was adopted for this pattern per the dispatch instruction — the captain's next queue regeneration should adopt the built directories.)"
+  },
+
+  "forTheCaptain": [
+    "AK ak-correct-record needs a packet-build grant minted (and its source identity resolved: official-form:Request to Correct Criminal Justice Information is named but not held) before any builder can take it.",
+    "MASTER_QUEUE's generated buildScript/directory strings for agency-application families use colon-laden '--official-pdf-fill' names; the built deliverables live at the readable '--agency-application' paths recorded in this return. Queue regeneration should bind to the built paths.",
+    "Product wiring for these five families is captain-side and was not written, per the dispatch.",
+    "Three CT counsel questions recur across the trio (CT-11/CT-12 stable-application question, CT-14 destination/format, unverified Board figures) — one counsel pass over the CT Board could unblock all three families' next stage at once."
+  ],
+
+  "disciplineAttestations": {
+    "inventedFacts": 0,
+    "unverifiedAddressesOrFeesStated": "none — the only address quoted (DESPP-SPBI mailing address) is verbatim from the pinned CT memo and flagged for source-freshness review in both CT pardon families",
+    "signatureFieldsWritten": 0,
+    "queueOrLedgerTouched": "claim.mjs assert/release only",
+    "commercialRoutesOpened": 0,
+    "verifiersModified": 0,
+    "productWiringWritten": 0
+  }
+}

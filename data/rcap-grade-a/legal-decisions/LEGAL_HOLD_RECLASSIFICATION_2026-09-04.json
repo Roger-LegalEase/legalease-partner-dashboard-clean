@@ -1,0 +1,354 @@
+{
+  "schemaVersion": "rcap-legal-hold-reclassification/v1",
+  "decisionOwner": "Roger Roman",
+  "confirmedOn": "2026-09-04",
+  "recordedAtCaptainSha": "dbd8a738abfe56992317961859d883375c976195",
+  "whatThisDoes": "Reclassifies the named stale LEGAL_BLOCKED projections from evidence already committed. It preserves every owner decision and verifier return, grants no PASS, and opens no route.",
+  "families": [
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "OWNER_CORRECTION_REQUIRED",
+      "ownerCorrection": "Q7-required-component-deliberately-absent",
+      "requiredComponent": "in_infraction_nondisclosure-primary-filing-2",
+      "repairCommit": "417f6d281b3dfae3176e6f9ee63202b73d75a46c",
+      "repairEvidence": {
+        "builder": "scripts/build-census-v1-in_infraction_nondisclosure-set.mjs",
+        "dependencyRecord": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+        "renderedArtifacts": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading/reports/rendered-artifacts.json",
+        "componentSet": [
+          "in_infraction_nondisclosure-process-guidance-1",
+          "in_infraction_nondisclosure-primary-filing-2"
+        ],
+        "canonical": {
+          "sha256": "42561798f77784f77ff76defad21ebc6c867fbeafe1f724c9140b27937fd5a49",
+          "byteLength": 12874,
+          "pageCount": 4
+        },
+        "boundary": {
+          "sha256": "4a6285024e1fa6e64604acab113d0b6f98dd2df04809fec4a75e244a36859e5a",
+          "byteLength": 12938,
+          "pageCount": 4
+        }
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf07",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
+        "bindsCurrentBytes": false,
+        "why": "The verifier base is an ancestor of the repair commit, so it read the former guidance-only two-page packet rather than the repaired four-page packet."
+      },
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The required component is built and both deterministic fixtures pass the focused completeness audit, but no independent verifier has read the post-repair bytes."
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "disposition": "SELECT_SUBSTANTIVE_VERDICT",
+      "priorLegalBasis": "LEGAL_APPROVAL_VERDICT",
+      "selectedVerdict": {
+        "lane": "vf12",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verifiedAtBase": "1b40b32e0f59a6b70c7ca8779617a337ab184b22",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json"
+      },
+      "historicalVerdictPreserved": {
+        "lane": "vf02",
+        "verdict": "BLOCKED_SOURCE",
+        "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+        "whyHistorical": "The return records a verifier environment where the private master corpus was absent; that environment-scoped refusal remains history and is not a legal ruling."
+      },
+      "selectionExpiresWhen": "A later independent substantive verdict declares a verifiedAtBase equal to or descending from recordedAtCaptainSha.",
+      "currentByteBinding": {
+        "bindsSelectedVerdict": false,
+        "changedSinceSelectedBase": [
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-completed-sentence-application-boundary/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-currently-serving-petition-boundary/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/fixtures/hs-11361-8-currently-serving-petition-canonical/cr-400-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/product-wiring.json",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-completed-sentence-application-boundary/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-completed-sentence-application-canonical/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-currently-serving-petition-boundary/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/raster/hs-11361-8-currently-serving-petition-canonical/cr-400/page-01.png",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/reports/packet-evidence.json",
+          "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs"
+        ],
+        "selectedBasePrimaryHashes": [
+          "9f120298e9ec87351fe178f82beee6a761a465bbb69d4a8868b9ef71ff1a50a8",
+          "119190647522175931022cac1e410969ab02c29a6e7f9b3e8c340fa028525bf1",
+          "d7fd0b0447710a70e73c7f12c08a3fe3794b8a2e0bb2365d16cc48ee9a94ffe7",
+          "fae11b94385db157c4bcbc7f33e8a436cee145d86a5d7448ac3840b8d09c69fb"
+        ],
+        "currentPrimaryHashes": [
+          "87f93a9b4273a1af89de31a7576ae0e4aae86e42361bfacfae042574695885d4",
+          "53b07cf75b2fee362fcfa07a9f080d86dc04ae4adb705fe4039078508884ac4a",
+          "7369e11b1d4ffd7caf7d2a0b9ed981f738c109b94194652fafe0df6ad120cc84",
+          "ac3f310b0bdfe8244965e31f1953a90df70e39e264ac9cdc81f384b9906b2290"
+        ]
+      },
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The selected substantive verdict does not bind the current artifacts, so the family requires a new independent read and cannot be promoted to PASS."
+    },
+    {
+      "familyId": "co_decriminalized_conduct_seal-set",
+      "disposition": "OWNER_CONFIRMED_ROUTE_MAPPING_COMPLETE",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT_AND_OWNER_DIRECTED_MAPPING_PENDING",
+      "ownerConfirmation": "Roger Roman confirmed on 2026-09-04 that the two duplicate legacy C.R.S. § 24-72-711 eligibility blockers are reclassified into fail-closed execution using the committed JDF-2371 mapping.",
+      "mappingEvidence": {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "trackId": "co_decriminalized_conduct_seal",
+        "mappingCommit": "c1a8630cd159b7b82d49ed1197b38d9c2d0b4b18",
+        "primaryFormId": "JDF-2371",
+        "proposedOrderFormId": "JDF-2374",
+        "status": "MAPPED"
+      },
+      "legacyBlocksReclassified": [
+        {
+          "legacyBlock": "The list of qualifying offense categories under § 24-72-711 must be confirmed before the product selects an eligibility basis.",
+          "executionTreatment": "The product may build only when screening and the exact conviction record establish that the convicted conduct is no longer prohibited. Missing, inconsistent, or unresolved facts hard-stop for human review; the product must not infer the election."
+        },
+        {
+          "legacyBlock": "The same eligibility issue was separately recorded as an open question blocking the build.",
+          "executionTreatment": "The duplicate is superseded by the same fail-closed rule: route-determined and record-determined selections are applied only from established facts, participant assertions stay blank, and unresolved legal elections hard-stop."
+        }
+      ],
+      "laneReturnQuestionsDisposed": [
+        {
+          "laneQuestion": "JDF-2371: approved route-determined basis and eligibility-election selections for decriminalized conduct",
+          "disposition": "The committed official-form election mapping supplies the exact JDF-2371 selection rules and hard stop."
+        },
+        {
+          "laneQuestion": "JDF-2374: approved field-by-field classification of judicial findings, service, and later-completion fields",
+          "disposition": "This is form-face field ownership, not a legal decision. JDF-2374 expressly says 'The Court Completes the Rest of this Form' immediately before sections 1 through 4. The builder may prefill only the established court, case-caption, case-number, and defendant-identity fields above that instruction; every judicial finding, notice/service finding, later-completion fact, other order, signature, judicial-role election, and order date at or below it remains protected and blank. Any field whose ownership cannot be established from the form face hard-stops the build."
+        }
+      ],
+      "preservedReleaseLimits": [
+        "This decision authorizes build execution only and is not output-level approval of produced packet bytes.",
+        "The existing commercial-permission release issue remains preserved and unresolved.",
+        "No checkout, sponsorship, fulfillment authority, route opening, or Production change is authorized."
+      ],
+      "nextState": "SOURCE_READY",
+      "executionOwner": "CAPTAIN",
+      "nextExecutableAction": "Build the JDF-2371 and JDF-2374 official-form packet from the committed mapping, retain every fail-closed election guard, then raster changed bytes and obtain an independent fifteen-obligation verdict before any output-level approval request.",
+      "whyNotPass": "No packet artifacts, current raster receipt, or independent verdict exist for this family."
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "9b2b3553d67db203717fdb5993e1467803eaf622",
+      "repairLane": "FIX107",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix107/rows.json",
+        "directory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+        "canonicalSha256Prefix": "c360eac4",
+        "boundarySha256Prefix": "21fa17be",
+        "what": "fee sentence and waiver step restated in participant-instructions.md; fixtures unchanged"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf05",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "158f37310",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on a legal input the record now answers; its base predates the repair that carried the answer into the packet."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the legal input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "9b2b3553d67db203717fdb5993e1467803eaf622",
+      "repairLane": "FIX107",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix107/rows.json",
+        "directory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+        "canonicalSha256Prefix": "732e7f47",
+        "boundarySha256Prefix": "87e4bf90",
+        "what": "the specification VERIFICATION rendered on its own sheet under the caption with blank jurat and notarial fields; cover and stop line restated; 10 to 11 pages"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf01",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "verifiedAtBase": "30a8b3b71",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on a legal input the record now answers; its base predates the repair that carried the answer into the packet."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the legal input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+      "repairLane": "FIX109",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+        "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf03",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+      "repairLane": "FIX109",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+        "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf03",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+      "repairLane": "FIX109",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+        "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf03",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-four-holds.json",
+        "researchHandoff": "docs/rcap/grade-a/research/2026-09-06-packet-blocker-research-handoff.md",
+        "relayedBy": "Roger Roman (owner), 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+      "repairLane": "FIX109",
+      "repairEvidence": {
+        "rows": "data/rcap-grade-a/packet-factory-24h/fix109/rows.json",
+        "what": "the Superior Court FAQ no-fee answer carried into the guide page and bound as the fee source; bytes moved"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf03",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+        "bindsCurrentBytes": false,
+        "why": "The verifier blocked on the filing-fee input the record now answers; its base predates the repair."
+      },
+      "confirmedOn": "2026-09-06",
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The record answered the fee input and the repair carried it into the packet, but no independent verifier has read the post-repair bytes; the family is read again, and payment stays closed."
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "disposition": "POST_REPAIR_REREAD_REQUIRED",
+      "priorLegalBasis": "LANE_RETURN_BLOCKED_LEGAL_INPUT",
+      "recordedBy": "ChatGPT completion integration; implementation of the existing owner-relayed contract, not a new owner/counsel decision",
+      "legalInputAnsweredBy": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-04.json",
+        "recordId": "OWNER-RELAYED-RESEARCH-2026-09-06-BATCH-04",
+        "relayedBy": "Roger Roman, 2026-09-06",
+        "isCounselApproval": false
+      },
+      "repairCommit": "00d2425ca20f03468523b5d3bfa00ada59d7d6c8",
+      "repairEvidence": {
+        "directory": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill",
+        "officialSource": "reference/north-carolina/AOC-G-106-2024-11.pdf",
+        "sourceSha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd",
+        "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "regressionLog": "data/rcap-grade-a/completion-pass-2026-09-07/nc-regressions.log",
+        "passedChecks": 19,
+        "executedRun": "34112045004"
+      },
+      "priorIndependentVerdict": {
+        "lane": "vf06",
+        "verdict": "BLOCKED_LEGAL_INPUT",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+        "failedRequirement": "AOC-CV-226 was incorrectly presented as the operative expunction indigency petition"
+      },
+      "nextState": "VERIFY_PENDING",
+      "whyNotPass": "The exact AOC-G-106 is now held and delivered by the selected branch, satisfying the existing missing-instrument repair direction. The former VF06 finding remains in history and is NOT replaced with PASS. Current outputs must pass full central raster and a fresh independent fifteen-obligation reread. Fee-bearing deferred/conditional cases still stop for participant-specific legal review; no eligibility, indigency, execution, or delivery authority is inferred."
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "amendments": [
+    {
+      "on": "2026-09-06",
+      "by": "Captain",
+      "what": "Two POST_REPAIR_REREAD_REQUIRED entries added for vt_seal_dui-set and ms-nonconv-set after the owner-relayed research answered their legal inputs and FIX107 carried the answers into the packets. nh_petition_vacated-set is deliberately not added: its SERVICE question stays open."
+    },
+    {
+      "on": "2026-09-06",
+      "by": "Captain",
+      "what": "Four POST_REPAIR_REREAD_REQUIRED entries added for the Rhode Island Chapter 12-1.3 families after FIX109 carried the research answer into their guides."
+    }
+  ]
+}

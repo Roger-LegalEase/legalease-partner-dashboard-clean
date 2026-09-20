@@ -1,0 +1,261 @@
+{
+  "lane": "FIX71",
+  "laneKind": "repair",
+  "generatedAtBase": "581cce1d0",
+  "branch": "fix71-me-prost-instructions",
+  "rows": [
+    {
+      "itemId": "me-seal-prost-set",
+      "familyId": "me-seal-prost-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["COMPONENT_SET"],
+      "obligationsThisRowDoesNotDischarge": [
+        "Independent verification of this repair. This lane wrote the instructions component it is reporting on, and a builder never verifies its own packet. An independent lane that did not build or repair this family must re-read the delivered participant-instructions.md item by item against ME.memo.json components[1] before the component is treated as carried.",
+        "Visual review of the delivered instructions by a human reviewer.",
+        "Counsel review of the legal statements now carried in the instructions, including the PL 2025, c. 513 treatment of the CR-289 paragraph 1 recital, which ME.memo.json still carries as a release blocker (current_revision_unconfirmed) pending confirmation of whether the Judicial Branch has issued a revised CR-289.",
+        "Source freshness review of CR-289 Rev. 10/24.",
+        "Any change to the CR-289 fixture bytes, which this lane deliberately did not make and which would need its own dispatch.",
+        "Any route promotion, product wiring installation, or commercial authority. product-wiring.json remains DECLARED_NOT_INSTALLED, generationAllowed false, and binding.lastIndependentVerification still records vf02 FAIL_REPAIR_REQUIRED; this lane did not edit it."
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
+      "grant": {
+        "assert": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX71 me-seal-prost-set",
+        "result": "CLAIM_OK FIX71 me-seal-prost-set (repair, grant set 2c433d8e161f4ce7)",
+        "exitCode": 0,
+        "assertedBefore": "the assert was run before any artifact of this family was opened for writing"
+      },
+      "theDefectRepaired": {
+        "verdictRepaired": "VF02 FAIL_REPAIR_REQUIRED on me-seal-prost-set, obligation COMPONENT_SET, verified at base ab018b86a.",
+        "whatVF02Found": "data/record-clearing/legal-design-packet-set-manifests.json names me-seal-prost-instructions-2 as a REQUIRED component with outputStrategy process_guidance, and ME.memo.json components[1] defines its contents. Measured item by item against the delivered participant-instructions.md, five of the seven specified contents were absent and a sixth was contradicted: the file affirmed the CR-289 paragraph 1 recital twice, at line 9 and at line 37, where the record says the recital asserts a requirement PL 2025, c. 513 repealed and is left as a manual completion item rather than affirmed.",
+        "whyNoCounterSawIt": "verify-packet-completeness.mjs computes requiredComponentsMissing from the field map, the source receipt and the rendered artifacts. It never opens the packet-set manifest and never opens the state memo, so a required component whose outputStrategy is process_guidance is outside everything it can see. The nine counters were zero before this repair and are zero after it; they are not what changed."
+      },
+      "whatChanged": {
+        "filesChanged": [
+          "scripts/build-census-v1-me-seal-prost-set.mjs",
+          "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill/reports/blanks-left-for-the-participant.json"
+        ],
+        "theRepairIsInTheBuilder": "participantInstructions() in scripts/build-census-v1-me-seal-prost-set.mjs was rewritten so the builder EMITS the seven contents. participant-instructions.md was not hand-edited: it is the builder's output, regenerated, and a rebuild from a clean tree reproduces it byte for byte.",
+        "theSecondAffirmation": "The old line 37 of the delivered file was the 'What to write' cell of the required-before-filing table, whose text comes from the SUPPLY() description on the conviction-date widget in the FORM_FIELDS table of the builder. That description read '... The sentence this blank sits in is the one that makes the motion: it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A' -- a flat affirmation of the stale recital. It was rewritten to name the recital as printed text the statute no longer imposes and to point at the new section. Because that string is also the field map's participantMustSupply and the blanks report's why, production-field-map.json and reports/blanks-left-for-the-participant.json changed with it. The disclosureLabel, which is what the requiredFactsNotCollected counter matches on, is unchanged.",
+        "whatWasNotTouched": "No fixture byte, no raster PNG, no field census, no build-status.json, no build-findings.json, no product-wiring.json, no source-receipt.json, no reports/rendered-artifacts.json, no reports/actual-writes.json, no packet-set manifest, no memo, no other family directory, no shared script.",
+        "theFixtureStopConditionDidNotApply": "Checked before writing anything. The paragraph 1 recital is CR-289's own pre-printed text, not something this packet writes. reports/actual-writes.json records 6 values reported by the finalizer, 0 non-whitespace glyphs outside the measured write boxes and refusedFieldsWithInk empty in both fixtures, and the paragraph 1 conviction-date blank is a supply blank listed in reports/blanks-left-for-the-participant.json under requiredBeforeFiling. The recital is therefore NOT written into the fixture as an affirmation, so the assignment's stop condition was not triggered and no fixture byte was changed."
+      },
+      "theSevenContentsItemByItem": [
+        {
+          "item": 1,
+          "content": "Named-offence scope: 17-A M.R.S. former § 853-A only",
+          "vf02Reading": "PRESENT (partially, as an offence description only)",
+          "deliveredAt": "participant-instructions.md lines 9 and 11, section 'What this motion asks'",
+          "deliveredText": "line 11: '**This route reaches that one named offence and nothing else.** 15 M.R.S.A. § 2262-A permits sealing of criminal history record information relating to a conviction for the former Class E crime of engaging in prostitution under 17-A M.R.S.A. former § 853-A, repealed in 2023. Any prostitution-adjacent offence other than 17-A M.R.S.A. former § 853-A is outside it: this is a named-offence route and it does not stretch.'",
+          "memoPassage": "ME.memo.json me-seal-prost controllingAuthority.summary ('Section 2262-A permits sealing of criminal history record information relating to a conviction for the former Class E crime of engaging in prostitution under 17-A M.R.S. former § 853-A, repealed in 2023') and exclusions[0] ('Any prostitution-adjacent offence other than 17-A M.R.S. former § 853-A. This is a named-offence route and it does not stretch.')."
+        },
+        {
+          "item": 2,
+          "content": "The one-year clock runs from full satisfaction of every sentencing alternative",
+          "vf02Reading": "PRESENT",
+          "deliveredAt": "participant-instructions.md line 23, section 'The one-year wait'; restated at line 37 as printed paragraph 2",
+          "deliveredText": "line 23: 'One year must have passed since you fully satisfied **each** of the sentencing alternatives imposed under 17-A M.R.S.A. § 1502(2) for the conviction (15 M.R.S.A. § 2262-A). The year runs from full satisfaction of every sentencing alternative ... so it does not begin until the last of them is satisfied.'",
+          "memoPassage": "waitingPeriods[0].duration: 'One year from the date the person fully satisfied each of the sentencing alternatives imposed under 17-A M.R.S. § 1502(2) for the conviction.'"
+        },
+        {
+          "item": 3,
+          "content": "The general track's clean-record and pending-charge restrictions (§§ 2262(3), (4), (5)) do NOT apply, and the participant should not be discouraged by them",
+          "vf02Reading": "ABSENT",
+          "deliveredAt": "participant-instructions.md lines 27 and 29, section 'What does not apply here'",
+          "deliveredText": "line 27: '15 M.R.S.A. § 2262 opens \"Except as provided in sections 2262-A and 2262-B\", so the general track's clean-record conditions in § 2262(3) and (4) and its pending-charge restriction in § 2262(5) do not apply here, and they must not be imposed on this route.' line 29: 'If you have read the general track's conditions and concluded that you are disqualified, **do not let that discourage you from filing here** ...'",
+          "memoPassage": "exclusions[2] ('The general track's restrictions do NOT apply and must not be imposed here: there is no clean-record condition under § 2262(3) or (4) and no pending-charge restriction under § 2262(5), because § 2262 excepts this section in terms'), legalDesignDecision.limitations scope_restriction ('§ 2262 opens \"Except as provided in sections 2262-A and 2262-B\", so § 2262(3), (4) and (5) do not apply to this route'), and components[1].notes ('the participant should not be discouraged by them'). Line 31's mandatory-relief sentence is controllingAuthority.summary ('Relief is mandatory ... § 2264(5) requires the court to grant on a preponderance showing')."
+        },
+        {
+          "item": 4,
+          "content": "A hearing is required and there is no consent path, in a filing-and-hearing section carrying the hearing date, time and courtroom",
+          "vf02Reading": "ABSENT (and the manifest's assigned section did not exist)",
+          "deliveredAt": "participant-instructions.md section 'Filing and hearing', lines 50-64; the hearing statement at line 56; the date, time and courtroom blanks at lines 58 and 60-62",
+          "deliveredText": "line 56: '**A hearing is required and there is no consent path on this section.** A hearing is mandatory on this track and there is no consent or default path. The clerk sets it after the motion is filed (15 M.R.S.A. § 2264(1)), the court holds it, the Maine Rules of Evidence do not apply, and you bear a preponderance burden on each prerequisite.' lines 60-62: '- Hearing date: ___ / - Time: ___ / - Courtroom: ___'",
+          "memoPassage": "legalDesignDecision.limitations post_generation_handoff ('A hearing is mandatory on this track and there is no consent or default path. The clerk sets it, the court holds it, the Maine Rules of Evidence do not apply, and the movant bears a preponderance burden on each prerequisite'), destination.detail ('The clerk sets the matter for hearing under § 2264(1)'), and manualCompletionItems 'The hearing date, time and courtroom' whereInPacket 'Participant instructions, filing and hearing section', why 'The clerk sets the hearing after the motion is filed under 15 M.R.S. § 2264(1). LegalEase never assigns a hearing date.' The packet-set manifest assigns the same item to the same section.",
+          "alsoCarriedHere": "Line 64 carries the notice-to-the-prosecutorial-office item the manifest locates in the filing instructions and VF02 scored under COMPONENT_SET: § 2264(3) places notice on the court, not on the movant; no service obligation and no certificate-of-service block; confirm with the clerk and deliver a courtesy copy if asked (memo rules.notice, rules.service, manualCompletionItems 'Notice to the prosecutorial office', and the § 2264(3) unresolvedQuestion's fail-closed instruction). Line 54 adds the manifest's 'No fee is expected ... Confirm with the clerk and do not promise a refund', which VF02 had recorded as a stated limit."
+        },
+        {
+          "item": 5,
+          "content": "There is no self-reporting duty and a later conviction does not unseal a § 2262-A record",
+          "vf02Reading": "ABSENT",
+          "deliveredAt": "participant-instructions.md line 68, section 'After a sealing order: no self-reporting duty'",
+          "deliveredText": "line 68: '**There is no self-reporting duty on this track, and a later conviction does not unseal a § 2262-A record.** PL 2025, c. 513 amended 15 M.R.S.A. § 2264(7) to add \"This subsection does not apply to records sealed pursuant to section 2262-A or 2262-B.\" That is a real advantage over the general sealing track, and it is surfaced here rather than left for you to find.'",
+          "memoPassage": "legalDesignDecision.limitations packet_instruction with sourceStatement 'Continuing disclosure obligations: None. PL 2025, c. 513 amended § 2264(7) to add \"This subsection does not apply to records sealed pursuant to section 2262-A or 2262-B.\" A later conviction does not unseal a § 2262-A record and there is no self-reporting duty. This is a real advantage over Track 1 and should be surfaced.' Line 70 carries the adjacent limitation that sealing restricts what criminal justice agencies may disseminate and what appears on an SBI check (§ 2265) and must not imply the court case disappears, with 'Maine seals; it does not expunge'."
+        },
+        {
+          "item": 6,
+          "content": "The CR-289 paragraph 1 recital asserts a prerequisite PL 2025, c. 513 repealed, what that means, and why it is left as a manual completion item rather than affirmed",
+          "vf02Reading": "ABSENT AND CONTRADICTED -- affirmed twice, at lines 9 and 37 of the pre-repair file",
+          "deliveredAt": "participant-instructions.md lines 44, 46 and 48, section 'Paragraph 1 of this form is out of date'; also line 84 (the table cell that was the old line 37) and line 99 (the deliberately-left-blank list)",
+          "deliveredText": "line 44: 'CR-289 is Rev. 10/24 and predates PL 2025, c. 513. Its numbered paragraph 1 still recites that the crime \"is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A\", but c. 513 repealed the eligible-criminal-conviction prerequisite formerly in § 2262-A(1). **The form asserts a requirement the statute no longer imposes.**' line 46: '... the recital is harmless in most cases, because former § 853-A was a Class E crime outside Title 17-A chapter 11. It is left as a manual completion item and prints blank rather than being affirmed on your behalf, because this packet does not affirm a stale statutory recital for a participant.' line 48: the revised-CR-289 question is unconfirmed by any source this packet holds.",
+          "bothAffirmationsRemoved": "Pre-repair line 9 ('The motion states, in the court's own printed words, that the conviction is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A') is gone: 0 occurrences of 'own printed words' in the delivered file. Pre-repair line 37's cell ('... it states the conviction and that it is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A') is replaced at line 84 by a description of the recital as 'a requirement the statute no longer imposes, because PL 2025, c. 513 repealed the eligible-criminal-conviction prerequisite formerly in § 2262-A(1)', pointing at the new section.",
+          "memoPassage": "components[0].notes ('Rev. 10/24 predates PL 2025, c. 513: paragraph 1 still recites eligibility \"under 15 M.R.S.A. § 2261(6) and § 2262-A\", but c. 513 repealed the § 2262-A(1) eligible-criminal-conviction prerequisite, so the form asserts a requirement the statute no longer imposes. That recital is left as a manual completion item rather than affirmed on the participant's behalf'), manualCompletionItems[0].why ('It is harmless in most cases because former § 853-A was a Class E crime outside Title 17-A chapter 11, but LegalEase does not affirm a stale statutory recital on a participant's behalf. It prints blank with an explanation'), and unresolvedQuestions[0] on whether a post-amendment CR-289 revision exists."
+        },
+        {
+          "item": 7,
+          "content": "The survivor-route screen",
+          "vf02Reading": "ABSENT",
+          "deliveredAt": "participant-instructions.md lines 15, 17 and 19, section 'Before you go further: a broader route may fit better'",
+          "deliveredText": "line 17 quotes the screen question verbatim: 'Was this conviction connected to trafficking, coercion, exploitation, or someone pressuring you into the conduct behind the charge? You do not need to give any detail. A yes simply means a different and broader route may fit better.' line 19: 'A yes routes you to the survivor track -- a motion to seal a conviction for victims of sex trafficking or sexual exploitation under 15 M.R.S.A. § 2262-B -- which reaches any conviction, has no waiting period, and may be filed at any time after the conviction is entered. Where your account suggests trafficking, coercion or survival circumstances, take the survivor-track screen before filing here.'",
+          "memoPassage": "participantInputs survivorRouteScreen question, verbatim, with its conditionDescription ('Asked once, gently, and without follow-up detail. A yes routes the participant to the survivor track, which reaches any conviction and has no waiting period'); selfHelpStopConditions[2] ('The participant's account suggests trafficking, coercion or survival circumstances. Route to the survivor-track screen before filing here, gently and without pressing for detail'); and the me-seal-survivor track's own legalName and waitingPeriods ('None. The motion may be filed at any time after the criminal conviction is entered')."
+        }
+      ],
+      "legalDiscipline": {
+        "rule": "Every legal statement in the delivered file is taken from ME.memo.json verbatim or by close paraphrase, with the memo's own citation. Nothing was softened, extended or reinterpreted.",
+        "noStatutoryConditionMoved": "The one-year condition, the §§ 852/853/853-B/855 disqualifier, the § 2262 exception, the § 2264(1) filing and hearing-setting rule, the § 2264(3) notice allocation, the § 2264(5) preponderance standard and written order, the § 2264(7) amendment and the § 2265 dissemination limit are all stated as the memo states them, at the memo's own scope.",
+        "nothingAddedThatTheMemoDoesNotSay": "Every sentence added traces to a named memo field; the traces are given item by item above. No fee amount, no deadline, no service duty and no eligibility conclusion was invented.",
+        "theRecitalIsExplainedNotDecided": "The packet does not tell the participant whether to complete paragraph 1. It states what the recital says, that PL 2025, c. 513 repealed the prerequisite it asserts, that the recital is harmless in most cases for the memo's stated reason, and that the packet leaves it to them rather than affirming it."
+      },
+      "rebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library Edition 1> node scripts/build-census-v1-me-seal-prost-set.mjs",
+        "runs": 3,
+        "run1": "Before any edit, on the clean tree: rebuilt the family and `git status --porcelain` was empty. The builder reproduces the committed tree byte for byte, including the two raster PNGs, so any later difference is the repair and not build nondeterminism.",
+        "run2": "After the repair: exit 0, status COMPLETED, 6 writes, 2 required-before-filing, 3 elections, 3 protected blanks, 2 raster pages. Exactly four files differ from HEAD.",
+        "run3": "Immediately again: sha256 over every file in the family directory is identical to run 2, all 22 files. REBUILD_BYTE_IDENTICAL.",
+        "fixtureDigestsUnchangedAcrossAllThree": true
+      },
+      "digests": {
+        "note": "Fixtures expected unchanged and are unchanged. Recomputed with sha256sum on disk before any measurement and again after the final rebuild.",
+        "fixtures": [
+          {
+            "file": "fixtures/cr289-canonical-filled.pdf",
+            "sha256Before": "4e44539864adc68ea7f7080693315ee08708f00659f7391c21aeda934010abf3",
+            "sha256After": "4e44539864adc68ea7f7080693315ee08708f00659f7391c21aeda934010abf3",
+            "byteSizeBefore": 175111,
+            "byteSizeAfter": 175111,
+            "pageCountBefore": 1,
+            "pageCountAfter": 1,
+            "changed": false,
+            "matchesVF02Canonical": true
+          },
+          {
+            "file": "fixtures/cr289-boundary-filled.pdf",
+            "sha256Before": "9a9a65a2a145b07982f573fe820e0aa088fc28ac1cc58136e9652217289cf70c",
+            "sha256After": "9a9a65a2a145b07982f573fe820e0aa088fc28ac1cc58136e9652217289cf70c",
+            "byteSizeBefore": 175193,
+            "byteSizeAfter": 175193,
+            "pageCountBefore": 1,
+            "pageCountAfter": 1,
+            "changed": false,
+            "matchesVF02Boundary": true
+          }
+        ],
+        "nonFixtureFilesChanged": [
+          {
+            "file": "participant-instructions.md",
+            "sha256Before": "8edd67ddcc880f6b67513c691096ec7105e0456723d31198ada18a5740953ca0",
+            "sha256After": "24d510bfe6902bd3e05709e59462ac2a92c44de62a621a9e5461ba6d95ab20b5",
+            "byteSizeBefore": 4128,
+            "byteSizeAfter": 10970,
+            "pageCount": "not a paged artifact"
+          },
+          {
+            "file": "production-field-map.json",
+            "sha256Before": "64e62897322a94fbe646f5e7484a8c50f6e3369fee88edae583d2e682c739838",
+            "sha256After": "ee9eeb6b6ac0cdfd33b36a0cf677e67d6154f11fe54f0277c0fb8302ad97be78",
+            "why": "carries the rewritten participantMustSupply string for the conviction-date blank; no coordinate, rect, disposition, disclosureLabel or write changed"
+          },
+          {
+            "file": "reports/blanks-left-for-the-participant.json",
+            "sha256Before": "8f9ef057fc9607f46de27df07a655cc6bb6d957e02dac425ac558fc59a82f20b",
+            "sha256After": "d68e15587e36d6e2df6708785439d5c92d4497ff9c98f6495d3d3896822e2f07",
+            "why": "its why and participantMustSupply fields are derived from the same string"
+          }
+        ],
+        "rasterPngsUnchanged": "raster/cr289-canonical/page-01/page.png and raster/cr289-boundary/page-01/page.png are byte-identical to HEAD. No raster PNG was committed by this lane."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set -- PASS_COMPLETE, 6/14 written, exit 0, both before the repair and after it. Nine zeros before and nine zeros after is the expected result and is not evidence the repair worked: no counter reads the packet-set manifest or the state memo, which is why VF02's COMPONENT_SET failure was invisible to all nine.",
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set",
+          "when": "before",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, 6/14 written, nine zeros"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set",
+          "when": "after",
+          "exitCode": 0,
+          "result": "PASS_COMPLETE, 6/14 written, nine zeros"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "before",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED -- 0 undispositioned, 0 not examinable"
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "when": "after",
+          "exitCode": 0,
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED"
+        }
+      ],
+      "everyOtherFamilyDirectoryByteIdentical": {
+        "method": "sha256sum over every file under data/rcap-all50/overlays/census-v1 (5438 files), taken on the clean tree before any edit and again after the final rebuild, then diffed.",
+        "result": "3 lines differ and all 3 are inside me-seal-prost-set--official-pdf-fill: participant-instructions.md, production-field-map.json and reports/blanks-left-for-the-participant.json. Every other file of every other family is byte-identical. No file was added and none removed.",
+        "confirmed": true
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library Edition 1> node scripts/verify-packet-build-environment.mjs --family me-seal-prost-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable. Run once, on the clean tree, before any family artifact was opened.",
+        "theTwoFailures": [
+          "private_is_git_ignored. The check runs `git check-ignore -q private/` and git answers `fatal: pathspec 'private/' is beyond a symbolic link`, because this assignment specifies private as a read-only symlink into the mounted corpus. Established by other evidence: .gitignore carries `private/`, `git ls-files private/` returns 0 tracked paths, and `git status --porcelain` never showed a path under private/. Nothing from the corpus reached a commit. Not a property of this family.",
+          "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is the Alabama file 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf'; the mounted Master Library carries no 'LegalEase Alabama' directory. No Maine entry is absent or mismatched. Identical to the two failures VF02 recorded in the same container shape."
+        ],
+        "passedAndRelevant": "family_sources_bind reported 1/1 source binding by exact SHA-256 for me-seal-prost-set (census_form_number_against_committed_index); master_library_complete 499 files, 329 PDFs, 51 jurisdictions; stale_artifact_block_consulted, 0 artifacts under this family blocked; worktree_clean.",
+        "toolchain": "node 22.22.2, pdf-lib 1.17.1, poppler pdfinfo.",
+        "worktree": "/home/user/fix71-worktree, branch fix71-me-prost-instructions cut from 581cce1d0 on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits. private/ and node_modules are symlinks as the assignment specifies. No raster was written by this lane outside the builder's own committed raster/ output, and those two PNGs are unchanged."
+      },
+      "acceptanceReceipt": null,
+      "whyAcceptanceReceiptIsNull": "This lane produces no acceptance receipt. No fixture byte moved, so the family's existing hash-bound RASTER_PASS at run 33991318221 still binds the exact canonical hash 4e445398... and no re-raster is required. This row nonetheless creates no acceptance record, opens no commercial route, and grants nothing.",
+      "whatWasNotDone": [
+        "Independent verification. This lane wrote the component it is reporting on; a builder does not verify its own packet. The seven-item table above is the repairer's own reading and needs an independent lane to re-read it against ME.memo.json components[1].",
+        "Central raster. Not required and not requested: no fixture byte moved, both fixture digests are unchanged, and the raster PNGs under raster/ are byte-identical to HEAD.",
+        "No fixture was changed. The paragraph 1 recital is CR-289's own pre-printed text and the packet writes nothing into it, so the assignment's fixture stop condition did not arise; had it arisen this lane would have stopped rather than changed a fixture byte.",
+        "product-wiring.json was not touched. binding.lastIndependentVerification still records vf02 FAIL_REPAIR_REQUIRED at ab018b86a, binding.packetComponents still lists the primary filing alone, and proposedRepresentation.components still carries the primary filing alone. Refreshing those is a wiring-generator concern and would state a verification outcome this lane may not state.",
+        "build-findings.json and build-status.json were not changed; the builder regenerates both and both are byte-identical to HEAD.",
+        "No visual, counsel or source-freshness review. The CR-289 revision question remains a release blocker in the memo.",
+        "No route change, no promotion, no compiled-runtime edit, no claim ledger edit beyond this lane's own assert and release."
+      ],
+      "grantsNothing": "A repaired instructions component is review evidence. It approves no output, opens no commercial route, consumes no packet credit and creates no fulfillment record. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and this is not that record."
+    }
+  ]
+}

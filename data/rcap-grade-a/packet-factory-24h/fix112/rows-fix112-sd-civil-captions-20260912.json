@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "rcap-bounded-repair-return/v1",
+  "familyId": "sd_arrest_expungement-set",
+  "lane": "FIX112",
+  "author": "/root/sd_caption",
+  "recordedBy": "/root",
+  "packetCommitSha": "4f5022da8c9ba6fb3c2cd92643da70cdab96b516",
+  "semanticPreflight": "PASS",
+  "rasterDispatchAuthorized": true,
+  "finalAcceptance": false,
+  "repair": "Removed exactly18 criminal docket writes from16clerk-owned civil CaseNo placements and2UJS232caseType placements; preserved8actualCRI writes and all other reported write values.",
+  "caseTypeHandoff": "Before filing supply the truthful new-action CaseType from the current UJS list or confirm with the Clerk; never use the criminal docket number.",
+  "checks": {
+    "builder": "PASS",
+    "assertFix13": "PASS",
+    "completeness": {
+      "result": "PASS_COMPLETE",
+      "writtenFields": "58/209"
+    },
+    "sharedHostSelfTest": "PASS",
+    "governanceSurvival": "PASS in completed PA native integration after restoring root-generated TX wiring",
+    "syntaxAndDiff": "PASS",
+    "independentPreviousCaptionRectangleCheck": {
+      "method": "Independent pdftotext -bbox re-read at all18 prior incorrect write rectangles",
+      "result": "PASS",
+      "measurements": [
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-232",
+          "field": "case type",
+          "packetPage": 1,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-391",
+          "field": "case number",
+          "packetPage": 3,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-391",
+          "field": "case number",
+          "packetPage": 4,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-391",
+          "field": "case number",
+          "packetPage": 5,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-392",
+          "field": "case number",
+          "packetPage": 7,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-393",
+          "field": "Case Number",
+          "packetPage": 9,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-393",
+          "field": "case number",
+          "packetPage": 10,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-394",
+          "field": "case number",
+          "packetPage": 11,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "canonical",
+          "formNumber": "UJS-395",
+          "field": "case number",
+          "packetPage": 13,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-232",
+          "field": "case type",
+          "packetPage": 1,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-391",
+          "field": "case number",
+          "packetPage": 3,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-391",
+          "field": "case number",
+          "packetPage": 4,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-391",
+          "field": "case number",
+          "packetPage": 5,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-392",
+          "field": "case number",
+          "packetPage": 7,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-393",
+          "field": "Case Number",
+          "packetPage": 9,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-393",
+          "field": "case number",
+          "packetPage": 10,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-394",
+          "field": "case number",
+          "packetPage": 11,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        },
+        {
+          "fixture": "boundary",
+          "formNumber": "UJS-395",
+          "field": "case number",
+          "packetPage": 13,
+          "textReadByPopplerAtPriorWriteBox": "",
+          "criminalIdentifierPresent": false,
+          "pdfSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+        }
+      ]
+    }
+  },
+  "manifest": {
+    "path": "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-raster-manifest-20260912.json",
+    "sha256": "59a2abc485e6a11da0021386a7365a73f85806dae586d07f535d2dbec2922b78",
+    "byteLength": 3089,
+    "documentsDigest": "2d0b647b8b1225c80d8b7b13c9dc2ba72da8b0b76a5196ff80eb9781214f1c9f"
+  },
+  "documents": [
+    {
+      "name": "canonical.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+      "role": "canonical",
+      "sha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65",
+      "byteLength": 552108,
+      "pageCount": 14,
+      "pageCountBasis": "parsed from queued PDF bytes with pdf-lib",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 14,
+        "sourceSha256": "953e537114738ce8ef5ca7f4144e2bb831e117823e4e8833af22f3b8c82b4d65"
+      }
+    },
+    {
+      "name": "boundary.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+      "role": "boundary",
+      "sha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8",
+      "byteLength": 553419,
+      "pageCount": 14,
+      "pageCountBasis": "parsed from queued PDF bytes with pdf-lib",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 14,
+        "sourceSha256": "6467f08bb716a8d9976394b3ce7112add1fb4fdbc761b1cdcaec78a40084e3c8"
+      }
+    }
+  ],
+  "unfinishedGates": [
+    "central raster acceptance of28original pages",
+    "independent final acceptance",
+    "native terminal integration"
+  ]
+}

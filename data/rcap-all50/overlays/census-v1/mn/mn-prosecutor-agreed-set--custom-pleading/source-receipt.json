@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "mn_prosecutor_agreed-set",
+  "worklistGroupId": "mn_prosecutor_agreed-set",
+  "jurisdiction": "MN",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no binary source is bound, and none exists to bind: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources []. The build is grounded on two committed records, verified present and un-drifted before anything is composed: the legal-design intake track (including its localFormOverride flag and written-request unit strategy) and the packet-set manifest.",
+  "routeKey": "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-written-request",
+  "routeKeys": [
+    "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+    "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-portal-county",
+    "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-request-stage",
+    "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-written-request"
+  ],
+  "routeSelectionId": "mn-prosecutor-agreed-composed-set",
+  "statutoryAuthority": "Minn. Stat. § 609A.025, with § 609A.02, subd. 3 and § 609A.03, subd. 7a(b)(4)",
+  "legalName": "Prosecutor-Agreed Sealing under Minn. Stat. § 609A.025",
+  "allSourcesExact": true,
+  "formIdentityNote": "The corpus holds no county prosecutor application for § 609A.025 sealing. Hennepin, Ramsey and Washington Counties run published intake programmes that are third-party systems the platform must not complete or submit — that branch is guidance, and a county programme governs where it exists (localFormOverride). Where no published programme exists, the accepted vehicle is a participant-signed written request to the county or city attorney, which the statute itself supplies the mechanism and destination for; the composed request is generated against the statute. Whether the three county programmes publish a downloadable form or are portal-only is the record's own open question. No form was substituted and none was invented.",
+  "codifiedGrounds": [
+    {
+      "record": "data/record-clearing/legal-design-intake/MN.memo.json",
+      "what": "track mn_prosecutor_agreed: the § 609A.025 mechanism, the four units and their strategies, the counsel scope restrictions, rules, stop conditions, open questions"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "what": "packetSetId mn_prosecutor_agreed-set: the three-component set with its conditions and the required-before-filing items"
+    }
+  ],
+  "documents": [],
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "process_guidance",
+    "attachment"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "whether the Hennepin, Ramsey and Washington County programmes publish a downloadable form or are portal-only",
+    "whether any county charges a fee for the prosecutor application",
+    "that any output is approved for participant delivery",
+    "that any record qualifies under § 609A.02, subd. 3"
+  ]
+}

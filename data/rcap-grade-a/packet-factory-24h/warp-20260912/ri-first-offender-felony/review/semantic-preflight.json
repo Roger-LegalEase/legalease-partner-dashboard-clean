@@ -1,0 +1,395 @@
+{
+  "schemaVersion": "rcap-independent-semantic-preflight/v1",
+  "familyId": "ri_first_offender_felony-set",
+  "lane": "VF02",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "currentRasterRunId": "34297296663",
+  "currentRasterState": "RASTER_PASS",
+  "currentPacketCommit": "25fb6a47e25717975b4953cb4924a164c181d4ec",
+  "claimEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/review/claim.txt",
+    "sha256": "5e099c1351575429b024443bbed743d88bbcf0315504cc9d33c990e5ebc308a4",
+    "byteLength": 282
+  },
+  "findings": [
+    {
+      "id": "RI-CURRENT-UNRESOLVED-HOLD-COPY",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "actualDefect": "Current delivered guide and both packets p9-10/12 still state that this family lacks issuer/qualified legal handling and cannot proceed without a new answer. That universal unresolved-input framing predates the binding September11 decision to use Superior55 PartTwo with truthful participant statements and witnessed execution. The implementation has not reconciled its customer instructions to the current governing treatment.",
+      "exactText": "WHAT WOULD SETTLE IT IS NOT IN THIS PACKET",
+      "bindingDecision": {
+        "decisionId": "RI-FIRST-OFFENDER-SUPERIOR-55-PART-TWO",
+        "priority": "P0",
+        "disposition": "LEGAL_CLEAR",
+        "familyIds": [
+          "ri_first_offender_felony-set"
+        ],
+        "bindingProductRule": "For a single-felony first-offender route use Superior-55 Part Two. The participant must truthfully satisfy/check the required statements and execute the affidavit before the authorized notary or clerk.",
+        "authority": "Rhode Island Judiciary Superior-55 current form/instructions."
+      },
+      "preserve": [
+        "Source instruction4 says single felony; PartTwo fourth printed statement says single misdemeanor. Both original texts are retained facts, not erased history.",
+        "Every affidavit box remains unmarked; current map makes the fourth statement a participant election requiredBeforeFiling:false. Never mark or rewrite it as a false felony attestation.",
+        "Any participant unable to make a required truthful statement receives case-specific clerk/lawyer handoff; no eligibility or signature is invented."
+      ],
+      "repair": "Carry the current PartTwo treatment into participant instructions while preserving printed source words and truthful-statement/case-specific limits. Remove the stale claim that no governing decision exists. Do not reacquire or alter the official form merely to clear this finding."
+    },
+    {
+      "id": "RI-CURRENT-FIVE-TEN-LOOKBACK-CONFLICT",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "actualDefect": "Current packet p13 presents an exclusion for any felony or misdemeanor arrest/conviction during a five-year lookback on this single-felony route. Source PartTwo p3, current p12 and the route waiting period require ten years. An explanatory disagreement paragraph does not make contradictory live eligibility instructions coherent.",
+      "pages": [
+        12,
+        13
+      ],
+      "repair": "Render the current ten-year felony waiting/lookback rule consistently; keep old five-year record as historical superseded evidence. Retain the distinct reclassification-overlay/escalation boundary without silently treating it as this route."
+    },
+    {
+      "id": "RI-CURRENT-INTERNAL-PARTICIPANT-PROVENANCE",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "actualDefect": "Both packets print complete route keys on p5/8/13/15; p9 prints component IDs; p10/11 and guide expose repository review paths, egress proxy failures, build/fetch limitations and committed-record implementation commentary. These are internal audit details, not participant filing instructions.",
+      "packetPages": [
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        15
+      ],
+      "repair": "Keep legal form/source names, actual official links, truthful cost/acquisition instructions and required custom-order identification; remove route/component IDs, repository paths and engineering history from participant artifacts. Preserve all provenance in native evidence."
+    },
+    {
+      "id": "RI-CURRENT-UNUSED-CHARGE-ROWS",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS"
+      ],
+      "actualDefect": "The current requiredBeforeFiling array declares every cell in all four charge rows, and all four proposed-order rows, as unconditional participant requirements. Guide asks to fill every item belonging to the document, without an unused-row condition. Superior55 asks for the actual count(s), charge(s) and disposition(s); it does not require four counts.",
+      "measuredRequiredRows": [
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.1 Counts 1",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 1 of the charge table - the count number",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 1 Counts 1",
+          "why": "the platform has not seen this participant's court record and holds no count number from it",
+          "participantMustSupply": "the count number for this row, copied from the court's own docket"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.1 Counts 2",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 2 of the charge table - the count number",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 1 Counts 2",
+          "why": "the platform has not seen this participant's court record and holds no count number from it",
+          "participantMustSupply": "the count number for this row, copied from the court's own docket"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.1 Counts 3",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 3 of the charge table - the count number",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 1 Counts 3",
+          "why": "the platform has not seen this participant's court record and holds no count number from it",
+          "participantMustSupply": "the count number for this row, copied from the court's own docket"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.1 Counts 4",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 4 of the charge table - the count number",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 1 Counts 4",
+          "why": "the platform has not seen this participant's court record and holds no count number from it",
+          "participantMustSupply": "the count number for this row, copied from the court's own docket"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.2 Charges 1",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 1 of the charge table - the charge",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 2 Charges 1",
+          "why": "the platform has not seen this participant's court record and holds no charge from it",
+          "participantMustSupply": "the charge for this row, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.2 Charges 2",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 2 of the charge table - the charge",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 2 Charges 2",
+          "why": "the platform has not seen this participant's court record and holds no charge from it",
+          "participantMustSupply": "the charge for this row, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.2 Charges 3",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 3 of the charge table - the charge",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 2 Charges 3",
+          "why": "the platform has not seen this participant's court record and holds no charge from it",
+          "participantMustSupply": "the charge for this row, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.2 Charges 4",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 4 of the charge table - the charge",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 2 Charges 4",
+          "why": "the platform has not seen this participant's court record and holds no charge from it",
+          "participantMustSupply": "the charge for this row, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.3 Dispositions 1",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 1 of the charge table - how that count ended",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 3 Dispositions 1",
+          "why": "the platform has not seen this participant's court record and holds no outcome from it",
+          "participantMustSupply": "how that count ended, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.3 Dispositions 2",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 2 of the charge table - how that count ended",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 3 Dispositions 2",
+          "why": "the platform has not seen this participant's court record and holds no outcome from it",
+          "participantMustSupply": "how that count ended, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.3 Dispositions 3",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 3 of the charge table - how that count ended",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 3 Dispositions 3",
+          "why": "the platform has not seen this participant's court record and holds no outcome from it",
+          "participantMustSupply": "how that count ended, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-primary-filing-1",
+          "field": "ri_first_offender_felony-primary-filing-1.3 Dispositions 4",
+          "page": 2,
+          "printedContext": "1. Count(s): 2. Charge(s): 3. Disposition(s):",
+          "disclosureLabel": "Row 4 of the charge table - how that count ended",
+          "identity": "ri_first_offender_felony-primary-filing-1 field 3 Dispositions 4",
+          "why": "the platform has not seen this participant's court record and holds no outcome from it",
+          "participantMustSupply": "how that count ended, written exactly as the court's own docket writes it"
+        },
+        {
+          "document": "ri_first_offender_felony-proposed-order-2",
+          "field": "ri_first_offender_felony-proposed-order-2.order_charge_line_1",
+          "page": 1,
+          "printedContext": "Line 1 of the counts, charges and dispositions the proposed order covers",
+          "disclosureLabel": "Line 1 of the counts, charges and dispositions the proposed order covers",
+          "identity": "ri_first_offender_felony-proposed-order-2 field order_charge_line_1",
+          "why": "the platform has not seen this participant's court record and holds no count, charge or outcome from it",
+          "participantMustSupply": "the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion"
+        },
+        {
+          "document": "ri_first_offender_felony-proposed-order-2",
+          "field": "ri_first_offender_felony-proposed-order-2.order_charge_line_2",
+          "page": 1,
+          "printedContext": "Line 2 of the counts, charges and dispositions the proposed order covers",
+          "disclosureLabel": "Line 2 of the counts, charges and dispositions the proposed order covers",
+          "identity": "ri_first_offender_felony-proposed-order-2 field order_charge_line_2",
+          "why": "the platform has not seen this participant's court record and holds no count, charge or outcome from it",
+          "participantMustSupply": "the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion"
+        },
+        {
+          "document": "ri_first_offender_felony-proposed-order-2",
+          "field": "ri_first_offender_felony-proposed-order-2.order_charge_line_3",
+          "page": 1,
+          "printedContext": "Line 3 of the counts, charges and dispositions the proposed order covers",
+          "disclosureLabel": "Line 3 of the counts, charges and dispositions the proposed order covers",
+          "identity": "ri_first_offender_felony-proposed-order-2 field order_charge_line_3",
+          "why": "the platform has not seen this participant's court record and holds no count, charge or outcome from it",
+          "participantMustSupply": "the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion"
+        },
+        {
+          "document": "ri_first_offender_felony-proposed-order-2",
+          "field": "ri_first_offender_felony-proposed-order-2.order_charge_line_4",
+          "page": 1,
+          "printedContext": "Line 4 of the counts, charges and dispositions the proposed order covers",
+          "disclosureLabel": "Line 4 of the counts, charges and dispositions the proposed order covers",
+          "identity": "ri_first_offender_felony-proposed-order-2 field order_charge_line_4",
+          "why": "the platform has not seen this participant's court record and holds no count, charge or outcome from it",
+          "participantMustSupply": "the count, the charge and how it ended, copied from Boxes 1, 2 and 3 of your motion"
+        }
+      ],
+      "repair": "Require complete count/charge/disposition only for each actual used row, leave unused rows inapplicable, and keep motion/order row copying faithful. Do not fabricate charges to satisfy the current unconditional list. No held charge roster is missing from these identity-only reference fixtures."
+    }
+  ],
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Superior55 PartTwo is the current declared single-felony first-offender route; binding September11 decision read. Current-copy lookback/oldhold defects are separately recorded."
+    },
+    "SOURCE_IDENTITY": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Held Superior55 exact e5805c... source, four official pages; all visible source glyph positions retained on eight current official pages. Source question stays resolved."
+    },
+    "COMPONENT_SET": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Allfive components present in both15page packets: official motion/affidavit/instructions1-4, authorized custom proposedorder5-6, notice7-8, guidance9-13, certifiedcopy handoff14-15."
+    },
+    "KNOWN_PREFILLS": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "18 independent current-PDF identity reads pass. Only held synthetic name and DOB are filled; no unknown case/BCI/arrest/court fact is invented."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "RI-CURRENT-UNRESOLVED-HOLD-COPY; RI-CURRENT-FIVE-TEN-LOOKBACK-CONFLICT; RI-CURRENT-UNUSED-CHARGE-ROWS"
+    },
+    "ROUTE_OPTIONS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "RI-CURRENT-UNRESOLVED-HOLD-COPY"
+    },
+    "REPEATING_ROWS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "RI-CURRENT-UNUSED-CHARGE-ROWS"
+    },
+    "PROTECTED_FIELDS": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Source and current text/field ownership inventory leaves participant oath/signatures, notarial certificate, hearing/service certification and judicial grant/deny/entry fields blank; objective identity in custom order permitted by owner decision. Semantic assessment only; original visual acceptance deferred."
+    },
+    "ARTIFACTS": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "RI-CURRENT-INTERNAL-PARTICIPANT-PROVENANCE"
+    },
+    "PAGE_ORDER": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Both current PDFs exactly15pages with five components in expected order, including all4 official pages. Source geometry preserved."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "result": "NOT_MEASURABLE",
+      "measured": false,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "No originalPNGvisualacceptance performed after semanticFAIL; custody remains preserved."
+    },
+    "FILING_DESTINATION": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Superior Court where conviction occurred and four court complexes are correctly handed back; venue not inferred from personal identity."
+    },
+    "FEE_AND_WAIVER": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Current guide distinguishes owner-resolved Superior nofilingfee from BCIrecord fee and prior financial obligations; actual court waiver/reduction remains controlling, restitution distinct. Preserved FAQ/agency provenance remains evidence-only; no new fee claim fetched."
+    },
+    "SERVICE": {
+      "result": "PASS",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "Ten-day notice to AttorneyGeneral and chargingpolice, after clerksetshearing; certification dated onlyafteractualnotice. Threecertifiedcopies aftergrant, one retained andtwo delivered byparticipant; no fabricated service addresses or proof."
+    },
+    "SELF_HELP_STOP": {
+      "result": "FAIL",
+      "measured": true,
+      "reviewMode": "CURRENT_BYTE_SEMANTIC_REVIEW_AFTER_CENTRAL_PASS",
+      "finding": "RI-CURRENT-FIVE-TEN-LOOKBACK-CONFLICT"
+    }
+  },
+  "evidenceBindings": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/review/current-semantic-measurements.json",
+      "sha256": "7eac4209763c299590938cbfd149a4745371f4398908bc41a296c8d32a776882",
+      "byteLength": 182863
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/review/prior-and-current-authority.json",
+      "sha256": "17122b8174d145102129ae0af7441cfea07071c8851ef3edb4aa4208dd782e81",
+      "byteLength": 30315
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34297296663/ORIGINAL_EVIDENCE_VERIFIED.json",
+      "sha256": "d1686addcf0a90622ab21c82b8eea910abd118ee684294a959a3a7f187a72ad3",
+      "byteLength": 760
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_RI_PROPOSED_ORDER_2026-09-05.json",
+      "sha256": "d5125f6fd054967372810cd276c257e4b07d6832c5db4a90fb564c40466495f5",
+      "byteLength": 3059
+    },
+    {
+      "path": "docs/PRODUCT_CONTRACT.md",
+      "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+      "byteLength": 64438
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/product-wiring.json",
+      "sha256": "ec835659d61a1d259157c104fdaeaf5c284777529a1ca386aae9737683434f3f",
+      "byteLength": 7065
+    }
+  ],
+  "measurementSummary": {
+    "pagesSemanticallyRead": 30,
+    "sourcePagesCompared": 8,
+    "sourceVisibleGlyphsMissing": 0,
+    "knownFactChecks": 18,
+    "missingKnownWrites": 0,
+    "currentSourceHashMatches": true
+  },
+  "historicalDisposition": {
+    "prior": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
+      "sha256": "0772f3c73a5df5fd983d684f336c41c836770267278495a888b95415751448c5",
+      "byteLength": 1937770
+    },
+    "pointer": "/rows/89",
+    "priorVerdict": "BLOCKED_LEGAL_INPUT",
+    "oldSourceMismatchPreserved": true,
+    "currentDecisionResolvesGeneralLegalEntrance": true,
+    "noLegalSourceHoldReopened": true,
+    "currentSemanticFailuresRequireImplementationRepair": true,
+    "oldVisualPassNotReused": true,
+    "currentOriginalPngsHeldByCaptainButVisualReviewDeferred": true
+  },
+  "visualAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "noImplementationChanges": true,
+  "commercialLimitation": "Owner decision separately requires counsel review of exact composed proposed orders before commercial opening. This independent semantic review does not claim that counsel gate is satisfied."
+}

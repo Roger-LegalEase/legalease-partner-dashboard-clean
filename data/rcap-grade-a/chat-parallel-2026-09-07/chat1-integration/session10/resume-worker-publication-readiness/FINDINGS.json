@@ -1,0 +1,155 @@
+{
+  "status": "PREPARATION_REVIEW_COMPLETE_NOT_A_PUBLICATION_CLEARANCE",
+  "observedAtUtc": "2026-09-08T17:09:17.942891+00:00",
+  "localCandidateSha": "271ca331204a771d4f27e97bc21e7be2edc58e49",
+  "remoteRecoveryShaAtReview": "2b432317500fbd35e7390c00b1dc916c4355dff1",
+  "captainShaAtReview": "ee4021b473018a469fea7a9a5325b41d1abff041",
+  "pr224": {
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/pull/224",
+    "state": "OPEN",
+    "isDraft": true,
+    "mergeable": "MERGEABLE",
+    "mergeStateStatus": "UNSTABLE",
+    "reviewDecision": "",
+    "reviews": [],
+    "baseRefName": "claude/legalease-sprint-captain-utucnw",
+    "headRefName": "chatgpt/launch-recovery-20260906"
+  },
+  "integrationAssessment": {
+    "canIntegrateUnderExistingAuthorizationAfterChecks": true,
+    "scope": "Reviewed recovery integration into the existing non-main Captain branch is ordinary authorized integration and preserves the publication guard. This does not authorize deployment, a main push, or a safeguard bypass.",
+    "ancestry": "git rev-list --left-right --count ee4021b473018a469fea7a9a5325b41d1abff041...271ca331204a771d4f27e97bc21e7be2edc58e49 returned 0 189: Captain is an ancestor of this candidate.",
+    "method": "Use the existing PR224 after marking its final reviewed head ready. Preserve ancestry with a merge commit (or an independently reviewed fast-forward through the existing integration process); do not squash/rebase away the source SHA chosen for publication. Preserve recovery branch and worker work.",
+    "governance": "Captain branch metadata reports protected=false and required_status_checks enforcement off with no contexts. Applicable branch rules endpoint returned []. The detailed protection endpoint returned403, retained explicitly. These facts do not waive required engineering verification or independently reviewed admission evidence.",
+    "requiredSourceFollowup": "Publish the committed MD/generated-state successor after its candidate and convergence checks. Consume fresh source-conveyor and factory-audit results that contain the F35 fix; do not rerun old2b and expect271 fixes. Confirm independent review and final input freeze before integration.",
+    "reviewStatus": "PR is draft, no GitHub review submissions and no auto-merge request. Existing independent review evidence remains separate; no required GitHub reviewer count was reported by readable branch/rules metadata.",
+    "afterIntegration": "Verify the actual remote Captain tip and that the declared full worker source SHA is its ancestor. Existing allowed branch literal is unchanged."
+  },
+  "currentCheckAssessment": [
+    {
+      "workflow": "RCAP Source Conveyor",
+      "name": "READY_TO_RUN",
+      "conclusion": "FAILURE",
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34253142257/job/102152199396",
+      "subjectSha": "2b432317500fbd35e7390c00b1dc916c4355dff1"
+    },
+    {
+      "workflow": "RCAP factory audit repair",
+      "name": "validate",
+      "conclusion": "FAILURE",
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34253142223/job/102152199549",
+      "subjectSha": "2b432317500fbd35e7390c00b1dc916c4355dff1"
+    },
+    {
+      "workflow": "RCAP worker image acceptance",
+      "name": "Accept the published worker image",
+      "conclusion": "FAILURE",
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34253142265/job/102152205078",
+      "subjectSha": "2b432317500fbd35e7390c00b1dc916c4355dff1"
+    },
+    {
+      "workflow": "Nevada special-route completion",
+      "name": "validate",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34253142253/job/102152199223",
+      "subjectSha": "2b432317500fbd35e7390c00b1dc916c4355dff1"
+    },
+    {
+      "workflow": "RCAP Partner Onboarding",
+      "name": "Verify RCAP partner onboarding",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34253142287/job/102152199190",
+      "subjectSha": "2b432317500fbd35e7390c00b1dc916c4355dff1"
+    },
+    {
+      "workflow": "RCAP isolated recovery inspection",
+      "name": "verify_repairs",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34253135779/job/102152177743",
+      "subjectSha": "2b432317500fbd35e7390c00b1dc916c4355dff1"
+    },
+    {
+      "workflow": "RCAP isolated recovery inspection",
+      "name": "central_raster",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/34253135779/job/102152809093",
+      "subjectSha": "2b432317500fbd35e7390c00b1dc916c4355dff1"
+    }
+  ],
+  "sourceFailureClassification": {
+    "sourceConveyorRun": 34253142257,
+    "factoryAuditRun": 34253142223,
+    "cause": "Both actual2b jobs reached production F35 PASS and then failed the no-live-subject mutation selector. Repair and independent review are committed in271ca331; full candidate checks are reserved by Captain and no green remote successor is claimed here."
+  },
+  "oldImageFailure": {
+    "runId": 34253142265,
+    "jobId": 102152205078,
+    "failedStep": "Fail-closed startup, and module graph resolves",
+    "sourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+    "digest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+    "actualFailure": "ENOENT: open '/app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts'",
+    "interpretation": "Current PR acceptance is exercising the retained old published image. New source publication with the reviewed runtime data is designed to replace that subject. This old-image failure is not a reason to require the old image to pass before publishing its replacement, and it is not evidence that the new candidate image has passed.",
+    "latestPublicationRun": 33764350427,
+    "newPublicationFound": false,
+    "listCoverage": "15 latest publication runs returned from22 total; all recent runs are completed, latest creation2026-09-03. No active or later candidate publication appears."
+  },
+  "runtimeCustody": {
+    "sourceSha": "271ca331204a771d4f27e97bc21e7be2edc58e49",
+    "declaredFiles": 122,
+    "mismatches": [],
+    "method": "Read-only SHA256 and length comparison against git show at fixed committed source; no generator invoked"
+  },
+  "preciseWorkflowSelection": {
+    "workflow": ".github/workflows/publish-rcap-render-worker.yml",
+    "workflowId": 332410995,
+    "registration": "active on default branch",
+    "dispatchRef": "claude/legalease-sprint-captain-utucnw",
+    "integrationSha": "Captain-declared final40-character committed source SHA, after remote containment verification",
+    "tagReplacementAuthorization": "empty",
+    "selectedWorkflowSha256": "6a686e9dff5a0743869bc54246fdc5008e71987780cd01536b6bdf13457bf8b5",
+    "whyRefMatters": "Captain/recovery YAML allows main OR claude/legalease-sprint-captain-utucnw. Default main YAML still pins old claude/rcap-48h-launch-integration, so selecting main as the execution ref would use the wrong branch guard. The workflow is already registered, so select the existing Captain version; no YAML change is required.",
+    "guard": "Exactly40 lowercase hex characters; commit must resolve; contained in main or exact selected Captain branch; detached checkout of supplied SHA; source-SHA tag must be absent unless replacement was explicitly authorized; guard checked twice; no latest; immutable digest required; per-source concurrency.",
+    "effect": "Private image publication only. No deployment, worker claiming, migration, staging or production change."
+  },
+  "authorization": {
+    "record": "docs/record-clearing/worker-ghcr-publication-prep.md:170-188",
+    "grant": "Roger authorized the private canonical registry and publication from Captain-declared exact WORKER_SOURCE_FREEZE_SHA after local verification and required GitHub checks are green.",
+    "doNotReRequest": "The old PREP_ONLY and missing-authorization entries are superseded by this explicit grant and current session instructions. A fresh blanket publication permission request is not needed.",
+    "separateBoundaries": "Production/environment/migration/auth permissions remain the existing separate release controls; this review grants none."
+  },
+  "supportedDispatchAndCapability": {
+    "existingMechanism": "Registered workflow_dispatch for Publish RCAP render worker. Select the Captain branch and exact integration_sha with replacement input empty in GitHub Actions, or equivalent existing gh/REST command in a session with Actions write permission.",
+    "commandTemplate": "gh workflow run publish-rcap-render-worker.yml --repo Roger-LegalEase/legalease-partner-dashboard-clean --ref claude/legalease-sprint-captain-utucnw -f integration_sha=FINAL_REVIEWED_FULL_SHA -f tag_replacement_authorization=",
+    "restPayload": {
+      "ref": "claude/legalease-sprint-captain-utucnw",
+      "inputs": {
+        "integration_sha": "FINAL_REVIEWED_FULL_SHA",
+        "tag_replacement_authorization": ""
+      }
+    },
+    "workflowUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/publish-rcap-render-worker.yml",
+    "currentCapabilityBlocker": "Prior direct local Actions dispatch returned403; not retried. Enabled GitHub connector tools include metadata, merge and rerun methods but no workflow-dispatch method, and no browser/computer control was exposed. Existing recovery wrapper dispatches central raster only. No callable worker-dispatch surface with demonstrated Actions-write authority was found in this session.",
+    "notAnAuthorizationBlocker": "This is an execution-capability limitation. Prepare and integrate the final reviewable source first; if no established Actions-write surface becomes available, the exact remaining operation is the manual registered workflow dispatch, not a new workflow, token probe or guard change.",
+    "deduplication": "Before an actual request, confirm no successful or active publication of the final source and preserve the source tag guard; do not blindly repeat a request whose run identity is uncertain."
+  },
+  "remainingOrderedGates": [
+    "Finish the committed MD candidate, affected checks and convergence in the already reserved scratch; publish reviewed paths and verify remote recovery head. Source/factory jobs must contain the F35 repair.",
+    "Freeze final worker source after verifying runtime-data-manifest against all122 exact committed files. Current271 pins match; a later MD derivation may change runtime inputs and then requires one intended refresh/review. Do not reuse this271 custody result for changed files.",
+    "Integrate through PR224 into the allowed Captain history while preserving the exact reviewed source commit; verify remote containment. The old published-image startup result stays explicitly red until replacement is actually accepted.",
+    "Reconcile the existing fingerprint/publication sequencing conflict explicitly before claiming publication clearance. A mechanically dispatchable workflow is not a claim that the stale fingerprint gate passed.",
+    "Dispatch the existing Captain-ref private publication once from an Actions-write-capable session, with final full source SHA and empty replacement authorization. Consume actual successful artifact and immutable digest.",
+    "Import exact publication evidence through existing reviewed evidence files, preserve superseded image history, refresh the existing staging-action fingerprint once against coherent committed source/evidence, then run its --check, verify-rcap-image-input-fingerprint and required publication verifier in reserved isolation.",
+    "Run the existing image-acceptance workflow against committed new evidence and consume its actual runtime/identity/security results. Publication success alone is not image acceptance or production deployment.",
+    "Continue existing release authorization/environment procedure separately; no terminal or production gains are claimed by this review."
+  ],
+  "fingerprintOrderingConflict": {
+    "existingGate": "scripts/verify-rcap-image-input-fingerprint.mjs documents prepublication committed-byte verification and recomputes the staging-action generator --check. The retained record remains based on3285b660, not the current source.",
+    "generatorDependency": "scripts/generate-rcap-staging-action.mjs lines224-253 requires retained publication evidence.sourceSha to be image-input-equivalent to the chosen fingerprint base, and rejects oldb680a4e4. Running the unchanged generator before replacement publication cannot produce a passing current record while retaining that old evidence.",
+    "mechanicalOrder": "The publication workflow itself checks source/containment/tag guards and does not execute the staging fingerprint verifier. Mechanically, new publication artifact precedes successful refresh of the current staging record. This is evidence of a sequencing conflict, not proof of a passed prepublication fingerprint.",
+    "constraint": "Do not delete/rename retained publication evidence, fabricate a new digest, mark the red fingerprint green, or silently waive the existing required verification. Captain must resolve the documented sequencing against actual existing authorization/preparation contract before asserting readiness.",
+    "runtimeScope": "The historical staging fingerprint covers seven inputs; current runtime data also needs its separate manifest/source custody. A later data-only change cannot be represented as unchanged evidence merely because those seven historical inputs match."
+  },
+  "actionsTaken": "Read-only local source/history/manifest comparisons and GitHub metadata/log reads. Only this evidence directory was written. No builds, image pulls/publication, dispatch, merge, branch changes, shared writes or scratch use.",
+  "terminalDelta": 0,
+  "productionDeployedOrVerified": false
+}

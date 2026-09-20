@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "la-976-arrest-no-conviction-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "This family was recorded SOURCE_IDENTITY_UNRESOLVED on the nested sourceReadiness.custodyClass of its own queue row, while the same row's top-level sourceStatus read SOURCE_BOUND_BY_HELD_BYTES and sourceBound true. It was held out of the build queue for that nested class.",
+      "treatment": "Both declared digests resolved by content digest across 5 mounted custody root(s) and were re-hashed from the resolved bytes. 2 of 2 resolved at the DECLARED path itself, in the declared custody, carrying the declared digest. The nested class is contradicted by measurement and is recorded in source-receipt.json rather than reconciled by this lane; MASTER_QUEUE.json is generated centrally and was not modified."
+    },
+    {
+      "finding": "The custody that holds the declared paths lives under private/, which is gitignored and therefore is not a git path at all.",
+      "treatment": "Its absence from a sparse worktree is a resolver artefact and never evidence that a source is missing, so this build resolves by content digest across every custody root that IS mounted and records, per source, whether the declared path was among them. A digest that resolves nowhere stops the build and is named with its sourceId; no similarly named file, revision or locator page is ever substituted."
+    },
+    {
+      "finding": "The two bound sources are Article 990 and Article 993. Neither is an instrument this packet renders.",
+      "treatment": "Both are carried as authority references bound by digest. Article 990 is the responding entity's own affidavit of response and is never printed in a participant packet; Article 993 is the withheld continuation sheet. The receipt records roleInThisPacket for each rather than implying either was rendered."
+    },
+    {
+      "finding": "No binary exists for the Article 988, 989, 991 or 992 statutory forms this packet renders; the committed memo records that Edition 1.1 retains the Louisiana statutory text only for Articles 990, 993, 995, 998 and 999.1.",
+      "treatment": "The LA-STATUTORY-FORMS owner determination grants this family composition from authority of exactly Articles 988, 989, 991 and 992 and lists nothing as remaining official and held. The grant is read back at build time and asserted element by element, and the corresponding release-blocking open question is carried verbatim into the participant instructions and into approval-request.json."
+    },
+    {
+      "finding": "The Article 988 fee-exemption component is conditional, and on this track the condition is met.",
+      "treatment": "It is GENERATED. The record's condition reads that the exemption is common on this track; the committed fee rule says it is very often available here and must be screened before filing rather than after; the Article 983(F) grounds are non-conviction grounds and this is the non-conviction track; and item 2 of the packet set's own required-before-filing list tells the participant the packet gives them the Article 988 form with their own fields filled in. Only the participant-owned identifying fields the committed manual-completion record names are written. Every certification box and the district attorney's signature are left blank and classified prosecutor-owned. A neighbouring Louisiana family printed that same record sentence while not generating the component and an independent lane recorded it as a false statement about the packet; the reconciliation code that would correct such a claim is still present and still runs."
+    },
+    {
+      "finding": "The Article 993 continuation component is conditional, its condition is unmet, and two further reasons withhold it.",
+      "treatment": "It is not composed. Article 993 is not in this family's composedFromAuthority grant, and the committed legal-design note states in terms that no template exists, none is counsel-approved and no implementation is authorized. It is recorded as not generated with the record's own condition text in packet-set-manifest.json and production-field-map.json, and the instructions send a participant with more counts than the motion holds to the clerk for the statutory sheet rather than to pages of their own."
+    },
+    {
+      "finding": "Which of the Article 976(A) grounds the mover proceeds on is the one election on this packet that most looks like the packet's to make.",
+      "treatment": "It is left blank, declared determinedByTheCaseNotTheRoute with the reason recorded in the field map, printed as an empty line on the motion and again on the proposed Article 992 order, and disclosed in the guide's supply table. The route fixes the ARTICLE; the case fixes the GROUND, which is established by the minute entry and the district attorney's certification. The committed component note states that the Part II eligibility selection is a legal conclusion the participant owns and that Louisiana State Police names choosing the wrong eligibility basis as a common fatal error."
+    },
+    {
+      "finding": "Six required participant inputs are facts the platform does not hold: the original arrest charges, the eligibility ground, whether the arrest was vehicle-while-intoxicated, whether a pretrial diversion programme was entered on such an arrest, whether the record names anyone besides the mover, and the rap-sheet identifiers.",
+      "treatment": "Not one of them is written. Each is declared REQUIRED_BEFORE_FILING, prints as an empty dot leader, and is named verbatim in the guide's supply table with what to write and why the packet holds no value. A restatement of a field's own printed question is not an answer and none is written here."
+    },
+    {
+      "finding": "Race and gender are fields the Article 989 statutory form provides.",
+      "treatment": "Both are printed blank. The committed manual-completion record classifies each as a manual completion item pending a data-protection review, and that reason is printed on the motion beside them and carried into the guide. The platform holds no Social Security number and writes none."
+    },
+    {
+      "finding": "Every ordering paragraph, finding, election, date, place and judicial signature on the Article 991 and Article 992 orders belongs to the court, and every certification on the Article 988 belongs to the district attorney.",
+      "treatment": "Each is classified court-, clerk- or prosecutor-owned, the proposed orders are visibly unexecuted, and no court, prosecutor or signature field carries ink."
+    },
+    {
+      "finding": "The memo holds 9 self-help stop conditions, 3 exclusions, 2 waiting periods, 7 manual-completion items and 8 supporting documents for this track, and the registry holds 21 participant actions and 19 required-before-filing items.",
+      "treatment": "Every one is carried verbatim and numbered in participant-instructions.md, with the count printed beside it so short carriage is visible to the participant rather than only to a report."
+    },
+    {
+      "finding": "Louisiana runs six expungement tracks off six articles that share the Article 989, 991 and 992 instruments and a caption shape.",
+      "treatment": "reports/caption-evidence.json records what on this packet is Article 976's own - the title, the eligibility recital, the bars and the prayer - and names the sibling families this packet must not resemble. Three assertions on the controlling record's own text run at build time and stop the build if the record stops naming Article 976 as this track's authority."
+    }
+  ]
+}

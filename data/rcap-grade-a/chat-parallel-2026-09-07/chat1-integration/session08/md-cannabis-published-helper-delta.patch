@@ -1,0 +1,55 @@
+--- a/scripts/rcap-packet-recovery/chat5/md-conviction.mjs
++++ b/scripts/rcap-packet-recovery/chat5/md-conviction.mjs
+@@ -103,6 +103,13 @@
+  else {assert(['not_ordered','paid','unable_to_pay','disputed'].includes(f.case.restitution.status),'RESTITUTION_STATUS_INVALID');if(f.case.restitution.status==='disputed')throw Error('DISPUTED_RESTITUTION_HANDOFF');if(f.case.restitution.status==='unable_to_pay')need('case.restitution.inabilityAsserted',true);if(['paid','unable_to_pay'].includes(f.case.restitution.status))need('case.restitution.documentationAvailable',true);}
+  if(f.confirmations.actualObjection||f.confirmations.hearingScheduled)throw Error('ACTUAL_CONTESTED_MATTER_HANDOFF');
+  const mayMarkBasis=missing.length===0;
++ validateMdCostRequest(f,need);
++ for(const [obj,ks] of [[f.person,['name','street','cityStateZip','phone','email','fax']],[f.court,['option','address','phone']],[f.case,['number','tracking','agency','locality','incident']]])for(const k of ks)safeText(obj[k],k);
++ return {facts:f,missing,earliest,mayMarkBasis};
++}
++
++/** Reused exact Maryland costs-request policy, not another route predicate. */
++export function validateMdCostRequest(f,need){
+  assert(['paid','waiver'].includes(f.options.feeTreatment),'EXPLICIT_FEE_CHOICE_REQUIRED');
+  if(f.options.feeTreatment==='paid')assert(!f.financial&&!f.options.finalOpenCostsRequested&&!f.options.prepaidWaiverRequested,'WAIVER_INPUT_ON_PAID_BRANCH');
+  if(f.options.feeTreatment==='waiver'){
+@@ -121,13 +128,12 @@
+    if(z.incomeComplete===true&&z.snapExcluded!==true)throw Error('SNAP_EXCLUSION_NOT_CONFIRMED');
+   }
+  }
+- for(const [obj,ks] of [[f.person,['name','street','cityStateZip','phone','email','fax']],[f.court,['option','address','phone']],[f.case,['number','tracking','agency','locality','incident']]])for(const k of ks)safeText(obj[k],k);
+- return {facts:f,missing,earliest,mayMarkBasis};
+-}
+-
+-/** Complete this family's exact source widgets; not an exported generic host. */
+-async function formWriter(id,provided){
+- const s=SOURCES[id],raw=provided??fs.readFileSync(path.join(ROOT,s.path));assert.equal(raw.length,s.bytes,'SOURCE_LENGTH_DRIFT: '+id);assert.equal(hash(raw),s.sha256,'SOURCE_HASH_DRIFT: '+id);
++}
++
++/** Exact Maryland source writer shared only by Chat5's owned MD adapters. */
++async function formWriter(id,provided,sourceSpec=null){
++ if(sourceSpec)assert.equal(id,'CC-DC-CR-072D','UNSUPPORTED_ADDITIONAL_MD_SOURCE');
++ const s=sourceSpec??SOURCES[id],raw=provided??fs.readFileSync(path.join(ROOT,s.path));assert.equal(raw.length,s.bytes,'SOURCE_LENGTH_DRIFT: '+id);assert.equal(hash(raw),s.sha256,'SOURCE_HASH_DRIFT: '+id);
+  const doc=await PDFDocument.load(raw,{updateMetadata:false});assert.equal(doc.getPageCount(),s.pages,'SOURCE_PAGE_DRIFT');const form=doc.getForm();ensureDefaultAppearances(form);
+  // On the actual 072B source, the Date caption extends into the agency
+  // widget's left half. Start agency ink after that printed caption, retaining
+@@ -252,9 +258,9 @@
+  ]]
+  ];
+ }
+-async function guidePdf(sections,synthetic){
++async function guidePdf(sections,synthetic,companion='Maryland 072B companion'){
+  const doc=await PDFDocument.create(),font=await doc.embedFont(StandardFonts.Helvetica),bold=await doc.embedFont(StandardFonts.HelveticaBold);let page,y,num=0;
+- const start=title=>{page=doc.addPage([612,792]);y=734;num++;page.drawText(title,{x:44,y,font:bold,size:15});y-=26;page.drawText(synthetic?'SYNTHETIC QA EXAMPLE - DO NOT FILE':'PARTICIPANT INSTRUCTIONS - KEEP, DO NOT FILE',{x:44,y,font:bold,size:9});y-=26;page.drawText(`Maryland 072B companion | instruction page ${num}`,{x:44,y:26,font,size:8});};
++ const start=title=>{page=doc.addPage([612,792]);y=734;num++;page.drawText(title,{x:44,y,font:bold,size:15});y-=26;page.drawText(synthetic?'SYNTHETIC QA EXAMPLE - DO NOT FILE':'PARTICIPANT INSTRUCTIONS - KEEP, DO NOT FILE',{x:44,y,font:bold,size:9});y-=26;page.drawText(`${companion} | instruction page ${num}`,{x:44,y:26,font,size:8});};
+  for(const [title,paragraphs] of sections){start(title);for(const p of paragraphs){const lines=wrapToWidth(font,p,10,524);if(y-lines.length*14<52)start(title+' (continued)');for(const l of lines){if(y<52)start(title+' (continued)');assert(font.widthOfTextAtSize(l,10)<=524.1,'GUIDE_LINE_OVERFLOW');page.drawText(l,{x:44,y,font,size:10});y-=14;}y-=10;}}
+  stampDeterministic(doc);return Buffer.from(await doc.save({useObjectStreams:false}));
+ }
+@@ -361,3 +367,6 @@
+  write('build-status.json',json({familyId:FAMILY,buildStatus:'state_built',reviewStatus:'qa_review_pending',pdfCount:artifacts.length,completePages:artifacts.reduce((n,x)=>n+x.pageCount,0),runtimeSelectable:false,generationAllowed:false,commercialRoutesOpened:0,selfVerified:false,limitations:['Same disposition/date/selected-basis unit only; mixed units require a continuation design, not silent collapse.','Pardon, cannabis and nonconviction remain separate families.','Charge-to-statute eligibility and restitution evidence are supplied facts, not software judicial findings.','Final-open-cost election is not a final waiver grant.','Registry MDJ-008 relationship, binary publication, central raster and runtime remain A-owned.']}));
+  return artifacts;
+ }
++
++// Reuse the actual official costs components; no neighboring legal predicate is exported as a substitute.
++export {formWriter as mdOfficialWriter,waiver as renderMdCostRequest,notice as renderMdFinancialNotice,guidePdf as renderMdCompanion};

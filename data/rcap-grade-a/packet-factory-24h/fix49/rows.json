@@ -1,0 +1,501 @@
+{
+ "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+ "workerId": "FIX49",
+ "lane": "FIX49",
+ "laneKind": "repair",
+ "assignedBase": "9ca849dd1",
+ "baseBranch": "claude/legalease-sprint-captain-utucnw",
+ "branch": "fix49-fl-nv-ar",
+ "grantsConfirmed": {
+  "assertedWith": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX49 <familyId>",
+  "grantSet": "c98d69bd0917851c",
+  "results": {
+   "fl-early-juvenile-set": "CLAIM_OK",
+   "rcap-nv-custom-pleading": "CLAIM_OK",
+   "ar-drug-court-set": "CLAIM_OK"
+  },
+  "assertedBeforeAnyFamilyArtifactWasRead": true
+ },
+ "scope": "Three families and their three builders, each exclusive to its family. No shared build host was modified: scripts/build-census-v1-ar-drug-court-set.mjs is imported by nothing and the one module newly imported from it, scripts/rcap-packet-completeness/completeness-contract.mjs, was read only. scripts/rcap-custom-pleading/split-token.mjs was read and NOT modified and NOT adopted by any builder in this lane.",
+ "sourceEnvironment": {
+  "masterLibrary": "MASTER_LIBRARY_SOURCE_DIR pointed at the mounted Expungement_AI_RCAP_Master_Library_Edition_1 (51 jurisdictions, 499 files, 329 PDFs).",
+  "arkansasSourcePack": "scripts/build-census-v1-ar-drug-court-set.mjs resolves its four ACIC binaries under RCAP_D_SOURCE_DIR/D1/STATES/AR/05_SOURCE_GATED. The rcap-d-source-packs-2026-08-12 pack is not mounted here, so RCAP_D_SOURCE_DIR was pointed at a throwaway directory on /home/user whose D1/STATES is a symlink to the Master Library's STATES. That is a mount, not a substitution: all four files carry the exact pinned SHA-256 and byte length the builder asserts before it writes anything -- 7b9426041a2b..., 99657d0eac1f..., b7532d415611... and 731fd089f5b0... -- and the builder verified them on every run. The throwaway directory is outside the worktree, is not committed, and was removed.",
+  "floridaSource": "absent; see the fl-early-juvenile-set row."
+ },
+ "hostChanged": null,
+ "otherFamiliesOnThisHost": [],
+ "rows": [
+  {
+   "itemId": "fl-early-juvenile-set",
+   "familyId": "fl-early-juvenile-set",
+   "jurisdiction": "FL",
+   "implementationStrategy": "official_pdf_fill",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+   "buildHost": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+   "status": "STOPPED_BLOCKED_SOURCE",
+   "laneKind": "repair",
+   "repairedByThisLane": false,
+   "exactBlocker": "The one bound source, official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION (FDLE40-028), SHA-256 d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb, 22449 bytes, 5 pages, is not present in this container. scripts/build-census-v1-fl-early-juvenile-set.mjs reads it from PF20_FL_EARLY_JUVENILE_SOURCE or from its default /workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-early-juvenile-expunction-blank.pdf, a Codespaces staging root that does not exist here, and refuses: 'AssertionError: BLOCKED_SOURCE: FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION is absent; required SHA-256 d9417ea382c9...'. Searched for by exact byte length across the whole filesystem and by digest across the mounted Master Library: no match. The Master Library's STATES/FL/05_SOURCE_GATED holds FDLE40-021-EXPUNCTION, FDLE40-021-SEALING, FDLE40-026 and two circuit packets, and does not hold FDLE40-028. VF04 recorded the same environment fact under SOURCE_IDENTITY at its own base.",
+   "whatIsNeededToUnblock": "The exact FDLE40-028 binary at d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb mounted in the build container, or PF20_FL_EARLY_JUVENILE_SOURCE pointed at it. The acquisition record is data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json, whose persistentStagingRoot is /workspaces/.legalease-source-staging/CODEX-CS2-SRC2.",
+   "verdictRepaired": {
+    "lane": "vf04",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+   },
+   "obligationsRepaired": [],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. No raster was produced or enrolled by this lane. RASTER_QUEUE.json and MASTER_QUEUE.json were not edited.",
+    "INDEPENDENT VERIFICATION. This lane issues no verdict on this family.",
+    "LEGAL INPUT. Nothing here settles any legal input; legalInputStatus remains SETTLED as the queue records it."
+   ],
+   "diagnosisForTheNextLane": {
+    "whyItIsRecordedRatherThanActedOn": "The repair is a placement change and its coordinates can only be read off the pinned binary. Guessing them from the verdict's numbers would be a source-authored default of exactly the kind this factory refuses, and the fixtures could not be rebuilt to prove it either way. Nothing was written to the builder.",
+    "verdictFindingVerbatim": "On page 1 the drawn telephone value spans x 359.00-411.92 while the form's printed closing parenthesis of the area-code '( )' sits at x 379.89-384.22. The write overprints that glyph by 4.3 x 7.7 points and runs 27.7 points past it. Present in canonical ('850-555-0142') and in boundary ('850-555-0199'). The area-code parenthetical is only 21.7 points wide, so the whole number is being drawn into a box sized for three digits. This is the only text-on-text collision anywhere in the family.",
+    "whereInTheBuilder": "scripts/build-census-v1-fl-early-juvenile-set.mjs line 327: fitText(p1, font, facts['participant.phone'], { x: 359, y: 573, width: 94 }). The rectangle is one 94pt box spanning the whole telephone field, while the form prints an area-code parenthetical only 21.7pt wide at x 358-380 followed by the rest of the number after the closing parenthesis. fitText shrinks a value to fit the rectangle it is given and this rectangle is not the printed cell, so no assertion in the builder can see the collision -- the same reason VF04 gives for the builder's own nonWhitespaceGlyphsOutsideMeasuredWriteBoxes reading 0.",
+    "theShapeOfTheRepair": "Two measured rectangles instead of one, read off the pinned binary: the three-digit area code inside the parenthetical, and the remaining seven characters starting clear of the printed closing parenthesis. The page-2 telephone write at line 344, { x: 441, y: 670, width: 126 }, sits on a plain rule and VF04 found no collision there; it should be measured, not assumed.",
+    "notMeasurableHere": "Whether page 2 is clean on the current bytes could be read from the committed fixtures, but the page-1 rectangles cannot be measured without the source, and a partial change that cannot be rebuilt would leave the builder claiming a repair the delivered bytes do not carry."
+   },
+   "artifacts": [
+    {
+     "fixture": "canonical",
+     "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/canonical.pdf",
+     "oldSha256": "ec718a25b1cff95cc2814a08914613e6b1b89211c020004370a16b11aa550fb7",
+     "newSha256": "ec718a25b1cff95cc2814a08914613e6b1b89211c020004370a16b11aa550fb7",
+     "oldByteLength": 28231,
+     "newByteLength": 28231,
+     "pagesBefore": 5,
+     "pagesAfter": 5,
+     "moved": false
+    },
+    {
+     "fixture": "boundary",
+     "path": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+     "oldSha256": "3d58ac3dc66a8e6f284c11488a1fe8274569117e4690ddc1d0b9285f201e840f",
+     "newSha256": "3d58ac3dc66a8e6f284c11488a1fe8274569117e4690ddc1d0b9285f201e840f",
+     "oldByteLength": 28361,
+     "newByteLength": 28361,
+     "pagesBefore": 5,
+     "pagesAfter": 5,
+     "moved": false
+    }
+   ],
+   "digestsMovedInThisLane": false,
+   "deterministicRebuild": "Not attempted. The build refuses at the source gate before any output is written.",
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before, measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set: PASS_COMPLETE, 28/93 written, exit 0. After is the same object because nothing was built or written; it is not evidence of a repair.",
+   "verifiersRun": {
+    "verifyPacketCompleteness": "PASS_COMPLETE, nine counters zero",
+    "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD",
+    "build": "refused at the source gate, exit 1, message quoted in exactBlocker",
+    "scan01": "does not cover this family: fl-early-juvenile-set is recorded shipsComposedPdf=false, builder profile 'GX no composer found', 0 defects in every class"
+   },
+   "appearanceCheck": {
+    "performed": false,
+    "why": "An appearance check on the current bytes would only re-measure the defect VF04 already measured, on bytes this lane cannot change. No raster was taken and no placement diff exists, because no placement moved."
+   },
+   "productWiring": {
+    "acceptanceReceipt": null,
+    "edited": false
+   },
+   "filesChanged": [],
+   "commit": null,
+   "rasterOwed": true,
+   "selfVerified": false,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "obligationNotRepairedAndWhy": {
+    "obligation": "CLIPPING_AND_OVERLAP",
+    "why": "Stopped on the source blocker recorded in exactBlocker. It is not repaired, not measured discharged, and not excused."
+   }
+  },
+  {
+   "itemId": "rcap-nv-custom-pleading",
+   "familyId": "rcap-nv-custom-pleading",
+   "jurisdiction": "NV",
+   "implementationStrategy": "custom_pleading",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading",
+   "buildHost": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": false,
+   "whyRepairedByThisLaneIsFalse": "The verdict names no defect in the packet or its builder. VF29's CLIPPING_AND_OVERLAP finding is, verbatim, that content-stream geometry found no off-page or overlapping text runs among 1,405 canonical and 1,418 boundary draws, and that the result is nevertheless not promoted to a visual approval because no raster exists: rasterSkipped=true, zero raster pages, no raster directory, RASTER_PENDING with no receipt and RAS02 as nextOwner. The cause is an absent central raster, which this lane does not own and is instructed not to enqueue. Repairing a builder that measures clean, to discharge an obligation that is open on a raster, would move bytes for no defect and would not discharge it. Nothing was written.",
+   "verdictRepaired": {
+    "lane": "vf29",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf29/rows.json"
+   },
+   "obligationsRepaired": [],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. This is the whole of the open obligation. No current raster exists for this family, the queue state is RASTER_PENDING with no receipt and RAS02 as next owner, and a central whole-family raster on the current bytes is owed. The local 100 dpi rasters this lane took into /tmp are a lane's own eyes, not a hash-bound receipt, and discharge nothing. RASTER_QUEUE.json and MASTER_QUEUE.json were not edited.",
+    "INDEPENDENT VERIFICATION. This lane issues no verdict on this family. product-wiring.json acceptanceReceipt is null.",
+    "LEGAL INPUT. Nothing here settles any legal input; legalInputStatus remains SETTLED as the queue records it."
+   ],
+   "whatChanged": "Nothing. No file under the family directory and no line of scripts/build-census-v1-rcap-nv-custom-pleading.mjs was written. Both fixtures are byte-identical to this lane's base.",
+   "whatWasMeasuredHereInstead": {
+    "rebuildReproducesTheCommittedBytes": "node scripts/build-census-v1-rcap-nv-custom-pleading.mjs --no-raster at this base reproduces canonical 0f054975494d0bb9... and boundary 6dc6ddc9242f0818... exactly; the tree was restored afterwards and is byte-identical to the base.",
+    "geometry": "pdftotext -bbox word boxes on all 100 pages of the two fixtures, pairwise overlap with printed rule runs excluded: 0 overlaps in canonical and 0 in boundary. Thin pages: none -- no page of either fixture carries six or fewer printed lines, so there is no route-key-only page and no trailer left as sole occupant. This agrees with VF29's own count.",
+    "theOneApparentOverflowAndWhyItIsNot": "pdftotext reports the page-40 title run 'STIPULATION OF THE PROSECUTING ATTORNEY - SEAL A NEVADA ARREST THAT DID NOT' ending at x 546.17, 6.17pt past the 540pt right margin, in both fixtures. Measured with the font the composer actually draws in, Times-Roman at 11pt, that string is 465.29pt wide against a 468pt column, so it ends at 537.29 and fits. The 9pt discrepancy is pdftotext estimating advances for a base-14 font with no /Widths; it is a measurement artifact, not ink outside the column, and the local raster of that page confirms it.",
+    "scan01": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, output written to /tmp and NOT committed. This family: shipsComposedPdf=true, 0 defects in every class -- A_hard_split 0, B_page_content 0, C_block_integrity 0, D_census 0.",
+    "aLatentFaultRecordedAndDELIBERATELYNOTREPAIRED": "SCAN01 profiles this builder as 'G0 original row-by-row, original splitter' with splitTokenVariant 'char-by-char (fault 1 present)': renderComposedPdf at line 3935 defines the private character-accumulating splitToken that FIX41 replaced for Texas with the shared separator-aware splitter. It is a latent fault, not a shipped one -- SCAN01 measures zero hard splits here and every route key reconstructs whole -- and the verdict does not name it. Moving to the shared splitter is the right next change for this builder, but it belongs to a lane whose verdict names it, for two reasons this lane measured: it would require a rebuild, and a rebuild of this family at this base ERASES an identityRefresh annotation (see below), which would have to be repaired in the same breath.",
+    "aSecondFindingTHISLANEDIDNOTINTRODUCE": "Rebuilding this family at this base, with no source change at all, rewrites source-receipt.json's pin for data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json from 9816a479e532017f (2,607,149 bytes) to 4d0eb74bbafe6ee3 (2,625,273 bytes) and DROPS the identityRefresh annotation recorded on 2026-09-04 for the earlier pin 0936833332542f8e. node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs then reports 'ERASED BY A REBUILD: 1 receipt(s) ... 1 of 3 identityRefresh annotation(s) dropped'. The tree was restored, so the verifier passes at HEAD and nothing is left broken. This is a real defect in this builder -- a rebuild silently undoes a repair -- and it is recorded here for the lane that next has cause to rebuild this family."
+   },
+   "placementDiff": {
+    "method": "SHA-256, byte length and pdfinfo page count recomputed for both fixtures, and every file under the family directory compared against the base.",
+    "pagesWhosePrintedTextChanged": "none",
+    "pageCountBefore": 50,
+    "pageCountAfter": 50
+   },
+   "artifacts": [
+    {
+     "fixture": "canonical",
+     "path": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+     "oldSha256": "0f054975494d0bb97d66418cc4ba84f6ca3da146e48b3182072bbda3d35e944e",
+     "newSha256": "0f054975494d0bb97d66418cc4ba84f6ca3da146e48b3182072bbda3d35e944e",
+     "oldByteLength": 139080,
+     "newByteLength": 139080,
+     "pagesBefore": 50,
+     "pagesAfter": 50,
+     "moved": false
+    },
+    {
+     "fixture": "boundary",
+     "path": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+     "oldSha256": "6dc6ddc9242f0818237154075c5b0a2074ec60081d43f38eb259c5b4c7775048",
+     "newSha256": "6dc6ddc9242f0818237154075c5b0a2074ec60081d43f38eb259c5b4c7775048",
+     "oldByteLength": 141433,
+     "newByteLength": 141433,
+     "pagesBefore": 50,
+     "pagesAfter": 50,
+     "moved": false
+    }
+   ],
+   "digestsMovedInThisLane": false,
+   "deterministicRebuild": "Built with --no-raster twice at this base: both fixture SHA-256s identical to each other and to the committed bytes. The tree was restored to the base afterwards.",
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, both measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading: PASS_COMPLETE, 78/268 written, exit 0. Nothing changed between the two runs.",
+   "verifiersRun": {
+    "verifyPacketCompleteness": "PASS_COMPLETE, nine counters zero, run before and after",
+    "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED at HEAD -- 249 receipts compared, 53 carrying an identityRefresh. It reports ERASED BY A REBUILD for this family's receipt if the family is rebuilt; see the finding above.",
+    "scan01": "whole corpus, 249 directories, 0 defects for this family in every class; output written to /tmp and not committed"
+   },
+   "appearanceCheck": {
+    "method": "pdftotext -bbox on all 50 pages of both fixtures for overlap, off-column ink and thin pages, plus local rasters at 100 dpi with pdftoppm into /tmp/fix49/nv read by eye.",
+    "overlapsAfter": 0,
+    "routeKeyOnlyPagesAfter": 0,
+    "hardSplitsAfter": 0,
+    "thinPagesAfter": 0,
+    "pagesRasteredLocally": "canonical page 40 (the prosecuting attorney's stipulation, the page carrying the widest measured run) and boundary page 50 (the closing stop conditions and route trailer). Nothing was rastered into the delivered tree and no rasterState was set.",
+    "whatTheRasterShows": "Page 40 carries its title on two wrapped lines inside the column, the venue parenthetical, the caption, the prosecutor's own block with every line blank, and the whole route key on one line. Page 50 carries ten stop conditions and a four-item page inventory above its route key. No ink outside the column, no line over its neighbour, no page anywhere near empty, and no machine text inside a block the page reserves to the prosecuting attorney or the court.",
+    "andWhyThisIsNotTheDischarge": "A raster a repair lane takes of its own family is not an independent visual approval and is not the hash-bound central receipt VF29 refused to do without. It is recorded so the next reader knows what this lane saw, and it settles nothing."
+   },
+   "productWiring": {
+    "acceptanceReceipt": null,
+    "edited": false
+   },
+   "filesChanged": [],
+   "commit": null,
+   "rasterOwed": true,
+   "selfVerified": false,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  },
+  {
+   "itemId": "ar-drug-court-set",
+   "familyId": "ar-drug-court-set",
+   "jurisdiction": "AR",
+   "implementationStrategy": "official_pdf_fill",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill",
+   "buildHost": "scripts/build-census-v1-ar-drug-court-set.mjs",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "verdictRepaired": {
+    "lane": "vf05",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+    "failedObligationNames": [
+     "REQUIRED_BEFORE_FILING",
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+   },
+   "obligationsRepaired": [
+    "REQUIRED_BEFORE_FILING. Every one of the 66 required-before-filing rows is now identified by the printed line the widget sits on, quoted verbatim from the pinned ACIC binary, and by which blank on that line it is, counted left to right from the widget rectangles the form declares; where the line is nothing but rules the sentence introducing it is quoted too, and where a page prints the same line twice the row says which of the two. Each row carries a closed-vocabulary disposition (REQUIRED_BEFORE_FILING, read from BLANK_DISPOSITIONS in the completeness contract), who supplies it, and the moment it is supplied, and the participant inventory in participant-instructions.md is generated from those rows so the two cannot drift. A build gate refuses any required row whose quoted line is not printed on the page it is attributed to, whose name is the synthetic fallback, whose disposition is not one the contract allows, or which names no owner or no moment."
+   ],
+   "obligationAlsoMeasuredHereAndFoundAlreadyDischarged": {
+    "obligation": "CLIPPING_AND_OVERLAP",
+    "repairedAt": "26838a27b54c516652326699e804e545562419e8, an ancestor of this lane's base 9ca849dd1 and later than VF05's base 5de917b35",
+    "notTakenOnTrustFromTheBuildersOwnReport": "measured here with two instruments of this lane's own. (1) Widget-box containment: every actual write in all four fixtures located in the pdftotext -bbox word boxes of its own page and compared against the widget rectangle the field map declares -- 0 writes breaching their box, 34 writes checked. (2) Write-over-printed collision: each assembly page diffed against its bound ACIC source page to isolate added words, then every added word tested pairwise against every printed word of the source page with printed rule runs excluded -- 0 collisions in all four fixtures, against the four collisions VF05 recorded ('Fitzwilliam' and 'III' over 'prays', 'to' and 'Dismiss'). Those boundary values are now refused and their printed rules render empty, confirmed by eye in local rasters of pre-adjudication-boundary pages 4, 5 and 8 and post-adjudication-boundary pages 4 and 8.",
+    "thisLaneChangedNothingForIt": true
+   },
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. No raster was produced or enrolled by this lane. The family's RASTER_PASS receipt (run 33923497915, job 101187692725) covers the two canonical assemblies only, which is why VF05's boundary findings were invisible to it; a central whole-family raster on the current bytes is owed. RASTER_QUEUE.json and MASTER_QUEUE.json were not edited here.",
+    "INDEPENDENT VERIFICATION. This lane wrote this builder's repair and verifies none of it. product-wiring.json binding.acceptanceReceipt is null and no verdict was written. Every obligation VF05 measured has to be measured again by a lane that did not touch this family.",
+    "LEGAL INPUT. The fee, fee-waiver and notarization positions remain the committed source review's attributed refusals, and the pre- versus post-adjudication posture remains the participant's to identify. Nothing here settles any of them."
+   ],
+   "whatChanged": {
+    "file": "scripts/build-census-v1-ar-drug-court-set.mjs, and the three derived files it writes. No other file, and no packet byte.",
+    "cause": "The caption came from a nearest-ink harvest, which yields a fragment whenever the form prints no caption beside the widget. VF05: 43 items 'named by a mis-derived fragment of adjacent printed text rather than the field's caption'. Read at this base that was still true, and five blanks with no caption at all fell through to the synthetic string 'ACIC-ORDER-DRUG-COURT-PRE printed blank SID'. A harvest cannot be made to produce a caption the form does not print, so the identification is built from the printed line and the widget rectangles instead.",
+    "verbatimPlacementPerPage": [
+     {
+      "document": "ACIC-ORDER-DRUG-COURT-PRE",
+      "page": 4,
+      "field": "SID",
+      "before": "ACIC-ORDER-DRUG-COURT-PRE printed blank SID",
+      "after": "SID, the 2nd of 2 blanks on the printed line \"Sex ____________ SID No. _____________________\""
+     },
+     {
+      "document": "ACIC-ORDER-DRUG-COURT-POST",
+      "page": 4,
+      "field": "SID",
+      "before": "ACIC-ORDER-DRUG-COURT-POST printed blank SID",
+      "after": "SID, the 2nd of 2 blanks on the printed line \"Sex ____________ SID No. _____________________\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-POST",
+      "page": 1,
+      "field": "COURT OF",
+      "before": "IN TH",
+      "after": "COURT OF, the 1st of 2 blanks on the printed line \"IN THE ______________ COURT OF ________________, ARKANSAS\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-PRE",
+      "page": 2,
+      "field": "DATE 01",
+      "before": "4.On",
+      "after": "DATE 01, the 1st of 1 blank on the printed line \"4.On __________the Defendant successfully completed the drug court\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-PRE",
+      "page": 1,
+      "field": "CLASS",
+      "before": "A",
+      "after": "CLASS, the 1st of 3 blanks on the printed line \"A Class _____ [_] felony in violation of A.C.A.\u00a7[_] misdemeanor\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-PRE",
+      "page": 1,
+      "field": "OFFENSE 01",
+      "before": "ACIC-PETITION-DRUG-COURT-PRE printed blank OFFENSE 01",
+      "after": "OFFENSE 01, the 1st of 1 blank on the printed line \"______________________________________________________\", which continues \"_____, and charged with the offense(s) of:\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-POST",
+      "page": 1,
+      "field": "ACA Code",
+      "before": "A Class _____ [_] felony [_] misdemeanor in violationof A.C.  (the caption of a DIFFERENT printed row; the row also quoted \"____________________.\" as the line it is printed on, contradicting itself)",
+      "after": "ACA Code, the 1st of 1 blank on the printed line \"____________________.\", which continues \"A Class _____ [_] felony [_] misdemeanor in violationof A.C.A.\u00a7\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-POST",
+      "page": 1,
+      "field": "Year 2",
+      "before": "A.C.A. \u00a7 ___________________, on the ________ day of _______  (a different row from the one the same entry quoted as printed)",
+      "after": "Year 2, the 1st of 1 blank on the printed line \"_________.\", which continues \"A.C.A. \u00a7 ___________________, on the ________ day of _________,\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-POST",
+      "page": 1,
+      "field": "1",
+      "before": "______________, _____, and charged with the oense(s) of",
+      "after": "1, the 1st of 1 blank on the printed line \"_____________________________________________________\" (the 1st of 2 identical lines on that page, counting from the top), which continues \"______________, _____, and charged with the oense(s) of\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-POST",
+      "page": 1,
+      "field": "2",
+      "before": "_____________________________________________________",
+      "after": "2, the 1st of 1 blank on the printed line \"_____________________________________________________\" (the 2nd of 2 identical lines on that page, counting from the top), which continues \"______________, _____, and charged with the oense(s) of\""
+     },
+     {
+      "document": "ACIC-PETITION-DRUG-COURT-PRE",
+      "page": 2,
+      "field": "federal court and the status of thatthose charges isare as follows 2",
+      "before": "ACIC-PETITION-DRUG-COURT-PRE printed blank federal court and the status of thatthose charges isare as follows 2",
+      "after": "federal court and the status of thatthose charges isare as follows 2, the 1st of 1 blank on the printed line \"__________________________________________________\" (the 2nd of 2 identical lines on that page, counting from the top), which continues \"federal court and the status of that/those charges is/are as follows:\""
+     }
+    ],
+    "everyRequiredRowAlsoGained": "disposition REQUIRED_BEFORE_FILING; suppliedBy -- 'the participant, from the court file, the ACIC criminal history, or the drug-court completion record' on the two petitions and 'the participant, copying the underlying court or ACIC record' on the two proposed orders; suppliedWhen -- 'before the petition is signed and filed' and 'before the proposed order is lodged, so it matches the petition it accompanies'; and printedLine, printedLineCarriesWords, introducedByPrintedLine, blankOrdinalOnPrintedLine, blanksOnPrintedLine, printedLineOccurrenceOnPage and printedLineOccurrencesOnPage as the evidence the identification is built from.",
+    "raceSexAlreadyCorrect": "Confirmed unchanged and correct at this base: every Race row reads Race and every Sex row reads Sex, on all four documents. VF05's decisive finding was repaired at 26838a27b.",
+    "nothingElseMoved": "No route key, source pin, component, protected court field, decretal text, fee statement, service statement or self-help stop was touched. production-field-map.json gained lines and lost none (1 removed line in the diff, the unified-diff header). No fixture byte moved."
+   },
+   "placementDiff": {
+    "method": "The repair is to refusal rows, which draw nothing, so the test is that the delivered pages did not move at all: SHA-256, byte length and pdfinfo page count recomputed for all four fixtures before and after, and every file under the family directory md5-compared across two consecutive builds.",
+    "pagesWhosePrintedTextChanged": "none, in any of the four fixtures",
+    "pageCountBefore": 9,
+    "pageCountAfter": 9,
+    "participantInstructionsChanged": "66 inventory entries rewritten from a single bolded caption line to a four-line entry carrying identification, owner, moment and disposition; 82 -> 342 lines."
+   },
+   "artifacts": [
+    {
+     "fixture": "pre-adjudication-canonical",
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-canonical.pdf",
+     "oldSha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+     "newSha256": "954fbaf9ef5109c70f8d91f5d9ae592261952bc425749302d20dd582462dea09",
+     "oldByteLength": 692600,
+     "newByteLength": 692600,
+     "pagesBefore": 9,
+     "pagesAfter": 9,
+     "moved": false
+    },
+    {
+     "fixture": "pre-adjudication-boundary",
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/pre-adjudication-boundary.pdf",
+     "oldSha256": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4",
+     "newSha256": "d9ab88a45149e6a22215a48cb2ff4e397ca3e5499cc5d1a88d65511a2aed1bc4",
+     "oldByteLength": 691917,
+     "newByteLength": 691917,
+     "pagesBefore": 9,
+     "pagesAfter": 9,
+     "moved": false
+    },
+    {
+     "fixture": "post-adjudication-canonical",
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-canonical.pdf",
+     "oldSha256": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+     "newSha256": "568c6ddf4817e4679d6636b2cfa61f914915158f5dd55c138291e50f0f05ff5c",
+     "oldByteLength": 1430391,
+     "newByteLength": 1430391,
+     "pagesBefore": 9,
+     "pagesAfter": 9,
+     "moved": false
+    },
+    {
+     "fixture": "post-adjudication-boundary",
+     "path": "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/fixtures/post-adjudication-boundary.pdf",
+     "oldSha256": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422",
+     "newSha256": "4a8768dae5a22dd6b376161bf5e96185571a4c023f9cdb621ca785647d888422",
+     "oldByteLength": 1429597,
+     "newByteLength": 1429597,
+     "pagesBefore": 9,
+     "pagesAfter": 9,
+     "moved": false
+    }
+   ],
+   "digestsMovedInThisLane": false,
+   "boundaryFixtureNoteForTheNextReader": "VF05 measured pre-adjudication-boundary cc5470f4faf9a92e... and post-adjudication-boundary 5ee9b46cac392fd7.... Those digests were already superseded at this lane's base by 26838a27b, the CLIPPING_AND_OVERLAP repair, which moved them to d9ab88a45149e6a2... and 4a8768dae5a22dd6.... This lane moved neither.",
+   "deterministicRebuild": "Built with --no-raster, then built again with no other change: every file under the family directory is md5-identical across the two runs, all four fixture SHA-256s included.",
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, both measured here with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-drug-court-set: PASS_COMPLETE, 22/190 written, exit 0. They are the starting condition and not the evidence: a required blank named 'IN TH' is disclosed, so unclassifiedBlanks and requiredFactsNotCollected both read zero while the disclosure names nothing a participant can act on. The repair is proved at the row and appearance level instead.",
+   "verifiersRun": {
+    "verifyPacketCompleteness": "PASS_COMPLETE, nine counters zero, run at the base before the change and again after",
+    "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD, 53 carrying an identityRefresh; run before and after",
+    "builderSelfCheck": "node scripts/build-census-v1-ar-drug-court-set.mjs --check, exit 0",
+    "buildGate": "assertRequiredBlanksAreIdentified, new here, passed on all 66 required rows",
+    "scan01": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs run corpus-wide over 249 family directories, output written to /tmp and NOT committed. It does not cover this family: ar-drug-court-set is recorded shipsComposedPdf=false, builder profile 'GX no composer found', 0 defects in every class. Corpus totals at this base: D_census 39, B_page_content 61, A_hard_split 20, C_block_integrity 11. No packet byte moved anywhere in this lane, so no SCAN01 class could move."
+   },
+   "appearanceCheck": {
+    "method": "Composed and flattened content read two ways. (1) pdftotext -bbox word boxes on every page of all four fixtures, pairwise overlap with printed rule runs excluded, and each added word diffed against the bound ACIC source page it sits on. (2) Local rasters at 110 dpi with pdftoppm into /tmp/fix49/raster, read by eye.",
+    "writesBreachingTheirWidgetBox": 0,
+    "writeOverPrintedCollisions": 0,
+    "pagesRasteredLocally": "pre-adjudication-boundary pages 4, 5 and 8 and post-adjudication-boundary pages 4 and 8 -- the pages VF05 named. Nothing was rastered into the delivered tree and no rasterState was set.",
+    "whatTheRasterShows": "The two long name rules on petition page 4 and order page 8 print empty, so nothing lands on 'prays', 'to' or 'Dismiss'; the boundary date of birth prints inside its own rule; every judge, signature and date line is blank."
+   },
+   "productWiring": {
+    "acceptanceReceipt": null,
+    "routeKeysUnchanged": true,
+    "note": "binding.acceptanceReceipt was already null at this base and was not edited. No packet byte moved, so no digest in the record needed re-pinning."
+   },
+   "filesChanged": [
+    "scripts/build-census-v1-ar-drug-court-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ar/ar-drug-court-set--official-pdf-fill/participant-instructions.md"
+   ],
+   "sharedHelperImpact": "None. This builder is imported by no other script and imports no helper it modifies; the one new import, BLANK_DISPOSITIONS from scripts/rcap-packet-completeness/completeness-contract.mjs, is read-only and that module is unchanged.",
+   "commit": "b4fa0ee70",
+   "rasterOwed": true,
+   "selfVerified": false,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false
+  }
+ ],
+ "notDone": [
+  "fl-early-juvenile-set CLIPPING_AND_OVERLAP is not repaired. The FDLE40-028 binary is not in this container and the placement cannot be measured without it. The diagnosis, the exact builder line and the shape of the repair are recorded in that row so the next lane with the bytes can act immediately.",
+  "rcap-nv-custom-pleading CLIPPING_AND_OVERLAP is not repaired and could not be: the verdict's own finding is that the geometry is clean and that no raster exists to promote it. A central whole-family raster is owed.",
+  "No raster was produced or enrolled for any of the three. RASTER_QUEUE.json and MASTER_QUEUE.json were not edited.",
+  "No family in this lane was independently verified by it. All three product-wiring acceptanceReceipts are null.",
+  "Two findings recorded and deliberately not acted on, both on rcap-nv-custom-pleading and both outside this verdict: its private character-accumulating splitToken, which SCAN01 profiles as 'fault 1 present' while measuring zero hard splits; and the fact that rebuilding the family erases an identityRefresh annotation from its source-receipt.json."
+ ],
+ "packetBytesChanged": 0,
+ "overlayDirectoriesModified": 1,
+ "buildersModified": [
+  "scripts/build-census-v1-ar-drug-court-set.mjs"
+ ],
+ "centralStateEdits": "none beyond the claim ledger this lane's own claim.mjs release writes",
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "selfVerificationPerformed": false,
+ "grantsNothing": "This return opens no route, promotes no build status, issues no verdict and settles no legal input. It is a repair record and a pair of stop records."
+}

@@ -25,6 +25,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet as sharedEvaluatorRouteSet } from "./lib/route-ratification.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -35,18 +36,34 @@ const JSON_OUT = path.join(ROOT, "data/expungement-ai/reports/petition-route-inv
 const LAR_JSON_OUT = path.join(ROOT, "data/expungement-ai/reports/legal-action-required.json");
 const MD_OUT = path.join(ROOT, "docs/expungement-ai/PETITION_ROUTE_INVENTORY.md");
 const LAR_MD_OUT = path.join(ROOT, "docs/expungement-ai/LEGAL_ACTION_REQUIRED.md");
+const CORRECTIONS_A_CLOSURE_PATH = path.join(ROOT, "data/expungement-ai/corrections-a/closure.json");
+const CORRECTIONS_A_SERVICE_BEHAVIOR = new Map(
+  JSON.parse(fs.readFileSync(CORRECTIONS_A_CLOSURE_PATH, "utf8")).routes
+    .map((route) => [route.routeKey, route.serviceBehavior])
+);
 
 // --------------------------------------------------------------------------- evaluator control sets
 const evalSrc = fs.readFileSync(EVALUATOR_PATH, "utf8");
+/**
+ * The live payment gate, read from the one controlling registry.
+ *
+ * This used to parse the Sets out of evaluator.ts, on the reasoning that those
+ * sets ARE the gate and a re-implementation here would measure this script
+ * instead of the runtime. That was right while they were hand-written literals.
+ * They are projections now: the evaluator filters
+ * data/record-clearing/legal-decisions/route-ratification-registry.json, so
+ * reading the registry is reading the same list one step closer to the
+ * authority, and there is no second list left for it to drift from.
+ */
 function parseRouteSet(name) {
-  const m = evalSrc.match(new RegExp(`const ${name} = new Set\\(\\[([\\s\\S]*?)\\]\\)`, "m"));
-  if (!m) throw new Error(`Could not find set ${name} in evaluator.ts`);
-  return new Set([...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]).filter((k) => /^[A-Z]{2}:/.test(k)));
+  return sharedEvaluatorRouteSet(name);
 }
 const RATIFIED_DEPLOYABLE = parseRouteSet("RATIFIED_DEPLOYABLE_ROUTES");
 const CORRECTED_AWAITING_RECONFIRM = parseRouteSet("CORRECTED_AWAITING_RECONFIRM_ROUTES");
 const HARD_GATE_PENDING = parseRouteSet("HARD_GATE_PENDING_ROUTES");
+const APPROVED_RELEASE_GUIDANCE = parseRouteSet("APPROVED_RELEASE_GUIDANCE_ROUTES");
 const HELD_GUIDANCE = parseRouteSet("HELD_GUIDANCE_ROUTES");
+const INTENTIONAL_UNSUPPORTED = parseRouteSet("INTENTIONAL_UNSUPPORTED_ROUTES");
 const ADMIN_APPLICATION_ROUTES = parseRouteSet("ADMINISTRATIVE_APPLICATION_PACKET_ROUTES");
 const SPECIAL_TIMING_KEYS = new Set([...evalSrc.matchAll(/key === "([A-Z]{2}:[^"]+)"/g)].map((m) => m[1]));
 
@@ -115,6 +132,10 @@ const EXPLICIT_OVERRIDES = {
   "HI:nonconviction-arrest-expungement": { productRouteType: "administrative_application", filingForum: "agency", userFiled: true, legalSignoffStatus: "signed_off" },
   "HI:first-time-drug-conviction": { productRouteType: "administrative_application", filingForum: "agency", userFiled: true, legalSignoffStatus: "signed_off" },
   "HI:dui-under-21-conviction": { productRouteType: "administrative_application", filingForum: "agency", userFiled: true, legalSignoffStatus: "signed_off" },
+  // Maryland Crim. Proc. § 10-103 is a participant-filed written application to the police agency,
+  // not automatic relief. Roger Roman and the LegalEase legal team approved the exact application
+  // behavior and eight-year maximum filing window on 2026-08-25.
+  "MD:police-record-expungement-when-no-charge-was-filed-under-10-103": { productRouteType: "administrative_application", filingForum: "agency", userFiled: true, legalSignoffStatus: "signed_off" },
   // Hawaii deferred-acceptance routes: the sellable step (court deferred-acceptance discharge motion vs
   // the later HCJDC application) is legally ambiguous in the source; hold for legal confirmation.
   "HI:deferred-acceptance-one-year": { productRouteType: "unknown", filingForum: "unknown", forceLegalActionRequired: true, larReason: "Forum ambiguous: HRS ch. 853 deferred-acceptance discharge is a court process, but expungement is via the HCJDC application. Confirm which is the sellable user-filed step." },
@@ -212,8 +233,10 @@ function waitAmbiguous(profile, pathway, key) {
 }
 function tierOf(key) {
   if (RATIFIED_DEPLOYABLE.has(key)) return "RATIFIED_DEPLOYABLE_ROUTES";
+  if (INTENTIONAL_UNSUPPORTED.has(key)) return "INTENTIONAL_UNSUPPORTED_ROUTES";
   if (CORRECTED_AWAITING_RECONFIRM.has(key)) return "CORRECTED_AWAITING_RECONFIRM_ROUTES";
   if (HARD_GATE_PENDING.has(key)) return "HARD_GATE_PENDING_ROUTES";
+  if (APPROVED_RELEASE_GUIDANCE.has(key)) return "APPROVED_RELEASE_GUIDANCE_ROUTES";
   if (HELD_GUIDANCE.has(key)) return "HELD_GUIDANCE_ROUTES";
   return "other / unclassified";
 }
@@ -267,6 +290,8 @@ function classify(profile, pathway) {
   let bucket, primaryBlocker;
   const secondaryBlockers = [];
   if (KNOWN_DUPLICATES[key]) { bucket = "discard_or_duplicate"; primaryBlocker = "duplicate"; }
+  else if (tier === "INTENTIONAL_UNSUPPORTED_ROUTES") { bucket = "permanent_guidance_not_a_paid_product"; primaryBlocker = "not_paid_product"; }
+  else if (tier === "APPROVED_RELEASE_GUIDANCE_ROUTES") { bucket = "permanent_guidance_not_a_paid_product"; primaryBlocker = "not_paid_product"; }
   else if (notOp) { bucket = "not_currently_operational"; primaryBlocker = "not_operational"; }
   else if (forceLar) { bucket = "legal_action_required"; primaryBlocker = "legal_action_required"; }
   else if (!paidCapable) { bucket = "permanent_guidance_not_a_paid_product"; primaryBlocker = autoMode ? "automatic_relief_mode" : "not_paid_product"; }
@@ -293,6 +318,7 @@ function classify(profile, pathway) {
 
   const legalSignoffStatus = EXPLICIT_OVERRIDES[key]?.legalSignoffStatus ?? (
     tier === "RATIFIED_DEPLOYABLE_ROUTES" ? "signed_off" :
+    tier === "APPROVED_RELEASE_GUIDANCE_ROUTES" ? "approved_guidance" :
     tier === "CORRECTED_AWAITING_RECONFIRM_ROUTES" ? "needs_reconfirm" :
     (tier === "HARD_GATE_PENDING_ROUTES" || tier === "HELD_GUIDANCE_ROUTES") ? "blocked" :
     paidCapable ? "needs_reconfirm" : "not_applicable");
@@ -312,6 +338,11 @@ function classify(profile, pathway) {
     sourceRuleRefs: plan?.sourceRuleRefs ?? (pathway.sourceRef ? [pathway.sourceRef] : []),
     bucket, primaryBlocker, secondaryBlockers,
     productRouteType, paymentProductEligible: bucket === "paid_now",
+    serviceBehavior: CORRECTIONS_A_SERVICE_BEHAVIOR.get(key) ?? (APPROVED_RELEASE_GUIDANCE.has(key) ? "guidance"
+      : INTENTIONAL_UNSUPPORTED.has(key) ? "intentional_unsupported"
+      : tier === "RATIFIED_DEPLOYABLE_ROUTES" ? "packet"
+        : autoMode ? "automatic"
+          : "guidance"),
     legalSignoffStatus, packetFulfillmentStatus, engineRecognizedAsCourtFiled: engineCourt,
     isAdministrativeApplication: isAdmin, packetFulfillmentReady: fulfillmentReady,
     missingEligibilityGates: [], missingIntakeQuestions: [], missingWaitAnchorEventLogic: [],
@@ -494,6 +525,7 @@ const metadata = {
     isAdministrativeApplication: r.isAdministrativeApplication, legalSignoffStatus: r.legalSignoffStatus,
     packetFulfillmentStatus: r.packetFulfillmentStatus, paidRouteBlocker: primaryBlockerToMetadata(r.primaryBlocker, r.bucket),
     evaluatorTier: r.evaluatorTier, openLegalActionRequiredItems: r.legalActionRequiredItemIds,
+    serviceBehavior: r.serviceBehavior,
     ...deriveProductStrategy(r, r.routeKey)
   }]))
 };
@@ -542,7 +574,7 @@ const acceptance = {
 const report = {
   generatedBy: "scripts/audit-petition-route-inventory.mjs", auditOnly: true, runtimeBehaviorChanged: false,
   headCommit: headCommit(),
-  routeTierSetSizes: { RATIFIED_DEPLOYABLE: RATIFIED_DEPLOYABLE.size, CORRECTED_AWAITING_RECONFIRM: CORRECTED_AWAITING_RECONFIRM.size, HARD_GATE_PENDING: HARD_GATE_PENDING.size, HELD_GUIDANCE: HELD_GUIDANCE.size, ADMINISTRATIVE_APPLICATION: ADMIN_APPLICATION_ROUTES.size },
+  routeTierSetSizes: { RATIFIED_DEPLOYABLE: RATIFIED_DEPLOYABLE.size, CORRECTED_AWAITING_RECONFIRM: CORRECTED_AWAITING_RECONFIRM.size, HARD_GATE_PENDING: HARD_GATE_PENDING.size, APPROVED_RELEASE_GUIDANCE: APPROVED_RELEASE_GUIDANCE.size, HELD_GUIDANCE: HELD_GUIDANCE.size, ADMINISTRATIVE_APPLICATION: ADMIN_APPLICATION_ROUTES.size },
   totals: {
     totalPathwaysClassified: routes.length, compiledPathwayCount, jurisdictions: allJurisdictions.length,
     paidNowRoutes: paidNow.length, paidNowJurisdictions: paidJurisdictions.length,

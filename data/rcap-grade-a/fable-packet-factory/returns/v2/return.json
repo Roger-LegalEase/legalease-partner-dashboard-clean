@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "fable-factory-return/v1",
+  "workerId": "FABLE-V2",
+  "assignmentId": "FV2-VF26-V4-BATCH-001",
+  "lane": "VF26",
+  "mode": "SECOND_INDEPENDENT_READ",
+  "returnedAt": "2026-09-01T15:05:54Z",
+  "baseSha": "5756043541637508e5f634296e8323570b010207",
+  "rowsFile": "data/rcap-grade-a/packet-factory-24h/vf26/rows.json",
+  "independence": "FABLE-V2 built and repaired nothing. The prior VA readings (data/rcap-grade-a/packet-factory-24h/vf13/rows.json and xvf-a/) were treated as the claim under test; no verdict, counter or obligation result was inherited. Every obligation was re-measured from bytes and records in this container.",
+  "determinationVerification": {
+    "record": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_CC1203_SUBSTITUTION.json",
+    "cc1201Sha256RecomputedFromCorpus": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+    "cc1203Sha256RecomputedFromCorpus": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+    "bothMatchTheDetermination": true,
+    "titleLinesConfirmedFromPacketBytes": "the CC-1203 families' own page-1 text, extracted from the committed fixture bytes, carries the determination's title line including 'And/or ancillary matters related to previously sealed charges or convictions'"
+  },
+  "verdicts": [
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligations": [],
+      "smallestExactRepair": null
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligations": [],
+      "smallestExactRepair": null
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligations": [],
+      "smallestExactRepair": null
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligations": [],
+      "smallestExactRepair": null
+    }
+  ],
+  "sourceIdentityMeasured": {
+    "va_seal_petition_felony-set": true,
+    "va_seal_petition_misdemeanor-set": true,
+    "va_seal_enumerated_seven_year-set": true,
+    "va_seal_ancillary_matter_only-set": true
+  },
+  "sourceIdentityMethod": "every boundSource SHA-256 recomputed from the corpus file bytes at the exact pathInArchive under MASTER_LIBRARY_SOURCE_DIR, byte lengths included; every non-null pageManifest sourceSha256 checked against the receipt; the MASTER_QUEUE boundSources recomputed as well",
+  "measurementNotes": [
+    "the nine completeness counters were produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs in this container for each family: all nine zero on all four",
+    "KNOWN_PREFILLS, PROTECTED_FIELDS and CLIPPING_AND_OVERLAP were proved by decoding the flattened widget appearance streams from the fixture PDF bytes via scripts/rcap-official-forms/pdf-flattened-widgets.mjs and by parsing the added selection-mark strokes out of the page content streams, never by trusting reports/actual-writes.json",
+    "every declared artifact (canonical, boundary, and both primary-filing extracts per family) was rehashed from committed bytes and matches its record",
+    "each family's complete-coverage central RASTER_PASS receipt (workflow run 33495068504) binds to the canonical and boundary SHA-256 recomputed from disk",
+    "recorded deviation on both CC-1203 families: their MASTER_QUEUE rows still name CC-1201 as boundSource — the stale pre-determination assignment binding, superseded by DETERMINATION_CC1203_SUBSTITUTION.json; the queue is Captain-owned so it is recorded rather than edited"
+  ],
+  "claims": {
+    "assertedAndReleased": [
+      "va_seal_petition_felony-set",
+      "va_seal_petition_misdemeanor-set",
+      "va_seal_enumerated_seven_year-set",
+      "va_seal_ancillary_matter_only-set"
+    ],
+    "refusedAsserts": 0
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "whatThisDoesNotDecide": "PASS_COMPLETE_INDEPENDENT is a verification verdict. It promotes nothing past state_built, opens no commercial route, and leaves counsel review a blocker for approved_for_live exactly as before.",
+  "commits": [
+    "fdc148914 VF26: va_seal_petition_felony-set second independent read — PASS_COMPLETE_INDEPENDENT",
+    "2a143c647 VF26: va_seal_petition_misdemeanor-set second independent read — PASS_COMPLETE_INDEPENDENT",
+    "474185191 VF26: va_seal_enumerated_seven_year-set second independent read — PASS_COMPLETE_INDEPENDENT",
+    "9497072eb VF26: va_seal_ancillary_matter_only-set second independent read — PASS_COMPLETE_INDEPENDENT"
+  ]
+}

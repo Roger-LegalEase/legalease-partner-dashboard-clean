@@ -25,7 +25,10 @@ function resolveAliasPath(base) {
 }
 
 export async function resolve(specifier, context, next) {
-  if ((specifier === "next/headers" || specifier === "next/image" || specifier === "next/link" || specifier === "next/navigation" || specifier === "next/server") && existsSync(path.join(root, "node_modules", `${specifier}.js`))) {
+  if (specifier === "next/server") {
+    return { url: pathToFileURL(path.join(root, "scripts/lib/next-server-esm-bridge.mjs")).href, shortCircuit: true };
+  }
+  if ((specifier === "next/headers" || specifier === "next/image" || specifier === "next/link" || specifier === "next/navigation") && existsSync(path.join(root, "node_modules", `${specifier}.js`))) {
     return { url: pathToFileURL(path.join(root, "node_modules", `${specifier}.js`)).href, shortCircuit: true };
   }
   if (specifier.startsWith("@/")) {

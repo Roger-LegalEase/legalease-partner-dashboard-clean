@@ -1,0 +1,368 @@
+{
+  "schemaVersion": "rcap-vf02-bounded-semantic-review/v2",
+  "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS_PRE_RASTER_SEMANTIC",
+  "reviewedAtBase": "73181f03c474de2e331d962d859daebe2c0c2cf9",
+  "packetCommitSha": "7b6d12fcdf07540fd6a063396c3057e277bb4381",
+  "scope": "Bounded independent recheck of the four prior TX072 VF02 semantic failures against the exact repaired current candidate. Current byte proof passes; raster visual measurement and final acceptance remain open.",
+  "claimEvidence": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 tx_nd_automatic_misdemeanor_deferred-set",
+    "result": "CLAIM_OK",
+    "grantId": "a0e6a9f4efa132ad",
+    "assertedBeforeFamilyReads": true
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-tx-automatic-current.json",
+    "sha256": "2bdbb8db6ddddbb29023cade39746f684609c44c2d1e4c9bc0ae9097d3f51293",
+    "byteLength": 18715,
+    "failedObligations": [
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS"
+    ],
+    "findingIds": [
+      "TX072-VF02-01",
+      "TX072-VF02-02",
+      "TX072-VF02-03",
+      "TX072-VF02-04"
+    ],
+    "priorReviewBase": "665f6cdbf95322b11e77defafffff6ea193bd2cc"
+  },
+  "resolvedFindings": [
+    {
+      "findingId": "TX072-VF02-01",
+      "status": "RESOLVED",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fixtxauto-current-repair-20260912.json",
+      "evidenceSha256": "53b3a0e366dabf19527507add6d49754c53e118eab5328307c66b123d7c7d64b",
+      "details": "Statement court number is derived from the held court name in both fixtures and the native County Court at Law Choice3 is selected. The distinct clerk-owned Cause Number remains blank.",
+      "byteEvidence": "The committed independent proof reads canonical 2 and boundary 15 on Statement page 11; the current actual-write/map records bind the native Choice3 selection."
+    },
+    {
+      "findingId": "TX072-VF02-02",
+      "status": "RESOLVED",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fixtxauto-current-repair-20260912.json",
+      "evidenceSha256": "53b3a0e366dabf19527507add6d49754c53e118eab5328307c66b123d7c7d64b",
+      "details": "Held DOB month/day/year are written to the participant declaration widgets, while the shared notary subscription Month widget remains blank.",
+      "byteEvidence": "The committed independent proof reads canonical 04/16/1993 and boundary 02/29/1992 on Statement page 21; both page-22 notary widgets remain underscores with the source comma."
+    },
+    {
+      "findingId": "TX072-VF02-03",
+      "status": "RESOLVED",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fixtxauto-current-repair-20260912.json",
+      "evidenceSha256": "53b3a0e366dabf19527507add6d49754c53e118eab5328307c66b123d7c7d64b",
+      "details": "Statement mailing and declaration addresses use the complete held street plus locality without inventing a country or duplicating locality.",
+      "byteEvidence": "The committed independent proof reads complete canonical and boundary addresses on Statement pages 12 and 21."
+    },
+    {
+      "findingId": "TX072-VF02-04",
+      "status": "RESOLVED",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fixtxauto-current-repair-20260912.json",
+      "evidenceSha256": "53b3a0e366dabf19527507add6d49754c53e118eab5328307c66b123d7c7d64b",
+      "details": "Cause Number is classified as clerk-owned, remains blank in the packet, and the participant guide no longer tells the participant to enter it.",
+      "byteEvidence": "The committed independent proof reads the protected blank Cause Number box on Statement page 11 in both fixtures."
+    }
+  ],
+  "sourceIdentity": {
+    "status": "PASS",
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/source-receipt.json",
+      "sha256": "42fd368ee0898e6c9966790d765a345936b277dde5f2a331a867793905fd1c30",
+      "byteLength": 3145
+    },
+    "allSourcesExact": true,
+    "sourceBinaryCommitted": false,
+    "commercialRoutesOpened": 0,
+    "documents": [
+      {
+        "documentId": "tx_nd_automatic_misdemeanor_deferred-recovery-letter-2",
+        "role": "recovery_letter",
+        "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+        "custody": "master_library",
+        "pathInArchive": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+        "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+        "byteLength": 255245,
+        "pageCount": 7,
+        "acroFieldCount": 25,
+        "sha256Exact": true
+      },
+      {
+        "documentId": "tx_nd_automatic_misdemeanor_deferred-proposed-order-3",
+        "role": "proposed_order",
+        "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+        "custody": "master_library",
+        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+        "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+        "byteLength": 88342,
+        "pageCount": 3,
+        "acroFieldCount": 0,
+        "sha256Exact": true
+      },
+      {
+        "documentId": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+        "role": "fee_waiver_statement",
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "custody": "human_source_returns",
+        "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "byteLength": 6667524,
+        "pageCount": 12,
+        "acroFieldCount": 132,
+        "sha256Exact": true
+      }
+    ],
+    "deterministicLetterDerivative": {
+      "method": "pikepdf.open(exact_source).save(derived_path, deterministic_id=True)",
+      "sourceWasEncrypted": true,
+      "sha256": "8197d7bba301f97bbaef5e1434975fc3aeb1650faae66ad007d57e9aeb4bb240",
+      "byteLength": 251614
+    }
+  },
+  "obligations": {
+    "ROUTE_IDENTITY": "PASS",
+    "SOURCE_IDENTITY": "PASS",
+    "COMPONENT_SET": "PASS",
+    "KNOWN_PREFILLS": "PASS_BOUNDED_REPAIR",
+    "REQUIRED_BEFORE_FILING": "PASS_BOUNDED_REPAIR",
+    "ROUTE_OPTIONS": "PASS_BOUNDED_REPAIR",
+    "REPEATING_ROWS": "PASS",
+    "PROTECTED_FIELDS": "PASS_NONVISUAL",
+    "ARTIFACTS": "PASS_NONVISUAL",
+    "PAGE_ORDER": "PASS_NONVISUAL",
+    "CLIPPING_AND_OVERLAP": "NOT_MEASURABLE_HERE",
+    "FILING_DESTINATION": "PASS",
+    "FEE_AND_WAIVER": "PASS",
+    "SERVICE": "PASS",
+    "SELF_HELP_STOP": "PASS"
+  },
+  "obligationCounts": {
+    "pass": 14,
+    "fail": 0,
+    "notMeasurable": 1,
+    "failedObligationNames": [],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "nonvisualCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": true,
+    "visualMeasuredHere": false
+  },
+  "currentCandidateBindings": {
+    "packetCommitSha": "7b6d12fcdf07540fd6a063396c3057e277bb4381",
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/source-receipt.json",
+      "sha256": "42fd368ee0898e6c9966790d765a345936b277dde5f2a331a867793905fd1c30",
+      "byteLength": 3145
+    },
+    "sourceDocuments": [
+      {
+        "documentId": "tx_nd_automatic_misdemeanor_deferred-recovery-letter-2",
+        "role": "recovery_letter",
+        "sourceId": "official-form:OCA Instructions and Model Letter for an Order of Nondisclosure under Section 411.072",
+        "custody": "master_library",
+        "pathInArchive": "STATES/TX/03_INSTRUCTIONS/TX__INSTRUCTIONS__TX-GC-411.072__instructions-for-petition-for-order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+        "sha256": "ae4427a75eb7c10c33d8e8cd3c4dca2092a8a83237204ec72cdcfc8c504ba1c7",
+        "byteLength": 255245,
+        "pageCount": 7,
+        "acroFieldCount": 25,
+        "sha256Exact": true
+      },
+      {
+        "documentId": "tx_nd_automatic_misdemeanor_deferred-proposed-order-3",
+        "role": "proposed_order",
+        "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.072",
+        "custody": "master_library",
+        "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.072__order-of-nondisclosure-under-411-072__REV-2022-02__EN.pdf",
+        "sha256": "7e35a724b6de6aac1f0cc11296596377df19786e597090c73384c87fd067fa39",
+        "byteLength": 88342,
+        "pageCount": 3,
+        "acroFieldCount": 0,
+        "sha256Exact": true
+      },
+      {
+        "documentId": "tx_nd_automatic_misdemeanor_deferred-fee-waiver-statement-4",
+        "role": "fee_waiver_statement",
+        "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+        "custody": "human_source_returns",
+        "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+        "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+        "byteLength": 6667524,
+        "pageCount": 12,
+        "acroFieldCount": 132,
+        "sha256Exact": true
+      }
+    ],
+    "productWiring": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/product-wiring.json",
+      "sha256": "dbd670988a42947e39c1d81cf6a74373562c9922606a1371f254da563f8c8da5",
+      "byteLength": 3838
+    },
+    "fieldMap": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/production-field-map.json",
+      "sha256": "869060dfefad8e0189668bd714fba28e14c806818b4d173778279f1e90f6232f",
+      "byteLength": 473404
+    },
+    "participantInstructions": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "ba43ca3902935d4882eba260bd85645398bb0ed7fedf9999db8c1c9046c2e10b",
+      "byteLength": 20877
+    },
+    "actualWrites": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/reports/actual-writes.json",
+      "sha256": "3cd89dc46b2b96667562efaeffce8d79daf30395f10255f18592ec908f1336b9",
+      "byteLength": 58885
+    },
+    "renderedArtifacts": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "0b0500bb6f182774884d80ae660ed95e9644fa861f923c7a531d05e524c3ad16",
+      "byteLength": 22750
+    },
+    "completenessCounters": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/reports/completeness-counters.json",
+      "sha256": "008ee016c50f5f5b5e90d97fcbc368a76e4826d46cb2361bade5e27e1864d659",
+      "byteLength": 987
+    },
+    "buildFindings": {
+      "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/build-findings.json",
+      "sha256": "f9f2d71043af0e7dfb9486027b3a3360ee8f11522d85b254fce1ac11f35f493e",
+      "byteLength": 642
+    },
+    "builder": {
+      "path": "scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs",
+      "sha256": "61167a5bfebb48ef521c9eae96ed4e79edfd111b378b24b179d4f025bdbe4901",
+      "byteLength": 81621
+    },
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/tx-automatic-raster-manifest-20260912.json",
+      "sha256": "692f36eb0482dcb9ae756d521a281c2a5c21870a8bbf6832d13f6a3937dee207",
+      "byteLength": 3243
+    },
+    "manifestPacketCommitSha": "7b6d12fcdf07540fd6a063396c3057e277bb4381",
+    "manifestDocumentsDigest": "2da1d9fc20fbdf65be7b63fb50b33eb7c3b118f002a292d87d30216f16667439",
+    "fixtures": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "d4336f778833e40df39570f5b2bb5b4b9979d9db87470b193e6e8de3dba30e5b",
+        "byteLength": 716248,
+        "role": "canonical",
+        "pageCount": 22
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "3d645fdf1509d80ff7bf6d988a8ae95165c5ffbc1a005a3b91871202d98fe41d",
+        "byteLength": 716423,
+        "role": "boundary",
+        "pageCount": 22
+      }
+    ],
+    "currentHeadAtReview": "73181f03c474de2e331d962d859daebe2c0c2cf9"
+  },
+  "derivedFactLineage": [
+    "matter.court_number derives from the trailing No. in held matter.court_name.",
+    "matter.court_type derives from held Court at Law wording and selects the native County Court at Law Choice3.",
+    "participant.complete_address derives from held street plus held city/state/ZIP, retaining an existing locality suffix.",
+    "participant.date_of_birth_month/day/year split the held ISO DOB and write only the participant DOB widgets.",
+    "matter.cause_number is held but refused from participant-facing Statement entry because the source assigns it to the clerk."
+  ],
+  "independentByteProof": {
+    "record": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf02/tx-current-independent-byte-check-20260912.json",
+      "sha256": "c82dc02fd0507d2acfeb0da7dcdd32d9af8ffb4f9971dd1e6df8e851c51f2264",
+      "byteLength": 5302
+    },
+    "result": "PASS",
+    "method": "Independent Poppler bbox read of 12 repaired text placements and 4 protected blank placements in committed PDFs.",
+    "measurementCount": 16,
+    "pdfBindings": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "d4336f778833e40df39570f5b2bb5b4b9979d9db87470b193e6e8de3dba30e5b",
+        "byteLength": 716248
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-automatic-misdemeanor-deferred-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "3d645fdf1509d80ff7bf6d988a8ae95165c5ffbc1a005a3b91871202d98fe41d",
+        "byteLength": 716423
+      }
+    ],
+    "visualDefects": null,
+    "visualMeasuredHere": false
+  },
+  "repairReturn": {
+    "record": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fixtxauto-current-repair-20260912.json",
+      "sha256": "53b3a0e366dabf19527507add6d49754c53e118eab5328307c66b123d7c7d64b",
+      "byteLength": 3792
+    },
+    "semanticPreflight": "PASS",
+    "rasterDispatchAuthorized": true,
+    "finalAcceptance": false,
+    "workerChecks": {
+      "focusedTest": "PASS: scripts/rcap-packet-recovery/tx-automatic-native-controls.test.mjs",
+      "builderCheck": "PASS: --check",
+      "governance": "EVERY_GOVERNANCE_KEY_SURVIVED"
+    },
+    "completenessAllNineZero": true
+  },
+  "rasterDispatch": {
+    "workflowRunId": "34698630263",
+    "dispatchPacketCommitSha": "7b6d12fcdf07540fd6a063396c3057e277bb4381",
+    "dispatchManifestCommitSha": "36bb7a1f20adb24447b599f57c973541ce21359e",
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/tx-automatic-raster-manifest-20260912.json",
+      "sha256": "692f36eb0482dcb9ae756d521a281c2a5c21870a8bbf6832d13f6a3937dee207",
+      "byteLength": 3243
+    },
+    "requestedScale": 2.5,
+    "expectedOriginalPages": 44,
+    "status": "RASTER_IN_PROGRESS",
+    "custodyRecord": null,
+    "visualDefects": null,
+    "visualMeasuredHere": false
+  },
+  "rasterDispatchAuthorized": true,
+  "rasterEvidence": {
+    "status": "RASTER_IN_PROGRESS",
+    "workflowRunId": "34698630263",
+    "originalPagesExpected": 44,
+    "visualDefects": null,
+    "visualMeasuredHere": false
+  },
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "commandsActuallyPassed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 tx_nd_automatic_misdemeanor_deferred-set (CLAIM_OK; grant a0e6a9f4efa132ad)",
+    "node scripts/rcap-packet-recovery/tx-automatic-native-controls.test.mjs (PASS; recorded in the bounded repair return)",
+    "node scripts/build-census-v1-tx_nd_automatic_misdemeanor_deferred-set.mjs --check (PASS; recorded in the bounded repair return)",
+    "governance check EVERY_GOVERNANCE_KEY_SURVIVED (PASS; recorded in the bounded repair return)",
+    "Independent current-byte proof data/rcap-grade-a/packet-factory-24h/vf02/tx-current-independent-byte-check-20260912.json (PASS; 16 measurements; exact canonical/boundary PDF bindings)",
+    "Current source receipt, component set, map/guide treatment, actual-write proof, completeness counters, and raster manifest rehashed against the candidate bindings recorded here"
+  ],
+  "unfinishedGates": [
+    "central raster custody and original visual review of all 44 pages",
+    "measure CLIPPING_AND_OVERLAP and visual defects from original raster pages",
+    "independent final acceptance and native terminal integration"
+  ],
+  "independence": {
+    "packetRepairAuthor": "/root/sd_caption",
+    "reviewer": "/root/review_wa",
+    "implementationEditsByReviewer": false,
+    "sourceEditsByReviewer": false,
+    "sharedManifestOrLedgerEditsByReviewer": false
+  }
+}

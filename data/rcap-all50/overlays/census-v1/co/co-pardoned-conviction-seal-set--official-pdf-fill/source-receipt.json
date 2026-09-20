@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "co_pardoned_conviction_seal-set",
+  "worklistGroupId": "co_pardoned_conviction_seal-set",
+  "jurisdiction": "CO",
+  "implementationStrategy": "official_pdf_fill",
+  "implementationStrategyNote": "The assignment names official_pdf_fill for this family, and that is what JDF 681 gets. JDF 680 is a flat PDF with no AcroForm field on it, so it is built as a measured overlay against the rules the form prints, which is the same path the Washington vacatur families use. The strategy per document is recorded below.",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "corpusRootFromEnvironment": "MASTER_LIBRARY_SOURCE_DIR",
+  "bindingMethod": "exact form number + committed corpus-index SHA-256 + on-disk SHA-256 + byte length",
+  "routeKey": "track:CO:co_pardoned_conviction_seal",
+  "routeSelectionId": "co-pardoned-conviction-seal-set-jdf-680-jdf-681",
+  "statutoryAuthority": "C.R.S. § 24-72-710; Colorado Judicial Department forms JDF 680 and JDF 681",
+  "allSourcesExact": true,
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:JDF-680"
+      ],
+      "documentId": "JDF-680",
+      "formNumber": "JDF-680",
+      "revision": "REV-2022-08-10",
+      "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-680__motion-to-seal-conviction-records-pardoned__REV-2022-08-10__EN.pdf",
+      "sha256": "ae3d5f1c345394dcc104fd5cc0ac72b636068e52985cb38edf4592688d8ac0ae",
+      "byteLength": 110285,
+      "instrumentKind": "primary_filing",
+      "strategy": "measured_flat_overlay",
+      "structuralClassObserved": "flat_pdf",
+      "acroFieldCount": 0
+    },
+    {
+      "sourceIds": [
+        "official-form:JDF-681"
+      ],
+      "documentId": "JDF-681",
+      "formNumber": "JDF-681",
+      "revision": "REV-2024-03-20",
+      "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-681__order-to-seal-pardoned-conviction-records__REV-2024-03-20__EN.pdf",
+      "sha256": "cf20dc0fdcbd71b49c2a43a6a11b1c952fd65943a5d0755f50299a10447a799d",
+      "byteLength": 547179,
+      "instrumentKind": "proposed_order",
+      "strategy": "acroform_fill",
+      "structuralClassObserved": "acroform",
+      "acroFieldCount": 16
+    }
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0
+}

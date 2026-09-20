@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-independent-native-admission-review/v1",
+  "familyId": "rcap-sc-custom-pleading",
+  "lane": "VFSCADMISSION1",
+  "reviewerSession": "/root/ut_original_acceptance:VFSCADMISSION1",
+  "implementationAuthor": "/root",
+  "guidanceAuthor": "/root/mt_serving_build",
+  "grantSet": "417f5fdf4470853c",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "acceptanceGranted": false,
+  "scope": "Minimal additive native admission and actual-runtime binding; prior bilingual semantic acceptance is retained. No packet or raster requirement for rendererKind none.",
+  "reviewedBindings": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/sc-reviewed-guidance.mjs",
+      "sha256": "e9fc6adf0a00ff0f32406f531057ca2f25a19553e6af32cf1736bc3b55baf632",
+      "byteLength": 4231
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "sha256": "ff6a7db078b177f619f9eba3947e226942406778d33ac71a7543e1357b7d03eb",
+      "byteLength": 306558
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json",
+      "sha256": "2e29e75e86fbc0fb6f71323c5c495b7a7e94ba3b52448516a4a845e5adf4bc42",
+      "byteLength": 1095
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfscguidance1/sc-guidance-native-binding-20260914.json",
+      "sha256": "0540be1ebc3c7e2693a197d9a5f4a28853fbf7ef294465672733a41c8cccfcc3",
+      "byteLength": 7942
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfscguidance1/sc-guidance-independent-pass-20260914.json",
+      "sha256": "1f38bb34323f4b581fe111086e6327c74c0c8d1bc852cce7f963dbaac94e6d00",
+      "byteLength": 5440
+    },
+    {
+      "path": "data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json",
+      "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+      "byteLength": 156071
+    }
+  ],
+  "checks": [
+    {
+      "name": "current exact admission",
+      "passed": true
+    },
+    {
+      "name": "stale accepted guidance bytes",
+      "passed": true,
+      "error": "SC: stale data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json\n+ actual - expected\n\n+ '3c1396b4492223cb6f3777c9b86375ceef1f7fdff47f7b1826e84c297603ae8f'\n- 'd34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe'\n"
+    },
+    {
+      "name": "missing installed bytes",
+      "passed": true,
+      "error": "ENOENT: no such file or directory, open '/tmp/sc-native-review-5nJhCe/data/rcap-all50/terminalization-treatments/sc_solicitor_guidance_20260914.json'"
+    },
+    {
+      "name": "stale source bytes",
+      "passed": true,
+      "error": "SC: stale private/transfers/sc-223a1-current-custody-20260914/STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf\n+ actual - expected\n\n+ '70e36a2483175261fc44783519af970d9ee5972b4cce222db986633d4b243dd3'\n- '3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7'\n"
+    },
+    {
+      "name": "review author same session",
+      "passed": true,
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(review.reviewerSession && review.authorSession && review.reviewerSession !== review.authorSession)\n"
+    },
+    {
+      "name": "runtime renderer enabled",
+      "passed": true,
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(runtime.rows.every(r => r.savedGuidanceExact && r.bothLocaleBundlesExact\n"
+    },
+    {
+      "name": "installed removed and ref redirected to accepted staging",
+      "passed": false,
+      "error": null
+    }
+  ],
+  "failures": [
+    {
+      "id": "INSTALLED_GUIDANCE_PATH_NOT_BOUND_TO_RUNTIME",
+      "reproduction": "In isolated temporary evidence root, remove installed runtime guidance, redirect admission.installedGuidance to the accepted staging guidance.json with its existing matching digest and size; loadScReviewedGuidance still returns GUIDANCE_READY.",
+      "expected": "Refuse admission if the actual runtime install is missing or overridden.",
+      "boundedRepair": "Bind exact installed runtime path and verify each of the ten tracks resolves to accepted installed guidance under the existing sorted registry loader. Bind actual-runtime proof to relevant route/render/payment consumer bytes."
+    }
+  ],
+  "preservedAcceptance": "SC guidance independent PASS remains unchanged; no semantic defect reasserted.",
+  "sharedInputsMutated": false,
+  "nativeRegenerationRunByReviewer": false,
+  "isolatedMutationTestsOnly": true,
+  "centralConvergenceRequiredAfterCodePass": true
+}

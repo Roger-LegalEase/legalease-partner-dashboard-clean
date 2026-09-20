@@ -1,0 +1,219 @@
+{
+  "registryBinding": {
+    "path": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+    "byteLength": 16781025
+  },
+  "tracks": {
+    "in_arrest_no_charges": {
+      "trackId": "in_arrest_no_charges",
+      "publicName": "Clearing an arrest where you were never charged",
+      "venue": "A circuit or superior court in the county where the charges or allegation were filed, or where the arrest occurred if none were filed.",
+      "destination": {
+        "kind": "court",
+        "name": "Circuit or superior court in the county of filing or arrest",
+        "detail": "The court serves a copy of the petition on the prosecuting attorney under \u00a7 35-38-9-1(f). No filing fee."
+      },
+      "rules": {
+        "filing": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+        "fees": "None. Section 1 petitions carry no filing fee.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "The court serves a copy of the petition on the prosecuting attorney under \u00a7 35-38-9-1(f). The court shall grant unless the subsection (a) conditions are unmet or criminal charges are pending, and may summarily deny a petition that shows on its face that the person is not entitled to relief.",
+        "service": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+        "participantSignature": "The petition is verified and signed by the petitioner.",
+        "notarization": "none"
+      },
+      "waitingPeriods": [
+        {
+          "condition": "The arrest, with no charges pending",
+          "duration": "One year"
+        }
+      ],
+      "packetInstructions": [
+        "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under \u00a7 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+        "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
+        "Disclose that the expungement case file is public until the order is granted.",
+        "Tell the participant plainly that expungement does not shorten the statute of limitations and the prosecutor may still file a charge later.",
+        "The court serves the prosecuting attorney under \u00a7 35-38-9-1(f). The participant does not serve, although the appearance form carries its own certificate of service; follow the form."
+      ],
+      "selfHelpStopConditions": [
+        "The prosecutor objects or files a notice in opposition.",
+        "A victim submits a statement in opposition.",
+        "The court sets a hearing.",
+        "The person has convictions in more than one county and the 365-day window is already partly consumed.",
+        "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
+        "The person has already filed a Sections 2 through 5 petition.",
+        "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
+        "The person is a sex or violent offender or subject to registration.",
+        "Fines, fees, costs or restitution are unpaid or disputed.",
+        "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
+        "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+        "Immigration, firearm, licensing or CDL consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Indiana county were the charges filed, or where were you arrested if no charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the cause number, if charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the matter end \u2014 all charges dismissed, acquitted, vacated, a no-true finding, or never charged?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did that happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "inPretrialDiversion",
+          "question": "Are you currently participating in a pretrial diversion programme?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorAuthorization",
+          "question": "If you are in a pretrial diversion programme, has the prosecuting attorney authorised this petition?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a pretrial diversion is active, because \u00a7 35-38-9-1(a) requires the prosecutor's authorisation in that case."
+        },
+        {
+          "key": "ssnLastFour",
+          "question": "What are the last four digits of your Social Security number?",
+          "requirement": "required"
+        },
+        {
+          "key": "isSelfRepresented",
+          "question": "Are you filing without a lawyer?",
+          "requirement": "required"
+        }
+      ]
+    },
+    "in_section1_petition": {
+      "trackId": "in_section1_petition",
+      "publicName": "Clearing a case that did not end in a conviction",
+      "venue": "A circuit or superior court in the county where the charges or allegation were filed, or where the arrest occurred if none were filed.",
+      "destination": {
+        "kind": "court",
+        "name": "Circuit or superior court in the county of filing or arrest",
+        "detail": "The court serves a copy of the petition on the prosecuting attorney under \u00a7 35-38-9-1(f). No filing fee."
+      },
+      "rules": {
+        "filing": "File the verified petition, order, appearance where self-represented, Notice of Exclusion and Confidential Information Form with a circuit or superior court in the county where the charges were filed, or where the arrest occurred if none were filed.",
+        "fees": "None. Section 1 petitions carry no filing fee.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "The court serves a copy of the petition on the prosecuting attorney under \u00a7 35-38-9-1(f). The court shall grant unless the subsection (a) conditions are unmet or criminal charges are pending, and may summarily deny a petition that shows on its face that the person is not entitled to relief.",
+        "service": "The court serves the prosecuting attorney. The CCA appearance form nonetheless carries a certificate of service to the county prosecutor; follow the form.",
+        "participantSignature": "The petition is verified and signed by the petitioner.",
+        "notarization": "none"
+      },
+      "waitingPeriods": [
+        {
+          "condition": "The arrest, charge or allegation, whichever is later",
+          "duration": "One year, or after the opinion vacating a conviction becomes final"
+        },
+        {
+          "condition": "Written agreement of the prosecuting attorney",
+          "duration": "Early filing permitted"
+        }
+      ],
+      "packetInstructions": [
+        "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under \u00a7 35-38-9-1(k). The Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+        "Put only the last four digits of the Social Security number on the petition. The full number goes on the Confidential Information Form, filed as a confidential document, accompanied by the Notice of Exclusion of Confidential Information from Public Access. Do not persist the full number.",
+        "Disclose that the expungement case file is public until the order is granted.",
+        "Early filing is available only where the prosecuting attorney agrees in writing. Silence is not agreement."
+      ],
+      "selfHelpStopConditions": [
+        "The prosecutor objects or files a notice in opposition.",
+        "A victim submits a statement in opposition.",
+        "The court sets a hearing.",
+        "The person has convictions in more than one county and the 365-day window is already partly consumed.",
+        "A conviction is not yet eligible and the person wants to file now, which is the Chastain trap.",
+        "The person has already filed a Sections 2 through 5 petition.",
+        "Classification between Sections 2, 3, 4 and 5 is unclear, or turns on whether an offence caused serious bodily injury.",
+        "The person is a sex or violent offender or subject to registration.",
+        "Fines, fees, costs or restitution are unpaid or disputed.",
+        "Charges are pending anywhere, or the person is in a pretrial diversion programme.",
+        "The record involves a commercial driver's licence and 49 C.F.R. 384.226.",
+        "Immigration, firearm, licensing or CDL consequences are in play.",
+        "The person wants to attack the underlying conviction rather than expunge it."
+      ],
+      "generationRequirements": [
+        {
+          "key": "countyOfCase",
+          "question": "In which Indiana county were the charges filed, or where were you arrested if no charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the cause number, if charges were filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the matter end \u2014 all charges dismissed, acquitted, vacated, a no-true finding, or never charged?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did that happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingCharges",
+          "question": "Do you have any criminal charges pending anywhere?",
+          "requirement": "required"
+        },
+        {
+          "key": "inPretrialDiversion",
+          "question": "Are you currently participating in a pretrial diversion programme?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorAuthorization",
+          "question": "If you are in a pretrial diversion programme, has the prosecuting attorney authorised this petition?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a pretrial diversion is active, because \u00a7 35-38-9-1(a) requires the prosecutor's authorisation in that case."
+        },
+        {
+          "key": "ssnLastFour",
+          "question": "What are the last four digits of your Social Security number?",
+          "requirement": "required"
+        },
+        {
+          "key": "isSelfRepresented",
+          "question": "Are you filing without a lawyer?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorWrittenAgreementEarlyFiling",
+          "question": "Has the prosecuting attorney agreed in writing to let you file early?",
+          "requirement": "required"
+        }
+      ]
+    }
+  },
+  "sourceQuestionNotReopened": true,
+  "priorSourceAcquisitionAlreadyResolved": true
+}

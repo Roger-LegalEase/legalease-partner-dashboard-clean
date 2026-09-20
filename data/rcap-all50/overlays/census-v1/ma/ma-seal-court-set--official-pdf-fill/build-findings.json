@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ma-seal-court-set",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "THE ACROFORM INDEX ORDER DOES NOT FOLLOW THE PRINTED ROW ORDER OF THE CHARGE TABLE. Measured over all 111 cells: 52 of them carry an index that disagrees with the row number the form prints beside them. Printed row 5 is TextField3[6] / DropDownList1[9] / DateField1[7]; printed row 13 is TextField3[12] / DropDownList1[1] / DateField1[12].",
+      "consequence": "A builder that read a row number out of a field index would label a cell for one charge and place it on another charge's line, on a petition signed under a perjury warning — and every field counter would read clean, because the cell count and the label count would both be right. This build resolves every cell's row by GEOMETRY against the printed number and refuses if any cell matches none or more than one. Returned as a factory-level finding: any other family whose form carries a numbered table needs the same check, and an index-derived row number is not evidence."
+    },
+    {
+      "finding": "THE CHARGE TABLE'S COLUMN ORDER CANNOT BE READ OFF THE EXTRACTED LINES. The five header lines interleave — 'Charge Date of Nolle Prosequi or' is one extracted line — and read naively they put the date in the middle column. By item x-position the middle heading at x 268 is 'State Whether the Court Entered a Nolle Prosequi or Dismissed the Charge' and the right heading at x 455 is 'Date of Nolle Prosequi or Dismissal'.",
+      "consequence": "Two independent readings agree and both are asserted at build time: the heading item positions, and the middle widget's own option list, read from the binary as [\"Nolle Prosequi\",\"Dismissed\"]. Had the naive reading been used, the participant would have been told to write a date in the box that asks which disposition the court entered."
+    },
+    {
+      "severity": "blocking_if_unfixed_elsewhere",
+      "finding": "SOURCE_READY_BUILDABILITY.json and the MASTER_QUEUE row classify this family custodyClass \"SOURCE_GENUINELY_MISSING\" with documentSourcesResolved 0, in the same rows that read sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, kind 'held_pdf', firstBytes '%PDF-' and resolvedBy 'declared_path' for this very source.",
+      "consequence": "SOURCE_GENUINELY_MISSING is the strongest thing that record can say about a source, and it was said about a file that was in custody the whole time, at the exact digest the queue itself pins. The bytes bind, verified before this build wrote anything. Recorded in source-receipt.json for whoever owns the scalar."
+    },
+    {
+      "finding": "SOURCE_IDENTITY_RESOLUTION_SWEEP.json records identityEvidence.xfaPresent false for these bytes. The AcroForm dictionary of the pinned binary carries an /XFA entry and pdf-lib announces 'Removing XFA form data' on load. This build reads xfaPresentInTheAcroFormDictionary true.",
+      "consequence": "The binary is an XFA hybrid whose AcroForm side is complete — 135 widgets over static page content that extracts cleanly — so the ordinary fill-and-flatten path applies and the delivered artifact is the flattened rendering of the static pages. The same disagreement was measured on this lane's § 100K petition and, earlier, on TC0021 by ma-expunge-mj-set: three Massachusetts Trial Court binaries, the same wrong scalar, which makes it a property of how that field is generated rather than of any one file."
+    },
+    {
+      "finding": "Every check box on this form ships an appearance for its ON state ('/1') and NO '/Off' appearance, and every text field ships no /AP at all.",
+      "consequence": "That is the precondition of the measured Vermont synthesized-border defect. Both suppression flags are passed, and reports/actual-writes.json reads all 135 rectangles in the output on the INK-operator channel — stroke, fill, shading, XObject — to confirm nothing paints at a box this packet does not tick. What is stamped at each unticked box is the EMPTY appearance the suppression installs, measured at zero ink operators against the source's own on-state stream, which strokes."
+    },
+    {
+      "finding": "The COURT ORDER block on page 2 prints a hearing date, a hearing time and a JUSTICE'S SIGNATURE and DATE line, and the AcroForm carries NO widget at any of them. Its only widget is a single check box.",
+      "consequence": "There is nothing there for this build to protect, and no field counter would have shown the gap. The one widget is refused as court-owned on the strength of the block's own printed caption '(for Court use only)', re-read from the binary, and the participant is told to write nothing in that block."
+    },
+    {
+      "finding": "The route-obligation census records nothing for this route on proposedOrder, coverSheet, notice, certificateOfService, affidavitOrVerification, schedulesOrContinuationPages, notarizationRequirements, filingMethod, filingFee, feeWaiverTreatment, serviceRecipients, serviceMethod, serviceTiming, filingDeadline and postFilingInstructions: [\"affidavitOrVerification\",\"certificateOfService\",\"coverSheet\",\"feeWaiverTreatment\",\"filingDeadline\",\"filingFee\",\"filingMethod\",\"notarizationRequirements\",\"notice\",\"postFilingInstructions\",\"proposedOrder\",\"schedulesOrContinuationPages\",\"serviceMethod\",\"serviceRecipients\",\"serviceTiming\"].",
+      "consequence": "The participant instructions state no filing fee, no fee waiver, no deadline and no service the participant must effect. What they do state about notice — to the Probation Service, to the prosecutor, to any victim, and the public bulletin board — is quoted from the court's own printed block on page 2 of the pinned binary, which puts those duties on the Clerk-Magistrate rather than on the participant."
+    },
+    {
+      "finding": "The Date of Birth box carries no printed date order beneath it, and neither do the 37 disposition-date cells.",
+      "consequence": "participant.date_of_birth is written in the platform's stored ISO form, YYYY-MM-DD, because the form prints no order for it to disagree with. Recorded because two other families have raised the stored-versus-printed date question as a shared-factory matter, and this family's answer is 'the paper does not say', not 'ISO is correct here'."
+    }
+  ]
+}

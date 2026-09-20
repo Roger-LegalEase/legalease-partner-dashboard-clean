@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-oh-clean-tracks-blocker-transfer-receipt/v1",
+  "recordedAt": "2026-09-13",
+  "familyId": "rcap-oh-custom-pleading-clean-tracks",
+  "jurisdiction": "OH",
+  "status": "ISOLATED_PREREQUISITE_AFTER_EXACT_TRANSFER",
+  "worker": {
+    "checkout": "private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+    "branch": "pf20-ks-22-2410-arrest-20260912b",
+    "head": "77d2003fa81235b6d4ac153021d5fd7dd84ae739",
+    "worktreeCleanAfterTransfer": true
+  },
+  "exactTransfers": [
+    {
+      "sourceCustodyPath": "private/source-acquisition-20260913/oh-96c1/OH-SUPR-Superintendence-2026-08-06.pdf",
+      "workerPath": "private/source-acquisition-20260913/oh-96c1/OH-SUPR-Superintendence-2026-08-06.pdf",
+      "byteLength": 11986292,
+      "sha256": "3c0adba6f9fed5d9f012dced1ed2e6aabf542de860b9b2ebdabfcd6e927cdf05",
+      "role": "HELD_RULES_CONTAINER_FOR_OH_2953_32_SEALING"
+    },
+    {
+      "sourceCustodyPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+      "workerPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf",
+      "byteLength": 235789,
+      "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+      "role": "DECLARED_FAMILY_SOURCE_FOR_POST_ORDER_COMPANION"
+    }
+  ],
+  "existingWorkerCompanion": {
+    "path": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
+    "byteLength": 235789,
+    "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+    "copied": false,
+    "verified": true
+  },
+  "currentPrerequisite": {
+    "familySource": "The single declared BCI source is now present in the worker at the exact pinned SHA-256 and byte length.",
+    "rulesCustody": "The held Rules container is present at the exact PF08 custody path and hash; it is not yet admitted to the shared source index or route registry.",
+    "fullPreflightRerun": false
+  },
+  "isolatedBlocker": {
+    "oh_2953_32_sealing": "Captain source admission for the Rules container remains pending, followed by record-bound destination-court caption and filing mechanics.",
+    "oh_2953_32_expungement": "Current remedy-matching primary application or explicit statewide-form confirmation is missing.",
+    "oh_2953_33_nonconviction": "Updated issuer form or exact handling-court primary application is missing.",
+    "oh_2953_35_firearm": "Updated issuer form or sentencing-court application covering the exact current statutory branch is missing.",
+    "familyWide": "No four-track filing-ready build can bind while the three route-specific primary inputs remain absent."
+  },
+  "noMutations": [
+    "No shared source index, queue, registry, route, or overlay was edited.",
+    "No source admission or legal decision was made.",
+    "No Kansas artifact was changed.",
+    "No source hunt, statute download, reraster, or build was performed."
+  ],
+  "nextActionForCaptain": "Admit the held Rules container only if the existing authority workflow accepts it; keep the three remaining routes isolated until their exact current primary inputs are held."
+}

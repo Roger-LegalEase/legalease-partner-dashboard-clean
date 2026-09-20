@@ -1,0 +1,364 @@
+{
+  "bodiesCommitted": 0,
+  "builtRasterPending": {
+    "doesNotZeroOrWaive": "visualDefects stays whatever it is; BUILT_RASTER_PENDING records that nobody has looked, not that there is nothing to see",
+    "isNotALaunchVerdict": true,
+    "meaning": "packet construction is finished and the visual gate has not run",
+    "noPassCompleteWithout": "RASTER_PASS",
+    "state": "BUILT_RASTER_PENDING"
+  },
+  "byLane": {
+    "RAS01": [
+      "az_record_sealing_arrest_no_charges-set",
+      "az_record_sealing_dismissal_not_guilty-set"
+    ]
+  },
+  "commercialRoutesOpened": 0,
+  "counts": {
+    "queued": 2,
+    "notEligible": 0,
+    "byState": {
+      "RASTER_PENDING": 2
+    },
+    "byLane": {
+      "RAS01": 2
+    }
+  },
+  "entryPreconditions": [
+    "source binding passes",
+    "packet components exist",
+    "canonical and boundary PDFs exist",
+    "nonvisual completeness checks pass"
+  ],
+  "fixtureDiscovery": {
+    "grantsNothing": "finding a fixture queues a render. It renders nothing, proves nothing, and promotes nothing.",
+    "listing": "recursive, and each PDF is named relative to that root, so a role carried by a variant directory name is preserved rather than discarded",
+    "root": "the family's fixtures/ directory where it exists; otherwise, for a family that keeps none, the family directory with its fixtures located by the files its builder declares as fixtures in reports/rendered-artifacts.json",
+    "whyItMatters": "a family whose fixtures are not found never enters the queue, never earns a RASTER_PASS and can never be PASS_COMPLETE, and the queue reads as complete while saying nothing about what it declined to enrol"
+  },
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+  "grantsNothing": "A RASTER_PASS proves the pages render as measured. It is one gate of several, it promotes nothing, and it opens no commercial route.",
+  "historicalRasterRowCount": 0,
+  "historicalRasterRows": [],
+  "lanes": [
+    "RAS01",
+    "RAS02",
+    "RAS03",
+    "RAS04"
+  ],
+  "lastBatch": {
+    "allGreen": true,
+    "familyJobs": 1,
+    "ingestedOn": "2026-09-09T04:22:20.651Z",
+    "liveReceipts": 1,
+    "renderedCommitSha": "94445c6a489daba7807a48371d0c9b45258d6ba9",
+    "supersededReceipts": 0,
+    "workflowRunId": "34309823488"
+  },
+  "maxParallel": 20,
+  "notEligible": [],
+  "packetCommitSha": "f352179fb39bf817e56f2274908c28bd12e98358",
+  "packetCommitShaIsAGenerationStampNotAByteBinding": "This field records when the queue was written, not what a raster rendered. Bind a receipt with the row's canonicalPdfSha256 and boundaryPdfSha256 and with the receipt's own renderedCommitSha. A queue regenerated after a run will carry a newer commit than the run that produced its receipts, and that is not drift.",
+  "packetPdfsModified": 0,
+  "productionTouched": false,
+  "rasterStateSemantics": {
+    "RASTER_LOCAL_PENDING_CENTRAL": {
+      "authorizes": "nothing",
+      "introducedBy": "PF-C on ak-tf800-set, 9h shift",
+      "isNotAGateReceipt": "Locally produced page rasters are not the central gate.s evidence. They were made on an uncalibrated runner, under no canary and no negative controls, and no receipt binds them to the queue.s pinned hashes.",
+      "provesNothing": true,
+      "stillRequiredForPassComplete": "a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "treatAs": "RASTER_PENDING for every routing and promotion decision",
+      "why": "A builder container that happens to resolve a real Chromium can render pages locally. PF-C did, and refused to call the result BUILT_RASTER_PENDING because pages had in fact been rastered, or RASTER_PASS because the central workflow had not run. That distinction is correct and the state is declared here so it is not unknown vocabulary."
+    }
+  },
+  "rasterStateVocabulary": [
+    "RASTER_PENDING",
+    "RASTER_RUNNING",
+    "RASTER_PASS",
+    "RASTER_FAIL",
+    "RASTER_BLOCKED_ENVIRONMENT",
+    "RASTER_LOCAL_PENDING_CENTRAL"
+  ],
+  "routing": {
+    "RASTER_BLOCKED_ENVIRONMENT": "the runner could not render at all; this is an environment defect and not a packet defect, and it never becomes RASTER_FAIL",
+    "RASTER_FAIL": "the family goes to FIX",
+    "RASTER_PASS": "the family goes to independent verification"
+  },
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/boundary/packet-assembly.pdf",
+      "boundaryPdfSha256": "0a199685a887524883eee342819f3b339d5c5b64d283ac202c509d408b13ef6f",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/canonical/packet-assembly.pdf",
+      "canonicalPdfSha256": "e9a10f6b4748a104579837d65700073c2d0b81f54ffde43f1e3de44191024bc8",
+      "coverage": {
+        "basis": "the family ships 3 canonical document(s) with no assembled packet, and the row renders all of them",
+        "complete": true,
+        "documents": [
+          "canonical/order.pdf",
+          "canonical/packet-assembly.pdf",
+          "canonical/petition.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical/order.pdf",
+          "canonical/packet-assembly.pdf",
+          "canonical/petition.pdf",
+          "boundary/order.pdf",
+          "boundary/packet-assembly.pdf",
+          "boundary/petition.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical/order.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "152fe92b232a9a96a5be8aceaffd79d6f6f281887e91fdb27fd43227ad8264a0",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/canonical/order.pdf",
+          "role": "canonical",
+          "sha256": "152fe92b232a9a96a5be8aceaffd79d6f6f281887e91fdb27fd43227ad8264a0"
+        },
+        {
+          "name": "canonical/packet-assembly.pdf",
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 8,
+            "sourceSha256": "e9a10f6b4748a104579837d65700073c2d0b81f54ffde43f1e3de44191024bc8",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/canonical/packet-assembly.pdf",
+          "role": "canonical",
+          "sha256": "e9a10f6b4748a104579837d65700073c2d0b81f54ffde43f1e3de44191024bc8"
+        },
+        {
+          "name": "canonical/petition.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "0c0d3e2a3fc21194a90c487157cceaf7d96696a88db191e756728180bf5f9f2e",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/canonical/petition.pdf",
+          "role": "canonical",
+          "sha256": "0c0d3e2a3fc21194a90c487157cceaf7d96696a88db191e756728180bf5f9f2e"
+        },
+        {
+          "name": "boundary/order.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "9b030ea1d81736c83e0a7684e5fa8998ac556c3fe435bd283d94d29e3a9fcb88",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/boundary/order.pdf",
+          "role": "boundary",
+          "sha256": "9b030ea1d81736c83e0a7684e5fa8998ac556c3fe435bd283d94d29e3a9fcb88"
+        },
+        {
+          "name": "boundary/packet-assembly.pdf",
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 8,
+            "sourceSha256": "0a199685a887524883eee342819f3b339d5c5b64d283ac202c509d408b13ef6f",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/boundary/packet-assembly.pdf",
+          "role": "boundary",
+          "sha256": "0a199685a887524883eee342819f3b339d5c5b64d283ac202c509d408b13ef6f"
+        },
+        {
+          "name": "boundary/petition.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "86a413597d060d97bb1cb6241fd6d05f012e7ef3b4ed26d83330cc5678573069",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/boundary/petition.pdf",
+          "role": "boundary",
+          "sha256": "86a413597d060d97bb1cb6241fd6d05f012e7ef3b4ed26d83330cc5678573069"
+        }
+      ],
+      "documentsDigest": "7d60742b1eaad604bb28e6e1940b99f20708eb5eeb1a4420e7533f56b465c20a",
+      "expectedPages": 8,
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "fixtureSelection": {
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json",
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json"
+      },
+      "nextOwner": "RAS02",
+      "packetCommitSha": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "requestedScale": 2.5
+    },
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/boundary/packet-assembly.pdf",
+      "boundaryPdfSha256": "bbb9aed7a73833af3552862e7e410767ecd468a5b6bf2235237c3610bcd2675d",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/canonical/packet-assembly.pdf",
+      "canonicalPdfSha256": "bdfbd09935c302041aeb746dc1fc6bae6bda34760fe162eda0c941ebd904a66c",
+      "coverage": {
+        "basis": "the family ships 3 canonical document(s) with no assembled packet, and the row renders all of them",
+        "complete": true,
+        "documents": [
+          "canonical/order.pdf",
+          "canonical/packet-assembly.pdf",
+          "canonical/petition.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical/order.pdf",
+          "canonical/packet-assembly.pdf",
+          "canonical/petition.pdf",
+          "boundary/order.pdf",
+          "boundary/packet-assembly.pdf",
+          "boundary/petition.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical/order.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "e81d36c2553f4cc41cf61d43c425e73b0d0afe96bfaa3128ad6f2431e2258812",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/canonical/order.pdf",
+          "role": "canonical",
+          "sha256": "e81d36c2553f4cc41cf61d43c425e73b0d0afe96bfaa3128ad6f2431e2258812"
+        },
+        {
+          "name": "canonical/packet-assembly.pdf",
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 8,
+            "sourceSha256": "bdfbd09935c302041aeb746dc1fc6bae6bda34760fe162eda0c941ebd904a66c",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/canonical/packet-assembly.pdf",
+          "role": "canonical",
+          "sha256": "bdfbd09935c302041aeb746dc1fc6bae6bda34760fe162eda0c941ebd904a66c"
+        },
+        {
+          "name": "canonical/petition.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "4d0bd271ed4f65b47cad3fdba11c784b7782ee166dc194b98fad081833987ab7",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/canonical/petition.pdf",
+          "role": "canonical",
+          "sha256": "4d0bd271ed4f65b47cad3fdba11c784b7782ee166dc194b98fad081833987ab7"
+        },
+        {
+          "name": "boundary/order.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "7b5bf85609f6bd9d86d40194eb92eb47c267f38c723021e5a5b269be27b38a71",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/boundary/order.pdf",
+          "role": "boundary",
+          "sha256": "7b5bf85609f6bd9d86d40194eb92eb47c267f38c723021e5a5b269be27b38a71"
+        },
+        {
+          "name": "boundary/packet-assembly.pdf",
+          "pageCount": 8,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 8,
+            "sourceSha256": "bbb9aed7a73833af3552862e7e410767ecd468a5b6bf2235237c3610bcd2675d",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/boundary/packet-assembly.pdf",
+          "role": "boundary",
+          "sha256": "bbb9aed7a73833af3552862e7e410767ecd468a5b6bf2235237c3610bcd2675d"
+        },
+        {
+          "name": "boundary/petition.pdf",
+          "pageCount": 5,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 5,
+            "sourceSha256": "fb768246be8a28e298b8d8eaf24c0e823439963165a00e0672e55f0c0d8f63b7",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/boundary/petition.pdf",
+          "role": "boundary",
+          "sha256": "fb768246be8a28e298b8d8eaf24c0e823439963165a00e0672e55f0c0d8f63b7"
+        }
+      ],
+      "documentsDigest": "277a8ad59a69517b6e15ac5389f19f9d0442021a52a0621d375bb4fd545c90e5",
+      "expectedPages": 8,
+      "familyId": "az_record_sealing_dismissal_not_guilty-set",
+      "fixtureSelection": {
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json",
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json"
+      },
+      "nextOwner": "RAS04",
+      "packetCommitSha": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "requestedScale": 2.5
+    }
+  ],
+  "schemaVersion": "rcap-raster-queue/v1",
+  "whatRasterPassDoesNotMean": "RASTER_PASS is one gate. It does not make a family PASS_COMPLETE, does not promote it, does not open a commercial route, and does not substitute for an independent read by a worker that did not build it.",
+  "whatTheVisualGateStillProves": [
+    "every page rendered",
+    "no page is blank",
+    "expected dimensions for the requested PDF-point scale",
+    "no clipped write",
+    "no overlapping participant text",
+    "no placeholder text",
+    "no protected-field ink",
+    "artifact hashes match the submitted PDFs"
+  ],
+  "whyThisExists": "The Codex container cannot resolve or fetch a Chromium (ENV-RAS01: Playwright CDN answers HTTP 403), so the visual gate is unreachable from where packets are built. The render moves to a browser-equipped GitHub runner. Nothing about PASS_COMPLETE is weakened.",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "workflowReachability": {
+    "consequence": "RASTER_PASS is obtainable: dispatch from main with the full 40-hex commit SHA of the pushed head. PASS_COMPLETE still requires a hash-bound complete-coverage receipt plus an independent read; reachability waives neither.",
+    "defaultBranch": "main",
+    "dispatchableFrom": "the repository default branch only, which is how GitHub scopes workflow_dispatch",
+    "observed": "origin/main carries .github/workflows/rcap-packet-raster-acceptance-batch.yml; dispatched batches have returned receipts (e.g. run 33495068504, whose complete-coverage RASTER_PASS receipts the VF26 verdicts bind to)",
+    "presentOnDefaultBranch": true,
+    "whatThisIsNot": "This is not a defect in the gate and not a reason to relax it.",
+    "whoDecides": "merging workflow changes to the default branch is Roger's decision"
+  },
+  "dispatchScope": "Two current deterministic Arizona candidates; original failed manifest and run 34582812994 remain preserved."
+}

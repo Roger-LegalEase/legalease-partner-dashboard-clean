@@ -1,0 +1,261 @@
+{
+  "schemaVersion": "rcap-fix14-ms-raster-return/v1",
+  "workerId": "CODEX-CS2-FIX14",
+  "assignmentAssertion": "FIX14",
+  "status": "RASTER_BLOCKED_ENVIRONMENT",
+  "recordedAt": "2026-09-03T02:00:02Z",
+  "branch": "codex/cs2-fix14",
+  "exactCaptainCommit": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+  "scope": {
+    "state": "MS",
+    "familiesAssigned": 4,
+    "inputPdfsBound": 8,
+    "expectedMeasuredPagesTotal": 82,
+    "measuredPagesTotal": 0,
+    "pngsWritten": 0,
+    "pngsReadBack": 0,
+    "pageMeasurementRequirementSatisfied": false,
+    "blockingRuleApplied": "The existing local exact Chromium/sharp raster environment was unavailable and the existing Actions batch could not be dispatched with the available credential. Per FIX14 instructions, no raster claim was made and packet state was not changed."
+  },
+  "rasterExecution": {
+    "workflow": {
+      "name": "RCAP Packet Raster Acceptance (batch)",
+      "path": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "immutableWorkflowId": "347286543",
+      "definitionRef": "claude/legalease-sprint-captain-utucnw",
+      "definitionRefObservedCommit": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "commitShaInput": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+      "rasterManifestPathInput": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+      "requestedScaleInput": 2.5,
+      "familyBatchInput": [
+        "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+        "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "rcap-ms-custom-pleading"
+      ],
+      "dispatch": {
+        "attempted": true,
+        "accepted": false,
+        "httpStatus": 403,
+        "error": "Resource not accessible by integration",
+        "workflowRunCreated": false,
+        "workflowRunId": null,
+        "workflowRunUrl": null,
+        "jobsCreated": false,
+        "jobIds": [],
+        "postAttemptRunListForDefinitionRef": [],
+        "immutableRunAndJobIdRequirement": "NOT_APPLICABLE_NO_ACTIONS_RUN_CREATED"
+      }
+    },
+    "localEnvironment": {
+      "attemptedImport": "scripts/raster/pdf-page-raster.mjs",
+      "available": false,
+      "nodeVersion": "v24.14.0",
+      "sharpModulePresent": false,
+      "playwrightModulePresent": true,
+      "pdfLibModulePresent": true,
+      "resolverExecuted": false,
+      "reason": "Import stopped with ERR_MODULE_NOT_FOUND for sharp before Chromium resolution. No package, browser, or raster system was installed or repaired."
+    }
+  },
+  "requiredPageEvidence": {
+    "requiredFieldsPerPng": [
+      "page",
+      "dimensions",
+      "byteLength",
+      "sha256",
+      "croppingResult",
+      "nonblankResult",
+      "clippingFindingFromActualImage",
+      "overlapFindingFromActualImage"
+    ],
+    "pageResults": [],
+    "reasonNoPageResultsExist": "No actual page PNGs were produced. Those findings cannot truthfully be inferred without raster images and are therefore not asserted."
+  },
+  "results": [
+    {
+      "fix14Asserted": true,
+      "assignmentAssertion": "FIX14",
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "status": "RASTER_BLOCKED_ENVIRONMENT",
+      "expectedPagesPerPdf": 5,
+      "expectedMeasuredPages": 10,
+      "measuredPages": 0,
+      "inputPdfs": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/canonical.pdf",
+          "inputPdfSha256": "112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d",
+          "observedPdfSha256": "112fb452f4d57f904972db5da930a0753bad25056c1c3d1fd3f16b2ac539f85d",
+          "hashMatches": true,
+          "inputPdfByteLength": 13798,
+          "expectedPages": 5,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4--custom-pleading/fixtures/boundary.pdf",
+          "inputPdfSha256": "9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d",
+          "observedPdfSha256": "9b6cfca69239cc5a94eb9c77e82b15cf5e0512e543fa617e44459d8a6271cc9d",
+          "hashMatches": true,
+          "inputPdfByteLength": 14002,
+          "expectedPages": 5,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        }
+      ]
+    },
+    {
+      "fix14Asserted": true,
+      "assignmentAssertion": "FIX14",
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "status": "RASTER_BLOCKED_ENVIRONMENT",
+      "expectedPagesPerPdf": 5,
+      "expectedMeasuredPages": 10,
+      "measuredPages": 0,
+      "inputPdfs": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf",
+          "inputPdfSha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2",
+          "observedPdfSha256": "b6c18f619f45fbd2cf9a80e805b7a8c6d428427cf88c77c2f05083c758e396b2",
+          "hashMatches": true,
+          "inputPdfByteLength": 13425,
+          "expectedPages": 5,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf",
+          "inputPdfSha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90",
+          "observedPdfSha256": "c31fa42374b4b6c83b8388d76e6ff556d6e62f7b2f2f2c617ec2bceba3e20e90",
+          "hashMatches": true,
+          "inputPdfByteLength": 13627,
+          "expectedPages": 5,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        }
+      ]
+    },
+    {
+      "fix14Asserted": true,
+      "assignmentAssertion": "FIX14",
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "status": "RASTER_BLOCKED_ENVIRONMENT",
+      "expectedPagesPerPdf": 5,
+      "expectedMeasuredPages": 10,
+      "measuredPages": 0,
+      "inputPdfs": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/canonical.pdf",
+          "inputPdfSha256": "606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac",
+          "observedPdfSha256": "606e3c9d5e6b83da8422a9bb01138b5937db3e5726b64975674ffda137c448ac",
+          "hashMatches": true,
+          "inputPdfByteLength": 12066,
+          "expectedPages": 5,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59--custom-pleading/fixtures/boundary.pdf",
+          "inputPdfSha256": "ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e",
+          "observedPdfSha256": "ed06c2dcd41ee0c4a8692ae32aee8e0afabd2ae0a5c8fd3f6e178434b42e8c8e",
+          "hashMatches": true,
+          "inputPdfByteLength": 12273,
+          "expectedPages": 5,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        }
+      ]
+    },
+    {
+      "fix14Asserted": true,
+      "assignmentAssertion": "FIX14",
+      "familyId": "rcap-ms-custom-pleading",
+      "status": "RASTER_BLOCKED_ENVIRONMENT",
+      "expectedPagesPerPdf": 26,
+      "expectedMeasuredPages": 52,
+      "measuredPages": 0,
+      "inputPdfs": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "inputPdfSha256": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0",
+          "observedPdfSha256": "2d343efa1c4c6387171aa6b73f041be3885bef4f9d0e39f2be8ffe771a5521d0",
+          "hashMatches": true,
+          "inputPdfByteLength": 69082,
+          "expectedPages": 26,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "inputPdfSha256": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f",
+          "observedPdfSha256": "09b2f2be1a2419c6e7876ec28ef60a3b7b9ddc607aa761bf35195c314d95477f",
+          "hashMatches": true,
+          "inputPdfByteLength": 70320,
+          "expectedPages": 26,
+          "pageResults": [],
+          "imageInspection": {
+            "performed": false,
+            "croppingAndNonblankResult": "NOT_MEASURED_ENVIRONMENT_BLOCK",
+            "clippingFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE",
+            "overlapFinding": "NOT_EXAMINED_NO_ACTUAL_PAGE_IMAGE"
+          }
+        }
+      ]
+    }
+  ],
+  "stateProtection": {
+    "passCompleteAwarded": false,
+    "centralRasterQueueEdited": false,
+    "masterQueueEdited": false,
+    "claimLedgerEdited": false,
+    "packetFilesEdited": false,
+    "routesEdited": false,
+    "packetStateChanged": false
+  },
+  "filesWrittenInWorktree": [
+    "data/rcap-grade-a/codex-cloud/fix14-ms-raster-return.json"
+  ]
+}

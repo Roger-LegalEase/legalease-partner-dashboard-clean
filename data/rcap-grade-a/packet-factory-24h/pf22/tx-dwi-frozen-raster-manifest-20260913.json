@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 24,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 24,
+            "sourceSha256": "5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "5670c283390b7f3fe5bd5397438e69929958e7285bff0e3817cf8041899f67df"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 24,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 24,
+            "sourceSha256": "ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "ea63c40573d81fcbb07ea550c904904a92cc727c62e032f030ac36a8fab18515"
+        }
+      ],
+      "documentsDigest": "e1c25aa2f2d692527d0816c62270927bdea64599ce5de8a1001101b796c9464c",
+      "expectedPages": 24,
+      "familyId": "tx_nd_dwi_conviction-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS02",
+      "packetCommitSha": "9ed523f61ede4458fc0ca2b216a320355829b080",
+      "requestedScale": 2.5
+    }
+  ]
+}

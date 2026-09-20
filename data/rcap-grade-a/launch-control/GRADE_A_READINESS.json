@@ -1,0 +1,803 @@
+{
+  "schemaVersion": "rcap-grade-a-readiness/v1",
+  "measuredAt": "2026-09-01T11:07:04Z",
+  "atCaptainHead": "f240e47687eddd47d432996823ce932affcd54cc",
+  "headline": {
+    "familiesWithACompleteCoverageRasterReceipt": 47,
+    "familiesIndependentlyRead": 32,
+    "familiesPASS_COMPLETE": 0,
+    "readThis": "Zero. Forty-seven families hold a hash-bound receipt over their whole packet and thirty-nine have been independently read, and not one verifier passed a family. That is the gate working, not the gate failing: every family anyone has looked at has a real, named defect."
+  },
+  "whyTheEasyNumberIsWrong": "Counting families whose independent-verification CLAIM was released gives 31 'both gates met'. A released claim means the read happened, not that it passed. Every verdict actually written this shift is a defect or a block. The claim ledger records ownership; only the lane return records a verdict.",
+  "everyVerificationVerdictWritten": {
+    "FAIL_REPAIR_REQUIRED": 22,
+    "BUILT_RASTER_PENDING": 2,
+    "BLOCKED_BEFORE_CLAIM": 2,
+    "BLOCKED_SOURCE": 8,
+    "BLOCKED_LEGAL_INPUT": 4
+  },
+  "duplicatePinnedBytes": {
+    "groups": [
+      {
+        "families": [
+          "ut_pet_acquittal-set",
+          "ut_pet_conviction-set",
+          "ut_pet_dismissed_with_prejudice-set",
+          "ut_pet_limitations-set"
+        ],
+        "count": 4
+      },
+      {
+        "families": [
+          "wa_vac_domestic_violence-set",
+          "wa_vac_homicide_victim_prostitution-set",
+          "wa_vac_misdemeanor_ordinary-set",
+          "wa_vac_substance_use_disorder-set",
+          "wa_vac_survivor_misdemeanor-set",
+          "wa_vac_treaty_fishing-set"
+        ],
+        "count": 6
+      },
+      {
+        "families": [
+          "wa_vac_felony-set",
+          "wa_vac_survivor_felony-set"
+        ],
+        "count": 2
+      }
+    ],
+    "familiesAffected": 12,
+    "soTheFortySevenReceiptsRestOn": 38,
+    "open": "Whether identical bytes across distinct statutory routes is a defect is assigned to PF-B and not concluded here."
+  },
+  "rows": [
+    {
+      "familyId": "ak-courtview-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf01",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "ak-tf800-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf14",
+          "verdict": "BUILT_RASTER_PENDING",
+          "adjudicated": false
+        },
+        {
+          "lane": "xvf-b",
+          "verdict": "BLOCKED_BEFORE_CLAIM",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BUILT_RASTER_PENDING, BLOCKED_BEFORE_CLAIM"
+      ]
+    },
+    {
+      "familyId": "ak-tf805-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf03",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_SOURCE"
+      ]
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf04",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf05",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf06",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "co_multiple_conviction_seal-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "co_pardoned_conviction_seal-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "ct-cleanslate-petition-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf14",
+          "verdict": "BUILT_RASTER_PENDING",
+          "adjudicated": false
+        },
+        {
+          "lane": "xvf-b",
+          "verdict": "BLOCKED_BEFORE_CLAIM",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BUILT_RASTER_PENDING, BLOCKED_BEFORE_CLAIM"
+      ]
+    },
+    {
+      "familyId": "ky_void_seal_controlled_substance-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "me-seal-prost-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf01",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf04",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_SOURCE"
+      ]
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf05",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_SOURCE"
+      ]
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf17",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf15",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFYING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf07",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf08",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf09",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf10",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "va_seal_ancillary_matter_only-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf13",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "adjudicated": false
+        },
+        {
+          "lane": "xvf-a",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_LEGAL_INPUT"
+      ]
+    },
+    {
+      "familyId": "va_seal_enumerated_seven_year-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf13",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "adjudicated": false
+        },
+        {
+          "lane": "xvf-a",
+          "verdict": "BLOCKED_LEGAL_INPUT",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_LEGAL_INPUT"
+      ]
+    },
+    {
+      "familyId": "va_seal_petition_felony-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf13",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        },
+        {
+          "lane": "xvf-a",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_SOURCE"
+      ]
+    },
+    {
+      "familyId": "va_seal_petition_misdemeanor-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf13",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        },
+        {
+          "lane": "xvf-a",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_SOURCE"
+      ]
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf11",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf12",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [
+        {
+          "lane": "vf02",
+          "verdict": "BLOCKED_SOURCE",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "every independent read returned a defect: BLOCKED_SOURCE"
+      ]
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf15",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf15",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf15",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf15",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": false
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf16",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": true
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf16",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": true
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf16",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": true
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf16",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": true
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 4,
+      "independentReads": [
+        {
+          "lane": "vf16",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "adjudicated": true
+        }
+      ],
+      "passComplete": false,
+      "masterQueueState": "FAIL_REPAIR_REQUIRED",
+      "blockers": [
+        "every independent read returned a defect: FAIL_REPAIR_REQUIRED"
+      ]
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "rasterReceipt": "complete coverage, hash-bound",
+      "documentsBound": 2,
+      "independentReads": [],
+      "passComplete": false,
+      "masterQueueState": "VERIFY_PENDING",
+      "blockers": [
+        "never independently read"
+      ]
+    }
+  ],
+  "whatWouldMoveTheNumberOffZero": [
+    "The 17 families that ship no participant instructions: four obligations fail on the absence. PARTICIPANT_INSTRUCTIONS_GAP.json holds the wave.",
+    "The 31 FAIL_REPAIR_REQUIRED verdicts: each names its failing obligations. Repair, then a SECOND independent read, which the ledger cannot yet express for a family whose first read is already released.",
+    "The 8 BLOCKED_SOURCE families: they need the corpus reachable from a builder session, which is an access grant, not an engineering problem.",
+    "The 4 BLOCKED_LEGAL_INPUT families: two are PF-A's CC-1203-for-CC-1201 substitution, which turns on what the two forms print and needs counsel or the corpus."
+  ],
+  "ceiling": "PASS_COMPLETE requires BOTH a hash-bound complete-coverage RASTER_PASS AND an independent read that passed, by a worker that did not build the family. Forty-seven families now hold the first. None holds the second.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

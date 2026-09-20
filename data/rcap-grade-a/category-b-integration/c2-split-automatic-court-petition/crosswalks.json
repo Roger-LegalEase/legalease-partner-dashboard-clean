@@ -1,0 +1,645 @@
+{
+  "schemaVersion": "rcap-category-b-reuse-crosswalks/v1",
+  "assignmentId": "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+  "workerBranch": "codex/c2-split-automatic-court-petition",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "rule": "Bind only the semantically identical primary court filing. List packet companions, administrative correction paths, objections, hearings, and enforcement remedies separately when the binding does not cover them.",
+  "counts": {
+    "assignedReuseAsIs": 7,
+    "confirmed": 7,
+    "stopped": 0,
+    "primaryBindings": 7,
+    "additionalBindings": 1,
+    "commercialRoutesOpened": 0
+  },
+  "crosswalks": [
+    {
+      "categoryBRouteKey": "obligation:track-only:CO:co_auto_seal_arrest",
+      "decision": "REUSE_AS_IS",
+      "confirmationStatus": "CONFIRMED",
+      "confirmationMethod": "Exact filing identity plus jurisdiction and legal-cohort semantics; never first-candidate position alone.",
+      "primaryBinding": {
+        "categoryARouteKey": "obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "scope": "PRIMARY_COURT_FILING_IDENTITY_ONLY",
+        "instrument": "JDF 417 Petition to Seal Arrest Records with proposed order JDF 418.",
+        "exactDocumentIdentity": [
+          "JDF 417",
+          "JDF 418"
+        ],
+        "selectorStatement": "No charges were filed and the arrest has not been sealed through the automatic process, or the person elects the official petition backstop.",
+        "destination": "District court in the judicial district where the arrest occurred.",
+        "deadline": "File when the no-charge waiting event specified by § 24-72-704 has occurred; the exact interval depends on the arrest/disposition facts.",
+        "outputStrategy": "official_pdf_fill",
+        "productOutcome": "participant_packet",
+        "packetFamily": {
+          "id": "rcap-co-official-pdf-fill",
+          "disposition": "NAMED_NOT_CREATED"
+        },
+        "commercialTreatment": {
+          "policy": "CLOSED_PENDING_EXACT_ROUTE_AND_PACKET_FAMILY_GRADE_A_FULFILMENT",
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "participantAttachmentEnabled": false,
+          "deliveryEnabled": false,
+          "repeatDownloadEnabled": false,
+          "commerciallyEligible": false,
+          "basis": "Crosswalking an identity does not prove, approve, attach, deliver, sponsor, or sell a packet."
+        },
+        "basis": "The target route is the same § 24-72-704 arrest-record petition anchored by JDF 417; JDF 418 is the current proposed order identity.",
+        "evidence": [
+          {
+            "role": "ASSIGNED_SCOPE",
+            "reference": "1fa0f3328a614f73330256bee5df75fc655e9d79:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json#/assignments/1/routeKeys/0"
+          },
+          {
+            "role": "LEGAL_CLASSIFICATION_AND_PARTICIPANT_INSTRUMENT",
+            "reference": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#/rows/3"
+          },
+          {
+            "role": "ASSIGNMENT_ROUTING_OUTPUT_STRATEGY_AND_PACKET_FAMILY",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#/rows/3"
+          },
+          {
+            "role": "RETAINED_B_AND_PROPOSED_A_PAIR",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#/pairs/3"
+          },
+          {
+            "role": "CURRENT_ROUTE_CENSUS",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/132"
+          },
+          {
+            "role": "EXISTING_CATEGORY_A_TARGET",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/321"
+          }
+        ]
+      },
+      "additionalBindings": [],
+      "rejectedCandidates": [],
+      "ancillaryBranchesNotAbsorbed": [
+        {
+          "instrument": "JDF 419 notice/hearing order and JDF 435 denial order",
+          "disposition": "ANCILLARY_DOCUMENTS_NOT_SEPARATE_ROUTE_BINDINGS",
+          "reason": "They belong to later court handling and do not create a second Category A route; their absence still prevents treating a packet as complete."
+        }
+      ],
+      "aggregateMatcherCaution": {
+        "applies": false,
+        "rule": "A shared form or first candidate is not enough; the target must match the filing's legal cohort and trigger.",
+        "generatorEvidence": [
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L81-L90",
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L109-L123"
+        ]
+      },
+      "commercialRouteOpened": false
+    },
+    {
+      "categoryBRouteKey": "obligation:track-only:CO:co_auto_seal_nonconviction",
+      "decision": "REUSE_AS_IS",
+      "confirmationStatus": "CONFIRMED",
+      "confirmationMethod": "Exact filing identity plus jurisdiction and legal-cohort semantics; never first-candidate position alone.",
+      "primaryBinding": {
+        "categoryARouteKey": "obligation:track-only:CO:co_motion_seal_nonconviction",
+        "scope": "PRIMARY_COURT_FILING_IDENTITY_ONLY",
+        "instrument": "JDF 477 Motion to Seal Non-Conviction Records with proposed order JDF 478.",
+        "exactDocumentIdentity": [
+          "JDF 477",
+          "JDF 478"
+        ],
+        "selectorStatement": "Select the JDF 477 participant backstop when a qualifying final nonconviction was not sealed at disposition; do not use this binding for the separate JDF 2363 objection-response branch.",
+        "destination": "The county or district court that handled the underlying criminal case.",
+        "deadline": "JDF 477 is available after the qualifying disposition becomes final; this binding does not state or absorb the separate objection-response deadline.",
+        "outputStrategy": "official_pdf_fill",
+        "productOutcome": "participant_packet",
+        "packetFamily": {
+          "id": "rcap-co-official-pdf-fill",
+          "disposition": "NAMED_NOT_CREATED"
+        },
+        "commercialTreatment": {
+          "policy": "CLOSED_PENDING_EXACT_ROUTE_AND_PACKET_FAMILY_GRADE_A_FULFILMENT",
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "participantAttachmentEnabled": false,
+          "deliveryEnabled": false,
+          "repeatDownloadEnabled": false,
+          "commerciallyEligible": false,
+          "basis": "Crosswalking an identity does not prove, approve, attach, deliver, sponsor, or sell a packet."
+        },
+        "basis": "The target route is the same simplified nonconviction motion in the underlying case, anchored by JDF 477 and JDF 478.",
+        "evidence": [
+          {
+            "role": "ASSIGNED_SCOPE",
+            "reference": "1fa0f3328a614f73330256bee5df75fc655e9d79:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json#/assignments/1/routeKeys/1"
+          },
+          {
+            "role": "LEGAL_CLASSIFICATION_AND_PARTICIPANT_INSTRUMENT",
+            "reference": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#/rows/4"
+          },
+          {
+            "role": "ASSIGNMENT_ROUTING_OUTPUT_STRATEGY_AND_PACKET_FAMILY",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#/rows/4"
+          },
+          {
+            "role": "RETAINED_B_AND_PROPOSED_A_PAIR",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#/pairs/4"
+          },
+          {
+            "role": "CURRENT_ROUTE_CENSUS",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/133"
+          },
+          {
+            "role": "EXISTING_CATEGORY_A_TARGET",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/135"
+          }
+        ]
+      },
+      "additionalBindings": [],
+      "rejectedCandidates": [
+        {
+          "categoryARouteKey": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/319"
+          ],
+          "reason": "The route is NEEDS_LEGAL_REVIEW and guidance-only; it cannot absorb the objection/hearing branch."
+        }
+      ],
+      "ancillaryBranchesNotAbsorbed": [
+        {
+          "instrument": "JDF 2363 hearing request after a statutory objection",
+          "disposition": "SEPARATE_RESPONSE_BRANCH_NOT_CROSSWALKED",
+          "reason": "The only same-form candidate belongs to a guidance-only clean-slate route under legal review, not a confirmed Category A response route."
+        }
+      ],
+      "aggregateMatcherCaution": {
+        "applies": false,
+        "rule": "A shared form or first candidate is not enough; the target must match the filing's legal cohort and trigger.",
+        "generatorEvidence": [
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L81-L90",
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L109-L123"
+        ]
+      },
+      "commercialRouteOpened": false
+    },
+    {
+      "categoryBRouteKey": "obligation:track-only:KY:ky_automatic_nonconviction_expungement_verification",
+      "decision": "REUSE_AS_IS",
+      "confirmationStatus": "CONFIRMED",
+      "confirmationMethod": "Exact filing identity plus jurisdiction and legal-cohort semantics; never first-candidate position alone.",
+      "primaryBinding": {
+        "categoryARouteKey": "obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076",
+        "scope": "PRIMARY_COURT_FILING_IDENTITY_ONLY",
+        "instrument": "AOC-497.2 Petition for Expungement of Dismissed or Acquitted Charges with proposed order AOC-497.",
+        "exactDocumentIdentity": [
+          "AOC-497.2",
+          "AOC-497"
+        ],
+        "selectorStatement": "Select the AOC-497.2 participant petition for a qualifying acquittal, dismissal, or failure-to-indict cohort; do not use this binding for the automatic-process objection or omitted-agency notice.",
+        "destination": "The court of disposition; a failure-to-indict petition goes to District Court.",
+        "deadline": "Committed waits are 60 days after acquittal or dismissal with prejudice, six months after a felony is held to the grand jury without indictment, three years after felony dismissal without prejudice, and one year after misdemeanor dismissal without prejudice.",
+        "outputStrategy": "official_pdf_fill",
+        "productOutcome": "participant_packet",
+        "packetFamily": {
+          "id": "rcap-ky-official-pdf-fill",
+          "disposition": "NAMED_NOT_CREATED"
+        },
+        "commercialTreatment": {
+          "policy": "CLOSED_PENDING_EXACT_ROUTE_AND_PACKET_FAMILY_GRADE_A_FULFILMENT",
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "participantAttachmentEnabled": false,
+          "deliveryEnabled": false,
+          "repeatDownloadEnabled": false,
+          "commerciallyEligible": false,
+          "basis": "Crosswalking an identity does not prove, approve, attach, deliver, sponsor, or sell a packet."
+        },
+        "basis": "The target route is the participant petition for qualifying Kentucky nonconviction cohorts and uses AOC-497.2; AOC-497 is the proposed order.",
+        "evidence": [
+          {
+            "role": "ASSIGNED_SCOPE",
+            "reference": "1fa0f3328a614f73330256bee5df75fc655e9d79:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json#/assignments/1/routeKeys/4"
+          },
+          {
+            "role": "LEGAL_CLASSIFICATION_AND_PARTICIPANT_INSTRUMENT",
+            "reference": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#/rows/14"
+          },
+          {
+            "role": "ASSIGNMENT_ROUTING_OUTPUT_STRATEGY_AND_PACKET_FAMILY",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#/rows/14"
+          },
+          {
+            "role": "RETAINED_B_AND_PROPOSED_A_PAIR",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#/pairs/14"
+          },
+          {
+            "role": "CURRENT_ROUTE_CENSUS",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/178"
+          },
+          {
+            "role": "EXISTING_CATEGORY_A_TARGET",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/389"
+          },
+          {
+            "role": "SEMANTIC_BINDING_DETAIL",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/packetFamilies/162"
+          }
+        ]
+      },
+      "additionalBindings": [],
+      "rejectedCandidates": [
+        {
+          "categoryARouteKey": null,
+          "instrument": "AOC-497.3",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/178"
+          ],
+          "reason": "AOC-497.3 is system-generated and judge-signed in the automatic B process, not a participant filing."
+        }
+      ],
+      "ancillaryBranchesNotAbsorbed": [
+        {
+          "instrument": "Participant objection within 30 days and omitted-agency notice within 60 days of discovery",
+          "disposition": "ANCILLARY_BRANCHES_NOT_CROSSWALKED",
+          "reason": "No exact Category A route was confirmed for either ancillary response."
+        }
+      ],
+      "aggregateMatcherCaution": {
+        "applies": false,
+        "rule": "A shared form or first candidate is not enough; the target must match the filing's legal cohort and trigger.",
+        "generatorEvidence": [
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L81-L90",
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L109-L123"
+        ]
+      },
+      "commercialRouteOpened": false
+    },
+    {
+      "categoryBRouteKey": "obligation:track-only:NC:nc_auto_146_a4",
+      "decision": "REUSE_AS_IS",
+      "confirmationStatus": "CONFIRMED",
+      "confirmationMethod": "Exact filing identity plus jurisdiction and legal-cohort semantics; never first-candidate position alone.",
+      "primaryBinding": {
+        "categoryARouteKey": "obligation:track-only:NC:nc_146_dismissal_petition",
+        "scope": "PRIMARY_COURT_FILING_IDENTITY_ONLY",
+        "instrument": "AOC-CR-287 Petition and Order of Expunction Under G.S. 15A-146(a) and related subsections.",
+        "exactDocumentIdentity": [
+          "AOC-CR-287"
+        ],
+        "selectorStatement": "Select AOC-CR-287 for a qualifying dismissal or not-guilty disposition outside the automatic cohort, when automatic relief did not occur, or when the participant elects the petition route; do not use it as a clerk/AOC correction request.",
+        "destination": "The clerk of Superior Court in the county where the charge was brought or disposed.",
+        "deadline": "No waiting period or general outside deadline is committed for the qualifying petition.",
+        "outputStrategy": "official_pdf_fill",
+        "productOutcome": "participant_packet",
+        "packetFamily": {
+          "id": "rcap-nc-official-pdf-fill",
+          "disposition": "NAMED_NOT_CREATED"
+        },
+        "commercialTreatment": {
+          "policy": "CLOSED_PENDING_EXACT_ROUTE_AND_PACKET_FAMILY_GRADE_A_FULFILMENT",
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "participantAttachmentEnabled": false,
+          "deliveryEnabled": false,
+          "repeatDownloadEnabled": false,
+          "commerciallyEligible": false,
+          "basis": "Crosswalking an identity does not prove, approve, attach, deliver, sponsor, or sell a packet."
+        },
+        "basis": "The generic dismissal-petition route uses AOC-CR-287 and matches the nonconviction cohort; the DNA-labeled candidate only inherited shared source identifiers.",
+        "evidence": [
+          {
+            "role": "ASSIGNED_SCOPE",
+            "reference": "1fa0f3328a614f73330256bee5df75fc655e9d79:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json#/assignments/1/routeKeys/6"
+          },
+          {
+            "role": "LEGAL_CLASSIFICATION_AND_PARTICIPANT_INSTRUMENT",
+            "reference": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#/rows/32"
+          },
+          {
+            "role": "ASSIGNMENT_ROUTING_OUTPUT_STRATEGY_AND_PACKET_FAMILY",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#/rows/32"
+          },
+          {
+            "role": "RETAINED_B_AND_PROPOSED_A_PAIR",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#/pairs/31"
+          },
+          {
+            "role": "CURRENT_ROUTE_CENSUS",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/212"
+          },
+          {
+            "role": "EXISTING_CATEGORY_A_TARGET",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/211"
+          }
+        ]
+      },
+      "additionalBindings": [],
+      "rejectedCandidates": [
+        {
+          "categoryARouteKey": "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/104"
+          ],
+          "reason": "This is a custom DNA-expunction application, not the AOC-CR-287 dismissal petition; shared source IDs are not semantic identity."
+        }
+      ],
+      "ancillaryBranchesNotAbsorbed": [
+        {
+          "instrument": "Clerk/AOC correction request for a missed automatic event",
+          "disposition": "SEPARATE_CORRECTION_BRANCH_NOT_CROSSWALKED",
+          "reason": "No exact Category A correction target was confirmed."
+        }
+      ],
+      "aggregateMatcherCaution": {
+        "applies": true,
+        "rule": "A shared form or first candidate is not enough; the target must match the filing's legal cohort and trigger.",
+        "generatorEvidence": [
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L81-L90",
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L109-L123"
+        ]
+      },
+      "commercialRouteOpened": false
+    },
+    {
+      "categoryBRouteKey": "obligation:track-pathway:CA:ca-auto-arrest:tool-2-automatic-relief",
+      "decision": "REUSE_AS_IS",
+      "confirmationStatus": "CONFIRMED",
+      "confirmationMethod": "Exact filing identity plus jurisdiction and legal-cohort semantics; never first-candidate position alone.",
+      "primaryBinding": {
+        "categoryARouteKey": "obligation:track-only:CA:ca-851-91",
+        "scope": "PRIMARY_COURT_FILING_IDENTITY_ONLY",
+        "instrument": "CR-409 Petition to Seal Arrest and Related Records with proposed order CR-410.",
+        "exactDocumentIdentity": [
+          "CR-409",
+          "CR-410"
+        ],
+        "selectorStatement": "Select the § 851.91 court petition when automatic § 851.93 relief did not occur or the participant seeks the additional benefits of a judicial sealing order; do not use this binding for DOJ record correction.",
+        "destination": "The superior court where the accusatory pleading was filed; if none was filed, the superior court in the county of arrest.",
+        "deadline": "No general outside limitations period is committed for an eligible § 851.91 petition; file after the qualifying disposition or no-charge facts exist.",
+        "outputStrategy": "official_pdf_fill",
+        "productOutcome": "participant_packet",
+        "packetFamily": {
+          "id": "rcap-ca-official-pdf-fill",
+          "disposition": "NAMED_NOT_CREATED"
+        },
+        "commercialTreatment": {
+          "policy": "CLOSED_PENDING_EXACT_ROUTE_AND_PACKET_FAMILY_GRADE_A_FULFILMENT",
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "participantAttachmentEnabled": false,
+          "deliveryEnabled": false,
+          "repeatDownloadEnabled": false,
+          "commerciallyEligible": false,
+          "basis": "Crosswalking an identity does not prove, approve, attach, deliver, sponsor, or sell a packet."
+        },
+        "basis": "The target route is the same California § 851.91 judicial-sealing petition, anchored by CR-409; CR-410 is its proposed order.",
+        "evidence": [
+          {
+            "role": "ASSIGNED_SCOPE",
+            "reference": "1fa0f3328a614f73330256bee5df75fc655e9d79:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json#/assignments/1/routeKeys/11"
+          },
+          {
+            "role": "LEGAL_CLASSIFICATION_AND_PARTICIPANT_INSTRUMENT",
+            "reference": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#/rows/2"
+          },
+          {
+            "role": "ASSIGNMENT_ROUTING_OUTPUT_STRATEGY_AND_PACKET_FAMILY",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#/rows/2"
+          },
+          {
+            "role": "RETAINED_B_AND_PROPOSED_A_PAIR",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#/pairs/2"
+          },
+          {
+            "role": "CURRENT_ROUTE_CENSUS",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/315"
+          },
+          {
+            "role": "EXISTING_CATEGORY_A_TARGET",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/130"
+          }
+        ]
+      },
+      "additionalBindings": [],
+      "rejectedCandidates": [],
+      "ancillaryBranchesNotAbsorbed": [
+        {
+          "instrument": "BCIA 8706 Claim of Alleged Inaccuracy or Incompleteness",
+          "disposition": "SEPARATE_ADMINISTRATIVE_BRANCH_NOT_CROSSWALKED",
+          "reason": "A DOJ record-correction claim is not the § 851.91 court petition and no exact Category A target was confirmed for it."
+        }
+      ],
+      "aggregateMatcherCaution": {
+        "applies": false,
+        "rule": "A shared form or first candidate is not enough; the target must match the filing's legal cohort and trigger.",
+        "generatorEvidence": [
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L81-L90",
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L109-L123"
+        ]
+      },
+      "commercialRouteOpened": false
+    },
+    {
+      "categoryBRouteKey": "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1",
+      "decision": "REUSE_AS_IS",
+      "confirmationStatus": "CONFIRMED",
+      "confirmationMethod": "Exact filing identity plus jurisdiction and legal-cohort semantics; never first-candidate position alone.",
+      "primaryBinding": {
+        "categoryARouteKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "scope": "PRIMARY_COURT_FILING_IDENTITY_ONLY",
+        "instrument": "CC-DC-CR-072A Petition for Expungement of Records for the ordinary favorable-disposition cohort.",
+        "exactDocumentIdentity": [
+          "CC-DC-CR-072A"
+        ],
+        "selectorStatement": "Select the ordinary § 10-105 Category A petition for its favorable-disposition cohorts or the committed missed-automatic backstop; do not use this binding for a pre-three-year early filing.",
+        "destination": "The clerk of the District Court or circuit court that heard the case.",
+        "deadline": "File under the ordinary § 10-105 waiting-period rules. A participant seeking relief before the three-year automatic event uses the separately bound early-filing route.",
+        "outputStrategy": "official_pdf_fill",
+        "productOutcome": "participant_packet",
+        "packetFamily": {
+          "id": "rcap-md-official-pdf-fill",
+          "disposition": "NAMED_NOT_CREATED"
+        },
+        "commercialTreatment": {
+          "policy": "CLOSED_PENDING_EXACT_ROUTE_AND_PACKET_FAMILY_GRADE_A_FULFILMENT",
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "participantAttachmentEnabled": false,
+          "deliveryEnabled": false,
+          "repeatDownloadEnabled": false,
+          "commerciallyEligible": false,
+          "basis": "Crosswalking an identity does not prove, approve, attach, deliver, sponsor, or sell a packet."
+        },
+        "basis": "The dispatch and delta identify the existing favorable § 10-105 route by CC-DC-CR-072A. The distinct pre-three-year cohort is preserved as an additional binding rather than collapsed into this primary route.",
+        "evidence": [
+          {
+            "role": "ASSIGNED_SCOPE",
+            "reference": "1fa0f3328a614f73330256bee5df75fc655e9d79:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json#/assignments/1/routeKeys/16"
+          },
+          {
+            "role": "LEGAL_CLASSIFICATION_AND_PARTICIPANT_INSTRUMENT",
+            "reference": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#/rows/19"
+          },
+          {
+            "role": "ASSIGNMENT_ROUTING_OUTPUT_STRATEGY_AND_PACKET_FAMILY",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#/rows/19"
+          },
+          {
+            "role": "RETAINED_B_AND_PROPOSED_A_PAIR",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#/pairs/19"
+          },
+          {
+            "role": "CURRENT_ROUTE_CENSUS",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/410"
+          },
+          {
+            "role": "EXISTING_CATEGORY_A_TARGET",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/412"
+          }
+        ]
+      },
+      "additionalBindings": [
+        {
+          "categoryARouteKey": "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105",
+          "scope": "EARLY_PRE_THREE_YEAR_COHORT_ONLY",
+          "instrument": "CC-DC-CR-072C Petition for Expungement of Records (early all-favorable filing) with CC-DC-CR-078 General Waiver and Release.",
+          "exactDocumentIdentity": [
+            "CC-DC-CR-072C",
+            "CC-DC-CR-078"
+          ],
+          "selector": "Use only when an all-favorable case is eligible for automatic relief but the participant petitions before the three-year automatic event with the required waiver and release.",
+          "destination": "The clerk of the District Court or circuit court that heard the case.",
+          "deadline": "Before the three-year automatic event, subject to the early-filing waiver-and-release requirements in the committed Maryland state-pack record.",
+          "requiredComponents": "CC-DC-CR-072C; CC-DC-CR-078; case and charge details; qualifying all-favorable disposition; and supporting records required by the forms.",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/411",
+            "src/lib/rcap/state-packs/maryland/pathways.ts#L44-L45",
+            "src/lib/rcap/state-packs/maryland/official-forms.ts#L34-L42",
+            "src/lib/rcap/state-packs/maryland/filing-instructions.ts#L9"
+          ]
+        }
+      ],
+      "rejectedCandidates": [],
+      "ancillaryBranchesNotAbsorbed": [
+        {
+          "instrument": "Correction or compliance request after missed automatic implementation at three years",
+          "disposition": "SEPARATE_CORRECTION_BRANCH_NOT_CROSSWALKED",
+          "reason": "Neither the early waiver filing nor the ordinary petition proves an exact correction/compliance branch."
+        }
+      ],
+      "aggregateMatcherCaution": {
+        "applies": true,
+        "rule": "A shared form or first candidate is not enough; the target must match the filing's legal cohort and trigger.",
+        "generatorEvidence": [
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L81-L90",
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L109-L123"
+        ]
+      },
+      "commercialRouteOpened": false
+    },
+    {
+      "categoryBRouteKey": "obligation:track-pathway:NH:nh_auto_vacated:annulment-of-a-vacated-conviction",
+      "decision": "REUSE_AS_IS",
+      "confirmationStatus": "CONFIRMED",
+      "confirmationMethod": "Exact filing identity plus jurisdiction and legal-cohort semantics; never first-candidate position alone.",
+      "primaryBinding": {
+        "categoryARouteKey": "obligation:track-only:NH:nh_petition_vacated",
+        "scope": "PRIMARY_COURT_FILING_IDENTITY_ONLY",
+        "instrument": "NHJB-2317-DSe Petition to Annul Record of Arrest or Conviction for a vacated conviction.",
+        "exactDocumentIdentity": [
+          "NHJB-2317-DSe"
+        ],
+        "selectorStatement": "Select the participant petition when the conviction was actually vacated before January 1, 2019; retain automatic B treatment for a vacatur on or after January 1, 2019.",
+        "destination": "The court whose conviction was vacated.",
+        "deadline": "Event-triggered after the vacatur order, with no additional wait or short outside deadline in the committed record.",
+        "outputStrategy": "official_pdf_fill",
+        "productOutcome": "participant_packet",
+        "packetFamily": {
+          "id": "rcap-nh-official-pdf-fill",
+          "disposition": "NAMED_NOT_CREATED"
+        },
+        "commercialTreatment": {
+          "policy": "CLOSED_PENDING_EXACT_ROUTE_AND_PACKET_FAMILY_GRADE_A_FULFILMENT",
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "participantAttachmentEnabled": false,
+          "deliveryEnabled": false,
+          "repeatDownloadEnabled": false,
+          "commerciallyEligible": false,
+          "basis": "Crosswalking an identity does not prove, approve, attach, deliver, sponsor, or sell a packet."
+        },
+        "basis": "The target route is keyed to a vacated conviction and the same NHJB-2317-DSe petition. The other candidates use nonconviction or ordinary conviction/DWI cohorts.",
+        "evidence": [
+          {
+            "role": "ASSIGNED_SCOPE",
+            "reference": "1fa0f3328a614f73330256bee5df75fc655e9d79:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json#/assignments/1/routeKeys/20"
+          },
+          {
+            "role": "LEGAL_CLASSIFICATION_AND_PARTICIPANT_INSTRUMENT",
+            "reference": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json#/rows/37"
+          },
+          {
+            "role": "ASSIGNMENT_ROUTING_OUTPUT_STRATEGY_AND_PACKET_FAMILY",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#/rows/37"
+          },
+          {
+            "role": "RETAINED_B_AND_PROPOSED_A_PAIR",
+            "reference": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#/pairs/34"
+          },
+          {
+            "role": "CURRENT_ROUTE_CENSUS",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/459"
+          },
+          {
+            "role": "EXISTING_CATEGORY_A_TARGET",
+            "reference": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/232"
+          }
+        ]
+      },
+      "additionalBindings": [],
+      "rejectedCandidates": [
+        {
+          "categoryARouteKey": "obligation:track-only:NH:nh_petition_nonconviction_pre2019",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/231"
+          ],
+          "reason": "This target concerns a favorable nonconviction, not annulment after an actual vacatur order."
+        },
+        {
+          "categoryARouteKey": "obligation:track-pathway:NH:nh_conviction_standard:conviction-annulment-under-rsa-651-5",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/460"
+          ],
+          "reason": "This ordinary conviction-annulment route uses sentence-completion and offense-class waits, not the vacatur-date selector."
+        },
+        {
+          "categoryARouteKey": "obligation:track-pathway:NH:nh_conviction_standard:dwi-dui-annulment",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#/routes/461"
+          ],
+          "reason": "This DWI-specific route has the wrong legal cohort and timing."
+        }
+      ],
+      "ancillaryBranchesNotAbsorbed": [
+        {
+          "instrument": "Court-clerk or State Police correction request for missed post-2019 automatic annulment",
+          "disposition": "SEPARATE_CORRECTION_BRANCH_NOT_CROSSWALKED",
+          "reason": "No exact Category A correction target was confirmed."
+        }
+      ],
+      "aggregateMatcherCaution": {
+        "applies": true,
+        "rule": "A shared form or first candidate is not enough; the target must match the filing's legal cohort and trigger.",
+        "generatorEvidence": [
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L81-L90",
+          "scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs#L109-L123"
+        ]
+      },
+      "commercialRouteOpened": false
+    }
+  ]
+}

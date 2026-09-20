@@ -63,14 +63,15 @@ function failures(hosted, resolver, deployScript) {
   fail(/ok\("route_state_matches_this_phase"/.test(resolver) && /bad\("route_state_matches_this_phase"/.test(resolver),
     "R2 the route state is no longer asserted independently of the refusal check, so 503 and 401 read alike");
 
-  // R3 — hosted_payment must deploy staging_scoped.
-  fail(/inputs\.phase == 'payment' && 'staging_scoped'/.test(hosted),
-    "R3 the payment phase no longer deploys a staging-scoped Preview");
+  // R3 — every transacting phase, including hosted_full, must deploy
+  // staging_scoped from the normalized contract decision.
+  fail(/steps\.contract\.outputs\.require_staging_scoped == 'true' && 'staging_scoped'/.test(hosted),
+    "R3 a transacting phase can deploy a route-disabled Preview");
 
-  // R4 — no other phase, and no unknown phase, may open the route.
-  fail(/HOSTED_ROUTE_STATE: \$\{\{ inputs\.phase == 'payment' && 'staging_scoped' \|\| '' \}\}/.test(hosted),
-    "R4 the route-opening ternary no longer falls back to the disabled default for every other phase");
-  fail(!/inputs\.phase != 'payment' && 'staging_scoped'/.test(hosted),
+  // R4 — no nontransacting phase, and no unknown phase, may open the route.
+  fail(/HOSTED_ROUTE_STATE: \$\{\{ steps\.contract\.outputs\.require_staging_scoped == 'true' && 'staging_scoped' \|\| '' \}\}/.test(hosted),
+    "R4 the route-opening ternary no longer falls back to disabled for nontransacting phases");
+  fail(!/require_staging_scoped != 'true' && 'staging_scoped'/.test(hosted),
     "R4 route opening has been inverted");
   if (contract) {
     fail(/unknown phase/.test(contract.run ?? "") && /exit 1/.test(contract.run ?? ""),
@@ -135,8 +136,13 @@ function failures(hosted, resolver, deployScript) {
   // so the deploy step must publish what it created, and downstream must read it.
   fail(/hostname=\$\{previewUrl/.test(deployScript) && /deployment_id=\$\{evidence\.deployment\?\.id/.test(deployScript),
     "the deploy step does not publish the Preview identity it created, so downstream receives an empty deployment id");
-  fail(/steps\.resolve_preview\.outputs\.deployment_id \|\| steps\.deploy_preview\.outputs\.deployment_id/.test(hosted),
-    "downstream does not fall back to the deploy step's deployment id after a fresh create");
+  for (const id of ["auth_identities", "checkout_gate", "payment_journey", "galleries"]) {
+    const consumer = byId.get(id);
+    fail(
+      consumer?.env?.HOSTED_PREVIEW_DEPLOYMENT_ID === "${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}",
+      `${id} does not fall back to the deploy step's deployment id after a fresh create`
+    );
+  }
 
   // Environment provisioning order. Three times now a step has been placed
   // ahead of the step that gives it a runtime: the All50 guards before npm ci,
@@ -227,12 +233,12 @@ if (MUTATIONS) {
       [h, r.replace('bad("route_state_matches_this_phase"', 'ok("route_state_matches_this_phase"')]],
     ["R2 a 503 refusal is treated as equivalent to a staging-scoped 401", (h, r) =>
       [h, r.replace(/ok\("route_state_matches_this_phase"/, 'ok("route_state_unchecked"')]],
-    ["R3 hosted_payment deploys without staging_scoped", (h, r) =>
-      [h.replace("HOSTED_ROUTE_STATE: ${{ inputs.phase == 'payment' && 'staging_scoped' || '' }}",
+    ["R3 a transacting phase deploys without staging_scoped", (h, r) =>
+      [h.replace("HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped == 'true' && 'staging_scoped' || '' }}",
                  "HOSTED_ROUTE_STATE: ''"), r]],
     ["R4 an unknown phase opens staging_scoped", (h, r) =>
-      [h.replace("HOSTED_ROUTE_STATE: ${{ inputs.phase == 'payment' && 'staging_scoped' || '' }}",
-                 "HOSTED_ROUTE_STATE: ${{ inputs.phase != 'payment' && 'staging_scoped' || 'staging_scoped' }}"), r]],
+      [h.replace("HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped == 'true' && 'staging_scoped' || '' }}",
+                 "HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped != 'true' && 'staging_scoped' || 'staging_scoped' }}"), r]],
     ["R4 the contract stops failing closed on an unknown phase", (h, r) =>
       [h.replace(`            *)\n              echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"\n              exit 1\n              ;;`,
                  "            *)             DEPLOY=true;  MATRIX=true;  GATE=true ;;"), r]],
@@ -308,5 +314,5 @@ if (base.length > 0) {
 console.log("verify-rcap-staging-scoped-preview-contract passed.");
 console.log("  Checkout, payment, worker, artifact and delivery phases require rcapRouteState=staging_scoped at the resolution boundary.");
 console.log("  The route state is asserted by name, never inferred from a refusal: 503 and 401 both look safe and only one can transact.");
-console.log("  Only the payment phase opens the route; every other and every unknown phase stays disabled and fails closed.");
+console.log("  Every transacting contract phase opens the scoped route; nontransacting and unknown phases stay disabled or fail closed.");
 console.log("  An exact staging-scoped Preview is reused if one exists; otherwise exactly one is created, never two.");

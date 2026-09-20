@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "tx_nd_dwi_probation-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Three sources bind, in TWO different custodies: the OCA model petition and order are Master Library assets, and the Statement of Inability is held in human_source_returns, a custody carried by no release and writing its paths relative to the repository root rather than a corpus root.",
+      "consequence": "Custody roots are resolved through the shared resolver, which follows what the corpus index declares rather than the shape of the path. Each source binds by exact SHA-256 against the index entry, the mounted bytes and this family's own pin, and any disagreement is a source stop that writes nothing."
+    },
+    {
+      "finding": "Gov't Code § 411.0745(b) requires a fee that generally applies to the filing of a CIVIL CASE. Read at source, the subsection sets the TYPE of fee and not an amount: there is no flat statutory figure for a petition-based nondisclosure and county civil filing fee schedules govern. OCA instructions describe the total as typically about $280, varying by county.",
+      "consequence": "The packet states exactly that — that the statute fixes the kind of fee and not the number, that OCA describes about $280 varying by county, and that the clerk of the court being filed in is the authority who answers it. No figure is published as though it were the fee."
+    },
+    {
+      "finding": "The committed record warns in terms that the $28 figure belongs ONLY to the no-petition route under Gov't Code § 411.072(c) and is not a filing fee. This is a petition route under § 411.0731.",
+      "consequence": "The guidance names the $28 explicitly in order to tell the participant it is not theirs. Staying silent about a widely-circulated wrong number is not neutrality: a participant who has read it elsewhere arrives at the clerk's window with the wrong money, and the packet is the only thing that could have told them."
+    },
+    {
+      "finding": "Section 411.0745(e) makes the COURT responsible for giving the State notice and an opportunity for a hearing, and the committed record states the filer should not be charged for it. OCA instructions separately direct the petitioner to show proof that the district attorney received a copy of the petition.",
+      "consequence": "The packet states that the court gives notice and that the participant serves nobody, and ships the proof-of-delivery page as a CONDITIONAL component whose own first paragraph tells the participant to ask the clerk whether that county wants it. Making it unconditional would invent an obligation the statute assigns to the court; omitting it would fail the counties that expect it."
+    },
+    {
+      "finding": "The waiting period is two years where the participant successfully complied with an ignition interlock condition for six months or longer, and five years otherwise. The threshold is a condition of supervision, and it is a record the platform has not seen.",
+      "consequence": "The control is left unmarked as a participant election, the judgment and the WRITTEN CONDITIONS of supervision are both placed in the documents-to-obtain table with the duration called out, and the guidance says in terms that this is a three-year difference turning on one condition. A packet that guessed here would cost a participant three years or get their petition refused."
+    },
+    {
+      "finding": "The Statement of Inability carries 132 AcroForm fields, almost all of them sworn financial and household facts, and it is sworn under penalty of perjury.",
+      "consequence": "It is classified by an ordered rule table with an exhaustiveness assertion in both directions: a field no rule reaches fails the build, and a rule no field matches fails it too. Nothing financial is prefilled anywhere on it — only the participant's own name, date of birth, address, telephone number and email — because a wrong figure on a sworn affidavit is a far worse defect than a blank one. The form's own face says the Clerk fills in the cause number, so that field is refused as court-owned rather than asked of the participant."
+    },
+    {
+      "finding": "The address is written on the Statement, which asks for the whole address in one blank, and withheld on the petition, whose signature block splits it across Address and City/State/Zip.",
+      "consequence": "The rule applied is the SHAPE OF THE BLANK, not the document. The platform holds one line; where a form wants one line it gets it, and where a form wants parts the participant writes the parts. The sibling Massachusetts family in this lane established the failure mode this avoids — a long address the fitter refuses is silently dropped for one participant and written for another — and this build asserts both fixtures write the same set of fields so it cannot recur unnoticed."
+    }
+  ]
+}

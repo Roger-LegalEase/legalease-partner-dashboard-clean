@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-wv-owner-registration/v1",
+  "status": "IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW",
+  "label": "Additive WV acquittal/dismissal owner adoption registration",
+  "workspaceHeadAtReturn": "dc6e4b148e605e5deedf7fabb97a0ea1080931cd",
+  "adoptionRecord": {
+    "path": "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json",
+    "sha256": "3b8c097d46900756e43527a96fb57e52b07e08f26909820ce4912a6c67c02a63",
+    "byteLength": 8946,
+    "heldUnchanged": true
+  },
+  "historicalFinding": {
+    "path": "docs/rcap/grade-a/owner-decisions/WV_SCA_C903_HAS_NO_ACQUITTAL_GROUND.md",
+    "sha256": "b931be52d5955afc42ee5f15815d68298ffaad775e72cdca4ded5d6f069cfaec",
+    "byteLength": 4067,
+    "preservedAsHistoricalFinding": true,
+    "statusEvidence": "open, for Roger; Grants nothing"
+  },
+  "registryTargets": [
+    "scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs",
+    "scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs"
+  ],
+  "workingTreeRegistryDiff": {
+    "againstHead": "dc6e4b148e605e5deedf7fabb97a0ea1080931cd",
+    "sha256": "a46631266c16b09d66b4a4f8da2040c03e9bf87f8f1805e3b0d63fb958a62ffc",
+    "byteLength": 7323,
+    "whitespaceCheck": "PASS"
+  },
+  "duplicateFamilyCheck": {
+    "familyId": "wv_nc_acquittal_dismissal-set",
+    "priorRegisteredMatches": 0,
+    "result": "PASS",
+    "registeredDecisionId": "WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913",
+    "registeredDisposition": "LEGAL_CLEAR"
+  },
+  "registration": {
+    "result": "PASS",
+    "change": "Added the exact WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json path to LEGAL_BLOCK_RESOLUTION_PATHS; no queue, custody, source, packet, or build output was changed.",
+    "baseResolutionCounts": {
+      "records": 7,
+      "legalClearFamilies": 35,
+      "legalHoldFamilies": 6
+    },
+    "effectiveResolutionCounts": {
+      "records": 8,
+      "legalClearFamilies": 41,
+      "legalHoldFamilies": 0
+    }
+  },
+  "focusedTests": {
+    "command": "source private/source-corpus-environment.txt && node scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+    "result": "PASS",
+    "assertions": [
+      "owner adoption is true while counselApproval, courtRuling, packetPass, terminalPromotion, productionAuthorization, and commercialAuthority remain false",
+      "scope is exactly wv_nc_acquittal_dismissal-set with one LEGAL_CLEAR decision and no hold",
+      "the two-branch disposition-specific revision set contains exactly six numbered revisions and exact IDs",
+      "the acquittal branch requires a participant-supplied certified acquittal order before filing",
+      "the preserved historical SCA-C903 finding remains open and grants nothing",
+      "all prior legal resolutions, Kansas supersession controls, and unrelated family protections continue to pass"
+    ],
+    "output": "LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 41 clear"
+  },
+  "syntaxAndWhitespace": {
+    "nodeCheck": "PASS",
+    "gitDiffCheck": "PASS"
+  },
+  "preservedControls": [
+    "The owner record remains product direction only and grants no counsel, packet, raster, terminal, commercial, production, or route approval.",
+    "Both dismissal and acquittal branches remain in scope; no coverage reduction was introduced.",
+    "The current queue/source binding and held PDF bytes remain untouched.",
+    "Registration alone does not create packet admission or terminal coverage."
+  ],
+  "nextAcceptance": "Independent review of this registration by the existing reviewer, followed by Captain's scoped legal-resolution integration."
+}

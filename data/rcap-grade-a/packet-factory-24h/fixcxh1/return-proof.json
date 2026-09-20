@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "fixcxh1-hi-route-adapter-evidence/v1",
+  "lane": "FIXCXH1",
+  "familyId": "rcap-hi-custom-pleading",
+  "baseSha": "40fc1e4a8750f09c031f39dcf21131e2ddc17680",
+  "branch": "lane-fixcxh1-hi-route-adapter-20260910",
+  "grantSet": "d574625041d13e40",
+  "adapter": "scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs asRow now forwards routeConditionThatMakesItInapplicable into declared",
+  "commands": {
+    "original": {
+      "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-hi-custom-pleading",
+      "exitCode": 1,
+      "expected": "10 FAIL_MISSING_PREFILLS (one unclassified HRS831-3.2 condition per fixture)",
+      "log": "data/rcap-grade-a/packet-factory-24h/fixcxh1/original-verifier.log"
+    },
+    "fixed": {
+      "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-hi-custom-pleading",
+      "exitCode": 0,
+      "expected": "10 ROUTE_PASS_COMPLETE",
+      "log": "data/rcap-grade-a/packet-factory-24h/fixcxh1/fixed-verifier.log"
+    },
+    "unaffectedRoute": {
+      "command": "node scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs --family rcap-hi-custom-pleading --route hi-marijuana-three-grams",
+      "exitCode": 0,
+      "expected": "2 ROUTE_PASS_COMPLETE",
+      "log": "data/rcap-grade-a/packet-factory-24h/fixcxh1/fixed-unaffected-route.log"
+    },
+    "missingConditionMutation": {
+      "command": "same fixed verifier in isolated copy after removing one routeConditionThatMakesItInapplicable declaration",
+      "exitCode": 1,
+      "expected": "2 FAIL_MISSING_PREFILLS for hi-first-time-drug-offender canonical/boundary; 8 pass",
+      "log": "data/rcap-grade-a/packet-factory-24h/fixcxh1/missing-condition-mutation.log"
+    },
+    "routeDeterminedMutation": {
+      "command": "same fixed verifier in isolated copy after setting routeDetermined:true on that declaration",
+      "exitCode": 1,
+      "expected": "2 FAIL_ROUTE_SELECTION for hi-first-time-drug-offender canonical/boundary; 8 pass",
+      "log": "data/rcap-grade-a/packet-factory-24h/fixcxh1/route-determined-mutation.log"
+    }
+  },
+  "mutationFixture": {
+    "targetRoute": "hi-first-time-drug-offender",
+    "targetDeclaration": "non-conviction paragraph applies to arrest records under HRS 831-3.2, which no route here reaches",
+    "missingCondition": "delete routeConditionThatMakesItInapplicable from first matching production-field-map row",
+    "routeDetermined": "set routeDetermined:true on same row while retaining NOT_APPLICABLE_ON_THIS_ROUTE and condition",
+    "proof": "both mutations refused by actual verifier with route-specific counter"
+  },
+  "hashEvidence": {
+    "familyBefore": "data/rcap-grade-a/packet-factory-24h/fixcxh1/family-before.hashes",
+    "familyAfter": "data/rcap-grade-a/packet-factory-24h/fixcxh1/family-after.hashes",
+    "familyHashDiff": "data/rcap-grade-a/packet-factory-24h/fixcxh1/family-hash-diff.txt",
+    "familyFilesChanged": 0,
+    "mapHashes": "data/rcap-grade-a/packet-factory-24h/fixcxh1/map-hashes.txt"
+  },
+  "scope": {
+    "packetContentChanged": false,
+    "sourceChanged": false,
+    "raster": false,
+    "centralWrites": false,
+    "writeFlag": false,
+    "unaffectedRouteVerified": true
+  },
+  "result": "Adapter only; existing classifier/contract unchanged."
+}

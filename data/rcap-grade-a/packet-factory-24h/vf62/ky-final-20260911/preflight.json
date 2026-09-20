@@ -1,0 +1,64 @@
+{
+  "worktree": "/tmp/rcap-vf62-ky-ut-final-20260911",
+  "base": "1dd3c9aabb2e402181670d4545681a73e1f58f30",
+  "grantSet": "426d087e4c6d759d",
+  "preexistingChanges": [
+    "?? private"
+  ],
+  "commands": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "1dd3c9aabb2e402181670d4545681a73e1f58f30\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exitCode": 0,
+      "stdout": "vf62-ky-ut-final-20260911\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exitCode": 0,
+      "stdout": "?? private\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--can-assert",
+        "VF62",
+        "ky_misdemeanor_expungement-set"
+      ],
+      "exitCode": 0,
+      "stdout": "CLAIM_OK VF62 ky_misdemeanor_expungement-set (independent-verification, grant set 426d087e4c6d759d)\n  ^ VF62 CAN assert ky_misdemeanor_expungement-set\n\n1 famil(ies) checked for VF62: 1 assertable, 0 would refuse\nAnswered by running the gate itself. Nothing was written.\n",
+      "stderr": "ledger: /tmp/rcap-vf62-ky-ut-final-20260911/data/rcap-grade-a/packet-factory-24h/claim-ledger.json  (1029 claims, generatedAtCommit e23cce33028b530f3fec8b675744abfec30cb8ed)\n"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--assert",
+        "VF62",
+        "ky_misdemeanor_expungement-set"
+      ],
+      "exitCode": 0,
+      "stdout": "CLAIM_OK VF62 ky_misdemeanor_expungement-set (independent-verification, grant set 426d087e4c6d759d)\n",
+      "stderr": "ledger: /tmp/rcap-vf62-ky-ut-final-20260911/data/rcap-grade-a/packet-factory-24h/claim-ledger.json  (1029 claims, generatedAtCommit e23cce33028b530f3fec8b675744abfec30cb8ed)\n"
+    }
+  ]
+}

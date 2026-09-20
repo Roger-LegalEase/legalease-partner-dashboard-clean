@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-worker-source-access-blockers/v1",
+  "governanceSha": "778bc7d5bbe6a0ae73bf78cad17abb7597c4a9c9",
+  "receipt": "data/rcap-grade-a/packet-factory-24h/src01/CODEX_CS1_SRC1_ACQUISITION.json",
+  "notALegalHold": true,
+  "families": [
+    {
+      "familyId": "ks-22-2410-arrest-set",
+      "missingExactSources": [
+        {
+          "sourceId": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+          "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+          "tier": "exact_content_hash",
+          "recordedPathExists": false,
+          "corpusIndexHasExactDigest": false,
+          "receiptUrlAccess": {
+            "source": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+            "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+            "error": "HTTP Error 403: Forbidden"
+          }
+        },
+        {
+          "sourceId": "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+          "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "tier": "exact_content_hash",
+          "recordedPathExists": false,
+          "corpusIndexHasExactDigest": false,
+          "receiptUrlAccess": {
+            "source": "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+            "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+            "error": "HTTP Error 403: Forbidden"
+          }
+        }
+      ],
+      "reason": "Exact source bytes named by the acquisition receipt are unavailable to this worker; no field census or safe official-PDF renderer can be completed without them.",
+      "sourceAuthorityChanged": false,
+      "substituteEditionUsed": false,
+      "overlayDirectoryTouched": false
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
+      "missingExactSources": [
+        {
+          "sourceId": "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+          "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+          "tier": "exact_content_hash",
+          "recordedPathExists": false,
+          "corpusIndexHasExactDigest": false,
+          "receiptUrlAccess": {
+            "source": "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+            "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+            "error": "HTTP Error 403: Forbidden"
+          }
+        },
+        {
+          "sourceId": "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+          "path": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+          "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+          "tier": "exact_content_hash",
+          "recordedPathExists": false,
+          "corpusIndexHasExactDigest": false,
+          "receiptUrlAccess": {
+            "source": "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+            "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+            "error": "HTTP Error 403: Forbidden"
+          }
+        }
+      ],
+      "reason": "Exact source bytes named by the acquisition receipt are unavailable to this worker; no field census or safe official-PDF renderer can be completed without them.",
+      "sourceAuthorityChanged": false,
+      "substituteEditionUsed": false,
+      "overlayDirectoryTouched": false
+    }
+  ],
+  "nextAction": "Dispatch the pinned four-source manifest using a credential permitted to run Actions. Materialize/adopt only if SHA-256 and byte length match the historical receipt exactly. Stop mismatches as source changes; preserve old identities.",
+  "centralReacquisition": {
+    "manifest": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-six-20260912/SOURCE_REACQUISITION_MANIFEST.json",
+    "workflow": "rcap-official-source-acquisition-batch.yml",
+    "ref": "codex/pf20-kansas-six-20260912",
+    "dispatchResult": "HTTP 403: Resource not accessible by integration",
+    "runId": null
+  }
+}

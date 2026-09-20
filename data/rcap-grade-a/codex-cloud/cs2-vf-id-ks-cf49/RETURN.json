@@ -1,0 +1,345 @@
+{
+  "schemaVersion": "rcap-codex-independent-packet-verification-return/v1",
+  "workerId": "CODEX-CS2-VF-ID-KS",
+  "role": "independent verification only",
+  "independence": "This worker built and repaired neither family and performed neither FIX02 nor FIX05.",
+  "worktree": "/workspaces/cs2-fix02-tn",
+  "canonicalCaptain": "claude/legalease-sprint-captain-utucnw",
+  "base": "cf492847858f0dccd3266a15b00a23499f462935",
+  "branch": "codex/cs2-vf-id-ks-cf49",
+  "evidenceCommit": "25c958d8c31f720a4bc1f5e98408a0ad3b87db3e",
+  "tip": "25c958d8c31f720a4bc1f5e98408a0ad3b87db3e",
+  "tipMeaning": "Committed evidence tip when RETURN.json was prepared; the subsequent return-only commit is necessarily reported in the final handoff because a commit cannot contain its own object ID.",
+  "pushState": {
+    "state": "NOT_PUSHED_CREDENTIALS_ABSENT",
+    "attemptedWithoutForce": true,
+    "command": "git push origin codex/cs2-vf-id-ks-cf49",
+    "exactError": "fatal: could not read Username for 'https://github.com': No such device or address",
+    "forceUsed": false
+  },
+  "identityPreflight": {
+    "physicalCwd": "/workspaces/cs2-fix02-tn",
+    "gitTopLevel": "/workspaces/cs2-fix02-tn",
+    "branch": "codex/cs2-vf-id-ks-cf49",
+    "headBeforeVerification": "cf492847858f0dccd3266a15b00a23499f462935",
+    "captainRef": "origin/claude/legalease-sprint-captain-utucnw",
+    "captainRefTip": "cf492847858f0dccd3266a15b00a23499f462935",
+    "mergeBase": "cf492847858f0dccd3266a15b00a23499f462935",
+    "cleanBeforeVerification": true,
+    "workerIdentity": "CODEX-CS2-VF-ID-KS"
+  },
+  "claims": {
+    "grantSet": "8789460e2ea049a9",
+    "exclusiveOwnershipCheck": "The validated claim ledger contained exactly one live independent-verification grant for each subject and no second live grant for either family. The assigned dispatch identifies this physical worker for both lanes.",
+    "VF04": {
+      "familyId": "id_set_aside_dismissal-set",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 id_set_aside_dismissal-set --reason \"independent current-byte read after integrated FIX02 source-receipt repair\"",
+      "result": "CLAIM_OK VF04 id_set_aside_dismissal-set (independent-verification, grant set 8789460e2ea049a9)",
+      "succeededBeforeFamilyRead": true
+    },
+    "VF08": {
+      "familyId": "rcap-ks-custom-pleading",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF08 rcap-ks-custom-pleading --reason \"independent current-byte read after integrated FIX05 component/pagination repair\"",
+      "result": "CLAIM_OK VF08 rcap-ks-custom-pleading (independent-verification, grant set 8789460e2ea049a9)",
+      "succeededBeforeFamilyRead": true
+    },
+    "claimsReleased": 0
+  },
+  "sourceBinding": {
+    "strategyForBothFamilies": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "sourceBinaryCommitted": false,
+    "officialBinaryInvented": false,
+    "familySourcesBind": {
+      "id_set_aside_dismissal-set": "PASS",
+      "rcap-ks-custom-pleading": "PASS"
+    },
+    "standardEnvironmentResultForEachFamily": {
+      "passed": 10,
+      "failed": 3,
+      "notApplicable": 4,
+      "knownGlobalFailuresNotPromotedToSourceBlocked": [
+        "master_library_mounted",
+        "master_library_complete",
+        "corpus_matches_committed_index"
+      ]
+    },
+    "committedRecordsRehashed": [
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+        "byteLength": 16586150,
+        "matchesBothReceipts": true
+      },
+      {
+        "path": "data/record-clearing/legal-design-specifications.json",
+        "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+        "byteLength": 16829391,
+        "matchesBothReceipts": true
+      },
+      {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+        "byteLength": 2607149,
+        "matchesBothReceipts": true
+      }
+    ]
+  },
+  "families": {
+    "id_set_aside_dismissal-set": {
+      "lane": "VF04",
+      "route": "obligation:track-only:ID:id_set_aside_dismissal",
+      "strategy": "zero-binary-source custom pleading from codified authority",
+      "priorMeasuredDefect": "SOURCE_IDENTITY only",
+      "repairRetest": "PASS — FIX02's refreshed committed-record pins exactly match current bytes and packet bytes did not change",
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+          "byteLength": 10134,
+          "pageCount": 4
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+          "byteLength": 10351,
+          "pageCount": 4
+        }
+      ],
+      "completeness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family id_set_aside_dismissal-set",
+        "result": "PASS_COMPLETE, 6/14 written",
+        "familiesAudited": 1,
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "pageInspection": {
+        "documentsRead": 2,
+        "pagesRead": 8,
+        "canonicalWords": 866,
+        "boundaryWords": 871,
+        "popplerWordBoxesOutsideMediaBox": 0,
+        "measuredTextOverlapPairs": 0,
+        "blankOrFooterOnlyPages": 0,
+        "directRasterProblems": 0
+      },
+      "acceptedRasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33605354695",
+        "jobId": "100168605472",
+        "artifactId": 9837134404,
+        "canonicalSha256": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+        "boundarySha256": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+        "documentsMeasured": 2,
+        "pagesMeasured": 8,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true
+      },
+      "obligations": {
+        "ROUTE_IDENTITY": {"result": "PASS", "finding": "The route key, I.C. § 19-2604(1) mechanism, relief and sentencing-court destination agree across current committed records and every rendered page."},
+        "SOURCE_IDENTITY": {"result": "PASS", "finding": "All three receipt-pinned committed-record hashes and byte lengths exactly match current bytes; family_sources_bind passes for the zero-source composition."},
+        "COMPONENT_SET": {"result": "PASS", "finding": "Primary filing pages 1-2 and filing-instruction pages 3-4 are present under the exact component IDs in both fixtures."},
+        "KNOWN_PREFILLS": {"result": "PASS", "finding": "All 6/6 declared writes were independently read from both PDFs; long boundary values are complete."},
+        "REQUIRED_BEFORE_FILING": {"result": "PASS", "finding": "All five registry facts C1-C5 are labelled blanks and disclosed 5/5, with signing and clerk-confirmation steps."},
+        "ROUTE_OPTIONS": {"result": "PASS", "finding": "The § 19-2604(1) route is fixed, distinct from felony reduction, and no route election is preselected."},
+        "REPEATING_ROWS": {"result": "PASS", "finding": "No repeating-row structure or partial logical row exists."},
+        "PROTECTED_FIELDS": {"result": "PASS", "finding": "Court case number, participant signature and signature date remain blank; refusedFieldsWithInk is empty."},
+        "ARTIFACTS": {"result": "PASS", "finding": "Both exact PDFs match recomputed hashes, byte lengths, page counts, artifact report and raster pins."},
+        "PAGE_ORDER": {"result": "PASS", "finding": "Primary filing pages 1-2 precede filing instructions pages 3-4 without gaps or interleaving."},
+        "CLIPPING_AND_OVERLAP": {"result": "PASS", "finding": "All eight pages were directly inspected; 1,737 Poppler word boxes have zero MediaBox crossings, the text-overlap detector found zero pairs, and the exact governed receipt reports zero problems."},
+        "FILING_DESTINATION": {"result": "PASS", "finding": "The sentencing court, its relationship to the sentence, the county-practice limitation and the clerk resolution step match current committed authority."},
+        "FEE_AND_WAIVER": {"result": "PASS", "finding": "The packet truthfully states no bound fee or waiver procedure and names the sentencing-court clerk for both rather than inventing a rule."},
+        "SERVICE": {"result": "PASS", "finding": "The unresolved service and notice state is stated and routed to the sentencing-court clerk without guessing."},
+        "SELF_HELP_STOP": {"result": "PASS", "finding": "All five committed stop conditions are present."}
+      },
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "laneRowWritten": true
+    },
+    "rcap-ks-custom-pleading": {
+      "lane": "VF08",
+      "routes": [
+        "obligation:track-pathway:KS:ks-12-4516-municipal:municipal-conviction-or-diversion-expungement-under-12-4516",
+        "obligation:track-pathway:KS:ks-12-4516a-municipal-arrest:municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "strategy": "zero-binary-source custom pleading from codified authority",
+      "priorMeasuredDefects": ["COMPONENT_SET", "CLIPPING_AND_OVERLAP"],
+      "repairRetest": {
+        "componentSet": "LOCAL_NONVISUAL_PASS — both routes require and render primary_filing, proposed_order, process_guidance under the exact registry IDs and order 1/2/3; the former filing-instruction substitute IDs are absent",
+        "pagination": "LOCAL_NONVISUAL_AND_DIRECT_VISUAL_PASS — both family fixtures are 13 pages, the former footer-only page 8 is absent, all route pages are substantive, and no cross-route page appears in a route artifact",
+        "governedVisualGate": "ROUTE_ARTIFACT_RASTER_PENDING"
+      },
+      "familyAssemblyArtifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+          "byteLength": 37304,
+          "pageCount": 13
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+          "byteLength": 37721,
+          "pageCount": 13
+        }
+      ],
+      "routeArtifacts": [
+        {
+          "route": "ks-12-4516-municipal",
+          "role": "canonical",
+          "sha256": "730a38f42504c51908dece94129255324a81da9ade651ef88d81a42ffb11878a",
+          "byteLength": 20092,
+          "pageCount": 7
+        },
+        {
+          "route": "ks-12-4516-municipal",
+          "role": "boundary",
+          "sha256": "776a364d13db3750d3c0f007ebb7229c06a1101c9b54b3e4c0618c13e04e84a0",
+          "byteLength": 20304,
+          "pageCount": 7
+        },
+        {
+          "route": "ks-12-4516a-municipal-arrest",
+          "role": "canonical",
+          "sha256": "e766906dd1d493ad28389596a09250ab096ea42fbc0bdf601cfb8f940c075124",
+          "byteLength": 18481,
+          "pageCount": 6
+        },
+        {
+          "route": "ks-12-4516a-municipal-arrest",
+          "role": "boundary",
+          "sha256": "61a928d7c56d411cf4042a7ad1f53f42124a31dc1370bffdfb6b5d0d55aecff6",
+          "byteLength": 18681,
+          "pageCount": 6
+        }
+      ],
+      "completeness": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+        "result": "PASS_COMPLETE, 14/56 written",
+        "familiesAudited": 1,
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "pageInspection": {
+        "familyAssemblyDocumentsRead": 2,
+        "familyAssemblyPagesRead": 26,
+        "routeDocumentsRead": 4,
+        "routePagesRead": 26,
+        "popplerWordBoxesMeasuredAcrossFamilyAndRouteArtifacts": 13812,
+        "popplerWordBoxesOutsideMediaBox": 0,
+        "measuredTextOverlapPairs": 0,
+        "blankOrFooterOnlyPages": 0,
+        "routeTextMatchesFamilySlices": 4,
+        "municipalOwnFooterPagesCanonicalBoundary": [7, 7],
+        "municipalSiblingFooterPagesCanonicalBoundary": [0, 0],
+        "municipalArrestOwnFooterPagesCanonicalBoundary": [6, 6],
+        "municipalArrestSiblingFooterPagesCanonicalBoundary": [0, 0],
+        "localDirectRasterProblems": 0
+      },
+      "acceptedFamilyAssemblyRasterReceipt": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33844904078",
+        "jobId": "100935414098",
+        "canonicalSha256": "0da4dbab6b7be1f15ebb4ca2e5fa7810f6c8e34f366dc87b4131c311a4d0ec74",
+        "boundarySha256": "e12e30be68deb94e934bb3ab3080b1cc0d0c048810781f8491710c5740cd55c7",
+        "documentsMeasured": 2,
+        "pagesMeasured": 26,
+        "problemsFound": 0,
+        "coversTheWholeFamilyAssembly": true,
+        "receiptArtifactId": 9926564215,
+        "receiptZipSha256": "sha256:fd126a75ae2f441d92f03aba13189ba087a0915fc8bb868d4c9e966e536b0871"
+      },
+      "rejectedRasterReceipts": [
+        {
+          "scope": "family assembly",
+          "workflowRunId": "33791677725",
+          "canonicalSha256": "006811ccb975a156a19a8ee2ed8a5a92a50f2c7d4c25a8f498d146202a58fc24",
+          "boundarySha256": "3f903f57859d75026d4e5885ac0ab23abc80f3363df713820c4e24d7af3c7fe2",
+          "pagesMeasured": 25,
+          "rejectedBecause": "superseded non-current family bytes"
+        },
+        {
+          "scope": "ks-12-4516-municipal route artifact",
+          "workflowRunId": "KSRAS-run1 or null local receipt",
+          "canonicalSha256": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
+          "boundarySha256": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f",
+          "rejectedBecause": "stale route bytes; neither hash equals the current route artifact"
+        },
+        {
+          "scope": "ks-12-4516a-municipal-arrest route artifact",
+          "workflowRunId": "KSRAS-run1 or null local receipt",
+          "canonicalSha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+          "boundarySha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
+          "rejectedBecause": "stale route bytes; neither hash equals the current route artifact"
+        }
+      ],
+      "currentRouteRasterSearch": {
+        "queue": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json",
+        "ks-12-4516-municipal": {
+          "currentRasterState": "RASTER_PENDING",
+          "preexistingRasterAcceptance": null,
+          "exactCurrentCanonicalHashPassFound": false,
+          "exactCurrentBoundaryHashPassFound": false
+        },
+        "ks-12-4516a-municipal-arrest": {
+          "currentRasterState": "RASTER_PENDING",
+          "preexistingRasterAcceptance": null,
+          "exactCurrentCanonicalHashPassFound": false,
+          "exactCurrentBoundaryHashPassFound": false
+        },
+        "familyReceiptInherited": false
+      },
+      "obligations": {
+        "ROUTE_IDENTITY": {"result": "PASS", "finding": "Both exact track-pathway keys, short human route labels, statutory mechanisms and municipal-court destinations agree across current committed records, manifests and each route's pages."},
+        "SOURCE_IDENTITY": {"result": "PASS", "finding": "All three committed-record pins match current bytes; family_sources_bind passes for this zero-binary composition and no official binary source is invented."},
+        "COMPONENT_SET": {"result": "PASS", "finding": "For each route, registry, packet specification, field map and route artifact agree on the exact primary_filing, proposed_order and process_guidance IDs in order 1/2/3. Former substitute IDs are absent."},
+        "KNOWN_PREFILLS": {"result": "PASS", "finding": "All 14/14 declared writes were read from each family fixture and corresponding route pages, including complete long boundary values."},
+        "REQUIRED_BEFORE_FILING": {"result": "PASS", "finding": "All 28 route fact blanks are printed and disclosed; participant instructions also name the local record, local-form and local-fee confirmations required before filing."},
+        "ROUTE_OPTIONS": {"result": "PASS", "finding": "Conviction/diversion and arrest-only routes are separately labelled and separately assembled; statutory-ground and local-form conditions remain participant choices and no election is prefilled."},
+        "REPEATING_ROWS": {"result": "PASS", "finding": "No repeating-row structure or partial logical row exists in either route."},
+        "PROTECTED_FIELDS": {"result": "PASS", "finding": "All 14 protected case-number, signature/date, order-decision and court-signature/date fields remain blank; refusedFieldsWithInk is empty."},
+        "ARTIFACTS": {"result": "PASS", "finding": "Both family assemblies and all four route artifacts match their exact recomputed hashes, byte lengths, page counts and byte-derived manifests."},
+        "PAGE_ORDER": {"result": "PASS", "finding": "Each route is primary_filing then proposed_order then process_guidance; family assembly is municipal pages 1-7 followed by municipal-arrest pages 8-13. The route artifacts textually equal those exact family slices."},
+        "CLIPPING_AND_OVERLAP": {"result": "ROUTE_ARTIFACT_RASTER_PENDING", "finding": "Independent local text geometry and direct raster inspection found no defect across all current family and route pages, and the exact family assembly has governed RASTER_PASS. But neither current route canonical/boundary pair has an exact-hash governed RASTER_PASS, so the route-artifact visual obligation remains pending."},
+        "FILING_DESTINATION": {"result": "PASS", "finding": "The conviction/diversion route names the convicting Kansas municipal court; the arrest route names the municipal court where the ordinance charge was brought. Both preserve local-form and charter-ordinance limitations."},
+        "FEE_AND_WAIVER": {"result": "PASS", "finding": "Both routes accurately state court-set variable fees; § 12-4516 has no identified statewide waiver, while § 12-4516a states the identity-theft no-fee exemption and no discretionary statewide waiver."},
+        "SERVICE": {"result": "PASS", "finding": "Both routes state that the court causes notice to the prosecutor and arresting agency and the participant does not serve."},
+        "SELF_HELP_STOP": {"result": "PASS", "finding": "The route-specific prosecutor-opposition, contested-hearing, disputed-fact, charter-ordinance/local-process, registration, route-mismatch and immigration stops are present."}
+      },
+      "exactGate": "ROUTE_ARTIFACT_RASTER_PENDING",
+      "packetRepairRequired": false,
+      "substantiveVerdict": null,
+      "laneRowWritten": false,
+      "whyNoLaneRow": "The independent contract forbids a substantive KS row from displacing the actionable state while exact route-artifact raster acceptance is absent. A family-assembly receipt is not inherited and stale route receipts are rejected."
+    }
+  },
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs2-vf-id-ks-cf49/RETURN.json"
+  ],
+  "vf08RowsChanged": false,
+  "packetsEdited": 0,
+  "sourceRecordsEdited": 0,
+  "legalAuthorityEdited": 0,
+  "centralStateEdited": 0,
+  "claimsReleased": 0,
+  "selfRepair": 0,
+  "routesOpened": 0,
+  "productionTouched": "NO"
+}

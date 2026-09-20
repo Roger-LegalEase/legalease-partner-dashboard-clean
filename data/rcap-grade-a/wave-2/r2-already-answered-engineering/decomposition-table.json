@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "rcap-grade-a-r2-output-mode-decomposition/v1",
+  "what": "The controlling decision records state an output treatment in counsel's prose vocabulary. The runtime states it in RouteOutcomeMode. This table is the one place the two vocabularies are joined, so the join is reviewable as a table rather than buried in a regular expression.",
+  "keyedBy": "the exact outputMode string carried by the decision record in src/lib/legal-authority/authority.json",
+  "runtimeVocabularySource": {
+    "file": "src/lib/legal-authority/types.ts",
+    "field": "RouteOutcomeMode, RouteStage, NO_PARTICIPANT_FILING_OUTCOMES, PACKET_BEARING_OUTCOMES"
+  },
+  "compositionMeanings": {
+    "disjoint_branches": "The record joins the treatments with OR. Exactly one branch serves a given matter, and the branches may not share a checkout path.",
+    "conjunctive_branches": "The record joins the treatments with +. Both are owed on the same matter; neither replaces the other."
+  },
+  "packetFamilyRule": "Every branch this lane emits carries packetFamily null. Binding a packet family is a packet-factory act with its own approval; this lane implements the outcome-mode decision only, which is why it opens no commercial route.",
+  "decompositions": {
+    "AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "automatic-status-correction-guidance", "treatment": "AUTOMATIC STATUS/CORRECTION GUIDANCE", "outcomeMode": "automatic_relief", "stage": "automatic" },
+        { "branchId": "court-petition-packet", "treatment": "COURT PETITION PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    },
+    "AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "automatic-status-correction-guidance", "treatment": "AUTOMATIC STATUS/CORRECTION GUIDANCE", "outcomeMode": "automatic_relief", "stage": "automatic" },
+        { "branchId": "juvenile-court-petition-packet", "treatment": "JUVENILE COURT PETITION PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    },
+    "AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "automatic-status-correction-guidance", "treatment": "AUTOMATIC STATUS/CORRECTION GUIDANCE", "outcomeMode": "automatic_relief", "stage": "automatic" },
+        { "branchId": "petition-packet", "treatment": "PETITION PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    },
+    "AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "agency-request", "treatment": "AGENCY REQUEST", "outcomeMode": "agency_application", "stage": "single_stage" },
+        { "branchId": "automatic-status-correction-guidance", "treatment": "AUTOMATIC STATUS/CORRECTION GUIDANCE", "outcomeMode": "automatic_relief", "stage": "automatic" }
+      ]
+    },
+    "AUTOMATIC STATUS/CORRECTION GUIDANCE OR AGENCY REQUEST": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "automatic-status-correction-guidance", "treatment": "AUTOMATIC STATUS/CORRECTION GUIDANCE", "outcomeMode": "automatic_relief", "stage": "automatic" },
+        { "branchId": "agency-request", "treatment": "AGENCY REQUEST", "outcomeMode": "agency_application", "stage": "single_stage" }
+      ]
+    },
+    "PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "participant-packet", "treatment": "PARTICIPANT PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" },
+        { "branchId": "contested-timing-to-counsel", "treatment": "CONTESTED TIMING TO COUNSEL", "outcomeMode": "referral", "stage": "single_stage" }
+      ]
+    },
+    "AUTOMATIC CLOSURE GUIDANCE + CLERK AND ORIGINAL-CASE CORRECTION": {
+      "composition": "conjunctive_branches",
+      "branches": [
+        { "branchId": "automatic-closure-guidance", "treatment": "AUTOMATIC CLOSURE GUIDANCE", "outcomeMode": "automatic_relief", "stage": "automatic" },
+        { "branchId": "clerk-and-original-case-correction", "treatment": "CLERK AND ORIGINAL-CASE CORRECTION", "outcomeMode": "automatic_relief", "stage": "enforcement" }
+      ]
+    },
+    "COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "court-sealing-packet", "treatment": "COURT SEALING PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" },
+        { "branchId": "trafficking-vacatur-sealing-packet", "treatment": "TRAFFICKING VACATUR/SEALING PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    },
+    "ROUTE-SPECIFIC COURT EXPUNGEMENT OR VACATUR PACKET": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "route-specific-court-expungement-packet", "treatment": "ROUTE-SPECIFIC COURT EXPUNGEMENT PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" },
+        { "branchId": "route-specific-vacatur-packet", "treatment": "ROUTE-SPECIFIC VACATUR PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    },
+    "STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "status-correction-guidance", "treatment": "STATUS/CORRECTION GUIDANCE", "outcomeMode": "guidance_status", "stage": "single_stage" },
+        { "branchId": "limited-court-application", "treatment": "LIMITED COURT APPLICATION", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    },
+    "OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "offense-specific-packet", "treatment": "OFFENSE-SPECIFIC PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" },
+        { "branchId": "nonconviction-juvenile-packet", "treatment": "NONCONVICTION/JUVENILE PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" },
+        { "branchId": "pardon-guidance-only", "treatment": "PARDON GUIDANCE ONLY", "outcomeMode": "guidance_status", "stage": "single_stage" }
+      ]
+    },
+    "SOLICITOR-ADMINISTERED PROCESS GUIDANCE + RETAINED-COUNSEL HANDOFF ON DENIAL": {
+      "composition": "conjunctive_branches",
+      "branches": [
+        { "branchId": "solicitor-administered-process-guidance", "treatment": "SOLICITOR-ADMINISTERED PROCESS GUIDANCE", "outcomeMode": "guidance_status", "stage": "single_stage" },
+        { "branchId": "retained-counsel-handoff-on-denial", "treatment": "RETAINED-COUNSEL HANDOFF ON DENIAL", "outcomeMode": "referral", "stage": "enforcement" }
+      ]
+    },
+    "SPECIAL COURT PETITION, PARDON STATUS GUIDANCE, OR JUVENILE PETITION": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "special-court-petition", "treatment": "SPECIAL COURT PETITION", "outcomeMode": "participant_packet", "stage": "single_stage" },
+        { "branchId": "pardon-status-guidance", "treatment": "PARDON STATUS GUIDANCE", "outcomeMode": "guidance_status", "stage": "single_stage" },
+        { "branchId": "juvenile-petition", "treatment": "JUVENILE PETITION", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    },
+    "COURT SET-ASIDE PACKET": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "court-set-aside-packet", "treatment": "COURT SET-ASIDE PACKET", "outcomeMode": "participant_packet", "stage": "single_stage" }
+      ]
+    }
+  },
+  "guidanceStrategyDecomposition": {
+    "process_guidance": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "process-guidance", "treatment": "process_guidance", "outcomeMode": "guidance_status", "stage": "single_stage" }
+      ]
+    }
+  },
+  "reclassificationDecomposition": {
+    "paid_packet_intended -> product_scope_exclusion": {
+      "composition": "disjoint_branches",
+      "branches": [
+        { "branchId": "product-scope-exclusion", "treatment": "PRODUCT SCOPE EXCLUSION", "outcomeMode": "unsupported", "stage": "single_stage" }
+      ]
+    }
+  },
+  "counselHandoffRationales": [
+    "requires_negotiation",
+    "contested_evidentiary_showing",
+    "individualized_advocacy"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "md_second_chance_shielding-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The two route-determined MDJ-008 section 1 controls are marked by this family's own post-finalize pass (markRouteDeterminedSelections), because finalizeOfficialForm still accepts no `selections` argument. The pass reuses the shared machinery's published SELECTION_INSET, SELECTION_LINE_WIDTH and participant ink, enforces the shared markSelections guards as hard assertions (measured box, verbatim printed caption, unanswered pinned source, on-page, large enough to mark inside its own stroke), and proves each mark out of the artifact bytes as added painted paths.",
+      "consequence": "A `selections` parameter on finalizeOfficialForm would still be the better home for this — every official_pdf_fill family with a route-determined checkbox needs it — and the measured rectangles remain in this family's field map under routeDeterminedSelections for that migration. Recorded for the owner of scripts/rcap-official-forms/."
+    },
+    {
+      "finding": "CC-DC-CR-148 prints, at page 1 y=616, \"You must file a Notice Regarding Restricted Information Pursuant to Rule 20-201.1 (form MDJ-008) with this submission.\"",
+      "consequence": "MDJ-008 is carried in this family as an attachment rather than as a separate optional form, and the instructions say why in the form's own words."
+    },
+    {
+      "finding": "Both Maryland forms extract clean text and Maryland authored its field names as the printed captions, so captions here are checked against the paper rather than asserted.",
+      "consequence": "reports/caption-evidence.json records, per field, whether the caption this build uses was found verbatim in the printed text of its own page, and records the printed line at the widget coordinate where it was not. This is the check the Colorado families in this factory could not run."
+    },
+    {
+      "finding": "The CC-DC-CR-148 signature block is two columns printing the same five captions twice: the attorney's on the left and the petitioner's on the right, at x=72 and x=319 respectively.",
+      "consequence": "Every left-hand field is refused as attorney-only and every right-hand field is written. The columns are distinguished by Maryland's own field names (\"Attorney Street Address\" against \"Petitioner Street Address\"), and the placement is put to the visual reviewer as the first thing to check."
+    },
+    {
+      "finding": "MDJ-008 prints \"STATE OF MARYLAND\" above the Plaintiff/Petitioner line, followed by \"OR\" and a blank line for a case with a named plaintiff.",
+      "consequence": "On this route nothing goes in that blank. It is refused under court_prosecutor_clerk_or_agency_owned, the closest class the closed vocabulary offers, and the reason states plainly that the State is the plaintiff and the line is not the petitioner's to fill."
+    },
+    {
+      "severity": "advisory",
+      "owner": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "finding": "BLANK_DISPOSITIONS carries NOT_APPLICABLE_ON_THIS_ROUTE, but the only reasons that reach it are a viewer control and an attorney block. A field that is genuinely not applicable for a third reason -- here, a caption line the form pre-prints for this case type -- has no channel to say so.",
+      "consequence": "The MDJ-008 plaintiff line is filed under a protected class instead. That is defensible, since the plaintiff is the prosecuting State, but it is not the accurate disposition and is recorded rather than left implicit."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture."
+    }
+  ]
+}

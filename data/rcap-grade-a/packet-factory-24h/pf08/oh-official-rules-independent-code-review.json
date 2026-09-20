@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-independent-bounded-code-review/v1",
+  "reviewer": "/root/resolver_review",
+  "generatedAt": "2026-09-13T20:11:43.365086+00:00",
+  "result": "PASS",
+  "scope": "Exact existing source-adoption prefix extension only; no source admission document or family output change",
+  "reviewedFiles": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/user-source-adoption.mjs",
+      "sha256": "d6576e80b122d234e54e5a4e8e3fe12589c20c4f05125badfd26f48cda26400c",
+      "byteLength": 10436
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-official-rules-source-adoption.mjs",
+      "sha256": "288511a4fb5d449f3db6d063ff799dc50ae7f62589f274f2f17ae06d5c19feed",
+      "byteLength": 3059
+    }
+  ],
+  "diff": "diff --git a/scripts/grade-a-packet-factory-24h/user-source-adoption.mjs b/scripts/grade-a-packet-factory-24h/user-source-adoption.mjs\nindex 8d36baf94..b1b98e21c 100644\n--- a/scripts/grade-a-packet-factory-24h/user-source-adoption.mjs\n+++ b/scripts/grade-a-packet-factory-24h/user-source-adoption.mjs\n@@ -82,9 +82,11 @@ function validateAdoption(root, document) {\n     if (typeof source.sourceObligationId !== \"string\"\n         || (!source.sourceObligationId.startsWith(\"official-form:\")\n           && !source.sourceObligationId.startsWith(\"official-authority:\")\n+          && !source.sourceObligationId.startsWith(\"official-rules:\")\n           && !source.sourceObligationId.includes(\"::official-form:\")\n-          && !source.sourceObligationId.includes(\"::official-authority:\"))) {\n-      refuse(`${label}.sourceObligationId must identify an official form or authority obligation`);\n+          && !source.sourceObligationId.includes(\"::official-authority:\")\n+          && !source.sourceObligationId.includes(\"::official-rules:\"))) {\n+      refuse(`${label}.sourceObligationId must identify an official form, authority, or rules obligation`);\n     }\n     if (source.sourceId !== source.sourceObligationId) {\n       refuse(`${label}.sourceId must equal sourceObligationId`);\n",
+  "findings": [],
+  "assessment": [
+    "Adds direct official-rules: and existing ::qualified official-rules shape symmetrically with official-form/authority. Preserves exact registry identity rather than aliasing it.",
+    "No body/path/realpath/SHA/length/duplicate/item/family or requiredPacketSourceBindings validation changed. Existing accepted result vocabulary unchanged.",
+    "Native source-only adoption with no familyDetermination leaves historical family result unchanged and does not mint packet acceptance. This does not prevent an expressly authorized later source-ready determination.",
+    "No generic prefix wildcard, source-role override, legal-treatment change or new artifact acceptance path introduced."
+  ],
+  "tests": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-official-rules-source-adoption.mjs",
+      "result": "PASS23controls: direct/qualified identity, no source-only promotion, SHA/length/missing/path/alias/item/duplicate/binding negatives and unsupportednamespace rejection"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-user-source-adoption.mjs",
+      "result": "PASS existing adopted-byte, drift/missing/duplicates, targetedclone and evidence routing controls"
+    }
+  ],
+  "limitations": [
+    "Synthetic validator fixtures exercise namespace and exact byte custody, not PDF semantics",
+    "No OH admission or packet approval granted; actual container/form and family evidence remain required",
+    "No global generator run; reviewer wrote only private review artifact"
+  ]
+}

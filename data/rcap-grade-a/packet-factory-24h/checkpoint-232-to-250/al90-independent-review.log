@@ -1,0 +1,48 @@
+{
+  "verifiedAtBase": "ecda700303690c9ba1bf795e9a1ab0a5abe0cfa9",
+  "artifactSnapshot": {
+    "canonical": {
+      "file": "fixtures/canonical.pdf",
+      "sha256": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2",
+      "byteLength": 905655,
+      "pageCount": 11
+    },
+    "boundary": {
+      "file": "fixtures/boundary.pdf",
+      "sha256": "645a143db875a9e0ee38b5ba20a4060d06b2f0efa88db87ba651984b941a5208",
+      "byteLength": 905896,
+      "pageCount": 11
+    }
+  },
+  "sourceSnapshot": [
+    {
+      "documentId": "CR-65",
+      "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+      "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "byteLength": 468056
+    },
+    {
+      "documentId": "C-10-CRIMINAL",
+      "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+      "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
+      "byteLength": 711433
+    }
+  ],
+  "focusedTest": {
+    "command": "node scripts/grade-a-packet-factory-24h/test-al90-delivered-ink-negative-controls.mjs",
+    "result": "PASS",
+    "output": {
+      "fieldsMeasured": 216,
+      "actualProtectedInkInjectionDetected": true,
+      "wrongExpectedDetected": true,
+      "packetBytesUnchanged": true
+    },
+    "testProves": "in-memory new ink drawn into refused CR-65:Text2 is detected; wrong expected text is detected; clean packet is accepted."
+  },
+  "claimGate": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert VF41 al-felony-nonconviction-90-set",
+    "result": "REFUSED",
+    "reason": "ALREADY_RELEASED at 2026-09-10T12:08:18.954Z",
+    "claimWritten": false
+  }
+}

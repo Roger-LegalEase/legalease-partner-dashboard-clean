@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX03",
+  "worker": "CLAUDE-PFE-FIX03-CO-MOTION-PAIR",
+  "laneKind": "repair",
+  "baseSha": "181ac2ece03f417076170e7227a76f4f5f6116b5",
+  "mergedCaptainSha": "6bf196d81",
+  "workerBranch": "pfe-fix-20260909",
+  "worktree": "/home/user/pfe-worktree",
+  "whyThisFileHasItsOwnName": "data/rcap-grade-a/packet-factory-24h/fix03/rows.json is another worker's committed FIX03 return. This return is written alongside it rather than over it, one file per family.",
+  "claimHandling": "FIX03 repair grants were asserted for co_motion_seal_conviction-set and co_motion_seal_nonconviction-set. No claim was released, transferred or modified.",
+  "selfVerified": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "familiesRepaired": [
+    "co_motion_seal_nonconviction-set"
+  ],
+  "familiesStopped": [],
+  "nineCountersZeroOn": [],
+  "rasterRuleApplied": "The delivered PDFs are byte-identical before and after this repair; only generated participant prose changed. Both fixtures remain BUILT_RASTER_PENDING. visualDefects is recorded null, not 0: this lane rastered locally to measure ink, and a local render is not a receipt.",
+  "grantsNothing": "This repair return issues no independent verdict, proves no family, releases no claim, opens no commercial route, touches no Production path, and weakens no gate.",
+  "rows": [
+    {
+      "itemId": "co_motion_seal_nonconviction-set",
+      "familyId": "co_motion_seal_nonconviction-set",
+      "routeKeys": [
+        "track:CO:co_motion_seal_nonconviction"
+      ],
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "claim": "CLAIM_OK FIX03 co_motion_seal_nonconviction-set (repair, grant set 914af21a28d51a60)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationRepaired": [
+        "ROUTE_OPTIONS"
+      ],
+      "obligationFoundAlreadyRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "recordedFailureRead": {
+        "source": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[154]",
+        "lane": "vf01",
+        "verifiedAtBase": "ed0e3b308fe57f6cf0b4e62ef9bfccd98deb903f",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/four-current-20260906/REVIEW.md",
+        "failedObligations": [
+          "REQUIRED_BEFORE_FILING",
+          "ROUTE_OPTIONS"
+        ]
+      },
+      "requiredBeforeFilingIsNotReproducible": {
+        "recordedFindingVerbatim": "JDF-477 boundary Address is refused at the 6pt floor (244.4pt required versus 242.67pt rectangle), correctly preventing clipping. Instructions still state address was filled on both forms and omit this held-but-unprinted required mailing-address handoff. Expose the refusal and participant completion without shrinking below the accepted floor.",
+        "whatTheCommittedTreeActuallyHolds": "participant-instructions.md no longer states the address was filled on both forms. Its opening paragraph reads '...wherever the value fits the line the form prints for it', and a dedicated section headed 'One line the packet holds your answer for and still leaves blank' carries a table naming JDF-477, section 5, 'Current Mailing Address (with city/state/zip)', the exact value the platform holds, and the reason: 'The line is 242.67 points wide and this value needs 244.4 points at the 6-point minimum.' It then tells the participant to write it on the line and how to continue on an attachment. The refusal is exposed and the handoff is written.",
+        "conclusion": "The recorded REQUIRED_BEFORE_FILING failure is not reproducible from the committed bytes and prose. It was repaired by a build after vf01's base ed0e3b308. This lane changed nothing for it and re-derived nothing.",
+        "measuredFrom": "reports/actual-writes.json boundary JDF-477 unfittable[0] (rect 242.67 wide, requiredWidthAtMin 244.4, minFontSize 6) and the delivered participant-instructions.md"
+      },
+      "whatWasRepaired": {
+        "obligation": "ROUTE_OPTIONS",
+        "recordedFindingVerbatim": "Current JDF-478 page1 section3 CBI checkbox is visibly empty in both fixtures although the same page says required and instructions say CBI is not optional. Field map misclassifies 478.3D.0 as participant legal election / routeDetermined false. JDF-477 has the source-authored CBI check already; do not double-mark it.",
+        "halfAlreadyRepaired": "production-field-map.json no longer misclassifies it. JDF-478/478.3D.0 now sits in routeDeterminedSelections with markedByThePacket false, statedOnTheDeliveredPage false, the recorded refusedBy {reason protected_category, category agency}, and the basis quoting the form's own '(required)' printing. JDF-477/8C.0 is recorded separately under sourceAuthoredSelections as the issuer's own tick, writtenByThisPacket false. The map is correct and was not changed by this lane.",
+        "halfStillLiveAndFixedHere": "The delivered participant copy still contradicted that map. participant-instructions.md built its table 'The choices that are yours' from EVERY selection control, so the JDF-478 CBI line appeared there under the column 'Why it is yours' beside a basis sentence reading '...it turns on no fact about this participant.' The guide's own step 2 describes that table as choices 'left blank on purpose', so a participant reading the table was told the required CBI box was theirs to decide and optional to leave. That is the same self-contradiction class the sibling municipal family failed KNOWN_PREFILLS for.",
+        "change": "In scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs, the elections table is now built from selection controls with routeDetermined !== true. Route-settled selections the packet could not mark are emitted in their own section, 'Not your choice, and still unticked - you tick it anyway', with what the form settles, why the packet did not mark it, and what the participant does. The reason column is written in the terms of the document in front of the participant; the engineering account of the same refusal, including which shared module holds the rule, stays in production-field-map.json where an auditor reads it and out of participant copy.",
+        "notDone": "The box is still not marked. See remainingOpenDefect below. This lane did not mark it, did not relabel it to get past the protect rule, and did not touch JDF-477's source-authored tick."
+      },
+      "remainingOpenDefect": {
+        "counter": "requiredOptionsMissing",
+        "value": 1,
+        "field": "JDF-478/478.3D.0",
+        "label": "Colorado Bureau of Investigation records to be sealed (selection)",
+        "wasAlreadyOneBeforeThisRepair": true,
+        "whyItCouldNotBeClosedHere": "The shared finalizer applies rcap-field-semantics.mjs protect rules to a selection's caption before it will mark it, and this caption matches the shared `agency` rule. Closing it needs one additive caption entry in PARTICIPANT_STATED_SUBJECT in scripts/rcap-official-forms/rcap-field-semantics.mjs. That module is shared by every official-form family in the fleet, including four other Colorado families held by other lanes (co_petition_seal_arrest-set, co_multiple_conviction_seal-set, co_decriminalized_conduct_seal-set, co_pardoned_conviction_seal-set), and a caption-anchored exemption there would change their next build without their lanes having asked for it. This dispatch is a repair lane with an explicit no-sweep instruction, so the change is named here rather than made.",
+        "whatTheEntryWouldLookLike": "{ id: \"co_jdf478_cbi_required_record_holder\", match: /colorado bureau of investigation \\(required\\)/, exempts: [\"agency\"], because: \"JDF 478 section 3 prints the CBI line as (required) with its address, and section 5 directs the clerk to send the CBI a copy of the signed order. The line is the form's own requirement, not an agency certification the participant may not make.\" } - offered as a description of the shape, not as a change made here.",
+        "doNotCertifyItClosed": "This counter is 1 in the committed reports/completeness-counters.json and this return does not claim otherwise."
+      },
+      "borderCohortResult": {
+        "source": "data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json, row co_motion_seal_nonconviction-set, sourceAccounting",
+        "result": "EVERY_STROKE_IS_THE_FORMS_OWN",
+        "strokeOnlyMatchingAPinnedSourceStream": 28,
+        "strokeOnlyMatchingNothing": 0,
+        "actionTaken": "None. No border work was done on this family and none was needed. The 28 stroke-only flattened appearances are byte-identical to /AP /N streams JDF-477 and JDF-478 themselves ship."
+      },
+      "directionalRasterDifferenceOnTheDeliveredBytes": {
+        "method": "pdftoppm -r 150 -gray -png on the two delivered fixtures and on both pinned sources, then a per-page dark-pixel difference at threshold 200 in BOTH directions, with connected-component analysis of the added ink and each component tested against the declared write rects in reports/actual-writes.json.",
+        "sourcesRendered": [
+          "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf sha256 b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643, 3 pages",
+          "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf sha256 8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159, 2 pages"
+        ],
+        "canonical": [
+          { "page": "JDF-477 p1", "addedDarkPixels": 7910, "removedDarkPixels": 0, "addedInsideDeclaredWriteRects": 7891, "addedOutsideDeclaredWriteRects": 0 },
+          { "page": "JDF-477 p2", "addedDarkPixels": 0, "removedDarkPixels": 0, "negativeControl": true },
+          { "page": "JDF-477 p3", "addedDarkPixels": 0, "removedDarkPixels": 0, "negativeControl": true },
+          { "page": "JDF-478 p1", "addedDarkPixels": 6524, "removedDarkPixels": 0, "addedInsideDeclaredWriteRects": 6524, "addedOutsideDeclaredWriteRects": 0 },
+          { "page": "JDF-478 p2", "addedDarkPixels": 0, "removedDarkPixels": 0, "negativeControl": true }
+        ],
+        "boundary": [
+          { "page": "JDF-477 p1", "addedDarkPixels": 8907, "removedDarkPixels": 0, "addedInsideDeclaredWriteRects": 8814, "addedOutsideDeclaredWriteRects": 0 },
+          { "page": "JDF-477 p2", "addedDarkPixels": 0, "removedDarkPixels": 0, "negativeControl": true },
+          { "page": "JDF-477 p3", "addedDarkPixels": 0, "removedDarkPixels": 0, "negativeControl": true },
+          { "page": "JDF-478 p1", "addedDarkPixels": 10854, "removedDarkPixels": 0, "addedInsideDeclaredWriteRects": 10741, "addedOutsideDeclaredWriteRects": 0 },
+          { "page": "JDF-478 p2", "addedDarkPixels": 0, "removedDarkPixels": 0, "negativeControl": true }
+        ],
+        "negativeControlResult": "Three of the five pages of each fixture -- JDF-477 pages 2 and 3 and JDF-478 page 2 -- are pages this packet writes nothing on. Each gained exactly 0 dark pixels and lost exactly 0. JDF-477 page 2 is the page carrying the issuer's own CBI tick at 8C.0, so that control also proves the source-authored mark is materialised once and is not doubled or re-stamped.",
+        "removedInkFinding": "ZERO removed dark pixels on every page of both fixtures. No ink the form draws was suppressed, and nothing was removed near a signature, notary or jurat area.",
+        "clusterShapeCheck": "Every added connected component is glyph-shaped: 6 to 9 points on a side with 0.35 to 0.53 fill, and every one falls inside a declared text write rect. No hollow rectangle at a widget /Rect appears in the added ink on any page, which is the raster half of the byte accounting above.",
+        "difference between counted and total added pixels": "The small gap between addedDarkPixels and the sum of counted clusters is components under the 10-pixel floor (antialiasing fringe), not ink at a separate location; the outside-rect count is computed over every counted component and is 0."
+      },
+      "internalRecordTextOnAFiling": {
+        "result": "ABSENT",
+        "basis": "reports/actual-writes.json lists every drawnText on all four documents. Canonical: county, case number, defendant full name (twice), birth date, mailing address, city, state, zip, phone, email. Boundary: the same fields with the boundary participant's values. Every one is a participant or matter fact. No route key, no build rationale, no record sentence and no module path reaches either page, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 on all four. The corrected participant guide also carries no module path: a grep for 'rcap-field-semantics' and 'scripts/' in the delivered participant-instructions.md returns 0."
+      },
+      "deterministicRebuild": "Built twice from the mounted Master Library at MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1. Both fixtures returned the same SHA-256 and byte length on every run, before and after the repair. The only artifact delta in the whole directory is participant-instructions.md.",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 1,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersNote": "The eight numeric values are the builder's own count over this family's field maps, byte proof, rendered artifacts and participant-instructions.md, recomputed after the repair. requiredOptionsMissing is 1 and is reported as 1: it was 1 before this repair and this repair did not close it, for the reason in remainingOpenDefect. visualDefects is null because this lane rastered only to measure, and a local render is not a receipt; the central raster workflow bound to the two SHA-256 values below is what measures it.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "9761a68d7d923459473416cdb92cf18acea7c19bb7d721b090463b6eb2686577",
+          "byteLength": 320220,
+          "pageCount": 5,
+          "unchangedByThisRepair": true,
+          "documents": [
+            { "document": "JDF-477", "addedGlyphsReadFromOutputBytes": 138, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 },
+            { "document": "JDF-478", "addedGlyphsReadFromOutputBytes": 115, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "d10f3bb8072244c9031bc8870d14d4fd0e4508d9790d5fe0609f94048ebaae18",
+          "byteLength": 320430,
+          "pageCount": 5,
+          "unchangedByThisRepair": true,
+          "documents": [
+            { "document": "JDF-477", "addedGlyphsReadFromOutputBytes": 203, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 },
+            { "document": "JDF-478", "addedGlyphsReadFromOutputBytes": 239, "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0 }
+          ]
+        }
+      ],
+      "filesChanged": [
+        "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/participant-instructions.md"
+      ],
+      "measurementsThatContradictARecordInThisRepository": [
+        {
+          "record": "The official Colorado guide for this exact route, JDF 491 (Guide to Sealing Non-Conviction Records, simplified process), sha256 79dca4e720161b68ae74a8973392bbe22c05f565f704c609ec7cc7da0fcd3685, held at STATES/CO/03_INSTRUCTIONS in the mounted Master Library, versus data/record-clearing/legal-design-packet-set-manifests.json packetSets[co_motion_seal_nonconviction-set].components",
+          "whatIMeasured": "JDF 491 page 1, under its printed heading 'File the Request - File these forms into your criminal case', lists FOUR forms: 'JDF 477 Motion', 'JDF 492 Order (just do §§ A-C)', 'JDF 493 Notice (Just do §§ A-C)' and 'JDF 478 Order (just do §§ A-C)'. Read with pdftotext -layout from the pinned bytes.",
+          "whatTheManifestSays": "The packet set carries two components, JDF-477 and JDF-478, and records no missing component and no packetSetCompleteness entry at all.",
+          "whyItMatters": "This is the same four-document shape the sibling co_motion_seal_conviction-set is currently FAIL_REPAIR_REQUIRED on COMPONENT_SET for, and on that sibling the manifest records the gap in detail. Here the gap is not recorded anywhere. If the conviction half owes a notice and a second order, the non-conviction half owes JDF 493 and JDF 492 on the same evidence from its own guide. Neither JDF 492 nor JDF 493 appears in the mounted Master Library's STATES/CO/02_PACKET_FORMS directory.",
+          "notActedOn": "This lane did not open a COMPONENT_SET finding on this family, did not change the manifest, and did not build anything from JDF 491. It is a measurement handed to the Captain, because a repair lane repairing exactly its recorded obligations is not the place to reclassify a family's component set.",
+          "alsoRelevantToTheMirroringRule": "JDF 491 carries NO 'Filing Fees' section of any kind, unlike JDF 611 on the conviction half. So the non-conviction track's rules.feeWaiver sentence 'The source review does not address a fee waiver.' remains TRUE, and the fee-waiver correction made to the conviction track must NOT be mirrored onto it. That asymmetry is correct and is recorded so a later reader does not 'fix' it."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,947 @@
+{
+  "schemaVersion": "rcap-independent-semantic-findings/v1",
+  "lane": "VFMO1",
+  "candidateCommit": "a03afb773",
+  "reviewer": "seven_independent_review (independent Astra xhigh)",
+  "claimEvidence": {
+    "lane": "VFMO1",
+    "assertedBeforeReads": true,
+    "grantSet": "e5dd61f91f9bf44d",
+    "grantCommit": "e5ce4836e",
+    "assertedLedgerGeneratedAtCommit": "c43d4d02c441f0dad3166de0cb1992ae6b527822",
+    "families": [
+      "mo-610-140-arrest-set",
+      "mo-610-140-conviction-set"
+    ],
+    "results": [
+      "CLAIM_OK",
+      "CLAIM_OK"
+    ]
+  },
+  "contract": {
+    "path": "docs/PRODUCT_CONTRACT.md",
+    "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+    "byteLength": 64438
+  },
+  "implementation": {
+    "path": "scripts/mo-610-140-packet-host.mjs",
+    "sha256": "72f85f0b07349d1c10d89abf88b952a063aa84243ec848c2630ccbb6e68d674f",
+    "byteLength": 64148
+  },
+  "manifest": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/mo-610-140-two/raster-manifest.json",
+    "sha256": "caab80a08c93b007ac2fd2a319bd6b6252460380aac8dabe0cbe2680e78b40b3",
+    "byteLength": 5334
+  },
+  "sourceBindings": [
+    {
+      "sourceId": "official-form:CR360",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
+      "sha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+      "byteLength": 707097
+    },
+    {
+      "sourceId": "official-form:CR370",
+      "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS1-SRC2__CR370__8a4d32d66d3f.pdf",
+      "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+      "byteLength": 103658
+    },
+    {
+      "sourceId": "official-form:FI-05",
+      "path": "reference/chat-parallel-2026-09-07/chat7/FI-05.pdf",
+      "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+      "byteLength": 298649
+    },
+    {
+      "sourceId": "official-form:GN10",
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+      "sha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+      "byteLength": 39193
+    }
+  ],
+  "governingMemo": {
+    "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+    "sha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+    "byteLength": 494662
+  },
+  "legalQuestionDisposition": {
+    "memo": {
+      "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "sha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "byteLength": 494662
+    },
+    "memoTrack": "mo-610-140-arrest",
+    "legalDesignStatus": "legal_design_approved_with_limitations",
+    "threeRetainedReleaseQuestions": [
+      {
+        "questionIndex": 0,
+        "affectedElement": "packet_components",
+        "impact": "release_blocker",
+        "question": "Is CR360 with an attached continuation carrying the \u00a7 610.140.7 allegations the correct presentation of an arrest-only petition, or does Missouri practice expect the form's conviction-specific sentences to be struck through or adapted? Confirm with counsel and, if possible, with a circuit clerk before release."
+      },
+      {
+        "questionIndex": 1,
+        "affectedElement": "filing_process",
+        "impact": "release_blocker",
+        "question": "Confirm with the Office of the State Courts Administrator or a circuit clerk that a \u00a7 610.140.7 arrest-only petition is filed under case type X5 and not XG."
+      },
+      {
+        "questionIndex": 2,
+        "affectedElement": "eligibility_branch",
+        "impact": "release_blocker",
+        "question": "Does an expungement granted under \u00a7 610.140.7 for an arrest with no charge filed count against the \u00a7 610.140.13 lifetime caps, and if so at what level? The subsection counts offenses, not arrests."
+      }
+    ],
+    "settledBuildIdentity": "Existing memo authorizes CR360 with required section 610.140.7 continuation, X5 and eighteen-month county-of-arrest route as a build candidate. It expressly retains three release questions. Do not revive resolved CR370 custody or obsolete three-year waiting claims.",
+    "queueInterpretation": "Observed MASTER legalInputStatus=SETTLED, currentLegalResolution=null, legalInputBasis=null. This aggregate status does not supply a substantive answer to the memo\u2019s three questions. Source identity determination group D only says build using held forms. No applicable later MO-610.140 decision found in the governed legal-decision records examined.",
+    "sourceDetermination": {
+      "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+      "sha256": "054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982",
+      "byteLength": 82180
+    },
+    "legalDecisionRecordsExamined": [
+      {
+        "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+        "byteLength": 22372
+      },
+      {
+        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+        "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+        "byteLength": 184365
+      }
+    ],
+    "disposition": "Retain truthful clerk/counsel release requirements. Implementation repairs can proceed; this review supplies no legal answer or new legal decision."
+  },
+  "families": [
+    {
+      "familyId": "mo-610-140-arrest-set",
+      "currentPdfs": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.packet.pdf",
+          "sha256": "2c32991b56203e47d446f86bc357b5b8f47476a4cbcdecf5bf57eff540e64a37",
+          "byteLength": 798745,
+          "pages": 13
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.packet.pdf",
+          "sha256": "aa0829eb1c1779dfaaf5a413940e7e357b50e5e7de4e2a60eab4e1fcbd7a5aff",
+          "byteLength": 808259,
+          "pages": 14
+        }
+      ],
+      "componentCoverage": [
+        {
+          "fixture": "canonical",
+          "components": [
+            {
+              "id": "CR360",
+              "firstPage": 1,
+              "pages": 2,
+              "sha256": "7e675fd68fccf721dfe34bc9c66cfa54b70d449caa13d169f24425fffdc12aaf"
+            },
+            {
+              "id": "continuation",
+              "firstPage": 3,
+              "pages": 1,
+              "sha256": "67866fb81858e159c11ff3417e562d36eba62b57c3b33aeef067184c1566156f"
+            },
+            {
+              "id": "FI-05",
+              "firstPage": 4,
+              "pages": 6,
+              "sha256": "dccb3b5364213acd5557428bdb681b18e9ed2511385564425b33c50a218601c7"
+            },
+            {
+              "id": "CR370",
+              "firstPage": 10,
+              "pages": 2,
+              "sha256": "e6ac4b86b34d3ca4fbbbd386fc1075fdf1741a20979c1044342ba72b79feafea"
+            },
+            {
+              "id": "instructions",
+              "firstPage": 12,
+              "pages": 2,
+              "sha256": "081d114bfc848ecc6adad4121a833cd593d54b759538b43b2581b6796bd37185"
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "components": [
+            {
+              "id": "CR360",
+              "firstPage": 1,
+              "pages": 2,
+              "sha256": "8e53b2cb831dd003ccae5e9ba2ae07c0ff0e9e888d4cf59af850586387c08cb1"
+            },
+            {
+              "id": "continuation",
+              "firstPage": 3,
+              "pages": 1,
+              "sha256": "4ecc1328b6350597f65b3edd035eb1947bc66a79badc1581db54fdc06e9ed645"
+            },
+            {
+              "id": "FI-05",
+              "firstPage": 4,
+              "pages": 6,
+              "sha256": "74fdec4ab7fff85f98974e7b00b997dfa6796fb9a030f3079df34a5d6e371da7"
+            },
+            {
+              "id": "CR370",
+              "firstPage": 10,
+              "pages": 2,
+              "sha256": "ea9f22c0127bb0071e4fdf378c7151ff60cd4c05e7371fa97c667510b01915ee"
+            },
+            {
+              "id": "GN10",
+              "firstPage": 12,
+              "pages": 1,
+              "sha256": "aa1d4346ce3f003376c2051810d51f3ea98f27316fdfa4e83b83fad69c596452"
+            },
+            {
+              "id": "instructions",
+              "firstPage": 13,
+              "pages": 2,
+              "sha256": "7e64b9bd79683521ae6b8621a61c9daddb2611d59f60c9280b4740c680e63a4e"
+            }
+          ]
+        }
+      ],
+      "currentInputs": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/canonical.fixture.json",
+          "sha256": "3956eb966b601c50a4339330804f87deb13d7fc92430ce2eee089039f87cbd20",
+          "byteLength": 1936
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.fixture.json",
+          "sha256": "e3cbc39a33617440f44511e1fed5f7ea22a70d2cf6d5d3305601eea83937d5c1",
+          "byteLength": 3470
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/production-field-map.json",
+          "sha256": "a13d3e77153b1c35db68fd05c858ee43a729b6ce7cab799e4146b221b7e085bc",
+          "byteLength": 715573
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "228004b955e2e9de53c12e462713cb24e7740a39fc4e1b2719283a008aa9ef50",
+          "byteLength": 4286
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/boundary.participant-instructions.md",
+          "sha256": "d9cb299976a3f0822d4c26ac4f0f901853c530317f15989a193219793f7d8887",
+          "byteLength": 4293
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/source-receipt.json",
+          "sha256": "5fc32e761a6fbc7a22b3d90260212caf2ae584c2d2f5a065b85178265327ff10",
+          "byteLength": 2236
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/packet-set-manifest.json",
+          "sha256": "b3010b288f699fe1963690674f00db877207b420976e15133d8cbb6d392d3b0a",
+          "byteLength": 2931
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "0f8e34c6963789e8b7b2364f10088784c64232df30e267069549902357f37799",
+          "byteLength": 80650
+        }
+      ],
+      "generatedWiringObserved": {
+        "commit": "844c4bb964a34948f9deb78e1c7d3ca6b728e031",
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-arrest-set--official-pdf-fill/product-wiring.json",
+        "sha256": "abedd155d25421b5b7d191e38c07c6c458b4b3f42f9e025e3eb77d72c4d1649c",
+        "byteLength": 3132,
+        "authorityCreated": "none",
+        "paymentEligible": false,
+        "sponsorshipEligible": false
+      },
+      "independentMeasurements": {
+        "officialPdfSourceGlyphsCompared": 32980,
+        "missingOfficialPdfSourceGlyphs": 0,
+        "declaredTextWritesReadAtExactRectangles": 184,
+        "declaredWriteReadbackMismatches": 0,
+        "knownFactOmissions": 9,
+        "method": "Read source and saved component raw glyphs at exact character/origin coordinates; zero missing static glyphs across CR360/CR370/FI-05. Read every declared non-selection value inside its current saved component rectangle. Independently inventory source-labeled filer/agency/OCN roles against held fixture facts, finding omissions outside the declared write list. No PDF raster generated."
+      },
+      "knownOmissions": [
+        {
+          "fixture": "canonical",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Submitted by",
+          "sourceRectTopLeft": [
+            102.4800033569336,
+            624.3599853515625,
+            310.67999267578125,
+            641.0399780273438
+          ],
+          "heldValue": "Jordan Lee Example",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "canonical",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Phone",
+          "sourceRectTopLeft": [
+            73.68000030517578,
+            676.7999877929688,
+            312.8399963378906,
+            693.47998046875
+          ],
+          "heldValue": "816-555-0142",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "canonical",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Email Address_4",
+          "sourceRectTopLeft": [
+            385.67999267578125,
+            676.7999877929688,
+            564.9600219726562,
+            693.47998046875
+          ],
+          "heldValue": "jordan.example@example.test",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "canonical",
+          "component": "CR370",
+          "page": 1,
+          "field": "Municipal Police Dept. name",
+          "heldValue": "Kansas City",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral defendant identity carried from petition"
+        },
+        {
+          "fixture": "boundary",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Submitted by",
+          "sourceRectTopLeft": [
+            102.4800033569336,
+            624.3599853515625,
+            310.67999267578125,
+            641.0399780273438
+          ],
+          "heldValue": "Jordan Alexandria Example",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "boundary",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Phone",
+          "sourceRectTopLeft": [
+            73.68000030517578,
+            676.7999877929688,
+            312.8399963378906,
+            693.47998046875
+          ],
+          "heldValue": "816-555-0199",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "boundary",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Email Address_4",
+          "sourceRectTopLeft": [
+            385.67999267578125,
+            676.7999877929688,
+            564.9600219726562,
+            693.47998046875
+          ],
+          "heldValue": "alexandria.montgomery.example@example.test",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370",
+          "page": 1,
+          "field": "Municipal Police Dept. name",
+          "heldValue": "Kansas City",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral defendant identity carried from petition"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370",
+          "page": 1,
+          "field": "Other agency name/address",
+          "heldValue": "Synthetic Municipal Records Unit",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral defendant identity carried from petition"
+        }
+      ],
+      "findings": [
+        "MO-S1",
+        "MO-S2",
+        "MO-S4",
+        "MO-S5",
+        "MO-S6",
+        "MO-S8"
+      ]
+    },
+    {
+      "familyId": "mo-610-140-conviction-set",
+      "currentPdfs": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/canonical.packet.pdf",
+          "sha256": "d5563d0ec09f3ce2e3065b8c1c12a904158d7d13a2ae62e998b32f9fb236b586",
+          "byteLength": 798311,
+          "pages": 12
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/boundary.packet.pdf",
+          "sha256": "09dc32f4032115c9514db17f92ca9adc094f068009318f0917f684d0d0d8df3a",
+          "byteLength": 816887,
+          "pages": 14
+        }
+      ],
+      "componentCoverage": [
+        {
+          "fixture": "canonical",
+          "components": [
+            {
+              "id": "CR360",
+              "firstPage": 1,
+              "pages": 2,
+              "sha256": "c7d993abfdd8e5c75b973c16d2886d39b89c690174aa9e340df3760b0cccc81c"
+            },
+            {
+              "id": "FI-05",
+              "firstPage": 3,
+              "pages": 6,
+              "sha256": "dccb3b5364213acd5557428bdb681b18e9ed2511385564425b33c50a218601c7"
+            },
+            {
+              "id": "CR370",
+              "firstPage": 9,
+              "pages": 2,
+              "sha256": "ce73271c30901400300cbbeb07b7170d565008b5ae1eddcfdcfda82182bdf816"
+            },
+            {
+              "id": "instructions",
+              "firstPage": 11,
+              "pages": 2,
+              "sha256": "b918798d27fef394cf627f9cc338cea56d53f8d8742ac358ec4ecb8be9674d8f"
+            }
+          ]
+        },
+        {
+          "fixture": "boundary",
+          "components": [
+            {
+              "id": "CR360",
+              "firstPage": 1,
+              "pages": 2,
+              "sha256": "258e25b4873529b012453569d6552ba04a33272ff29e30a07834d7d64f70cfeb"
+            },
+            {
+              "id": "continuation",
+              "firstPage": 3,
+              "pages": 1,
+              "sha256": "5ce57b5ef0ab007cda787837a96d196d1cef85eacdbb848c9be3523a9263652f"
+            },
+            {
+              "id": "FI-05",
+              "firstPage": 4,
+              "pages": 6,
+              "sha256": "74fdec4ab7fff85f98974e7b00b997dfa6796fb9a030f3079df34a5d6e371da7"
+            },
+            {
+              "id": "CR370",
+              "firstPage": 10,
+              "pages": 2,
+              "sha256": "7e0d9046370a87e24bfa63c9bd60b20525de5696687c3d979b6b9ad4f58fc337"
+            },
+            {
+              "id": "GN10",
+              "firstPage": 12,
+              "pages": 1,
+              "sha256": "aa1d4346ce3f003376c2051810d51f3ea98f27316fdfa4e83b83fad69c596452"
+            },
+            {
+              "id": "instructions",
+              "firstPage": 13,
+              "pages": 2,
+              "sha256": "50100d57b19a521a20270d5a81a2837a5287d24a3ee8d2b92f9f86e9e5409d0b"
+            }
+          ]
+        }
+      ],
+      "currentInputs": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/canonical.fixture.json",
+          "sha256": "f1e70eea3688152302e24321d09e1b3a6e235cade9a6bc234ea5f25d68fbcb3c",
+          "byteLength": 2391
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/boundary.fixture.json",
+          "sha256": "e3f17b7c5f45c23c7320f0ea8cf45e81acba33295160943533bc8619ab2edf3c",
+          "byteLength": 6965
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/production-field-map.json",
+          "sha256": "faa19a7fed40c26df57b4c6f3598ecf9972a676af71d615f7666dc1e25fe1b73",
+          "byteLength": 708046
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "075cf57409efdfee3c5d62eaaf89c0cf34a29a6092a147b47c739887e7d9c49e",
+          "byteLength": 4250
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/boundary.participant-instructions.md",
+          "sha256": "6922830659eb4a2706f365e4545e0887cc4b4d4d7ab1c35189bc1ad87fdb59fa",
+          "byteLength": 4257
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/source-receipt.json",
+          "sha256": "b7f7009f9eb2b297092a2178b4cfadab85d7942a9a203d04c2d5e6a8e5a8427d",
+          "byteLength": 2240
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/packet-set-manifest.json",
+          "sha256": "6e45f0b7ecbeee2e6a97cecd7b02619b06c752fa04d4230d9d188800c6dbcf72",
+          "byteLength": 2996
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "f2e0fbc6660393d5179f6a44c98ff7882450ff1796eb35c9ad9958356f6ae2a5",
+          "byteLength": 99127
+        }
+      ],
+      "generatedWiringObserved": {
+        "commit": "844c4bb964a34948f9deb78e1c7d3ca6b728e031",
+        "path": "data/rcap-all50/overlays/census-v1/mo/mo-610-140-conviction-set--official-pdf-fill/product-wiring.json",
+        "sha256": "b792286ae49d177d2e042c322eb56ce0c131c805ce19c9f9f0364d993f163d94",
+        "byteLength": 3267,
+        "authorityCreated": "none",
+        "paymentEligible": false,
+        "sponsorshipEligible": false
+      },
+      "independentMeasurements": {
+        "officialPdfSourceGlyphsCompared": 32980,
+        "missingOfficialPdfSourceGlyphs": 0,
+        "declaredTextWritesReadAtExactRectangles": 233,
+        "declaredWriteReadbackMismatches": 0,
+        "knownFactOmissions": 14,
+        "method": "Read source and saved component raw glyphs at exact character/origin coordinates; zero missing static glyphs across CR360/CR370/FI-05. Read every declared non-selection value inside its current saved component rectangle. Independently inventory source-labeled filer/agency/OCN roles against held fixture facts, finding omissions outside the declared write list. No PDF raster generated."
+      },
+      "knownOmissions": [
+        {
+          "fixture": "canonical",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Submitted by",
+          "sourceRectTopLeft": [
+            102.4800033569336,
+            624.3599853515625,
+            310.67999267578125,
+            641.0399780273438
+          ],
+          "heldValue": "Jordan Lee Example",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "canonical",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Phone",
+          "sourceRectTopLeft": [
+            73.68000030517578,
+            676.7999877929688,
+            312.8399963378906,
+            693.47998046875
+          ],
+          "heldValue": "816-555-0142",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "canonical",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Email Address_4",
+          "sourceRectTopLeft": [
+            385.67999267578125,
+            676.7999877929688,
+            564.9600219726562,
+            693.47998046875
+          ],
+          "heldValue": "jordan.example@example.test",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "canonical",
+          "component": "CR370",
+          "page": 1,
+          "field": "Municipal Police Dept. name",
+          "heldValue": "Kansas City",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral defendant identity carried from petition"
+        },
+        {
+          "fixture": "boundary",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Submitted by",
+          "sourceRectTopLeft": [
+            102.4800033569336,
+            624.3599853515625,
+            310.67999267578125,
+            641.0399780273438
+          ],
+          "heldValue": "Jordan Alexandria Example",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "boundary",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Phone",
+          "sourceRectTopLeft": [
+            73.68000030517578,
+            676.7999877929688,
+            312.8399963378906,
+            693.47998046875
+          ],
+          "heldValue": "816-555-0199",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "boundary",
+          "component": "FI-05",
+          "page": 4,
+          "sourcePage": 2,
+          "field": "Email Address_4",
+          "sourceRectTopLeft": [
+            385.67999267578125,
+            676.7999877929688,
+            564.9600219726562,
+            693.47998046875
+          ],
+          "heldValue": "alexandria.montgomery.example@example.test",
+          "readback": " \n ",
+          "missing": true,
+          "printedActor": "Submitted by: self-represented petitioner; attorney Bar ID conditional, address only if not above"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370",
+          "page": 1,
+          "field": "Municipal Police Dept. name",
+          "heldValue": "Kansas City",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral defendant identity carried from petition"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370",
+          "page": 1,
+          "field": "Other agency name/address",
+          "heldValue": "Synthetic Municipal Records Unit",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral defendant identity carried from petition"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370/continuation",
+          "field": "OCN for each criminal case",
+          "caseRow": 7,
+          "caseNumber": "SYNTH-16CR-000206",
+          "heldValue": "SYNTH-OCN-206",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral criminal-record identity"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370/continuation",
+          "field": "OCN for each criminal case",
+          "caseRow": 8,
+          "caseNumber": "SYNTH-16CR-000207",
+          "heldValue": "SYNTH-OCN-207",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral criminal-record identity"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370/continuation",
+          "field": "OCN for each criminal case",
+          "caseRow": 9,
+          "caseNumber": "SYNTH-16CR-000208",
+          "heldValue": "SYNTH-OCN-208",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral criminal-record identity"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370/continuation",
+          "field": "OCN for each criminal case",
+          "caseRow": 10,
+          "caseNumber": "SYNTH-16CR-000209",
+          "heldValue": "SYNTH-OCN-209",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral criminal-record identity"
+        },
+        {
+          "fixture": "boundary",
+          "component": "CR370/continuation",
+          "field": "OCN for each criminal case",
+          "caseRow": 11,
+          "caseNumber": "SYNTH-16CR-000210",
+          "heldValue": "SYNTH-OCN-210",
+          "readbackOccurrences": 0,
+          "missing": true,
+          "printedActor": "neutral criminal-record identity"
+        }
+      ],
+      "findings": [
+        "MO-S1",
+        "MO-S2",
+        "MO-S3",
+        "MO-S4",
+        "MO-S5",
+        "MO-S6",
+        "MO-S7"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "MO-S1",
+      "families": "both",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "FI-05 source page 2 explicitly labels Submitted by, Phone and Email Address. All three held pro-se filer facts are blank in both fixtures of each family and incorrectly classified NOT_APPLICABLE_ON_THIS_ROUTE. The optional address-if-not-shown-above and attorney-only Bar ID conditions do not make the whole filer block inapplicable. Six missed facts per family.",
+      "source": "FI-05 page 2; production-field-map.refusals where field is Submitted by, Phone or Email Address_4"
+    },
+    {
+      "id": "MO-S2",
+      "families": "both",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "finding": "CR370 checks Municipal Police Dept. but omits the known department/city name in both fixtures. Boundary also checks Other but leaves its held agency name/address blank. Neutral defendant identity is participant-derived, not a judicial determination. Three missed fields per family.",
+      "source": "CR370 page 1 Municipal Police Dept. and Other (include name and address of agency); buildCR370 slots omits their label rectangles"
+    },
+    {
+      "id": "MO-S3",
+      "families": [
+        "mo-610-140-conviction-set"
+      ],
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "finding": "Boundary CR370 includes only six of eleven held OCNs. SYNTH-OCN-206 through SYNTH-OCN-210 are absent from the entire packet; its incorporation-by-reference sentence cannot supply them because neither CR360 nor continuation includes them. The source expressly asks OCN for each criminal case.",
+      "source": "CR370 page 1 OCN (for each criminal case); buildCR370 records.slice(0,6); continuationSections omits OCN"
+    },
+    {
+      "id": "MO-S4",
+      "families": "both",
+      "obligations": [
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS"
+      ],
+      "finding": "Read-only input tests accept filing county Clay while every held arrest/charge county remains Jackson; guides then falsely say records belong to the filing county. Duplicate police agencies and unknown agency kinds are also accepted, while first-match CR360 mapping omits the additional agency. Missing police label is accepted even with a known organization. Model county independently from municipality and preserve every supported agency; do not guess geography or silently drop rows.",
+      "source": "importFacts, buildCR360, continuationSections, instructionSections; input counterexamples"
+    },
+    {
+      "id": "MO-S5",
+      "families": "both",
+      "obligations": [
+        "ROUTE_OPTIONS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "Elapsed/wait-confirmed booleans admit future arrest or completion dates with no planned filing reference. They can therefore produce sworn time-period text without reconciling known dates. GN10 married branch also accepts absent spouse name and silently renders the conditional required field blank without collection/handback. Require internally consistent participant facts or truthful unresolved status.",
+      "source": "importFacts; GN10 printed If Married, Spouse\u2019s name; input counterexamples"
+    },
+    {
+      "id": "MO-S6",
+      "families": "both",
+      "obligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "finding": "The manual GN10 transcription omits the held DOCX caption\u2019s (Date File Stamp) label/space. Preserve the source\u2019s court-use caption even though its value stays blank. Exact DOCX custody is proven and its PAGE 1 of 1 footer disproves the old memo\u2019s two-page claim; this finding does not reopen source acquisition or require an invented second-page order.",
+      "source": "GN10 word/document.xml; current boundary.GN10.pdf; buildGN10"
+    },
+    {
+      "id": "MO-S7",
+      "families": [
+        "mo-610-140-conviction-set"
+      ],
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "finding": "Current guide omits the required exact lifetime caps (three imprisonable misdemeanors/ordinances and two felonies; unlimited infractions), six surviving disclosure situations, later-court/sentencing disclosure rule, 60-day hearing-after-objection and six-month decision timeline. It does not collect prior relief offense levels/same-course grouping/conditional drug-route facts or explain the conditional automatic-drug timing tradeoff. Eleven-case boundary carries ten misdemeanor rows plus felony and prior expungement with no cap/grouping review facts. Immigration, firearm/licensing/employment handoffs and explicit one-year-from-prior-filing refiling stop are absent from guidance. Preserve source printed refiling warning, which is present on CR360.",
+      "source": "MO.memo tracks[mo-610-140-conviction].participantInputs, components[instructions], legalDesignDecision.limitations, selfHelpStopConditions; current guides and fixture facts"
+    },
+    {
+      "id": "MO-S8",
+      "families": [
+        "mo-610-140-arrest-set"
+      ],
+      "obligations": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "SELF_HELP_STOP",
+        "ARTIFACTS"
+      ],
+      "finding": "Required arrest continuation has no separate personal signature/date handback space and says review before signing CR360; memo rules require separate continuation signing. Guide omits the required Case.net no-case check, 60-day hearing and six-month decision timeline, prosecutor/contested-hearing referral, immigration and firearm/licensing/employment handoffs. It leaks repository\u2019s held legal record into participant copy. Keep actual clerk/counsel questions in plain participant terms; do not fabricate answers.",
+      "source": "MO.memo tracks[mo-610-140-arrest].rules.participantSignature, components[instructions], legalDesignDecision.limitations, selfHelpStopConditions; continuation PDF/text and guides"
+    }
+  ],
+  "inputCounterexamples": {
+    "method": "Read-only calls to importFacts; no packet build or source/metadata writes",
+    "asOf": "2026-09-12",
+    "cases": [
+      {
+        "kind": "arrest",
+        "label": "filing county Clay; all record counties Jackson",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "arrest",
+        "label": "police agency organization held but label absent",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "arrest",
+        "label": "two police agencies must both remain named",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "arrest",
+        "label": "new agency kind with known organization must not disappear",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "arrest",
+        "label": "Married affidavit without spouse name",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "arrest",
+        "label": "court-owned judge signature input",
+        "result": "REFUSED",
+        "reason": "PROTECTED_EXECUTION_INPUT:judgeSignature"
+      },
+      {
+        "kind": "conviction",
+        "label": "filing county Clay; all record counties Jackson",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "conviction",
+        "label": "police agency organization held but label absent",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "conviction",
+        "label": "two police agencies must both remain named",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "conviction",
+        "label": "new agency kind with known organization must not disappear",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "conviction",
+        "label": "Married affidavit without spouse name",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "conviction",
+        "label": "court-owned judge signature input",
+        "result": "REFUSED",
+        "reason": "PROTECTED_EXECUTION_INPUT:judgeSignature"
+      },
+      {
+        "kind": "arrest",
+        "label": "future arrest 2027-01-12 while eighteenMonthsElapsed=true and no planned filing date",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      },
+      {
+        "kind": "conviction",
+        "label": "future completion 2027-01-20 while waitingPeriodConfirmed=true and no planned filing date",
+        "result": "ACCEPTED",
+        "shouldRequire": "Validation, explicit conditional handback or correct overflow; never silently contradict or omit held facts"
+      }
+    ]
+  },
+  "semanticResult": "FAIL_REPAIR_REQUIRED_BOTH",
+  "rasterDispatchAuthorized": false,
+  "finalVisualReview": "NOT_MEASURABLE_HERE \u2014 no central original pages for these current PDFs",
+  "reviewerChangedPacketOrImplementation": false
+}

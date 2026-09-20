@@ -1,0 +1,90 @@
+name: RCAP factory completion validation
+on:
+  push:
+    branches: [chatgpt/launch-recovery-20260906]
+    paths:
+      - .github/workflows/rcap-factory-audit-repair.yml
+      - scripts/grade-a-packet-factory-24h/**
+  pull_request:
+    paths:
+      - .github/workflows/rcap-factory-audit-repair.yml
+      - scripts/grade-a-packet-factory-24h/**
+      - data/rcap-grade-a/packet-factory-24h/**
+permissions:
+  contents: read
+concurrency:
+  group: rcap-factory-validation-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install locked parsers without rebuilding any packet
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Check committed convergence and bounded source, repair and coverage contracts
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/factory-validation"
+          mkdir -p "$out"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
+            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$out/$script-check.log" 2>&1 || { tail -60 "$out/$script-check.log"; exit 1; }
+          done
+          node scripts/grade-a-packet-factory-24h/test-source-readiness-constraints.mjs --generated | tee "$out/source-controls.log"
+          node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs --generated | tee "$out/conditional-controls.log"
+          node scripts/grade-a-packet-factory-24h/test-bounded-repair-authorization.mjs | tee "$out/bounded-repair-controls.log"
+          node scripts/grade-a-packet-factory-24h/test-post-repair-reread.mjs | tee "$out/reread-controls.log"
+      - name: Execute every normal and mutation suite and prove restoration
+        run: |
+          python3 - <<'PY'
+          import subprocess,pathlib,os,json,re,collections,datetime,hashlib
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'factory-validation';results=[]
+          def fingerprint():
+              diff=subprocess.check_output(['git','diff','--binary'])
+              status=subprocess.check_output(['git','status','--porcelain','-z'])
+              return hashlib.sha256(diff+b'\0'+status).hexdigest()
+          for script in ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']:
+              for mutation in [False,True]:
+                  name=script+('-mutations' if mutation else '')
+                  cmd=['node',f'scripts/grade-a-packet-factory-24h/{script}.mjs']+(['--mutations'] if mutation else [])
+                  before=fingerprint()
+                  with (out/f'{name}.log').open('w') as log:
+                      try:code=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,timeout=540).returncode
+                      except subprocess.TimeoutExpired:code=124
+                  restored=fingerprint()==before
+                  results.append({'command':cmd,'exitCode':code,'status':'PASS' if code==0 else 'FAIL','worktreeRestored':restored})
+                  print(name,code,restored,flush=True)
+                  if not restored:break
+              if not restored:break
+          master=json.loads(pathlib.Path('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json').read_text())
+          terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
+          log=out/'verify-mutations.log';text=log.read_text() if log.exists() else ''
+          clean=subprocess.check_output(['git','status','--porcelain'])==b''
+          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedCommit':os.environ['GITHUB_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(f['state'] for f in master['families'])),'terminalFamilies':sum(f['state'] in terminal for f in master['families']),'denominator':len(master['families']),'completeFactoryMutationSuite':'every mutated file restored byte-for-byte: true' in text and not re.search(r'\b(MISSED|OVER-CAUGHT|UNPROVABLE)\b',text),'negativeCasesCaught':len(re.findall(r'^  detected',text,re.M)),'positiveCasesPassed':len(re.findall(r'^  stayed green',text,re.M)),'cleanWorktree':clean,'packetRebuilds':0,'branchWrites':0,'newApprovals':0,'productionTouched':False}
+          (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          assert len(results)==10 and all(r['status']=='PASS' and r['worktreeRestored'] for r in results),'A validation suite failed'
+          assert report['completeFactoryMutationSuite'],'Incomplete mutation coverage'
+          assert clean,'Validation changed the checkout'
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: factory-completion-validation-${{ github.run_id }}
+          path: ${{ runner.temp }}/factory-validation/
+          retention-days: 14
+          if-no-files-found: error

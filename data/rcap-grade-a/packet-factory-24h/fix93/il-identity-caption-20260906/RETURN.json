@@ -1,0 +1,98 @@
+{
+  "lane": "FIX93",
+  "worker": "CODEX-FIX93-IL-IDENTITY-CAPTION-20260906",
+  "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+  "base": "47e9f0a8373ea36f84fff517f3534f07ded182bc",
+  "branch": "codex/fix93-il-identity-caption",
+  "priorBranchPreserved": {
+    "branch": "codex/vf06-nc-nh-current",
+    "commit": "7757a3eaff42f0b1646a2253503062a2219ad252"
+  },
+  "claim": "CLAIM_OK FIX93 composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief (repair, grant set 162206e28de7915b)",
+  "claimReleased": false,
+  "status": "REPAIRED_PENDING_RASTER_AND_INDEPENDENT_VERIFICATION",
+  "independence": "This worker repaired this Illinois family and issues no independent PASS. Previous worker work was NC/NH verification; this is a different family.",
+  "repairInput": "data/rcap-grade-a/packet-factory-24h/vf01/il-identity-current-20260906/RETURN.json",
+  "repairedFindings": {
+    "SOURCE_IDENTITY": {
+      "change": "Rebuilt the family from the three actual codified records after exact current route review; census SHA pin now matches current bytes.",
+      "recordsMeasured": 3,
+      "anchorsMeasured": 20,
+      "wholeCensusRowsEqual": false,
+      "censusChangedFields": [
+        "currentImplementationEvidence",
+        "packetFamilyId",
+        "packetSetId",
+        "requiredSourceIds"
+      ],
+      "legalProjectionUnchanged": true,
+      "evidence": "source-review.json",
+      "historyPreserved": "before-source-receipt.json preserves the prior receipt and its historical identityRefresh text. The builder drops that prior-pin metadata when the pin changes; the new review explicitly records four changed fields and does not repeat an obsolete whole-row equality claim."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "change": "Classified the existing IN THE ... COURT dotted line as the participant-supplied arrest-circuit caption in both maps/refusal lists, generated disclosures, and reports; added its completion instruction to the delivered PDF.",
+      "knownValueAvailable": false,
+      "requiredBeforeFilingCountBefore": 6,
+      "requiredBeforeFilingCountAfter": 7,
+      "logicalPetitionBlanksPerFixture": 10,
+      "classifiedDottedSpansPerFixture": 16,
+      "protectedAndCourtOwnedFieldsUnchanged": true,
+      "evidence": "repair-measurements.json"
+    }
+  },
+  "legalMeaning": "The chief judge of the circuit where the arrest occurred remains the destination. The exact mistaken-identity correction route, statutory authority, C1-C6 facts, requested relief, evidence components, fee/service unknowns and five self-help stops are preserved. No participant circuit name is invented.",
+  "implementationScope": {
+    "familyScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs",
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+    "sharedHostChanged": false,
+    "globalGeneratorsChanged": false,
+    "approvalRecordsChanged": false,
+    "productWiringChanged": false
+  },
+  "validation": {
+    "sourceAnchorCheck": "CHECK_ONLY: 3 records, 20 anchors, 6 writes, 10 blanks",
+    "builds": {
+      "count": 2,
+      "exitCodes": [
+        0,
+        0
+      ],
+      "noRaster": true,
+      "all13FamilyFilesByteIdentical": true
+    },
+    "focusedCompleteness": "PASS_COMPLETE with all nine reported counters zero; a focused engineering check, not an independent verdict",
+    "authorMeasurements": "3/3 receipt hashes exact; 16 dotted spans classified in each fixture; both petition pages unchanged as extracted text; 933 canonical and 938 boundary word boxes measured with zero out-of-page boxes or >0.2pt intersections",
+    "authorVisualReview": "Six current-byte reading images inspected: pages 1, 3 and 4 in both fixtures. See author-visual-review.json.",
+    "commands": "commands.json"
+  },
+  "environment": {
+    "globalPreflight": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "actualOutcome": "11/14 passed; three national-corpus mount/completeness/index checks failed, three not applicable",
+    "familySources": "Three committed codified-text source records measured directly; no global document corpus is needed for this family.",
+    "evidence": "preflight.log"
+  },
+  "currentArtifacts": [
+    {
+      "fixture": "canonical",
+      "sha256": "3bed5cd21e70338e5d9c5e2daf1251b5ff3c4558a6544991ab549594dacbf3bf",
+      "byteLength": 10963,
+      "pageCount": 4
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "1d5162ef7d046a6c5a9925b4b4b987e92b0768d046723311d6d78ef7bd990fbf",
+      "byteLength": 11146,
+      "pageCount": 4
+    }
+  ],
+  "remaining": {
+    "centralRaster": "Required for both changed current artifacts; author pdftoppm images do not grant RASTER_PASS. No duplicate GitHub dispatch made by FIX93.",
+    "independentVerification": "Required from a different reader on these current accepted bytes.",
+    "legalApproval": "No approval granted or modified by this repair. Existing approval process remains separate."
+  },
+  "selfVerifiedPackets": 0,
+  "routesPromoted": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "evidenceDirectory": "data/rcap-grade-a/packet-factory-24h/fix93/il-identity-caption-20260906"
+}

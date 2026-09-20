@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "rcap-field-classification/v4-nine-class",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "court_issued_caption_only",
+  "ownershipBasis": "JDF 611 Guide to Sealing Conviction Records (district or county court case) (R: August 7, 2024) lists this document among the forms the petitioner files and says how much of it to complete: \"JDF 613 Order (just do §§ A-C)\". The caption is the petitioner's and everything after it is the court's, so only caption facts bind and every other field is refused by role.",
+  "classCounts": {
+    "election_control": 1,
+    "participant": 3,
+    "withheld_by_review": 1,
+    "court_or_agency": 8
+  },
+  "entries": [
+    {
+      "name": "Group_CourtType",
+      "type": "radio",
+      "class": "election_control",
+      "effectiveLabel": "District Court or County Court (selection)",
+      "regionHeading": "A. Court"
+    },
+    {
+      "name": "County",
+      "type": "text",
+      "class": "participant",
+      "effectiveLabel": "Colorado County",
+      "regionHeading": "A. Court"
+    },
+    {
+      "name": "Court Address",
+      "type": "text",
+      "class": "withheld_by_review",
+      "effectiveLabel": "Court Address",
+      "regionHeading": "A. Court"
+    },
+    {
+      "name": "∆",
+      "type": "text",
+      "class": "participant",
+      "effectiveLabel": "Defendant — Full Name",
+      "regionHeading": "B. Parties to the Case"
+    },
+    {
+      "name": "Case Number",
+      "type": "text",
+      "class": "participant",
+      "effectiveLabel": "Case Number",
+      "regionHeading": "C. Case Details"
+    },
+    {
+      "name": "Division",
+      "type": "text",
+      "class": "court_or_agency",
+      "effectiveLabel": "Division",
+      "regionHeading": "C. Case Details"
+    },
+    {
+      "name": "Courtroom",
+      "type": "text",
+      "class": "court_or_agency",
+      "effectiveLabel": "Courtroom",
+      "regionHeading": "C. Case Details"
+    },
+    {
+      "name": "1.1",
+      "type": "checkbox",
+      "class": "court_or_agency",
+      "effectiveLabel": "By the Court — the motion, on its face, is insufficient",
+      "regionHeading": "1. Decision"
+    },
+    {
+      "name": "1.2",
+      "type": "checkbox",
+      "class": "court_or_agency",
+      "effectiveLabel": "By the Court — the Defendant is not entitled to relief under C.R.S. §§ 24-72-706 to 710",
+      "regionHeading": "1. Decision"
+    },
+    {
+      "name": "1.3",
+      "type": "text",
+      "class": "court_or_agency",
+      "effectiveLabel": "By the Court — the Court denies the motion because",
+      "regionHeading": "1. Decision"
+    },
+    {
+      "name": "Sig-by",
+      "type": "text",
+      "class": "court_or_agency",
+      "effectiveLabel": "By the Court — signature",
+      "regionHeading": "2. So Ordered"
+    },
+    {
+      "name": "Group_Sig",
+      "type": "radio",
+      "class": "court_or_agency",
+      "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+      "regionHeading": "2. So Ordered"
+    },
+    {
+      "name": "Sig_date",
+      "type": "text",
+      "class": "court_or_agency",
+      "effectiveLabel": "By the Court — date signed",
+      "regionHeading": "2. So Ordered"
+    }
+  ]
+}

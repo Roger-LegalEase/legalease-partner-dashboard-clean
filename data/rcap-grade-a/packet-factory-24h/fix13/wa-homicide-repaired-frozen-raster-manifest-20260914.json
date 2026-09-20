@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "beaba6025b3bcf3e06666da72efff8654283d9aa2796fce0a2c93123c07b1aaf",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [
+          "crrlj-09-0100-boundary-filled.pdf",
+          "crrlj-09-0100-canonical-filled.pdf",
+          "crrlj-09-0200-boundary-filled.pdf",
+          "crrlj-09-0200-canonical-filled.pdf"
+        ],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every canonical document is rendered, and so is every other document this row queues. The 4 fixture(s) named in notRenderedByThisGate are present in the family's fixture set and are not queued here, so they are unrendered and a defect appearing only in them is not something a RASTER_PASS has excluded."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 11,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 11,
+            "sourceSha256": "89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "89e365937729d7d03b84227fed09dc323ffe0742e4de8829a7a30b4e97597afe"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 11,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 11,
+            "sourceSha256": "beaba6025b3bcf3e06666da72efff8654283d9aa2796fce0a2c93123c07b1aaf",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "beaba6025b3bcf3e06666da72efff8654283d9aa2796fce0a2c93123c07b1aaf"
+        }
+      ],
+      "documentsDigest": "bc9685e6ff10cd2ef2d0813b2aa367affb09698712540566ec9a5ab0d25fdad6",
+      "expectedPages": 11,
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS04",
+      "packetCommitSha": "f02e57f59e23719321219580d44fd91ffb5afd0f",
+      "requestedScale": 2.5
+    }
+  ]
+}

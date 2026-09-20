@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "wv_nc_diversion_deferred-set",
+  "routeKeys": [
+    "obligation:track-pathway:WV:wv_nc_diversion_deferred:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+  ],
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "binding": {
+    "family": "wv_nc_diversion_deferred-set",
+    "jurisdiction": "WV",
+    "routeKeys": [
+      "obligation:track-pathway:WV:wv_nc_diversion_deferred:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "certificate_of_service",
+      "filing_instructions",
+      "primary_filing",
+      "supplemental_pleading"
+    ],
+    "packetComponents": [
+      "component:wv_nc_diversion_deferred-certificate-of-service-3",
+      "component:wv_nc_diversion_deferred-primary-filing-1"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:SCA-C903",
+        "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34805276590",
+      "jobId": "103856603066",
+      "artifactId": "10332589784",
+      "boundToCanonicalSha256": "bf993e6a3aad738b1519eb3a3b4440c5bfaecfc67f8e488919c8f4e8d9192438",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwv1",
+      "verifiedAtBase": "4a06a48d4385b7537b621fd2324e14013946ddfe"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

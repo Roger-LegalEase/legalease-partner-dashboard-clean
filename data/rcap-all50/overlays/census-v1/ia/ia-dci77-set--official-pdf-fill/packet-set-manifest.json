@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-packet-set-manifest/v1",
+  "packetSetId": "ia-dci77-set",
+  "familyId": "ia-dci77-set",
+  "jurisdiction": "IA",
+  "routeKeys": [
+    "obligation:track-only:IA:ia-dci77"
+  ],
+  "routeSelectionId": "ia-dci77-primary-filing-1",
+  "compositionMode": "one_combined_official_source_binary_page_order_preserved",
+  "componentList": [
+    {
+      "componentId": "ia-dci77-primary-filing-1",
+      "componentType": "primary_filing",
+      "required": true,
+      "officialFormId": "DCI-77 Criminal History Record Check Request Form",
+      "sourceIds": [
+        "official-form:DCI-77 Criminal History Record Check Request Form"
+      ],
+      "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "sourcePages": [
+        2
+      ],
+      "outputPages": [
+        2
+      ],
+      "order": 1
+    },
+    {
+      "componentId": "ia-dci77-attachment-2",
+      "componentType": "attachment",
+      "required": true,
+      "officialFormId": "DCI-76 Criminal History Record Check Billing Form",
+      "sourceIds": [
+        "official-form:DCI-76 Criminal History Record Check Billing Form"
+      ],
+      "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "sourcePages": [
+        1
+      ],
+      "outputPages": [
+        1
+      ],
+      "order": 2
+    },
+    {
+      "componentId": "ia-dci77-instructions-3",
+      "componentType": "instructions",
+      "required": true,
+      "officialFormId": null,
+      "sourceIds": [
+        "official-form:DCI-76 Criminal History Record Check Billing Form",
+        "official-form:DCI-77 Criminal History Record Check Request Form"
+      ],
+      "sourceSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+      "sourcePages": [
+        3
+      ],
+      "outputPages": [
+        3
+      ],
+      "order": 3
+    }
+  ],
+  "conditionalComponents": [],
+  "participantActionRequired": [
+    {
+      "kind": "complete_form",
+      "description": "Complete the DCI-76 billing date, request count, total due, payment method and matching payment detail before submission.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "sign_form",
+      "description": "Sign the DCI-77 release authorization as the subject of the request.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "obtain_record",
+      "description": "Submit the forms and fee and retain the returned DCI criminal history check; LegalEase never receives it.",
+      "requiredBeforeFiling": true
+    }
+  ],
+  "noAdditionalComponentInvented": true,
+  "commercialReliefRoute": false,
+  "supportingActionOnly": true
+}

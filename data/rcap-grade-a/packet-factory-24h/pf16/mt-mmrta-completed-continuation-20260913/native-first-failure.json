@@ -1,0 +1,727 @@
+{
+  "schemaVersion": "rcap-packet-completeness-matrix/v1",
+  "generatedBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+  "contract": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+  "question": "Does every built packet contain everything a filing needs, or only everything the build chose to write?",
+  "whatTheOldPassProved": "That every write was correct: bound to exact source bytes, inside a measured box, off every protected field. It never asked what was owed, so a family could pass having written 6 of 187 fields.",
+  "passRule": "A family returns PASS_COMPLETE only when all 9 counters are zero: knownRequiredFieldsMissing, requiredFactsNotCollected, unclassifiedBlanks, incompleteRows, requiredOptionsMissing, requiredComponentsMissing, invisibleWrites, protectedWrites, visualDefects.",
+  "resultClasses": [
+    "PASS_COMPLETE",
+    "FAIL_PROTECTED_WRITE",
+    "FAIL_VISIBLE_APPEARANCE",
+    "FAIL_MISSING_REQUIRED_FACTS",
+    "FAIL_ROUTE_SELECTION",
+    "FAIL_MISSING_PREFILLS",
+    "FAIL_COMPONENT_SET",
+    "FAIL_CURRENTNESS"
+  ],
+  "familiesAudited": 1,
+  "byResult": {
+    "FAIL_MISSING_PREFILLS": 1
+  },
+  "counterTotals": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 81,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "auditScope": {
+    "kind": "family-only",
+    "familyId": "mt_mmrta_completed-set",
+    "nationalMatrixUpdated": false,
+    "reusedResults": 0,
+    "integrationRequiresFullAudit": true
+  },
+  "results": [
+    {
+      "familyId": "mt_mmrta_completed-set",
+      "directory": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill",
+      "result": "FAIL_MISSING_PREFILLS",
+      "auditable": true,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 81,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "failedCounters": [
+        "unclassifiedBlanks"
+      ],
+      "totals": {
+        "terminalFields": 320,
+        "written": 177,
+        "blank": 143,
+        "blanksByDisposition": {
+          "PROTECTED_FIELD": 47,
+          "UNCLASSIFIED_BLANK": 81,
+          "PARTICIPANT_ELECTION_GENUINE": 15
+        },
+        "rowsInspected": 0,
+        "fieldMapSchema": "maps-with-canonical-and-boundary"
+      },
+      "outputApprovalStatus": "REVIEW_PENDING",
+      "sourceCurrentness": "EXACT",
+      "findings": [
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelJustice",
+          "label": "courtLevelJustice",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedJusticeCounty",
+          "label": "unusedJusticeCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense0",
+          "label": "unselectedOffense0",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense2",
+          "label": "unselectedOffense2",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense3",
+          "label": "unselectedOffense3",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense4",
+          "label": "unselectedOffense4",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedManufactureParaphernalia",
+          "label": "unselectedManufactureParaphernalia",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "otherOffense",
+          "label": "otherOffense",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelJustice",
+          "label": "courtLevelJustice",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedJusticeCounty",
+          "label": "unusedJusticeCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelDistrict",
+          "label": "courtLevelDistrict",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictName",
+          "label": "unusedDistrictName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictCounty",
+          "label": "unusedDistrictCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense0",
+          "label": "unselectedOffense0",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense2",
+          "label": "unselectedOffense2",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense3",
+          "label": "unselectedOffense3",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense4",
+          "label": "unselectedOffense4",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedManufactureParaphernalia",
+          "label": "unselectedManufactureParaphernalia",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "otherOffense",
+          "label": "otherOffense",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelDistrict",
+          "label": "courtLevelDistrict",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictName",
+          "label": "unusedDistrictName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictCounty",
+          "label": "unusedDistrictCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelDistrict",
+          "label": "courtLevelDistrict",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelJustice",
+          "label": "courtLevelJustice",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictName",
+          "label": "unusedDistrictName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictCounty",
+          "label": "unusedDistrictCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedJusticeCounty",
+          "label": "unusedJusticeCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense0",
+          "label": "unselectedOffense0",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense1",
+          "label": "unselectedOffense1",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense2",
+          "label": "unselectedOffense2",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense3",
+          "label": "unselectedOffense3",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedManufactureParaphernalia",
+          "label": "unselectedManufactureParaphernalia",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "otherOffense",
+          "label": "otherOffense",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelDistrict",
+          "label": "courtLevelDistrict",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelJustice",
+          "label": "courtLevelJustice",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictName",
+          "label": "unusedDistrictName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictCounty",
+          "label": "unusedDistrictCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedJusticeCounty",
+          "label": "unusedJusticeCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelJustice",
+          "label": "courtLevelJustice",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedJusticeCounty",
+          "label": "unusedJusticeCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense0",
+          "label": "unselectedOffense0",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense2",
+          "label": "unselectedOffense2",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense3",
+          "label": "unselectedOffense3",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense4",
+          "label": "unselectedOffense4",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedManufactureParaphernalia",
+          "label": "unselectedManufactureParaphernalia",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "otherOffense",
+          "label": "otherOffense",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelJustice",
+          "label": "courtLevelJustice",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedJusticeCounty",
+          "label": "unusedJusticeCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "otherRequestTypes",
+          "label": "otherRequestTypes",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "nonconvictionRequestType",
+          "label": "nonconvictionRequestType",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "deferredRequestType",
+          "label": "deferredRequestType",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedAdditionalCharges",
+          "label": "unusedAdditionalCharges",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "optionalLast4SSN",
+          "label": "optionalLast4SSN",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"optional\", which is outside the closed vocabulary",
+          "reasonGiven": "Actual participant completion or execution only"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelDistrict",
+          "label": "courtLevelDistrict",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictName",
+          "label": "unusedDistrictName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictCounty",
+          "label": "unusedDistrictCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense0",
+          "label": "unselectedOffense0",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense2",
+          "label": "unselectedOffense2",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense3",
+          "label": "unselectedOffense3",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedOffense4",
+          "label": "unselectedOffense4",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unselectedManufactureParaphernalia",
+          "label": "unselectedManufactureParaphernalia",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "otherOffense",
+          "label": "otherOffense",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelDistrict",
+          "label": "courtLevelDistrict",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "courtLevelCity",
+          "label": "courtLevelCity",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictName",
+          "label": "unusedDistrictName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedDistrictCounty",
+          "label": "unusedDistrictCounty",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        },
+        {
+          "counter": "unclassifiedBlanks",
+          "field": "unusedCityName",
+          "label": "unusedCityName",
+          "disposition": "UNCLASSIFIED_BLANK",
+          "basis": "the field map declares the refusal class \"not_applicable\", which is outside the closed vocabulary",
+          "reasonGiven": "Conditional field not applicable to this exact fixture"
+        }
+      ],
+      "findingsTruncated": 0
+    }
+  ]
+}

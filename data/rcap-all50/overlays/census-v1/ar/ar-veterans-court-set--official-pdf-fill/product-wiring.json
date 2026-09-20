@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ar-veterans-court-set",
+  "routeKeys": [
+    "obligation:unit:AR:ar-veterans-court:ar-veterans-court-stage-1",
+    "obligation:unit:AR:ar-veterans-court:ar-veterans-court-stage-2"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/build-census-v1-ar-veterans-court-set.mjs",
+  "explicitNonGrants": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "binding": {
+    "family": "ar-veterans-court-set",
+    "jurisdiction": "AR",
+    "routeKeys": [
+      "obligation:unit:AR:ar-veterans-court:ar-veterans-court-stage-1",
+      "obligation:unit:AR:ar-veterans-court:ar-veterans-court-stage-2"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "ACIC post-completion petition and order (official_pdf_fill)",
+      "no filing — process guidance"
+    ],
+    "packetComponents": [
+      "component:ar-veterans-court-primary-filing-2",
+      "component:ar-veterans-court-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+        "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
+        "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34748768620",
+      "jobId": "103701698946",
+      "artifactId": "10314843279",
+      "boundToCanonicalSha256": "31a08f2b50a8221b71d4e22ec5c7e3cec9348dacefd86dd1196368ca597f1faf",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf44",
+      "verifiedAtBase": "17b5d695f98eb64c4ea1c4952c99c6a62d2048ca"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ar-veterans-court-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "packetSetId": "ar-veterans-court-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ar-veterans-court-process-guidance-1",
+        "role": "process_guidance",
+        "order": 1,
+        "documentId": null,
+        "file": "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/stage-1-process-guidance.md",
+        "sha256": null,
+        "requirement": "required"
+      },
+      {
+        "componentId": "ar-veterans-court-primary-filing-2",
+        "role": "primary_filing",
+        "order": 2,
+        "documentId": "AR-ACIC-PETITION-VETERANS-COURT",
+        "file": null,
+        "sha256": null,
+        "requirement": "required"
+      },
+      {
+        "componentId": "ar-veterans-court-proposed-order-3",
+        "role": "proposed_order",
+        "order": 3,
+        "documentId": "AR-ACIC-ORDER-VETERANS-COURT",
+        "file": null,
+        "sha256": null,
+        "requirement": "required"
+      }
+    ]
+  }
+}

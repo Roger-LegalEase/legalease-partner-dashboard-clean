@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-independent-verification-checkpoints/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "shift": "20260909d",
+  "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+  "assigned": [
+    "ma-expunge-k-set",
+    "al-trafficking-set",
+    "co_petition_seal_arrest-set",
+    "hi_nonconviction_expungement-set",
+    "ri_first_offender_misdemeanor-set",
+    "wv_conv_nonviolent_felony-set"
+  ],
+  "checkpoints": [
+    {
+      "itemId": "ma-expunge-k-set",
+      "claim": "CLAIM_OK VF01 ma-expunge-k-set (independent-verification, grant set 68a665634f7e38b0)",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "returnedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    },
+    {
+      "itemId": "al-trafficking-set",
+      "claim": "CLAIM_OK VF01 al-trafficking-set (independent-verification, grant set 68a665634f7e38b0)",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "returnedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    },
+    {
+      "itemId": "co_petition_seal_arrest-set",
+      "claim": "CLAIM_OK VF01 co_petition_seal_arrest-set (independent-verification, grant set 68a665634f7e38b0)",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "postRepairReread": true,
+      "returnedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    },
+    {
+      "itemId": "hi_nonconviction_expungement-set",
+      "claim": "CLAIM_OK VF01 hi_nonconviction_expungement-set (independent-verification, grant set 68a665634f7e38b0)",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligationNames": [],
+      "postRepairReread": true,
+      "returnedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    },
+    {
+      "itemId": "ri_first_offender_misdemeanor-set",
+      "claim": "CLAIM_OK VF01 ri_first_offender_misdemeanor-set (independent-verification, grant set 68a665634f7e38b0)",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failedObligationNames": [],
+      "postRepairReread": true,
+      "returnedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    },
+    {
+      "itemId": "wv_conv_nonviolent_felony-set",
+      "outcome": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 'wv_conv_nonviolent_felony-set'",
+      "exitCode": 8,
+      "refusalVerbatim": "GRANTED_ELSEWHERE: wv_conv_nonviolent_felony-set is granted to VF08, not VF01, and that grant is LIVE -- another lane is working it now.",
+      "assignedBy": "Captain, mid-shift, as a sixth family after the original five",
+      "whatThisLaneDid": "Asserted the claim first, as the brief requires. The assertion was refused, so no artifact of this family was read, no verdict was formed and no row was written for it. The sparse-checkout path data/rcap-all50/overlays/census-v1/wv was materialized in the same command and the state directory was listed; nothing inside the family directory was opened.",
+      "whatThisLaneDidNotDo": "Did not read the fixtures, the field map, the receipt or any report; did not test the /Matrix claim the Captain described; did not release, transfer or request transfer of any claim.",
+      "forTheCaptain": "Two records disagree and the Captain owns the reconciliation: the Captain's message says this lane holds a live independent-verification grant on this family, and claim.mjs says the live grant is VF08's. This lane measured against claim.mjs, which is the gate the brief makes decisive. If the read is still wanted from VF01, the grant has to move first.",
+      "returnedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b"
+    }
+  ],
+  "grantsNothing": "Checkpoints record this lane's progress. They approve no output, promote no route and open no commercial path.",
+  "assignmentNote": "wv_conv_nonviolent_felony-set was added to this shift by the Captain mid-shift, after the original five, as a post-repair read."
+}

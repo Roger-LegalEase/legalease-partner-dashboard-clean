@@ -1,0 +1,3521 @@
+{
+ "schemaVersion": "rcap-source-identity-resolution-sweep/v1",
+ "producedBy": "SRC1, measurement lane. No packet built, no family claimed, no manifest edited.",
+ "producedOn": "2026-09-09",
+ "question": "For each family whose declared source identity did not resolve in the custody record, is the declared source in custody or not, measured by content rather than by identifier?",
+ "method": [
+  "A SHA-256 index was built over every file under all five mounted custody roots (22011 files, 18013 unique digests).",
+  "A content index was built over every unique PDF among them (1947 PDFs): embedded title, page count, AcroForm/XFA field counts and first-page text, so an instrument can be recognised when its digest has moved.",
+  "Every declared sourceHashes[].sha256 in MASTER_QUEUE.json for the named families was looked up in that digest index. This bypasses the tier-ordering defect entirely: no custody row is consulted before the digest, so a family that has a custody row cannot mask a held document.",
+  "Unresolved digests were then checked against the committed corpus index (data/rcap-all50/local-source-corpus-index.json, 984 entries) and against the 2026-09-04 acquisition receipts, to separate a missing document from an unmounted custody and from an acquisition that was never materialized.",
+  "Nothing was fetched. Every digest, path and page count in this file was produced by a tool run in this container."
+ ],
+ "mountsSearched": [
+  {
+   "root": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+   "custodyId": "master_library",
+   "exists": true
+  },
+  {
+   "root": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+   "custodyId": "nationwide_recovery_pool_2026_09_02",
+   "exists": true
+  },
+  {
+   "root": "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12",
+   "custodyId": "d_source_packs",
+   "exists": true
+  },
+  {
+   "root": "/home/user/legalease-partner-dashboard-clean/private/human-source-returns",
+   "custodyId": "human_source_returns",
+   "exists": true
+  },
+  {
+   "root": "/home/user/captain-worktree",
+   "custodyId": "captain_worktree_reference",
+   "exists": true
+  }
+ ],
+ "custodiesNamedByTheIndexButNotMountedHere": [
+  {
+   "custodyId": "src05_worker_materialization_2026_09_02",
+   "indexEntries": 14,
+   "entriesReachableInThisContainer": 3,
+   "note": "The committed index names this custody. It has no mount point in this environment. Eleven of its fourteen entries cannot be opened here; three happen to be duplicated into other mounted trees."
+  }
+ ],
+ "counts": {
+  "familiesMeasured": 30,
+  "RESOLVED_BY_CONTENT": 11,
+  "GENUINELY_ABSENT": 19,
+  "resolvedAndEveryBoundSourceIsAHeldPdf": 9,
+  "resolvedButABoundSourceIsNotAPdf": 2,
+  "separatelyReportedLocatorOrNonPdfFamilies": 3
+ },
+ "answerRESOLVED_BY_CONTENT": [
+  "la-977d-marijuana-first-offense-set",
+  "la-985-1-interim-expungement-set",
+  "ar-misdemeanor-seal-set",
+  "census-pending-family:ME:juvenile-sealing",
+  "la-976-arrest-no-conviction-set",
+  "ma-expunge-k-set",
+  "mt_mmrta_completed-set",
+  "mt_mmrta_serving-set",
+  "wv_acc_treatment_job_readiness-set",
+  "ma-seal-court-set",
+  "ut_pet_special_certificate-set"
+ ],
+ "buildableToday": {
+  "note": "Every bound source resolves byte-exact AND every bound source is a PDF. These are the families a build lane can open today.",
+  "familyIds": [
+   "la-977d-marijuana-first-offense-set",
+   "la-985-1-interim-expungement-set",
+   "ar-misdemeanor-seal-set",
+   "census-pending-family:ME:juvenile-sealing",
+   "la-976-arrest-no-conviction-set",
+   "ma-expunge-k-set",
+   "wv_acc_treatment_job_readiness-set",
+   "ma-seal-court-set",
+   "ut_pet_special_certificate-set"
+  ],
+  "oneCarriesACustodyCaveat": "ut_pet_special_certificate-set resolves 9 of 9, but two of those nine (official-form:1001EX, official-form:1021EX) were found only under /home/user/captain-worktree/reference/, a working reference directory rather than a durable custody. The committed index attributes them to src05_worker_materialization_2026_09_02. Materialize them into a real custody before binding."
+ },
+ "answerGENUINELY_ABSENT": [
+  "fl-sealing-set",
+  "ar-act346-set",
+  "ar-veterans-court-set",
+  "fl-expunction-set",
+  "ia-12346-set",
+  "ia-901c3-set",
+  "ia-dci77-set",
+  "il-prb-cert-set",
+  "nd-prohibit-remote-public-access-set",
+  "tx_nd_dwi_conviction-set",
+  "fl-juvenile-diversion-set",
+  "ca-diversion-seal-set",
+  "de_discretionary_family_court-set",
+  "de_discretionary_superior_court-set",
+  "de_pardon_expungement-set",
+  "ky_protective_order_record_expungement-set",
+  "me-seal-survivor-set",
+  "nd-regular-pardon-set",
+  "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b"
+ ],
+ "families": [
+  {
+   "familyId": "fl-sealing-set",
+   "jurisdiction": "FL",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "custom_pleading",
+   "declaredForms": [
+    "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "FL-RULE-3.989-ORDER",
+    "FL-RULE-3.989-PETITION",
+    "FL-RULE-3.989-SWORN-STATEMENT"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+     "declaredPath": "google-drive:1zq1D8ZuvPkxPOxOLA4OOcdvT0kV6CgK-",
+     "declaredSha256": "1d07f48487cc466294a25fd36f06fb15002d1fa524dd43889c3ddb832c1f8aec",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false,
+   "heldCandidateAtDifferentDigest": {
+    "candidates": [
+     {
+      "candidateFile": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
+      "sha256": "82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d",
+      "pageCount": "6",
+      "embeddedTitle": null,
+      "firstPageText": "b9184d27-e746-4648-8d6a-4e21763f1e90 FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNC"
+     },
+     {
+      "candidateFile": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
+      "sha256": "b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100",
+      "pageCount": "6",
+      "embeddedTitle": null,
+      "firstPageText": "7dfddc12-bd40-4502-a789-127d17231b38 FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNC"
+     }
+    ],
+    "ruling": "NOT A MATCH. These are instruments bearing the same form number or the same printed title as the declared source, but none carries the declared bytes. A different digest is a different rendition or revision, and binding one in place of the declared source would put a false source binding into a packet. Rebinding is an owner decision, not a measurement."
+   }
+  },
+  {
+   "familyId": "la-977d-marijuana-first-offense-set",
+   "jurisdiction": "LA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "custom_pleading",
+   "declaredForms": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-991",
+    "LA-CCRP-ART-992"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 2,
+   "sources": [
+    {
+     "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+     "declaredSha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+     "actualSha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Louisiana/reference-only/LA-CCRP-Art-990__affidavit-of-response__source-2026-07-31.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Louisiana Laws - Louisiana State Legislature",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 81508,
+      "indexedFormNumber": "LA-CCRP-ART-990",
+      "firstPageText": "Louisiana Laws - Louisiana State Legislature 7/31/26, 5:16 PM CCRP 990 Art. 990. Affidavit of response form to be used \" STATE OF LOUISIANA JUDICIAL DISTRICT FOR THE PARISH OF ______________________________ No.: ______________ Division: \"_______\" State of Louisiana vs. _______________________________________________________ AFFIDAVIT OF RESPONSE Pursuant to Louisiana Code of Criminal Procedure Art"
+     }
+    },
+    {
+     "sourceId": "source-sha256:8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+     "declaredSha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+     "actualSha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Louisiana/source-gated/LA-CCRP-Art-998__motion-for-expungement-first-offense-marijuana-misdemeanor__source-2026-07-31.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Louisiana Laws - Louisiana State Legislature",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 92697,
+      "indexedFormNumber": "LA-CCRP-ART-998",
+      "firstPageText": "Louisiana Laws - Louisiana State Legislature 7/31/26, 5:18 PM CCRP 998 Art. 998. Motion for expungement form to be used for certain misdemeanor convictions STATE OF LOUISIANA JUDICIAL DISTRICT FOR THE PARISH OF ______________________________ No.: _____________Division: \"_______\" State of Louisiana vs. _______________________________________________________ MOTION FOR EXPUNGEMENT FOR MISDEMEANOR CO"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "la-985-1-interim-expungement-set",
+   "jurisdiction": "LA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "custom_pleading",
+   "declaredForms": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-994"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 2,
+   "sources": [
+    {
+     "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+     "declaredSha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+     "actualSha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Louisiana/reference-only/LA-CCRP-Art-990__affidavit-of-response__source-2026-07-31.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Louisiana Laws - Louisiana State Legislature",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 81508,
+      "indexedFormNumber": "LA-CCRP-ART-990",
+      "firstPageText": "Louisiana Laws - Louisiana State Legislature 7/31/26, 5:16 PM CCRP 990 Art. 990. Affidavit of response form to be used \" STATE OF LOUISIANA JUDICIAL DISTRICT FOR THE PARISH OF ______________________________ No.: ______________ Division: \"_______\" State of Louisiana vs. _______________________________________________________ AFFIDAVIT OF RESPONSE Pursuant to Louisiana Code of Criminal Procedure Art"
+     }
+    },
+    {
+     "sourceId": "source-sha256:b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+     "declaredSha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+     "actualSha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Louisiana/source-gated/LA-CCRP-Art-995__order-of-expungement-of-interim-arrest-record__source-2026-07-31.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Louisiana Laws - Louisiana State Legislature",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 81451,
+      "indexedFormNumber": "LA-CCRP-ART-995",
+      "firstPageText": "Louisiana Laws - Louisiana State Legislature 7/31/26, 5:18 PM CCRP 995 Art. 995. Order of interim expungement form to be used \"STATE OF LOUISIANA JUDICIAL DISTRICT FOR THE PARISH OF ______________________________ Division: \"_______\" No.: ____________ State of Louisiana vs. _______________________________________________________ ORDER OF EXPUNGEMENT OF INTERIM ARREST RECORD Considering the Motion f"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "ar-act346-set",
+   "jurisdiction": "AR",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+    "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+     "declaredPath": "google-drive:1cVTkd6IS4iCaKzbwnmbdmmnMHFVzwCq_",
+     "declaredSha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+     "declaredPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+     "declaredSha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+     "tier": "exact_identity_confirmed_from_document_text",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+     "actualSha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/source-gated/ACIC__order-to-dismiss-and-seal-first-offenders-act-346__rev-2014-01-01.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 3,
+      "acroFieldCount": 36,
+      "xfaPresent": false,
+      "byteLength": 307979,
+      "indexedFormNumber": "AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346",
+      "firstPageText": "IN THE ______________ COURT OF ________________, ARKANSAS _______ DIVISION STATE OF ARKANSAS vs. PLAINTIFF Case No. _______________ _____________________________ (First, Middle, and Last name) DEFENDANT ORDER TO DISMISS AND SEAL FIRST OFFENDERS UNDER ACT 346 of 1975 ACA \u00a716-93-301 through 303 and ACT 1460 OF 2013 A.C.A.16-90-1401, Et. Seq. Before the Court is the Petition of the Defendant to seal "
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "ar-misdemeanor-seal-set",
+   "jurisdiction": "AR",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "ACIC-UNIFORM-ORDER-TO-SEAL",
+    "ACIC-UNIFORM-PETITION-TO-SEAL"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 2,
+   "sources": [
+    {
+     "sourceId": "official-form:ACIC-UNIFORM-PETITION-TO-SEAL",
+     "declaredPath": "google-drive:1mwzEVgJeCOCHlYmb1_jkdedLF2Ni1Yzx",
+     "declaredSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+     "actualSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 5,
+      "acroFieldCount": 53,
+      "xfaPresent": false,
+      "byteLength": 775618,
+      "indexedFormNumber": null,
+      "firstPageText": "IN THE ______________ COURT OF ________________, ARKANSAS ____________ DIVISION STATE OF ARKANSAS vs. PLAINTIFF Case No. ______________ _______________________ (First, Middle and Last name) DEFENDANT PETITION TO SEAL MISDEMEANORS UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq. Comes the Defendant and for his/her petition to seal the record states: 1. The Defendant was arrested on the _______ da"
+     }
+    },
+    {
+     "sourceId": "official-form:ACIC-UNIFORM-ORDER-TO-SEAL",
+     "declaredPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+     "declaredSha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+     "tier": "exact_identity_confirmed_from_document_text",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+     "actualSha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/source-gated/ACIC__order-to-seal-misdemeanors-under-act-1460__rev-2019-08-01.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 3,
+      "acroFieldCount": 37,
+      "xfaPresent": false,
+      "byteLength": 327235,
+      "indexedFormNumber": "AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460",
+      "firstPageText": "IN THE ______________ COURT OF ________________, ARKANSAS ____________ DIVISION STATE OF ARKANSAS vs. PLAINTIFF Case No. ______________ _______________________ (First, Middle and Last name) DEFENDANT ORDER TO SEAL MISDEMEANORS UNDER ACT 1460 OF 2013; A.C.A.16-90-1401, Et. Seq. Before the Court is the Petition of the Defendant to seal his/her record. The Court finds and orders as follows: 1. The De"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "ar-veterans-court-set",
+   "jurisdiction": "AR",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "ACIC-ORDER-VETERANS-COURT",
+    "ACIC-PETITION-VETERANS-COURT"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+     "declaredPath": "google-drive:1fd3o7fV3S0BUug-aPRPd4NmPbe0_LDvX",
+     "declaredSha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
+     "declaredPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+     "declaredSha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+     "tier": "exact_identity_confirmed_from_document_text",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+     "actualSha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Arkanasa/source-gated/ACIC__petition-to-dismiss-and-seal-veterans-treatment-specialty-court-offense__rev-2021-07-27.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 5,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 131167,
+      "indexedFormNumber": "AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY",
+      "firstPageText": "IN THE ______________ COURT OF ________________, ARKANSAS VETERANS TREATMENT SPECIALITY COURT DIVISION STATE OF ARKANSAS vs. PLAINTIFF Case No. _______________ _____________________________ (First, Middle, and Last name) DEFENDANT PETITION TO DISMISS AND SEAL OFFENSE IN VETERANS TREATMENT SPECIALITY COURT PROCEEDING PURSUANT TO A.C.A. \u00a716-101-106 AND A.C.A. \u00a716-90-1401 {AND TO SEAL SEPARATE PREVIO"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "census-pending-family:ME:juvenile-sealing",
+   "jurisdiction": "ME",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "JV-043"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:JV-043",
+     "declaredPath": "reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf",
+     "declaredSha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/MJB-Form-jv-043.pdf",
+     "actualSha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+     "digestsIdentical": true,
+     "copiesInCustody": 2,
+     "custodies": [
+      "captain_worktree_reference",
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/MJB-Form-jv-043.pdf",
+      "/home/user/captain-worktree/reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "",
+      "pageCount": 1,
+      "acroFieldCount": 14,
+      "xfaPresent": false,
+      "byteLength": 173449,
+      "indexedFormNumber": null,
+      "firstPageText": "CONTAINS NONPUBLIC DIGITAL INFORMATION MAINE JUDICIAL BRANCH STATE OF MAINE DISTRICT COURT Location (Town): Docket No.: V. Juvenile PETITION TO SEAL JUVENILE CASE RECORDS 15 M.R.S. \u00a7 3308-C(10)(A) The above-named juvenile, whose date of birth is (mm/dd/yyyy) and gender is male female other, having been adjudicated as having committed a juvenile crime that, if the juvenile were an adult, would cons"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "fl-expunction-set",
+   "jurisdiction": "FL",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "FL-RULE-3.989-ORDER",
+    "FL-RULE-3.989-PETITION",
+    "FL-RULE-3.989-SWORN-STATEMENT"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+     "declaredPath": "google-drive:137cVeCPkL7bRTlicUQlLr1DhwMUnLv2T",
+     "declaredSha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false,
+   "heldCandidateAtDifferentDigest": {
+    "candidates": [
+     {
+      "candidateFile": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
+      "sha256": "b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100",
+      "pageCount": "6",
+      "embeddedTitle": null,
+      "firstPageText": "7dfddc12-bd40-4502-a789-127d17231b38 FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNC"
+     },
+     {
+      "candidateFile": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
+      "sha256": "82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d",
+      "pageCount": "6",
+      "embeddedTitle": null,
+      "firstPageText": "b9184d27-e746-4648-8d6a-4e21763f1e90 FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNC"
+     }
+    ],
+    "ruling": "NOT A MATCH. These are instruments bearing the same form number or the same printed title as the declared source, but none carries the declared bytes. A different digest is a different rendition or revision, and binding one in place of the declared source would put a false source binding into a packet. Rebinding is an owner decision, not a measurement."
+   }
+  },
+  {
+   "familyId": "ia-12346-set",
+   "jurisdiction": "IA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "Rule 2.86 Form 3"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:Rule 2.86 Form 3",
+     "declaredPath": "google-drive:1B9EqDhgSht4QSkDazS7yJF-gmfgeB-r1",
+     "declaredSha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false,
+   "heldCandidateAtDifferentDigest": {
+    "candidates": [
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Iowa/r286_f3_expngpblcntox_9182B460CD331.pdf",
+      "sha256": "d8f958c16fec8f9c831664c9a3122e2a062306a308c41275b3df049bcc18202e",
+      "pageCount": "2",
+      "embeddedTitle": "Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46",
+      "firstPageText": "Rule 2.86\u2014Form 3: Application to Expunge Public Intoxication Court Records under Iowa Code section 123.46 If you do not understand how to use this form, or if y"
+     }
+    ],
+    "ruling": "NOT A MATCH. These are instruments bearing the same form number or the same printed title as the declared source, but none carries the declared bytes. A different digest is a different rendition or revision, and binding one in place of the declared source would put a false source binding into a packet. Rebinding is an owner decision, not a measurement."
+   }
+  },
+  {
+   "familyId": "ia-901c3-set",
+   "jurisdiction": "IA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "Rule 2.86 Form 2"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:Rule 2.86 Form 2",
+     "declaredPath": "google-drive:1w5SQ5CIpGUSUyBO-vRt5LGNPdsjhBwpc",
+     "declaredSha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false,
+   "heldCandidateAtDifferentDigest": {
+    "candidates": [
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Iowa/r286_f2_expngmisd901c3_6F5CCD02F88E6.pdf",
+      "sha256": "df3380d9ff4ea9272be6cf12b58a3c6cbbab93dead855ed1c97280aa2dc24d12",
+      "pageCount": "3",
+      "embeddedTitle": "Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3",
+      "firstPageText": "Rule 2.86\u2014Form 2: Application to Expunge Misdemeanor Court Records under Iowa Code section 901C.3 Note: This form is for expunging misdemeanor convictions. Rule"
+     }
+    ],
+    "ruling": "NOT A MATCH. These are instruments bearing the same form number or the same printed title as the declared source, but none carries the declared bytes. A different digest is a different rendition or revision, and binding one in place of the declared source would put a false source binding into a packet. Rebinding is an owner decision, not a measurement."
+   }
+  },
+  {
+   "familyId": "ia-dci77-set",
+   "jurisdiction": "IA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "DCI-76 Criminal History Record Check Billing Form",
+    "DCI-77 Criminal History Record Check Request Form"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:DCI-76 Criminal History Record Check Billing Form",
+     "declaredPath": "google-drive:1cgNkclodlyJ6MiMOMzLpHR4tdPcAirAt",
+     "declaredSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:DCI-77 Criminal History Record Check Request Form",
+     "declaredPath": "google-drive:15Ts_wps2vvJhPamwj-OFrez9IUZFsYac",
+     "declaredSha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "il-prb-cert-set",
+   "jurisdiction": "IL",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "EXP-AD Request",
+    "PRB Certificate of Expungement for Military Application",
+    "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+    "PRB Certificate of Sealing Application",
+    "PRB Certificate of Sealing Eligibility Acknowledgement"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 5,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:PRB Certificate of Expungement for Military Application",
+     "declaredPath": "google-drive:1_HjEk-NnIkKVq1l2ZJeB69wn9ZHO7O0l",
+     "declaredSha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+     "declaredPath": "google-drive:1btGZPdwdvxdgJrMDq9Qu4bVWftqnEvfu",
+     "declaredSha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:PRB Certificate of Sealing Application",
+     "declaredPath": "google-drive:1GAxZVzStjHTLm-5Wybmy5yb7qgsgvyCN",
+     "declaredSha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:PRB Certificate of Sealing Eligibility Acknowledgement",
+     "declaredPath": "google-drive:1Fi0H317CpZJgDZkrr1HhSI5IuU5rz0sW",
+     "declaredSha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:EXP-AD Request",
+     "declaredPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+     "declaredSha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+     "actualSha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Illinois/forms/EXP-AD-Request__request-to-expunge-and-or-seal-criminal-records__rev-2026-06.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-REQUEST__request-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Request to Expunge and or Seal Criminal Records",
+      "pageCount": 6,
+      "acroFieldCount": 151,
+      "xfaPresent": false,
+      "byteLength": 1015247,
+      "indexedFormNumber": "EXP-AD-REQUEST",
+      "firstPageText": "REQUEST TO EXPUNGE AND/OR SEAL CRIMINAL RECORDS IN THE STATE OF ILLINOIS, CIRCUIT COURT COUNTY: __________________________________________________ County Where You Are Filing the Case REQUEST OF: ________________________________________________ Your First, Middle, and Last Name _____________________________________________________________ Other Names Used In These Cases _______________ Date of Bir"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "la-976-arrest-no-conviction-set",
+   "jurisdiction": "LA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-989",
+    "LA-CCRP-ART-991",
+    "LA-CCRP-ART-992"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 2,
+   "sources": [
+    {
+     "sourceId": "source-sha256:0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+     "declaredSha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+     "actualSha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Louisiana/source-gated/LA-CCRP-Art-993__supplemental-sheet__source-2026-07-31.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Louisiana Laws - Louisiana State Legislature",
+      "pageCount": 5,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 81977,
+      "indexedFormNumber": "LA-CCRP-ART-993",
+      "firstPageText": "Louisiana Laws - Louisiana State Legislature 7/31/26, 5:17 PM CCRP 993 Art. 993. Supplemental forms to be used SUPPLEMENTAL SHEET ____ Yes ____ No ARRESTS THAT DID NOT RESULT IN CONVICTION NO. ___ La. Rev. Stat. Ann. \u00a7 _______ : ________ Name of the offense _________________ ( ) Time expired for prosecution _____/____/_______ (MM/DD/YYYY) ( ) Charge refused by DA - not prosecuted. ( ) Pre-trial Di"
+     }
+    },
+    {
+     "sourceId": "source-sha256:13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+     "declaredSha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+     "actualSha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Louisiana/reference-only/LA-CCRP-Art-990__affidavit-of-response__source-2026-07-31.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Louisiana Laws - Louisiana State Legislature",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 81508,
+      "indexedFormNumber": "LA-CCRP-ART-990",
+      "firstPageText": "Louisiana Laws - Louisiana State Legislature 7/31/26, 5:16 PM CCRP 990 Art. 990. Affidavit of response form to be used \" STATE OF LOUISIANA JUDICIAL DISTRICT FOR THE PARISH OF ______________________________ No.: ______________ Division: \"_______\" State of Louisiana vs. _______________________________________________________ AFFIDAVIT OF RESPONSE Pursuant to Louisiana Code of Criminal Procedure Art"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "ma-expunge-k-set",
+   "jurisdiction": "MA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "Petition for Expungement, G.L. c. 276, \u00a7 100K"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:Petition for Expungement, G.L. c. 276, \u00a7 100K",
+     "declaredPath": "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+     "declaredSha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+     "actualSha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/jud-Petition-for-Expungement.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 2,
+      "acroFieldCount": 26,
+      "xfaPresent": false,
+      "byteLength": 1387408,
+      "indexedFormNumber": null,
+      "firstPageText": "PETITION FOR EXPUNGEMENT DOCKET NO. G.L. c. 276, \u00a7 100K YOUR NAME AND ADDRESS Trial Court of Massachusetts COURT DEPARTMENT Boston Municipal Court District Court Juvenile Court Superior Court COURT DIVISION I request the assistance of an interpreter for the following language: (There is no charge to you for interpreter or translation services) I request that this Court order that the records of th"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "mt_mmrta_completed-set",
+   "jurisdiction": "MT",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+    "MT-FORM-B",
+    "MT-MMRTA-CERTIFICATE-OF-SERVICE",
+    "MT-MMRTA-PROPOSED-ORDER"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 8,
+   "resolvedSourceCount": 8,
+   "sources": [
+    {
+     "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+     "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "actualSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 84539,
+      "indexedFormNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "official-form:MT-FORM-B",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+     "actualSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/form-b.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 23685,
+      "indexedFormNumber": "MT-FORM-B",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "declaredSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "actualSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__certificate-of-service__source-2022-03.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 16815,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "declaredSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "actualSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation__source-2022-02.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 21143,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "declaredSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "actualSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation__source-2022-02.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 21143,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "actualSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 84539,
+      "indexedFormNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+     "actualSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/form-b.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 23685,
+      "indexedFormNumber": "MT-FORM-B",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "declaredSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "actualSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__certificate-of-service__source-2022-03.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 16815,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    }
+   ],
+   "buildableToday": false,
+   "residualBlockers": [
+    {
+     "blocker": "BOUND_SOURCE_IS_NOT_A_PDF",
+     "sourceIds": [
+      "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "official-form:MT-FORM-B",
+      "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+      "official-form:MT-MMRTA-PROPOSED-ORDER",
+      "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+      "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+      "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+      "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+     ],
+     "note": "Every bound source resolves byte-exact, but these are Word documents. An official_pdf_fill overlay has no PDF to fill; this is a format blocker, not a custody blocker."
+    }
+   ]
+  },
+  {
+   "familyId": "mt_mmrta_serving-set",
+   "jurisdiction": "MT",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+    "MT-FORM-A",
+    "MT-MMRTA-CERTIFICATE-OF-SERVICE",
+    "MT-MMRTA-PROPOSED-ORDER"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 8,
+   "resolvedSourceCount": 8,
+   "sources": [
+    {
+     "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+     "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "actualSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 84539,
+      "indexedFormNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "official-form:MT-FORM-A",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+     "actualSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/form-a.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 23777,
+      "indexedFormNumber": "MT-FORM-A",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "declaredSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "actualSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__certificate-of-service__source-2022-03.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 16815,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "declaredSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "actualSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation__source-2022-02.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 21143,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "declaredSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "actualSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation__source-2022-02.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 21143,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "actualSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 84539,
+      "indexedFormNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+     "actualSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/form-a.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 23777,
+      "indexedFormNumber": "MT-FORM-A",
+      "firstPageText": ""
+     }
+    },
+    {
+     "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "declaredPath": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "declaredSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "actualSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/source-gated/MT-OCA-MMRTA__certificate-of-service__source-2022-03.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 16815,
+      "indexedFormNumber": "MT-OCA-MMRTA",
+      "firstPageText": ""
+     }
+    }
+   ],
+   "buildableToday": false,
+   "residualBlockers": [
+    {
+     "blocker": "BOUND_SOURCE_IS_NOT_A_PDF",
+     "sourceIds": [
+      "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "official-form:MT-FORM-A",
+      "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+      "official-form:MT-MMRTA-PROPOSED-ORDER",
+      "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+      "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+      "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+      "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+     ],
+     "note": "Every bound source resolves byte-exact, but these are Word documents. An official_pdf_fill overlay has no PDF to fill; this is a format blocker, not a custody blocker."
+    }
+   ]
+  },
+  {
+   "familyId": "nd-prohibit-remote-public-access-set",
+   "jurisdiction": "ND",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+    "ND-DECLARATION-OF-SERVICE",
+    "ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+    "ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 4,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+     "declaredPath": "google-drive:1iGbM-7o4S22e79V-CzGqQw4dL8HqIA0m",
+     "declaredSha256": "60a50d5f3c2c96a4cc804fba3c35ab3fa19d3e1c7d438917867130408e1ffe2d",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:ND-DECLARATION-OF-SERVICE",
+     "declaredPath": "google-drive:1rrzO9uJ9jmVeebvzyboOkkgPhDKtD9Lu",
+     "declaredSha256": "ad05e9e15182e04408119a84a5c2fc557324400c2f33e02037b8886c64195fb3",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+     "declaredPath": "google-drive:1BARTiKbxTJdej15_UbRWwO7133rzRNKX",
+     "declaredSha256": "0bc80466174c034c79ac60487d079088ee91f86c07eb8ee1bea7213fd6c02e0a",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+     "declaredPath": "google-drive:1x1LmPZFuLjP0YUzGMJnsipHysTF1Fjt4",
+     "declaredSha256": "4e8d129f8ef27e9b78ddd3c8968bd93add41a71586f2e91149f0ac1d1be1d250",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false,
+   "heldCandidateAtDifferentDigest": {
+    "candidates": [
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/2. Motion to Prohibit Public Access AR41 5f1.pdf",
+      "sha256": "0326913ada876838b1f9a294cb0d1fe1d2446f46f7d4f878bd2e110f56b9b2b8",
+      "pageCount": "1",
+      "embeddedTitle": null,
+      "firstPageText": "State of North Dakota In District Court County of ___________________________ _______________________ Judicial District _______________________________________ "
+     },
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/3. Brief Prohibit Public Access AR41 5f1.pdf",
+      "sha256": "44bf8283ac6b042689843335e37d64cf632c647f4f606036eeb412bded7387b4",
+      "pageCount": "8",
+      "embeddedTitle": null,
+      "firstPageText": "State of North Dakota In District Court County of ____________________________ _______________________ Judicial District _______________________________________"
+     },
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/4. Declaration Prohibit Public Access AR41 5f1.pdf",
+      "sha256": "af76c52d1f9aa8b2e986fbd719655c8e3a1f1b8158f5f606d4a6da25d3465e5b",
+      "pageCount": "4",
+      "embeddedTitle": null,
+      "firstPageText": "State of North Dakota In District Court County of __________________________ _______________________ Judicial District _______________________________________ P"
+     },
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/5. Findings Concl Order Prohibit Public Access AR41 5f1.pdf",
+      "sha256": "47dafce1f10f1972d505e6d988ee05c74421c93be02cddcbb26f15312bfb8d2d",
+      "pageCount": "5",
+      "embeddedTitle": null,
+      "firstPageText": "State of North Dakota In District Court County of _____________________________ _______________________ Judicial District ______________________________________"
+     },
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/1. N of Motion to Prohibit Public Access AR41 5f1.pdf",
+      "sha256": "a85f5ca2b8514491838246fbb56bfa90aaaf8063388ca116857ff4e9af1a8903",
+      "pageCount": "1",
+      "embeddedTitle": null,
+      "firstPageText": "State of North Dakota In District Court County of _____________________________ _______________________ Judicial District ______________________________________"
+     }
+    ],
+    "ruling": "NOT A MATCH. These are instruments bearing the same form number or the same printed title as the declared source, but none carries the declared bytes. A different digest is a different rendition or revision, and binding one in place of the declared source would put a false source binding into a packet. Rebinding is an owner decision, not a measurement."
+   }
+  },
+  {
+   "familyId": "tx_nd_dwi_conviction-set",
+   "jurisdiction": "TX",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "OCA Model Order of Nondisclosure under Section 411.0736",
+    "OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+    "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 3,
+   "resolvedSourceCount": 2,
+   "sources": [
+    {
+     "sourceId": "official-form:OCA Model Order of Nondisclosure under Section 411.0736",
+     "declaredPath": "LegalEase Texas/source-acquisition-2026-09-04/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+     "declaredSha256": "50e648a3dcaf7db606d23839e2b9ac70b919fe51bab0708a1803e5c37dcd0a5e",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "INDEXED_BUT_ABSENT_FROM_MOUNTED_CUSTODY",
+     "why": "The committed corpus index lists this digest in custody nationwide_recovery_pool_2026_09_02, but no file under any mounted root carries these bytes and the declared path does not exist on disk.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Texas/source-acquisition-2026-09-04/04-26-2022-order-of-nondisclosure-sec-411-0736.pdf",
+      "byteLength": 108945,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0736",
+     "declaredPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+     "declaredSha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+     "actualSha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 5,
+      "acroFieldCount": 15,
+      "xfaPresent": false,
+      "byteLength": 199202,
+      "indexedFormNumber": "TX-GC-411.0736",
+      "firstPageText": "Cause No. _________________ (1) In the Matter of \u00a7 In the \u00a7 (2) \u00a7 (3) County, Texas (4) Petition for Order of Nondisclosure Under Section 411.0736 _____________________________________ (5) (\u201cPetitioner\u201d) respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0736 for the offense described below. 1. The Underlying Order and Completion of the Sentence Petiti"
+     }
+    },
+    {
+     "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+     "declaredPath": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+     "declaredSha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+     "actualSha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "human_source_returns"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "",
+      "pageCount": 12,
+      "acroFieldCount": 132,
+      "xfaPresent": false,
+      "byteLength": 6667524,
+      "indexedFormNumber": null,
+      "firstPageText": "NOTICE: THIS DOCUMENT CONTAINS SENSITIVE DATA AVISO: ESTE DOCUMENTO CONTIENE INFORMACI\u00d3N CONFIDENCIAL Statement of Inability to Afford Payment of Court Costs or an Appeal Bond Declaraci\u00f3n sobre Incapacidad de Pago de Costas de Tribunal o de una Fianza de Apelaci\u00f3n Cause Number N\u00famero de Caso ____________________________ The Clerk\u2019s office will fill in the Cause Number when you file this form. El S"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "fl-juvenile-diversion-set",
+   "jurisdiction": "FL",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "participant_agency_application",
+   "declaredForms": [
+    "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+   ],
+   "priorCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+     "declaredPath": "google-drive:1d3mIZRcxe-tfWuvmMwIPRtjf24lUGYST",
+     "declaredSha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (google-drive), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false,
+   "heldCandidateAtDifferentDigest": {
+    "candidates": [
+     {
+      "candidateFile": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Florida/source-gated/FDLE40-025__application-for-juvenile-diversion-expunction__rev-2022-07.pdf",
+      "sha256": "6a853dc106d33f5d298a40608171ce0edffc3e5214c930f7c7fccc10f66ae2d8",
+      "pageCount": "5",
+      "embeddedTitle": null,
+      "firstPageText": "898b28b4-1a5c-4217-974b-d0248e7db170 FLORIDA DEPARTMENT OF LAW ENFORCEMENT APPLICATION FOR A JUVENILE DIVERSION EXPUNCTION (s. 943.0582, F.S.) Last Name First N"
+     }
+    ],
+    "ruling": "NOT A MATCH. These are instruments bearing the same form number or the same printed title as the declared source, but none carries the declared bytes. A different digest is a different rendition or revision, and binding one in place of the declared source would put a false source binding into a packet. Rebinding is an owner decision, not a measurement."
+   }
+  },
+  {
+   "familyId": "wv_acc_treatment_job_readiness-set",
+   "jurisdiction": "WV",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "custom_pleading",
+   "declaredForms": [
+    "SCA-C906",
+    "SCA-C907"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 4,
+   "resolvedSourceCount": 4,
+   "sources": [
+    {
+     "sourceId": "official-form:SCA-C906",
+     "declaredPath": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+     "declaredSha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+     "actualSha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+     "digestsIdentical": true,
+     "copiesInCustody": 2,
+     "custodies": [
+      "master_library",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "SCA-C906-PetitionExpungementRecordsMisdemeanorViolations",
+      "pageCount": 4,
+      "acroFieldCount": 75,
+      "xfaPresent": false,
+      "byteLength": 176072,
+      "indexedFormNumber": "SCA-C906",
+      "firstPageText": "Select County Print Form IN THE CIRCUIT COURT OF Reset Form COUNTY, WEST VIRGINIA Circuit Court Case No. IN RE: Expungement of Record of: Magistrate Court Case No. Conviction Date: Petitioner (First/Middle/Last) Address: DOB: / / Phone No. SSN: XXX-XX- PETITION FOR EXPUNGEMENT OF MISDEMEANOR VIOLATIONS AND TRAFFIC CITATIONS W. Va. Code \u00a761-11-26 and \u00a761-11-26(a) Comes now the petitioner, pro se, p"
+     }
+    },
+    {
+     "sourceId": "official-form:SCA-C907",
+     "declaredPath": "LegalEase West Virginia/SCA-C907.pdf",
+     "declaredSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf",
+     "actualSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Petition For Expungement of Felony Violations",
+      "pageCount": 4,
+      "acroFieldCount": 72,
+      "xfaPresent": false,
+      "byteLength": 283289,
+      "indexedFormNumber": null,
+      "firstPageText": "Print Form IN THE CIRCUIT COURT OF Reset Form COUNTY, WEST VIRGINIA Magistrate Court Case No. Circuit Court Case No. IN RE: Expungement of Record of: Conviction Date: Petitioner (First/Middle/Last) DOB: Address: / / Phone No. SSN: XXX-XX- PETITION FOR EXPUNGEMENT OF FELONY VIOLATIONS W. Va. Code \u00a761-11-26 and \u00a761-11-26a Comes now the petitioner, pro se, pursuant to \u00a761-11-26 and/or \u00a761-11-26a to e"
+     }
+    },
+    {
+     "sourceId": "source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+     "declaredPath": "LegalEase West Virginia/SCA-C907.pdf",
+     "declaredSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf",
+     "actualSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase West Virginia/SCA-C907.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Petition For Expungement of Felony Violations",
+      "pageCount": 4,
+      "acroFieldCount": 72,
+      "xfaPresent": false,
+      "byteLength": 283289,
+      "indexedFormNumber": null,
+      "firstPageText": "Print Form IN THE CIRCUIT COURT OF Reset Form COUNTY, WEST VIRGINIA Magistrate Court Case No. Circuit Court Case No. IN RE: Expungement of Record of: Conviction Date: Petitioner (First/Middle/Last) DOB: Address: / / Phone No. SSN: XXX-XX- PETITION FOR EXPUNGEMENT OF FELONY VIOLATIONS W. Va. Code \u00a761-11-26 and \u00a761-11-26a Comes now the petitioner, pro se, pursuant to \u00a761-11-26 and/or \u00a761-11-26a to e"
+     }
+    },
+    {
+     "sourceId": "source-sha256:43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+     "declaredPath": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+     "declaredSha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+     "actualSha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+     "digestsIdentical": true,
+     "copiesInCustody": 2,
+     "custodies": [
+      "master_library",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "SCA-C906-PetitionExpungementRecordsMisdemeanorViolations",
+      "pageCount": 4,
+      "acroFieldCount": 75,
+      "xfaPresent": false,
+      "byteLength": 176072,
+      "indexedFormNumber": "SCA-C906",
+      "firstPageText": "Select County Print Form IN THE CIRCUIT COURT OF Reset Form COUNTY, WEST VIRGINIA Circuit Court Case No. IN RE: Expungement of Record of: Magistrate Court Case No. Conviction Date: Petitioner (First/Middle/Last) Address: DOB: / / Phone No. SSN: XXX-XX- PETITION FOR EXPUNGEMENT OF MISDEMEANOR VIOLATIONS AND TRAFFIC CITATIONS W. Va. Code \u00a761-11-26 and \u00a761-11-26(a) Comes now the petitioner, pro se, p"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "ca-diversion-seal-set",
+   "jurisdiction": "CA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "SDSC-CRM-307"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:SDSC-CRM-307",
+     "declaredPath": "LegalEase California/source-acquisition-2026-09-04/crm307.pdf",
+     "declaredSha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "INDEXED_BUT_ABSENT_FROM_MOUNTED_CUSTODY",
+     "why": "The committed corpus index lists this digest in custody nationwide_recovery_pool_2026_09_02, but no file under any mounted root carries these bytes and the declared path does not exist on disk.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase California/source-acquisition-2026-09-04/crm307.pdf",
+      "byteLength": 211228,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": null
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "de_discretionary_family_court-set",
+   "jurisdiction": "DE",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "FORM-281",
+    "FORM-281E"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:FORM-281",
+     "declaredPath": "LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+     "declaredSha256": "84300768ad7f0724d6bd85f94bb06a07f18cf512494da9b02492cff838018eda",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+     "why": "An acquisition receipt records these exact bytes fetched on 2026-09-04, and the committed corpus index lists the file, but the file is absent from the mounted custody. The bytes were acquired and never materialized.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/281---petition-for-expungement-of-adult-record-11192025.doc",
+      "byteLength": 97280,
+      "assetFormat": "doc"
+     },
+     "acquisitionReceipt": {
+      "receiptId": "DE-FORM-281",
+      "status": "acquired",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-FORM-281/receipt.json"
+     }
+    },
+    {
+     "sourceId": "official-form:FORM-281E",
+     "declaredPath": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+     "declaredSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+     "actualSha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "captain_worktree_reference",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/forms/Form-281E__petition-for-expungement-of-adult-record-charge-sheet__rev-2018-09.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__petition-for-expungement-of-adult-record-charge-sheet__REV-2018-09__EN.docx",
+      "/home/user/captain-worktree/data/rcap-all50/hard-forms/delaware/family-court-form-281/evidence/DE_FORM-281E_charge-sheet_REV-2018-09.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 26118,
+      "indexedFormNumber": "FORM-281E",
+      "firstPageText": ""
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "de_discretionary_superior_court-set",
+   "jurisdiction": "DE",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "CIV_EXP_02_A",
+    "CIV_EXP_02_B",
+    "CIV_EXP_04_A"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 3,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:CIV_EXP_02_A",
+     "declaredPath": "LegalEase Delaware/download.aspx.pdf",
+     "declaredSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+     "actualSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+     "digestsIdentical": true,
+     "copiesInCustody": 2,
+     "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/2download.aspx"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 1,
+      "acroFieldCount": 44,
+      "xfaPresent": false,
+      "byteLength": 179445,
+      "indexedFormNumber": null,
+      "firstPageText": "The Superior Court of the State of Delaware Petition for Expungement of Adult Record Petitioner Street Address (including Apt) P.O. Box Number City/State/Zip Code Date of Birth Telephone # Attorney Name (if any) Interpreter needed? \u25a1 Yes Language ATTORNEY GENERAL \u25a1 New Castle County 820 N. French Street Wilmington, DE 19801 \u25a1 Kent County 102 W. Water Street Dover, DE 19904 \u25a1 Sussex County 114 East"
+     }
+    },
+    {
+     "sourceId": "official-form:CIV_EXP_02_B",
+     "declaredPath": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf",
+     "declaredSha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+     "why": "An acquisition receipt records these exact bytes fetched on 2026-09-04, and the committed corpus index lists the file, but the file is absent from the mounted custody. The bytes were acquired and never materialized.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf",
+      "byteLength": 227057,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": {
+      "receiptId": "DE-CIV-EXP-02-B",
+      "status": "acquired",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-CIV-EXP-02-B/receipt.json"
+     }
+    },
+    {
+     "sourceId": "official-form:CIV_EXP_04_A",
+     "declaredPath": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+     "declaredSha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+     "why": "An acquisition receipt records these exact bytes fetched on 2026-09-04, and the committed corpus index lists the file, but the file is absent from the mounted custody. The bytes were acquired and never materialized.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+      "byteLength": 987462,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": {
+      "receiptId": "DE-CIV-EXP-04-A",
+      "status": "acquired",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-CIV-EXP-04-A/receipt.json"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "de_pardon_expungement-set",
+   "jurisdiction": "DE",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "CIV_EXP_02_A",
+    "CIV_EXP_08_A"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:CIV_EXP_02_A",
+     "declaredPath": "LegalEase Delaware/download.aspx.pdf",
+     "declaredSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+     "actualSha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+     "digestsIdentical": true,
+     "copiesInCustody": 2,
+     "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/2download.aspx"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 1,
+      "acroFieldCount": 44,
+      "xfaPresent": false,
+      "byteLength": 179445,
+      "indexedFormNumber": null,
+      "firstPageText": "The Superior Court of the State of Delaware Petition for Expungement of Adult Record Petitioner Street Address (including Apt) P.O. Box Number City/State/Zip Code Date of Birth Telephone # Attorney Name (if any) Interpreter needed? \u25a1 Yes Language ATTORNEY GENERAL \u25a1 New Castle County 820 N. French Street Wilmington, DE 19801 \u25a1 Kent County 102 W. Water Street Dover, DE 19904 \u25a1 Sussex County 114 East"
+     }
+    },
+    {
+     "sourceId": "official-form:CIV_EXP_08_A",
+     "declaredPath": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+     "declaredSha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+     "why": "An acquisition receipt records these exact bytes fetched on 2026-09-04, and the committed corpus index lists the file, but the file is absent from the mounted custody. The bytes were acquired and never materialized.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+      "byteLength": 1128070,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": {
+      "receiptId": "DE-CIV-EXP-08-A",
+      "status": "acquired",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/DE-CIV-EXP-08-A/receipt.json"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "ky_protective_order_record_expungement-set",
+   "jurisdiction": "KY",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "AOC-275.18"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:AOC-275.18",
+     "declaredPath": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+     "declaredSha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+     "why": "An acquisition receipt records these exact bytes fetched on 2026-09-04, and the committed corpus index lists the file, but the file is absent from the mounted custody. The bytes were acquired and never materialized.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+      "byteLength": 192243,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": {
+      "receiptId": "KY-AOC-275.18",
+      "status": "acquired",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/KY-AOC-275.18/receipt.json"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "ma-seal-court-set",
+   "jurisdiction": "MA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "TC0057"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:TC0057",
+     "declaredPath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+     "declaredSha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+     "actualSha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 3,
+      "acroFieldCount": 135,
+      "xfaPresent": false,
+      "byteLength": 1374671,
+      "indexedFormNumber": null,
+      "firstPageText": "PETITION TO SEAL CRIMINAL RECORDS FOR NOLLE PROSEQUI OR DISMISSAL Use this form to ask the court to seal criminal records for charges that resulted in a \"nolle prosequi\" or that the court dismissed. Use a separate form for each case. DOCKET NUMBER COURT DEPARTMENT Massachusetts Trial Court COURT DIVISION/COUNTY Boston Municipal Court Juvenile Court District Court Superior Court YOUR INFORMATION Yo"
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": []
+  },
+  {
+   "familyId": "me-seal-survivor-set",
+   "jurisdiction": "ME",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "CR-307",
+    "CR-308"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 3,
+   "resolvedSourceCount": 2,
+   "sources": [
+    {
+     "sourceId": "official-form:CR-307",
+     "declaredPath": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "declaredSha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "actualSha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/source-gated/CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "",
+      "pageCount": 1,
+      "acroFieldCount": 15,
+      "xfaPresent": false,
+      "byteLength": 175213,
+      "indexedFormNumber": "CR-307",
+      "firstPageText": "MAINE JUDICIAL BRANCH STATE OF MAINE \u201cX\u201d the court for filing: Superior Court District Court Unified Criminal Docket County: Location (Town): Docket No.: V. Defendant Defendant\u2019s DOB (mm/dd/yyyy): MOTION TO SEAL CONVICTION FOR VICTIMS OF SEX TRAFFICKING OR SEXUAL EXPLOITATION 15 M.R.S.A. \u00a7 2262-B Now comes the defendant and moves pursuant to 15 M.R.S.A. \u00a7\u00a7 2262-B and 2263, to seal Defendant\u2019s crim"
+     }
+    },
+    {
+     "sourceId": "official-form:CR-308",
+     "declaredPath": "LegalEase Maine/source-acquisition-2026-09-04/MJB-Form-cr-308.pdf",
+     "declaredSha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+     "why": "An acquisition receipt records these exact bytes fetched on 2026-09-04, and the committed corpus index lists the file, but the file is absent from the mounted custody. The bytes were acquired and never materialized.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase Maine/source-acquisition-2026-09-04/MJB-Form-cr-308.pdf",
+      "byteLength": 162514,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": {
+      "receiptId": "ME-CR-308",
+      "status": "acquired",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/ME-CR-308/receipt.json"
+     }
+    },
+    {
+     "sourceId": "source-sha256:c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "declaredPath": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "declaredSha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+     "actualSha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Maine/source-gated/CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-307__motion-to-seal-conviction-for-victims-of-sex-trafficking-or-sexual-exploitation__REV-2026-06__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "",
+      "pageCount": 1,
+      "acroFieldCount": 15,
+      "xfaPresent": false,
+      "byteLength": 175213,
+      "indexedFormNumber": "CR-307",
+      "firstPageText": "MAINE JUDICIAL BRANCH STATE OF MAINE \u201cX\u201d the court for filing: Superior Court District Court Unified Criminal Docket County: Location (Town): Docket No.: V. Defendant Defendant\u2019s DOB (mm/dd/yyyy): MOTION TO SEAL CONVICTION FOR VICTIMS OF SEX TRAFFICKING OR SEXUAL EXPLOITATION 15 M.R.S.A. \u00a7 2262-B Now comes the defendant and moves pursuant to 15 M.R.S.A. \u00a7\u00a7 2262-B and 2263, to seal Defendant\u2019s crim"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "nd-regular-pardon-set",
+   "jurisdiction": "ND",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "SFN-14859"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 0,
+   "sources": [
+    {
+     "sourceId": "official-form:SFN-14859",
+     "declaredPath": "LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf",
+     "declaredSha256": "b88cb559c375d2443c15dd33c19f3f42387010e494ade28fc25bdbfdd75e8d5b",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "ACQUIRED_ON_RECEIPT_NEVER_MATERIALIZED",
+     "why": "An acquisition receipt records these exact bytes fetched on 2026-09-04, and the committed corpus index lists the file, but the file is absent from the mounted custody. The bytes were acquired and never materialized.",
+     "committedIndexEntry": {
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "path": "LegalEase North Dakota/source-acquisition-2026-09-04/North-Dakota-Pardon-Advisory-Board-Application-1.pdf",
+      "byteLength": 211478,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": {
+      "receiptId": "ND-SFN-14859",
+      "status": "acquired",
+      "receiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/ND-SFN-14859/receipt.json"
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+   "jurisdiction": "CA",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "CR-106",
+    "CR-430",
+    "CR-430-INFO",
+    "CR-431",
+    "CR-432"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "GENUINELY_ABSENT",
+   "declaredSourceCount": 5,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:CR-430",
+     "declaredPath": "github-actions-artifact:9848937429",
+     "declaredSha256": "5a47ecd78553bb4b23b85b1298baba1286b7c39b02f154ce96de96e5582360e5",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (github-actions-artifact), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:CR-431",
+     "declaredPath": "github-actions-artifact:9848939927",
+     "declaredSha256": "928c47f1b8263dbb4918bca79f0890c30569b10bcb7e24e5500670ec7b1aedb5",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (github-actions-artifact), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:CR-432",
+     "declaredPath": "google-drive:1PtXCgSbU_i86XEJC7Een4FGo1ZAdhyv8",
+     "declaredSha256": "8ef45f07cf9fac15af97addd4f7b7d5f08e2b5ad4b4134cf002484821bc0c43e",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "UNMOUNTED_CUSTODY",
+     "why": "The committed corpus index places these bytes in custody src05_worker_materialization_2026_09_02, which is the one custody the index names that is not mounted in this environment. The document is recorded as held; this container cannot open it.",
+     "committedIndexEntry": {
+      "custody": "src05_worker_materialization_2026_09_02",
+      "path": "LegalEase California/CR-432.pdf",
+      "byteLength": 109666,
+      "assetFormat": "pdf"
+     },
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:CR-430-INFO",
+     "declaredPath": "github-actions-artifact:9848937283",
+     "declaredSha256": "6bee01e04b1f8ceb05776e07b90b92a4e9048777c41c78760e381348d4d287c0",
+     "tier": "exact_content_hash",
+     "resolution": "NOT_IN_CUSTODY",
+     "absenceClass": "EXTERNAL_LOCATOR_NOT_A_MOUNTED_CUSTODY",
+     "why": "The declared path is an external locator (github-actions-artifact), not a filesystem path. No such custody is mounted in this environment, and the digest appears in neither the mounted bytes nor the committed corpus index.",
+     "committedIndexEntry": null,
+     "acquisitionReceipt": null
+    },
+    {
+     "sourceId": "official-form:CR-106",
+     "declaredPath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+     "declaredSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+     "actualSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+     "digestsIdentical": true,
+     "copiesInCustody": 25,
+     "custodies": [
+      "captain_worktree_reference",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase California /forms/CR-106__proof-of-service-criminal-record-clearing__rev-2020-01-01.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/fixtures/pc-1203-42-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/fixtures/pc-1203-42-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/fixtures/pc-1203-43-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-43-set--official-pdf-fill/fixtures/pc-1203-43-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/pc-1203-4-fulfilled-probation-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/pc-1203-4-interests-of-justice-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/pc-1203-4-early-discharge-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/pc-1203-4-fulfilled-probation-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/pc-1203-4-early-discharge-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/pc-1203-4-interests-of-justice-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/fixtures/pc-1203-41-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/fixtures/pc-1203-41-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17d2-misdemeanor-to-infraction-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17d2-misdemeanor-to-infraction-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-17b-reduction-set--official-pdf-fill/fixtures/pc-17b-felony-to-misdemeanor-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-matter-of-right-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-boundary/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/fixtures/pc-851-91-interests-of-justice-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/fixtures/pc-1203-4a-canonical/cr-106-unchanged-official.pdf",
+      "/home/user/captain-worktree/data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/fixtures/pc-1203-4a-boundary/cr-106-unchanged-official.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "CR-106 Proof of Service - Criminal Record Clearing",
+      "pageCount": 2,
+      "acroFieldCount": 48,
+      "xfaPresent": true,
+      "byteLength": 104278,
+      "indexedFormNumber": "CR-106",
+      "firstPageText": "Proof of Service \u2014 Criminal Record Clearing CR-106 Clerk stamps date here when form is filed. Instructions Before using this form, read Information on How to File a Proof of Service in Criminal Record Clearing Requests (form CR-106-INFO). l This form is only for providing proof that a document or form was served (delivered) in a case requesting that a court review a criminal record for dismissal, "
+     }
+    }
+   ],
+   "buildableToday": false
+  },
+  {
+   "familyId": "ut_pet_special_certificate-set",
+   "jurisdiction": "UT",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "official_pdf_fill",
+   "declaredForms": [
+    "1001EX",
+    "1021EX",
+    "1044XX",
+    "1146XX",
+    "1148XX",
+    "1149XX",
+    "1169XX",
+    "UT-BCI-EXP-APPLICATION",
+    "UT-BCI-THIRD-PARTY-RELEASE"
+   ],
+   "priorCustodyClass": "SOURCE_GENUINELY_MISSING",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 9,
+   "resolvedSourceCount": 9,
+   "sources": [
+    {
+     "sourceId": "official-form:1001EX",
+     "declaredPath": "reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
+     "declaredSha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/captain-worktree/reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf",
+     "actualSha256": "0f575aa4c08f9ce0001ea386177f08ed707ff72b55c0036d07d024693dbca1ed",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "captain_worktree_reference"
+     ],
+     "allPaths": [
+      "/home/user/captain-worktree/reference/chat-parallel-2026-09-07/chat6/ut-special/1001EX-Revised-2023-04-10.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Petition to Expunge Records with Special Certificate",
+      "pageCount": 4,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 112139,
+      "indexedFormNumber": "1001EXF",
+      "firstPageText": "Name Address City, State, Zip Phone Check your email. You will receive information and documents at this email address. Email I am the [ ] Petitioner [ ] Attorney for the Petitioner and my Utah Bar number is _________ In the [ ] District [ ] Justice Court of Utah __________ Judicial District ________________ County Court Address ______________________________________________________ Petition to Ex"
+     }
+    },
+    {
+     "sourceId": "official-form:1021EX",
+     "declaredPath": "reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
+     "declaredSha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/captain-worktree/reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf",
+     "actualSha256": "2b730d0a34f91a69f0316ac8a8e9ce78f559e554c564a9ebcc271533daefc174",
+     "digestsIdentical": true,
+     "copiesInCustody": 1,
+     "custodies": [
+      "captain_worktree_reference"
+     ],
+     "allPaths": [
+      "/home/user/captain-worktree/reference/chat-parallel-2026-09-07/chat6/ut-special/1021EX-Revised-2025-04-14.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Order on Petition to Expunge Records with Special Certificate",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 104276,
+      "indexedFormNumber": "1021EXF",
+      "firstPageText": "Name Address City, State, Zip Phone Check your email. You will receive information and documents at this email address. Email In the [ ] District [ ] Justice Court of Utah __________ Judicial District ________________ County Court Address ______________________________________________________ Order on Petition to Expunge Records with Special Certificate In Re: _______________________________ _____"
+     }
+    },
+    {
+     "sourceId": "official-form:1044XX",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+     "declaredSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+     "actualSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Utah/Civil_Filing_Cover_Sheet.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Utah District Court Cover Sheet for All Civil Actions Except Probate Cases (Revised May 6, 2026)",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 119736,
+      "indexedFormNumber": "1044XX",
+      "firstPageText": "Utah District Court Cover Sheet for Civil Actions (Not for Probate and Domestic Relations Cases) Interpretation. If you do not speak or understand English, the court will provide an interpreter. Contact court staff immediately to ask for an interpreter. Plaintiff/Petitioner (First) Interpretaci\u00f3n. Si usted no habla ni entiende el Ingl\u00e9s el tribunal le proveer\u00e1 un int\u00e9rprete. Contacte a un empleado"
+     }
+    },
+    {
+     "sourceId": "official-form:1146XX",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+     "declaredSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+     "actualSha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Utah/09_Acceptance_of_service.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1146XX__acceptance-of-service-expungement__REV-2019-05-01__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Acceptance of Service \u2013 Expungement (Prosecutor)",
+      "pageCount": 1,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 192790,
+      "indexedFormNumber": "1146XX",
+      "firstPageText": "Name Address City, State, Zip Phone Check your email. You will receive information and documents at this email address. Email In the [ ] District [ ] Justice Court of Utah __________ Judicial District ________________ County Court Address ______________________________________________________ Acceptance of Service \u2013 Expungement (Prosecutor) In Re: _____________________________________ ____________"
+     }
+    },
+    {
+     "sourceId": "official-form:1148XX",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+     "declaredSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+     "actualSha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Utah/09_Consent-waiver_of_hearing.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1148XX__consent-and-waiver-of-hearing-expungement__REV-2019-05-01__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Consent and Waiver of Hearing - Expungement (Prosecutor)",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 191518,
+      "indexedFormNumber": "1148XX",
+      "firstPageText": "Prosecutor\u2019s Name Prosecutor\u2019s Address City, State, Zip Phone Check your email. You will receive information and documents at this email address. Email In the [ ] District [ ] Justice Court of Utah __________ Judicial District ________________ County Court Address ______________________________________________________ Consent and Waiver of Hearing \u2013 Expungement (Prosecutor) In Re: ________________"
+     }
+    },
+    {
+     "sourceId": "official-form:1149XX",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+     "declaredSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+     "actualSha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Utah/02_Victim_Statement.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1149XX__victim-s-or-prosecutor-s-statement__REV-2019-05-01__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Victim\u2019s Statement / Prosecutor\u2019s Statement",
+      "pageCount": 3,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 108630,
+      "indexedFormNumber": "1149XX",
+      "firstPageText": "Name Address City, State, Zip Phone Check your email. You will receive information and documents at this email address. Email I am the [ ] Victim of the crime being considered for expungement [ ] Attorney for the victim and my Utah Bar number is _________ [ ] Prosecuting Attorney and my Utah Bar number is _________ In the [ ] District [ ] Justice Court of Utah __________ Judicial District ________"
+     }
+    },
+    {
+     "sourceId": "official-form:1169XX",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+     "declaredSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+     "actualSha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Utah/03_Petitioner_Reply.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/05_SOURCE_GATED/UT__SOURCE-GATED__1169XX__reply-to-victim-s-statement-prosecutor-s-statement-or-ap-p-response__REV-2010-07-16__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Reply to Victim\u2019s Statement or Prosecutor\u2019s Statement or AP&P Response",
+      "pageCount": 3,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 104506,
+      "indexedFormNumber": "1169XX",
+      "firstPageText": "Name Address City, State, Zip Phone Check your email. You will receive information and documents at this email address. Email I am the [ ] Petitioner [ ] Attorney for the Petitioner and my Utah Bar number is _________ In the [ ] District [ ] Justice Court of Utah __________ Judicial District ________________ County Court Address ______________________________________________________ In Re Petition"
+     }
+    },
+    {
+     "sourceId": "official-form:UT-BCI-EXP-APPLICATION",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+     "declaredSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+     "actualSha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-EXP-APPLICATION__bci-application-for-certificate-of-eligibility-for-expungement__REV-UNKNOWN__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "Adult Expungement Application",
+      "pageCount": 2,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 2337718,
+      "indexedFormNumber": "UT-BCI-EXP-APPLICATION",
+      "firstPageText": "INSTRUCTIONS FOR CERTIFICATE OF ELIGIBILTY APPLICATION Enclosed is an Application for a Certificate of Eligibility to expunge a record of arrest, detention, investigation or conviction from the State of Utah, Department of Public Safety, Bureau of Criminal Identification. Please complete all of the steps described below. Failure to properly complete one of the steps may cause a delay in processing"
+     }
+    },
+    {
+     "sourceId": "official-form:UT-BCI-THIRD-PARTY-RELEASE",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+     "declaredSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+     "actualSha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-THIRD-PARTY-RELEASE__bci-third-party-release-form__REV-UNKNOWN__EN.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": "",
+      "pageCount": 1,
+      "acroFieldCount": 0,
+      "xfaPresent": false,
+      "byteLength": 349009,
+      "indexedFormNumber": "UT-BCI-THIRD-PARTY-RELEASE",
+      "firstPageText": "THIRD PARTY RELEASE FORM Utah Department of Public Safety \u2022 Bureau of Criminal Identification 4315 South 2700 West, Suite 1300, Taylorsville, Utah 84129 WHEN FILLING OUT THIS FORM, TYPE OR PRINT IN BLACK INK. If you wish to have your criminal history record or certificate of eligibility sent to an individual other than yourself, you must indicate the name of the person or agency to whom you would "
+     }
+    }
+   ],
+   "buildableToday": true,
+   "residualBlockers": [
+    {
+     "blocker": "RESOLVES_ONLY_INSIDE_ANOTHER_AGENT_WORKTREE",
+     "sourceIds": [
+      "official-form:1001EX",
+      "official-form:1021EX"
+     ],
+     "note": "These bytes were found only under /home/user/captain-worktree/reference/, which is a working reference directory, not a durable custody root. The committed index attributes them to src05_worker_materialization_2026_09_02. They should be materialized into a real custody before a build binds to them."
+    }
+   ]
+  }
+ ],
+ "locatorAndNonPdfFamilies": [
+  {
+   "familyId": "mt_deferred_dismissal-set",
+   "jurisdiction": "MT",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "custom_pleading",
+   "declaredForms": [
+    "EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+   ],
+   "priorCustodyClass": "NO_ACQUISITION_TASK_NAMED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+     "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "actualSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 84539,
+      "indexedFormNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "firstPageText": ""
+     }
+    }
+   ],
+   "residualBlockers": [
+    {
+     "blocker": "BOUND_SOURCE_IS_NOT_A_PDF",
+     "sourceIds": [
+      "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+     ],
+     "note": "Every bound source resolves byte-exact, but these are Word documents. An official_pdf_fill overlay has no PDF to fill; this is a format blocker, not a custody blocker."
+    }
+   ],
+   "separateFinding": "BOUND_SOURCE_HELD_BUT_NOT_A_PDF_OR_IS_A_LOCATOR",
+   "whatTheHeldArtifactActuallyIs": {
+    "heldArtifactIs": "A Word document (.docx, 84539 bytes, sha256 4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7). Its text opens \"Expungement/Removal Request Form  PLEASE CHOOSE APPROPRIATE REQUEST TYPE\" and offers checkboxes for Misdemeanor Conviction Expungement, Marijuana Conviction Expungement and Non-Conviction Removal.",
+    "whatItActuallyIs": "An administrative submission form addressed to the Montana Department of Justice, Division of Criminal Investigation, Criminal Records and Identification Services. It is the request you mail to the state repository AFTER a court has already ordered relief - it lists the court judgment and the court order among its required enclosures. It is not the court filing that obtains the relief.",
+    "isARealInstrument": true,
+    "doesARealInstrumentExistBehindIt": "Partly. The agency form is real and is held. What is NOT held is any court-filing instrument for a deferred-imposition dismissal: no petition, no proposed order, in any mounted custody. The family binds the downstream agency form and nothing upstream of it.",
+    "alsoHeld": [
+     {
+      "file": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/2023-Updated-ExpungementRemovalRequestForm.pdf",
+      "sha256": "0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee",
+      "pageCount": 1,
+      "ruling": "A PDF of the same agency form, but the 2023 revision against the bound 20240429 revision. A different revision is a different instrument; this is a candidate for an owner rebind, not a substitute."
+     }
+    ]
+   }
+  },
+  {
+   "familyId": "mt_misdemeanor_expungement-set",
+   "jurisdiction": "MT",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "custom_pleading",
+   "declaredForms": [
+    "EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+   ],
+   "priorCustodyClass": "NO_ACQUISITION_TASK_NAMED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 1,
+   "resolvedSourceCount": 1,
+   "sources": [
+    {
+     "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+     "declaredPath": "STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "declaredSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+     "actualSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+     "digestsIdentical": true,
+     "copiesInCustody": 3,
+     "custodies": [
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/20240429-Updated-ExpungementRemovalRequestForm.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 84539,
+      "indexedFormNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+      "firstPageText": ""
+     }
+    }
+   ],
+   "residualBlockers": [
+    {
+     "blocker": "BOUND_SOURCE_IS_NOT_A_PDF",
+     "sourceIds": [
+      "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX"
+     ],
+     "note": "Every bound source resolves byte-exact, but these are Word documents. An official_pdf_fill overlay has no PDF to fill; this is a format blocker, not a custody blocker."
+    }
+   ],
+   "separateFinding": "BOUND_SOURCE_HELD_BUT_NOT_A_PDF_OR_IS_A_LOCATOR",
+   "whatTheHeldArtifactActuallyIs": {
+    "heldArtifactIs": "The same Word document as mt_deferred_dismissal-set (sha256 4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7). Both families bind the one agency form and nothing else.",
+    "whatItActuallyIs": "The Montana DOJ/DCI Expungement/Removal Request Form, an agency submission, not a court filing.",
+    "isARealInstrument": true,
+    "doesARealInstrumentExistBehindIt": "Yes, and it is held. srmisexp2025.pdf is a 22-page Montana misdemeanor-expungement self-help packet whose own contents page lists Instructions, Petition for Expungement of Misdemeanor Records, Order Expunging Misdemeanor Records and Sealing Record of this Proceeding, Statement of Inability to Pay Court Costs and Fees, and Order Regarding Statement of Inability to Pay. That is the court-filing instrument set this family lacks.",
+    "alsoHeld": [
+     {
+      "file": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Montana/srmisexp2025.pdf",
+      "sha256": "32ff86e20eb41f6e42614cc480c6eaf30d445900e793f62758912f4cbaa6b3c8",
+      "pageCount": 22,
+      "acroForm": "none",
+      "ruling": "Not bound by this family and not a match for the declared source. It is a flat PDF packet with no AcroForm, so it would need coordinate-mapped overlay rather than field fill. Whether to bind it is an owner decision."
+     }
+    ]
+   }
+  },
+  {
+   "familyId": "rcap-mo-custom-pleading",
+   "jurisdiction": "MO",
+   "queueState": "SOURCE_READY",
+   "implementationStrategy": "custom_pleading",
+   "declaredForms": [
+    "FI-05",
+    "GN10"
+   ],
+   "priorCustodyClass": "NO_ACQUISITION_TASK_NAMED",
+   "answer": "RESOLVED_BY_CONTENT",
+   "declaredSourceCount": 2,
+   "resolvedSourceCount": 2,
+   "sources": [
+    {
+     "sourceId": "official-form:FI-05",
+     "declaredPath": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+     "declaredSha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+     "tier": "exact_content_hash",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+     "actualSha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+     "digestsIdentical": true,
+     "copiesInCustody": 2,
+     "custodies": [
+      "captain_worktree_reference",
+      "nationwide_recovery_pool_2026_09_02"
+     ],
+     "allPaths": [
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+      "/home/user/captain-worktree/reference/chat-parallel-2026-09-07/chat7/FI-05.pdf"
+     ],
+     "isPdf": true,
+     "assetFormat": "pdf",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": 4,
+      "acroFieldCount": 111,
+      "xfaPresent": false,
+      "byteLength": 298649,
+      "indexedFormNumber": null,
+      "firstPageText": "Case Number (For Court Use Only) ___________________________ Confidential Case Filing Information Sheet \u2013 Non-Domestic Relations Filing Date: County/City of St. Louis: Style of Case: The unredacted document is attached to this filing sheet in place of listing the redacted information identifiers below. (i.e. In the Estate of; In the Matter of; Petitioner v. Respondent.) Case Type Code: Party Type "
+     }
+    },
+    {
+     "sourceId": "official-form:GN10",
+     "declaredPath": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+     "declaredSha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+     "tier": "exact_form_number",
+     "resolution": "RESOLVED_BY_CONTENT",
+     "actualPath": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+     "actualSha256": "13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e",
+     "digestsIdentical": true,
+     "copiesInCustody": 4,
+     "custodies": [
+      "d_source_packs",
+      "master_library",
+      "nationwide_recovery_pool_2026_09_02",
+      "other"
+     ],
+     "allPaths": [
+      "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Missouri/source-gated/GN10__motion-and-affidavit-to-proceed-as-a-poor-person__rev-2015-07.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx",
+      "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__GN10__motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person__REV-2015-07__EN.docx"
+     ],
+     "isPdf": false,
+     "assetFormat": "docx",
+     "identityEvidence": {
+      "embeddedTitle": null,
+      "pageCount": null,
+      "acroFieldCount": null,
+      "xfaPresent": null,
+      "byteLength": 39193,
+      "indexedFormNumber": "GN10",
+      "firstPageText": ""
+     }
+    }
+   ],
+   "residualBlockers": [
+    {
+     "blocker": "BOUND_SOURCE_IS_NOT_A_PDF",
+     "sourceIds": [
+      "official-form:GN10"
+     ],
+     "note": "Every bound source resolves byte-exact, but these are Word documents. An official_pdf_fill overlay has no PDF to fill; this is a format blocker, not a custody blocker."
+    }
+   ],
+   "separateFinding": "BOUND_SOURCE_HELD_BUT_NOT_A_PDF_OR_IS_A_LOCATOR",
+   "whatTheHeldArtifactActuallyIs": {
+    "heldArtifactIs": "Two bound sources, both resolving byte-exact. official-form:FI-05 is a 4-page AcroForm PDF with 111 fields (sha256 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e), printed title \"Confidential Case Filing Information Sheet - Non-Domestic Relations\". official-form:GN10 is a Word document (39193 bytes, sha256 13ff25147df2c70eec85b2d498f486aae9c2b46c535f9f9d7992b6247480421e), text \"Motion and Affidavit in Support of Request to Proceed As a Poor Person\".",
+    "whatItActuallyIs": "Neither bound source is the expungement pleading. FI-05 is a court cover sheet and GN10 is a fee-waiver motion. Both are ancillary filings that accompany a petition.",
+    "isARealInstrument": true,
+    "doesARealInstrumentExistBehindIt": "Not in a mounted custody. The family is a custom_pleading route, so the operative petition is meant to be drafted from codified text rather than from an official form; the two bound sources are the accompanying documents only. Note separately that Missouri form CR370 is recorded in the committed index under custody src05_worker_materialization_2026_09_02, which is not mounted here.",
+    "alsoHeld": []
+   }
+  }
+ ],
+ "masterQueueSelfContradiction": {
+  "question": "How many MASTER_QUEUE.json rows read sourceStatus SOURCE_BOUND_BY_HELD_BYTES with sourceBound true while carrying a nested sourceReadiness.custodyClass that denies it?",
+  "rowCount": 55,
+  "shape": "sourceStatus=SOURCE_BOUND_BY_HELD_BYTES AND sourceBound=true AND sourceReadiness.custodyClass IN (SOURCE_GENUINELY_MISSING, SOURCE_IDENTITY_UNRESOLVED)",
+  "everyRowAlsoReadsSourceReadinessReadyTrueWithNoReasons": true,
+  "whyItMatters": "A lane dispatched from the top-level fields of one of these rows is told the source is bound and ready. The nested custodyClass says the opposite. Thirty of these rows are the families measured here; the rest span every queue state including COMPLETE_PACKET_PROVEN.",
+  "notEditedHere": "MASTER_QUEUE.json is generated centrally and was not modified by this lane.",
+  "rows": [
+   {
+    "familyId": "ar-act346-set",
+    "jurisdiction": "AR",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ar-drug-court-set",
+    "jurisdiction": "AR",
+    "state": "FAIL_REPAIR_REQUIRED",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ar-misdemeanor-seal-set",
+    "jurisdiction": "AR",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ar-veterans-court-set",
+    "jurisdiction": "AR",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "az_certificate_second_chance-set",
+    "jurisdiction": "AZ",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "az_marijuana_expungement_limited_jurisdiction-set",
+    "jurisdiction": "AZ",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "az_record_sealing_conviction-set",
+    "jurisdiction": "AZ",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ca-diversion-seal-set",
+    "jurisdiction": "CA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "census-pending-family:ME:juvenile-sealing",
+    "jurisdiction": "ME",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "de_discretionary_family_court-set",
+    "jurisdiction": "DE",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "de_discretionary_superior_court-set",
+    "jurisdiction": "DE",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "de_pardon_expungement-set",
+    "jurisdiction": "DE",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "fl-10yr-bridge-set",
+    "jurisdiction": "FL",
+    "state": "FAIL_REPAIR_REQUIRED",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "fl-early-juvenile-set",
+    "jurisdiction": "FL",
+    "state": "FAIL_REPAIR_REQUIRED",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "fl-expunction-set",
+    "jurisdiction": "FL",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "fl-juvenile-diversion-set",
+    "jurisdiction": "FL",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "fl-sealing-set",
+    "jurisdiction": "FL",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ia-12346-set",
+    "jurisdiction": "IA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ia-901c2-set",
+    "jurisdiction": "IA",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ia-901c3-set",
+    "jurisdiction": "IA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ia-dci77-set",
+    "jurisdiction": "IA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "il-prb-cert-set",
+    "jurisdiction": "IL",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "in_conviction_d6-set",
+    "jurisdiction": "IN",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "in_conviction_felony-set",
+    "jurisdiction": "IN",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "in_conviction_misd-set",
+    "jurisdiction": "IN",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ky_nonconviction_expungement-set",
+    "jurisdiction": "KY",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ky_protective_order_record_expungement-set",
+    "jurisdiction": "KY",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "la-976-arrest-no-conviction-set",
+    "jurisdiction": "LA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "la-977-misdemeanor-conviction-set",
+    "jurisdiction": "LA",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "la-977d-marijuana-first-offense-set",
+    "jurisdiction": "LA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "la-978-felony-conviction-set",
+    "jurisdiction": "LA",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "la-985-1-interim-expungement-set",
+    "jurisdiction": "LA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "la-985-expungement-by-redaction-set",
+    "jurisdiction": "LA",
+    "state": "BUILT_RASTER_PENDING",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ma-expunge-k-set",
+    "jurisdiction": "MA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ma-seal-admin-set",
+    "jurisdiction": "MA",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ma-seal-court-set",
+    "jurisdiction": "MA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ma-seal-decrim-set",
+    "jurisdiction": "MA",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "me-seal-gen-set",
+    "jurisdiction": "ME",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "me-seal-survivor-set",
+    "jurisdiction": "ME",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "mi_setaside_application-set",
+    "jurisdiction": "MI",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "mi_setaside_first_owi-set",
+    "jurisdiction": "MI",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "mt_mmrta_completed-set",
+    "jurisdiction": "MT",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "mt_mmrta_serving-set",
+    "jurisdiction": "MT",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "nd-prohibit-remote-public-access-set",
+    "jurisdiction": "ND",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "nd-regular-pardon-set",
+    "jurisdiction": "ND",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+    "jurisdiction": "CA",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "rcap-sc-custom-pleading",
+    "jurisdiction": "SC",
+    "state": "WRONG_DELIVERY_TYPE",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ri_decriminalized-set",
+    "jurisdiction": "RI",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ri_deferred_sentence-set",
+    "jurisdiction": "RI",
+    "state": "COMPLETE_PACKET_PROVEN",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ri_first_offender_felony-set",
+    "jurisdiction": "RI",
+    "state": "LEGAL_BLOCKED",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ri_first_offender_misdemeanor-set",
+    "jurisdiction": "RI",
+    "state": "VERIFY_PENDING",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ri_multiple_misdemeanors-set",
+    "jurisdiction": "RI",
+    "state": "VERIFY_PENDING",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "tx_nd_dwi_conviction-set",
+    "jurisdiction": "TX",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "ut_pet_special_certificate-set",
+    "jurisdiction": "UT",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   },
+   {
+    "familyId": "wv_acc_treatment_job_readiness-set",
+    "jurisdiction": "WV",
+    "state": "SOURCE_READY",
+    "nestedCustodyClass": "SOURCE_GENUINELY_MISSING",
+    "sourceReadinessReady": true
+   }
+  ]
+ },
+ "howMuchOfTheBucketIsARecordsDefectRatherThanAMissingDocument": {
+  "question": "Of the 30 families the custody record read as SOURCE_IDENTITY_UNRESOLVED or SOURCE_GENUINELY_MISSING, how many were wrong about custody?",
+  "familiesWhereEveryDeclaredSourceWasHeldAllAlong": 11,
+  "familiesWhereAtLeastOneDeclaredSourceWasHeldAllAlongButTheRowSaidOtherwise": 20,
+  "declaredSourcesHeldAllAlong": 51,
+  "declaredSourcesGenuinelyNotInAnyMountedCustody": 30,
+  "mechanism": "The resolution gate returns at tier custody_reconciliation whenever a family has a custody row at all, and never reaches the digest fallback. A family with a custody row therefore reports that it names no resolved document source even when the bytes are sitting in a mounted tree under a different filename. This sweep resolves by digest first and consults no custody row, so it is not subject to that ordering.",
+  "thisIsATierOrderingDefectNotACustodyFact": true,
+  "recoverableWithoutAcquiringAnything": {
+   "note": "These need no acquisition. The bytes are either already openable, or already recorded as fetched, or sitting in a custody nobody mounted.",
+   "alreadyOpenableToday": 9,
+   "boundSourcesAcquiredOnReceiptButNeverMaterialized": 7,
+   "boundSourcesRecordedInAnUnmountedCustody": 1,
+   "boundSourcesIndexedButAbsentFromTheMountedTree": 2,
+   "boundSourcesBehindAnExternalLocatorThatIsNotAMountedCustody": 20
+  }
+ },
+ "theNineFilesMissingFromTheRecoveryPool": {
+  "finding": "The mounted Nationwide_Recovery_Pool_2026-09-02 tree carries 371 of the 380 entries the committed index attributes to it. The nine absent entries are exactly the source-acquisition-2026-09-04 subtree, and that subtree does not exist anywhere under the mounted pool. Seven of the nine have acquisition receipts recording those exact digests fetched on 2026-09-04.",
+  "perCustodyCompleteness": {
+   "master_library": "336/336",
+   "d_source_packs": "253/253",
+   "human_source_returns": "1/1",
+   "nationwide_recovery_pool_2026_09_02": "371/380",
+   "src05_worker_materialization_2026_09_02": "3/14"
+  },
+  "alsoChecked": "The chunked corpus recovery pool at private/corpus-recovery-parts (POOL_INDEX.json, 876 hash-addressed files) contains none of the nine digests, so they cannot be reconstructed from it either."
+ },
+ "whatThisFileDoesNotEstablish": [
+  "It is not a state change, not a source determination and not a rebind. No family state, count, claim or treatment is altered by it.",
+  "RESOLVED_BY_CONTENT means the declared bytes are openable in this container. It does not mean the instrument is the legally correct one for the route, and it does not mean the packet is buildable: format and coverage blockers are recorded separately per family.",
+  "Where a same-titled instrument is held at a digest other than the declared one, this file records it as a candidate and refuses it as a match. Rebinding a family to different bytes is an owner decision."
+ ]
+}

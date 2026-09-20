@@ -1,0 +1,1852 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-CA1",
+  "lane": "compose-from-authority",
+  "branch": "fable/ca1",
+  "base": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "returnedAt": "2026-09-02T00:00:00Z",
+  "mission": "Execute two owner determinations — Louisiana C.Cr.P. arts. 987-995 and 998 as COMPOSE_FROM_AUTHORITY, and the Florida Rule 3.989 sworn statement, petition and order as COMPOSE_FROM_AUTHORITY with the applicable held FDLE application attached as a separate official PDF component, split by requested relief for fl-10yr-bridge-set.",
+  "headline": {
+    "determinationsReOpened": 0,
+    "determinationsEscalated": 0,
+    "familiesComposed": 0,
+    "fixturesGenerated": 0,
+    "buildsPerformed": 0,
+    "packetDirectoriesCreated": 0,
+    "buildScriptsWritten": 0,
+    "commercialRoutesOpened": 0,
+    "promotionsMade": 0,
+    "familiesMarkedProven": 0,
+    "productionTouched": false,
+    "corpusBytesCommitted": 0,
+    "ledgerMutations": 0,
+    "verdict": "BLOCKED_SOURCE on all fifteen families, for two independent reasons that both had to be cleared and neither was.",
+    "reasonOne": "The claim ledger holds no packet-build grant for any of the fifteen families. --assert answers NOT_GRANTED for every one, unconditionally, for any lane string.",
+    "reasonTwo": "Even with a grant, the authority's own text is not reachable in this container for the articles and the rule the determinations order composed. Faithfulness to the statute beats completeness of the packet, so nothing was composed from memory."
+  },
+  "determinationsAsReceived": {
+    "louisiana": {
+      "restated": "All forms prescribed by La. C.Cr.P. arts. 987 through 995 and 998 use one treatment, COMPOSE_FROM_AUTHORITY. Art. 986 establishes the statutory articles as the prescribed forms. Existing PDF renderings of arts. 990 or 993 are REFERENCE RENDERINGS and do not create a different source class from arts. 987, 988, 989, 991 or 992.",
+      "accepted": true,
+      "reOpened": false,
+      "corroboratedBy": "The determination is independently corroborated by the committed record rather than merely obeyed. src/lib/rcap/state-packs/louisiana/official-forms.ts states in its own header that Louisiana's forms are STATUTORY, that art. 986 provides only the forms in arts. 987-995 and 998 are used, and that blankPdfInSource is false for every one of the eleven entries because the form IS the codal form. SOURCE_RELATIONSHIP_REGISTRY.json independently classifies arts. 987, 988, 989, 991, 992 and 994 as sourceState STATUTORY_CUSTOM_PLEADING with the basis 'the identity is a bare statutory citation, and there is no document at the other end'. The determination and the repository agree.",
+      "whatItSettles": "It settles the source CLASS. It does not supply the source TEXT, and the text is the thing this lane needed."
+    },
+    "florida": {
+      "restated": "The sworn statement, petition and order printed in Fla. R. Crim. P. 3.989 are rule-prescribed forms; use COMPOSE_FROM_AUTHORITY and render the current rule text faithfully. Attach the applicable held FDLE application/certificate as a SEPARATE official PDF component. For fl-10yr-bridge-set, split the route by requested relief.",
+      "accepted": true,
+      "reOpened": false,
+      "corroboratedBy": "SOURCE_RELATIONSHIP_REGISTRY.json records FL-RULE-3.989-ORDER and FL-RULE-3.989-PETITION as EMBEDDED_SECTION, externally verified 2026-08-31, with the note 'No separate missing statewide order PDF exists to request from a clerk' and the same for the petition. The determination not to wait for a separate fillable Rule 3.989 PDF is the same conclusion the registry already reached.",
+      "whatItSettles": "It settles the source CLASS and the component architecture. It does not supply the rule's printed text, which is not held."
+    }
+  },
+  "claimGate": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <subject>",
+    "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "ledgerGeneratedAtCommit": "f34e391ecded9aafec9c51fc3d2af0862439cba0",
+    "totalClaimsInLedger": 721,
+    "liveGrantsInLedger": 192,
+    "packetFamilyClaimsForTheseFifteenFamilies": 0,
+    "assertsRun": 43,
+    "outcomes": {
+      "CLAIM_OK (7)": {
+        "lane": "DISC06",
+        "laneKind": "source-discovery",
+        "subjects": [
+          "fl-10yr-bridge-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "fl-expunction-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "fl-sealing-set::official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "fl-self-defense-set::official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+          "fl-administrative-set::official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+          "fl-early-juvenile-set::official-form:FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION",
+          "fl-juvenile-diversion-set::official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+        ],
+        "grantSetDigest": "7fa1a744970f23b2",
+        "whatWasDoneWithThem": "Nothing was rewritten. DISC06 had already resolved all seven at the base commit, correctly, including the sealing/expunction split. This lane re-verified its four resolved bindings against the held bytes and confirms them. Writing them again would have been churn over a correct record.",
+        "released": false,
+        "whyNotReleased": "DISC06's own committed row file states that verify-claim-ledger.mjs uses DISC06's 42 live claims as its fixture and fails the whole repository check the moment one is released. This lane reproduced that reasoning and did not release. Releasing another lane's grant would in any case not be this lane's act."
+      },
+      "ALREADY_RELEASED, exit 9 (33)": {
+        "lanes": [
+          "DISC01 (22 Louisiana article obligations)",
+          "SRC02 (11 Florida Rule 3.989 obligations)"
+        ],
+        "exactMessage": "ALREADY_RELEASED: <subjectId> at <ISO timestamp>",
+        "louisianaReleasedAt": "2026-09-01T07:52:21.623Z through 2026-09-01T07:52:23.773Z",
+        "floridaReleasedAt": "2026-09-01T08:14:04.957Z through 2026-09-01T08:14:05.865Z",
+        "whatThisLaneDidNotDo": "It did not --reissue and it did not --transfer. The brief forbids transferring a grant to itself, and FACTORY_MEMORY records that a hand-made ledger change survives only if generate.mjs would have written it too."
+      },
+      "GRANTED_ELSEWHERE, exit 8 (1)": {
+        "probe": "SRC01 fl-sealing-set::official-form:FL-RULE-3.989-PETITION",
+        "exactMessage": "GRANTED_ELSEWHERE: fl-sealing-set::official-form:FL-RULE-3.989-PETITION is granted to SRC02, not SRC01",
+        "note": "The dispatch named SRC01; the Rule 3.989 obligations are in fact SRC02's. The sibling was found by reading the assignment rather than by guessing."
+      },
+      "UNKNOWN_LANE, exit 4 (1)": {
+        "probe": "FABLE-CA1 la-976-arrest-no-conviction-set",
+        "exactMessage": "UNKNOWN_LANE: FABLE-CA1",
+        "why": "LANE_KIND resolves by prefix over the closed set VF/WARV/P2V/VS, FIX/WAR03-04, PF, WAR01, DISC, SRC/WAR02, ACQ, PROMO. No Fable lane name resolves, so a Fable worker can never hold a grant under its own name."
+      },
+      "NOT_GRANTED, exit 6 (15 families, probed once as PF01)": {
+        "probe": "PF01 la-976-arrest-no-conviction-set",
+        "exactMessage": "NOT_GRANTED: no packet-build lane holds la-976-arrest-no-conviction-set",
+        "appliesTo": "all fifteen families",
+        "why": "locate() filters by subjectType and laneKind BEFORE it compares the lane name, so the refusal is unconditional for every lane string. The ledger carries 309 packet-family claims and not one of them names an la- or fl- family.",
+        "thisIsNotAMissingCaptainAction": "FACTORY_MEMORY records this exact reading and refutes it: generate.mjs mints packet-build grants only for families that are SOURCE_READY, so a SOURCE_BLOCKED family has no build grant and that is the architecture working. The order is resolve the source, let the family become SOURCE_READY, let the dispatch mint the grant, then build. This lane did not skip that step."
+      }
+    },
+    "subjectsThisLaneCouldNotClaim": "33 of 40 source obligations (22 Louisiana under DISC01, 11 Florida Rule 3.989 under SRC02), plus the packet-build subject on all 15 families."
+  },
+  "louisianaArticleByArticle": {
+    "question": "For each article the determination puts under COMPOSE_FROM_AUTHORITY, is its current codified text in this repository, and which committed file carries it?",
+    "method": "Two passes. First, every committed record that names a Louisiana article was read: the official source registry, the source relationship registry, the state pack, and the compiled profile. Second, per FACTORY_MEMORY's rule for verifying held bytes when the operational tree is absent, a SHA-256 was computed for all 845 files in both mounted corpora and compared against the six article digests the registry records.",
+    "reachable": {
+      "LA-CCRP-ART-990": {
+        "title": "Affidavit of Response",
+        "textReadOutOf": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf",
+        "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+        "alsoHeldIdenticallyAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/ (same digest)",
+        "whatTheRenderingIs": "a print view of legis.la.gov LawPrint.aspx carrying the article's codified text verbatim, footer included",
+        "neededByAnyOfTheFifteenFamilies": false,
+        "note": "The Art. 990 affidavit is the agencies' instrument, not a participant filing. No family names it."
+      },
+      "LA-CCRP-ART-993": {
+        "title": "Supplemental Forms (extra charges and counts)",
+        "textReadOutOf": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-993__article-993-supplemental-sheet__SOURCE-2026-07-31__EN.pdf",
+        "sha256": "0e455d3decea4b9e6299e1d39ceeb2b19ddaad93de19b2faa38d311f2d989ea2",
+        "neededByAnyOfTheFifteenFamilies": false,
+        "note": "Conditional continuation pages, reached through the Art. 989 supplemental-sheet checkbox. No family names it directly, and it cannot be composed without Art. 989."
+      },
+      "LA-CCRP-ART-995": {
+        "title": "Order of Expungement of Interim Arrest Record",
+        "textReadOutOf": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+        "sha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+        "neededByAnyOfTheFifteenFamilies": "yes in substance, no in the queue's form list — see findings.LA-3",
+        "note": "Composable on its own text. It is the proposed order for la-985-1-interim-expungement-set, whose motion (Art. 994) is not reachable, so the family cannot be completed from this article alone."
+      },
+      "LA-CCRP-ART-998": {
+        "title": "Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana",
+        "textReadOutOf": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+        "sha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+        "neededByAnyOfTheFifteenFamilies": "yes in substance, no in the queue's form list — see findings.LA-2",
+        "note": "This is the prescribed motion for la-977d-marijuana-first-offense-set's only route, and its text is held. The family still cannot be completed, because the same route also needs arts. 988, 991 and 992."
+      },
+      "LA-CCRP-ART-999.1": {
+        "title": "Order of Expungement under Article 999",
+        "textReadOutOf": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-999.1__article-999-1-order-of-expungement-under-article-999__SOURCE-2026-07-31__EN.pdf",
+        "sha256": "917aafa2c1eead3747473dc45f9128bbb7cc0cc1983426893fdff39b22119e6d",
+        "neededByAnyOfTheFifteenFamilies": false,
+        "note": "Outside arts. 987-995 and 998. Track G has no family in this cohort."
+      },
+      "LA-CCRP-ART-984": {
+        "title": "Additional Requirements for Expungement Involving Operating a Vehicle While Intoxicated",
+        "textReadOutOf": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/03_INSTRUCTIONS/LA__INSTRUCTIONS__LA-CCRP-ART-984__article-984-additional-requirements-for-expungement-involving-operating-a-vehicle-while-in__SOURCE-2026-07-31__EN.pdf",
+        "sha256": "df25fd425fbb1aabb63cb088791b6d7d938e2aae04400c271c4e4a8d6b018005",
+        "neededByAnyOfTheFifteenFamilies": false,
+        "note": "Not a prescribed form; it is a requirements article. Recorded because it is the sixth reachable Louisiana article and a builder will meet it on the DWI branch."
+      }
+    },
+    "notReachable": {
+      "statement": "The current codified text of these six articles is NOT in this repository as this container sees it, and none was composed from memory.",
+      "articles": {
+        "LA-CCRP-ART-987": {
+          "title": "Motion to Set Aside Conviction and Dismiss Prosecution; Rule to Show Cause; Order of Dismissal",
+          "recordedHeldPath": "private/Nationwide Record Clearing/LegalEase Louisiana/forms/LA-CCRP-ART-987__motion-to-set-aside-conviction-rule-to-show-cause-and-order-of-dismissal-forms__source-2026-08.html",
+          "recordedSha256": "6f1498a70bc0cbc7f88e721ea24a9d08ab37d757d0c884feeb6db615844fd850",
+          "blocksFamilies": [
+            "la-987-set-aside-and-dismiss-set",
+            "la-977-misdemeanor-conviction-set (Art. 894(B) stage one)",
+            "la-978-felony-conviction-set (Art. 893(E) stage one)"
+          ]
+        },
+        "LA-CCRP-ART-988": {
+          "title": "Certification of Fee Waiver",
+          "recordedHeldPath": "private/Nationwide Record Clearing/LegalEase Louisiana/forms/LA-CCRP-ART-988__motion-for-fee-exemption-certification-of-fee-waiver-form__source-2026-08.html",
+          "recordedSha256": "efa0a8631a1c26122dc6f6ac26777eb53e4077e188bc0b5adc54ace5cd6defe7",
+          "blocksFamilies": [
+            "all six Louisiana families that name it"
+          ]
+        },
+        "LA-CCRP-ART-989": {
+          "title": "Motion for Expungement",
+          "recordedHeldPath": "private/Nationwide Record Clearing/LegalEase Louisiana/forms/LA-CCRP-ART-989__motion-for-expungement-form__source-2026-08.html",
+          "recordedSha256": "4c593e60f5c0c67366cab929359e9002a731b7a32523d3b8e24a9299e4a24365",
+          "blocksFamilies": [
+            "la-976-arrest-no-conviction-set",
+            "la-977-misdemeanor-conviction-set",
+            "la-978-felony-conviction-set",
+            "la-985-expungement-by-redaction-set"
+          ]
+        },
+        "LA-CCRP-ART-991": {
+          "title": "Order",
+          "recordedHeldPath": "private/Nationwide Record Clearing/LegalEase Louisiana/forms/LA-CCRP-ART-991__order-form__source-2026-08.html",
+          "recordedSha256": "a6872580f648c33f766c43c41771a0c1b3f9d91a50e9d0d77bdf4919bf2a79c2",
+          "blocksFamilies": [
+            "la-976-arrest-no-conviction-set",
+            "la-977-misdemeanor-conviction-set",
+            "la-977d-marijuana-first-offense-set",
+            "la-978-felony-conviction-set",
+            "la-985-expungement-by-redaction-set"
+          ]
+        },
+        "LA-CCRP-ART-992": {
+          "title": "Order of Expungement of Arrest/Conviction Record",
+          "recordedHeldPath": "private/Nationwide Record Clearing/LegalEase Louisiana/forms/LA-CCRP-ART-992__order-of-expungement-form__source-2026-08.html",
+          "recordedSha256": "fc715f0eea69f2ad56f1c3245ac9570a85e274b7743fc6b488dc8fac763c3bf4",
+          "blocksFamilies": [
+            "la-976-arrest-no-conviction-set",
+            "la-977-misdemeanor-conviction-set",
+            "la-977d-marijuana-first-offense-set",
+            "la-978-felony-conviction-set",
+            "la-985-expungement-by-redaction-set"
+          ]
+        },
+        "LA-CCRP-ART-994": {
+          "title": "Motion for Interim Expungement",
+          "recordedHeldPath": "private/Nationwide Record Clearing/LegalEase Louisiana/forms/LA-CCRP-ART-994__motion-for-interim-expungement-form__source-2026-08.html",
+          "recordedSha256": "07b0ad437bcd4fceb8fbfd7235d0729ee404f58c342640d399e46f05aa9d1ef3",
+          "blocksFamilies": [
+            "la-985-1-interim-expungement-set"
+          ]
+        }
+      },
+      "whatWasSearched": [
+        "data/rcap-grade-a/official-source-registry.json — arts. 988, 989, 991, 992, 994 are status 'unaccounted' with an empty corpusPath; art. 987 has no entry at all",
+        "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json — carries no prescribed form text; the phrase that introduces a codal form appears nowhere in it",
+        "src/lib/rcap/state-packs/louisiana/official-forms.ts — carries article numbers, official names, roles and citations, and states blankPdfInSource false with sourceFileName null for all eleven",
+        "the Louisiana legal review in the Master Library — a detailed description of each form's structure and a few short quoted phrases, but not the codified text; a description is not a prescribed form",
+        "a SHA-256 sweep of all 845 files in both mounted corpora against the six recorded digests: zero matches"
+      ],
+      "whatWouldBeNeeded": [
+        "Either: mount the six files at private/Nationwide Record Clearing/LegalEase Louisiana/forms/ named above, whose digests are already pinned in SOURCE_RELATIONSHIP_REGISTRY.json, so they can be verified on arrival rather than trusted.",
+        "Or: add the legis.la.gov LawPrint.aspx print views of arts. 987, 988, 989, 991, 992 and 994 to the D source packs in the same shape as the five that are already there for arts. 990, 993, 995, 998 and 999.1. That shape is proven to carry the codified text verbatim.",
+        "Either route is an acquisition or a mount, and both belong to ACQ and to whoever controls the corpus mount. Neither is a determination question and neither was attempted here: outbound egress to court and agency hosts is refused in this environment, and this lane did not fake it."
+      ]
+    }
+  },
+  "florida": {
+    "rule3989": {
+      "question": "Is the current Rule 3.989 form text in this repository?",
+      "answer": "No.",
+      "whatIsRecorded": "SOURCE_RELATIONSHIP_REGISTRY.json records FL-RULE-3.989-ORDER as 'Rule 3.989(b) Order to Expunge, printed page 444; Rule 3.989(c) Order to Seal, printed page 447' and FL-RULE-3.989-PETITION as 'Rule 3.989(d) Petition to Expunge or Seal, printed page 450', both sourceState EMBEDDED_SECTION, externallyVerified true, publisher the Florida Bar, containing document https://www-media.floridabar.org/uploads/2026/08/2026_01-JUL-Criminal-Procedure-Rules-7-13-2026-2.pdf.",
+      "whatIsMissing": "artifactSha256 is null and heldPath is null for both. The containing document has never been acquired, so no committed byte carries the rule's printed text. FL-RULE-3.989-SWORN-STATEMENT and FL-RULE-3.9895-SWORN-STATEMENT are worse off still: MISSING_CANONICAL_RELATIONSHIP_METADATA, with no recorded title, publisher, address or locator.",
+      "composed": 0,
+      "whyNothingWasComposed": "The determination says render the current Rule 3.989 form text faithfully. A prescribed form is not a paraphrase, and the text is not here. Composing it from memory would have produced a document that looks like a rule form and is not one.",
+      "whatWouldBeNeeded": "Acquire the containing document at the address the registry already records and verify it, then map the four printed sections — 3.989(a) sworn statement, (b) order to expunge, (c) order to seal, (d) petition — to page anchors. This is one acquisition that releases four families, and the registry already calls it out as one document acquired ONCE.",
+      "whatWasNotWaitedFor": "No separate fillable Rule 3.989 PDF was waited for. The registry's own verified note says none exists to request from a clerk, which is the same conclusion the determination reaches."
+    },
+    "fdleComponents": {
+      "determinationRequirement": "Attach the applicable held FDLE application/certificate as a SEPARATE official PDF component; for fl-10yr-bridge-set split the route by requested relief; do not maintain one ambiguous FDLE component.",
+      "statusAtBase": "Already satisfied at the base commit by DISC06, whose rows.json binds each of the three certificate-of-eligibility obligations to a distinct held file by relief. This lane re-verified rather than rewrote.",
+      "theTwo40021FilesAreOneForm": {
+        "finding": "Confirmed directly, not inherited. Both files carry the identical footer 'Revised October 2019 / Ref. Rule 11C-7.006 and 11C-7.007 / FDLE40-021' and the identical printed title 'APPLICATION FOR A CERTIFICATE OF ELIGIBILITY FOR SEALING (s. 943.059, F.S.) or EXPUNCTION (s. 943.585, F.S.)'. A full text diff of the two extracted faces returns exactly two differing lines: a per-file document UUID, and the pre-filled 'Request Type:' value — 'Seal' against 'Expunge'.",
+        "whyThisMattersToTheSplit": "It is why the split is by requested relief and not by a new form number. There is one form, FDLE40-021, published in two pre-filled editions, so the route's relief is the only thing that can choose between them.",
+        "diffEvidence": [
+          "line 1: document UUID b9184d27-e746-4648-8d6a-4e21763f1e90 (sealing) against 7dfddc12-bd40-4502-a789-127d17231b38 (expunction)",
+          "line 26: 'Request Type: Seal' against 'Request Type: Expunge'"
+        ]
+      },
+      "bindings": {
+        "fl-sealing-set": {
+          "relief": "sealing under Fla. Stat. § 943.059",
+          "routeKey": "obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059",
+          "attaches": "FDLE40-021-SEALING",
+          "officialTitle": "Application for a Certificate of Eligibility for Sealing",
+          "revision": "REV-2019-10",
+          "sha256": "82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d",
+          "byteLength": 31777,
+          "pages": 6,
+          "technology": "flat_pdf",
+          "custodyPath": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-SEALING__application-for-a-certificate-of-eligibility-for-sealing__REV-2019-10__EN.pdf",
+          "digestRecomputedInThisLane": true
+        },
+        "fl-expunction-set": {
+          "relief": "expunction under Fla. Stat. § 943.0585",
+          "routeKey": "obligation:track-only:FL:fl-expunction",
+          "attaches": "FDLE40-021-EXPUNCTION",
+          "officialTitle": "Application for a Certificate of Eligibility for Expunction",
+          "revision": "REV-2019-10",
+          "sha256": "b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100",
+          "byteLength": 31782,
+          "pages": 6,
+          "technology": "flat_pdf",
+          "custodyPath": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION__application-for-a-certificate-of-eligibility-for-expunction__REV-2019-10__EN.pdf",
+          "digestRecomputedInThisLane": true
+        },
+        "fl-10yr-bridge-set": {
+          "relief": "expunction under Fla. Stat. § 943.0585",
+          "routeKey": "obligation:track-pathway:FL:fl-10yr-bridge:court-ordered-expunction-943-0585",
+          "attaches": "FDLE40-021-EXPUNCTION",
+          "sha256": "b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100",
+          "howTheSplitResolvedForThisFamily": "The determination says split the route by requested relief. Executed against the repository's own route inventory rather than assumed: MASTER_QUEUE.json gives this family exactly ONE routeKey, and its relief is expunction under § 943.0585. There is no sealing route inside this family to split off, so the split resolves here to a single unambiguous expunction binding. Its sealing counterpart is a different family, fl-sealing-set, which takes the sealing edition. Between the two families the ambiguous shared label FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION now resolves to two distinct files and never to a choice left open.",
+          "ifTheRouteInventoryLaterCarriesASealingLeg": "Then this family's split becomes a genuine per-route election and the sealing leg takes FDLE40-021-SEALING, sha256 82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d. Recorded so the rule survives a route change rather than having to be rediscovered."
+        },
+        "fl-self-defense-set": {
+          "relief": "lawful self-defense expunction under Fla. Stat. § 943.0578",
+          "attaches": "FDLE40-026",
+          "officialTitle": "Application for a Certificate of Eligibility for Lawful Self-Defense Expunction",
+          "revision": "REV-2019-10",
+          "sha256": "d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602",
+          "byteLength": 21702,
+          "pages": 5,
+          "technology": "flat_pdf",
+          "custodyPath": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-026__application-for-a-certificate-of-eligibility-for-lawful-self-defense-expunction__REV-2019-10__EN.pdf",
+          "digestRecomputedInThisLane": true,
+          "note": "A distinct form number, not a pre-filled edition of 40-021. Its printed title names § 943.0578 on its face."
+        }
+      },
+      "notHeldAndNotAddressed": {
+        "forms": [
+          "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION (§ 943.0581)",
+          "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION (§ 943.0515)",
+          "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION (§ 943.0582)"
+        ],
+        "finding": "The corpus holds three FDLE applications and none of them is any of these. No form number, revision or publisher address for them appears in any committed record. No number was guessed.",
+        "owner": "ACQ. DISC06 already recorded all three as STOPPED with the statute address settled and the form address open."
+      }
+    }
+  },
+  "findings": {
+    "LA-1": {
+      "severity": "blocking, and the whole reason this lane composed nothing",
+      "finding": "The determination settles the source CLASS for arts. 987-995 and 998. It does not settle whether the TEXT is present, and for the six articles the fifteen families actually depend on, it is not. The queue's SOURCE_BLOCKED reason on these families reads 'MISSING_DOCUMENT — no held corpus entry for this form number', which under the determination is the wrong DESCRIPTION but the right OUTCOME: the reason should read that the prescribed authority's text is not reachable, not that a form PDF is missing. Same block, different name.",
+      "consequence": "None of the seven Louisiana families can be composed here, and none should be re-dispatched to a compose lane until the six article texts are mounted or acquired."
+    },
+    "LA-2": {
+      "severity": "family-record defect, independently checkable, not repaired here",
+      "finding": "la-977d-marijuana-first-offense-set carries exactly one route, 'first-offense-marijuana-expungement-after-90-days-art-998', and its officialFormFamily is 'LA-CCRP-ART-988+LA-CCRP-ART-991+LA-CCRP-ART-992'. Art. 998 — the article the route is named after, and the one the Louisiana legal review identifies as the dedicated motion form for this category, separate from Art. 989 — is absent from the family's own form list. Art. 998's text is held, at sha256 8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4.",
+      "whyItWasNotRepaired": "The family carries no build grant and this lane owns no queue-generation script. Repairing a family record is downstream of a verdict, and no verdict says this family is wrong.",
+      "whoOwnsIt": "the census/queue generator, then a builder once the family is SOURCE_READY"
+    },
+    "LA-3": {
+      "severity": "family-record defect, independently checkable, not repaired here",
+      "finding": "la-985-1-interim-expungement-set names forms LA-CCRP-ART-988 and LA-CCRP-ART-994 and carries components for a fee waiver and a primary filing only — no proposed order. The Louisiana legal review records Track E as the Art. 994 motion plus the Art. 995 order, and Art. 995's text is held, at sha256 b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39. A packet that files an interim-expungement motion with no proposed order for the judge to sign is incomplete on the face of the statute's own form set.",
+      "whyItWasNotRepaired": "Same reason as LA-2.",
+      "whoOwnsIt": "the census/queue generator, then a builder"
+    },
+    "LA-4": {
+      "severity": "legal-input flag with a live date on it",
+      "finding": "The Louisiana legal review records that C.Cr.P. art. 983(M) capped the total cost of expunging a first-offense marijuana misdemeanor at $300 instead of $550, and that art. 983(M)(5) makes that paragraph null, void and without effect and terminates it on August 1, 2026. That date has passed. Any packet for la-977d-marijuana-first-offense-set that states $300 would now be stating a repealed fee.",
+      "alsoUnresolvedInTheReview": "The review flags, as unresolved, whether the art. 977(D) ninety-day filing route survives the art. 983(M) sunset — its own reading is that what ended is the reduced fee and the route survives at the ordinary $550, but it records that some practitioners describe the whole option as ending. This is a legal-input question, not a source question.",
+      "action": "Recorded, not decided. No fee was invented and no figure was carried into any packet, because no packet was written."
+    },
+    "FL-1": {
+      "severity": "determination executed",
+      "finding": "The fl-10yr-bridge-set relief split resolves to expunction, from the family's own single routeKey, and its sealing counterpart is fl-sealing-set. The ambiguous FDLE component is retired: each of the three certificate-of-eligibility obligations now names one file and one digest. Full detail under florida.fdleComponents."
+    },
+    "FL-2": {
+      "severity": "blocking",
+      "finding": "The Rule 3.989 text is not held, so the COMPOSE_FROM_AUTHORITY half of the Florida determination cannot be executed here. One acquisition — the Florida Bar Criminal Procedure Rules PDF, at an address the registry already records and marks externally verified — releases four families. It is the single highest-leverage open item in either jurisdiction."
+    },
+    "FL-3": {
+      "severity": "scope boundary, raised not decided",
+      "finding": "fl-trafficking-set names FL-RULE-3.9895-SWORN-STATEMENT — rule 3.9895, not 3.989. The owner determination names Rule 3.989 only. Its order and petition components are Rule 3.989 and are covered; its sworn statement is a different rule and is not. It is flagged here rather than resolved in one lane's judgment, and it is not a re-opening of the determination: it is a question about a form the determination does not mention.",
+      "note": "This family is the only one of the fifteen the queue marks SOURCE_GENUINELY_MISSING rather than SOURCE_IDENTITY_UNRESOLVED."
+    },
+    "FL-4": {
+      "severity": "fee fact established from held bytes",
+      "finding": "Both FDLE40-021 editions and FDLE40-026 state on their own faces: 'A NONREFUNDABLE money order, cashier's check, or personal check in the amount of $75.00', and that FDLE will reject an application submitted without the processing fee. This is a per-fact holding under DET-FEE-AND-WAIVER-001-A3 — it establishes the FDLE application fee for these routes, and it does not establish any court filing fee, which is a different fact about a different filing and remains unheld.",
+      "recordedFor": "whoever builds fl-sealing-set, fl-expunction-set, fl-10yr-bridge-set and fl-self-defense-set, so the figure comes from the form's face and is never invented."
+    }
+  },
+  "establishedFromCommittedRecords": {
+    "purpose": "Facts a later builder should not have to rediscover. Every one is sourced. Nothing here is a build, a proof or an approval.",
+    "louisiana": {
+      "feeAndWaiver": {
+        "standardCap": "$550 under C.Cr.P. art. 983(A) unless exempt",
+        "fullWaiver": "art. 983(F) waives all fees on a district attorney certification of no felony convictions and no pending felony charge under a bill of information or indictment, plus one of the listed non-conviction grounds",
+        "instrument": "the art. 988 Certification of Fee Waiver",
+        "sequencingThatDecidesWhetherTheParticipantPays": "the art. 988 certification goes to the district attorney BEFORE the motion is filed. Art. 983 has the clerk collect at filing and the fees are nonrefundable even if the motion is denied. A packet that produces the motion without first routing the participant through art. 988 has cost them $550.",
+        "daTurnaround": "the district attorney or designee returns the completed certification within 15 days",
+        "marijuanaRoute": "see findings.LA-4 — the art. 983(M) $300 structure terminated August 1, 2026",
+        "source": "STATES/LA/01_LEGAL_REVIEW/LA__LEGAL-REVIEW__STATEWIDE__louisiana-record-clearing-legal-review__ASOF-2026-07-30__EN.md, held in the Master Library",
+        "sourceCaveat": "This is a LegalEase internal legal review, not the statute. It is recorded as the repository's current answer and as a pointer to the articles it cites; a builder states the figure only against the codified text once that text is reachable."
+      },
+      "serviceAndObjectionWindows": {
+        "art991Order": "sets the objection window and directs service; the district attorney and the arresting law enforcement agency object within sixty days of service of the order; the Louisiana Bureau of Criminal Identification and Information objects within sixty days for orders served on or after August 1, 2015, and within 120 days for orders served before it",
+        "exParteRoute": "no contradictory hearing is required where an Affidavit of No Opposition executed by each named agency is attached to the motion",
+        "serveList": "district attorney; Louisiana Bureau of Criminal Identification and Information; arresting agency",
+        "source": "same legal review; and the art. 995 print view held at sha256 b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39 carries a PLEASE SERVE block naming the same three recipients verbatim"
+      },
+      "requiredBeforeFiling": {
+        "criminalBackgroundCheck": "from Louisiana State Police or the parish sheriff, dated within the past sixty days, marked required on the art. 989 form and required again by art. 994",
+        "daCertifications": "letters verifying no convictions or pending applicable charges in the requisite periods; that charges were refused; and that there was no pretrial diversion participation. LegalEase cannot produce these; it can prepare the request.",
+        "note": "Every one of these is an art. 989 or art. 994 attachment-checklist item, and both articles' texts are unreachable here, so the checklist is recorded from the legal review and must be re-derived from the codified text before it is printed in a packet."
+      },
+      "customizationPermitted": "Art. 986(C) permits the court-name customization and nothing else. No other customization was contemplated and none was applied, because nothing was rendered."
+    },
+    "florida": {
+      "feeAndWaiver": {
+        "fdleApplicationFee": "$75.00, nonrefundable, by money order, cashier's check or personal check, stated on the face of FDLE40-021 (both editions) and FDLE40-026",
+        "courtFilingFee": "not established by any held source for any of these routes; per DET-FEE-AND-WAIVER-001-A1 a packet may name a checkable authority instead, and must not invent a figure",
+        "source": "the held FDLE bytes themselves, digests above"
+      },
+      "requiredBeforeFiling": {
+        "certificateOfEligibility": "FDLE must issue the certificate of eligibility before the court petition is filed; the form's own instructions say FDLE will reject an application submitted without all required information, documentation or the processing fee",
+        "source": "the held FDLE bytes themselves"
+      }
+    }
+  },
+  "whatWasNotDone": {
+    "composition": "No document was composed, for either jurisdiction. Faithfulness to the statute beats completeness of the packet, and the statute's text is not here.",
+    "fixtures": "No canonical or boundary fixtures were generated and no reports/rendered-artifacts.json was written, because there is nothing to render and no family directory to write it into.",
+    "determinism": "No double build was performed and no /CreationDate was pinned, because no PDF was assembled. The determinism proof this brief asks for has no subject.",
+    "rasterHashes": "No fixture SHA-256 is reported for a raster batch, because no fixture exists. The digests reported in this return are SOURCE digests, recomputed from held corpus bytes, and they are not raster subjects.",
+    "ledger": "No grant was released, reissued or transferred, and claim-ledger.json is unmodified.",
+    "disc06Rows": "data/rcap-grade-a/packet-factory-24h/disc06/rows.json was read and verified, not rewritten. Its four resolved FDLE bindings were re-checked against the held bytes and are correct.",
+    "queueAndRegistry": "MASTER_QUEUE.json and SOURCE_RELATIONSHIP_REGISTRY.json were not edited. Both are generator outputs, and FACTORY_MEMORY records that anything written into a generated file by hand survives only if the generator would have written it too."
+  },
+  "captainMustDecide": [
+    "Whether to mount the six Louisiana article files at private/Nationwide Record Clearing/LegalEase Louisiana/forms/ into the fable containers, or to add legis.la.gov print views of arts. 987, 988, 989, 991, 992 and 994 to the D source packs alongside the five already there. Either releases all seven Louisiana families to a compose lane; neither is a determination question.",
+    "Whether to dispatch the single acquisition of the Florida Bar Criminal Procedure Rules PDF, at the address SOURCE_RELATIONSHIP_REGISTRY.json already records and marks externally verified. It releases four Florida families and is the highest-leverage open item in this cohort.",
+    "Whether the queue's SOURCE_BLOCKED reason text for the Louisiana families should be restated. Under the determination, 'MISSING_DOCUMENT — no held corpus entry for this form number' describes the block wrongly: nothing is missing a form PDF, the prescribed authority's text is simply unreachable. The outcome is identical and only the description is wrong, so this is cosmetic unless a lane reads the reason and concludes it should go looking for a PDF that does not exist — which is the exact failure this determination was issued to end.",
+    "findings.FL-3: fl-trafficking-set names Rule 3.9895, not 3.989. The determination does not reach it.",
+    "findings.LA-2 and LA-3: two family-record defects found while reading, not repaired, because a repair grant is downstream of a verdict and no verdict says these families are wrong."
+  ],
+  "environmentNote": "private/Nationwide Record Clearing is not mounted in this container; the Master Library and the D source packs are, at private/source-imports/. No corpus byte was copied, no scratch PDF batch was created, and every temporary extraction was removed before the commit. Outbound egress to court and agency hosts is refused here and none was attempted.",
+  "grantsNothing": "This return composes nothing, proves nothing, promotes nothing and approves nothing. It records two determinations as accepted, one of them as already executed by an earlier lane and re-verified here, and the exact reason the other cannot be executed until the authority's own text is in the repository.",
+  "families": {
+    "la-976-arrest-no-conviction-set": {
+      "jurisdiction": "LA",
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-976-arrest-no-conviction:non-conviction-arrest-expungement"
+      ],
+      "formsNamed": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "articlesWithTextReachableHere": [],
+      "articlesWithoutTextReachableHere": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "claimOutcome": "no packet-build grant exists; the four source-identity grants are held by DISC01 and are ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for every article this family names",
+      "whatChanged": "nothing was composed. All four prescribed articles are ones whose codified text is not reachable in this container.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The prescribed source for this family is the codified text of LA-CCRP-ART-988, LA-CCRP-ART-989, LA-CCRP-ART-991, LA-CCRP-ART-992. Under the owner determination that text IS the source class. Its bytes are recorded held in the operational Nationwide tree with a pinned SHA-256 for each article, and that tree is not mounted in this container; a full SHA-256 sweep of all 845 files in both mounted corpora matched none of them. BLOCKED_SOURCE, and not a determination question."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "la-977-misdemeanor-conviction-set": {
+      "jurisdiction": "LA",
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-977-misdemeanor-conviction:human-trafficking-survivor-expungement-fee-exempt-route",
+        "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+        "obligation:track-pathway:LA:la-977-misdemeanor-conviction:misdemeanor-five-year-clean-period-expungement"
+      ],
+      "formsNamed": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "articlesWithTextReachableHere": [],
+      "articlesWithoutTextReachableHere": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "claimOutcome": "no packet-build grant exists; the four source-identity grants are held by DISC01 and are ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for every article this family names",
+      "whatChanged": "nothing was composed. One of its three routes is the Art. 894(B) set-aside sequence, whose stage-one instrument is Art. 987 — also unreachable here.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 3 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The prescribed source for this family is the codified text of LA-CCRP-ART-988, LA-CCRP-ART-989, LA-CCRP-ART-991, LA-CCRP-ART-992. Under the owner determination that text IS the source class. Its bytes are recorded held in the operational Nationwide tree with a pinned SHA-256 for each article, and that tree is not mounted in this container; a full SHA-256 sweep of all 845 files in both mounted corpora matched none of them. BLOCKED_SOURCE, and not a determination question."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries 3 routes and a real option set, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "la-977d-marijuana-first-offense-set": {
+      "jurisdiction": "LA",
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-977d-marijuana-first-offense:first-offense-marijuana-expungement-after-90-days-art-998"
+      ],
+      "formsNamed": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "articlesWithTextReachableHere": [
+        "LA-CCRP-ART-998"
+      ],
+      "articlesWithoutTextReachableHere": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "claimOutcome": "no packet-build grant exists; the three source-identity grants are held by DISC01 and are ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for every article this family names",
+      "whatChanged": "nothing was composed, and a defect in the family's own form list was found instead — see findings.LA-2.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The prescribed source for this family is the codified text of LA-CCRP-ART-988, LA-CCRP-ART-991, LA-CCRP-ART-992. Under the owner determination that text IS the source class. Its bytes are recorded held in the operational Nationwide tree with a pinned SHA-256 for each article, and that tree is not mounted in this container; a full SHA-256 sweep of all 845 files in both mounted corpora matched none of them. BLOCKED_SOURCE, and not a determination question."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "la-978-felony-conviction-set": {
+      "jurisdiction": "LA",
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-978-felony-conviction:felony-article-893-e-set-aside-followed-by-expungement",
+        "obligation:track-pathway:LA:la-978-felony-conviction:felony-ten-year-clean-period-expungement",
+        "obligation:track-pathway:LA:la-978-felony-conviction:first-offender-pardon-felony-expungement",
+        "obligation:track-pathway:LA:la-978-felony-conviction:human-trafficking-survivor-expungement-fee-exempt-route"
+      ],
+      "formsNamed": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "articlesWithTextReachableHere": [],
+      "articlesWithoutTextReachableHere": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "claimOutcome": "no packet-build grant exists; the four source-identity grants are held by DISC01 and are ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for every article this family names",
+      "whatChanged": "nothing was composed. Its Art. 893(E) route also depends on Art. 987, which is unreachable here.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 4 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The prescribed source for this family is the codified text of LA-CCRP-ART-988, LA-CCRP-ART-989, LA-CCRP-ART-991, LA-CCRP-ART-992. Under the owner determination that text IS the source class. Its bytes are recorded held in the operational Nationwide tree with a pinned SHA-256 for each article, and that tree is not mounted in this container; a full SHA-256 sweep of all 845 files in both mounted corpora matched none of them. BLOCKED_SOURCE, and not a determination question."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries 4 routes and a real option set, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "la-985-1-interim-expungement-set": {
+      "jurisdiction": "LA",
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-985-1-interim-expungement:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction"
+      ],
+      "formsNamed": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-994"
+      ],
+      "articlesWithTextReachableHere": [
+        "LA-CCRP-ART-995"
+      ],
+      "articlesWithoutTextReachableHere": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-994"
+      ],
+      "claimOutcome": "no packet-build grant exists; the two source-identity grants are held by DISC01 and are ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for every article this family names",
+      "whatChanged": "nothing was composed, and a defect in the family's own component set was found instead — see findings.LA-3.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The prescribed source for this family is the codified text of LA-CCRP-ART-988, LA-CCRP-ART-994. Under the owner determination that text IS the source class. Its bytes are recorded held in the operational Nationwide tree with a pinned SHA-256 for each article, and that tree is not mounted in this container; a full SHA-256 sweep of all 845 files in both mounted corpora matched none of them. BLOCKED_SOURCE, and not a determination question."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "la-985-expungement-by-redaction-set": {
+      "jurisdiction": "LA",
+      "routeKeys": [
+        "obligation:track-pathway:LA:la-985-expungement-by-redaction:expungement-by-redaction-for-multi-person-records"
+      ],
+      "formsNamed": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "articlesWithTextReachableHere": [],
+      "articlesWithoutTextReachableHere": [
+        "LA-CCRP-ART-988",
+        "LA-CCRP-ART-989",
+        "LA-CCRP-ART-991",
+        "LA-CCRP-ART-992"
+      ],
+      "claimOutcome": "no packet-build grant exists; the four source-identity grants are held by DISC01 and are ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for every article this family names",
+      "whatChanged": "nothing was composed. The redaction relief is worked through the Art. 992 order's redaction paragraph, and that article's text is unreachable here.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The prescribed source for this family is the codified text of LA-CCRP-ART-988, LA-CCRP-ART-989, LA-CCRP-ART-991, LA-CCRP-ART-992. Under the owner determination that text IS the source class. Its bytes are recorded held in the operational Nationwide tree with a pinned SHA-256 for each article, and that tree is not mounted in this container; a full SHA-256 sweep of all 845 files in both mounted corpora matched none of them. BLOCKED_SOURCE, and not a determination question."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "la-987-set-aside-and-dismiss-set": {
+      "jurisdiction": "LA",
+      "routeKeys": [
+        "obligation:track-only:LA:la-987-set-aside-and-dismiss"
+      ],
+      "formsNamed": [
+        "LA-CCRP-ART-987"
+      ],
+      "articlesWithTextReachableHere": [],
+      "articlesWithoutTextReachableHere": [
+        "LA-CCRP-ART-987"
+      ],
+      "claimOutcome": "no packet-build grant exists; the single source-identity grant is held by DISC01 and is ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for Art. 987",
+      "whatChanged": "nothing was composed. Art. 987 is a three-part instrument — motion, rule to show cause, order of dismissal — and none of its prescribed wording is reachable here.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The prescribed source for this family is the codified text of LA-CCRP-ART-987. Under the owner determination that text IS the source class. Its bytes are recorded held in the operational Nationwide tree with a pinned SHA-256 for each article, and that tree is not mounted in this container; a full SHA-256 sweep of all 845 files in both mounted corpora matched none of them. BLOCKED_SOURCE, and not a determination question."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-sealing-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059"
+      ],
+      "formsNamed": [
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FL-RULE-3.989-ORDER",
+        "FL-RULE-3.989-PETITION",
+        "FL-RULE-3.989-SWORN-STATEMENT"
+      ],
+      "claimOutcome": "no packet-build grant exists; the three Rule 3.989 grants are held by SRC02 and are ALREADY_RELEASED; the FDLE grant is held by DISC06 and asserted CLAIM_OK",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for the Rule 3.989 sworn statement, petition and order; the held FDLE application attaches as a separate official PDF component",
+      "whatChanged": "the FDLE component is settled and unambiguous — FDLE40-021-SEALING, REV-2019-10, sha256 82042a5dff4c80d5805a1b01e7d44e33ac855a02e7c718f0a119790b22684e3d — which DISC06 had already bound at the base commit and this lane re-verified against the held bytes. Nothing was composed, because Rule 3.989's own text is not held.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-expunction-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-only:FL:fl-expunction"
+      ],
+      "formsNamed": [
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FL-RULE-3.989-ORDER",
+        "FL-RULE-3.989-PETITION",
+        "FL-RULE-3.989-SWORN-STATEMENT"
+      ],
+      "claimOutcome": "no packet-build grant exists; the three Rule 3.989 grants are held by SRC02 and are ALREADY_RELEASED; the FDLE grant is held by DISC06 and asserted CLAIM_OK",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for the Rule 3.989 sworn statement, petition and order; the held FDLE application attaches as a separate official PDF component",
+      "whatChanged": "the FDLE component is settled and unambiguous — FDLE40-021-EXPUNCTION, REV-2019-10, sha256 b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100. Nothing was composed, because Rule 3.989's own text is not held.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-10yr-bridge-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-10yr-bridge:court-ordered-expunction-943-0585"
+      ],
+      "formsNamed": [
+        "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "FL-RULE-3.989-ORDER",
+        "FL-RULE-3.989-PETITION"
+      ],
+      "claimOutcome": "no packet-build grant exists; the two Rule 3.989 grants are held by SRC02 and are ALREADY_RELEASED; the FDLE grant is held by DISC06 and asserted CLAIM_OK",
+      "determinationApplied": "split the route by requested relief; COMPOSE_FROM_AUTHORITY for the Rule 3.989 petition and order",
+      "whatChanged": "the relief split was executed against the repository's own route inventory rather than assumed — see findings.FL-1. Nothing was composed, because Rule 3.989's own text is not held.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-trafficking-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-trafficking:human-trafficking-victim-expunction-943-0583"
+      ],
+      "formsNamed": [
+        "FL-RULE-3.989-ORDER",
+        "FL-RULE-3.989-PETITION",
+        "FL-RULE-3.9895-SWORN-STATEMENT"
+      ],
+      "claimOutcome": "no packet-build grant exists; all three source grants are held by SRC02 and are ALREADY_RELEASED",
+      "determinationApplied": "COMPOSE_FROM_AUTHORITY for the Rule 3.989 petition and order",
+      "whatChanged": "nothing was composed. This family names FL-RULE-3.9895-SWORN-STATEMENT, a different rule from 3.989, and the owner determination addresses 3.989 only — see findings.FL-3.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-self-defense-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-self-defense:lawful-self-defense-expunction-943-0578"
+      ],
+      "formsNamed": [
+        "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION"
+      ],
+      "claimOutcome": "no packet-build grant exists; the FDLE grant is held by DISC06 and asserted CLAIM_OK",
+      "determinationApplied": "the held FDLE application attaches as a separate official PDF component; there is no Rule 3.989 component on this route",
+      "whatChanged": "the FDLE component is settled — FDLE40-026, REV-2019-10, sha256 d7bdbbb546cf6280fd07710e3132885db771400ba778d111835b5de281c58602 — re-verified against held bytes. Nothing was composed; this family's only named form is the agency application itself.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-administrative-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest"
+      ],
+      "formsNamed": [
+        "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION"
+      ],
+      "claimOutcome": "no packet-build grant exists; the FDLE grant is held by DISC06 and asserted CLAIM_OK",
+      "determinationApplied": "neither determination reaches this family — it names no Rule 3.989 component and no Louisiana article",
+      "whatChanged": "nothing. The named FDLE application is not held and no address for it is recorded in any committed record; the corpus's three FDLE applications are FDLE40-021 in two editions and FDLE40-026, and none of them is this instrument.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-early-juvenile-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-early-juvenile:early-juvenile-expunction-943-0515"
+      ],
+      "formsNamed": [
+        "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+      ],
+      "claimOutcome": "no packet-build grant exists; the FDLE grant is held by DISC06 and asserted CLAIM_OK",
+      "determinationApplied": "neither determination reaches this family",
+      "whatChanged": "nothing. The named FDLE application is neither held nor addressed in any committed record.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    },
+    "fl-juvenile-diversion-set": {
+      "jurisdiction": "FL",
+      "routeKeys": [
+        "obligation:track-pathway:FL:fl-juvenile-diversion:juvenile-diversion-expunction-943-0582"
+      ],
+      "formsNamed": [
+        "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+      ],
+      "claimOutcome": "no packet-build grant exists; the FDLE grant is held by DISC06 and asserted CLAIM_OK",
+      "determinationApplied": "neither determination reaches this family",
+      "whatChanged": "nothing. The named FDLE application is neither held nor addressed in any committed record.",
+      "verdict": "BLOCKED_SOURCE",
+      "obligationsScored": 15,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The route inventory is legible from committed records — MASTER_QUEUE.json names 1 route(s) for this family — but ROUTE_IDENTITY is agreement ACROSS a built family's records (build-status.json, source-receipt.json, product-wiring.json, production-field-map.json, reports/rendered-artifacts.json). None of those records exists: the family has no packet directory and no build script at this base."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The Rule 3.989 form text is printed inside the Florida Bar's Criminal Procedure Rules PDF. The registry records that document's official address and marks it externally verified, but artifactSha256 and heldPath are both null: the bytes have never been acquired. The FDLE component on this route is separately and exactly bound to held bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The component list is legible from MASTER_QUEUE.json, but COMPONENT_SET is measured against the documents a build actually emits, and the family has no packet directory and no build script at this base."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Committed records establish real content for this obligation (attachment checklists, agency certifications, the sixty-day background-check currency rule for Louisiana; the FDLE certificate-of-eligibility precondition for Florida), and it is recorded under establishedFromCommittedRecords so a later builder inherits it. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "This family carries a single route, so the option set is trivial, but scoring requires an emitted packet to elect between them, and the family has no packet directory and no build script at this base."
+        },
+        "REPEATING_ROWS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "ARTIFACTS": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "PAGE_ORDER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Not measurable: the family has no packet directory and no build script at this base, so there are no rendered artifacts to score. This obligation is downstream of a build that the claim ledger holds no grant for."
+        },
+        "FILING_DESTINATION": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Under DET-FEE-AND-WAIVER-001-A1 the first question is whether the repository establishes the destination, and per A3 holding is per FACT. What is established is recorded under establishedFromCommittedRecords. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The repository establishes fee facts for this route and they are recorded under establishedFromCommittedRecords rather than left for a builder to rediscover. No figure was invented and none was carried over from a sibling route. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SERVICE": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "Service content is established for the Louisiana orders that are reachable and is recorded where it is; for Florida it is not reached by either determination. It cannot be SCORED, because the family has no packet directory and no build script at this base."
+        },
+        "SELF_HELP_STOP": {
+          "measured": false,
+          "result": "BLOCKED_SOURCE",
+          "detail": "The stop content a packet must carry — what the participant must not be told to do alone — has no packet to sit in: the family has no packet directory and no build script at this base."
+        }
+      }
+    }
+  }
+}

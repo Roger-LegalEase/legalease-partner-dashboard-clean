@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "rcap-family-findings/v1",
+  "family": "jdf-435-form-order-en",
+  "findings": [
+    {
+      "severity": "source_currency",
+      "finding": "issuer_unreachable_current_revision_not_compared",
+      "detail": "The held binary is R8/19 with an unlettered caption band and a printed CERTIFICATE OF SERVICE block; the JDF 416 that names it is R: July 1, 2025 and tells the filer to complete \"§§ A-C\", which this revision does not letter. A later revision of JDF 435 is therefore likely and was not obtainable. The issuing court's hosts were unreachable from the build environment on 2026-09-15: the egress proxy answered 403 to CONNECT for www.coloradojudicial.gov:443 and www.courts.state.co.us:443, so the current revision could not be fetched and compared. The held revision is used and named; currency is an open source-freshness review item."
+    },
+    {
+      "severity": "classification",
+      "finding": "reclassified_from_reference_only_to_participant_filed",
+      "detail": "JDF 416 Guide to Sealing Arrest Records (No Charges Filed) (R: July 1, 2025) names this document under \"File the Request\" as \"JDF 435 Order (just do §§ A-C)\"; the earlier source-artifact classification \"reference_only / ineligible_never_a_participant_filing_artifact\" contradicted the guide and is superseded on 2026-09-15."
+    },
+    {
+      "severity": "fit",
+      "finding": "boundary_value_refused_by_geometry",
+      "detail": "Case Number:: value_exceeds_widget_width_at_minimum_font"
+    }
+  ]
+}

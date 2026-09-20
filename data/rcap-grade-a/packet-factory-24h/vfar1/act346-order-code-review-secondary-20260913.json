@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "lane": "ACT346_ORDER_REVIEW_SECONDARY",
+  "laneKind": "independent_code_review",
+  "reviewer": "/root/act346_order_review",
+  "recordedAt": "2026-09-13T04:14:19Z",
+  "reviewedHead": "8d6ebafee152296fd76865585555af1c12bd8b88",
+  "familyId": "ar-act346-set",
+  "scope": {
+    "purpose": "bounded independent review of Act 346 proof-bound document enumeration retention",
+    "visualAcceptanceRepeated": false,
+    "implementationEdited": false,
+    "sharedOutputsEdited": false,
+    "files": [
+      "scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs",
+      "scripts/rcap-packet-recovery/act346-raster-order.test.mjs",
+      "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs"
+    ]
+  },
+  "checks": [
+    {
+      "command": "node --test scripts/rcap-packet-recovery/ri-nonconviction-raster-order.test.mjs scripts/rcap-packet-recovery/act346-raster-order.test.mjs scripts/grade-a-packet-factory-24h/test-raster-custody-integration.mjs scripts/grade-a-packet-factory-24h/test-ingest-raster-receipt.mjs",
+      "exitCode": 0,
+      "tests": 37,
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "command": "node --check scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs && node --check scripts/rcap-packet-recovery/act346-raster-order.test.mjs && node --check scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check -- scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs scripts/rcap-packet-recovery/act346-raster-order.test.mjs scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "exitCode": 0
+    },
+    {
+      "check": "call order",
+      "result": "PASS",
+      "evidence": "The Act 346 helper is called after current document discovery and before unreadable admission and documentsDigest generation; it only returns current objects in the receipt order."
+    },
+    {
+      "check": "proof-bound permutation and identity",
+      "result": "PASS",
+      "evidence": "The exact current permutation recomputes bc02aba95c4383ee07973c15b91b08342d7468c773c8cfd93d80954d99cb44f8 to the original e206ca4b449e53b752ec4d7aaeff712efa45ff06f3b8776708f27f13e3be7a8a; current object references and measured metadata are preserved."
+    },
+    {
+      "check": "RI and admission preservation",
+      "result": "PASS",
+      "evidence": "The extracted helper preserves the existing RI behavior; the RI suite, custody integration tests, and native receipt-ingester controls pass."
+    },
+    {
+      "check": "exact custody metadata mutation probe",
+      "result": "PASS",
+      "evidence": "The delta asserts the exact original dispatch inputs, full-run selection, no excluded failures, and exact selected family; each mutated-input control now fails closed."
+    }
+  ],
+  "requirements": {
+    "act346Scope": "PASS",
+    "cleanRasterPass": "PASS",
+    "receiptDigestAndManifestTuples": "PASS",
+    "currentObjectMetadata": "PASS",
+    "changedIdentityAndDuplicates": "PASS",
+    "riBehavior": "PASS",
+    "custodyInputBindings": "PASS"
+  },
+  "findings": [],
+  "conclusion": {
+    "verdict": "PASS",
+    "reason": "The ordering fix and all required receipt, current-identity, custody-binding, mutation, RI-preservation, and admission controls pass the focused review.",
+    "visualStatus": "not reviewed by this code review",
+    "nextAction": "Proceed to the authorized integration chain with the existing original custody receipt."
+  },
+  "fileSha256AtReview": {
+    "scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs": "7c90f6737c8fbb6c9928ce15093c7cef98ef0ffd6284f0c1cf5fc7f14601e60e",
+    "scripts/rcap-packet-recovery/act346-raster-order.test.mjs": "96897684c7d37b0920ff1a1cc8b41e2efb255dab611fc78260c20475208df6d8",
+    "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs": "4a6193048c08cea9eb2cb558687dd67ef6f3c48c0a8bbb33fc7f0365d911a6d0"
+  }
+}

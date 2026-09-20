@@ -1,0 +1,111 @@
+ok az_wrongful_arrest_clearance-set: exact pre-repair writer erases the real annotations
+ok az_wrongful_arrest_clearance-set: unchanged pins retain all annotations and nested bytes
+ok az_wrongful_arrest_clearance-set: a source moved again does not borrow its old comparison
+ok az_wrongful_arrest_clearance-set: reverting to pre-refresh source bytes refuses the annotation
+ok az_wrongful_arrest_clearance-set: artifact-bound approval cannot ride a source annotation
+ok az_wrongful_arrest_clearance-set: unannotated and absent previous receipts serialize unchanged
+ok az_wrongful_arrest_clearance-set: original receipt stays byte-identical after write-path tests
+ok nc_145_5_felony-set: exact pre-repair writer erases the real annotations
+ok nc_145_5_felony-set: unchanged pins retain all annotations and nested bytes
+ok nc_145_5_felony-set: a source moved again does not borrow its old comparison
+ok nc_145_5_felony-set: reverting to pre-refresh source bytes refuses the annotation
+ok nc_145_5_felony-set: artifact-bound approval cannot ride a source annotation
+ok nc_145_5_felony-set: unannotated and absent previous receipts serialize unchanged
+ok nc_145_5_felony-set: original receipt stays byte-identical after write-path tests
+ok nc_146_acquittal_petition-set: exact pre-repair writer erases the real annotations
+ok nc_146_acquittal_petition-set: unchanged pins retain all annotations and nested bytes
+ok nc_146_acquittal_petition-set: a source moved again does not borrow its old comparison
+ok nc_146_acquittal_petition-set: reverting to pre-refresh source bytes refuses the annotation
+ok nc_146_acquittal_petition-set: artifact-bound approval cannot ride a source annotation
+ok nc_146_acquittal_petition-set: unannotated and absent previous receipts serialize unchanged
+ok nc_146_acquittal_petition-set: original receipt stays byte-identical after write-path tests
+ok rcap-wv-custom-pleading: exact pre-repair writer erases the real annotations
+ok rcap-wv-custom-pleading: unchanged pins retain all annotations and nested bytes
+ok rcap-wv-custom-pleading: a source moved again does not borrow its old comparison
+ok rcap-wv-custom-pleading: reverting to pre-refresh source bytes refuses the annotation
+ok rcap-wv-custom-pleading: artifact-bound approval cannot ride a source annotation
+ok rcap-wv-custom-pleading: unannotated and absent previous receipts serialize unchanged
+ok rcap-wv-custom-pleading: original receipt stays byte-identical after write-path tests
+{
+  "schemaVersion": "rcap-receipt-hooks-write-path/v1",
+  "status": "PASS",
+  "cases": 28,
+  "measuredAt": "2026-09-08T11:04:00.436Z",
+  "nodeVersion": "v24.14.0",
+  "scope": "Exact installed writeJson bodies and installed helper executed with the real filesystem on temporary receipt copies. Four exact historical builder blobs are negative controls. No renderer or full builder execution is claimed.",
+  "originalReceiptsUnchanged": true,
+  "packetsRebuilt": 0,
+  "helperSha256": "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27",
+  "bindings": [
+    {
+      "family": "az_wrongful_arrest_clearance-set",
+      "script": "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
+      "beforeBlob": "4c7a4a820639f1735510f3bbfca5b6f6fd2131c9",
+      "afterBlob": "4790ea1768938df654feb85194cf44801fa3b151",
+      "afterSha256": "03f99af3a0b53aa20653385544d8c7f24aade2582f07569aec336151b7cd1d4e",
+      "receipt": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading/source-receipt.json",
+      "receiptSha256": "834b5ed5ea81f9da0ceb446d59e5df68a1688a8c755ca8e62877c13e60e1870e",
+      "annotatedPins": 2
+    },
+    {
+      "family": "nc_145_5_felony-set",
+      "script": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
+      "beforeBlob": "6b5ce0595b4e06bbb6e420b892c73981c4bff63e",
+      "afterBlob": "cb17cf53ea0330712cb380ca4e2da684940d5554",
+      "afterSha256": "bfda99a54cfff53f8d21f6709d4c717c2a49bf3cfc25ede96fa052455d1cd2a7",
+      "receipt": "data/rcap-all50/overlays/census-v1/nc/nc-145-5-felony-set--official-pdf-fill/source-receipt.json",
+      "receiptSha256": "ff74c791f2f6749e435a817bafe3383c1af31833504efa0844b02f9e33f020c9",
+      "annotatedPins": 2
+    },
+    {
+      "family": "nc_146_acquittal_petition-set",
+      "script": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
+      "beforeBlob": "bd7fd7cca54654c7f0aef781e0546ef271176f3d",
+      "afterBlob": "181c0dbd96080d00980595937c71bb16ee08a280",
+      "afterSha256": "a43f5d579c9c1ea584234c83670809eecb74de053c18fda1a56c4173e5300523",
+      "receipt": "data/rcap-all50/overlays/census-v1/nc/nc-146-acquittal-petition-set--official-pdf-fill/source-receipt.json",
+      "receiptSha256": "f6a0cca589695d6a1655a1b2af86c67140aadd7439b4bccf7efbd9eb5f4511ae",
+      "annotatedPins": 2
+    },
+    {
+      "family": "rcap-wv-custom-pleading",
+      "script": "scripts/build-census-v1-rcap-wv-custom-pleading.mjs",
+      "beforeBlob": "44ff9893b7fa34c878295dec6c088ec83b8c1f8b",
+      "afterBlob": "5f12ed6f3d0b6b1eb42c5632cdf49e6640dbe4a1",
+      "afterSha256": "f22c764e10e70a6fdf0d6f0c9ee8fbc43192feb28e5b667a96c25dfb3df9b861",
+      "receipt": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading/source-receipt.json",
+      "receiptSha256": "ef9b9ee80655c59407ef1db5acb0edaa43e52f0a688431438c31109af5890781",
+      "annotatedPins": 1
+    }
+  ],
+  "results": [
+    "az_wrongful_arrest_clearance-set: exact pre-repair writer erases the real annotations",
+    "az_wrongful_arrest_clearance-set: unchanged pins retain all annotations and nested bytes",
+    "az_wrongful_arrest_clearance-set: a source moved again does not borrow its old comparison",
+    "az_wrongful_arrest_clearance-set: reverting to pre-refresh source bytes refuses the annotation",
+    "az_wrongful_arrest_clearance-set: artifact-bound approval cannot ride a source annotation",
+    "az_wrongful_arrest_clearance-set: unannotated and absent previous receipts serialize unchanged",
+    "az_wrongful_arrest_clearance-set: original receipt stays byte-identical after write-path tests",
+    "nc_145_5_felony-set: exact pre-repair writer erases the real annotations",
+    "nc_145_5_felony-set: unchanged pins retain all annotations and nested bytes",
+    "nc_145_5_felony-set: a source moved again does not borrow its old comparison",
+    "nc_145_5_felony-set: reverting to pre-refresh source bytes refuses the annotation",
+    "nc_145_5_felony-set: artifact-bound approval cannot ride a source annotation",
+    "nc_145_5_felony-set: unannotated and absent previous receipts serialize unchanged",
+    "nc_145_5_felony-set: original receipt stays byte-identical after write-path tests",
+    "nc_146_acquittal_petition-set: exact pre-repair writer erases the real annotations",
+    "nc_146_acquittal_petition-set: unchanged pins retain all annotations and nested bytes",
+    "nc_146_acquittal_petition-set: a source moved again does not borrow its old comparison",
+    "nc_146_acquittal_petition-set: reverting to pre-refresh source bytes refuses the annotation",
+    "nc_146_acquittal_petition-set: artifact-bound approval cannot ride a source annotation",
+    "nc_146_acquittal_petition-set: unannotated and absent previous receipts serialize unchanged",
+    "nc_146_acquittal_petition-set: original receipt stays byte-identical after write-path tests",
+    "rcap-wv-custom-pleading: exact pre-repair writer erases the real annotations",
+    "rcap-wv-custom-pleading: unchanged pins retain all annotations and nested bytes",
+    "rcap-wv-custom-pleading: a source moved again does not borrow its old comparison",
+    "rcap-wv-custom-pleading: reverting to pre-refresh source bytes refuses the annotation",
+    "rcap-wv-custom-pleading: artifact-bound approval cannot ride a source annotation",
+    "rcap-wv-custom-pleading: unannotated and absent previous receipts serialize unchanged",
+    "rcap-wv-custom-pleading: original receipt stays byte-identical after write-path tests"
+  ]
+}

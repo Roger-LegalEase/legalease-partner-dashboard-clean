@@ -1,0 +1,356 @@
+{
+ "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+ "workerId": "CLAUDE-FIX42-RI-HOST-REBUILD",
+ "assignmentId": "FIX42",
+ "assignedBase": "aefd46f7c",
+ "branch": "fix42-ri-host-rebuild",
+ "laneKind": "repair",
+ "grantsConfirmed": [
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX42 ri_decriminalized-set -> CLAIM_OK FIX42 ri_decriminalized-set (repair, grant set 0045ba22c77294b9), exit 0",
+  "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX42 ri_deferred_sentence-set -> CLAIM_OK FIX42 ri_deferred_sentence-set (repair, grant set 0045ba22c77294b9), exit 0",
+  "Both were asserted before anything was read or written in either family directory."
+ ],
+ "scope": "A rebuild lane, not a host lane. The shared Rhode Island host scripts/build-census-v1-ri_decriminalized-set.mjs was already repaired by FIX35 and integrated at a8a42767c, which is an ancestor of this base. This lane changed no line of it and no line of any builder, field map, component set, source pin or route key. It rebuilt the two families FIX35 identified as moving but held no grant for, and it committed nothing else.",
+ "hostChanged": {
+  "file": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+  "changedByThisLane": false,
+  "note": "Unmodified here. git diff against the base is empty for every file under scripts/. The three FIX35 changes are present at the base and verified by inspection: the shared createTokenSplitter import at line 216, the trailer relocation in proposedOrderBody, and the sole-occupant pull-down with its soleOccupant predicate at line 1884 and the assert splitToken.hardSplits === 0 at line 1908."
+ },
+ "control": {
+  "question": "Does every byte that moves here move because of the host repair, or could the build itself be non-reproducible?",
+  "method": "A throwaway detached worktree, /home/user/fix42-throwaway, at a8a42767c^ = 1c64819aa - the last commit before the FIX35 host repair was integrated, and the commit whose host is the one that produced the committed bytes. Both families were rebuilt there with --no-raster on the UNMODIFIED pre-repair host. Nothing there was committed and the worktree was removed afterwards.",
+  "result": "PASS. Both families reproduced their committed bytes exactly: ri_decriminalized-set canonical 912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252 / boundary e2afb606c3023f139cca94ac94550be3b309fd7d1ba5a946c286e8ad1696c649; ri_deferred_sentence-set canonical 757582d8721aa4ed71a6e94e95418328effc80877121367d5f054290af28242a / boundary e2ba9a57686a32f9cc1d9be2c55872aa59d8043002658482f3c12f2166787dd6. git status --porcelain over both family directories after the control build was EMPTY - not only the fixtures but every receipt and report reproduced byte-for-byte. There is no build noise and no rebuild trap on this host, so every difference reported below is attributable to the host repair and to nothing else.",
+  "controlAtTheAssignedBaseItself": "Not run as a byte-identity control, because at aefd46f7c the host is already the repaired one; a rebuild there is the treatment, not the control. Running it at the pre-repair parent is what isolates the repair."
+ },
+ "predictionCheck": {
+  "source": "FIX35's otherFamiliesOnThisHost table in data/rcap-grade-a/packet-factory-24h/fix35/rows.json",
+  "ri_decriminalized-set": "PREDICTED canonical fb1299a8..., boundary 88a64e5e... - OBSERVED fb1299a8f953939ea6d76cd99532281687e12e2e18ca3eccaabe365e9ecf8dce and 88a64e5ebd448197ce1c6ce89cf4c45247a97db25fa7008ca25773193564cf75. Exact match, both fixtures.",
+  "ri_deferred_sentence-set": "PREDICTED canonical bdf2b866..., boundary aadb8704... - OBSERVED bdf2b866505b59c1f54d625edae2234009ce19e655cc0fe67a7fe68b4221d0e8 and aadb8704b19ff95121f7d2eaaa92b1299b61e106f22330710c8497e7d6b932e4. Exact match, both fixtures.",
+  "differences": "None. All four predicted digests reproduced on the first build and again on the second. A prediction made in another worktree on another branch reproducing to the byte here is itself evidence the host is deterministic across containers."
+ },
+ "rows": [
+  {
+   "itemId": "ri_decriminalized-set",
+   "familyId": "ri_decriminalized-set",
+   "jurisdiction": "RI",
+   "implementationStrategy": "official_pdf_fill",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+   "routeKeys": [
+    "obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement"
+   ],
+   "verdictRepaired": {
+    "standingVerdictOnThisFamilyIsAPass": true,
+    "lane": "VF02",
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "verdictRow": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json, itemId ri_decriminalized-set, VF02 PASS_COMPLETE_INDEPENDENT at base c9bbb6ecd",
+    "verdictBoundToBytes": {
+     "canonicalSha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+     "boundarySha256": "e2afb606c3023f139cca94ac94550be3b309fd7d1ba5a946c286e8ad1696c649"
+    },
+    "whatThisRowActuallyRepairs": "Not a FAIL. This family is counted COMPLETE_PACKET_PROVEN on bytes 912b6c38.../e2afb606..., and those exact bytes carry the defect. FIX35 measured it on the delivered bytes and SCAN02 recorded it in the thirty-five-family route-key/delimiter census: on page 6 of BOTH fixtures the machine trailer prints UNDER 'Certification or attestation by the Clerk: ....', inside the block the page itself declares is the court's and left blank on purpose. Verbatim, the two things printed below that line before this rebuild: 'Route: obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement' and 'Composed by LegalEase for Jordan Avery Reyes, as the moving party's own proposed order. It is not an official Rhode Island form, and no part of it is a finding, a grant, a denial, a signature, an entry, a certification or a seal.' The PASS was reached without that page being read at appearance level; the repair does not overturn the PASS, it removes the defect the PASS's own bytes carry, and it moves the bytes the PASS is bound to.",
+    "failedObligationNames": []
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. VF02 recorded rasterState RASTER_PASS with the RASTER_QUEUE.json row bound to canonical 912b6c38... and boundary e2afb606.... This rebuild supersedes both, so that receipt no longer covers the delivered bytes and a fresh CENTRAL raster is owed. Neither RASTER_QUEUE.json nor MASTER_QUEUE.json was touched by this lane.",
+    "INDEPENDENT VERIFICATION. This lane produced these bytes and verifies none of them. product-wiring.json acceptanceReceipt is null and stays null; no verdict was written and none of the VF02 proof obligations were re-adjudicated here."
+   ],
+   "whatChanged": "Nothing in this family's directory except the rebuilt bytes and the rendered-artifacts.json digests that describe them. The movement comes entirely from FIX35's trailer relocation in the shared host: the disclaimer and the 'Route:' trailer are no longer the last two lines of the proposed order, so they no longer print beneath the clerk's certification line. They now close the moving party's half of the order on page 5, immediately above the dotted rule and the ORDER_COURT_BLOCK_NOTICE. The splitter is provably inert for this family - its single track-pathway key fits the 468pt column, hard splits were 0 before and 0 after - and the pull-down never fires, because no page of this packet is trailer-only. Read off the delivered bytes: page 6 now ends at 'Certification or attestation by the Clerk: ............................................' with nothing whatever beneath it. Ten pages before, ten pages after.",
+   "placementDiff": {
+    "canonicalPagesWhosePrintedTextChanged": {
+     "5": "31 -> 32 drawn lines (the disclaimer and the Route: trailer arrive above the rule)",
+     "6": "21 -> 20 (the trailer leaves; only the disclaimer's tail had printed under the certification line on canonical, and both lines leave on boundary)"
+    },
+    "boundaryPagesWhosePrintedTextChanged": {
+     "5": "31 -> 32",
+     "6": "21 -> 20"
+    },
+    "pagesUnchanged": "1-4 (the pinned DC-33 slice) and 7, 8, 9, 10 - character-identical extracted text, both fixtures",
+    "pageCount": "10 -> 10, both fixtures"
+   },
+   "artifacts": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+     "oldSha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+     "oldByteLength": 459333,
+     "newSha256": "fb1299a8f953939ea6d76cd99532281687e12e2e18ca3eccaabe365e9ecf8dce",
+     "newByteLength": 459293,
+     "pagesBefore": 10,
+     "pagesAfter": 10,
+     "matchesFix35Prediction": true
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+     "oldSha256": "e2afb606c3023f139cca94ac94550be3b309fd7d1ba5a946c286e8ad1696c649",
+     "oldByteLength": 459494,
+     "newSha256": "88a64e5ebd448197ce1c6ce89cf4c45247a97db25fa7008ca25773193564cf75",
+     "newByteLength": 459429,
+     "pagesBefore": 10,
+     "pagesAfter": 10,
+     "matchesFix35Prediction": true
+    },
+    "digestsMovedInThisLane": true,
+    "officialPagesUntouched": "Pages 1-4 are the pinned DC-33 binary slice. Their extracted text is character-identical before and after, verified page by page with pdftotext -layout against git show HEAD: of each fixture."
+   },
+   "deterministicRebuild": "Built with --no-raster, then built again with --no-raster. diff -r over the ENTIRE family directory between the two runs is empty: both fixtures and every report, including reports/rendered-artifacts.json, are byte-identical across runs.",
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, measured here read-only with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set (PASS_COMPLETE, 11/134 written). They are the starting condition and not the evidence: no counter reads page composition, which is why the defect this row repairs was found at appearance level and is proved the same way.",
+   "scan01": {
+    "before": {
+     "hard_split_token": 0,
+     "route_key_only_page": 0,
+     "fragment_page": 0,
+     "thin_page": 0
+    },
+    "after": {
+     "hard_split_token": 0,
+     "route_key_only_page": 0,
+     "fragment_page": 0,
+     "thin_page": 0
+    },
+    "note": "Zero before and zero after. SCAN01 does not see this family's defect and never did: a trailer printing under the clerk's certification line is neither a split token nor a thin page, it is a page-region violation, which is why the defect had to be read off the page. The run is recorded to prove the repair introduced nothing SCAN01 does see.",
+    "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, run whole-corpus (249 families) in this worktree before the rebuild and again after. Its raw-sweep.json output is a scratch artifact and was removed rather than committed; the committed sweep file was not modified."
+   },
+   "appearanceCheck": {
+    "method": "Composed content stream read page by page with pdftotext -layout on both fixtures, before bytes taken from git show HEAD:<path>, and canonical pages 5 and 6 rastered locally at 110 dpi with pdftoppm into /tmp/fix42-raster and read by eye.",
+    "printedUnderTheClerksCertificationLineAfter": 0,
+    "routeKeyOnlyPagesAfter": 0,
+    "hardSplitsAfter": 0,
+    "rasterObservation": "The raster of page 6 shows the court's block ending at the certification line with roughly the lower third of the page blank. Nothing is drawn below it.",
+    "rasteredLocally": "canonical pages 5 and 6 into /tmp/fix42-raster; nothing was rastered into the delivered tree and no rasterState was set."
+   },
+   "proposedOrderPreserved": {
+    "ownerDecision": "OWN-RI-PROPOSED-ORDER-2026-09-05",
+    "decretalBlockUnchanged": true,
+    "judicialFindingsBlank": true,
+    "grantOrDenialBlank": true,
+    "reliefMarksBlank": true,
+    "furtherTermsBlank": true,
+    "signatureBlank": true,
+    "entryDateBlank": true,
+    "certificationBlank": true,
+    "sealBlank": true,
+    "courtSelectedTermsBlank": true,
+    "retiredSourceIdentitiesStillNotBound": [
+     "official-form:DC-33-ORDER",
+     "official-form:Superior-55-ORDER"
+    ],
+    "howItWasChecked": "The extracted text of the order pages was compared line by line before and after with the moved disclaimer and trailer excluded. Every other line - the notice, the findings rules, the GRANTED/DENIED marks, the relief clause citing G.L. 1956 Sec. 12-1.3-3(c) or (e), the further-terms rules, 'Entered as an order of the Court:', the signature rule and 'Justice / Judge', and the certification line - is character-identical, in the same order, on both fixtures. Every court-fillable position is still a blank rule.",
+    "protectedWrites": 0
+   },
+   "verifiersRun": {
+    "verifyPacketCompleteness": "PASS_COMPLETE, nine counters zero (node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_decriminalized-set)",
+    "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 53 carrying an identityRefresh (node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs)",
+    "scan01": "run whole-corpus before and after; see scan01 above",
+    "buildAssertions": "The host's own assert splitToken.hardSplits === 0 held for every composed document in both runs, and the build exited 0 with nineCountersZero true and rasterState BUILT_RASTER_PENDING."
+   },
+   "rasterOwed": true,
+   "acceptanceReceipt": null,
+   "selfVerified": false,
+   "selfVerificationPerformed": 0,
+   "routesOpened": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "A repair. It approves nothing, promotes nothing, re-adjudicates no proof obligation and opens no commercial route."
+  },
+  {
+   "itemId": "ri_deferred_sentence-set",
+   "familyId": "ri_deferred_sentence-set",
+   "jurisdiction": "RI",
+   "implementationStrategy": "official_pdf_fill",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+   "routeKeys": [
+    "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket",
+    "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-2-court-motion-and-affidavit",
+    "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies"
+   ],
+   "verdictRepaired": {
+    "standingVerdictOnThisFamilyIsAPass": false,
+    "lane": "VF03",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verdictRow": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json, itemId ri_deferred_sentence-set, VF03 FAIL_REPAIR_REQUIRED at base d7e293f81",
+    "verdictBoundToBytes": {
+     "canonicalSha256": "757582d8721aa4ed71a6e94e95418328effc80877121367d5f054290af28242a",
+     "boundarySha256": "e2ba9a57686a32f9cc1d9be2c55872aa59d8043002658482f3c12f2166787dd6"
+    },
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "whatTheFailWas": "Two route-key-only pages in BOTH fixtures - page 8 of 14 and page 13 of 14 - each drawing three lines and nothing else: 'Route: obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-1-bci-and-docket ;', 'obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-2-court-motion-and-affidavit ;', 'obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies'. SCAN01 recorded the same four instances. Separately, the trailer also printed under 'Certification or attestation by the Clerk' on page 6 of both fixtures."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. VF03 recorded rasterState RASTER_PASS from workflowRunId 33943027165, bound to canonical 757582d8... and boundary e2ba9a57.... This rebuild supersedes both digests, so that receipt no longer covers the delivered bytes and a fresh CENTRAL raster is owed. Neither RASTER_QUEUE.json nor MASTER_QUEUE.json was touched by this lane.",
+    "INDEPENDENT VERIFICATION. This lane produced these bytes and verifies none of them. product-wiring.json acceptanceReceipt is null and stays null. VF03's FAIL is not converted to a PASS by this row; the row records only that the failed obligation's defect is gone from the delivered bytes, and an independent lane has to say so."
+   ],
+   "whatChanged": "Nothing in this family's directory except the rebuilt bytes and the rendered-artifacts.json digests that describe them. Two of FIX35's three host changes move it. THE PULL-DOWN: the block paginator now recognises a last page whose every drawn row is trailer and pulls the preceding block down onto it, so page 8 now opens on the closing paragraph of the notice package - 'Two of the findings in that sentence - good moral character, and rehabilitation to the court's satisfaction - are the court's to make. They are not facts LegalEase can supply and nothing in this packet asserts them.' - with the three route lines beneath it, and page 13 likewise opens on 'WHAT THIS PACKET IS NOT. It is the state's own motion and affidavit, a proposed order composed for the hearing because the state publishes none, and instructions. It is not legal advice, it is not filed for you, and it does not decide whether you are eligible.' Neither page is trailer-only any more. THE TRAILER RELOCATION: the disclaimer and trailer left the court's block on page 6, which now ends at the certification line with nothing beneath it, and arrived above the rule on page 5. THE SPLITTER is inert for this family: its keys fit the column, and hard splits were 0 before and are 0 after. Fourteen pages before, fourteen after.",
+   "placementDiff": {
+    "canonicalPagesWhosePrintedTextChanged": {
+     "5": "31 -> 33 drawn lines (disclaimer and trailer arrive above the rule)",
+     "6": "23 -> 21 (they leave the court's block)",
+     "7": "30 -> 28 (two lines of the notice package move forward onto page 8)",
+     "8": "3 -> 5 (was three trailer lines alone; now two lines of prose plus the trailer)",
+     "12": "36 -> 33 (three lines move forward onto page 13)",
+     "13": "3 -> 6 (was three trailer lines alone; now three lines of prose plus the trailer)"
+    },
+    "boundaryPagesWhosePrintedTextChanged": "identical page-for-page to canonical: 5, 6, 7, 8, 12, 13, with the same line-count movement",
+    "pagesUnchanged": "1-4 (the pinned Superior-55 slice) and 9, 10, 11, 14 - character-identical extracted text, both fixtures",
+    "pageCount": "14 -> 14, both fixtures"
+   },
+   "artifacts": {
+    "canonical": {
+     "path": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf",
+     "oldSha256": "757582d8721aa4ed71a6e94e95418328effc80877121367d5f054290af28242a",
+     "oldByteLength": 305718,
+     "newSha256": "bdf2b866505b59c1f54d625edae2234009ce19e655cc0fe67a7fe68b4221d0e8",
+     "newByteLength": 305789,
+     "pagesBefore": 14,
+     "pagesAfter": 14,
+     "matchesFix35Prediction": true
+    },
+    "boundary": {
+     "path": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf",
+     "oldSha256": "e2ba9a57686a32f9cc1d9be2c55872aa59d8043002658482f3c12f2166787dd6",
+     "oldByteLength": 305931,
+     "newSha256": "aadb8704b19ff95121f7d2eaaa92b1299b61e106f22330710c8497e7d6b932e4",
+     "newByteLength": 305979,
+     "pagesBefore": 14,
+     "pagesAfter": 14,
+     "matchesFix35Prediction": true
+    },
+    "digestsMovedInThisLane": true,
+    "officialPagesUntouched": "Pages 1-4 are the pinned Superior-55 binary slice (e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca). Their extracted text is character-identical before and after, verified page by page with pdftotext -layout against git show HEAD: of each fixture."
+   },
+   "deterministicRebuild": "Built with --no-raster, then built again with --no-raster. diff -r over the ENTIRE family directory between the two runs is empty: both fixtures and every report, including reports/rendered-artifacts.json, are byte-identical across runs.",
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersNote": "Nine zeros before and nine zeros after, measured here read-only with node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set (PASS_COMPLETE, 13/129 written). VF03 recorded the same nine zeros alongside its FAIL, which is exactly the point: the counters were all zero while two pages of the packet printed nothing but an internal route key. They are the starting condition, not the evidence.",
+   "scan01": {
+    "before": {
+     "hard_split_token": 0,
+     "route_key_only_page": 4,
+     "fragment_page": 0,
+     "thin_page": 0
+    },
+    "after": {
+     "hard_split_token": 0,
+     "route_key_only_page": 0,
+     "fragment_page": 2,
+     "thin_page": 2
+    },
+    "note": "The four route-key-only pages - the class B_page_content defect VF03 failed on - are gone. Two class B fragment_page instances remain, page 8 of each fixture, and two class D_census thin_page instances appear, page 13 of each. These are page-thinness findings, not route-key findings: SCAN01's fragment threshold is 5 composed lines and its thin benchmark is 8, and page 8 now draws exactly 5 lines (two of prose, three of route key) while page 13 draws 6. Page 8 crossed from route_key_only_page to fragment_page because it gained prose and is now judged on line count instead. THIS LANE DID NOT CHASE IT FURTHER, and says so plainly: the pull-down moves one block, which is the Oklahoma convention the host now carries; pulling a second block down to lift page 8 over the five-line threshold is a pagination rule that does not exist anywhere in this codebase and inventing it in a rebuild lane that holds no host grant would be the wrong move. It is a real residual finding, it belongs to the host, and it is named here rather than left for a verifier to discover.",
+    "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, run whole-corpus (249 families) in this worktree before the rebuild and again after. Its raw-sweep.json output is a scratch artifact and was removed rather than committed; the committed sweep file was not modified."
+   },
+   "appearanceCheck": {
+    "method": "Composed content stream read page by page with pdftotext -layout on both fixtures, before bytes taken from git show HEAD:<path>, and canonical pages 6, 8 and 13 rastered locally at 110 dpi with pdftoppm into /tmp/fix42-raster and read by eye.",
+    "printedUnderTheClerksCertificationLineAfter": 0,
+    "routeKeyOnlyPagesAfter": 0,
+    "hardSplitsAfter": 0,
+    "rasterObservation": "Page 6 ends at the certification line with the lower part of the page blank. Page 8 opens on the two-line closing paragraph of the notice package with the three route lines beneath it, each key breaking at its own separator - '...-stage-1-bci-and-docket ;', '...-stage-2-court-motion-and-affidavit ;', '...-stage-3-notice-hearing-and-certified-copies' - none of them cut mid-word and none reaching the right margin. Page 13 is the same shape with three lines of prose. Both pages have a large blank lower area, which is the residual thinness SCAN01 records above; nothing is clipped and nothing overlaps.",
+    "rasteredLocally": "canonical pages 6, 8 and 13 into /tmp/fix42-raster; nothing was rastered into the delivered tree and no rasterState was set."
+   },
+   "proposedOrderPreserved": {
+    "ownerDecision": "OWN-RI-PROPOSED-ORDER-2026-09-05",
+    "decretalBlockUnchanged": true,
+    "judicialFindingsBlank": true,
+    "grantOrDenialBlank": true,
+    "reliefMarksBlank": true,
+    "furtherTermsBlank": true,
+    "signatureBlank": true,
+    "entryDateBlank": true,
+    "certificationBlank": true,
+    "sealBlank": true,
+    "courtSelectedTermsBlank": true,
+    "retiredSourceIdentitiesStillNotBound": [
+     "official-form:DC-33-ORDER",
+     "official-form:Superior-55-ORDER"
+    ],
+    "howItWasChecked": "The extracted text of the order pages was compared line by line before and after with the moved disclaimer and trailer excluded. Every other line is character-identical, in the same order, on both fixtures, and every court-fillable position is still a blank rule. The Part Three: Deferred Sentence naming in the order is unchanged.",
+    "protectedWrites": 0
+   },
+   "verifiersRun": {
+    "verifyPacketCompleteness": "PASS_COMPLETE, nine counters zero (node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_deferred_sentence-set)",
+    "verifyIdentityRefreshSurvivesRebuild": "EVERY_IDENTITY_REFRESH_SURVIVED - 249 receipts compared against HEAD, 53 carrying an identityRefresh (node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs)",
+    "scan01": "run whole-corpus before and after; see scan01 above",
+    "buildAssertions": "The host's own assert splitToken.hardSplits === 0 held for every composed document in both runs, and the build exited 0 with nineCountersZero true and rasterState BUILT_RASTER_PENDING."
+   },
+   "rasterOwed": true,
+   "acceptanceReceipt": null,
+   "selfVerified": false,
+   "selfVerificationPerformed": 0,
+   "routesOpened": 0,
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "grantsNothing": "A repair. It approves nothing, promotes nothing, does not convert VF03's FAIL into a PASS and opens no commercial route."
+  }
+ ],
+ "notDone": [
+  "The residual fragment_page on page 8 of both ri_deferred_sentence-set fixtures. Five composed lines against SCAN01's five-line fragment threshold. Fixing it needs a second-block pull-down that no composer in this repository implements, and this lane holds no host grant. Named, not fixed.",
+  "No raster. Both families are BUILT_RASTER_PENDING at digests no receipt covers; a central raster is owed for both. RASTER_QUEUE.json and MASTER_QUEUE.json were deliberately not edited.",
+  "No independent verification, no acceptance receipt, no verdict, no route promotion, no status change. VF02's PASS is still bound to superseded bytes and VF03's FAIL still stands until an independent lane reads the new bytes.",
+  "The other three families on this host (ri_multiple_misdemeanors-set, ri_first_offender_felony-set, ri_first_offender_misdemeanor-set) were already rebuilt by FIX35 and were neither read nor rebuilt here; ri-marijuana-set and ri-nonconviction-sealing-set are not on this host."
+ ],
+ "packetBytesChanged": 4,
+ "overlayDirectoriesModified": 2,
+ "buildersModified": 0,
+ "centralStateEdits": "Only data/rcap-grade-a/packet-factory-24h/claim-ledger.json, written by claim.mjs on release. No queue, manifest, census or status file was edited.",
+ "otherWorktreesTouched": 0,
+ "subagentsCreated": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "selfVerificationPerformed": 0,
+ "grantsNothing": "This return records a rebuild on an already-repaired host. It authorizes no promotion and proves no packet."
+}

@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "rcap-grade-a-legal-block-resolution/v1",
+  "producedOn": "2026-09-11",
+  "producedBy": "LegalEase legal-design authority disposition recorded through OpenAI",
+  "scope": "Resolve the 35 families classified LEGAL_BLOCKED in docs/rcap/grade-a/handoffs/NONTERMINAL_101_2026-09-11.md without granting packet, raster, independent-review, commercial, or production-terminal status.",
+  "provenance": {
+    "queueHandoff": "docs/rcap/grade-a/handoffs/NONTERMINAL_101_2026-09-11.md",
+    "captainBranchObservedBeforeWrite": "claude/legalease-sprint-captain-utucnw",
+    "captainHeadObservedBeforeWrite": "4c9f176482b9bc8ba96430b9d946014be4535485",
+    "decisionSource": "Owner-supplied legal-design disposition dated 2026-09-11. Primary-authority citations and binding product rules below are preserved from that supplied disposition; this record does not itself represent a new court ruling or independently confer legal effect outside LegalEase product design."
+  },
+  "result": {
+    "decisionPackets": 28,
+    "legalClearDecisionPackets": 27,
+    "legalHoldDecisionPackets": 1,
+    "families": 35,
+    "legalClearFamilies": 29,
+    "legalHoldFamilies": 6,
+    "remainingLegalHold": "Kansas Judicial Council commercial redistribution/republication only",
+    "openEndedLegalResearchRemaining": 0
+  },
+  "stateSemantics": {
+    "LEGAL_CLEAR": "The family's legal-design question is resolved and LEGAL_BLOCKED should no longer be the controlling blocker. This does not make the family production-terminal and does not supersede source, implementation, custody, raster, independent-review, owner, or acceptance blockers.",
+    "LEGAL_HOLD": "Retain LEGAL_BLOCKED for the stated legal/IP question until the stated lift condition is satisfied."
+  },
+  "authoritativeProductDoctrine": [
+    "Participants supply facts and required attestations; LegalEase determines legal routes. Do not make participants choose statutes or legal theories merely because government forms contain alternative boxes.",
+    "Official current law controls over current official form/instructions, which control over current local court requirements, which control over stale registry or manifest metadata.",
+    "Never create fake government instruments. Where current law authorizes relief but no fit-for-purpose mandatory government form exists, LegalEase may generate an accurately captioned original self-help pleading. Where a prescribed mandatory instrument exists, use it.",
+    "Builder-owned constants are limited to genuinely invariant facts. Participant attestations, custodial-history questions, offense identity, procedural facts, and discretionary narratives remain participant- or record-derived."
+  ],
+  "decisions": [
+    {
+      "decisionId": "AL-CLERK-ASSIGNED-EXPUNGEMENT-CASE-NUMBER",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["al-diversion-set", "al-misd-conviction-set", "al-misd-dwop-set"],
+      "bindingProductRule": "Leave the CR-65/C-10-CRIMINAL field labeled Court Case Number (Assigned by Clerk) blank until the clerk assigns the expungement case number. Never copy the underlying criminal docket/case number into that clerk-assigned field; preserve the underlying criminal case number only in separate fields that ask for that record.",
+      "authority": "Alabama CR-65 current eForm, Alabama Courts eForms."
+    },
+    {
+      "decisionId": "SC-SINGLE-INCIDENT-FEE-TREATMENT",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["rcap-sc-custom-pleading"],
+      "bindingProductRule": "Do not encode $310 as one universal filing fee. Encode separately the $250 solicitor administrative fee, $25 SLED fee when applicable, and $35 clerk fee when applicable, with statutory exemptions. The separate SCCA223C custody/source issue is not a legal blocker and remains independently tracked.",
+      "authority": "Current South Carolina Code and current Judicial Branch guidance cited in the supplied disposition."
+    },
+    {
+      "decisionId": "IL-MISTAKEN-IDENTITY-VERIFICATION",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief"],
+      "bindingProductRule": "Use a 735 ILCS 5/1-109 certification under penalty of perjury. Do not require notarization unless a route-specific statute or rule expressly overrides Section 1-109.",
+      "authority": "735 ILCS 5/1-109, Illinois General Assembly."
+    },
+    {
+      "decisionId": "KY-FULL-PARDON-AOC-496-3",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["ky_felony_expungement_after_pardon-set"],
+      "bindingProductRule": "Use AOC-496.3. The full-pardon route is an eligibility branch of that application, not a separate instrument. Attach the pardon as required. Retire the stale route-election legal hold.",
+      "authority": "Kentucky Court of Justice AOC-496.3; repository crosswalk resolution E4-R4."
+    },
+    {
+      "decisionId": "CA-17B-17D2-OFFENSE-BY-OFFENSE",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["ca-17b-reduction-set"],
+      "bindingProductRule": "There is no global either/or participant election between Penal Code 17(b) and 17(d)(2). Determine eligibility offense by offense and request every reduction legally applicable to that offense.",
+      "authority": "California Courts CR-180 current form."
+    },
+    {
+      "decisionId": "AL-PARDONED-FELONY-SECTION-V-ATTESTATIONS",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["al-pardoned-felony-set"],
+      "bindingProductRule": "CR-65 Section V boxes are participant attestations, never builder-owned constants. Ask every required question, check only facts affirmatively supplied and supported, and stop self-help if all required statements for the route cannot truthfully be made.",
+      "authority": "Alabama CR-65 current eForm."
+    },
+    {
+      "decisionId": "RI-FIRST-OFFENDER-SUPERIOR-55-PART-TWO",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["ri_first_offender_felony-set"],
+      "bindingProductRule": "For a single-felony first-offender route use Superior-55 Part Two. The participant must truthfully satisfy/check the required statements and execute the affidavit before the authorized notary or clerk.",
+      "authority": "Rhode Island Judiciary Superior-55 current form/instructions."
+    },
+    {
+      "decisionId": "PA-RULE-790-FEE-WAIVER",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["pa_790_nonconviction-set"],
+      "bindingProductRule": "Do not hardcode a statewide filing-fee dollar amount. Court filing charges may vary locally. Expose the statewide waiver path authorized through Rule 790 / Pa.R.J.A. 1990.",
+      "authority": "Pennsylvania Rule 790 and Pa.R.J.A. 1990 materials cited in the supplied disposition."
+    },
+    {
+      "decisionId": "LA-ARTICLE-987-RECORD-DERIVED-FIELDS",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["la-987-set-aside-and-dismiss-set"],
+      "bindingProductRule": "Populate offense, statute, docket and disposition only from collected court/participant records and never infer them. Distinguish Article 987's statutory form from the later expungement stage. For felony expungement governed by Article 978, apply the current 2026 Article 978.1 documentary package requirements identified in the supplied disposition.",
+      "authority": "Current Louisiana Code articles cited in the supplied disposition."
+    },
+    {
+      "decisionId": "NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["nj_disorderly_persons-set"],
+      "bindingProductRule": "Do not ask the participant to choose a legal route. Collect factual predicates; the rules engine determines the statutory branch from conviction counts/categories, disposition relationships, dates, sentence completion, later convictions and other statutory facts. Participant owns facts and attestations, not legal classification. Fail closed if facts do not establish a branch.",
+      "authority": "Current New Jersey statutory authority cited in the supplied disposition."
+    },
+    {
+      "decisionId": "NJ-INDICTABLE-FACTS-NOT-LEGAL-ELECTION",
+      "priority": "P0",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["nj_indictable_conviction-set"],
+      "bindingProductRule": "Collect the missing factual predicates and calculate the legally available branch. No build-owned election and no participant legal diagnosis. Fail closed where facts do not establish a branch.",
+      "authority": "Current New Jersey statutory authority cited in the supplied disposition."
+    },
+    {
+      "decisionId": "DE-DISCRETIONARY-SUPERIOR-CURRENT-PACKET",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["de_discretionary_superior_court-set"],
+      "bindingProductRule": "Current Superior Court instructions control. Use Petition + Proposed Order + SBI Cover Letter + qualifying certified criminal history in the prescribed filing order. Do not add a generic cover sheet merely because stale metadata says so. Manifest-injustice facts remain participant-owned.",
+      "authority": "Current Delaware Superior Court instructions cited in the supplied disposition."
+    },
+    {
+      "decisionId": "DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["de_mandatory_expungement-set"],
+      "bindingProductRule": "Treat this as an SBI-controlled administrative pathway, not a participant-created Superior Court application. LegalEase may prepare information/instructions and route the person through SBI but must not manufacture a fictional court application.",
+      "authority": "Current Delaware Courts instructions cited in the supplied disposition."
+    },
+    {
+      "decisionId": "DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["de_pardon_expungement-set"],
+      "bindingProductRule": "Use the official Superior Court petition workflow for discretionary expungement after unconditional pardon plus the pardon-specific CIV_EXP_08_A order. No custom-pleading legal hold remains.",
+      "authority": "Current Delaware Superior Court instructions/FAQ and CIV_EXP_08_A cited in the supplied disposition."
+    },
+    {
+      "decisionId": "IL-SEALING-APPROVED-ORDER-COMPONENT-SET",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["il-seal-edu-set"],
+      "bindingProductRule": "Preserve both statewide approved grant and denial order forms as submission components because current Illinois statewide instructions list them among required forms. Prevent participant completion of judge-only fields. Fee-waiver application remains conditional.",
+      "authority": "Illinois Courts statewide Expungement & Sealing approved-forms instructions cited in the supplied disposition."
+    },
+    {
+      "decisionId": "ND-NONCONVICTION-61-DAY-AUTO-CLOSE",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["composed-treatment:nd-nonconviction-auto-close-verify"],
+      "bindingProductRule": "Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required.",
+      "authority": "North Dakota Century Code chapter 12-60.1 cited in the supplied disposition."
+    },
+    {
+      "decisionId": "MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["ma-bmc-multi-set"],
+      "bindingProductRule": "Implement the amended BMC Standing Order 1-09 consolidated branch for a person with three or more qualifying criminal records arising in two or more BMC divisions. Outside those predicates, use the ordinary docket/division treatment.",
+      "authority": "Boston Municipal Court Amended Standing Order 1-09, effective May 10, 2024, cited in the supplied disposition."
+    },
+    {
+      "decisionId": "NE-TRAFFICKING-STAGED-SETASIDE-THEN-SEAL",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["ne-trafficking-setaside-and-seal-set"],
+      "bindingProductRule": "Stage the route. First obtain the trafficking-related set-aside/vacatur. Only after that prerequisite exists make CC 6:12 sealing available.",
+      "authority": "Nebraska Judicial Branch adult record-sealing materials cited in the supplied disposition."
+    },
+    {
+      "decisionId": "NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["nh_petition_vacated-set"],
+      "bindingProductRule": "NHJB-2328 is the confidential Statement of Assets and Liabilities, not the fee-waiver motion. Use NHJB-2886-DFPe Motion to Waive Filing Fees with NHJB-2328 attached as required; preserve confidentiality and follow the motion's own service certification/form rules.",
+      "authority": "New Hampshire Courts NHJB-2886-DFPe and NHJB-2328 cited in the supplied disposition."
+    },
+    {
+      "decisionId": "OR-OSP-SEPARATE-AGENCY-STEP",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["rcap-or-official-pdf-fill"],
+      "bindingProductRule": "Treat the OSP fingerprint/history process as a separate required agency step, not a court-filing component, and do not universally label it pre-filing. Sequence it through jurisdiction/configuration rules. The court packet remains the current OJD motion/declaration/service materials.",
+      "authority": "Current Oregon Judicial Department set-aside materials cited in the supplied disposition."
+    },
+    {
+      "decisionId": "VA-EXPUNGEMENT-ALL-PARTY-AGREEMENT-GATE",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["va_exp_nonconviction-set"],
+      "bindingProductRule": "Remove the blanket Dotson stop. Encode the narrow current Section 19.2-298.02 all-party-agreement fact gate that permits the qualifying deferred-disposition dismissal/reduction to be treated as otherwise dismissed for expungement. Do not infer agreement. Use current CC-1473 and version the rule for the statutory change effective December 1, 2026.",
+      "authority": "Current Virginia Code Section 19.2-298.02 and CC-1473 cited in the supplied disposition."
+    },
+    {
+      "decisionId": "WA-SUD-VACATUR-CUSTOM-96060-6",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["wa_vac_substance_use_disorder-set"],
+      "bindingProductRule": "Do not force RCW 9.96.060(6) into the general AOC petition's residual category. Generate a route-specific petition/declaration under RCW 9.96.060(6), plus appropriate notice/order handling, using the required program proof or assessment/status documentation.",
+      "authority": "RCW 9.96.060(6), Washington State Legislature."
+    },
+    {
+      "decisionId": "WV-ACC-TREATMENT-JOB-READINESS-CLEAN-PLEADING",
+      "priority": "P1",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["wv_acc_treatment_job_readiness-set"],
+      "bindingProductRule": "Remove internal legal-analysis/registry/debug language from court filings. Build the petition around the actual requirements of Sections 61-11-26(d) and 61-11-26a: required identity/case/disposition/restoration facts, statutory grounds, rehabilitation, prior expungements, supporting program evidence, service recipients and eligibility/timing gates. Apply the statutory WVSP processing-fee waiver identified in the supplied disposition.",
+      "authority": "West Virginia Code Sections 61-11-26 and 61-11-26a cited in the supplied disposition."
+    },
+    {
+      "decisionId": "KS-KJC-COMMERCIAL-REDISTRIBUTION",
+      "priority": "P2",
+      "disposition": "LEGAL_HOLD",
+      "familyIds": ["ks-21-6614-conviction-set", "ks-21-6614-diversion-set", "ks-21-6614-prostitution-coercion-set", "ks-21-6614-specialty-court-set", "ks-22-2410-arrest-set", "ks-22-4908-registration-relief-set"],
+      "bindingProductRule": "Do not include or redistribute Kansas Judicial Council copyrighted forms inside the paid $50 packet without written permission. LegalEase may link/direct users to the official source. An independently drafted pleading may be used only where substantive/procedural law permits it and it is genuinely independently authored.",
+      "liftCondition": "Written KJC permission covering the commercial packet use, or a verified independently lawful non-KJC instrument for the specific family.",
+      "authority": "Kansas Judicial Council legal-forms copyright/noncommercial-use restriction cited in the supplied disposition."
+    },
+    {
+      "decisionId": "UT-TRAFFICKING-PCRA-RULE-65C",
+      "priority": "P2",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement"],
+      "bindingProductRule": "Stop searching for an undefined trafficking-specific 1231XX form. Use the Post-Conviction Remedies Act ground in Utah Code Section 78B-9-104(1)(h) and the court's Rule 65C PCRA petition in the district court where the conviction was entered. Collect the qualifying offense, trafficking/force/fraud/coercion relationship and supporting evidence, and apply the burden/attachment/service treatment identified in the supplied disposition.",
+      "authority": "Utah Code Section 78B-9-104(1)(h) and Rule 65C cited in the supplied disposition."
+    },
+    {
+      "decisionId": "OK-TRAFFICKING-SURVIVOR-22-OS-19C",
+      "priority": "P2",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief"],
+      "bindingProductRule": "Use a custom Petition for Expungement under 22 O.S. Section 19c for qualifying prostitution-related charge/conviction relief resulting from human trafficking. Apply the incorporated Section 19(B)-(M) hearing and 30-day notice framework. Do not invent a special statewide notary requirement. Use the current fee and in-forma-pauperis mechanism identified in the supplied disposition where applicable.",
+      "authority": "Current Oklahoma Title 22 Section 19c and 28 O.S. Section 152(H) cited in the supplied disposition."
+    },
+    {
+      "decisionId": "WY-TRAFFICKING-VACATUR-6-2-708C",
+      "priority": "P2",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"],
+      "bindingProductRule": "Use a Motion to Vacate Conviction under W.S. Section 6-2-708(c) in the original criminal court/case. Collect a participant declaration/affidavit establishing trafficking-victim status and causal connection. Official victim documentation creates a presumption when available but its absence is not an automatic stop. Serve the State/prosecutor under W.R.Cr.P. 49; do not invent a statewide hearing deadline; apply Wyoming redaction/restricted-filing rules to sensitive material.",
+      "authority": "Wyoming Statutes Section 6-2-708(c) and W.R.Cr.P. 49 cited in the supplied disposition."
+    },
+    {
+      "decisionId": "WA-HOMICIDE-VICTIM-FAMILY-MEMBER-96060-7",
+      "priority": "P2",
+      "disposition": "LEGAL_CLEAR",
+      "familyIds": ["wa_vac_homicide_victim_prostitution-set"],
+      "bindingProductRule": "Authorize a route-specific custom petition and proposed order under RCW 9.96.060(7) for a qualifying family member applying in the sentencing court on behalf of a homicide victim's RCW 9A.88.030 prostitution conviction. Do not force this route into the ordinary CrRLJ 09.0100 residual box and do not import ordinary three-year/new-crime/sentence-completion conditions into this special route.",
+      "authority": "RCW 9.96.060(7), Washington State Legislature."
+    }
+  ],
+  "legalClearFamilyIds": [
+    "rcap-sc-custom-pleading",
+    "al-diversion-set",
+    "al-misd-conviction-set",
+    "al-misd-dwop-set",
+    "al-pardoned-felony-set",
+    "ca-17b-reduction-set",
+    "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+    "composed-treatment:nd-nonconviction-auto-close-verify",
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+    "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+    "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+    "de_discretionary_superior_court-set",
+    "de_mandatory_expungement-set",
+    "de_pardon_expungement-set",
+    "il-seal-edu-set",
+    "ky_felony_expungement_after_pardon-set",
+    "la-987-set-aside-and-dismiss-set",
+    "ma-bmc-multi-set",
+    "ne-trafficking-setaside-and-seal-set",
+    "nh_petition_vacated-set",
+    "nj_disorderly_persons-set",
+    "nj_indictable_conviction-set",
+    "pa_790_nonconviction-set",
+    "rcap-or-official-pdf-fill",
+    "ri_first_offender_felony-set",
+    "va_exp_nonconviction-set",
+    "wa_vac_homicide_victim_prostitution-set",
+    "wa_vac_substance_use_disorder-set",
+    "wv_acc_treatment_job_readiness-set"
+  ],
+  "legalHoldFamilyIds": [
+    "ks-21-6614-conviction-set",
+    "ks-21-6614-diversion-set",
+    "ks-21-6614-prostitution-coercion-set",
+    "ks-21-6614-specialty-court-set",
+    "ks-22-2410-arrest-set",
+    "ks-22-4908-registration-relief-set"
+  ],
+  "captainExecutionRule": "Consume this record as a legal-state input: remove LEGAL_BLOCKED as the controlling blocker for legalClearFamilyIds, retain it only for legalHoldFamilyIds, then recompute each cleared family's next actual blocker from current source/build/raster/review/product state. Do not promote any family to COMPLETE_PACKET_PROVEN solely because its legal hold cleared. Do not re-run open-ended legal research for these 29 families unless current primary authority materially changes or concrete contradictory authority is produced."
+}

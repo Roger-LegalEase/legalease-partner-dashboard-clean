@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "scope": "one-family local current-byte technical measurement; no hosted run asserted",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "61c429c2135a6b3b79de26adea8eb6f6ed1288aaf21c0a604dd656c431848c84",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 7,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 7,
+            "sourceSha256": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 7,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 7,
+            "sourceSha256": "61c429c2135a6b3b79de26adea8eb6f6ed1288aaf21c0a604dd656c431848c84",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "61c429c2135a6b3b79de26adea8eb6f6ed1288aaf21c0a604dd656c431848c84"
+        }
+      ],
+      "expectedPages": 7,
+      "familyId": "ms-misd-addl-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "7cb3133a5ca8a5bac80550cb7bdc0e38d2359ce8",
+      "requestedScale": 2.5
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-output-approval-request/v1",
+  "familyId": "ar-misdemeanor-dwi-seal-set",
+  "routeKeys": [
+    "obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-2"
+  ],
+  "status": "REQUESTED",
+  "grantedBy": null,
+  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfilment record and marks no packet proven. The family remains not runtime-selectable, generationAllowed is false, and the route's own committed availability (false) is unchanged.",
+  "workTypesAddressed": {
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as CUSTODY, not acquisition: both sources were already held and are bound by exact pinned SHA-256 against both the bytes on disk and the committed corpus index. Nothing was acquired.",
+    "OFFICIAL_FORM_MAP_REQUIRED": "Addressed. Both documents are flat PDFs with zero AcroForm fields, so every write box is measured from the page content stream and each is confirmed from the artifact bytes at its own rectangle.",
+    "ARTIFACT_REVIEW_REQUIRED": "Addressed at the machine level: canonical and boundary fixtures rendered, verified from the artifact bytes, and every page rastered. The HUMAN independent visual review is still outstanding.",
+    "PRODUCT_WIRING_REQUIRED": "Addressed as wiring only, in product-wiring.json. It creates no authority: generationAllowed false, runtimeSelectable false, packetFamilyId still null, route availability unchanged.",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
+  },
+  "decisionsAReviewerShouldLookAtFirst": [
+    {
+      "decision": "The venue line is left entirely blank on both documents.",
+      "where": "page 1 of both: 'IN THE ____ COURT OF ____, ARKANSAS' and '____ DIVISION'",
+      "why": "The form prints no caption naming the court, the county or the division, and this family will not invent one to force a binding.",
+      "askTheReviewer": "Is a packet that leaves the venue for the participant acceptable for this route, or must the shared descriptor list learn this Arkansas caption line first?"
+    },
+    {
+      "decision": "The whole VERIFICATION page of the petition is left blank, including the jurat county and the petitioner's name in 'Comes the Defendant/Petitioner, ____, under oath'.",
+      "where": "petition page 3",
+      "why": "The jurat is executed as one act before a notary. The platform does not begin an oath that has not been taken, and the county named there is where the oath is administered rather than the county of the case.",
+      "askTheReviewer": "Should the petitioner's name be pre-printed in the oath sentence as identification, as it is in the WHEREFORE clause on page 2, or does anything printed inside a jurat have to wait for the notary?"
+    },
+    {
+      "decision": "The arrest-date trio is refused on both documents.",
+      "where": "'The Defendant was arrested on the ___ day of ___, ___'",
+      "why": "The platform holds matter.arrest_date as a whole date and holds no day, month or year fact. The census records that the DAY blank's own caption would otherwise bind participant.full_legal_name.",
+      "askTheReviewer": "Is leaving the arrest date to the participant correct, or should the platform decompose the date it holds — which would be a new fact, not a new mapping?"
+    },
+    {
+      "decision": "Dates are printed in ISO form: the rendered pages read 'DOB 1991-04-17'.",
+      "where": "petition page 3 and order page 2, 'DOB ____'",
+      "why": "The shared factory writes a date fact as the string the fact set carries, and valueMatchesType requires YYYY-MM-DD. Nothing reformats a date per jurisdiction, so this is the shared behaviour rather than a choice this family made.",
+      "askTheReviewer": "Is ISO acceptable on an Arkansas filing, or must the date of birth be printed MM/DD/YYYY? If the latter, the change belongs in the shared factory and affects every family, not here."
+    },
+    {
+      "decision": "An over-long value is left BLANK rather than shrunk past legibility or clipped.",
+      "where": "the boundary fixture: the case number is refused on both documents, and the long name is refused in the narrower WHEREFORE blank on petition page 2",
+      "why": "fitTextToWidget refuses below MIN_READABLE_FONT_SIZE (6pt) rather than clipping. A clipped value on a filing is a wrong value, not a shorter one.",
+      "askTheReviewer": "The boundary name that DOES fit renders at roughly 6pt on the caption rule, which is legible but markedly smaller than the form's 14pt body. Confirm that is acceptable, or set a floor at which the platform should leave the blank for the participant instead."
+    },
+    {
+      "decision": "The date of birth IS written into the identification block on both documents.",
+      "where": "petition page 3 and order page 2, 'DOB ____'",
+      "why": "It is the participant's own identifying fact, it is a caption fact so the court-instrument rule permits it on the order, and the block exists so the record systems seal the right person.",
+      "askTheReviewer": "Confirm that pre-filling the DOB on the proposed ORDER as well as the petition is intended."
+    }
+  ],
+  "independentVisualReviewRequired": true,
+  "thisDoesNotOpenACommercialRoute": true
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ma-expunge-mj-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "TC0021 is an XFA hybrid. The committed corpus index records xfaPresent: false, but the pinned binary carries an XFA packet that pdf-lib removes on load, and the state manifest holds this source in 05_SOURCE_GATED for exactly that reason.",
+      "consequence": "The AcroForm half of the hybrid is complete — 29 widgets over static page content that extracts cleanly — so the ordinary fill-and-flatten path applies and the sanitation report records xfaPresentInInput and xfaRemoved. The index discrepancy is a corpus-index fidelity issue, recorded here for whoever owns the index generator: it censuses the binary AFTER pdf-lib has already dropped the packet."
+    },
+    {
+      "finding": "This packet carries zero platform-written values. The DOCKET NO. box asks for the docket number of the case to be expunged, and this lane's contract forbids writing docket numbers; the petitioner block asks for name, address and phone in one box, and the shared registry has no composed fact for it (the same finding as MC 227a's dinfo in mi_setaside_marihuana-set); COURT DIVISION matches no descriptor at all.",
+      "consequence": "Every blank is declared — required-before-filing, protected, or the participant's own election — and every required-before-filing item is named in participant-instructions.md by the words printed beside it. A consequence is recorded rather than hidden: the canonical and boundary fixtures are byte-identical, because no participant fact reaches the paper."
+    },
+    {
+      "finding": "The MASTER_QUEUE instrument kind for this family reads 'Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼'. The form's own caption and the track's recorded authority in data/rcap-ledger/track-pathway-crosswalk.json both read § 100K¼ alone.",
+      "consequence": "The packet is built on TC0021 exactly as assigned — no form substitution — and the citation drift is returned as a fidelity note: § 100K is the general expungement section and TC0021 is not its form."
+    },
+    {
+      "finding": "The corpus manifest classifies this source runtime_disabled and source-gated, with a currentness gate open on the Rev. 11/22 edition.",
+      "consequence": "Building it is this lane's assignment — the MASTER_QUEUE binds the family to these exact bytes — and a built family grants nothing. The currentness question is put to counsel review in approval-request.json rather than answered here."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The service statement at the foot of page 1 certifies delivery or mailing to the District Attorney's Office, with two method boxes and a date, and the court's instruction sheet places that act on or before the day of filing.",
+      "consequence": "The date is protected (a date written before the copy goes out would be false) and the two method boxes are left as the petitioner's own, each with the timing stated in its disclosure. The participant instructions carry the order of operations because the order is the point."
+    }
+  ]
+}

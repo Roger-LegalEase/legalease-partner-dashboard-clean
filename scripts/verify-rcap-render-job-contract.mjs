@@ -1,3 +1,4 @@
+await import("./verify-rcap-il-delivery-binding.mjs");
 // SQL <-> fixture <-> TypeScript parity for the packet render job contract.
 //
 // The shared fixture data/rcap-render/state-machine.json is the single

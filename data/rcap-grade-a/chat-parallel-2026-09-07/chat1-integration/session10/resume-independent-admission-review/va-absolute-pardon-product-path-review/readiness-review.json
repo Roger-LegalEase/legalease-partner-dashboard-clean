@@ -1,0 +1,499 @@
+{
+  "schemaVersion": "session10-independent-product-path-readiness/v1",
+  "familyId": "va_exp_absolute_pardon-set",
+  "reviewer": "/root/session10_admission_review",
+  "inspectedHead": "23d057d432ea201e0c994cd5c495d35d2b463a91",
+  "inspectedAt": "2026-09-08T17:59:12.674280+00:00",
+  "scope": "Next-candidate readiness review only; no new full semantic/visual review, no successor verdict, no terminal promotion.",
+  "currentState": {
+    "state": "PRODUCT_PATH_PENDING",
+    "legalInputStatus": "SETTLED",
+    "routeMappingStatus": "BOUND",
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE",
+    "allNineCountersZero": true,
+    "selectedIndependentVerdict": {
+      "verdict": "PRODUCT_PATH_PENDING",
+      "lane": "vf01",
+      "verifiedAtBase": "e289ad818dec583ab5e3a82b5030fbefd3d876ba",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+    }
+  },
+  "originalIndependentReview": {
+    "rowPath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+    "detailPath": "data/rcap-grade-a/route-artifact-acceptance/independent-returns/va_exp_absolute_pardon-set.json",
+    "reviewer": "CODEX-CS1-VF01-VA-ROUTE",
+    "verifiedAtBase": "e289ad818dec583ab5e3a82b5030fbefd3d876ba",
+    "verdict": "PRODUCT_PATH_PENDING",
+    "originalMeasuredObligations": 15,
+    "originalObligationsAllPass": true,
+    "originalNineCounters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0,
+      "allZero": true,
+      "measuredHere": true,
+      "focusedVerifier": "PASS_COMPLETE 7/17 written"
+    },
+    "originalVisualScope": "Original independent reviewer rendered/inspected all 10 current canonical/boundary pages; no new visual inspection in this readiness audit.",
+    "scopeOfOutstandingFinding": {
+      "result": "PRODUCT_PATH_PENDING",
+      "exactRouteDeliveryDefect": "The derived route/product graph is stale and internally inconsistent after registration of this exact packet specification. factory-v2-route-registry.json fails its own generator --check and exports 15 inputs while the current packet plan adds date_of_birth, mailing_address, phone_number and email_address; paid-pathway-legal-join.json still records no family bridge or owner adoption; and the route-acceptance projection emits an undefined source-problem placeholder absent from the zero-problem RASTER_PASS semantics.",
+      "currentResolver": "factory_v2 / packet_document_v1 / sellable=false / creditConsumable=false / availability=UNFINISHED",
+      "smallestExactRepair": "Regenerate the derived route/product graph from current packet-specification and owner/family-bridge inputs; make this exact registry input contract match the packet plan; rerun registry, resolver and focused route checks without changing packet bytes or legal approval."
+    }
+  },
+  "declarationToday": {
+    "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/product-wiring.json",
+    "status": "DECLARED_NOT_INSTALLED",
+    "checkA": {
+      "name": "declared-delivery",
+      "command": [
+        "node",
+        "scripts/rcap-truth-checks/check-a-declared-delivery-artifact.mjs",
+        "--family",
+        "va_exp_absolute_pardon-set",
+        "--no-write"
+      ],
+      "elapsedSeconds": 0.584,
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/va-absolute-pardon-product-path-review/declared-delivery.log",
+      "output": "CHECK A  failing families: 0  passing: 1  not measurable: 0"
+    },
+    "missingDeclarationFound": false,
+    "deliveredArtifact": "Exact one-route assembled canonical PDF, containing primary_filing pages 1-2, records_checklist page 3, filing_instructions pages 4-5. Boundary is the stress fixture. No missing separate component PDF is inferred.",
+    "acceptanceReceiptBound": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33574304514",
+      "jobId": "100075268196",
+      "artifactId": "9826171095",
+      "boundToCanonicalSha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+      "coversTheWholeFamily": true
+    },
+    "authorityCreated": "none",
+    "paymentEligible": false,
+    "sponsorshipEligible": false
+  },
+  "currentProductPathComparedWithOriginalFinding": {
+    "requiredInputGapResolved": true,
+    "currentInputCount": 19,
+    "exactRuntimeRead": {
+      "planInputs": [
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "court",
+        "date_of_birth",
+        "disposition_date",
+        "email_address",
+        "identity_error",
+        "jurisdiction",
+        "mailing_address",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "phone_number",
+        "record_type",
+        "residency_or_location",
+        "trafficking_status"
+      ],
+      "registryInputs": [
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "court",
+        "date_of_birth",
+        "disposition_date",
+        "email_address",
+        "identity_error",
+        "jurisdiction",
+        "mailing_address",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "phone_number",
+        "record_type",
+        "residency_or_location",
+        "trafficking_status"
+      ],
+      "requiredInputsMatch": true,
+      "factoryAdmitted": true,
+      "resolver": {
+        "routeKind": "factory_v2",
+        "rendererKind": "packet_document_v1",
+        "sellable": false,
+        "creditConsumable": false,
+        "availability": "UNFINISHED"
+      }
+    },
+    "familyBridgeGapResolved": true,
+    "remainingLegacyOwnerProjection": {
+      "adoptionRecordId": null,
+      "ownerLegalDecisionRecordId": null,
+      "ownerApprovedFamilies": [],
+      "legalStatus": "owner_approval_pending",
+      "familyBridgePresent": true,
+      "disposition": "owner_approval_pending"
+    },
+    "ownerProjectionCause": "Existing scripts/lib/rcap-owner-legal-decision.mjs reads only approved owner_legal_decision entries in data/rcap-authorization-queue.json. That older completed-output scope does not name this family. September 2 batch adoption is separately recorded and explicitly limited family-level legal design; do not silently merge it into wider runtime/completed-output authority.",
+    "currentRouteAcceptanceProjection": [
+      {
+        "fixture": "canonical",
+        "rasterState": "RASTER_PENDING",
+        "receipt": null,
+        "independentPending": true
+      },
+      {
+        "fixture": "boundary",
+        "rasterState": "RASTER_PENDING",
+        "receipt": null,
+        "independentPending": true
+      }
+    ],
+    "projectionScope": "The current route projection reports pending, not the earlier undefined-problem text. Its generator still contains the undefined problemsFound fallback. Family central evidence and the route-scoped VF01 return exist separately and must retain their actual scopes.",
+    "globalGeneratorCurrencyNotExecuted": true
+  },
+  "ownerApproval": {
+    "recordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "path": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+    "qualification": "ADOPTED for the limited family-level legal-design purpose stated in this workbook. No runtime, technical, visual, payment, sponsorship, or production authority is granted. Any substantive legal change or shipping-artifact digest change requires re-review.",
+    "exactFamilyPins": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188"
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb"
+      }
+    ],
+    "sourceOrLegalReapprovalDemonstratedNecessary": false,
+    "noAuthorityWidened": true
+  },
+  "custody": {
+    "pdfs": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+        "bytes": 14666,
+        "matchesInspectedHead": true,
+        "fixture": "canonical",
+        "pageCountFromPriorParsedEvidence": 5,
+        "matchesIndependentReview": true,
+        "matchesReviewBase": true,
+        "matchesCentralRenderedCommit": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+        "bytes": 14860,
+        "matchesInspectedHead": true,
+        "fixture": "boundary",
+        "pageCountFromPriorParsedEvidence": 5,
+        "matchesIndependentReview": true,
+        "matchesReviewBase": true,
+        "matchesCentralRenderedCommit": true
+      }
+    ],
+    "packetInputs": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/source-receipt.json",
+        "sha256": "f314526ee8745c4c69c25c3747a4bcb8187ecec160c204d10ae039f3a393a076",
+        "bytes": 2597,
+        "matchesInspectedHead": true,
+        "matchesOriginalReview": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json",
+        "sha256": "d1ce9429a780b4843c006b0cb703f144e529846cc205f32badded4dbbc1fa141",
+        "bytes": 47715,
+        "matchesInspectedHead": true,
+        "matchesOriginalReview": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/participant-instructions.md",
+        "sha256": "c688fa0a8351ac8b553e84e8317a4344a4541e7b7045ae5bba003fd4aeff1a9a",
+        "bytes": 6918,
+        "matchesInspectedHead": true,
+        "matchesOriginalReview": true
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json",
+        "sha256": "3867c61c68e6c83025ae9d13cbb52a9abc0101dc1eda7132338e546fdfcdb000",
+        "bytes": 4660,
+        "matchesInspectedHead": true,
+        "matchesOriginalReview": true
+      },
+      {
+        "path": "scripts/build-census-v1-va_exp_absolute_pardon-set.mjs",
+        "sha256": "a6ce2c419b39ecefa519559d0ec4a12e6492119c0de1fbd1aa7fa9426f90d381",
+        "bytes": 62068,
+        "matchesInspectedHead": true,
+        "matchesOriginalReview": true
+      }
+    ],
+    "sourceObjects": [
+      {
+        "path": "data/record-clearing/legal-design-intake/VA.memo.json",
+        "sha256": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+        "bytes": 306821,
+        "matchesInspectedHead": true,
+        "exactObjectsUnchanged": true,
+        "selectedObjectCanonicalJsonSha256": "50ed9c67d92ab82cf4ef0ea68934116b89ebaefc2bdeeb3830146f1781aaa150",
+        "digestMethod": "Python sorted compact JSON of exact matching object array; not presented as the older JavaScript object digest."
+      },
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "baa26b2e882933329aea3caedb0a8b6e31c2eae26489b35557556173f3d119dc",
+        "bytes": 16740631,
+        "matchesInspectedHead": true,
+        "exactObjectsUnchanged": true,
+        "selectedObjectCanonicalJsonSha256": "c78b64e666993155b4bf7ec058e638aac600e800bcf421dce1d6dd6f440444db",
+        "digestMethod": "Python sorted compact JSON of exact matching object array; not presented as the older JavaScript object digest."
+      },
+      {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "27ba7b77eb8f36528b7365ec8b33d01052cefbcf7928e7abc4222d96ec4b9d3d",
+        "bytes": 3684141,
+        "matchesInspectedHead": true,
+        "exactObjectsUnchanged": true,
+        "selectedObjectCanonicalJsonSha256": "f62ab65f5dd2ae28e9c647e43becd7eb8febc5c3d8c376687b5006e9508e114f",
+        "digestMethod": "Python sorted compact JSON of exact matching object array; not presented as the older JavaScript object digest."
+      },
+      {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+        "bytes": 2629290,
+        "matchesInspectedHead": true,
+        "exactObjectsUnchanged": false,
+        "selectedObjectCanonicalJsonSha256": "1879e6ce8b682c509358f8bf3d138180dad6122dd06db581eb678b6081c0c653",
+        "digestMethod": "Python sorted compact JSON of exact matching object array; not presented as the older JavaScript object digest."
+      }
+    ],
+    "censusDelta": [
+      {
+        "key": "currentImplementationEvidence",
+        "old": [
+          "authority-ledger:authority_clearance:authority_clearance",
+          "compiled-runtime:src/lib/rcap-engine/compiled/profiles/VA-virginia.json#regime-1-expungement-available-now",
+          "crosswalk:direct_runtime_representation",
+          "launch-graph:operationallySellable=false",
+          "legal-design:legal_design_approved_with_limitations",
+          "runtime-service-disposition:paid_packet_intended",
+          "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+        ],
+        "current": [
+          "authority-ledger:authority_clearance:authority_clearance",
+          "compiled-runtime:src/lib/rcap-engine/compiled/profiles/VA-virginia.json#regime-1-expungement-available-now",
+          "crosswalk:direct_runtime_representation",
+          "launch-graph:operationallySellable=false",
+          "legal-design:legal_design_approved_with_limitations",
+          "packet-specification:data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json#va-absolute-pardon-expungement:historical=false",
+          "runtime-service-disposition:paid_packet_intended",
+          "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+        ]
+      },
+      {
+        "key": "packetFamilyId",
+        "old": null,
+        "current": "va_exp_absolute_pardon-set"
+      },
+      {
+        "key": "requiredSourceIds",
+        "old": [
+          "compiled-profile:src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "compiled-source-ref:pathways:73-114",
+          "source-url:https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
+          "source-url:https://www.norfolkcircuitcourt.us/record-expungement/"
+        ],
+        "current": [
+          "compiled-profile:src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "compiled-source-ref:pathways:73-114",
+          "packet-spec-source:OWN-ADOPT-2026-09-02-BATCH-53",
+          "packet-spec-source:VA.memo:va_exp_absolute_pardon",
+          "packet-spec-source:va_exp_absolute_pardon-set-production-field-map@census-v1",
+          "packet-spec-source:va_exp_absolute_pardon-set-rendered-artifacts@census-v1",
+          "packet-spec-source:va_exp_absolute_pardon-set@1.0.0",
+          "packet-specification:data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json#va-absolute-pardon-expungement",
+          "source-url:https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
+          "source-url:https://www.norfolkcircuitcourt.us/record-expungement/"
+        ]
+      }
+    ],
+    "censusDeltaClassification": "Added exact family/specification/source references. Route identity, mechanism and prior source references retained; exact VA track and packet-set objects unchanged.",
+    "familyPathDiffFromIndependentBase": "M\tdata/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/product-wiring.json\n"
+  },
+  "historicalCentral": {
+    "workflowRunId": "33574304514",
+    "jobId": "100075268196",
+    "renderedCommitSha": "5cc411e675842a85e357e97102e6a55f01a7d77d",
+    "artifact": {
+      "expiresAt": "2026-09-16T00:17:01Z",
+      "id": "9826171095",
+      "name": "rcap-raster-va_exp_absolute_pardon-set-33574304514",
+      "zipSha256": "sha256:2827037b7474370332e832a45bfd405f893532522330f5198cd463fc77751f73"
+    },
+    "verdict": "RASTER_PASS",
+    "actualDocumentsCovered": [
+      "canonical.pdf"
+    ],
+    "coveredCanonicalPages": 5,
+    "boundaryRasterCoverageClaimed": false,
+    "scope": "Both PDF hashes are bound, but the retained central contract covers canonical only. The original independent review separately supplies all-ten-page local inspection. No API/ZIP reacquisition or new canary execution here."
+  },
+  "nextExactBoundedWork": {
+    "first": "Commission a scoped independent closure of the original VF01 PRODUCT_PATH_PENDING finding at the current committed declaration/19-input/family-bridge state, retaining its original 15 measured obligations, nine counters, page inspection and exact attribution. If supported, publish a separately attributed successor through the existing return extractor; do not edit or relabel VF01. This readiness audit is not that successor.",
+    "minimumPacketImplementation": "No missing PDF/component, source, field-map or declaration implementation was demonstrated. Existing one-family declared-delivery check already passes. Do not schedule a packet rebuild or another central run merely to refresh unchanged evidence.",
+    "remainingProjectionRepairScope": "If closing the separate runtime/product graph finding, project the existing September 2 exact-hash family legal-design adoption with its limited scope in the existing legal join/registry, and bind route acceptance only to evidence actually retained: canonical central receipt and independently inspected boundary, without inventing problemsFound=0 or boundary central acceptance. Existing reader/generator semantics will not gain this distinction from a blind rerun. Preserve runtime/payment/credit refusal.",
+    "ownedPathsForFutureIntegrator": [
+      "scripts/lib/rcap-owner-legal-decision.mjs",
+      "scripts/generate-rcap-paid-pathway-legal-join.mjs",
+      "scripts/generate-rcap-factory-v2-registry.mjs",
+      "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs"
+    ],
+    "validationAlreadyExecutedHere": [
+      [
+        "node",
+        "scripts/rcap-truth-checks/check-a-declared-delivery-artifact.mjs",
+        "--family",
+        "va_exp_absolute_pardon-set",
+        "--no-write"
+      ],
+      [
+        "node",
+        "--input-type=module"
+      ]
+    ],
+    "futureValidation": "Exact-family declaration/receipt/approval scope checks plus normal committed-state/convergence checks after any actual reviewed change; no broadened runtime authority."
+  },
+  "terminalDelta": 0,
+  "sharedFilesModified": [],
+  "builds": 0,
+  "downloads": 0,
+  "generatorsExecuted": 0,
+  "newRasterRuns": 0,
+  "runtimeStatus": "UNFINISHED; factory_v2 / packet_document_v1; sellable=false; creditConsumable=false",
+  "productionAuthorityCreated": false,
+  "additionalPins": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "sha256": "6dff3923f940f8693479571a7e4cdc3aa1f42a14c64b419f239d1a75a73e2436",
+      "bytes": 1932793,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-grade-a/route-artifact-acceptance/independent-returns/va_exp_absolute_pardon-set.json",
+      "sha256": "be5ce2aa9908b5a4dce19e2a26a7919f7850fd2f8d455f345858ade013af2899",
+      "bytes": 22770,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "sha256": "1081372b26f07102d72d2f4f69ebf6489567c5e9e496890f8b4ddbcc6fdd258b",
+      "bytes": 2192036,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+      "sha256": "ad07056dd08b70062440e5b8446f9c05210cf630ebbade56e61aa1a5f74bd87f",
+      "bytes": 1766203,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/record-clearing/factory-v2-route-registry.json",
+      "sha256": "1151bc230e299e8e865ea53db45e4927768dce746ea65a58d27ddc87662cfea5",
+      "bytes": 507842,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-ledger/paid-pathway-legal-join.json",
+      "sha256": "99425ad54d2658ce431c56b16ab15070b38dfe3de68a9d14e1d31761e3f8ca05",
+      "bytes": 421262,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_ACCEPTANCE.json",
+      "sha256": "2b12960750f5d1b051d409b550af97d19cfa69989794fa31c22721aa9c50af60",
+      "bytes": 214612,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+      "sha256": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
+      "bytes": 49479,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+      "sha256": "ed9c2503fd87f041905503630c7bc2d7c87f5d562725085a7a00244da7b0e6b0",
+      "bytes": 66438,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
+      "sha256": "3235c4860d91f875f3810796033ff29f4d909f42221ba5895a6d499dc6d50ec8",
+      "bytes": 17329,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+      "sha256": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25",
+      "bytes": 149160,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-authorization-queue.json",
+      "sha256": "8b7df128f69dfd2f6ca667a7b59b42cd0a8d47a9aca366ecfcaf2180f5d09d91",
+      "bytes": 114540,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/product-wiring.json",
+      "sha256": "041b8921bbd0b0afb3fc08d913c213626d16e714850e8a0e2ab2c7f51f677a06",
+      "bytes": 4265,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "sha256": "db000eb3a9327f431d0e36467523a5e871eae03b06f279728f287cd7d3589a38",
+      "bytes": 280054,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "scripts/lib/rcap-owner-legal-decision.mjs",
+      "sha256": "e25ad95eb03b746213d6a1064581c0fa5dd579c3151fd9604c07bc0c326496b8",
+      "bytes": 4997,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "scripts/generate-rcap-paid-pathway-legal-join.mjs",
+      "sha256": "c1f146847997a3bc9db5f8d3184e02252a053c6ad874e7885508fa5176c82074",
+      "bytes": 17967,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "scripts/generate-rcap-factory-v2-registry.mjs",
+      "sha256": "29e784f3fb6366a646080cd2a0caccb237024e41bc419005e96ce06e7b53c465",
+      "bytes": 13295,
+      "matchesInspectedHead": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-route-artifact-acceptance.mjs",
+      "sha256": "7d8edb3d8e529c4762949111471e224f54e441b360a25f0be75799f10cf45c4a",
+      "bytes": 18441,
+      "matchesInspectedHead": true
+    }
+  ]
+}

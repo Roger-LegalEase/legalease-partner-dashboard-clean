@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "rcap-independent-semantic-preflight/v1",
+  "familyId": "ma-bmc-multi-set",
+  "lane": "VF09",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "dispatchOnly": true,
+  "dispatchAuthorized": false,
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "observedAtCommit": "a8398d194fcaa07c05e9747cfa4810f8b59522b5",
+  "claim": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/claim.txt",
+    "sha256": "efe5cd778bd153e73743452aeaa547cb714ae94538d61a544209a47d03f23b80",
+    "byteLength": 86
+  },
+  "bindingDecision": {
+    "disposition": "LEGAL_CLEAR",
+    "decisionId": "MA-BMC-CONSOLIDATED-THREE-PLUS-RECORDS",
+    "bindingProductRule": "Implement the amended BMC Standing Order 1-09 consolidated branch for a person with three or more qualifying criminal records arising in two or more BMC divisions. Outside those predicates, use the ordinary docket/division treatment.",
+    "authority": "Boston Municipal Court Amended Standing Order 1-09, effective May 10, 2024, cited in the supplied disposition.",
+    "liftCondition": null,
+    "producedOn": "2026-09-11",
+    "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "decisionRecords": [
+      "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+    ],
+    "supersedesDecisionId": null,
+    "supersededDecisionRecord": null,
+    "evidenceType": "legal_design_disposition",
+    "documentaryPermissionStoredInRepository": null,
+    "owner": null,
+    "independentReviewSawExactDecisionRecord": {
+      "verifiedAtBase": "3a2f1cf3d",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "decisionRecords": [
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "available": false,
+      "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+      "recordBindings": [
+        {
+          "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+          "matches": false
+        }
+      ]
+    },
+    "historicalLegalEntrancesRemainEvidenceOnly": true,
+    "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+  },
+  "bindingDecisionRecord": {
+    "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+    "byteLength": 22372
+  },
+  "historicalReview": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/historical-native-rows-snapshot.json",
+    "sha256": "4fcac47611b6c9f98dc775c1901ecaecc9504d419dc1318b65cf0aab6bd0ba1b",
+    "byteLength": 42702
+  },
+  "measurements": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/current-pdf-semantic-measurements.json",
+    "sha256": "15499fbab962684ca9a25b96d430696a73ebce05715f96346ab80431fec07ccb",
+    "byteLength": 23502
+  },
+  "officialSourceReading": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/ma-bmc-multi-set/official-source-reading.json",
+    "sha256": "59ff91128af877ab18bbec344ff08d5ba7072d1dd54e0197b4b6680dd8616062",
+    "byteLength": 1362
+  },
+  "currentDocuments": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "298318f7e8354d0fb00c018eaeed19421d99b35a468480e4ffaa671a18bacde8",
+      "byteLength": 11833
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "bac9000aaf807fede67c20439dd1e42627af915077c9148e7d94781dda60a93d",
+      "byteLength": 12070
+    }
+  ],
+  "findings": [
+    {
+      "id": "MA-PREFLIGHT-STALE-VEHICLE-HOLD",
+      "obligations": [
+        "ROUTE_IDENTITY",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "locations": [
+        "participant-instructions.md opening paragraph and step7",
+        "both PDFs page3 SUPPLEMENTS, NOT REPLACES paragraph",
+        "builder composedBody instructions paragraph"
+      ],
+      "currentText": "The filing-vehicle question is still unresolved ... Obtain that confirmation before filing; whether the BMC publishes one is an open question this packet does not decide.",
+      "defect": "Current participant copy retains the superseded legal hold despite the current binding decision directing implementation of the consolidated branch.",
+      "repair": "Bind the existing additive legal decision, remove superseded filing-vehicle hold and speculative form-existence language from delivered copy; preserve historical records. Continue the authorized custom consolidated treatment; do not reopen source acquisition."
+    },
+    {
+      "id": "MA-PREFLIGHT-CORI-FALSE-PREREQUISITE",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "locations": [
+        "participant-instructions.md Documents you must obtain before filing and step1",
+        "both PDFs page3 YOUR CORI FIRST",
+        "MA.memo.json tracks[ma-bmc-multi].rules.researchConsolidationScope versus inherited supportingDocuments"
+      ],
+      "currentText": "Request your own CORI ... before completing the petition.",
+      "defect": "Current memo research correction and official guide describe CORI/certified dockets as recommended; delivered packet makes obtaining CORI mandatory. Accurate participant case facts are still required, but a particular supporting record must not be made a universal court filing prerequisite.",
+      "repair": "Preserve accurate case-fact collection and useful source guidance; model CORI/docket materials as recommended or otherwise conditional under current authority, with consistent status and participant prose."
+    },
+    {
+      "id": "MA-PREFLIGHT-INTERNAL-ROUTE-KEY",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "locations": [
+        "canonical.pdf pages2,4",
+        "boundary.pdf pages2,4",
+        "participant-instructions.md footer"
+      ],
+      "currentText": "Route: obligation:track-only:MA:ma-bmc-multi",
+      "defect": "Delivered participant/filing pages expose an internal implementation key.",
+      "repair": "Remove internal identifier from delivered PDF/guidance; keep it in manifests/review metadata."
+    }
+  ],
+  "semanticChecks": {
+    "routeThreshold": "Three-plus cases, two-plus BMC divisions; dismissal/nolle only; ordinary route outside predicate. Current binding decision read and retained.",
+    "sourceTreatment": "Authorized codified-text custom-pleading strategy assessed; no new source hunt or acquisition blocker. Existing source composition records and relevant current correction read.",
+    "components": "Two authorized components, petition pages1\u20132 then instructions3\u20134 in both fixtures. No court order invented.",
+    "knownFields": "Both fixtures full name/DOB/address/phone/email all visible in extracted bytes, including full uppercase caption name; six mapped write roles per fixture.",
+    "requiredFacts": "Three record lines plus conditional continuation and participant-authored Pon narrative disclosed; venue residence/nonresident fallback correctly prompted. CORI and vehicle-handback defects listed separately.",
+    "routeChoices": "No unintended legal elections; threshold and scope restrictions correctly stated.",
+    "repeatingRows": "Division/docket/disposition named for each of three blank rows; additional records explicitly continued on attachment. No partial known row.",
+    "protectedOwnership": "Signature/date remain blank. No judge/prosecutor/clerk action fabricated.",
+    "filingDestination": "Residence division; nonresident most-recent-eligible-record division, matching amended order.",
+    "fee": "No filing fee, no waiver; not a promise of free third-party services.",
+    "service": "Participant DA notice30days before final hearing unless waived, separate from court notice; proof retained.",
+    "selfHelpStop": "Threshold/non-BMC records and current hearing/information-request product handoff preserved.",
+    "visualAcceptance": "Pending fresh central raster; semantic text/readback does not award visual PASS."
+  },
+  "packetPdfsModified": false,
+  "oldEvidenceSuperseded": false,
+  "nextStep": "Repair exact current copy/status defects, rerun semantic preflight, then raster the changed PDFs. This is not a native terminal verifier PASS."
+}

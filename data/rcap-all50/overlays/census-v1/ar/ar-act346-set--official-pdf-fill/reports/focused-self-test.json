@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-ar-act346-focused-self-test/v1",
+  "familyId": "ar-act346-set",
+  "sourceBindings": [
+    {
+      "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "sourcePath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-ACT346-SET__ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS__b90179f471d3.pdf",
+      "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+      "byteLength": 530147,
+      "pageCount": 5,
+      "acroFieldCount": 50,
+      "exactSource": true,
+      "corpusIndexChecked": false,
+      "corpusIndexAgrees": null
+    },
+    {
+      "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "sourcePath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+      "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+      "byteLength": 307979,
+      "pageCount": 3,
+      "acroFieldCount": 36,
+      "exactSource": true,
+      "corpusIndexChecked": true,
+      "corpusIndexAgrees": true
+    }
+  ],
+  "fixtures": [
+    {
+      "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+      "byteLength": 553518,
+      "pages": 5,
+      "valuesReportedByFinalizer": 10,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+      "findings": 0,
+      "refusedFieldInk": 0,
+      "nameOutsideAllowlist": 0
+    },
+    {
+      "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+      "byteLength": 553423,
+      "pages": 5,
+      "valuesReportedByFinalizer": 8,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 50,
+      "findings": 0,
+      "refusedFieldInk": 0,
+      "nameOutsideAllowlist": 0
+    },
+    {
+      "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+      "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+      "byteLength": 306189,
+      "pages": 3,
+      "valuesReportedByFinalizer": 3,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+      "findings": 0,
+      "refusedFieldInk": 0,
+      "nameOutsideAllowlist": 0
+    },
+    {
+      "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+      "sha256": "36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871",
+      "byteLength": 305836,
+      "pages": 3,
+      "valuesReportedByFinalizer": 1,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 36,
+      "findings": 0,
+      "refusedFieldInk": 0,
+      "nameOutsideAllowlist": 0
+    }
+  ],
+  "routeComponents": [
+    "ar-act346-process-guidance-1",
+    "ar-act346-primary-filing-2",
+    "ar-act346-proposed-order-3"
+  ],
+  "participantGuidance": {
+    "files": [
+      "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+      "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/stage-1-process-guidance.md"
+    ],
+    "nonEmpty": true,
+    "noUndefinedToken": true,
+    "explicitAct346ProbationStop": true
+  },
+  "orderDecreeProtection": {
+    "field": "Defendant",
+    "page": 3,
+    "written": false,
+    "expected": "court-owned blank"
+  },
+  "historicalRouteExclusion": {
+    "path": "data/rcap-all50/composed-routes/arkansas/ar-act346",
+    "status": "retained_historical_only",
+    "excludedFromCurrentParticipantDelivery": true,
+    "currentDeliveryDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill"
+  },
+  "checks": {
+    "allBuilderFindingsZero": true,
+    "allOutputBytesReopened": true,
+    "protectedFieldsRemainBlank": true,
+    "stagedGuidancePresent": true,
+    "noRasterFiles": true,
+    "participantGuidesNonEmpty": true,
+    "participantGuidesNoUndefined": true,
+    "orderGrantDecreeRemainsBlank": true,
+    "historicalComposedRouteExcluded": true
+  },
+  "visualMeasured": false,
+  "independentSemanticReview": false
+}

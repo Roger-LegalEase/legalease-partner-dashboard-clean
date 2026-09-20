@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "rcap-captain-determination/v1",
+  "recordId": "DET-DT-EXECUTION-001",
+  "executedBy": "FABLE-DT",
+  "executedAt": "2026-09-02",
+  "subject": "Four owner determinations, executed rather than re-escalated, and what each one moved",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "paymentEnabledAnywhere": false,
+  "grantsNothing": "These are executions of decisions already made. Nothing here promotes a family, opens a route, enables payment, or creates approval. Every affected family remains generationAllowed false and runtimeSelectable false.",
+  "whyThisFileExists": "Three of the four determinations moved a fact that already had an operative home, and were written there: the Arizona edition hold and the California county hold live in SOURCE_BACKLOG_CLASSIFICATION.json, the CRM-307 route split lives in the packet-set manifest and the composed-route dependency, and the Utah guidance lives in the family's own build script and delivered artifacts. The California CR-106/CR-401 determination had no such home: the hold it lifts was raised in a lane return, which is history and is not rewritten. This record is that home, and it also carries the one thing a reader cannot get from any of the operative files -- which parts of these determinations could not be executed here, and exactly why.",
+
+  "determinations": [
+    {
+      "determinationId": "DET-DT-AZ-RULE41-001",
+      "subject": "Arizona Rule 41 Forms 31(a) and 31(b)",
+      "governingAuthority": "Arizona Supreme Court order in R-26-0001, adopted 27 August 2026, effective upon filing",
+      "families": ["az_certificate_second_chance-set", "az_set_aside-set"],
+      "executed": [
+        "The edition-based legal hold is removed. SOURCE_BACKLOG_CLASSIFICATION.json's az_set_aside-set entry asked counsel to decide which edition governs, on the strength of Administrative Order AO-2025-215 (2025-12-17). AO-2025-215 does not govern the current build and its captainDecision field is now null; what governs is the R-26-0001 text, recorded on the entry.",
+        "The SOURCE_REVISION_STALE classification on AOCCRSA3F and AOCCRSA4F is superseded on the record. FABLE-A1 established that the corpus holds the 10/30/2023 editions while az_certificate_second_chance-set names the 01/01/2022 editions, and left the choice between them open. Neither governs, so the choice is not open -- it is moot. That family moves ATTACH_HELD_SOURCE to ACQUIRE_EXACT_SOURCE, because the governing text is not held in any edition.",
+        "The held 10/30/2023 binaries are retained in custody as comparison evidence and are unbound. Retiring an edition's authority is not deleting its bytes."
+      ],
+      "notExecuted": {
+        "what": "The exact current form reproduction from the adopted order attachment, and the field-by-field and sentence-by-sentence comparison against it.",
+        "verdict": "BLOCKED_SOURCE",
+        "why": "The R-26-0001 order and its Form 31(a) and 31(b) attachments are not held. The Master Library AZ custody carries AOCCRSL1F-050825, AOCCRSL2F-050825, AOCCREM1I-071221, AOCCREM2F-071221, AOCCREM3F-071221, AOCCRSA3F-103023 and AOCCRSA4F-103023, and no Rule 41 Form 31 document of any edition. The Nationwide operational tree that holds the AO-2025-215 reference PDF is not mounted in this worktree and is not carried by the corpus release. Outbound fetch is refused: this container's egress policy answers CONNECT with 403 for azcourts.gov.",
+        "whatWasNotDone": "Nothing was drafted. Reproducing a form whose adopted text is not in hand would mean writing legally operative sentences from memory, which the standard forbids and which no amount of care would make safe.",
+        "unblockedBy": [
+          "the R-26-0001 order with its Form 31(a) and 31(b) attachments placed in a mounted custody",
+          "a current standalone AOC PDF incorporating that text placed in a mounted custody",
+          "egress to azcourts.gov for an acquisition lane"
+        ]
+      },
+      "grantsAsserted": {
+        "result": "REFUSED",
+        "subjects": [
+          "az_certificate_second_chance-set::official-form:AOCCRSA3F-010122",
+          "az_certificate_second_chance-set::official-form:AOCCRSA4F-010122",
+          "az_set_aside-set::official-form:AOCCR41FORM31A-082224",
+          "az_set_aside-set::official-form:AOCCR41FORM31A-082224-CONT",
+          "az_set_aside-set::official-form:AOCCR41FORM31B-082224"
+        ],
+        "refusal": "ALREADY_RELEASED on SRC04, at 2026-09-01T08:10:05Z",
+        "whatWasDoneAnyway": "Only this classification file, which records the hold rather than the family. No Arizona family artifact, build script, overlay, field map or fixture was read or written, and no grant was transferred, re-issued or minted."
+      }
+    },
+
+    {
+      "determinationId": "DET-DT-CA-CRM307-001",
+      "subject": "California CRM-307 and the § 851.90 route",
+      "families": ["ca-diversion-seal-set"],
+      "grantsAsserted": {
+        "result": "CLAIM_OK",
+        "subject": "ca-diversion-seal-set::official-form:SDSC-CRM-307",
+        "lane": "SRC01",
+        "laneKind": "source-reconciliation"
+      },
+      "routeSplitAsItNowStands": [
+        {
+          "branch": "San Diego § 851.90",
+          "statute": "Cal. Penal Code § 851.90",
+          "component": "ca-diversion-seal-primary-filing-2",
+          "attaches": "official-form:SDSC-CRM-307",
+          "scope": "SAN_DIEGO_ONLY",
+          "sourceState": "not held; the exact San Diego Superior Court binary URL is recorded and no SHA-256 is, so staleness cannot be detected"
+        },
+        {
+          "branch": "Non-San-Diego § 851.90",
+          "statute": "Cal. Penal Code § 851.90",
+          "component": "ca-diversion-seal-primary-filing-4",
+          "attaches": "no official form",
+          "instrument": "the applicable county local petition and order set where one is collected and approved, or a participant-created pleading where that is authorised for the route, with court-specific guidance",
+          "scope": "ALL_COUNTIES_OTHER_THAN_SAN_DIEGO",
+          "sourceState": "no county set is collected or approved; the manifest already told the participant to ask the county clerk which local form applies and that no statewide Judicial Council form exists for this route"
+        },
+        {
+          "branch": "Statewide § 851.91",
+          "statute": "Cal. Penal Code § 851.91",
+          "packetSetId": "ca-851-91-set",
+          "attaches": ["official-form:CR-409", "official-form:CR-410"],
+          "scope": "STATEWIDE",
+          "changed": false,
+          "note": "Retained and untouched. It is a different statute with its own held statewide forms and its own family, already built and awaiting independent verification."
+        }
+      ],
+      "prohibitionsWritten": [
+        "CRM-307 is not used outside San Diego County, stated on the component and in the participant actions.",
+        "§ 851.90 is not converted into § 851.91. The two are named as different statutes in the packet set's own participant actions, so the packet cannot answer one route's question with the other's form."
+      ],
+      "implementedIn": [
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-primary-filing-2/dependency.json",
+        "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json"
+      ],
+      "siblingsChecked": "official-form:SDSC-CRM-307 is named by exactly one family. Searched across the master queue, the claim ledger, the active assignments, the source relationship registry, the URL promotion candidates, the census and the California composed-route manifest: every hit resolves to ca-diversion-seal-set. The only California family that could be confused with it is ca-851-91-set, and it is a § 851.91 route.",
+      "notDone": "The composed route's participant-facing output for the non-San-Diego branch was not built. Recording the branch is the determination's requirement and is a source-scope act; composing its output is a packet build on a family this lane holds no build grant for, and there is no approved county set to build against."
+    },
+
+    {
+      "determinationId": "DET-DT-CA-PROOF-OF-SERVICE-001",
+      "subject": "California CR-106, CR-106-INFO and CR-401",
+      "holdLifted": "The source-identity and currentness holds on these three exact forms are lifted. The lane return that raised them asked for 'an acquisition of open bytes or an explicit determination' for the three encrypted California forms; this is that determination. It waives nothing else: mapping, artifact-safety, visual and independent-review requirements all stand, and no family moves state because of it.",
+      "encryptionAndXfaAreImplementationWork": "The California packet host already treats them that way. It opens each exact source through a pikepdf bridge, saves a derivative that preserves the XFA presence and decoded-packet digest, overlays against measured geometry, and asserts the finished PDF carries no XFA. ca-prop64-set and ca-851-91-set are built through that path and are PASS_COMPLETE awaiting independent verification, so no Rule of Court 1.44 computer duplicate was needed and none was made.",
+      "perForm": {
+        "CR-106-INFO": {
+          "treatment": "read-only instruction component; no participant field mapping required",
+          "asBuilt": "No family maps a participant field to it, and none binds it as a component. It is a carrier reference only.",
+          "measured": "2 pages, AcroForm present, XFA present, 2 terminal fields, encrypted"
+        },
+        "CR-106": {
+          "treatment": "general criminal-record-clearing proof of service. Caption, case, participant and document-list data may be prefilled. Service date, method, recipient, server identity, declaration and signature stay blank for the adult server.",
+          "asBuilt": "The host's proof_of_service rule prefills nothing at all on this form: signature and signature date are refused as participant-completion acts, service time is refused as describing service that has not occurred, election controls are refused as sworn elections the platform never marks, attorney-block fields are refused as lawyer-only, and every remaining field is required-before-filing. That is inside the determination, which permits prefilling the caption block rather than requiring it, and it keeps every server-owned field blank.",
+          "measured": "2 pages, AcroForm present, XFA present, 48 terminal fields, encrypted",
+          "usedBy": ["ca-1203-4-set", "ca-1203-41-set", "ca-1203-42-set", "ca-1203-43-set", "ca-1203-4a-set", "ca-17b-reduction-set", "ca-851-91-set"]
+        },
+        "CR-401": {
+          "treatment": "Health and Safety Code § 11361.8 adult-crime matters only. Same server-owned-field rule.",
+          "asBuilt": "Bound to ca-prop64-set alone, whose two routes are the § 11361.8 completed-sentence application and the § 11361.8 currently-serving petition. No other family or route binds it.",
+          "measured": "1 page, AcroForm present, XFA present, 42 terminal fields, encrypted"
+        }
+      },
+      "staleMetadataCorrected": {
+        "whatTheDeterminationExpected": "that some record called the held binary XFA while the source index measured it as AcroForm with xfaPresent false, and that the record calling it XFA was the stale one",
+        "whatTheMeasurementShows": "the reverse. The held bytes carry /Root/AcroForm/XFA. pdfinfo reports 'Form: XFA' for all three, and pikepdf opened each pinned binary and found /XFA in the AcroForm dictionary with 48, 2 and 42 terminal fields. The record that disagreed with the measurement was the source index itself, which recorded xfaPresent false for all three.",
+        "whyTheIndexWasWrong": "It measured structure with a regex over the raw file bytes. These documents are AES-encrypted with cross-reference streams, so /AcroForm and /XFA never appear as literal bytes anywhere in the file, and they cannot be recovered by inflating either -- the stream data is encrypted, not merely compressed. The regex found nothing and the generator wrote xfaPresent false: not 'unknown', but a positive claim that the document is not XFA. The same fault produced pageCount null and acroFieldCount null on the same 24 entries.",
+        "howItWasFixed": "scripts/generate-rcap-local-source-corpus-index.mjs now measures a document the primary reader could not open with a second instrument -- the same pikepdf the California packet host already uses on these same binaries -- and records structureReadBy on the entry. Where no Python can import pikepdf the fields record null, because unknown is a worse record than measured and a far better one than a confident falsehood.",
+        "blastRadius": "Only the 24 entries pdf-lib could not open moved, and within them only pageCount, acroFieldCount, xfaPresent and the two new fields. acroFormPresent moved on none. structuralClassObserved moved on none and still reads 'unreadable', which stays true of the factory's own reader and is the field committed source receipts actually pin -- so no built family's artifacts drift. Verified by rebuilding the seven Utah families on the shared host after the index change and getting byte-identical output.",
+        "correctedRecords": [
+          { "formNumber": "CR-106", "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a", "was": { "xfaPresent": false, "pageCount": null, "acroFieldCount": null }, "now": { "xfaPresent": true, "pageCount": 2, "acroFieldCount": 48, "encrypted": true, "structureReadBy": "pikepdf" } },
+          { "formNumber": "CR-106-INFO", "sha256": "427936ac802434acbd5e349e18f8f0b08d2bfd48abbe08c714853b559f63bc27", "was": { "xfaPresent": false, "pageCount": null, "acroFieldCount": null }, "now": { "xfaPresent": true, "pageCount": 2, "acroFieldCount": 2, "encrypted": true, "structureReadBy": "pikepdf" } },
+          { "formNumber": "CR-401", "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01", "was": { "xfaPresent": false, "pageCount": null, "acroFieldCount": null }, "now": { "xfaPresent": true, "pageCount": 1, "acroFieldCount": 42, "encrypted": true, "structureReadBy": "pikepdf" } }
+        ],
+        "alsoCorrectedInTheSamePass": "The other 21 entries in the unreadable class -- the remaining California Judicial Council forms and the Delaware, Maryland, Maine, Texas and West Virginia documents -- were measured by the same instrument in the same run, because leaving a known-false field standing on a neighbour while correcting three of them would be choosing which participants get an accurate record."
+      },
+      "grantsAsserted": {
+        "result": "NOT_ASSERTED",
+        "why": "No dispatch names CR-106, CR-106-INFO or CR-401 as a subject for any lane, and the source index is not a claimable subject. Nothing owned by a family was written: the three forms' families were read, not built."
+      }
+    },
+
+    {
+      "determinationId": "DET-DT-UT-ACQUITTAL-001",
+      "subject": "Utah acquittal",
+      "families": ["ut_pet_acquittal-set"],
+      "primaryTreatment": "AUTOMATIC_OR_AGENCY_PROCESS",
+      "guidanceTreatment": "GUIDANCE_READY",
+      "petitionRole": "FALLBACK_ON_DOCUMENTED_AUTOMATIC_PROCESS_FAILURE",
+      "paymentEnabled": false,
+      "executed": [
+        "participant-instructions.md now opens on the automatic route, before any filing step and before any amount. It states that an acquittal on all charges is inside Utah's automatic expungement, the 60-day statutory goal for qualifying post-May 1 2020 cases, and the 120-day processing window the courts' own guidance describes.",
+        "It states that there is nothing to file to start it and no request form to send, quoting the compiled profile's record that as of January 1 2026 the court no longer uses the temporary request form that applied from October 1 2024 through December 31 2025 and now identifies and clears eligible cases on its own. It tells the participant in terms not to fill in or send that former form.",
+        "It carries the two checks Utah's own screening marks required for this disposition -- whether the case has already been automatically expunged, and the 60-day acquittal check -- and leads the required-before-filing list with the first of them.",
+        "It states that on the automatic route the participant does not apply to BCI, does not buy a certificate, does not pay the $150 court filing fee and serves no one.",
+        "The petition is reframed as the fallback for a documented automatic-process failure, with the cost and notice sections scoped to it.",
+        "The notice sequence for the fallback is stated as the repository establishes it: the participant files with the court, the court gives notice to the prosecuting office, the court sends BCI the electronic Order to Expunge, and BCI informs the available agencies and notifies the FBI.",
+        "The BCI applicant sheet's generic copy-delivery language is named as superseded for this route rather than dropped -- its Step 2 'Mail or email the prosecutor copies of what you file' and its Step 4 note that the applicant may also send copies of the order to the agencies. The participant is holding that sheet inside the packet, so a silent omission would have left two conflicting instructions and no way to tell which one governs.",
+        "The certificate-fee paragraph now states the acquittal-specific fact the repository holds -- no certificate issuance fee is required for acquittals -- instead of refusing a figure on the ground that BCI sets it per applicant. The $65.00 application fee is unchanged and still stated."
+      ],
+      "whatItIsNot": "It is not a route promotion. The family stays generationAllowed false, runtimeSelectable false, createsFulfillmentRecord false, opensCommercialRoute false and commercialRoutesOpened 0. GUIDANCE_READY here is the treatment word recorded on the family's own build status; route availability is derived by the launch graph from the Grade-A record registry and was not touched.",
+      "sharedHost": "The build script hosts seven families. The change is carried on one config flag set on ut_pet_acquittal-set alone, and the six petition families on the same host were rebuilt and are byte-identical to their committed state, fixtures included.",
+      "knownOpenDefect": {
+        "obligation": "CLIPPING_AND_OVERLAP",
+        "finding": "On packet page 18 the participant's name box overlaps the printed 'I' of the BCI declaration line, in both fixtures. Re-measured from the current committed bytes rather than inherited: the printed 'I' occupies x 49.74-52.74, y 388.53-400.66 and the written value starts at x 50.50, y 385.82-395.07 on the canonical fixture -- a 2.24 pt horizontal overlap across a 6.54 pt band.",
+        "notRepairedHere": "The write box is on the BCI application page, which all six non-traffic families on this host share. Moving it would change their fixture bytes, and this determination requires them to stay byte-identical. The repair needs a host-wide grant covering all six, which this lane does not hold.",
+        "consequence": "This family is returned BUILT_RASTER_PENDING with CLIPPING_AND_OVERLAP scored FAIL_REPAIR_REQUIRED, not PASS."
+      },
+      "grantsAsserted": {
+        "result": "REFUSED",
+        "subjects": ["ut_pet_acquittal-set"],
+        "refusals": [
+          "--assert VF03 ut_pet_acquittal-set: ALREADY_RELEASED at 2026-09-02T06:07:31.306Z -- the verification lane released and stood down, as the dispatch said it had",
+          "--assert FIX01 ut_pet_acquittal-set: ALREADY_RELEASED at 2026-09-02T02:27:25.780Z"
+        ],
+        "whatWasDoneAboutIt": "Nothing was transferred and nothing was minted. FIX01's repair grant -- the build-side grant on this family -- was re-opened in place with --reissue and a stated reason, which is the mechanism the claim tool documents for exactly this case: a lane that released correctly on return, and work Captain later assigns on the same family, with every --assert answering ALREADY_RELEASED. The grant stays on FIX01's lane record, the original release stays in ledger.releases, and the reissue and its reason are appended to ledger.reissues. It was released again on completion."
+      }
+    }
+  ],
+
+  "standardApplied": "data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json, A1 through A4. Every instruction written here states what a committed record establishes for the route it addresses, or names a checkable authority where no record establishes it. No fee, deadline, recipient or destination was invented."
+}

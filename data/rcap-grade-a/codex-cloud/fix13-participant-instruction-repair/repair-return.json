@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "rcap-fix13-participant-instruction-repair-return/v1",
+  "worker": "CODEX-CS2-FIX13",
+  "branch": "codex/cs2-fix13",
+  "dispatchCommit": "84218d2dae40d561591a65ae382adbe658c53fb0",
+  "startingHead": "d64ea255018e0ffb0f4daaee51b5cfcf279d94af",
+  "startingHeadExplanation": "The dispatch commit is the direct parent of the canonical Captain follow-up d64ea255018e0ffb0f4daaee51b5cfcf279d94af, which adds only Codespace 2 dispatch prompts.",
+  "claims": {
+    "owner": "FIX13",
+    "asserted": [
+      "nj_disorderly_persons-set",
+      "sd_arrest_expungement-set",
+      "ut_pet_dismissed_without_prejudice-set",
+      "wa_vac_homicide_victim_prostitution-set"
+    ],
+    "released": false
+  },
+  "buildMode": "Each affected family entry point was run in its FIX13 repair-only mode. No PDF bytes changed, so no PDF was rerasterized and all committed raster receipts were preserved byte-for-byte.",
+  "families": [
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "repair": [
+        "Changed ExpungeCntyName from an unfulfilled candidate write to REQUIRED_BEFORE_FILING and disclosed one confirmed filing county for pages 18, 27, 30, and 40.",
+        "Reclassified arrest3Statute, arrest4Statute, and arrest5Statute as participant REQUIRED_BEFORE_FILING arrest-table cells.",
+        "Added the held Superior Court/eCourts destination, no-court-fee treatment and separate SBI charge, required service recipients, and all 29 held self-help entries."
+      ],
+      "pdfs": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "oldSha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+          "newSha256": "343407a30f38beffccde4c51b8060065bd6eed27356a999d8e321e01a1baca33",
+          "bytesChanged": false,
+          "rerastered": false
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "oldSha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+          "newSha256": "6256ba7f621c25a8f8a501c0a9af0191c151074fc8d3b2bb6ff2ef36354788ea",
+          "bytesChanged": false,
+          "rerastered": false
+        }
+      ],
+      "rasterReceipt": {
+        "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "oldSha256": "e978b6cff09519b19a4c818c4e3f72381825c250fc0363516b094ef4418292d8",
+        "newSha256": "e978b6cff09519b19a4c818c4e3f72381825c250fc0363516b094ef4418292d8",
+        "rasterPagesPreserved": 86,
+        "contactSheetsPreserved": 2
+      }
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "repair": [
+        "Added the held outcome proof, entire-case docket check, and separate-arrest criminal-history check.",
+        "Disclosed truthfully that packet page 3 selects the no-accusatory-instrument basis without changing the selected route.",
+        "Stated the held $72 civil filing fee and indigency waiver, and replaced four partial stops with all ten exact held self-help conditions."
+      ],
+      "pdfs": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+          "newSha256": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+          "bytesChanged": false,
+          "rerastered": false
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+          "newSha256": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed",
+          "bytesChanged": false,
+          "rerastered": false
+        }
+      ],
+      "rasterReceipt": {
+        "file": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "oldSha256": "edd86a47f351ea10c24435980fad79f8de5f9093196300148f23df3784b4ce01",
+        "newSha256": "edd86a47f351ea10c24435980fad79f8de5f9093196300148f23df3784b4ce01",
+        "rasterPagesPreserved": 28
+      }
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "repair": [
+        "Removed only the 1020EX Email OPTIONAL_PARTICIPANT_CONTENT refusal and the UT-BCI-EXP-APPLICATION MAILING ADDRESS REQUIRED_BEFORE_FILING refusal.",
+        "Preserved both canonical and boundary writes for those fields, the PDFs, and participant instructions."
+      ],
+      "pdfs": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "c29dec5d606bdb248e7f00f07a76eb0d846b5fa1896bac7b711e08283fe93952",
+          "newSha256": "c29dec5d606bdb248e7f00f07a76eb0d846b5fa1896bac7b711e08283fe93952",
+          "bytesChanged": false,
+          "rerastered": false
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "682f7b6d42bcc670d936e14d637ed9dfff3854f56a3c6f9e1684f2d43f86cdf7",
+          "newSha256": "682f7b6d42bcc670d936e14d637ed9dfff3854f56a3c6f9e1684f2d43f86cdf7",
+          "bytesChanged": false,
+          "rerastered": false
+        }
+      ],
+      "rasterReceipt": {
+        "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "oldSha256": "e3f039675f5a98cd1fefcea2cefde1e7a1c19cb1fd08e1aa683105853e4db3be",
+        "newSha256": "e3f039675f5a98cd1fefcea2cefde1e7a1c19cb1fd08e1aa683105853e4db3be",
+        "rasterPagesPreserved": 38
+      }
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "repair": [
+        "Changed only the Where self-help ends section.",
+        "Carried all four exact held conditions for family-member standing, RCW 9A.88.030, a living subject using survivor routes, and a distressed applicant needing a person rather than a packet."
+      ],
+      "pdfs": [
+        {
+          "fixture": "CRRLJ 09.0100 canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+          "oldSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "newSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+          "bytesChanged": false,
+          "rerastered": false
+        },
+        {
+          "fixture": "CRRLJ 09.0100 boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+          "oldSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "newSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+          "bytesChanged": false,
+          "rerastered": false
+        },
+        {
+          "fixture": "CRRLJ 09.0200 canonical",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+          "oldSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+          "newSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+          "bytesChanged": false,
+          "rerastered": false
+        },
+        {
+          "fixture": "CRRLJ 09.0200 boundary",
+          "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+          "oldSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+          "newSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+          "bytesChanged": false,
+          "rerastered": false
+        }
+      ],
+      "rasterReceipt": {
+        "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "oldSha256": "cbf18766d78e1c774987200f91a20c8f70006b70d4dee7d363eef54f86269dd7",
+        "newSha256": "cbf18766d78e1c774987200f91a20c8f70006b70d4dee7d363eef54f86269dd7",
+        "rasterPagesPreserved": 22
+      }
+    }
+  ],
+  "changedFiles": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+      "oldSha256": "75d5eee0bc75a1c7cc74dc168a9a947ec23ecf651a7f1acc9a3a075f909b57b9",
+      "newSha256": "94e7bdb42d65c66143913703d527cb458da01da2cbcda633dc564f9f6f09c6b7"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json",
+      "oldSha256": "087d80e9866187578848999e1866ea75573b60107d5bb1d3040629c2e5dead60",
+      "newSha256": "1f1f08e43e5999bc4e96b1e7d95bdd1355d47bac0883a6f07b4284fd22510990"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/actual-writes.json",
+      "oldSha256": "7bd832f3d9c50464ff67dbe6e2c41d2721debdcfbd43b1d90259050a1819b35c",
+      "newSha256": "a76ff2c5dff163d51c5b91719b6184260972985ba60474e2518eb49f58db393e"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill/participant-instructions.md",
+      "oldSha256": "d2fdd7246210acf06bd5c92a01115d6d6d0f3c30a1edaaf775e547f5d5e5fabf",
+      "newSha256": "c4a63787d330a4cf3db89058c780ef8326f1a0b57ae57894d771dbdbb97f6110"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-dismissed-without-prejudice-set--official-pdf-fill/production-field-map.json",
+      "oldSha256": "2ed41798cca0fc47b3cc9419a767b77bd28ba3210d15a7549b3484029492f104",
+      "newSha256": "8f388582fe79001b042a39625a25f7f80bb1ad17f9e03e8d126d2eb4043c95dd"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/participant-instructions.md",
+      "oldSha256": "b94ec4ca72161695c91d87804e9e85754523ddbcfafe499be510fe78f4aebb68",
+      "newSha256": "f00cfc832cedf509ec3c726dd3fd2c9df016da5f8ac539169f0063e32b022658"
+    },
+    {
+      "file": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "oldSha256": "1f4b24f710bf172fda0408531bccd7f3d7c8edbae9bd1760545d19b3250b48a5",
+      "newSha256": "3e1fd9fff9eab3be91b473cc098c99bb86a0a4f57f121d2401466ccdcecd1032"
+    },
+    {
+      "file": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+      "oldSha256": "dc055a381d36743389229bcd112cf850ef80dca6458d4e4bda5138c05b1fc8ea",
+      "newSha256": "ed1852e6246763e1d654ceaefeaf032ea8e6c7c816573d04d76476aa98c9343e"
+    },
+    {
+      "file": "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+      "oldSha256": "6eb03d7419fe803014456f1ede9ef95c032e3006e8acd06140906a6a8cc7a40e",
+      "newSha256": "c2e9b76c885df1c742d36bb5a3ec57555cb3c9788fdc8565ae766dd980fec488"
+    },
+    {
+      "file": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+      "oldSha256": "baba26d7c58352896ba0518a536c05f146d42ea376e8e240da54eabb85cb0d46",
+      "newSha256": "200bb89fd6237524d86efc16bdf397db2be77fc4d91c76a9b53699c1de1aa9cf"
+    }
+  ],
+  "returnFile": "data/rcap-grade-a/codex-cloud/fix13-participant-instruction-repair/repair-return.json",
+  "focusedChecks": [
+    "node --check on all four assigned family builders",
+    "each assigned family builder's --assert-fix13 narrow assertions",
+    "all ten PDFs rehashed against reports/rendered-artifacts.json",
+    "all 174 preserved raster-page receipts and both NJ contact-sheet receipts rehashed by the narrow assertions",
+    "JSON parse checks and git diff --check"
+  ],
+  "independentVerification": {
+    "status": "PENDING_DIFFERENT_VERIFIER",
+    "selfVerified": false,
+    "familyVerdictsRecorded": false
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

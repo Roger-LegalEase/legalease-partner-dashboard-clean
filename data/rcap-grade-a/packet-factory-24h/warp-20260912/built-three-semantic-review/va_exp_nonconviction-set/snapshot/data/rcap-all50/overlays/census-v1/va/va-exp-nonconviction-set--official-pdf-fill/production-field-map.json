@@ -1,0 +1,3328 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "va_exp_nonconviction-set",
+  "routeKeys": [
+    "obligation:track-only:VA:va_exp_nonconviction"
+  ],
+  "routeSelectionId": "va-exp-nonconviction-cc-1473-complete-set",
+  "renderStrategy": "acroform_fill",
+  "jurisdiction": "VA",
+  "statute": "Va. Code § 19.2-392.2(A)",
+  "legalName": "Petition for Expungement of Police and Court Records of a Non-Conviction, Va. Code § 19.2-392.2(A)",
+  "officialForm": "CC-1473",
+  "assignedOfficialForm": "CC-1473",
+  "officialFormMatchesAssignment": true,
+  "componentSet": [
+    "primary_filing",
+    "commonwealth_service_and_stipulation_request",
+    "ccre_forwarding_request",
+    "records_checklist",
+    "filing_instructions"
+  ],
+  "captionBasis": "every printed caption in this map was read from the official form's own content stream at the recorded coordinates; captionReadAt records where, and the build refuses if a caption is no longer there",
+  "dispositionVocabulary": [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned",
+    "participant_sworn_narrative_or_legal_election"
+  ],
+  "routeSelectionsMade": [
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.CheckPetitioner",
+      "page": 1,
+      "printedLabel": "SIGNATURE OF",
+      "why": "this packet is prepared for the petitioner to file without counsel, so the petitioner signs it"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.CheckPetitionerContact",
+      "page": 1,
+      "printedLabel": "ADDRESS OF [ ] PETITIONER",
+      "why": "the address in this block is the petitioner's, because this packet is filed without counsel"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.CheckPetitionerPhone",
+      "page": 1,
+      "printedLabel": "TELEPHONE NUMBER OF [ ] PETITIONER",
+      "why": "the telephone number in this block is the petitioner's, because this packet is filed without counsel"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.CheckPetitionerEmail",
+      "page": 1,
+      "printedLabel": "EMAIL ADDRESS OF [ ] PETITIONER",
+      "why": "the email address in this block is the petitioner's, because this packet is filed without counsel"
+    }
+  ],
+  "routeSelectionNote": "The four marked boxes are the petitioner/attorney pairs of the signature block, decided by this packet being prepared for filing without counsel. The Part 1 basis pair — acquitted, or nolle prosequi / otherwise dismissed — is NOT route-determined: the route covers both ways a charge ends without a conviction, and which one is the participant's own record. Selecting one would be guessing a legal answer, which this lane never does.",
+  "venueNote": "The CITY OR COUNTY venue line cannot be written through the shared field semantics (a field named 'City' binds to participant.city and an explicit conflicting mapping is refused by design), so it is declared required-before-filing and no matter.* fact is held in this family's fixtures. See build-findings.json.",
+  "requiredBeforeFilingCount": 18,
+  "requiredBeforeFiling": [
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.City",
+      "page": 1,
+      "y": 676,
+      "section": "Caption",
+      "printedContext": "CITY OR COUNTY",
+      "disclosureLabel": "City or county of the circuit court where this petition is filed",
+      "identity": "CC-1473 field User.City",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings",
+      "participantMustSupply": "the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.Officer",
+      "page": 1,
+      "y": 648.91,
+      "section": "Caption",
+      "printedContext": "STREET ADDRESS OF COURT",
+      "disclosureLabel": "Street address of the court",
+      "identity": "CC-1473 field User.Officer",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the street address of that circuit court — the clerk's office can give it to you",
+      "participantMustSupply": "the street address of that circuit court — the clerk's office can give it to you"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.PetitionerName",
+      "page": 1,
+      "y": 477.92,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Petitioner's full name at the time of arrest",
+      "disclosureLabel": "My full name when I was arrested on this charge",
+      "identity": "CC-1473 field User.PetitionerName",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not",
+      "participantMustSupply": "the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.SpecificCharge",
+      "page": 1,
+      "y": 460.31,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Specific charge(s) to be expunged",
+      "disclosureLabel": "Specific charge(s) to be expunged",
+      "identity": "CC-1473 field User.SpecificCharge",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record",
+      "participantMustSupply": "the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.CaseNumbers",
+      "page": 1,
+      "y": 427.16,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "If matter was heard on appeal from General District Court, list applicable General District Court case number(s)",
+      "disclosureLabel": "General District Court case number(s), if the matter was heard on appeal",
+      "identity": "CC-1473 field User.CaseNumbers",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court",
+      "participantMustSupply": "the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.UnderlyingCaseNumbers",
+      "page": 1,
+      "y": 410.11,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Underlying Case No.(s)",
+      "disclosureLabel": "Underlying case number(s) of the attached warrant or indictment",
+      "identity": "CC-1473 field User.UnderlyingCaseNumbers",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached",
+      "participantMustSupply": "the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.ArrestingAgency",
+      "page": 1,
+      "y": 393.63,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Name of arresting agency",
+      "disclosureLabel": "Name of the arresting agency for the charge to be expunged",
+      "identity": "CC-1473 field User.ArrestingAgency",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the name of the police or sheriff's department that arrested you on this charge",
+      "participantMustSupply": "the name of the police or sheriff's department that arrested you on this charge"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.DateOfArrest",
+      "page": 1,
+      "y": 393.62,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Date of arrest",
+      "disclosureLabel": "Date of arrest for the charge to be expunged",
+      "identity": "CC-1473 field User.DateOfArrest",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the date you were arrested on this charge, from your arrest or court record",
+      "participantMustSupply": "the date you were arrested on this charge, from your arrest or court record"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.Because",
+      "page": 1,
+      "y": 351.07,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "because (state reason this information is not available)",
+      "disclosureLabel": "Why the warrant, indictment or arrest information is not reasonably available",
+      "identity": "CC-1473 field User.Because",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess",
+      "participantMustSupply": "why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.DateOfFinalDisposition1",
+      "page": 1,
+      "y": 334.02,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Date(s) of final disposition of charge(s)",
+      "disclosureLabel": "Date(s) of final disposition of the charge(s)",
+      "identity": "CC-1473 field User.DateOfFinalDisposition1",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record",
+      "participantMustSupply": "the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.DisposingCourt1",
+      "page": 1,
+      "y": 334.02,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Court disposing of charge(s)",
+      "disclosureLabel": "Court disposing of the charge(s)",
+      "identity": "CC-1473 field User.DisposingCourt1",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: the court that disposed of the charge, as named on your court record",
+      "participantMustSupply": "the court that disposed of the charge, as named on your court record"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.DateOfFinalDisposition2",
+      "page": 1,
+      "y": 318.37,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Date(s) of final disposition of charge(s)",
+      "disclosureLabel": "Date(s) of final disposition — continuation line",
+      "identity": "CC-1473 field User.DateOfFinalDisposition2",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: more disposition dates, if the charges were disposed of on more than one date",
+      "participantMustSupply": "more disposition dates, if the charges were disposed of on more than one date"
+    },
+    {
+      "document": "CC-1473",
+      "field": "CC-1473/User.DisposingCourt2",
+      "page": 1,
+      "y": 318.37,
+      "section": "Part 2 - facts of the charge",
+      "printedContext": "Court disposing of charge(s)",
+      "disclosureLabel": "Court disposing of the charge(s) — continuation line",
+      "identity": "CC-1473 field User.DisposingCourt2",
+      "why": "the platform holds no value it may write here and the participant supplies it before filing: more disposing courts, if more than one court disposed of the charges",
+      "participantMustSupply": "more disposing courts, if more than one court disposed of the charges"
+    },
+    {
+      "document": "ccre_forwarding_request",
+      "field": "ccre_forwarding_request.circuit_court",
+      "page": 1,
+      "y": null,
+      "section": null,
+      "printedContext": "Circuit Court named on this page",
+      "disclosureLabel": "Circuit Court named on this page",
+      "identity": "ccre_forwarding_request field circuit_court",
+      "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+      "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+    },
+    {
+      "document": "commonwealth_service_and_stipulation_request",
+      "field": "commonwealth_service_and_stipulation_request.circuit_court",
+      "page": 1,
+      "y": null,
+      "section": null,
+      "printedContext": "Circuit Court named on this page",
+      "disclosureLabel": "Circuit Court named on this page",
+      "identity": "commonwealth_service_and_stipulation_request field circuit_court",
+      "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+      "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+    },
+    {
+      "document": "commonwealth_service_and_stipulation_request",
+      "field": "commonwealth_service_and_stipulation_request.commonwealth_attorney_address",
+      "page": 1,
+      "y": null,
+      "section": null,
+      "printedContext": "Name and mailing address of the Attorney for the Commonwealth",
+      "disclosureLabel": "Name and mailing address of the Attorney for the Commonwealth",
+      "identity": "commonwealth_service_and_stipulation_request field commonwealth_attorney_address",
+      "why": "the platform holds no address for the Attorney for the Commonwealth and the participant writes it before service",
+      "participantMustSupply": "the name and mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you"
+    },
+    {
+      "document": "filing_instructions",
+      "field": "filing_instructions.circuit_court",
+      "page": 1,
+      "y": null,
+      "section": null,
+      "printedContext": "Circuit Court named on this page",
+      "disclosureLabel": "Circuit Court named on this page",
+      "identity": "filing_instructions field circuit_court",
+      "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+      "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+    },
+    {
+      "document": "records_checklist",
+      "field": "records_checklist.circuit_court",
+      "page": 1,
+      "y": null,
+      "section": null,
+      "printedContext": "Circuit Court named on this page",
+      "disclosureLabel": "Circuit Court named on this page",
+      "identity": "records_checklist field circuit_court",
+      "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+      "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+    }
+  ],
+  "maps": [
+    {
+      "formNumber": "CC-1473",
+      "documentId": "CC-1473",
+      "documentRole": "primary_filing",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:VA:va_exp_nonconviction"
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "User.Title": "participant.full_legal_name",
+        "User.DOB": "participant.date_of_birth",
+        "User.PrintName": "participant.full_legal_name",
+        "User.AddressOf": "participant.street_address",
+        "User.PetetionerPhoneNumber": "participant.phone",
+        "User.PetetionerEmail": "participant.email"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "field": "CC-1473/User.Check0@p1y563",
+          "fieldName": "CC-1473/User.Check0@p1y563",
+          "acroFieldName": "User.Check0",
+          "page": 1,
+          "rect": {
+            "x": 89.65,
+            "y": 563.24,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "has been acquitted of the charge",
+          "printedLine": "has been acquitted of the charge",
+          "sectionHeading": "Part 1 - basis of the petition",
+          "regionHeading": "I have been acquitted of the charge (check one) (selection)",
+          "effectiveLabel": "I have been acquitted of the charge (check one) (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 567
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.Check0@p1y563",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 89.65,
+                "y": 563.24,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "how your charge ended — acquittal, or nolle prosequi / dismissal — is a fact about your own court record, and the form says CHECK ONE; tick the one your disposition paperwork shows",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "how your charge ended — acquittal, or nolle prosequi / dismissal — is a fact about your own court record, and the form says CHECK ONE; tick the one your disposition paperwork shows"
+        },
+        {
+          "field": "CC-1473/User.Check0@p1y552",
+          "fieldName": "CC-1473/User.Check0@p1y552",
+          "acroFieldName": "User.Check0",
+          "page": 1,
+          "rect": {
+            "x": 89.87,
+            "y": 551.71,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "a nolle prosequi of the charge has been taken or the charge has been otherwise dismissed",
+          "printedLine": "a nolle prosequi of the charge has been taken or the charge has been otherwise dismissed",
+          "sectionHeading": "Part 1 - basis of the petition",
+          "regionHeading": "A nolle prosequi has been taken or the charge was otherwise dismissed (check one) (selection)",
+          "effectiveLabel": "A nolle prosequi has been taken or the charge was otherwise dismissed (check one) (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 555
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.Check0@p1y552",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 89.87,
+                "y": 551.71,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "how your charge ended — acquittal, or nolle prosequi / dismissal — is a fact about your own court record, and the form says CHECK ONE; tick the one your disposition paperwork shows",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "how your charge ended — acquittal, or nolle prosequi / dismissal — is a fact about your own court record, and the form says CHECK ONE; tick the one your disposition paperwork shows"
+        },
+        {
+          "field": "CC-1473/User.Check5@p1y407",
+          "fieldName": "CC-1473/User.Check5@p1y407",
+          "acroFieldName": "User.Check5",
+          "page": 1,
+          "rect": {
+            "x": 89.91,
+            "y": 407.04,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "A copy of the warrant or indictment is attached to this petition",
+          "printedLine": "A copy of the warrant or indictment is attached to this petition",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "A copy of the warrant or indictment is attached to this petition (selection)",
+          "effectiveLabel": "A copy of the warrant or indictment is attached to this petition (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 410
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.Check5@p1y407",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 89.91,
+                "y": 407.04,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "whether you can attach the charging document is a fact about your own records; tick this if the copy really is attached",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "whether you can attach the charging document is a fact about your own records; tick this if the copy really is attached"
+        },
+        {
+          "field": "CC-1473/User.Check5@p1y377",
+          "fieldName": "CC-1473/User.Check5@p1y377",
+          "acroFieldName": "User.Check5",
+          "page": 1,
+          "rect": {
+            "x": 89.91,
+            "y": 377.36,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "A copy of the warrant or indictment",
+          "printedLine": "A copy of the warrant or indictment",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "The copy of the warrant or indictment is not reasonably available (selection)",
+          "effectiveLabel": "The copy of the warrant or indictment is not reasonably available (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 380
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.Check5@p1y377",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 89.91,
+                "y": 377.36,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "whether the charging document can reasonably be found is a fact about your own records; tick this only if it cannot, and say why on the line below",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "whether the charging document can reasonably be found is a fact about your own records; tick this only if it cannot, and say why on the line below"
+        },
+        {
+          "field": "CC-1473/User.Check7",
+          "fieldName": "CC-1473/User.Check7",
+          "acroFieldName": "User.Check7",
+          "page": 1,
+          "rect": {
+            "x": 255,
+            "y": 377.36,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "date of arrest or name of arresting agency is not reasonably available",
+          "printedLine": "date of arrest or name of arresting agency is not reasonably available",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "The date of arrest or the arresting agency is not reasonably available (selection)",
+          "effectiveLabel": "The date of arrest or the arresting agency is not reasonably available (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 380
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.Check7",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 255,
+                "y": 377.36,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "whether that information can reasonably be found is a fact about your own records; tick this only if it cannot, and say why on the line below",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "whether that information can reasonably be found is a fact about your own records; tick this only if it cannot, and say why on the line below"
+        },
+        {
+          "field": "CC-1473/User.CheckPetitioner",
+          "fieldName": "CC-1473/User.CheckPetitioner",
+          "acroFieldName": "User.CheckPetitioner",
+          "page": 1,
+          "rect": {
+            "x": 377.81,
+            "y": 237.23,
+            "width": 9.82,
+            "height": 9.19
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "SIGNATURE OF",
+          "printedLine": "SIGNATURE OF",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The petition is signed by the Petitioner (selection)",
+          "effectiveLabel": "The petition is signed by the Petitioner (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 240
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckPetitioner",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 377.81,
+                "y": 237.23,
+                "width": 9.82,
+                "height": 9.19
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "selected_by_route",
+          "reason": "this packet is prepared for the petitioner to file without counsel, so the petitioner signs it",
+          "routeDetermined": true,
+          "requiredBeforeFiling": false,
+          "why": "this packet is prepared for the petitioner to file without counsel, so the petitioner signs it"
+        },
+        {
+          "field": "CC-1473/User.CheckAttorney",
+          "fieldName": "CC-1473/User.CheckAttorney",
+          "acroFieldName": "User.CheckAttorney",
+          "page": 1,
+          "rect": {
+            "x": 431.44,
+            "y": 237.23,
+            "width": 9.82,
+            "height": 9.85
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "ATTORNEY FOR PETITIONER",
+          "printedLine": "ATTORNEY FOR PETITIONER",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The petition is signed by the attorney for the petitioner (selection)",
+          "effectiveLabel": "The petition is signed by the attorney for the petitioner (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 240
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckAttorney",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 431.44,
+                "y": 237.23,
+                "width": 9.82,
+                "height": 9.85
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "attorney-only; no representation fact is held for this participant; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "attorney-only; no representation fact is held for this participant"
+        },
+        {
+          "field": "CC-1473/User.CheckPetitionerContact",
+          "fieldName": "CC-1473/User.CheckPetitionerContact",
+          "acroFieldName": "User.CheckPetitionerContact",
+          "page": 1,
+          "rect": {
+            "x": 265.85,
+            "y": 177.52,
+            "width": 9.82,
+            "height": 9.85
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "ADDRESS OF [ ] PETITIONER",
+          "printedLine": "ADDRESS OF [ ] PETITIONER",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The address given is the Petitioner's (selection)",
+          "effectiveLabel": "The address given is the Petitioner's (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 181
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckPetitionerContact",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 265.85,
+                "y": 177.52,
+                "width": 9.82,
+                "height": 9.85
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "selected_by_route",
+          "reason": "the address in this block is the petitioner's, because this packet is filed without counsel",
+          "routeDetermined": true,
+          "requiredBeforeFiling": false,
+          "why": "the address in this block is the petitioner's, because this packet is filed without counsel"
+        },
+        {
+          "field": "CC-1473/User.CheckAttorneyContact",
+          "fieldName": "CC-1473/User.CheckAttorneyContact",
+          "acroFieldName": "User.CheckAttorneyContact",
+          "page": 1,
+          "rect": {
+            "x": 319.35,
+            "y": 177.52,
+            "width": 9.82,
+            "height": 9.85
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "ATTORNEY FOR PETITIONER",
+          "printedLine": "ATTORNEY FOR PETITIONER",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The address given is the attorney's (selection)",
+          "effectiveLabel": "The address given is the attorney's (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 181
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckAttorneyContact",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 319.35,
+                "y": 177.52,
+                "width": 9.82,
+                "height": 9.85
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "attorney-only; no representation fact is held for this participant; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "attorney-only; no representation fact is held for this participant"
+        },
+        {
+          "field": "CC-1473/User.CheckPetitionerPhone",
+          "fieldName": "CC-1473/User.CheckPetitionerPhone",
+          "acroFieldName": "User.CheckPetitionerPhone",
+          "page": 1,
+          "rect": {
+            "x": 372.25,
+            "y": 151.35,
+            "width": 9.77,
+            "height": 9.19
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "TELEPHONE NUMBER OF [ ] PETITIONER",
+          "printedLine": "TELEPHONE NUMBER OF [ ] PETITIONER",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The telephone number given is the Petitioner's (selection)",
+          "effectiveLabel": "The telephone number given is the Petitioner's (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 154
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckPetitionerPhone",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 372.25,
+                "y": 151.35,
+                "width": 9.77,
+                "height": 9.19
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "selected_by_route",
+          "reason": "the telephone number in this block is the petitioner's, because this packet is filed without counsel",
+          "routeDetermined": true,
+          "requiredBeforeFiling": false,
+          "why": "the telephone number in this block is the petitioner's, because this packet is filed without counsel"
+        },
+        {
+          "field": "CC-1473/User.CheckAttorneyPhone",
+          "fieldName": "CC-1473/User.CheckAttorneyPhone",
+          "acroFieldName": "User.CheckAttorneyPhone",
+          "page": 1,
+          "rect": {
+            "x": 425.8,
+            "y": 151.35,
+            "width": 9.77,
+            "height": 9.19
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "ATTORNEY FOR PETITIONER",
+          "printedLine": "ATTORNEY FOR PETITIONER",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The telephone number given is the attorney's (selection)",
+          "effectiveLabel": "The telephone number given is the attorney's (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 154
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckAttorneyPhone",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 425.8,
+                "y": 151.35,
+                "width": 9.77,
+                "height": 9.19
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "attorney-only; no representation fact is held for this participant; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "attorney-only; no representation fact is held for this participant"
+        },
+        {
+          "field": "CC-1473/User.CheckPetitionerEmail",
+          "fieldName": "CC-1473/User.CheckPetitionerEmail",
+          "acroFieldName": "User.CheckPetitionerEmail",
+          "page": 1,
+          "rect": {
+            "x": 357.47,
+            "y": 125.17,
+            "width": 9.77,
+            "height": 9.19
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "EMAIL ADDRESS OF [ ] PETITIONER",
+          "printedLine": "EMAIL ADDRESS OF [ ] PETITIONER",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The email address given is the Petitioner's (selection)",
+          "effectiveLabel": "The email address given is the Petitioner's (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 128
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckPetitionerEmail",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 357.47,
+                "y": 125.17,
+                "width": 9.77,
+                "height": 9.19
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "selected_by_route",
+          "reason": "the email address in this block is the petitioner's, because this packet is filed without counsel",
+          "routeDetermined": true,
+          "requiredBeforeFiling": false,
+          "why": "the email address in this block is the petitioner's, because this packet is filed without counsel"
+        },
+        {
+          "field": "CC-1473/User.CheckAttorneyEmail",
+          "fieldName": "CC-1473/User.CheckAttorneyEmail",
+          "acroFieldName": "User.CheckAttorneyEmail",
+          "page": 1,
+          "rect": {
+            "x": 411.02,
+            "y": 125.17,
+            "width": 9.77,
+            "height": 9.19
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "ATTORNEY FOR PETITIONER",
+          "printedLine": "ATTORNEY FOR PETITIONER",
+          "sectionHeading": "Signature block",
+          "regionHeading": "The email address given is the attorney's (selection)",
+          "effectiveLabel": "The email address given is the attorney's (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 128
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CheckAttorneyEmail",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 411.02,
+                "y": 125.17,
+                "width": 9.77,
+                "height": 9.19
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "attorney-only; no representation fact is held for this participant; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "attorney-only; no representation fact is held for this participant"
+        },
+        {
+          "field": "CC-1473/User.CBCertify",
+          "fieldName": "CC-1473/User.CBCertify",
+          "acroFieldName": "User.CBCertify",
+          "page": 1,
+          "rect": {
+            "x": 71.79,
+            "y": 78.56,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "I certify that I provided the petitioner a certified copy of this petition",
+          "printedLine": "I certify that I provided the petitioner a certified copy of this petition",
+          "sectionHeading": "Clerk's certification",
+          "regionHeading": "Clerk's certification that the petitioner was provided a certified copy (selection)",
+          "effectiveLabel": "Clerk's certification that the petitioner was provided a certified copy (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 82
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CBCertify",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 71.79,
+                "y": 78.56,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "this is the clerk's own certification, made by the clerk after filing; it is not the petitioner's to complete",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "this is the clerk's own certification, made by the clerk after filing; it is not the petitioner's to complete"
+        },
+        {
+          "field": "CC-1473/User.CB1",
+          "fieldName": "CC-1473/User.CB1",
+          "acroFieldName": "User.CB1",
+          "page": 2,
+          "rect": {
+            "x": 71.79,
+            "y": 701.76,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "File completed PETITION FOR EXPUNGEMENT",
+          "printedLine": "File completed PETITION FOR EXPUNGEMENT",
+          "sectionHeading": "Checklist for petitioner (page 2)",
+          "regionHeading": "Checklist: I filed the completed petition in the circuit court where the charge was disposed of (selection)",
+          "effectiveLabel": "Checklist: I filed the completed petition in the circuit court where the charge was disposed of (selection)",
+          "captionReadAt": {
+            "page": 2,
+            "y": 705
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CB1",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 71.79,
+                "y": 701.76,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "the form's own checklist; tick it as you complete the step — filing in the circuit court of the county or city in which the charge was disposed of, with circuit court form CC-1416 if the clerk requires it",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "the form's own checklist; tick it as you complete the step — filing in the circuit court of the county or city in which the charge was disposed of, with circuit court form CC-1416 if the clerk requires it"
+        },
+        {
+          "field": "CC-1473/User.CB2",
+          "fieldName": "CC-1473/User.CB2",
+          "acroFieldName": "User.CB2",
+          "page": 2,
+          "rect": {
+            "x": 71.79,
+            "y": 665.29,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Request that the Central Criminal Records Exchange electronically forward a copy of your Virginia criminal history",
+          "printedLine": "Request that the Central Criminal Records Exchange electronically forward a copy of your Virginia criminal history",
+          "sectionHeading": "Checklist for petitioner (page 2)",
+          "regionHeading": "Checklist: I asked the Central Criminal Records Exchange to forward my record to the court (selection)",
+          "effectiveLabel": "Checklist: I asked the Central Criminal Records Exchange to forward my record to the court (selection)",
+          "captionReadAt": {
+            "page": 2,
+            "y": 669
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CB2",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 71.79,
+                "y": 665.29,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "the form's own checklist; tick it as you complete the step — this packet includes a page for making that request",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "the form's own checklist; tick it as you complete the step — this packet includes a page for making that request"
+        },
+        {
+          "field": "CC-1473/User.CB3",
+          "fieldName": "CC-1473/User.CB3",
+          "acroFieldName": "User.CB3",
+          "page": 2,
+          "rect": {
+            "x": 71.79,
+            "y": 640.25,
+            "width": 11.98,
+            "height": 11.32
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Have a copy of this petition served on the Commonwealth",
+          "printedLine": "Have a copy of this petition served on the Commonwealth",
+          "sectionHeading": "Checklist for petitioner (page 2)",
+          "regionHeading": "Checklist: a copy of the petition was served on the Commonwealth's Attorney (selection)",
+          "effectiveLabel": "Checklist: a copy of the petition was served on the Commonwealth's Attorney (selection)",
+          "captionReadAt": {
+            "page": 2,
+            "y": 643
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "selectionId": "User.CB3",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 71.79,
+                "y": 640.25,
+                "width": 11.98,
+                "height": 11.32
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "the form's own checklist; tick it as you complete the step — service happens after filing, so it cannot be pre-ticked",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "the form's own checklist; tick it as you complete the step — service happens after filing, so it cannot be pre-ticked"
+        }
+      ],
+      "canonicalWrites": [
+        {
+          "field": "CC-1473/User.Title",
+          "fieldName": "CC-1473/User.Title",
+          "acroFieldName": "User.Title",
+          "page": 1,
+          "rect": {
+            "x": 73.84,
+            "y": 621.4,
+            "width": 368.72,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "NAME OF PETITIONER",
+          "printedLine": "NAME OF PETITIONER",
+          "sectionHeading": "Caption",
+          "regionHeading": "Name of Petitioner in the style of the case",
+          "effectiveLabel": "Name of Petitioner in the style of the case",
+          "captionReadAt": {
+            "page": 1,
+            "y": 613
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.DOB",
+          "fieldName": "CC-1473/User.DOB",
+          "acroFieldName": "User.DOB",
+          "page": 1,
+          "rect": {
+            "x": 202.31,
+            "y": 494.38,
+            "width": 119.99,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Petitioner's date of birth is",
+          "printedLine": "Petitioner's date of birth is",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Petitioner's date of birth",
+          "effectiveLabel": "Petitioner's date of birth",
+          "captionReadAt": {
+            "page": 1,
+            "y": 495
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.date_of_birth",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.PrintName",
+          "fieldName": "CC-1473/User.PrintName",
+          "acroFieldName": "User.PrintName",
+          "page": 1,
+          "rect": {
+            "x": 289.48,
+            "y": 215.61,
+            "width": 285.48,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "PRINT NAME",
+          "printedLine": "PRINT NAME",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Printed name of the petitioner",
+          "effectiveLabel": "Printed name of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 207
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.AddressOf",
+          "fieldName": "CC-1473/User.AddressOf",
+          "acroFieldName": "User.AddressOf",
+          "page": 1,
+          "rect": {
+            "x": 73.79,
+            "y": 189.2,
+            "width": 501.48,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "ADDRESS OF",
+          "printedLine": "ADDRESS OF",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Address of the petitioner",
+          "effectiveLabel": "Address of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 181
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.street_address",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.PetetionerPhoneNumber",
+          "fieldName": "CC-1473/User.PetetionerPhoneNumber",
+          "acroFieldName": "User.PetetionerPhoneNumber",
+          "page": 1,
+          "rect": {
+            "x": 289.5,
+            "y": 162.7,
+            "width": 285.6,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "TELEPHONE NUMBER OF",
+          "printedLine": "TELEPHONE NUMBER OF",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Telephone number of the petitioner",
+          "effectiveLabel": "Telephone number of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 154
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.phone",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.PetetionerEmail",
+          "fieldName": "CC-1473/User.PetetionerEmail",
+          "acroFieldName": "User.PetetionerEmail",
+          "page": 1,
+          "rect": {
+            "x": 290.02,
+            "y": 136.49,
+            "width": 285.06,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "EMAIL ADDRESS OF",
+          "printedLine": "EMAIL ADDRESS OF",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Email address of the petitioner",
+          "effectiveLabel": "Email address of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 128
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.email",
+          "kind": "text"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "CC-1473/ResetButton",
+          "fieldName": "CC-1473/ResetButton",
+          "acroFieldName": "ResetButton",
+          "page": 1,
+          "rect": {
+            "x": 5.19,
+            "y": 760.06,
+            "width": 110.39,
+            "height": 26.58
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": null,
+          "printedLine": null,
+          "sectionHeading": "Viewer control",
+          "regionHeading": "Reset this form (viewer control)",
+          "effectiveLabel": "Reset this form (viewer control)",
+          "captionReadAt": null,
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "a viewer control the reader clicks, never a filing fact; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "a viewer control the reader clicks, never a filing fact"
+        },
+        {
+          "field": "CC-1473/User.CaseNumber",
+          "fieldName": "CC-1473/User.CaseNumber",
+          "acroFieldName": "User.CaseNumber",
+          "page": 1,
+          "rect": {
+            "x": 418.27,
+            "y": 736.79,
+            "width": 156.85,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "sectionHeading": "Caption",
+          "regionHeading": "Case Number of this petition (the circuit court clerk assigns it at filing)",
+          "effectiveLabel": "Case Number of this petition (the circuit court clerk assigns it at filing)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 738
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the circuit court clerk assigns the civil case number when the petition is filed",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the circuit court clerk assigns the civil case number when the petition is filed"
+        },
+        {
+          "field": "CC-1473/User.City",
+          "fieldName": "CC-1473/User.City",
+          "acroFieldName": "User.City",
+          "page": 1,
+          "rect": {
+            "x": 73.9,
+            "y": 676,
+            "width": 372.73,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "CITY OR COUNTY",
+          "printedLine": "CITY OR COUNTY",
+          "sectionHeading": "Caption",
+          "regionHeading": "City or county of the circuit court where this petition is filed",
+          "effectiveLabel": "City or county of the circuit court where this petition is filed",
+          "captionReadAt": {
+            "page": 1,
+            "y": 668
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.City",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings",
+          "participantMustSupply": "the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings"
+        },
+        {
+          "field": "CC-1473/User.Officer",
+          "fieldName": "CC-1473/User.Officer",
+          "acroFieldName": "User.Officer",
+          "page": 1,
+          "rect": {
+            "x": 73.98,
+            "y": 648.91,
+            "width": 501.53,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "STREET ADDRESS OF COURT",
+          "printedLine": "STREET ADDRESS OF COURT",
+          "sectionHeading": "Caption",
+          "regionHeading": "Street address of the court",
+          "effectiveLabel": "Street address of the court",
+          "captionReadAt": {
+            "page": 1,
+            "y": 641
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the street address of that circuit court — the clerk's office can give it to you",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.Officer",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the street address of that circuit court — the clerk's office can give it to you",
+          "participantMustSupply": "the street address of that circuit court — the clerk's office can give it to you"
+        },
+        {
+          "field": "CC-1473/User.PetitionerName",
+          "fieldName": "CC-1473/User.PetitionerName",
+          "acroFieldName": "User.PetitionerName",
+          "page": 1,
+          "rect": {
+            "x": 263.49,
+            "y": 477.92,
+            "width": 311.65,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Petitioner's full name at the time of arrest",
+          "printedLine": "Petitioner's full name at the time of arrest",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "My full name when I was arrested on this charge",
+          "effectiveLabel": "My full name when I was arrested on this charge",
+          "captionReadAt": {
+            "page": 1,
+            "y": 478
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.PetitionerName",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not",
+          "participantMustSupply": "the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not"
+        },
+        {
+          "field": "CC-1473/User.SpecificCharge",
+          "fieldName": "CC-1473/User.SpecificCharge",
+          "acroFieldName": "User.SpecificCharge",
+          "page": 1,
+          "rect": {
+            "x": 232.67,
+            "y": 460.31,
+            "width": 342.45,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Specific charge(s) to be expunged",
+          "printedLine": "Specific charge(s) to be expunged",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Specific charge(s) to be expunged",
+          "effectiveLabel": "Specific charge(s) to be expunged",
+          "captionReadAt": {
+            "page": 1,
+            "y": 461
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.SpecificCharge",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record",
+          "participantMustSupply": "the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record"
+        },
+        {
+          "field": "CC-1473/User.CaseNumbers",
+          "fieldName": "CC-1473/User.CaseNumbers",
+          "acroFieldName": "User.CaseNumbers",
+          "page": 1,
+          "rect": {
+            "x": 92.32,
+            "y": 427.16,
+            "width": 483.35,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "If matter was heard on appeal from General District Court, list applicable General District Court case number(s)",
+          "printedLine": "If matter was heard on appeal from General District Court, list applicable General District Court case number(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "General District Court case number(s), if the matter was heard on appeal",
+          "effectiveLabel": "General District Court case number(s), if the matter was heard on appeal",
+          "captionReadAt": {
+            "page": 1,
+            "y": 443
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.CaseNumbers",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court",
+          "participantMustSupply": "the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court"
+        },
+        {
+          "field": "CC-1473/User.UnderlyingCaseNumbers",
+          "fieldName": "CC-1473/User.UnderlyingCaseNumbers",
+          "acroFieldName": "User.UnderlyingCaseNumbers",
+          "page": 1,
+          "rect": {
+            "x": 459.49,
+            "y": 410.11,
+            "width": 115.41,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Underlying Case No.(s)",
+          "printedLine": "Underlying Case No.(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Underlying case number(s) of the attached warrant or indictment",
+          "effectiveLabel": "Underlying case number(s) of the attached warrant or indictment",
+          "captionReadAt": {
+            "page": 1,
+            "y": 410
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.UnderlyingCaseNumbers",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached",
+          "participantMustSupply": "the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached"
+        },
+        {
+          "field": "CC-1473/User.DateOfArrest",
+          "fieldName": "CC-1473/User.DateOfArrest",
+          "acroFieldName": "User.DateOfArrest",
+          "page": 1,
+          "rect": {
+            "x": 169.64,
+            "y": 393.62,
+            "width": 99.65,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Date of arrest",
+          "printedLine": "Date of arrest",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Date of arrest for the charge to be expunged",
+          "effectiveLabel": "Date of arrest for the charge to be expunged",
+          "captionReadAt": {
+            "page": 1,
+            "y": 394
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the date you were arrested on this charge, from your arrest or court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DateOfArrest",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the date you were arrested on this charge, from your arrest or court record",
+          "participantMustSupply": "the date you were arrested on this charge, from your arrest or court record"
+        },
+        {
+          "field": "CC-1473/User.ArrestingAgency",
+          "fieldName": "CC-1473/User.ArrestingAgency",
+          "acroFieldName": "User.ArrestingAgency",
+          "page": 1,
+          "rect": {
+            "x": 398.17,
+            "y": 393.63,
+            "width": 176.59,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Name of arresting agency",
+          "printedLine": "Name of arresting agency",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Name of the arresting agency for the charge to be expunged",
+          "effectiveLabel": "Name of the arresting agency for the charge to be expunged",
+          "captionReadAt": {
+            "page": 1,
+            "y": 394
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the name of the police or sheriff's department that arrested you on this charge",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.ArrestingAgency",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the name of the police or sheriff's department that arrested you on this charge",
+          "participantMustSupply": "the name of the police or sheriff's department that arrested you on this charge"
+        },
+        {
+          "field": "CC-1473/User.Because",
+          "fieldName": "CC-1473/User.Because",
+          "acroFieldName": "User.Because",
+          "page": 1,
+          "rect": {
+            "x": 92.21,
+            "y": 351.07,
+            "width": 483.15,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "because (state reason this information is not available)",
+          "printedLine": "because (state reason this information is not available)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Why the warrant, indictment or arrest information is not reasonably available",
+          "effectiveLabel": "Why the warrant, indictment or arrest information is not reasonably available",
+          "captionReadAt": {
+            "page": 1,
+            "y": 369
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.Because",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess",
+          "participantMustSupply": "why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess"
+        },
+        {
+          "field": "CC-1473/User.DateOfFinalDisposition1",
+          "fieldName": "CC-1473/User.DateOfFinalDisposition1",
+          "acroFieldName": "User.DateOfFinalDisposition1",
+          "page": 1,
+          "rect": {
+            "x": 255.61,
+            "y": 334.02,
+            "width": 49.96,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Date(s) of final disposition of charge(s)",
+          "printedLine": "Date(s) of final disposition of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Date(s) of final disposition of the charge(s)",
+          "effectiveLabel": "Date(s) of final disposition of the charge(s)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DateOfFinalDisposition1",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record",
+          "participantMustSupply": "the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record"
+        },
+        {
+          "field": "CC-1473/User.DateOfFinalDisposition2",
+          "fieldName": "CC-1473/User.DateOfFinalDisposition2",
+          "acroFieldName": "User.DateOfFinalDisposition2",
+          "page": 1,
+          "rect": {
+            "x": 91.4,
+            "y": 318.37,
+            "width": 213.48,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Date(s) of final disposition of charge(s)",
+          "printedLine": "Date(s) of final disposition of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Date(s) of final disposition — continuation line",
+          "effectiveLabel": "Date(s) of final disposition — continuation line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: more disposition dates, if the charges were disposed of on more than one date",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DateOfFinalDisposition2",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: more disposition dates, if the charges were disposed of on more than one date",
+          "participantMustSupply": "more disposition dates, if the charges were disposed of on more than one date"
+        },
+        {
+          "field": "CC-1473/User.DisposingCourt1",
+          "fieldName": "CC-1473/User.DisposingCourt1",
+          "acroFieldName": "User.DisposingCourt1",
+          "page": 1,
+          "rect": {
+            "x": 434.14,
+            "y": 334.02,
+            "width": 141.04,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Court disposing of charge(s)",
+          "printedLine": "Court disposing of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Court disposing of the charge(s)",
+          "effectiveLabel": "Court disposing of the charge(s)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the court that disposed of the charge, as named on your court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DisposingCourt1",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the court that disposed of the charge, as named on your court record",
+          "participantMustSupply": "the court that disposed of the charge, as named on your court record"
+        },
+        {
+          "field": "CC-1473/User.DisposingCourt2",
+          "fieldName": "CC-1473/User.DisposingCourt2",
+          "acroFieldName": "User.DisposingCourt2",
+          "page": 1,
+          "rect": {
+            "x": 312.46,
+            "y": 318.37,
+            "width": 262.96,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Court disposing of charge(s)",
+          "printedLine": "Court disposing of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Court disposing of the charge(s) — continuation line",
+          "effectiveLabel": "Court disposing of the charge(s) — continuation line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: more disposing courts, if more than one court disposed of the charges",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DisposingCourt2",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: more disposing courts, if more than one court disposed of the charges",
+          "participantMustSupply": "more disposing courts, if more than one court disposed of the charges"
+        },
+        {
+          "field": "CC-1473/User.PetetionerVSB",
+          "fieldName": "CC-1473/User.PetetionerVSB",
+          "acroFieldName": "User.PetetionerVSB",
+          "page": 1,
+          "rect": {
+            "x": 290.02,
+            "y": 110.04,
+            "width": 285.06,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "VSB NUMBER OF ATTORNEY FOR PETITIONER (IF APPLICABLE)",
+          "printedLine": "VSB NUMBER OF ATTORNEY FOR PETITIONER (IF APPLICABLE)",
+          "sectionHeading": "Signature block",
+          "regionHeading": "VSB number of the attorney for the petitioner",
+          "effectiveLabel": "VSB number of the attorney for the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 102
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "attorney-only; no representation fact is held for this participant; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "attorney-only; no representation fact is held for this participant"
+        },
+        {
+          "field": "CC-1473/User.HearDateTime",
+          "fieldName": "CC-1473/User.HearDateTime",
+          "acroFieldName": "User.HearDateTime",
+          "page": 1,
+          "rect": {
+            "x": 466.98,
+            "y": 81.45,
+            "width": 108.11,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Hearing date and time",
+          "printedLine": "Hearing date and time",
+          "sectionHeading": "Clerk's certification",
+          "regionHeading": "Hearing date and time set by the clerk",
+          "effectiveLabel": "Hearing date and time set by the clerk",
+          "captionReadAt": {
+            "page": 1,
+            "y": 82
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the court sets the hearing and the clerk records it; this build never writes a court date",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court sets the hearing and the clerk records it; this build never writes a court date"
+        },
+        {
+          "field": "CC-1473/User.Date",
+          "fieldName": "CC-1473/User.Date",
+          "acroFieldName": "User.Date",
+          "page": 1,
+          "rect": {
+            "x": 73.45,
+            "y": 248.85,
+            "width": 141.65,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "DATE",
+          "printedLine": "DATE",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Date of signature",
+          "effectiveLabel": "Date of signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 240
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "you date the petition when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date the petition when you sign it; a date written in advance would be false"
+        },
+        {
+          "field": "CC-1473/User.EndDate",
+          "fieldName": "CC-1473/User.EndDate",
+          "acroFieldName": "User.EndDate",
+          "page": 1,
+          "rect": {
+            "x": 73.5,
+            "y": 47.43,
+            "width": 140.67,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "DATE",
+          "printedLine": "DATE",
+          "sectionHeading": "Clerk's certification",
+          "regionHeading": "Date of the clerk's certification",
+          "effectiveLabel": "Date of the clerk's certification",
+          "captionReadAt": {
+            "page": 1,
+            "y": 41
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the clerk dates their own certification; it is not the petitioner's to complete",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the clerk dates their own certification; it is not the petitioner's to complete"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "CC-1473/User.Title",
+          "fieldName": "CC-1473/User.Title",
+          "acroFieldName": "User.Title",
+          "page": 1,
+          "rect": {
+            "x": 73.84,
+            "y": 621.4,
+            "width": 368.72,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "NAME OF PETITIONER",
+          "printedLine": "NAME OF PETITIONER",
+          "sectionHeading": "Caption",
+          "regionHeading": "Name of Petitioner in the style of the case",
+          "effectiveLabel": "Name of Petitioner in the style of the case",
+          "captionReadAt": {
+            "page": 1,
+            "y": 613
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.DOB",
+          "fieldName": "CC-1473/User.DOB",
+          "acroFieldName": "User.DOB",
+          "page": 1,
+          "rect": {
+            "x": 202.31,
+            "y": 494.38,
+            "width": 119.99,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Petitioner's date of birth is",
+          "printedLine": "Petitioner's date of birth is",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Petitioner's date of birth",
+          "effectiveLabel": "Petitioner's date of birth",
+          "captionReadAt": {
+            "page": 1,
+            "y": 495
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.date_of_birth",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.PrintName",
+          "fieldName": "CC-1473/User.PrintName",
+          "acroFieldName": "User.PrintName",
+          "page": 1,
+          "rect": {
+            "x": 289.48,
+            "y": 215.61,
+            "width": 285.48,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "PRINT NAME",
+          "printedLine": "PRINT NAME",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Printed name of the petitioner",
+          "effectiveLabel": "Printed name of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 207
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.full_legal_name",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.AddressOf",
+          "fieldName": "CC-1473/User.AddressOf",
+          "acroFieldName": "User.AddressOf",
+          "page": 1,
+          "rect": {
+            "x": 73.79,
+            "y": 189.2,
+            "width": 501.48,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "ADDRESS OF",
+          "printedLine": "ADDRESS OF",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Address of the petitioner",
+          "effectiveLabel": "Address of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 181
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.street_address",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.PetetionerPhoneNumber",
+          "fieldName": "CC-1473/User.PetetionerPhoneNumber",
+          "acroFieldName": "User.PetetionerPhoneNumber",
+          "page": 1,
+          "rect": {
+            "x": 289.5,
+            "y": 162.7,
+            "width": 285.6,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "TELEPHONE NUMBER OF",
+          "printedLine": "TELEPHONE NUMBER OF",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Telephone number of the petitioner",
+          "effectiveLabel": "Telephone number of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 154
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.phone",
+          "kind": "text"
+        },
+        {
+          "field": "CC-1473/User.PetetionerEmail",
+          "fieldName": "CC-1473/User.PetetionerEmail",
+          "acroFieldName": "User.PetetionerEmail",
+          "page": 1,
+          "rect": {
+            "x": 290.02,
+            "y": 136.49,
+            "width": 285.06,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "EMAIL ADDRESS OF",
+          "printedLine": "EMAIL ADDRESS OF",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Email address of the petitioner",
+          "effectiveLabel": "Email address of the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 128
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "factId": "participant.email",
+          "kind": "text"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "CC-1473/ResetButton",
+          "fieldName": "CC-1473/ResetButton",
+          "acroFieldName": "ResetButton",
+          "page": 1,
+          "rect": {
+            "x": 5.19,
+            "y": 760.06,
+            "width": 110.39,
+            "height": 26.58
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": null,
+          "printedLine": null,
+          "sectionHeading": "Viewer control",
+          "regionHeading": "Reset this form (viewer control)",
+          "effectiveLabel": "Reset this form (viewer control)",
+          "captionReadAt": null,
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "a viewer control the reader clicks, never a filing fact; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "a viewer control the reader clicks, never a filing fact"
+        },
+        {
+          "field": "CC-1473/User.CaseNumber",
+          "fieldName": "CC-1473/User.CaseNumber",
+          "acroFieldName": "User.CaseNumber",
+          "page": 1,
+          "rect": {
+            "x": 418.27,
+            "y": 736.79,
+            "width": 156.85,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Case No.",
+          "printedLine": "Case No.",
+          "sectionHeading": "Caption",
+          "regionHeading": "Case Number of this petition (the circuit court clerk assigns it at filing)",
+          "effectiveLabel": "Case Number of this petition (the circuit court clerk assigns it at filing)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 738
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the circuit court clerk assigns the civil case number when the petition is filed",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the circuit court clerk assigns the civil case number when the petition is filed"
+        },
+        {
+          "field": "CC-1473/User.City",
+          "fieldName": "CC-1473/User.City",
+          "acroFieldName": "User.City",
+          "page": 1,
+          "rect": {
+            "x": 73.9,
+            "y": 676,
+            "width": 372.73,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "CITY OR COUNTY",
+          "printedLine": "CITY OR COUNTY",
+          "sectionHeading": "Caption",
+          "regionHeading": "City or county of the circuit court where this petition is filed",
+          "effectiveLabel": "City or county of the circuit court where this petition is filed",
+          "captionReadAt": {
+            "page": 1,
+            "y": 668
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.City",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings",
+          "participantMustSupply": "the city or county of the circuit court where you are filing — the court in the county or city in which the charge was disposed of. The shared field semantics binds a field named 'City' to the participant's own city, so the platform cannot write the court's venue here; see build-findings"
+        },
+        {
+          "field": "CC-1473/User.Officer",
+          "fieldName": "CC-1473/User.Officer",
+          "acroFieldName": "User.Officer",
+          "page": 1,
+          "rect": {
+            "x": 73.98,
+            "y": 648.91,
+            "width": 501.53,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "STREET ADDRESS OF COURT",
+          "printedLine": "STREET ADDRESS OF COURT",
+          "sectionHeading": "Caption",
+          "regionHeading": "Street address of the court",
+          "effectiveLabel": "Street address of the court",
+          "captionReadAt": {
+            "page": 1,
+            "y": 641
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the street address of that circuit court — the clerk's office can give it to you",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.Officer",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the street address of that circuit court — the clerk's office can give it to you",
+          "participantMustSupply": "the street address of that circuit court — the clerk's office can give it to you"
+        },
+        {
+          "field": "CC-1473/User.PetitionerName",
+          "fieldName": "CC-1473/User.PetitionerName",
+          "acroFieldName": "User.PetitionerName",
+          "page": 1,
+          "rect": {
+            "x": 263.49,
+            "y": 477.92,
+            "width": 311.65,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Petitioner's full name at the time of arrest",
+          "printedLine": "Petitioner's full name at the time of arrest",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "My full name when I was arrested on this charge",
+          "effectiveLabel": "My full name when I was arrested on this charge",
+          "captionReadAt": {
+            "page": 1,
+            "y": 478
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.PetitionerName",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not",
+          "participantMustSupply": "the full name you were arrested under, exactly as it appears on the arrest record — even if it is the same name you go by now, and especially if it is not"
+        },
+        {
+          "field": "CC-1473/User.SpecificCharge",
+          "fieldName": "CC-1473/User.SpecificCharge",
+          "acroFieldName": "User.SpecificCharge",
+          "page": 1,
+          "rect": {
+            "x": 232.67,
+            "y": 460.31,
+            "width": 342.45,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Specific charge(s) to be expunged",
+          "printedLine": "Specific charge(s) to be expunged",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Specific charge(s) to be expunged",
+          "effectiveLabel": "Specific charge(s) to be expunged",
+          "captionReadAt": {
+            "page": 1,
+            "y": 461
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.SpecificCharge",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record",
+          "participantMustSupply": "the specific charge or charges you are asking the court to expunge, worded exactly as they appear on your court record"
+        },
+        {
+          "field": "CC-1473/User.CaseNumbers",
+          "fieldName": "CC-1473/User.CaseNumbers",
+          "acroFieldName": "User.CaseNumbers",
+          "page": 1,
+          "rect": {
+            "x": 92.32,
+            "y": 427.16,
+            "width": 483.35,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "If matter was heard on appeal from General District Court, list applicable General District Court case number(s)",
+          "printedLine": "If matter was heard on appeal from General District Court, list applicable General District Court case number(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "General District Court case number(s), if the matter was heard on appeal",
+          "effectiveLabel": "General District Court case number(s), if the matter was heard on appeal",
+          "captionReadAt": {
+            "page": 1,
+            "y": 443
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.CaseNumbers",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court",
+          "participantMustSupply": "the General District Court case number or numbers — only if the matter was heard in circuit court on appeal from a General District Court"
+        },
+        {
+          "field": "CC-1473/User.UnderlyingCaseNumbers",
+          "fieldName": "CC-1473/User.UnderlyingCaseNumbers",
+          "acroFieldName": "User.UnderlyingCaseNumbers",
+          "page": 1,
+          "rect": {
+            "x": 459.49,
+            "y": 410.11,
+            "width": 115.41,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Underlying Case No.(s)",
+          "printedLine": "Underlying Case No.(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Underlying case number(s) of the attached warrant or indictment",
+          "effectiveLabel": "Underlying case number(s) of the attached warrant or indictment",
+          "captionReadAt": {
+            "page": 1,
+            "y": 410
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.UnderlyingCaseNumbers",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached",
+          "participantMustSupply": "the case number or numbers on the attached warrant or indictment — only if you ticked the box saying the copy is attached"
+        },
+        {
+          "field": "CC-1473/User.DateOfArrest",
+          "fieldName": "CC-1473/User.DateOfArrest",
+          "acroFieldName": "User.DateOfArrest",
+          "page": 1,
+          "rect": {
+            "x": 169.64,
+            "y": 393.62,
+            "width": 99.65,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Date of arrest",
+          "printedLine": "Date of arrest",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Date of arrest for the charge to be expunged",
+          "effectiveLabel": "Date of arrest for the charge to be expunged",
+          "captionReadAt": {
+            "page": 1,
+            "y": 394
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the date you were arrested on this charge, from your arrest or court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DateOfArrest",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the date you were arrested on this charge, from your arrest or court record",
+          "participantMustSupply": "the date you were arrested on this charge, from your arrest or court record"
+        },
+        {
+          "field": "CC-1473/User.ArrestingAgency",
+          "fieldName": "CC-1473/User.ArrestingAgency",
+          "acroFieldName": "User.ArrestingAgency",
+          "page": 1,
+          "rect": {
+            "x": 398.17,
+            "y": 393.63,
+            "width": 176.59,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Name of arresting agency",
+          "printedLine": "Name of arresting agency",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Name of the arresting agency for the charge to be expunged",
+          "effectiveLabel": "Name of the arresting agency for the charge to be expunged",
+          "captionReadAt": {
+            "page": 1,
+            "y": 394
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the name of the police or sheriff's department that arrested you on this charge",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.ArrestingAgency",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the name of the police or sheriff's department that arrested you on this charge",
+          "participantMustSupply": "the name of the police or sheriff's department that arrested you on this charge"
+        },
+        {
+          "field": "CC-1473/User.Because",
+          "fieldName": "CC-1473/User.Because",
+          "acroFieldName": "User.Because",
+          "page": 1,
+          "rect": {
+            "x": 92.21,
+            "y": 351.07,
+            "width": 483.15,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "because (state reason this information is not available)",
+          "printedLine": "because (state reason this information is not available)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Why the warrant, indictment or arrest information is not reasonably available",
+          "effectiveLabel": "Why the warrant, indictment or arrest information is not reasonably available",
+          "captionReadAt": {
+            "page": 1,
+            "y": 369
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.Because",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess",
+          "participantMustSupply": "why the warrant or indictment, the date of arrest, or the arresting agency cannot reasonably be found — only if you ticked one of the not-reasonably-available boxes. Say what you tried; do not guess"
+        },
+        {
+          "field": "CC-1473/User.DateOfFinalDisposition1",
+          "fieldName": "CC-1473/User.DateOfFinalDisposition1",
+          "acroFieldName": "User.DateOfFinalDisposition1",
+          "page": 1,
+          "rect": {
+            "x": 255.61,
+            "y": 334.02,
+            "width": 49.96,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Date(s) of final disposition of charge(s)",
+          "printedLine": "Date(s) of final disposition of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Date(s) of final disposition of the charge(s)",
+          "effectiveLabel": "Date(s) of final disposition of the charge(s)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DateOfFinalDisposition1",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record",
+          "participantMustSupply": "the date the charge was finally disposed of — acquitted, nolle prossed or dismissed — from your court record"
+        },
+        {
+          "field": "CC-1473/User.DateOfFinalDisposition2",
+          "fieldName": "CC-1473/User.DateOfFinalDisposition2",
+          "acroFieldName": "User.DateOfFinalDisposition2",
+          "page": 1,
+          "rect": {
+            "x": 91.4,
+            "y": 318.37,
+            "width": 213.48,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Date(s) of final disposition of charge(s)",
+          "printedLine": "Date(s) of final disposition of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Date(s) of final disposition — continuation line",
+          "effectiveLabel": "Date(s) of final disposition — continuation line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: more disposition dates, if the charges were disposed of on more than one date",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DateOfFinalDisposition2",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: more disposition dates, if the charges were disposed of on more than one date",
+          "participantMustSupply": "more disposition dates, if the charges were disposed of on more than one date"
+        },
+        {
+          "field": "CC-1473/User.DisposingCourt1",
+          "fieldName": "CC-1473/User.DisposingCourt1",
+          "acroFieldName": "User.DisposingCourt1",
+          "page": 1,
+          "rect": {
+            "x": 434.14,
+            "y": 334.02,
+            "width": 141.04,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Court disposing of charge(s)",
+          "printedLine": "Court disposing of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Court disposing of the charge(s)",
+          "effectiveLabel": "Court disposing of the charge(s)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: the court that disposed of the charge, as named on your court record",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DisposingCourt1",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: the court that disposed of the charge, as named on your court record",
+          "participantMustSupply": "the court that disposed of the charge, as named on your court record"
+        },
+        {
+          "field": "CC-1473/User.DisposingCourt2",
+          "fieldName": "CC-1473/User.DisposingCourt2",
+          "acroFieldName": "User.DisposingCourt2",
+          "page": 1,
+          "rect": {
+            "x": 312.46,
+            "y": 318.37,
+            "width": 262.96,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Court disposing of charge(s)",
+          "printedLine": "Court disposing of charge(s)",
+          "sectionHeading": "Part 2 - facts of the charge",
+          "regionHeading": "Court disposing of the charge(s) — continuation line",
+          "effectiveLabel": "Court disposing of the charge(s) — continuation line",
+          "captionReadAt": {
+            "page": 1,
+            "y": 334
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the participant supplies this before filing: more disposing courts, if more than one court disposed of the charges",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "CC-1473 field User.DisposingCourt2",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value it may write here and the participant supplies it before filing: more disposing courts, if more than one court disposed of the charges",
+          "participantMustSupply": "more disposing courts, if more than one court disposed of the charges"
+        },
+        {
+          "field": "CC-1473/User.PetetionerVSB",
+          "fieldName": "CC-1473/User.PetetionerVSB",
+          "acroFieldName": "User.PetetionerVSB",
+          "page": 1,
+          "rect": {
+            "x": 290.02,
+            "y": 110.04,
+            "width": 285.06,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "VSB NUMBER OF ATTORNEY FOR PETITIONER (IF APPLICABLE)",
+          "printedLine": "VSB NUMBER OF ATTORNEY FOR PETITIONER (IF APPLICABLE)",
+          "sectionHeading": "Signature block",
+          "regionHeading": "VSB number of the attorney for the petitioner",
+          "effectiveLabel": "VSB number of the attorney for the petitioner",
+          "captionReadAt": {
+            "page": 1,
+            "y": 102
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "attorney-only; no representation fact is held for this participant; this branch of the form is never populated with participant data on this route",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "why": "attorney-only; no representation fact is held for this participant"
+        },
+        {
+          "field": "CC-1473/User.HearDateTime",
+          "fieldName": "CC-1473/User.HearDateTime",
+          "acroFieldName": "User.HearDateTime",
+          "page": 1,
+          "rect": {
+            "x": 466.98,
+            "y": 81.45,
+            "width": 108.11,
+            "height": 13.92
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "Hearing date and time",
+          "printedLine": "Hearing date and time",
+          "sectionHeading": "Clerk's certification",
+          "regionHeading": "Hearing date and time set by the clerk",
+          "effectiveLabel": "Hearing date and time set by the clerk",
+          "captionReadAt": {
+            "page": 1,
+            "y": 82
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the court sets the hearing and the clerk records it; this build never writes a court date",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the court sets the hearing and the clerk records it; this build never writes a court date"
+        },
+        {
+          "field": "CC-1473/User.Date",
+          "fieldName": "CC-1473/User.Date",
+          "acroFieldName": "User.Date",
+          "page": 1,
+          "rect": {
+            "x": 73.45,
+            "y": 248.85,
+            "width": 141.65,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "DATE",
+          "printedLine": "DATE",
+          "sectionHeading": "Signature block",
+          "regionHeading": "Date of signature",
+          "effectiveLabel": "Date of signature",
+          "captionReadAt": {
+            "page": 1,
+            "y": 240
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "you date the petition when you sign it; a date written in advance would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you date the petition when you sign it; a date written in advance would be false"
+        },
+        {
+          "field": "CC-1473/User.EndDate",
+          "fieldName": "CC-1473/User.EndDate",
+          "acroFieldName": "User.EndDate",
+          "page": 1,
+          "rect": {
+            "x": 73.5,
+            "y": 47.43,
+            "width": 140.67,
+            "height": 15.76
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary_and_normalized",
+          "printedLabel": "DATE",
+          "printedLine": "DATE",
+          "sectionHeading": "Clerk's certification",
+          "regionHeading": "Date of the clerk's certification",
+          "effectiveLabel": "Date of the clerk's certification",
+          "captionReadAt": {
+            "page": 1,
+            "y": 41
+          },
+          "captionBasis": "printed caption re-read from the pinned binary at captionReadAt; the build refuses on drift",
+          "document": "CC-1473",
+          "reason": "the clerk dates their own certification; it is not the petitioner's to complete",
+          "category": "court_prosecutor_clerk_or_agency_owned",
+          "completenessClass": "court_prosecutor_clerk_or_agency_owned",
+          "class": "court_prosecutor_clerk_or_agency_owned",
+          "requiredBeforeFiling": false,
+          "why": "the clerk dates their own certification; it is not the petitioner's to complete"
+        }
+      ]
+    },
+    {
+      "formNumber": "commonwealth_service_and_stipulation_request",
+      "documentId": "commonwealth_service_and_stipulation_request",
+      "documentRole": "commonwealth_service_and_stipulation_request",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:VA:va_exp_nonconviction"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "CC-1473's own page-2 checklist and the route's recorded component list",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "commonwealth_service_and_stipulation_request.petitioner_name",
+          "fieldName": "commonwealth_service_and_stipulation_request.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "commonwealth_service_and_stipulation_request"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "commonwealth_service_and_stipulation_request.circuit_court",
+          "fieldName": "commonwealth_service_and_stipulation_request.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "commonwealth_service_and_stipulation_request field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        },
+        {
+          "field": "commonwealth_service_and_stipulation_request.signature",
+          "fieldName": "commonwealth_service_and_stipulation_request.signature",
+          "page": 1,
+          "printedLabel": "Signature of the petitioner on this page",
+          "printedLine": "Signature of the petitioner on this page",
+          "effectiveLabel": "Signature of the petitioner on this page",
+          "regionHeading": "Signature of the petitioner on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "the petitioner signs this page themselves when the request or copy actually goes out"
+        },
+        {
+          "field": "commonwealth_service_and_stipulation_request.service_date",
+          "fieldName": "commonwealth_service_and_stipulation_request.service_date",
+          "page": 1,
+          "printedLabel": "Date of service of the copy",
+          "printedLine": "Date of service of the copy",
+          "effectiveLabel": "Date of service of the copy",
+          "regionHeading": "Date of service of the copy",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "a date written before the copy is actually served would be false"
+        },
+        {
+          "field": "commonwealth_service_and_stipulation_request.commonwealth_attorney_address",
+          "fieldName": "commonwealth_service_and_stipulation_request.commonwealth_attorney_address",
+          "page": 1,
+          "printedLabel": "Name and mailing address of the Attorney for the Commonwealth",
+          "printedLine": "Name and mailing address of the Attorney for the Commonwealth",
+          "effectiveLabel": "Name and mailing address of the Attorney for the Commonwealth",
+          "regionHeading": "Name and mailing address of the Attorney for the Commonwealth",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the name and mailing address of the Attorney for the Commonwealth for the county or city where the petition is filed",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "commonwealth_service_and_stipulation_request field commonwealth_attorney_address",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "the platform holds no address for the Attorney for the Commonwealth and the participant writes it before service",
+          "participantMustSupply": "the name and mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "commonwealth_service_and_stipulation_request.petitioner_name",
+          "fieldName": "commonwealth_service_and_stipulation_request.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "commonwealth_service_and_stipulation_request"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "commonwealth_service_and_stipulation_request.circuit_court",
+          "fieldName": "commonwealth_service_and_stipulation_request.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "commonwealth_service_and_stipulation_request field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        },
+        {
+          "field": "commonwealth_service_and_stipulation_request.signature",
+          "fieldName": "commonwealth_service_and_stipulation_request.signature",
+          "page": 1,
+          "printedLabel": "Signature of the petitioner on this page",
+          "printedLine": "Signature of the petitioner on this page",
+          "effectiveLabel": "Signature of the petitioner on this page",
+          "regionHeading": "Signature of the petitioner on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "the petitioner signs this page themselves when the request or copy actually goes out"
+        },
+        {
+          "field": "commonwealth_service_and_stipulation_request.service_date",
+          "fieldName": "commonwealth_service_and_stipulation_request.service_date",
+          "page": 1,
+          "printedLabel": "Date of service of the copy",
+          "printedLine": "Date of service of the copy",
+          "effectiveLabel": "Date of service of the copy",
+          "regionHeading": "Date of service of the copy",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "a date written before the copy is actually served would be false"
+        },
+        {
+          "field": "commonwealth_service_and_stipulation_request.commonwealth_attorney_address",
+          "fieldName": "commonwealth_service_and_stipulation_request.commonwealth_attorney_address",
+          "page": 1,
+          "printedLabel": "Name and mailing address of the Attorney for the Commonwealth",
+          "printedLine": "Name and mailing address of the Attorney for the Commonwealth",
+          "effectiveLabel": "Name and mailing address of the Attorney for the Commonwealth",
+          "regionHeading": "Name and mailing address of the Attorney for the Commonwealth",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the name and mailing address of the Attorney for the Commonwealth for the county or city where the petition is filed",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "commonwealth_service_and_stipulation_request field commonwealth_attorney_address",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "commonwealth_service_and_stipulation_request",
+          "why": "the platform holds no address for the Attorney for the Commonwealth and the participant writes it before service",
+          "participantMustSupply": "the name and mailing address of the Attorney for the Commonwealth for the county or city where you file — the circuit court clerk can give it to you"
+        }
+      ]
+    },
+    {
+      "formNumber": "ccre_forwarding_request",
+      "documentId": "ccre_forwarding_request",
+      "documentRole": "ccre_forwarding_request",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:VA:va_exp_nonconviction"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "CC-1473's own page-2 checklist and the route's recorded component list",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "ccre_forwarding_request.petitioner_name",
+          "fieldName": "ccre_forwarding_request.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "ccre_forwarding_request"
+        },
+        {
+          "field": "ccre_forwarding_request.petitioner_dob",
+          "fieldName": "ccre_forwarding_request.petitioner_dob",
+          "page": 1,
+          "printedLabel": "Petitioner's date of birth, printed on this page",
+          "printedLine": "Petitioner's date of birth, printed on this page",
+          "effectiveLabel": "Petitioner's date of birth, printed on this page",
+          "regionHeading": "Petitioner's date of birth, printed on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "ccre_forwarding_request"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "ccre_forwarding_request.circuit_court",
+          "fieldName": "ccre_forwarding_request.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "ccre_forwarding_request field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "ccre_forwarding_request",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        },
+        {
+          "field": "ccre_forwarding_request.signature",
+          "fieldName": "ccre_forwarding_request.signature",
+          "page": 1,
+          "printedLabel": "Signature of the petitioner on this page",
+          "printedLine": "Signature of the petitioner on this page",
+          "effectiveLabel": "Signature of the petitioner on this page",
+          "regionHeading": "Signature of the petitioner on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "ccre_forwarding_request",
+          "why": "the petitioner signs this page themselves when the request or copy actually goes out"
+        },
+        {
+          "field": "ccre_forwarding_request.request_date",
+          "fieldName": "ccre_forwarding_request.request_date",
+          "page": 1,
+          "printedLabel": "Date of the request to the Central Criminal Records Exchange",
+          "printedLine": "Date of the request to the Central Criminal Records Exchange",
+          "effectiveLabel": "Date of the request to the Central Criminal Records Exchange",
+          "regionHeading": "Date of the request to the Central Criminal Records Exchange",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "ccre_forwarding_request",
+          "why": "the request is made after the petition is filed, so its date is not known when the packet is built"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "ccre_forwarding_request.petitioner_name",
+          "fieldName": "ccre_forwarding_request.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "ccre_forwarding_request"
+        },
+        {
+          "field": "ccre_forwarding_request.petitioner_dob",
+          "fieldName": "ccre_forwarding_request.petitioner_dob",
+          "page": 1,
+          "printedLabel": "Petitioner's date of birth, printed on this page",
+          "printedLine": "Petitioner's date of birth, printed on this page",
+          "effectiveLabel": "Petitioner's date of birth, printed on this page",
+          "regionHeading": "Petitioner's date of birth, printed on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.date_of_birth",
+          "kind": "composed_text",
+          "document": "ccre_forwarding_request"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "ccre_forwarding_request.circuit_court",
+          "fieldName": "ccre_forwarding_request.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "ccre_forwarding_request field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "ccre_forwarding_request",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        },
+        {
+          "field": "ccre_forwarding_request.signature",
+          "fieldName": "ccre_forwarding_request.signature",
+          "page": 1,
+          "printedLabel": "Signature of the petitioner on this page",
+          "printedLine": "Signature of the petitioner on this page",
+          "effectiveLabel": "Signature of the petitioner on this page",
+          "regionHeading": "Signature of the petitioner on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "ccre_forwarding_request",
+          "why": "the petitioner signs this page themselves when the request or copy actually goes out"
+        },
+        {
+          "field": "ccre_forwarding_request.request_date",
+          "fieldName": "ccre_forwarding_request.request_date",
+          "page": 1,
+          "printedLabel": "Date of the request to the Central Criminal Records Exchange",
+          "printedLine": "Date of the request to the Central Criminal Records Exchange",
+          "effectiveLabel": "Date of the request to the Central Criminal Records Exchange",
+          "regionHeading": "Date of the request to the Central Criminal Records Exchange",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "signature or date field; never prefilled by this build",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "document": "ccre_forwarding_request",
+          "why": "the request is made after the petition is filed, so its date is not known when the packet is built"
+        }
+      ]
+    },
+    {
+      "formNumber": "records_checklist",
+      "documentId": "records_checklist",
+      "documentRole": "records_checklist",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:VA:va_exp_nonconviction"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "CC-1473's own page-2 checklist and the route's recorded component list",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "records_checklist.petitioner_name",
+          "fieldName": "records_checklist.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "records_checklist"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "records_checklist.circuit_court",
+          "fieldName": "records_checklist.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "records_checklist field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "records_checklist",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "records_checklist.petitioner_name",
+          "fieldName": "records_checklist.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "records_checklist"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "records_checklist.circuit_court",
+          "fieldName": "records_checklist.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "records_checklist field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "records_checklist",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        }
+      ]
+    },
+    {
+      "formNumber": "filing_instructions",
+      "documentId": "filing_instructions",
+      "documentRole": "filing_instructions",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "obligation:track-only:VA:va_exp_nonconviction"
+      },
+      "structuralClass": "composed_document",
+      "composedFrom": "CC-1473's own page-2 checklist and the route's recorded component list",
+      "explicitMappings": {},
+      "roleRefusals": [],
+      "selectionControls": [],
+      "canonicalWrites": [
+        {
+          "field": "filing_instructions.petitioner_name",
+          "fieldName": "filing_instructions.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "filing_instructions"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "filing_instructions.circuit_court",
+          "fieldName": "filing_instructions.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "filing_instructions field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "filing_instructions",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "filing_instructions.petitioner_name",
+          "fieldName": "filing_instructions.petitioner_name",
+          "page": 1,
+          "printedLabel": "Petitioner named on this page",
+          "printedLine": "Petitioner named on this page",
+          "effectiveLabel": "Petitioner named on this page",
+          "regionHeading": "Petitioner named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "factId": "participant.full_legal_name",
+          "kind": "composed_text",
+          "document": "filing_instructions"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "filing_instructions.circuit_court",
+          "fieldName": "filing_instructions.circuit_court",
+          "page": 1,
+          "printedLabel": "Circuit Court named on this page",
+          "printedLine": "Circuit Court named on this page",
+          "effectiveLabel": "Circuit Court named on this page",
+          "regionHeading": "Circuit Court named on this page",
+          "sectionHeading": null,
+          "rectBasis": "composed_document_authored_by_this_build",
+          "reason": "the participant supplies this before filing: the circuit court of the county or city in which the charge was disposed of, copied from the petition's caption",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "filing_instructions field circuit_court",
+          "factId": null,
+          "routeDetermined": false,
+          "document": "filing_instructions",
+          "why": "the shared field semantics cannot write the venue onto the petition itself, so the platform does not claim it on the companion pages either; the participant copies the court they wrote in the petition's caption",
+          "participantMustSupply": "the circuit court's city or county, copied from the petition's caption once you have written it there"
+        }
+      ]
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

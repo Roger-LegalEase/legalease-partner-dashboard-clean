@@ -1,0 +1,42 @@
+{
+  "schemaVersion":"rcap-verifier-return/v1",
+  "lane":"VF03",
+  "laneKind":"independent-verification",
+  "worker":"VF03",
+  "reviewer":"/root/ar_independent_review",
+  "sessionIdentity":"/root/ar_independent_review",
+  "familyId":"ri_decriminalized-set",
+  "baseSha":"7188fc54bc3d1482799d49d27aabd98dfb12e0d5",
+  "verifiedAtBase":"7188fc54bc3d1482799d49d27aabd98dfb12e0d5",
+  "verdict":"PASS_COMPLETE_INDEPENDENT",
+  "rows":[
+    {
+      "itemId":"ri_decriminalized-set",
+      "familyId":"ri_decriminalized-set",
+      "lane":"VF03",
+      "verdict":"PASS_COMPLETE_INDEPENDENT",
+      "proofObligations":{
+        "ROUTE_IDENTITY":{"measured":true,"result":"PASS","finding":"RI decriminalized-offense-expungement route identity, route key, DC-33 authority and family records agree."},
+        "SOURCE_IDENTITY":{"measured":true,"result":"PASS","finding":"DC-33 source custody and SHA-256 342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908 match the exact source receipt and original evidence."},
+        "COMPONENT_SET":{"measured":true,"result":"PASS","finding":"All four declared components are present: primary filing, decriminalization affidavit, proposed order and filing instructions."},
+        "KNOWN_PREFILLS":{"measured":true,"result":"PASS","finding":"Across canonical and boundary originals, only name and date of birth are prefilled in the declared captions; case facts and BCI number remain blank for participant records."},
+        "REQUIRED_BEFORE_FILING":{"measured":true,"result":"PASS","finding":"Instructions and field map disclose the 25 required participant items, including BCI, case/count/charge/disposition facts, judicial complex, notice and affidavit requirements."},
+        "ROUTE_OPTIONS":{"measured":true,"result":"PASS","finding":"The packet marks only route-determined expungement and all-records relief. Judicial complex and affidavit Part Two boxes remain participant elections and are visibly unmarked."},
+        "REPEATING_ROWS":{"measured":true,"result":"PASS","finding":"Four count/charge/disposition rows are declared and mirrored in the proposed order; all four original packet pages containing those structures show complete row guides with no overlap or incomplete rendered row."},
+        "PROTECTED_FIELDS":{"measured":true,"result":"PASS","finding":"All 20 original PNGs show blank signatures, dates, notice certification, affidavit checkboxes, notarial block and proposed-order court findings/terms. Direct current actual-writes evidence also lists no refused field with ink; this was used as corroboration, not as the sole measurement."},
+        "ARTIFACTS":{"measured":true,"result":"PASS","finding":"Exact current PDFs match the central receipt: canonical SHA-256 8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7 (457419 bytes, 10 pages); boundary SHA-256 25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961 (457555 bytes, 10 pages)."},
+        "PAGE_ORDER":{"measured":true,"result":"PASS","finding":"All 20 original pages preserve the expected sequence: source instructions, motion, affidavit, proposed order and filing instructions, with canonical and boundary page manifests aligned."},
+        "CLIPPING_AND_OVERLAP":{"measured":true,"result":"PASS","finding":"All 20 original PNGs were inspected from the central archive. No clipped text, overlap, truncated value, stray route trailer or malformed page boundary was observed; route marks are inside their source boxes."},
+        "FILING_DESTINATION":{"measured":true,"result":"PASS","finding":"Instructions identify the District Court where the conviction occurred and direct filing with that clerk; the participant must choose the judicial complex."},
+        "FEE_AND_WAIVER":{"measured":true,"result":"PASS","finding":"Instructions state no cost when sentence conditions and financial obligations are satisfied, distinguish that from a waiver, and direct obtaining a zero-balance record."},
+        "SERVICE":{"measured":true,"result":"PASS","finding":"The packet states notice to the Office of the Attorney General and the police department that brought the charge at least ten days before hearing, with certification completed only after notice."},
+        "SELF_HELP_STOP":{"measured":true,"result":"PASS","finding":"Instructions identify legal and factual stop points including decriminalization proof, reclassification, incomplete sentence or unpaid obligations, immigration, and non-Rhode-Island records."}
+      },
+      "nineCounters":{"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true},
+      "rasterReceipt":{"workflowRunId":34568277548,"conclusion":"success","jobId":103165424821,"artifactId":10187009921,"verdict":"RASTER_PASS","pagesMeasured":20,"archiveSha256":"aa95188a046763a20cc92e4e05b8aaa96940faa8922484eb4ca95b3f8c79ef14","jobLogSha256":"aefdcffbd58622811f552e7c3c14b875a8d19f9a6d87c1da4fb2eca289fbed19","originalPngsInspected":20},
+      "evidenceRead":["data/rcap-grade-a/packet-factory-24h/raster-runs/34568277548/ORIGINAL_EVIDENCE_VERIFIED.json","data/rcap-grade-a/packet-factory-24h/raster-runs/34568277548/ri_decriminalized-set.verdict.json","data/rcap-grade-a/packet-factory-24h/raster-runs/34568277548/ri_decriminalized-set.PAGE_IMAGES_SHA256.json","data/rcap-grade-a/packet-factory-24h/raster-runs/34568277548/jobs.json","data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/ri-focused-checks.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/source-receipt.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/production-field-map.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/reports/actual-writes.json","data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/participant-instructions.md"],
+      "remainingRequirements":[],
+      "sharedWrites":{"queue":false,"manifests":false,"familyArtifacts":false,"commits":false,"dispatch":false}
+    }
+  ]
+}

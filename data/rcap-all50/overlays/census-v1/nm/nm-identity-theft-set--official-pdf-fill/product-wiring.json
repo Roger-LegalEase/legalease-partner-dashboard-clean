@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "nm_identity_theft-set",
+  "routeKey": "obligation:track-only:NM:nm_identity_theft",
+  "routeKeys": [
+    "obligation:track-only:NM:nm_identity_theft"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "nm_identity_theft-set",
+    "jurisdiction": "NM",
+    "routeKeys": [
+      "obligation:track-only:NM:nm_identity_theft"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "fee_waiver_application",
+      "filing_instructions",
+      "local_order_form_instructions",
+      "notice_of_hearing",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:nm_identity_theft-fee-waiver-application-5",
+      "component:nm_identity_theft-notice-of-hearing-2",
+      "component:nm_identity_theft-primary-filing-1",
+      "component:nm_identity_theft-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:4-222",
+        "sha256": "ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:NM-LOCAL-IDENTITY-THEFT-ORDER",
+        "sha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:4-951",
+        "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+        "tier": "exact_identity_confirmed_from_document_text"
+      },
+      {
+        "sourceId": "official-form:4-960.1",
+        "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+        "tier": "exact_identity_confirmed_from_document_text"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34662168673",
+      "jobId": "103467351529",
+      "artifactId": "10288101112",
+      "boundToCanonicalSha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "verifiedAtBase": "17f64a27c80e196f93485682a56c5b1c8d364418"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-nm_identity_theft-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "0ea0cd7a3102b8ca09976b06a0d7a29eea8ba0f43f62a194eca13b799d1e2bd2",
+        "replacedByCanonicalSha256": "92c7099dba307af0e0beca183672ae1ec91f7ddf1d3d1d88055dd1611fc0e3a1",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34009091546",
+          "jobId": "101421931674",
+          "artifactId": null,
+          "boundToCanonicalSha256": "0ea0cd7a3102b8ca09976b06a0d7a29eea8ba0f43f62a194eca13b799d1e2bd2",
+          "coversTheWholeFamily": true
+        }
+      },
+      {
+        "why": "This write authored a different acceptance receipt. The superseded receipt is kept as history rather than overwritten; it is not carried forward as though it still applied.",
+        "boundToCanonicalSha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+        "replacedByCanonicalSha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34659428344",
+          "jobId": "103459277552",
+          "artifactId": "10287456097",
+          "boundToCanonicalSha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "nm_identity_theft-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "nm_identity_theft-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "NM-4-951",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_identity_theft-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "NM-4-960.1",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_identity_theft-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "NM-LOCAL-IDENTITY-THEFT-ORDER",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+        "requirement": "required"
+      },
+      {
+        "componentId": "nm_identity_theft-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "NM-4-222",
+        "file": "data/rcap-all50/overlays/census-v1/nm/nm-identity-theft-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+        "requirement": "required"
+      }
+    ]
+  }
+}

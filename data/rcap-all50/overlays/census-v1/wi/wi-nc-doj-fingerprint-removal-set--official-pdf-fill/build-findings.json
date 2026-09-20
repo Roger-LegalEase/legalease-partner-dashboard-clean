@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "wi_nc_doj_fingerprint_removal-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "DJ-LE-250B has no AcroForm field, and it is not the shape the flat-overlay path was written for either: its answers go in the cells of a ruled table rather than on printed underlines.",
+      "consequence": "Every write box here is a measured CELL — the rule above, the rule below and a vertical divider on each side, all read from the content stream, and the divider is additionally required to span the cell it bounds. All four strokes are re-read from the pinned binary on every build and the box is refused if any has moved. This is the first family in the factory to bound a write box on four measured strokes rather than one."
+    },
+    {
+      "finding": "The form embeds a subsetted font whose glyph codes are the ASCII of the character minus 29, mixed on the same lines with normally encoded runs.",
+      "consequence": "Most of page 1 does not extract readably. This build quotes only what extracts plainly, records the rest as unreadable in reports/caption-evidence.json, and tells the participant to read page 1 on the paper. Un-shifting the runs that look wrong would be inventing the form's text."
+    },
+    {
+      "finding": "The ARRESTING AGENCY CASE # column asks for the arresting agency's own case number, which is a different fact from matter.case_number.",
+      "consequence": "No cell of the three-row arrest and conviction table is written. A row completed from the platform's facts would be missing that one cell and would read as finished. All eighteen are declared and disclosed."
+    },
+    {
+      "finding": "The form prints two fingerprint boxes and two GENDER tick boxes that are not in the page's content stream. Only the LEFT fingerprint box has strokes there (its top and bottom rules); the right one, and the Male and Female tick boxes, are found by neither rulesOfPage nor checkboxCandidates nor strokedRectangles, although a reader sees all of them on the paper.",
+      "consequence": "They are recorded as printed controls this build could not measure, with the coordinates it did measure beside them. No coordinate is inferred from where a caption sits: a write box nobody measured is a write box nobody can review. Nothing is written in any of them in any event."
+    },
+    {
+      "finding": "The DATE OF BIRTH cell prints its own segmented template, \"__ __ / __ __ / ____\", drawn as underscore glyphs rather than as strokes.",
+      "consequence": "There is no measured box for any individual segment and the platform holds one composed date. The date is left to the participant with that reason stated, rather than drawn across the form's own template."
+    },
+    {
+      "finding": "The signature on page 2 carries a second request. The form prints, above the signature line: \"If necessary to proceed with your fingerprint record removal request, the signature below also represents a request to expunge your DNA Databank Record at the Wisconsin State Crime Laboratory.\"",
+      "consequence": "Quoted in the participant instructions under its own heading, with the plain statement that a participant who does not want their DNA Databank record touched should ask the Bureau before signing."
+    },
+    {
+      "finding": "The corpus files DJ-LE-250B under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, although the document is the operative request form for this route.",
+      "consequence": "The source is resolved by state and form number rather than by assetClass. The SHA-256 binding is unchanged. Raised for the owner of the corpus index, which is outside this lane's owned paths."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture."
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CODEX-CS1-FIX03-WA-SELF-HELP",
+  "assignmentId": "FIX03",
+  "assignedBase": "37cb6349cc6218eb1efc8abdecbba472bc409dbe",
+  "branch": "codex/cs1-fix03-wa-self-help-37cb",
+  "claim": "CLAIM_OK FIX03 wa_vac_felony-set (repair, grant set 583585e604944a55)",
+  "familyId": "wa_vac_felony-set",
+  "routeKey": "obligation:track-pathway:WA:wa_vac_felony:adult-felony-vacation-under-rcw-9-94a-640",
+  "status": "COMPLETED",
+  "result": "BUILT_RASTER_PENDING",
+  "obligationRepaired": "SELF_HELP_STOP",
+  "repair": {
+    "trackId": "wa_vac_felony",
+    "registryField": "selfHelpStopConditions",
+    "expectedStops": 12,
+    "participantInstructionsStops": 12,
+    "canonicalPdftotextStops": 12,
+    "boundaryPdftotextStops": 12,
+    "ordinaryPossibleHearingTurnedIntoStop": false,
+    "note": "The assigned base already contained the prior prose-only 12-stop edit. This repair makes the family-owned builder regenerate and assert the exact registry list, binds SELF_HELP_STOP in the family output, and carries the same participant guidance in both delivered packet PDFs."
+  },
+  "sourcePins": [
+    {
+      "formNumber": "CR-08.0900",
+      "sha256": "ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+      "byteLength": 133614,
+      "receiptAndCorpusIndexExact": true,
+      "mountedByteRehash": false
+    },
+    {
+      "formNumber": "CR-08.0920",
+      "sha256": "e5ccd2e0847fc9b0c2b54ef4ff75fd8d500b7b2af5a9eed963dd3855bb0226db",
+      "byteLength": 160031,
+      "receiptAndCorpusIndexExact": true,
+      "mountedByteRehash": false
+    }
+  ],
+  "sourceMountNote": "The repository's read-only D-pack symlink points to /workspaces/cs2vf32, which is absent in this container. No source was acquired, replaced, copied, or reconstructed. Exact receipt and corpus-index identity was asserted on both builds.",
+  "artifactsBefore": [
+    {
+      "fixture": "canonical",
+      "document": "CR-08.0900",
+      "sha256": "5cf52336e302beedc601c9bb7ad947955b5a123a187fcad32d4635ebaf593010",
+      "byteLength": 131569,
+      "pageCount": 3
+    },
+    {
+      "fixture": "boundary",
+      "document": "CR-08.0900",
+      "sha256": "1569728067f189c0b6da9bbf4d06ff1305fb8ce3adbb59a586f0cdac0a19ae3b",
+      "byteLength": 131758,
+      "pageCount": 3
+    },
+    {
+      "fixture": "canonical",
+      "document": "CR-08.0920",
+      "sha256": "1c715d2be4cfa5398a82fad6999570e1502a607a3f939061f01710f443d5e6eb",
+      "byteLength": 158875,
+      "pageCount": 3
+    },
+    {
+      "fixture": "boundary",
+      "document": "CR-08.0920",
+      "sha256": "e5014e2e979599132c6232fae1b94fe8dd271eef6a63c113e42a886377840721",
+      "byteLength": 158983,
+      "pageCount": 3
+    }
+  ],
+  "packetArtifactsBefore": "ABSENT",
+  "artifactsAfter": [
+    {
+      "fixture": "canonical",
+      "sha256": "585a7acff41609d13baeea797fd6477fc78bd6acb5c5888a05e640cb3f618c56",
+      "byteLength": 292450,
+      "pageCount": 7,
+      "composition": "CR-08.0900 canonical (3 pages), CR-08.0920 canonical (3 pages), participant self-help instructions (1 page)"
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "bcc6e5e71d3afbae64f4f5dd41e32c20bc7f8f14e38c5bba59c26a49d801bce8",
+      "byteLength": 292743,
+      "pageCount": 7,
+      "composition": "CR-08.0900 boundary (3 pages), CR-08.0920 boundary (3 pages), participant self-help instructions (1 page)"
+    }
+  ],
+  "componentArtifactsChanged": 0,
+  "participantInstructionsSha256": {
+    "before": "7a0bd29085e20e4e65116a780380106c2ca7efe486a0e3e6e794dae24b6c4bb2",
+    "after": "7a0bd29085e20e4e65116a780380106c2ca7efe486a0e3e6e794dae24b6c4bb2"
+  },
+  "determinism": {
+    "builds": 2,
+    "stdoutIdentical": true,
+    "hashesIdentical": true,
+    "byteLengthsIdentical": true,
+    "pageCountsIdentical": true
+  },
+  "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "focusedTests": [
+    "node scripts/build-census-v1-wa_vac_felony-set.mjs --no-raster (two final consecutive runs; identical output)",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_felony-set => PASS_COMPLETE, 49/82 written, all nine counters zero",
+    "pdftotext exact normalized registry-stop assertions => participant-instructions 12/12, canonical 12/12, boundary 12/12",
+    "git diff --check"
+  ],
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "productionTouched": false
+}

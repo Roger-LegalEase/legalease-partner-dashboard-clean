@@ -1,0 +1,93 @@
+{
+  "scope": "MARYLAND_CANNABIS_INSTALLATION_AND_SHARED_FINANCIAL_INVENTORY_REPAIR",
+  "families": [
+    "md_cannabis_petition-set",
+    "md_10110_conviction-set"
+  ],
+  "prerequisiteCommit": "55deb25610019f9c32d7271f7300baf844819a11",
+  "candidateInstallation": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/md-cannabis-completion.json",
+  "behavior": "A true inventory-complete flag requires an explicit object inventory. Missing inventories are refused before source rendering or destination writes. Explicit empty objects remain supported; incomplete unconfirmed drafts remain disclosed.",
+  "helper": {
+    "path": "scripts/rcap-packet-recovery/chat5/md-conviction.mjs",
+    "beforeSha256": "1f7e3baa1acc84b5c9fe30b99b5d7aad54b87dfe4aaf35a821fc04acb7197296",
+    "afterSha256": "d3766ab8497e7e58194d2b3bb5275e9626f6a4329c2297ccaf2471f189ca366d",
+    "patch": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-financial-repair.patch"
+  },
+  "checks": [
+    {
+      "report": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-financial-regression.json",
+      "sha256": "07aaa2750c502ec867885fe61d9c9aaaa21e3ce9c3d0b8a1ad4b651afe840829",
+      "passed": 122,
+      "failed": 0
+    },
+    {
+      "report": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-conviction-regression.json",
+      "sha256": "c7f3abfcc514f84210dabfb82868e695e3c58c9c763c0f103307b02ad45a949a",
+      "passed": 142,
+      "failed": 0
+    },
+    {
+      "report": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-cannabis-regression.json",
+      "sha256": "8ce00caaa7907a424fb069df7493642bf542fbd847db4281ad25a9c396674626",
+      "passed": 77,
+      "failed": 0
+    },
+    {
+      "report": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-conviction-importer.json",
+      "sha256": "709353285721dba5ddc81525a341d368a29e3a9ef4dd02d8d42f9c6f4c86b70b",
+      "passed": 34,
+      "failed": 0
+    },
+    {
+      "report": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-cannabis-importer.json",
+      "sha256": "e49e90605e5e6a5c49647c4455a7512bb9cbde8f6e0d63f4750cf5c18d479d7a",
+      "passed": 27,
+      "failed": 0
+    }
+  ],
+  "totalPassingChecks": 402,
+  "failedChecks": 0,
+  "causalControls": {
+    "reproducedOriginalFalseCompletePackets": 6,
+    "repairedRenderRefusals": 6,
+    "report": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/md-financial-causal-controls.json"
+  },
+  "preservation": {
+    "retainedArtifactFiles": 238,
+    "filesByFamily": {
+      "md-10110-conviction-set--official-pdf-fill": 107,
+      "md-cannabis-petition-set--official-pdf-fill": 79,
+      "md-10105-favorable-set--official-pdf-fill": 52
+    },
+    "allRetainedBytesExact": true,
+    "freshWholePdfComparisons": 43,
+    "comparedPages": 303
+  },
+  "buildVerifier": {
+    "jurisdictions": 51,
+    "passed": true,
+    "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/all50-build-verifier.log"
+  },
+  "lint": {
+    "passed": true,
+    "errors": 0,
+    "existingWarnings": 4,
+    "newScriptsWarnings": 0
+  },
+  "typecheck": {
+    "passed": true,
+    "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session09/typecheck.log"
+  },
+  "reviewStatus": "qa_review_pending",
+  "independentApproval": false,
+  "centralAcceptance": false,
+  "terminalPromotions": 0,
+  "runtimeAuthorityCreated": false,
+  "productionChanged": false,
+  "remaining": [
+    "Independent review of current helper bytes and source/full-output obligations; previous review identities do not approve this repair.",
+    "Declared conditional CC-DC-089/MDJ-008 relationship and fee/record-system integration remain open.",
+    "Exact central raster admission and owner/matter/current-facts/entitlement/private-delivery proof remain open."
+  ],
+  "note": "Session08 measurements retain their historical input hashes. This record binds the changed helper to fresh executable evidence and unchanged packet bytes; it does not refresh or supersede any legal, visual, or live approval."
+}

@@ -212,7 +212,7 @@ export function getPublicStateResource(
       title: editorial.seoTitle?.trim() || `${locked.name} Record Clearing Resources | Expungement.ai`,
       description:
         editorial.seoDescription?.trim() ||
-        `Plain-language ${locked.name} record-clearing resources. Learn how ${locked.displayTerm} works in ${locked.name}, what to prepare, and how to start a free guided check. Self-help only, not legal advice.`,
+        `Plain-language ${locked.name} record-clearing resources. Learn how ${locked.displayTerm} works in ${locked.name}, what to prepare, and how to start a free screening. Self-help only, not legal advice.`,
       canonical,
       ogTitle: `${locked.name} Record Clearing Resources`,
       ogDescription: `How record clearing works in ${locked.name}, in plain language. Self-help document preparation, not legal advice.`

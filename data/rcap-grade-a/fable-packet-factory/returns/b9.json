@@ -1,0 +1,391 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "agent": "FABLE-B9",
+  "branch": "fable/b9",
+  "mergedCaptainHead": "edf5ff14b (second merge; first merge base was the pre-session captain head)",
+  "returnedAt": "2026-09-01T23:55:31.200Z",
+  "laneResolution": {
+    "whatHappened": "Every family's lane was read from the claim ledger before work, exactly as dispatched: PF12 (wv_dui_deferral_expungement-set, ms-nonadj-set), PF10 (il-prostitution-j-vacate-set), PF13 (me-screening-set), PF07 (ga-jail-k2-set), PF15 (ct-cannabis-petition-set, ct-missed-erasure-set), PF08 (ne-seal-enforcement-set). All eight --assert calls returned CLAIM_OK; no refusals. After the mid-run merge of captain edf5ff14b the ledger conflict was resolved by taking the captain side wholesale and re-applying the three already-committed releases through claim.mjs (never hand-edited); verify-claim-ledger.mjs returned CLAIM_LEDGER_OK, and the five remaining claims re-asserted CLAIM_OK on the same lanes under the new grant set 41070b8cb22322ee.",
+    "ledgerLanesUsed": {
+      "wv_dui_deferral_expungement-set": "PF12",
+      "ms-nonadj-set": "PF12",
+      "il-prostitution-j-vacate-set": "PF10",
+      "me-screening-set": "PF13",
+      "ga-jail-k2-set": "PF07",
+      "ct-cannabis-petition-set": "PF15",
+      "ne-seal-enforcement-set": "PF08",
+      "ct-missed-erasure-set": "PF15"
+    }
+  },
+  "sharedFacts": {
+    "allEightAreCodifiedTextFamilies": "Every MASTER_QUEUE row binds ZERO source bytes (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundSources [], officialFormFamily NONE, forms [], boundCount 0), so there were no source SHA-256s or printed faces to verify. Each build grounds on the family's committed legal-design records — the state intake memo track and the packet-set manifest — named in every source-receipt.json with the no-official-form determination quoted from the record. Grounding-record SHA-256s at build time: WV.memo fe10623bba14a83f, MS.memo 6982ae0c69373c19, IL.memo fc64a4b6bb182a3f, ME.memo fadc5e312ee3f225, GA.memo 44e596a27f9aa2bc, CT.memo 90d96d9d8a25ed7d, NE.memo 4947fbc90c3b3733, legal-design-packet-set-manifests.json 80d88d69dc5710b9.",
+    "buildPattern": "Working pattern scripts/build-census-v1-va_exp_identity_used_by_another-set.mjs (maps-with-canonical-and-boundary field maps, composed pleadings, byte proof read back from saved packet bytes), adapted for zero bound sources; each script self-contained per its row's exclusiveScript (no shared host created; b6's in-progress GA host untouched).",
+    "overlayDiscipline": "Only held participant identity/contact facts are written (name, DOB, address, phone, email — and only where the page prints them). Every case fact is a labelled dotted blank declared REQUIRED_BEFORE_FILING with a printed label, disclosed in participant-instructions.md, with a named checkable authority (court office, DMV, probation office, DESPP-SPBI, GCIC, ISP, SBI, circuit clerk, facility, agency). No signature, notary/jurat, judicial, prosecutor-approval, clerk or court-date field is ever written; nothing invented; unresolved legal questions preserved as unresolved and routed to approval-request.json.",
+    "determinism": "stampDeterministic() on every PDFDocument.create(); save with useObjectStreams:false, updateMetadata:false. Each family built at least twice (once --no-raster, once with raster); canonical and boundary packet SHA-256s byte-identical across runs for all eight.",
+    "raster": "Local Chromium calibrated raster (scripts/raster/pdf-page-raster.mjs) rendered every page of every fixture; recorded as RASTER_LOCAL_PENDING_CENTRAL — never a gate result. rendered-artifacts.json declares canonical+boundary fixtures in the v1 pdfs shape (file, documentId, fixture, sha256).",
+    "verifier": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> -> PASS_COMPLETE with all nine counters zero, for all eight (lean rule: per-family verifier only; no full repo suite).",
+    "nothingCommercial": "commercialRoutesOpened 0 everywhere; every family ends at state_built with reviewStatus qa_review_pending; approval-request.json carries the counsel questions."
+  },
+  "families": [
+    {
+      "familyId": "wv_dui_deferral_expungement-set",
+      "lane": "PF12",
+      "claimResult": "--assert PF12 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF12 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: WV.memo.json fe10623bba14a83f + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 15,
+        "requiredBeforeFiling": 22,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "07da2172ae350c39e0a70dcf9cc405eb1d161e80e71505dfdd0acae5483dbfc9",
+          "pages": 11
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "69d9be37bb0b0eaa8f7a0aff7670144bfe0341ce46c9e2302cc646ccbdeeb44c",
+          "pages": 11
+        }
+      ],
+      "rasterPages": 22,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "two statutory units composed (§ 17C-5-2b(c) motion + affidavit; § 17C-5-2b(g) application + timeline); one-year clock computed from probation expiry; DMV-record hard limit and felony bar printed; stale-file and once-per-lifetime questions to counsel"
+    },
+    {
+      "familyId": "ms-nonadj-set",
+      "lane": "PF12",
+      "claimResult": "--assert PF12 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF12 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: MS.memo.json 6982ae0c69373c19 + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 9,
+        "requiredBeforeFiling": 18,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "b3488303e6e8ab6e344bb4ef96c9533c5adc1db5d04a2a66707d11f3e2d72527",
+          "pages": 8
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "3c016942a2891e2b300a33247ec119ee2efce7e129c3ae0991d773152fba47de",
+          "pages": 8
+        }
+      ],
+      "rasterPages": 16,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "pleads § 99-15-26 alone; Fourth District model defects deliberately not inherited; no fee published; clerk-first localFormOverride; proposed order findings tendered, never asserted"
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "lane": "PF10",
+      "claimResult": "--assert PF10 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF10 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: IL.memo.json fc64a4b6bb182a3f + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 5,
+        "requiredBeforeFiling": 9,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+          "pages": 3
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "714832a826220e0d1f82363af3aa251d6dd5e3e9d7fb7235450b002cb614705b",
+          "pages": 3
+        }
+      ],
+      "rasterPages": 6,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "closed citation set (j)(3)/(d)(9)(A)/(j)(8); no verification language; adverse-consequences narrative participant-authored; attorney-review default; OSAD Expungement Unit referral"
+    },
+    {
+      "familyId": "me-screening-set",
+      "lane": "PF13",
+      "claimResult": "--assert PF13 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF13 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: ME.memo.json fadc5e312ee3f225 + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 7,
+        "requiredBeforeFiling": 9,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "18921d618fb4a51d970ea9c5d40d427d364f42f87727c9824c21442f747fcef5",
+          "pages": 5
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "421d3ab97ca8ba4c2cb7dfa678a3d88fb0f1bc0f9e92486ee7e4dfafb3c8da56",
+          "pages": 5
+        }
+      ],
+      "rasterPages": 10,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "dispute letter to a private screening service, stated as correspondence not a pleading; no § 1500-EE(3) penalty/damages/FCRA anywhere; 30-day clock from receipt; recodification check to counsel"
+    },
+    {
+      "familyId": "ga-jail-k2-set",
+      "lane": "PF07",
+      "claimResult": "--assert PF07 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF07 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: GA.memo.json 44e596a27f9aa2bc + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 7,
+        "requiredBeforeFiling": 8,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "154780fcc5f3280fea71781bb16f80c1176db5c56c0b522b9a889f288b5dc91d",
+          "pages": 5
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "ff4dbf5329d071c7bfd07dde7be1e786b156a3b5da4753d7f43df199e1d425b2",
+          "pages": 5
+        }
+      ],
+      "rasterPages": 10,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "self-contained (b6's shared GA host untouched); restrict/seal terminology; § 35-3-37(u) caution printed; (k)(1)/(k)(2) timing question stated both ways; four A2J desks wired as referrals"
+    },
+    {
+      "familyId": "ct-cannabis-petition-set",
+      "lane": "PF15",
+      "claimResult": "--assert PF15 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF15 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: CT.memo.json 90d96d9d8a25ed7d + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 6,
+        "requiredBeforeFiling": 11,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "73f32cf14f330bb162ad0792eecd8b6351e51905d31c6d9c40b0e9bd933a97a3",
+          "pages": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "017fe825b8c4d19d7c2ae85d21415454e2d6527754e501b51f33a31a235cce81",
+          "pages": 4
+        }
+      ],
+      "rasterPages": 8,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "erasure terminology; Clean Slate portal no-official-form authority; quantity/paraphernalia facts never generated (affidavit container only); § 54-142v(b) multi-count bar printed on the count blank; service/caption practice to counsel"
+    },
+    {
+      "familyId": "ne-seal-enforcement-set",
+      "lane": "PF08",
+      "claimResult": "--assert PF08 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF08 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: NE.memo.json 4947fbc90c3b3733 + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 12,
+        "requiredBeforeFiling": 15,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "611825ac4bd05fb2a1332f7a5c575bbab767c40c605c9320237d511dfc8ef9f2",
+          "pages": 6
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "ffe65671c6035dede3a79b1c7a99e87640af699de99520a58eb33743cd8462a7",
+          "pages": 6
+        }
+      ],
+      "rasterPages": 12,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "demand-first; complaint conditional with a rendered attorney-review-recommendation component; venue election disclosed as the participant's; no bad faith, no damages; the outside-self-help override's counsel-confirmation requirement is itself the first counsel question"
+    },
+    {
+      "familyId": "ct-missed-erasure-set",
+      "lane": "PF15",
+      "claimResult": "--assert PF15 CLAIM_OK (pre-merge grant set 4d1573645992fad5 / post-merge 41070b8cb22322ee); released on PF15 after the build commit",
+      "sourcesVerified": [
+        "MASTER_QUEUE row binds zero source bytes (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); nothing to hash or face-read",
+        "grounding: CT.memo.json 90d96d9d8a25ed7d + legal-design-packet-set-manifests.json 80d88d69dc5710b9"
+      ],
+      "writtenVsCarried": {
+        "written": 1,
+        "requiredBeforeFiling": 0,
+        "note": "writes are participant identity/contact facts only; every case fact carried to the participant as a labelled REQUIRED_BEFORE_FILING blank disclosed in participant-instructions.md with a named checkable authority"
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineZero": true,
+      "verifierResult": "PASS_COMPLETE (verify-packet-completeness.mjs --family)",
+      "rebuildByteIdentical": true,
+      "fixtures": [
+        {
+          "fixture": "canonical",
+          "sha256": "814530c39586e9e52573eb081a3f262e559680d1f46fb29d20efde68041f0627",
+          "pages": 2
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "ce72517919d6fe84192643d4bae026ad43c5ae4a1ac7f1b3f8e7c692e55cff1c",
+          "pages": 2
+        }
+      ],
+      "rasterPages": 4,
+      "rasterState": "RASTER_LOCAL_PENDING_CENTRAL",
+      "status": "state_built",
+      "notes": "guidance-packet fallback: stage-1 SPBI/DPS-0846-C guidance only; stage-2 DESPP submission NOT generated (recorded legal_design_blocker — form and manner undetermined; nothing invented); queue directory suffix (--official-pdf-fill) vs strategy (participant_agency_application) mismatch recorded in build-findings.json; UAPA contested hearing named as the attorney handoff"
+    }
+  ],
+  "commits": "per-family build commit + per-family ledger release commit on fable/b9; mid-run merge of captain edf5ff14b with the ledger conflict resolved through claim.mjs (captain side + re-applied releases; CLAIM_LEDGER_OK)",
+  "claims": {
+    "asserted": 8,
+    "released": 8,
+    "refusals": 0
+  },
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

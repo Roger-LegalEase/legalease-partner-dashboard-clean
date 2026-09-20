@@ -1,0 +1,261 @@
+{
+  "source": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json",
+    "sha256": "403552696f1690f7c72b558d2f67b9e49fda3842d03fdf17484f5271aaef7be8",
+    "byteLength": 797649
+  },
+  "rows": [
+    {
+      "itemId": "ma-bmc-multi-set",
+      "lane": "VF09",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading",
+      "verifier": "FABLE-VT12 (independent \u2014 built none of these packets, and neither built nor repaired any family scored here)",
+      "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
+      "buildStatus": "state_built",
+      "rasterState": "RASTER_PASS",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The single route key obligation:track-only:MA:ma-bmc-multi agrees across source-receipt.json, production-field-map.json, the MASTER_QUEUE row (routeCount 1) and the packet-set manifest, and is printed on both delivered pages. The relief and its authority are on the delivered face: 'CONSOLIDATED PETITION TO SEAL MULTIPLE CRIMINAL RECORDS UNDER G.L. c. 276, Sec. 100C AND BMC AMENDED STANDING ORDER No. 1-09', with Commonwealth v. Pon, 469 Mass. 296 (2014) cited for the good-cause standard \u2014 the same three authorities the receipt declares."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Measured against the mounted corpus and the committed records. The MASTER_QUEUE row records boundCount 0, officialFormFamily NONE, forms [] and the receipt's zero-binary claim matches exactly. Both grounding records exist and say what is cited. I then tested the harder claim \u2014 that composing a custom petition here is authorised rather than invented \u2014 against two held sources: the corpus MA legal review (ASOF 2026-07-30) Track 8, which records 'Is an official form mandatory? Unresolved ... whether BMC publishes a form was not established'; and the corpus governance file ADOPTED_BATCH_2_LEGAL_RESEARCH_RESOLUTION.md, which directs at line 129 that 'If no current BMC form is published, a counsel-approved custom consolidated petition may be used only for qualifying BMC records; otherwise use TC0057 per case'. The receipt's formIdentityNote paraphrases that resolution accurately. The two MA assets in the corpus that are forms are both EXPUNGEMENT petitions (MA-PROBATION-SERVICE under \u00a7\u00a7 100F/100G/100H, and TC0021 for marijuana offences) \u2014 a different remedy from \u00a7 100C sealing \u2014 and are correctly not bound. No form was substituted and none was invented.",
+          "evidence": {
+            "corpus": "Corpus mounted via scripts/rcap-corpus/bootstrap-private-corpus.sh \u2014 archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 and all governance checksums verified; 51 jurisdictions, 499 files, 329 PDFs."
+          }
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredComponentsMissing 0. The packet-set manifest declares two required components \u2014 primary_filing (order 1) and instructions (order 2) \u2014 the field map declares the same two, and both delivered fixtures carry both across four pages. The corpus Track 8 component list (consolidated petition required, participant instructions required, supporting documentation conditional on the judge's request) matches. Noted for the repairer as a non-blocking improvement, not scored as a defect: the packet tells the participant the consolidated petition 'SUPPLEMENTS the statewide per-case form' without naming that form TC0057, which the held review and the Batch 2 resolution both name. The form is correctly not a component of this packet \u2014 the participant files it per case \u2014 and the packet names the clerk of the venue division as the authority on how the division wants it presented."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "knownRequiredFieldsMissing 0. Six writes owed, six made, and I read each back off the delivered bytes myself rather than trusting the report: petitioner name (in the caption 'IN THE MATTER OF THE PETITION OF ...', in paragraph 1 and at PRINTED NAME), date of birth, mailing address, telephone, email, and the instructions page's participant name. The boundary fixture carries all six in their long forms."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredFactsNotCollected 0 and the six declared items are honest ones the platform genuinely cannot hold: the three record lines (division, docket number, disposition), the further-records line, the participant-authored good-cause narrative, and the venue division. Each is disclosed to the participant in participant-instructions.md with a specific instruction on what to write and where it comes from, and everyRequiredBeforeFilingItemIsDisclosed is true. I checked the classification against the delivered face and every one of the six is a real blank on the petition, correctly labelled, with no court-owned field among them. The manifest's separate obtain-document action \u2014 request your own CORI from DCJIS \u2014 is disclosed on the delivered instructions page under 'YOUR CORI FIRST', which also states the platform never collects, inspects or authenticates it."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "requiredOptionsMissing 0. routeSelectionsMade is empty and no map declares a selectionControl; the packet renders no election. The one threshold that gates the route \u2014 three or more records from two or more BMC divisions \u2014 is printed at the top of the petition in capitals and walked again on the instructions page, with the instruction to count against the participant's own CORI. The venue election is left to the participant with the Standing Order's rule stated, not guessed."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "incompleteRows 0. The petition's paragraph 2 is a genuine repeating structure \u2014 Record 1, Record 2, Record 3, plus a 'Further records, if any' continuation \u2014 and every row is left uniformly blank for the participant with the same three sub-facts named in each. No row is part-filled, which is the failure mode this obligation exists to catch: there is no row carrying a docket number with an empty disposition."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "protectedWrites 0 and invisibleWrites 0, and the refusals are correctly classified. Both protected blanks \u2014 petitioner_signature and signature_date \u2014 carry refusalClass signature_or_date_participant_completion, and the delivered page states beneath them '(The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.)'. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 and refusedFieldsWithInk is empty on both fixtures."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "I rehashed both fixtures and both match reports/rendered-artifacts.json and the RASTER_PASS receipt's bindings.",
+          "evidence": {
+            "canonical": "4ef2b720a0788da7831fa22aa404429f6ebc137196cc66a863ffd226d1c93fca (10964 bytes)",
+            "boundary": "834acb2ad6e615e00a42e0af6dddf6bca650bff3b0d448a9d749aa8c30e5ee02 (11165 bytes)",
+            "rasterWorkflowRunId": "33574304514",
+            "bothMatchReceipt": true
+          }
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Declared 4 pages and pdfinfo reports 4 for both fixtures. The primary_filing pages precede the instructions pages, which is the order the manifest declares (primary_filing order 1, instructions order 2), and the petition's numbered paragraphs run 1 through 5 in sequence across the break."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "visualDefects 0 on my own run, over bytes carrying a hash-bound RASTER_PASS receipt (run 33574304514) whose two hash bindings equal the hashes I computed. I additionally checked the boundary fixture, which is where clipping shows: the 99-character mailing address wraps cleanly onto a second line ending '...Dorchester, Massachusetts 02124-2214', the 60-character email prints complete, and the hyphenated apostrophised name prints complete in all three places it appears. Nothing is truncated and nothing overlaps."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "A1 test: the repository establishes the answer and the packet states it. MA.memo.json rules.filing records 'File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule', and the corpus Track 8 records 'Filing method: Paper filing in the correct BMC division' with the venue rule keyed to residence and the fallback to the division of the most recent eligible record. The delivered packet states that rule twice \u2014 in the petition's caption instruction and again under 'THE VENUE RULE' on the instructions page \u2014 in both branches, and leaves the division blank for the participant because it turns on facts the platform does not hold."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Met on the third branch of DETERMINATION_FEE_AND_WAIVER_STANDARD. I asked first whether the repository establishes the fee: it does not. MA.memo.json records fees 'None identified in the review' and feeWaiver 'None identified', and the corpus Track 8 records 'Fee: None identified. Unresolved.' The packet states exactly that position and names the office that answers it: 'FEES. The controlling review identified no filing fee and no waiver for this route. This packet asserts neither; the clerk of the venue division can say whether anything is charged.' That is a named checkable authority \u2014 the clerk of the division the participant is filing in, an office reachable in practice \u2014 and not the 'check with the court' gesture the standard refuses. It also correctly declines to convert 'none identified' into 'no fee is charged'."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The repository's answer is that notice here is the court's act, not the participant's, and the packet says so without inventing a participant service step. MA.memo.json rules.notice records 'Preliminary hearing, public notice and final hearing per the Standing Order' and rules.service 'Per the Standing Order'; the corpus Track 8 adds that 'The Clerk-Magistrate notifies the Probation Department. Public notice of the final hearing is required' and records the exact form of that notice as an open question. The delivered instructions state 'WHAT FOLLOWS FILING. Under the Standing Order: a preliminary hearing, public notice, and a final hearing', attribute it to the Standing Order, and name the clerk of the venue division as the authority on how the division wants papers presented. Nothing unresolved is asserted as settled. Noted as a non-blocking improvement: the held review also records that the final hearing is set 30 to 45 days out and that \u00a7 100C \u00b62 requires the Clerk-Magistrate to post the petition on a public bulletin board until the hearing; the packet conveys 'public notice' without those two specifics."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Present on the delivered face. The instructions page carries 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' with four stops \u2014 threshold not met, any record outside the BMC, the judge requesting additional information, and a hearing being set \u2014 and states separately that 'A hearing is where self-help stops'. That matches the corpus Track 8 self-help limits, including the stop where records span BMC and another court department, which the packet renders as 'any record is outside the Boston Municipal Court Department'."
+        }
+      },
+      "failedObligations": [],
+      "unmeasuredObligations": [],
+      "grantsNothing": "An independent PASS proves this packet is complete against the fifteen obligations at this base. It approves no output, opens no commercial route, grants no counsel or visual approval, and promotes nothing. Counsel review remains outstanding \u2014 the Batch 2 resolution authorises a COUNSEL-APPROVED custom consolidated petition, and that approval is not this lane's to give."
+    },
+    {
+      "itemId": "ma-bmc-multi-set",
+      "lane": "VF09",
+      "verdict": "BLOCKED_LEGAL_INPUT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-bmc-multi-set--custom-pleading",
+      "verifier": "VF09 independent-verification, second read of this family by this lane. The earlier VF09 row was PASS_COMPLETE_INDEPENDENT at ebc44031e; VF05 then read it as BLOCKED_LEGAL_INPUT at 46360ba12 on ROUTE_IDENTITY and COMPONENT_SET. This read is on the current record and the current bytes. This lane built none of this family and repaired none of it.",
+      "verifiedAtBase": "3a2f1cf3d",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF09 ma-bmc-multi-set -> CLAIM_OK VF09 ma-bmc-multi-set (independent-verification, grant set d36a248c566d057c), exit 0. Asserted before any family artifact was read. The grant is not released here and the claim ledger is not committed.",
+      "canonicalSha256": "4ef2b720a0788da7831fa22aa404429f6ebc137196cc66a863ffd226d1c93fca",
+      "boundarySha256": "834acb2ad6e615e00a42e0af6dddf6bca650bff3b0d448a9d749aa8c30e5ee02",
+      "digestsConfirmedFirst": "sha256sum over fixtures/ on disk, run before any measurement: canonical.pdf 4ef2b720a0788da7831fa22aa404429f6ebc137196cc66a863ffd226d1c93fca (10964 bytes, 4 pages) and boundary.pdf 834acb2ad6e615e00a42e0af6dddf6bca650bff3b0d448a9d749aa8c30e5ee02 (11165 bytes, 4 pages). Both equal the prefixes the assignment names and what reports/rendered-artifacts.json records.",
+      "preflight": {
+        "command": "node scripts/verify-packet-build-environment.mjs --family ma-bmc-multi-set --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --codex-cloud --minimum-captain-sha 6bf382d144d6436222915dd8471af1800766842b, with MASTER_LIBRARY_SOURCE_DIR exported to /home/user/vf09e-worktree/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. Run once on the clean tree before any family artifact was read.",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable.",
+        "theTwoFailures": "corpus_matches_committed_index (1 absent, 0 mismatched of 24 sampled: the Alabama AL_ABPP-3_rev-2025-06-14.pdf, which no mounted custody holds; it touches no Massachusetts source and this family has no binary source at all), and assignment_present_in_this_checkout ('no assignment in this checkout names ma-bmc-multi-set'). The second is a fact about the dispatch manifest, not about the container: ACTIVE_ASSIGNMENTS.json carries no item for this family, and the authority this lane read on is the claim ledger, which granted it -- recorded here rather than argued away.",
+        "familySourcesBind": "ok family_sources_bind: ma-bmc-multi-set is a zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT); it binds committed legal records by hash inside its builder, not document bytes here. That check does not read the receipt's own bindings, and SOURCE_IDENTITY below does.",
+        "worktree": "/home/user/vf09e-worktree, branch vf09-nv-ma-pa790-read cut from 3a2f1cf3d on claude/legalease-sprint-captain-utucnw. core.sparseCheckout false, 0 skip-worktree bits, worktree clean before and after. private/ is a directory of read-only symlinks so the repository's own private/ ignore rule matches it and it tracks nothing; node_modules symlinked to the captain worktree. node 22.22.2, pdf-lib 1.17.1, poppler, Pillow 12.3.0, numpy 2.4.6."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "measuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ma-bmc-multi-set, read-only on the committed bytes in this container -> PASS_COMPLETE, 6/14 written, exit 0. The tree was clean before and after.",
+        "whyNineZerosIsNotByItselfAPass": "The counters read the field map. Neither the form-identity question that blocks this family nor the absent SHA-256 bindings in its receipt is visible to any of the nine, and both are recorded below."
+      },
+      "rasterState": "RASTER_REFUSED_WHILE_LEGAL_BLOCKED",
+      "rasterStateBinding": "No central receipt exists for these bytes and none can: data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json carries no row for this family and lists it under notEligible with why ['an open legal input']. So the raster was taken here instead, and this row records a local measurement rather than a gate result. LOCAL RASTER: both fixtures, every page, poppler pdftoppm at 300 dpi grayscale, 4 pages each, all rendered under /tmp and deleted after measuring; no raster PNG is committed. What that local raster found is recorded under CLIPPING_AND_OVERLAP. A PASS_COMPLETE_INDEPENDENT on this row would lift the hold and let the central raster follow; this row does not lift it, because the read below is BLOCKED_LEGAL_INPUT.",
+      "sourceResolution": "Zero-source composition: the MASTER_QUEUE row records sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT with officialFormFamily NONE and boundSources [], and the receipt says no binary source is bound. The two committed records the build is grounded on were hashed here from disk: data/record-clearing/legal-design-intake/MA.memo.json c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a (105439 bytes) and data/record-clearing/legal-design-packet-set-manifests.json 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec (3683419 bytes). The receipt records NEITHER digest, which is the finding under SOURCE_IDENTITY. The companion form the receipt names, TC0057 at sha256 f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0, is NOT MEASURABLE HERE: a content-hash index of both mounted custodies (500 files, 500 distinct digests, realpath-deduped, asserted non-empty before any absence was believed) does not hold it. That is a positive statement of absence in this container, not a zero, and TC0057 is not a source of these rendered bytes -- it is a named companion the packet deliberately does not include.",
+      "howTheSweepWasProvedSensitive": "NOT APPLICABLE ON THESE BYTES, AND PROVED SO RATHER THAN ASSUMED. Both fixtures carry 0 annotations, 0 AcroForm fields and an empty /XObject resource dictionary on all four pages, and reports/actual-writes.json independently records flattenedWidgetAppearancesReadFromOutputBytes 0 for both. Sweep count: 0 of 0 placements, in each fixture. The same script was run against Pennsylvania in this session, where a one-appearance /Matrix mutation moved it from 78 of 78 to 77 of 78 and named the mutated appearance; see that row for the control.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "BLOCKED_LEGAL_INPUT",
+          "evidence": "The route key itself agrees everywhere and occurs exactly once in the census: obligation:track-only:MA:ma-bmc-multi, in source-receipt.json, production-field-map.json, the MASTER_QUEUE row and route-obligation-candidate.json, and printed at the foot of both delivered components. What is blocked is the identity of the controlling petition, and the governing registry still refuses it in terms. data/record-clearing/legal-design-track-registry.json, track ma-bmc-multi, carries formIdentityInvestigation with status STOPPED_AMBIGUOUS, reviewedOn 2026-09-04, and this hardStop, quoted exactly: 'Do not assign TC0057, TC0059, or the existing custom pleading as the controlling single petition until the issuing court identifies the petition form referenced by the current Standing Order or confirms that no dedicated form is published.' That sentence names the existing custom pleading -- the very component this packet renders as primary_filing -- and forbids assigning it as the controlling single petition. The record reviewed both official candidates and rejected each: TC0057 as NOT_ESTABLISHED_AS_CONSOLIDATED_BMC_PETITION because 'The form expressly directs the filer to use a separate form for each case and carries one docket-number caption', and TC0059 as NOT_IDENTIFIED_BY_ISSUER_AS_BMC_MULTI_RECORD_PETITION. WHAT THE QUEUE SETTLED IS A DIFFERENT QUESTION. The MASTER_QUEUE row's legalInputStatus is SETTLED and its executionReclassification's nextExecutableAction reads 'Use the existing codified-text custom-pleading treatment and proceed through current raster and independent-verification gates', but the ownerDecision beside it is 'CUSTOM_PLEADING_FROM_CODIFIED_TEXT is not external source-acquisition work. Do not research or reacquire this family.' That settles the SOURCE-ACQUISITION question, and the same row still carries the laneReturnLegalHold from VF05 naming ROUTE_IDENTITY and COMPONENT_SET. The packet-set manifest names primary_filing with officialFormId null, which is consistent with the pleading being rendered but says nothing about it being controlling; the registry entry that does speak to that is the hard stop above, and it is the later record (reviewedOn 2026-09-04).",
+          "finding": "The governing registry still refuses to identify the custom pleading as the controlling single petition, and the sentence that refuses it names that pleading expressly. This obligation cannot be ruled on the bytes; it waits on the issuing court."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "evidence": "THE TWO RECORDS THIS BUILD IS GROUNDED ON CARRY NO DIGEST AT ALL. source-receipt.json codifiedGrounds holds exactly two entries and each has only 'record' and 'what' -- no sha256, no byteLength, no exactObject, nothing to recompute against. The receipt's own bindingMethod says so rather than claiming otherwise: 'grounded on two committed records, verified present and un-drifted before anything is composed'. The builder confirms it: scripts/build-census-v1-ma-bmc-multi-set.mjs computes sha256 only over its own output packet bytes and over its raster PNGs, and never over MA.memo.json or legal-design-packet-set-manifests.json; the only record digest it prints anywhere is TC0057's, in prose. So nothing in this family binds its authority by exact SHA-256, and a reader cannot tell which bytes of either record the packet was composed from. For the record, the current digests are MA.memo.json c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a (105439) and legal-design-packet-set-manifests.json 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec (3683419), recomputed here -- but recomputing a digest the receipt does not carry proves nothing about the build. This is the same defect this lane raised on Nevada and that the FIX08 cluster commit repaired there by adding sha256 and byteLength to both codified-ground records; the identical repair is available here and is not a legal question.",
+          "finding": "No source binds by exact SHA-256. The defect is independent of the legal block and does not clear when the block clears; a repair lane can fix it now."
+        },
+        "COMPONENT_SET": {
+          "result": "BLOCKED_LEGAL_INPUT",
+          "evidence": "Physically the set is whole and I checked it on the bytes: the packet-set manifest names two components, primary_filing (order 1) and instructions (order 2), both required and both outputStrategy custom_pleading; both reach a page in both fixtures; the page manifest maps pages 1-2 to primary_filing and 3-4 to instructions; and the first printed line of each page confirms it (CONSOLIDATED PETITION TO SEAL MULTIPLE CRIMINAL RECORDS ... / the petition's paragraph-3 continuation / THRESHOLD, VENUE AND WHAT FOLLOWS FILING / WHEN TO STOP AND GET HELP INSTEAD OF FILING). What cannot be ruled is whether that is the CORRECT controlling set, and for the same reason as ROUTE_IDENTITY: the registry's hard stop forbids assigning the existing custom pleading as the controlling single petition, and it also leaves open whether TC0057 belongs in the file alongside it. The packet is candid about exactly this: its own receipt says 'that TC0057 is or is not additionally required in the file alongside this consolidated petition' is something the receipt does not establish, and step 7 of participant-instructions.md tells the participant 'Ask before you file; do not assume this petition alone is the whole filing.' A packet that has to tell the participant it may not be the whole filing is a packet whose component set the record has not closed.",
+          "finding": "Every component the record names is rendered and present, and whether that set is the controlling one cannot be decided until the one form-identity question is answered."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "evidence": "knownRequiredFieldsMissing 0 measured here. Read back from the finalized bytes rather than from the report: all 6 declared write values were located in the extracted text of the fixture they belong to, 6 of 6 in canonical and 6 of 6 in boundary. They are the petitioner's name (written twice, in the petition's caption line and again in its printed-name block, plus once on the instructions page), date of birth, mailing address, telephone and email. The boundary persona's longer values are present whole -- the boundary fixture's own DATE OF BIRTH line reads 1968-12-31 and its name value appears in full in the caption -- so nothing was dropped at boundary length, which is the failure mode this obligation exists to catch. reports/actual-writes.json independently records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures.",
+          "finding": "Every known required fact is written and visible on the page it belongs to, in both fixtures."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "evidence": "production-field-map.json declares requiredBeforeFilingCount 6 and its requiredBeforeFiling array holds 6 rows; each row's disclosure label was matched, whitespace-normalised, against participant-instructions.md and 6 of 6 are named there, checked against the file. Measured against the RECORD as well as the field map: the packet-set manifest's own requiredBeforeFiling list holds 7 items and all 7 reach the guide -- obtain your own CORI from DCJIS ('Documents you must obtain before filing'), check the record list against the CORI (steps 1 and 4, 'copied from your own CORI and court paperwork'), the petitioner signature ('Sign and date the petition yourself' and 'Things the platform deliberately left blank'), the good-cause narrative (step 5 and the same section), the sign requirement, and both fee items ('the controlling review identified no fee, and this packet asserts none'). The guide's blanks table names each dotted blank by its paragraph in the petition.",
+          "finding": "Every declared item is named in participant-instructions.md."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "evidence": "requiredOptionsMissing 0 measured here, and measured on the bytes rather than the counter: the packet carries no selection control at all -- 0 annotations, 0 AcroForm fields and 0 rectangle operators in any of the four content streams of either fixture -- so there is no election to leave unmade. The route this packet is built for is stated in words on the first delivered page, in capitals: 'USE THIS CONSOLIDATED PETITION ONLY IF you are asking to seal THREE OR MORE criminal records from TWO OR MORE divisions', with the below-threshold alternative named in the same paragraph. The venue election is left to the participant with the Standing Order's rule spelled out, which is the record's own rule rather than a route determination.",
+          "finding": "Every route-determined election is made, and it is made in the packet's own words because the packet has no controls."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "evidence": "incompleteRows 0 measured here, and confirmed on the pages. The petition's paragraph 2 carries a repeating structure -- Record 1, Record 2, Record 3 and a further-records block, each a labelled dotted line for division, docket number and disposition -- and every one of them is wholly blank in both fixtures. None of the 6 write values is a cell of any of those rows; all six are caption or contact values. Each row is a declared requiredBeforeFiling item and each is named in the guide's blanks table with what to write.",
+          "finding": "No row carries a written cell beside a required cell left blank."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "evidence": "Measured from the finalized bytes. Both fixtures carry 0 annotations and 0 AcroForm fields on all four pages, so nothing is hidden in a widget. The one signature block is a dotted blank in both fixtures -- 'DATE .............................. SIGNATURE OF PETITIONER ......................................' -- and carries the packet's own disclaimer immediately beneath it: 'The petitioner signs and dates this petition personally. Nothing on this page is signed or dated for the petitioner.' There is no court, clerk or prosecutor block on either component, and no certificate of mailing: the record prescribes participant service only 'Per the Standing Order' and the packet claims no service step.",
+          "finding": "No signature, signature date, court-only or prosecutor-only field carries ink."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "evidence": "sha256 recomputed over fixtures/ here, before measuring: canonical.pdf 4ef2b720a0788da7831fa22aa404429f6ebc137196cc66a863ffd226d1c93fca (10964 bytes, 4 pages) and boundary.pdf 834acb2ad6e615e00a42e0af6dddf6bca650bff3b0d448a9d749aa8c30e5ee02 (11165 bytes, 4 pages). Both equal what reports/rendered-artifacts.json records in both its pdfs and its artifacts blocks. The family directory holds no committed raster PNGs.",
+          "finding": "Canonical and boundary bytes hash to what the record names."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "evidence": "reports/rendered-artifacts.json pageManifest is 4 contiguous rows for each fixture and pdf-lib reports 4 pages of 612x792 for each. Each row was checked against what the page actually prints by extracting each page separately: page 1 opens 'CONSOLIDATED PETITION TO SEAL MULTIPLE CRIMINAL RECORDS (BMC AMENDED STANDING ORDER NO. 1-09)', page 2 continues the petition's paragraph 3 and carries paragraphs 4 and 5, the signature block and the printed-name block, page 3 opens 'THRESHOLD, VENUE AND WHAT FOLLOWS FILING' and page 4 'WHEN TO STOP AND GET HELP INSTEAD OF FILING'. Identical in both fixtures. The component order matches the manifest's order fields 1 then 2, and no heading is orphaned.",
+          "finding": "The rendered page order matches the packet manifest."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "evidence": "LOCAL RASTER, BOTH FIXTURES, EVERY PAGE, 300 DPI, because the central gate refuses this family. (1) NO SYNTHESIZED SQUARE AND NO RULE OF THE PACKET'S OWN: the four content streams of each fixture carry 0 're' operators of any kind -- 0 rectangle fills and 0 rectangle strokes -- so there is no box for a flatten step to have synthesized and no opaque fill to hide anything beneath. (2) NO INK OUTSIDE A DECLARED WRITE BOX: reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures, and independently every dark pixel on all four pages of both fixtures lies inside x[71.76,540.72] and y[79.92,727.68] on a 612x792 page -- at least 64pt of clear margin on every side, so nothing is clipped by the page and nothing runs off it. Page 4 is the lightest at 50063 dark pixels and its ink is confined to y[616.56,727.20]; no page is blank. (3) NO INVISIBLE WRITE: 0 occurrences of '3 Tr', 0 white fill operators, exactly one colour operator in the whole packet ('0 0 0 rg'), no /OCProperties, 0 annotations and 0 AcroForm fields. (4) LEGIBLE: exactly one font size is used anywhere in either fixture, 11pt. (5) NO SELF-OVERLAP: black glyphs only with no fills, so no run can be painted over. The rendered page 1 was inspected as an image as well as counted, and reads cleanly end to end.",
+          "finding": "No ink outside a declared write box, no synthesized square, every participant write present, legible and unclipped, on every page of both fixtures. Measured locally; the central raster still owes its own receipt when the hold lifts."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "evidence": "The record's destination is 'Boston Municipal Court division identified by the Standing Order' with the residence-based venue rule, and rules.filing reads 'File the consolidated petition in the BMC division identified by the Standing Order's residence-based venue rule.' The packet states the rule rather than pointing at it: the petition's own caption line prints '(THE DIVISION THE STANDING ORDER'S VENUE RULE IDENTIFIES - the division in whose territorial jurisdiction you live or, if you no longer live in BMC territory, the division your most recent eligible record is from)', delivered page 3 carries a THE VENUE RULE section saying the same, and participant-instructions.md step 3 and step 8 repeat it and add that the clerk of that division can confirm it.",
+          "finding": "The instructions name the court the route names, and carry the venue rule the record keys it to."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "evidence": "The record says both limbs are negative: rules.fees 'None identified in the review.' and rules.feeWaiver 'None identified.', carried into the manifest as pay_fee and apply_fee_waiver with the same words. The packet states exactly that and asserts nothing beyond it. Delivered page 3: 'FEES. The controlling review identified no filing fee and no waiver for this route. This packet asserts neither; the clerk of the venue division can say whether anything is charged.' participant-instructions.md step 7 repeats it: 'Ask at the same time ... whether anything is charged - the controlling review identified no fee, and this packet asserts none.' Both limbs, both surfaces, no invented figure and no invented waiver.",
+          "finding": "The fee and the waiver route are stated, in the record's own terms, including the negative."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "evidence": "The record's whole answer on service is a pointer: rules.service 'Per the Standing Order.' and serve_party 'Per the Standing Order.', with requiredBeforeFiling false, and rules.notice 'Preliminary hearing, public notice and final hearing per the Standing Order.' No person to be served is named by the record, and no participant service step is prescribed. The packet claims none and carries the Standing Order's own post-filing sequence at both surfaces: paragraph 4 of the delivered petition says the petitioner understands 'that a preliminary hearing, public notice and a final hearing follow under the Standing Order', delivered page 3's WHAT FOLLOWS FILING says the same and adds that the judge may request more from the Clerk-Magistrate or the Probation Department, and participant-instructions.md step 8 repeats it. Nothing in the packet asserts a service duty the record does not create.",
+          "finding": "Who must be served and how is stated to the extent the record states it, and the packet invents no service duty. The record's own answer is a pointer to the Standing Order, which is recorded here rather than read as a packet gap."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "evidence": "The registry's selfHelpBoundaries for track ma-bmc-multi hold five items and all five reach the delivered bytes. The three-record two-division threshold not being met, any record outside the Boston Municipal Court Department, the judge requesting additional information, and a hearing being set are the four bullets of the delivered 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' page and of the identically-worded section of participant-instructions.md. The fifth -- that a preliminary hearing, public notice and a final hearing follow filing and the judge may request additional information or documents from the Clerk-Magistrate or the Probation Department -- is carried on delivered page 3 under WHAT FOLLOWS FILING, which closes with 'A hearing is where self-help stops - if one is set, or the judge asks for more, take the papers to a lawyer or a court service center rather than answering alone.' The guide's 'What this packet is not' adds that it is not legal advice, is not filed for the participant and does not decide whether any record will be sealed, and both surfaces carry the sealing-is-not-expungement rule the record makes a packet instruction.",
+          "finding": "The packet states where self-help ends, on all five recorded boundaries."
+        }
+      },
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "blockedObligationNames": [
+        "ROUTE_IDENTITY",
+        "COMPONENT_SET"
+      ],
+      "whyTheVerdictIsBlockedAndNotFail": "Two obligations cannot be ruled here at all, and one is ruled FAIL. The lane's stop condition is that a family blocked by an open legal input is BLOCKED_LEGAL_INPUT and that neither is a FAIL nor a PASS, so the verdict is BLOCKED_LEGAL_INPUT. It is recorded with the SOURCE_IDENTITY failure attached so that clearing the legal block does not turn this family into a PASS: the absent SHA-256 bindings are a repair a lane can make today, and the family needs both the issuing court's answer and that repair before any PASS is possible.",
+      "wouldAPassHaveLiftedTheHold": "Yes, and it does not. A PASS_COMPLETE_INDEPENDENT on this row would have lifted the legal hold and let the central raster follow, which is why the raster queue refuses the family today. This row does not lift it.",
+      "carriedVersusFreshlyMeasured": "Nothing is carried. Every one of the fifteen results was derived in this container from the current bytes, the current field map, the current instructions and the current committed records, and each is asserted fresh. This lane's own earlier PASS at ebc44031e is not relied on for any result; where this read differs from it, the difference is that the registry's formIdentityInvestigation hard stop (reviewedOn 2026-09-04) postdates that read, and that the receipt's absent digests were measured this time.",
+      "historyReadFreshAndNotCopied": "VF05's row at 46360ba12, this lane's own PASS row at ebc44031e, the MASTER_QUEUE row's executionReclassification and laneReturnLegalHold, the track registry entry and the packet-set manifest entry were all read first and then re-measured. VF05's two sentences were checked against the record rather than accepted: the registry does still refuse, and the sentence that refuses is quoted in full above.",
+      "observationsThatFailNoObligation": [
+        "data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json names no item for this family, so the preflight's assignment check fails on it. The claim ledger granted the family to VF09 and claim.mjs --assert returned exit 0; the dispatch manifest is what is out of date.",
+        "The track registry and the packet-set manifest disagree in emphasis: the manifest names primary_filing with officialFormId null and no caveat, while the registry carries the STOPPED_AMBIGUOUS hard stop. Nothing in the manifest contradicts the hard stop, but a reader of the manifest alone would not see it.",
+        "TC0057, named in the receipt at sha256 f83d441b..., is in no custody mounted here. It is a named companion rather than a source of these bytes, so it is recorded as NOT_MEASURABLE_HERE and not as a source failure.",
+        "The packet is unusually candid about its own open question -- delivered page 3 says 'whether the BMC publishes one is an open question this packet does not decide' and step 7 says 'do not assume this petition alone is the whole filing'. That candour is why the bytes are safe to hold; it is not a substitute for the issuing court's answer."
+      ],
+      "independence": "This lane built nothing and repaired nothing in this family. No overlay directory, build script, shared record, queue file, legal-decision record or claim ledger was opened for writing. The only file this lane writes is this rows.json. Scratch scripts and rasters were written under /tmp and under an untracked tmpwork/ directory that is removed before the commit.",
+      "grantsNothing": "An independent read proves only what it measured on these bytes. It approves no output, opens no commercial route and creates no fulfillment record."
+    }
+  ],
+  "latestIntakePointer": {
+    "verdict": "BLOCKED_LEGAL_INPUT",
+    "lane": "vf09",
+    "verifiedAtBase": "3a2f1cf3d",
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows.json"
+  }
+}

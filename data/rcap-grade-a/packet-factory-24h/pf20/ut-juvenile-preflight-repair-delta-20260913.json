@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-ut-juvenile-preflight-repair-delta/v1",
+  "status": "IMPLEMENTED_AWAITING_INDEPENDENT_DELTA_REVIEW",
+  "label": "RECONSTRUCTED_AFTER_RESTART bounded resolver repair delta",
+  "workspaceHeadAtReturn": "28a9f219ae2592d3f3699053a0828dad38d47319",
+  "priorReviewBaseHead": "6867ee44777ce3c9e88afda8b4bad8c3d8e8e31a",
+  "reviewedTargets": [
+    "scripts/verify-packet-build-environment.mjs",
+    "scripts/verify-family-source-resolution.test.mjs"
+  ],
+  "targetBytes": {
+    "scripts/verify-packet-build-environment.mjs": {
+      "sha256": "9247a7f9acbcaa710adeca0807e663264e9efc29ecb22d277378d728db595e44",
+      "byteLength": 94911
+    },
+    "scripts/verify-family-source-resolution.test.mjs": {
+      "sha256": "5acdaacf4125fab834c55585714b7ea8aecda597e77c92db06dcff82a42741e5",
+      "byteLength": 13878
+    }
+  },
+  "workingTreeTargetDiff": {
+    "againstHead": "28a9f219ae2592d3f3699053a0828dad38d47319",
+    "sha256": "287a4d06bf69e427d9cb180ec905bcff5369ee848f7f2dfe4e8083c1cd0d7655",
+    "byteLength": 27194,
+    "whitespaceCheck": "PASS"
+  },
+  "changes": [
+    {
+      "finding": "UT-PREFLIGHT-CODE-01",
+      "result": "FIXED",
+      "detail": "The committed repository root is realpath-resolved and the admitted body realpath must equal or descend from it; a Master Library realpath remains explicitly excluded."
+    },
+    {
+      "finding": "UT-PREFLIGHT-CODE-02",
+      "result": "FIXED",
+      "detail": "A UT juvenile custody row carrying official-form:1174XX is accepted only when resolved, path, SHA-256, and declared byte length exactly match the committed admission; a conflict is returned in unresolvable and cannot inherit the admission."
+    },
+    {
+      "finding": "UT-PREFLIGHT-TEST-01",
+      "result": "FIXED",
+      "detail": "The identity-versus-held-bytes regression now uses a temporary indexed family with no body and runs the actual family_sources_bind check; the missing/corrupt admitted-body refusals remain covered."
+    }
+  ],
+  "focusedTests": {
+    "command": "node --test scripts/verify-family-source-resolution.test.mjs",
+    "result": "PASS",
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "scratch": "/tmp/ut-juvenile-preflight-*"
+  },
+  "syntaxChecks": {
+    "command": "node --check scripts/verify-packet-build-environment.mjs && node --check scripts/verify-family-source-resolution.test.mjs",
+    "result": "PASS"
+  },
+  "preservedControls": [
+    "The repair remains exact-family scoped to census-pending-family:UT:path-m-juvenile-expungement.",
+    "The committed admission remains the only source of the bridge; generated queue pins are not used as admission.",
+    "Missing and corrupt admitted bodies, mismatched admission identity/path/hash/length, parent-directory symlink escape, and conflicting custody-row path/hash/length all refuse.",
+    "The matching custody-row binding is accepted and unrelated families remain outside the bridge."
+  ],
+  "nextAcceptance": "Obtain an independent delta review from /root/act346_order_review, then Captain may run the scoped UT row preflight and integrate the reviewed files."
+}

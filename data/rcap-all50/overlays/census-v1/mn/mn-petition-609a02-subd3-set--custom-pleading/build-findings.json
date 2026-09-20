@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "mn_petition_609a02_subd3-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "MASTER_QUEUE.json records this family's implementationStrategy as `custom_pleading`. The committed legal-design track registry records outputStrategyDeclared `official_pdf_fill`, gives all five packet-set components an officialFormId, and carries an express scope restriction: \"The adopted memorandum classifies this expressly as a statewide official-form packet with EXP102, EXP104 and EXP105 as the core packet. A custom pleading would create service and order-content risk without adding value.\" The packet-set manifest agrees with the registry.",
+      "consequence": "The packet was built as an official-form packet, which is what the controlling records require. MASTER_QUEUE.json was NOT edited - it is a shared central artifact and this lane owns none of it - so the queue row and the overlay directory name still carry the word `custom-pleading` while the field map, the source receipt and the build status all record official_pdf_fill. The Captain owns the reconciliation."
+    },
+    {
+      "finding": "All five official forms are FLAT. The committed corpus index records acroFieldCount 0 and structuralClassObserved \"flat_pdf\" for every one, and loading each with pdf-lib returns an AcroForm carrying no fields, so there is no widget rectangle anywhere in this packet.",
+      "consequence": "Every value is drawn onto a rule the form itself drew, declared by that rule's own y, start x and end x, re-measured from the pinned bytes at build time, with the box ceiling taken from the lowest printed baseline above the rule inside its own span. Twenty-one cells measure; none is a constant offset from a caption, and a cell that failed to measure would have stopped the family."
+    },
+    {
+      "finding": "EXP102 item 9 offers eleven qualification options. Three of them are not on this route and say so on their own face - two direct the reader to court form EXP106 under Minn. Stat. § 609A.02, subd. 1 or 2, and one directs the reader to EXP107 under the court's inherent authority. The remaining eight are subdivision 3, which is the whole of this route.",
+      "consequence": "The three off-route options are declared NOT_APPLICABLE_ON_THIS_ROUTE against a named route condition. The eight subdivision-3 clauses are declared required-before-filing with determinedByTheCaseNotTheRoute, and every one of them is printed in participant-instructions.md with the waiting period the committed registry records for it. No box is ticked."
+    },
+    {
+      "finding": "EXP104 is a proof of service and this packet has not been served. EXP105 is a proposed order and no judge has seen it.",
+      "consequence": "Nothing is written on EXP104 but the caption, and nothing on EXP105 but the caption and the date of birth. The certificate block, the mailing city, the server's name and every finding, election and signature on the order are left blank, and the participant instructions say when each may be completed."
+    },
+    {
+      "finding": "The committed registry instructs \"Do not generate EXP103. It is a prosecutor and court-side victim-notice form, not a participant packet component.\"",
+      "consequence": "EXP103 is absent from the packet, from the component set and from the source receipt."
+    },
+    {
+      "finding": "TWO DEFECTS IN THE SHARED BUILD HOST, FOUND BY THIS FAMILY AND FIXED IN THIS FAMILY'S OWN COPY OF IT. First, the host's self-count of the nine counters dropped three declared channels on the way to classifyBlank: routeConditionThatMakesItInapplicable, determinedByTheCaseNotTheRoute and whyTheRouteCannotDetermineIt. Every row using either channel was therefore self-counted as if it had declared nothing - eleven rows on EXP102 item 9 alone - while verify-packet-completeness.mjs, which forwards all three, reads the identical field map correctly. Second, the host sorted the required-before-filing disclosure list alphabetically by field id, which is the exact defect the composed-pleading host's own comment warns about; here it printed a sixty-item table with item 16 above item 10 and item 9's eight options in the order d, h, i, j, f, g, e, c.",
+      "consequence": "Both are repaired in scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs, which this family owns exclusively. NOTHING was changed in any other family's script and no shared file was touched, so no other family's bytes move. Both defects are still present in the host this family copied (scripts/build-census-v1-ak-mistaken-identity-set.mjs) and in any other family copied from it: the first can only report defects a family does not have, and the second reorders a participant-facing disclosure table. That is a finding for the Captain, not a change this lane may make."
+    }
+  ]
+}

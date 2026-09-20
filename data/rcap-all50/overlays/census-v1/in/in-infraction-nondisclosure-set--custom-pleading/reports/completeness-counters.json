@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-builder-completeness-counters/v1",
+  "familyId": "in_infraction_nondisclosure-set",
+  "whatThisIs": "The BUILDER's own count of the nine completeness counters, computed with the repository's own contract functions over this family's field map, byte proof and participant-instructions.md.",
+  "whatThisIsNot": "An independent verdict, raster receipt, visual review, or approval. Eight of these nine are readings taken by the builder that produced the bytes; that is not independent verification either.",
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null
+  },
+  "howEachWasTaken": {
+    "knownRequiredFieldsMissing": "Mapped values whose fact is held by the builder but is not readable from the saved component bytes; both fixtures' participant name writes are read back by byteProof.",
+    "requiredFactsNotCollected": "Mapped fact keys with no fixture value, plus required-before-filing blanks not named in participant-instructions.md; this family discloses every declared required-before-filing item.",
+    "unclassifiedBlanks": "Blank field rows classified through completeness-contract.mjs. This build has 17 refusals: 10 REQUIRED_BEFORE_FILING, 6 PROTECTED_FIELD and 1 NOT_APPLICABLE_ON_THIS_ROUTE.",
+    "incompleteRows": "Written cells beside required blank cells in the same rowKey group; the composed field map has no such partially completed repeating row.",
+    "requiredOptionsMissing": "Route-determined selection controls left unselected; this two-stage packet declares no selectionControls because stage 1 always precedes the participant's stage-2 branch decision.",
+    "requiredComponentsMissing": "Declared components absent from the assembled packet; both declared components are assembled in order in each fixture.",
+    "invisibleWrites": "Declared writes whose expected value is not readable from the saved component bytes; byteProof reads both participant-name writes in each fixture.",
+    "protectedWrites": "Written fields whose completeness-contract classification is participant signature/date or court, clerk, prosecutor or agency owned; the only writes are participant names."
+  },
+  "visualDefectsWhyNull": "Null because NOT MEASURED here, never because measured as zero. This worker runs without raster, so it sees no rendered pixel and cannot count visual defects. Geometry review remains an independent raster/visual lane's job.",
+  "countersMeasured": 8,
+  "countersNotMeasured": [
+    "visualDefects"
+  ],
+  "everyMeasuredCounterZero": true,
+  "findings": [],
+  "blankDispositions": {
+    "REQUIRED_BEFORE_FILING": 10,
+    "PROTECTED_FIELD": 6,
+    "NOT_APPLICABLE_ON_THIS_ROUTE": 1
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-family-build-observation/v1",
+  "familyId": "mi_setaside_marihuana-set",
+  "subject": "scripts/rcap-official-forms/rcap-field-semantics.mjs (shared; NOT modified by this family)",
+  "note": "Two vocabularies in the shared binder do not reach the words MC 227a prints. Neither causes a wrong value on this form's artifacts — the role refusals close both — but 'nothing happens to match it' is not the same guarantee as 'it is refused', and the next form in these words may not have a caller listing them. Reported for whoever owns the module; not patched from here.",
+  "gaps": [
+    {
+      "vocabulary": "CHARGE_VALUE_WORDS",
+      "pattern": "/\\b(charges?|offen[cs]es?|counts?|statutes?|violations?)\\b/i",
+      "wordThisFormUses": "CRIME",
+      "where": "The first column of MC 227a's conviction listing is headed CRIME, measured at x 112.9 to 138.7 over the column band x 54.6 to 209.4. That column holds the offence.",
+      "consequence": "captionDescribesChargeValue returns false for a correctly-harvested caption of the offence column, so participant.full_legal_name's refuseWhenCaption would NOT refuse a name there. On this form nothing binds a name at all, so no name reaches it; the protection is absent rather than exercised.",
+      "howThisFamilyCovered": "The charge-caption proof asks the question geometrically instead — every measured cell of the listing, whatever its header says."
+    },
+    {
+      "vocabulary": "PROTECT_RULES / service_block, and REGION_HEADING_RULES / service_block",
+      "pattern": "certificate of service | proof of service | return of service | ...",
+      "wordThisFormUses": "CERTIFICATE OF MAILING",
+      "where": "The printed heading on page 1 at y=233.7, over the `comdate` and `comsig` blanks.",
+      "consequence": "Neither the field-name channel nor the region channel protects MC 227a's certificate block. Both blanks are refused only because no fact descriptor happens to match the names `comdate` and `comsig`.",
+      "howThisFamilyCovered": "Both are refused by role as certificate_of_mailing_date and certificate_of_mailing_signature, and the artifact verification asserts by name that both are blank in every fixture."
+    }
+  ]
+}

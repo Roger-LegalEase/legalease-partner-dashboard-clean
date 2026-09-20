@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ks-22-2410-arrest-set",
+  "routeKey": "obligation:track-only:KS:ks-22-2410-arrest",
+  "routeKeys": [
+    "obligation:track-only:KS:ks-22-2410-arrest"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ks-22-2410-arrest-set",
+    "jurisdiction": "KS",
+    "routeKeys": [
+      "obligation:track-only:KS:ks-22-2410-arrest"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "cover_sheet",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ks-22-2410-arrest-cover-sheet-1",
+      "component:ks-22-2410-arrest-cover-sheet-3",
+      "component:ks-22-2410-arrest-primary-filing-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+        "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+        "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34747882153",
+      "jobId": "103699490069",
+      "artifactId": "10315200688",
+      "boundToCanonicalSha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfks1",
+      "verifiedAtBase": "a7c892d6891120fae5f04b367bcd0d1d6695d2ad"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ks-22-2410-arrest-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ks-22-2410-arrest-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ks-22-2410-arrest-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+        "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ks-22-2410-arrest-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+        "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ks-22-2410-arrest-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "KS-22-2410-ARREST-PROCESS-GUIDANCE",
+        "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "07bcda32a0700091871c819f4f03d17c9babf8b6627bc691ffc48871968e12a8",
+        "requirement": "required"
+      }
+    ]
+  }
+}

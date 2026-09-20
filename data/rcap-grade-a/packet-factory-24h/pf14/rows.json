@@ -1,0 +1,608 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF14",
+  "workerId": "FABLE-PD",
+  "workerBranch": "fable/pd",
+  "engine": "Claude packet-build lane in an isolated git worktree, executing the FABLE-PD brief",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "472444b86139bccc35dac4ee17cc01148f1064d6",
+  "minimumCaptainSha": "d69deaec80f308f48f8871b7d113243a99db95ba",
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha d69deaec80f308f48f8871b7d113243a99db95ba --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable",
+    "note": "npm ci was run first: pdf_lib_importable failed on a checkout with no node_modules, which is an environment state rather than a lane finding."
+  },
+  "laneNotes": [
+    "Five families assigned, five rows returned, all five stopped at the claim gate before anything was read.",
+    "Every one refuses with ALREADY_RELEASED. The grants are held by PF14 and marked released; the ledger's releases[] log records lane PF04 as the releaser, within a 0.3-second window on 2026-09-01.",
+    "None of the five has an overlay directory and none appears in any lane's rows.json, so five families were released without being built. That is a finding for whoever owns the dispatch and the ledger.",
+    "This lane wrote nothing for any of them and did not reopen a single grant."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "A built family is a built family. It is not verified, not approved, not sellable, and this lane issues no verdict on its own packets.",
+  "familiesAssigned": 5,
+  "rowsReturned": 5,
+  "familiesCompleted": [],
+  "familiesStopped": [
+    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+  ],
+  "blockedSource": [],
+  "blockedLegalInput": [],
+  "blockedBeforeClaim": [
+    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure"
+  ],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "not run: no family in this lane was claimed, so none was read or built"
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge at 2026-09-01T19:14:26.451Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement at 2026-09-01T19:14:26.516Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:track-only:CT:ct-destruction-request at 2026-09-01T19:14:26.593Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon at 2026-09-01T19:14:26.663Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_BEFORE_CLAIM",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "refusal": "ALREADY_RELEASED: agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure at 2026-09-01T19:14:26.729Z",
+      "exitCode": 9,
+      "why": "The grant for this family is held by PF14 and is already marked released. The claim gate refuses the assert, and a refused assert is a full stop: nothing of this family was read and nothing was written.",
+      "whatTheLedgerShows": "claim-ledger.json records the grant with lane PF14, laneKind packet-build, released true. The matching entry in the ledger's releases[] array records the release as made by lane PF04, not PF14. All five of this lane's PF14 families show the same shape and the same five release timestamps within 0.3 seconds of each other.",
+      "whatThatProbablyMeans": "The dispatch regenerates and these five families appear to have moved from PF04 to PF14 between generations, carrying the released flag forward while the append-only releases[] log kept the lane that actually released them. Reported rather than diagnosed: this lane does not own the ledger.",
+      "noBuildProductExists": "None of the five has an overlay directory at the path ACTIVE_ASSIGNMENTS gives it, and no rows.json in the factory records any of them. Whatever released them, nothing was built.",
+      "grantNotTransferred": "claim.mjs offers a --reopen path. This lane did not use it. A refused assert is a full stop and a lane does not transfer a grant to itself.",
+      "overlayDirectoryTouched": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false
+    },
+    {
+      "itemId": "ia-12347-set",
+      "status": "COMPLETED",
+      "shift": "pf14-build-20260909",
+      "jurisdiction": "IA",
+      "routeKeys": [
+        "obligation:track-pathway:IA:ia-12347:underage-alcohol-12347"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ia-12347-set.mjs",
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind ok 2/2 source(s) bind by exact SHA-256 (custody_reconciliation)",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:Rule 2.86 Form 4",
+          "formNumber": "Rule 2.86 Form 4",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "byteLength": 288751,
+          "pathInArchive": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf"
+        },
+        {
+          "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+          "formNumber": "Certification of Service by Mailing or Delivery",
+          "sha256": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+          "byteLength": 288751,
+          "sameBinaryAs": "Rule 2.86 Form 4",
+          "pages": [
+            2
+          ]
+        }
+      ],
+      "componentsRendered": [
+        "primary_filing",
+        "certificate_of_service"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "totals": {
+        "terminalFields": 39,
+        "written": 16,
+        "blank": 23
+      },
+      "blanksByDisposition": {
+        "PARTICIPANT_ELECTION_GENUINE": 3,
+        "PROTECTED_FIELD": 6,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 8,
+        "REQUIRED_BEFORE_FILING": 6
+      },
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+          "byteLength": 302931
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+          "byteLength": 302843
+        }
+      ],
+      "canonicalSha256": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+      "boundarySha256": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "Rendered locally through scripts/raster/pdf-page-raster.mjs on a calibrated Chromium (residual 0.5px, 2.667 px/pt) as this lane's own build check, and every raster PNG was deleted after measuring. A local raster is not central acceptance: the family returns BUILT_RASTER_PENDING and the hashes above are what the central raster acceptance binds.",
+      "writeProof": "byte-level. Each saved fixture is re-opened, its page content streams are decompressed, the streams the source already carried are excluded, and every remaining hex-encoded show-text operator is decoded with the position matrix that precedes it. A declared write that is not readable at its declared coordinates in the output bytes stops the build; ink in an added stream that no declared write accounts for is counted against nonWhitespaceGlyphsOutsideMeasuredWriteBoxes.",
+      "findings": [
+        "Both official-form identities this family names resolve to ONE two-page binary. The custody reconciliation resolves them on first-hand document text: the Certification of Service is the section heading printed on page 2 of the application itself. The receipt records two source rows against one file and names the page each component occupies rather than implying a second file that does not exist.",
+        "The two Read Before Signing boxes are left unmarked. The form prints 'Please check each statement below after you have read it', which is an act of the person filing; marking them would assert that somebody had read something this build cannot know they read.",
+        "The two numbered items ARE the statutory elements of the section 123.47(9) route, so both are marked as route determinations and the conviction date is written. The application therefore states which route it proceeds under rather than asking the participant.",
+        "Every field of the certification of service is blank, including the certifier's own printed name which this packet holds, because a certificate of mailing completed before the mailing happened would be false. The recipient's name, address, city, state and ZIP are carried as disclosed required-before-filing items.",
+        "The caption's second plaintiff line ('State of Iowa or ______') is carried and disclosed rather than left as an unaccounted printed rule: a section 123.47 charge may be prosecuted by a city under its own ordinance, the platform holds no prosecuting-entity name, and inventing a city would put a false plaintiff on a filing sworn under penalty of perjury."
+      ],
+      "selfVerified": false,
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'ia-12347-set' -> PASS_COMPLETE, 16/39 written, all nine counters zero",
+      "overlayDirectoryTouched": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-or-official-pdf-fill",
+      "status": "COMPLETED",
+      "shift": "pf14-build-20260909",
+      "jurisdiction": "OR",
+      "routeKeys": [
+        "obligation:track-only:OR:or_arrest_no_charges",
+        "obligation:track-only:OR:or_dismissed_charge"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-rcap-or-official-pdf-fill.mjs",
+      "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable; family_sources_bind ok 2/2 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); 2 found by content hash because the declared path is in a custody that is not mounted here",
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+          "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+          "revision": "REV-2026-01",
+          "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+          "byteLength": 256978
+        },
+        {
+          "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+          "formNumber": "OR-OSP-SET-ASIDE-CCH",
+          "revision": "REV-2022-01",
+          "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+          "byteLength": 229147
+        }
+      ],
+      "measurementsBound": [
+        {
+          "file": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        },
+        {
+          "file": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        },
+        {
+          "file": "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json",
+          "sha256MeasuredAgainst": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071"
+        }
+      ],
+      "componentsRendered": [
+        "motion_and_declaration",
+        "criminal_history_request",
+        "filing_instructions"
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "totals": {
+        "terminalFields": 184,
+        "written": 24,
+        "blank": 160
+      },
+      "blanksByDisposition": {
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 121,
+        "REQUIRED_BEFORE_FILING": 19,
+        "PROTECTED_FIELD": 12,
+        "PARTICIPANT_ELECTION_GENUINE": 8
+      },
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--motion-and-declaration.pdf",
+          "sha256": "46cf0f005e6ef9e465e9aaf4b13e348a559db982f7ca188b6f49ddaee18f757c",
+          "byteLength": 217068
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges.pdf",
+          "sha256": "6f2196e7b2bed7581eaa436cb066b9195eec5d424a6fcdedb32bb04e3279cc3d",
+          "byteLength": 453717
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--motion-and-declaration.pdf",
+          "sha256": "7e3d8ade5aa12161c821386dace24646e4086de3e3c05aef6baa2106a80ddd32",
+          "byteLength": 217129
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge.pdf",
+          "sha256": "888294a313ac785e50bdea6c2ec76b09a5a0bd2674de7a7885689cd2496aff19",
+          "byteLength": 453590
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--motion-and-declaration.pdf",
+          "sha256": "4bec344b2419cbbec3e813677259f1639d64bba56fff2dce85e9d95e77c6208e",
+          "byteLength": 216970
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
+          "sha256": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+          "byteLength": 453594
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--motion-and-declaration.pdf",
+          "sha256": "b9ae2b154948672b5a331134f2056ffbace877109a51f898f6a2488c60da3689",
+          "byteLength": 217025
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
+          "sha256": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec",
+          "byteLength": 453455
+        }
+      ],
+      "canonicalSha256": {
+        "or_arrest_no_charges": "2ff987c1bfc6b2354cf2f4c4d805b28b2fecd14ef65e993856154f79e1521289",
+        "or_dismissed_charge": "a505fec4d59364297b45fd457c95252bc98ba8a3dced5bf063fb47050755c8ec"
+      },
+      "boundarySha256": {
+        "or_arrest_no_charges": "6f2196e7b2bed7581eaa436cb066b9195eec5d424a6fcdedb32bb04e3279cc3d",
+        "or_dismissed_charge": "888294a313ac785e50bdea6c2ec76b09a5a0bd2674de7a7885689cd2496aff19"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "Rendered locally through scripts/raster/pdf-page-raster.mjs on a calibrated Chromium (residual 0.5px) as this lane's own build check, and every raster PNG was deleted after measuring. A local raster is not central acceptance: the family returns BUILT_RASTER_PENDING and the hashes above are what the central raster acceptance binds.",
+      "writeProof": "flat overlay through scripts/rcap-official-forms/rcap-official-form-finalize.mjs. Every value is drawn at an anchor measured against this exact binary, every option mark is two diagonal strokes inset inside the court's own stroked box, and the build refuses the fixture if any anchor it claims was refused or any selection was not marked. No new box is ever drawn and the court's boxes are never redrawn.",
+      "findings": [
+        "This family carries two routes on ONE court form and each route IS an option the form prints: or_arrest_no_charges (ORS 137.225(1)(c)) marks Option 3, or_dismissed_charge (ORS 137.225(1)(d)) marks Option 2. Each route is rendered with its own canonical and boundary fixture and the two motions are carried as separate document identities, so one route's write is never read against the other route's refusal.",
+        "The form prints '(leave blank if no court case)' beside the Case No. line. On or_arrest_no_charges the case-number slot is refused with that printed instruction as its named route condition and no case number is carried in that route's fixtures at all; on or_dismissed_charge the case number is written.",
+        "FINDING FOR THE OWNER: the packet-set manifest names a REQUIRED proposed_order component on both routes and assigns it to this same OR-OJD-ADULT-SET-ASIDE-PACKET binary. That binary contains a Motion, a Declaration of Eligibility and a Certificate of Mailing and no proposed order, and the Oregon corpus holds no order form at all. No order is drafted here, because an order is the court's act; the packet, the participant instructions and the composed filing instructions all say in terms that no proposed order is enclosed, and it is raised as a counsel question.",
+        "The option geometry records 10 of the 14 checkbox-shaped boxes it found: three options and seven declaration statements. The four it does not record are Option 1's two sub-elections and the two 'additional page' boxes. Option 1's sub-elections are off-route on both routes; the additional-page boxes are not marked because no committed measurement gives their coordinates and this build authors no coordinate.",
+        "The last three declaration boxes are printed under 'If you selected Option 1 above', so on both routes they are refused with that printed sentence as the named route condition rather than carried as elections the participant is expected to make.",
+        "The Phone column on the page-5 contact line is the court's own 34 points and no phone number fits it at the minimum readable machine font, so the phone is a disclosed required-before-filing item written by hand and the anchor is never offered to the renderer."
+      ],
+      "selfVerified": false,
+      "focusedCheck": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-or-official-pdf-fill' -> PASS_COMPLETE, 24/184 written, all nine counters zero",
+      "overlayDirectoryTouched": true,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "mo-art-xiv-marijuana-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "shift": "pf14-build-20260909",
+      "jurisdiction": "MO",
+      "routeKeys": [
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-cr375-petition",
+        "obligation:unit:MO:mo-art-xiv-marijuana:mo-art-xiv-court-ordered-relief"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 'mo-art-xiv-marijuana-set'",
+      "claimResult": "CLAIM_OK PF14 mo-art-xiv-marijuana-set (packet-build, grant set 77b524008f638d29)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family mo-art-xiv-marijuana-set",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable",
+      "failedCheck": "family_sources_bind",
+      "refusalText": "1 source(s) do not resolve to exactly one committed index entry: official-form:FI-05",
+      "failedSourceIdentities": [
+        {
+          "sourceIdentity": "official-form:FI-05",
+          "indexMatches": 0,
+          "why": "no entry in the committed corpus index carries this exact form number"
+        }
+      ],
+      "whatWasMeasured": "The family names two official forms. official-form:CR375 resolves byte-exact to STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf at 2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780. official-form:FI-05 carries ZERO entries in data/rcap-all50/local-source-corpus-index.json. MASTER_QUEUE.json records a boundSource for FI-05 at 53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e resolved by 'captain_shared_exact_binding' at the path 'LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf', which is not an entry in the committed corpus index and is not in any custody mounted here. A hash recorded in a generated queue is not a committed source identity, and this lane did not try to make it one.",
+      "whyThisIsARowStopAndNotALaneStop": "Only family_sources_bind moved. Every other registered check passed at the lane gate and at this family's own row gate, so the environment is intact and the finding is about this family's sources.",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryExists": false,
+      "counters": null,
+      "allNineCountersZero": null,
+      "artifacts": [],
+      "rasterState": "NOT_BUILT",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "mo-art-xiv-marijuana-set",
+      "lane": "PF14",
+      "shift": "build-five-20260909, worktree /home/user/b5-worktree, branch build-five-20260909 from Captain head c476cfc66",
+      "claimCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF14 mo-art-xiv-marijuana-set",
+      "claimResult": "CLAIM_OK PF14 mo-art-xiv-marijuana-set (packet-build, grant set 2c60a5484079c44b)",
+      "rowGate": "node scripts/verify-packet-build-environment.mjs --family mo-art-xiv-marijuana-set -> family_sources_bind ok, 2/2 source(s) bind by exact SHA-256 (census_form_number_against_committed_index); PACKET_BUILD_ENVIRONMENT_READY 13/13",
+      "status": "COMPLETED",
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "directory": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+      "officialForms": [
+        {
+          "formNumber": "CR375",
+          "revision": "SJRC (10-24)",
+          "sha256": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+          "custody": "master_library"
+        },
+        {
+          "formNumber": "FI-05",
+          "revision": "SJRC (04-23)",
+          "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+          "custody": "nationwide_recovery_pool_2026_09_02"
+        }
+      ],
+      "theFi05Question": {
+        "asked": "whether the bytes the repaired resolver binds are the document this family means",
+        "whyItHadToBeAsked": "this family stopped BLOCKED_SOURCE because official-form:FI-05 matched zero committed index entries by form number. It lives in the Nationwide recovery pool, whose 380 entries all carry formNumber null. A digest confirmed against the committed index proves the bytes are the bytes somebody pinned; it proves nothing about what document they carry.",
+        "digestReHashedFromDisk": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+        "matchesTheCommittedIndexAndTheQueue": true,
+        "readFromTheDocumentItself": {
+          "pageCount": 4,
+          "acroFieldCount": 111,
+          "printsFormNumberFI05": true,
+          "printsConfidentialCaseFilingInformationSheet": true,
+          "printsNonDomesticRelationsVariant": true,
+          "printsCaseTypesList": true,
+          "printsMarijuanaExpungementCaseTypeRow": true
+        },
+        "answer": "YES. The FI-05 bytes ARE the document this family means. The binary is the Missouri Supreme Court's own Confidential Case Filing Information Sheet in the Non-Domestic Relations variant an expungement petition is filed under: page 1 is that sheet and is footed SJRC (04-23) FI-05, page 2 is its REDACTED INFORMATION table and Submitted-by block on the same footer, and pages 3 and 4 are the Missouri Case Types List. It also proves the route election below out of its own printed table."
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/completeness-contract.mjs, called from the builder over its own field map and its own byte proof",
+      "whatTheZeroesDoAndDoNotMean": "requiredOptionsMissing = 0 from the shared gate proves very little on its own: that counter can only see a field whose map decision is literally measured_route_selection, and this family declares none. The route elections this packet makes are listed under routeElectionsMade and are what the zero should be read against.",
+      "totals": {
+        "terminalFields": 300,
+        "written": 58,
+        "blank": 242
+      },
+      "blanksByDisposition": {
+        "PROTECTED_FIELD": 2,
+        "PARTICIPANT_ELECTION_GENUINE": 18,
+        "LATER_COMPLETION": 2,
+        "OPTIONAL_PARTICIPANT_CONTENT": 1,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 157,
+        "REQUIRED_BEFORE_FILING": 62
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "9f978890250062c03b69a31fd70c76ac15d2517120e5cf4789979e2349eb597e",
+          "byteLength": 685343,
+          "pageCount": 10
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "ba54902173f3b560fc4972f279f3de74be8238636bc23c65f56e36d8bb2fdb0b",
+          "byteLength": 685685,
+          "pageCount": 10
+        }
+      ],
+      "components": [
+        {
+          "kind": "primary_filing",
+          "documentId": "CR375",
+          "packetPages": [
+            1,
+            2
+          ]
+        },
+        {
+          "kind": "cover_sheet",
+          "documentId": "FI-05",
+          "packetPages": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "kind": "continuation",
+          "documentId": "FI-05 (additional sheet)",
+          "packetPages": [
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ],
+      "routeElectionsMade": [
+        "FI-05 Case Type Code X# and Case Type Description \"Expunge Marijuana Criminal/Arrest Records\", on both sheets. The census records the route as filed \"with FI-05 at case type X#\" and the FI-05 binary prints that exact row in the CIRCUIT column of its own Case Types List on pages 3 and 4.",
+        "CR375 Defendant: the Circuit Court Division that entered the conviction.",
+        "CR375 Defendant: the MSHP Criminal Justice Information Services Division, Missouri's central repository.",
+        "CR375 Defendant: the prosecuting attorney of the county of charge.",
+        "CR375 incarceration pair: stated from the held screening fact rather than left blank, and declared determined by the case rather than by the route."
+      ],
+      "electionsDeliberatelyLeftToTheParticipant": [
+        "race, ethnicity and sex on CR375 and gender on FI-05, which are self-identification",
+        "the county sheriff, the municipal police department and the open Other defendant line, which are facts of the participant's own arrest",
+        "whether an unredacted document is attached to the filing sheet in place of listing identifiers"
+      ],
+      "byteProof": {
+        "method": "each saved fixture is re-opened, every page content stream is decompressed, the streams the source page already carried are excluded, each remaining /FlatWidget-n Do is resolved to its XObject, that stream is decompressed, and every show-text operator in it is decoded with the matrix or text offset that precedes it and carried back into page coordinates by the placement cm. A marked box is proved against the source's own Off appearance for the same widget, because Missouri draws a tick as a ZapfDingbats glyph and other states draw one as stroked lines.",
+        "report": "data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+        "everyDeclaredWriteReadBackFromTheSavedBytes": true,
+        "unaccountedInkInTheAddedStreams": 0
+      },
+      "determinism": {
+        "buildRuns": 2,
+        "allGeneratedFilesIdenticalAcrossRuns": true
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "reviewStatus": "qa_review_pending",
+      "independentVerification": "PENDING. This lane built this packet and issues no verdict on it.",
+      "buildFindings": [
+        "Five FI-05 widgets carry a /Rect written bottom-edge-last, so their height reads negative: Party Type Code, Party Type Description, Bar ID, Party Type Code_5 and Party Type Description_3. Every rect is normalized before use and the malformed ones are flagged in the field map.",
+        "FI-05 holds three party blocks and this petition has four parties, so the continuation component is a second FI-05 - which is what the form's own printed instruction directs.",
+        "Missouri Supreme Court Operating Rule 4.07 requires the full Social Security number on FI-05. It is left blank on every sheet and disclosed. This platform does not hold or print Social Security numbers."
+      ],
+      "couldNotMeasureHere": [
+        "Two blanks this build declares required-before-filing do not reach that disposition in the shared contract. CR375 prints \"County Sheriff's Dept.\" and \"Municipal Police Dept.\", the contract's court-assigned label pattern matches the word \"department\", and both are classified LATER_COMPLETION - a field the court fills in after filing, which they are not. The labels were left faithful to the printed captions rather than reworded to move the classifier, and both blanks are disclosed to the participant anyway. The heuristic is a finding for whoever owns the contract.",
+        "No raster was produced and none was measured. visualDefects = 0 is a byte-level measurement of glyphs outside their own measured write boxes; it is not a rendered-page review."
+      ],
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route, and this lane issues no verdict on a packet it built."
+    }
+  ],
+  "shifts": [
+    {
+      "shift": "FABLE-PD, branch fable/pd, base 472444b86139bccc35dac4ee17cc01148f1064d6",
+      "familiesAssigned": 5,
+      "rowsReturned": 5,
+      "completed": 0,
+      "stopped": 5,
+      "summary": "All five families refused at the claim gate as ALREADY_RELEASED. Nothing read, nothing written, no grant reopened. The lane-level fields at the top of this file are that shift's own summary and are left as that shift wrote them."
+    },
+    {
+      "shift": "pf14-build-20260909, Claude packet-build lane in an isolated git worktree at /home/user/pf14-worktree, base 91977e016b8bba80b7c20f69202a3e1de55fdf53",
+      "familiesAssigned": 4,
+      "rowsReturned": 4,
+      "completed": 0,
+      "stopped": 0,
+      "laneGate": {
+        "command": "node scripts/verify-packet-build-environment.mjs",
+        "note": "Run without --codex-cloud and without --minimum-captain-sha: this lane is a git worktree on a browser-equipped container, not a Codex Cloud task.",
+        "firstRun": {
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable",
+          "checkThatMoved": "private_is_git_ignored",
+          "detail": "private/ is NOT git-ignored",
+          "why": "The container setup mounts the private source tree as a SYMLINK named private. .gitignore line 53 is the directory pattern `private/`, which does not match a symlink, and `git check-ignore -q private/` additionally exits 128 with \"pathspec 'private/' is beyond a symbolic link\". Nothing in the repository moved: the check was measuring the shape of the mount, not a repository change.",
+          "whatWasChanged": "The mount, not the check and not the repository. `private` was replaced by a real directory containing one symlink per child of the source tree (human-source-returns, source-imports, source-corpus-environment.txt). The repository's own committed .gitignore then ignores it on its own terms and `git ls-files private/` returns nothing, which is exactly the invariant the check states.",
+          "verbatim": "  ok  repo_identity                          pf14-build-20260909 at 91977e01\n  ok  clone_is_complete                      full clone, all heads fetchable\n  -  assigned_branch_tip_visible            no --branch given; check not applicable\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 22.22.2\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\nFAIL  private_is_git_ignored                 private/ is NOT git-ignored\n  ok  master_library_mounted                 mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1\n  ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions\n  ok  corpus_matches_committed_index         24 sampled entries verify byte-exact; d_source_packs, nationwide_recovery_pool_2026_09_02, src05_worker_materialization_2026_09_02 not mounted here and not compared\n  -  family_sources_bind                    no --family given; check not applicable\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent: 12 hashes, 6 families, 7 refused capabilities\n\nPACKET_BUILD_ENVIRONMENT_NOT_READY: 11/12 passed, 1 failed, 5 not applicable\n"
+        },
+        "run": {
+          "result": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+          "verbatim": "  ok  repo_identity                          pf14-build-20260909 at 91977e01\n  ok  clone_is_complete                      full clone, all heads fetchable\n  -  assigned_branch_tip_visible            no --branch given; check not applicable\n  ok  worktree_clean                         clean\n  ok  node_toolchain                         node 22.22.2\n  ok  pdf_lib_importable                     pdf-lib 1.17.1\n  -  browser_environment_exported           not applicable: this invocation renders nothing, so it needs no browser exported. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  -  build_time_rasterizer_available        not applicable: this invocation renders nothing. Pass --require-rasterizer where a build is actually about to raster.\n  -  page_rasterizer_available              not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used.\n  ok  private_is_git_ignored                 private/ is ignored and tracks nothing\n  ok  master_library_mounted                 mounted at ../corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1\n  ok  master_library_complete                501 files, 329 PDFs, 51 jurisdictions\n  ok  corpus_matches_committed_index         24 sampled entries verify byte-exact; d_source_packs, nationwide_recovery_pool_2026_09_02, src05_worker_materialization_2026_09_02 not mounted here and not compared\n  -  family_sources_bind                    no --family given; check not applicable\n  ok  master_library_not_at_operational_path the operational path does not resolve to the Master Library\n  ok  absent_is_not_empty                    an absent tree returns null; an empty tree returns []\n  ok  stale_artifact_block_consulted         block consistent: 12 hashes, 6 families, 7 refused capabilities\n\nPACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable\n"
+        },
+        "separateFinding": "A repository-local core.excludesFile is set in the shared .git/config of /home/user/captain-worktree, pointing at /tmp/claude-0/.../scratchpad/vf07-excludes, a file outside the repository whose only line is `private`. Every worktree of that repository inherits it. It happened to ignore the symlink, which is why the failure above was a near miss rather than a silent pass. This lane did not remove it: it is another lane's configuration in a shared repository config. Reported for whoever owns that checkout.",
+        "rasterizerProbe": {
+          "command": "node scripts/verify-packet-build-environment.mjs --require-rasterizer",
+          "page_rasterizer_available": "ok - chromium at /opt/pw-browsers/chromium-1223/chrome-linux/chrome (PLAYWRIGHT_BROWSERS_PATH) rendered a page: paper 2040x2640px",
+          "browser_environment_exported": "FAIL - RCAP_CHROMIUM_PATH is not exported and neither PLAYWRIGHT_BROWSERS_PATH nor RCAP_CHROMIUM_PATH appears in private/source-corpus-environment.txt or /root/.legalease-corpus-env. This is an env-export bookkeeping check about where the browser path is written down, not about whether a browser resolves: the rasterizer check on the line above executed one. This lane's gate is the unflagged invocation, which passes; the probe is recorded because it was run.",
+          "popplerUsed": false,
+          "note": "build_time_rasterizer_available reports pdftoppm on this container. This lane never called it. Every raster went through scripts/raster/pdf-page-raster.mjs, which discovers and executes Chromium."
+        }
+      },
+      "summary": ""
+    }
+  ],
+  "totalRowsInThisFile": 8,
+  "everyEarlierRowIsByteIdentical": "The five FABLE-PD rows above were read, left untouched and re-read after this append. This file round-trips byte-for-byte through JSON.stringify(value, null, 2) + newline, so appending changes only the bytes of the appended rows and the keys named in shifts/totalRowsInThisFile."
+}

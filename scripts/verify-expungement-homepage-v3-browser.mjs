@@ -123,7 +123,7 @@ async function auditViewport(browser, width, height = 1000, options = {}) {
         return element.scrollWidth > element.clientWidth + 2 || element.scrollHeight > element.clientHeight + 2;
       })
       .map((element) => element.textContent?.replace(/\s+/g, " ").trim().slice(0, 100));
-    const screenshotWidths = [...document.querySelectorAll('#guided-check img, #briefcase img')].map((image) => image.getBoundingClientRect().width);
+    const screenshotWidths = [...document.querySelectorAll('#screening img, #briefcase img')].map((image) => image.getBoundingClientRect().width);
     return {
       lang: document.documentElement.lang,
       documentWidth: document.documentElement.scrollWidth,
@@ -371,9 +371,9 @@ try {
   await auditWilmaComposition(page, "1440px");
 
   const startLinks = await page.locator("a").evaluateAll((links) => links
-    .filter((link) => link.textContent?.replace(/\s+/g, " ").trim() === "Start free")
+    .filter((link) => link.textContent?.replace(/\s+/g, " ").trim() === "Check my options")
     .map((link) => link.getAttribute("href")));
-  check(startLinks.length >= 8 && startLinks.every((href) => href === "/expungement-ai/start"), "Every Start free CTA preserves the guided-check destination", JSON.stringify(startLinks));
+  check(startLinks.length >= 8 && startLinks.every((href) => href === "/expungement-ai/start"), "Every primary CTA preserves the screening destination", JSON.stringify(startLinks));
   check(await page.locator('a[href="/expungement-ai/sign-in?mode=signin"]').count() >= 2, "Login preserves explicit sign-in destination");
   check(await page.locator('a[href="/privacy"]').count() >= 2 && await page.locator('a[href="/terms"]').count() >= 1 && await page.locator('a[href="mailto:help@expungement.ai"]').count() === 1, "Privacy, terms, and contact destinations are preserved");
 
@@ -419,7 +419,7 @@ try {
   const sections = [
     ["#homepage-v3-hero", "hero-1440-corrected", false],
     ["#barrier", "barrier-editorial-field"],
-    ["#guided-check", "guided-check-proof"],
+    ["#screening", "screening-proof"],
     ["#how-it-works", "three-step-sequence"],
     ["#briefcase", "briefcase-proof"],
     ["#what-you-get", "document-set"],
@@ -456,7 +456,7 @@ try {
       href: panel.querySelector("a")?.getAttribute("href")
     }));
     coverageSelections.push(selectedState);
-    check(selectedState.code === code && selectedState.count === expectedCount && selectedState.heading === `${stateName} guided check`, `${stateName} renders its derived guided-check count and heading`, JSON.stringify(selectedState));
+    check(selectedState.code === code && selectedState.count === expectedCount && selectedState.heading === `${stateName} screening`, `${stateName} renders its derived screening count and heading`, JSON.stringify(selectedState));
     check(selectedState.topics.length >= 2 && selectedState.topics.length <= 4, `${stateName} renders two to four public profile topics`, JSON.stringify(selectedState.topics));
     check(selectedState.href === `/expungement-ai/screening/${code.toLowerCase()}`, `${stateName} CTA preserves the selected state`, selectedState.href);
     if (UPDATE_EVIDENCE && evidenceName) await captureElement(page, "#coverage", evidenceName);
@@ -516,12 +516,12 @@ try {
     hero: document.querySelector("h1")?.textContent?.trim(),
     visibleText: document.body.innerText,
     homeLabel: document.querySelector('[data-homepage-header] a[aria-label]')?.getAttribute("aria-label"),
-    guidedAlt: document.querySelector('#guided-check img')?.getAttribute("alt")
+    guidedAlt: document.querySelector('#screening img')?.getAttribute("alt")
   }));
-  const englishFragments = ["Start free", "How it works", "What you get", "Trust & privacy", "No account to begin", "Selected jurisdiction", "Illustrative example."];
-  check(spanishState.hero === "La ley es complicada. Su próximo paso no debería serlo." && spanishState.title.includes("Revisión guiada gratis"), "Spanish hero and metadata are complete", JSON.stringify(spanishState));
+  const englishFragments = ["Check my options", "How it works", "What you get", "Trust & privacy", "No account to begin", "Selected jurisdiction", "Illustrative example."];
+  check(spanishState.hero === "La ley es complicada. Su próximo paso no debería serlo." && spanishState.title.includes("Evaluación gratuita"), "Spanish hero and metadata are complete", JSON.stringify(spanishState));
   check(englishFragments.every((fragment) => !spanishState.visibleText.includes(fragment)), "Spanish DOM has no English fallback fragments", englishFragments.filter((fragment) => spanishState.visibleText.includes(fragment)).join(", "));
-  check(spanishState.homeLabel === "Página principal de Expungement.ai" && spanishState.guidedAlt === "Pregunta de ejemplo de la revisión guiada gratis.", "Spanish accessible names and alternatives are complete", JSON.stringify({ homeLabel: spanishState.homeLabel, guidedAlt: spanishState.guidedAlt }));
+  check(spanishState.homeLabel === "Página principal de Expungement.ai" && spanishState.guidedAlt === "Pregunta de ejemplo de la evaluación gratuita.", "Spanish accessible names and alternatives are complete", JSON.stringify({ homeLabel: spanishState.homeLabel, guidedAlt: spanishState.guidedAlt }));
   await page.locator("#wilma").scrollIntoViewIfNeeded();
   if (UPDATE_EVIDENCE) await captureElement(page, "#wilma", "wilma-spanish-1440");
   await page.locator("#coverage").scrollIntoViewIfNeeded();
@@ -531,7 +531,7 @@ try {
     topics: [...panel.querySelectorAll('[data-coverage-topics="true"] li')].map((item) => item.textContent?.trim()),
     href: panel.querySelector("a")?.getAttribute("href")
   }));
-  check(spanishCoverage.text.includes("Revisión guiada de Illinois") && spanishCoverage.text.includes("Hasta 12 preguntas") && spanishCoverage.href === "/expungement-ai/screening/il", "Spanish coverage preserves the Illinois profile and CTA", JSON.stringify(spanishCoverage));
+  check(spanishCoverage.text.includes("Evaluación de Illinois") && spanishCoverage.text.includes("Hasta 12 preguntas") && spanishCoverage.href === "/expungement-ai/screening/il", "Spanish coverage preserves the Illinois profile and CTA", JSON.stringify(spanishCoverage));
   check(spanishCoverage.topics.includes("¿Qué edad tenía cuando ocurrió?") && !spanishCoverage.topics.includes("How old were you when this happened?"), "Spanish coverage uses profile translations without English question leakage", JSON.stringify(spanishCoverage.topics));
   if (UPDATE_EVIDENCE) await captureElement(page, "#coverage", "coverage-spanish-illinois");
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -545,9 +545,9 @@ try {
   const entryPage = await desktop.context.newPage();
   const entryEvents = watchPage(entryPage, "start-free-entry");
   await entryPage.goto(ROUTE, { waitUntil: "networkidle" });
-  await entryPage.locator("#homepage-v3-hero").getByRole("link", { name: "Start free" }).click();
+  await entryPage.locator("#homepage-v3-hero").getByRole("link", { name: "Check my options" }).click();
   await entryPage.waitForURL(`${BASE_URL}/expungement-ai/start`);
-  check(entryPage.url() === `${BASE_URL}/expungement-ai/start` && await entryPage.getByRole("link", { name: "Start free" }).count() >= 1, "DTC browser regression reaches the real free-check entry");
+  check(entryPage.url() === `${BASE_URL}/expungement-ai/start` && await entryPage.getByRole("link", { name: "Check my options" }).count() >= 1, "DTC browser regression reaches the real free-screening entry");
   check(entryEvents.consoleErrors.length === 0 && entryEvents.pageErrors.length === 0 && entryEvents.failedRequests.length === 0 && entryEvents.badResponses.length === 0, "DTC free-check entry has no browser or request errors", JSON.stringify(entryEvents));
   await entryPage.close();
 
@@ -560,8 +560,8 @@ try {
   await stateEntryCoverage.getByRole("link", { name: "Start the Mississippi check" }).click();
   await stateEntryPage.waitForURL(`${BASE_URL}/expungement-ai/screening/ms`);
   await stateEntryPage.getByText("Are you asking about your own record?", { exact: true }).waitFor({ state: "visible" });
-  check(stateEntryPage.url() === `${BASE_URL}/expungement-ai/screening/ms`, "State-specific Coverage CTA enters the real selected-state guided check");
-  check(stateEntryEvents.consoleErrors.length === 0 && stateEntryEvents.pageErrors.length === 0 && stateEntryEvents.failedRequests.length === 0 && stateEntryEvents.badResponses.length === 0, "Selected-state guided-check entry has no browser or request errors", JSON.stringify(stateEntryEvents));
+  check(stateEntryPage.url() === `${BASE_URL}/expungement-ai/screening/ms`, "State-specific Coverage CTA enters the real selected-state screening");
+  check(stateEntryEvents.consoleErrors.length === 0 && stateEntryEvents.pageErrors.length === 0 && stateEntryEvents.failedRequests.length === 0 && stateEntryEvents.badResponses.length === 0, "Selected-state screening entry has no browser or request errors", JSON.stringify(stateEntryEvents));
   await stateEntryPage.close();
 
   check(desktop.events.consoleErrors.length === 0 && desktop.events.pageErrors.length === 0 && desktop.events.failedRequests.length === 0 && desktop.events.badResponses.length === 0, "Desktop homepage interactions remain error-free", JSON.stringify(desktop.events));

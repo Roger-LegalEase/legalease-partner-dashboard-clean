@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "rcap-nj-final-adoption-evidence/v1",
+  "lane": "FIX03",
+  "familyId": "nj_ordinance-set",
+  "baseSha": "ecc6338f490e5b03e6a0f61a4f86e484e3eb28f7",
+  "sourceStageReaderCommit": "7481cdd",
+  "defectToFixEvidence": [
+    {
+      "group": "01 full history",
+      "fields": 14,
+      "fix": "Removed route exclusions; conditional history is required unless verified case facts establish N/A."
+    },
+    {
+      "group": "02 truthful labels",
+      "fields": 21,
+      "fix": "Ordinary date/text/court/sentence facts carry source-printed labels; actual controls remain participant elections."
+    },
+    {
+      "group": "03 later court copy",
+      "fields": 4,
+      "fix": "Participant copies assigned docket/hearing facts later; no invented initial value; sourceStage verified."
+    },
+    {
+      "group": "04 recipients",
+      "fields": 16,
+      "fix": "Participant owns recipient preparation: 5 initial facts and 11 source-bound later service fields."
+    },
+    {
+      "group": "05 mailing/proof",
+      "fields": 3,
+      "fix": "Actual mailing/proof dates are source-bound later tasks and never initial-filing prerequisites."
+    },
+    {
+      "group": "06 special elections",
+      "fields": 3,
+      "fix": "Drug-court, marijuana and clean-slate controls remain unmarked participant elections."
+    },
+    {
+      "group": "07 guilty election",
+      "fields": 1,
+      "fix": "Null remains unresolved; whole row withheld pending verified facts/court clarification."
+    },
+    {
+      "group": "08 refusal reports",
+      "fields": 0,
+      "scope": "169 refusals on each fixture",
+      "fix": "Saved reasons follow effective declarations or actual row-integrity/mapping/fit cause."
+    }
+  ],
+  "mapSchema": {
+    "fields": 18,
+    "disposition": "PARTICIPANT_LATER_COMPLETION",
+    "requiredBeforeFiling": false,
+    "requiredBeforeInitialFiling": false,
+    "routeDetermined": false,
+    "participantOwnedCompletion": true,
+    "actor": "participant",
+    "sourceStageKeys": [
+      "kind",
+      "familyId",
+      "documentId",
+      "sourceSha256",
+      "field",
+      "actor",
+      "trigger",
+      "instructionPages"
+    ],
+    "fieldTriggers": {
+      "ExpungeDocketNum": "AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS",
+      "expungDocketNum": "AFTER_NOTICE_SERVICE_PROOF",
+      "CoverLtrEHearDt": "AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING",
+      "CoverLtrEHearTime": "AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING",
+      "SheriffLoc": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "SheriffAddrStr": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "SheriffAddr2": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "ProsCntyName": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "ProsAddrStr": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "PoliceAddrStr": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "PoliceAddr2": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "SuperintendentAddrStr": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "SuperintendentAddr2": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "WardenAddrStr": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "WardenAddr2": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "CoverLtrEDt": "NOTICE_OF_HEARING_MAILING",
+      "mailPetition": "AFTER_NOTICE_SERVICE_PROOF",
+      "CoverLtrGDt": "POST_ORDER_SERVICE"
+    },
+    "participantDisclosure": "Natural-language stage label plus same-line hidden source-stage enum and exact source field identity."
+  },
+  "crossFamilyGuard": {
+    "njOnly": "CN-10557 full-history heading/prose and actor line require njOrdinanceCompleteSemantics=true",
+    "unopted": "Original Exact facts still required before filing heading/prose is preserved",
+    "pa6308": "Governed historical-actor line preserved"
+  },
+  "measurements": {
+    "source": {
+      "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+      "byteLength": 1924831,
+      "pageCount": 43
+    },
+    "sourceStageProofs": 18,
+    "requiredBeforeInitialFiling": 40,
+    "pdfs": {
+      "canonical": {
+        "sha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+        "byteLength": 571718
+      },
+      "boundary": {
+        "sha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+        "byteLength": 574020
+      }
+    },
+    "rasterPagesPreserved": 86,
+    "localRasterRun": false,
+    "completeness": {
+      "verdict": "PASS_COMPLETE",
+      "written": 18,
+      "total": 179,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    }
+  },
+  "commands": [
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_ordinance-set.mjs --no-raster",
+      "exit": 0,
+      "result": "BUILD PASS; 2 PDFs, retained 86-page raster inventory; canonical/boundary each wrote 10, refused 169, held 8, unresolved elections 1"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_ordinance-set.mjs --check-nonvisual",
+      "exit": 0,
+      "result": "NONVISUAL CHECK PASS; saved-byte proof checked"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node --test scripts/rcap-packet-completeness/nj-ordinance-refusals.test.mjs scripts/rcap-packet-completeness/nj-participant-later-completion.test.mjs",
+      "exit": 0,
+      "result": "26 tests passed; 0 failed, including positive real reader/CLI and fail-closed source-stage mutations"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE; 18/179 written; all nine counters zero; 18 source-stage proofs measured"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-pa_6308_underage-set.mjs --check-nonvisual",
+      "exit": 0,
+      "result": "PA 6308 NONVISUAL CHECK PASS; shared-host governed actor output preserved"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=… RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-nj_clean_slate-set.mjs --check-nonvisual",
+      "exit": 0,
+      "result": "NJ clean-slate NONVISUAL CHECK PASS; unopted generic instructions preserved"
+    },
+    {
+      "command": "sha256sum/stat exact source and both fixture PDFs; git diff --check",
+      "exit": 0,
+      "result": "Source and PDFs match recorded SHA-256/byte lengths; no whitespace errors"
+    }
+  ],
+  "checksNotRun": [
+    "No local raster rendering.",
+    "No full repository suite.",
+    "No independent VF62 re-review, approval, admission or route promotion."
+  ],
+  "remainingBlocker": null
+}

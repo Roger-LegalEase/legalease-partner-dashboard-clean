@@ -1,0 +1,476 @@
+{
+  "schemaVersion": "rcap-independent-current-byte-findings/v1",
+  "runId": "34664588051",
+  "packetCommit": "e38cb2ecae5ada6668fa6c7b9739eac208da6378",
+  "acceptance": false,
+  "rows": [
+    {
+      "familyId": "al-diversion-set",
+      "files": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/production-field-map.json",
+          "sha256": "d1d87ba2ba85db1c83db62d8f2d88a889b29b8b7b937e37ad50e25c4caa48848",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-diversion-set/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "f2143282909e28b4cb4070340ab4cec07fcb634f9d6fff72ed33b37ee75e0812",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-diversion-set/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "446729a07e145ec44503672284e5f41ef545519a506985b81d28d5c9690a6198",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-diversion-set/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-diversion-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "3092efd6fe5e27111d838fae0875a08c1d87c67f26ba61d5693ffc3ff8ae0182",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-diversion-set/reports/rendered-artifacts.json"
+        }
+      ],
+      "findings": [
+        {
+          "id": "AL-CURRENT-OATH-GUIDANCE",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it."
+        },
+        {
+          "id": "AL-CURRENT-MUNICIPALITY-BRANCH",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected."
+        },
+        {
+          "id": "AL-CURRENT-SOURCE-WORD-OCCLUSION",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "CR-65 page 3 off checkbox appearance visibly erases parts of printed letters in expired in both original canonical and boundary images. Inverted source-widget rectangle requires normalization before flattening."
+        },
+        {
+          "id": "AL-CURRENT-PRIOR-PETITION-CONDITION",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch."
+        },
+        {
+          "id": "AL-CURRENT-PARTICIPANT-ELECTION-HANDBACK",
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides."
+        },
+        {
+          "id": "AL-CURRENT-FEE-REQUEST-HANDBACK",
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election."
+        }
+      ],
+      "municipalityClassificationObserved": {
+        "fieldId": "C-10-CRIMINAL:MUNICIPALITY OF",
+        "fieldName": "MUNICIPALITY OF",
+        "effectiveLabel": "Complete \"MUNICIPALITY OF\" on C-10-CRIMINAL page 1",
+        "documentId": "C-10-CRIMINAL",
+        "page": 1,
+        "reason": "The platform does not hold this participant or case fact; supply it before filing",
+        "completenessDisposition": "REQUIRED_BEFORE_FILING",
+        "requiredBeforeFiling": true,
+        "factAvailable": false,
+        "routeDetermined": false,
+        "role": "participant"
+      },
+      "originalRasterMeasurement": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-diversion-set-34664588051-original-raster-measurements.json",
+      "printedWordObservations": [
+        {
+          "fixture": "canonical",
+          "originalPngSha256": "6f76cf070199a0e34fee78b422414d0da22eb5ccb321967f8446db908f6a4fbd",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-diversion-set-canonical-expired.png",
+          "cropSha256": "af48ec8899f913b065a21a8275c1e20f28a81c0b763bf371eaecf692221b0360",
+          "printedWordObscured": true
+        },
+        {
+          "fixture": "boundary",
+          "originalPngSha256": "6f76cf070199a0e34fee78b422414d0da22eb5ccb321967f8446db908f6a4fbd",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-diversion-set-boundary-expired.png",
+          "cropSha256": "af48ec8899f913b065a21a8275c1e20f28a81c0b763bf371eaecf692221b0360",
+          "printedWordObscured": true
+        }
+      ]
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "files": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/production-field-map.json",
+          "sha256": "fb63f56081dbe97fdb7e53f1f6fcee4f955ac712625f2dc4c61b5f9651490cfb",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-dwop-set/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "21238861179e57462a0178e1c22e7d137be182791130d3173a4c589a070e1fbc",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-dwop-set/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "c4f3719cf6e5b7d20c7767db2348c9ff96e930cd4d60f91a482d67f04c54c619",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-dwop-set/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "97998e810c85a0940ba2d928113687725c2c74cffb454ebf4e622ab1240b8225",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-dwop-set/reports/rendered-artifacts.json"
+        }
+      ],
+      "findings": [
+        {
+          "id": "AL-CURRENT-OATH-GUIDANCE",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it."
+        }
+      ],
+      "municipalityClassificationObserved": {
+        "fieldId": "C-10-CRIMINAL:MUNICIPALITY OF",
+        "fieldName": "MUNICIPALITY OF",
+        "effectiveLabel": "Municipal-court caption line on C-10-CRIMINAL page 1 \u2014 this route does not use it",
+        "documentId": "C-10-CRIMINAL",
+        "page": 1,
+        "reason": "C-10-CRIMINAL page 1 offers two caption branches, \"STATE OF ALABAMA\" and \"MUNICIPALITY OF ____\". AL.memo.json rules.filing files this petition in the criminal division of the circuit court, so this packet elects the State of Alabama branch at Check Box1.0 and the municipal line belongs to the branch this route does not take.",
+        "completenessDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+        "routeConditionThatMakesItInapplicable": "AL.memo.json track al-felony-dwop rules.filing: \"File CR-65 in the criminal division of the circuit court in the county where the charges were filed.\" A circuit court is not a municipality, so the municipal caption branch of C-10-CRIMINAL is outside this route.",
+        "requiredBeforeFiling": false,
+        "factAvailable": false,
+        "routeDetermined": false,
+        "role": "participant"
+      },
+      "originalRasterMeasurement": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-dwop-set-34664588051-original-raster-measurements.json",
+      "printedWordObservations": [
+        {
+          "fixture": "canonical",
+          "originalPngSha256": "363dccb2f3800f9d603fd0d7b8e38860cc51c73a6117c40a7bf427da8dd3abb3",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-dwop-set-canonical-expired.png",
+          "cropSha256": "e5c5e1beae8f35ac638362d2bbe1611d51c72301a6ade9b6246dcf9613c56365",
+          "printedWordObscured": false
+        },
+        {
+          "fixture": "boundary",
+          "originalPngSha256": "363dccb2f3800f9d603fd0d7b8e38860cc51c73a6117c40a7bf427da8dd3abb3",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-dwop-set-boundary-expired.png",
+          "cropSha256": "e5c5e1beae8f35ac638362d2bbe1611d51c72301a6ade9b6246dcf9613c56365",
+          "printedWordObscured": false
+        }
+      ]
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "files": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/production-field-map.json",
+          "sha256": "726e4374fa2f0dd8c95241bc5b3531f5a52ddab5c33996973ce7d83b6437c1b8",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-nonconviction-90-set/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "fc24792d095373e7bb9fe7b82b7e80acc1298d00061f8d1c05f95d848b060869",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-nonconviction-90-set/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "fe47de2b1c66b706d4633288d6b2ccaf30a79fad40b4e951abb0ee9ff55d9d84",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-nonconviction-90-set/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "d6c85cdbefe648ef027fc885ca9abf1b7aaec883ab49a58a24b9bc1ea420345a",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-nonconviction-90-set/reports/rendered-artifacts.json"
+        }
+      ],
+      "findings": [
+        {
+          "id": "AL-CURRENT-OATH-GUIDANCE",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it."
+        },
+        {
+          "id": "AL-CURRENT-MUNICIPALITY-BRANCH",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected."
+        },
+        {
+          "id": "AL-CURRENT-FEE-REQUEST-HANDBACK",
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election."
+        }
+      ],
+      "municipalityClassificationObserved": {
+        "fieldId": "C-10-CRIMINAL:MUNICIPALITY OF",
+        "fieldName": "MUNICIPALITY OF",
+        "effectiveLabel": "Complete \"MUNICIPALITY OF\" on C-10-CRIMINAL page 1",
+        "documentId": "C-10-CRIMINAL",
+        "page": 1,
+        "reason": "The platform does not hold this participant or case fact; supply it before filing",
+        "completenessDisposition": "REQUIRED_BEFORE_FILING",
+        "requiredBeforeFiling": true,
+        "factAvailable": false,
+        "routeDetermined": false,
+        "role": "participant"
+      },
+      "originalRasterMeasurement": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-felony-nonconviction-90-set-34664588051-original-raster-measurements.json",
+      "printedWordObservations": [
+        {
+          "fixture": "canonical",
+          "originalPngSha256": "5302716023e85bfc6c21eddd6a220adb9ff51e77c191d77a8c38cae799198add",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-nonconviction-90-set-canonical-expired.png",
+          "cropSha256": "e5c5e1beae8f35ac638362d2bbe1611d51c72301a6ade9b6246dcf9613c56365",
+          "printedWordObscured": false
+        },
+        {
+          "fixture": "boundary",
+          "originalPngSha256": "5302716023e85bfc6c21eddd6a220adb9ff51e77c191d77a8c38cae799198add",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-felony-nonconviction-90-set-boundary-expired.png",
+          "cropSha256": "e5c5e1beae8f35ac638362d2bbe1611d51c72301a6ade9b6246dcf9613c56365",
+          "printedWordObscured": false
+        }
+      ]
+    },
+    {
+      "familyId": "al-misd-conviction-set",
+      "files": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/production-field-map.json",
+          "sha256": "db38beb84d304445541d227aefdf5c66812050a3f87cc5966ff03844d955579a",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-conviction-set/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "72f6d52ff31f6a508259e5d07e861c04e4100c33ba31309dd978922ac7d149c6",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-conviction-set/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "f8754e53dee6b403a6a8d4d6b728fc50270a324b4dbbf3cf53b74b984cddb0b8",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-conviction-set/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "8d214293d1430c30385a50990e3cbc3a85dab88d65653a840c4367b80423496c",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-conviction-set/reports/rendered-artifacts.json"
+        }
+      ],
+      "findings": [
+        {
+          "id": "AL-CURRENT-OATH-GUIDANCE",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it."
+        },
+        {
+          "id": "AL-CURRENT-MUNICIPALITY-BRANCH",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected."
+        },
+        {
+          "id": "AL-CURRENT-SOURCE-WORD-OCCLUSION",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "CR-65 page 3 off checkbox appearance visibly erases parts of printed letters in expired in both original canonical and boundary images. Inverted source-widget rectangle requires normalization before flattening."
+        },
+        {
+          "id": "AL-CURRENT-PRIOR-PETITION-CONDITION",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch."
+        },
+        {
+          "id": "AL-CURRENT-PARTICIPANT-ELECTION-HANDBACK",
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides."
+        },
+        {
+          "id": "AL-CURRENT-FEE-REQUEST-HANDBACK",
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election."
+        }
+      ],
+      "municipalityClassificationObserved": {
+        "fieldId": "C-10-CRIMINAL:MUNICIPALITY OF",
+        "fieldName": "MUNICIPALITY OF",
+        "effectiveLabel": "Complete \"MUNICIPALITY OF\" on C-10-CRIMINAL page 1",
+        "documentId": "C-10-CRIMINAL",
+        "page": 1,
+        "reason": "The platform does not hold this participant or case fact; supply it before filing",
+        "completenessDisposition": "REQUIRED_BEFORE_FILING",
+        "requiredBeforeFiling": true,
+        "factAvailable": false,
+        "routeDetermined": false,
+        "role": "participant"
+      },
+      "originalRasterMeasurement": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-conviction-set-34664588051-original-raster-measurements.json",
+      "printedWordObservations": [
+        {
+          "fixture": "canonical",
+          "originalPngSha256": "6f76cf070199a0e34fee78b422414d0da22eb5ccb321967f8446db908f6a4fbd",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-conviction-set-canonical-expired.png",
+          "cropSha256": "af48ec8899f913b065a21a8275c1e20f28a81c0b763bf371eaecf692221b0360",
+          "printedWordObscured": true
+        },
+        {
+          "fixture": "boundary",
+          "originalPngSha256": "6f76cf070199a0e34fee78b422414d0da22eb5ccb321967f8446db908f6a4fbd",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-conviction-set-boundary-expired.png",
+          "cropSha256": "af48ec8899f913b065a21a8275c1e20f28a81c0b763bf371eaecf692221b0360",
+          "printedWordObscured": true
+        }
+      ]
+    },
+    {
+      "familyId": "al-misd-dwop-set",
+      "files": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/production-field-map.json",
+          "sha256": "ce5f82c6c95a9b5942c9371429fe692194e73d54906fd4cf48607215f1ac7ae8",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-dwop-set/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "9209c816b5f811764a9f918baae100bb8dca0555e43490ad5cdc5e239a1f2dec",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-dwop-set/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "9ccafb1082bc0cafe2cd6d136f473d937815be95189c1a6115d8940655b0a487",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-dwop-set/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "56c70ea7affd0f9804ec0123de209a500a65e003fd89a8235ce8e2003d7a4c1f",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-dwop-set/reports/rendered-artifacts.json"
+        }
+      ],
+      "findings": [
+        {
+          "id": "AL-CURRENT-OATH-GUIDANCE",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it."
+        },
+        {
+          "id": "AL-CURRENT-MUNICIPALITY-BRANCH",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected."
+        },
+        {
+          "id": "AL-CURRENT-SOURCE-WORD-OCCLUSION",
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "finding": "CR-65 page 3 off checkbox appearance visibly erases parts of printed letters in expired in both original canonical and boundary images. Inverted source-widget rectangle requires normalization before flattening."
+        },
+        {
+          "id": "AL-CURRENT-PRIOR-PETITION-CONDITION",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Previous-expungement county/case required unconditionally although source limits them to the previous-application YES branch."
+        },
+        {
+          "id": "AL-CURRENT-PARTICIPANT-ELECTION-HANDBACK",
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "Source-required CR-65 p5 attachment, p6 prior-application selection and pro-se election remain unselected without the participant handback supplied in the other three family guides."
+        },
+        {
+          "id": "AL-CURRENT-FEE-REQUEST-HANDBACK",
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election."
+        }
+      ],
+      "municipalityClassificationObserved": {
+        "fieldId": "C-10-CRIMINAL:MUNICIPALITY OF",
+        "fieldName": "MUNICIPALITY OF",
+        "effectiveLabel": "Complete \"MUNICIPALITY OF\" on C-10-CRIMINAL page 1",
+        "documentId": "C-10-CRIMINAL",
+        "page": 1,
+        "reason": "The platform does not hold this participant or case fact; supply it before filing",
+        "completenessDisposition": "REQUIRED_BEFORE_FILING",
+        "requiredBeforeFiling": true,
+        "factAvailable": false,
+        "routeDetermined": false,
+        "role": "participant"
+      },
+      "originalRasterMeasurement": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-misd-dwop-set-34664588051-original-raster-measurements.json",
+      "printedWordObservations": [
+        {
+          "fixture": "canonical",
+          "originalPngSha256": "6f76cf070199a0e34fee78b422414d0da22eb5ccb321967f8446db908f6a4fbd",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-dwop-set-canonical-expired.png",
+          "cropSha256": "af48ec8899f913b065a21a8275c1e20f28a81c0b763bf371eaecf692221b0360",
+          "printedWordObscured": true
+        },
+        {
+          "fixture": "boundary",
+          "originalPngSha256": "6f76cf070199a0e34fee78b422414d0da22eb5ccb321967f8446db908f6a4fbd",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-misd-dwop-set-boundary-expired.png",
+          "cropSha256": "af48ec8899f913b065a21a8275c1e20f28a81c0b763bf371eaecf692221b0360",
+          "printedWordObscured": true
+        }
+      ]
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "files": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/production-field-map.json",
+          "sha256": "c70e6dd63e0e1bfbe2beb0ec9d1870b322320c365b8de7c07d9f25beb11fad46",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-pardoned-felony-set/production-field-map.json"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "501e778b81a1bfd48db7c7f43f7b2c74ddf28ac5612345942b4e9b8471adde76",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-pardoned-felony-set/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "acbc89a8effbdde59c180299946509efe13da2ec7dbbd27e47fe2a031ca2ea48",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-pardoned-felony-set/filing-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "51299d7ff061cf424111399b9d8c40b101eb635b3c1a4cc8e6c7562b4195874a",
+          "snapshot": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-pardoned-felony-set/reports/rendered-artifacts.json"
+        }
+      ],
+      "findings": [
+        {
+          "id": "AL-CURRENT-OATH-GUIDANCE",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Guidance asks whether oath before authorized officer/notary is required although delivered CR-65 page 8 expressly requires it."
+        },
+        {
+          "id": "AL-CURRENT-MUNICIPALITY-BRANCH",
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "C-10 page 1 alternate MUNICIPALITY OF field classified REQUIRED_BEFORE_FILING and unconditionally demanded although State of Alabama is selected."
+        },
+        {
+          "id": "AL-CURRENT-FEE-REQUEST-HANDBACK",
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "Fee-waiver guide says complete affidavit but does not hand back its unselected expungement fee request; the other two printed requests concern counsel and ignition interlock fees. Felony DWOP already supplies the specific conditional expungement election."
+        }
+      ],
+      "municipalityClassificationObserved": {
+        "fieldId": "C-10-CRIMINAL:MUNICIPALITY OF",
+        "fieldName": "MUNICIPALITY OF",
+        "effectiveLabel": "Complete \"MUNICIPALITY OF\" on C-10-CRIMINAL page 1",
+        "documentId": "C-10-CRIMINAL",
+        "page": 1,
+        "reason": "The platform does not hold this participant or case fact; supply it before filing",
+        "completenessDisposition": "REQUIRED_BEFORE_FILING",
+        "requiredBeforeFiling": true,
+        "factAvailable": false,
+        "routeDetermined": false,
+        "role": "participant"
+      },
+      "originalRasterMeasurement": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/al-pardoned-felony-set-34664588051-original-raster-measurements.json",
+      "printedWordObservations": [
+        {
+          "fixture": "canonical",
+          "originalPngSha256": "5302716023e85bfc6c21eddd6a220adb9ff51e77c191d77a8c38cae799198add",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-pardoned-felony-set-canonical-expired.png",
+          "cropSha256": "e5c5e1beae8f35ac638362d2bbe1611d51c72301a6ade9b6246dcf9613c56365",
+          "printedWordObscured": false
+        },
+        {
+          "fixture": "boundary",
+          "originalPngSha256": "5302716023e85bfc6c21eddd6a220adb9ff51e77c191d77a8c38cae799198add",
+          "crop": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/review/initial-findings/al-pardoned-felony-set-boundary-expired.png",
+          "cropSha256": "e5c5e1beae8f35ac638362d2bbe1611d51c72301a6ade9b6246dcf9613c56365",
+          "printedWordObscured": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+name: Captain one-shot Alabama three printed-ink raster
+on:
+  push:
+    branches: [claude/legalease-sprint-captain-utucnw]
+    paths: [.github/workflows/captain-al-three-guidance-ink-raster-20260912.yml]
+permissions:
+  actions: write
+  contents: read
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({"owner": "Roger-LegalEase", "repo": "legalease-partner-dashboard-clean", "workflow_id": "rcap-packet-raster-acceptance-batch.yml", "ref": "claude/legalease-sprint-captain-utucnw", "inputs": {"commit_sha": "7f142bbd9ac403d9d1cf79da4eecad6ab6cbdf8d", "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/al-clerk-caption-six/guidance-ink-repair/raster-manifest.json", "family_batch": "al-diversion-set,al-misd-conviction-set,al-misd-dwop-set", "requested_scale": "2.5"}});

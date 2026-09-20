@@ -21,11 +21,43 @@ import "server-only";
 import { isDeliverable, sha256, type DeliveryEventType } from "@/lib/rcap/render/job-contract";
 import type { PacketArtifactStorage } from "@/lib/rcap/render/artifact-storage";
 import type { RenderJobRow } from "@/lib/rcap/render/job-queue";
+import { governPacketDownloadAdmission } from "@/lib/rcap/render/commercial-admission";
+import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
+import { packetSpecificationForTrack, specificationContentSha256 } from "@/lib/rcap/grade-a/packet-specification";
+import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
+import { currentPersonalizedVerification } from "@/lib/rcap/render/personalized-packet";
+import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import { sponsoredRenderDeliveryReady } from "@/lib/rcap/render/sponsored-packet";
+import { getCurrentFulfillmentRecord } from "@/lib/rcap/fulfillment/grade-a-registry";
 
 export type DeliveryPorts = {
   getJob(jobId: string): Promise<RenderJobRow | null>;
   /** True only when this authenticated user owns the briefcase item the job serves. */
   userOwnsBriefcaseItem(userId: string, briefcaseItemId: string): Promise<boolean>;
+  /**
+   * The consumer briefcase item's CURRENT final verification, read server-side.
+   *
+   * This is deliberately the live record rather than a hash snapshotted onto the
+   * job row at enqueue: a verification that was current when the job was queued
+   * is not evidence that it is current now, and a material edit since then must
+   * close the door. Returning null denies.
+   */
+  getCurrentVerification?(consumerBriefcaseItemId: string): Promise<{
+    snapshot: PacketVerificationSnapshot;
+    hash: string;
+    ownerUserId: string;
+    matterId: string;
+    alreadyDownloaded: boolean;
+  } | null>;
+  /**
+   * Whether a sponsored job's scoped publication has happened: the registration
+   * is active, the claimed Clinic scope still agrees, and the participant-owned
+   * provenance names this exact job and artifact. The default is the shipped
+   * check in sponsored-packet.ts, which the application never overrides; a
+   * verifier that runs the delivery core against a database the shipped check
+   * cannot reach supplies its own database-backed read and says so.
+   */
+  sponsoredDeliveryReady?(job: RenderJobRow, userId: string): Promise<boolean>;
   storage: PacketArtifactStorage;
   recordEvent(input: {
     jobId: string;
@@ -84,6 +116,14 @@ export async function authorizePacketDownload(
     };
   }
 
+  // Every general delivery caller must provide the live verification reader.
+  // The exact Illinois route retains its existing server-side fallback below;
+  // absence of a reader elsewhere must never skip commercial admission.
+  const exactIllinoisRoute = job.routeId === "IL:felony-prostitution-relief";
+  if (!ports.getCurrentVerification && !exactIllinoisRoute) {
+    return { ok: false, status: 409, code: "verification_not_current", message: "This packet must be reviewed again before it can be downloaded." };
+  }
+
   // 5. Artifact integrity, from the bytes, now. The stored path and hash are
   // claims; the object is the evidence. A missing object, a corrupted or
   // replaced object, or an object that is not this job's artifact all fail
@@ -107,6 +147,118 @@ export async function authorizePacketDownload(
   if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") {
     await ports.recordEvent({ jobId: job.id, eventType: "transmission_failed", actorUserId: input.userId, requestContext: { reason: "not_pdf" } });
     return { ok: false, status: 409, code: "artifact_corrupt", message: "This packet could not be verified." };
+  }
+
+  // 6. Grade-A commercial admission, through the ONE shared download treatment.
+  //
+  // Everything above is necessary and none of it is sufficient: denying
+  // anonymous callers, wrong users, unclaimed jobs, accounting-blocked jobs and
+  // substituted artifacts never asks whether this route was proven to deliver a
+  // packet at all. This surface used to stop at those, which meant a route the
+  // authority denies could still hand over bytes through a job id.
+  //
+  // It is placed last on purpose. The integrity checks above are cheap, local
+  // and specific, and reaching this point means the object is genuinely this
+  // job's artifact; refusing here is then a statement about commercial
+  // authority rather than about the file.
+  if (ports.getCurrentVerification || exactIllinoisRoute) {
+    // Sponsored enqueue deliberately has no consumer-payment binding. Its
+    // participant-owned Briefcase item still supplies the current verification.
+    const consumerItemId = job.consumerBriefcaseItemId ?? job.briefcaseItemId;
+    if (!consumerItemId) {
+      return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    }
+    let current = await ports.getCurrentVerification?.(consumerItemId);
+    // The existing consumer grant endpoint shares this delivery core. When it
+    // supplies no reader, resolve the protected owner verification here; an
+    // omitted port must never silently skip current-verification admission.
+    if (!ports.getCurrentVerification && exactIllinoisRoute
+      && resolveConsumerDeliveryAccess({ subjectId: input.userId }).allowed) {
+      try {
+        const verification = await currentPersonalizedVerification(input.userId, consumerItemId);
+        current = { ...verification, ownerUserId: input.userId,
+          matterId: consumerMatterIdForItem(consumerItemId), alreadyDownloaded: job.status === "delivered" };
+      } catch {
+        current = null;
+      }
+    }
+    if (!current) {
+      // No current verification is a denial, not a pass. "We cannot see the
+      // current verification" and "the verification is current" are different
+      // statements.
+      return { ok: false, status: 409, code: "verification_not_current", message: "This packet must be reviewed again before it can be downloaded." };
+    }
+    if (current.ownerUserId !== input.userId) {
+      return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    }
+    // A partner job is deliverable only through the shared sponsored
+    // verification mechanism: the binding the sponsored transaction wrote for
+    // this exact route. A partner job that never obtained one -- an
+    // unregistered route, or a job enqueued outside that transaction -- is
+    // refused here with its own code, so that "this job holds no authorized
+    // sponsored binding" is never reported as "the verification changed".
+    if (job.partnerId && (!job.sponsoredBinding || job.sponsoredBinding.routeKey !== job.routeId
+      || job.sponsoredBinding.briefcaseItemId !== consumerItemId)) {
+      return { ok: false, status: 409, code: "sponsored_binding_missing", message: "This packet is not available for download." };
+    }
+    // The current verification must still describe the job's exact matter,
+    // route and fact snapshot. A newly verified different snapshot cannot
+    // authorize delivery of an older stored artifact.
+    const jobVerificationHash = job.partnerId
+      ? job.sponsoredBinding?.verificationHash
+      : job.consumerVerificationHash;
+    if (!jobVerificationHash || jobVerificationHash !== current.hash) {
+      return { ok: false, status: 409, code: "verification_binding_mismatch", message: "This packet must be reviewed again before it can be downloaded." };
+    }
+    if (job.routeId !== `${current.snapshot.jurisdiction}:${current.snapshot.pathwayId}`
+      || job.matterId !== current.matterId) {
+      return { ok: false, status: 403, code: "route_binding_mismatch", message: "This packet is not available for download." };
+    }
+    if (exactIllinoisRoute) {
+      const binding = job.personalizedBinding;
+      const specification = packetSpecificationForTrack(job.routeId, current.snapshot.selectedTrackId ?? "");
+      const jobVerificationHash = job.partnerId ? job.sponsoredBinding?.verificationHash : job.consumerVerificationHash;
+      if (!specification || !binding || jobVerificationHash !== current.hash
+        || binding.trackId !== current.snapshot.selectedTrackId
+        || binding.packetFamilyId !== specification.packetFamily
+        || binding.specificationSha256 !== specificationContentSha256(specification)
+        || binding.specificationFileSha256 !== getCurrentFulfillmentRecord(job.routeId)?.packetSpecification.sha256) {
+        return { ok: false, status: 409, code: "verification_binding_mismatch", message: "This packet must be reviewed again before it can be downloaded." };
+      }
+    }
+    // Every sponsored job, whatever its route, waits for its scoped publication:
+    // technical validation alone never exposes bytes, and the route's Grade-A
+    // admission below is still asked afterwards.
+    if (job.partnerId && !await (ports.sponsoredDeliveryReady ?? sponsoredRenderDeliveryReady)(job, input.userId)) {
+      return { ok: false, status: 409, code: "sponsorship_not_finalized", message: "This packet is not ready to download." };
+    }
+    try {
+      governPacketDownloadAdmission({
+        jurisdiction: current.snapshot.jurisdiction,
+        pathwayId: current.snapshot.pathwayId,
+        participantUserId: input.userId,
+        matterId: current.matterId,
+        matterOwnerUserId: current.ownerUserId,
+        verificationSnapshot: current.snapshot,
+        verificationHash: current.hash,
+        artifactSha256: job.outputSha256,
+        repeatDownload: current.alreadyDownloaded
+      });
+    } catch (error) {
+      await ports.recordEvent({
+        jobId: job.id,
+        eventType: "transmission_failed",
+        actorUserId: input.userId,
+        requestContext: { reason: "commercial_admission_denied" }
+      });
+      return {
+        ok: false,
+        status: 403,
+        code: "commercial_admission_denied",
+        message: "This packet is not available for download.",
+        ...(error instanceof Error ? {} : {})
+      };
+    }
   }
 
   return { ok: true, job, bytes, filename: packetDownloadFilename(job) };

@@ -1,0 +1,349 @@
+{
+  "schemaVersion": "rcap-packet-factory-build-return/v1",
+  "lane": "PF27",
+  "laneKind": "packet-build",
+  "worker": "PF27",
+  "base": "1cc823b6ce1f82a1c3bf64b17ed992a79d03423d",
+  "branch": "pf27-two-builds",
+  "worktree": "/home/user/pf27-worktree",
+  "verifierRole": "none. This lane builds and records. It ran no independent verification of its own output and issues no verdict on it.",
+
+  "environment": {
+    "sparseCheckoutInheritedByGitWorktreeAdd": true,
+    "whatHappened": "git worktree add inherited core.sparseCheckout for the seventh lane in a row: 4,587 of 15,725 tracked files on disk, with data/record-clearing/legal-design-intake/AZ.memo.json and LA.memo.json both absent while tracked in HEAD.",
+    "secondObstacle": "Disabling it failed with ENOSPC. The shared filesystem was at 100 percent with 176MB free against a 748.7MB shortfall, and the failed checkout left 18 truncated PNGs in the me/ and ut/ overlay trees, which were removed and re-resolved from the index rather than left as phantom local modifications.",
+    "howItWasWorkedAroundFirst": "A scoped non-cone sparse pattern keeping AZ, LA, TX and RI and dropping other states' raster bulk. Every source resolution in this lane is by content hash over the mounted custodies rather than over the working tree, so no negative in this return ever depended on what was checked out.",
+    "howItWasResolved": "Space was later freed by another lane. The checkout was completed in full and every measurement in this return was re-taken on it: 15,725 tracked files, 15,725 present on disk, zero skip-worktree, git status carrying only this lane's two new paths. The Arizona artifact digests are byte-identical between the scoped and the full checkout, so the scope changed no output.",
+    "trackedEqualsDisk": true,
+    "trackedFiles": 15725,
+    "filesOnDisk": 15725,
+    "masterLibrarySourceDir": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "custodiesMounted": ["master_library", "human_source_returns"],
+    "custodiesNotMounted": ["d_source_packs", "nationwide_recovery_pool_2026_09_02"],
+    "nationwideOperationalTreeMounted": false
+  },
+
+  "claims": [
+    { "lane": "PF27", "itemId": "az_record_sealing_conviction-set", "assert": "CLAIM_OK", "grantSet": "530f44cc15708984" },
+    { "lane": "PF27", "itemId": "la-985-1-interim-expungement-set", "assert": "CLAIM_OK", "grantSet": "530f44cc15708984" }
+  ],
+
+  "rows": [
+    {
+      "itemId": "az_record_sealing_conviction-set",
+      "status": "COMPLETED",
+      "jurisdiction": "AZ",
+      "trackId": "az_record_sealing_conviction",
+      "routeKey": "obligation:track-only:AZ:az_record_sealing_conviction",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-conviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-az_record_sealing_conviction-set.mjs",
+      "buildStatus": "state_built",
+      "reviewStatus": { "qa": "qa_review_pending", "visual": "visual_review_pending", "counsel": "counsel_review_pending" },
+      "approvedForLive": false,
+      "live": false,
+      "commercialRoutesOpened": 0,
+
+      "components": [
+        {
+          "componentId": "az_record_sealing_conviction-primary-filing-1",
+          "role": "primary_filing",
+          "requirementInCommittedManifest": "required",
+          "documentId": "AOCCRSL1F-050625",
+          "outputStrategy": "official_pdf_fill",
+          "generated": true
+        },
+        {
+          "componentId": "az_record_sealing_conviction-proposed-order-2",
+          "role": "proposed_order",
+          "requirementInCommittedManifest": "conditional",
+          "documentId": "AOCCRSL2F-050625",
+          "outputStrategy": "official_pdf_fill",
+          "generated": true,
+          "generatedUnexecuted": "Every finding, every decretal election, the date and the judicial officer's signature line are refused as court-owned. Nothing in the rendered order asserts that a court has acted."
+        },
+        {
+          "componentId": "az_record_sealing_conviction-continuation-3",
+          "role": "continuation",
+          "requirementInCommittedManifest": "conditional",
+          "documentId": "AZ-AOCCRSL1F-CONTINUATION-OF-COUNTS",
+          "outputStrategy": "composed_region_of_the_parent_instrument",
+          "generated": true,
+          "conditionMet": "For additional counts. Both fixtures carry more counts than item 2c's four lines hold (5 and 7), so the sheet is generated and the petition's own 'Additional counts continue on a separate page' control is marked. The mark and the sheet are driven by the same fact and cannot disagree."
+        }
+      ],
+
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:AOCCRSL1F-050625",
+          "boundIdentity": "AOCCRSL1F-050625",
+          "supersededIdentity": "AOCCRSL1F-050825",
+          "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+          "byteLength": 299110,
+          "pageCount": 5,
+          "acroFieldCount": 71,
+          "resolvedBy": "sha256_index_over_mounted_custodies",
+          "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+          "printedFooterIdentityMeasuredHere": "AOCCRSL1F-050825"
+        },
+        {
+          "sourceId": "official-form:AOCCRSL2F-050625",
+          "boundIdentity": "AOCCRSL2F-050625",
+          "supersededIdentity": "AOCCRSL2F-050825",
+          "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+          "byteLength": 213882,
+          "pageCount": 3,
+          "acroFieldCount": 41,
+          "resolvedBy": "sha256_index_over_mounted_custodies",
+          "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+          "printedFooterIdentityMeasuredHere": "AOCCRSL2F-050825"
+        },
+        {
+          "sourceId": "official-form:AOCCRSL1F-050825-CONT",
+          "boundIdentity": null,
+          "sha256": null,
+          "acquired": false,
+          "why": "DET-AZ-CONT-IS-NOT-A-DOCUMENT-AOCCRSL1F-050825-CONT: the obligation names no published document. The continuation is a region of the parent instrument, composed by the packet, so nothing was acquired for it and no binary is bound."
+        }
+      ],
+      "sourceResolution": {
+        "method": "A SHA-256 index is built over the mounted custody roots on every run and each digest is looked up in it. No source is resolved by declared path.",
+        "indexFilesIndexed": 500,
+        "indexDistinctDigests": 500,
+        "emptyIndexWouldStopTheBuild": true,
+        "declaredPathsCarriedButNotUsed": true
+      },
+      "determinationsFollowed": [
+        {
+          "id": "DET-AZ-SEALING-PRINTED-IDENTITY-IS-050625",
+          "followed": true,
+          "how": "Both binaries bound by content hash and recorded under their printed 050625 identities. The determination was not re-opened."
+        },
+        {
+          "id": "DET-AZ-CONT-IS-NOT-A-DOCUMENT-AOCCRSL1F-050825-CONT",
+          "followed": true,
+          "how": "No acquisition attempted. The continuation is composed as a region of the petition and the petition's own additional-counts control marks it as such."
+        }
+      ],
+
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "result": "PASS_COMPLETE",
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_conviction-set",
+        "terminalFields": 119,
+        "written": 50,
+        "necessaryNotSufficient": "Nine zeros is the starting condition and not the finding. The checks below are what this lane did that the counters do not do."
+      },
+
+      "packetSetManifestCheckedDirectly": {
+        "file": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "componentsNamedThere": [
+          "az_record_sealing_conviction-primary-filing-1",
+          "az_record_sealing_conviction-proposed-order-2",
+          "az_record_sealing_conviction-continuation-3"
+        ],
+        "componentsDelivered": [
+          "az_record_sealing_conviction-primary-filing-1",
+          "az_record_sealing_conviction-proposed-order-2",
+          "az_record_sealing_conviction-continuation-3"
+        ],
+        "shortfall": "none. The manifest names three components and the build delivers three.",
+        "howChecked": "The builder opens that file on every run and refuses to continue unless the committed component id set matches the set it builds. requiredComponentsMissing derives its denominator from this family's own field map and receipt and never opens that file, so it could not have told this lane either way.",
+        "manifestRequirementNote": "The manifest marks the proposed order and the continuation CONDITIONAL rather than required, and both conditions are met on both fixtures, so both are generated."
+      },
+
+      "artifacts": [
+        { "fixture": "canonical", "documentId": "AOCCRSL1F-050625", "file": "fixtures/canonical/petition.pdf", "sha256": "c6d205156de0b6adc685bda52acb04145717a986d782fb20221eb085a0d46f8d", "pageCount": 5, "byteLength": 279278, "textFieldsWritten": 28, "controlsMarked": 8 },
+        { "fixture": "canonical", "documentId": "AOCCRSL2F-050625", "file": "fixtures/canonical/order.pdf", "sha256": "3275990b206abaf7971b6e8dd9055c9c1f57ed34b78de95c4a87ff473ffccc84", "pageCount": 3, "byteLength": 192684, "textFieldsWritten": 8, "controlsMarked": 1 },
+        { "fixture": "canonical", "documentId": "AZ-AOCCRSL1F-CONTINUATION-OF-COUNTS", "file": "fixtures/canonical/continuation.pdf", "sha256": "902f0c9f1ba94c9fc4cd0b9937514e0cd199ad0eb2d4c13c58eacb5fba5d2fdd", "pageCount": 1, "byteLength": 3080 },
+        { "fixture": "boundary", "documentId": "AOCCRSL1F-050625", "file": "fixtures/boundary/petition.pdf", "sha256": "b318361adc98b4a315ce68856fe39a42f864a5e882e593f73a4b4528e787f715", "pageCount": 5, "byteLength": 279706, "textFieldsWritten": 28, "controlsMarked": 8 },
+        { "fixture": "boundary", "documentId": "AOCCRSL2F-050625", "file": "fixtures/boundary/order.pdf", "sha256": "6ae17d4de83a538a95aef7ede533d60da4fb27f122326febc646e9d425bb43f9", "pageCount": 3, "byteLength": 192774, "textFieldsWritten": 8, "controlsMarked": 1 },
+        { "fixture": "boundary", "documentId": "AZ-AOCCRSL1F-CONTINUATION-OF-COUNTS", "file": "fixtures/boundary/continuation.pdf", "sha256": "00e369e46260caf04f33d481ae9eb7c16bc41cfb87dc21798c7c57327b24e997", "pageCount": 1, "byteLength": 3246 }
+      ],
+      "canonicalAndBoundaryProduceTheSameShape": "asserted in the build: the same text fields written and the same controls marked on both fixtures, so a value silently dropped for one participant and written for another cannot pass unnoticed.",
+
+      "determinism": {
+        "method": "Rebuilt from unchanged inputs and the whole family directory compared recursively with diff -r.",
+        "result": "BYTE_IDENTICAL",
+        "filesCompared": 18,
+        "runsCompared": 3,
+        "alsoIdenticalAcrossTheScopedAndFullCheckout": true,
+        "checkMode": "node scripts/build-census-v1-az_record_sealing_conviction-set.mjs --check -> CHECK_OK"
+      },
+      "identityRefreshSurvivesRebuild": {
+        "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+        "result": "EVERY_IDENTITY_REFRESH_SURVIVED",
+        "receiptsCompared": 245,
+        "carryingAnIdentityRefresh": 50,
+        "noteAboutTheScopedCheckout": "Run under the scoped checkout this reported 49 receipts ERASED BY A REBUILD, every one of them 'unreadable in the working tree'. That was the scope and not an erasure: on the full checkout it returns clean. A lane that runs this under a partial checkout will get 49 false positives."
+      },
+
+      "whatWasMarkedOnADocumentSwornUnderPenaltyOfPerjury": {
+        "principle": "Route-determined elections are STATED by the packet. An intake answer the participant already gave is transcribed. A fact the platform does not hold is never marked.",
+        "routeDetermined": [
+          "Representing: Self (the attorney block on the same line is refused as attorney-only on the same reasoning)",
+          "Request box three - all records relating to the eligible charge(s) in court case number - with the case number written beside it",
+          "Item 4 third option - a judgment of guilt was entered - with the judgment date written beside it. This is the route election: the other two options are other packet families.",
+          "Additional counts continue on a separate page - marked only when the continuation sheet is actually generated"
+        ],
+        "transcribedFromAnIntakeAnswerTheRegistryNamesAsRequired": [
+          "Section II question 1, monetary terms of the sentence satisfied",
+          "Section II question 2, all other terms of the sentence completed",
+          "Section III question 2, records sealed in Arizona before",
+          "Section IV question 2, charges pending now"
+        ],
+        "leftBlankBecauseThePlatformDoesNotHoldTheFact": [
+          "Amended (corrected) petition",
+          "Request box one, arrest records, and request box two, charging documents - both need an agency name the platform does not hold",
+          "Section II question 3, absolute discharge from ADOC",
+          "Section II question 4, discharged from probation",
+          "Section III question 1, a previous petition in this same case",
+          "Section IV question 1, any other conviction since",
+          "Section IV question 3, do you request a hearing",
+          "Section IV question 5, other documentation attached"
+        ],
+        "everyOneOfTheseIsNamedInParticipantInstructions": true,
+        "howEachMarkWasMade": "The widget's own appearance states were measured off the bound bytes on this build, the target widget was asserted to carry the on-state being applied and to be neither Hidden nor NoView, the field value and every widget's appearance state were set explicitly, and each fact-driven mark was driven by the fixture's own answer rather than by a hard-coded state."
+      },
+
+      "sixthRuleChecks": {
+        "noWriteOnAHiddenOrNoViewWidget": "asserted per widget for every text write and every mark, from the source's own /F flags",
+        "theFormsOwnValueIsNotFlattenedOntoAParticipantLine": "Both binaries ship with the AcroForm field `County` already carrying \"MOHAVE\", on the line naming the county the petition is filed in. The build enumerates every source-carried text value on each run and refuses to continue unless the set is exactly [County]; it writes the participant's own county over it on both documents and then asserts, from the output bytes, that no artifact carries the string MOHAVE unless the participant's county actually is Mohave.",
+        "noDateOnADocumentSwornUnderPenaltyOfPerjury": "The petition's page-5 Date field sits beside 'I declare under penalty of perjury' and is left blank. The printed name and address in the same block ARE written, because they restate identity the participant has already given and neither is an act of attesting. The continuation sheet carries the same rule.",
+        "fitOrRefuseNeverTruncate": "Every value is measured against its NARROWEST widget - a field holds one string however many places it is printed - and written at a size between 10 and 6.5 points that fits, or the build stops and names the value. The best-interests narrative is wrapped across the three ruled lines the form prints, at one size, and the build stops rather than shortening it."
+      },
+
+      "composerUsed": {
+        "renderComposedPdf": "the repaired version from the fix16-composer-clipping branch, at ef504bf0495e85c11e5aa0ff90f8f7103227cc9d, not the copy carried by about ninety build scripts",
+        "whyItMatters": "The unrepaired copy chops tokens mid-token, breaks pages blind to logical lines and can leave the route trailer alone on a page. Only the continuation sheet is composed here, so the exposure was small, but shipping a known-broken copy when a repaired one exists is not a defensible choice.",
+        "measured": "Both continuation sheets are one page, carry no empty page and no widowed line, and the route trailer shares its page with the body."
+      },
+
+      "findingsWorthOutlivingThisLane": [
+        {
+          "id": "AZ-SEALING-WHITE-PLACEHOLDER-TEXT-READS-AS-AN-OVERLAP-AND-IS-NOT-ONE",
+          "finding": "The Arizona petition draws 'Click to enter a date' inside nine date fields, and 'Select a county.' inside the county field, as PAGE CONTENT with the fill operator `1 g` - white ink on a white page. A copy of the source with the AcroForm and every annotation deleted still carries all nine, so it is not a field value.",
+          "whyItMattersBeyondThisFamily": "pdftotext reports text a reader cannot see. Two written fields on this petition sit exactly on top of a placeholder run and a third can reach one, so any text-based visual check will report three overlaps that do not exist. It was confirmed here by rasterising the artifact at 150dpi and sampling the band: the darkest pixel in the placeholder zone is the form's own 0.6pt ruled line, not text. A lane that repairs these will be repairing nothing.",
+          "howToCheckIt": "Read the fill-colour operator preceding the text run in the page content stream before believing a text extraction."
+        },
+        {
+          "id": "AZ-SEALING-BOTH-BINARIES-SHIP-A-COUNTY-ALREADY-FILLED-IN",
+          "finding": "AOCCRSL1F and AOCCRSL2F both ship from the Arizona Supreme Court with the County field carrying \"MOHAVE\".",
+          "whyItMattersBeyondThisFamily": "Flattened unchanged it puts a wrong county on the face of a petition sworn under penalty of perjury, for every participant in the other fourteen Arizona counties. Any other Arizona family binding these binaries needs the same overwrite and the same output-byte assertion. The shared widget-contribution rule would also drop an unwritten field, but that is a default and not a check."
+        },
+        {
+          "id": "AZ-SEALING-ORDER-HAS-TWO-SHARED-VALUE-FINDING-CONTROLS",
+          "finding": "On AOCCRSL2F, `Check Box5` and `Check Box20` each carry two widgets and in each case BOTH widgets have the same /Yes on-state, so marking either marks both. On Check Box5 that couples the finding that the court served the prosecuting agency to the finding about the sixty-day period; on Check Box20 it couples 'not filed in the correct court' to 'Other'.",
+          "whyItMattersBeyondThisFamily": "A court or a later build that marks either control through the AcroForm will silently make a second finding it did not intend. Every multi-widget control on the petition was measured and each carries its own distinct on-state - /Yes and /No, or /1 /2 /3 - so the petition is safe and the order is not.",
+          "thisBuildMarksNeither": true
+        },
+        {
+          "id": "PACKET-COMPLETENESS-DOES-NOT-COUNT-A-MARKED-CONTROL-AS-A-MEASURED-WRITE-UNLESS-THE-FAMILY-SAYS-SO",
+          "finding": "The first run of this family reported FAIL_VISIBLE_APPEARANCE with visualDefects 4, because nonWhitespaceGlyphsOutsideMeasuredWriteBoxes counted the eight correct check marks on the petition and the one on the order as ink outside a measured box.",
+          "whyItMattersBeyondThisFamily": "A family whose accepted-box set is built from text writes alone will report every control it correctly marked as a visual defect. The measured box set has to include the widget rectangle of every control the build marked, not only of every field it wrote."
+        }
+      ],
+
+      "whatThisLaneDidNotDo": [
+        "No verification of its own output. The completeness verifier was run to read the counters, not to issue a verdict.",
+        "No raster enrolment, no visual review, no counsel review.",
+        "No route opened, no central state changed, no MASTER_QUEUE row edited."
+      ]
+    },
+
+    {
+      "itemId": "la-985-1-interim-expungement-set",
+      "status": "STOPPED",
+      "jurisdiction": "LA",
+      "trackId": "la-985-1-interim-expungement",
+      "routeKey": "obligation:track-pathway:LA:la-985-1-interim-expungement:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+      "implementationStrategy": "custom_pleading",
+      "directory": null,
+      "buildScript": null,
+      "artifactsWritten": "none. No overlay directory was created and no byte was rendered.",
+
+      "stopClass": "SOURCE_CANNOT_BE_RESOLVED_TO_HELD_BYTES",
+      "stopReason": "The codified text of La. C.Cr.P. art. 994 - the Motion for Interim Expungement, which the committed packet-set manifest marks as this family's REQUIRED primary filing and which art. 986 makes the mandatory form - is not held anywhere in this container. The owner determination that authorises this family says to 'generate them faithfully from the current codified article text'. That text is not here, so there is nothing to generate faithfully from.",
+
+      "howTheAbsenceWasEstablished": [
+        "The corpus index carries 18 Louisiana entries across three custodies and they resolve to exactly six distinct documents: arts. 984, 990, 993, 995, 998 and 999.1. There is no art. 994 and no art. 988.",
+        "Every file under STATES/LA in the mounted Master Library was opened - the PDFs through pdftotext - and searched for 'Art. 994' and for the form's own printed caption 'MOTION FOR INTERIM EXPUNGEMENT'. One file matched: the Louisiana legal review, which DESCRIBES art. 994 ('parallel structure to Art. 989, cites Art. 985.1, and asks the mover to identify the felony arrest that resulted in a misdemeanour conviction') and does not print its wording. It is a description of the form, not the form.",
+        "git grep over ALL 15,725 tracked blobs at HEAD - not over the working tree - for the caption and for the article's own printed heading returned only records ABOUT the obligation and no codified text. The search method was proved non-vacuous first by confirming git grep reaches blobs that were not checked out at the time.",
+        "The two source-acquisition records confirm it independently: SOURCE_ACQUISITION_MANIFEST.json carries la-ccrp-art-994-statutory-form-print-view as an OUTSTANDING target with expectedSha256 null, and the codex source-acquisition run of 2026-09-04 acquired 34 sources, none of them Louisiana."
+      ],
+
+      "whatIsHeldForThisFamily": [
+        {
+          "article": "LA-CCRP-ART-995",
+          "role": "the Article 995 Order of Expungement of Interim Arrest Record, this family's REQUIRED proposed order",
+          "sha256": "b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39",
+          "resolvedBy": "sha256_index_over_mounted_custodies",
+          "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-995__article-995-order-of-expungement-of-interim-arrest-record__SOURCE-2026-07-31__EN.pdf",
+          "declaredPathIsInAnUnmountedCustody": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/LA/05_SOURCE_GATED/... - the declared path resolves to nothing here and the digest resolves exactly. Path resolution would have produced a BLOCKED_SOURCE for a document that is held.",
+          "readHere": "Art. 995. Order of interim expungement form to be used, closing 'Acts 2014, No. 145, Sec. 1.'",
+          "butNotBuildable": "Three records bear on it and two say do not build it. The committed LA.memo.json note for this component states in terms: 'No template exists yet, none is counsel-approved, and no implementation is authorized here.' The owner determination LA-STATUTORY-FORMS grants this family composition of exactly LA-CCRP-ART-988 and LA-CCRP-ART-994 and does not name 995. The committed packet-set manifest marks it REQUIRED. This lane did not resolve that against the records; it is an owner question and it is raised below."
+        },
+        {
+          "article": "LA-CCRP-ART-990",
+          "role": "authority reference only - the responding agency's own affidavit, never printed in a participant packet",
+          "sha256": "13396bb180962be61788f0f7dd965fe4095d2262506b097623a86a6268e7a65a",
+          "resolvedBy": "sha256_index_over_mounted_custodies",
+          "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-990__article-990-affidavit-of-response__SOURCE-2026-07-31__EN.pdf"
+        }
+      ],
+      "whatIsNotHeld": [
+        { "article": "LA-CCRP-ART-994", "role": "REQUIRED primary filing", "heldAnywhereInThisContainer": false, "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919690", "hostAllowedByPolicy": true },
+        { "article": "LA-CCRP-ART-988", "role": "conditional fee waiver", "heldAnywhereInThisContainer": false, "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919681", "hostAllowedByPolicy": true }
+      ],
+
+      "whyNotComposedFromTheDescription": "Article 986(A) makes the statutory forms exclusive and the committed record says so in terms: 'the rendering must reproduce the Legislature's own words rather than paraphrase them, and under Article 986(C) the court name is the only authorized variation.' Composing the mandatory motion out of a description of it would put words in the Legislature's mouth on a form the Code makes exclusive. That is a legal conclusion no held record establishes, which is a stop condition on its face.",
+      "whyNotShippedWithoutThePrimaryFiling": "The route's own filing rule, read from LA.memo.json rules.filing, is 'File the Article 994 Motion for Interim Expungement with the proposed Article 995 Order of Expungement of Interim Arrest Record with the clerk of court.' A packet without the motion is not a filing; a packet with an invented motion is worse.",
+      "priorLaneAgreement": "A prior discovery lane reached the same conclusion independently and by a different method. data/rcap-grade-a/fable-packet-factory/returns/FABLE_COMP1_FL_LA_COMPOSITION.json classifies this family ACQUIRE_EXACT_SOURCE - 'Track E is an art. 994 motion with an art. 995 order; 995's text is held and readable here, 994's is not' - composed nothing and refused to compose anything.",
+
+      "exactlyWhatWouldReleaseThisFamily": [
+        "Acquire the codified text of La. C.Cr.P. art. 994 at https://www.legis.la.gov/legis/Law.aspx?d=919690 through the source-acquisition path, with the heading check and a recorded SHA-256. The acquisition target already exists as la-ccrp-art-994-statutory-form-print-view with expectedSha256 null; source acquisition is not this packet-build lane's grant and none was performed.",
+        "Acquire art. 988 at https://www.legis.la.gov/legis/Law.aspx?d=919681 for the conditional fee-waiver component.",
+        "Close the Article 995 question below."
+      ],
+
+      "ownerQuestionsRaisedByThisStop": [
+        {
+          "question": "Does this family's grant reach La. C.Cr.P. art. 995?",
+          "whatTheRecordsSay": "OWNER_DETERMINATIONS_2026-09-02.json LA-STATUTORY-FORMS opens by treating 'the statutory forms prescribed by Louisiana C.Cr.P. arts. 987 through 995 and 998 ... uniformly as COMPOSE_FROM_AUTHORITY' - which includes 995 - and then lists this family's composedFromAuthority as exactly [LA-CCRP-ART-988, LA-CCRP-ART-994], which does not. The committed packet-set manifest marks the art. 995 proposed order REQUIRED. The MASTER_QUEUE row for this family binds the art. 995 codified text by digest as one of its two boundSources.",
+          "whyItMatters": "The per-family list is treated as limiting elsewhere: the la-977 builder gives 'not in this family's composedFromAuthority grant' as one of its two reasons for withholding art. 993. On that reading this family can never deliver a required component. On the other reading the general text governs and the per-family list is incomplete."
+        },
+        {
+          "question": "Does the standing prohibition on the art. 995 template still hold?",
+          "whatTheRecordsSay": "The LA.memo.json note for this component ends 'No template exists yet, none is counsel-approved, and no implementation is authorized here.' The same sentence appears on arts. 993 and 998 and was the decisive reason a sibling lane withheld art. 993. If it still holds, this family cannot ship its required proposed order even once art. 994 is acquired."
+        }
+      ],
+      "whatThisLaneDidNotDo": [
+        "Did not fetch art. 994 from legis.la.gov. Source acquisition has its own manifest, custody and receipt machinery and is not this lane's grant.",
+        "Did not compose the art. 994 motion from the legal review's description of it.",
+        "Did not compose the art. 995 order, which is held, because two records say not to and this lane cannot settle that against the third.",
+        "Did not create an overlay directory, so nothing downstream will read this family as built."
+      ]
+    }
+  ],
+
+  "summary": {
+    "built": 1,
+    "stopped": 1,
+    "routesOpened": 0,
+    "centralStateChanged": "none",
+    "filesAdded": [
+      "scripts/build-census-v1-az_record_sealing_conviction-set.mjs",
+      "data/rcap-all50/overlays/census-v1/az/az-record-sealing-conviction-set--official-pdf-fill/ (18 files)",
+      "data/rcap-grade-a/packet-factory-24h/pf27/pf27-arizona-sealing-built-louisiana-interim-stopped.json"
+    ],
+    "filesModified": "none"
+  }
+}

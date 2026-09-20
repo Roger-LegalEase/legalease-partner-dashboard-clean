@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "rcap-selection-disclosure-audit/v1",
+  "familyId": "mn_petition_15218-set",
+  "whatThisIs": "Every selection control this family delivers, counted by what the packet says about it. It exists because the fleet counter that should have caught a selection control with no stated reason cannot see one on this family: the shared reader in scripts/rcap-packet-completeness/verify-packet-completeness.mjs (readFieldRows, the anchors-and-withheld shape) reads writableAnchors and withheld and does not read selectionControls at all, so requiredOptionsMissing is structurally 0 here whatever these boxes carry. That reader is shared code this lane does not own. This audit is measured in the build path and the build refuses rather than delivering a non-zero count.",
+  "selectionControls": 95,
+  "marked": 2,
+  "protectedField": 40,
+  "otherStatutoryGround": 11,
+  "participantElection": 42,
+  "unclassified": 0,
+  "selectionControlsWithNoStatedReason": 0,
+  "distinctReasonsAcrossOtherStatutoryGroundBoxes": 11,
+  "otherStatutoryGroundBoxesNamedInTheParticipantGuide": 11,
+  "requiredOptionsMissingAsTheSharedVerifierMeasuresIt": {
+    "value": 0,
+    "whyItIsNotAMeasurementOfThis": "the shared reader audits this family's writableAnchors and withheld rows and none of its selection controls, so this number cannot move when a selection control loses its reason"
+  }
+}

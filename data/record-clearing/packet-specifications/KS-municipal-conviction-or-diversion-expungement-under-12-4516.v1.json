@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 2,
+  "specificationId": "ks-municipal-conviction-or-diversion-expungement-under-12-4516",
+  "specificationVersion": "1.0.0",
+  "routeKey": "KS:municipal-conviction-or-diversion-expungement-under-12-4516",
+  "jurisdiction": "KS",
+  "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+  "pathwayLabel": "Municipal conviction or diversion expungement",
+  "packetFamily": "rcap-ks-custom-pleading",
+  "packetFamilyLabel": "Kansas Municipal Conviction or Diversion Expungement Petition under § 12-4516",
+  "packetFamilyLabelSource": "data/rcap-ledger/completed-output-counsel-manifest.json",
+  "trackId": "ks-12-4516-municipal",
+  "packetSetId": "ks-12-4516-municipal-set",
+  "packetSetVersion": "1.0.0",
+  "profileId": "KS",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "generatedBy": "Kansas runtime representation lane (hand-authored from the approved packet set manifest; no generator owns this file yet)",
+  "derivedFrom": [
+    "data/record-clearing/legal-design-intake/KS.memo.json",
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/rcap-ledger/completed-output-counsel-manifest.json",
+    "src/lib/legal-authority/routes/single-routes.json"
+  ],
+  "specificationNote": "Registered so the route-to-family binding for this Kansas municipal route is a real, independently resolvable fact rather than a null agreeing with a null. It carries no legal statement that was not already approved, and it carries none this lane would have had to write: every section that would need one is declared unbound below.",
+  "whyThisExists": "resolvePacketFamilyId in src/lib/rcap/render/commercial-admission.ts reads the registered specification, and the Grade-A admission compares the family the server believes a route delivers against the family a record proves. Without a registered specification this route resolved to no family at all, so the comparison could not be made.",
+  "legalSectionsBound": false,
+  "unboundLegalSections": [
+    "copyRequirements",
+    "feeAndWaiver",
+    "filingDestination",
+    "hearingAndObjectionStops",
+    "postFilingTimeline",
+    "serviceAndNotice",
+    "statutoryAuthority"
+  ],
+  "legalSections": {
+    "copyRequirements": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "How many copies the municipal court requires and what happens to each. Court by court, and not recorded."
+    },
+    "feeAndWaiver": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The fee the convicting municipal court prescribes as costs under K.S.A. 12-4516(g)(2). Amounts vary by court and the memorandum records no statewide figure and no statutory waiver."
+    },
+    "filingDestination": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "Which municipal court clerk receives the filing, and whether that court publishes its own instrument or governs by charter ordinance. The memorandum yields to a published local form where one exists; Wichita proceeds under Charter Ordinance No. 224 §§ 12 and 13 and Topeka publishes its own petition and order."
+    },
+    "hearingAndObjectionStops": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The situations in which a participant must stop and get help: the city prosecutor opposes, the municipal court sets a contested evidentiary hearing, or a factual ground is disputed."
+    },
+    "postFilingTimeline": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The steps and timings after filing a packet may state as fact, including that on a grant the clerk sends a certified copy to the Kansas Bureau of Investigation."
+    },
+    "serviceAndNotice": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "That the court, not the participant, causes notice to be given to the prosecuting attorney and the arresting law enforcement agency under K.S.A. 12-4516(g)(1), stated in wording a packet may print."
+    },
+    "statutoryAuthority": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The rule statement a packet may print for K.S.A. 12-4516, and which of the three-, five-, ten- and one-year branches a given participant's ordinance violation falls in. The branch turns on whether the ordinance violation would also have constituted a listed Kansas offence, which the approved memorandum records as the participant's own answer."
+    }
+  },
+  "whyIncomplete": "A packet may not be composed from this specification and no route may be proven on it while legalSectionsBound is false. Kansas municipal filing practice is court by court: the adopted memorandum yields to a municipal court's own published instrument where one exists, and the route contract holds a local_filing_configuration gate for exactly that reason. Until the per-court configuration is recorded, the destination, fee, copy count and hearing sections cannot be stated as fact.",
+  "sourceIdentities": [
+    {
+      "sourceId": "source-url:https://www.kslegislature.gov/li/b2025_26/statute/012_000_0000_chapter/012_045_0000_article/012_045_0016_section/012_045_0016_k/",
+      "kind": "statute_text",
+      "verification": "asserted_by_ingestion",
+      "note": "Named by the approved legal-design memorandum as an official source for this track. Custody is not asserted here; the route contract holds the acquisition question on its local filing configuration gate."
+    },
+    {
+      "sourceId": "source-url:https://www.kansas.gov/kbi/info/docs/pdf/Fact%20Sheet%20-%20Expungement%2002.2025.pdf",
+      "kind": "agency_fact_sheet",
+      "verification": "asserted_by_ingestion",
+      "note": "Kansas Bureau of Investigation expungement fact sheet, February 2025, named by the same memorandum."
+    }
+  ],
+  "requiredFacts": [],
+  "requiredFactsNote": "The approved manifest states participant actions rather than a fact schema, so no fact ids are derived here. Binding them is part of the same legal-design decision that binds the sections above.",
+  "finalVerificationRequirements": [],
+  "documents": [
+    {
+      "documentId": "ks-12-4516-municipal-primary-filing-1",
+      "role": "primary_filing",
+      "order": 1,
+      "outputStrategy": "custom_pleading",
+      "requirement": "required",
+      "officialFormId": null,
+      "manifestComponentId": "ks-12-4516-municipal-primary-filing-1",
+      "sections": []
+    },
+    {
+      "documentId": "ks-12-4516-municipal-proposed-order-2",
+      "role": "proposed_order",
+      "order": 2,
+      "outputStrategy": "custom_pleading",
+      "requirement": "conditional",
+      "conditionDescription": "Where the municipal court expects a proposed order and publishes none of its own.",
+      "officialFormId": null,
+      "manifestComponentId": "ks-12-4516-municipal-proposed-order-2",
+      "sections": []
+    },
+    {
+      "documentId": "ks-12-4516-municipal-process-guidance-3",
+      "role": "process_guidance",
+      "order": 3,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "officialFormId": null,
+      "manifestComponentId": "ks-12-4516-municipal-process-guidance-3",
+      "sections": []
+    }
+  ],
+  "attachments": [],
+  "participantChecklist": [],
+  "specificationSha256": "2029afc356f4d3a7b092e3a5533528c7d7ecafb491186c6bbe75cfd57b0556f6"
+}

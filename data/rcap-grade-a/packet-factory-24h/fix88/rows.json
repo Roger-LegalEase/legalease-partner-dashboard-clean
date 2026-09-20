@@ -1,0 +1,572 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/lane-rows/v1",
+  "lane": "FIX88",
+  "laneKind": "repair",
+  "status": "BLOCKED_SOURCE",
+  "workerBranch": "fix88-nj-repeating-rows",
+  "environment": "Git-capable Codespaces Captain environment, dedicated /workspaces/legalease-fix91 worktree reused with authorization; Node 24.14.0 and Poppler 24.02.0. sharp 0.34.5 from /tmp/fix91-tools/node_modules via NODE_PATH.",
+  "selectedCaptainSha": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+  "postMergeBase": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+  "recovery": "No local or remote fix88-nj-repeating-rows branch existed when inspected. Created that named branch from the committed Captain base; preserved fix91-ne-custodial-prefills at 5a2ffa49aac6cfad905eef80487c21f468cee570 and its /tmp/fix91-recovery source material. No reset, rebase, rename or discard.",
+  "currentOutputs": "All eight NJ fixture PDFs and all four family directories are unchanged from selected Captain. No synthetic control PDF was substituted for an official source or packet.",
+  "engineeringChecks": [
+    {
+      "command": [
+        "node",
+        "--check",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/syntax.log",
+      "output": ""
+    },
+    {
+      "command": [
+        "node",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "--self-test-fix88"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/binding-selftest.log",
+      "output": "FIX88 source-independent binding regression: PASS (page 18 only, no diversion spill, whole-row withholding blocks both writers, deterministic synthetic bytes, source geometry drift denied; no packet acceptance)\n"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "--self-test"
+      ],
+      "exitCode": 1,
+      "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/existing-selftest.log",
+      "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: NJ-CN-10557: exact map names an unavailable fixture fact participant.state_zip\n    at selfTest (file:///workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:2617:14)\n    at runEastFamily (file:///workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:6616:45)\n    at file:///workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:6639:9 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.14.0\n"
+    },
+    {
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs"
+      ],
+      "exitCode": 0,
+      "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/eslint.log",
+      "output": "\n/workspaces/legalease-fix91/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs\n  370:36  warning  '_paRow1ChargeCell' is assigned a value but never used  @typescript-eslint/no-unused-vars\n\n\u2716 1 problem (0 errors, 1 warning)\n\n"
+    }
+  ],
+  "testDoubles": [
+    "The source-independent binding regression creates a blank synthetic 19-page PDF with a two-widget dismissCrt control. This replaces only the official-source boundary for a unit test. The actual official finalizer, exact overlay, fit code and output text reader execute without stubs. This is not packet, source-fidelity, central-raster or independent acceptance."
+  ],
+  "preexistingFailure": "The existing East-host --self-test still exits 1: NJ-CN-10557 exact map names unavailable fixture fact participant.state_zip. Handoff records this drift; this repair does not change that assertion or fixture fact derivation. Eslint exits 0 with existing unused _paRow1ChargeCell warning.",
+  "acceptanceDistinction": "The baseline completeness commands each exit 0 on unchanged old outputs. They cannot discharge the current visible row defects. Four actual --check commands exit 1 at missing exact CN-10557 source. No full rebuild, two-build comparison, new generated-output check, central raster or independent reread is claimed.",
+  "publication": "Builder code is a source checkpoint awaiting exact-source full rebuild. No runtime worker image publication or production operation performed.",
+  "remainingActions": [
+    "Recover CN-10557 source exactly matching the recorded SHA-256 and 1924831-byte size; mount it under its recorded archive path.",
+    "Run each of the four existing family entrypoints twice (including the disorderly-persons wrapper so its installed disclosures remain); compare all generated files byte-for-byte.",
+    "Run each actual --check, completeness audit and current visible-write review at 300 dpi; inspect whole-row withholding, page-19 diversion absence, caption preservation and participant disclosures.",
+    "Obtain new central raster evidence for changed PDF bytes and a separate independent reread.",
+    "Resolve the separately recorded East-host participant.state_zip selftest drift under the Captain scope; do not label the existing failed test as passing."
+  ],
+  "rows": [
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "BLOCKED_SOURCE",
+      "repairedByThisLane": false,
+      "obligationsRepaired": [],
+      "assignedObligations": [
+        "REPEATING_ROWS",
+        "KNOWN_PREFILLS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "selectedCaptainSha": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "postMergeBase": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "claim": "Existing FIX88 claim asserted with claim.mjs --assert, CLAIM_OK, grant set a29f3e85387fe951; exit 0. No release, transfer, reissue or central ledger write.",
+      "codeCompleted": [
+        "The existing complete-or-untouched row mechanism now covers petition paragraph 1 as well as the previously repaired order arrest row.",
+        "A missing exact statute or municipality keeps the paragraph-1 charge and case number together off the form; no inferred fact is introduced.",
+        "The unwidgeted paragraph-1 arrest date is disclosed truthfully. Removed the obsolete instruction to copy a date from the withheld page-31 row.",
+        "dismissCrt is source-geometry-bound to widget 0 on page 18. The shared all-widget fill is withheld; the existing measured overlay writes only that widget. Widget 1 on page 19 is excluded and checked for absent artifact text.",
+        "The page-18 item (a) date/charge/court group is entirely withheld if any member refuses fit. The page-19 item (c) diversion paragraph receives no court fact.",
+        "Corrected the plea-bargain election disclosure page from 19 to its visible page 18."
+      ],
+      "currentFixtureInspection": [
+        {
+          "family": "arrest-no-conviction",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "2079543aefab533acdf90f6b1d5fcf03de2ceaf75e049f8fde990f9cb3a2a044",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/arrest-no-conviction-canonical-p18.png",
+              "sha256": "7c781b14daec77517e5abcddd5bbb38b85f52c63a5e05c16f6b60cdbc24da2d5",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            },
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/arrest-no-conviction-canonical-p19.png",
+              "sha256": "acce059fcb36ebbccc34a4f4a3f27ec68d99e74a6923b48f4df7e318b04e8b7b",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "canonical",
+          "identicalToCaptainBase": true
+        },
+        {
+          "family": "arrest-no-conviction",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "56727c67c1617feaa1ddc02dd8d22f4e0c8cf3ecb4fae7c98aeef2c5f7da16be",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/arrest-no-conviction-boundary-p18.png",
+              "sha256": "dccbd4765500fdb3d474974b5fe9ad7b568cbb28b8b0c233329e9117e37060f6",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            },
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/arrest-no-conviction-boundary-p19.png",
+              "sha256": "acce059fcb36ebbccc34a4f4a3f27ec68d99e74a6923b48f4df7e318b04e8b7b",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "boundary",
+          "identicalToCaptainBase": true
+        }
+      ],
+      "artifactChanges": false,
+      "freshRebuildExecuted": false,
+      "deterministicFullRebuildExecuted": false,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "sourceDependency": {
+        "documentId": "NJ-CN-10557",
+        "officialFormId": "CN-10557",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "byteLength": 1924831,
+        "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+        "sourcePath": "private/Nationwide Record Clearing/LegalEase New Jersey/10557_expunge_kit.pdf",
+        "available": false,
+        "recordedOfficialSourceUrl": null,
+        "recordedLandingPage": "https://www.njcourts.gov/self-help/expunge-record",
+        "landingPageResult": "HTTP 403 via web tool and direct urllib request",
+        "boundedRecovery": "No original by filename or exact 1924831-byte size under /tmp and /workspaces. Existing fixture/sample PDFs are not source originals and were not substituted.",
+        "officialPublicationLinkProbe": {
+          "url": "https://www.njcourts.gov/forms/10557_expunge_kit.pdf",
+          "linkFoundIn": "https://www.njcourts.gov/sites/default/files/notices/2018/06/n180612c.pdf",
+          "result": "HTTP 403; no source bytes recovered, no hash/size acceptance or source pin changed"
+        }
+      },
+      "actualSourceCheck": {
+        "command": [
+          "node",
+          "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+          "--check"
+        ],
+        "exitCode": 1,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_arrest_no_conviction-set-check.log"
+      },
+      "baselineCompletenessOnly": {
+        "command": [
+          "node",
+          "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+          "--family",
+          "nj_arrest_no_conviction-set"
+        ],
+        "exitCode": 0,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_arrest_no_conviction-set-baseline-completeness.log"
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "REPEATING_ROWS",
+        "KNOWN_PREFILLS",
+        "SOURCE_BOUND_REBUILD_TWICE",
+        "CURRENT_GENERATED_OUTPUT_ACCEPTANCE",
+        "INDEPENDENT_RE_READ",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES"
+      ],
+      "routesOpened": 0,
+      "productionTouched": false,
+      "visibleBaselineDefects": "Both current fixtures show Example Court in unselected diversion item (c), page 19. Boundary item (a), page 18, shows its date and court but no charge. Paragraph 1 shows charge and case number while date/statute/municipality remain blank. Caption, address, city, state/ZIP, telephone and names remain visible and legible."
+    },
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "BLOCKED_SOURCE",
+      "repairedByThisLane": false,
+      "obligationsRepaired": [],
+      "assignedObligations": [
+        "REPEATING_ROWS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "selectedCaptainSha": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "postMergeBase": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "claim": "Existing FIX88 claim asserted with claim.mjs --assert, CLAIM_OK, grant set a29f3e85387fe951; exit 0. No release, transfer, reissue or central ledger write.",
+      "codeCompleted": [
+        "The existing complete-or-untouched row mechanism now covers petition paragraph 1 as well as the previously repaired order arrest row.",
+        "A missing exact statute or municipality keeps the paragraph-1 charge and case number together off the form; no inferred fact is introduced.",
+        "The unwidgeted paragraph-1 arrest date is disclosed truthfully. Removed the obsolete instruction to copy a date from the withheld page-31 row.",
+        "The page-19 item (d) conviction group includes the exact statute, sentence, incarceration term, incarceration completion, probation completion and fine-payment cells. Without those unmapped facts its date/charge/court are withheld together.",
+        "Required-before-filing typed declarations identify the missing applicable conviction facts and optional continuation lines, without substituting a policy label for missing case facts."
+      ],
+      "currentFixtureInspection": [
+        {
+          "family": "disorderly-persons",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/disorderly-persons-canonical-p19.png",
+              "sha256": "529e7b4a38f7d8060f02644779298277577e005069a257260df4530ce9144d56",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "canonical",
+          "identicalToCaptainBase": true
+        },
+        {
+          "family": "disorderly-persons",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/disorderly-persons-boundary-p19.png",
+              "sha256": "e02504524f60f91765ad4525b30b0ad13b1fee505e04a7df4fc44085bf0ce363",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "boundary",
+          "identicalToCaptainBase": true
+        }
+      ],
+      "artifactChanges": false,
+      "freshRebuildExecuted": false,
+      "deterministicFullRebuildExecuted": false,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "sourceDependency": {
+        "documentId": "NJ-CN-10557",
+        "officialFormId": "CN-10557",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "byteLength": 1924831,
+        "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+        "sourcePath": "private/Nationwide Record Clearing/LegalEase New Jersey/10557_expunge_kit.pdf",
+        "available": false,
+        "recordedOfficialSourceUrl": null,
+        "recordedLandingPage": "https://www.njcourts.gov/self-help/expunge-record",
+        "landingPageResult": "HTTP 403 via web tool and direct urllib request",
+        "boundedRecovery": "No original by filename or exact 1924831-byte size under /tmp and /workspaces. Existing fixture/sample PDFs are not source originals and were not substituted.",
+        "officialPublicationLinkProbe": {
+          "url": "https://www.njcourts.gov/forms/10557_expunge_kit.pdf",
+          "linkFoundIn": "https://www.njcourts.gov/sites/default/files/notices/2018/06/n180612c.pdf",
+          "result": "HTTP 403; no source bytes recovered, no hash/size acceptance or source pin changed"
+        }
+      },
+      "actualSourceCheck": {
+        "command": [
+          "node",
+          "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+          "--check"
+        ],
+        "exitCode": 1,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_disorderly_persons-set-check.log"
+      },
+      "baselineCompletenessOnly": {
+        "command": [
+          "node",
+          "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+          "--family",
+          "nj_disorderly_persons-set"
+        ],
+        "exitCode": 0,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_disorderly_persons-set-baseline-completeness.log"
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "REPEATING_ROWS",
+        "SOURCE_BOUND_REBUILD_TWICE",
+        "CURRENT_GENERATED_OUTPUT_ACCEPTANCE",
+        "INDEPENDENT_RE_READ",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES"
+      ],
+      "routesOpened": 0,
+      "productionTouched": false,
+      "visibleBaselineDefects": "Both current fixtures show conviction date 2019-11-02, charge text and Example Court in item (d), page 19, while statute, final sentence and all required completion cells remain blank. Those are current defects despite the old completeness report returning PASS_COMPLETE."
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "BLOCKED_SOURCE",
+      "repairedByThisLane": false,
+      "obligationsRepaired": [],
+      "assignedObligations": [
+        "REPEATING_ROWS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "selectedCaptainSha": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "postMergeBase": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "claim": "Existing FIX88 claim asserted with claim.mjs --assert, CLAIM_OK, grant set a29f3e85387fe951; exit 0. No release, transfer, reissue or central ledger write.",
+      "codeCompleted": [
+        "The existing complete-or-untouched row mechanism now covers petition paragraph 1 as well as the previously repaired order arrest row.",
+        "A missing exact statute or municipality keeps the paragraph-1 charge and case number together off the form; no inferred fact is introduced.",
+        "The unwidgeted paragraph-1 arrest date is disclosed truthfully. Removed the obsolete instruction to copy a date from the withheld page-31 row.",
+        "The page-19 item (d) conviction group includes the exact statute, sentence, incarceration term, incarceration completion, probation completion and fine-payment cells. Without those unmapped facts its date/charge/court are withheld together.",
+        "Required-before-filing typed declarations identify the missing applicable conviction facts and optional continuation lines, without substituting a policy label for missing case facts."
+      ],
+      "currentFixtureInspection": [
+        {
+          "family": "indictable-conviction",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/indictable-conviction-canonical-p19.png",
+              "sha256": "529e7b4a38f7d8060f02644779298277577e005069a257260df4530ce9144d56",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "canonical",
+          "identicalToCaptainBase": true
+        },
+        {
+          "family": "indictable-conviction",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/indictable-conviction-boundary-p19.png",
+              "sha256": "e02504524f60f91765ad4525b30b0ad13b1fee505e04a7df4fc44085bf0ce363",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "boundary",
+          "identicalToCaptainBase": true
+        }
+      ],
+      "artifactChanges": false,
+      "freshRebuildExecuted": false,
+      "deterministicFullRebuildExecuted": false,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "sourceDependency": {
+        "documentId": "NJ-CN-10557",
+        "officialFormId": "CN-10557",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "byteLength": 1924831,
+        "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+        "sourcePath": "private/Nationwide Record Clearing/LegalEase New Jersey/10557_expunge_kit.pdf",
+        "available": false,
+        "recordedOfficialSourceUrl": null,
+        "recordedLandingPage": "https://www.njcourts.gov/self-help/expunge-record",
+        "landingPageResult": "HTTP 403 via web tool and direct urllib request",
+        "boundedRecovery": "No original by filename or exact 1924831-byte size under /tmp and /workspaces. Existing fixture/sample PDFs are not source originals and were not substituted.",
+        "officialPublicationLinkProbe": {
+          "url": "https://www.njcourts.gov/forms/10557_expunge_kit.pdf",
+          "linkFoundIn": "https://www.njcourts.gov/sites/default/files/notices/2018/06/n180612c.pdf",
+          "result": "HTTP 403; no source bytes recovered, no hash/size acceptance or source pin changed"
+        }
+      },
+      "actualSourceCheck": {
+        "command": [
+          "node",
+          "scripts/build-census-v1-nj_indictable_conviction-set.mjs",
+          "--check"
+        ],
+        "exitCode": 1,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_indictable_conviction-set-check.log"
+      },
+      "baselineCompletenessOnly": {
+        "command": [
+          "node",
+          "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+          "--family",
+          "nj_indictable_conviction-set"
+        ],
+        "exitCode": 0,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_indictable_conviction-set-baseline-completeness.log"
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "REPEATING_ROWS",
+        "SOURCE_BOUND_REBUILD_TWICE",
+        "CURRENT_GENERATED_OUTPUT_ACCEPTANCE",
+        "INDEPENDENT_RE_READ",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES"
+      ],
+      "routesOpened": 0,
+      "productionTouched": false,
+      "visibleBaselineDefects": "Both current fixtures show conviction date 2019-11-02, charge text and Example Court in item (d), page 19, while statute, final sentence and all required completion cells remain blank. Those are current defects despite the old completeness report returning PASS_COMPLETE."
+    },
+    {
+      "itemId": "nj_ordinance-set",
+      "lane": "FIX88",
+      "laneKind": "repair",
+      "status": "BLOCKED_SOURCE",
+      "repairedByThisLane": false,
+      "obligationsRepaired": [],
+      "assignedObligations": [
+        "REPEATING_ROWS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "selectedCaptainSha": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "postMergeBase": "303dba65a3d0c232012fe89ea0363127c3448b4b",
+      "claim": "Existing FIX88 claim asserted with claim.mjs --assert, CLAIM_OK, grant set a29f3e85387fe951; exit 0. No release, transfer, reissue or central ledger write.",
+      "codeCompleted": [
+        "The existing complete-or-untouched row mechanism now covers petition paragraph 1 as well as the previously repaired order arrest row.",
+        "A missing exact statute or municipality keeps the paragraph-1 charge and case number together off the form; no inferred fact is introduced.",
+        "The unwidgeted paragraph-1 arrest date is disclosed truthfully. Removed the obsolete instruction to copy a date from the withheld page-31 row.",
+        "The page-19 item (d) conviction group includes the exact statute, sentence, incarceration term, incarceration completion, probation completion and fine-payment cells. Without those unmapped facts its date/charge/court are withheld together.",
+        "Required-before-filing typed declarations identify the missing applicable conviction facts and optional continuation lines, without substituting a policy label for missing case facts.",
+        "The guide now discloses the printed N.J.S.A. line on this ordinance route, the absent exact ordinance citation/substitution instruction, and the existing classification self-help stop. It asks for actual court-record facts and court-specific completion confirmation without inventing a state statute."
+      ],
+      "currentFixtureInspection": [
+        {
+          "family": "ordinance",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+          "sha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/ordinance-canonical-p19.png",
+              "sha256": "529e7b4a38f7d8060f02644779298277577e005069a257260df4530ce9144d56",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "canonical",
+          "identicalToCaptainBase": true
+        },
+        {
+          "family": "ordinance",
+          "file": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+          "sha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+          "rasters": [
+            {
+              "file": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/baseline-300dpi/ordinance-boundary-p19.png",
+              "sha256": "e02504524f60f91765ad4525b30b0ad13b1fee505e04a7df4fc44085bf0ce363",
+              "widthPx": 2550,
+              "heightPx": 3300,
+              "dpi": 300,
+              "engine": "Poppler pdftoppm 24.02.0",
+              "visuallyInspected": true
+            }
+          ],
+          "fixture": "boundary",
+          "identicalToCaptainBase": true
+        }
+      ],
+      "artifactChanges": false,
+      "freshRebuildExecuted": false,
+      "deterministicFullRebuildExecuted": false,
+      "centralRasterAcceptedForNewBytes": false,
+      "independentVerdictIssued": false,
+      "sourceDependency": {
+        "documentId": "NJ-CN-10557",
+        "officialFormId": "CN-10557",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "byteLength": 1924831,
+        "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+        "sourcePath": "private/Nationwide Record Clearing/LegalEase New Jersey/10557_expunge_kit.pdf",
+        "available": false,
+        "recordedOfficialSourceUrl": null,
+        "recordedLandingPage": "https://www.njcourts.gov/self-help/expunge-record",
+        "landingPageResult": "HTTP 403 via web tool and direct urllib request",
+        "boundedRecovery": "No original by filename or exact 1924831-byte size under /tmp and /workspaces. Existing fixture/sample PDFs are not source originals and were not substituted.",
+        "officialPublicationLinkProbe": {
+          "url": "https://www.njcourts.gov/forms/10557_expunge_kit.pdf",
+          "linkFoundIn": "https://www.njcourts.gov/sites/default/files/notices/2018/06/n180612c.pdf",
+          "result": "HTTP 403; no source bytes recovered, no hash/size acceptance or source pin changed"
+        }
+      },
+      "actualSourceCheck": {
+        "command": [
+          "node",
+          "scripts/build-census-v1-nj_ordinance-set.mjs",
+          "--check"
+        ],
+        "exitCode": 1,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_ordinance-set-check.log"
+      },
+      "baselineCompletenessOnly": {
+        "command": [
+          "node",
+          "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+          "--family",
+          "nj_ordinance-set"
+        ],
+        "exitCode": 0,
+        "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/nj_ordinance-set-baseline-completeness.log"
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "REPEATING_ROWS",
+        "SOURCE_BOUND_REBUILD_TWICE",
+        "CURRENT_GENERATED_OUTPUT_ACCEPTANCE",
+        "INDEPENDENT_RE_READ",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES"
+      ],
+      "routesOpened": 0,
+      "productionTouched": false,
+      "visibleBaselineDefects": "Both current fixtures show conviction date 2019-11-02, charge text and Example Court in item (d), page 19, while statute, final sentence and all required completion cells remain blank. Those are current defects despite the old completeness report returning PASS_COMPLETE."
+    }
+  ],
+  "routesOpened": 0,
+  "productionTouched": false,
+  "builderSourceSha256": "69cad81ed8ddc1c4a86077cdff9b9a84075dc09f337c40da8e4c0a10bf37b4ff",
+  "pushedImplementationCheckpoint": "bc58c523154c767a99b0ae7727076a913a18b4a6",
+  "environmentPreflight": {
+    "command": "NODE_PATH=/tmp/fix91-tools/node_modules node scripts/verify-packet-build-environment.mjs --family nj_arrest_no_conviction-set --branch fix88-nj-repeating-rows --require-rasterizer",
+    "runAtCleanHead": "bc58c523154c767a99b0ae7727076a913a18b4a6",
+    "exitCode": 1,
+    "passed": 12,
+    "failed": 5,
+    "log": "data/rcap-grade-a/packet-factory-24h/fix88/evidence/commands/environment-preflight.log",
+    "failedChecks": [
+      "browser_environment_exported",
+      "master_library_mounted",
+      "master_library_complete",
+      "corpus_matches_committed_index",
+      "family_sources_bind"
+    ],
+    "actualRasterCapability": "pdftoppm 24.02.0 available; Chromium 1223 actually rendered a page at 2040x2640. Browser environment exports and corpus environment declarations remain absent; this is not a full environment pass."
+  },
+  "captainIntegration": {
+    "recordedAtBase": "f8ecf9321",
+    "workerCheckpoint": "2608baae07ac7567c9fe66803aeaae7fb0d1da23",
+    "workerBranch": "fix88-nj-repeating-rows",
+    "status": "BLOCKED_SOURCE",
+    "codeIntegrated": false,
+    "reason": "Unrebuilt scoped builder changes are preserved on the published worker branch. Only this source-blocked return and its evidence are integrated; no repair obligation is discharged and no current fixture changes.",
+    "historicalReturn": null
+  }
+}

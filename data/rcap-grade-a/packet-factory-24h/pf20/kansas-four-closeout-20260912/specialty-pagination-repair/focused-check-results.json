@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "familyId": "ks-21-6614-specialty-court-set",
+  "result": "PASS",
+  "packetPdfsChanged": true,
+  "tests": [
+    {
+      "command": "node scripts/test-ks-specialty-pagination-repair.mjs",
+      "result": "PASS",
+      "assertions": 30,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/focused-pagination-test.log"
+    },
+    {
+      "command": "node --test scripts/test-kansas-shared-packets.mjs",
+      "result": "PASS",
+      "tests": 23,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/existing-kansas-tests.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ks-21-6614-specialty-court-set.mjs --check",
+      "result": "PASS",
+      "sourcesBound": 6,
+      "recordsBound": 2,
+      "anchorsVerified": 12,
+      "fieldsCensused": 227,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/source-binding-check.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-specialty-court-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/specialty-pagination-repair/completeness.log"
+    }
+  ],
+  "totals": {
+    "commandsPassed": 4,
+    "commandsFailed": 0,
+    "focusedAssertionsPassed": 30,
+    "existingTestsPassed": 23
+  },
+  "packets": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/canonical.pdf",
+      "beforeSha256": "a3599e5f42ba128c0b97d138c7686d0db22124596bd59d4c9018d45d5aab397e",
+      "afterSha256": "dc5d6c926c0fd3bc9e1968ab71c0fb7f44a49dd080ac5806b8f6ef1d1401e0fd",
+      "beforePages": 21,
+      "afterPages": 20,
+      "fullExtractedTextPreserved": true,
+      "oldPage20Text": "the court will decide.",
+      "repairedFinalLine": {
+        "page": 19,
+        "text": "the court will decide.",
+        "size": 11,
+        "baseFont": "Times-Roman",
+        "y": 86.40000000000066
+      },
+      "feeRequestPage": 20
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/ks/ks-21-6614-specialty-court-set--official-pdf-fill/fixtures/boundary.pdf",
+      "beforeSha256": "ad694509231c26092d220ec355a5098466a648a428e87a401d6086491a418af1",
+      "afterSha256": "3e6f1b59b8338471f62bbc5ce2b962a04125aa155e36b4393211be2303ae700a",
+      "beforePages": 21,
+      "afterPages": 20,
+      "fullExtractedTextPreserved": true,
+      "oldPage20Text": "the court will decide.",
+      "repairedFinalLine": {
+        "page": 19,
+        "text": "the court will decide.",
+        "size": 11,
+        "baseFont": "Times-Roman",
+        "y": 86.40000000000066
+      },
+      "feeRequestPage": 20
+    }
+  ],
+  "siblingPdfsUnchanged": 6,
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null
+  },
+  "rasterState": "BUILT_RASTER_PENDING",
+  "independentReview": "PENDING_CURRENT_BYTE_RASTER_AND_REVIEW"
+}

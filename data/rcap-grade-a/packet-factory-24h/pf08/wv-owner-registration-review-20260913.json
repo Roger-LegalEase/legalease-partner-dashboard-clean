@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "rcap-wv-owner-registration-review/v1",
+  "reviewer": "/root/resume_ks_custody",
+  "reviewedAt": "2026-09-13T05:32:29Z",
+  "independence": {
+    "independentOfAdoptionAuthor": true,
+    "independentOfRegistryAuthor": true,
+    "packetApprovalPerformed": false,
+    "sourceAcquisitionPerformed": false,
+    "sourceAuditPerformed": false,
+    "legalResearchReopened": false,
+    "sharedMutationPerformed": false
+  },
+  "observedWorkspace": {
+    "head": "dc6e4b148e605e5deedf7fabb97a0ea1080931cd",
+    "branch": "claude/legalease-sprint-captain-utucnw",
+    "adoptionCommit": "92f02f8c1c91303a8af9af4d49cc65b2393416a8",
+    "adoptionCommitIsAncestor": true,
+    "adoptionRecordCurrentEqualsCommit": true,
+    "workingTreePreserved": true,
+    "queueChangedByThisReturn": false,
+    "sourceCustodyChangedByThisReturn": false
+  },
+  "adoptionRecord": {
+    "path": "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json",
+    "sha256": "3b8c097d46900756e43527a96fb57e52b07e08f26909820ce4912a6c67c02a63",
+    "byteLength": 8946,
+    "scope": "wv_nc_acquittal_dismissal-set: disposition-specific two-branch implementation under existing \u00a761-11-25; no coverage reduction",
+    "owner": "Roger Roman",
+    "instructionDate": "2026-09-13",
+    "decisionFamilyIds": [
+      "wv_nc_acquittal_dismissal-set"
+    ],
+    "legalClearFamilyIds": [
+      "wv_nc_acquittal_dismissal-set"
+    ],
+    "legalHoldFamilyIds": [],
+    "decisionId": "WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913",
+    "adoptedRevisionIds": [
+      "DISMISSAL_BRANCH",
+      "ACQUITTAL_BRANCH",
+      "SHARED_ROUTE_RULES",
+      "ROUTING",
+      "SOURCE_GOVERNANCE_CORRECTIONS",
+      "ACCEPTANCE"
+    ],
+    "adoptedRevisionNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "provenanceFlags": {
+      "ownerAdoption": true,
+      "counselApproval": false,
+      "courtRuling": false,
+      "packetPass": false,
+      "terminalPromotion": false,
+      "productionAuthorization": false,
+      "commercialAuthority": false
+    }
+  },
+  "ownerScopeAudit": {
+    "ownerDecisionIdentity": {
+      "result": "PASS",
+      "verified": [
+        "The record identifies Roger Roman and the 2026-09-13 owner instruction.",
+        "The scope names one family and explicitly preserves both branches without coverage reduction.",
+        "The exact current adoption bytes match the recorded SHA-256 and the adoption commit is an ancestor of the review HEAD."
+      ]
+    },
+    "dismissalBranch": {
+      "result": "PASS",
+      "verifiedRules": [
+        "SCA-C903 is retained only for an actual outright dismissal within the supported \u00a761-11-25 branch.",
+        "Dismissal allegations use actual dismissal facts and preserve current source identity/version handling.",
+        "No acquittal facts are written into SCA-C903 dismissal blanks."
+      ]
+    },
+    "acquittalBranch": {
+      "result": "PASS",
+      "verifiedRules": [
+        "Acquittal or found-not-guilty disposition uses a separate LegalEase court-facing civil petition under \u00a761-11-25 with ordinary circuit-court caption and traditional pleading.",
+        "The record expressly forbids filing SCA-C903 with repurposed, relabeled or falsely completed dismissal blanks.",
+        "The record preserves the participant-supplied certified acquittal order as required-before-filing evidence."
+      ]
+    },
+    "supportedFactsAndEvidence": {
+      "result": "PASS",
+      "verifiedRules": [
+        "The adopted supported fact set covers participant/movant identity, circuit and underlying court/case identifiers, arrest or charging agency, actual charges, acquittal/found-not-guilty disposition, actual order date, 60-day timing, no prior felony, no related pending case and requested relief.",
+        "The certified acquittal order is explicitly participant-supplied and required before filing."
+      ]
+    },
+    "protectedFieldsAndFailClosedRouting": {
+      "result": "PASS",
+      "verifiedRules": [
+        "Dismissal date/reason, dismissal-based plea assertion, prosecutorial approval, court findings, judicial signatures and order-entry information may not be manufactured.",
+        "Unclear, inconsistent, mixed or unsupported dispositions stop for clarification/manual review.",
+        "Acquittal is never silently converted to dismissal, and dismissal is never silently converted to acquittal."
+      ]
+    },
+    "sharedStatutoryAndServiceControls": {
+      "result": "PASS",
+      "verifiedRules": [
+        "Both branches preserve prior-felony disqualification, statutory exclusions, 60 days from the actual order, circuit-court destination, no fees or costs under \u00a761-11-25(g), discretionary hearing, related-pending-case check, agency certification and post-order treatment.",
+        "Notice to the prosecutor/arresting agency remains court-controlled if a hearing is set.",
+        "The record does not invent participant service from the SCA-C903 certificate section."
+      ]
+    },
+    "sourceGovernanceDirection": {
+      "result": "PASS",
+      "verifiedRules": [
+        "The historical finding that both inspected SCA-C903 binaries have dismissal-only operative bodies is preserved.",
+        "The owner record directs correction of manifest/queue binary identity and the unreadable classification for a readable encrypted-flat PDF without changing the statute or authorizing edits to official allegations.",
+        "These are downstream source/implementation corrections; this registration did not perform a source audit or custody change."
+      ]
+    },
+    "acceptanceBoundary": {
+      "result": "PASS",
+      "verifiedRule": "The record is implementation direction only and grants no packet PASS, independent acceptance, raster PASS, terminal promotion, commercial authority or production authority."
+    }
+  },
+  "registrationAudit": {
+    "authorReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/wv-owner-registration-return-20260913.json",
+      "sha256": "f234067f7dc1b7e8330e2a3156e815c5374843e5fa996c3c21fc18e72a15d97d",
+      "byteLength": 3681,
+      "status": "IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW",
+      "workspaceHeadAtReturn": "dc6e4b148e605e5deedf7fabb97a0ea1080931cd",
+      "adoptionRecordHeldUnchanged": true
+    },
+    "registryTargets": [
+      "scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs",
+      "scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs"
+    ],
+    "changeIsAdditiveAndScoped": true,
+    "workingTreeDiffAgainstAuthorBase": {
+      "base": "dc6e4b148e605e5deedf7fabb97a0ea1080931cd",
+      "sha256": "a46631266c16b09d66b4a4f8da2040c03e9bf87f8f1805e3b0d63fb958a62ffc",
+      "byteLength": 7323,
+      "whitespaceCheck": "PASS",
+      "changedPaths": [
+        "scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs",
+        "scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs"
+      ],
+      "queueSourcePacketPathsChanged": false
+    },
+    "independentChecks": [
+      {
+        "command": "source private/source-corpus-environment.txt && node scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+        "result": "PASS",
+        "observed": "LEGAL_BLOCK_RESOLUTION_SCHEMA_OK: base 29+1+1+1+1+1+1 clear and 6 hold; exact owner-attestation supersession yields 41 clear; malformed/conflicting records refused; exact review-base byte ordering enforced; released VF20 repacks to VF02 while live VF20 stays pinned"
+      },
+      {
+        "command": "node --check scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs && node --check scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+        "result": "PASS"
+      },
+      {
+        "command": "git diff --check dc6e4b148e605e5deedf7fabb97a0ea1080931cd -- registry targets",
+        "result": "PASS"
+      },
+      {
+        "check": "loadLegalBlockResolutions(current root)",
+        "result": "PASS",
+        "observed": "8 records, 41 clear families, 0 hold families; WV resolves exactly to LEGAL_CLEAR decision WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913"
+      },
+      {
+        "check": "owner-language and exact-byte audit",
+        "result": "PASS",
+        "observed": "16 required owner-direction concepts present; adoption SHA and preserved historical-finding SHA match recorded values"
+      }
+    ],
+    "generatedQueueIntegrationTest": {
+      "result": "NOT_RUN_BY_DESIGN",
+      "reason": "The author explicitly registered legal direction only and did not change MASTER_QUEUE; current WV row remains PRODUCT_PATH_PENDING with no currentLegalResolution, so Captain must perform scoped integration before generated queue assertions can apply."
+    }
+  },
+  "nonGrantsAudit": {
+    "result": "PASS",
+    "provenanceFlags": {
+      "ownerAdoption": true,
+      "counselApproval": false,
+      "courtRuling": false,
+      "packetPass": false,
+      "terminalPromotion": false,
+      "productionAuthorization": false,
+      "commercialAuthority": false
+    },
+    "registrationPreservesNoPromotion": true,
+    "familyBoundaryPreserved": true,
+    "queueRemainsUnreleased": true,
+    "packetAndRasterGatesRemainOpen": true
+  },
+  "preservedEvidence": {
+    "historicalFinding": {
+      "path": "docs/rcap/grade-a/owner-decisions/WV_SCA_C903_HAS_NO_ACQUITTAL_GROUND.md",
+      "sha256": "b931be52d5955afc42ee5f15815d68298ffaad775e72cdca4ded5d6f069cfaec",
+      "status": "open, for Roger; Grants nothing",
+      "currentHashMatchesRecordedBinding": true,
+      "remainsHistoricalEvidenceOnly": true
+    },
+    "adoptionRecord": {
+      "path": "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json",
+      "sha256": "3b8c097d46900756e43527a96fb57e52b07e08f26909820ce4912a6c67c02a63",
+      "currentHashMatchesAdoptionCommit": true,
+      "adoptionCommit": "92f02f8c1c91303a8af9af4d49cc65b2393416a8"
+    },
+    "priorRegistrationReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/wv-owner-registration-return-20260913.json",
+      "sha256": "f234067f7dc1b7e8330e2a3156e815c5374843e5fa996c3c21fc18e72a15d97d",
+      "currentHashMatchesRecordedBinding": true
+    }
+  },
+  "verdict": "PASS",
+  "materialMissingConditions": [],
+  "nextGate": "Captain may perform the scoped legal-resolution integration. The current queue remains PRODUCT_PATH_PENDING until that integration. The subsequent implementer must build both owner-directed branches and prove the required exclusive routing, certified-order, protected-field, ambiguity-stop and shared-instruction tests, followed by independent semantics, frozen current-byte raster/original-page review, native integration and all ordinary terminal gates. This review approves registration of the owner direction only; it does not approve a packet, source custody, raster, route, terminal or production."
+}

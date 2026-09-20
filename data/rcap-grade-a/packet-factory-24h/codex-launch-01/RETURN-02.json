@@ -1,0 +1,958 @@
+{
+  "schemaVersion": "rcap-launch-engineering-return/v1",
+  "lane": "CODEX-LAUNCH-01",
+  "continuationId": "codex-launch-01-continuation-v1",
+  "recordedOn": "2026-09-05",
+  "status": "OUTCOME_A_COMPLETE_OUTCOME_B_IN_SCOPE_WIRING_PUSHED_WITH_EXACT_PROTECTED_DEPENDENCIES",
+  "selectedCaptainSha": "691110a4dd9620ff66227c8d7d3dbe025979af3c",
+  "postMergeWorkerHead": "1b53746534d638c34899551df835cccccd100986",
+  "base": "1b53746534d638c34899551df835cccccd100986",
+  "diffBase": "1b53746534d638c34899551df835cccccd100986",
+  "branch": "codex/launch-01-il-delivery",
+  "commit": "34532e7bc4a8d2b4d2b34f70cd64af43a0f9bc43",
+  "commitMeaning": "Latest executable application/worker implementation commit. A subsequent handoff commit contains this return and a test-only correction to hash Buffer bytes; it does not change canonical worker inputs. The handoff commit is identified by the worker branch HEAD after publication.",
+  "recovery": {
+    "initialWorkerHead": "fb462a3c1544d4a23a077ea61f245e691bfd07dd",
+    "initialWorktree": "clean; preserved earlier implementation and return",
+    "merge": "ordinary merge of the selected Captain; no reset, rebase, force push, main branch, duplicate phase-one application or later Captain restart"
+  },
+  "pushedCommits": [
+    "1b53746534d638c34899551df835cccccd100986",
+    "c2f45006cadf85694cada918ccfc2dbb6b329c05",
+    "62b2cdca6fff6fd3e5e3ad40903498bf8a978c60",
+    "34532e7bc4a8d2b4d2b34f70cd64af43a0f9bc43"
+  ],
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN-02.json",
+    "scripts/rcap-render-worker.mjs",
+    "scripts/test-rcap-il-authority-fixture.mjs",
+    "scripts/test-rcap-il-delivery-boundaries.mjs",
+    "scripts/test-rcap-il-delivery-ephemeral.mjs",
+    "scripts/test-rcap-il-delivery-loader.mjs",
+    "scripts/test-rcap-il-personalization.mjs",
+    "scripts/verify-rcap-il-consumer-authority.mjs",
+    "scripts/verify-rcap-il-delivery-binding.mjs",
+    "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+    "src/lib/expungement-ai/packet-generation.ts",
+    "src/lib/expungement-ai/payment-adapter.ts",
+    "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+    "src/lib/rcap/render/job-queue.ts",
+    "src/lib/rcap/render/packet-delivery.ts",
+    "src/lib/rcap/render/personalized-packet.ts"
+  ],
+  "verifiersBefore": [
+    {
+      "command": "node /tmp/codex-launch-01-continuation/baseline-binding.mjs",
+      "exitCode": 1,
+      "verifierSource": "1b53746534d638c34899551df835cccccd100986:scripts/verify-rcap-il-delivery-binding.mjs",
+      "note": "Original baseline verifier with import paths relocated; its resolver, job-contract, commercial-admission and authority dependencies are unchanged from the continuation base. Registry is the unchanged committed registry."
+    }
+  ],
+  "baselineFailure": "The original binding verifier at the continuation base exits 1 because it expects admission from the committed revoked IL record. Only its import paths were relocated for reproduction; resolver, admission, authority and job-contract dependencies were unchanged.",
+  "verifiersAfter": [
+    {
+      "command": "node scripts/verify-route-resolution.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-0.log",
+      "logSha256": "849b08e85411f93df2d86604487347a58afd43c012120cdd8821d8ecf4927dfa",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-1.log",
+      "logSha256": "1b342f4e08cda8e8bb2bbbd26cfc781588a11703628c780e3b0e424bb9ce574f",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-2.log",
+      "logSha256": "062cc558cf7d896ca4f5024b5d3dbe5ec4e73154073d517996ece44d85cb00c5",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-3.log",
+      "logSha256": "53e51a210b1a929951fdd363b364e0089a64c26b1655d35d32f0d7b53d7a2fdf",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs --check",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-4.log",
+      "logSha256": "d8b75e8dbd8f2dfcaf13fa89b353ac07aea04d8de6d05f9dbf5f11ba58693bca",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-5.log",
+      "logSha256": "9121186c887b075d503d929641d5c66d564d0518b1926c805f6dd4509dc10142",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-6.log",
+      "logSha256": "8d7161c7689f04fe0c5bbac94391997ec98cdef226a691a95afd532f9607ae2e",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-7.log",
+      "logSha256": "9c4f02ebe449a85ef0b95b2981ec86291e2f60471aa40aadda085d4b48864a14",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-8.log",
+      "logSha256": "b287abd41f0e8158ed0a81d38faeaaa2967d0bd6053d9ac64a549e5abff13841",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-9.log",
+      "logSha256": "5f03a22face5bd30a7538f5ded839e5bf5e0e1a0c0cf67bb8f8deffdc5db0e2d",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-10.log",
+      "logSha256": "be1cbda60a59d49a36c0c14d76bd31d1ce6805d3806f5a9334b0054f836ec863",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-11.log",
+      "logSha256": "d5c5b1aab55c6931f4f98cdbf29c0bbee424d5354d575115207a9ffbacf60313",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-12.log",
+      "logSha256": "4663274b2aeb262e8b2ae0870bde01d039c5c069047caf7783eb7bdc6bb1eb99",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-13.log",
+      "logSha256": "5ff8e6c5d49663d0d4def799b44606c49c403f772a9d37eb00f22cccbfb3c97b",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-path.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-14.log",
+      "logSha256": "c8f2da9949b276fddcaabec380515bd2caab8b80e0ab4c39fb72c5bc791af762",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-jobs.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-15.log",
+      "logSha256": "a1fedd313f756672e03c444632febc71a5b65c1e9d4d592ca95c97eda4bfb30e",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-contract.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-16.log",
+      "logSha256": "879e0885f5835b0f1afeb27449a299906886347ab31620d4b7f86d3e8f3683fc",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-render-job-contract.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-17.log",
+      "logSha256": "040fec6c62c1f71479292611e4fbe4777b01b616e944cca12de2afb4fed486ae",
+      "result": "PASS",
+      "category": "local verifier"
+    },
+    {
+      "command": "node scripts/verify-rcap-render-worker-delivery.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-01-continuation/published-18.log",
+      "logSha256": "3773a26b7bd38357e8e69c4e482ef13fd84cc30bd47fea88204abe8677276af9",
+      "result": "FAIL",
+      "category": "local integration with fixed-PDF test adapter",
+      "failure": "Preserved canonical-PDF pin assertion: expected 7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d; current Captain PDF d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657. Downstream IL fixture assertions are not completed."
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-e2e.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-01-continuation/published-19.log",
+      "logSha256": "1a8b59d3833b32578712ff072e689330e41c9d51ebf2e2e0bdb00df1c471b66c",
+      "result": "FAIL",
+      "category": "local integration with fixed-PDF test adapter",
+      "failure": "Preserved canonical-PDF pin assertion: expected 7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d; current Captain PDF d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657. Downstream IL fixture assertions are not completed."
+    },
+    {
+      "command": "node scripts/verify-rcap-il-delivery-binding.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-20.log",
+      "logSha256": "5bae68f1babc538865ef3b4aee39aa27f9bfc3a382ad711570b9de7c4ae70dfa",
+      "result": "PASS",
+      "category": "unit binding logic plus committed-registry runtime decision"
+    },
+    {
+      "command": "node scripts/verify-rcap-il-consumer-authority.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-21.log",
+      "logSha256": "b6d4ae9feb9d78aa71836af1b1b0d8f1053bcb4163b00087983016a96dcb0421",
+      "result": "PASS",
+      "category": "unit binding logic plus committed-registry runtime decision"
+    },
+    {
+      "command": "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-22.log",
+      "logSha256": "189130612e5fe2278ac6bb7235c290ade1d5ffe7dfce79b4176e8b6f639cb32e",
+      "result": "PASS",
+      "category": "local integration through real generation, SQL queue and worker adapter",
+      "evidence": "Two immutable participant inputs, duplicate/failed-retry job reuse, renderer failure, zero artifacts/consumption, no Ready/download. Successful PDF personalization is NOT claimed."
+    },
+    {
+      "command": "node scripts/test-rcap-il-personalization.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-01-continuation/published-23.log",
+      "logSha256": "6ff1cd013b9ec7257f0eb4f86b66566421cdaa43657ff2c67a0cb32d0cefce9d",
+      "result": "FAIL",
+      "category": "full local personalization acceptance",
+      "failure": "Actual renderGradeAPacketPdf throws: Pleading document primary_filing has no pleading caption. runWorkerCycle returns failed/render_failed; expected finalized. PDF content, successful accounting, artifact provenance and download assertions after this point were NOT executed."
+    },
+    {
+      "command": "npx tsc --noEmit -p .",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/published-24.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result": "PASS",
+      "category": "TypeScript static check"
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs",
+      "exitCode": 0,
+      "result": "PASS",
+      "category": "default generator",
+      "evidence": "Both JSON and companion Markdown generated; both byte-identical to selected continuation baseline."
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs --check",
+      "exitCode": 0,
+      "result": "PASS",
+      "category": "default generator check",
+      "evidence": "Both default output files current."
+    },
+    {
+      "command": "npx eslint scripts/rcap-render-worker.mjs scripts/test-rcap-il-authority-fixture.mjs scripts/test-rcap-il-delivery-boundaries.mjs scripts/test-rcap-il-delivery-ephemeral.mjs scripts/test-rcap-il-delivery-loader.mjs scripts/test-rcap-il-personalization.mjs scripts/verify-rcap-il-consumer-authority.mjs scripts/verify-rcap-il-delivery-binding.mjs src/lib/expungement-ai/packet-fulfillment-authority.ts src/lib/expungement-ai/packet-generation.ts src/lib/expungement-ai/payment-adapter.ts src/lib/rcap/fulfillment/consumer-specification-binding.ts src/lib/rcap/render/job-queue.ts src/lib/rcap/render/packet-delivery.ts src/lib/rcap/render/personalized-packet.ts",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-01-continuation/handoff-eslint.log",
+      "result": "PASS",
+      "category": "ESLint on every changed executable file",
+      "note": "0 errors; one pre-existing unused slug warning in packet-generation.ts."
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0,
+      "result": "PASS",
+      "category": "patch check"
+    },
+    {
+      "command": "createWorkerInputPlan from scripts/rcap-hosted-acceptance-worker-input-plan.mjs (read-only; candidate 34532e7bc4a8d2b4d2b34f70cd64af43a0f9bc43)",
+      "exitCode": 0,
+      "result": "REBUILD_REQUIRED",
+      "category": "worker-input publication check"
+    }
+  ],
+  "acceptanceSummary": {
+    "mainCommandCount": 25,
+    "passed": 22,
+    "failed": 3,
+    "note": "Counts cover the 25-command published-acceptance rerun. Generator, ESLint, patch and fingerprint invocations are additionally recorded. Failures are not passes; downstream blocked assertions are not counted as executed. Temporary logs may not persist outside this workspace; error text and evidence are embedded in this return."
+  },
+  "outcomeA": {
+    "closed": true,
+    "evidence": [
+      "Consumer lookup now reads canonical Grade-A registry/evaluator/admission observation and exact registered provider/specification metadata. Missing duplicate older-ledger entries do not deny valid canonical records.",
+      "Exact server-selected track/family plus current-verification binding reaches checkout/generation/delivery. Missing, wildcard, automatic sibling and mismatched specification/family/route/jurisdiction fail closed.",
+      "Synthetic valid case and 15 negative consumer authority cases pass through the production disk loader. Existing independent payment/owner/sponsorship/rollout gates remain; no approval ledger was populated.",
+      "Committed registry is independently checked: version 2 REVOKED, allowed=false / fulfillment_revoked. No real packet approval inferred."
+    ]
+  },
+  "outcomeB": {
+    "closed": false,
+    "evidence": [
+      "Assigned consumer generation now reaches the existing protected enqueue operation and durable job system using immutable verified facts and exact route/track/family/specification/matter/owner/current-verification identities.",
+      "Actual executable worker adapter loads/verifies immutable input and current protected snapshot, then invokes the existing real composer/PDF renderer. Legacy provider path for other routes is preserved.",
+      "Download binding checks both specification content and canonical file hashes, current verification, owner, matter, family and track. Failed duplicate requests reuse the existing job rather than minting a new failed job.",
+      "Real local integration confirms two distinct input payloads and failure/retry isolation. Actual renderer cannot complete with current protected packet code. Sponsored entry explicitly refuses the unavailable protected transaction. No replacement renderer, database side channel or second architecture was added."
+    ],
+    "remainingDependencies": [
+      {
+        "id": "B-PACKET-RENDERER",
+        "owner": "Captain / packet repair lane",
+        "status": "BLOCKED_OUTSIDE_RESERVED_SCOPE",
+        "files": [
+          "src/lib/rcap/grade-a/composer.ts",
+          "src/lib/rcap/grade-a/renderer.ts",
+          "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+          "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs"
+        ],
+        "finding": "The registered IL specification uses presentation=pleading with generic caption/static/signature sections. composeGradeAPacket produces those generic blocks; renderer.ts:140 requires a pleading_caption and rejects primary_filing. The family builder exposes a fixture-writing runFamily rather than a pure participant renderer.",
+        "requiredChange": "Provide a compatible approved participant composer/renderer for this exact specification/family (or a pure existing family-render entry point) that emits the required court-document block structure. Do not replace the worker with the fixed canonical PDF. Packet content/specification changes remain Captain-owned.",
+        "reproduction": "node scripts/test-rcap-il-personalization.mjs exits 1 with the actual worker adapter; no output PDF produced."
+      },
+      {
+        "id": "B-SPONSORED-TRANSACTION",
+        "owner": "Captain / protected database integration",
+        "status": "BLOCKED_OUTSIDE_RESERVED_SCOPE",
+        "files": [
+          "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
+          "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql"
+        ],
+        "finding": "enqueue_verified_consumer_packet_render (line 432) requires consumer payment; consumer_render_job_verification_guard skips sponsored jobs. finalize_sponsored_packet_generation_if_verified is restricted to the MS/mvl-demo route, family/specification and clinic event. Generic sponsored phase-49/50 accounting does not supply the protected IL claimed-source/current-verification/provenance transaction.",
+        "requiredChange": "A Captain-owned forward migration must extend the existing protected queue/finalization path for this exact sponsored family: current claimed participant and verification, program/event scope, immutable input, existing sponsored-credit semantics, and participant-owned artifact provenance must be atomic. Then connect the existing sponsored enqueue result at the explicit packet-generation.ts refusal. No consumer-payment substitution or application-side credit/provenance writes.",
+        "currentBehavior": "The assigned sponsored generation entry fails closed with Verified sponsored render enqueue is unavailable for this route.; tested locally. Successful sponsored queue/accounting/download is not claimed."
+      }
+    ]
+  },
+  "proofs": [
+    {
+      "requirement": "Actual assigned generation and worker run locally; two participants produce their own document facts without leakage",
+      "tests": [
+        "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed",
+        "node scripts/test-rcap-il-personalization.mjs"
+      ],
+      "result": "PARTIAL / PDF PROOF BLOCKED",
+      "evidence": "Actual generation, protected consumer SQL enqueue, claim/start/fail and exported executable worker adapter ran. Alice and Bruno had distinct immutable snapshots and composed packet inputs containing their own facts. Real PDF renderer failed; no rendered-document isolation proof exists."
+    },
+    {
+      "requirement": "Changing a relevant fact changes the appropriate rendered content",
+      "tests": [
+        "node scripts/test-rcap-il-personalization.mjs"
+      ],
+      "result": "NOT PROVEN",
+      "evidence": "Address-edit PDF-text assertions exist but are downstream of the failed real render and were not reached."
+    },
+    {
+      "requirement": "Identical inputs satisfy deterministic output requirements",
+      "tests": [
+        "node scripts/test-rcap-il-personalization.mjs",
+        "node scripts/verify-rcap-render-worker-delivery.mjs",
+        "node scripts/verify-rcap-packet-delivery-e2e.mjs"
+      ],
+      "result": "NOT PROVEN for personalized PDF; approved-fixture regression FAIL",
+      "evidence": "Personalized byte/normalized-output comparisons were not reached. Original fixed-PDF pin regression remains intact and reports the current packet mismatch. Launch graph composed-text determinism is a separate existing probe."
+    },
+    {
+      "requirement": "Completed artifact binds to matter, job, specification, participant and current verification",
+      "tests": [
+        "node scripts/verify-rcap-il-delivery-binding.mjs",
+        "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed"
+      ],
+      "result": "UNIT PASS; COMPLETED ARTIFACT INTEGRATION BLOCKED",
+      "evidence": "Delivery unit checks compare owner/matter/job/current hash/track/family and both embedded content and canonical file specification hashes. Real immutable job inputs were checked. No completed artifact was produced."
+    },
+    {
+      "requirement": "Consumer and sponsored accounting preserve established semantics",
+      "tests": [
+        "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed",
+        "node scripts/test-rcap-il-personalization.mjs"
+      ],
+      "result": "FAILURE PATH PASS; SUCCESSFUL ACCOUNTING NOT PROVEN",
+      "evidence": "Synthetic payments use existing SQL authority; failed renders create zero consumer or sponsored consumptions. Actual consumer zero_charge/consumed success is downstream of renderer failure. Sponsored consumed success requires the protected transaction dependency."
+    },
+    {
+      "requirement": "Retries and duplicates do not duplicate jobs, artifacts, payments or sponsored credits",
+      "tests": [
+        "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed"
+      ],
+      "result": "PASS for tested consumer enqueue and failed-retry path; successful/sponsored cases BLOCKED",
+      "evidence": "Two participants remain two jobs after duplicate entry calls and a failed-job retry. Zero artifacts, provenance or consumption rows. Completed-artifact retry and successful sponsored duplication remain unexecuted."
+    },
+    {
+      "requirement": "Owner can download and repeat-download; repeat consumes nothing",
+      "tests": [
+        "node scripts/verify-rcap-il-delivery-binding.mjs",
+        "node scripts/test-rcap-il-personalization.mjs"
+      ],
+      "result": "UNIT PASS; REAL PERSONALIZED DOWNLOAD BLOCKED",
+      "evidence": "Unit delivery uses a synthetic non-IL PDF and completed-job/accounting/identity/storage doubles. The real personalized output/grant/provenance/download success path was not reached."
+    },
+    {
+      "requirement": "Other user, wrong track/family, stale verification and invalid authority cannot deliver",
+      "tests": [
+        "node scripts/verify-rcap-il-delivery-binding.mjs",
+        "node scripts/verify-rcap-il-consumer-authority.mjs",
+        "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed"
+      ],
+      "result": "PASS at tested unit boundaries and failed-render local integration",
+      "evidence": "Exact binding negatives and 15 consumer authority negatives pass; missing/wildcard/automatic track, wrong family/route/jurisdiction/spec/current hash/owner/matter are denied. Actual other-user generation is denied; committed revoked authority denies. No hosted boundary exercised."
+    },
+    {
+      "requirement": "Failed or incomplete rendering does not show Ready",
+      "tests": [
+        "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed"
+      ],
+      "result": "PASS in real local failure path",
+      "evidence": "Actual adapter fails three worker cycles including retry; job remains failed, output hash/path absent, status canDownload=false, authorization denied, zero artifact provenance."
+    },
+    {
+      "requirement": "Separate unit, integration, actual renderer, current registry and hosted results; disclose replaced boundaries",
+      "tests": [
+        "all commands in verifiersAfter"
+      ],
+      "result": "DOCUMENTED",
+      "evidence": "Categories and every replacement are listed below. Hosted acceptance NOT EXECUTED. Synthetic authority does not approve the real IL packet."
+    }
+  ],
+  "personalizationAndIsolationEvidence": {
+    "result": "FAIL-CLOSED checks PASS; personalization acceptance BLOCKED by protected composer/renderer dependency",
+    "inputs": [
+      {
+        "participant": "Alice Example",
+        "expectedAddress": "101 First Street",
+        "matterId": "9e0212b8-2ad1-4986-937b-2a0e37c1f558",
+        "jobId": "78a6f165-5132-45dc-b5e8-c981ff4ff61d",
+        "verificationHash": "3e50b9aa28de5ece92e4d84c167ce7e16682bf3a9a544a1288ca2107bd3b0d73"
+      },
+      {
+        "participant": "Bruno Sample",
+        "expectedAddress": "202 Second Street",
+        "matterId": "7c44f29f-d3b0-4a5c-95ed-c8e1652dedb2",
+        "jobId": "5c04da19-972f-41c7-9dc2-8d5ed8e5ab2a",
+        "verificationHash": "88be00de49a481fcce31147858ef502b46748245d5ee5d7cf55bf915eb4464aa"
+      }
+    ],
+    "artifacts": 0,
+    "consumerConsumptions": 0,
+    "sponsoredConsumptions": 0
+  },
+  "testDoubles": [
+    {
+      "boundary": "Canonical authority for positive/negative logic tests",
+      "replacement": "Temporary on-disk synthetic v2 COMPLETE_PACKET_PROVEN registry/history plus observation, read by the same grade-a-registry loader, evaluator and observation reader. Cache and cwd restored. No application injection API, participant override, committed authority edits or always-allow evaluator."
+    },
+    {
+      "boundary": "Supabase client/network transport",
+      "replacement": "Existing consumer-payment test loader maps the admin client to direct SQL against ephemeral PostgreSQL as service_role. The actual protected queue/current-verification/payment/finalization/grant SQL functions are installed locally; no hosted transport or RLS/session acceptance."
+    },
+    {
+      "boundary": "Authentication, claimed-source and Briefcase presentation",
+      "replacement": "Synthetic user/person/item/source schema and owner-scoped briefcase readers. Auth UID function and minimal prerequisite tables are local fixtures; no real login, hosted session or end-to-end anonymous claim tested."
+    },
+    {
+      "boundary": "Current screening/profile re-evaluation and review-complete presentation",
+      "replacement": "Test fixture readers replace final-validation/profile and presentation boundaries; current verification is read using the existing protected RPC from seeded synthetic snapshots. Real screening adjudication was not exercised."
+    },
+    {
+      "boundary": "Payment provider",
+      "replacement": "Synthetic checkout IDs and payment events are bound/recorded through existing SQL RPCs. No Stripe checkout, webhook transport/signature, live mode or payment-network acceptance."
+    },
+    {
+      "boundary": "Sponsored entitlement presentation",
+      "replacement": "Test-only sponsored item set and scoped entitlement fixture exercise refusal at the unavailable protected IL transaction. No successful sponsored credit/finalization acceptance."
+    },
+    {
+      "boundary": "Worker queue transport",
+      "replacement": "Direct SQL adapter invokes actual claim/start/validation/fail/finalize/retry operations in ephemeral PostgreSQL. Actual runWorkerCycle and exported renderClaimPacket are used. Local test container digest is synthetic, not a published image."
+    },
+    {
+      "boundary": "Artifact storage",
+      "replacement": "Filesystem adapter replaces Supabase Storage. Actual renderer failure means no upload occurred in personalization integration. Hosted storage ownership, credentials, retention and network delivery were not tested."
+    },
+    {
+      "boundary": "Completed delivery unit test",
+      "replacement": "Small synthetic PDF generated by pdf-lib; completed job, accounting, ownership/current verification, delivery-event and storage ports are test doubles. Proves binding/authorization logic, not real IL rendering or protected hosted delivery."
+    },
+    {
+      "boundary": "Existing approved-fixture regression renderer",
+      "replacement": "Fixed canonical-PDF adapter remains test-only; unchanged expected SHA assertion fails against current Captain bytes. Not used by production worker or represented as personalization."
+    },
+    {
+      "boundary": "Actual personalized renderer",
+      "replacement": "NONE. composeGradeAPacket and renderGradeAPacketPdf run through the real worker adapter and fail with the recorded pleading-caption error."
+    }
+  ],
+  "currentRegistry": {
+    "recordId": "grade-a-il-felony-prostitution-relief-v1",
+    "version": 2,
+    "state": "REVOKED",
+    "allowed": false,
+    "denialCode": "fulfillment_revoked",
+    "reason": "First-cohort evidence refusal: il-prostitution-j-vacate-set has no current independent complete verdict",
+    "sourceFilesUnchanged": true
+  },
+  "workerInputsChanged": [
+    "scripts/rcap-render-worker.mjs",
+    "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+    "src/lib/expungement-ai/packet-generation.ts",
+    "src/lib/expungement-ai/payment-adapter.ts",
+    "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+    "src/lib/rcap/render/job-queue.ts",
+    "src/lib/rcap/render/packet-delivery.ts",
+    "src/lib/rcap/render/personalized-packet.ts"
+  ],
+  "workerPublication": {
+    "executedCheck": {
+      "schemaVersion": "rcap-worker-input-plan/v1",
+      "acceptedSourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+      "acceptedDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+      "candidateSha": "34532e7bc4a8d2b4d2b34f70cd64af43a0f9bc43",
+      "canonicalInputs": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json",
+        "scripts/rcap-render-worker.mjs",
+        "scripts/lib",
+        "src",
+        "deploy/rcap-render-worker/Dockerfile"
+      ],
+      "changedPaths": [
+        "scripts/lib/indiana-cca-section1-guide.mjs",
+        "scripts/lib/route-artifact-scope.mjs",
+        "scripts/rcap-render-worker.mjs",
+        "src/app/api/rcap/packets/[jobId]/download/route.ts",
+        "src/lib/clinic-mode/result-follow-up.ts",
+        "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+        "src/lib/expungement-ai/packet-generation.ts",
+        "src/lib/expungement-ai/payment-adapter.ts",
+        "src/lib/legal-authority/authority.json",
+        "src/lib/legal-authority/routes/single-routes.json",
+        "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+        "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+        "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+        "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+        "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+        "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+        "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+        "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+        "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+        "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/documents/factory-v2-registry.ts",
+        "src/lib/rcap/documents/packet-route-resolver.ts",
+        "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+        "src/lib/rcap/grade-a/packet-specification.ts",
+        "src/lib/rcap/render/commercial-admission.ts",
+        "src/lib/rcap/render/job-queue.ts",
+        "src/lib/rcap/render/packet-delivery.ts",
+        "src/lib/rcap/render/personalized-packet.ts"
+      ],
+      "aggregateInputSha256": "sha256:5f3c9e572a5e8bdb65644689a3312d309cc51bbb2d7e83049b65c62e2b1cccb7",
+      "aggregateAlgorithm": "sha256 of sorted path, mode, type, and Git object ID records",
+      "rebuildRequired": true,
+      "decision": "rebuild-required",
+      "image": {
+        "sourceSha": "34532e7bc4a8d2b4d2b34f70cd64af43a0f9bc43",
+        "tags": [
+          "34532e7bc4a8d2b4d2b34f70cd64af43a0f9bc43"
+        ],
+        "tagPolicy": "full-40-character-candidate-sha-only",
+        "digest": "pending",
+        "ociAnnotations": {
+          "org.opencontainers.image.revision": "34532e7bc4a8d2b4d2b34f70cd64af43a0f9bc43"
+        }
+      }
+    },
+    "publicationExecuted": false,
+    "oldImageContainsContinuationCode": false,
+    "all35ChangedInputPathsSincePriorPublication": [
+      "scripts/lib/indiana-cca-section1-guide.mjs",
+      "scripts/lib/route-artifact-scope.mjs",
+      "scripts/rcap-render-worker.mjs",
+      "src/app/api/rcap/packets/[jobId]/download/route.ts",
+      "src/lib/clinic-mode/result-follow-up.ts",
+      "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+      "src/lib/expungement-ai/packet-generation.ts",
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "src/lib/legal-authority/authority.json",
+      "src/lib/legal-authority/routes/single-routes.json",
+      "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+      "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+      "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+      "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+      "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+      "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+      "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+      "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+      "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+      "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+      "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+      "src/lib/rcap/documents/factory-v2-registry.ts",
+      "src/lib/rcap/documents/packet-route-resolver.ts",
+      "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+      "src/lib/rcap/grade-a/packet-specification.ts",
+      "src/lib/rcap/render/commercial-admission.ts",
+      "src/lib/rcap/render/job-queue.ts",
+      "src/lib/rcap/render/packet-delivery.ts",
+      "src/lib/rcap/render/personalized-packet.ts"
+    ],
+    "note": "The check labels the previous source/digest accepted; the recorded publication still has hosted registry-pull acceptance pending. No hosted acceptance is inferred. Own continuation changes are the eight paths in workerInputsChanged; the other 27 paths are inherited Captain changes.",
+    "packagingDependency": {
+      "file": "deploy/rcap-render-worker/Dockerfile",
+      "observation": "Current COPY instructions include scripts/lib, worker script and src, but not data/. The new worker import graph consumes canonical registry/observation/specification JSON and existing metadata/dependencies under data/.",
+      "requiredCaptainAction": "Validate/package required read-only runtime assets through the existing publication process and execute the rebuilt image smoke test. Deployment configuration is outside this worker scope and was not changed."
+    }
+  },
+  "invariants": {
+    "launchRowsCompared": 262,
+    "changedRows": [],
+    "allPerRowValuesUnchanged": true,
+    "paymentAllowedBefore": 28,
+    "paymentAllowedAfter": 28,
+    "operationallySellableBefore": 0,
+    "operationallySellableAfter": 0,
+    "defaultGeneratedOutputs": [
+      {
+        "path": "data/rcap-ledger/launch-graph.json",
+        "byteIdenticalToContinuationBase": true,
+        "sha256": "8f863f62cdcd4f49446a285106a2fc44bb9615b4fde36183e2ad2d5da68912cc"
+      },
+      {
+        "path": "docs/record-clearing/LAUNCH_GRAPH.md",
+        "byteIdenticalToContinuationBase": true,
+        "sha256": "06d2d9718de307ce5bdbad97ec91fc7501ecf01e0afe0a5d2ec34627e361f7e2"
+      }
+    ],
+    "protectedPacketAuthoritySpecificationSQLChanges": []
+  },
+  "launchGraphRowBefore": {
+    "pathwayKey": "IL:felony-prostitution-relief",
+    "jurisdiction": "IL",
+    "pathwayId": "felony-prostitution-relief",
+    "pathwayLabel": "Felony-prostitution relief",
+    "availability": "UNFINISHED",
+    "compiledPathway": {
+      "present": true,
+      "profileVersion": "2026-06-19-source-conversion-1"
+    },
+    "registryTracks": [
+      "il-prostitution-j-auto",
+      "il-prostitution-j-vacate"
+    ],
+    "registryGap": false,
+    "pathwayLevelPacketRecord": null,
+    "packetFamilies": [
+      "rcap-il-guidance-implementation"
+    ],
+    "packetSets": [
+      {
+        "packetSetId": "il-prostitution-j-auto-set",
+        "trackId": "il-prostitution-j-auto",
+        "components": 1
+      },
+      {
+        "packetSetId": "il-prostitution-j-vacate-set",
+        "trackId": "il-prostitution-j-vacate",
+        "components": 2
+      }
+    ],
+    "ownerApprovedLegalStatus": "approved_by_decision_owner",
+    "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "legalBasis": "owner_approved_packet_family",
+    "packetSpecification": {
+      "complete": true,
+      "componentCount": 3,
+      "participantActionsRequired": 19
+    },
+    "sourceAssets": {
+      "officialFormIdsNamed": [],
+      "officialFormIdsHeldInThisRepository": [],
+      "allNamedSourcesHeld": false
+    },
+    "technicalStatus": {
+      "completedOutputVerifierResults": [
+        "passed"
+      ],
+      "current": true
+    },
+    "pdfStatus": {
+      "problematicAssets": [],
+      "hold": false
+    },
+    "renderer": {
+      "trackId": "il-prostitution-j-vacate",
+      "routeKind": "factory_v2",
+      "rendererKind": "packet_document_v1",
+      "packetSetIds": [
+        "il-prostitution-j-vacate-set"
+      ],
+      "reason": "IL felony-prostitution-relief builds through the shared packet factory from packet set il-prostitution-j-vacate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+    },
+    "publicWitness": {
+      "reachesThisPathway": true,
+      "settled": true,
+      "resultCode": "likely_not_eligible",
+      "rounds": 1
+    },
+    "paymentResult": {
+      "allowedAtTheEvaluator": false,
+      "sellableAtTheResolver": false,
+      "creditConsumable": false
+    },
+    "artifactResult": {
+      "rendered": true,
+      "deterministic": true,
+      "sha256": "e2ab3592cd8c9b4f69d7f97914754b3739f52f2d486715af72c55f3726620dde",
+      "characters": 3192,
+      "sections": 11,
+      "warnings": 0,
+      "errors": [],
+      "scope": {
+        "routeId": "IL:felony-prostitution-relief",
+        "trackId": "il-prostitution-j-vacate",
+        "packetFamilyId": "il-prostitution-j-vacate-set",
+        "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f"
+      }
+    },
+    "dtcResult": {
+      "deliverable": false
+    },
+    "rcapResult": {
+      "creditConsumable": false
+    },
+    "operationalGates": {
+      "publicWitnessReachesThisPathway": true,
+      "authoritativeIntendedPathway": true,
+      "paymentAllowed": false,
+      "packetSpecificationComplete": true,
+      "ownerApprovedLegalDesign": true,
+      "technicalApprovalCurrent": true,
+      "rendererSelected": true,
+      "deterministicArtifactProven": true,
+      "noProblematicPdfHold": true
+    },
+    "unmetOperationalGates": [
+      "paymentAllowed"
+    ],
+    "fulfillmentAuthorityAdmitted": false,
+    "operationallySellable": false,
+    "allOperationalGatesMet": false
+  },
+  "launchGraphRowAfter": {
+    "pathwayKey": "IL:felony-prostitution-relief",
+    "jurisdiction": "IL",
+    "pathwayId": "felony-prostitution-relief",
+    "pathwayLabel": "Felony-prostitution relief",
+    "availability": "UNFINISHED",
+    "compiledPathway": {
+      "present": true,
+      "profileVersion": "2026-06-19-source-conversion-1"
+    },
+    "registryTracks": [
+      "il-prostitution-j-auto",
+      "il-prostitution-j-vacate"
+    ],
+    "registryGap": false,
+    "pathwayLevelPacketRecord": null,
+    "packetFamilies": [
+      "rcap-il-guidance-implementation"
+    ],
+    "packetSets": [
+      {
+        "packetSetId": "il-prostitution-j-auto-set",
+        "trackId": "il-prostitution-j-auto",
+        "components": 1
+      },
+      {
+        "packetSetId": "il-prostitution-j-vacate-set",
+        "trackId": "il-prostitution-j-vacate",
+        "components": 2
+      }
+    ],
+    "ownerApprovedLegalStatus": "approved_by_decision_owner",
+    "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "legalBasis": "owner_approved_packet_family",
+    "packetSpecification": {
+      "complete": true,
+      "componentCount": 3,
+      "participantActionsRequired": 19
+    },
+    "sourceAssets": {
+      "officialFormIdsNamed": [],
+      "officialFormIdsHeldInThisRepository": [],
+      "allNamedSourcesHeld": false
+    },
+    "technicalStatus": {
+      "completedOutputVerifierResults": [
+        "passed"
+      ],
+      "current": true
+    },
+    "pdfStatus": {
+      "problematicAssets": [],
+      "hold": false
+    },
+    "renderer": {
+      "trackId": "il-prostitution-j-vacate",
+      "routeKind": "factory_v2",
+      "rendererKind": "packet_document_v1",
+      "packetSetIds": [
+        "il-prostitution-j-vacate-set"
+      ],
+      "reason": "IL felony-prostitution-relief builds through the shared packet factory from packet set il-prostitution-j-vacate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+    },
+    "publicWitness": {
+      "reachesThisPathway": true,
+      "settled": true,
+      "resultCode": "likely_not_eligible",
+      "rounds": 1
+    },
+    "paymentResult": {
+      "allowedAtTheEvaluator": false,
+      "sellableAtTheResolver": false,
+      "creditConsumable": false
+    },
+    "artifactResult": {
+      "rendered": true,
+      "deterministic": true,
+      "sha256": "e2ab3592cd8c9b4f69d7f97914754b3739f52f2d486715af72c55f3726620dde",
+      "characters": 3192,
+      "sections": 11,
+      "warnings": 0,
+      "errors": [],
+      "scope": {
+        "routeId": "IL:felony-prostitution-relief",
+        "trackId": "il-prostitution-j-vacate",
+        "packetFamilyId": "il-prostitution-j-vacate-set",
+        "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f"
+      }
+    },
+    "dtcResult": {
+      "deliverable": false
+    },
+    "rcapResult": {
+      "creditConsumable": false
+    },
+    "operationalGates": {
+      "publicWitnessReachesThisPathway": true,
+      "authoritativeIntendedPathway": true,
+      "paymentAllowed": false,
+      "packetSpecificationComplete": true,
+      "ownerApprovedLegalDesign": true,
+      "technicalApprovalCurrent": true,
+      "rendererSelected": true,
+      "deterministicArtifactProven": true,
+      "noProblematicPdfHold": true
+    },
+    "unmetOperationalGates": [
+      "paymentAllowed"
+    ],
+    "fulfillmentAuthorityAdmitted": false,
+    "operationallySellable": false,
+    "allOperationalGatesMet": false
+  },
+  "resolutionOutcomesChanged": [],
+  "launchGraphEvidenceLimit": "The preserved artifactResult is the existing exact-family composed-text probe. It is not successful participant PDF or hosted delivery evidence.",
+  "routesOpened": 0,
+  "paymentTouched": false,
+  "paymentTouchedMeaning": "No price, payment/accounting semantics, payment/commercial flags, live Stripe or configuration changes. The explicitly authorized payment-adapter reader now supplies verified track identity to canonical authority.",
+  "productionTouched": false,
+  "production": "NO",
+  "hostedAcceptance": {
+    "executed": false,
+    "remaining": [
+      "Captain integration and appropriate approved packet/spec/provider repair plus protected sponsored transaction.",
+      "Independent current packet proof and authority decision through existing process; revoked IL is still denied.",
+      "New immutable worker publication with read-only runtime assets and current fingerprint; do not reuse the old image as containing this code.",
+      "Approved nonproduction authenticated consumer and sponsored canaries through actual checkout/entitlement, queue, worker, private storage, ownership and current verification, owner/repeat downloads, retry accounting and negative boundaries."
+    ],
+    "credentialsRequested": false,
+    "reason": "Hosted steps remain Captain integration work; independent local engineering was completed without waiting for hosted credentials."
+  },
+  "whatRemains": [
+    {
+      "id": "B-PACKET-RENDERER",
+      "owner": "Captain / packet repair lane",
+      "status": "BLOCKED_OUTSIDE_RESERVED_SCOPE",
+      "files": [
+        "src/lib/rcap/grade-a/composer.ts",
+        "src/lib/rcap/grade-a/renderer.ts",
+        "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+        "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs"
+      ],
+      "finding": "The registered IL specification uses presentation=pleading with generic caption/static/signature sections. composeGradeAPacket produces those generic blocks; renderer.ts:140 requires a pleading_caption and rejects primary_filing. The family builder exposes a fixture-writing runFamily rather than a pure participant renderer.",
+      "requiredChange": "Provide a compatible approved participant composer/renderer for this exact specification/family (or a pure existing family-render entry point) that emits the required court-document block structure. Do not replace the worker with the fixed canonical PDF. Packet content/specification changes remain Captain-owned.",
+      "reproduction": "node scripts/test-rcap-il-personalization.mjs exits 1 with the actual worker adapter; no output PDF produced."
+    },
+    {
+      "id": "B-SPONSORED-TRANSACTION",
+      "owner": "Captain / protected database integration",
+      "status": "BLOCKED_OUTSIDE_RESERVED_SCOPE",
+      "files": [
+        "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql",
+        "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql"
+      ],
+      "finding": "enqueue_verified_consumer_packet_render (line 432) requires consumer payment; consumer_render_job_verification_guard skips sponsored jobs. finalize_sponsored_packet_generation_if_verified is restricted to the MS/mvl-demo route, family/specification and clinic event. Generic sponsored phase-49/50 accounting does not supply the protected IL claimed-source/current-verification/provenance transaction.",
+      "requiredChange": "A Captain-owned forward migration must extend the existing protected queue/finalization path for this exact sponsored family: current claimed participant and verification, program/event scope, immutable input, existing sponsored-credit semantics, and participant-owned artifact provenance must be atomic. Then connect the existing sponsored enqueue result at the explicit packet-generation.ts refusal. No consumer-payment substitution or application-side credit/provenance writes.",
+      "currentBehavior": "The assigned sponsored generation entry fails closed with Verified sponsored render enqueue is unavailable for this route.; tested locally. Successful sponsored queue/accounting/download is not claimed."
+    },
+    {
+      "id": "FIXTURE-PIN",
+      "owner": "Captain / packet repair and approval lane",
+      "status": "EXISTING_PROTECTED_PACKET_REGRESSION",
+      "files": [
+        "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+        "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf"
+      ],
+      "expectedSha256": "7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d",
+      "actualSha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+      "requiredChange": "Resolve packet bytes and their approved regression binding through the packet repair/approval process. The original assertion and protected inputs were preserved; no pin update or historical approval resurrection performed."
+    },
+    {
+      "id": "WORKER-PUBLICATION",
+      "owner": "Captain",
+      "requiredChange": "Publish and validate a new immutable image using the existing release process; include/validate required runtime assets. Worker-input decision is rebuild-required; no image publication performed."
+    },
+    {
+      "id": "HOSTED-CANARIES",
+      "owner": "Captain",
+      "requiredChange": "After local protected dependencies and authority are resolved, run hosted consumer and sponsored authenticated canaries and actual storage/download/retry/accounting checks in the approved nonproduction environment. None executed here."
+    },
+    {
+      "id": "VERIFICATION-REGENERATION-PROVENANCE",
+      "owner": "Captain",
+      "status": "READ_ONLY_FOLLOWUP_NOT_A_CONFIRMED_DYNAMIC_FAILURE",
+      "file": "supabase/migrations/20260901130000_consumer_private_delivery.sql",
+      "observation": "Existing protected artifact provenance publication appears to allow one immutable row per Briefcase item. Successful changed-verification replacement provenance was not reached because rendering fails. Confirm its existing regeneration behavior when the real renderer can complete; do not infer that downstream acceptance passed."
+    }
+  ]
+}

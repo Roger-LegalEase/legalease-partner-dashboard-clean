@@ -1,0 +1,81 @@
+  ok   C1   no source identity is treated as settled without an exact official URL
+  ok   C2   no exact URL is treated as acquired without bytes
+  ok   C3   no bytes are promoted without a SHA-256
+  ok   C4   a SHA mismatch is a refusal, never a warning
+  ok   C5   an unofficial mirror is refused, and one allowlist governs planner and fetcher
+  ok   C6   no duplicate source assignment, URL or source id
+  ok   C7   no family has two current owners of the same kind
+  ok   C8   no shared build host has two writers
+  ok   C9   no executable family is left unassigned
+  ok   C10  no worker holds ownership after its return is integrated
+  ok   C11  no verifier is assigned to its own builder or repairer
+  ok   C12  the batch workflow dispatches, fans out, uploads, and commits and deploys nothing
+  ok   C13  no commercial route is opened
+  ok   C16  an exact-host allowance is one hostname with provenance, a jurisdiction and a required hash — never a suffix
+  ok   C17  a prospective release count cannot be read as families already promoted
+  ok   C18  the batch reports COMPLETE, PARTIAL or REFUSED, and reports it even when every job fails
+  ok   C21  every queue state a generator counts is one the queue declares
+  ok   C22  every source prompt carries the relationship registry and says which states are not a fetch
+  ok   C23  every source-blocked family is released, split across lanes, or a later blocker still kept separate
+  ok   C19  capacity the queue triggers is materialized, with launch gates and paths
+  ok   C20  source prompts and READY_TO_RUN gate are executable and fail closed
+  ok   C14  sixteen source lanes: six DISC, four SRC, three ACQ, three PROMO
+  ok   C15  the base thirty-two factory lanes are preserved
+
+23/23 conveyor checks passed.
+
+mutations:
+  detected [C1] a manifest entry with no official URL is caught
+  detected [C1] a DISC lane that drops the exact-URL refusal is caught
+  detected [C2] a bound source with no held byte is caught
+  detected [C2] an ACQ lane that accepts a self-composed URL is caught
+  detected [C3] bytes promoted with no SHA-256 are caught
+  detected [C3] a PROMO lane that stops recording SHA-256 is caught
+  detected [C4] a malformed expected hash is caught
+  detected [C4] a mismatch downgraded to a warning is caught
+  detected [C5] an unofficial mirror in the manifest is caught
+  detected [C5] a planner that restates its own allowlist instead of importing it is caught
+  detected [C6] one obligation dispatched to two lanes is caught
+  detected [C6] a duplicate URL in the manifest is caught
+  detected [C6] a duplicate source id in the manifest is caught
+  detected [C7] one family owned by two builders is caught
+  detected [C8] a shared host claimed by two lanes is caught
+  detected [C9] an executable family dropped from every builder is caught
+  detected [C9] dropping the no-idle-work rule is caught
+  detected [C10] a worker still holding ownership after integration is caught
+  detected [C11] a verifier that may write into what it verifies is caught
+  detected [C11] a verifier that excludes nobody is caught
+  detected [C12] a batch workflow that commits is caught
+  detected [C12] a batch workflow that stops on the first failing form is caught
+  detected [C12] raising the workflow permissions is caught
+  detected [C13] a document reporting an opened commercial route is caught
+  detected [C14] a fifth SRC lane is caught
+  detected [C15] a retired PF lane is caught
+  detected [C23] a source-blocked family released by no lane and recorded nowhere is caught
+  detected [C23] a family both released and deferred is caught
+  detected [C22] a source prompt stripped of the relationship registry is caught
+  detected [C22] a source prompt listing the states without saying which are not a fetch is caught
+  detected [C21] a threshold reading an undeclared queue state is caught
+  detected [C16] an open-registration TLD on the suffix list is caught
+  detected [C16] widening the exact host to its shared suffix is caught
+  detected [C16] an exact host that stops requiring a hash is caught
+  detected [C16] an exact host with no stated jurisdiction is caught
+  detected [C16] an exact-host entry with no expected hash is caught
+  detected [C17] reporting the forecast as the achieved figure is caught
+  detected [C17] dropping the achieved count is caught
+  detected [C17] a source lane that stops marking its count prospective is caught
+  detected [C18] a summary that cannot report PARTIAL is caught
+  detected [C18] a summary job that skips when the batch fails is caught
+  detected [C19] a triggered threshold whose lanes do not exist is caught
+  detected [C19] a materialized verifier without a prompt is caught
+  detected [C20] undefined in a source prompt is caught
+  detected [C20] synthetic --family in a source prompt is caught
+  detected [C20] a URL-less ACQ item is caught
+  detected [C20] a receipt-less PROMO item is caught
+  detected [C20] omitting a required readiness verifier is caught
+  passed   [control] an irrelevant edit still passes (the checks are not simply always failing)
+
+  every mutated file restored byte-for-byte: true
+
+OK conveyor mutations — 49 case(s), every mutation caught.
+CLAIM_LEDGER_OK 933 claims; SRC01 31/31 exercised (6 assertable, 25 already released)

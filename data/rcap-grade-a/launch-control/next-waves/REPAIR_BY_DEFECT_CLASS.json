@@ -1,0 +1,583 @@
+{
+  "schemaVersion": "rcap-next-wave/v1",
+  "wave": "REPAIR_BY_DEFECT_CLASS",
+  "createdAt": "2026-09-01T11:13:18Z",
+  "atCaptainHead": "6e67cfd50d7ec81b1dcf690810f7c52304a32b58",
+  "why": "Every family that has been independently read carries a defect and none passed. These are the FAIL_REPAIR_REQUIRED ones, grouped by what is actually wrong rather than by state, because the same repair fixes many of them and three different kinds of work are mixed together in one verdict name.",
+  "familiesNeedingRepair": 31,
+  "byDefectClass": {
+    "FILING_GUIDANCE": 24,
+    "PACKET_CONTENT": 20,
+    "EVIDENCE_ARTIFACT": 2
+  },
+  "byObligation": {
+    "SERVICE": 20,
+    "FEE_AND_WAIVER": 20,
+    "FILING_DESTINATION": 16,
+    "REQUIRED_BEFORE_FILING": 6,
+    "SELF_HELP_STOP": 10,
+    "KNOWN_PREFILLS": 8,
+    "REPEATING_ROWS": 4,
+    "ROUTE_OPTIONS": 5,
+    "ROUTE_IDENTITY": 1,
+    "ARTIFACTS": 1
+  },
+  "theHeadline": "Participant-facing filing guidance is the single largest defect class in the sprint. Four obligations account for most of the failures, and 17 families have no instructions document at all.",
+  "classes": {
+    "FILING_GUIDANCE": {
+      "obligations": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "what": "The packet does not tell the participant where to file, what it costs or how to get the fee waived, who must be served, or where self-help ends.",
+      "theStandard": "Delegation to a named, checkable authority passes — Vermont delegates the fee and VF-SRC-A treated that as sound. A seven-item catch-all naming 'fees' does not, which is why ri_nonconviction_sealing-set fails FEE_AND_WAIVER with every counter at zero.",
+      "hazard": "An unsourced court name or filing fee is more damaging than an absent one, because the participant acts on it. Unsourced comes back BLOCKED_SOURCE or BLOCKED_LEGAL_INPUT, named.",
+      "overlapsWave": "PARTICIPANT_INSTRUCTIONS_GAP — 17 families have no instructions file at all, so for those this is not an edit but a document that does not exist."
+    },
+    "PACKET_CONTENT": {
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS"
+      ],
+      "what": "Defects in the packet itself: a mapped value that does not reach the bytes, a repeating row that does not repeat, a required field never collected, a route election the form offers and the packet does not make.",
+      "hazard": "These change packet bytes, which invalidates the family's raster receipt. Expect that and say so; the family is re-rastered centrally afterwards.",
+      "theRouteElectionQuestion": "ROUTE_OPTIONS overlaps the duplicate-byte finding PF-B holds: twelve families across three groups pin identical bytes, which is what a missing route election looks like from outside. Do not repair a family in that set until PF-B classifies it."
+    },
+    "EVIDENCE_ARTIFACT": {
+      "obligations": [
+        "ARTIFACTS",
+        "ROUTE_IDENTITY"
+      ],
+      "what": "The packet is right and its evidence record is wrong. Repair the RECORD.",
+      "known": [
+        "Ohio composed families: every text receipt's sha256 and byteLength were computed before the final newline was written, so all 10 describe the file minus one 0x0a while all 10 PDF receipts bind correctly.",
+        "mi_setaside_marihuana-set: product-wiring.json spells the family with hyphens where every other record uses underscores, so a lookup keyed on familyId misses it. VF-SRC-A first read this as 'built for the wrong route' and corrected itself before filing.",
+        "Connecticut and Alaska and both Vermont families: the write read-back fails in BOTH directions. Assigned to FIX-B, not here."
+      ],
+      "hazard": "Do not touch a packet PDF to make a report agree with it. The report is the defect."
+    }
+  },
+  "families": [
+    {
+      "familyId": "ak-courtview-set",
+      "failedObligations": [
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf01"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf04"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf05"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "failedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "defectClasses": [
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "failedObligations": [
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS"
+      ],
+      "defectClasses": [
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "defectClasses": [
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "co_motion_seal_nonconviction-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf06"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
+      "failedObligations": [
+        "ROUTE_IDENTITY",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "EVIDENCE_ARTIFACT"
+      ],
+      "readBy": [
+        "vf01"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
+      "failedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "defectClasses": [
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "failedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "defectClasses": [
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "failedObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "defectClasses": [
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "failedObligations": [
+        "ARTIFACTS"
+      ],
+      "defectClasses": [
+        "EVIDENCE_ARTIFACT"
+      ],
+      "readBy": [
+        "vf02"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "pa_490_nonconviction-set",
+      "failedObligations": [
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "pa_9122_1_limited_access-set",
+      "failedObligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": false,
+      "afterRepair": "raster it, then an independent read"
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf17"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf15"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "ut_pet_dismissed_without_prejudice-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf07"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf08"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf09"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf10"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf11"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf12"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf15"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf15"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_felony-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf15"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE",
+        "PACKET_CONTENT"
+      ],
+      "readBy": [
+        "vf15"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf16"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf16"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf16"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf16"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "failedObligations": [
+        "FEE_AND_WAIVER",
+        "FILING_DESTINATION",
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "defectClasses": [
+        "FILING_GUIDANCE"
+      ],
+      "readBy": [
+        "vf16"
+      ],
+      "holdsCompleteRasterReceipt": true,
+      "afterRepair": "the receipt dies if bytes change; re-raster centrally, then a SECOND independent read via claim.mjs --transfer"
+    }
+  ],
+  "theSecondReadIsNowExpressible": {
+    "mechanism": "claim.mjs --transfer <FROM_LANE> <TO_LANE> <subjectId> --reason \"<why>\"",
+    "why": "A family holds one claim per operation, so a repaired family could not be granted a second independent read. --transfer moves the released grant to a lane that did not repair it.",
+    "captainChecksWhatTheToolCannot": "The tool refuses an unresolvable lane, a live grant, a same-lane move and a kind mismatch. It cannot see WORKERS, so Captain confirms the destination lane's worker neither built nor repaired the family before transferring."
+  },
+  "ceiling": "A repair promotes nothing. Every repaired family needs its raster receipt re-earned if bytes moved, and a fresh independent read that passes.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

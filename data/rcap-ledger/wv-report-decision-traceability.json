@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "generatedOn": "2026-08-28",
+  "note": "Per-decision traceability for the ten West Virginia holdings in the national report, Q-040 to Q-049. Each row names the register question it became, the track it was verified against, the route contract it landed on, and the exact element of that contract that carries it. A holding with no named landing place is a holding nobody can check.",
+  "crosswalkSource": "data/record-clearing/legal-decisions/2026-08-28-national-report-crosswalk.json",
+  "crosswalkRule": "Position in an array is not identity. Every row was verified on jurisdiction, track, affected element, question-text hash and report-section hash before its holding was attached.",
+
+  "findingAboutTheContractNote": {
+    "statement": "The § 61-11-26 contract's note says 'Four report decisions land on this one route: no residence-county venue, no single receiving court for a multi-county group, omit or sever an excluded conviction, and the current thirty-day reply period.' Six do.",
+    "theTwoItOmits": [
+      "Q-044 / register Q-051 — the nonviolent-felony characterisation, which is carried by failure disposition wv_61_11_26_nonviolent_felony_characterisation.",
+      "Q-045 / register Q-052 — the correct form, which is carried by delivery gate wv_61_11_26_sca_c906_artifact_review."
+    ],
+    "whyItMatters": "Both omitted holdings ARE implemented in the contract. The defect is the count, not the coverage — but an undercount is how a holding stops being reviewed: nobody looks for a fifth and sixth decision on a route the note says carries four.",
+    "correctedCount": 6
+  },
+
+  "decisions": [
+    {
+      "reportQuestionId": "Q-040", "registerQuestionId": "Q-047",
+      "trackId": "wv_acc_treatment_job_readiness", "affectedElement": "waiting_period",
+      "route": "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-01",
+      "holding": "Job-readiness completion is an OR trigger for the accelerated clock, independent of ninety days of treatment compliance, and it is available for a single misdemeanor only.",
+      "landsOn": ["ruleId WV-61-11-26A-JOB-READINESS-OR-TRIGGER", "the route's timing", "exclusion: the accelerated trigger is single-misdemeanor only"],
+      "implemented": true
+    },
+    {
+      "reportQuestionId": "Q-041", "registerQuestionId": "Q-048",
+      "trackId": "wv_common_conv_procedure", "affectedElement": "venue",
+      "route": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-02",
+      "holding": "There is no residence-county venue option. Subsections (a)(1) and (a)(2) both direct the petition to the circuit court in which the conviction occurred.",
+      "landsOn": ["exclusion: there is no residence-county venue option"],
+      "implemented": true
+    },
+    {
+      "reportQuestionId": "Q-042", "registerQuestionId": "Q-049",
+      "trackId": "wv_conv_multiple_misdemeanors", "affectedElement": "venue",
+      "route": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-02",
+      "holding": "A multi-county conviction group has no single receiving court.",
+      "landsOn": ["failure disposition wv_61_11_26_multi_county_group"],
+      "implemented": true
+    },
+    {
+      "reportQuestionId": "Q-043", "registerQuestionId": "Q-050",
+      "trackId": "wv_conv_multiple_misdemeanors", "affectedElement": "eligibility_branch",
+      "route": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-02",
+      "holding": "An excluded conviction inside a group must be omitted or severed rather than carried, and the once-per-lifetime rule means a wrongly-composed petition is not simply refiled.",
+      "landsOn": ["failure disposition wv_61_11_26_excluded_conviction_in_group", "exclusion: the once-per-lifetime rule"],
+      "implemented": true
+    },
+    {
+      "reportQuestionId": "Q-044", "registerQuestionId": "Q-051",
+      "trackId": "wv_conv_nonviolent_felony", "affectedElement": "participant_instructions",
+      "route": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-02",
+      "holding": "Whether a felony is nonviolent for this section is a characterisation a participant must not be asked to make alone.",
+      "landsOn": ["failure disposition wv_61_11_26_nonviolent_felony_characterisation"],
+      "implemented": true,
+      "note": "One of the two the contract's own note leaves out of its count of four."
+    },
+    {
+      "reportQuestionId": "Q-045", "registerQuestionId": "Q-052",
+      "trackId": "wv_conv_single_misdemeanor", "affectedElement": "correct_form",
+      "route": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-02",
+      "holding": "The correct petition form for this route is SCA-C906, and its currency is an artifact question.",
+      "landsOn": ["delivery gate wv_61_11_26_sca_c906_artifact_review", "packetFamily: West Virginia § 61-11-26 Expungement Petition (SCA-C906)"],
+      "implemented": true,
+      "note": "The other of the two the contract's own note leaves out of its count of four."
+    },
+    {
+      "reportQuestionId": "Q-046", "registerQuestionId": "Q-053",
+      "trackId": "wv_conv_single_misdemeanor", "affectedElement": "notice_or_service",
+      "route": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-02",
+      "holding": "The current reply period is thirty days.",
+      "landsOn": ["released as packet content, per the contract note"],
+      "implemented": true,
+      "openItem": "This is the only one of the six that lands on packet content rather than on a contract element a verifier can read. It becomes checkable when the § 61-11-26 packet specification exists, and until then it is asserted rather than proven."
+    },
+    {
+      "reportQuestionId": "Q-047", "registerQuestionId": "Q-054",
+      "trackId": "wv_nc_acquittal_dismissal", "affectedElement": "correct_form",
+      "route": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-03",
+      "holding": "The legal answer is settled and the published SCA-C903 form is stale. That is an artifact question, not unresolved research, and must not be sent to counsel as though it were.",
+      "landsOn": ["delivery gate wv_61_11_25_sca_c903_currency"],
+      "implemented": true
+    },
+    {
+      "reportQuestionId": "Q-048", "registerQuestionId": "Q-055",
+      "trackId": "wv_nc_diversion_deferred", "affectedElement": "correct_form",
+      "route": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-03",
+      "holding": "The same stale-form finding covers the diversion and deferred-adjudication branch.",
+      "landsOn": ["delivery gate wv_61_11_25_sca_c903_currency"],
+      "implemented": true,
+      "note": "Two report questions, two tracks, one gate. That is correct here because the finding is about one form; it is recorded so the shared landing is a decision rather than an accident."
+    },
+    {
+      "reportQuestionId": "Q-049", "registerQuestionId": "Q-056",
+      "trackId": "wv_pardon_expungement", "affectedElement": "legal_effect_or_warning",
+      "route": "WV:pardon-based-expungement",
+      "decisionId": "NATIONAL-2026-08-28-C-WV-04",
+      "holding": "§ 5-1-16a(b) provides only that the expunged record may not be considered by a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l) it carries no general non-disclosure provision, so the guidance must describe the effect it actually has.",
+      "landsOn": ["ruleId WV-5-1-16A-NARROW-STATUTORY-EFFECT", "packetFamily null — the route is guidance, not a packet", "the contract note"],
+      "implemented": true
+    }
+  ],
+
+  "totals": {
+    "reportDecisions": 10,
+    "routesReceiving": 4,
+    "byRoute": {
+      "WV:eligible-conviction-expungement-under-w-va-code-61-11-26": 6,
+      "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication": 2,
+      "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a": 1,
+      "WV:pardon-based-expungement": 1
+    },
+    "implemented": 10,
+    "provenByAContractElementAVerifierCanRead": 9,
+    "assertedAsPacketContentAndNotYetProvable": 1
+  },
+
+  "westVirginiaRoutesNotReceivingAnyReportDecision": [
+    { "route": "WV:first-offense-drug-possession-conditional-discharge-relief", "decisionId": "LD-WV-02", "note": "Predates the national report. No Q-040..Q-049 holding touches it." },
+    { "route": "WV:sex-trafficking-victim-vacatur-and-expungement", "decisionId": "LD-WV-04", "note": "Predates the national report. No Q-040..Q-049 holding touches it." }
+  ]
+}

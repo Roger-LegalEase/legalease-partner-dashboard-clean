@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewer": "/root/resolver_review",
+  "reviewedAt": "2026-09-13T17:41:20.802776+00:00",
+  "familyId": "wa_vac_substance_use_disorder-set",
+  "verdict": "PASS",
+  "scope": "Captain-authored exact layout successor mapping support and saved-pagination assertion; reviewer adapted/extended only focused mapping tests. No mapping implementation edits by reviewer.",
+  "reviewedBindings": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/wa-sud-custom-mapping.mjs",
+      "sha256": "306f85fe56a7174fba365ebac6980a958ca849340f70335836a10b2cec2e312f",
+      "byteLength": 15863
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/wa-sud-custom-mapping.test.mjs",
+      "sha256": "32edee913fce1f69e130cc14d9a9bfdc01059fa97df605f5e22daa870d2a65f3",
+      "byteLength": 10255
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-wa-sud-saved-pagination.py",
+      "sha256": "d3c9d4c7b8420b5691e73218e02245ef99fb70aeca80e53d3651900838c65e1c",
+      "byteLength": 2689
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/vfwasud2/wa-sud-layout-successor-certificate-20260913.json",
+      "sha256": "c5208f2fa1c8ea8b38937b481d141a6be690601f00b4c6eb0011dd3d0a6443bb",
+      "byteLength": 33047
+    }
+  ],
+  "findings": [],
+  "tests": [
+    {
+      "command": "node --test scripts/grade-a-packet-factory-24h/wa-sud-custom-mapping.test.mjs",
+      "exitCode": 0,
+      "passed": 36,
+      "failed": 0,
+      "freshIndependentRun": true
+    },
+    {
+      "command": "python scripts/grade-a-packet-factory-24h/test-wa-sud-saved-pagination.py",
+      "exitCode": 0,
+      "result": "Both saved9pagePDFs preserve complete text; other8pages each unchanged; closing sentence on noticepage5.",
+      "freshIndependentRun": true
+    }
+  ],
+  "assessment": [
+    "Original semantic certificate/hash and all14original Git-bound paths remain immutable. Original19controls now explicitly read frozen original objects, not new live PDFs.",
+    "Exact successor certificate hash identifies the independent current-byte review and candidate. All14current paths rehashed at candidate, review and selected-review bases.",
+    "Only builder,2PDFs and rendered report may differ; other10paths stay exact. Source authority remains exact and old author completeness gates remain checked.",
+    "New pagecount9 and exact full manifests required. Changed certificate/review/PDF/report/control metadata/builder, oldpagecount, premature selectedreview, oldGit corruption/absence and conflicting treatment/owner rules refuse.",
+    "Later final PASS and FAIL selection retain their own verdict; mapping supplies no raster or final acceptance.",
+    "Saved-pagination script uses exact frozen original objects without lazy fetch or rebuild, compares all logical text and unaffectedpages, and asserts original field map/instructions/blanks remain unchanged. It is semantic/layout evidence only, not a visual test."
+  ],
+  "packetBuildOrRasterPerformed": false,
+  "authoritativeOutputsModified": false,
+  "implementationEditedByReviewer": false,
+  "testsEditedByReviewer": true,
+  "finalVisualGate": "PENDING original18page raster and distinct original-page final review"
+}

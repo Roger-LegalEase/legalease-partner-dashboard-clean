@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-draft-status/v1",
+  "lane": "PF02",
+  "laneKind": "packet-build",
+  "itemId": "ut_pet_special_certificate-set",
+  "status": "INCOMPLETE",
+  "base": "a83c8edf48e7f328b81270f9093dbed7f62e2fb3",
+  "claim": {
+    "assertedBeforeFamilyContentRead": true,
+    "result": "CLAIM_OK PF02 ut_pet_special_certificate-set (packet-build, grant set 985ad4fa3a1cf07a)",
+    "released": false,
+    "terminalClaimMade": false
+  },
+  "reportCorrection": {
+    "implemented": true,
+    "assertionResult": "PASS",
+    "component10": {
+      "sourcePath": null,
+      "sourceSha256": null,
+      "sourceBound": false,
+      "role": "process guidance; source and measurement pending"
+    },
+    "boundConditionalRoleComponents": 5,
+    "boundRowsRetainExactSourceRecordPathsAndHashes": true,
+    "reviewMethod": "draft role inventory from current component metadata and exact held source pins; independent source-label review pending",
+    "reviewStatus": "DRAFT_PENDING_INDEPENDENT_SOURCE_LABEL_REVIEW"
+  },
+  "entrypoints": {
+    "builderInitialAttempt": {"exit":1,"classification":"INPUT_PREPARATION_FAILURE","reason":"referenced readiness JSON absent before Captain copied it"},
+    "builderAfterExactInputCopy": {"exit":0,"sourceCount":9,"sourcePinsExact":true},
+    "builderDeterminismRun1": {"startedAt":"2026-09-11T10:27:14Z","exit":0,"canonicalSha256":"50e75d06844f90e3d28101c7ef172000c06ad9f643074f19d913de742dc30c0c","boundarySha256":"d9d8b904792feba796f54f75b2d7a2ccfde095458434d87e16ed75a724d5fd12"},
+    "builderDeterminismRun2": {"startedAt":"2026-09-11T10:27:22Z","exit":0,"canonicalSha256":"50e75d06844f90e3d28101c7ef172000c06ad9f643074f19d913de742dc30c0c","boundarySha256":"d9d8b904792feba796f54f75b2d7a2ccfde095458434d87e16ed75a724d5fd12"},
+    "stageGateTest": {"exit":0,"verdict":"PASS"}
+  },
+  "stage": {
+    "status": "official_forms_ingested",
+    "rasterState": "UNVERIFIED_NO_RASTER",
+    "noLocalRaster": true
+  },
+  "deterministicAssemblyCorrection": {
+    "implemented": true,
+    "convention": "Immediately after PDFDocument.create(), set CreationDate and ModDate to new Date(0).",
+    "twoDistinctTimeBuildsStable": true,
+    "baselineComparison": "All 589 objects and all streams are unchanged except object 3 0 R /CreationDate and /ModDate, which are D:19700101000000Z in both final fixtures.",
+    "originalTimestampDriftEvidence": "before-after-hashes.json"
+  },
+  "remainingWork": {
+    "class": "DRAFT_SOURCE_LABEL_AND_MEASUREMENT_REVIEW_PENDING",
+    "detail": "The assigned false source-bound and deterministic-assembly defects are corrected. PF02 remains incomplete because this is still a draft role inventory pending independent source-label review and the family retains measured-prefill/manual-blank work outside this task."
+  },
+  "nonGrants": "No independent approval, terminal claim, raster, source binding, source-label completion, instruction prose completion, field-map measurement, legal assumption, central state change, commit or push."
+}

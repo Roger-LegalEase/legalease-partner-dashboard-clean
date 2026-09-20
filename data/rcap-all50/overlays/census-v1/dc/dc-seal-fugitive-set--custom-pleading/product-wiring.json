@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "dc_seal_fugitive-set",
+  "routeKey": "obligation:track-only:DC:dc_seal_fugitive",
+  "routeKeys": [
+    "obligation:track-only:DC:dc_seal_fugitive"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "dc_seal_fugitive-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "componentId": "dc_seal_fugitive-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "315401332562ec19d602679d75a2a5e1789c2fb60163ec967c7791e0db65ee3a",
+        "requirement": "required"
+      }
+    ]
+  },
+  "binding": {
+    "family": "dc_seal_fugitive-set",
+    "jurisdiction": "DC",
+    "routeKeys": [
+      "obligation:track-only:DC:dc_seal_fugitive"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "primary_filing"
+    ],
+    "packetComponents": [],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/dc/dc-seal-fugitive-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33549186956",
+      "jobId": "99994820876",
+      "artifactId": "9816904552",
+      "boundToCanonicalSha256": "315401332562ec19d602679d75a2a5e1789c2fb60163ec967c7791e0db65ee3a",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "verifiedAtBase": null
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-dc_seal_fugitive-set.mjs",
+      "sharedBuildHost": "build-census-v1-dc_seal_nonconviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "integrationBranch": "claude/legalease-sprint-captain-utucnw",
+  "sourceSha": "b32f22d51ed6638c43a7f18446990cb507d9325f",
+  "inputs": {
+    "commit_sha": "b32f22d51ed6638c43a7f18446990cb507d9325f",
+    "raster_manifest_path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "family_batch": "ms-misd-addl-set",
+    "requested_scale": "2.5"
+  },
+  "approvedArtifacts": {
+    "canonical": "c2938658151e650ff20791a8b14ba4a9197a339ced3645407914a2066bafbb7b",
+    "boundary": "61c429c2135a6b3b79de26adea8eb6f6ed1288aaf21c0a604dd656c431848c84"
+  },
+  "expectedHostedWrites": [
+    "GitHub Actions run metadata and logs",
+    "Canonical raster receipt and fourteen page-image workflow artifacts"
+  ],
+  "noDeployment": true,
+  "noHostedParticipantJourney": true,
+  "noDatabaseWrites": true,
+  "noSourceAcquisition": true,
+  "noWorkerPublication": true,
+  "noRuntimePinChange": true,
+  "productionUntouched": true,
+  "governingContract": {
+    "path": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+    "sha256": "86da913ebb3efbd327d69b813a0f14d8b21956b8aa0bc82c530d73185955cd51",
+    "rule": "Local raster evidence is retained but does not satisfy the central acceptance gate without a bound workflow run."
+  },
+  "workflowSha256": "ed0a385a51fb399fc4baf406c844d763dc90da4a50fb7133d2dd94fd9a1de38e",
+  "manifestSha256": "5c4f1ce061cdfd0514ad42ae9f98e2fa420edf5cba1abc9742a1a24513a7377e",
+  "requiresIndependentInspectionOfAllFourteenCentralImagesBeforeIngestion": true
+}

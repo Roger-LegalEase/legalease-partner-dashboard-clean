@@ -1,0 +1,380 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "nc_145_5_misdemeanor-set",
+  "worklistGroupId": "nc_145_5_misdemeanor-set",
+  "jurisdiction": "NC",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time with every relied-on statement re-read from the committed bytes as an anchor, and every official agency document bound by exact SHA-256 resolved through the committed corpus index and its declared custody roots",
+  "routeKeys": [
+    "obligation:track-only:NC:nc_145_5_misdemeanor"
+  ],
+  "statutoryAuthority": [
+    "N.C. Gen. Stat. § 15A-145.5",
+    "N.C. Gen. Stat. § 15A-145.5(a)",
+    "N.C. Gen. Stat. § 15A-145.5(c)",
+    "N.C. Gen. Stat. § 15A-145.5(c1)",
+    "N.C. Gen. Stat. § 15A-145.5(c4)",
+    "N.C. Gen. Stat. § 15A-145.5(c5)",
+    "N.C. Gen. Stat. § 15A-150",
+    "N.C. Gen. Stat. § 15A-151(a1)",
+    "N.C. Gen. Stat. § 15A-153"
+  ],
+  "legalName": "Petition and Order of Expunction of Nonviolent Misdemeanor Convictions under G.S. 15A-145.5",
+  "allSourcesExact": true,
+  "formIdentityNote": "All three documents are the North Carolina Administrative Office of the Courts' own published forms, bound by exact SHA-256 through the committed corpus index and delivered as the AOC issues them. AOC-CR-298 replaced AOC-CR-281 for nonviolent misdemeanor petitions and says so on its own face; its face also says that for expunction of nonviolent FELONIES under the same section the form is AOC-CR-297, which this packet is not. The committed track registry pins both identities and records that a transposed number between them is a live rejection risk.",
+  "agencyTreatmentNote": null,
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-packet-set-manifests.json"
+      ],
+      "recordId": "packet-set-manifest:nc_145_5_misdemeanor-set",
+      "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+      "byteLength": 3711585,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed packet-set manifest for this exact packet set. Under DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A2 its participantActionRequired entries are a held source, and here they settle the filing destination, the fee and its amount, the indigency waiver, the service position, and every record the participant must obtain and confirm before filing. Its requiredBeforeFiling list is read from these bytes at build time and printed verbatim into participant-instructions.md",
+      "anchorStatementsVerified": 10,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-13",
+        "was": {
+          "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+          "byteLength": 3711575
+        },
+        "why": "The record was rewritten around this receipt's anchors. 2 named entries moved between the blob carrying the previous pin and the bytes on disk (wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "anchorsCompared": 5,
+        "anchorDetail": [
+          "packetManifestSharedMetadata: identical",
+          "packetSet:dc_innocence_expungement-set: identical",
+          "packetSet:il-prostitution-j-vacate-set: identical",
+          "packetSet:ms-misd-addl-set: identical",
+          "packetSet:nc_145_5_misdemeanor-set: identical"
+        ],
+        "anchorsIdentical": 5,
+        "identicalAnchorSha256": {
+          "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+          "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+          "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+          "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+          "packetSet:nc_145_5_misdemeanor-set": "d3ff51cc226c46eeaa146bc4e8df58df4c71501348126bcb3263b9f65ad37bb7"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nc_145_5_misdemeanor-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "nc_145_5_misdemeanor-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "nc_145_5_misdemeanor-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-only:NC:nc_145_5_misdemeanor",
+                "packetSetId": "nc_145_5_misdemeanor-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "wv_nc_acquittal_dismissal-set",
+          "wv_nc_diversion_deferred-set"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-12",
+          "was": {
+            "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+            "byteLength": 3710466
+          },
+          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+          "anchorsCompared": 5,
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical",
+            "packetSet:nc_145_5_misdemeanor-set: identical"
+          ],
+          "anchorsIdentical": 5,
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+            "packetSet:nc_145_5_misdemeanor-set": "d3ff51cc226c46eeaa146bc4e8df58df4c71501348126bcb3263b9f65ad37bb7"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+          "anchorScope": {
+            "anchorIds": [
+              "nc_145_5_misdemeanor-set"
+            ],
+            "derivation": {
+              "declarations": [
+                {
+                  "basis": "pin.recordId",
+                  "packetSetId": "nc_145_5_misdemeanor-set"
+                },
+                {
+                  "basis": "receipt.familyId exact packetSetId",
+                  "packetSetId": "nc_145_5_misdemeanor-set"
+                },
+                {
+                  "basis": "receipt.routeKeys:obligation:track-only:NC:nc_145_5_misdemeanor",
+                  "packetSetId": "nc_145_5_misdemeanor-set"
+                }
+              ],
+              "globalMetadataComparedAsOneAnchor": true
+            }
+          },
+          "entriesThatMovedInThisRecord": [
+            "de_discretionary_family_court-set"
+          ],
+          "recoveredFrom": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "7eac21e1e2634a0cbc04afaf459f4fe2be96e64b",
+            "commit": "fded60e657631cdee0c146396e446482f4d66384",
+            "commitsWithThisPath": 66,
+            "distinctBlobs": 59,
+            "blobsHashed": 2
+          },
+          "previousIdentityRefresh": {
+            "refreshedOn": "2026-09-12",
+            "was": {
+              "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
+              "byteLength": 3708358
+            },
+            "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+            "anchorsCompared": 2,
+            "anchorDetail": [
+              "recordGlobalMetadata: identical",
+              "packetSet:nc_145_5_misdemeanor-set: identical"
+            ],
+            "anchorsIdentical": 2,
+            "identicalAnchorSha256": {
+              "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+              "packetSet:nc_145_5_misdemeanor-set": "b7edc32deb95b21a579a338361965c144c3d59d3fee6d436c645798f1f0366ad"
+            },
+            "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+            "anchorScope": {
+              "anchorIds": [
+                "nc_145_5_misdemeanor-set"
+              ],
+              "basis": "packet-set-manifest:nc_145_5_misdemeanor-set"
+            },
+            "entriesThatMovedInThisRecord": [
+              "il-seal-edu-set"
+            ],
+            "recoveredFrom": {
+              "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+              "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
+            },
+            "previousIdentityRefresh": {
+              "refreshedOn": "2026-09-12",
+              "was": {
+                "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "byteLength": 3708050
+              },
+              "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_superior_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+              "anchorsCompared": 2,
+              "anchorDetail": [
+                "recordGlobalMetadata: identical",
+                "packetSet:nc_145_5_misdemeanor-set: identical"
+              ],
+              "anchorsIdentical": 2,
+              "identicalAnchorSha256": {
+                "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "packetSet:nc_145_5_misdemeanor-set": "b7edc32deb95b21a579a338361965c144c3d59d3fee6d436c645798f1f0366ad"
+              },
+              "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+              "anchorScope": {
+                "anchorIds": [
+                  "nc_145_5_misdemeanor-set"
+                ],
+                "basis": "packet-set-manifest:nc_145_5_misdemeanor-set"
+              },
+              "entriesThatMovedInThisRecord": [
+                "de_discretionary_superior_court-set"
+              ],
+              "recoveredFrom": {
+                "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+                "commit": "cb9030a2d8b700300897c399ef02c4dccc5c8d88"
+              },
+              "previousIdentityRefresh": {
+                "refreshedOn": "2026-09-10",
+                "was": {
+                  "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+                  "byteLength": 3694688
+                },
+                "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for nc_145_5_misdemeanor-set and the record's global authority fields were recovered from the blob carrying the previous pin (1784eec3da534eca557d2f6bae86204a9114cb9f) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+                "recoveredFromCommit": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+                "anchorsCompared": 2,
+                "anchorDetail": [
+                  "recordGlobalMetadata: identical",
+                  "packetSet:nc_145_5_misdemeanor-set: identical"
+                ],
+                "anchorsIdentical": 2,
+                "identicalAnchorSha256": {
+                  "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                  "packetSet:nc_145_5_misdemeanor-set": "b7edc32deb95b21a579a338361965c144c3d59d3fee6d436c645798f1f0366ad"
+                },
+                "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+                "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+              },
+              "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+            },
+            "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+          },
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-track-registry.json"
+      ],
+      "recordId": "track-registry:nc_145_5_misdemeanor",
+      "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed legal-design track registry entry for this track. It settles the venue and destination this packet states, the waiting-period tiers it explains, and it is the source of the exclusions and the stop conditions the packet carries word for word",
+      "anchorStatementsVerified": 10,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "registryGlobalMetadata: identical",
+          "track:nc_145_5_misdemeanor: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:nc_145_5_misdemeanor": "f6ec22edeb5a7c808c6dc8fa45aeb4f2c2e54852506749ca883af455b30b2138"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nc_145_5_misdemeanor"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "nc_145_5_misdemeanor"
+            ],
+            "fromReceiptRouteKeys": [
+              "nc_145_5_misdemeanor"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    }
+  ],
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:AOC-CR-298"
+      ],
+      "documentId": "AOC-CR-298",
+      "formNumber": "AOC-CR-298",
+      "officialTitle": "Petition And Order Of Expunction Under G.S. 15A-145.5 (Nonviolent Misdemeanor(s))",
+      "revision": "REV-2025-07",
+      "sha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "byteLength": 300577,
+      "custody": "master_library",
+      "pathInCustody": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "corpusIndexAgrees": true,
+      "pageCount": 2,
+      "acroFieldCount": 107,
+      "structuralClassObserved": "acroform",
+      "instrumentKind": "primary_filing",
+      "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer"
+    },
+    {
+      "sourceIds": [
+        "official-form:AOC-CR-298-INSTRUCTIONS"
+      ],
+      "documentId": "AOC-CR-298-INSTRUCTIONS",
+      "formNumber": "AOC-CR-298-INSTRUCTIONS",
+      "officialTitle": "Instructions For Petition And Order Of Expunction Under G.S. 15A-145.5 (Nonviolent Misdemeanor(s))",
+      "revision": "REV-2025-07",
+      "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+      "byteLength": 202831,
+      "custody": "master_library",
+      "pathInCustody": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "corpusIndexAgrees": true,
+      "pageCount": 1,
+      "acroFieldCount": 0,
+      "structuralClassObserved": "flat_pdf",
+      "instrumentKind": "instructions",
+      "renderStrategy": "delivered_unmodified"
+    },
+    {
+      "sourceIds": [
+        "official-form:AOC-CV-226"
+      ],
+      "documentId": "AOC-CV-226",
+      "formNumber": "AOC-CV-226",
+      "officialTitle": "Petition To Proceed As An Indigent / Civil Affidavit Of Indigency",
+      "revision": "REV-2023-04",
+      "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "byteLength": 269426,
+      "custody": "master_library",
+      "pathInCustody": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "corpusIndexAgrees": true,
+      "pageCount": 2,
+      "acroFieldCount": 78,
+      "structuralClassObserved": "acroform",
+      "instrumentKind": "fee_waiver",
+      "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer"
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family prepares for",
+    "that these are the current official editions of any of the three AOC forms, or that none has been superseded since the archive was assembled",
+    "that any particular North Carolina conviction is a nonviolent misdemeanor within G.S. 15A-145.5",
+    "that the enumerated exclusion list of G.S. 15A-145.5(a) is encoded anywhere in this packet — the committed track record holds that list as unread at source and as a build blocker for any eligibility branch, and this packet contains no eligibility branch",
+    "that any waiting period has run, or that any restitution has been satisfied"
+  ]
+}

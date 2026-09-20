@@ -1,0 +1,47 @@
+{
+  "familyId": "ct-cleanslate-petition-set",
+  "changes": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/independent-visual-review.json",
+      "field": "whatToLookAt",
+      "before": "Page 1, the caption block: 'Name of defendant', 'E-mail address', 'Phone number', 'JD/GA number' and 'Address of court' are all deliberately BLANK. Confirm that reads as an incomplete form to be finished, not as a filled form with missing data. See reports/caption-channel-defect.json.",
+      "after": "Page 1, the caption block: confirm canonical name, email, phone, date of birth, street address and docket match the fixture. In the boundary fixture, name and docket remain blank because they exceed the measured fit limits. JD/GA number and court address remain participant-supplied in both fixtures."
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/caption-channel-defect.json",
+      "field": "thisFamilysResponse",
+      "before": "Nothing shared was edited. Every affected field is refused by role, the refusal reasons record what protects each field today and whether that protection survives the fix, and the refusals are proved from the rendered artifact bytes rather than from this report.",
+      "after": "The unguided caption behavior above is historical diagnostic evidence. This family uses explicit mappings for known participant values and separate role-based protection for jurat and court fields. Canonical name, email, phone, date of birth, street address and docket are filled; boundary name and docket are refused when they do not fit. Shared caption machinery was not changed."
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "field": "thisFormInParticular",
+      "before": "Nineteen of twenty-two. That is a high proportion and it is the honest one: six fields are refused because the shared caption channel binds the wrong fact to them, four are a sworn attestation block, five are the court's own order section printed on the reverse, four are form buttons, and one is the crimes box, which binds the participant's name and which describes an eligibility question this family does not answer. See reports/caption-channel-defect.json.",
+      "after": "The rows below enumerate unfilled fields by fixture with their actual refusal reasons. Court and jurat fields remain protected. Known participant values use explicit mappings; values that exceed fit limits remain blank. Court location and requested crimes remain participant-supplied. The count is derived from the listed rows, not from the historical caption-channel diagnostic."
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/approval-request.json",
+      "field": "mattersForTheReviewersAttention",
+      "before": "reports/caption-channel-defect.json \u2014 a shared-infrastructure defect that both misbinds six fields on this form and is the only thing currently preventing a sworn attestation block from being prefilled.",
+      "after": "reports/caption-channel-defect.json \u2014 historical unguided caption behavior; this family uses explicit participant mappings and independent role-based protection for jurat and court fields. Review the actual field decisions and both fixtures."
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/actual-writes.json",
+      "field": "note",
+      "before": "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report. The form's own Print Form and Reset Form pushbutton captions are recorded under flattenedFormOwnButtonCaptions: flattening materialises them, and counting them as ink on a refused field would report a protected write that never happened.",
+      "after": "Read back from the finalized PDF bytes at measured widget rectangles. Source-authored control captions are distinguished from participant ink by the readback machinery. This family's finalizer suppresses on-screen Print Form and Reset Form controls; an empty flattenedFormOwnButtonCaptions list does not by itself prove protected-field or whole-page ink absence."
+    }
+  ],
+  "pdfsUnchanged": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77"
+    }
+  ],
+  "measurementsAndCountersChanged": false,
+  "independentReviewRequired": true
+}

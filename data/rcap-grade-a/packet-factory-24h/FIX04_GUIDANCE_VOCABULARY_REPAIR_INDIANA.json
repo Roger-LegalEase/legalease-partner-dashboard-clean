@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-fix04-guidance-vocabulary-repair/v1",
+  "generatedBy": "FIX04, repairing the ARTIFACTS visualDefects-6 obligation VF36 scored on the three Indiana conviction families",
+  "atCommit": "027a83e550d50b702b22713ee1555dc76861ec39",
+  "grantsNothing": "This records a repair and a measurement. It promotes no family, opens no route, and approves nothing. FIX04 built this repair and therefore cannot verify it.",
+
+  "whatWasRepaired": {
+    "families": ["in_conviction_d6-set", "in_conviction_felony-set", "in_conviction_misd-set"],
+    "theDefect": "The participant guidance opened in the factory's own vocabulary: the packet-set id and its version, a count of the routes the set 'serves', a bare route key, then every component labelled by its internal component id, with snake_case role and action enums and a code-shaped 'N page(s)' plural, and two labels that stuttered the document's name twice.",
+    "whereItLived": "Not in a shared generator. participantInstructions(), filingInstructions(), guidanceBlocks() and renderComposedDocument() are all local functions defined inside each per-family build script. The leak was emitted inline in scripts/build-census-v1-in_conviction_{d6,felony,misd}-set.mjs.",
+    "bothHalvesOfTheGuidancePdf": "The guidance PDF renders participant-instructions.md AND filing-instructions.md. Six of the twelve leaked component ids per family lived in the filing half, which is why a scan of the participant file alone reads six, not twelve."
+  },
+
+  "perFamilyCountsMeasuredAcrossBothHalves": {
+    "readFrom": "the delivered markdown that the guidance PDF renders, and confirmed against pdftotext of all six delivered guidance PDFs",
+    "before": {
+      "bareRouteKeys": 1,
+      "packetSetIdPrintSites": 2,
+      "internalComponentIds": 12,
+      "snakeCaseEnumTokens": 19,
+      "codeShapedPluralsOfWhichPageS": { "allXofS": 19, "pageS": 14 },
+      "stutteringLabels": 2
+    },
+    "after": {
+      "bareRouteKeys": 0,
+      "packetSetIdPrintSites": 0,
+      "internalComponentIds": 0,
+      "snakeCaseEnumTokens": 0,
+      "codeShapedPluralsOfWhichPageS": { "allXofS": 0, "pageS": 0 },
+      "stutteringLabels": 0,
+      "backtickCharactersInTheGuidance": 0,
+      "literalAsterisksSurvivingIntoTheRender": 0
+    },
+    "twoOfVF36sSixCountsWereLow": "VF36 counted 5 snake_case enums where the guidance render carries 19 tokens (5 is close to the count of DISTINCT action kinds visible on one page), and 13 'N page(s)' where the render carries 14. The six classes it named are all real and all confirmed; only those two totals were under."
+  },
+
+  "whatReplacedWhat": {
+    "rule": "Every replacement is the document's own printed name, the committed record's own words, or an English rendering of a controlled-vocabulary token. No document name was composed, no participant fact was stated, and the form number and title that already sat beside each leaked id were kept.",
+    "routeLine": "'Packet set `X`, version 1.0.0.' + 'This packet set serves 1 route(s):' + a bare route key  ->  'This packet is prepared for one route under <statute>: the relief named at the top of this page.' The sentence is now guarded by an assert on routeKeys.length === 1, so adding a second route fails the build rather than printing a false count.",
+    "componentIds": "the internal id was dropped; the title or the issuer's form number that already followed it is now the label.",
+    "enums": "two frozen tables render role, requirement and action kind in English. Both REFUSE an unknown token rather than passing it through, because the defect being repaired is precisely a raw enum reaching a participant.",
+    "plurals": "'N page(s)' -> '1 page' / '3 pages', and the same for item(s), instruction(s), exclusion(s), question(s).",
+    "stutters": "the repeat is removed only where the description literally begins with the document's own name, or with the trailing words of it. 'CCA-XP-0120-7002 Form ACR, Form ACR, the Notice of ...' -> 'CCA-XP-0120-7002 Form ACR, the Notice of ...'; 'Confidential Information Form, the Confidential Information Form, which carries ...' -> 'Confidential Information Form, which carries ...'."
+  },
+
+  "theCaptainsCountOf19DoesNotHold": {
+    "whatIMeasured": "Every participant-instructions.md in data/rcap-all50 (369 files; 304 of them under overlays/census-v1), whole-file, with no line cap.",
+    "carriersOfTheOpeningIdentityBlockOrAnInternalComponentId": 12,
+    "ofWhichCarryTheFullOpeningBlock": 9,
+    "theTwelve": [
+      "in/in-conviction-d6-set--custom-pleading",
+      "in/in-conviction-felony-set--custom-pleading",
+      "in/in-conviction-misd-set--custom-pleading",
+      "la/la-976-arrest-no-conviction-set--official-pdf-fill",
+      "la/la-977-misdemeanor-conviction-set--custom-pleading",
+      "la/la-977d-marijuana-first-offense-set--custom-pleading",
+      "la/la-978-felony-conviction-set--custom-pleading",
+      "la/la-985-1-interim-expungement-set--custom-pleading",
+      "la/la-985-expungement-by-redaction-set--custom-pleading",
+      "la/la-987-set-aside-and-dismiss-set--official-pdf-fill",
+      "nh/nh-conviction-standard-set--official-pdf-fill",
+      "nh/nh-marijuana-annulment-set--official-pdf-fill"
+    ],
+    "sevenFamiliesTheRecordNamedCarryNothing": [
+      "al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+      "ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+      "ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+      "ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+      "fl/fl-10yr-bridge-set--official-pdf-fill",
+      "fl/fl-administrative-set--official-pdf-fill",
+      "fl/fl-early-juvenile-set--official-pdf-fill"
+    ],
+    "sevenCarriersTheRecordOmitted": [
+      "the three Indiana families that produced the finding",
+      "la/la-985-expungement-by-redaction-set",
+      "la/la-987-set-aside-and-dismiss-set",
+      "nh/nh-conviction-standard-set",
+      "nh/nh-marijuana-annulment-set"
+    ],
+    "theRecordIsAlsoInternallyInconsistent": "GUIDANCE_OPENING_LEAKS_INTERNAL_VOCABULARY.json states 19 affected families and then lists 12, and the 12 it lists are not the 12 that carry the signature.",
+    "vf36sCitationStillHolds": "nh-petition-vacated-set carries none of it, and its opening is the in-repo model for the register this repair moved toward. But it does not generalise to New Hampshire: two other NH families print bare route keys.",
+    "aFourthPrintSiteNeitherOfUsCounted": {
+      "what": "an italic trailer '_Route(s): <bare route key>_' at the END of the file",
+      "files": 63,
+      "whyTheCaptainsScanCouldNotSeeIt": "it was read from the first 40 lines only, and the trailer is the last line",
+      "presentInTheThreeIndianaFamilies": 0
+    }
+  },
+
+  "whatTheNextLaneMustDo": {
+    "scopeTaken": "three families, not nineteen — because there is no shared generator to fix. The guidance prose is emitted inline in standalone per-family build scripts; the nine full-block carriers map one-to-one onto nine separate ~1,800-2,200 line scripts with no common helper between them.",
+    "notAnOptIn": "This is not a fix scoped by adding three families to an allow-list inside a shared host. There is no shared host and no allow-list. Six sibling scripts still hold their own inline copy of the same text, and each needs its own edit.",
+    "theSixScriptsStillCarryingTheFullOpeningBlock": [
+      "scripts/build-census-v1-la-976-arrest-no-conviction-set.mjs",
+      "scripts/build-census-v1-la-977-misdemeanor-conviction-set.mjs",
+      "scripts/build-census-v1-la-977d-marijuana-first-offense-set.mjs",
+      "scripts/build-census-v1-la-978-felony-conviction-set.mjs",
+      "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs",
+      "scripts/build-census-v1-la-985-expungement-by-redaction-set.mjs"
+    ],
+    "andThreeMoreCarryingAFragment": [
+      "la-987-set-aside-and-dismiss-set: an inline bare route key in the 'Prepared for' sentence, plus two component ids",
+      "nh-conviction-standard-set: two bare route key bullets",
+      "nh-marijuana-annulment-set: one bare route key bullet"
+    ],
+    "theRouteTrailerIsASeparateJob": "63 files carry the '_Route(s):' trailer. None of the three Indiana families do. It is the same class of defect and it is nine times larger than the opening block; it deserves its own measurement and its own dispatch, not a silent inclusion."
+  },
+
+  "thingsNoCounterSees": {
+    "theGuidanceRendererPrintsMarkdownTablesAsRawPipes": {
+      "what": "The 'What you must supply before filing' table reaches the participant as pipe-delimited run-on text: 'Verified Petition for Expungement of Conviction Records | Petitioner mailing address | your current mailing address, ...'. The header row prints as body text and the '| --- |' separator row is silently dropped, so the renderer understands the table well enough to delete its rule and not well enough to lay out a column.",
+      "pipeCharactersReachingTheRenderedGuidance": 9,
+      "preExisting": true,
+      "provedPreExisting": "the pipe-table markup is byte-identical at HEAD and untouched by this repair's diff",
+      "notFixedBecause": "it is a change to the shared render path, not to this family's copy, and it is outside the obligation dispatched. It is real and it is participant-facing.",
+      "foundHow": "off a 150 dpi render, not off extracted text"
+    },
+    "aRawPdfFieldNameReachesParticipantsInThreeOtherFamilies": {
+      "what": "the literal tokens `undefined_2` through `undefined_9` are printed to the participant as blank labels",
+      "files": [
+        "al/al-misd-nonconviction-90-set--official-pdf-fill/participant-instructions.md",
+        "ar/ar-cs-possession-seal-set--official-pdf-fill/participant-instructions.md",
+        "ar/ar-arrest-seal-set--official-pdf-fill/participant-instructions.md"
+      ],
+      "notMine": "outside FIX04's grant; recorded, not touched"
+    },
+    "aNetDarkPixelCountIsABadProxyForWidgetInk": {
+      "what": "On canonical.pdf page 4 the aggregate dark-pixel count differs by only 373 between an annotated and a -hide-annotations render, because widget appearance ink also COVERS dark pixels underneath it. The per-pixel differential on the same two renders is 10,315 pixels changed and 3,650 dark only when annotations are drawn.",
+      "why it matters": "a lane proving its render draws widget ink by comparing two aggregate counters could read 373 and conclude its renderer barely draws annotations, or read a near-zero delta on a sparser page and conclude wrongly that it draws none."
+    }
+  },
+
+  "theBorrowedKeyVF36FoundIsConfirmedAndNotRenamed": {
+    "observed": "reports/actual-writes.json carries addedGlyphsReadFromOutputBytes = 607 and 1,010 beside flattenedWidgetAppearancesReadFromOutputBytes = 0, in all three families, unchanged by this repair.",
+    "theCollisionIsInTheSource": "the builder writes 'addedGlyphsReadFromOutputBytes: proof.glyphs' from its own proveWritesFromBytes, while scripts/rcap-official-forms/rcap-output-glyph-reading.mjs increments its addedGlyphs ONLY inside the branch that increments flattenedWidgetAppearances -- so under that module's definition the key would have to be 0 wherever flattened is 0.",
+    "theNumbersAreRight": "607 + 1,010 = 1,617, the non-whitespace glyph count of the 48 declared writes. Only flattenedWidgetAppearancesReadFromOutputBytes is actually taken from the module, exactly as the builder's own comment says.",
+    "notRenamed": "a shared key is not renamed by one repair lane on its own initiative. Recorded for whoever owns the module."
+  },
+
+  "theSelfDescribingOffenceLineIsUnchanged": "declined earlier with reasons, agreed by VF36: an honest placeholder beats a plausible fabrication. This repair did not touch it."
+}

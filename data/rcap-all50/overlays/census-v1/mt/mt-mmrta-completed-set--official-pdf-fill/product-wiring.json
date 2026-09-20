@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "mt_mmrta_completed-set",
+  "routeKey": "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+  "routeKeys": [
+    "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+    "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "mt_mmrta_completed-set",
+    "jurisdiction": "MT",
+    "routeKeys": [
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "DOJ CRISS submission after an expungement order (official_pdf_fill)",
+      "MMRTA Form B petition in the sentencing court, with certificate of service and proposed order (official_pdf_fill)"
+    ],
+    "packetComponents": [
+      "component:mt_mmrta_completed-certificate-of-service-2",
+      "component:mt_mmrta_completed-primary-filing-1",
+      "component:mt_mmrta_completed-primary-filing-5",
+      "component:mt_mmrta_completed-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:MT-FORM-B",
+        "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:MT-MMRTA-CERTIFICATE-OF-SERVICE",
+        "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:MT-MMRTA-PROPOSED-ORDER",
+        "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+        "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+        "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+        "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34788880626",
+      "jobId": "103809902682",
+      "artifactId": "10327591464",
+      "boundToCanonicalSha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfmtbfinal3",
+      "verifiedAtBase": "b786fca78a196b2a978f294f1e3a03931f657915"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-mt_mmrta_completed-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "mt_mmrta_completed-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "mt_mmrta_completed-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "mt_mmrta_completed-primary-filing-1",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+        "requirement": "required"
+      },
+      {
+        "componentId": "mt_mmrta_completed-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "mt_mmrta_completed-certificate-of-service-2",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+        "requirement": "required"
+      },
+      {
+        "componentId": "mt_mmrta_completed-set-component-3",
+        "role": "companion_document",
+        "order": 3,
+        "documentId": "mt_mmrta_completed-proposed-order-3",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+        "requirement": "required"
+      },
+      {
+        "componentId": "mt_mmrta_completed-set-component-4",
+        "role": "companion_document",
+        "order": 4,
+        "documentId": "mt_mmrta_completed-attachment-4",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+        "requirement": "required"
+      },
+      {
+        "componentId": "mt_mmrta_completed-set-component-5",
+        "role": "companion_document",
+        "order": 5,
+        "documentId": "mt_mmrta_completed-instructions-6",
+        "file": "data/rcap-all50/overlays/census-v1/mt/mt-mmrta-completed-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "62af7aac1df1f960878468b179bb9588a30efa404ffc03dbb92d30d1293a5083",
+        "requirement": "required"
+      }
+    ]
+  }
+}

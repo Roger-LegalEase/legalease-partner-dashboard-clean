@@ -1,0 +1,379 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ms-nonconv-set",
+  "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "routeKeys": [
+    "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+  ],
+  "workType": "GRADE_A_PRODUCT_WIRING",
+  "status": "INSTALLED_LEGAL_APPROVAL_PASSED_HELD_FOR_TECHNICAL_PREVIEW_ACCEPTANCE",
+  "authorityCreated": "held_grade_a_fulfillment_record",
+  "generatedBy": "scripts/generate-ms-clinic-demo-packet.mjs",
+  "derivedFrom": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+  "explicitNonGrants": [
+    "This record authorizes deterministic build and controlled review only.",
+    "It opens no consumer sale and grants no production deployment.",
+    "Sponsored delivery remains closed until every technical Preview acceptance predicate passes."
+  ],
+  "currentState": {
+    "serviceDisposition": "exact_runtime_route_and_grade_a_specification_installed",
+    "commercialState": "HELD_PENDING_CORRECTED_WORKER_AND_TECHNICAL_PREVIEW_ACCEPTANCE",
+    "existingArtifactIds": [
+      "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+      "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1"
+    ],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "The revised five-document packet uses conventional pleading pages, a mandatory jurat, and a confidential synthetic MCIC identifier addendum. Delivery authority remains held.",
+    "packetSetId": "ms-nonconv-set",
+    "outputStrategy": "custom_pleading",
+    "components": [
+      {
+        "documentId": "ms-cover-and-contents",
+        "role": "cover_and_contents",
+        "order": 1,
+        "requirement": "required",
+        "manifestComponentIds": [],
+        "censusV1ComponentIds": [
+          "cover_and_contents"
+        ]
+      },
+      {
+        "documentId": "ms-petition-for-expungement",
+        "role": "primary_filing",
+        "order": 2,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-primary-filing-1"
+        ],
+        "censusV1ComponentIds": [
+          "primary_filing"
+        ]
+      },
+      {
+        "documentId": "ms-proposed-order",
+        "role": "proposed_order",
+        "order": 3,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-proposed-order-2"
+        ],
+        "censusV1ComponentIds": [
+          "proposed_order"
+        ]
+      },
+      {
+        "documentId": "ms-service-and-attachments",
+        "role": "certificate_of_service_and_attachment_checklist",
+        "order": 4,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-certificate-of-service-3",
+          "ms-nonconv-attachment-4"
+        ],
+        "censusV1ComponentIds": [
+          "certificate_of_service",
+          "attachment"
+        ]
+      },
+      {
+        "documentId": "ms-filing-and-next-steps",
+        "role": "filing_and_next_steps",
+        "order": 5,
+        "requirement": "required",
+        "manifestComponentIds": [
+          "ms-nonconv-instructions-5"
+        ],
+        "censusV1ComponentIds": [
+          "instructions"
+        ]
+      }
+    ]
+  },
+  "binding": {
+    "family": "ms-nonconv-set",
+    "jurisdiction": "MS",
+    "routeKeys": [
+      "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    ],
+    "deliveryType": "custom_pleading",
+    "packetSpecification": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+    "artifactEvidence": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+    "artifacts": {
+      "canonical": {
+        "fixture": "participant_delivery_canonical",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf",
+        "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+        "byteLength": 33774,
+        "pageCount": 12,
+        "documentCount": 5,
+        "generationPurpose": "participant_delivery",
+        "verificationHash": "f8c520342faecf3be4b3f5d5dc7e84a44ced9d7e02cb284aa2134d01f4487340"
+      },
+      "boundary": {
+        "fixture": "participant_delivery_boundary",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-b.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf",
+        "sha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+        "byteLength": 37430,
+        "pageCount": 13,
+        "documentCount": 5,
+        "generationPurpose": "participant_delivery",
+        "verificationHash": "d9b2244b276e5e8e0eb50a4cc1140a8de3830050876f06fd4a559e08eeb2eed8"
+      }
+    },
+    "historicalInternalReviewArtifacts": {
+      "canonical": {
+        "fixture": "canonical",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-canonical.pdf",
+        "sha256": "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+        "byteLength": 33848,
+        "pageCount": 12,
+        "documentCount": 5,
+        "generationPurpose": "internal_review",
+        "verificationHash": "5db1df6b9c18875816333351b234817a910de50bd8fe5bf7a0f1111111111111"
+      },
+      "boundary": {
+        "fixture": "boundary",
+        "fixtureFile": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.boundary.fixture.json",
+        "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-boundary.pdf",
+        "sha256": "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4",
+        "byteLength": 37542,
+        "pageCount": 13,
+        "documentCount": 5,
+        "generationPurpose": "internal_review",
+        "verificationHash": "d7778fc6857e27b09f1d5a38476c809e7388709aa8305e96d53c222222222222"
+      }
+    },
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/participant-instructions.md",
+    "rasterReview": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+    "independentReview": {
+      "status": "participant_delivery_all_pages_reviewed",
+      "receipt": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+      "externalDeliveryHolds": [
+        "corrected_immutable_worker_publication_and_ingestion",
+        "bounded_nonproduction_migration_application",
+        "current_preview_and_two_participant_staging_scope",
+        "complete_nonproduction_hosted_acceptance"
+      ]
+    },
+    "counselReview": {
+      "status": "approved_exact_participant_delivery_hashes",
+      "state": "passed",
+      "reviewerId": "Lawrence Blackmon",
+      "decision": "APPROVE",
+      "decidedAt": "2026-09-03",
+      "qualifications": [],
+      "authenticationKind": "owner_attestation",
+      "authenticatedApprovalReference": "Owner attestation by Roger Roman that Lawrence Blackmon reviewed the actual final participant-delivery canonical and boundary PDFs identified by exact SHA-256 in the current Mississippi Volunteer Lawyers counsel-review package and approved both artifacts for the bounded sponsored Clinic Mode Preview without qualifications.",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "packetFamily": "ms-nonconv-set",
+      "previewPartnerSlug": "mvl-demo",
+      "canonical": {
+        "sha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+        "byteLength": 33774,
+        "pageCount": 12
+      },
+      "boundary": {
+        "sha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+        "byteLength": 37430,
+        "pageCount": 13
+      },
+      "approvedArtifactHashes": [
+        "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+        "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1"
+      ],
+      "packetSpecificationId": "ms-nonconviction-expungement-99-19-71-4",
+      "packetSpecificationVersion": "2.0.0",
+      "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+      "rendererIdentity": "rcap_grade_a_document_v1",
+      "rendererVersion": "2.0.0",
+      "workerSourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+      "deliveryScope": "sponsored_preview_only_two_synthetic_staging_participants_after_all_technical_gates_pass",
+      "documentCount": 5,
+      "approvalRecorded": true,
+      "scope": "The exact participant-delivery canonical and boundary PDFs for the two synthetic mvl-demo Preview participants; sponsored Preview only after every technical predicate passes.",
+      "consumerPaidAuthorized": false,
+      "productionAuthorized": false,
+      "invalidationRule": "Any packet-byte, specification-digest, document-set, renderer-input, or approved-fact change invalidates this approval and requires a new review.",
+      "priorApprovalReused": false,
+      "historicalInternalReviewApproval": {
+        "reviewerId": "Lawrence Blackmon",
+        "decidedAt": "2026-09-03",
+        "approvedArtifactHashes": [
+          "294e871e192719fa2c542947f8177be1621ea8ce13429f2186df63d8daff9c40",
+          "fe639ff544055e1440d069417d9e8c9fc5a7b366499c51111bd6d3377f7615b4"
+        ]
+      }
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Consumer launch is outside the Clinic Mode Preview and remains held regardless of sponsored Preview acceptance.",
+    "whySponsorshipIsClosed": "Lawrence Blackmon approved the two exact participant-delivery hashes. Sponsored generation remains held until the corrected immutable worker, bounded nonproduction migrations, current Preview, two-participant scope, and complete hosted acceptance journey all pass.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/generate-ms-clinic-demo-packet.mjs",
+      "reRasterRequiredWhen": "either current participant-delivery artifact hash changes",
+      "reVerificationRequiredWhen": "the route, specification, facts, renderer, or artifact bytes change"
+    }
+  },
+  "censusV1Representation": {
+    "whatThisIs": "The census-v1 overlay this family builds, recorded so the specification's document set can be measured against delivered pages rather than only against the packet-set manifest. It is NOT the participant-delivery artifact bound above: binding.artifacts still names the two Grade-A clinic PDFs Lawrence Blackmon approved by exact SHA-256, and neither of those bytes moved.",
+    "addedBy": "FIX01, repairing VF06's FAIL_REPAIR_REQUIRED on COMPONENT_SET at b3467e894",
+    "directory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+    "builder": "scripts/build-census-v1-ms-nonconv-set.mjs",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/reports/rendered-artifacts.json",
+    "packetSpecification": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "packetSpecificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+    "componentSet": [
+      "cover_and_contents",
+      "primary_filing",
+      "proposed_order",
+      "certificate_of_service",
+      "attachment",
+      "instructions"
+    ],
+    "specificationDocumentsNamed": 5,
+    "specificationDocumentsRendered": 5,
+    "specificationDocumentsDispositionedWithoutRendering": 0,
+    "everySpecificationDocumentRendersOrIsDispositioned": true,
+    "measuredAgainst": {
+      "previous": "the specification, not this build's own componentSet; the build fails if a specification document neither renders nor carries a stated disposition",
+      "recordCorrectedOn": "2026-09-08",
+      "recordCorrectedBy": "Captain, records-only, no packet byte changed",
+      "howMeasured": "sha256sum, stat and pdfinfo over the committed fixtures on disk"
+    },
+    "fixtures": {
+      "canonical": {
+        "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845",
+        "byteLength": 33154,
+        "pageCount": 11,
+        "pageCountConfirmedBy": "pdfinfo and a /Type /Page scan agree"
+      },
+      "boundary": {
+        "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58",
+        "byteLength": 33493,
+        "pageCount": 11,
+        "pageCountConfirmedBy": "pdfinfo and a /Type /Page scan agree"
+      }
+    },
+    "supersededFixtures": {
+      "canonical": {
+        "sha256": "e9ca98c502347a0743447ec0c00acc77e40ae3fd47538a1d550a3aa2ca229f51",
+        "byteLength": 22815,
+        "pageCount": 8
+      },
+      "boundary": {
+        "sha256": "b483d29cffb0eee94a813ada8e5b1568c2fc755194ff18dbb9dd468b5103585e",
+        "byteLength": 23066,
+        "pageCount": 8
+      },
+      "tenPagePairSupersededByFix107": {
+        "canonical": {
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "0441d16c75b90f5e1d199a0f32e28433a5db1e7fe6af3e381db016f31520f5dc",
+          "byteLength": 29578,
+          "pageCount": 10
+        },
+        "boundary": {
+          "file": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "379dae5a452fcc65209d020ee9d9b0c3b3910149c45d9e51ee90c4313258b40d",
+          "byteLength": 29851,
+          "pageCount": 10
+        },
+        "supersededBy": "FIX107's repair, which added the specification's VERIFICATION section as its own sheet and moved both fixtures from 10 pages to 11",
+        "retainedBecause": "the receipts and reviews that name these digests remain true of those exact bytes"
+      }
+    },
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+      "workflowRunId": "34058277654",
+      "jobId": "101554484258",
+      "jobConclusion": "success",
+      "renderedCommitSha": "2495d6d9b595a53c4e3cdf3cbeebea94b891d151",
+      "boundToCanonicalSha256": "732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845",
+      "boundToBoundarySha256": "87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58",
+      "documentsCovered": [
+        "canonical.pdf"
+      ],
+      "documentsNotCovered": [],
+      "expectedPages": 11,
+      "whatItDoesNotEstablish": "Raster acceptance is a rendering and placement gate. It is not an independent semantic review, not counsel approval, and not commercial authority.",
+      "coverage": {
+        "rastered": [
+          "canonical.pdf"
+        ],
+        "notRenderedByThisGate": [
+          "boundary.pdf"
+        ],
+        "everyCanonicalDocumentRendered": true,
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+        "wordsTakenFrom": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json, this family's row. scripts/verify-acceptance-receipt-agreement.mjs asserts the agreement rather than the record merely claiming it."
+      },
+      "boundaryDigestBindingMeans": "boundary.pdf is bound to this receipt by hash so the receipt cannot be read against different bytes. It is not a statement that the gate rendered it.",
+      "correctedOn": {
+        "on": "2026-09-09",
+        "by": "Captain, on VF12's independent finding",
+        "was": {
+          "documentsCovered": [
+            "canonical.pdf"
+          ],
+          "documentsNotCovered": [],
+          "coversTheWholeFamily": true
+        },
+        "why": "the receipt claimed the raster covered the whole family while naming only canonical.pdf and binding the boundary digest, so a reader would take boundary.pdf as raster-accepted when the gate never rendered it",
+        "whatDidNotChange": "the run, job, rendered commit, both bound digests, the expected page count and what raster acceptance does not establish"
+      },
+      "whatThisGateDidNotRender": [
+        "boundary.pdf"
+      ],
+      "coversTheWholeFamily": true,
+      "everyCanonicalDocumentRendered": true,
+      "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render; a non-empty list there is a hard failure at acceptance-identity.mjs. whatThisGateDidNotRender names declared fixtures it never renders by design, which is boundary.pdf here. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the correct shape.",
+      "correctedAgainOn": {
+        "on": "2026-09-09",
+        "by": "Captain, on VF15's independent finding",
+        "was": {
+          "documentsNotCovered": [
+            "boundary.pdf"
+          ],
+          "whatThisGateDidNotRender": null,
+          "coversTheWholeFamily": null
+        },
+        "why": "the previous correction moved boundary.pdf into documentsNotCovered, the field acceptance-identity.mjs fails a row on, instead of whatThisGateDidNotRender where a by-design exclusion belongs. It also named boundary.pdf under both questions in one block and went on asserting it could not drift from a queue it no longer matched.",
+        "howItIsPreventedFromRecurring": "scripts/verify-acceptance-receipt-agreement.mjs compares every hand-authored acceptance receipt against the queue row for the same run and fails on disagreement, so this block cannot silently diverge a fourth time."
+      }
+    },
+    "independentVerificationOwed": {
+      "owed": true,
+      "why": "VF04 read this family at 513f43c82 and returned FAIL_REPAIR_REQUIRED on ARTIFACTS for exactly the residue this correction removes. The other fourteen obligations passed and the nine counters were measured zero there. A re-read of ARTIFACTS against these records is owed before the family can be a complete independent pass; nothing here is that re-read.",
+      "priorRead": {
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "513f43c82",
+        "failedObligationNames": [
+          "ARTIFACTS"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+      }
+    },
+    "manifestGap": "data/record-clearing/legal-design-packet-set-manifests.json declares five components for ms-nonconv-set and none of them is the specification's required order-1 cover_and_contents document, so product-wiring.json maps it to manifestComponentIds []. This build renders the document as the composed component cover_and_contents and does not edit the manifest, the specification or any legal-design record. Giving the document a manifest component id is owed to the productization lane.",
+    "grantsNothing": "Rendering the specification's fifth document opens no commercial route, marks nothing proven and changes no live RCAP route. The counsel approval recorded above is bound to the Grade-A clinic artifact hashes and is untouched by this record.",
+    "whyThisReceiptIsTheOne": "RASTER_QUEUE.json carries exactly this receipt for this family, bound by hash to the two fixtures above. The earlier receipt from run 33973869055 job 101327371890 is bound to the superseded 8-page digests and is retained in the queue's superseded receipts; it is not evidence about the current bytes.",
+    "supersededOpenCounselQuestion": {
+      "question": "Which record governs the notarised verification on a Sec. 99-19-71(4) petition: the specification, which makes the jurat mandatory and calls the packet not filing-ready without it, or the legal-design intake memo, which records notarization as unresolved and prints a simple truth statement?",
+      "treatmentAtTheTime": "It does not resolve it. No verification block and no notarial certificate was added to the petition, the order or the certificate of service. The cover's signing-and-notarization page prints the SPECIFICATION's wording verbatim, because the specification is the server-owned document for this page, says on the page that it is printed from the specification, states that the composed petition carries a truth statement instead, and sends the participant to the records office of the court that heard the case - which is what the filing instructions already do.",
+      "retiredBecause": "Settled before this correction and no longer true of the delivered packet. The track registry records rules.notarization as Required, carrying the specification MS-nonconviction-expungement-99-19-71-4 (specificationVersion 2.0.0, notarisationRequired true) and Roger Roman's direction of 2026-09-03 (SHA-256 88497978c1411950ea3977a7ae32087e29fc375017cadc87b20d700c60623866) as the controlling inputs, with the memo's unresolved note expressly not permission to omit it. FIX107 implemented it: the VERIFICATION section renders on its own sheet under the petition's caption in both fixtures, body and jurat verbatim, with the jurat date and all seven notarial fields left blank for the actual acts. The retired treatment sentence — that no verification block and no notarial certificate was added — is false of delivered page 5.",
+      "retiredOn": "2026-09-08"
+    },
+    "notarisationTreatment": "The petition carries the specification's VERIFICATION section: a verification on oath with a jurat, rendered on its own sheet. LegalEase does not administer the oath, does not date the jurat and does not complete any notarial field; those are the notary's and the participant's acts and are left blank. This records what the packet delivers. It is not a ruling that Miss. Code Ann. Sec. 99-19-71(4) itself compels notarisation, and it is not counsel approval."
+  }
+}

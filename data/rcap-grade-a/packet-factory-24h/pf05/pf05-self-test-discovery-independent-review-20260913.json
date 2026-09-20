@@ -1,0 +1,288 @@
+{
+  "schemaVersion": "rcap-packet-self-test-discovery-independent-review/v1",
+  "assignmentId": "PF05_SELF_TEST_DISCOVERY_INDEPENDENT_REVIEW_20260913",
+  "lane": "PF05",
+  "laneKind": "independent-verification",
+  "worker": "PF05",
+  "reviewer": "/root/resume_vfar1",
+  "sessionIdentity": "/root/resume_vfar1",
+  "reviewedAt": "2026-09-13T06:42:30.160Z",
+  "reviewedAtBase": "0e247f95a291162b5dd87abdf508536de38f3c33",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "scope": "Independent bounded code review of the source-based builder self-test discovery repair and its focused tests. The review covers PF05 argv/default/runSelfTests dispatch recognition, preservation of the prior direct process.argv behavior, false-positive/false-negative discovery controls, focused-test coverage and repository input preservation. No builder self-test, build, chain, raster, packet or shared-state mutation was run.",
+  "implementationUnderReview": {
+    "helper": {
+      "path": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+      "sha256": "6f96187c3dd8d527b07005fd359e239de3b242e38264879c9e6333970cdf2850",
+      "byteLength": 10479
+    },
+    "focusedTest": {
+      "path": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "sha256": "f19b26a54e45a77e10fe73d99bfeaf3e0df858c973029064ad32b37b81ae95ec",
+      "byteLength": 10198
+    },
+    "authorReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-repair-return-20260913.json",
+      "sha256": "3ebf248f49394c20f6a023dcc6512231aac243c535e2ca83dcd0f7959426b36b",
+      "byteLength": 10056
+    },
+    "observedHead": "0e247f95a291162b5dd87abdf508536de38f3c33",
+    "expectedCaptainHead": "71bee3b5bd4d2637537471bc3f384dedeba25f71",
+    "workingTreeChangesAreUncommitted": true
+  },
+  "authorReturnConsumed": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-repair-return-20260913.json",
+    "sha256": "3ebf248f49394c20f6a023dcc6512231aac243c535e2ca83dcd0f7959426b36b",
+    "byteLength": 10056,
+    "status": "COMPLETED"
+  },
+  "checks": {
+    "focusedTest": {
+      "command": "node --test scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "result": "PASS",
+      "passed": 16,
+      "failed": 0
+    },
+    "syntax": {
+      "commands": [
+        "node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+        "node --check scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs"
+      ],
+      "result": "PASS"
+    },
+    "currentDiscovery": {
+      "command": "buildersWithAFlagGatedSelfTest(\"./scripts\")",
+      "result": "PASS",
+      "builderCount": 6,
+      "assertionCount": 330,
+      "rows": [
+        {
+          "builder": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+          "assertions": 90
+        },
+        {
+          "builder": "build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+          "assertions": 22
+        },
+        {
+          "builder": "build-census-v1-ca-1203-4-set.mjs",
+          "assertions": 102
+        },
+        {
+          "builder": "build-census-v1-mi_setaside_trafficking-set.mjs",
+          "assertions": 26
+        },
+        {
+          "builder": "build-census-v1-ut_pet_cannabis-set.mjs",
+          "assertions": 73
+        },
+        {
+          "builder": "build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+          "assertions": 17
+        }
+      ]
+    },
+    "priorBehaviorComparison": {
+      "method": "Read-only reproduction of the exact helper function at HEAD lines 40-59, compared with the repaired exported function over the current scripts directory.",
+      "priorBuilderCount": 5,
+      "priorAssertionCount": 257,
+      "currentBuilderCount": 6,
+      "currentAssertionCount": 330,
+      "priorOnly": [],
+      "currentOnly": [
+        "build-census-v1-ut_pet_cannabis-set.mjs"
+      ],
+      "existingFiveCountsUnchanged": true
+    },
+    "pf05SourceInspection": {
+      "result": "PASS",
+      "builderPath": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+      "builderSha256": "a3c93aabbb979a45fc410cd46d628d07467d982ba3b828bf177cbbfd95713d25",
+      "sourceLines": [
+        3204,
+        3207,
+        3215
+      ],
+      "declaration": "export async function runFamilyById(familyId, argv = process.argv.slice(2))",
+      "dispatch": "if (argv.includes(\"--self-test\")) return runSelfTests();",
+      "directEntry": "await runFamilyById(\"ut_pet_cannabis-set\");",
+      "staticConclusion": "The PF05 argv alias is default-bound to process.argv.slice(2), the exact flag branch calls runSelfTests(), and the direct entry omits argv so the default is used.",
+      "runtimeSelfTest": "NOT_RUN in this bounded code review; no builder self-test was invoked."
+    }
+  },
+  "findings": [
+    {
+      "id": "DISCOVERY_PRIOR_DIRECT_BLOCK_STATEMENT_REGRESSION",
+      "severity": "blocking",
+      "result": "FAIL",
+      "title": "A prior direct flag guard is silently dropped when another statement precedes selfTest in its block.",
+      "evidence": {
+        "fixtureName": "build-census-v1-prior-block-set.mjs",
+        "source": "function selfTest(){ assert.ok(true); }\\nif (process.argv.includes(\"--self-test\")) { console.log(\"before\"); selfTest(); }",
+        "priorHelper": {
+          "builder": "build-census-v1-prior-block-set.mjs",
+          "assertions": 1
+        },
+        "repairedHelper": {
+          "builderNotReturned": true
+        }
+      },
+      "impact": "The prior helper admitted this direct process.argv form because it counted the assertion-bearing selfTest declaration whenever the exact flag gate was present. The repaired target regex only accepts the first token/call after the opening brace, so it omits a real flag-gated assertion if a preceding statement exists.",
+      "requiredRepair": "Preserve executable flag-block discovery while recognizing a direct target call anywhere in the consequent block after comments/strings are masked. Add a focused regression fixture for a preceding statement; do not broaden to unrelated text."
+    },
+    {
+      "id": "DISCOVERY_PRIOR_NESTED_OR_PARENTHESIZED_CALL_REGRESSION",
+      "severity": "blocking",
+      "result": "FAIL",
+      "title": "Prior direct flag forms with an inner conditional or parenthesized selfTest call are silently dropped.",
+      "evidence": {
+        "fixtures": [
+          {
+            "fixtureName": "build-census-v1-nested-call-block-set.mjs",
+            "source": "if (process.argv.includes(\"--self-test\")) { if (true) selfTest(); }",
+            "priorHelper": {
+              "builder": "build-census-v1-nested-call-block-set.mjs",
+              "assertions": 1
+            },
+            "repairedHelper": {
+              "builderNotReturned": true
+            }
+          },
+          {
+            "fixtureName": "build-census-v1-parenthesized-call-set.mjs",
+            "source": "if (process.argv.includes(\"--self-test\")) (selfTest());",
+            "priorHelper": {
+              "builder": "build-census-v1-parenthesized-call-set.mjs",
+              "assertions": 1
+            },
+            "repairedHelper": {
+              "builderNotReturned": true
+            }
+          }
+        ],
+        "positiveControls": [
+          {
+            "fixtureName": "build-census-v1-only-call-block-set.mjs",
+            "repairedAssertions": 1
+          },
+          {
+            "fixtureName": "build-census-v1-return-block-set.mjs",
+            "repairedAssertions": 1
+          }
+        ]
+      },
+      "impact": "The direct-target regex does not traverse nested block statements and does not allow a parenthesis before the target identifier. These are executable direct flag-gated shapes under the old behavior, so the repair changes the discovery contract even though the current five unchanged rows do not use them.",
+      "requiredRepair": "Retain exact flag/target binding while scanning the complete executable consequent for the assertion-bearing target, including nested statements and harmless parenthesization. Add both regression fixtures."
+    },
+    {
+      "id": "DISCOVERY_FALSE_POSITIVE_REGEX_LITERAL",
+      "severity": "blocking",
+      "result": "FAIL",
+      "title": "Lexical masking does not mask regular-expression literals, so non-executable flag text can create scope.",
+      "evidence": {
+        "fixtureName": "build-census-v1-regex-example-set.mjs",
+        "source": "const pattern = /if (process.argv.includes(\"--self-test\")) selfTest\\(\\)/;\\nfunction selfTest(){ assert.ok(true); }",
+        "expected": [],
+        "repairedHelper": [
+          {
+            "builder": "build-census-v1-regex-example-set.mjs",
+            "assertions": 1
+          }
+        ]
+      },
+      "impact": "The helper comment says only executable flag branches qualify, but directSelfTestTargets scans the regex literal as source. A builder with no executable flag gate is falsely reported as a dormant self-test.",
+      "requiredRepair": "Mask or otherwise exclude regular-expression literals before flag/target discovery, with a focused negative fixture. Preserve the exact executable process.argv and PF05 alias checks."
+    }
+  ],
+  "pf05Binding": {
+    "result": "PASS_STATIC_BINDING",
+    "builderPath": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+    "builderSha256": "a3c93aabbb979a45fc410cd46d628d07467d982ba3b828bf177cbbfd95713d25",
+    "declaration": "export async function runFamilyById(familyId, argv = process.argv.slice(2))",
+    "dispatch": "if (argv.includes(\"--self-test\")) return runSelfTests();",
+    "directEntry": "await runFamilyById(\"ut_pet_cannabis-set\");",
+    "discoveredScope": {
+      "builder": "build-census-v1-ut_pet_cannabis-set.mjs",
+      "assertions": 73
+    },
+    "focusedTestCoverage": "The real PF05 source is inspected by the focused test and returns 73 assertions.",
+    "runtimeInvocation": "NOT_RUN; this review did not invoke the builder or its temporary raster self-test."
+  },
+  "recommendedMinimalRepair": {
+    "status": "REQUIRED_BEFORE_INTEGRATION",
+    "preserve": {
+      "process.argv direct gates": "existing five rows and their assertion counts",
+      "PF05 alias": "only exact PF05 filename + argv default process.argv.slice(2) + same runSelfTests branch",
+      "negative controls": "comments, strings, near-match flags, unbound aliases and wrong targets remain excluded"
+    },
+    "change": "Adjust the lexical discovery narrowly so a recognized flag consequent can contain ordinary preceding/nested statements and a parenthesized target call, and exclude regex literals from executable matching. Add regression tests for all three dropped forms and the regex false positive. Do not generalize argv aliases beyond PF05 without separate proof."
+  },
+  "inputPreservation": {
+    "implementationEditedByReviewer": false,
+    "focusedTestEditedByReviewer": false,
+    "builderEditedByReviewer": false,
+    "repositoryArtifactsWrittenByReview": [],
+    "sourceInputsChanged": false,
+    "packetOrRasterWorkPerformed": false,
+    "claimLedgerOrSharedManifestChanged": false,
+    "temporaryProbeFixtures": "Created under os.tmpdir for bounded probes and removed in finally; no repository or corpus file was modified.",
+    "note": "The focused test itself uses temporary staged scripts and no corpus input; its 16 tests passed. The author return remains unmodified."
+  },
+  "grants": {
+    "implementationAcceptance": false,
+    "integrationAuthorized": false,
+    "builderSelfTestPass": false,
+    "chainPass": false,
+    "rasterPass": false,
+    "packetAuthority": false,
+    "productionAuthority": false
+  },
+  "evidenceRead": [
+    {
+      "path": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+      "lines": [
+        1,
+        244
+      ],
+      "sha256": "6f96187c3dd8d527b07005fd359e239de3b242e38264879c9e6333970cdf2850",
+      "byteLength": 10479
+    },
+    {
+      "path": "scripts/rcap-packet-completeness/verify-builder-self-tests-run.test.mjs",
+      "lines": [
+        1,
+        257
+      ],
+      "sha256": "f19b26a54e45a77e10fe73d99bfeaf3e0df858c973029064ad32b37b81ae95ec",
+      "byteLength": 10198
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf05/pf05-self-test-discovery-repair-return-20260913.json",
+      "lines": [
+        1,
+        1
+      ],
+      "sha256": "3ebf248f49394c20f6a023dcc6512231aac243c535e2ca83dcd0f7959426b36b",
+      "byteLength": 10056
+    },
+    {
+      "path": "scripts/build-census-v1-ut_pet_cannabis-set.mjs",
+      "lines": [
+        3204,
+        3215
+      ],
+      "sha256": "a3c93aabbb979a45fc410cd46d628d07467d982ba3b828bf177cbbfd95713d25",
+      "byteLength": 166621
+    },
+    {
+      "path": "HEAD:scripts/rcap-packet-completeness/verify-builder-self-tests-run.mjs",
+      "lines": [
+        37,
+        59
+      ],
+      "sha256": null,
+      "byteLength": null
+    }
+  ]
+}

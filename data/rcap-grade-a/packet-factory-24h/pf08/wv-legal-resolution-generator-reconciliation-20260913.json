@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-wv-legal-resolution-generator-reconciliation/v1",
+  "status": "IMPLEMENTED_AWAITING_INDEPENDENT_REVIEW",
+  "label": "Use the complete legal-resolution registry when projecting the WV owner adoption",
+  "workspaceHeadAtReturn": "712af56ac9833a7b1a57b0d42c7c3990d5ed8167",
+  "family": {
+    "familyId": "wv_nc_acquittal_dismissal-set",
+    "jurisdiction": "WV",
+    "scope": "adopted disposition-specific dismissal/acquittal two-branch family only",
+    "separateSiblingPreserved": "wv_nc_diversion_deferred-set"
+  },
+  "diagnosis": {
+    "staleHold": {
+      "path": "data/rcap-grade-a/packet-factory-24h/STALE_LANE_RETURNS.json",
+      "sha256": "24a03c572c5aa4c7a0911f3f9c1c6c40e3d93d6551785282e91fc91b1f906b5a",
+      "lane": "PF13",
+      "pullRequest": 145,
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "why": "SCA-C903: approved route-election mapping among acquittal, dismissal, diversion, and deferred-adjudication grounds"
+    },
+    "before": {
+      "generatorLegalBinding": "local merge of only LEGAL_BLOCKED_RESOLUTION_2026-09-11.json and KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json plus KJC supersession",
+      "currentLegalResolution": null,
+      "queuePath": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "queueSha256": "832b20a3bf6921737da56e6f713aafa08fd7c31e392ce72237935c21d2381c22",
+      "queueState": "PRODUCT_PATH_PENDING",
+      "legalInputStatus": "SETTLED",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING"
+    },
+    "cause": "The shared legal-block-resolution loader already included the adopted WV record, but generate.mjs bypassed it and rebuilt a stale two-record list. The stale lane return remained historical evidence; the missing currentLegalResolution was the projection defect."
+  },
+  "change": {
+    "paths": [
+      "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs"
+    ],
+    "generatorBeforeSha256": "07f66ccb8438c0c6a2ce4161e672ba1d07378ec8bcb5c01e75eb72947b9fa6c1",
+    "generatorAfterSha256": "fc8ae1e7feeb91b1c8f9e77effd73628a125de3a3e299cf14d027beabc29538f",
+    "generatorDiffSha256": "d5196b508d9f24f15bb6392efce2e79b3eeec7e3076302c059fe5ec2fe054ca2",
+    "testAfterSha256": "ebe8d6c24b2d7c7dc57afa544f77120a318589ce4550611d296988823f092f7e",
+    "implementation": "generate.mjs now calls loadLegalBlockResolutions(ROOT), the same validated complete path set used by verify.mjs; the focused test asserts this callsite and rejects the stale local merge."
+  },
+  "authoritativeDecision": {
+    "path": "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json",
+    "sha256": "3b8c097d46900756e43527a96fb57e52b07e08f26909820ce4912a6c67c02a63",
+    "byteLength": 8946,
+    "decisionId": "WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913",
+    "disposition": "LEGAL_CLEAR",
+    "ownerAdoption": true,
+    "counselApproval": false,
+    "packetPass": false,
+    "rasterPass": false,
+    "terminalPromotion": false,
+    "commercialAuthority": false,
+    "productionAuthorization": false,
+    "bindingRuleSha256": "7f74d15282fe296b9dbd7f2a4cef5378e285f9932832423c4a69be372f8b3555"
+  },
+  "completeValidatedRegistry": {
+    "resolutionHelper": "scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs",
+    "resolutionPaths": [
+      "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "data/rcap-grade-a/legal-decisions/KY_COMPANION_CHARGES_RESOLUTION_2026-09-11.json",
+      "data/rcap-grade-a/legal-decisions/DE_FAMILY_COURT_SOURCE_FACTS_2026-09-12.json",
+      "data/rcap-grade-a/legal-decisions/NH_STREAMLINED_OWNER_ADOPTION_2026-09-12.json",
+      "data/rcap-grade-a/legal-decisions/KY_PROTECTIVE_ORDER_SERVICE_OWNER_ADOPTION_2026-09-12.json",
+      "data/rcap-grade-a/legal-decisions/AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json",
+      "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json"
+    ],
+    "baseRecords": 7,
+    "baseLegalClearFamilies": 35,
+    "baseLegalHoldFamilies": 6,
+    "effectiveRecords": 8,
+    "effectiveLegalClearFamilies": 41,
+    "effectiveLegalHoldFamilies": 0,
+    "wvProjectedDisposition": "LEGAL_CLEAR",
+    "diversionSiblingProjected": null
+  },
+  "probe": {
+    "method": "temporary same-directory generator copy using the existing inspection path; no authoritative queue files written",
+    "result": "PASS",
+    "familyId": "wv_nc_acquittal_dismissal-set",
+    "state": "PRODUCT_PATH_PENDING",
+    "currentLegalResolutionDisposition": "LEGAL_CLEAR",
+    "currentLegalResolutionDecisionId": "WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913",
+    "legalInputStatus": "SETTLED",
+    "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+    "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+    "sourceBound": true,
+    "staleLaneEvidencePreserved": true,
+    "createsPacketAdmission": false,
+    "pdfsChanged": false
+  },
+  "existingEvidence": {
+    "implementationReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-wv-nc-acquittal-dismissal-build-20260913.json",
+      "sha256": "1dd0d86cfd762d2268bc464d52bcfcb6e27fd6d387be784a20ad4a2d7f3c464a",
+      "result": "COMPLETED"
+    },
+    "independentSemanticReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-wv-two-branch-independent-semantic-20260913.json",
+      "sha256": "7d84bffb905e6d734be39556b8f54d1a0fbd723353b7ca4d5bd8c043334122e0",
+      "result": "PASS_PRE_RASTER_SEMANTIC",
+      "finalAcceptance": false,
+      "visualMeasured": false,
+      "verifiedAtBase": "71568ed47bb79b66af3418bc17326ae0a43bf128"
+    },
+    "nativeCompleteness": "PASS_COMPLETE",
+    "sourcePdf": {
+      "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+      "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "byteLength": 23275
+    }
+  },
+  "focusedTests": {
+    "command": "source private/source-corpus-environment.txt && node --check scripts/grade-a-packet-factory-24h/generate.mjs && node --check scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs && node --check scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs && node scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+    "result": "PASS",
+    "assertions": [
+      "all seven additive legal-resolution records validate and load with the KJC supersession",
+      "the generator uses loadLegalBlockResolutions(ROOT) rather than a stale local two-record merge",
+      "the WV adoption resolves exactly wv_nc_acquittal_dismissal-set to LEGAL_CLEAR",
+      "the separate wv_nc_diversion_deferred-set remains outside the adoption scope",
+      "owner adoption remains distinct from counsel, packet, raster, terminal, commercial and production approval"
+    ]
+  },
+  "preservedControls": [
+    "No legal decision record was edited.",
+    "No queue, source custody, PDF, participant instruction, raster, or packet bytes were changed.",
+    "The stale PF13 finding remains historical evidence and is not deleted.",
+    "The owner-directed route mapping state remains PRODUCT_PATH_PENDING until its implementation gate completes.",
+    "The separate diversion/deferred sibling was not cleared or otherwise changed."
+  ],
+  "nextAcceptance": "Independent review by resume_vfar1 of the scoped generator/test correction, then Captain reruns the supported legal-resolution integration and consumes the resulting current WV row before any final/raster admission."
+}

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "la-978-felony-conviction-set",
+  "jurisdiction": "LA",
+  "trackId": "la-978-felony-conviction",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-pathway:LA:la-978-felony-conviction:felony-article-893-e-set-aside-followed-by-expungement",
+    "obligation:track-pathway:LA:la-978-felony-conviction:felony-ten-year-clean-period-expungement",
+    "obligation:track-pathway:LA:la-978-felony-conviction:first-offender-pardon-felony-expungement",
+    "obligation:track-pathway:LA:la-978-felony-conviction:human-trafficking-survivor-expungement-fee-exempt-route"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "authorityDecision": "LA-STATUTORY-FORMS",
+  "composedFromAuthority": [
+    "LA-CCRP-ART-988",
+    "LA-CCRP-ART-989",
+    "LA-CCRP-ART-991",
+    "LA-CCRP-ART-992"
+  ],
+  "components": [
+    {
+      "componentId": "la-978-felony-conviction-primary-filing-1",
+      "documentId": "LA-CCRP-ART-989",
+      "title": "Article 989 Motion for Expungement of a Record of Arrest and Conviction of a Felony",
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-989",
+      "order": 1,
+      "generated": true
+    },
+    {
+      "componentId": "la-978-felony-conviction-proposed-order-2",
+      "documentId": "LA-CCRP-ART-991",
+      "title": "Article 991 Order",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-991",
+      "order": 2,
+      "generated": true
+    },
+    {
+      "componentId": "la-978-felony-conviction-proposed-order-3",
+      "documentId": "LA-CCRP-ART-992",
+      "title": "Article 992 Order of Expungement",
+      "role": "proposed_order",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-992",
+      "order": 3,
+      "generated": true
+    },
+    {
+      "componentId": "la-978-felony-conviction-fee-waiver-4",
+      "documentId": "LA-CCRP-ART-988",
+      "title": null,
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "LA-CCRP-ART-988",
+      "order": 4,
+      "generated": false
+    },
+    {
+      "componentId": "la-978-felony-conviction-continuation-5",
+      "documentId": "LA-CCRP-ART-993",
+      "title": null,
+      "role": "continuation",
+      "requirement": "conditional",
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "LA-CCRP-ART-993",
+      "order": 5,
+      "generated": false
+    },
+    {
+      "componentId": "la-978-felony-conviction-instructions-6",
+      "documentId": "LA-CCRP-ART-984",
+      "title": null,
+      "role": "instructions",
+      "requirement": "conditional",
+      "outputStrategy": "process_guidance",
+      "officialFormId": "LA-CCRP-ART-984",
+      "order": 6,
+      "generated": false
+    },
+    {
+      "componentId": "la-978-felony-conviction-instructions-7",
+      "documentId": "la-978-felony-conviction-instructions-7",
+      "title": "Article 978 Participant and Filing Instructions",
+      "role": "instructions",
+      "requirement": "required",
+      "outputStrategy": "process_guidance",
+      "officialFormId": null,
+      "order": 7,
+      "generated": true
+    }
+  ],
+  "componentsNotGenerated": [
+    {
+      "componentId": "la-978-felony-conviction-fee-waiver-4",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-988",
+      "conditionTheRecordStates": "Generated only where the participant may qualify for the Article 983(F) exemption. Louisiana State Police states that anyone ever convicted of a felony, including an expunged felony, is ineligible for it, so on this track it will almost never apply.",
+      "generated": false,
+      "whyNotGenerated": "the committed rule for this track states: Article 983(F) through the Article 988 form in principle, but Louisiana State Police states that a person is ineligible for the exemption if they have ever been convicted of a felony, including an expunged felony. On a felony conviction track the exemption will almost never be available, and the packet says so rather than implying a waiver that will be refused."
+    },
+    {
+      "componentId": "la-978-felony-conviction-continuation-5",
+      "role": "continuation",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-993",
+      "conditionTheRecordStates": "Used only where the arrest carries more charges or counts than the Article 989 motion's own fields hold.",
+      "generated": false,
+      "whyNotGenerated": "both fixtures are single-arrest and single-count, so the stated condition is not met; independently, Article 993 is not in this family's composedFromAuthority grant and the committed legal-design note states that no template exists, none is counsel-approved and no implementation is authorized"
+    },
+    {
+      "componentId": "la-978-felony-conviction-instructions-6",
+      "role": "instructions",
+      "requirement": "conditional",
+      "officialFormId": "LA-CCRP-ART-984",
+      "conditionTheRecordStates": "Applies only where the felony conviction is for operating a vehicle while intoxicated.",
+      "generated": false,
+      "whyNotGenerated": "neither fixture is a conviction for operating a vehicle while intoxicated, so the stated condition is not met; Article 984's controlling requirements are quoted in the participant instructions for a participant on that branch"
+    }
+  ],
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/la/la-978-felony-conviction-set--custom-pleading/participant-instructions.md",
+  "filingInstructions": "data/rcap-all50/overlays/census-v1/la/la-978-felony-conviction-set--custom-pleading/filing-instructions.md"
+}

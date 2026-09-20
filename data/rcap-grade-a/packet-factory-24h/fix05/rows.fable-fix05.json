@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-rows/v1",
+  "assignmentId": "FIX05",
+  "worker": "FABLE-FIX05",
+  "workerBranch": "fable/fix05",
+  "baseSha": "e4e505192",
+  "laneKind": "repair",
+  "generatedAt": "2026-09-02T00:00:00Z",
+  "fullReturn": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_FIX05_REPAIR.json",
+
+  "whyThisFileIsNotRowsJson": {
+    "theBriefAskedFor": "data/rcap-grade-a/packet-factory-24h/fix05/rows.json",
+    "whatIsAlreadyThere": "A substantive lane return by worker FIX-A (branch claude/9h-fix-a, shift base 09b741ad), schemaVersion rcap-packet-factory-lane-return/v1, covering two DIFFERENT items: ca-851-91-set and pa_490_nonconviction-set. It records repaired obligations, before/after counters, fixture SHA-256 values, and a long host-defect diagnosis.",
+    "whatHappened": "This lane wrote its own rows to that path, then noticed the prior content and restored it with git checkout. The restored file is byte-identical to base e4e505192 (sha256 5109d8449b02a6e2d4c0b6d5b7d42259799e723702df3c3a9a9d2a9a1b2a1b7c).",
+    "theDecision": "FIX-A's return is a record of real work on items this lane does not hold. Overwriting it would delete that record, and merging two workers' rows with different schemas and different item sets into one array would corrupt it. Assignment id FIX05 has evidently been reused across shifts for different rosters. So this lane's rows go beside it under a worker-qualified name and FIX-A's file is left untouched.",
+    "forCaptain": "If a single canonical fix05/rows.json is required, decide which return owns the path — this lane will not make that call by overwriting."
+  },
+
+  "headline": "BLOCKED_BEFORE_CLAIM on both assigned families. --assert exited 9 ALREADY_RELEASED for each, and --reissue, the sanctioned remedy, was refused by the environment's permission layer. No packet byte, no build script, no field map and no ledger entry was written.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerified": false,
+  "fixtureBytesChanged": false,
+
+  "rows": [
+    {
+      "itemId": "ca-1203-4a-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_BEFORE_CLAIM — ALREADY_RELEASED at 2026-09-02T08:17:29.614Z; the FIX05 grant exists and is held by no other lane, but is closed and could not be re-opened",
+      "obligationRepaired": null,
+      "obligationAssigned": "requiredOptionsMissing",
+      "defectStillLive": true,
+      "measuredResult": "FAIL_ROUTE_SELECTION, 8/204 written, requiredOptionsMissing 10",
+      "rootCauseLocated": "Ten CR-180 ConvTable cells (Reduce1[0]-Reduce5[0], the Penal Code § 17(b) misdemeanor-reduction column, and Offense1[0]-Offense5[0], the § 17(d)(2) infraction-reduction column) each carry routeDetermined:true while the reason committed on the same row states that this family's route does not determine the election and that it belongs to ca-17b-reduction-set. completeness-contract.mjs:354 returns ROUTE_OPTION_NOT_SELECTED on the flag alone, 'whatever its prose says', so the flag is the defect and the prose is correct.",
+      "repairNotPerformed": "Setting routeDetermined:false on those ten cells for this family only would classify them NOT_APPLICABLE_ON_THIS_ROUTE (allowed), inventing no legal election. It requires the claim this lane never held, and it must be gated to this family alone on the shared West host.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 10,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisLane": true
+    },
+    {
+      "itemId": "wa_vac_survivor_felony-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_BEFORE_CLAIM — ALREADY_RELEASED at 2026-09-02T05:46:25.356Z; and separately NO_REPRODUCIBLE_DEFECT, so there is nothing in the four assigned obligations left to repair",
+      "obligationRepaired": null,
+      "obligationsAssigned": ["FEE_AND_WAIVER", "FILING_DESTINATION", "SELF_HELP_STOP", "SERVICE"],
+      "defectStillLive": false,
+      "measuredResult": "PASS_COMPLETE, 49/82 written, all nine counters zero",
+      "whyNotReproducible": "vf16 failed all four obligations on one finding — that no participant-instructions.md existed. That file was created 2026-09-01T12:46:38Z by commit 7c8970c44 (FIX10), three hours and twelve minutes after vf16 released its verification grant at 2026-09-01T09:34:12Z. All four sections now exist and are sourced to CR 08.0900, CR 08.0920 and CR 08.0930. The other row (p2v03, superseded:true) quotes an instruction sentence that grep -c now returns 0 times against the current file.",
+      "feeStandardChecked": "Under DET-FEE-AND-WAIVER-001 A1/A2/A3 the repository was asked first: WA-washington.json has packetGenerator.feeRules = []. Its only fee figures price Washington State Patrol record services ($11 WATCH, $12 fingerprint card), which under A3 answer a different route, not a superior-court motion to vacate under RCW 9.94A.640/.648. No held source establishes this route's filing fee, so the packet's named checkable authority — the clerk of the sentencing superior court — is the correct outcome under theStandard.met limb 3, not a defect.",
+      "recommendation": "Route to fresh independent verification at this base, on a lane that is neither FIX10 nor vf16. Do not dispatch to repair.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisLane": true
+    }
+  ]
+}

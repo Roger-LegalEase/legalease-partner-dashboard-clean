@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "screening-verification-finetune-shard/v1",
+  "lane": "E",
+  "status": "implemented",
+  "baseSha": "de28d4220e21710b9e340b461b6dc2c5403951cf",
+  "states": [
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY"
+  ],
+  "before": {
+    "flows": 55,
+    "browserWitnessVariants": 104,
+    "freeQuestions": 89,
+    "completionOverlaps": 5,
+    "genericSpecialRouteAsks": 16,
+    "rawPacketFields": 47
+  },
+  "after": {
+    "flows": 55,
+    "browserWitnessVariants": 104,
+    "freeQuestionsEmptyContext": 82,
+    "freeQuestionsMaxExactRoute": 84,
+    "routeConsumerFacts": 2,
+    "routeConsumerEdges": 3,
+    "exactPacketFactIds": 52,
+    "completionAliasIds": 5
+  },
+  "authority": {
+    "policy": "No legal rule was added or inferred from prose.",
+    "routeConsumers": "HI and IN mappings exactly mirror the route-specific evaluator gates and ROUTE_ESCALATION_FACT_IDS; selector-derived counts cover empty context and every exact route.",
+    "exactPacketFactIds": "Existing packet/date questions plus the projected Indiana conviction-class packet fact, which remains postpayment and is required by the sealed-access packet plan.",
+    "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact."
+  },
+  "unchanged": [
+    "questions",
+    "pathways",
+    "orderedDecisionRules",
+    "legalAuthority",
+    "packet families",
+    "form sets",
+    "forms",
+    "terminal outcomes",
+    "payment outcomes"
+  ],
+  "blockers": []
+}

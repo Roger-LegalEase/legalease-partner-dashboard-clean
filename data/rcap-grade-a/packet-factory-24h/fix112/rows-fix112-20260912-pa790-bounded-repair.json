@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX112",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "baseSha": "b9e13b264bed1668273e236dae7f16e4c155d8ec",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean",
+  "builtAnything": true,
+  "repairsMade": 1,
+  "packetsSelfVerified": 1,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "changedFiles": [
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/boundary-ifp-optional-order.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/boundary-no-ifp-optional-order.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/canonical-ifp-optional-order.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/branches/canonical-no-ifp-optional-order.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/conditional-components.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json"
+  ],
+  "rows": [
+    {
+      "itemId": "pa_790_nonconviction-set",
+      "familyId": "pa_790_nonconviction-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "scope": "One bounded repair pass for the known PA790 source-fact, handback, PDF-appearance and packet-identity defects.",
+      "correction": "Used the existing PA490/PA6308 precedents: the order carries the participant one-line address and citation/arrest/agency facts; affiant name/address fields are required before filing from the complaint or citation; Text15 remains a whole charge/disposition handback when disposition is not held; PA790 source appearance normalization, unwritten-selection preservation and widget-border handling remain enabled.",
+      "priorEvidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/fix84/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/fix85/current-pa-20260906/pa_790_nonconviction-set-check.log"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill",
+      "sourceIdentity": {
+        "petition": {
+          "sourceId": "PA-RCRIM-P-790-PETITION",
+          "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+          "byteLength": 87647
+        },
+        "order": {
+          "sourceId": "PA-RCRIM-P-790-ORDER",
+          "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+          "byteLength": 151853
+        },
+        "feeWaiver": {
+          "sourceId": "PA-IFP-CCP",
+          "sha256": "b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca",
+          "byteLength": 760989
+        }
+      },
+      "semanticVerdict": "PASS",
+      "semanticEvidence": "Nonvisual check passes after current-source census refresh; every field has an explicit map disposition and no packet-owned court/service execution is inferred.",
+      "focusedTests": [
+        "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check-nonvisual",
+        "node scripts/rcap-packet-recovery/test-recovery.mjs",
+        "node scripts/rcap-packet-recovery/chat1/test-pa-790-optional-order.mjs",
+        "node --check scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+        "node --check scripts/build-census-v1-pa_790_nonconviction-set.mjs"
+      ],
+      "focusedTestVerdict": "NONVISUAL CHECK PASS; recovery suite 40/40 PASS; optional-order suite 11/11 PASS; syntax checks PASS",
+      "knownDefectDisposition": {
+        "orderPetitionersAddress": "candidate_write participant.address_one_line",
+        "orderDateAndArrestingAgency": "candidate_write matter.citation_or_arrest_date_and_arresting_agency",
+        "affiantNameAndAddress": "REQUIRED_BEFORE_FILING source-record declaration; completesAfterService false",
+        "orderText15": "REQUIRED_BEFORE_FILING whole charge/disposition handback with matter.charge held but not printed and charge disposition missing",
+        "officialPdfResourceWarnings": "normalizeMissingAppearanceSubtype enabled on PA790 official forms; central raster must verify the rendered result",
+        "petitionCheckboxFrames": "preserveUnwrittenSelectionBackgrounds enabled on PA790 petition; central raster must verify source ink is preserved without synthesized frames"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "currentRasterManifest": "data/rcap-grade-a/packet-factory-24h/fix112/pa790-raster-manifest-20260912.json",
+      "authorVerdict": "SEMANTIC_PASS_RASTER_AND_INDEPENDENT_REVIEW_PENDING",
+      "remainingGate": "Central raster acceptance, independent packet review, and Captain-owned integration/route reconciliation.",
+      "grantsNothing": "This repair does not approve, admit, deploy, enable generation or payment, or create commercial authority."
+    }
+  ]
+}

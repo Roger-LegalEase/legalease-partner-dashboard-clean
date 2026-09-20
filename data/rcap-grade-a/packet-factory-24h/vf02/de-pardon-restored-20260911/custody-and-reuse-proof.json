@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "rcap-source-custody-closure-proof/v1",
+  "familyId": "de_pardon_expungement-set",
+  "measuredAtUtc": "2026-09-11T17:54:20.280618+00:00",
+  "scope": "Fresh exact source custody; fourteen unchanged approval predicates. No new source substance, law, decryption, rendering, pixel or acquisition-archive review.",
+  "preflight": {
+    "worktree": "/tmp/rcap-vf62-pa-final-20260911",
+    "branch": "vf62-pa-final-20260911",
+    "assignedBase": "588b955d202269be5016802517109ebc4b1a2e4c",
+    "actualHead": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
+    "baseIsAncestor": true,
+    "initialHeadAfterAuthorizedBaseMerge": "cf67102837b06c8bb84ceb945ffbae47f554fb4a",
+    "preexistingUntracked": [
+      "private"
+    ],
+    "initialGrantSet": "c863c3833ea37818",
+    "grantSet": "735573dc69c14e0f",
+    "commands": [
+      {
+        "command": [
+          "node",
+          "scripts/grade-a-packet-factory-24h/claim.mjs",
+          "--can-assert",
+          "VF02",
+          "de_pardon_expungement-set"
+        ],
+        "exitCode": 0,
+        "stdout": "CLAIM_OK VF02 de_pardon_expungement-set (independent-verification, grant set 735573dc69c14e0f)\n  ^ VF02 CAN assert de_pardon_expungement-set\n\n1 famil(ies) checked for VF02: 1 assertable, 0 would refuse\nAnswered by running the gate itself. Nothing was written."
+      },
+      {
+        "command": [
+          "node",
+          "scripts/grade-a-packet-factory-24h/claim.mjs",
+          "--assert",
+          "VF02",
+          "de_pardon_expungement-set"
+        ],
+        "exitCode": 0,
+        "stdout": "CLAIM_OK VF02 de_pardon_expungement-set (independent-verification, grant set 735573dc69c14e0f)"
+      }
+    ],
+    "captainDerivedBindingRefreshCommit": "2fe3172dda21c3f92b61d3dff59d7450aa2ba1e7"
+  },
+  "priorVF02": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-final.json",
+    "sha256": "7f286fc0a34f81e185544759afb57cd2f0762a379da2e5f26b0367bed3379a48",
+    "byteLength": 43639
+  },
+  "priorBindings": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/current-byte-and-anchor-bindings.json",
+    "sha256": "43536b67a1c5ed81b8ead0bdee643c64db94d1cf161144c632756fcdc389c7bf",
+    "byteLength": 11275
+  },
+  "priorVF20": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf20/rows.json",
+    "sha256": "2f026f6079f7e98fd62deffbb9a165557932e09e7bedbed9efee7c03396d501b",
+    "byteLength": 214369
+  },
+  "priorVF20ExactRowSha256": "1a0594de76f38aaa559a8f77a00c655cc6e87c7f49800ec150625d380a7b84d1",
+  "officialSources": [
+    {
+      "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+      "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+      "byteLength": 179445,
+      "documentId": "CIV_EXP_02_A",
+      "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/download.aspx.pdf",
+      "currentBytesAvailable": true,
+      "freshlyHashedHere": true,
+      "matchesReceiptAndPriorIndependentPin": true,
+      "hashMismatchObserved": false
+    },
+    {
+      "path": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+      "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+      "byteLength": 1128070,
+      "documentId": "CIV_EXP_08_A",
+      "resolvedPath": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+      "currentBytesAvailable": true,
+      "freshlyHashedHere": true,
+      "matchesReceiptAndPriorIndependentPin": true,
+      "hashMismatchObserved": false
+    }
+  ],
+  "recoveredRepositoryCopy": {
+    "path": "reference/delaware/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+    "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+    "byteLength": 1128070,
+    "byteIdenticalToRestoredOriginalCustodyFile": true
+  },
+  "recoveryCheckpoint": {
+    "path": "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/de-pardon-source-restored-20260911.json",
+    "sha256": "bf6f51380a19599d34741c43ec05cedb07944f97b7b2814726743ea101463166",
+    "byteLength": 1859
+  },
+  "custodyFinding": "RESOLVED: both original official source files are currently readable and match the exact prior receipt and independent measurements; the recovered repository copy is byte-identical to restored CIV_EXP_08_A custody.",
+  "archiveProvenance": {
+    "reportedByOwnerViaCheckpoint": {
+      "archive": "/Google Drive/RCAP Source Custody/2026-09-04 \u2014 28 acquisition families/rcap-targeted-source-acquisition-28-33866926858.zip",
+      "member": "sources/DE-CIV-EXP-08-A/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf"
+    },
+    "archiveInspectedHere": false,
+    "freshIssuerDownloadClaimedHere": false,
+    "basis": "Direct file hashes and lengths establish the held bytes; owner-reported archive lineage is retained as reported, not independently asserted."
+  },
+  "familyFiles": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/approval-request.json",
+      "sha256": "9f74d5aa2c517699cfbf2a3f2e0883b2ee3d426eb3ad2d1dd3f2f72eebc2a973",
+      "byteLength": 3761,
+      "priorVF02Sha256": "9f74d5aa2c517699cfbf2a3f2e0883b2ee3d426eb3ad2d1dd3f2f72eebc2a973",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/build-findings.json",
+      "sha256": "f0fe8636ccf7403b40df324b9496e8eb6c2049b58d6cc370ffacc5c763da0a7e",
+      "byteLength": 45004,
+      "priorVF02Sha256": "f0fe8636ccf7403b40df324b9496e8eb6c2049b58d6cc370ffacc5c763da0a7e",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/build-status.json",
+      "sha256": "e1560e2f46287e84792fc66768eaa257f1294075c0611281744bcfb96a0efbd6",
+      "byteLength": 755,
+      "priorVF02Sha256": "e1560e2f46287e84792fc66768eaa257f1294075c0611281744bcfb96a0efbd6",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+      "byteLength": 1202719,
+      "priorVF02Sha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+      "byteIdenticalToPriorVF02": true,
+      "pagesReusedFromUnchangedPriorMeasurement": 3
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+      "byteLength": 1202521,
+      "priorVF02Sha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+      "byteIdenticalToPriorVF02": true,
+      "pagesReusedFromUnchangedPriorMeasurement": 3
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/participant-instructions.md",
+      "sha256": "9fdcf53e4d8924f6022e2f7d3a9c271a0052dabc907fae4dda98f165cfb952c5",
+      "byteLength": 22158,
+      "priorVF02Sha256": "9fdcf53e4d8924f6022e2f7d3a9c271a0052dabc907fae4dda98f165cfb952c5",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/product-wiring.json",
+      "sha256": "432fe804fb1942ffabeb2adf5b5312eb3b731cb6b10906c5f01ca5caa830a9ae",
+      "byteLength": 5673,
+      "priorVF02Sha256": "448ef4d7c16e2735020881782d8d61d25d514b7200c253b1ad2022efa4d7e91d",
+      "byteIdenticalToPriorVF02": false,
+      "changedJsonPointers": [
+        "/binding/lastIndependentVerification/lane",
+        "/binding/lastIndependentVerification/verdict",
+        "/binding/lastIndependentVerification/verifiedAtBase"
+      ],
+      "assessment": "Only the derived prior-review status changed; sourceVersion, route and delivery bindings are restored unchanged."
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/production-field-map.json",
+      "sha256": "b6dde2c7a69befef239ccd241c8ce7f4746cb902bdd1ae6475d11b633e13cae8",
+      "byteLength": 388081,
+      "priorVF02Sha256": "b6dde2c7a69befef239ccd241c8ce7f4746cb902bdd1ae6475d11b633e13cae8",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/reports/actual-writes.json",
+      "sha256": "128771e5efe89bea26c8be7fb497c944f1b21a8d21a7114688e8e78520fa565c",
+      "byteLength": 58893,
+      "priorVF02Sha256": "128771e5efe89bea26c8be7fb497c944f1b21a8d21a7114688e8e78520fa565c",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+      "sha256": "4997e3d91e529345d01204c25dc8eeb3355b86e34235703c320db64d19dbf117",
+      "byteLength": 81511,
+      "priorVF02Sha256": "4997e3d91e529345d01204c25dc8eeb3355b86e34235703c320db64d19dbf117",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/reports/completeness-counters.json",
+      "sha256": "26f99b11224868d190dd577a1723ed21fe0c0108f1c94a1b3f11d903627d68be",
+      "byteLength": 1027,
+      "priorVF02Sha256": "26f99b11224868d190dd577a1723ed21fe0c0108f1c94a1b3f11d903627d68be",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/reports/field-census.json",
+      "sha256": "f0a633db8552da6316fa98f4c47471eed407ec0d732a0014b2b839a740e1aae9",
+      "byteLength": 154651,
+      "priorVF02Sha256": "f0a633db8552da6316fa98f4c47471eed407ec0d732a0014b2b839a740e1aae9",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/reports/rendered-artifacts.json",
+      "sha256": "623fba3ec6bee1be7fd58f46b1b5e3a7007791ae7bcb99a09b159d69a4c5ea8d",
+      "byteLength": 4450,
+      "priorVF02Sha256": "623fba3ec6bee1be7fd58f46b1b5e3a7007791ae7bcb99a09b159d69a4c5ea8d",
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/source-receipt.json",
+      "sha256": "53d16ec05e68ace19c673c8bbb12167b01fb1d7aae1cbf237023387d6061e3db",
+      "byteLength": 13386,
+      "priorVF02Sha256": "53d16ec05e68ace19c673c8bbb12167b01fb1d7aae1cbf237023387d6061e3db",
+      "byteIdenticalToPriorVF02": true
+    }
+  ],
+  "recordAnchors": [
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "exactEntryId": "de_pardon_expungement-set",
+      "exactEntrySha256": "6e7b8889fe7fc9dab1f3db38ea02d6e2f6e07263c9f8f5ec10b5900c774026a2",
+      "equalsPriorVF02AndVF20Entry": true,
+      "globalMetadataUnchanged": true,
+      "scope": "Exact DE entry only; unrelated entries and historical whole-file pins confer no new authority."
+    },
+    {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "exactEntryId": "de_pardon_expungement",
+      "exactEntrySha256": "48a8bf69615212ac915c79cf04e8854d28932e834322d0a4538f5b6dea966ff6",
+      "equalsPriorVF02AndVF20Entry": true,
+      "globalMetadataUnchanged": true,
+      "scope": "Exact DE entry only; unrelated entries and historical whole-file pins confer no new authority."
+    }
+  ],
+  "unchangedImplementation": [
+    {
+      "path": "scripts/build-census-v1-de_pardon_expungement-set.mjs",
+      "sha256": "b8a04ea95a9a433dc35dc5c281b35cc3674fa8776a116eda7652f316ac2f1fa2",
+      "byteLength": 32412,
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "scripts/census-v1-de-expungement/de-expungement-core.mjs",
+      "sha256": "c07caa40fd575ca8973be47c515f8b6fdaf3f490fcc5e5eda8c688953b26e0e2",
+      "byteLength": 132406,
+      "byteIdenticalToPriorVF02": true
+    },
+    {
+      "path": "scripts/census-v1-de-expungement/de-superior-court-forms.mjs",
+      "sha256": "daf078940ba4f1ffbc38d2faa01119cb371af2f133f37936b50d01ac4dcc6626",
+      "byteLength": 84862,
+      "byteIdenticalToPriorVF02": true
+    }
+  ],
+  "routeKeys": [
+    "obligation:track-pathway:DE:de_pardon_expungement:pardon-based-discretionary-expungement-under-11-del-c-4375"
+  ],
+  "sourceVersion": [
+    {
+      "sourceId": "official-form:CIV_EXP_02_A",
+      "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+      "tier": "exact_content_hash"
+    },
+    {
+      "sourceId": "official-form:CIV_EXP_08_A",
+      "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+      "tier": "exact_content_hash"
+    }
+  ],
+  "legalDecision": {
+    "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+    "byteLength": 22372,
+    "decisionId": "DE-PARDON-EXPUNGEMENT-OFFICIAL-PETITION-WORKFLOW",
+    "exactDecisionUnchanged": true,
+    "priorIndependentDecisionProof": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf02/de-pardon-final-20260911/decision-proof.json",
+      "sha256": "3e6412fea285d0215041f4a470e24a29df04085b7d3caa4d5124b246cf2c6e7d",
+      "byteLength": 4999
+    },
+    "reviewMode": "REUSED_UNCHANGED_VF02_APPROVAL"
+  },
+  "raster": {
+    "workflowRunId": "34413372916",
+    "verdict": "RASTER_PASS",
+    "pdfsCovered": 2,
+    "pagesCovered": 6,
+    "evidence": [
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/admission-proof.json",
+        "sha256": "834165f4643fc30fcc8e338d307c0bc883c5662fdb925f982ca59dbae9cd6422",
+        "byteLength": 5659,
+        "byteIdenticalToPriorVF02": true
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/de_pardon_expungement-set/de_pardon_expungement-set.verdict.json",
+        "sha256": "4939bab4cf59a8c03e099a8bc4cd889b8d3ce1b978fe92a3794a42f11ae476f7",
+        "byteLength": 7663,
+        "byteIdenticalToPriorVF02": true
+      }
+    ],
+    "bindingMatchesCurrentPdfBytes": true,
+    "freshRasterOrPixelReview": false,
+    "originalPngBodiesReadHere": false,
+    "priorTransportLimit": "job-log receipt transport, run 34413372916: rcap-raster-batch.mjs printed the verdict and the page-image inventory to stdout and this session read them through the Actions job-log API. The PNG bodies were not read here or anywhere else -- artifact blob storage is unreachable from this session (CONNECT tunnel failed, 403). Byte length and SHA-256 are cross-checked between the verdict and the inventory, which are two separately published records.",
+    "newAdmission": false
+  },
+  "freshObligation": "SOURCE_IDENTITY",
+  "reusedObligations": [
+    "ROUTE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "PROTECTED_FIELDS",
+    "CLIPPING_AND_OVERLAP",
+    "SELF_HELP_STOP",
+    "FILING_DESTINATION",
+    "SERVICE",
+    "REQUIRED_BEFORE_FILING",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "FEE_AND_WAIVER"
+  ],
+  "currentCompletenessRead": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 RCAP_NO_LOCAL_RASTER=1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_pardon_expungement-set",
+    "executedAtHead": "cf67102837b06c8bb84ceb945ffbae47f554fb4a",
+    "exitCode": 0,
+    "entrypoint": {
+      "path": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "sha256": "d277dfb6371a426facba497b6350a2c09d882f452e368881352e5c728d35b652",
+      "byteLength": 69817
+    },
+    "entrypointAndFamilyMeasurementInputsUnchangedSinceExecution": true,
+    "result": "PASS_COMPLETE",
+    "familiesAudited": 1,
+    "writes": 18,
+    "terminalFields": 86,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "allNineZero": true,
+    "measurementScope": "Actual read-only retained-fixture completeness CLI output corroborates reused independent measurements. The CLI does not itself remeasure source custody, pixels or runtime intake.",
+    "nonmutatingMode": "Neither --write nor --mutations supplied; output write guard at verify-packet-completeness.mjs:901 and mutation guard at :907 remain inactive."
+  },
+  "remainingDefects": [],
+  "remainingSourceCustodyBlockers": [],
+  "grantsNothing": "Independent technical acceptance only; no central admission, route, commercial or production authority."
+}

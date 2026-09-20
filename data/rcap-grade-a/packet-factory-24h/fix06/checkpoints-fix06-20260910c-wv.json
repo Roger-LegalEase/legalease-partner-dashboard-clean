@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-checkpoints/v1",
+  "lane": "FIX06",
+  "laneKind": "repair",
+  "shift": "20260910c-wv",
+  "worktree": "/home/user/pf23-worktree",
+  "branch": "pf23-wv-20260910",
+  "baseSha": "76b85d7a47840b81dcd89746060e762d91108507",
+  "headSha": null,
+  "headShaNote": "null until this file is committed; the commit carrying it is the head. Not transcribed by hand.",
+  "checkpoints": [
+    {
+      "at": "grant assertion, before reading any family artifact",
+      "what": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX06 wv_conv_nonviolent_felony-set",
+      "result": "CLAIM_OK FIX06 wv_conv_nonviolent_felony-set (repair, grant set 932339d5ed64473d), exit 0. Nothing of the family was opened before this returned."
+    },
+    {
+      "at": "environment, before anything",
+      "what": "df -h /home/user, and confirmed the family directory is materialized",
+      "result": "2.0 GB free. data/rcap-all50/overlays/census-v1/wv is present with all seven WV families. No sparse path was added at any point in the shift; df was re-checked mid-shift and was still 2.0 GB."
+    },
+    {
+      "at": "governance, BEFORE the first rebuild",
+      "what": "Established what authors product-wiring.json rather than assuming the builder does, then read that author for governance preservation.",
+      "result": "The builder writes only fixtures, the guide and four reports; `grep -c -i wiring` over it returns 0. The record's own generatedBy names scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs, which ALREADY imports carryForwardGovernance (line 26) and calls it on the refresh branch with the family's measured canonical digests. No wiring was needed and none was added. This family is not one of the eight erasing builders."
+    },
+    {
+      "at": "governance verifier, baseline",
+      "what": "npm run rcap:verify-governance-preservation",
+      "result": "EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE (253 not measured -- all sparse-excluded overlay directories, named as such by the verifier), GOVERNANCE_PRESERVATION_OK, 16 checks, EXIT 0."
+    },
+    {
+      "at": "determinism, before editing the builder",
+      "what": "Rebuilt the family unchanged with --no-raster and compared digests and the working tree.",
+      "result": "canonical c3c5edd7... and boundary 0eb1fbdd... reproduced exactly. Two files still changed with no source edit: source-receipt.json re-pinned the track registry (555e5700 -> b62ae691, +2298 bytes, another lane's edit to a shared record) and 130 lines of reports/actual-writes.json changed because the shared finalizer's refusal DIAGNOSTIC strings drifted. The refusal set and the bytes are identical. Recorded before the repair so nothing later would be attributed to it."
+    },
+    {
+      "at": "the ARTIFACTS finding, measured before it was acted on",
+      "what": "Counted /FlatWidget XObjects in the delivered canonical and boundary two independent ways.",
+      "result": "pikepdf over each page's /Resources /XObject: 70 on canonical (28+22+3+17) and 70 on boundary. The repository's own pdf-flattened-widgets.mjs, inflating the content streams and resolving each placement: 71 placements, 70 FlatWidget plus one image Im0. VF01's 70 is exact and the published 0 was a literal, not a reading."
+    },
+    {
+      "at": "the REQUIRED_BEFORE_FILING finding, reproduced before it was acted on",
+      "what": "Cross-checked every one of the map's 66 canonicalRefusals for an occurrence of its own printedLabel in participant-instructions.md, and read the track registry's participantQuestions.",
+      "result": "19 refusals had no such occurrence. Twelve of them are covered by a group sentence ('Everything on page 4', 'the four eligibility recitals', the two viewer controls). The six sworn boxes are covered by nothing at all. The registry declares protectiveOrders and priorExpungementGranted with requirement 'required'. VF01's finding holds exactly."
+    },
+    {
+      "at": "which kind of problem this is, decided before choosing a fix",
+      "what": "Read the facts the build actually holds for each fixture.",
+      "result": "Five neutral facts per fixture and no answer to either intake question, so this is a MISSING PARTICIPANT INPUT, not a renderer defect and not an unresolved legal question. The packet must not tick a sworn box it has no answer for. The fix is disclosure, not selection."
+    },
+    {
+      "at": "the gates, tested by breaking them",
+      "what": "Removed the sworn-election group from LEFT_BLANK_GROUP_ORDER, ran the builder; restored from a copy; emptied VIEWER_CONTROL_FIELDS, ran the builder; restored again.",
+      "result": "First: STOPPED / REFUSED_BLANK_NOT_DISCLOSED_IN_THE_GUIDE naming exactly the six boxes VF01 named. Second: STOPPED / REFUSED_BLANK_THIS_BUILDER_CANNOT_DESCRIBE naming petition.ResetButton and petition.PrintForm. Both stops occur before the output directory is created, so neither run wrote a byte of the family."
+    },
+    {
+      "at": "final rebuild",
+      "what": "node scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs --no-raster with MASTER_LIBRARY_SOURCE_DIR set",
+      "result": "COMPLETED, nine counters zero by the builder's own count, canonical c3c5edd72b617541bbceaa7ac1c791b0d2f251dde9365a1c8a1c16995dd5edd9 (353021 bytes, 4 pages) and boundary 0eb1fbdd0c559bde89cd3d4e595044bb7d17b949d53e9ee8f2a64e1fc5647573 (353085 bytes, 4 pages) -- both unchanged from the committed bytes. The repair moved no output byte."
+    },
+    {
+      "at": "the repaired column, read back out of the produced file",
+      "what": "Read reports/actual-writes.json after the rebuild and re-measured the bytes independently.",
+      "result": "flattenedWidgetAppearancesReadFromOutputBytes 70 on both fixtures, carryingText 6 on both, addedGlyphs 101 and 158, glyphs outside measured write boxes 0 and 0. 101 is exactly the non-whitespace character count of the six appearance texts, so the two columns agree. Control-chrome glyphs measured separately: 0 -- no flattened appearance draws 'Reset' or 'Print this form'."
+    },
+    {
+      "at": "wiring, after the rebuild",
+      "what": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family wv_conv_nonviolent_felony-set",
+      "result": "'0 wiring record(s) need creation, 0 record(s) need refresh, 1 unchanged', exit 0. All six governance keys present; acceptanceReceipt still binds c3c5edd7..., which is the canonical this build produces; acceptanceReceiptWithdrawn correctly absent because nothing was superseded. binding.lastIndependentVerification still reads FAIL_REPAIR_REQUIRED / vf01 and was not touched."
+    },
+    {
+      "at": "governance verifier, before the commit",
+      "what": "npm run rcap:verify-governance-preservation",
+      "result": "GOVERNANCE_PRESERVATION_OK, 16 checks, EXIT 0."
+    },
+    {
+      "at": "return",
+      "what": "Row and checkpoints written under distinct names alongside the existing FIX06 returns; only the four changed paths plus these two staged, by explicit path.",
+      "result": "No git add ., -A or --all. No push to main, no force-push, no pull request. No verdict set and no PASS issued."
+    }
+  ]
+}

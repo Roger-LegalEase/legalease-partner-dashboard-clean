@@ -1,0 +1,777 @@
+{
+  "va_seal_enumerated_seven_year": {
+    "packetSet": {
+      "packetSetId": "va_seal_enumerated_seven_year-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "va_seal_enumerated_seven_year-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CC-1201",
+          "officialSourceUrl": "https://www.vacourts.gov/courts/circuit/resources/forms/",
+          "order": 1
+        },
+        {
+          "componentId": "va_seal_enumerated_seven_year-ccre-forwarding-request-2",
+          "role": "ccre_forwarding_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "va_seal_enumerated_seven_year-commonwealth-service-and-stipulation-req-3",
+          "role": "commonwealth_service_and_stipulation_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "va_seal_enumerated_seven_year-records-checklist-4",
+          "role": "records_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "va_seal_enumerated_seven_year-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+          "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+          "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain FBI Identity History Summary. Request your Identity History Summary from the FBI. Virginia relief reaches Virginia records only, but the felony-history bars and the clean-period test look at convictions anywhere, so this is how you check them.",
+          "obtainedFrom": "Federal Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you been convicted of anything since that date, anywhere? Virginia traffic infractions under Title 46.2 do not count.\" against FBI Identity History Summary, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature \u2014 CC-1201 series petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case number \u2014 CC-1201 series petition, caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none \u2014 no court fee is charged, so there is nothing to waive.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Delivery or first-class mail to the attorney for the Commonwealth of the filing locality. The Commonwealth is a party to the proceeding.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition in the circuit court of the county or city in which the case was disposed of. District court charges are filed in that locality's circuit court. Where several eligible matters exist they may go on one petition, provided all are eligible under this section.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+        "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+        "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+        "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+        "Check your answer to \"Have you been convicted of anything since that date, anywhere? Virginia traffic infractions under Title 46.2 do not count.\" against FBI Identity History Summary, and correct the packet if they disagree.",
+        "Signature \u2014 CC-1201 series petition, signature block.",
+        "Case number \u2014 CC-1201 series petition, caption.",
+        "The petitioner signs the petition.",
+        "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+        "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+        "none \u2014 no court fee is charged, so there is nothing to waive."
+      ]
+    },
+    "recordsToObtainBeforeFiling": null,
+    "facts": null,
+    "selfHelpStopConditions": [
+      "Anything was finalised on the same date as the matter to be sealed, because the \u00a7 19.2-392.12:1(D) same-date rule may defeat the petition.",
+      "The offence may not be exactly one of the listed provisions.",
+      "The attorney for the Commonwealth objects or answers, or the court sets a hearing.",
+      "Any immigration question."
+    ]
+  },
+  "va_seal_ancillary_matter_only": {
+    "packetSet": {
+      "packetSetId": "va_seal_ancillary_matter_only-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "va_seal_ancillary_matter_only-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CC-1201",
+          "officialSourceUrl": "https://www.vacourts.gov/courts/circuit/resources/forms/",
+          "order": 1
+        },
+        {
+          "componentId": "va_seal_ancillary_matter_only-ccre-forwarding-request-2",
+          "role": "ccre_forwarding_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "va_seal_ancillary_matter_only-commonwealth-service-and-stipulation-req-3",
+          "role": "commonwealth_service_and_stipulation_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "va_seal_ancillary_matter_only-records-checklist-4",
+          "role": "records_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "va_seal_ancillary_matter_only-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+          "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+          "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature \u2014 CC-1201 series petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case number \u2014 CC-1201 series petition, caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The specific identification of the ancillary matter \u2014 CC-1201 series petition, the ancillary matter paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none \u2014 no court fee is charged, so there is nothing to waive.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Delivery or first-class mail to the attorney for the Commonwealth of the filing locality. The Commonwealth is a party to the proceeding.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition in the circuit court of the county or city in which the case was disposed of. District court charges are filed in that locality's circuit court. The petition identifies the ancillary matter specifically.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+        "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+        "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+        "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+        "Signature \u2014 CC-1201 series petition, signature block.",
+        "Case number \u2014 CC-1201 series petition, caption.",
+        "The specific identification of the ancillary matter \u2014 CC-1201 series petition, the ancillary matter paragraph.",
+        "The petitioner signs the petition.",
+        "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+        "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+        "none \u2014 no court fee is charged, so there is nothing to waive."
+      ]
+    },
+    "recordsToObtainBeforeFiling": null,
+    "facts": null,
+    "selfHelpStopConditions": [
+      "The underlying charge or conviction has not in fact been sealed, which is the whole of the subsection J test.",
+      "It is unclear which automatic-sealing section reached the underlying matter, because the offence-date floor applies to two of the three.",
+      "The attorney for the Commonwealth objects or answers.",
+      "Any immigration question."
+    ]
+  },
+  "va_seal_petition_misdemeanor": {
+    "packetSet": {
+      "packetSetId": "va_seal_petition_misdemeanor-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "va_seal_petition_misdemeanor-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CC-1201",
+          "officialSourceUrl": "https://www.vacourts.gov/courts/circuit/resources/forms/",
+          "order": 1
+        },
+        {
+          "componentId": "va_seal_petition_misdemeanor-ccre-forwarding-request-2",
+          "role": "ccre_forwarding_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "va_seal_petition_misdemeanor-commonwealth-service-and-stipulation-req-3",
+          "role": "commonwealth_service_and_stipulation_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "va_seal_petition_misdemeanor-records-checklist-4",
+          "role": "records_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "va_seal_petition_misdemeanor-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+          "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+          "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain FBI Identity History Summary. Request your Identity History Summary from the FBI. Virginia relief reaches Virginia records only, but the felony-history bars and the clean-period test look at convictions anywhere, so this is how you check them.",
+          "obtainedFrom": "Federal Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you been convicted of anything since, anywhere? Virginia traffic infractions under Title 46.2 do not count.\" against FBI Identity History Summary, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that court-ordered restitution is paid in full. Ask the clerk or the collecting agency for a payoff or zero-balance statement. Section 19.2-392.12(F)(4) makes full payment a criterion, so an outstanding balance defeats the petition.",
+          "obtainedFrom": "Clerk of the court that ordered it, or the collecting agency",
+          "requirement": "conditional",
+          "conditionDescription": "Only where restitution was ordered on any charge, conviction or ancillary matter in the petition; \u00a7 19.2-392.12(F)(4) requires it to be paid in full.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was court-ordered restitution ordered on any charge, conviction or ancillary matter you want sealed, and is it paid in full?\" against Proof that court-ordered restitution is paid in full, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Only where restitution was ordered on any charge, conviction or ancillary matter in the petition; \u00a7 19.2-392.12(F)(4) requires it to be paid in full.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature \u2014 CC-1201 series petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case number \u2014 CC-1201 series petition, caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The manifest injustice statement \u2014 CC-1201 series petition, the grounds paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any rehabilitation showing where alcohol or drugs were involved \u2014 CC-1201 series petition, the rehabilitation paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the offence is not on the subsection L exclusion list \u2014 CC-1201 series petition, the eligibility recital.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion about the felony-history bars \u2014 CC-1201 series petition, the eligibility recital.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none \u2014 no court fee is charged, so there is nothing to waive.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Delivery or first-class mail to the attorney for the Commonwealth of the filing locality. The Commonwealth is a party to the proceeding.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition in the circuit court of the county or city in which the case was disposed of. District court charges are filed in that locality's circuit court. Multiple charges may go on one petition only if they all arose out of the same transaction or occurrence and all are eligible; ancillary matters are not counted as separate transactions.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+        "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+        "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+        "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+        "Check your answer to \"Have you been convicted of anything since, anywhere? Virginia traffic infractions under Title 46.2 do not count.\" against FBI Identity History Summary, and correct the packet if they disagree.",
+        "Obtain Proof that court-ordered restitution is paid in full. Ask the clerk or the collecting agency for a payoff or zero-balance statement. Section 19.2-392.12(F)(4) makes full payment a criterion, so an outstanding balance defeats the petition.",
+        "Check your answer to \"Was court-ordered restitution ordered on any charge, conviction or ancillary matter you want sealed, and is it paid in full?\" against Proof that court-ordered restitution is paid in full, and correct the packet if they disagree.",
+        "Signature \u2014 CC-1201 series petition, signature block.",
+        "Case number \u2014 CC-1201 series petition, caption.",
+        "The manifest injustice statement \u2014 CC-1201 series petition, the grounds paragraph.",
+        "Any rehabilitation showing where alcohol or drugs were involved \u2014 CC-1201 series petition, the rehabilitation paragraph.",
+        "Any assertion that the offence is not on the subsection L exclusion list \u2014 CC-1201 series petition, the eligibility recital.",
+        "Any assertion about the felony-history bars \u2014 CC-1201 series petition, the eligibility recital.",
+        "The petitioner signs the petition.",
+        "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+        "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+        "none \u2014 no court fee is charged, so there is nothing to waive."
+      ]
+    },
+    "recordsToObtainBeforeFiling": null,
+    "facts": null,
+    "selfHelpStopConditions": [
+      "The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+      "Any offence that may fall within the nineteen subdivisions of the \u00a7 19.2-392.12(L) exclusion list.",
+      "Any victim who may be a family or household member as defined in \u00a7 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+      "Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under \u00a7 18.2-308.2.",
+      "Any question about the felony-history bars, which turn on the national criminal history record.",
+      "Any petitioner who has previously obtained sealing under \u00a7 19.2-392.12.",
+      "Any alcohol or drug involvement requiring a rehabilitation showing.",
+      "Immigration consequences.",
+      "Any attack on the underlying conviction."
+    ]
+  },
+  "va_seal_petition_felony": {
+    "packetSet": {
+      "packetSetId": "va_seal_petition_felony-set",
+      "version": "1.0.0",
+      "components": [
+        {
+          "componentId": "va_seal_petition_felony-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CC-1201",
+          "officialSourceUrl": "https://www.vacourts.gov/courts/circuit/resources/forms/",
+          "order": 1
+        },
+        {
+          "componentId": "va_seal_petition_felony-ccre-forwarding-request-2",
+          "role": "ccre_forwarding_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 2
+        },
+        {
+          "componentId": "va_seal_petition_felony-commonwealth-service-and-stipulation-req-3",
+          "role": "commonwealth_service_and_stipulation_request",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 3
+        },
+        {
+          "componentId": "va_seal_petition_felony-records-checklist-4",
+          "role": "records_checklist",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 4
+        },
+        {
+          "componentId": "va_seal_petition_felony-filing-instructions-5",
+          "role": "filing_instructions",
+          "requirement": "required",
+          "conditionDescription": null,
+          "outputStrategy": "process_guidance",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "order": 5
+        }
+      ],
+      "participantActionRequired": [
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+          "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+          "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain FBI Identity History Summary. Request your Identity History Summary from the FBI. Virginia relief reaches Virginia records only, but the felony-history bars and the clean-period test look at convictions anywhere, so this is how you check them.",
+          "obtainedFrom": "Federal Bureau of Investigation",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Have you been convicted of anything since, anywhere? Virginia traffic infractions under Title 46.2 do not count.\" against FBI Identity History Summary, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "obtain_document",
+          "description": "Obtain Proof that court-ordered restitution is paid in full. Ask the clerk or the collecting agency for a payoff or zero-balance statement. Section 19.2-392.12(F)(4) makes full payment a criterion, so an outstanding balance defeats the petition.",
+          "obtainedFrom": "Clerk of the court that ordered it, or the collecting agency",
+          "requirement": "conditional",
+          "conditionDescription": "Only where restitution was ordered on any charge, conviction or ancillary matter in the petition; \u00a7 19.2-392.12(F)(4) requires it to be paid in full.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "confirm_answer",
+          "description": "Check your answer to \"Was court-ordered restitution ordered on any charge, conviction or ancillary matter you want sealed, and is it paid in full?\" against Proof that court-ordered restitution is paid in full, and correct the packet if they disagree.",
+          "requirement": "conditional",
+          "conditionDescription": "Only where restitution was ordered on any charge, conviction or ancillary matter in the petition; \u00a7 19.2-392.12(F)(4) requires it to be paid in full.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Signature \u2014 CC-1201 series petition, signature block.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Case number \u2014 CC-1201 series petition, caption.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "The manifest injustice statement \u2014 CC-1201 series petition, the grounds paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any rehabilitation showing where alcohol or drugs were involved \u2014 CC-1201 series petition, the rehabilitation paragraph.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion that the offence is not on the subsection L exclusion list \u2014 CC-1201 series petition, the eligibility recital.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "complete_field",
+          "description": "Any assertion about the felony-history bars \u2014 CC-1201 series petition, the eligibility recital.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "sign",
+          "description": "The petitioner signs the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "notarize",
+          "description": "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "pay_fee",
+          "description": "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+          "requirement": "required",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "apply_fee_waiver",
+          "description": "none \u2014 no court fee is charged, so there is nothing to waive.",
+          "requirement": "conditional",
+          "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+          "requiredBeforeFiling": true
+        },
+        {
+          "kind": "serve_party",
+          "description": "Delivery or first-class mail to the attorney for the Commonwealth of the filing locality. The Commonwealth is a party to the proceeding.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        },
+        {
+          "kind": "file",
+          "description": "File the petition in the circuit court of the county or city in which the case was disposed of. District court charges are filed in that locality's circuit court. Multiple charges may go on one petition only if they all arose out of the same transaction or occurrence and all are eligible; ancillary matters are not counted as separate transactions.",
+          "requirement": "required",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "requiredBeforeFiling": [
+        "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+        "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+        "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+        "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+        "Check your answer to \"Have you been convicted of anything since, anywhere? Virginia traffic infractions under Title 46.2 do not count.\" against FBI Identity History Summary, and correct the packet if they disagree.",
+        "Obtain Proof that court-ordered restitution is paid in full. Ask the clerk or the collecting agency for a payoff or zero-balance statement. Section 19.2-392.12(F)(4) makes full payment a criterion, so an outstanding balance defeats the petition.",
+        "Check your answer to \"Was court-ordered restitution ordered on any charge, conviction or ancillary matter you want sealed, and is it paid in full?\" against Proof that court-ordered restitution is paid in full, and correct the packet if they disagree.",
+        "Signature \u2014 CC-1201 series petition, signature block.",
+        "Case number \u2014 CC-1201 series petition, caption.",
+        "The manifest injustice statement \u2014 CC-1201 series petition, the grounds paragraph.",
+        "Any rehabilitation showing where alcohol or drugs were involved \u2014 CC-1201 series petition, the rehabilitation paragraph.",
+        "Any assertion that the offence is not on the subsection L exclusion list \u2014 CC-1201 series petition, the eligibility recital.",
+        "Any assertion about the felony-history bars \u2014 CC-1201 series petition, the eligibility recital.",
+        "The petitioner signs the petition.",
+        "none stated in \u00a7 19.2-392.12 or \u00a7 19.2-392.12:1 for the petition.",
+        "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+        "none \u2014 no court fee is charged, so there is nothing to waive."
+      ]
+    },
+    "recordsToObtainBeforeFiling": null,
+    "facts": null,
+    "selfHelpStopConditions": [
+      "The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+      "Any offence that may fall within the nineteen subdivisions of the \u00a7 19.2-392.12(L) exclusion list.",
+      "Any victim who may be a family or household member as defined in \u00a7 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+      "Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under \u00a7 18.2-308.2.",
+      "Any question about the felony-history bars, which turn on the national criminal history record.",
+      "Any petitioner who has previously obtained sealing under \u00a7 19.2-392.12.",
+      "Any alcohol or drug involvement requiring a rehabilitation showing.",
+      "Immigration consequences.",
+      "Any attack on the underlying conviction."
+    ]
+  }
+}

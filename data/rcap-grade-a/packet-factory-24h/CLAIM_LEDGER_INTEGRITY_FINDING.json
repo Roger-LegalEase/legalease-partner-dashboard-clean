@@ -1,0 +1,383 @@
+{
+ "schemaVersion": "rcap-claim-ledger-integrity-finding/v1",
+ "generatedBy": "Captain, from VF36's return; the rows below were re-read from the ledger rather than copied from its message",
+ "generatedAt": "2026-09-10T07:48:28.953302Z",
+ "finding": "A grant can carry a releaseReason while released is false and releasedAt is null. It reads as released to anyone scanning for a reason and is live to the script.",
+ "whyNothingCaughtIt": "releaseReason is not among the ledger's DIGEST_FIELDS, so writing or altering it does not disturb claimsDigest and ledger validation passes over it in silence.",
+ "digestFieldsAsSourced": null,
+ "foundBy": "VF36, while establishing that its own refusal named a live worker that did not exist",
+ "rowsCarryingAReasonWithoutARelease": [
+  {
+   "subjectId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+   "lane": "FIX106",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "FIX03 returned on 2026-09-04 and is not executing; its grant stayed live after the return"
+  },
+  {
+   "subjectId": "al-felony-nonconviction-90-set",
+   "lane": "FIX119",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "FIX119 return integrated: the repair is in the tree and the released grant is what lets the post-repair transition read as causal."
+  },
+  {
+   "subjectId": "al-pardoned-felony-set",
+   "lane": "FIX119",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "FIX119 return integrated: the repair is in the tree and the released grant is what lets the post-repair transition read as causal."
+  },
+  {
+   "subjectId": "ar-drug-court-set",
+   "lane": "FIX01",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Consolidating the five families that fail CLIPPING_AND_OVERLAP onto one repair lane: the obligation is the same on all five and a shared cause is repaired once, by one writer, then validated per family."
+  },
+  {
+   "subjectId": "ar-felony-seal-set",
+   "lane": "FIX106",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "FIX03 returned on 2026-09-04 and is not executing; its grant stayed live after the return"
+  },
+  {
+   "subjectId": "ar-pardon-seal-set",
+   "lane": "FIX100",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Captain rebalancing at the Claude takeover: no worker on this lane; regrouped for one Claude writer"
+  },
+  {
+   "subjectId": "az_marijuana_expungement_arrest_no_charges-set",
+   "lane": "FIX100",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Captain rebalancing at the Claude takeover: no worker on this lane; regrouped for one Claude writer"
+  },
+  {
+   "subjectId": "co_motion_seal_nonconviction-set",
+   "lane": "VF22",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Current independent review completed and integrated; resume existing repair lane for all definite findings, preserving source/legal holds and separate post-repair reviewer."
+  },
+  {
+   "subjectId": "co_multiple_conviction_seal-set",
+   "lane": "VF29",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF02 read at base bb0963c0d on the FIX80 bytes: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 143/143 both fixtures; packet page 4 pixel-identical to the pinned JDF-641; row in vf02/rows.json, lane commit 195e579f3"
+  },
+  {
+   "subjectId": "composed-treatment:nc_146_dismissal_petition",
+   "lane": "PF12",
+   "operation": "packet-build",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "PF17 is unstaffed and this family is buildable now; releasing so it can move to the lane being staffed."
+  },
+  {
+   "subjectId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+   "lane": "FIX114",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "CLIPPING_AND_OVERLAP repaired at the cause the way FIX30 did: sanitizePdfText strips closed markdown emphasis pairs through the shared composed-page-markdown module and byteProof asserts no delivered page carries a delimiter. Not one word of the stop-and-get-help passage changed. Raster and independent verification owed. (Replayed by Captain from FIX07 commit 6359991d6.)"
+  },
+  {
+   "subjectId": "de_discretionary_family_court-set",
+   "lane": "PF02",
+   "operation": "packet-build",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+  },
+  {
+   "subjectId": "de_discretionary_superior_court-set",
+   "lane": "PF02",
+   "operation": "packet-build",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "The 2026-09-04 originals are recovered and mounted; consolidating the three Delaware families onto one lane so a single writer holds the whole state's source set."
+  },
+  {
+   "subjectId": "il-seal-3yr-set",
+   "lane": "VF03",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+  },
+  {
+   "subjectId": "in_arrest_no_charges-set",
+   "lane": "VF26",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF02 returned PASS_COMPLETE_INDEPENDENT at bd36dba5d on 2f14e1a7/a7b34ccf and the verdict is extracted; the generator had re-dealt the family to VF01 in the interim and no VF01 worker read it (the second-wave VF01 brief excludes it)."
+  },
+  {
+   "subjectId": "in_infraction_nondisclosure-set",
+   "lane": "FIX106",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "FIX06 returned on 2026-09-04 (FIX-B cohort) and is not executing; its grant stayed live after the return"
+  },
+  {
+   "subjectId": "in_section1_petition-set",
+   "lane": "VF26",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF02 PASS_COMPLETE_INDEPENDENT at ff3ee6858 on f3cfeb32/a7b34ccf; FIX18's repair holds: four flattened fixtures, 65/65 declared items, five values in 26 places. Verdict extracted."
+  },
+  {
+   "subjectId": "la-977d-marijuana-first-offense-set",
+   "lane": "PF14",
+   "operation": "packet-build",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "SRC1's content sweep resolved these Louisiana sources byte-exact in mounted custody; consolidating the three onto the lane being staffed for them."
+  },
+  {
+   "subjectId": "ma-bmc-multi-set",
+   "lane": "FIX116",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Implementation completed in recovery commit ea96a068fc6e39c931aee32826286523cc8b2b6c. Accepted instrument identity remains a hold. No further build assignment is needed for the completed repair."
+  },
+  {
+   "subjectId": "ma-seal-court-set",
+   "lane": "VF06",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
+  },
+  {
+   "subjectId": "ma-seal-court-set",
+   "lane": "PF23",
+   "operation": "packet-build",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+  },
+  {
+   "subjectId": "md_10105_early-set",
+   "lane": "VF06",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Consolidating two single-family verification lanes onto one reader so five lanes cover all sixteen, rather than eight lanes covering one or two each."
+  },
+  {
+   "subjectId": "md_pardon_expungement-set",
+   "lane": "VF01",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "The generated dispatch assigns this family's post-repair read to this lane and the ledger named another, so the two disagreed and generate.mjs refused to write anything. Moving the claim to the lane the dispatch names."
+  },
+  {
+   "subjectId": "mo-art-xiv-marijuana-set",
+   "lane": "VF05",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "The generated dispatch assigns this family's post-repair read to this lane and the ledger named another, so the two disagreed and generate.mjs refused to write anything. Moving the claim to the lane the dispatch names."
+  },
+  {
+   "subjectId": "ne-seal-pre2017-set",
+   "lane": "VF03",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+  },
+  {
+   "subjectId": "ne-setaside-custodial-set",
+   "lane": "VF29",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF08 returned PASS_COMPLETE_INDEPENDENT at e2525d774 on the centrally rendered bytes; 15 of 15 obligations pass, nine counters zero"
+  },
+  {
+   "subjectId": "pa_pardon_expungement-set",
+   "lane": "VF08",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+  },
+  {
+   "subjectId": "rcap-hi-custom-pleading",
+   "lane": "VF07",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Consolidating VERIFY_PENDING families onto the lanes being staffed for review, so one reader holds a coherent group."
+  },
+  {
+   "subjectId": "rcap-tx-custom-pleading",
+   "lane": "VF08",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+  },
+  {
+   "subjectId": "ri_deferred_sentence-set",
+   "lane": "VF01",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Verification complete: PASS_COMPLETE_INDEPENDENT returned and is on record against these exact bytes, and no worker holds it. Obsolete dispatch released; the verdict stands."
+  },
+  {
+   "subjectId": "ri_first_offender_felony-set",
+   "lane": "FIX120",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Stale live grant from a wave-1 lane that is not running and has returned nothing for this family. Released so one repair lane can own all four families on the shared ri_decriminalized host; no work of FIX03 is discarded, because it produced none for this family"
+  },
+  {
+   "subjectId": "ri_multiple_misdemeanors-set",
+   "lane": "VF01",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "No live worker; its two siblings' read is on VF01 and all three share one repair and one host"
+  },
+  {
+   "subjectId": "ri_multiple_misdemeanors-set",
+   "lane": "FIX134",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "No live worker on FIX08; the family shares one host builder with the two FIX134 is about to repair, and two lanes editing one builder is a collision"
+  },
+  {
+   "subjectId": "ri_nonconviction_sealing-set",
+   "lane": "FIX99",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "Captain rebalancing at the Claude takeover: no worker on this lane; regrouped for one Claude writer"
+  },
+  {
+   "subjectId": "tx_exp_acquittal-set",
+   "lane": "VF08",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+  },
+  {
+   "subjectId": "tx_nd_conviction_no_supervision-set",
+   "lane": "VF08",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+  },
+  {
+   "subjectId": "tx_nd_dwi_deferred-set",
+   "lane": "VF08",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+  },
+  {
+   "subjectId": "tx_nd_probation_misdemeanor-set",
+   "lane": "VF08",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF08 appearance-scale cohort read at 7b3214102: measured clean on the live RASTER_PASS bytes (every BBox/Rect mismatch paints nothing or stays inside its own Rect, or the builder already normalizes placement); no row written, the standing verdict stands; SCALE_COHORT_MEASUREMENT.json at e3f7e1880"
+  },
+  {
+   "subjectId": "vt_seal_18_to_21-set",
+   "lane": "VF25",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF05 read on the FIX75 bytes at base 274a00cf4: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 161/161 both fixtures; row in vf05/rows.json, lane commit 120890f64"
+  },
+  {
+   "subjectId": "vt_seal_dui-set",
+   "lane": "VF25",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF03 returned PASS_COMPLETE_INDEPENDENT at 7d2e1ba7b on the unchanged fixtures (c360eac4/21fa17be) with the live receipt; 15 of 15 pass, nine counters zero"
+  },
+  {
+   "subjectId": "vt_seal_dui-set",
+   "lane": "FIX130",
+   "operation": "rapid-repair",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "No live worker on FIX04; the family shares one host builder and one shifted-caption defect with vt_seal_misdemeanor-set, which FIX130 holds, and two lanes editing one builder is a collision"
+  },
+  {
+   "subjectId": "vt_seal_felony-set",
+   "lane": "VF25",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF05 read on the FIX75 bytes at base 274a00cf4: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 161/161 both fixtures; row in vf05/rows.json, lane commit 120890f64"
+  },
+  {
+   "subjectId": "vt_seal_misdemeanor-set",
+   "lane": "VF25",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF05 read on the FIX75 bytes at base 274a00cf4: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 161/161 both fixtures; row in vf05/rows.json, lane commit 120890f64"
+  },
+  {
+   "subjectId": "vt_seal_nonconviction-set",
+   "lane": "VF25",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF02 third read on the FIX61-repaired bytes at aed273b29: PASS_COMPLETE_INDEPENDENT, fifteen obligations pass, nine counters zero, raster receipt bound; rows.json committed at 0856358d5"
+  },
+  {
+   "subjectId": "vt_seal_pardon-set",
+   "lane": "VF25",
+   "operation": "independent-verification",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "VF05 read on the FIX75 bytes at base 274a00cf4: PASS_COMPLETE_INDEPENDENT, fifteen obligations PASS, nine counters zero, sweep 161/161 both fixtures; row in vf05/rows.json, lane commit 120890f64"
+  },
+  {
+   "subjectId": "wv_acc_treatment_job_readiness-set",
+   "lane": "PF23",
+   "operation": "packet-build",
+   "released": false,
+   "releasedAt": null,
+   "releaseReason": "SRC1's content sweep resolved these sources byte-exact in mounted custody; consolidating onto the lane being staffed for them. The lanes they leave were each told not to build them in their current shift."
+  }
+ ],
+ "countAtThisCommit": 46,
+ "theSecondHalfOfTheSameProblem": "claim.mjs answers a refused assert with GRANTED_ELSEWHERE ... \"that grant is LIVE -- another lane is working it now.\" For a lane that finished and never released, that sentence is false, and there is no distinct message for the finished-but-unreleased case. VF36 read its own refusal as an assertion about a worker and went and checked whether that worker existed. It did not.",
+ "notFixedHere": "Neither the digest field list nor the refusal message is changed in this commit. Both are changes to the mechanism every lane claims through, and this records them before anyone changes them under a running lane.",
+ "grantsNothing": "This records a measurement of the ledger. It grants, releases and transfers nothing."
+}

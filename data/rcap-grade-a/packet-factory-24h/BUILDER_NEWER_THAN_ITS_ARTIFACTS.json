@@ -1,0 +1,1486 @@
+{
+  "schemaVersion": "rcap-diagnosis/v1",
+  "question": "For how many families did the builder, or its shared host, change after the committed fixtures were last written?",
+  "answer": "145 of 346. 111 of those carry a RASTER_PASS and 96 are COMPLETE_PACKET_PROVEN.",
+  "thisNumberOverstates": "Today's repair lanes deliberately changed builders without moving a byte -- FIX169, FIX170 and FIX166 each proved byte-identical fixtures after their edits -- and every one of those edits counts here as fresh exposure. A builder edit that provably did not move the output is exposure by this measure and not by any other.",
+  "whatThisMeasuresAndWhatItDoesNot": "This is EXPOSURE, not drift. It compares the last commit touching the builder and its shared host against the last commit touching the family's fixtures/ directory. Code changing later does not mean the output moved -- lanes have repeatedly rebuilt such families to byte-identical fixtures. Only a rebuild settles it either way, and this record does not rebuild anything.",
+  "whyItWasMeasured": "FIX168 ran a determinism control on sd_arrest_expungement-set and found the committed artifacts are the output of code that no longer exists in the tree: canonical 627e6502->8c9c1c83 and boundary 79b2e9ac->195f7776 (+51 bytes each), production-field-map.json 992 insertions / 354 deletions, requiredBeforeFilingCount 107->28, and product-wiring.json's entire binding block deleted. The map and fixtures were last written at ab25f51fa; the builder changed at 41f14826c and its shared host at b467824f1.",
+  "whatIsKnownEitherWay": {
+    "measuredToDrift": [
+      "sd_arrest_expungement-set (FIX168)"
+    ],
+    "measuredToReproduceByteForByte": [
+      "nj_disorderly_persons-set (FIX168)",
+      "in_infraction_nondisclosure-set (FIX170)",
+      "az_marijuana_expungement_arrest_no_charges-set fixtures (FIX170)",
+      "ar-drug-court-set (FIX169)",
+      "ar-felony-seal-set (FIX169)",
+      "mo-art-xiv-marijuana-set and mi_setaside_trafficking-set (FIX163)",
+      "il-seal-3yr-set (FIX166)"
+    ],
+    "measuredToRefuseRatherThanReproduce": [
+      "ne-setaside-custodial-set (FIX171): the unmodified builder refuses on four unnamed blanks after writing both fixtures, and left 8 modified files behind"
+    ]
+  },
+  "theRealRisk": "Where the artifacts do not reproduce, the family's RASTER_PASS is hostage to the next rebuild: curing anything moves bytes and burns the binding. FIX168 declined to cure SD for exactly that reason, and was right to.",
+  "theCure": "A per-family rebuild-reproducibility check, run as a determinism control before any repair, is what every lane in this fleet already does by hand. Making it a script would turn 143 unknowns into 143 answers without a lane each.",
+  "decidesNothing": "No family is demoted and no receipt withdrawn by this record.",
+  "measuredAt": {
+    "examined": 346,
+    "exposed": 145,
+    "exposedCarryingRasterPass": 111,
+    "exposedProven": 96
+  },
+  "families": [
+    {
+      "familyId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "a8931f0e0df294af66be08d0ae7b87c3c3b14f6f",
+      "fixturesAt": "2026-09-04T04:29:22.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission.mjs",
+      "codeCommit": "f9d8edbc3b8176e5e152a8750c574089122128e5",
+      "codeAt": "2026-09-05T00:02:48.000Z"
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "50b3dd99453dca9042951a1c4cdab0b0fddc88ae",
+      "fixturesAt": "2026-09-02T07:34:24.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record.mjs",
+      "codeCommit": "a3d0353fe954c94474b3fbc3dc591c1ba7a82d50",
+      "codeAt": "2026-09-02T08:12:57.000Z"
+    },
+    {
+      "familyId": "ak-courtview-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "968c822695612d0394a26cdff59f999f03c664c5",
+      "fixturesAt": "2026-09-01T08:58:39.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ak-courtview-set.mjs",
+      "codeCommit": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
+      "codeAt": "2026-09-01T10:22:42.000Z"
+    },
+    {
+      "familyId": "ak-mistaken-identity-set",
+      "state": "OUT_OF_SCOPE",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "a3d0353fe954c94474b3fbc3dc591c1ba7a82d50",
+      "fixturesAt": "2026-09-02T08:12:57.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ak-mistaken-identity-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "al-felony-dwop-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "92c0d2a05e2aa15f2f248e12f6ca8f31351ca15b",
+      "fixturesAt": "2026-09-10T13:59:28.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-al-felony-dwop-set.mjs",
+      "codeCommit": "674dbc238a5605377f8f169cd89b0898f1f78298",
+      "codeAt": "2026-09-10T15:27:26.000Z"
+    },
+    {
+      "familyId": "ar-act531-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "0699b858bc42a04756accc30fff5ece5a7931c20",
+      "fixturesAt": "2026-09-02T06:59:07.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ar-act531-set.mjs",
+      "codeCommit": "3db2cc7376e3743111100aef1aa3746f8e0c34cf",
+      "codeAt": "2026-09-02T12:30:06.000Z"
+    },
+    {
+      "familyId": "ar-arrest-seal-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "1b0cda8f3f47f256f870a8748e48e73c578febf5",
+      "fixturesAt": "2026-08-30T11:12:38.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ar-arrest-seal-set.mjs",
+      "codeCommit": "913e37bbb62441e43e8cbcba83528b547657a6cb",
+      "codeAt": "2026-09-02T11:28:22.000Z"
+    },
+    {
+      "familyId": "ar-cs-possession-seal-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "3471fcc4056579eb156da74cc57e67c86dc82127",
+      "fixturesAt": "2026-09-10T05:46:20.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ar-cs-possession-seal-set.mjs",
+      "codeCommit": "161b68fd3dce6d8634de2229db2ad7198d08c82c",
+      "codeAt": "2026-09-10T09:42:34.000Z"
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "59f3230a049b5bd19f8229abd175cb21cbdd40cb",
+      "fixturesAt": "2026-08-30T11:15:59.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs",
+      "codeCommit": "913e37bbb62441e43e8cbcba83528b547657a6cb",
+      "codeAt": "2026-09-02T11:28:22.000Z"
+    },
+    {
+      "familyId": "az_marijuana_expungement_superior_court-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "8de205a517fc57d8a98dc2c4af9229e0f240bb8e",
+      "fixturesAt": "2026-09-02T16:27:53.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "065aab4fc10b9007339df214387389c0e7aa4784",
+      "fixturesAt": "2026-09-05T15:09:22.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
+      "codeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "codeAt": "2026-09-08T11:13:13.000Z"
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9c1ca5ee0c8739341c6f2577789b63aab13557c4",
+      "fixturesAt": "2026-09-03T21:44:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9c1ca5ee0c8739341c6f2577789b63aab13557c4",
+      "fixturesAt": "2026-09-03T21:44:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9c1ca5ee0c8739341c6f2577789b63aab13557c4",
+      "fixturesAt": "2026-09-03T21:44:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9c1ca5ee0c8739341c6f2577789b63aab13557c4",
+      "fixturesAt": "2026-09-03T21:44:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9c1ca5ee0c8739341c6f2577789b63aab13557c4",
+      "fixturesAt": "2026-09-03T21:44:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9ef953b7fe754fbd5763b184806e9b233857a9af",
+      "fixturesAt": "2026-09-02T16:17:09.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "568aed850511583fc05df795f4113a8d24e24838",
+      "fixturesAt": "2026-09-09T21:17:02.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs",
+      "codeCommit": "892fc431375c5c68a45c7865638feaea98017b86",
+      "codeAt": "2026-09-09T21:28:36.000Z"
+    },
+    {
+      "familyId": "co_pardoned_conviction_seal-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "05fbcf41356f6d6617c699c7807f34f89de2be10",
+      "fixturesAt": "2026-09-01T08:48:38.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs",
+      "codeCommit": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
+      "codeAt": "2026-09-01T10:22:42.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "ae0a6c6e3474a744370af4e88917e681b9ab61eb",
+      "fixturesAt": "2026-09-04T17:57:00.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "8bac3c37845f2809f392ff6017cd7e2201d74c78",
+      "fixturesAt": "2026-09-02T16:04:21.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "f67ca1dfedfd3911ee2a7b678b2d09749acb0045",
+      "fixturesAt": "2026-09-02T16:00:41.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "7c15d9415c10d1642e5b82a1e99acd4eb6c116f1",
+      "fixturesAt": "2026-09-02T16:11:04.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "state": "HANDOFF_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "7520cfe50d06d9cb79a684c9ee0abcfbafb29bcc",
+      "fixturesAt": "2026-09-02T07:36:11.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247.mjs",
+      "codeCommit": "8333d8840e875188b7a929fa4a52792791cdb7c2",
+      "codeAt": "2026-09-02T07:40:08.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "c7125fb58be5eee31ec5e4d4971b79cbf3cb209c",
+      "fixturesAt": "2026-09-02T16:06:32.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "state": "GUIDANCE_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "7520cfe50d06d9cb79a684c9ee0abcfbafb29bcc",
+      "fixturesAt": "2026-09-02T07:36:11.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement.mjs",
+      "codeCommit": "8333d8840e875188b7a929fa4a52792791cdb7c2",
+      "codeAt": "2026-09-02T07:40:08.000Z"
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "state": "HANDOFF_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "7520cfe50d06d9cb79a684c9ee0abcfbafb29bcc",
+      "fixturesAt": "2026-09-02T07:36:11.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement.mjs",
+      "codeCommit": "8333d8840e875188b7a929fa4a52792791cdb7c2",
+      "codeAt": "2026-09-02T07:40:08.000Z"
+    },
+    {
+      "familyId": "ct-decriminalized-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "d60aa409312c7258e92d6b9b7d7409c945197ea1",
+      "fixturesAt": "2026-09-04T16:30:38.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ct-decriminalized-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "ct-missed-erasure-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "f998fe43b06d1ad3e56d268cf2a39edc1be20f0e",
+      "fixturesAt": "2026-09-02T05:47:42.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ct-missed-erasure-set.mjs",
+      "codeCommit": "a3b866ffbf5884218848b202ca753bf3d6625c72",
+      "codeAt": "2026-09-02T12:30:06.000Z"
+    },
+    {
+      "familyId": "ct-pardon-erasure-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "dbda7419178a4275ae548564f763527e72139ca9",
+      "fixturesAt": "2026-09-01T18:47:06.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ct-pardon-erasure-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "dc_correct_misattributed_arrest-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "cd8788568dbfe15e7f50ea265979665275b3fdfd",
+      "fixturesAt": "2026-09-01T19:14:12.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
+      "codeCommit": "3630620f48d2cfcf4159c056b1908aa6ad6e9b6b",
+      "codeAt": "2026-09-01T23:30:07.000Z"
+    },
+    {
+      "familyId": "dc_innocence_expungement-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "84c671cdc38f20dab95429e3c3719b629f5f8c0f",
+      "fixturesAt": "2026-09-01T19:14:12.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
+      "codeCommit": "3630620f48d2cfcf4159c056b1908aa6ad6e9b6b",
+      "codeAt": "2026-09-01T23:30:07.000Z"
+    },
+    {
+      "familyId": "dc_seal_conviction-set",
+      "state": "OUT_OF_SCOPE",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "a032e5b769c7eb9d454f517ca44267cddd933b8a",
+      "fixturesAt": "2026-09-01T19:13:57.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
+      "codeCommit": "3630620f48d2cfcf4159c056b1908aa6ad6e9b6b",
+      "codeAt": "2026-09-01T23:30:07.000Z"
+    },
+    {
+      "familyId": "dc_seal_fugitive-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "3c217f980fa62eaf1cee97658902760fcded8510",
+      "fixturesAt": "2026-09-01T19:14:12.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
+      "codeCommit": "3630620f48d2cfcf4159c056b1908aa6ad6e9b6b",
+      "codeAt": "2026-09-01T23:30:07.000Z"
+    },
+    {
+      "familyId": "dc_seal_nonconviction-set",
+      "state": "OUT_OF_SCOPE",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "731d4ff30de1364e95065403753815d26ea95a8d",
+      "fixturesAt": "2026-09-01T19:13:48.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-dc_seal_nonconviction-set.mjs",
+      "codeCommit": "3630620f48d2cfcf4159c056b1908aa6ad6e9b6b",
+      "codeAt": "2026-09-01T23:30:07.000Z"
+    },
+    {
+      "familyId": "dc_yra_set_aside-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "52590631e7c96343bf70142cfb5934a02d55b02f",
+      "fixturesAt": "2026-09-04T05:40:08.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-dc_yra_set_aside-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "ga-deaddocket-j3-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "ef888c6662920686d00f5cf49c0a2994241b481a",
+      "fixturesAt": "2026-09-01T18:56:07.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "ga-felony-j1-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "6900b0ec32fabc5900999411c6b0c7f8be345483",
+      "fixturesAt": "2026-09-01T18:55:58.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "ga-fo-active-pre2026-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "05535a6129f93e5b102f5a49b226f73387dfa641",
+      "fixturesAt": "2026-09-01T18:56:36.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "ga-fo-discharged-pre2026-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "e2e9800602bccdedb6eccc9fd8b56334b0d2723a",
+      "fixturesAt": "2026-09-01T18:56:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "ga-jail-k2-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "5d1a272f5c786b087ebdad985b2fc79bd6b853c1",
+      "fixturesAt": "2026-09-01T23:49:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-jail-k2-set.mjs",
+      "codeCommit": "417f6d281b3dfae3176e6f9ee63202b73d75a46c",
+      "codeAt": "2026-09-02T15:00:37.000Z"
+    },
+    {
+      "familyId": "ga-misd-j4-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "b857aa0801918230b57d916e03db715ea81081b1",
+      "fixturesAt": "2026-09-01T18:55:27.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "ga-pardon-j7-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "127c4d3caf5539a0e57538e21488a4551e18d51c",
+      "fixturesAt": "2026-09-01T18:55:49.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "ga-seal-m-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "17b352e994bba860c53a122a4dbdc833b04a9a74",
+      "fixturesAt": "2026-09-01T18:55:41.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "ga-vacated-j2-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "7d041435a77116c520d9d9e963ddb17d81d95353",
+      "fixturesAt": "2026-09-01T18:56:16.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ga-host.mjs",
+      "codeCommit": "f488e98204666a4b6a3eda8d38d05bacf405f587",
+      "codeAt": "2026-09-05T15:30:56.000Z"
+    },
+    {
+      "familyId": "hi_nonconviction_expungement-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "e720199feaed402d8c4871283b5a942ef7346168",
+      "fixturesAt": "2026-09-09T14:07:20.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-hi_nonconviction_expungement-set.mjs",
+      "codeCommit": "aabd5f8e7ea211f17b7d003736945fd7828ab8ee",
+      "codeAt": "2026-09-09T20:14:29.000Z"
+    },
+    {
+      "familyId": "id_felony_reduction-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9642e4cf29936f0cf2c2213541fbbdac8ec02987",
+      "fixturesAt": "2026-09-02T07:08:22.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-id_felony_reduction-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "id_isp_expungement-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "8424c812a5821f9dcea1a0e9b5078fd6b0e0f94a",
+      "fixturesAt": "2026-09-02T07:13:29.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-id_isp_expungement-set.mjs",
+      "codeCommit": "50924b040e252b51001f1ffe64bcca4aa3c29c73",
+      "codeAt": "2026-09-02T15:55:20.000Z"
+    },
+    {
+      "familyId": "id_set_aside_dismissal-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9642e4cf29936f0cf2c2213541fbbdac8ec02987",
+      "fixturesAt": "2026-09-02T07:08:22.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-id_set_aside_dismissal-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "il-prostitution-j-vacate-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "42defabe4705fb2d8afc0fc5bd9700ab621d71ee",
+      "fixturesAt": "2026-09-05T14:42:26.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+      "codeCommit": "0fcedd7737d8efb42f84b0dee19b1d9375dec2b6",
+      "codeAt": "2026-09-06T00:32:59.000Z"
+    },
+    {
+      "familyId": "il-seal-2yr-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "cb736b20a534f29c41ca0cf951b00151267009e8",
+      "fixturesAt": "2026-09-09T23:44:49.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-il-seal-2yr-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "in_conviction_misd-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "d0d7d155ea60cfb9bd7af566ff2524bea75a5f0c",
+      "fixturesAt": "2026-09-10T13:42:11.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-in_conviction_misd-set.mjs",
+      "codeCommit": "d75bf72843eec6c732ba5bf3586b2c0a306d8081",
+      "codeAt": "2026-09-10T14:13:21.000Z"
+    },
+    {
+      "familyId": "ky_criminal_record_segregation-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "0cd866a6e549c03aa073c0c2b0b7c5e354550d07",
+      "fixturesAt": "2026-09-01T19:01:03.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ky_criminal_record_segregation-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "ky_void_seal_controlled_substance-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "6904cb6ceea75fe83b762e761b4fda545dcfa297",
+      "fixturesAt": "2026-09-02T01:59:38.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs",
+      "codeCommit": "5e936938a810be354ad0ec1586bd39fc3bc0a2fa",
+      "codeAt": "2026-09-05T06:26:50.000Z"
+    },
+    {
+      "familyId": "ma-expunge-k-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "1a5c9cb05487002d04acbfc678e57af375dba087",
+      "fixturesAt": "2026-09-09T21:23:04.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ma-expunge-k-set.mjs",
+      "codeCommit": "2dfd52dbc351ccc9fcf4b2f0cbf527fa1e8d2fa4",
+      "codeAt": "2026-09-10T17:31:47.000Z"
+    },
+    {
+      "familyId": "ma-expunge-mj-set",
+      "state": "GUIDANCE_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "e688b6223764c46ffaec14114764422f6c12442c",
+      "fixturesAt": "2026-09-01T12:48:22.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ma-expunge-mj-set.mjs",
+      "codeCommit": "54bb5fe60316e874981e0d7daa6b3e34a201e45c",
+      "codeAt": "2026-09-01T16:09:56.000Z"
+    },
+    {
+      "familyId": "me-seal-prost-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "4febb487d98000a97222347e1d2193732f516c80",
+      "fixturesAt": "2026-09-05T20:45:32.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-me-seal-prost-set.mjs",
+      "codeCommit": "eaf8d691e7477eb4d0531ce47bda20229f4492f5",
+      "codeAt": "2026-09-05T22:13:12.000Z"
+    },
+    {
+      "familyId": "mn_petition_609a02_subd3-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "5df677757b230f7505e70440f387a022cf490b34",
+      "fixturesAt": "2026-09-09T21:03:43.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-mn_petition_609a02_subd3-set.mjs",
+      "codeCommit": "f63d56734a2a815380172c8187586cabc16bb1b5",
+      "codeAt": "2026-09-10T11:29:21.000Z"
+    },
+    {
+      "familyId": "nc_145_5_felony-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "99eb3d3b5b3a41b85d2e3969c2fa407e7f7dd7b6",
+      "fixturesAt": "2026-09-05T21:33:04.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nc_145_5_felony-set.mjs",
+      "codeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "codeAt": "2026-09-08T11:13:13.000Z"
+    },
+    {
+      "familyId": "nc_146_acquittal_petition-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "48f61d975e9e7910774b779a8c0edb9e6129693f",
+      "fixturesAt": "2026-09-05T18:09:47.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
+      "codeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "codeAt": "2026-09-08T11:13:13.000Z"
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "00d2425ca20f03468523b5d3bfa00ada59d7d6c8",
+      "fixturesAt": "2026-09-07T10:34:43.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+      "codeCommit": "9f35db281d8de2664498a7f1d849976c31b925f1",
+      "codeAt": "2026-09-08T12:35:59.000Z"
+    },
+    {
+      "familyId": "ne-expunge-le-error-set",
+      "state": "GUIDANCE_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "199e49648f56a420af145458b01184b0a5d5c6e0",
+      "fixturesAt": "2026-09-01T18:51:19.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ne-expunge-le-error-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "nj_arrest_no_conviction-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "da0f56d6b55fce026df1498389c2620598515a97",
+      "fixturesAt": "2026-09-08T23:42:39.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "nj_clean_slate-set",
+      "state": "GUIDANCE_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "a94634c787de2f604eb90a795558f1253e340014",
+      "fixturesAt": "2026-09-05T20:52:24.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "ny_160_59_petition-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "1b64e0aee48f113b31b8961f00d9a3643a4af54d",
+      "fixturesAt": "2026-09-02T06:03:16.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "5dab5995b473bcab3fb67702f2a39427fc66cd20",
+      "fixturesAt": "2026-09-01T16:01:56.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "5dfc314da846837588758f2c92c739afb620513d",
+      "fixturesAt": "2026-09-02T07:19:35.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-official-form-treatment:obligation:research-decision-route:AL:al-olr.mjs",
+      "codeCommit": "2039b814a3e48433397bcd60f096e3fa8e80b1fc",
+      "codeAt": "2026-09-02T12:34:03.000Z"
+    },
+    {
+      "familyId": "pa_490_nonconviction-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "cfd9b4a96e834364404d9125768892b93489442a",
+      "fixturesAt": "2026-09-06T05:15:26.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "pa_9122_1_limited_access-set",
+      "state": "GUIDANCE_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "cf29f4c9653deb48ac6e80f1323d3d859b7bbb4d",
+      "fixturesAt": "2026-09-01T15:37:20.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "pa_age70_deceased-set",
+      "state": "GUIDANCE_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "70bd198460da13a9a2f34ee38a117de9f795dc5b",
+      "fixturesAt": "2026-09-01T08:23:20.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-pa_age70_deceased-set.mjs",
+      "codeCommit": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
+      "codeAt": "2026-09-01T10:22:42.000Z"
+    },
+    {
+      "familyId": "pa_summary_conviction-set",
+      "state": "GUIDANCE_READY",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "f814522939a1c126c9a024f3c0443c05895baa4b",
+      "fixturesAt": "2026-09-01T16:04:52.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "state": "PRODUCT_PATH_PENDING",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "7520cfe50d06d9cb79a684c9ee0abcfbafb29bcc",
+      "fixturesAt": "2026-09-02T07:36:11.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-ga-guidance-implementation.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "0b957f11404d0490e0f13a1a6cfbdc8956b75f29",
+      "fixturesAt": "2026-09-04T05:41:32.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-ks-custom-pleading.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-ms-custom-pleading",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "dc9cba0c77bc78594d7a1043e0bf53efe46e962d",
+      "fixturesAt": "2026-09-04T18:19:35.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-ms-custom-pleading.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-nd-custom-pleading",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "eb6aea1a4118792688a4ecb27fbe2e24a429e6c2",
+      "fixturesAt": "2026-09-05T05:25:46.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-ok-custom-pleading",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "0549e21d41760858352ac20af2e4d467f1546f6f",
+      "fixturesAt": "2026-09-05T06:50:25.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "state": "WRONG_DELIVERY_TYPE",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9642e4cf29936f0cf2c2213541fbbdac8ec02987",
+      "fixturesAt": "2026-09-02T07:08:22.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-sc-custom-pleading.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-tn-custom-pleading",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "49b68fa1212b84c4781bc09d84044021cef0253b",
+      "fixturesAt": "2026-09-04T15:05:24.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-tn-custom-pleading.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "0549e21d41760858352ac20af2e4d467f1546f6f",
+      "fixturesAt": "2026-09-05T06:50:25.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-wi-custom-pleading",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "d74ffe8c74f7c794188349d859a0ff3690b3b70e",
+      "fixturesAt": "2026-09-04T04:29:49.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-wi-custom-pleading.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "96a2fae07f05986149ac1c7a8ebb5d1f0535c005",
+      "fixturesAt": "2026-09-06T18:29:58.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-rcap-wv-custom-pleading.mjs",
+      "codeCommit": "32b4cd6639edb8fc43cb9e9b3afdb92371111a78",
+      "codeAt": "2026-09-08T11:13:13.000Z"
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "83e6a8e464da6c275437d3c47c6edc68a97ddbac",
+      "fixturesAt": "2026-09-10T06:04:03.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "codeCommit": "efda5b714279134e6538b703a8474c09aa96549f",
+      "codeAt": "2026-09-10T06:14:13.000Z"
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "22ab3930299037d74df54907741c558c63125ebe",
+      "fixturesAt": "2026-09-10T06:08:34.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "codeCommit": "efda5b714279134e6538b703a8474c09aa96549f",
+      "codeAt": "2026-09-10T06:14:13.000Z"
+    },
+    {
+      "familyId": "ri_marijuana-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "727339f776541578bf9deea17ba71ee409be1710",
+      "fixturesAt": "2026-09-01T19:05:06.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ri_marijuana-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "sc_17_22_950_summary-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "c1220c0661660e37f40662a832cd8f45bc6179e0",
+      "fixturesAt": "2026-09-01T12:41:14.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-sc_17_22_950_summary-set.mjs",
+      "codeCommit": "417f6d281b3dfae3176e6f9ee63202b73d75a46c",
+      "codeAt": "2026-09-02T15:00:37.000Z"
+    },
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "8d6aa7b7d127f96452d5af3b5ecdfbe8a6f17195",
+      "fixturesAt": "2026-09-05T00:02:49.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "codeCommit": "45e2e72bc1e6d0700cfb21c2294923f7bb583ff1",
+      "codeAt": "2026-09-06T18:24:42.000Z"
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "1b682a7911aec7a38751775c97591f291c739082",
+      "fixturesAt": "2026-08-31T05:55:55.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "codeCommit": "45e2e72bc1e6d0700cfb21c2294923f7bb583ff1",
+      "codeAt": "2026-09-06T18:24:42.000Z"
+    },
+    {
+      "familyId": "ut_pet_dismissed_with_prejudice-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "19c425778557bdcef93bf109d514df813ef184c1",
+      "fixturesAt": "2026-09-06T05:11:19.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "codeCommit": "45e2e72bc1e6d0700cfb21c2294923f7bb583ff1",
+      "codeAt": "2026-09-06T18:24:42.000Z"
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "19c425778557bdcef93bf109d514df813ef184c1",
+      "fixturesAt": "2026-09-06T05:11:19.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "codeCommit": "45e2e72bc1e6d0700cfb21c2294923f7bb583ff1",
+      "codeAt": "2026-09-06T18:24:42.000Z"
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "19c425778557bdcef93bf109d514df813ef184c1",
+      "fixturesAt": "2026-09-06T05:11:19.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "codeCommit": "45e2e72bc1e6d0700cfb21c2294923f7bb583ff1",
+      "codeAt": "2026-09-06T18:24:42.000Z"
+    },
+    {
+      "familyId": "ut_pet_traffic-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "1b682a7911aec7a38751775c97591f291c739082",
+      "fixturesAt": "2026-08-31T05:55:55.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "codeCommit": "45e2e72bc1e6d0700cfb21c2294923f7bb583ff1",
+      "codeAt": "2026-09-06T18:24:42.000Z"
+    },
+    {
+      "familyId": "va_exp_absolute_pardon-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "84db8eb531a01cd0fdd1f1d1cdff58462555232e",
+      "fixturesAt": "2026-09-01T19:03:53.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-va_exp_absolute_pardon-set.mjs",
+      "codeCommit": "b9528ed27644396f12e2a9e52bc4ada075007903",
+      "codeAt": "2026-09-04T16:13:32.000Z"
+    },
+    {
+      "familyId": "vt_exp_deferred_sentence-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "a1a5454bfd14e4c32f9a19d262bb67d5f620761e",
+      "fixturesAt": "2026-09-01T19:08:53.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_exp_deferred_sentence-set.mjs",
+      "codeCommit": "64f2dbb8e8745f098a3eb31f56e3390528ac5ee4",
+      "codeAt": "2026-09-05T10:08:16.000Z"
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "f6cb05908e0e822c3c686b379053d899803dd27b",
+      "fixturesAt": "2026-09-10T03:48:40.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "codeCommit": "2653b492fb256d51fdb8a969a5304577cf8092f5",
+      "codeAt": "2026-09-10T06:45:54.000Z"
+    },
+    {
+      "familyId": "vt_seal_felony-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "4f974b02d4d3e7f3fb97bb1416a95b09f6115c78",
+      "fixturesAt": "2026-09-10T03:40:12.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "codeCommit": "2653b492fb256d51fdb8a969a5304577cf8092f5",
+      "codeAt": "2026-09-10T06:45:54.000Z"
+    },
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "d94907d2d8609345c0fcde4954a776709c5325ed",
+      "fixturesAt": "2026-09-10T06:28:05.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "codeCommit": "2653b492fb256d51fdb8a969a5304577cf8092f5",
+      "codeAt": "2026-09-10T06:45:54.000Z"
+    },
+    {
+      "familyId": "vt_seal_nonconviction-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "bd910c76237d78975d8fe8dc38d8d6148ec5948e",
+      "fixturesAt": "2026-09-10T03:57:18.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs",
+      "codeCommit": "188cf1a426194fce8b94c62fd677fc70fe3093eb",
+      "codeAt": "2026-09-10T09:12:00.000Z"
+    },
+    {
+      "familyId": "vt_seal_pardon-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "d7ff21c6470a228b8ed11c7ce51cd14081f5107a",
+      "fixturesAt": "2026-09-10T03:51:08.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs",
+      "codeCommit": "2653b492fb256d51fdb8a969a5304577cf8092f5",
+      "codeAt": "2026-09-10T06:45:54.000Z"
+    },
+    {
+      "familyId": "vt_seal_under_25-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "60361c01baf129e6dfcc9d5aa0e1dd312dc99c46",
+      "fixturesAt": "2026-09-01T18:57:39.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_seal_under_25-set.mjs",
+      "codeCommit": "417f6d281b3dfae3176e6f9ee63202b73d75a46c",
+      "codeAt": "2026-09-02T15:00:37.000Z"
+    },
+    {
+      "familyId": "wa_vac_cannabis-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "93cd68728e47e46090d274b542219e7bdccf1185",
+      "fixturesAt": "2026-09-02T17:49:03.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "codeCommit": "2b1622aa8d5e5e2922943cf5a3ad1eb9243ef7bd",
+      "codeAt": "2026-09-09T20:50:24.000Z"
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "5261c28bb5d0cc3a20e10af05cc6c8adbbf03962",
+      "fixturesAt": "2026-09-01T15:10:56.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "codeCommit": "2b1622aa8d5e5e2922943cf5a3ad1eb9243ef7bd",
+      "codeAt": "2026-09-09T20:50:24.000Z"
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+      "fixturesAt": "2026-08-31T14:35:23.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "codeCommit": "2b1622aa8d5e5e2922943cf5a3ad1eb9243ef7bd",
+      "codeAt": "2026-09-09T20:50:24.000Z"
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "state": "PRODUCT_PATH_PENDING",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+      "fixturesAt": "2026-08-31T14:35:23.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "codeCommit": "2b1622aa8d5e5e2922943cf5a3ad1eb9243ef7bd",
+      "codeAt": "2026-09-09T20:50:24.000Z"
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+      "fixturesAt": "2026-08-31T14:35:23.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "codeCommit": "2b1622aa8d5e5e2922943cf5a3ad1eb9243ef7bd",
+      "codeAt": "2026-09-09T20:50:24.000Z"
+    },
+    {
+      "familyId": "wa_vac_survivor_misdemeanor-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+      "fixturesAt": "2026-08-31T14:35:23.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "codeCommit": "2b1622aa8d5e5e2922943cf5a3ad1eb9243ef7bd",
+      "codeAt": "2026-09-09T20:50:24.000Z"
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+      "fixturesAt": "2026-08-31T14:35:23.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "codeCommit": "2b1622aa8d5e5e2922943cf5a3ad1eb9243ef7bd",
+      "codeAt": "2026-09-09T20:50:24.000Z"
+    },
+    {
+      "familyId": "wi_nc_doj_challenge-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "48ac2a16c08b2ffaab0ba82ae6fb40e0f2d28897",
+      "fixturesAt": "2026-09-01T10:12:47.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wi_nc_doj_challenge-set.mjs",
+      "codeCommit": "fc147830196fbc698a9e65f7e0c8ad9bc0f49031",
+      "codeAt": "2026-09-01T10:22:42.000Z"
+    },
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "48ac2a16c08b2ffaab0ba82ae6fb40e0f2d28897",
+      "fixturesAt": "2026-09-01T10:12:47.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
+      "codeCommit": "4d1c03378b34ae998b840bb14bee313debd90333",
+      "codeAt": "2026-09-02T02:39:09.000Z"
+    },
+    {
+      "familyId": "wv_conv_multiple_misdemeanors-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "2039b814a3e48433397bcd60f096e3fa8e80b1fc",
+      "fixturesAt": "2026-09-02T12:34:03.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "codeCommit": "575c41db262f141ae6f959810f00b9f1e7c18a28",
+      "codeAt": "2026-09-10T18:50:54.000Z"
+    },
+    {
+      "familyId": "wv_conv_nonviolent_felony-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "6e1083a9760e5c26900b8416195009ce08549620",
+      "fixturesAt": "2026-09-09T22:33:51.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wv_conv_nonviolent_felony-set.mjs",
+      "codeCommit": "a9cbe699c225acaf389df68ca2b1a7687650e7ae",
+      "codeAt": "2026-09-10T04:20:13.000Z"
+    },
+    {
+      "familyId": "wv_conv_single_misdemeanor-set",
+      "state": "COMPLETE_PACKET_PROVEN",
+      "carriesRasterPass": true,
+      "fixturesLastWrittenAt": "9e7a1f5951c1f0cc65826e6c400f1f2bc2d8f71c",
+      "fixturesAt": "2026-09-05T00:02:49.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "codeCommit": "575c41db262f141ae6f959810f00b9f1e7c18a28",
+      "codeAt": "2026-09-10T18:50:54.000Z"
+    },
+    {
+      "familyId": "al-diversion-set",
+      "state": "LEGAL_BLOCKED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "b83b49d6688b3d30cb6c27a757509893e2ba7670",
+      "fixturesAt": "2026-09-09T06:37:59.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-al-diversion-set.mjs",
+      "codeCommit": "02014d2083e99716177d370a3587b49f4c4ebcad",
+      "codeAt": "2026-09-10T12:08:54.000Z"
+    },
+    {
+      "familyId": "al-felony-nonconviction-90-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "1d1ddee6337a533e3a330b17b0595383116d05ef",
+      "fixturesAt": "2026-09-10T02:30:55.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-al-felony-nonconviction-90-set.mjs",
+      "codeCommit": "02014d2083e99716177d370a3587b49f4c4ebcad",
+      "codeAt": "2026-09-10T12:08:54.000Z"
+    },
+    {
+      "familyId": "al-misd-conviction-set",
+      "state": "LEGAL_BLOCKED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "b83b49d6688b3d30cb6c27a757509893e2ba7670",
+      "fixturesAt": "2026-09-09T06:37:59.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-al-diversion-set.mjs",
+      "codeCommit": "02014d2083e99716177d370a3587b49f4c4ebcad",
+      "codeAt": "2026-09-10T12:08:54.000Z"
+    },
+    {
+      "familyId": "al-misd-dwop-set",
+      "state": "LEGAL_BLOCKED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "b83b49d6688b3d30cb6c27a757509893e2ba7670",
+      "fixturesAt": "2026-09-09T06:37:59.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-al-diversion-set.mjs",
+      "codeCommit": "02014d2083e99716177d370a3587b49f4c4ebcad",
+      "codeAt": "2026-09-10T12:08:54.000Z"
+    },
+    {
+      "familyId": "al-pardoned-felony-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "b191fbb60d45dc06bba670cf3af8bfd11b0badee",
+      "fixturesAt": "2026-09-10T02:30:32.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-al-pardoned-felony-set.mjs",
+      "codeCommit": "02014d2083e99716177d370a3587b49f4c4ebcad",
+      "codeAt": "2026-09-10T12:08:54.000Z"
+    },
+    {
+      "familyId": "ar-drug-court-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "6abfa62a124cec83fab5d79a4a633e7a984ef791",
+      "fixturesAt": "2026-09-10T17:55:55.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ar-drug-court-set.mjs",
+      "codeCommit": "32e18b1d27bad997493256772ada9ebf0793144e",
+      "codeAt": "2026-09-10T18:50:08.000Z"
+    },
+    {
+      "familyId": "ar-felony-seal-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "de1e451c6ecf3adfc29571cd971124544a8b700f",
+      "fixturesAt": "2026-09-10T17:55:55.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ar-felony-seal-set.mjs",
+      "codeCommit": "4870a3e38b254c9121e845dbe6f5a7c2cb42cefe",
+      "codeAt": "2026-09-10T18:50:08.000Z"
+    },
+    {
+      "familyId": "ar-pardon-seal-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "657036a76d16a5b9da168cfb32570aca23a86a07",
+      "fixturesAt": "2026-09-04T06:16:52.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ar-pardon-seal-set.mjs",
+      "codeCommit": "d753dc242684088e4fb371107bb8b5609057bfd8",
+      "codeAt": "2026-09-04T22:35:23.000Z"
+    },
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "9895e984bd36bede1beb36fb980b2bc19dfb86e6",
+      "fixturesAt": "2026-09-01T12:40:12.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "ca-17b-reduction-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "645205166223948f77e126038041d84c8888d481",
+      "fixturesAt": "2026-09-09T19:07:49.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "codeCommit": "f35dafee4594e99d1a6e2ff100ce7b53905939a7",
+      "codeAt": "2026-09-10T18:47:14.000Z"
+    },
+    {
+      "familyId": "co_motion_seal_conviction-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "fe7fd55f3acd5eab0bdba5084e7a0390ad1f4359",
+      "fixturesAt": "2026-09-10T01:19:36.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-co_motion_seal_conviction-set.mjs",
+      "codeCommit": "b3f6fbc7acda9c96295eaa66636b49dc7ca2c656",
+      "codeAt": "2026-09-10T15:55:35.000Z"
+    },
+    {
+      "familyId": "co_municipal_conviction_seal-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "56244423ff2f303fdd1566e6e32a2fda8f1a1beb",
+      "fixturesAt": "2026-09-09T21:31:40.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-co_municipal_conviction_seal-set.mjs",
+      "codeCommit": "7b7d0a3a31829b7e2c9224263404792d0a641028",
+      "codeAt": "2026-09-10T11:15:11.000Z"
+    },
+    {
+      "familyId": "fl-10yr-bridge-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "a80a69a57efb4e5e6263164a55ba464a804d1e8e",
+      "fixturesAt": "2026-09-04T15:18:12.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+      "codeCommit": "06659d48db51546d23cf3f321b92d23208d99272",
+      "codeAt": "2026-09-10T15:26:37.000Z"
+    },
+    {
+      "familyId": "fl-early-juvenile-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "f5247251b579f449b7bc6f9013e0d9a7346eb4c4",
+      "fixturesAt": "2026-09-07T13:59:35.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+      "codeCommit": "14af40baa956b1ddd7fc6c39e8b9ebbeec457337",
+      "codeAt": "2026-09-10T18:50:54.000Z"
+    },
+    {
+      "familyId": "il-seal-3yr-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "504a78bada538237fbf39bd182cc48a754c40d72",
+      "fixturesAt": "2026-09-09T20:09:12.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-il-seal-3yr-set.mjs",
+      "codeCommit": "367fd9702af46898865a6df9a8d4f99ad0657edf",
+      "codeAt": "2026-09-10T18:05:58.000Z"
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "4316fccf2d6c5fd1f2e174384385b6f7ed83bf76",
+      "fixturesAt": "2026-09-10T03:49:59.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-in_arrest_no_charges-set.mjs",
+      "codeCommit": "284cc10ef641f62866950eb5f5e740d20811214e",
+      "codeAt": "2026-09-10T05:33:35.000Z"
+    },
+    {
+      "familyId": "in_section1_petition-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "a9cb1bd14bd143a17a8358d3a195a84553f414c7",
+      "fixturesAt": "2026-09-10T03:50:17.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-in_section1_petition-set.mjs",
+      "codeCommit": "d136f17f9011b7fd52947cb0c7d47e25b574e944",
+      "codeAt": "2026-09-10T05:34:15.000Z"
+    },
+    {
+      "familyId": "ky_expungement_certification-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "5620acbf754eaf570a13d2e65ff541f225463347",
+      "fixturesAt": "2026-09-10T13:01:08.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ky_expungement_certification-set.mjs",
+      "codeCommit": "060ef385a3e3313f0dcbe93d07f9c1dadaa84a18",
+      "codeAt": "2026-09-10T14:50:01.000Z"
+    },
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "21a181ac23e743666e95c63549499d03a7443944",
+      "fixturesAt": "2026-09-05T16:11:13.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-mi_setaside_trafficking-set.mjs",
+      "codeCommit": "33ad2bf279e448cfc68d6e36a56833385459f922",
+      "codeAt": "2026-09-10T18:08:01.000Z"
+    },
+    {
+      "familyId": "mn_petition_15218-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "060d7887b62aefd2c8c3d8adeaafa252a7172638",
+      "fixturesAt": "2026-09-09T21:21:29.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-mn_petition_15218-set.mjs",
+      "codeCommit": "486fec600b017f3809b9e9634c42fce3fba5ac2a",
+      "codeAt": "2026-09-10T17:59:18.000Z"
+    },
+    {
+      "familyId": "mo-art-xiv-marijuana-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "ef56ba659a9a2fa76ee0a4b9ac60bc9437534153",
+      "fixturesAt": "2026-09-09T20:59:38.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-mo-art-xiv-marijuana-set.mjs",
+      "codeCommit": "30e630292ec0c3b0ac234c7595f5e24acc7b89fd",
+      "codeAt": "2026-09-10T18:08:01.000Z"
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "8e4fae0b73e0667290710fadad077ca0476f1522",
+      "fixturesAt": "2026-09-06T18:46:31.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "codeCommit": "575c41db262f141ae6f959810f00b9f1e7c18a28",
+      "codeAt": "2026-09-10T18:50:54.000Z"
+    },
+    {
+      "familyId": "nh_marijuana_annulment-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "0785c850ff3b60efc2b9d483eb8b0c593c9003bc",
+      "fixturesAt": "2026-09-09T13:44:29.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nh_marijuana_annulment-set.mjs",
+      "codeCommit": "588a6165b795a89f1b8c8725d73f3e87a3fa39ef",
+      "codeAt": "2026-09-10T15:34:08.000Z"
+    },
+    {
+      "familyId": "nj_disorderly_persons-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "da0f56d6b55fce026df1498389c2620598515a97",
+      "fixturesAt": "2026-09-08T23:42:39.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_disorderly_persons-set.mjs",
+      "codeCommit": "75b8251f47d80ebe708ccfe6e61d416e868cada7",
+      "codeAt": "2026-09-10T18:42:33.000Z"
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "da0f56d6b55fce026df1498389c2620598515a97",
+      "fixturesAt": "2026-09-08T23:42:39.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "da0f56d6b55fce026df1498389c2620598515a97",
+      "fixturesAt": "2026-09-08T23:42:39.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "pa_6308_underage-set",
+      "state": "PRODUCT_PATH_PENDING",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "62dbb7e8840a521a870360eeade99e044ef884db",
+      "fixturesAt": "2026-09-04T08:14:32.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "pa_790_nonconviction-set",
+      "state": "LEGAL_BLOCKED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "ea96a068fc6e39c931aee32826286523cc8b2b6c",
+      "fixturesAt": "2026-09-07T02:45:08.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "ri_decriminalized-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "8315b2314b5392263319f11b137ef97d48d4cfc7",
+      "fixturesAt": "2026-09-05T18:14:42.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "codeCommit": "efda5b714279134e6538b703a8474c09aa96549f",
+      "codeAt": "2026-09-10T06:14:13.000Z"
+    },
+    {
+      "familyId": "ri_first_offender_felony-set",
+      "state": "LEGAL_BLOCKED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+      "fixturesAt": "2026-09-09T00:55:51.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+      "codeCommit": "efda5b714279134e6538b703a8474c09aa96549f",
+      "codeAt": "2026-09-10T06:14:13.000Z"
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "389e17b5f31de5259b31366d807ec0a6f9fff614",
+      "fixturesAt": "2026-09-02T04:18:11.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "codeCommit": "dece8138eecb2e983410fad7038d128f3d4b76f8",
+      "codeAt": "2026-09-10T16:30:35.000Z"
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "23353d3c2feb3b76f77c4788f0de2250b6de0088",
+      "fixturesAt": "2026-08-31T05:56:03.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-sd_arrest_expungement-set.mjs",
+      "codeCommit": "41f14826c9d9ee105c8ea8e32f72359263884058",
+      "codeAt": "2026-09-02T22:50:30.000Z"
+    },
+    {
+      "familyId": "vt_exp_decriminalized-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "f43b6d4c67293c77c110da4eca11cd5545115750",
+      "fixturesAt": "2026-09-10T05:34:31.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-vt_exp_decriminalized-set.mjs",
+      "codeCommit": "6ddd1980201886bf49c2ee4b2b7b35adaecb10e4",
+      "codeAt": "2026-09-10T08:17:08.000Z"
+    },
+    {
+      "familyId": "wa_vac_homicide_victim_prostitution-set",
+      "state": "LEGAL_BLOCKED",
+      "carriesRasterPass": false,
+      "fixturesLastWrittenAt": "c055f20fc63b12c5cd998fa2171cda0519c6a6f1",
+      "fixturesAt": "2026-08-31T14:35:23.000Z",
+      "codeChangedAfterIn": "scripts/build-census-v1-wa_vac_homicide_victim_prostitution-set.mjs",
+      "codeCommit": "41f14826c9d9ee105c8ea8e32f72359263884058",
+      "codeAt": "2026-09-02T22:50:30.000Z"
+    }
+  ]
+}

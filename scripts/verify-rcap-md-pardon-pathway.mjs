@@ -14,10 +14,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet } from "./lib/route-ratification.mjs";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
+const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
 
 const failures = [];
 function assert(condition, message) {
@@ -49,6 +53,17 @@ for (const id of PRE_EXISTING_IDS) {
 const matches = pathways.filter((p) => p.id === PATHWAY_ID);
 assert(matches.length === 1, "exactly one pardon pathway with the canonical id");
 const pathway = matches[0];
+const publicProfile = projectPublicProfile(profile);
+const projectedPardonDate = publicProfile.questions.find((question) => question.id === "pardon_signed_date");
+assert(projectedPardonDate?.lifecyclePhase === "postpay_packet_field", "pardon_signed_date is packet/final-verification information, not a free-screening prompt");
+for (const candidate of pathways) {
+  const selectedIds = selectScreeningQuestionIds(profile, publicProfile, { possible_pathway_context: candidate.label });
+  assert(!selectedIds.includes("pardon_signed_date"), `${candidate.id}: free screening does not render pardon_signed_date`);
+}
+assert(packetPlanForPathway(profile, PATHWAY_ID)?.requiredInputIds.includes("pardon_signed_date"), "the owning pardon packet plan retains pardon_signed_date");
+for (const candidate of pathways.filter((entry) => entry.id !== PATHWAY_ID)) {
+  assert(!packetPlanForPathway(profile, candidate.id)?.requiredInputIds.includes("pardon_signed_date"), `${candidate.id}: does not inherit the pardon date`);
+}
 
 const pardonOutcomePathways = pathways.filter((p) => (p.caseOutcomes ?? []).includes("pardon"));
 assert(
@@ -138,8 +153,11 @@ assert(
   evaluatorSource.includes("md_pardon_date_needed") && evaluatorSource.includes("md_pardon_deadline_not_eligible"),
   "evaluator carries the pardon-date request and the § 10-105(c)(4) deadline bar"
 );
+// The evaluator's ratified set is a projection of the ratification registry
+// now, so the allowlist is checked where the decision actually lives. A source
+// regex over evaluator.ts would only ever confirm that a filter exists.
 assert(
-  /RATIFIED_DEPLOYABLE_ROUTES = new Set\(\[[^\]]*MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8/s.test(evaluatorSource),
+  evaluatorRouteSet("RATIFIED_DEPLOYABLE_ROUTES").has("MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8"),
   "the route is in the ratified-deployable payment allowlist (counsel approval 2026-08-11)"
 );
 
@@ -192,6 +210,22 @@ assert(
   paymentDirections.includes(true) && paymentDirections.includes(false),
   "both-direction payment proof: at least one fixture opens payment and at least one keeps it shut"
 );
+
+const freeSource = {
+  ...fixtures.cases.find((candidate) => candidate.id === "within-deadline-opens-caution-packet-and-payment")?.answers,
+  possible_pathway_context: pathway.label
+};
+delete freeSource.pardon_signed_date;
+const freeIds = new Set(selectScreeningQuestionIds(profile, publicProfile, { possible_pathway_context: pathway.label }));
+const freeAnswers = Object.fromEntries(Object.entries(freeSource).filter(([id]) => freeIds.has(id)));
+const preliminary = evaluateScreening({
+  jurisdiction: fixtures.jurisdiction,
+  profileVersion: fixtures.profileVersion,
+  matterId: "verify-pardon-free-selector",
+  answers: freeAnswers
+});
+assert(preliminary.pathwayId === PATHWAY_ID, "free-selector facts stay on the pardon pathway");
+assert(preliminary.resultCode === "needs_more_info" && preliminary.paymentAllowed === false, "pardon route remains fail-closed until protected exact packet verification");
 
 if (failures.length > 0) {
   console.error("verify-rcap-md-pardon-pathway FAILED");

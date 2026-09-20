@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/generate-closure-authority-contradictions.mjs",
+  "question": "Which pathways does the closure ledger count as paid packets while the legal-authority route layer already decided they sell nothing?",
+  "governingConstraint": "data/rcap-ledger/sellable-pathway-reclassifications.json states that the only way a pathway leaves paid_packet_intended is a signed record naming the person who decided. These are prepared proposals with authority and decidedOn left null. No category is changed by this generator, and a proposal is not a reclassification.",
+  "total": 1,
+  "counts": {
+    "referral": 1
+  },
+  "commercialClassifications": {
+    "non_paid_service": 1
+  },
+  "serviceDispositions": {
+    "selection_only": 1
+  },
+  "childPacketRoutesThatMustRemainActive": [],
+  "rowsBlockedOnVocabulary": [],
+  "excludedNonCourtRoutesThatStillProduceAPacket": [
+    {
+      "pathwayKey": "HI:nonconviction-arrest-expungement",
+      "outcomeMode": "agency_application",
+      "packetFamily": "Hawaii Attorney General Expungement Application under § 831-3.2",
+      "why": "The route is not a court filing, but the authority names a packet family and the participant prepares it. paid_packet_intended is correct; only the destination is an agency."
+    },
+    {
+      "pathwayKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "outcomeMode": "agency_application",
+      "packetFamily": "Maryland § 10-103 Written Request to the Police Agency",
+      "why": "The route is not a court filing, but the authority names a packet family and the participant prepares it. paid_packet_intended is correct; only the destination is an agency."
+    }
+  ],
+  "rows": [
+    {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "selection_only",
+        "conflatesDistinctMechanisms": [
+          "Minn. Stat. § 609A.055 automatic cannabis expungement — relief by operation of law, served as status and correction guidance",
+          "Minn. Stat. § 609A.06 Cannabis Expungement Board review — a Board process, served as Board-process guidance with a partner or attorney handoff where individualized review is needed"
+        ],
+        "childPacketRoutesThatMustRemainActive": [],
+        "implementationEffect": "The route stays reachable as a selector or legacy alias. Neither mechanism is a participant-filed court packet under the current authority, and flattening both into one generic handoff would describe the automatic category as though a person had to ask for it. Splitting them into two child routes is separate work this proposal does not do; it records that the conflation exists so the split is not lost.",
+        "doNotDo": "Do not flatten the automatic category and the Board-review category into one generic handoff."
+      },
+      "pathwayKey": "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "jurisdiction": "MN",
+      "pathwayLabel": "Cannabis automatic or board-reviewed expungement under §§ 609A.055–.06",
+      "closureCategory": "paid_packet_intended",
+      "closureCategoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
+      "authorityOutcomeMode": "referral",
+      "authorityPacketFamily": null,
+      "authorityDecisionId": "LD-MN-01",
+      "authorityRuleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+      "authorityNotes": "The automatic cannabis category and the Board-review category are separate; neither is a participant-filed petition, so checkout stays closed on both.",
+      "authoritySourceFile": "src/lib/legal-authority/routes/route-splits.json",
+      "openBlockers": [
+        "not_paid_product",
+        "packet_spec_incomplete",
+        "legal_review_pending",
+        "renderer_unavailable"
+      ],
+      "unclosableBlockers": [
+        "not_paid_product",
+        "packet_spec_incomplete",
+        "renderer_unavailable"
+      ],
+      "alreadyReclassified": false,
+      "proposal": {
+        "id": "PROPOSED-MN-CANNABIS-AUTOMATIC-OR-BOARD-REVIEWED-EXPUNGEMENT-UNDER-609A-055-06",
+        "pathwayKey": "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "previousClassification": "paid_packet_intended",
+        "newClassification": "non_filing_guidance",
+        "reason": "no_participant_filing",
+        "evidence": "src/lib/legal-authority/routes/route-splits.json records MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06 under LD-MN-01 / MN-299C.11-609A-SIX-MECHANISM-MAP as outcomeMode=referral with packetFamily=null, citing Minn. Stat. §§ 609A.055-.06. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"The automatic cannabis category and the Board-review category are separate; neither is a participant-filed petition, so checkout stays closed on both.\"",
+        "authority": null,
+        "decidedOn": null,
+        "preservedServiceDisposition": "selection_only",
+        "preservedOutcomeMode": "referral",
+        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
+      }
+    }
+  ]
+}

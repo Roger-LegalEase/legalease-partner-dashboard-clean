@@ -1,0 +1,1580 @@
+{
+ "schemaVersion": "rcap-source-reconciliation-rows/v1",
+ "lane": "SRC03",
+ "laneKind": "source-reconciliation",
+ "operation": "held-inventory-reconciliation",
+ "generatedAtBase": "09b741ad00be0d630bd73a72f66640294abab397",
+ "preflight": "SOURCE_CONVEYOR_PREFLIGHT_READY",
+ "counts": {
+  "obligations": 48,
+  "completed": 28,
+  "stopped": 20,
+  "distinctSourcesBound": 19
+ },
+ "method": "Read-only reconciliation against the mounted Master Library and the committed corpus index. Every one of the 499 files in the corpus was rehashed in this lane, so a pinned digest is answered by search rather than by lookup, and every bound digest was recomputed from bytes rather than read from a record. Nothing was fetched.",
+ "corpusRehashed": {
+  "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "fileCount": 499
+ },
+ "scopeLimit": "SOURCE_IDENTITY_FINDINGS SIF-4: private/Nationwide Record Clearing/ is absent from this worktree. Eight obligations across Georgia and West Virginia are recorded held there; this lane reports them unreachable rather than missing, which is a different claim.",
+ "familiesActuallyReleasedNow": [],
+ "releaseNote": "Empty. Of the 17 families this lane would release, none has every remaining source bound: New Mexico's four families are fully bound here but their release still waits on the rest of their obligations outside this lane.",
+ "identitiesGuessed": 0,
+ "sourceBodiesCommitted": 0,
+ "promotionsWithoutExactBytes": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "A bound source is a bound source. It builds nothing, proves nothing and approves nothing.",
+ "rows": [
+  {
+   "itemId": "az_certificate_second_chance-set::official-form:AOCCRSA3F-010122",
+   "status": "STOPPED",
+   "sourceId": "official-form:AOCCRSA3F-010122",
+   "jurisdiction": "AZ",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a date suffix that does not match. The obligation names AOCCRSA3F-010122; the corpus holds AOCCRSA3F-103023, REV-2023-10-30, whose digest was recomputed here. Same base form, different edition — the held one is nearly two years newer than the one the obligation names.",
+   "familyIds": [
+    "az_certificate_second_chance-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the application for an Arizona certificate of second chance",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "This is the STALE_OR_VARIANT_ID case the registry names: the identity carries a date the publisher has moved past. It is not a missing source and it is not an acquisition. Binding the 2023 edition to a route that names the 2022 one would promote bytes the route did not ask for, and every field map keyed to the 2022 edition would then describe a document that is not the one delivered.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+    "fileName": "AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+    "title": "application for certificate of second chance",
+    "formNumber": "AOCCRSA3F-103023",
+    "revision": "REV-2023-10-30",
+    "sha256": "4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a",
+    "byteSize": 227060,
+    "mime": "application/pdf",
+    "pageCount": 3,
+    "technology": "flat_pdf",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the identity to the edition the route actually requires, then promote; if the route means the current edition, the bytes are already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "az_certificate_second_chance-set::official-form:AOCCRSA4F-010122",
+   "status": "STOPPED",
+   "sourceId": "official-form:AOCCRSA4F-010122",
+   "jurisdiction": "AZ",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a date suffix that does not match. The obligation names AOCCRSA4F-010122; the corpus holds AOCCRSA4F-103023, REV-2023-10-30, whose digest was recomputed here. Same base form, different edition — the held one is nearly two years newer than the one the obligation names.",
+   "familyIds": [
+    "az_certificate_second_chance-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the order regarding an application for an Arizona certificate of second chance",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "This is the STALE_OR_VARIANT_ID case the registry names: the identity carries a date the publisher has moved past. It is not a missing source and it is not an acquisition. Binding the 2023 edition to a route that names the 2022 one would promote bytes the route did not ask for, and every field map keyed to the 2022 edition would then describe a document that is not the one delivered.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+    "fileName": "AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+    "title": "order regarding application for certificate of second chance",
+    "formNumber": "AOCCRSA4F-103023",
+    "revision": "REV-2023-10-30",
+    "sha256": "b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e",
+    "byteSize": 161613,
+    "mime": "application/pdf",
+    "pageCount": 2,
+    "technology": "flat_pdf",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the identity to the edition the route actually requires, then promote; if the route means the current edition, the bytes are already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "az_marijuana_expungement_limited_jurisdiction-set::official-form:AOC-CREM2F-071221-CONT",
+   "status": "COMPLETED",
+   "sourceId": "official-form:AOC-CREM2F-071221-CONT",
+   "jurisdiction": "AZ",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "AOCCREM2F-071221 — petition to expunge records municipal justice court",
+   "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+   "byteSize": 72602,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "component of a held form, measured. The obligation writes the id with an extra hyphen, AOC-CREM2F, and the held document is AOCCREM2F-071221 — same form, same date. The held bytes were opened in this lane: page 2 prints 'B. ADDITIONAL INFORMATION RELATED TO ELIGIBLE CASE(S)', and page 3 carries the continuation of the participant contact block. The continuation is a section inside this form.",
+   "familyIds": [
+    "az_marijuana_expungement_limited_jurisdiction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "resolution": "COMPONENT_OF_A_HELD_FORM",
+   "intendedPacketRole": "the additional-eligible-case continuation of the Arizona petition to expunge records in a municipal or justice court",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — record the component locator and alias against the containing form; also normalise the id, since AOC-CREM2F and AOCCREM2F are the same form written two ways",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "az_record_sealing_conviction-set::official-form:AOCCRSL1F-050825-CONT",
+   "status": "COMPLETED",
+   "sourceId": "official-form:AOCCRSL1F-050825-CONT",
+   "jurisdiction": "AZ",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+   "title/formNumber": "AOCCRSL1F-050825 — petition to seal criminal case records",
+   "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+   "byteSize": 299110,
+   "mime": "application/pdf",
+   "pageCount": 5,
+   "technology": "acroform (71 AcroForm fields)",
+   "matchBasis": "component of a held form, measured. The obligation's base id and date match the held AOCCRSL1F-050825 exactly, and the held bytes were opened in this lane: page 3 prints '3. ADDITIONAL CASE RECORD INFORMATION'. The continuation the obligation names is a section inside this form, not a separate binary.",
+   "familyIds": [
+    "az_record_sealing_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "resolution": "COMPONENT_OF_A_HELD_FORM",
+   "intendedPacketRole": "the additional-case continuation of the Arizona petition to seal criminal case records",
+   "revision": "REV-2025-05-08",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — record the component locator and alias against the containing form; one promotion covers both, and no separate acquisition should ever be dispatched for the continuation",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "az_set_aside-set::official-form:AOCCR41FORM31A-082224",
+   "status": "STOPPED",
+   "sourceId": "official-form:AOCCR41FORM31A-082224",
+   "jurisdiction": "AZ",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; no held Arizona document carries any AOCCR41 form number. The nine Arizona files in the Master Library are the AOCCRSL1F/2F sealing pair, the AOCCREM1I/2F/3F marijuana expungement set, the AOCCRSA3F/4F second-chance pair, and two manifests.",
+   "familyIds": [
+    "az_set_aside-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Arizona Rule 41 Form 31(a) set-aside instrument",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The Rule 41 set-aside forms are not held. Nothing in the Master Library is a near match — this is an absence rather than a variant, so normalising the identity would not find it.",
+   "nextOperationOwner": "acquisition — the set-aside form set is genuinely absent from the corpus and needs a fetch, which this container cannot make",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "az_set_aside-set::official-form:AOCCR41FORM31A-082224-CONT",
+   "status": "STOPPED",
+   "sourceId": "official-form:AOCCR41FORM31A-082224-CONT",
+   "jurisdiction": "AZ",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; no held Arizona document carries any AOCCR41 form number. The nine Arizona files in the Master Library are the AOCCRSL1F/2F sealing pair, the AOCCREM1I/2F/3F marijuana expungement set, the AOCCRSA3F/4F second-chance pair, and two manifests.",
+   "familyIds": [
+    "az_set_aside-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the continuation of the Arizona Rule 41 Form 31(a) set-aside instrument",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The Rule 41 set-aside forms are not held. Nothing in the Master Library is a near match — this is an absence rather than a variant, so normalising the identity would not find it.",
+   "nextOperationOwner": "acquisition — the set-aside form set is genuinely absent from the corpus and needs a fetch, which this container cannot make",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "az_set_aside-set::official-form:AOCCR41FORM31B-082224",
+   "status": "STOPPED",
+   "sourceId": "official-form:AOCCR41FORM31B-082224",
+   "jurisdiction": "AZ",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; no held Arizona document carries any AOCCR41 form number. The nine Arizona files in the Master Library are the AOCCRSL1F/2F sealing pair, the AOCCREM1I/2F/3F marijuana expungement set, the AOCCRSA3F/4F second-chance pair, and two manifests.",
+   "familyIds": [
+    "az_set_aside-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the Arizona Rule 41 Form 31(b) set-aside instrument",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The Rule 41 set-aside forms are not held. Nothing in the Master Library is a near match — this is an absence rather than a variant, so normalising the identity would not find it.",
+   "nextOperationOwner": "acquisition — the set-aside form set is genuinely absent from the corpus and needs a fetch, which this container cannot make",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ga-fo-active-pre2026-set::source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5",
+   "status": "STOPPED",
+   "sourceId": "source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5",
+   "jurisdiction": "GA",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and none carries this digest",
+   "familyIds": [
+    "ga-fo-active-pre2026-set"
+   ],
+   "handoffOperation": "SRC",
+   "revision": null,
+   "boundByExactSha256": false,
+   "pinnedSha256": "05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5",
+   "finding": "The Master Library holds no Georgia form at all — its three Georgia entries are a legal-review note, a state manifest and a README. This digest is recorded against the Nationwide corpus, which SIF-4 establishes is absent from this worktree, so the bytes are not reachable here and no bind can be made either way.",
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted; this lane can read only the Master Library and says so rather than reporting the source missing",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ga-fo-active-pre2026-set::source-sha256:91ff699f809ee9c78e9c0fe1e99a392624b01e0173f4754bf80a8bd3410cdec8",
+   "status": "STOPPED",
+   "sourceId": "source-sha256:91ff699f809ee9c78e9c0fe1e99a392624b01e0173f4754bf80a8bd3410cdec8",
+   "jurisdiction": "GA",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and none carries this digest",
+   "familyIds": [
+    "ga-fo-active-pre2026-set"
+   ],
+   "handoffOperation": "SRC",
+   "revision": null,
+   "boundByExactSha256": false,
+   "pinnedSha256": "91ff699f809ee9c78e9c0fe1e99a392624b01e0173f4754bf80a8bd3410cdec8",
+   "finding": "The Master Library holds no Georgia form at all — its three Georgia entries are a legal-review note, a state manifest and a README. This digest is recorded against the Nationwide corpus, which SIF-4 establishes is absent from this worktree, so the bytes are not reachable here and no bind can be made either way.",
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted; this lane can read only the Master Library and says so rather than reporting the source missing",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ga-fo-discharged-pre2026-set::source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5",
+   "status": "STOPPED",
+   "sourceId": "source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5",
+   "jurisdiction": "GA",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and none carries this digest",
+   "familyIds": [
+    "ga-fo-discharged-pre2026-set"
+   ],
+   "handoffOperation": "SRC",
+   "revision": null,
+   "boundByExactSha256": false,
+   "pinnedSha256": "05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5",
+   "finding": "The Master Library holds no Georgia form at all — its three Georgia entries are a legal-review note, a state manifest and a README. This digest is recorded against the Nationwide corpus, which SIF-4 establishes is absent from this worktree, so the bytes are not reachable here and no bind can be made either way.",
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted; this lane can read only the Master Library and says so rather than reporting the source missing",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ga-fo-discharged-pre2026-set::source-sha256:91ff699f809ee9c78e9c0fe1e99a392624b01e0173f4754bf80a8bd3410cdec8",
+   "status": "STOPPED",
+   "sourceId": "source-sha256:91ff699f809ee9c78e9c0fe1e99a392624b01e0173f4754bf80a8bd3410cdec8",
+   "jurisdiction": "GA",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and none carries this digest",
+   "familyIds": [
+    "ga-fo-discharged-pre2026-set"
+   ],
+   "handoffOperation": "SRC",
+   "revision": null,
+   "boundByExactSha256": false,
+   "pinnedSha256": "91ff699f809ee9c78e9c0fe1e99a392624b01e0173f4754bf80a8bd3410cdec8",
+   "finding": "The Master Library holds no Georgia form at all — its three Georgia entries are a legal-review note, a state manifest and a README. This digest is recorded against the Nationwide corpus, which SIF-4 establishes is absent from this worktree, so the bytes are not reachable here and no bind can be made either way.",
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted; this lane can read only the Master Library and says so rather than reporting the source missing",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ga-nonconv-pre2013-set::official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+   "status": "STOPPED",
+   "sourceId": "official-form:GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+   "jurisdiction": "GA",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the Master Library holds no Georgia form at all. Its three Georgia entries are a legal-review note, a state manifest and a README.",
+   "familyIds": [
+    "ga-nonconv-pre2013-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the GCIC request to restrict an arrest record from before 1 July 2013",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "There is nothing in the corpus to reconcile against. This same document does have an exact official artifact URL — DISC06 settled it as https://gbi.georgia.gov/document/publication/request-restrict-arrest-record-instructions-and-request-form/download on the GBI's own host — so the next operation is a fetch, not a search.",
+   "nextOperationOwner": "acquisition — the URL is already settled by DISC06 in this same worker's return; one dispatch",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "id_clean_slate_shield-set::official-form:ISC-PETITION-TO-SHIELD-67-3004-11",
+   "status": "COMPLETED",
+   "sourceId": "official-form:ISC-PETITION-TO-SHIELD-67-3004-11",
+   "jurisdiction": "ID",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ID/02_PACKET_FORMS/ID__FORM__PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE__petition-to-shield-records-from-public-disclosure-i-c-67-3004-11__REV-2001-01__EN.pdf",
+   "title/formNumber": "PETITION-TO-SHIELD-RECORDS-FROM-PUBLIC-DISCLOSURE — petition to shield records from public disclosure i c 67 3004 11",
+   "sha256": "91130b9036728677e0b6919222e00f8eae0a9114222a5b9d0ed8b3376140dede",
+   "byteSize": 149898,
+   "mime": "application/pdf",
+   "pageCount": 2,
+   "technology": "acroform (13 AcroForm fields)",
+   "matchBasis": "statutory citation in the held filename; the obligation names ISC-PETITION-TO-SHIELD-67-3004-11 and the one held Idaho petition is 'petition to shield records from public disclosure i c 67-3004-11'. The section, subsection and instrument all agree, and Idaho holds exactly one such document. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "id_clean_slate_shield-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the petition to shield records from public disclosure under Idaho Code § 67-3004(11)",
+   "revision": "REV-2001-01",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "ma-seal-court-set::official-form:TC0057",
+   "status": "STOPPED",
+   "sourceId": "official-form:TC0057",
+   "jurisdiction": "MA",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the corpus holds one Massachusetts Trial Court form, TC0021, and it is not TC0057.",
+   "familyIds": [
+    "ma-seal-court-set"
+   ],
+   "handoffOperation": "ACQ",
+   "intendedPacketRole": "the court petition to seal for the ma-seal-court-set route",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "TC0057 is not held here. The Master Library's two Massachusetts documents are the Probation Service petition to expunge under G.L. c. 276 §§ 100F-100H and TC0021, the marijuana expungement petition under § 100K(1)-(4). Neither is a court petition to seal.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+    "fileName": "MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+    "title": "petition for expungement of marijuana offenses g l c 276 section 100k 1 4",
+    "formNumber": "TC0021",
+    "revision": "REV-2022-11",
+    "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+    "byteSize": 1393680,
+    "mime": "application/pdf",
+    "pageCount": 2,
+    "technology": "acroform (29 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "heldCandidateNote": "the only held Massachusetts Trial Court numbered form; it is a different instrument, recorded to show what was searched rather than as a candidate to bind",
+   "nextOperationOwner": "acquisition — the Trial Court sealing and expunging forms list is the address DISC06 settled for this publisher",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_deferred_dismissal-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "status": "COMPLETED",
+   "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+   "title/formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX — 20240429 updated expungementremovalrequestform",
+   "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "byteSize": 84539,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "form number; the obligation names the file by its own filename and exactly one held Montana document carries it. Its digest was recomputed from the mounted bytes, and it is the same document the pinned digest 4606815523c3d2a7… on the two mt_mmrta obligations resolves to — one file answering three obligations.",
+   "familyIds": [
+    "mt_deferred_dismissal-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the Montana expungement and removal request form",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "alsoAnsweredByPinnedHash": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_misdemeanor_expungement-set::official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "status": "COMPLETED",
+   "sourceId": "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+   "title/formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX — 20240429 updated expungementremovalrequestform",
+   "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "byteSize": 84539,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "form number; the obligation names the file by its own filename and exactly one held Montana document carries it. Its digest was recomputed from the mounted bytes, and it is the same document the pinned digest 4606815523c3d2a7… on the two mt_mmrta obligations resolves to — one file answering three obligations.",
+   "familyIds": [
+    "mt_misdemeanor_expungement-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the Montana expungement and removal request form",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "alsoAnsweredByPinnedHash": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_completed-set::source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+   "title/formNumber": "MT-OCA-MMRTA — proposed order granting expungement resentencing or redesignation under mmrta",
+   "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "byteSize": 21143,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_completed-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_completed-set::source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+   "title/formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX — 20240429 updated expungementremovalrequestform",
+   "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "byteSize": 84539,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_completed-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_completed-set::source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-B__form-b__REV-UNKNOWN__EN.docx",
+   "title/formNumber": "MT-FORM-B — form b",
+   "sha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+   "byteSize": 23685,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_completed-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "cb2fa9c3d9f38b0b7b0b11b503b05c91cd61c491ad37b74ea1298a6f12747207",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_completed-set::source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+   "title/formNumber": "MT-OCA-MMRTA — certificate of service mmrta petition",
+   "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "byteSize": 16815,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_completed-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_serving-set::source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+   "title/formNumber": "MT-OCA-MMRTA — proposed order granting expungement resentencing or redesignation under mmrta",
+   "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "byteSize": 21143,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_serving-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_serving-set::source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/04_SUPPORTING_PROCESS/MT__SUPPORT__EXPUNGEMENTREMOVALREQUESTFORM.DOCX__20240429-updated-expungementremovalrequestform__REV-UNKNOWN__EN.docx",
+   "title/formNumber": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX — 20240429 updated expungementremovalrequestform",
+   "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "byteSize": 84539,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_serving-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_serving-set::source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-FORM-A__form-a__REV-UNKNOWN__EN.docx",
+   "title/formNumber": "MT-FORM-A — form a",
+   "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+   "byteSize": 23777,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_serving-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "mt_mmrta_serving-set::source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "status": "COMPLETED",
+   "sourceId": "source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "jurisdiction": "MT",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+   "title/formNumber": "MT-OCA-MMRTA — certificate of service mmrta petition",
+   "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "byteSize": 16815,
+   "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+   "pageCount": null,
+   "technology": "docx (not a PDF; the committed PDF index does not cover it)",
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and exactly one carries this digest",
+   "familyIds": [
+    "mt_mmrta_serving-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "a component of this family's MMRTA petition packet",
+   "revision": null,
+   "boundByExactSha256": true,
+   "committedIndexAgrees": "not in the committed index — the index covers the 329 PDFs and this file is not one of them",
+   "pinnedSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nh_conviction_standard-set::official-form:NHJB-2317-DSe",
+   "status": "STOPPED",
+   "sourceId": "official-form:NHJB-2317-DSe",
+   "jurisdiction": "NH",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a filing-mode suffix the held edition does not carry. The obligation names NHJB-2317-DSe; the corpus holds NHJB-2317, whose digest was recomputed here and agrees with the committed corpus index.",
+   "familyIds": [
+    "nh_conviction_standard-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the petition to annul a record",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "New Hampshire's judicial branch numbers its forms with a trailing filing-mode letter and the held file carries none. The base number, the instrument and the annulment subject all agree, so this is a variant question rather than a missing document — but which variant a route needs decides which bytes a participant files, and a digest bound to the wrong variant is worse than no bind. The registry's rule for STALE_OR_VARIANT_ID is to normalise the identity first, and normalising it needs the publisher's own form list, which this container cannot fetch.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+    "fileName": "NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+    "title": "petition to annul record",
+    "formNumber": "NHJB-2317",
+    "revision": "REV-2019-06",
+    "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+    "byteSize": 85115,
+    "mime": "application/pdf",
+    "pageCount": 3,
+    "technology": "acroform (41 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the -DS and -DSe filing-mode suffixes against the New Hampshire Judicial Branch form list; if they name the same document, six obligations bind at once to bytes already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nh_conviction_standard-set::official-form:NHJB-3057-DSe",
+   "status": "STOPPED",
+   "sourceId": "official-form:NHJB-3057-DSe",
+   "jurisdiction": "NH",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a filing-mode suffix the held edition does not carry. The obligation names NHJB-3057-DSe; the corpus holds NHJB-3057, whose digest was recomputed here and agrees with the committed corpus index.",
+   "familyIds": [
+    "nh_conviction_standard-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the petition of eligibility for annulment of a conviction record",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "New Hampshire's judicial branch numbers its forms with a trailing filing-mode letter and the held file carries none. The base number, the instrument and the annulment subject all agree, so this is a variant question rather than a missing document — but which variant a route needs decides which bytes a participant files, and a digest bound to the wrong variant is worse than no bind. The registry's rule for STALE_OR_VARIANT_ID is to normalise the identity first, and normalising it needs the publisher's own form list, which this container cannot fetch.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+    "fileName": "NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+    "title": "petition of eligibility for annulment of record conviction",
+    "formNumber": "NHJB-3057",
+    "revision": "REV-2019-06",
+    "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+    "byteSize": 87550,
+    "mime": "application/pdf",
+    "pageCount": 4,
+    "technology": "acroform (36 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the -DS and -DSe filing-mode suffixes against the New Hampshire Judicial Branch form list; if they name the same document, six obligations bind at once to bytes already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nh_conviction_streamlined-set::official-form:NHJB-3057-DSe",
+   "status": "STOPPED",
+   "sourceId": "official-form:NHJB-3057-DSe",
+   "jurisdiction": "NH",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a filing-mode suffix the held edition does not carry. The obligation names NHJB-3057-DSe; the corpus holds NHJB-3057, whose digest was recomputed here and agrees with the committed corpus index.",
+   "familyIds": [
+    "nh_conviction_streamlined-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the petition of eligibility for annulment of a conviction record",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "New Hampshire's judicial branch numbers its forms with a trailing filing-mode letter and the held file carries none. The base number, the instrument and the annulment subject all agree, so this is a variant question rather than a missing document — but which variant a route needs decides which bytes a participant files, and a digest bound to the wrong variant is worse than no bind. The registry's rule for STALE_OR_VARIANT_ID is to normalise the identity first, and normalising it needs the publisher's own form list, which this container cannot fetch.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+    "fileName": "NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+    "title": "petition of eligibility for annulment of record conviction",
+    "formNumber": "NHJB-3057",
+    "revision": "REV-2019-06",
+    "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+    "byteSize": 87550,
+    "mime": "application/pdf",
+    "pageCount": 4,
+    "technology": "acroform (36 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the -DS and -DSe filing-mode suffixes against the New Hampshire Judicial Branch form list; if they name the same document, six obligations bind at once to bytes already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nh_marijuana_annulment-set::official-form:NHJB-3124-DS",
+   "status": "STOPPED",
+   "sourceId": "official-form:NHJB-3124-DS",
+   "jurisdiction": "NH",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a filing-mode suffix the held edition does not carry. The obligation names NHJB-3124-DS; the corpus holds NHJB-3124, whose digest was recomputed here and agrees with the committed corpus index.",
+   "familyIds": [
+    "nh_marijuana_annulment-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the petition of eligibility for annulment of a record of arrest",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "New Hampshire's judicial branch numbers its forms with a trailing filing-mode letter and the held file carries none. The base number, the instrument and the annulment subject all agree, so this is a variant question rather than a missing document — but which variant a route needs decides which bytes a participant files, and a digest bound to the wrong variant is worse than no bind. The registry's rule for STALE_OR_VARIANT_ID is to normalise the identity first, and normalising it needs the publisher's own form list, which this container cannot fetch.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+    "fileName": "NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+    "title": "petition of eligibility for annulment of record of arrest or",
+    "formNumber": "NHJB-3124",
+    "revision": "REV-2020-01",
+    "sha256": "eee788220b7e624f0294d00b01024bff251d5d1dbfe61062c9a8f78fab58529c",
+    "byteSize": 60749,
+    "mime": "application/pdf",
+    "pageCount": 2,
+    "technology": "acroform (28 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the -DS and -DSe filing-mode suffixes against the New Hampshire Judicial Branch form list; if they name the same document, six obligations bind at once to bytes already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nh_petition_nonconviction_pre2019-set::official-form:NHJB-2317-DSe",
+   "status": "STOPPED",
+   "sourceId": "official-form:NHJB-2317-DSe",
+   "jurisdiction": "NH",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a filing-mode suffix the held edition does not carry. The obligation names NHJB-2317-DSe; the corpus holds NHJB-2317, whose digest was recomputed here and agrees with the committed corpus index.",
+   "familyIds": [
+    "nh_petition_nonconviction_pre2019-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the petition to annul a record",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "New Hampshire's judicial branch numbers its forms with a trailing filing-mode letter and the held file carries none. The base number, the instrument and the annulment subject all agree, so this is a variant question rather than a missing document — but which variant a route needs decides which bytes a participant files, and a digest bound to the wrong variant is worse than no bind. The registry's rule for STALE_OR_VARIANT_ID is to normalise the identity first, and normalising it needs the publisher's own form list, which this container cannot fetch.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+    "fileName": "NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+    "title": "petition to annul record",
+    "formNumber": "NHJB-2317",
+    "revision": "REV-2019-06",
+    "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+    "byteSize": 85115,
+    "mime": "application/pdf",
+    "pageCount": 3,
+    "technology": "acroform (41 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the -DS and -DSe filing-mode suffixes against the New Hampshire Judicial Branch form list; if they name the same document, six obligations bind at once to bytes already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nh_petition_vacated-set::official-form:NHJB-2317-DSe",
+   "status": "STOPPED",
+   "sourceId": "official-form:NHJB-2317-DSe",
+   "jurisdiction": "NH",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number with a filing-mode suffix the held edition does not carry. The obligation names NHJB-2317-DSe; the corpus holds NHJB-2317, whose digest was recomputed here and agrees with the committed corpus index.",
+   "familyIds": [
+    "nh_petition_vacated-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the petition to annul a record",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "New Hampshire's judicial branch numbers its forms with a trailing filing-mode letter and the held file carries none. The base number, the instrument and the annulment subject all agree, so this is a variant question rather than a missing document — but which variant a route needs decides which bytes a participant files, and a digest bound to the wrong variant is worse than no bind. The registry's rule for STALE_OR_VARIANT_ID is to normalise the identity first, and normalising it needs the publisher's own form list, which this container cannot fetch.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+    "fileName": "NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+    "title": "petition to annul record",
+    "formNumber": "NHJB-2317",
+    "revision": "REV-2019-06",
+    "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+    "byteSize": 85115,
+    "mime": "application/pdf",
+    "pageCount": 3,
+    "technology": "acroform (41 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "nextOperationOwner": "reconciliation — normalise the -DS and -DSe filing-mode suffixes against the New Hampshire Judicial Branch form list; if they name the same document, six obligations bind at once to bytes already in hand",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_conviction-set::official-form:4-222",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-222",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-222 — 4 222 application for free process and affidavit of indigency",
+   "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+   "byteSize": 1088817,
+   "mime": "application/pdf",
+   "pageCount": 7,
+   "technology": "acroform (158 AcroForm fields)",
+   "matchBasis": "form number; the obligation names 4-222 and exactly one held New Mexico document carries the form number NM-4-222. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the application for free process and affidavit of indigency filed with the petition",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_conviction-set::official-form:4-953",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-953",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-953 — 4 953 petition to expunge arrest records and public records upon conviction",
+   "sha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
+   "byteSize": 193458,
+   "mime": "application/pdf",
+   "pageCount": 5,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-953 and exactly one held New Mexico document carries the form number NM-4-953. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the petition to expunge upon conviction",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_conviction-set::official-form:4-956",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-956",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-956 — 4 956 certificate of service expungement of records upon conviction",
+   "sha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
+   "byteSize": 149793,
+   "mime": "application/pdf",
+   "pageCount": 2,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-956 and exactly one held New Mexico document carries the form number NM-4-956. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the certificate of service for the conviction route",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_conviction-set::official-form:4-960",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-960",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-960 — notice of completion of briefing conviction",
+   "sha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
+   "byteSize": 159100,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-960 and exactly one held New Mexico document carries the form number NM-4-960. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the notice of completion of briefing, conviction",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_conviction-set::official-form:4-960.1",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-960.1",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-960.1 — notice of hearing",
+   "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+   "byteSize": 16762,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-960.1 and exactly one held New Mexico document carries the form number NM-4-960.1. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the notice of hearing",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_conviction-set::official-form:4-960.3",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-960.3",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-960.3 — affirmation in support of expungement upon conviction",
+   "sha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226",
+   "byteSize": 170666,
+   "mime": "application/pdf",
+   "pageCount": 2,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-960.3 and exactly one held New Mexico document carries the form number NM-4-960.3. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the affirmation in support of expungement upon conviction",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_identity_theft-set::official-form:4-222",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-222",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-222 — 4 222 application for free process and affidavit of indigency",
+   "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+   "byteSize": 1088817,
+   "mime": "application/pdf",
+   "pageCount": 7,
+   "technology": "acroform (158 AcroForm fields)",
+   "matchBasis": "form number; the obligation names 4-222 and exactly one held New Mexico document carries the form number NM-4-222. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_identity_theft-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the application for free process and affidavit of indigency filed with the petition",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_identity_theft-set::official-form:4-951",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-951",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-951 — 4 951 petition to expunge arrest records and public records identity theft",
+   "sha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+   "byteSize": 179630,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-951 and exactly one held New Mexico document carries the form number NM-4-951. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_identity_theft-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the petition to expunge arrest and public records on the identity-theft route",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_identity_theft-set::official-form:4-960.1",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-960.1",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-960.1 — notice of hearing",
+   "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+   "byteSize": 16762,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-960.1 and exactly one held New Mexico document carries the form number NM-4-960.1. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_identity_theft-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the notice of hearing",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_release_without_conviction-set::official-form:4-222",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-222",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-222 — 4 222 application for free process and affidavit of indigency",
+   "sha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+   "byteSize": 1088817,
+   "mime": "application/pdf",
+   "pageCount": 7,
+   "technology": "acroform (158 AcroForm fields)",
+   "matchBasis": "form number; the obligation names 4-222 and exactly one held New Mexico document carries the form number NM-4-222. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_release_without_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the application for free process and affidavit of indigency filed with the petition",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_release_without_conviction-set::official-form:4-952",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-952",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-952 — 4 952 petition to expunge arrest records and public records upon release without",
+   "sha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
+   "byteSize": 186242,
+   "mime": "application/pdf",
+   "pageCount": 4,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-952 and exactly one held New Mexico document carries the form number NM-4-952. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_release_without_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the petition to expunge on release without conviction",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_release_without_conviction-set::official-form:4-955",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-955",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-955 — 4 955 certificate of service expungement of records upon release without conviction",
+   "sha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+   "byteSize": 12711,
+   "mime": "application/pdf",
+   "pageCount": 2,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-955 and exactly one held New Mexico document carries the form number NM-4-955. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_release_without_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the certificate of service for the release-without-conviction route",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_release_without_conviction-set::official-form:4-959",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-959",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-959 — notice of completion of briefing nonconviction",
+   "sha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148",
+   "byteSize": 158985,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-959 and exactly one held New Mexico document carries the form number NM-4-959. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_release_without_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the notice of completion of briefing, non-conviction",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_release_without_conviction-set::official-form:4-960.1",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-960.1",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-960.1 — notice of hearing",
+   "sha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+   "byteSize": 16762,
+   "mime": "application/pdf",
+   "pageCount": 3,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-960.1 and exactly one held New Mexico document carries the form number NM-4-960.1. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_release_without_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the notice of hearing",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "nm_release_without_conviction-set::official-form:4-960.2",
+   "status": "COMPLETED",
+   "sourceId": "official-form:4-960.2",
+   "jurisdiction": "NM",
+   "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+   "title/formNumber": "NM-4-960.2 — affirmation in support of expungement upon release without conviction",
+   "sha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+   "byteSize": 9831,
+   "mime": "application/pdf",
+   "pageCount": 2,
+   "technology": "flat_pdf",
+   "matchBasis": "form number; the obligation names 4-960.2 and exactly one held New Mexico document carries the form number NM-4-960.2. Its digest was recomputed from the mounted bytes and agrees with the committed corpus index.",
+   "familyIds": [
+    "nm_release_without_conviction-set"
+   ],
+   "handoffOperation": "PROMO",
+   "intendedPacketRole": "the affirmation in support of expungement on release without conviction",
+   "revision": "REV-UNKNOWN",
+   "boundByExactSha256": true,
+   "committedIndexAgrees": true,
+   "nextOperationOwner": "promotion — the bytes are in hand and their digest recomputed here; what promotion still owes is a currentness check against the publisher's current edition",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "wv_acc_treatment_job_readiness-set::official-form:SCA-C907",
+   "status": "STOPPED",
+   "sourceId": "official-form:SCA-C907",
+   "jurisdiction": "WV",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the Master Library holds SCA-C900, SCA-C903, SCA-C906 and SCA-C912, and no SCA-C907.",
+   "familyIds": [
+    "wv_acc_treatment_job_readiness-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the West Virginia petition for expungement of a nonviolent felony conviction",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The registry records SCA-C907 held with state CURRENTNESS_UNVERIFIED against the Nationwide corpus, which SIF-4 establishes is absent from this worktree. So the bytes are very likely held and simply out of this lane's reach; reporting them missing would be false, and binding a sibling of the same series would be worse.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+    "fileName": "WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+    "title": "sca c906 petition for expungement of misdemeanor violations and traffic citations",
+    "formNumber": "SCA-C906",
+    "revision": "REV-2019-06-04",
+    "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+    "byteSize": 176072,
+    "mime": "application/pdf",
+    "pageCount": 4,
+    "technology": "acroform (75 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "heldCandidateNote": "the nearest held sibling in the same series, recorded to show what was searched; it is the misdemeanor petition and is not this source",
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted; DISC06 has already settled the official artifact URL, https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf, so a promotion can compare the moment the bytes are reachable",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "wv_acc_treatment_job_readiness-set::source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+   "status": "STOPPED",
+   "sourceId": "source-sha256:2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+   "jurisdiction": "WV",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "pinned SHA-256; every one of the 499 files in the mounted Master Library was rehashed in this lane and none carries this digest",
+   "familyIds": [
+    "wv_acc_treatment_job_readiness-set"
+   ],
+   "handoffOperation": "SRC",
+   "revision": null,
+   "boundByExactSha256": false,
+   "pinnedSha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+   "finding": "This digest is SCA-C907's, which the source relationship registry records held with state CURRENTNESS_UNVERIFIED. It is recorded against the Nationwide corpus, and SIF-4 establishes that corpus is absent from this worktree. The Master Library holds SCA-C900, SCA-C903, SCA-C906 and SCA-C912 and none of them carries this digest, so the bytes are not reachable here. That is not the same as saying they are not held.",
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted; this lane can read only the Master Library and says so rather than reporting the source missing",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  },
+  {
+   "itemId": "wv_conv_nonviolent_felony-set::official-form:SCA-C907",
+   "status": "STOPPED",
+   "sourceId": "official-form:SCA-C907",
+   "jurisdiction": "WV",
+   "corpusPath": null,
+   "title/formNumber": null,
+   "sha256": null,
+   "byteSize": null,
+   "mime": null,
+   "pageCount": null,
+   "technology": null,
+   "matchBasis": "form number; the Master Library holds SCA-C900, SCA-C903, SCA-C906 and SCA-C912, and no SCA-C907.",
+   "familyIds": [
+    "wv_conv_nonviolent_felony-set"
+   ],
+   "handoffOperation": "SRC",
+   "intendedPacketRole": "the West Virginia petition for expungement of a nonviolent felony conviction",
+   "revision": null,
+   "boundByExactSha256": false,
+   "finding": "The registry records SCA-C907 held with state CURRENTNESS_UNVERIFIED against the Nationwide corpus, which SIF-4 establishes is absent from this worktree. So the bytes are very likely held and simply out of this lane's reach; reporting them missing would be false, and binding a sibling of the same series would be worse.",
+   "heldCandidate": {
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+    "fileName": "WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+    "title": "sca c906 petition for expungement of misdemeanor violations and traffic citations",
+    "formNumber": "SCA-C906",
+    "revision": "REV-2019-06-04",
+    "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+    "byteSize": 176072,
+    "mime": "application/pdf",
+    "pageCount": 4,
+    "technology": "acroform (75 AcroForm fields)",
+    "committedIndexAgrees": true
+   },
+   "heldCandidateNote": "the nearest held sibling in the same series, recorded to show what was searched; it is the misdemeanor petition and is not this source",
+   "nextOperationOwner": "reconciliation with the Nationwide corpus mounted; DISC06 has already settled the official artifact URL, https://www.courtswv.gov/sites/default/pubfilesmnt/2026-04/SCA-C907.pdf, so a promotion can compare the moment the bytes are reachable",
+   "evidencePaths": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+    "data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (source bytes, not committed)"
+   ]
+  }
+ ]
+}

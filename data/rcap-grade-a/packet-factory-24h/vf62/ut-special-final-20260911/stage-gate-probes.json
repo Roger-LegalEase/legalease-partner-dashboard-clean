@@ -1,0 +1,351 @@
+{
+  "familyId": "ut_pet_special_certificate-set",
+  "productionFunction": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs:specialCertificateStageGate",
+  "callerSearch": "Only two test modules call the exported function; wrapper buildUtahSpecialCertificate does not call it. Shared finalizer records its name in metadata only. These fixtures are review-only; no claim about a live fulfillment bypass.",
+  "tests": [
+    {
+      "id": "fully-bound-valid",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "ALLOW_STAGE_2",
+      "result": {
+        "status": "ALLOW_STAGE_2",
+        "reason": "VALID_SPECIAL_CERTIFICATE",
+        "episodeId": "episode-1",
+        "expiresAt": "2027-01-28T00:00:00Z"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "no-certificate",
+      "input": {
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "SPECIAL_CERTIFICATE_REQUIRED"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "wrong-type",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "WRONG_CERTIFICATE_TYPE"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "wrong-family",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "other",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "WRONG_CERTIFICATE_FAMILY"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "wrong-episode",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-2",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "WRONG_CERTIFICATE_EPISODE"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "missing-certificate-episode",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "CERTIFICATE_EPISODE_REQUIRED"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "missing-both-episode-identifiers",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "ALLOW_STAGE_2",
+        "reason": "VALID_SPECIAL_CERTIFICATE",
+        "expiresAt": "2027-01-28T00:00:00Z"
+      },
+      "contractMet": false
+    },
+    {
+      "id": "missing-expected-document-hash",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "ALLOW_STAGE_2",
+        "reason": "VALID_SPECIAL_CERTIFICATE",
+        "episodeId": "episode-1",
+        "expiresAt": "2027-01-28T00:00:00Z"
+      },
+      "contractMet": false
+    },
+    {
+      "id": "missing-both-bindings",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "ALLOW_STAGE_2",
+        "reason": "VALID_SPECIAL_CERTIFICATE",
+        "expiresAt": "2027-01-28T00:00:00Z"
+      },
+      "contractMet": false
+    },
+    {
+      "id": "wrong-hash",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "CERTIFICATE_IDENTITY_MISMATCH"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "malformed-hash",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "bad",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "CERTIFICATE_IDENTITY_PROOF_REQUIRED"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "expired",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2026-09-11T12:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "SPECIAL_CERTIFICATE_EXPIRED"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "future-issued",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-09-12",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "CERTIFICATE_ISSUED_IN_FUTURE"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "over-180-days",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-03-01"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "SPECIAL_CERTIFICATE_VALIDITY_EXCEEDS_180_DAYS"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "missing-date",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "2026-09-11T12:00:00Z"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "CERTIFICATE_DATES_REQUIRED"
+      },
+      "contractMet": true
+    },
+    {
+      "id": "invalid-asof",
+      "input": {
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "episode-1",
+          "documentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "issuedAt": "2026-08-01T00:00:00Z",
+          "expiresAt": "2027-01-28T00:00:00Z"
+        },
+        "episodeId": "episode-1",
+        "expectedDocumentSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "asOf": "invalid"
+      },
+      "expectedStatus": "REFUSE",
+      "result": {
+        "status": "REFUSE",
+        "reason": "INVALID_AS_OF"
+      },
+      "contractMet": true
+    }
+  ],
+  "total": 16,
+  "contractFailures": 3
+}

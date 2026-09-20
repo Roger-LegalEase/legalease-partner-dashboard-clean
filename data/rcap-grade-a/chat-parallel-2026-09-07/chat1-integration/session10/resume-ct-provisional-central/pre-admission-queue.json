@@ -1,0 +1,185 @@
+{
+  "queueSha256": "1bfcd9229a9c4fb8d79a962ece525b385b5c86627dc13d40e2d787a6cc8e7c8a",
+  "publishedHead": "be2c98668c5ee8326c74a7ec00d2ccef5e2116a3",
+  "targetCurrentRow": {
+    "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/boundary.pdf",
+    "boundaryPdfSha256": "9acd406b28b1037db95ceb4f33ba69800f22e755dfa259318869d7079c5f147c",
+    "builderAssignment": null,
+    "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/canonical.pdf",
+    "canonicalPdfSha256": "a6cfc975f75e75c58649e35419939fabb0bac1f3e082d8f266824b304623f1f7",
+    "coverage": {
+      "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "complete": true,
+      "documents": [
+        "canonical.pdf"
+      ],
+      "notRastered": [],
+      "notRenderedByThisGate": [
+        "boundary.pdf"
+      ],
+      "rastered": [
+        "canonical.pdf"
+      ],
+      "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+    },
+    "currentRasterState": "RASTER_PENDING",
+    "documents": [
+      {
+        "name": "canonical.pdf",
+        "pageCount": 2,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 2,
+          "sourceSha256": "a6cfc975f75e75c58649e35419939fabb0bac1f3e082d8f266824b304623f1f7",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/canonical.pdf",
+        "role": "canonical",
+        "sha256": "a6cfc975f75e75c58649e35419939fabb0bac1f3e082d8f266824b304623f1f7"
+      },
+      {
+        "name": "boundary.pdf",
+        "pageCount": 2,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 2,
+          "sourceSha256": "9acd406b28b1037db95ceb4f33ba69800f22e755dfa259318869d7079c5f147c",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/boundary.pdf",
+        "role": "boundary",
+        "sha256": "9acd406b28b1037db95ceb4f33ba69800f22e755dfa259318869d7079c5f147c"
+      }
+    ],
+    "documentsDigest": "f42f80afd2a0a3ba5a58f1a8b5750e19ec533f5bb9811b571cb243601cc662f9",
+    "expectedPages": 2,
+    "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "fixtureSelection": {
+      "boundary": "the assembled packet, matched by exact name",
+      "canonical": "the assembled packet, matched by exact name"
+    },
+    "nextOwner": "RAS02",
+    "packetCommitSha": "4d854e6c639e9f083a79b1bc3854f05aa573ea67",
+    "requestedScale": 2.5,
+    "supersededReceipts": [
+      {
+        "boundToBoundarySha256": "0e7f7008cd40fba4f6c3a04ba800147d4d4af3f5298f0b9c9b777ae31087c772",
+        "boundToCanonicalSha256": "31f3c2fd8e59ffb83292faea73213dc70483d427c8f5f944d72f535bd1f03ef1",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "jobConclusion": "success",
+        "jobId": "101187692687",
+        "receiptArtifact": {
+          "id": "9956076361",
+          "name": "rcap-raster-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon-33923497915",
+          "zipSha256": "sha256:c1bbd8c81c35079e0944265b0caa93d9024f732527e0c0af1895f371e55a6054"
+        },
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), the job conclusion, and the receipt artifact id and zip digest.",
+        "renderedCommitSha": "d6f430105dfc942be321b64243a77b666992547a",
+        "supersededAt": "2026-09-08T15:07:40Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "verdict": "RASTER_PASS",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "33923497915"
+      }
+    ]
+  },
+  "immutableRow": {
+    "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/boundary.pdf",
+    "boundaryPdfSha256": "9acd406b28b1037db95ceb4f33ba69800f22e755dfa259318869d7079c5f147c",
+    "builderAssignment": null,
+    "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/canonical.pdf",
+    "canonicalPdfSha256": "a6cfc975f75e75c58649e35419939fabb0bac1f3e082d8f266824b304623f1f7",
+    "coverage": {
+      "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "complete": true,
+      "documents": [
+        "canonical.pdf"
+      ],
+      "notRastered": [],
+      "notRenderedByThisGate": [
+        "boundary.pdf"
+      ],
+      "rastered": [
+        "canonical.pdf"
+      ],
+      "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+    },
+    "currentRasterState": "RASTER_PENDING",
+    "documents": [
+      {
+        "name": "canonical.pdf",
+        "pageCount": 2,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 2,
+          "sourceSha256": "a6cfc975f75e75c58649e35419939fabb0bac1f3e082d8f266824b304623f1f7",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/canonical.pdf",
+        "role": "canonical",
+        "sha256": "a6cfc975f75e75c58649e35419939fabb0bac1f3e082d8f266824b304623f1f7"
+      },
+      {
+        "name": "boundary.pdf",
+        "pageCount": 2,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 2,
+          "sourceSha256": "9acd406b28b1037db95ceb4f33ba69800f22e755dfa259318869d7079c5f147c",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/fixtures/boundary.pdf",
+        "role": "boundary",
+        "sha256": "9acd406b28b1037db95ceb4f33ba69800f22e755dfa259318869d7079c5f147c"
+      }
+    ],
+    "documentsDigest": "f42f80afd2a0a3ba5a58f1a8b5750e19ec533f5bb9811b571cb243601cc662f9",
+    "expectedPages": 2,
+    "familyId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+    "fixtureSelection": {
+      "boundary": "the assembled packet, matched by exact name",
+      "canonical": "the assembled packet, matched by exact name"
+    },
+    "nextOwner": "RAS02",
+    "packetCommitSha": "390416dfe0d5a2c9cd38e92cacddb48af802a6c6",
+    "requestedScale": 2.5,
+    "supersededReceipts": [
+      {
+        "boundToBoundarySha256": "0e7f7008cd40fba4f6c3a04ba800147d4d4af3f5298f0b9c9b777ae31087c772",
+        "boundToCanonicalSha256": "31f3c2fd8e59ffb83292faea73213dc70483d427c8f5f944d72f535bd1f03ef1",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "jobConclusion": "success",
+        "jobId": "101187692687",
+        "receiptArtifact": {
+          "id": "9956076361",
+          "name": "rcap-raster-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon-33923497915",
+          "zipSha256": "sha256:c1bbd8c81c35079e0944265b0caa93d9024f732527e0c0af1895f371e55a6054"
+        },
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), the job conclusion, and the receipt artifact id and zip digest.",
+        "renderedCommitSha": "d6f430105dfc942be321b64243a77b666992547a",
+        "supersededAt": "2026-09-08T15:07:40Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "verdict": "RASTER_PASS",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "33923497915"
+      }
+    ]
+  },
+  "artifactApiIdentityMatched": true,
+  "immutableAndCurrentInventoryMatched": true,
+  "pdfRendererViewportSource": "scripts/raster/pdf-page-raster.mjs:135"
+}

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX154",
+  "laneKind": "repair",
+  "worktree": "/home/user/fixb-worktree",
+  "branch": "lane-fix154-20260910",
+  "verifiedAtBase": "73b0aba8912387fadbafc276284ba65f03908222",
+  "generatedAtBase": "73b0aba8912387fadbafc276284ba65f03908222",
+  "grantSet": "9ee32b482de8545f",
+  "grantsAsserted": [
+    "FIX154 il-seal-2yr-set (repair) — CLAIM_OK, exit 0",
+    "FIX154 nj_ordinance-set (repair) — CLAIM_OK, exit 0"
+  ],
+  "whatWasRead": "The two non-superseded verifier returns named in the grant (VF03 rows-vf03-20260909d.json for il-seal-2yr-set at base b8a2495f4; VF11 rows.json for nj_ordinance-set at base df524f2fd), then the DELIVERED and PINNED SOURCE BYTES AT THIS LANE'S OWN BASE rather than either return's account of them. Both returns predate repair commits that are already in this lane's ancestry, so both were re-measured from scratch before any repair was contemplated.",
+  "builtAnything": "Ran both family builders as unmodified determinism controls only. No builder was edited; no delivered byte moved.",
+  "packetsSelfVerified": false,
+  "repairsMade": 0,
+  "repairsMadeWhyZero": "il-seal-2yr-set was already repaired in this lane's ancestry and needed nothing. nj_ordinance-set cannot be repaired by an implementation change; it is stopped on a legal determination and the questions are written down below.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedManifestsEdited": "None. This lane wrote only data/rcap-grade-a/packet-factory-24h/fix154/. VERIFIER_RETURNS.json, MASTER_QUEUE.json, the claim ledger and every other shared manifest are untouched by this commit.",
+  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "howBytesWereMeasured": "sha256sum for every digest reported here; not one was transcribed from a report. Text: pdftotext -layout page by page on the delivered fixtures and on the pinned source. Form structure: pdf-lib loaded against the pinned source binary, for field types, dropdown /Opt lists and widget rectangles. Pixels: pdftoppm -r 300 -png of single pages, compared with Pillow/numpy at ink threshold 200; every raster was deleted in the same shell call that read it and none was retained.",
+  "rasterPixelCounts": null,
+  "rasterPixelCountsWhyNull": "This lane retained no raster and published none. The one pixel measurement it made (NJ delivered page 19 against the pinned source page 19) is reported as a difference bbox and an added-ink count, not as raster evidence, and both PNGs were deleted.",
+  "visualDefects": null,
+  "visualDefectsWhyNull": "No lane-wide visual sweep was run. This lane looked at the specific pages the ROUTE_OPTIONS findings name and reports what it saw there; it does not claim a measured visualDefects count for either family.",
+  "grantsNothing": "This row is a repair lane's own account of its own work. It asserts no PASS, promotes no route, opens no commercial authority, and is not independent verification of either family. Both families still owe a read by a lane that is not FIX154.",
+  "rows": [
+    {
+      "familyId": "il-seal-2yr-set",
+      "itemId": "il-seal-2yr-set",
+      "jurisdiction": "IL",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-seal-2yr-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "laneOutcome": "NO_REPAIR_NEEDED_AT_THIS_BASE — no PASS asserted, independent read still owed",
+      "verdict": null,
+      "verdictWhyNull": "A repair lane does not score the family it holds a grant on. The ROUTE_OPTIONS finding below is this lane's measurement of the current bytes, offered to the independent reader, not a verdict.",
+      "digests": {
+        "canonicalSha256Before": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+        "canonicalSha256After": "090c596e0116f172a925b5e34d8bf9c18019478509a918eac0aaa3abc0904166",
+        "boundarySha256Before": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e",
+        "boundarySha256After": "cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e",
+        "bothHashedBySha256sumByThisLane": true,
+        "byteMovementByThisLane": "none, on either fixture"
+      },
+      "determinismControl": "node scripts/build-census-v1-il-seal-2yr-set.mjs run unmodified at this base printed BUILT_RASTER_PENDING with canonical=090c596e0… and boundary=cb8874f3a…, and `git status --porcelain` was empty afterwards. The committed family bytes are exactly what the committed builder produces.",
+      "obligationFindings": {
+        "ROUTE_OPTIONS": "NO DEFECT FOUND on the bytes at this base. This lane holds the repair grant on this family and therefore asserts no PASS on it; the obligation stands unscored until an independent lane reads it. What is reported here is a measurement: every limb of the VF03 failure was re-measured and every one is gone. (1) production-field-map.json now refuses Section 16, Section 18 and Section 19.a with three DISTINCT route-specific reasons, each carrying isAlternativeToElectedGround: true, an alternativeSection and the alternativeDispositions from the track registry — not the boilerplate 'A participant election or financial fact not determined by this packet route' VF03 quoted. (2) participant-instructions.md now carries a dedicated section, '## The two-year ground this packet ticked, and the three it did not', quoting all four printed two-year grounds in the form's own words with their statutory cite and their Outcome code, and telling the participant to tick the one their certified record supports and untick Section 17. (3) The election is now a fixture fact and not a constant: delivered canonical page 5 ticks Section 17 with 16, 18 and 19.a blank, and delivered BOUNDARY page 5 ticks Section 16 with 17 blank — read by pdftotext -layout on both fixtures at this base. VF03's requiredOptionsMissing of 3 was Sections 16, 18 and 19.a; all three are now stated. The repair is commit cb736b20a (FIX06), which is NOT an ancestor of VF03's base b8a2495f4 but IS an ancestor of this lane's base. VF03 measured bytes that no longer exist.",
+        "everyOtherObligation": "PASS carried, not re-measured. VF03 scored fifteen obligations and failed exactly one; this lane's grant is that one. The other fourteen are carried forward from VF03 and this lane offers no independent evidence for them."
+      },
+      "theOneThingThisLaneCheckedThatFIX06DidNotClaim": "FIX06's guide asserts that Section 19.a carries Outcome code FC and that a successfully completed supervision has NO printed sealing Outcome code. Both were checked here against the issuer's own printed text rather than against FIX06's report. The page 4 legend 'Outcome Abbreviations for Sealing' prints exactly MC / FC / CE / QP and no supervision code; 'S — Supervision Successfully Completed' appears only in the page 2 'Outcome Abbreviations for Expungement' legend. And Section 19's printed stem reads 'I received a felony conviction for an offense subject to sealing AND at least one of these is true', so FC follows from the form's own stem rather than from an inference — ticking 19.a is what states the felony. The delivered BOUNDARY, which elects supervision, leaves that case's Outcome cell empty, which is what the guide says it does. No sentence in the added guide section is a fabricated deadline, fee, criterion or legal conclusion.",
+      "byteCostDecision": "Not this lane's to make: nothing needed to move. Had a repair been required it would have been a guidance election, because the box the route determines was already correctly ticked and the defect was that the three alternatives were unnamed — naming them costs no PDF byte.",
+      "freshRasterOwed": "YES, but owed by FIX06 and not by this lane. approval-request.json status is BUILT_RASTER_PENDING, and FIX06 moved the boundary fixture from 9ffc8a8edc19629d0725ce92daddaf0c432254521a2b81dc058db537405db553 to cb8874f3a42f1e7b0cb2042d05f76cd68aa0279b1aefdce4d10a034b52f74b0e (canonical byte-unchanged). This lane moved no byte and so adds no raster debt.",
+      "whatMustBeRepairedBySomeoneElse": [],
+      "whatThisLaneCouldNotMeasure": "Whether the central raster carries the current boundary bytes. This lane did not open data/rcap-grade-a/packet-factory-24h/raster-runs/ and claims nothing about admission."
+    },
+    {
+      "familyId": "nj_ordinance-set",
+      "itemId": "nj_ordinance-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "laneOutcome": "STOPPED_ON_A_LEGAL_DETERMINATION",
+      "verdict": null,
+      "verdictWhyNull": "A repair lane does not score the family it holds a grant on, and this family is in any case not repaired.",
+      "digests": {
+        "canonicalSha256Before": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+        "canonicalSha256After": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+        "boundarySha256Before": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+        "boundarySha256After": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+        "bothHashedBySha256sumByThisLane": true,
+        "byteMovementByThisLane": "none, on either fixture",
+        "bothAgreeWithVF11": "Yes — VF11 recorded these same two digests at df524f2fd and they are unchanged at this base."
+      },
+      "pinnedSourceDigestHashedByThisLane": {
+        "path": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "agreesWithSourceReceipt": true
+      },
+      "determinismControl": "The family builder is a three-line host call into scripts/build-census-v1-nj_arrest_no_conviction-set.mjs. Run unmodified with the corpus mount it printed 'wrote 10; refused 169; selections 0; held-but-not-printed 9' on both fixtures and reproduced BOTH delivered PDFs bit-identically. Recorded honestly: `git status --porcelain` was NOT empty after the control — reports/actual-writes.json gained a `pageCount` key on each artifact that the committed file lacks. The committed report is therefore one builder revision stale in that one field. This lane reverted the file rather than move a shared family byte outside its grant, and reports the drift instead of fixing it.",
+      "aDestructiveBuilderBehaviourWorthRecording": "Run WITHOUT MASTER_LIBRARY_SOURCE_DIR set, this builder deletes the entire family output directory — all 99 files including both fixtures and all 86 page rasters — and only then throws 'MASTER_LIBRARY_SOURCE_DIR is required'. A lane that runs it without the mount and does not check `git status` loses the family's delivered bytes silently. Restored here with `git checkout --` and both digests re-verified. This is not a ROUTE_OPTIONS defect and is reported as an observation.",
+      "obligationFindings": {
+        "ROUTE_OPTIONS": "FAIL, unchanged, and NOT repairable by this lane. Re-measured from scratch: the delivered petition still makes no election. production-field-map.json declares exactly one route selection on this family, field `guilty`, decision 'measured_route_selection' — the packet's own record that this election is determined by the route and made by the build. reports/actual-writes.json shows selections [] on canonical and boundary alike. This lane then measured the pages rather than the reports: pdftoppm -r 300 of delivered canonical page 19 and of the PINNED SOURCE page 19 produced two PNGs with the SAME sha256 (100ae69f852b3b59a752760968d8b81ef8f4169919d32709f3a8effc342b4daa), a whole-page difference bbox of None, and added ink inside the `guilty` widget rect (x 34.971, y 591.363, 18x18 pt; rows 760:835, cols 145:220 at 300 dpi) of exactly 0 px against 635 px of printed form ink present in both. The delivered conviction paragraph is pixel-identical to the blank issuer form. Under completeness-contract.mjs this is ROUTE_OPTION_NOT_SELECTED, allowed false, defectClass FAIL_ROUTE_SELECTION.",
+        "everyOtherObligation": "PASS carried, not re-measured. VF11 scored fifteen obligations and failed exactly one; this lane's grant is that one."
+      },
+      "whyTheElectionIsWithdrawn": "Not a bug and not an oversight. The build applies a row-integrity rule — a row is completed or left untouched — and Form A item (d) is one sworn compound sentence with nine fill-in cells. reports/actual-writes.json names the withdrawal explicitly under heldButNotPrinted, reason 'withheld_for_row_integrity': `guilty`, plus the three cells the platform DOES hold for that row (guiltyDt 2019-11-02, guiltyOff1, guiltyCrt), are all withdrawn because six sibling cells could not be printed. The guide discloses the withdrawal at '## Values this platform holds but did not print' and again at '## Where self-help ends'. So the disclosure obligation is met; the ELECTION obligation is not, and the contract is explicit that disclosing an election the route determines is not the same as making it.",
+      "whyThisLaneDidNotJustTickTheBox": "Because on THIS route ticking it cannot be done truthfully from anything the repository holds, and the obstacles are legal rather than mechanical. Each was verified first-hand at this base:",
+      "theObstaclesVerifiedFirstHand": [
+        "THE STATUTE LINE HAS NO LAWFUL VALUE ON THIS ROUTE. Item (d) prints 'in violation of N.J.S.A. (statute(s))'. This family's track is nj_ordinance — legal-design-track-registry.json, legalName 'Expungement of Municipal Ordinance Offences (N.J.S.A. 2C:52-4)', dispositions exactly ['convicted']. A municipal ordinance offence is not an N.J.S.A. offence, so the cell the form prints has no correct entry drawn from the matter. Ticking (d) therefore either swears to a conviction whose statute line is blank, or invents a state statute into a notarized petition.",
+        "THE INCARCERATION CELL CANNOT BE ANSWERED 'NONE'. `guiltyTimeType` is a dropdown, and its /Opt list read by pdf-lib directly from the pinned source binary is exactly ['  ', 'jail time', 'prison time', 'incarceration time']. There is no 'none' and no 'fine only'. For the ordinary municipal-ordinance sentence the only non-false entry is the blank option, which is the source's own default — so ticking (d) swears to completing an incarceration term the form gives no way to decline.",
+        "TWO CELLS ARE COLLECTED BY NO QUESTION ON THIS TRACK. legal-design-intake/NJ.memo.json, track nj_ordinance, has eleven participantInputs. Read one by one against item (d): the conviction date, offence, statute and court come from ordMatterDetails; probation and release dates come from ordSentenceCompletion. But the FINAL SENTENCE IMPOSED (guiltyFinal1, guiltyFinal2) is asked by no question at all, and the DATE FINES WERE PAID (guiltyFineDt) is not either — ordFinancialAssessment asks whether every assessment is paid and why not, never when. So the row cannot be completed from intake even with a richer persona.",
+        "NO OTHER CONTROL ON THE KIT CAN STATE THIS ROUTE. All nineteen checkboxes on the pinned kit were enumerated with pdf-lib and their printed captions read. The only conviction-shaped election on Form A is `guilty` (and its continuation twin `contGuilty`). The two other route-shaped boxes name other statutes on their face — delivered page 22 prints seek5yrs as 'pursuant to N.J.S.A. 2C:52-2(a)(2) … or … 2C:52-3(b)(2)' and seek34degree as 'pursuant to N.J.S.A. 2C:52-2(c)(3)'. Nothing on the kit says 2C:52-4, and the closing prayer is the generic 'as authorized by N.J.S.A. 2C:52-1, et seq.'",
+        "THE FIXTURE PERSONA IS NOT AN ORDINANCE PERSONA. The facts held for this family describe a state crime, not a municipal ordinance matter: matter.charge is 'Possession of a controlled substance' and matter.case_number is '24-CR-001234'. Even if item (d) were completable, this persona would not produce an ordinance petition. Authoring one requires knowing what belongs on the N.J.S.A. line, which is the first question above."
+      ],
+      "theStandingReleaseBlockerOnThisTrack": "legal-design-intake/NJ.memo.json, track nj_ordinance, carries ONE unresolvedQuestion with impact 'release_blocker': 'The full text of N.J.S.A. 2C:52-4, including whether ordinance convictions count toward the offence caps on the indictable and disorderly persons tracks. The section was not obtained at an official New Jersey channel, and only the two-year period is confirmed, from the New Jersey Courts self-help page.' The track registry's own mechanism sentence repeats it. The route record therefore does not itself hold the statute this election would state.",
+      "theExactQuestionsThatMustBeAnsweredBeforeThisCanBeRepaired": [
+        "Q1. Form A (CN 10171) item (d) prints 'in violation of N.J.S.A. (statute(s))'. On a N.J.S.A. 2C:52-4 municipal-ordinance matter there is no N.J.S.A. offence section. How does the New Jersey Judiciary want an ordinance matter identified on that line — the municipal ordinance code and section, the words 'municipal ordinance', 2C:52-4 itself, or something else? Until this is answered the packet cannot tick item (d) without either leaving a sworn statute line blank or writing a state statute that does not describe the conviction.",
+        "Q2. `guiltyTimeType` offers only ['  ', 'jail time', 'prison time', 'incarceration time']. What does the Judiciary intend a filer whose ordinance sentence carried NO custodial term to enter, and does leaving the dropdown at its blank default while ticking (d) make the sworn paragraph incomplete or false?",
+        "Q3. Item (d) is one compound sworn sentence. Is a filer permitted to tick (d) and leave the cells the platform does not hold for the participant to complete before filing — the REQUIRED_BEFORE_FILING shape the contract otherwise allows — or must the paragraph be whole before the box may be marked? This is the question on which the whole repair turns: it is the choice between the build's row-integrity rule and the contract's ROUTE_OPTION_NOT_SELECTED rule, and it is a question about a notarized New Jersey petition rather than about this build.",
+        "Q4. The standing release_blocker: obtain the full text of N.J.S.A. 2C:52-4 at an official New Jersey channel, and settle whether ordinance convictions count toward the offence caps on the indictable and disorderly persons tracks."
+      ],
+      "whatWouldNotSatisfyTheObligation": "Writing more guidance. The guide already discloses the withdrawal in two places and already names the ordinance/N.J.S.A. problem in its own words. VF11 addressed this directly and this lane agrees on the reading of the contract: ROUTE_OPTION_NOT_SELECTED means 'an election the route determines, left for the participant', so telling the participant to tick the box themselves is the defect restated, not the defect cured. Adding a third disclosure would move bytes in the guide, change nothing on the petition, and let a family reach terminal on a petition that still states no route.",
+      "byteCostDecision": "Neither branch was taken, so no byte moved. For the record, the cheap branch (a guidance election) is the one that does not satisfy this obligation, and the branch that would satisfy it necessarily moves PDF bytes — a mark in the `guilty` rect plus the row's text cells — and would owe a fresh central raster. That asymmetry is a reason to answer Q1–Q3 before spending the raster, not a reason to take the cheap branch.",
+      "freshRasterOwed": "NO, on account of this lane. Both delivered digests are unchanged from VF11's read, VF11 recorded rasterState RASTER_PASS against these exact bytes, and this lane moved nothing. The receipt still binds.",
+      "priorRepairAttemptFoundInAncestry": "This lane's base already contains FIX121 (commit 4322c4bba), which is NOT an ancestor of VF11's base df524f2fd. FIX121 reached the same stop on the same paragraph and rendered the disclosure. This lane re-derived the finding from the intake memo, the track registry, the pinned form binary and the delivered pixels before reading FIX121's reasoning, and confirms its three factual claims. FIX121 did not have Q1 in this form — the ordinance-specific statute-line problem — which is what makes this family harder than its two conviction siblings rather than identical to them.",
+      "whatMustBeRepairedBySomeoneElse": [
+        "ROUTE_OPTIONS: blocked on Q1–Q4 above. Needs a legal input, not a build change.",
+        "Builder hazard: scripts/build-census-v1-nj_arrest_no_conviction-set.mjs deletes the family output directory before it validates MASTER_LIBRARY_SOURCE_DIR. It should validate the mount first.",
+        "Report drift: reports/actual-writes.json for this family is one builder revision stale — it lacks the `pageCount` key the current builder writes on each artifact. Out of this lane's grant; left committed as-is."
+      ],
+      "whatThisLaneCouldNotMeasure": "Whether the central raster admission record covers these digests — raster-runs/ was not opened. And whether any New Jersey court in fact accepts item (d) ticked with an incomplete paragraph, which is Q3 and is not answerable from this repository."
+    }
+  ],
+  "grantsReleased": [
+    "FIX154 il-seal-2yr-set — released; no repair was needed at this base.",
+    "FIX154 nj_ordinance-set — released; stopped on a legal determination, not repaired."
+  ],
+  "verifierRunsByThisLane": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>, run in this worktree on the committed bytes at 73b0aba89",
+    "il-seal-2yr-set": {
+      "stdout": "FAIL il-seal-2yr-set  NOT_MEASURABLE_HERE  44/424 written; 1 famil(ies) audited · 0 PASS_COMPLETE; 1 NOT_MEASURABLE_HERE; counters: knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 0 · requiredComponentsMissing 0 · invisibleWrites 0 · protectedWrites 0 · visualDefects UNMEASURED",
+      "exitStatus": 0,
+      "whatThisIsAndIsNot": "NOT_MEASURABLE_HERE. This script cannot score this family, so its requiredOptionsMissing 0 is the absence of a measurement and NOT evidence that ROUTE_OPTIONS passes. The ROUTE_OPTIONS finding recorded for this family was made by reading the field map, the guide and both delivered fixtures, not by this script. Note also that the script exits 0 while printing FAIL, so exit status is not a pass signal for either family."
+    },
+    "nj_ordinance-set": {
+      "stdout": "FAIL nj_ordinance-set  FAIL_ROUTE_SELECTION  19/179 written; 1 famil(ies) audited · 0 PASS_COMPLETE; 1 FAIL_ROUTE_SELECTION; counters: knownRequiredFieldsMissing 0 · requiredFactsNotCollected 0 · unclassifiedBlanks 0 · incompleteRows 0 · requiredOptionsMissing 1 · requiredComponentsMissing 0 · invisibleWrites UNMEASURED · protectedWrites 0 · visualDefects UNMEASURED",
+      "exitStatus": 0,
+      "whatChangedSinceVF11": "VF11 reported requiredOptionsMissing 0 and said so explicitly as a structural blindness: readFieldRows sent every non-refuse row into writes, so an election withheld at draw time could never be classified as a blank. Commit d89411ea2, 'Make requiredOptionsMissing able to see a route that never makes its election', is in this lane's ancestry and not in VF11's. The counter now reads 1 and the disposition is FAIL_ROUTE_SELECTION by name. The defect VF11 had to measure on the pages is now measurable by the script, and both agree."
+    }
+  }
+}

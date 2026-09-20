@@ -1,0 +1,65 @@
+{
+ "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+ "assignmentId": "VF03",
+ "laneKind": "independent-verification",
+ "workerBranch": "pfd-vf2-20260909",
+ "returnFilename": "checkpoints-vf03-20260909e.json",
+ "writtenAlongsideRatherThanOver": "checkpoint-blocked-before-claim.json, checkpoints-vf03-20260909d.json, rows-vf03-20260909b.json, rows-vf03-20260909c.json, rows-vf03-20260909d.json, repair-assignments.json, rows.json and nm-three-20260906/ survive byte-for-byte.",
+ "note": "Two families granted on this shift, both VERIFY_PENDING with an admitted RASTER_PASS bound to their current bytes and a live independent-verification grant on VF03, each asserted before any artifact of it was read. Each family was committed and pushed as it was finished rather than batched. Both returned FAIL_REPAIR_REQUIRED, and both had passed verify-packet-completeness.mjs with nine zeros.",
+ "checkpoints": [
+  {
+   "checkpoint": 1,
+   "closedAt": "2026-09-09T00:00:00.000Z",
+   "familiesInThisCheckpoint": [
+    "mn_petition_juvenile_as_adult-set"
+   ],
+   "familiesCompleted": 1,
+   "familiesStopped": 0,
+   "stoppedFamilies": [],
+   "headShaAtCheckpoint": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+   "verdicts": {
+    "mn_petition_juvenile_as_adult-set": "FAIL_REPAIR_REQUIRED"
+   },
+   "failedObligations": {
+    "mn_petition_juvenile_as_adult-set": [
+     "KNOWN_PREFILLS",
+     "REQUIRED_BEFORE_FILING"
+    ]
+   },
+   "nineCountersZeroOn": [],
+   "packetsSelfVerified": 0,
+   "overlayDirectoriesTouched": [],
+   "claimsReleased": [],
+   "checkpointNote": "The Minnesota near-clone question is answered in the row's theNearCloneQuestionAnswered field, from this family's side only; the sibling was not read. The answer has two halves. The tick IS the whole election on this form and that is correct: EXP102 item 9 prints eleven qualification boxes, each with its own bracketed order instruction, and only boxes 1 and 2 route to EXP106, the proposed order this family binds -- the other nine route to EXP105 or EXP107, which it does not bind. The X this build draws sits inside box 2's own embedded-glyph outline by coordinate, and box 2 is the certification-for-adult-prosecution ground. But the petition refutes its own tick two pages later: it swears date of birth 1991-04-17 and offence date 2019-08-04, making the petitioner 28 at the offence, and offence type 'Fifth-degree possession of a controlled substance', which is box 1's subject matter. The boundary fixture repeats both dates and adds 'continued for dismissal'. The route's only declared disposition, adult_conviction_after_certification, appears on neither fixture, and no fact bearing on juvenile status or certification is collected at all. Second failure, independent of that: the controlling packet-set manifest declares two participantActionRequired entries with requiredBeforeFiling true -- obtain the BCA criminal history and MCRO case history, and confirm the court file number against them -- and neither reaches the participant in either delivered instruction document. The builder never reads that block. verify-packet-completeness.mjs returns PASS_COMPLETE with nine zeros on this family."
+  },
+  {
+   "checkpoint": 2,
+   "closedAt": "2026-09-09T00:00:00.000Z",
+   "familiesInThisCheckpoint": [
+    "de_pardon_expungement-set"
+   ],
+   "familiesCompleted": 1,
+   "familiesStopped": 0,
+   "stoppedFamilies": [],
+   "headShaAtCheckpoint": "7b6131138e98449c1052bb8536927e4050d4340f",
+   "verdicts": {
+    "de_pardon_expungement-set": "FAIL_REPAIR_REQUIRED"
+   },
+   "failedObligations": {
+    "de_pardon_expungement-set": [
+     "REQUIRED_BEFORE_FILING"
+    ]
+   },
+   "blockedObligations": {
+    "de_pardon_expungement-set": [
+     "ROUTE_IDENTITY"
+    ]
+   },
+   "nineCountersZeroOn": [],
+   "packetsSelfVerified": 0,
+   "overlayDirectoriesTouched": [],
+   "claimsReleased": [],
+   "checkpointNote": "The encrypted-source question is answered in the row's theEncryptedSourceQuestionAnswered field. The receipt binds the official AES-256 binaries, not the rescued derivatives: both verify byte-exact on disk at the custody paths named, both still carry /Encrypt /CFM /AESV3, and the committed rescue delaware-download-aspx-rescued.pdf (bc39abcd..., 178625 bytes, unencrypted) is cited nowhere and is in any case the same revision -- 1 page, 44 fields, identical field-name set -- so the West Virginia 71-against-75 problem does not recur. I reproduced both transport derivatives byte-exactly with the receipt's own pikepdf recipe. ONE RECEIPT DEFECT: documents[].byteLength states the DERIVATIVE'S length beside the OFFICIAL binary's SHA-256 on both documents -- 178713 against the official's 179445, and 1123088 against 1128070. The digest binding is right so SOURCE_IDENTITY passes, but the receipt describes each bound identity with another document's size. THE FAILURE is elsewhere and it is a disclosure gap: CIV_EXP_02_A prints 'The following information MUST be completed for the Court to consider the petition' above a manifest-injustice assertion checkbox, that box is delivered unticked, it is flagged requiredBeforeFiling false in the field map, and it is the only one of the 24 non-required refusals that participant-instructions.md never names. DE-5 is scored BLOCKED_LEGAL_INPUT on ROUTE_IDENTITY: the petition's operative recital says \u00a7 4374 on a \u00a7 4375 route, the build wrote no \u00a7 4375 recital, and the controlling registry directs the participant to state it in the body -- which the guide does, in bold -- but the registry also carries DE-5 as a build blocker and whether that suffices is counsel's. COMPONENT_SET passes 3/3 against registry and manifest; MASTER_QUEUE lists 2 while its own instrumentKinds lists 3, recorded and not edited. The SBI cover letter is named only in DE.memo.json and with no addressee or content; the delivered instrument is a court filing cover sheet and if an SBI letter is a distinct instrument it is not built. The ISO date is sound on the paper -- neither form prints a date order -- and needs someone who knows the Prothonotary's practice. verify-packet-completeness.mjs returns PASS_COMPLETE with nine zeros on this family."
+  }
+ ]
+}

@@ -1,0 +1,363 @@
+{
+  "schemaVersion": "rcap-pf05-ia-raster-reader-independent-code-review/v1",
+  "assignmentId": "PF05_IA_RASTER_READER_INDEPENDENT_CODE_REVIEW_20260913",
+  "lane": "PF05",
+  "laneKind": "independent-code-review",
+  "reviewer": "/root/ar_veterans_final",
+  "sessionIdentity": "/root/ar_veterans_final",
+  "reviewedAt": "2026-09-13T14:20:35.178821Z",
+  "reviewedAtBase": "207bb55e8e129759ce6860298529b0da6e8a627c",
+  "status": "CHANGES_REQUIRED",
+  "verdict": "CHANGES_REQUIRED",
+  "familyIds": [
+    "ia-12346-set",
+    "ia-901c3-set"
+  ],
+  "scope": {
+    "purpose": "Bounded independent review of the exact PF05 two-file Iowa whole-packet raster reader candidate for six IA-12346 fixtures (24 pages) and eight IA-901C.3 fixtures (49 pages).",
+    "reviewTargets": [
+      "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+      "scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs"
+    ],
+    "implementationEditedByReviewer": false,
+    "sharedOutputsEditedByReviewer": false,
+    "queueRegenerated": false,
+    "rasterExecuted": false,
+    "packetRebuilt": false,
+    "sourceOrReportOrPdfEditedByReviewer": false,
+    "closedOutputsIncluded": false,
+    "productionTouched": false
+  },
+  "transfer": {
+    "receiptPath": "private/packet-factory-24h/transfers/pf05-ia-raster-reader-20260913/TRANSFER_RECEIPT.json",
+    "receiptSha256": "9fbdeb4e3fe516a2b2f190ead7638834da2063e136aa341447a28a76a12fa9c4",
+    "archivePath": "private/packet-factory-24h/transfers/pf05-ia-raster-reader-20260913/ia-raster-reader.patch.tar",
+    "archiveSha256": "49a093037024de71e3f5153b31ab1ba23a8028dfec95027061498bec0041ea05",
+    "archiveByteLength": 30720,
+    "candidateCommit": "282b3d914fff66fc9a789983cc6022550c55341d",
+    "parentCommit": "9032beaf738dc4599c78ccff6f5bb15ea0aa87f2",
+    "candidateCommitParentVerified": true,
+    "workerCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "workerBranch": "claude/legalease-sprint-captain-utucnw",
+    "archiveRegularMemberCount": 2,
+    "archiveNonRegularMemberCount": 0,
+    "archiveMembers": [
+      {
+        "path": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+        "bytes": 13430,
+        "sha256": "d2511f849d3d7de99473e2ee1ee3681f3526ea9651cbea27dfa69ee7b5e67fd4",
+        "gitBlobSha1": "41b9c34233522137958c02ee72e64be10e141498"
+      },
+      {
+        "path": "scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs",
+        "bytes": 9255,
+        "sha256": "eaa76c2e8b11a7766dad88143c961863c17854458e254bf455474badbe878693",
+        "gitBlobSha1": "56f672b26fc7c610b7f4f6e5b0a7b908a2ceee77"
+      }
+    ],
+    "targetBytes": {
+      "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs": {
+        "captainBytes": 8369,
+        "captainSha256": "542540671e398e87e18c8990ce4faa2ea99ce42bf551d7273132d9724b7e05d5",
+        "captainGitBlobSha1": "00f1719ae68890763684ffb9a0bec31fcb2c8cf7",
+        "candidateBytes": 13430,
+        "candidateSha256": "d2511f849d3d7de99473e2ee1ee3681f3526ea9651cbea27dfa69ee7b5e67fd4",
+        "candidateGitBlobSha1": "41b9c34233522137958c02ee72e64be10e141498"
+      },
+      "scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs": {
+        "captainBytes": 5870,
+        "captainSha256": "9dd0a68ee2c16929b2664b79af12a05197b65020722bab0afbaa879c59c98f34",
+        "captainGitBlobSha1": "c772cfa51e929119b265760dbff6e06892d37b87",
+        "candidateBytes": 9255,
+        "candidateSha256": "eaa76c2e8b11a7766dad88143c961863c17854458e254bf455474badbe878693",
+        "candidateGitBlobSha1": "56f672b26fc7c610b7f4f6e5b0a7b908a2ceee77"
+      }
+    },
+    "captainParentTree": {
+      "source": "gh codespace ssh -c rcap-finish-worker-77jr7gx76jq3rg65 -- git -C /workspaces/legalease-partner-dashboard-clean ls-tree -r --full-tree 9032beaf738dc4599c78ccff6f5bb15ea0aa87f2 -- <targets>",
+      "verified": true,
+      "blobs": {
+        "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs": "00f1719ae68890763684ffb9a0bec31fcb2c8cf7",
+        "scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs": "c772cfa51e929119b265760dbff6e06892d37b87"
+      },
+      "captainPathsClean": true,
+      "candidateFilesNotApplied": true
+    }
+  },
+  "checks": {
+    "transport": {
+      "result": "PASS",
+      "receiptArchiveSha256Matches": true,
+      "receiptArchiveByteLengthMatches": true,
+      "tarHasExactlyTwoRegularFiles": true,
+      "tarHasNoSymlinksOrOtherNonRegularMembers": true,
+      "memberNamesExact": true,
+      "memberBytesAndGitBlobsMatchReceipt": true
+    },
+    "candidateCommitScope": {
+      "result": "PASS",
+      "candidateParent": "9032beaf738dc4599c78ccff6f5bb15ea0aa87f2",
+      "candidateDiffNames": [
+        "M scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+        "M scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs"
+      ],
+      "noOtherCommitFiles": true,
+      "noSharedManifestFiles": true
+    },
+    "syntaxAndWhitespace": {
+      "result": "PASS",
+      "runtime": "/usr/local/share/nvm/versions/node/v22.23.2/bin/node (v22.23.2)",
+      "nodeCheckTargets": [
+        "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+        "scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs"
+      ],
+      "trailingWhitespace": "none"
+    },
+    "iaSelection": {
+      "result": "PASS",
+      "families": [
+        {
+          "familyId": "ia-12346-set",
+          "fixtureCount": 6,
+          "pages": 24,
+          "roles": {
+            "boundary": 1,
+            "canonical": 5
+          },
+          "missingFixtureRefused": true,
+          "changedBytesRefused": true,
+          "reportMutationControls": 7,
+          "selectedOrder": [
+            "boundary.pdf",
+            "canonical.pdf",
+            "later-conviction.pdf",
+            "local-ordinance.pdf",
+            "missing-contact.pdf",
+            "permitted-traffic.pdf"
+          ]
+        },
+        {
+          "familyId": "ia-901c3-set",
+          "fixtureCount": 8,
+          "pages": 49,
+          "roles": {
+            "boundary": 1,
+            "canonical": 7
+          },
+          "missingFixtureRefused": true,
+          "changedBytesRefused": true,
+          "reportMutationControls": 7,
+          "selectedOrder": [
+            "additional-aliases.pdf",
+            "boundary.pdf",
+            "canonical.pdf",
+            "exact-eight-years.pdf",
+            "history-requested.pdf",
+            "history-stale.pdf",
+            "missing-identifiers.pdf",
+            "release-missing.pdf"
+          ]
+        }
+      ],
+      "currentByteDigestAndPdfInfoChecks": "PASS"
+    },
+    "existingConditionalControl": {
+      "result": "PASS",
+      "command": "source /home/codespace/.legalease-corpus-env && /usr/local/share/nvm/versions/node/v22.23.2/bin/node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs",
+      "resultJson": {
+        "selectablePackets": 8,
+        "selectablePages": 44,
+        "diagnosticPages": 16,
+        "allPages": 60,
+        "admissionNegativeControlsCaught": 12,
+        "iaMeasurements": [
+          {
+            "family": "ia-12346-set",
+            "fixtures": 6,
+            "pages": 24,
+            "missingFixtureRefused": true,
+            "changedFixtureRefused": true,
+            "reportControls": 7
+          },
+          {
+            "family": "ia-901c3-set",
+            "fixtures": 8,
+            "pages": 49,
+            "missingFixtureRefused": true,
+            "changedFixtureRefused": true,
+            "reportControls": 7
+          }
+        ]
+      }
+    },
+    "existingNativeControls": {
+      "result": "PASS",
+      "command": "source /home/codespace/.legalease-corpus-env && /usr/local/share/nvm/versions/node/v22.23.2/bin/node scripts/grade-a-packet-factory-24h/test-native-selectable-raster-documents.mjs",
+      "resultJson": {
+        "status": "PASS",
+        "measurements": [
+          {
+            "family": "ky/ky-nonconviction-expungement-set",
+            "completePdfs": 13,
+            "completePages": 90,
+            "selectablePdfs": 11,
+            "refusalControls": 13
+          },
+          {
+            "family": "md/md-10105-favorable-set",
+            "completePdfs": 15,
+            "completePages": 60,
+            "selectablePdfs": 13,
+            "refusalControls": 13
+          }
+        ],
+        "packetRebuilds": 0,
+        "rasterExecuted": false,
+        "terminalPromotions": 0
+      }
+    },
+    "existingGaConditionalControl": {
+      "result": "PASS",
+      "command": "source /home/codespace/.legalease-corpus-env && /usr/local/share/nvm/versions/node/v22.23.2/bin/node scripts/grade-a-packet-factory-24h/test-ga-raster-documents.mjs",
+      "resultJson": {
+        "documents": 15,
+        "pages": 108,
+        "diagnosticDocuments": 3,
+        "conditionalExamples": 12,
+        "filingReady": false,
+        "negativeControlsCaught": 8
+      }
+    },
+    "iaInputPreservation": {
+      "result": "PASS",
+      "snapshotFileCount": 101,
+      "beforeSnapshotSha256": "e299a9b29cd7d4a97f483a40a2c2ad3353f5540d6305a5047c2dd34f3ee80fdf",
+      "afterSnapshotSha256": "e299a9b29cd7d4a97f483a40a2c2ad3353f5540d6305a5047c2dd34f3ee80fdf",
+      "sourceBytes": [
+        {
+          "familyId": "ia-12346-set",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC3__IA-12346-SET__RULE-2-86-FORM-3__dd7685c6caf6d.pdf",
+          "bytes": 1415336,
+          "declaredSha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5",
+          "observedSha256": "dd7685c6caf6d87979a31ce1639be6d08067a5c006a3d57eab68c1d097df49a5"
+        },
+        {
+          "familyId": "ia-901c3-set",
+          "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__IA-901C3-SET__RULE-2-86-FORM-2__5a1c67004e4f.pdf",
+          "bytes": 2674736,
+          "declaredSha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963",
+          "observedSha256": "5a1c67004e4ff551cefca4ced50f8f48c77586b25e7e32384defda7726d4f963"
+        }
+      ],
+      "reportAndFixturePdfFilesUnchangedDuringFocusedTest": true,
+      "noSourceReportOrPdfWrites": true
+    },
+    "failClosedProbes": {
+      "result": "FAIL",
+      "positiveRefusals": [
+        "missing fixture",
+        "changed fixture bytes",
+        "extra regular PDF",
+        "renamed/unknown report fixture",
+        "absolute foreign report path",
+        "relative path traversal",
+        "changed digest/bytes/page count"
+      ],
+      "acceptedUnsafeCases": [
+        {
+          "mutation": "packet.path = exact absolute path to canonical.pdf",
+          "result": "ACCEPTED",
+          "familyId": "ia-12346-set"
+        },
+        {
+          "mutation": "packet.path = family/fixtures/canonical.pdf/../canonical.pdf",
+          "result": "ACCEPTED",
+          "familyId": "ia-12346-set"
+        },
+        {
+          "mutation": "packet.path = family/fixtures/../fixtures/canonical.pdf",
+          "result": "ACCEPTED",
+          "familyId": "ia-12346-set"
+        },
+        {
+          "mutation": "extra symlink fixture extra-symlink.pdf",
+          "result": "ACCEPTED",
+          "selectedCount": 6
+        },
+        {
+          "mutation": "nested extra fixture extra-dir/extra.pdf",
+          "result": "ACCEPTED",
+          "selectedCount": 6
+        }
+      ]
+    }
+  },
+  "findings": [
+    {
+      "id": "PF05-IA-RAS-CODE-001",
+      "severity": "BLOCKING",
+      "title": "IA packet path is not required to be an exact relative fixture path",
+      "location": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs:53-59",
+      "impact": "The reader accepts a report path that violates the repository-relative exact-output contract. A later queue/receipt can therefore carry normalized or absolute path identity without the reader refusing the candidate; the current bytes happen to be the same target, but the declaration is not fail-closed.",
+      "observed": "The check compares path.resolve(root, packet.path) with the real fixture target. Normalization happens before comparison, and there is no absolute-path or raw dot-dot-segment rejection.",
+      "reproduction": [
+        {
+          "mutation": "packet.path = absolute exact fixture path",
+          "result": "ACCEPTED"
+        },
+        {
+          "mutation": "packet.path = data/.../fixtures/canonical.pdf/../canonical.pdf",
+          "result": "ACCEPTED"
+        },
+        {
+          "mutation": "packet.path = data/.../fixtures/../fixtures/canonical.pdf",
+          "result": "ACCEPTED"
+        }
+      ],
+      "requiredFix": "Reject absolute packet.path values and any raw . or .. traversal segments before resolution, or require packet.path to equal the exact repository-relative family fixtures/<fixture>.pdf string. Add focused absolute-exact and dot-dot mutation controls."
+    },
+    {
+      "id": "PF05-IA-RAS-CODE-002",
+      "severity": "BLOCKING",
+      "title": "IA fixture inventory ignores extra symlinked and nested PDFs",
+      "location": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs:42-45",
+      "impact": "The helper can accept a fixture directory containing an unrecognized PDF output while returning a complete six/eight-fixture set. The queue discovery is recursive, so this leaves an output outside the reader selection and defeats the required extra/unsafe-output fail-closed gate.",
+      "observed": "actualNames filters only direct Dirent.isFile() entries ending in lowercase .pdf. Symlinks are excluded from the inventory and nested PDFs are never enumerated; neither is rejected.",
+      "reproduction": [
+        {
+          "mutation": "extra-symlink.pdf -> canonical.pdf in fixtures/",
+          "result": "ACCEPTED; selectedCount=6"
+        },
+        {
+          "mutation": "fixtures/extra-dir/extra.pdf regular nested output",
+          "result": "ACCEPTED; selectedCount=6"
+        }
+      ],
+      "requiredFix": "For these flat IA fixture directories, enumerate every entry and reject symlinks, subdirectories, and any extra PDF/output; otherwise recursively enumerate and compare the complete regular-file inventory. Add extra regular, extra symlink, nested, and replacement-symlink controls."
+    }
+  ],
+  "preservation": {
+    "candidateAppliedToCaptain": false,
+    "implementationFilesEditedByReviewer": false,
+    "sourceBytesModified": false,
+    "reportBytesModified": false,
+    "fixturePdfBytesModified": false,
+    "sharedManifestFilesModified": false,
+    "queueRegenerated": false,
+    "rasterExecuted": false,
+    "codeCommitCreated": false,
+    "candidatePrivateCustodyPreserved": true
+  },
+  "grants": {
+    "boundedCodeReviewPass": false,
+    "implementationAcceptance": false,
+    "integrationAuthorized": false,
+    "iaRasterDispatchAuthorized": false,
+    "packetAuthority": false,
+    "rasterPass": false,
+    "terminalPromotion": false,
+    "productionAuthority": false
+  },
+  "nextGate": "Repair the two fail-closed gaps in the candidate and extend the focused IA negative controls, then return a new exact two-file candidate parented to the current Captain with the same conditional/native controls green. Do not dispatch IA raster from this return.",
+  "findingsCount": 2
+}

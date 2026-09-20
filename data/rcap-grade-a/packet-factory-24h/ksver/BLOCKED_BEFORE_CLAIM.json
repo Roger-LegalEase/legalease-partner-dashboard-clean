@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-blocked-lane-return/v1",
+  "deliberatelyNotRowsJson": "This is NOT a rows.json. No verdict was reached and none is recorded here. A rows.json from this lane would be read as verification that did not happen.",
+  "lane": "KSVER",
+  "laneKind": "independent-verification (intended)",
+  "familyId": "rcap-ks-custom-pleading",
+  "laneStatus": "BLOCKED_BEFORE_CLAIM",
+  "verifiedAtBase": null,
+  "base": "1298ca9cd019b559648db3713f86ca58c31d24a1",
+  "artifactsRead": 0,
+  "hashesRecomputed": 0,
+  "whyNothingWasRead": "The worker contract requires --assert before reading any artifact and makes a non-zero exit a full stop. Every assert available to this lane refused.",
+  "refusals": [
+    { "command": "--assert VF02 rcap-ks-custom-pleading", "exit": 9, "message": "ALREADY_RELEASED: rcap-ks-custom-pleading at 2026-09-02T16:09:04.991Z" },
+    { "command": "--assert VF09 rcap-ks-custom-pleading", "exit": 8, "message": "GRANTED_ELSEWHERE: granted to VF02, not VF09" },
+    { "command": "--assert VF10 rcap-ks-custom-pleading", "exit": 8, "message": "GRANTED_ELSEWHERE: granted to VF02, not VF10" },
+    { "command": "--assert KSVER rcap-ks-custom-pleading", "exit": 4, "message": "UNKNOWN_LANE: KSVER" }
+  ],
+  "ledgerIntegrity": {
+    "claimsDigestDeclared": "9750f57630969316d954e02989b07bc63052144159ac5a1dcd59861ab959e4f3",
+    "claimsDigestRecomputed": "9750f57630969316d954e02989b07bc63052144159ac5a1dcd59861ab959e4f3",
+    "digestMatch": true,
+    "duplicateSubjectOperationPairs": 0,
+    "note": "The ledger is internally consistent, so the refusals above are the ledger's true state and not corruption."
+  },
+  "grantStateAtBase": {
+    "independent-verification": { "lane": "VF02", "released": true, "releasedAt": "2026-09-02T16:09:04.991Z" },
+    "packet-build": { "lane": "PF01", "released": true },
+    "repair": { "lane": "FIX03", "released": false, "releasedAt": null },
+    "source-discovery": { "lane": "DISC02", "released": true }
+  },
+  "findings": [
+    "No independent-verification grant on this family is live. The sole IV grant (VF02) was released at 2026-09-02T16:09:04.991Z.",
+    "The repair grant FIX03 holds on this family is STILL LIVE (released:false). By the ledger's own account the repair is open, not finished. Verifying now would mean reading a family a repair lane remains authorised to write.",
+    "VF02's standing verdict on this family is FAIL_REPAIR_REQUIRED at base a0d49e1ad49ad4397eac4b009225baf0b94bf03e. That FAIL is what the FIX03 repair grant answers.",
+    "The Kansas repair commits (cdb5e54b1 at 17:56:04Z, 9ce79ded1 at 17:58:47Z) land AFTER VF02 released at 16:09:04Z. VF02's read therefore predates the current bytes and cannot speak to them. The family's only recorded verification is both a FAIL and stale.",
+    "This lane did not use --reissue or --transfer. Both require dispatch/roster authority, and transfer's own guard states it cannot check worker independence because Captain checks that when choosing the destination. A verifier that mints its own grant has self-granted the independence it exists to supply."
+  ],
+  "unblockPath": [
+    "FIX03 releases its repair grant on rcap-ks-custom-pleading, so the family is no longer open for writing.",
+    "Captain reissues or transfers the independent-verification grant to a lane that neither built nor repaired Kansas.",
+    "That lane asserts the grant and performs the read at a base at or after 9ce79ded16f2403cfba0bc3a8733aba1b0243fc3."
+  ],
+  "questionsLeftUnanswered": [
+    "COMPONENT_SET cross-contamination between ks-12-4516-municipal and ks-12-4516a-municipal-arrest",
+    "ROUTE_IDENTITY track-pathway key correctness",
+    "whether the machine route id appears on any participant-facing page",
+    "SOURCE_IDENTITY committedRecords[] recomputation and routeKey anchor presence",
+    "adequacy of the repairing lane's local raster receipts",
+    "the six declared SHA-256 values and page counts"
+  ]
+}

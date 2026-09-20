@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "me-seal-prost-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The corpus holds this form under a filename naming the ADA notice printed in small type at the foot of the page, and files it under 05_SOURCE_GATED with assetClass SOURCE-GATED rather than under 02_PACKET_FORMS.",
+      "consequence": "The bytes are the right document -- the page is headed MOTION TO SEAL CONVICTION FOR ENGAGING IN PROSTITUTION, cites 15 M.R.S.A. § 2262-A, and its footer reads CR-289, Rev. 10/24 -- so this build resolves the source by state and form number rather than by assetClass, and the SHA-256 binding is unchanged. Reported rather than absorbed: a human looking for Maine's sealing motion by name would not find it, and a title harvested from the wrong printed line is the same class of defect this factory has hit on captions before."
+    },
+    {
+      "finding": "Three of this form's widgets are named after the wrong thing: the conviction-date box is named after the sentence that FOLLOWS it, the signature widget is named `undefined`, and the two mailing-address lines are named `1` and `2`.",
+      "consequence": "Every caption is read off the page at the widget's own coordinate and re-checked on each build, and all three mismatches are recorded in the field census. Where a printed caption defeats the shared descriptor, a separate bindingLabel is recorded beside it rather than the printed wording being changed."
+    },
+    {
+      "finding": "CR-289's two substantive assertions -- the one-year waiting period and the absence of a disqualifying trafficking or prostitution conviction -- are printed as numbered paragraphs in the body of the motion. There is no control beside either and no widget: signing the motion asserts them.",
+      "consequence": "Nothing is marked or left unmarked. The instructions set both out in full and tell the participant to read them before signing.",
+      "correctionOfAnEarlierReading": "An earlier draft of this builder recorded them as pre-printed X marks, read from the scrambled text stream where the paragraph numbers extract as \"î X\" and \"ï X\". The page raster shows plain numbered paragraphs. The claim was wrong; it is corrected here rather than left in the record."
+    },
+    {
+      "finding": "The printed text stream carries U+0092 where a reader sees an apostrophe.",
+      "consequence": "Captions are recorded as the stream carries them, so the drift check compares like with like. A caption written without the character does not match one written with it, which is how this was found."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the bytes read back carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}

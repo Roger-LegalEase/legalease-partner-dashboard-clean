@@ -1,0 +1,13 @@
+diff --git a/scripts/rcap-packet-completeness/verify-packet-completeness.mjs b/scripts/rcap-packet-completeness/verify-packet-completeness.mjs
+index 0b7e6d61a..64cff6bbe 100644
+--- a/scripts/rcap-packet-completeness/verify-packet-completeness.mjs
++++ b/scripts/rcap-packet-completeness/verify-packet-completeness.mjs
+@@ -567,6 +567,8 @@ for (const state of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
+           && status?.familyId === KY_NATIVE_FAMILY) families.push({dir, familyId: KY_NATIVE_FAMILY});
+       else if (dir === MD_NATIVE_DIRECTORY && map
+           && status?.familyId === MD_NATIVE_FAMILY) families.push({dir, familyId: MD_NATIVE_FAMILY});
++      else if (dir === MD_CONDITIONAL_DIRECTORIES['md_10110_conviction-set'] && map
++          && status?.familyId === 'md_10110_conviction-set') families.push({dir, familyId: 'md_10110_conviction-set'});
+       else if (dir === `${OVERLAYS}/ga/ga-nonconv-pre2013-set--official-pdf-fill` && map
+           && status?.familyId === 'ga-nonconv-pre2013-set') families.push({dir, familyId: 'ga-nonconv-pre2013-set'});
+       continue;

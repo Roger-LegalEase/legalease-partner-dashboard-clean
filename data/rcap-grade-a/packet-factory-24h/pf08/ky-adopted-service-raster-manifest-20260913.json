@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 1,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 1,
+            "sourceSha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 1,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 1,
+            "sourceSha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "b219565f8e930db532f7613a3302e8433b4a933c32c679aab3eb1edb7df6a97d"
+        }
+      ],
+      "documentsDigest": "bc5ddb142cf4823481e2f4b50d7b837a3494adbca8815c2a25ae31edb7ba942f",
+      "expectedPages": 1,
+      "familyId": "ky_protective_order_record_expungement-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "8d6ebafee152296fd76865585555af1c12bd8b88",
+      "requestedScale": 2.5
+    }
+  ]
+}

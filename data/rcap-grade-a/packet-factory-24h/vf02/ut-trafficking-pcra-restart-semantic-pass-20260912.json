@@ -1,0 +1,561 @@
+{
+  "schemaVersion": "rcap-vf02-bounded-semantic-review/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "worker": "VF02",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+  "baseSha": "89d085e4f40aa5b4c0c0f5f0949828e98c945441",
+  "verifiedAtBase": "89d085e4f40aa5b4c0c0f5f0949828e98c945441",
+  "actualHeadAtReview": "89d085e4f40aa5b4c0c0f5f0949828e98c945441",
+  "dispatchSha": "89d085e4f40aa5b4c0c0f5f0949828e98c945441",
+  "packetCommitSha": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+  "reviewedAt": "2026-09-12T12:26:33.577996Z",
+  "executionState": "VERIFYING",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS",
+  "scope": "Independent bounded semantic recheck of the current Utah Rule 65C trafficking PCRA repair against the prior VF02 failure. The worker repair is accepted for the semantic gate after exact current-byte, source, route, guide and focused-test checks. No visual pass is claimed.",
+  "claimEvidence": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+    "result": "CLAIM_OK",
+    "grantSetId": "e61b21dbd0eacf7a",
+    "assertedBeforeFamilyReads": true,
+    "source": "active VF02 claim"
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-al-ut-current.json",
+    "sha256": "ffd4f86bf31971eeb900d83795a2025e23c019e8045af8457625f351f493d200",
+    "byteLength": 40108,
+    "priorVerifiedAtBase": "1e09363c514ddfabfe493be8685bc466afd7f723",
+    "priorStatus": "FAIL_REPAIR_REQUIRED",
+    "priorFailedObligations": [
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "CLIPPING_AND_OVERLAP"
+    ],
+    "priorCounters": {
+      "requiredFactsNotCollected": 12,
+      "incompleteRows": 6,
+      "visualDefects": 36
+    },
+    "defectEvidence": [
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+        "sha256": "450b78a1d60c6e9255327417542c2cd9ec9faebc1876103be13d9e29755de634",
+        "byteLength": 110475,
+        "confirmedPlacements": 36,
+        "canonicalPlacements": 9,
+        "boundaryPlacements": 27,
+        "uniqueFields": 31,
+        "textPlacements": 19,
+        "displacedSelectionMarks": 17
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+        "sha256": "a8cb0b393879d94c93f2d9e8c9b31d7692a4f762f0d7136d9a0ad4bf9c31e6a0",
+        "byteLength": 8892,
+        "confirmedContentGaps": 12,
+        "canonicalGaps": 5,
+        "boundaryGaps": 7,
+        "attorneyRowsSubset": 6
+      }
+    ]
+  },
+  "resolvedFindings": [
+    "UT-GEOMETRY-36 resolved by the FIX112 candidate: all 36 prior source-placement defects (9 canonical, 27 boundary; 19 text placements and 17 selection marks) were moved into measured blank or checkbox interiors. Current actual-writes evidence reads the saved output bytes, reports every listed write fit and visible, reports zero non-whitespace glyphs outside measured write boxes, and reports no refused field with ink; central raster visual measurement remains open.",
+    "UT-CONTENT-12 resolved by the FIX112 guide and saved packet: the five canonical and seven boundary record-gap instances now require exact grounds/reasons or a permitted unknown handback, and the six attorney address rows are explicitly marked address unknown until confirmed rather than pointing to a docket.",
+    "UT-SOURCE-PRESERVATION resolved: each fixture preserves the exact ten-page official petition (source hash bound on pages 1-10) and appends the two declared Rule 65C treatment pages, with no invented trafficking-specific form.",
+    "UT-GATE-BOUNDARIES resolved: the guide states the §78B-9-104(1)(h) clear-and-convincing nexus, required external evidence and conditional fee-waiver/appointed-counsel attachments, court-screened service, protected participant/attorney acts, and disabled runtime/commercial delivery."
+  ],
+  "deltaBasis": {
+    "repairReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fix112-20260912-ut-pcra-bounded-repair.json",
+      "sha256": "b2024144c4cb02978c819749dedf6042a1158621fbc0b74e8a35591ca31f36d5",
+      "byteLength": 4461,
+      "candidateRepairCommit": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+      "focusedTestVerdict": null
+    },
+    "candidateRepairCommit": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+    "currentHeadRehashed": true,
+    "currentMetadataAndFixtureHashesRehashed": true,
+    "priorFailureRecheckedAgainstCurrentBytes": true,
+    "visualEvidenceReused": false,
+    "workerRepairNotAuthoredByThisLane": true,
+    "independentVerificationEvidence": {
+      "path": "/tmp/ut-independent-semantic-verification-20260912.json",
+      "sha256": "d867604e6ec502dff5e0e19386ec75f64e26fc2f19fc44e5a10e19b0c52b337d",
+      "byteLength": 17339
+    }
+  },
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The source receipt, packet manifest, legal decision and current guide bind the exact runtime-only Utah trafficking family to the generic Rule 65C PCRA petition in the district court of conviction under Utah Code §78B-9-104(1)(h); no undefined trafficking-specific form or alternate route is introduced."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The held official petition is exact at 9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09 (128059 bytes, 10 pages); source-receipt allSourcesExact is true and current rendered pages 1-10 carry this source identity."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Both fixtures contain the exact declared UT-RULE-65C-PCRA component and the incorporated UT-PCRA-ATTACHMENTS-A-B component: ten official pages followed by the two generated treatment pages. Judgment, appellate/PCRA records, evidence exhibits, and conditional financial attachments are disclosed as participant-supplied external materials, not claimed as generated."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current byte-derived actual-writes evidence reports 48 canonical and 81 boundary values; all listed current entries have expected text equal to drawn text, visibleInArtifactBytes and everyWidgetVisibleInArtifactBytes true, and outcome fit. No known value is silently carried from the prior defective placement."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The current guide requires review of Questions 5-18, exact grounds/reasons for record gaps, permitted unknown responses, attorney addresses, judgment/appellate/PCRA/evidence attachments, and conditional fee-waiver or appointed-counsel attachments before filing; it does not convert missing held facts into answers."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Canonical and boundary fixtures exercise the printed conditional history branches with explicit selections and branch-specific facts. The focused route test passes every-yes-branch history requirements, while protected acts and unsupported branches remain unfilled."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The current 111-field map classifies the official terminal fields and conditional branches for both fixtures; the current packet carries the complete declared canonical/boundary branch sets, including all Question 17 attorney rows, and the focused conditional-branch test passes."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current byte-derived writes report refusedFieldsWithInk as an empty list for both fixtures. The participant signature/date, attorney Rule 11 certification, court acts and other protected acts remain participant/court controlled and are explicitly left for completion or later process."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The current canonical and boundary PDFs are exact 12-page artifacts at c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba (182565 bytes) and 47c7eb02473f98699455fd889f736ce3d50e5106ecef86103f5e4232aa72bd22 (185271 bytes), matching the complete FIX112 raster manifest and rendered-artifact hashes. This byte identity does not measure visual appearance."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The current rendered-artifact page manifests preserve source pages 1-10 in order and append generated attachment pages 11-12 in both canonical and boundary fixtures."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "finding": "No central Actions raster receipt or PNG set was independently inspected in this semantic lane. Clipping/overlap and visualDefects remain open; the current saved-PDF write-box evidence is not a visual substitute.",
+      "visualDefects": null
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The guide directs filing in the district court of conviction and tells the participant to confirm current filing details with the clerk or a lawyer; it invents no filing method, deadline, hearing date, notary requirement, or proposed order."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The guide states that this packet does not decide or invent a filing fee, requires the printed Inmate Accounting Office certificate only if requesting a fee waiver, and requires the Declaration of Financial Status only if requesting appointed counsel."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The guide preserves Rule 65C court-screened service, directs the participant to follow the court screening order, and supplies no invented recipients, automatic service step, or participant certificate of service."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The current guidance requires record verification, clear-and-convincing support for the qualifying offense and trafficking/force/fraud/coercion nexus, attachment of identified evidence, and participant/attorney completion of protected acts; it does not promise eligibility, approval, vacatur, or expungement."
+    }
+  },
+  "obligationCounts": {
+    "PASS": 14,
+    "NOT_MEASURABLE_HERE": 1,
+    "FAIL": 0
+  },
+  "failedObligationNames": [],
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonVisualZero": true,
+    "allNineZero": false,
+    "measuredHere": true,
+    "visualMeasuredHere": false,
+    "verifierResult": "NOT_MEASURABLE_HERE",
+    "focusedCoverage": "14/14 focused semantic tests; builder --check exact-source check PASS",
+    "knownAppearancesVerified": 129,
+    "actualWriteValuesByFixture": {
+      "canonical": 48,
+      "boundary": 81
+    },
+    "writeEvidenceAllFitVisible": true
+  },
+  "currentCandidateBindings": {
+    "reviewedHead": "89d085e4f40aa5b4c0c0f5f0949828e98c945441",
+    "observedHead": "89d085e4f40aa5b4c0c0f5f0949828e98c945441",
+    "packetCommitSha": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+    "packetBytesUnchangedAfterPacketCommit": true,
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/ut-pcra-raster-manifest-20260912.json",
+      "sha256": "77428732d106551272b0d547efc805e602fcdc2f9117e68fb4a6a7f83d37ed8a",
+      "byteLength": 3470,
+      "packetCommitSha": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+      "packetCommitShaStatus": "Exact repaired packet commit; independent semantic acceptance is required before dispatch.",
+      "currentRasterState": "RASTER_PENDING",
+      "coverageComplete": true,
+      "expectedPagesPerFixture": 12,
+      "documentsDigest": "351e8bd91063278ec88da86b94e443eb9cb65a4f7e7f479caf2b00e8bb49b597",
+      "requestedScale": 2.5,
+      "nextOwner": "RAS04"
+    },
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/source-receipt.json",
+      "sha256": "95f38592c138f54881552b26acec2a5f7a030a8edef4d0a7ae182d96a6f1b9b0",
+      "byteLength": 1012
+    },
+    "legalDecision": {
+      "path": "data/rcap-grade-a/legal-decisions/UT_TRAFFICKING_PCRA_IMPLEMENTATION_2026-09-11.md",
+      "sha256": "f7af74fc6fabbd4ce98dedf06f351a3f3673d3e5c817140d4093b4d8f088efda",
+      "byteLength": 1716,
+      "decision": "UT-TRAFFICKING-PCRA-RULE-65C",
+      "routeKey": "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement"
+    },
+    "sourceDocuments": [
+      {
+        "form": "UT-RULE-65C-PCRA",
+        "path": "reference/utah/04_PCRA_Petition-2022-06-13.pdf",
+        "sha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09",
+        "byteLength": 128059,
+        "pageCount": 10,
+        "acroformFieldCount": 0,
+        "officialUrl": "https://legacy.utcourts.gov/resources/forms/criminal/04_PCRA_Petition.pdf"
+      }
+    ],
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/participant-instructions.md",
+        "sha256": "014829f07fb76298c637fba8728f61c2eee4da46ea781c649f57335058939a37",
+        "byteLength": 3637
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/production-field-map.json",
+        "sha256": "1e217e1cc28427d1b318154939fcbcea7d186b20bd010252d6dece41d6343e71",
+        "byteLength": 139135
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/source-receipt.json",
+        "sha256": "95f38592c138f54881552b26acec2a5f7a030a8edef4d0a7ae182d96a6f1b9b0",
+        "byteLength": 1012
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/product-wiring.json",
+        "sha256": "106bb377b71fd060ede5c90eaee966a10727d74ead3ead9158d8ca9a1dc4f66b",
+        "byteLength": 4873
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/packet-set-manifest.json",
+        "sha256": "c8fb1499fb6aece57d6a1f7217de5f75b7f6ec1b8d0ee7544c20a07ef841dcce",
+        "byteLength": 1241
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/approval-request.json",
+        "sha256": "a3c28140918b53a908057c44caf0f7008c64ae58107ed9a9e7aac0e606897d76",
+        "byteLength": 516
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/build-findings.json",
+        "sha256": "233223160d22a2e7c8b9973779bff20403489b8ae631b9f18050f49139e778b1",
+        "byteLength": 1068
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/build-status.json",
+        "sha256": "c791ecb6af41beef061fdb05cf3ef6d544cffc2d05d6cf73db500735e0836a72",
+        "byteLength": 505
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/field-census.census-v1.json",
+        "sha256": "aab707e67898508e36377948b70ad9639c08be73e3bec456344d1b6b59410d3c",
+        "byteLength": 43578
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "dfc546bf56db1e5f88dbb3d2e704d33f376d3cada8edb88a4e0e8d949b274e19",
+        "byteLength": 80067
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "sha256": "a7327d0a0fa173379c2c9f24c62e6769704f08725bfaa8361fbf8a59d9699536",
+        "byteLength": 42287
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/completeness-counters.json",
+        "sha256": "b600f05488e63cf478e1776a30ccca3ba3739df06d706e8f517bae874e311cdf",
+        "byteLength": 622
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "daa7a8c90055063e3c9aae028449ceb9a8bbc0cb24041e623d154f9392901382",
+        "byteLength": 6543
+      }
+    ],
+    "fixturePdfs": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba",
+        "byteLength": 182565,
+        "role": "canonical",
+        "pageCount": 12
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "47c7eb02473f98699455fd889f736ce3d50e5106ecef86103f5e4232aa72bd22",
+        "byteLength": 185271,
+        "role": "boundary",
+        "pageCount": 12
+      }
+    ],
+    "documentsDigest": "351e8bd91063278ec88da86b94e443eb9cb65a4f7e7f479caf2b00e8bb49b597",
+    "currentPdfMeasurements": {
+      "fixtures": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba",
+          "byteLength": 182565,
+          "role": "canonical",
+          "pageCount": 12
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "47c7eb02473f98699455fd889f736ce3d50e5106ecef86103f5e4232aa72bd22",
+          "byteLength": 185271,
+          "role": "boundary",
+          "pageCount": 12
+        }
+      ],
+      "pageCountPerFixture": 12,
+      "sourcePagesPreserved": 10,
+      "generatedAttachmentPages": 2,
+      "actualWrites": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 48,
+          "actualWriteEntryCount": 48,
+          "addedGlyphsReadFromOutputBytes": 2343,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 81,
+          "actualWriteEntryCount": 81,
+          "addedGlyphsReadFromOutputBytes": 3272,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "refusedFieldsWithInk": []
+        }
+      ],
+      "writeEvidenceAllFitVisible": true,
+      "renderedFresh": true,
+      "componentIdentityMode": "exact",
+      "rasters": []
+    },
+    "actualWritesSummary": [
+      {
+        "fixture": "canonical",
+        "valuesReportedByFinalizer": 48,
+        "actualWriteEntryCount": 48,
+        "addedGlyphsReadFromOutputBytes": 2343,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "refusedFieldsWithInk": []
+      },
+      {
+        "fixture": "boundary",
+        "valuesReportedByFinalizer": 81,
+        "actualWriteEntryCount": 81,
+        "addedGlyphsReadFromOutputBytes": 3272,
+        "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+        "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+        "refusedFieldsWithInk": []
+      }
+    ],
+    "sourceReceiptAllSourcesExact": true,
+    "packetManifest": {
+      "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/packet-set-manifest.json",
+      "sha256": "c8fb1499fb6aece57d6a1f7217de5f75b7f6ec1b8d0ee7544c20a07ef841dcce",
+      "byteLength": 1241,
+      "routeKeys": [
+        "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement"
+      ],
+      "packetKind": "standalone_rule65c_pcra_with_incorporated_attachments",
+      "orderedComponents": [
+        {
+          "componentId": "UT-RULE-65C-PCRA",
+          "title": "Official Petition for Relief Under the Post-Conviction Remedies Act",
+          "pages": "1-10",
+          "sourceSha256": "9c5bd552fab0ada747b6f680b61e48acf4eca89275e2c8ad86d7ee3d82e95a09"
+        },
+        {
+          "componentId": "UT-PCRA-ATTACHMENT-A",
+          "title": "Ground One Factual Nexus and Evidence Schedule",
+          "pages": "11"
+        },
+        {
+          "componentId": "UT-PCRA-ATTACHMENT-B",
+          "title": "Memorandum of Points and Authorities",
+          "pages": "12"
+        }
+      ],
+      "participantSuppliedExternalAttachments": [
+        "judgment and commitment",
+        "applicable appellate decision",
+        "applicable prior PCRA filings and decisions",
+        "identified evidence exhibits",
+        "Inmate Accounting Office certificate only if requesting fee waiver",
+        "Declaration of Financial Status only if requesting appointed counsel"
+      ]
+    },
+    "toolBindings": [
+      {
+        "path": "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs",
+        "sha256": "59ae7f1d44068ac003ef254b9a3d63c498cc7bb0203ca80406f0ad9c8574160b",
+        "byteLength": 69434
+      },
+      {
+        "path": "scripts/rcap-packet-recovery/ut-trafficking-pcra.test.mjs",
+        "sha256": "a95c3f5782a216d194dd7719e0bfb36964116f13e69b068c8e964729efabe94b",
+        "byteLength": 10793
+      },
+      {
+        "path": "scripts/grade-a-packet-factory-24h/ut-pcra-declared-delivery.test.mjs",
+        "sha256": "8a607e43d434831c30a7ab5c6337d5e4955ccf71bf37ea4e9d9121de93340ffc",
+        "byteLength": 5259
+      }
+    ]
+  },
+  "evidenceRead": [
+    "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-al-ut-current.json",
+    "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+    "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+    "data/rcap-grade-a/packet-factory-24h/fix112/rows-fix112-20260912-ut-pcra-bounded-repair.json",
+    "data/rcap-grade-a/packet-factory-24h/fix112/ut-pcra-raster-manifest-20260912.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/packet-set-manifest.json",
+    "data/rcap-grade-a/legal-decisions/UT_TRAFFICKING_PCRA_IMPLEMENTATION_2026-09-11.md",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/build-status.json",
+    "/tmp/ut-independent-focused-20260912.log",
+    "/tmp/ut-independent-declared-20260912.log",
+    "/tmp/ut-independent-builder-check-20260912.log",
+    "/tmp/ut-independent-semantic-verification-20260912.json"
+  ],
+  "commandsPassed": [
+    {
+      "command": "node --test scripts/rcap-packet-recovery/ut-trafficking-pcra.test.mjs",
+      "result": "PASS 7/7",
+      "evidence": {
+        "path": "/tmp/ut-independent-focused-20260912.log",
+        "sha256": "353f2ad4ff068b97d67ad3b33300dc25f6eb77f845ed3b96aa430e780a35744f",
+        "byteLength": 831
+      }
+    },
+    {
+      "command": "node --test scripts/grade-a-packet-factory-24h/ut-pcra-declared-delivery.test.mjs",
+      "result": "PASS 7/7",
+      "evidence": {
+        "path": "/tmp/ut-independent-declared-20260912.log",
+        "sha256": "c3574468f3019cfe1aff9801fe22b64d016565c65b6b22ba80494edc40c4395a",
+        "byteLength": 620
+      }
+    },
+    {
+      "command": "node scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs --check",
+      "result": "CHECK_ONLY; exact source SHA/bytes, 10 source pages, 111 measured fields, 2 fixtures and 12 output pages per fixture; overlayDirectoryTouched=false",
+      "evidence": {
+        "path": "/tmp/ut-independent-builder-check-20260912.log",
+        "sha256": "77baca7acd320ef0b72779747d930fbf3b9b1d3380f70025ae0d050e41dd5a0e",
+        "byteLength": 385
+      }
+    },
+    {
+      "command": "read-only current-byte hash, pdfinfo, rendered-artifact and actual-writes verification",
+      "result": "PASS; exact current hashes, 12 pages each, renderedFresh=true, actual writes fit/visible, no refused ink, required guide disclosures present",
+      "evidence": {
+        "path": "/tmp/ut-independent-semantic-verification-20260912.json",
+        "sha256": "d867604e6ec502dff5e0e19386ec75f64e26fc2f19fc44e5a10e19b0c52b337d",
+        "byteLength": 17339
+      }
+    }
+  ],
+  "rasterDispatchAuthorized": true,
+  "raster": {
+    "status": "PENDING_CENTRAL_ACTIONS",
+    "newCentralRasterRequired": true,
+    "manifestPath": "data/rcap-grade-a/packet-factory-24h/fix112/ut-pcra-raster-manifest-20260912.json",
+    "manifestSha256": "77428732d106551272b0d547efc805e602fcdc2f9117e68fb4a6a7f83d37ed8a",
+    "manifestByteLength": 3470,
+    "packetCommitSha": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+    "documents": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "c73a6d87cb5b68f054d50a141b47583e60a14fc144eff09b2eb6d67fb0da21ba",
+        "byteLength": 182565,
+        "pageCount": 12
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "47c7eb02473f98699455fd889f736ce3d50e5106ecef86103f5e4232aa72bd22",
+        "byteLength": 185271,
+        "pageCount": 12
+      }
+    ],
+    "runId": null,
+    "artifactId": null,
+    "visualDefects": null,
+    "reason": "Semantic gate is PASS and the complete two-fixture manifest is bound. Central Actions raster plus independent visual review are required before final acceptance."
+  },
+  "remainingRequirements": [
+    "Central Actions raster receipt for both exact 12-page PDF hashes/byte lengths in the complete FIX112 manifest.",
+    "Independent visual clipping/overlap review and raster-dependent counter measurement; visualDefects is intentionally null here.",
+    "Captain integration and final acceptance after the original raster evidence is reviewed; runtime/commercial authority remains disabled."
+  ],
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "runtimeAndCommercialBoundary": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false,
+    "note": "This bounded semantic PASS authorizes central raster dispatch only. It grants no visual, legal, runtime, payment, sponsorship, fulfillment or commercial authority."
+  },
+  "independence": {
+    "implementationEdited": false,
+    "sourceEdited": false,
+    "packetBytesEdited": false,
+    "rasterEdited": false,
+    "queueEdited": false,
+    "sharedManifestEdited": false,
+    "claimLedgerEdited": false,
+    "onlyPublication": "this lane-owned nonterminal semantic record"
+  }
+}

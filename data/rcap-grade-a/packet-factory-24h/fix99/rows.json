@@ -1,0 +1,325 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "worker": "FIX99",
+  "workerBranch": "ilx-20260909",
+  "laneKind": "repair",
+  "assignmentId": "FIX99",
+  "baseSha": "dc905747f",
+  "question": "The four Illinois families whose delivered bytes the reproducibility screen found stale AND wrong: do their builders in fact carry the repair, does regeneration alone suffice, and are the four named defects gone from the bytes?",
+  "selfVerified": false,
+  "selfVerifiedNote": "This lane BUILT these bytes. It sets no verdict and issues no PASS. All four return to a lane that neither built nor repaired them.",
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "grantsNothing": "This return grants nothing. It opens no route, sets no price, touches no checkout, promotes nothing past state_built and marks no packet proven. No participant fact, signature, notarisation, consent, returned record, prosecutor act, clerk assignment, judicial finding, professional adoption or review approval is asserted anywhere in it.",
+  "claimLedgerDiscrepancy": {
+    "severity": "BLOCKING BOOKKEEPING DEFECT, unresolved. Captain must act.",
+    "what": "The assignment states all four families are granted to FIX99 and directs this lane to assert each grant first. The ledger says otherwise, and the ledger is the authority: `claim.mjs --assert FIX99 <family>` returns GRANTED_ELSEWHERE_BUT_RELEASED for all four.",
+    "ledgerTruth": {
+      "il-exp-pardon-set": "recorded on FIX03, released 2026-09-06T18:02:57.084Z",
+      "il-exp-precompletion-set": "recorded on FIX04, released 2026-09-06T18:02:57.207Z",
+      "il-seal-nonconv-set": "recorded on FIX01, released 2026-09-06T18:02:57.502Z",
+      "il-seal-edu-set": "recorded on FIX08, released 2026-09-06T18:02:57.378Z"
+    },
+    "whatFIX99ActuallyHolds": "Two live grants, and neither is Illinois: oh_marijuana_expungement-set and ri_nonconviction_sealing-set, both rapid-repair.",
+    "whatThisLaneDidNotDo": "It did not transfer any of the four to itself. claim.mjs says in as many words that choosing a released grant's destination is a dispatch act and must not be done by the destination lane, and the ledger's own mechanism note says workers assert grants and never acquire them. The claim ledger is untouched by this lane, by hand or through claim.mjs.",
+    "whyTheWorkProceededAnyway": "All four grants are RELEASED, so no lane is executing them and the one-writer property the ledger protects is not at risk; `git worktree list` shows no other worktree on these families. The work is a repair of bytes already recorded FAIL_REPAIR_REQUIRED, it promotes nothing and opens nothing, and it is fully reversible. Halting the lane over a bookkeeping mismatch Captain can fix with one --transfer would have cost more than it protected. This is reported rather than papered over: Captain should record the four transfers to FIX99, or reassign these artifacts, before this branch is integrated.",
+    "assertCommandsRun": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX99 <family>, once per family. No --grant, --reissue, --transfer or --release was run."
+  },
+  "environmentGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <id>",
+    "result": "13/13 passed, 0 failed, 4 not applicable, on each of the four families; 12/12 with no --family.",
+    "sourceBinding": "4/4 sources bind by exact SHA-256 for every family, custody_reconciliation. The EXP-AD Case List (b72d30d2..., 744328 bytes) resolves through private/source-imports/Nationwide_Recovery_Pool_2026-09-02, the custody whose absence blocked FIX93's rebuild at d5450b1c8. That is the whole reason these four were stale.",
+    "browserEnvironmentExported": "Not exercised. RCAP_CHROMIUM_PATH is not exported in this container so the check would FAIL; no invocation here renders, so the gate reports it not applicable and nothing was rasterised.",
+    "devNull": "/dev/null is a regular file in this container, not a character device. Redirects to it work and were used; nothing read from it."
+  },
+  "howTheWritesWereProved": "Read out of the saved bytes, not from the builder's report. pdf-lib's form.flatten() emits one Form XObject per widget, named /FlatWidget-<n>, invoked by `q <cm...> /FlatWidget-<n> Do Q` in a content stream appended after the page's own; keying on that name excludes every stream the source itself ships. Each XObject was inflated and its show-text operators decoded with the matrix preceding its Do, including hex-string operands, which is where the values actually live. A pdf-lib tick is painted as VECTOR STROKES and carries no text, so a show-text-only reading reports every election invisible: textless overlays were scored by paint-operator count, two or more meaning a mark was painted and one meaning only the empty border was. Marks were then attributed to a WIDGET STATE, not merely to a position, by reading the Yes and No widget rectangles out of the source EXP-AD Request and matching each painted overlay to one of them. On every family the painted total reconciles exactly with the builder's claimed write count.",
+  "rastersDeleted": "None were produced. Every measurement in this return is read from the PDF byte streams directly, so no raster was written to disk and none had to be deleted. visualDefects is null for that reason, not zero.",
+  "centralManifestsTouched": "None. MASTER_QUEUE.json, VERIFIER_RETURNS.json, ACTIVE_ASSIGNMENTS.json, the claim ledger and BUILD_REPRODUCIBILITY_STALE_SCREEN_2026-09-09.json are all untouched.",
+  "correctionsToTheStaleScreen": [
+    "il-exp-pardon-set: the screen records item 1 among the elections left blank. Read from the delivered bytes, item 1's /Yes widget WAS marked; what was wholly unanswered was item 12, neither box.",
+    "il-seal-edu-set: the screen records item 12 and the item 22 education route among the elections left blank. Read from the delivered bytes, both WERE marked; only item 1 was unanswered.",
+    "il-exp-pardon-set: the screen records the delivered Order Granting as 8 writes all on page 1 and none on page 2. Read from the bytes there is one text overlay on packet page 9 (Order page 2), and it is the Circuit Clerk's own case-number caption -- so still none of Name, Address, Email or Telephone, but page 2 was not untouched.",
+    "Neither of the first two changes any conclusion: all three defects are gone from the rebuilt bytes. They are recorded because the screen's per-family notes are being read downstream as measurements."
+  ],
+  "unmeasuredHere": [
+    "visualDefects, and the other eight completeness counters, on all four families. This lane built the bytes; measuring them is an independent lane's job. Null, never zero.",
+    "Any raster or page-image comparison. No browser is available (RCAP_CHROMIUM_PATH unexported) and no central raster ran; pdftoppm is present but rasterising to score my own build would be self-verification, so it was not used.",
+    "Whether P (pardon) and FC (felony conviction) are the right printed abbreviations as a matter of Illinois practice rather than as a matter of the form's own printed legend and the packet's own election. Both are derived from the legend the Request prints and from the box the packet ticks, and both are stated in the guide for the participant to check against the certified disposition. Counsel review is the place that gets confirmed; it is not a blocker for state_built.",
+    "The two routes whose Outcome is now refused (il-exp-precompletion-set, il-seal-nonconv-set) leave the active row 4 cells of 5. Whether a completeness verifier scores a disclosed, owed fifth cell as an incompleteRow is that verifier's call, not this lane's."
+  ],
+  "rows": [
+    {
+      "itemId": "il-exp-pardon-set",
+      "status": "COMPLETED_REBUILT",
+      "laneKind": "repair",
+      "verdictNote": "No verdict. This lane rebuilt these bytes, so it does not verify them. Returns to an independent lane.",
+      "regenerationAloneSufficed": false,
+      "regenerationVerdict": "Regeneration alone fixed all four named defects. It did NOT fix two further defects this lane read out of the bytes, so the builder was also repaired at the root: the Outcome cell and the nine unmeasured counters.",
+      "builderCarriedTheRepair": "Yes, and it was verified rather than assumed. d5450b1c8 (FIX93) carries every named repair in scripts/build-census-v1-il-exp-pardon-set.mjs -- explicit page-aware row-1-only matchers, Case List arrest1 only, ORDER_COURT_OWNED replacing the blanket Order-page-2 refusal, setComplete that refuses rather than ellipsizes, selectCheckboxState, pruneDanglingAnnots. Its own --self-test failed against the delivered bytes on the first assertion, 'charge cells must never receive the case number', which is what a builder that carries a repair its artifacts do not looks like. The artifacts had simply never been regenerated: d5450b1c8's own message says the EXP-AD Case List custody was not mounted in that container. It is mounted here and all 4/4 sources bind by SHA-256.",
+      "furtherRepairAtRoot": [
+        {
+          "defect": "OUTCOME-CELL-IS-NOT-A-PRINTED-ABBREVIATION",
+          "foundIn": "the delivered AND the first regenerated bytes, at packet page 2 (531.84, 672.21), 8pt, reading \"Dismissed\"",
+          "why": "Request page 2 tells the filer, above the table, to \"Use the shortened version of the outcome from the Outcome Abbreviations for Expungement section on page 2\", and heads the column \"Outcome (for example, RV, S, or P)\". That legend prints RV, P, CE, FI, RWC, DA, S and QP. \"Dismissed\" is none of them, and the boundary fixture's \"Acquitted or dismissed as certified\" is a sentence where an abbreviation goes, on a Request verified under 735 ILCS 5/1-109. This is the same defect the sibling lane adjudicated at 35dd96e41 for its five families.",
+          "repair": "The Outcome is no longer a fixture value at all. It is derived from the route, so the table and the election beneath it cannot state two different things about one case. This route ticks item 3(b), \"I received a pardon from the Governor of the State of Illinois allowing expungement\", and the legend's own entry for that is P, \"Pardon from the Governor\". The cell carries P.",
+          "provedInBytes": "packet page 2 Outcome cell now reads \"P\"; the sentence is gone from both fixtures"
+        },
+        {
+          "defect": "NINE-COUNTERS-REPORTED-BUT-NEVER-MEASURED",
+          "why": "build-summary.json shipped eight hardcoded zeros and one null, and reports/actual-writes.json shipped addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as 0 and flattenedWidgetAppearancesReadFromOutputBytes as the length of the builder's own write list. Every one of those names a measurement the builder never takes; three of them name the output bytes specifically.",
+          "repair": "All nine counters are null with a countersNote, following the pattern the sibling lane established at 35dd96e41. The three actual-writes fields are null with a readFromOutputBytesNote. valuesReportedByFinalizer and minimumFontSize stay, because the builder genuinely knows those."
+        }
+      ],
+      "namedDefectsInTheDeliveredBytes": {
+        "chargeCellsHoldingTheCaseNumber": "GONE. Delivered: read directly out of dc905747f's canonical.pdf, twenty cells at x=326 across packet pages 2 and 4 all painting \"2021-CF-004217\". Rebuilt: the case number is painted 3 times in the whole packet -- p2 (the Arrest or Case Number cell), p7 (Case List arrest1) and p8 (the proposed Order's expungement half). The charge cell paints \"Possession of a controlled substance\".",
+        "orderPage2Item3": "GONE. Delivered: packet page 9 carried exactly ONE text overlay and it was the Circuit Clerk's own case-number caption at (446.54, 758.34) -- none of Name, Address, Email or Telephone. Rebuilt: four text overlays on page 9, \"Jordan Avery Reyes\", \"412 West Madison Street, Chicago, IL 60606\", \"312-555-0142\", \"jordan.reyes@example.org\" (and the boundary's long equivalents).",
+        "caseListColumnMisuse": "GONE. Rebuilt Case List grid carries exactly one write, arrest1 = the case number.",
+        "truncatedDirectionSentence": "GONE. Zero overlays in either fixture match /exactly as (shown|printed)/, contain an ellipsis, or end in '...'.",
+        "electionsAnswered": "ANSWERED, and attributed to widget states from the source form's own geometry. Item 1 /Yes widget at p1(71.91,341.18) MARKED with 2 paint ops and the /No widget at p1(139.47,341.15) empty at 1; item 12 /No widget at p4(161.96,675.82) MARKED and its /Yes widget at p4(80.98,675.95) empty; item 3(b) at p2(98.92,93.87) ticked, painted as ZapfDingbats \"4\" rather than as strokes. In the delivered bytes item 12 was WHOLLY unanswered -- neither box marked -- and 3(b) was unticked; item 1 /Yes was already marked, which is one detail the stale screen's per-family note has slightly wrong."
+      },
+      "extraDefectFoundAndFixedByTheRebuild": "CLERK-CASE-NUMBER-CAPTIONS-FILLED. The delivered canonical.pdf painted the case number into the Circuit Clerk's \"Case Number ____\" header caption on nine of the thirteen packet pages (p2, p3, p4, p5, p6, p9, p11, p12, p13) plus page 1. The rebuilt fixtures paint it into none. The builder's clerkCaseNumber guard already handled this; only the artifacts were stale.",
+      "xref": "REPAIRED BY THE REBUILD. `pdfinfo` on the delivered canonical.pdf emits \"Syntax Error: Couldn't find trailer dictionary\" and \"Syntax Error: Invalid XRef entry 8\"; on both rebuilt fixtures it emits nothing at all. pruneDanglingAnnots() was already in this builder; it had never reached an artifact.",
+      "digests": {
+        "canonical": "5a8b9cf44d7634ef2f3c9d8e86592f307822396859fbab3cc4ba88ee7b31b80b",
+        "canonicalBytes": 1732568,
+        "boundary": "19cd7648aaa875abf81a918eeaf0fea52174d5e29a20e6e0d537c3ca87fd3441",
+        "boundaryBytes": 1733292,
+        "deliveredCanonical": "8e7db8e17eab613b11ae25dfe08c526bf34d82d17673e58e7447a4903beaf697",
+        "deliveredBoundary": "48dfd074c86cf4c590f8291d8ea52c184ed21a9af169d72e3da180a634102677"
+      },
+      "writes": {
+        "delivered": 70,
+        "rebuiltBeforeTheOutcomeRepair": 45,
+        "final": 45,
+        "note": "45 both before and after the Outcome repair: P replaces \"Dismissed\" in the same cell."
+      },
+      "classifiedBlanks": 379,
+      "requiredBeforeFiling": 58,
+      "pageCount": 13,
+      "reproducibility": "Built twice from a clean state; all nine artifact files identical byte for byte on the second run, fixtures included.",
+      "selfTest": "node scripts/build-census-v1-il-exp-pardon-set.mjs --self-test passes, and was shown to be live: planting \"Dismissed\" back into the Outcome cell of reports/actual-writes.json makes it fail with 'the Outcome cell must carry the route's own printed abbreviation, P'.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNote": "Nine nulls, not nine zeros. This lane BUILT these bytes, so it measures none of the nine: a builder or its repairer reporting its own output clean is not evidence. visualDefects is null for the further reason that no central raster ran here -- RCAP_CHROMIUM_PATH is not exported in this container, so browser_environment_exported FAILs, and nothing was rasterised. rasterState is BUILT_RASTER_PENDING on all four. The eight zeros and one null the delivered build-summary.json files carried were themselves a defect this lane repaired at the root: they reported a clean measurement nobody had taken.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "verdict": null,
+      "selfVerified": false
+    },
+    {
+      "itemId": "il-exp-precompletion-set",
+      "status": "COMPLETED_REBUILT",
+      "laneKind": "repair",
+      "verdictNote": "No verdict. This lane rebuilt these bytes, so it does not verify them.",
+      "regenerationAloneSufficed": false,
+      "regenerationVerdict": "Regeneration alone fixed all four named defects. The Outcome cell and the nine counters needed root repair.",
+      "builderCarriedTheRepair": "Yes. scripts/build-census-v1-il-exp-precompletion-set.mjs is an 8-line shim that imports buildIllinoisFamily from the pardon host; the host's FAMILY_CONFIG entry for this family carries its track, mode and elections. Same verification as the host: --self-test failed against the delivered bytes on the charge-cell assertion and passes against the rebuilt ones.",
+      "furtherRepairAtRoot": [
+        {
+          "defect": "OUTCOME-CELL-IS-NOT-A-PRINTED-ABBREVIATION, and this route has no printed abbreviation at all",
+          "why": "The Outcome Abbreviations for Expungement legend prints RV, P, CE, FI, RWC, DA, S and QP, and not one of them is true for this route. QP is 'Qualified Probation Successfully Completed', which is item 8's sentence -- a different statutory ground this route does not have. DA is 'Dismissal or Acquittal', and item 6(b), the election this packet ticks, is filed while the program is still running: item 6's own printed explanation says the dismissal comes AFTER completion. Writing DA would swear on a verified Request that a dismissal had happened when it has not. The delivered and first-regenerated cell said \"Dismissed\", which is both off-legend and premature.",
+          "repair": "The cell is REFUSED by name rather than filled with the nearest box. A new activeRowOutcomeCell() predicate refuses it as REQUIRED_BEFORE_FILING with role participant, carrying the printed legend on the refusal row, and the guide gained a '## The Outcome column' section that says the column is deliberately blank, why no printed abbreviation is true yet, and prints the whole legend to choose from. Refusing is never a false statement; printing a sentence the form tells the filer not to print is one.",
+          "consequence": "The active row now carries 4 of its 5 cells rather than 5, and the fifth is disclosed and owed, not silently blank. The self-test asserts exactly that, and asserts the refusal exists and carries the legend."
+        },
+        {
+          "defect": "NINE-COUNTERS-REPORTED-BUT-NEVER-MEASURED",
+          "repair": "Same host repair as il-exp-pardon-set: nine nulls plus a countersNote, and the three actual-writes byte-reading fields nulled."
+        }
+      ],
+      "namedDefectsInTheDeliveredBytes": {
+        "chargeCellsHoldingTheCaseNumber": "GONE. Rebuilt bytes paint the case number 3 times in the whole packet (p2, p7, p8); the charge cell paints \"Possession of a controlled substance\".",
+        "orderPage2Item3": "GONE. Four text overlays on packet page 9: Name, Address, Telephone, Email.",
+        "caseListColumnMisuse": "GONE. One Case List write, arrest1.",
+        "truncatedDirectionSentence": "GONE. Zero matches in either fixture.",
+        "electionsAnswered": "ANSWERED. Item 1 /Yes MARKED (2 paint ops) and /No empty (1); item 12 /No MARKED and /Yes empty; item 6 and the 6ab 'Anticipating successful completion of program' widget ticked -- this fixture paints 3 vector marks against the pardon route's 2, which is the extra 6ab election."
+      },
+      "xref": "REPAIRED BY THE REBUILD. pdfinfo emits no diagnostic on either rebuilt fixture.",
+      "digests": {
+        "canonical": "3bb1f3557a51a8da3c479fabf3dfaf525ef93386b6bc3e2f625716a06cce278f",
+        "canonicalBytes": 1732687,
+        "boundary": "0fbf5f3c21ed176afa3151e15e8c0ad32dfc913b04bba1550d0f83443041f631",
+        "boundaryBytes": 1733411,
+        "deliveredCanonical": "094606faeb8e3e22d320c14ec2c4afcb27063adee79f52861befcb4734cadc30",
+        "deliveredBoundary": "14c928815215021a21bcc6a5ebab5faec6cc1853264560e9a25170e53dabb53e"
+      },
+      "writes": {
+        "delivered": 70,
+        "rebuiltBeforeTheOutcomeRepair": 46,
+        "final": 45,
+        "note": "46 matched the stale screen's prediction exactly. The Outcome repair removes the one off-legend write, so 45."
+      },
+      "classifiedBlanks": 379,
+      "requiredBeforeFiling": 59,
+      "pageCount": 13,
+      "reproducibility": "Built twice; every artifact byte-identical on the second run.",
+      "selfTest": "Passes, and is live: deleting the Outcome refusal row from production-field-map.json makes it fail with 'an Outcome the legend cannot express must be refused by name and owed before filing, not silently blank'.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNote": "Nine nulls, not nine zeros. This lane BUILT these bytes, so it measures none of the nine: a builder or its repairer reporting its own output clean is not evidence. visualDefects is null for the further reason that no central raster ran here -- RCAP_CHROMIUM_PATH is not exported in this container, so browser_environment_exported FAILs, and nothing was rasterised. rasterState is BUILT_RASTER_PENDING on all four. The eight zeros and one null the delivered build-summary.json files carried were themselves a defect this lane repaired at the root: they reported a clean measurement nobody had taken.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "verdict": null,
+      "selfVerified": false
+    },
+    {
+      "itemId": "il-seal-nonconv-set",
+      "status": "COMPLETED_REBUILT",
+      "laneKind": "repair",
+      "verdictNote": "No verdict. This lane rebuilt these bytes, so it does not verify them.",
+      "regenerationAloneSufficed": false,
+      "regenerationVerdict": "Regeneration alone fixed all four named defects. The Outcome cell and the nine counters needed root repair.",
+      "builderCarriedTheRepair": "Yes. An 8-line shim on the pardon host, whose FAMILY_CONFIG entry for this family also carries the already-adjudicated retraction of item 16 (a supervision sentence this non-conviction route does not have) and the unfillableElections sentence explaining that no box in Sections 15 to 24 fits this route.",
+      "furtherRepairAtRoot": [
+        {
+          "defect": "OUTCOME-CELL-IS-NOT-A-PRINTED-ABBREVIATION, and the sealing legend has no non-conviction entry",
+          "why": "Request page 4 directs the filer to 'Use the shortened version of the outcome from the Outcome Abbreviations for Sealing section below' and heads its column 'Outcome (for example, MC, FC, CE)'. That legend prints exactly four values -- MC Misdemeanor Conviction, FC Felony Conviction, CE Certificate of Eligibility for Sealing from PRB, QP Qualified Probation Successfully Completed -- and every one of them asserts a conviction, a Prisoner Review Board certificate or a probation sentence. This route is 20 ILCS 2630/5.2(c)(2)(A), an arrest or charge that ended in NONE of those. The delivered and first-regenerated cell said \"Dismissed\", which is off the legend; any legend value would have been worse, because each would swear to a sentence the participant did not receive on a Request verified under 735 ILCS 5/1-109.",
+          "repair": "Refused by name, with the legend carried on the refusal row and a '## The Outcome column' section in the guide that says the column is deliberately blank and warns against reaching for the nearest abbreviation. This is the same answer the host already gives for Sections 15 to 24 on this route: the printed form carries no true box, so nothing is ticked and the guide says why.",
+          "consequence": "The active row carries 4 of 5 cells, the fifth disclosed and owed."
+        },
+        {
+          "defect": "NINE-COUNTERS-REPORTED-BUT-NEVER-MEASURED",
+          "repair": "Same host repair."
+        }
+      ],
+      "namedDefectsInTheDeliveredBytes": {
+        "chargeCellsHoldingTheCaseNumber": "GONE. The case number is painted 3 times in the whole packet -- p4 (the sealing table's Arrest or Case Number cell), p7, p8 (the Order's SEALING half).",
+        "orderPage2Item3": "GONE. Four text overlays on packet page 9.",
+        "caseListColumnMisuse": "GONE. One Case List write.",
+        "truncatedDirectionSentence": "GONE.",
+        "electionsAnswered": "ANSWERED, and on the sealing side of the form: item 1 /No MARKED and /Yes empty; item 12 /Yes MARKED and /No empty -- the mirror image of the two expungement routes, read from the same widget rectangles. Nothing in Sections 15 to 24 is ticked, by design."
+      },
+      "xref": "REPAIRED BY THE REBUILD.",
+      "digests": {
+        "canonical": "333ffbeb03e846be21f52caa2088d9230b9b6d6094f90f764385218d46815d39",
+        "canonicalBytes": 1732552,
+        "boundary": "1df2b84a4cc3a6f2c4dc2e1724525e586997349940987ff396b932f3f78816c1",
+        "boundaryBytes": 1733260,
+        "deliveredCanonical": "97c7841e99268ff82ee95d3e3e298688d8021b09cd77789aa0242ccd4937b155",
+        "deliveredBoundary": "638633e6b2f5627b21c0eb9e926b03a70ae0a507d4a68c0394435b045da90050"
+      },
+      "writes": {
+        "delivered": 72,
+        "rebuiltBeforeTheOutcomeRepair": 44,
+        "final": 43,
+        "note": "44 matched the stale screen's prediction exactly. The Outcome repair removes the one off-legend write, so 43."
+      },
+      "classifiedBlanks": 381,
+      "requiredBeforeFiling": 59,
+      "pageCount": 13,
+      "reproducibility": "Built twice; every artifact byte-identical on the second run.",
+      "selfTest": "Passes, and is live (the deleted-refusal mutation above was run on this family).",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNote": "Nine nulls, not nine zeros. This lane BUILT these bytes, so it measures none of the nine: a builder or its repairer reporting its own output clean is not evidence. visualDefects is null for the further reason that no central raster ran here -- RCAP_CHROMIUM_PATH is not exported in this container, so browser_environment_exported FAILs, and nothing was rasterised. rasterState is BUILT_RASTER_PENDING on all four. The eight zeros and one null the delivered build-summary.json files carried were themselves a defect this lane repaired at the root: they reported a clean measurement nobody had taken.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "verdict": null,
+      "selfVerified": false
+    },
+    {
+      "itemId": "il-seal-edu-set",
+      "status": "COMPLETED_REBUILT",
+      "laneKind": "repair",
+      "verdictNote": "No verdict. This lane rebuilt these bytes, so it does not verify them.",
+      "regenerationAloneSufficed": false,
+      "regenerationVerdict": "Regeneration alone fixed every named defect INCLUDING the participant instructions. Three further defects needed root repair: the Outcome cell, the nine counters, and a self-test assertion that could not fail.",
+      "sweepClassificationCorrected": "The stale screen filed this family UNKNOWN_INVOCATION because measure-build-reproducibility.mjs looks for a process.argv[1] guard and this builder's entry is a bare `if (process.argv.includes(\"--self-test\")) selfTest(); else await build();`. Confirmed: it builds on a bare `node scripts/build-census-v1-il-seal-edu-set.mjs`, and it is a true positive, not an unmeasurable one.",
+      "participantInstructions": {
+        "question": "whether regenerating fixes the 66 lines of interior AcroForm field names, or the instruction writer itself needs repair",
+        "answer": "REGENERATION FIXED IT. The instruction writer needed no repair.",
+        "measured": "The delivered participant-instructions.md at dc905747f contains 66 lines matching /Complete arrest/. The regenerated one contains 0.",
+        "why": "The guide's required list is generated, not authored: it is packets.canonical.refusals filtered on requiredBeforeFiling. The 66 lines were not a writing defect -- they were 66 CLASSIFICATION defects surfacing through a correct writer. arrest1..arrest70 are the successive row slots of the EXP-AD Case List grid, and every slot this one-case fixture does not use was being classified REQUIRED_BEFORE_FILING, so the writer dutifully told a participant to 'Complete arrest60 on EXP-AD Case List page 1'. FIX93's optionalUnusedSlot() reclassified them as OPTIONAL_PARTICIPANT_CONTENT with requiredBeforeFiling absent, so they never enter the list. The builder already had that fix; only the artifact was stale.",
+        "whatTheGuideNowSays": "The remaining required-before-filing lines are FW-CIV-APPLICATION items named by their PRINTED item number and caption -- '8 - # of Adults', '19 - My Employment Total', '60 - Rent Total' -- which a participant can find on the page. None is an interior AcroForm id.",
+        "guardedBy": "The builder's own self-test asserts !/Complete arrest\\d+ on/ against the delivered guide, so the defect cannot come back silently."
+      },
+      "furtherRepairAtRoot": [
+        {
+          "defect": "OUTCOME-CELL-CONTRADICTS-THE-PACKET'S-OWN-ELECTION",
+          "foundIn": "the delivered AND the first regenerated bytes, packet page 4 at (531.51, 484.42), reading \"Dismissed\"",
+          "why": "This is the sharpest instance of the Outcome defect in the four. The election this packet ticks is item 22, 'I have completed my last sentence and may now ask the court to seal eligible felony convictions...', and it is ticked in the delivered bytes too -- confirmed at packet p5 (71.91, 168.91), a ZapfDingbats '4'. So the case table swore the case was DISMISSED while the election three pages later swore to a felony CONVICTION, on one Request verified under 735 ILCS 5/1-109. Separately, 'Dismissed' is not on the Outcome Abbreviations for Sealing legend at all, which prints MC, FC, CE and QP.",
+          "repair": "The Outcome is derived from the route, not the fixture: FC, 'Felony Conviction', the legend's own shortened form for what item 22 asserts. The table and the election can no longer disagree. The guide prints the abbreviation, its meaning and the whole legend.",
+          "provedInBytes": "packet page 4 Outcome cell now reads \"FC\" on both fixtures"
+        },
+        {
+          "defect": "A-SELF-TEST-ASSERTION-THAT-COULD-NOT-FAIL",
+          "why": "The clerk-case-number assertion read `writes.filter((row) => /^\\\\d+ - Case Number$/i.test(row.fieldName))` -- a doubled backslash inside a REGEX LITERAL, so the pattern matched a literal backslash followed by 'd' and could never match any field name. The assertion had always been vacuously true. This is the shape the sibling lane warned about: a self-test enshrining, or here simply failing to catch, the defect it exists to catch.",
+          "repair": "It uses clerkCaseNumber(), the same predicate the builder itself uses, plus a meta-assertion that the predicate actually matches two real clerk field names so it cannot silently rot again.",
+          "provedLive": "Renaming one write's fieldName to '1 - Case Number' in reports/actual-writes.json now fails the self-test with 'Circuit Clerk case-number captions must remain blank'. Before the repair the same mutation passed."
+        },
+        {
+          "defect": "NINE-COUNTERS-REPORTED-BUT-NEVER-MEASURED",
+          "repair": "Nine nulls plus a countersNote; the three actual-writes byte-reading fields nulled."
+        }
+      ],
+      "namedDefectsInTheDeliveredBytes": {
+        "chargeCellLiteral": "GONE. Delivered packet page 4 at (277.48, 484.52) painted the direction sentence in full at 7.25pt: \"Charge exactly as shown on the court disposition\". Rebuilt: \"Possession of a controlled substance\". Zero overlays in either fixture match /exactly as (shown|printed)/.",
+        "orderPage2Item3": "GONE. Delivered packet page 9 carried ZERO text overlays. Rebuilt: four -- Name, Address, Telephone, Email.",
+        "electionsAnswered": "ANSWERED. Delivered, read from widget geometry: item 1 was WHOLLY unanswered -- neither the /Yes widget at p1(71.91,341.18) nor the /No widget at p1(139.47,341.15) carried a mark. Item 12 /Yes and item 22 WERE already marked in the delivered bytes, which is a detail the stale screen's per-family note has slightly wrong; this lane measured it rather than repeating it. Rebuilt: item 1 /No MARKED with 2 paint ops and /Yes empty at 1, item 12 /Yes MARKED, item 22 ticked.",
+        "twentyChargeCells": "NOT APPLICABLE. This family was carved onto its own builder by FIX04 and never had the twenty-cell fault; the stale screen says the same."
+      },
+      "xref": "REPAIRED BY THE REBUILD. pdfinfo on the delivered canonical.pdf emits \"Syntax Error: Couldn't find trailer dictionary\" and \"Syntax Error: Invalid XRef entry 8\"; on both rebuilt fixtures it emits nothing.",
+      "digests": {
+        "canonical": "1c7dd5134c8a1b04b20c297071695c04f730abcc4abb5d433e967f2f012f0423",
+        "canonicalBytes": 1732604,
+        "boundary": "c20f67df3c6f159e6ea7050d2de4a109001381aa544048e4d266ef8f7afb0518",
+        "boundaryBytes": 1733312,
+        "deliveredCanonical": "3863ab5409c5b95420f2dbaf7c4ac0c6d72dce7247ef7858158c4fad309d89e5",
+        "deliveredBoundary": "9ed754037a2ec668375ef45cdb7b81599fabb37ee99c3fd55c3a38c739eef494"
+      },
+      "writes": {
+        "delivered": 40,
+        "rebuiltBeforeTheOutcomeRepair": 45,
+        "final": 45,
+        "note": "45 matched the stale screen's prediction exactly. The Outcome repair changes the value in that cell, not the count."
+      },
+      "classifiedBlanks": 379,
+      "requiredBeforeFiling": 58,
+      "pageCount": 13,
+      "reproducibility": "Built twice; every artifact byte-identical on the second run.",
+      "selfTest": "Passes, and two of its assertions were shown live by mutation (see furtherRepairAtRoot).",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersNote": "Nine nulls, not nine zeros. This lane BUILT these bytes, so it measures none of the nine: a builder or its repairer reporting its own output clean is not evidence. visualDefects is null for the further reason that no central raster ran here -- RCAP_CHROMIUM_PATH is not exported in this container, so browser_environment_exported FAILs, and nothing was rasterised. rasterState is BUILT_RASTER_PENDING on all four. The eight zeros and one null the delivered build-summary.json files carried were themselves a defect this lane repaired at the root: they reported a clean measurement nobody had taken.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "buildStatus": "state_built",
+      "verdict": null,
+      "selfVerified": false
+    }
+  ]
+}

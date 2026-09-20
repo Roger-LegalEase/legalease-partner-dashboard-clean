@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ar-nonconviction-seal-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "THREE writes the shared semantics would have made are refused by role, and each would have been wrong rather than merely unhelpful: `Sex` binds participant.date_of_birth through the printed-label fallback because the identification block prints Sex and DOB one line apart; `COUNTY/CITY` binds participant.city although it is the county of the filing court; and `Petitioner` carries two widgets, one of them the notarised signature rule at the foot of the jurat.",
+      "consequence": "All three are declared unwritable with the reason stated, are classified required-before-filing, and are disclosed by name in participant-instructions.md — including a paragraph explaining to the participant why each is empty, so a refusal does not read as an oversight."
+    },
+    {
+      "finding": "The `COUNTY/CITY` mis-binding is stopped on the ORDER today by a different rule: a court-issued order accepts caption facts only, and participant.city is not one.",
+      "consequence": "It is refused by role on both documents anyway. A refusal that depends on another rule is not this family's refusal and would disappear the moment that rule moved."
+    },
+    {
+      "finding": "FEE_AND_WAIVER, tested against DETERMINATION_FEE_AND_WAIVER_STANDARD A1-A4. The compiled Arkansas profile is a held source under A2 and its three fee statements are keyed to ACT 1460 SEALING — the act printed on the face of both bound forms — so under A3 they answer this route rather than a sibling's, and A1 forbids substituting a named authority for an answer the repository holds.",
+      "consequence": "The packet states that there is no filing fee and quotes all three lines; explains what that means for paragraph 3's sworn fee averment, which the form still recites; names the clerk of the filing court for the residual question of a particular court's own practice; and separately names the records costs the same profile records, so that a participant does not read \"no filing fee\" as \"free\"."
+    },
+    {
+      "finding": "SERVICE is answered by two held records that agree on the recipients and differ on the objection window: the committed packet-set manifest sets three days to serve and 30 days to object, and the compiled profile records the window class-dependently as 30 for a misdemeanour and 90 for a felony.",
+      "consequence": "Both are disclosed rather than one being chosen, with the clerk of the filing court named for which window that court runs. The recipients and the method are taken from the petition's own printed Certificate of Service."
+    },
+    {
+      "finding": "The order's own text directs the CLERK to distribute certified copies to ACIC, the Administrative Office of the Courts, the prosecuting or city attorney, the District Court Clerk if applicable, and the arresting agency.",
+      "consequence": "The packet states that this step is the clerk's and not the participant's, in the order's own terms, so that nobody sets out to deliver sealed orders by hand."
+    },
+    {
+      "finding": "Paragraph 2's four boxes, paragraph 4's pair and paragraph 5's pair are elections about the participant's own record, and the committed packet-set manifest asks the participant paragraph 2's question in terms rather than resolving it.",
+      "consequence": "All eight are recorded as genuine participant elections rather than as route-determined selections left unmade, with the reasoning in routeSelectionNote. No box is marked on either document."
+    }
+  ]
+}

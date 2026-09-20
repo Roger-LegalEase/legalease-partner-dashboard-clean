@@ -9,7 +9,7 @@
  * TX 17, NE 20 — each matching that state's question count). So a "screen" here is a single
  * question, ordered by its stage's position then by its original order within the profile.
  */
-import type { JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
+import type { AnswerValue, JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 const SOURCE_QUESTION_PREFIX = "source_question";
 const POSTPAY_STAGES = new Set([
@@ -38,4 +38,58 @@ export function deriveScreens(profile: JurisdictionProfile): ProfileQuestion[] {
       return orderA - orderB || a.index - b.index;
     })
     .map(({ question }) => question);
+}
+
+/** Project the server's ordered screening plan onto the trusted profile questions. */
+export function screensFromQuestionIds(
+  profile: JurisdictionProfile,
+  questionIds: readonly string[]
+): ProfileQuestion[] {
+  const questionsById = new Map(profile.questions.map((question) => [question.id, question]));
+  const seen = new Set<string>();
+  const selected: ProfileQuestion[] = [];
+
+  for (const questionId of questionIds) {
+    if (seen.has(questionId)) continue;
+    seen.add(questionId);
+    const question = questionsById.get(questionId);
+    if (!question || question.id.startsWith(SOURCE_QUESTION_PREFIX) || !isPrepayQuestion(question)) continue;
+    selected.push(question);
+  }
+
+  return selected;
+}
+
+/**
+ * Remove answers only when a previously rendered branch question is no longer
+ * selected by the server. Answers that were never UI questions may be
+ * authoritative hidden facts, so they deliberately survive this projection.
+ */
+export function sanitizeAnswersForQuestionIds(
+  answers: Record<string, AnswerValue>,
+  previousQuestionIds: readonly string[],
+  nextQuestionIds: readonly string[]
+): Record<string, AnswerValue> {
+  const previouslyRendered = new Set(previousQuestionIds);
+  const stillSelected = new Set(nextQuestionIds);
+  return Object.fromEntries(Object.entries(answers).filter(([questionId]) => (
+    !previouslyRendered.has(questionId) || stillSelected.has(questionId)
+  )));
+}
+
+/**
+ * A resume payload may contain an answer from a branch selected in an earlier
+ * visit. Treat every question the participant could have rendered as prior UI
+ * state, while preserving facts that are not participant-facing screens.
+ */
+export function sanitizeResumedAnswersForQuestionIds(
+  profile: JurisdictionProfile,
+  answers: Record<string, AnswerValue>,
+  selectedQuestionIds: readonly string[]
+): Record<string, AnswerValue> {
+  return sanitizeAnswersForQuestionIds(
+    answers,
+    deriveScreens(profile).map((question) => question.id),
+    selectedQuestionIds
+  );
 }

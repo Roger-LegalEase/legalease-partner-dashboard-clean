@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF05",
+  "laneKind": "packet-build",
+  "baseSha": "a17d5e9d4ba5bd834c99d92d5937d5a79f32fbd8",
+  "isIndependentVerification": false,
+  "rows": [
+    {
+      "itemId": "nh_conviction_streamlined-set",
+      "familyId": "nh_conviction_streamlined-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "sd_caption"
+      ],
+      "buildCommit": "a17d5e9d4ba5bd834c99d92d5937d5a79f32fbd8",
+      "completion": "Built the streamlined New Hampshire conviction route from the four pinned official PDFs: one NHJB-3057 petition with the conditional NHJB-2311/NHJB-2328 fee-waiver pair, NHJB-2956 criminal-history request, and source-grounded participant guidance. Preserved source-owned signatures, certifications, court-use fields and genuine participant handbacks; removed only digest-proved source-carried refused appearances and viewer controls.",
+      "jurisdiction": "NH",
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:track-only:NH:nh_conviction_streamlined"
+      ],
+      "buildScript": "scripts/build-census-v1-nh_conviction_streamlined-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill",
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/source-receipt.json",
+        "sourceReceiptSha256": "6296e62a46909eb240a7532b5e25290175b2a9a506bfbb82811f1df94268e13f",
+        "custodyRead": "master_library",
+        "allSourcesExact": true,
+        "sources": [
+          {
+            "sourceId": "official-form:NHJB-3057-DSe",
+            "documentId": "NHJB-3057",
+            "component": "primary_filing",
+            "pathInArchive": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3057__petition-of-eligibility-for-annulment-of-record-conviction__REV-2019-06__EN.pdf",
+            "sha256": "02310e85cd02e3a8a5ff9c486f6729e85363146ccc07d6e8226e4f1259d1b520",
+            "byteLength": 87550,
+            "pageCount": 4
+          },
+          {
+            "sourceId": "official-form:NHJB-2311",
+            "documentId": "NHJB-2311",
+            "component": "fee_waiver_motion",
+            "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+            "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+            "byteLength": 64896,
+            "pageCount": 2
+          },
+          {
+            "sourceId": "official-form:NHJB-2328",
+            "documentId": "NHJB-2328",
+            "component": "fee_waiver_financial_statement",
+            "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+            "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+            "byteLength": 66063,
+            "pageCount": 3
+          },
+          {
+            "sourceId": "official-form:NHJB-2956",
+            "documentId": "NHJB-2956",
+            "component": "criminal_history_request",
+            "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+            "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+            "byteLength": 62291,
+            "pageCount": 1
+          }
+        ],
+        "appearanceDispositionProvenance": [
+          {
+            "documentId": "NHJB-2311",
+            "sourceSha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+            "registryPath": "data/rcap-all50/shared/field-appearance-semantics.json",
+            "registryEntry": "nh_petition_nonconviction_pre2019-set:NHJB-2311",
+            "fields": {
+              "sig.8": "render_participant_value_only_when_written"
+            }
+          },
+          {
+            "documentId": "NHJB-2328",
+            "sourceSha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+            "registryPath": "data/rcap-all50/shared/field-appearance-semantics.json",
+            "registryEntry": "nh_petition_nonconviction_pre2019-set:NHJB-2328",
+            "fields": {
+              "12.total": "render_participant_value_only_when_written",
+              "money.total": "render_participant_value_only_when_written",
+              "monthly.total": "render_participant_value_only_when_written"
+            }
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "6297fd7cb870159f1f92550cfe8f97ad61e8f6f7b7993e33107c37c98e31dc89",
+          "byteLength": 184531,
+          "pageCount": 10
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "aa896ec4e6da8a331747716ad8f5508ab3736a9b8b5d28e544c0ab60da9c742f",
+          "byteLength": 184603,
+          "pageCount": 10
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/source-receipt.json",
+          "sha256": "6296e62a46909eb240a7532b5e25290175b2a9a506bfbb82811f1df94268e13f",
+          "byteLength": 7280
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "ccb4eaefeca4107d65b336ec19014b96f5c340c99a4c3d384d8de94029dfb590",
+          "byteLength": 35684
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/reports/completeness-counters.json",
+          "sha256": "c246ade3eac3dd4fb310765be00c8371dd637f2bbf04ef9df92716af8edb387d",
+          "byteLength": 1053
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "f4ca242ed7e06561f552f85e252c1f68ad22a572a51b0dadaeb3bc659b5a7006",
+          "byteLength": 6542
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/reports/independent-visual-review.json",
+          "sha256": "c12d7c0a0adb9dfb3373b9841d0fe229f3754a6b59bf93bced8d39b6d192d98b",
+          "byteLength": 2295
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/field-census.census-v1.json",
+          "sha256": "fcefef34700b7f7a2faff82b6ffab2ecfb2e831b45e9f39ddf478a9940ee1779",
+          "byteLength": 267192
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/production-field-map.json",
+          "sha256": "6740d365331c2f2400db381e0aec6da41bdc64ae90d26b0606a600e8c5889795",
+          "byteLength": 609848
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/build-findings.json",
+          "sha256": "45658a128d9963091bcaca1b8625186dc1e7225db8bc2f669a99d57c7e674a3b",
+          "byteLength": 3897
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/build-status.json",
+          "sha256": "56e02cc5617bcfbcdc5fe7cf5bf35646fd59b97062b2aa808179b4706b76b48c",
+          "byteLength": 751
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "abcf9925210fc830ce68aa8df660986fa640c8662e0d41b4061cf66f1915c5ac",
+          "byteLength": 29806
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "95db0bd7b8ad2288c571baeefce89d27aae4c7830bab5f2cc1101a722e8310bb",
+          "byteLength": 4145
+        }
+      ],
+      "checks": {
+        "claimAssertion": {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF05 nh_conviction_streamlined-set",
+          "result": "CLAIM_OK PF05 nh_conviction_streamlined-set (packet-build, grant set 08668d8c5bad55bb)"
+        },
+        "syntax": {
+          "command": "node --check scripts/build-census-v1-nh_conviction_streamlined-set.mjs",
+          "result": "PASS"
+        },
+        "builderSelfTest": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/build-census-v1-nh_conviction_streamlined-set.mjs --self-test",
+          "result": "SELF_TEST_PASS"
+        },
+        "builderSourceCheck": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/build-census-v1-nh_conviction_streamlined-set.mjs --check",
+          "result": "PASS for all four exact source documents"
+        },
+        "nativeCompleteness": {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nh_conviction_streamlined-set",
+          "result": "PASS_COMPLETE",
+          "nineCountersZero": true
+        },
+        "governanceSurvival": {
+          "result": "EVERY_GOVERNANCE_KEY_SURVIVED"
+        },
+        "savedByteProof": {
+          "path": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/reports/actual-writes.json",
+          "derivedFromArtifactBytes": true,
+          "documentsReadBack": 8,
+          "refusedFieldsWithInk": 0,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "sourceCarriedValuesCleared": [
+            "NHJB-2328/12.total",
+            "NHJB-2328/money.total",
+            "NHJB-2328/monthly.total"
+          ],
+          "knownCheckerLimitation": "The cross-family appearance checker does not resolve sibling provenance for NHJB-2311 sig.8; the exact digest-bound disposition is recorded in source-receipt.json and the final-byte proof reports no refused-field ink."
+        }
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "counterBasis": "Native completeness and saved-byte proof are recorded above. visualDefects is intentionally null because this --no-raster lane did not measure final visual quality.",
+      "nativeCompletenessResult": "PASS_COMPLETE",
+      "visualReview": {
+        "measured": false,
+        "result": null,
+        "independentPass": null,
+        "status": "PENDING",
+        "evidence": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/reports/independent-visual-review.json"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterPages": 0,
+      "independentVerification": "PENDING",
+      "remainingGates": [
+        "central raster acceptance",
+        "independent semantic verification",
+        "independent original visual review"
+      ],
+      "legalLimitations": "The participant guide preserves the three release-blocking NH questions on investigation/fee, conditional-grant operation and highest-offense timing. This return settles no legal question, grants no filing or delivery authority, and opens no commercial route.",
+      "selfVerified": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

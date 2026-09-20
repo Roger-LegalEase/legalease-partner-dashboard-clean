@@ -1,0 +1,551 @@
+{
+  "schemaVersion": 1,
+  "lane": "FIX105",
+  "laneKind": "shared-host-repair",
+  "status": "COMPLETED",
+  "repairedByThisLane": true,
+  "workerBranch": "fix105-nj-elected-row",
+  "base": "57f8055dcf5ffbf6f885567fcfe0dbd905bb5cff",
+  "assignment": "VF03-REPAIR-NJ-ARREST-ELECTED-EMPTY-ROW-20260906 and VF03-REPAIR-NJ-ORDINANCE-ELECTED-EMPTY-ROW-AND-SELF-HELP-STOP-20260906",
+  "resumedFromInterruptedWork": "this lane resumed a worker stopped mid-task by an owner-wide STOP. Every uncommitted file it left was read as a diff before anything was touched, the whole set was rebuilt from the pinned source, and the rebuild reproduced all 396 files byte for byte, so nothing was kept on trust. No file was discarded.",
+  "environmentPreflight": "node scripts/verify-packet-build-environment.mjs --family <each of the four> returned PACKET_BUILD_ENVIRONMENT_NOT_READY, 10/13 passed, 3 failed, 4 not applicable. All three failures are diagnosed and none bears on these families: (1) worktree_clean, 39 uncommitted paths, which is this repair in progress; (2) private_is_git_ignored, which fails because private/ is reached through a symlink (`git check-ignore private` without the trailing slash resolves and it is ignored at .gitignore:53); (3) corpus_matches_committed_index, 1 absent of 24 sampled, the absent entry being an Alabama form. family_sources_bind passed 1/1 and the pinned CN-10557 was recomputed here as c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1924831 bytes, 43 pages.",
+  "builderSourceSha256": {
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs": {
+      "before": "c03dd17fa9ab01da8b6279fe04c5adda1e1a9d10ef6221d3d841738242f9d307",
+      "after": "60e9813e947bfaf58af87a31938aecaa5aced99caf12a5b0af4f194daaf9f2d1"
+    },
+    "scripts/build-census-v1-nj_disorderly_persons-set.mjs": {
+      "before": "b1fa242d2e25c540863749993ef05eb79a2b9df50383dbb8789f946cd2ecd494",
+      "after": "b42dd7749ec427996b42223c96b8a86710d5891a1275493c3ee1c19c917c9dbb"
+    }
+  },
+  "hostDeltaCollision": {
+    "question": "does this lane's host change collide with the 194-family recovery integration that landed on the Captain branch after this base?",
+    "captainDelta": "git -C /home/user/captain-worktree diff 57f8055dcf5ffbf6f885567fcfe0dbd905bb5cff c4a13fe3bf0b1e8fc22998ebe14a620469021e73 -- scripts/build-census-v1-nj_arrest_no_conviction-set.mjs = one hunk, @@ -6719,8 +6719,14 @@, 8 insertions and 2 deletions, entirely inside the runEastFamily dispatch, adding the pa_790_nonconviction-set recovery import and its conditional fixtures.",
+    "thisLaneHunks": "16 hunks between source lines 716 and 5493: the two NJ repeating-row group declarations, four family notes, heldButNotPrintedSection, the new registrySelfHelpStopSection and intakeMemoTrackRecord, participantInstructions, the new rowIntegrityWithholdings function, and its two call sites in buildOfficial and checkOfficial.",
+    "collision": "NONE. The highest line this lane touches is 5493; the Captain delta begins at 6719. No shared line, no shared function, no shared hunk.",
+    "cherryPickProof": "the Captain-head file at c4a13fe3bf0b1e8fc22998ebe14a620469021e73 was extracted read-only and this lane's diff applied to it with `patch -p1 --dry-run`: clean, exit 0, no offset and no fuzz. Nothing on the Captain branch, main or any other worktree was written."
+  },
+  "otherFamiliesOnThisHost": {
+    "hostedFamilies": [
+      "nj_clean_slate-set",
+      "ny_160_59_petition-set",
+      "ny_mrta_marijuana-set",
+      "oh_marijuana_expungement-set",
+      "pa_490_nonconviction-set",
+      "pa_6308_underage-set",
+      "pa_790_nonconviction-set",
+      "pa_9122_1_limited_access-set",
+      "pa_summary_conviction-set",
+      "rcap-oh-custom-pleading-clean-tracks",
+      "ri_nonconviction_sealing-set"
+    ],
+    "method": "all eleven were rebuilt twice: once with this lane's host change applied and once with the host and the nj_disorderly_persons wrapper restored to base 57f8055dc, each time from directories first restored to their committed bytes. sha256 of all 611 files in nj-clean-slate, ny/, pa/, ri/ and oh/ recorded for each run.",
+    "result": "the two runs are sha256-identical, file for file, across all 611 files. This lane's host change moves no family other than its own four.",
+    "committedState": "none of the eleven directories is modified in this branch; every one is byte-identical to base 57f8055dc in the committed tree, and none was committed.",
+    "ohio": "oh_marijuana_expungement-set and rcap-oh-custom-pleading-clean-tracks: rebuilding under this lane's host reproduces every file in data/rcap-all50/overlays/census-v1/oh/ byte for byte against the committed bytes at 57f8055dc — zero files differ. Ohio fixtures did not move.",
+    "rhodeIsland": "ri_nonconviction_sealing-set: its committed fixtures are UNTOUCHED in this branch (dc-33-canonical.pdf e0af21e5c1f4b8014d4d2fb224e99940996328ef69aefd41153095e7166fdc6d, dc-33-boundary.pdf fd9ebb9561919129b40d75d20dd76fbaf777f94141fba0b3caee7220af2df923, identical to 57f8055dc). Reported honestly and without softening: a REBUILD of that family at this base does NOT reproduce those committed bytes — it yields f442603acacd069b9d622542e429c72c34cf5dabc7aefc5e075c0f2745f6b340 and 9853b49eeb385ac8719132831e5dc245c985249fb82e86ff72bf1671a15d7594 — but it yields exactly those same two digests with this lane's host change REMOVED, so the movement is pre-existing drift between the committed RI directory and the builders at this base, not something this lane caused. The rebuilt directories were discarded and RI was restored to its committed bytes.",
+    "preexistingDriftAtThisBase": "the same test shows 83 files across nj_clean_slate-set (22), ny_160_59_petition-set (2), ny_mrta_marijuana-set (2), pa_6308_underage-set (20), pa_9122_1_limited_access-set (4), pa_summary_conviction-set (20) and ri_nonconviction_sealing-set (13) that do not reproduce their committed bytes when rebuilt at base 57f8055dc — identically with and without this lane's change. FIX76 recorded the same phenomenon for pa_6308_underage-set. Not this lane's to repair and not committed. pa_490_nonconviction-set and pa_790_nonconviction-set rebuild byte-identical to their committed bytes, with and without this change."
+  },
+  "filesNotTouched": [
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "data/rcap-grade-a/packet-factory-24h/claim-ledger.json"
+  ],
+  "grantsReleased": false,
+  "rows": [
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "lane": "FIX105",
+      "laneKind": "shared-host-repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REPEATING_ROWS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "base": "57f8055dcf5ffbf6f885567fcfe0dbd905bb5cff",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX105 nj_arrest_no_conviction-set returned CLAIM_OK FIX105 nj_arrest_no_conviction-set (repair, grant set 31fc067466379531), exit 0, asserted inside /home/user/fix105-worktree before any family artifact was read. No release, transfer or ledger write.",
+      "whatChanged": [
+        "The repeating-row group for item (a) now declares `election: \"dismiss\"`. A row that cannot be printed whole withdraws its election with its cells: the mark is filtered out of measuredSelections before the overlay is drawn, so it is never made rather than made and then reasoned about.",
+        "The withdrawal is recorded in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity — the same reason the row's cells carry — and disclosed in the guide's 'Values this platform holds but did not print' table with the row it belongs to and the fixture it was measured on.",
+        "heldButNotPrintedSection now renders a factDescription where a row has no factId, because a withdrawn election is a mark the packet did not make rather than a value it holds; printing `null` there would have said the opposite. Any row carrying a factId renders exactly as before.",
+        "The family note now states the withdrawal. No held fact changed: what is written and what is withheld is identical to the base except for the mark."
+      ],
+      "canonicalUnchangedOnPurpose": "canonical item (a) is whole — 2020-01-15, 'Possession of a controlled substance', 'Example Court' — so nothing is withdrawn and the dismiss mark stays. The canonical fixture is byte-identical to base 57f8055dc, which is the proof that the rule fires only on a broken row.",
+      "fixtureDigests": [
+        {
+          "fixture": "canonical",
+          "file": "fixtures/cn-10557-canonical.pdf",
+          "before": "922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d",
+          "beforeBytes": 572743,
+          "after": "922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d",
+          "afterBytes": 572743,
+          "moved": false
+        },
+        {
+          "fixture": "boundary",
+          "file": "fixtures/cn-10557-boundary.pdf",
+          "before": "77ccbea40a7831ad4d0d5ae488cf448b7d66d012251d90273d7447bffb9fecfb",
+          "beforeBytes": 574408,
+          "after": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+          "afterBytes": 574020,
+          "moved": true
+        }
+      ],
+      "determinism": {
+        "method": "each family built twice in a row from the pinned Master Library source under MASTER_LIBRARY_SOURCE_DIR, sha256 of every file in the family directory compared between the two passes",
+        "passes": 2,
+        "filesCompared": 396,
+        "result": "byte-identical across both passes, and byte-identical to the artifacts already on disk when this lane resumed, so the delivered bytes are reproducible from the committed builder and the pinned source alone",
+        "checkPass": "node scripts/build-census-v1-<family>.mjs --check returned CHECK PASS (2 PDFs; 86 rasters) for all four; --check recomputes the withheld cells AND the withdrawn elections from the same rowIntegrityWithholdings function the build reads, so the two passes cannot drift"
+      },
+      "rasterMethod": "pdftoppm 300 dpi grayscale, all 43 pages of every fixture, rendered under /tmp and deleted after measuring. Every page compared (a) committed bytes at base 57f8055dc against the new bytes, and (b) the new bytes against the 300 dpi render of the pinned CN-10557 source sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7. Ink = luminance < 200. The election crops were also opened and looked at.",
+      "pagesChanged": [
+        {
+          "fixture": "canonical",
+          "pages": [],
+          "note": "all 43 pages pixel-identical to base at 300 dpi"
+        },
+        {
+          "fixture": "boundary",
+          "pages": [
+            18
+          ],
+          "note": "page 18 differs from base by 869 px at 300 dpi; the other 42 pages are pixel-identical"
+        }
+      ],
+      "electionWidgetMeasurement": [
+        {
+          "control": "dismiss",
+          "deliveredPage": 18,
+          "rectPt": {
+            "x": 33.793,
+            "y": 214.365,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "2332:2407",
+            "cols": "141:216"
+          },
+          "fixture": "canonical",
+          "addedInkVsSourceBefore": 859,
+          "addedInkVsSourceAfter": 859,
+          "reading": "the row is whole, so the mark is retained and unchanged"
+        },
+        {
+          "control": "dismiss",
+          "deliveredPage": 18,
+          "rectPt": {
+            "x": 33.793,
+            "y": 214.365,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "2332:2407",
+            "cols": "141:216"
+          },
+          "fixture": "boundary",
+          "addedInkVsSourceBefore": 859,
+          "addedInkVsSourceAfter": 0,
+          "reading": "the withdrawn row's election box now carries ZERO added pixels against the blank official form; looked at at 300 dpi, the box beside 'a.' is empty above three empty cells"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ. This lane changed the host, rebuilt the packets and measured its own output. It verifies nothing. No VF03 verdict was written, replaced or ceilinged, no acceptance receipt was created, and no queue file was opened for writing.",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES. Bytes moved, so the live RASTER_PASS receipt from workflow run 34047698685 (rendered commit c6b497cbee9f2c8fdf9567366d3bc26a89da68f4) no longer binds these fixtures. A fresh central raster under .github/workflows/rcap-packet-raster-acceptance-batch.yml is owed before anything reads these bytes as proven. RASTER_QUEUE.json still pins the superseded digests in 28 places; this lane was instructed not to edit it and did not.",
+        "ROUTE_OPTIONS is not re-ruled here. VF03 recorded ROUTE_OPTIONS PASS partly because the item (d) 'guilty' box was marked; after this repair no conviction family marks it on either fixture, and the withdrawal is disclosed in the guide's held-but-not-printed table and in the family note instead. Whether disclosure of a withdrawn election satisfies ROUTE_OPTIONS is for the independent re-read, not for the lane that withdrew it.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The self-help stop conditions added to nj_ordinance-set are carried word for word from the committed record; carrying a held record is not the same as having it reviewed.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family."
+      ],
+      "routesOpened": [],
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "lane": "FIX105",
+      "laneKind": "shared-host-repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REPEATING_ROWS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "base": "57f8055dcf5ffbf6f885567fcfe0dbd905bb5cff",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX105 nj_disorderly_persons-set returned CLAIM_OK FIX105 nj_disorderly_persons-set (repair, grant set 31fc067466379531), exit 0, asserted inside /home/user/fix105-worktree before any family artifact was read. No release, transfer or ledger write.",
+      "whatChanged": [
+        "The item (d) repeating-row group now declares `election: \"guilty\"`. Six of that paragraph's nine cells (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) have no held fact and are permanently broken, so the row is withheld on every fixture and its election is now withdrawn with it on every fixture.",
+        "The withdrawal is recorded in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and disclosed in the guide's held-but-not-printed table, naming the box beside 'd.' on delivered page 19.",
+        "The family note now states the withdrawal. No held fact changed: guiltyDt, guiltyOff1 and guiltyCrt are held and withheld exactly as before.",
+        "scripts/build-census-v1-nj_disorderly_persons-set.mjs post-processes this guide and anchored its FIX13 self-help insertion to the family-note sentence that this repair rewrote. The anchor was moved to the new sentence; the section it inserts, its 15 held selfHelpBoundaries entries and its 29-entry assertion are unchanged."
+      ],
+      "fixtureDigests": [
+        {
+          "fixture": "canonical",
+          "file": "fixtures/cn-10557-canonical.pdf",
+          "before": "0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac",
+          "beforeBytes": 572107,
+          "after": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+          "afterBytes": 571718,
+          "moved": true
+        },
+        {
+          "fixture": "boundary",
+          "file": "fixtures/cn-10557-boundary.pdf",
+          "before": "cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777",
+          "beforeBytes": 574409,
+          "after": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+          "afterBytes": 574020,
+          "moved": true
+        }
+      ],
+      "determinism": {
+        "method": "each family built twice in a row from the pinned Master Library source under MASTER_LIBRARY_SOURCE_DIR, sha256 of every file in the family directory compared between the two passes",
+        "passes": 2,
+        "filesCompared": 396,
+        "result": "byte-identical across both passes, and byte-identical to the artifacts already on disk when this lane resumed, so the delivered bytes are reproducible from the committed builder and the pinned source alone",
+        "checkPass": "node scripts/build-census-v1-<family>.mjs --check returned CHECK PASS (2 PDFs; 86 rasters) for all four; --check recomputes the withheld cells AND the withdrawn elections from the same rowIntegrityWithholdings function the build reads, so the two passes cannot drift"
+      },
+      "rasterMethod": "pdftoppm 300 dpi grayscale, all 43 pages of every fixture, rendered under /tmp and deleted after measuring. Every page compared (a) committed bytes at base 57f8055dc against the new bytes, and (b) the new bytes against the 300 dpi render of the pinned CN-10557 source sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7. Ink = luminance < 200. The election crops were also opened and looked at.",
+      "pagesChanged": [
+        {
+          "fixture": "canonical",
+          "pages": [
+            19
+          ],
+          "note": "page 19 differs from base by 883 px at 300 dpi; the other 42 pages are pixel-identical"
+        },
+        {
+          "fixture": "boundary",
+          "pages": [
+            19
+          ],
+          "note": "page 19 differs from base by 883 px at 300 dpi; the other 42 pages are pixel-identical"
+        }
+      ],
+      "electionWidgetMeasurement": [
+        {
+          "control": "guilty",
+          "deliveredPage": 19,
+          "rectPt": {
+            "x": 34.971,
+            "y": 591.363,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "761:836",
+            "cols": "146:221"
+          },
+          "fixture": "canonical",
+          "addedInkVsSourceBefore": 833,
+          "addedInkVsSourceAfter": 0,
+          "reading": "the withdrawn row's election box now carries ZERO added pixels against the blank official form; looked at at 300 dpi, the box beside 'd.' is empty above nine empty cells. Whole delivered page 19 now differs from the pinned source by zero pixels."
+        },
+        {
+          "control": "guilty",
+          "deliveredPage": 19,
+          "rectPt": {
+            "x": 34.971,
+            "y": 591.363,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "761:836",
+            "cols": "146:221"
+          },
+          "fixture": "boundary",
+          "addedInkVsSourceBefore": 833,
+          "addedInkVsSourceAfter": 0,
+          "reading": "the withdrawn row's election box now carries ZERO added pixels against the blank official form; looked at at 300 dpi, the box beside 'd.' is empty above nine empty cells. Whole delivered page 19 now differs from the pinned source by zero pixels."
+        }
+      ],
+      "fixtureIdentityNote": "after the repair all four families ship the same boundary petition (23a571af...) and the three conviction families the same canonical petition (03f6169d...). VF03 already ruled the three-way conviction identity lawful on the form's own terms; the arrest boundary joins it because withdrawing its item (a) election removed the single mark that distinguished it. This lane records the fact rather than resolving it: it is for the independent re-read.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ. This lane changed the host, rebuilt the packets and measured its own output. It verifies nothing. No VF03 verdict was written, replaced or ceilinged, no acceptance receipt was created, and no queue file was opened for writing.",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES. Bytes moved, so the live RASTER_PASS receipt from workflow run 34047698685 (rendered commit c6b497cbee9f2c8fdf9567366d3bc26a89da68f4) no longer binds these fixtures. A fresh central raster under .github/workflows/rcap-packet-raster-acceptance-batch.yml is owed before anything reads these bytes as proven. RASTER_QUEUE.json still pins the superseded digests in 28 places; this lane was instructed not to edit it and did not.",
+        "ROUTE_OPTIONS is not re-ruled here. VF03 recorded ROUTE_OPTIONS PASS partly because the item (d) 'guilty' box was marked; after this repair no conviction family marks it on either fixture, and the withdrawal is disclosed in the guide's held-but-not-printed table and in the family note instead. Whether disclosure of a withdrawn election satisfies ROUTE_OPTIONS is for the independent re-read, not for the lane that withdrew it.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The self-help stop conditions added to nj_ordinance-set are carried word for word from the committed record; carrying a held record is not the same as having it reviewed.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family."
+      ],
+      "routesOpened": [],
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "lane": "FIX105",
+      "laneKind": "shared-host-repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REPEATING_ROWS"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "base": "57f8055dcf5ffbf6f885567fcfe0dbd905bb5cff",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX105 nj_indictable_conviction-set returned CLAIM_OK FIX105 nj_indictable_conviction-set (repair, grant set 31fc067466379531), exit 0, asserted inside /home/user/fix105-worktree before any family artifact was read. No release, transfer or ledger write.",
+      "whatChanged": [
+        "The item (d) repeating-row group now declares `election: \"guilty\"`. Six of that paragraph's nine cells (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) have no held fact and are permanently broken, so the row is withheld on every fixture and its election is now withdrawn with it on every fixture.",
+        "The withdrawal is recorded in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and disclosed in the guide's held-but-not-printed table, naming the box beside 'd.' on delivered page 19.",
+        "The family note now states the withdrawal. No held fact changed: guiltyDt, guiltyOff1 and guiltyCrt are held and withheld exactly as before."
+      ],
+      "fixtureDigests": [
+        {
+          "fixture": "canonical",
+          "file": "fixtures/cn-10557-canonical.pdf",
+          "before": "0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac",
+          "beforeBytes": 572107,
+          "after": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+          "afterBytes": 571718,
+          "moved": true
+        },
+        {
+          "fixture": "boundary",
+          "file": "fixtures/cn-10557-boundary.pdf",
+          "before": "cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777",
+          "beforeBytes": 574409,
+          "after": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+          "afterBytes": 574020,
+          "moved": true
+        }
+      ],
+      "determinism": {
+        "method": "each family built twice in a row from the pinned Master Library source under MASTER_LIBRARY_SOURCE_DIR, sha256 of every file in the family directory compared between the two passes",
+        "passes": 2,
+        "filesCompared": 396,
+        "result": "byte-identical across both passes, and byte-identical to the artifacts already on disk when this lane resumed, so the delivered bytes are reproducible from the committed builder and the pinned source alone",
+        "checkPass": "node scripts/build-census-v1-<family>.mjs --check returned CHECK PASS (2 PDFs; 86 rasters) for all four; --check recomputes the withheld cells AND the withdrawn elections from the same rowIntegrityWithholdings function the build reads, so the two passes cannot drift"
+      },
+      "rasterMethod": "pdftoppm 300 dpi grayscale, all 43 pages of every fixture, rendered under /tmp and deleted after measuring. Every page compared (a) committed bytes at base 57f8055dc against the new bytes, and (b) the new bytes against the 300 dpi render of the pinned CN-10557 source sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7. Ink = luminance < 200. The election crops were also opened and looked at.",
+      "pagesChanged": [
+        {
+          "fixture": "canonical",
+          "pages": [
+            19
+          ],
+          "note": "page 19 differs from base by 883 px at 300 dpi; the other 42 pages are pixel-identical"
+        },
+        {
+          "fixture": "boundary",
+          "pages": [
+            19
+          ],
+          "note": "page 19 differs from base by 883 px at 300 dpi; the other 42 pages are pixel-identical"
+        }
+      ],
+      "electionWidgetMeasurement": [
+        {
+          "control": "guilty",
+          "deliveredPage": 19,
+          "rectPt": {
+            "x": 34.971,
+            "y": 591.363,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "761:836",
+            "cols": "146:221"
+          },
+          "fixture": "canonical",
+          "addedInkVsSourceBefore": 833,
+          "addedInkVsSourceAfter": 0,
+          "reading": "the withdrawn row's election box now carries ZERO added pixels against the blank official form; looked at at 300 dpi, the box beside 'd.' is empty above nine empty cells. Whole delivered page 19 now differs from the pinned source by zero pixels."
+        },
+        {
+          "control": "guilty",
+          "deliveredPage": 19,
+          "rectPt": {
+            "x": 34.971,
+            "y": 591.363,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "761:836",
+            "cols": "146:221"
+          },
+          "fixture": "boundary",
+          "addedInkVsSourceBefore": 833,
+          "addedInkVsSourceAfter": 0,
+          "reading": "the withdrawn row's election box now carries ZERO added pixels against the blank official form; looked at at 300 dpi, the box beside 'd.' is empty above nine empty cells. Whole delivered page 19 now differs from the pinned source by zero pixels."
+        }
+      ],
+      "fixtureIdentityNote": "after the repair all four families ship the same boundary petition (23a571af...) and the three conviction families the same canonical petition (03f6169d...). VF03 already ruled the three-way conviction identity lawful on the form's own terms; the arrest boundary joins it because withdrawing its item (a) election removed the single mark that distinguished it. This lane records the fact rather than resolving it: it is for the independent re-read.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ. This lane changed the host, rebuilt the packets and measured its own output. It verifies nothing. No VF03 verdict was written, replaced or ceilinged, no acceptance receipt was created, and no queue file was opened for writing.",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES. Bytes moved, so the live RASTER_PASS receipt from workflow run 34047698685 (rendered commit c6b497cbee9f2c8fdf9567366d3bc26a89da68f4) no longer binds these fixtures. A fresh central raster under .github/workflows/rcap-packet-raster-acceptance-batch.yml is owed before anything reads these bytes as proven. RASTER_QUEUE.json still pins the superseded digests in 28 places; this lane was instructed not to edit it and did not.",
+        "ROUTE_OPTIONS is not re-ruled here. VF03 recorded ROUTE_OPTIONS PASS partly because the item (d) 'guilty' box was marked; after this repair no conviction family marks it on either fixture, and the withdrawal is disclosed in the guide's held-but-not-printed table and in the family note instead. Whether disclosure of a withdrawn election satisfies ROUTE_OPTIONS is for the independent re-read, not for the lane that withdrew it.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The self-help stop conditions added to nj_ordinance-set are carried word for word from the committed record; carrying a held record is not the same as having it reviewed.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family."
+      ],
+      "routesOpened": [],
+      "productionTouched": false
+    },
+    {
+      "itemId": "nj_ordinance-set",
+      "lane": "FIX105",
+      "laneKind": "shared-host-repair",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "base": "57f8055dcf5ffbf6f885567fcfe0dbd905bb5cff",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX105 nj_ordinance-set returned CLAIM_OK FIX105 nj_ordinance-set (repair, grant set 31fc067466379531), exit 0, asserted inside /home/user/fix105-worktree before any family artifact was read. No release, transfer or ledger write.",
+      "whatChanged": [
+        "The item (d) repeating-row group now declares `election: \"guilty\"`. Six of that paragraph's nine cells (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) have no held fact and are permanently broken, so the row is withheld on every fixture and its election is now withdrawn with it on every fixture.",
+        "The withdrawal is recorded in reports/actual-writes.json heldButNotPrinted with reason withheld_for_row_integrity and disclosed in the guide's held-but-not-printed table, naming the box beside 'd.' on delivered page 19.",
+        "The family note now states the withdrawal. No held fact changed: guiltyDt, guiltyOff1 and guiltyCrt are held and withheld exactly as before.",
+        "SELF_HELP_STOP: the guide now carries a 'Where self-help ends' section, in the same last position its siblings use. All 12 of the route's committed selfHelpStopConditions are printed verbatim — VF03 measured 0 of 12 present before.",
+        "The conditions are CARRIED, never authored: registrySelfHelpStopSection reads data/record-clearing/legal-design-track-registry.json track nj_ordinance and data/record-clearing/legal-design-intake/NJ.memo.json track nj_ordinance and asserts the two lists are deep-equal before printing anything, so a disagreement between the two records stops the build instead of being resolved by a builder. Both were verified here to carry the same 12 strings.",
+        "The section is opt-in per family (selfHelpStopFromRegistry) and refuses to render if a family also declares selfHelpStop, so no sibling guide moved."
+      ],
+      "fixtureDigests": [
+        {
+          "fixture": "canonical",
+          "file": "fixtures/cn-10557-canonical.pdf",
+          "before": "0b32e8397ddab6fccc441defc7ac3a4645fbba93cd5afa71c0da35a9da093cac",
+          "beforeBytes": 572107,
+          "after": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+          "afterBytes": 571718,
+          "moved": true
+        },
+        {
+          "fixture": "boundary",
+          "file": "fixtures/cn-10557-boundary.pdf",
+          "before": "cc91a4ca00d317329cec8dd1b204ed3e390047dd4d634878becca53f46ff8777",
+          "beforeBytes": 574409,
+          "after": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+          "afterBytes": 574020,
+          "moved": true
+        }
+      ],
+      "determinism": {
+        "method": "each family built twice in a row from the pinned Master Library source under MASTER_LIBRARY_SOURCE_DIR, sha256 of every file in the family directory compared between the two passes",
+        "passes": 2,
+        "filesCompared": 396,
+        "result": "byte-identical across both passes, and byte-identical to the artifacts already on disk when this lane resumed, so the delivered bytes are reproducible from the committed builder and the pinned source alone",
+        "checkPass": "node scripts/build-census-v1-<family>.mjs --check returned CHECK PASS (2 PDFs; 86 rasters) for all four; --check recomputes the withheld cells AND the withdrawn elections from the same rowIntegrityWithholdings function the build reads, so the two passes cannot drift"
+      },
+      "rasterMethod": "pdftoppm 300 dpi grayscale, all 43 pages of every fixture, rendered under /tmp and deleted after measuring. Every page compared (a) committed bytes at base 57f8055dc against the new bytes, and (b) the new bytes against the 300 dpi render of the pinned CN-10557 source sha256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7. Ink = luminance < 200. The election crops were also opened and looked at.",
+      "pagesChanged": [
+        {
+          "fixture": "canonical",
+          "pages": [
+            19
+          ],
+          "note": "page 19 differs from base by 883 px at 300 dpi; the other 42 pages are pixel-identical"
+        },
+        {
+          "fixture": "boundary",
+          "pages": [
+            19
+          ],
+          "note": "page 19 differs from base by 883 px at 300 dpi; the other 42 pages are pixel-identical"
+        }
+      ],
+      "electionWidgetMeasurement": [
+        {
+          "control": "guilty",
+          "deliveredPage": 19,
+          "rectPt": {
+            "x": 34.971,
+            "y": 591.363,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "761:836",
+            "cols": "146:221"
+          },
+          "fixture": "canonical",
+          "addedInkVsSourceBefore": 833,
+          "addedInkVsSourceAfter": 0,
+          "reading": "the withdrawn row's election box now carries ZERO added pixels against the blank official form; looked at at 300 dpi, the box beside 'd.' is empty above nine empty cells. Whole delivered page 19 now differs from the pinned source by zero pixels."
+        },
+        {
+          "control": "guilty",
+          "deliveredPage": 19,
+          "rectPt": {
+            "x": 34.971,
+            "y": 591.363,
+            "width": 18,
+            "height": 18
+          },
+          "rectPx300dpi": {
+            "rows": "761:836",
+            "cols": "146:221"
+          },
+          "fixture": "boundary",
+          "addedInkVsSourceBefore": 833,
+          "addedInkVsSourceAfter": 0,
+          "reading": "the withdrawn row's election box now carries ZERO added pixels against the blank official form; looked at at 300 dpi, the box beside 'd.' is empty above nine empty cells. Whole delivered page 19 now differs from the pinned source by zero pixels."
+        }
+      ],
+      "fixtureIdentityNote": "after the repair all four families ship the same boundary petition (23a571af...) and the three conviction families the same canonical petition (03f6169d...). VF03 already ruled the three-way conviction identity lawful on the form's own terms; the arrest boundary joins it because withdrawing its item (a) election removed the single mark that distinguished it. This lane records the fact rather than resolving it: it is for the independent re-read.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "obligationsThisRowDoesNotDischarge": [
+        "INDEPENDENT_RE_READ. This lane changed the host, rebuilt the packets and measured its own output. It verifies nothing. No VF03 verdict was written, replaced or ceilinged, no acceptance receipt was created, and no queue file was opened for writing.",
+        "CENTRAL_RASTER_FOR_CHANGED_BYTES. Bytes moved, so the live RASTER_PASS receipt from workflow run 34047698685 (rendered commit c6b497cbee9f2c8fdf9567366d3bc26a89da68f4) no longer binds these fixtures. A fresh central raster under .github/workflows/rcap-packet-raster-acceptance-batch.yml is owed before anything reads these bytes as proven. RASTER_QUEUE.json still pins the superseded digests in 28 places; this lane was instructed not to edit it and did not.",
+        "ROUTE_OPTIONS is not re-ruled here. VF03 recorded ROUTE_OPTIONS PASS partly because the item (d) 'guilty' box was marked; after this repair no conviction family marks it on either fixture, and the withdrawal is disclosed in the guide's held-but-not-printed table and in the family note instead. Whether disclosure of a withdrawn election satisfies ROUTE_OPTIONS is for the independent re-read, not for the lane that withdrew it.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The self-help stop conditions added to nj_ordinance-set are carried word for word from the committed record; carrying a held record is not the same as having it reviewed.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family.",
+        "The wording of the carried stop conditions. The 12 conditions are exact substrings of the committed record, verified one by one here. Whether the record's own 12 conditions are legally sufficient for a municipal-ordinance route is a counsel question this lane neither asked nor answered."
+      ],
+      "routesOpened": [],
+      "productionTouched": false
+    }
+  ]
+}

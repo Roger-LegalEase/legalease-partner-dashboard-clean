@@ -1,0 +1,507 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "PF02",
+  "laneKind": "packet-build",
+  "returnId": "PF02-DE-ENCRYPTED-2026-09-09",
+  "writtenBy": "PF02 packet-build lane, Delaware encrypted-source cohort",
+  "writtenOn": "2026-09-09",
+  "branch": "pf02-de-encrypted-20260909",
+  "baseSha": "1573766ea903da64aafce9eaf120e46e481006c2",
+  "whyThisFilenameAndNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf02/rows.json and rows.pf02-rhode-island-2026-09-05.json are earlier PF02 returns and are not overwritten. This shift also does not overwrite this lane's previous Delaware return; it is a separate file under a name unique to this branch and this cohort.",
+  "whatThisShiftReversed": "The previous PF02 shift stopped all three Delaware families as BLOCKED_SOURCE on AES-256 encryption, concluding that this factory holds no code path that could build from an encrypted source. Every measurement in that return holds -- the four Delaware binaries really are AES-256 (V=5, R=6, StdCF), pdf-lib really has no security handler, and ignoreEncryption:true really does parse ciphertext and surface as \"Expected instance of PDFDict, but got instance of undefined\" -- but the conclusion was wrong. The factory solved this in early September: renderStrategy pikepdf_unlocked_derivative_then_official_form_finalizer, proven on five encrypted California forms in scripts/build-census-v1-ca-1203-4-set.mjs and carried to a terminal family on Maine's encrypted CR-218 in scripts/build-census-v1-me-seal-gen-set.mjs. Two of the three Delaware families are built on that pattern in this return.",
+  "familiesAssigned": [
+    "de_pardon_expungement-set",
+    "de_discretionary_superior_court-set"
+  ],
+  "familyExplicitlyNotBuilt": {
+    "familyId": "de_discretionary_family_court-set",
+    "why": "Left stopped on the previous shift's finding, which the Captain did not override: FORM-281 is a binary .doc and FORM-281E a .docx with legacy FORMTEXT/FORMCHECKBOX fields, the family binds no PDF at all, and Delaware Family Court publishes the whole family as Word. That needs an owner decision on a Word path, not a rescue. Nothing was built and nothing was converted.",
+    "claimAsserted": false
+  },
+  "rowsReturned": 2,
+  "familiesCompleted": [
+    "de_pardon_expungement-set",
+    "de_discretionary_superior_court-set"
+  ],
+  "familiesStopped": [],
+  "blockedSource": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "reviewDerivativesInTheRepositoryWereNotBound": "data/rcap-all50/overlays/rescued-encrypted-pdfs/delaware-download-aspx-rescued.pdf (bc39abcda95beef0...) was not used and is bound by nothing here. Its digest appears in no committed source record and in no corpus-index entry. Every derivative this build read was generated at build time from the pinned bytes, proved equivalent, and deleted when the build ended.",
+  "setsNoVerdict": "This lane does not verify its own packets. No PASS is issued here, rasterState is BUILT_RASTER_PENDING, and RASTER_PASS comes from the central workflow bound to the exact SHA-256 recorded in each row.",
+  "rows": [
+    {
+      "itemId": "de_pardon_expungement-set",
+      "status": "COMPLETED",
+      "lane": "PF02",
+      "jurisdiction": "DE",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-de_pardon_expungement-set.mjs",
+      "buildHost": "scripts/census-v1-de-expungement/de-expungement-core.mjs",
+      "sharedFormReading": "scripts/census-v1-de-expungement/de-superior-court-forms.mjs",
+      "components": [
+        "primary_filing",
+        "proposed_order",
+        "cover_sheet"
+      ],
+      "componentsDeclaredByTheCommittedManifest": [
+        {
+          "componentId": "de_pardon_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A"
+        },
+        {
+          "componentId": "de_pardon_expungement-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_08_A"
+        },
+        {
+          "componentId": "de_pardon_expungement-cover-sheet-3",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null
+        }
+      ],
+      "componentCount": 3,
+      "everyMappedComponentIsRendered": true,
+      "renderStrategy": "pikepdf_unlocked_derivative_then_official_form_finalizer",
+      "measurementSurface": "a build-time pikepdf derivative of each exact official encrypted binary, proved equivalent to it page for page, page geometry for page geometry, terminal field for terminal field, content stream for content stream and XFA for XFA before it is read",
+      "derivativesUsedForMeasurement": true,
+      "derivativesCommitted": false,
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:CIV_EXP_02_A",
+          "documentId": "CIV_EXP_02_A",
+          "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "byteLength": 178713,
+          "pageCount": 1,
+          "acroFieldCount": 44,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pathInCustody": "LegalEase Delaware/download.aspx.pdf",
+          "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+          "sourceEncrypted": true,
+          "derivedSha256": "4da3c8988b7c28af8485809b1b62b0b196e6722c11def06248085721b337921c",
+          "officialSha256UnchangedByTheRead": true,
+          "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+          "equivalenceDeltaEmpty": true,
+          "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer_after_a_proven_equivalent_unlock"
+        },
+        {
+          "sourceId": "official-form:CIV_EXP_08_A",
+          "documentId": "CIV_EXP_08_A",
+          "sha256": "0f7666ac6877b4d482a71c5303ecb199792f713e3c728adb2308b86945505d5b",
+          "byteLength": 1123088,
+          "pageCount": null,
+          "acroFieldCount": null,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pathInCustody": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_08_a-sc-new-order-granting-expungement-after-pardon-form.pdf",
+          "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+          "sourceEncrypted": true,
+          "derivedSha256": "90218a00a4535bae0bd726583fce67f468dd99c404130857aaeb08b2ff161925",
+          "officialSha256UnchangedByTheRead": true,
+          "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+          "equivalenceDeltaEmpty": true,
+          "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer_after_a_proven_equivalent_unlock"
+        }
+      ],
+      "conditionalDocumentsBoundButNotExercised": [],
+      "sourcesBoundByPathResolution": 0,
+      "chargeTableGeometry": [
+        {
+          "documentId": "CIV_EXP_02_A",
+          "rows": 4,
+          "columns": 5,
+          "columnOrderReadFromTheCellsOwnXPositions": [
+            "case_id",
+            "charge",
+            "offense_date",
+            "disposition_date",
+            "disposition"
+          ],
+          "tableBodyPrintsNoRowNumbers": true
+        },
+        {
+          "documentId": "CIV_EXP_08_A",
+          "rows": 4,
+          "columns": 5,
+          "columnOrderReadFromTheCellsOwnXPositions": [
+            "case_id",
+            "charge",
+            "offense_date",
+            "disposition",
+            "court"
+          ],
+          "tableBodyPrintsNoRowNumbers": true
+        }
+      ],
+      "captionEvidence": {
+        "blanksCensused": 80,
+        "captionsPinnedAgainstThePrintedPage": 80,
+        "captionsWhereTheSharedCaptureDisagreedWithThePrintedPage": 72,
+        "where": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/reports/field-census.json"
+      },
+      "routeSelectionsMade": [
+        {
+          "selection": "instrument",
+          "value": "CIV_EXP_02_A as the petition and CIV_EXP_08_A as the proposed order",
+          "determinedBy": "the committed packet-set manifest for de_pardon_expungement-set, whose two official_pdf_fill components name officialFormId CIV_EXP_02_A (primary_filing) and CIV_EXP_08_A (proposed_order)"
+        },
+        {
+          "selection": "the statutory recital on the petition",
+          "value": "none written; the form's own printed § 4374 recital is left as the Court prints it",
+          "determinedBy": "the committed track registry's manual completion item, which records that the form is captioned to § 4374 only and that the § 4375 basis has to be stated in the body by the petitioner"
+        },
+        {
+          "selection": "the charge table",
+          "value": "left entirely to the participant on both forms",
+          "determinedBy": "the committed track registry's instruction to generate the court packet without collecting or reviewing the certified SBI history, together with the shared field semantics, under which a disposition is a court fact this factory does not write on any form"
+        },
+        {
+          "selection": "venue",
+          "value": "no county box marked",
+          "determinedBy": "the committed track registry's venue rule, which keys venue to the county where the most recent case was terminated -- a fact about the participant's own history that no held record establishes"
+        }
+      ],
+      "requiredBeforeFilingCount": 44,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "blankDispositions": {
+        "PARTICIPANT_ELECTION_GENUINE": 11,
+        "OPTIONAL_PARTICIPANT_CONTENT": 4,
+        "PROTECTED_FIELD": 7,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
+        "REQUIRED_BEFORE_FILING": 44
+      },
+      "glyphReadings": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 18,
+          "addedGlyphsReadFromOutputBytes": 290,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "flattenedControlChromeGlyphsReadFromOutputBytes": 0,
+          "refusedFieldsWithInk": [],
+          "flattenedControlChrome": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 18,
+          "addedGlyphsReadFromOutputBytes": 456,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "flattenedControlChromeGlyphsReadFromOutputBytes": 0,
+          "refusedFieldsWithInk": [],
+          "flattenedControlChrome": []
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+          "pageCount": 3,
+          "byteLength": 1202521
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/de/de-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+          "pageCount": 3,
+          "byteLength": 1202719
+        }
+      ],
+      "canonicalSha256": "7bce0bddd5eef1c0f23f264da8146805c52d4cc8dff16b8871ef78bfe1a97fe9",
+      "canonicalPageCount": 3,
+      "boundarySha256": "68f209017dc63ff37828c0bfb35e4f162a380a533ad821274b8beee0ad34dfb9",
+      "boundaryPageCount": 3,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "No raster in this run. A local browser render is not a receipt; RASTER_PASS comes from the central workflow, bound to the exact SHA-256 recorded above.",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "de_discretionary_superior_court-set",
+      "status": "COMPLETED",
+      "lane": "PF02",
+      "jurisdiction": "DE",
+      "implementationStrategy": "official_pdf_fill",
+      "directory": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-de_discretionary_superior_court-set.mjs",
+      "buildHost": "scripts/census-v1-de-expungement/de-expungement-core.mjs",
+      "sharedFormReading": "scripts/census-v1-de-expungement/de-superior-court-forms.mjs",
+      "components": [
+        "primary_filing",
+        "proposed_order",
+        "cover_sheet"
+      ],
+      "componentsDeclaredByTheCommittedManifest": [
+        {
+          "componentId": "de_discretionary_superior_court-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_A"
+        },
+        {
+          "componentId": "de_discretionary_superior_court-continuation-2",
+          "role": "continuation",
+          "requirement": "conditional",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_02_B"
+        },
+        {
+          "componentId": "de_discretionary_superior_court-proposed-order-3",
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "CIV_EXP_04_A"
+        },
+        {
+          "componentId": "de_discretionary_superior_court-cover-sheet-4",
+          "role": "cover_sheet",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "officialFormId": null
+        }
+      ],
+      "componentCount": 3,
+      "everyMappedComponentIsRendered": true,
+      "renderStrategy": "pikepdf_unlocked_derivative_then_official_form_finalizer",
+      "measurementSurface": "a build-time pikepdf derivative of each exact official encrypted binary, proved equivalent to it page for page, page geometry for page geometry, terminal field for terminal field, content stream for content stream and XFA for XFA before it is read",
+      "derivativesUsedForMeasurement": true,
+      "derivativesCommitted": false,
+      "boundSourceDigests": [
+        {
+          "sourceId": "official-form:CIV_EXP_02_A",
+          "documentId": "CIV_EXP_02_A",
+          "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+          "byteLength": 178713,
+          "pageCount": 1,
+          "acroFieldCount": 44,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pathInCustody": "LegalEase Delaware/download.aspx.pdf",
+          "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+          "sourceEncrypted": true,
+          "derivedSha256": "4da3c8988b7c28af8485809b1b62b0b196e6722c11def06248085721b337921c",
+          "officialSha256UnchangedByTheRead": true,
+          "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+          "equivalenceDeltaEmpty": true,
+          "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer_after_a_proven_equivalent_unlock"
+        },
+        {
+          "sourceId": "official-form:CIV_EXP_04_A",
+          "documentId": "CIV_EXP_04_A",
+          "sha256": "59c3665bbcbf0d22fcf50d7fd1cd9ca688a3c1e3b8e0bea26434f3a389955940",
+          "byteLength": 986325,
+          "pageCount": null,
+          "acroFieldCount": null,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pathInCustody": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_04_a-sc-new-order-granting-expungement-form.pdf",
+          "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+          "sourceEncrypted": true,
+          "derivedSha256": "73b24f3cd1ad7d3ffada5e58cf9f1a4c68d02985dbb0b341e12103fbea578616",
+          "officialSha256UnchangedByTheRead": true,
+          "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+          "equivalenceDeltaEmpty": true,
+          "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer_after_a_proven_equivalent_unlock"
+        }
+      ],
+      "conditionalDocumentsBoundButNotExercised": [
+        {
+          "sourceIds": [
+            "official-form:CIV_EXP_02_B"
+          ],
+          "documentId": "CIV_EXP_02_B",
+          "formNumber": "CIV_EXP_02_B",
+          "officialTitle": "Expungement Petition Form Additional Charges Extension Sheet",
+          "revision": "Updated 06/12/2024",
+          "componentId": "de_discretionary_superior_court-continuation-2",
+          "sha256": "39b2dd77619f887236be7ebffebc0fa602a2bb1681b1c0aa0f7e4bf5ba92973c",
+          "byteLength": 224339,
+          "custody": "nationwide_recovery_pool_2026_09_02",
+          "pathInCustody": "LegalEase Delaware/source-acquisition-2026-09-04/civ_exp_02_b-expungement-petition-form-additional-charges-extension-sheet.pdf",
+          "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+          "declaredRequirement": "conditional",
+          "conditionDescription": "When charges exceed the table on the petition.",
+          "whyTheConditionIsUnmetInTheseFixtures": "Both fixtures are within the four printed rows of the petition's own table, so the manifest's condition is not met and a continuation sheet is not part of either packet. It is not delivered blank: a continuation sheet attached to a petition that has no continuation asserts that the petitioner has more charges than the petition lists. The reason this family does not simply build a five-charge fixture is on the paper -- the PROPOSED ORDER CIV_EXP_04_A also prints exactly four rows and Delaware publishes no continuation sheet for an order, so a packet above four charges would carry a complete list on the petition and an order that could not hold it. That is raised as a counsel question about the form set rather than answered here.",
+          "transport": {
+            "why": "the pinned official binary is an AES-256 encrypted PDF (V=5, R=6, StdCF) with an empty user password; pdf-lib has no security handler, so ignoreEncryption:true suppresses the throw and then parses ciphertext, which surfaces as \"Expected instance of PDFDict, but got instance of undefined\", and neither a census nor an ink audit is possible against those bytes directly",
+            "method": "pikepdf.open(exact_pinned_source).save(derived, deterministic_id=True)",
+            "derivedSha256": "8bbb2dc70d4950f79eeb1007673970b1bd11ff1fc9c3e3508eac2e5a21515db5",
+            "derivedByteLength": 224339,
+            "sourceEncrypted": true,
+            "derivedEncrypted": false,
+            "officialSha256UnchangedByTheRead": true,
+            "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+            "equivalenceDelta": {
+              "pageCount": null,
+              "pageGeometry": [],
+              "fieldsOnlyInOfficial": [],
+              "fieldsOnlyInDerivative": [],
+              "fieldDifferences": [],
+              "contentStreamIdenticalPages": [
+                0
+              ],
+              "contentStreamChangedPages": []
+            },
+            "pikepdfVersion": "10.12.0",
+            "libqpdfVersion": "12.3.2"
+          },
+          "renderStrategy": "not_rendered_in_either_fixture",
+          "whatThisBindingEstablishes": "that the pinned official binary is held in this container, hashes to its declared digest, and opens and proves equivalent through the same transport as every rendered document; it establishes nothing about a packet, because this document is in neither packet"
+        }
+      ],
+      "sourcesBoundByPathResolution": 0,
+      "chargeTableGeometry": [
+        {
+          "documentId": "CIV_EXP_02_A",
+          "rows": 4,
+          "columns": 5,
+          "columnOrderReadFromTheCellsOwnXPositions": [
+            "case_id",
+            "charge",
+            "offense_date",
+            "disposition_date",
+            "disposition"
+          ],
+          "tableBodyPrintsNoRowNumbers": true
+        },
+        {
+          "documentId": "CIV_EXP_04_A",
+          "rows": 4,
+          "columns": 5,
+          "columnOrderReadFromTheCellsOwnXPositions": [
+            "case_id",
+            "charge",
+            "offense_date",
+            "disposition",
+            "court"
+          ],
+          "tableBodyPrintsNoRowNumbers": true
+        }
+      ],
+      "captionEvidence": {
+        "blanksCensused": 80,
+        "captionsPinnedAgainstThePrintedPage": 80,
+        "captionsWhereTheSharedCaptureDisagreedWithThePrintedPage": 70,
+        "where": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/reports/field-census.json"
+      },
+      "routeSelectionsMade": [
+        {
+          "selection": "instrument",
+          "value": "CIV_EXP_02_A as the petition and CIV_EXP_04_A as the proposed order",
+          "determinedBy": "the committed packet-set manifest for de_discretionary_superior_court-set, whose official_pdf_fill components name officialFormId CIV_EXP_02_A (primary_filing), CIV_EXP_02_B (continuation, conditional) and CIV_EXP_04_A (proposed_order)"
+        },
+        {
+          "selection": "the continuation sheet",
+          "value": "not delivered; its condition is unmet in both fixtures",
+          "determinedBy": "the committed packet-set manifest, which declares CIV_EXP_02_B conditional on \"When charges exceed the table on the petition\", together with a measurement of the paper: the petition prints four charge rows, both fixtures are within them, and the proposed order prints four rows with no continuation sheet published for it"
+        },
+        {
+          "selection": "the charge table",
+          "value": "left entirely to the participant on both forms",
+          "determinedBy": "the committed track registry's counsel classification -- \"History-dependent fields may be left as manual completion items. Counsel classified this as an item the participant completes\" -- its instruction that \"LegalEase must not represent that it confirmed charge-level eligibility\", and the shared field semantics, under which a disposition is a court fact this factory does not write on any form"
+        },
+        {
+          "selection": "venue",
+          "value": "no county box marked",
+          "determinedBy": "the committed track registry's venue rule: \"Superior Court for the county where the most recent case was terminated. Venue keys to the most recent termination, not the county of each conviction.\" That is a fact about the participant's own history that no held record establishes"
+        }
+      ],
+      "requiredBeforeFilingCount": 44,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "blankDispositions": {
+        "PARTICIPANT_ELECTION_GENUINE": 11,
+        "OPTIONAL_PARTICIPANT_CONTENT": 4,
+        "PROTECTED_FIELD": 7,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 2,
+        "REQUIRED_BEFORE_FILING": 44
+      },
+      "glyphReadings": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 18,
+          "addedGlyphsReadFromOutputBytes": 264,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "flattenedControlChromeGlyphsReadFromOutputBytes": 0,
+          "refusedFieldsWithInk": [],
+          "flattenedControlChrome": []
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 18,
+          "addedGlyphsReadFromOutputBytes": 467,
+          "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+          "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+          "flattenedControlChromeGlyphsReadFromOutputBytes": 0,
+          "refusedFieldsWithInk": [],
+          "flattenedControlChrome": []
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "b4a52fd021617f602e56a23b9f140828ac704283539c2e9a714fa37ca42629dc",
+          "pageCount": 3,
+          "byteLength": 1078896
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/de/de-discretionary-superior-court-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "7ecd449c87303093e2f8f60d2c78cfb0ee84224c5112fa16c6c9507886576179",
+          "pageCount": 3,
+          "byteLength": 1079170
+        }
+      ],
+      "canonicalSha256": "b4a52fd021617f602e56a23b9f140828ac704283539c2e9a714fa37ca42629dc",
+      "canonicalPageCount": 3,
+      "boundarySha256": "7ecd449c87303093e2f8f60d2c78cfb0ee84224c5112fa16c6c9507886576179",
+      "boundaryPageCount": 3,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterNote": "No raster in this run. A local browser render is not a receipt; RASTER_PASS comes from the central workflow, bound to the exact SHA-256 recorded above.",
+      "independentVerificationStatus": "PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "mapVersusFinalizerGateWasTested": "The gate DEFECTS_NO_COUNTER_CAN_SEE `map-honest-writes-not` asks for was tested by removing one write from the field map -- primary_filing.Telephone -- and rebuilding. The family stopped with stopClass FINALIZER_WRITES_DISAGREE_WITH_THE_FIELD_MAP and wroteButTheMapDeclaresBlank [\"Telephone\"]. The map was restored and the rebuild reproduced the same canonical SHA-256 byte for byte.",
+  "twoFamiliesOneFilingCheck": {
+    "why": "DEFECTS_NO_COUNTER_CAN_SEE `two-families-one-filing`: two Alabama families rendered byte-identical page images to each other and nothing in the factory had ever compared two families. These two families share their required primary filing, CIV_EXP_02_A, and are the obvious place for that defect to recur.",
+    "measurement": "All twelve delivered pages (two families x two fixtures x three pages) rasterised at 72 dpi with poppler pdftoppm and hashed. Twelve distinct SHA-256 values, no collision. The two canonical packets share 57 leading bytes, which is the PDF header and the opening of the first object.",
+    "distinctPageImages": 12,
+    "collisions": 0
+  }
+}

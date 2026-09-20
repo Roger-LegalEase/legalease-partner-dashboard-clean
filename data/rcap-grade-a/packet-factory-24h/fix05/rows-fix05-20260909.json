@@ -1,0 +1,159 @@
+{
+  "lane": "FIX05",
+  "laneKind": "repair",
+  "generatedAtBase": "0cb08c3617e4d54223f581a9f3a8a17894d3f93e",
+  "assignedFamiliesWorkedInThisReturn": [
+    "hi_nonconviction_expungement-set"
+  ],
+  "familiesGrantedButNotWorkedHere": [
+    "nh_marijuana_annulment-set"
+  ],
+  "grantsNothing": "This is a repair return. It sets no verdict on its own work, opens no commercial route and approves nothing. The family must be verified again by a lane that neither built nor repaired it.",
+  "rows": [
+    {
+      "itemId": "hi_nonconviction_expungement-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "obligationsRepaired": [
+        "SELF_HELP_STOP",
+        "FEE_AND_WAIVER",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationCoverage": "This row answers all three obligations VF02 failed on this family — SELF_HELP_STOP, FEE_AND_WAIVER and REQUIRED_BEFORE_FILING — and nothing else. VF02 found the paper sound (six writes inside their measured rectangles, zero ink in any refusal area, neither sworn initial cell, no checklist box, no signature and nothing in the HCJDC-only area) and the guide unsound. The repair is entirely in the guide and its builder; no ink moved and both fixture digests are unchanged, so the admitted raster receipt still pins the exact bytes it measured.",
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER_PASS — no raster receipt is produced by this lane. This container was not used to render a page image, and a local render would not be a receipt if it had been. The central gate in .github/workflows/rcap-packet-raster-acceptance-batch.yml is the only thing that produces one, and it binds the fixture digests recorded below.",
+        "Independent verification — the family must be re-verified by a lane that neither built nor repaired it. This lane sets no verdict on its own work.",
+        "The twelve obligations VF02 already passed on this family (ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, SERVICE) were not re-derived here and are not re-asserted by this row."
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Both readings are measured by node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_nonconviction_expungement-set, run without --write. countersBefore was measured on the pre-repair tree (the repair stashed) and countersAfter on the repaired tree; both returned PASS_COMPLETE, 6/20 written, nine zeros. The counters were already nine zeros when the family failed, which is exactly VF02's point: the verifier iterates the builder's own blank ledger and never opens the track registry, so it cannot see a record line the guide never printed. visualDefects 0 here is the verifier's own reading and is not a claim that anyone has looked at a page; rasterState carries that.",
+      "visualDefects": [],
+      "whatWasWrong": {
+        "SELF_HELP_STOP": "The family had no stop section at all, and neither of the track's two selfHelpStopConditions appeared anywhere in the directory.",
+        "FEE_AND_WAIVER": "The fee half was carried well; the waiver half was absent. The record's apply_fee_waiver line was never printed and the word 'waiver' appeared nowhere in the family, so a participant who could not pay was told the payment was mandatory and told nothing about what the record says on relief from it.",
+        "REQUIRED_BEFORE_FILING": "Two of the record's eight packetSet.requiredBeforeFiling items were absent from the whole family: the notarization line and the fee-waiver line."
+      },
+      "whatWasDone": {
+        "recordNowRead": "scripts/build-census-v1-hi_nonconviction_expungement-set.mjs now reads data/record-clearing/legal-design-track-registry.json, track hi_nonconviction_expungement, at build time, alongside the compiled profile and the route contract it already read. The registry is bound by SHA-256 into production-field-map.json controllingRecord.trackRegistry and source-receipt.json legalRecordsBound.trackRegistry, so the printed sections cannot drift from the record they came from.",
+        "SELF_HELP_STOP": "participant-instructions.md now carries a section headed 'Stop and get help from a Hawaii lawyer — the 2 conditions the record names', generated from selfHelpStopConditions and printing both conditions verbatim ('The record is federal, military, or from another jurisdiction.' and 'Any immigration matter.'), with the count printed beside them so a list that loses an item loses it visibly, and with a sentence distinguishing a stop from the eligibility section above it.",
+        "REQUIRED_BEFORE_FILING": "participant-instructions.md now carries '### The record's own required-before-filing list — all 8 items, in its words', generated from packetSet.requiredBeforeFiling and printing all eight verbatim, which is where the notarization line 'The source review does not state a notarization requirement.' now appears. A derived sentence names how many of the items are the record reporting what the source review does not establish, so the closing 'signed, initialled, dated, notarised or adopted by anyone' sentence no longer stands alone implying notarisation may be needed.",
+        "FEE_AND_WAIVER": "filing-instructions.md now carries a section headed 'If you cannot pay the fee' printing the record's apply_fee_waiver description verbatim ('The source review does not address a fee waiver.') and its conditionDescription verbatim ('Applies only when the participant cannot pay the filing fee.'), stating plainly that this is the whole of what the record establishes, that it neither says a waiver exists nor that none exists, that this packet contains no fee-waiver form because the record declares one component for this packet, and directing the participant to ask the Hawaii Criminal Justice Data Center before sending the application rather than sending it without payment.",
+        "buildRefusesRatherThanShrinks": "The builder now asserts that selfHelpStopConditions is present and non-empty, that packetSet.requiredBeforeFiling is present and non-empty with no empty item, and that an apply_fee_waiver action with a description still exists. A registry that lost any of them fails the build instead of shipping a packet with a shorter stop, a shorter list or no waiver line.",
+        "nothingInvented": "Every added sentence prints what the record establishes or says explicitly that the record does not establish it. No fee amount, no waiver entitlement, no notarisation answer, no signature, no consent and no approval was added, and no owed delivery was shortened to make an obligation pass."
+      },
+      "assertionsDeletedBecauseTheyPinnedADefect": [],
+      "controlReadings": {
+        "control": "data/rcap-grade-a/packet-factory-24h/fix05/control-hi-guide-carries-record.mjs",
+        "whatItMeasures": "It reads the track registry and every .md in the family directory and requires each of the track's selfHelpStopConditions, each of packetSet.requiredBeforeFiling, and the apply_fee_waiver description and condition to be present verbatim, plus the word 'waiver' somewhere in the guides. It refuses to pass on an empty owed delivery: an empty stop list or an empty required list is a failure, not a vacuous pass.",
+        "beforeRepair": {
+          "reading": "CONTROL_FAIL",
+          "exitCode": 1,
+          "checksRun": 13,
+          "checksPresent": 0,
+          "checksAbsent": 13,
+          "guidesRead": [
+            "participant-instructions.md@80c9b3b3f922495646f59e3f3a3179e0c372ca624663ca319651b6cee26f990c",
+            "filing-instructions.md@7d1a7a3828c55351708083c23140777b439f3e57ec140225fb95b093a1f37167"
+          ],
+          "note": "Run on the committed pre-repair bytes, whose digests equal the ones VF02 recorded in evidenceRead. All thirteen checks absent, including both stop conditions, all eight required-before-filing items and the word 'waiver'."
+        },
+        "afterRepair": {
+          "reading": "CONTROL_PASS",
+          "exitCode": 0,
+          "checksRun": 13,
+          "checksPresent": 13,
+          "checksAbsent": 0,
+          "guidesRead": [
+            "participant-instructions.md@572f72a1ccbc299fc7cf96732768677d81ba272a0fdff186fcfc08d00b34bb9f",
+            "filing-instructions.md@f582bd1e91b6bb471e8363398a17faccc83b36dcb3b0e1e275e8668bde351907"
+          ]
+        },
+        "recordBoundByDigest": "data/record-clearing/legal-design-track-registry.json@555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc"
+      },
+      "determinism": {
+        "atBaseBeforeAnyEdit": "The builder was run twice on the untouched base tree and git reported no modification to the family directory either time, so the committed bytes reproduce exactly and any byte movement afterwards is attributable to this lane's change.",
+        "afterRepair": "The repaired builder was run three times; participant-instructions.md, filing-instructions.md, production-field-map.json and source-receipt.json hold identical digests after each run, and no other file in the family directory changed.",
+        "fixtureBytesUnmoved": "canonical.pdf and boundary.pdf hash to the same values before and after the repair, because this repair adds no ink. The admitted raster receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/hi_nonconviction_expungement-set/ still pins these exact digests."
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "f15b906a649280d5bab03a81078d7f283a38eb3a81519773c15a2881f71b4d43",
+          "bytes": 197487,
+          "pages": 1,
+          "changedByThisLane": false
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "696e190fa18b54f8e7694eaed727dc7f8b10d7515a847d9fec904b9a3b3879a1",
+          "bytes": 197603,
+          "pages": 1,
+          "changedByThisLane": false
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "572f72a1ccbc299fc7cf96732768677d81ba272a0fdff186fcfc08d00b34bb9f",
+          "changedByThisLane": true,
+          "previousSha256": "80c9b3b3f922495646f59e3f3a3179e0c372ca624663ca319651b6cee26f990c"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/filing-instructions.md",
+          "sha256": "f582bd1e91b6bb471e8363398a17faccc83b36dcb3b0e1e275e8668bde351907",
+          "changedByThisLane": true,
+          "previousSha256": "7d1a7a3828c55351708083c23140777b439f3e57ec140225fb95b093a1f37167"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/production-field-map.json",
+          "sha256": "f86c25c9d377f61c8a15d920ef1d7d0d256709ab631b1bb0a1c1b726f116afad",
+          "changedByThisLane": true,
+          "previousSha256": "cb6f9833ad6cf4752b9fe7805cabe9afb22a551095fcc6e2c4b1d8f0c4db6a3c",
+          "whatChanged": "controllingRecord gained trackRegistry, bound by SHA-256. No field, area, disposition or classification changed."
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/hi/hi-nonconviction-expungement-set--official-pdf-fill/source-receipt.json",
+          "sha256": "f4c6e7c37e3dac32a71f5019c3bdaa95aad241f9a0538cbd41219b4185753a5c",
+          "changedByThisLane": true,
+          "previousSha256": "1a6f94565ab67ce064676b75ae9b5e0dbb404c3cc11117fd29e4096ca83697e3",
+          "whatChanged": "legalRecordsBound gained trackRegistry, bound by SHA-256. The bound official source and its digest are untouched."
+        },
+        {
+          "path": "scripts/build-census-v1-hi_nonconviction_expungement-set.mjs",
+          "sha256": "26132972ee0dc51411ad5d7719095f607b738f78e18b915ab02776794214c05d",
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix05/control-hi-guide-carries-record.mjs",
+          "sha256": "d3bfb1045656015f54df20b7ead7b1c0ab1cc65ad996631a68b03e5b4800a078",
+          "changedByThisLane": true,
+          "whatItIs": "the control for this repair, added by this lane"
+        }
+      ],
+      "focusedTest": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family hi_nonconviction_expungement-set (no --write) — PASS_COMPLETE, 6/20 written, all nine counters zero, both before and after.",
+      "sharedArtifactsTouched": "none — MASTER_QUEUE.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json, ACTIVE_ASSIGNMENTS.json, claim-ledger.json, the completeness matrix and raster-enrolment-baseline.json are all untouched, and scan-synthesized-widget-borders.mjs was not run.",
+      "claimReleased": false
+    }
+  ]
+}

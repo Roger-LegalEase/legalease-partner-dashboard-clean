@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-legal-input-assignments/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-post-wave-2-closure.mjs",
+  "what": "The seventeen families blocked on an input, split by what the input actually is.",
+  "whyNotOneQueue": "Only the rows classed GENUINE_NARROW_LEGAL_QUESTION are counsel's. The rest are a missing fee schedule, a missing state legal-design review or an unbound family: sending them to Lawrence would spend the one reviewer nothing else can replace on questions a fee schedule or a Captain binding answers.",
+  "count": 17,
+  "toLawrence": 1,
+  "notToLawrence": 16,
+  "groups": [
+    {
+      "class": "MISSING_LEGAL_REVIEW_RECORD",
+      "owner": "state legal-design review lane",
+      "sendToLawrence": false,
+      "count": 1,
+      "families": [
+        {
+          "family": "ca-1203-42-set",
+          "shard": "V4",
+          "decisiveObligation": "exact route identity",
+          "blocker": "Obligation 1: the controlling Master Library forbids mapping California form assets to eligibility tracks until the missing state legal-design review is supplied.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill/approval-request.json",
+            "$MASTER_LIBRARY_SOURCE_DIR/STATES/CA/STATE_README.md"
+          ],
+          "why": "A state-level legal-design review the controlling library requires does not exist. Until it does there is nothing family-specific to ask.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        }
+      ]
+    },
+    {
+      "class": "MISSING_ARTIFACT_SPECIFIC_APPROVAL_INPUT",
+      "owner": "source and operations: current fee schedule for the exact court",
+      "sendToLawrence": false,
+      "count": 13,
+      "families": [
+        {
+          "family": "ca-851-91-set",
+          "shard": "V1",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "Stopped at 'fee and waiver treatment': all earlier source, packet, artifact, write, protection, page-order, and visual obligations passed, but no family evidence establishes fee/waiver treatment and the controlling route record retains local filing/fee/venue/delivery variation as missing implementation work.",
+          "evidence": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill/approval-request.json",
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "ca-prop64-set",
+          "shard": "V2",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The controlling worklist records filingFee as not_recorded. It names FW-001 only as California's general fee-waiver form, which does not determine whether either §11361.8 filing has a fee or when a waiver is required. That exact legal input is absent.",
+          "evidence": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json packetFamilies[worklistGroupId=ca-prop64-set].reusableFamilyDeliverable.filingFee and feeWaiverTreatment",
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "wa_vac_misdemeanor_ordinary-set",
+          "shard": "V2",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The controlling worklist records both filingFee and feeWaiverTreatment as not_recorded and requires local fee/venue/delivery variation resolution. The build findings likewise state local fee variation is unresolved. The exact legal input needed for this obligation is absent.",
+          "evidence": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json packetFamilies[worklistGroupId=wa_vac_misdemeanor_ordinary-set].reusableFamilyDeliverable; build-findings.json advisories; participant-completion-instructions.json",
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "ca-1203-41-set",
+          "shard": "V3",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The controlling packet records do not determine the filing fee/local variation; the worklist records filingFee as not_recorded and requires local filing/fee variation resolution.",
+          "evidence": [
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ca-1203-41-set]/routes/0/deliverable/filingFee",
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ca-1203-41-set]/routes/0/missingImplementationWork",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/build-findings.json#/stillRequired"
+          ],
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "ny_mrta_marijuana-set",
+          "shard": "V3",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The review instructions require current local fees to be confirmed and output approval is not granted.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-canonical/page-01.png",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md#Required-participant/local-completion",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/approval-request.json#/status",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/build-findings.json#/blockers"
+          ],
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "ri_nonconviction_sealing-set",
+          "shard": "V3",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The review instructions require current local fees to be confirmed and output approval is not granted.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md#Required-participant/local-completion",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/approval-request.json#/status",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/build-findings.json#/blockers"
+          ],
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "ut_pet_no_charges-set",
+          "shard": "V3",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The BCI stage has a printed fee, but the court-petition route's filingFee and feeWaiverTreatment are both not_recorded.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-18.png",
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ut_pet_no_charges-set]/routes[ut_pet_no_charges-court-petition]/deliverable/filingFee",
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ut_pet_no_charges-set]/routes[ut_pet_no_charges-court-petition]/deliverable/feeWaiverTreatment",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/approval-request.json"
+          ],
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "wa_vac_substance_use_disorder-set",
+          "shard": "V3",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The family expressly leaves local fee variation unresolved and directs confirmation with the sentencing court.",
+          "evidence": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/build-findings.json#/advisories/2",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/participant-completion-instructions.json#/instructions/4",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/participant-completion-instructions.json#/legalReviewStillRequired",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/approval-request.json#/stillRequired"
+          ],
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "sd_arrest_expungement-set",
+          "shard": "V4",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "Obligation 12: the packet states $72, but the controlling review marks whether $72 is current as an unresolved release blocker.",
+          "evidence": "$MASTER_LIBRARY_SOURCE_DIR/STATES/SD/01_LEGAL_REVIEW/SD__LEGAL-REVIEW__STATEWIDE__south-dakota-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "wa_vac_survivor_felony-set",
+          "shard": "V4",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "Obligation 12: the controlling review has not established current vacation-petition filing fees and marks that question as a release blocker.",
+          "evidence": [
+            "$MASTER_LIBRARY_SOURCE_DIR/STATES/WA/01_LEGAL_REVIEW/WA__LEGAL-REVIEW__STATEWIDE__washington-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+            "participant-completion-instructions.json"
+          ],
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "pa_790_nonconviction-set",
+          "shard": "V6",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "County filing fees vary, no confirmed statewide schedule exists, and conditional use of the IFP motion requires participant/local confirmation. The exact fee/waiver branch cannot be resolved from the controlling record.",
+          "evidence": "legal-design packet manifest pay_fee/apply_fee_waiver; build-findings.json blockers",
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "wa_vac_domestic_violence-set",
+          "shard": "V6",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The controlling record says filing-fee and waiver treatment were not established and may vary among courts. This legal/local input is required before the fee obligation can be proved.",
+          "evidence": "legal-design packet manifest pay_fee/apply_fee_waiver; build-findings advisories",
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "wa_vac_treaty_fishing-set",
+          "shard": "V6",
+          "decisiveObligation": "fee and waiver treatment",
+          "blocker": "The controlling record says filing-fee and waiver treatment were not established. This legal/local input is required before the fee obligation can be proved.",
+          "evidence": "legal-design packet manifest pay_fee/apply_fee_waiver; build-findings advisories",
+          "why": "The blocker is the current filing fee or waiver treatment for a named court. That is an operational fact to look up and record, not a legal question. Sending it to counsel spends the reviewer on something a fee schedule answers.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        }
+      ]
+    },
+    {
+      "class": "MISSING_ROUTE_FAMILY_BINDING",
+      "owner": "Captain route/family binding",
+      "sendToLawrence": false,
+      "count": 2,
+      "families": [
+        {
+          "family": "rcap-oh-custom-pleading-clean-tracks",
+          "shard": "V2",
+          "decisiveObligation": "complete component set",
+          "blocker": "The exact source record says no statewide mandatory primary application was identified and supplies no local-court application, caption, proposed order, service form, or current fee schedule. The four custom pleadings are explicitly ARTIFACT ONLY / NOT FILING READY, and current local-court application and filing instructions are release blockers. A controlling local legal determination is required before component completeness can be proved.",
+          "evidence": "source-receipt.json sourceSilences; build-findings.json status, tracks[].hardStops, and blockers; track configs templateLifecycle=replacement_candidate",
+          "why": "The family is not bound to a filing route, or its manifest still gates it. That is a binding to settle, not a question to answer.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        },
+        {
+          "family": "ut_pet_traffic-set",
+          "shard": "V4",
+          "decisiveObligation": "correct official form or approved composer",
+          "blocker": "Obligation 5: 1146XX and 1148XX bind exactly but the controlling manifest still classifies them source_gated/source_or_currentness_gate_open and disabled pending release gates.",
+          "evidence": [
+            "$MASTER_LIBRARY_SOURCE_DIR/STATES/UT/STATE_MANIFEST.csv",
+            "$MASTER_LIBRARY_SOURCE_DIR/STATES/UT/01_LEGAL_REVIEW/UT__LEGAL-REVIEW__STATEWIDE__utah-record-clearing-legal-review__ASOF-2026-08-01__EN.md"
+          ],
+          "why": "The family is not bound to a filing route, or its manifest still gates it. That is a binding to settle, not a question to answer.",
+          "action": "supply the missing input and record it in the controlling file, then re-verify"
+        }
+      ]
+    },
+    {
+      "class": "GENUINE_NARROW_LEGAL_QUESTION",
+      "owner": "Lawrence (counsel)",
+      "sendToLawrence": true,
+      "count": 1,
+      "families": [
+        {
+          "family": "az_marijuana_expungement_arrest_no_charges-set",
+          "shard": "V1",
+          "decisiveObligation": "correct official form or approved composer",
+          "blocker": "Stopped at 'correct official form or approved composer': the general AOC-CREM3F source is exact, but the controlling route records a Maricopa arrest-only civil-form/civil-case-number variation and approval-request.json asks counsel to confirm case-number treatment. No controlling completed-output legal approval resolves that branch.",
+          "evidence": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json; data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill/approval-request.json",
+          "why": "The controlling record leaves a legal treatment genuinely open and the family cannot proceed without counsel deciding it.",
+          "action": "answer the narrow legal question and record it as a controlling decision"
+        }
+      ]
+    }
+  ]
+}

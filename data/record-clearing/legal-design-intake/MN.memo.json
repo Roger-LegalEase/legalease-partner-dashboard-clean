@@ -1,0 +1,2813 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "MN",
+  "memoVersion": "1.0.0",
+  "submittedAt": "2026-08-02T00:00:00.000Z",
+  "tracks": [
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. There is no participant filing on this track."
+      },
+      "_participantInputsNote": "Questions LegalEase asks so it can set expectations and route correctly.",
+      "_supportingDocumentsNote": "Records the participant obtains for verification. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "There is no generated packet on this track.",
+      "manualCompletionItems": [],
+      "selfHelpStopConditions": [
+        "The automatic relief did not occur and the participant needs a route LegalEase cannot generate.",
+        "The participant asks for individualized legal advice about eligibility."
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is nothing to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_auto_clean_slate",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "legalName": "Automatic Expungement under the Clean Slate Act",
+      "publicName": "Records that clear automatically",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. ch. 609A",
+          "Laws 2023, ch. 52",
+          "Laws 2026, ch. 70, § 5"
+        ],
+        "summary": "The Bureau of Criminal Apprehension identifies eligible records and the court seals them without any participant application, petition or motion. There is no participant filing destination."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "bca_record"
+      ],
+      "eligibleDispositions": [
+        "qualifying_non_conviction",
+        "qualifying_petty_misdemeanor",
+        "qualifying_misdemeanor",
+        "qualifying_gross_misdemeanor",
+        "qualifying_felony"
+      ],
+      "exclusions": [
+        "Records outside the statutory automatic-eligibility criteria.",
+        "Records held by specially protected agencies, and out-of-state records, which Minnesota automatic relief does not reach."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Statutory automatic-eligibility criteria, identified by the BCA",
+          "duration": "Per the Clean Slate schedule; no participant action starts the clock"
+        }
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Bureau of Criminal Apprehension and the courts",
+        "detail": "The BCA identifies eligible records and the court seals them. Nothing is submitted by the participant."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirms whether the record appears automatically eligible, explains the BCA identification and court-sealing sequence, explains what automatic relief does not reach, and tells the participant to verify before paying for any petition."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceLevel",
+          "question": "Was the offence a petty misdemeanour, misdemeanour, gross misdemeanour or felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the case still appear on Minnesota Court Records Online?",
+          "requirement": "required"
+        },
+        {
+          "key": "consideringPaidPetition",
+          "question": "Are you considering filing a petition to expunge this record?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "recordStillAppears"
+        }
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The operative date of Laws 2026, chapter 70, section 5 must be confirmed before participant-facing instructions state it. The session law was retrieved on 2026-08-02: section 5 adds a new paragraph (f) to § 609A.015, subd. 5, under which the Bureau of Criminal Apprehension unseals a record and notifies the judicial branch if it later determines the record did not qualify for automatic relief, making that determination only from a record stored in its criminal history system, and the following paragraphs are renumbered (g) through (j). It does not alter the BCA's identification duty, the court-sealing window or victim notice. Chapter 70 states an effective date only for section 4 (1 January 2027), so section 5 falls to the default in Minn. Stat. § 645.02. Packet identity is unaffected because this route has no packet; the participant-facing warning that a Clean Slate grant may later be unsealed is an instruction change.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Laws 2026, chapter 70, section 5"
+          }
+        },
+        {
+          "question": "The current manual-review completion timeline and the current participant verification process for Clean Slate, and whether any correction or challenge submission exists when an eligible record was not processed.",
+          "impact": "release_blocker",
+          "affectedElement": "participant_instructions",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+            "sourceHeading": "OPEN QUESTIONS",
+            "sourceStatement": "Laws 2026, chapter 70, section 5"
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Retained as process_guidance because the Clean Slate mechanism has no application, no petition, no motion, no participant demand and no participant filing destination: the BCA identifies eligible records and the court seals them. This is not a guidance classification because an agency controls the process; it is guidance because the participant submits nothing to initiate it.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes before offering any paid petition. A participant whose record is already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain what automatic relief does not reach, including specially protected agencies and out-of-state records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No participant filing exists. There is no application, petition, motion or demand, and no filing destination. The BCA identifies and the court seals.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 1 - AUTOMATIC EXPUNGEMENT (CLEAN SLATE)",
+              "sourceStatement": "AUTOMATIC EXPUNGEMENT (CLEAN SLATE)"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Where an eligible record was not processed, no participant-facing correction submission has been identified. Do not invent one; route the participant to the petition tracks where they qualify.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "OPEN QUESTIONS",
+              "sourceStatement": "Laws 2026, chapter 70, section 5"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Warn that automatic relief is not final in the way a court order is. Laws 2026, chapter 70, section 5 adds § 609A.015, subd. 5(f), under which the Bureau of Criminal Apprehension unseals a record and notifies the judicial branch if it later determines the record did not qualify, deciding only from a record in its criminal history system. Confirm the operative date before the instruction states it.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "OPEN QUESTIONS",
+              "sourceStatement": "Laws 2026, chapter 70, section 5"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. There is no participant filing on this track."
+      },
+      "_participantInputsNote": "Questions LegalEase asks so it can set expectations and route correctly.",
+      "_supportingDocumentsNote": "Records the participant obtains for verification. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "There is no generated packet on this track.",
+      "manualCompletionItems": [],
+      "selfHelpStopConditions": [
+        "The automatic relief did not occur and the participant needs a route LegalEase cannot generate.",
+        "The participant asks for individualized legal advice about eligibility."
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is nothing to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_auto_cannabis_nonfelony",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "legalName": "Automatic Expungement of Certain Non-Felony Cannabis Offences",
+      "publicName": "Cannabis records that clear automatically",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. ch. 609A",
+          "Laws 2023, ch. 63"
+        ],
+        "summary": "The Bureau of Criminal Apprehension identifies qualifying non-felony cannabis records and expunges them automatically. There is no participant application, petition or demand."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "bca_record"
+      ],
+      "eligibleDispositions": [
+        "non_felony_cannabis_offence"
+      ],
+      "exclusions": [
+        "Felony cannabis offences, which route to the Cannabis Expungement Board.",
+        "Non-cannabis offences in the same case."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Statutory automatic-eligibility criteria",
+          "duration": "None. The BCA acts without participant action."
+        }
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Bureau of Criminal Apprehension",
+        "detail": "The BCA identifies and expunges qualifying non-felony cannabis records. Nothing is submitted by the participant."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Confirms the offence is a non-felony cannabis offence, explains the automatic mechanism, and routes felony cannabis records to the Cannabis Expungement Board track."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "cannabisOffenceLevel",
+          "question": "Was the cannabis offence a felony, or a lower-level offence?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "When was the case decided?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the case still appear on Minnesota Court Records Online?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "recordStillAppears"
+        }
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Retained as process_guidance because the mechanism has no application, no petition and no participant filing destination. The BCA identifies qualifying records and expunges them.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes before offering any paid petition. A participant whose record is already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain what automatic relief does not reach, including specially protected agencies and out-of-state records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No participant filing exists. The BCA identifies and expunges qualifying non-felony cannabis records without any participant submission.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 2 - AUTOMATIC EXPUNGEMENT OF CERTAIN CANNABIS OFFENSES",
+              "sourceStatement": "AUTOMATIC EXPUNGEMENT OF CERTAIN CANNABIS OFFENSES"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. There is no participant filing on this track."
+      },
+      "_participantInputsNote": "Questions LegalEase asks so it can set expectations and route correctly.",
+      "_supportingDocumentsNote": "Records the participant obtains for verification. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "There is no generated packet on this track.",
+      "manualCompletionItems": [],
+      "selfHelpStopConditions": [
+        "The automatic relief did not occur and the participant needs a route LegalEase cannot generate.",
+        "The participant asks for individualized legal advice about eligibility."
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is nothing to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_ceb_felony_cannabis",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "legalName": "Cannabis Expungement Board Review and Resentencing",
+      "publicName": "Cannabis Expungement Board review of a felony cannabis record",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. ch. 609A",
+          "Laws 2023, ch. 63"
+        ],
+        "summary": "The Cannabis Expungement Board reviews felony cannabis records on its own initiative and orders expungement or resentencing. There is no participant application or petition to the Board."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "bca_record"
+      ],
+      "eligibleDispositions": [
+        "felony_cannabis_offence"
+      ],
+      "exclusions": [
+        "Non-felony cannabis offences, which are expunged automatically without Board review."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Board review on its own initiative",
+          "duration": "None. No participant action starts it."
+        }
+      ],
+      "destination": {
+        "kind": "agency",
+        "name": "Cannabis Expungement Board",
+        "detail": "The Board reviews and orders. Nothing is submitted by the participant."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that the Board reviews felony cannabis records on its own initiative, that there is nothing to apply for, and how to verify the outcome."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "felonyCannabis",
+          "question": "Was the cannabis offence a felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "When were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the case still appear on Minnesota Court Records Online?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "recordStillAppears"
+        }
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Retained as process_guidance because the Cannabis Expungement Board acts on its own initiative. There is no participant application, petition or demand and no filing destination.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes before offering any paid petition. A participant whose record is already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain what automatic relief does not reach, including specially protected agencies and out-of-state records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No participant filing exists. The Board reviews felony cannabis records on its own initiative; there is nothing to apply for.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 3 - CANNABIS EXPUNGEMENT BOARD REVIEW AND RESENTENCING",
+              "sourceStatement": "CANNABIS EXPUNGEMENT BOARD REVIEW AND RESENTENCING"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. There is no participant filing on this track."
+      },
+      "_participantInputsNote": "Questions LegalEase asks so it can set expectations and route correctly.",
+      "_supportingDocumentsNote": "Records the participant obtains for verification. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "There is no generated packet on this track.",
+      "manualCompletionItems": [],
+      "selfHelpStopConditions": [
+        "The automatic relief did not occur and the participant needs a route LegalEase cannot generate.",
+        "The participant asks for individualized legal advice about eligibility."
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is nothing to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_mistaken_identity_court",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "legalName": "Mistaken Identity; Automatic Court Expungement",
+      "publicName": "Clearing a record created when someone used your identity",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. ch. 609A"
+        ],
+        "summary": "Where a record was created through mistaken identity, the court expunges it without a participant petition."
+      },
+      "eligibleRecordTypes": [
+        "court_record"
+      ],
+      "eligibleDispositions": [
+        "record_created_by_mistaken_identity"
+      ],
+      "exclusions": [
+        "Records that are genuinely the participant's own."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Determination of mistaken identity",
+          "duration": "None"
+        }
+      ],
+      "destination": {
+        "kind": "court",
+        "name": "The court holding the record",
+        "detail": "The court expunges on the mistaken-identity determination. No participant petition."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the mistaken-identity mechanism, how to raise it with the court and prosecutor, and how it differs from the identification-data destruction route."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "identityMisused",
+          "question": "Was this record created because someone else used your identity, or because of a mix-up with a similar name?",
+          "requirement": "required"
+        },
+        {
+          "key": "courtAndCase",
+          "question": "Which court and case number does the record appear under?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the case still appear on Minnesota Court Records Online?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "recordStillAppears"
+        }
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Retained as process_guidance because the court expunges on the mistaken-identity determination without a participant petition. There is no participant filing destination for this mechanism.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes before offering any paid petition. A participant whose record is already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No participant filing exists. The court expunges on the mistaken-identity determination without a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 4 - MISTAKEN IDENTITY; AUTOMATIC COURT EXPUNGEMENT",
+              "sourceStatement": "MISTAKEN IDENTITY; AUTOMATIC COURT EXPUNGEMENT"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. There is no participant filing on this track."
+      },
+      "_participantInputsNote": "Questions LegalEase asks so it can set expectations and route correctly.",
+      "_supportingDocumentsNote": "Records the participant obtains for verification. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "There is no generated packet on this track.",
+      "manualCompletionItems": [],
+      "selfHelpStopConditions": [
+        "The automatic relief did not occur and the participant needs a route LegalEase cannot generate.",
+        "The participant asks for individualized legal advice about eligibility."
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is nothing to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_mistaken_identity_iddata",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "legalName": "Mistaken Identity; Destruction of Identification Data",
+      "publicName": "Destroying fingerprints and photographs taken under someone else's identity",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. § 299C.11"
+        ],
+        "summary": "Identification data created through mistaken identity is destroyed without a participant petition."
+      },
+      "eligibleRecordTypes": [
+        "identification_data",
+        "fingerprints",
+        "photographs"
+      ],
+      "eligibleDispositions": [
+        "identification_data_created_by_mistaken_identity"
+      ],
+      "exclusions": [
+        "Identification data that is genuinely the participant's own, which routes to the written-demand track where its conditions are met."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Determination of mistaken identity",
+          "duration": "None"
+        }
+      ],
+      "destination": {
+        "kind": "agency",
+        "name": "The agency holding the identification data, and the Bureau of Criminal Apprehension",
+        "detail": "Destruction follows the mistaken-identity determination. No participant petition."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains the destruction mechanism for identification data created under mistaken identity, and distinguishes it from the § 299C.11 written-demand route, which is a participant-generated packet."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "identityMisused",
+          "question": "Were the fingerprints or photographs taken from someone else who used your identity?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency took them?",
+          "requirement": "required"
+        },
+        {
+          "key": "dataStillAppears",
+          "question": "Does the arrest still appear on your criminal history?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "dataStillAppears"
+        }
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Retained as process_guidance because destruction follows the mistaken-identity determination without a participant petition or demand. Where the data is genuinely the participant's own, the § 299C.11 written-demand track applies instead and is packet-capable.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes before offering any paid petition. A participant whose record is already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No participant filing exists for the mistaken-identity destruction mechanism itself.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 5 - MISTAKEN IDENTITY; DESTRUCTION OF IDENTIFICATION DATA",
+              "sourceStatement": "MISTAKEN IDENTITY; DESTRUCTION OF IDENTIFICATION DATA"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Distinguish this from the § 299C.11 written-demand route. Where the identification data is genuinely the participant's own and the statutory conditions are met, that route generates a participant-signed demand packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 6 - ARREST-RECORD DESTRUCTION ON WRITTEN DEMAND (NO COURT)",
+              "sourceStatement": "ARREST-RECORD DESTRUCTION ON WRITTEN DEMAND (NO COURT)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "mn_299c11_arrest_demand",
+      "nodeType": "relief_track",
+      "outputStrategy": "custom_pleading",
+      "legalName": "Written Demand for Destruction of Arrest Identification Data under Minn. Stat. § 299C.11, subd. 1(b)",
+      "publicName": "Arrest record destruction request (no court case)",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. § 299C.11, subd. 1(b)",
+          "Minn. Stat. § 299C.11, subd. 3(1)"
+        ],
+        "summary": "On written demand, law enforcement and the Bureau of Criminal Apprehension must destroy arrest identification data — fingerprints and thumbprints, photographs, distinctive physical mark identification data, known aliases and street names, and all copies and duplicates — where the person has no felony or gross-misdemeanour conviction anywhere in the ten years immediately preceding determination of all pending criminal actions in their favour, and either all charges were dismissed before a determination of probable cause, or the prosecuting authority declined to file and a grand jury did not indict. Relief is mandatory on demand where the conditions are met. The Minnesota Judicial Branch publishes six sample demand letters."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2015-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest_identification_data",
+        "fingerprints",
+        "photographs",
+        "distinctive_physical_mark_data",
+        "aliases"
+      ],
+      "eligibleDispositions": [
+        "all_charges_dismissed_before_probable_cause",
+        "prosecutor_declined_and_no_indictment"
+      ],
+      "exclusions": [
+        "Section 299C.11, subd. 3(1) provides that the following are not a determination in favour of the arrested person: sealing under § 152.18, subd. 1, § 242.31 or chapter 609A; successful completion of a diversion programme; an order of discharge under § 609.165; and a pardon under chapter 638.",
+        "Any felony or gross-misdemeanour conviction, in or outside Minnesota, in the ten years immediately preceding determination of all pending criminal actions in the person's favour."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Determination of all pending criminal actions in the person's favour",
+          "duration": "None"
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No court. The demand goes to each records custodian that may hold the participant's data."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Each custodian holding the arrest identification data",
+        "detail": "The Bureau of Criminal Apprehension, the police department, the county sheriff, the city attorney, the county attorney and the county department of corrections, in each case only where that custodian may hold the participant's record."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Participant-signed written demand letter to the Bureau of Criminal Apprehension, drafted against Minn. Stat. § 299C.11, subd. 1(b) using the Judicial Branch sample letter as an authoritative drafting reference rather than a mandatory form."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Only where that custodian may hold the participant's record.",
+          "outputStrategy": "custom_pleading",
+          "notes": "Participant-signed demand letters to the police department, the county sheriff, the city attorney, the county attorney and the county department of corrections. Five further letters on the same statutory basis."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Mailing instructions: agency addresses, a recommendation to send by certified mail, how many copies to keep, and how to retain mailing receipts."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks. The eligibility conditions are asked directly rather than inferred from a record.",
+      "participantInputs": [
+        {
+          "key": "arrestingAgency",
+          "question": "Which agency arrested you, and in which county and city?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "dismissedBeforeProbableCause",
+          "question": "Were all charges dismissed before the court made a probable-cause determination?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorDeclined",
+          "question": "Did the prosecutor decline to file charges?",
+          "requirement": "required"
+        },
+        {
+          "key": "grandJuryIndictment",
+          "question": "Did a grand jury return an indictment?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked where the prosecutor declined to file, because an indictment defeats that branch."
+        },
+        {
+          "key": "diversionParticipation",
+          "question": "Did you take part in a diversion programme as a result of this arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "tenYearLookback",
+          "question": "Have you been convicted of any felony or gross misdemeanour, anywhere in the country, in the ten years before this case ended?",
+          "requirement": "required"
+        },
+        {
+          "key": "custodiansHoldingRecord",
+          "question": "Which agencies do you believe hold records from this arrest?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "tenYearLookback"
+        },
+        {
+          "name": "Disposition documentation for the arrest",
+          "obtainedFrom": "The court that handled the case",
+          "requirement": "conditional",
+          "conditionDescription": "Where a custodian requests documentation of the disposition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Obtain the disposition record from the court. Some custodians ask for it with the demand.",
+          "confirms": "dismissedBeforeProbableCause"
+        }
+      ],
+      "_manualCompletionNote": "Fields the generated letters deliberately leave blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Participant signature on each letter",
+          "whereInPacket": "Signature block of each demand letter",
+          "why": "The demand is the participant's own. They sign each letter."
+        },
+        {
+          "item": "Agency addresses",
+          "whereInPacket": "Address block of each letter",
+          "why": "Looked up by the participant for the specific county and city before mailing."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no court filing. The participant mails a signed written demand to each custodian that may hold the record.",
+        "fees": "None identified.",
+        "feeWaiver": "Not applicable. There is no fee.",
+        "notice": "None. The demand is made directly to each custodian.",
+        "service": "Mail to each custodian. Certified mail is recommended so the participant has proof of the demand.",
+        "participantSignature": "Required on every letter.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "A custodian refuses or does not respond.",
+        "Whether charges were dismissed before a determination of probable cause is unclear, which is the most common point of participant error.",
+        "A diversion programme may have been involved.",
+        "The nationwide ten-year lookback may not be clean."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "The six Minnesota Judicial Branch sample § 299C.11 demand letters are not held in the corpus. They are official samples rather than approved forms, and the generated letters are drafted against the statute using them as references, so their absence does not prevent generation.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+            "sourceHeading": "PART 2 / Judicial Branch sample § 299C.11 letters (not in archive)",
+            "sourceStatement": "Judicial Branch sample § 299C.11 letters (not in archive)"
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Reclassified from process_guidance to custom_pleading on packet-only re-review. The review itself directs LegalEase to generate a six-agency, participant-signed demand-letter set while classifying the route as guidance because the mechanism is correspondence rather than a pleading. Under the controlling product model a participant-signed demand letter is a packet-generating custom output, and a court filing is not required for custom_pleading. The statute supplies the conditions, the entitlement and the custodians, and the Judicial Branch publishes six official sample letters as drafting references. Relief is mandatory on demand where the conditions are met.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Use the Minnesota Judicial Branch's six sample letters as authoritative drafting references, not as mandatory fillable forms. The Judicial Branch states they are only examples and must be edited to add case-specific information.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 6 / OUTPUT STRATEGY",
+              "sourceStatement": "The Judicial Branch itself publishes sample letters and states that they \"are only examples, and you must edit them and add all of the information specific to your case.\""
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Generate a demand letter only for a custodian that may actually hold the participant's record. The six candidates are the BCA, the police department, the county sheriff, the city attorney, the county attorney and the county department of corrections.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 6",
+              "sourceStatement": "which publishes six sample § 299C.11 demand letters (BCA, city attorney, county attorney, county department of corrections, police department, county sheriff)."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask directly whether charges were dismissed before a probable-cause determination. It is a record-specific procedural finding and the most common point of participant error.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 6 / Questions requiring individualized legal judgment",
+              "sourceStatement": "Whether charges were dismissed \"prior to a determination of probable cause,\" which is a record-specific procedural finding and is the most common point of participant error"
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Ask about diversion expressly. Successful completion of a diversion programme is not a determination in favour of the arrested person under subd. 3(1), and the Judicial Branch states the participant must not have participated in diversion as a result of the arrest.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 6 / Excluded (subd. 3(1))",
+              "sourceStatement": "The Judicial Branch help topic states plainly that the participant must not have participated in a diversion program as a result of the arrest."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "The participant looks up each agency address, signs each letter, keeps copies, and is advised to send by certified mail so they hold proof of the demand.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 6",
+              "sourceStatement": "ARREST-RECORD DESTRUCTION ON WRITTEN DEMAND (NO COURT)"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Agency refusal or nonresponse triggers handoff. It is not a generation blocker.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 6",
+              "sourceStatement": "Mandatory on demand where the conditions are met."
+            }
+          }
+        ]
+      },
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review. The output-strategy reclassification is recorded in the adoption changelog."
+    },
+    {
+      "trackId": "mn_prosecutor_agreed",
+      "nodeType": "relief_track",
+      "outputStrategy": "composed",
+      "compositionMode": "mixed",
+      "localFormOverride": true,
+      "legalName": "Prosecutor-Agreed Sealing under Minn. Stat. § 609A.025",
+      "publicName": "Prosecutor-agreed record sealing",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. § 609A.025",
+          "Minn. Stat. § 609A.02, subd. 3",
+          "Minn. Stat. § 609A.03, subd. 7a(b)(4)"
+        ],
+        "summary": "Where the prosecutor agrees, the court shall seal without any petition unless it determines that the interests of the public and public safety in keeping the record public outweigh the disadvantages to the subject. The prosecutor's agreement is discretionary and, before agreeing, the prosecutor must make a good-faith effort to notify identifiable victims of the intended agreement and of the opportunity to object. One statewide mechanism with county-specific intake."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2014-08-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "agency_record"
+      ],
+      "eligibleDispositions": [
+        "any_disposition_described_in_609A_02_subd_3"
+      ],
+      "exclusions": [
+        "Dispositions outside the § 609A.02, subd. 3 grounds population.",
+        "Pending charges, as under § 609A.02, subd. 3."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "The § 609A.02, subd. 3 waiting periods apply by reference",
+          "duration": "As under subd. 3. For a person described in subd. 3(a)(2), diversion or stay of adjudication, the prosecutor's agreement may occur before or after the charges are dismissed."
+        }
+      ],
+      "units": [
+        {
+          "unitId": "mn_prosecutor_agreed-request-stage",
+          "order": 1,
+          "label": "Request to the prosecuting authority",
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "description": "The participant asks the prosecuting authority to agree to sealing. LegalEase identifies the correct prosecuting authority from the county and offence location and prepares the participant's factual summary. Which sub-branch applies depends on whether the county runs a published programme.",
+          "available": true
+        },
+        {
+          "unitId": "mn_prosecutor_agreed-portal-county",
+          "order": 2,
+          "parentUnitId": "mn_prosecutor_agreed-request-stage",
+          "label": "County portal application",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "description": "Hennepin, Ramsey and Washington Counties run published online applications. These are third-party intake systems with their own field requirements, so LegalEase prepares the participant's factual summary and routes them to the county portal. It does not complete or submit a county portal application.",
+          "available": true
+        },
+        {
+          "unitId": "mn_prosecutor_agreed-written-request",
+          "order": 3,
+          "parentUnitId": "mn_prosecutor_agreed-request-stage",
+          "label": "Written request to the county or city attorney",
+          "outputStrategy": "custom_pleading",
+          "outputStrategyStatus": "resolved",
+          "description": "Where the county runs no published programme, the participant contacts the county or city attorney directly. LegalEase generates a participant-signed written request setting out the case, the disposition, the applicable § 609A.02, subd. 3 ground and the participant's own account. The Attorney General page is the statewide entry point for identifying the correct authority.",
+          "available": true
+        },
+        {
+          "unitId": "mn_prosecutor_agreed-court-sealing",
+          "order": 4,
+          "label": "Court sealing on prosecutor agreement",
+          "outputStrategy": "process_guidance",
+          "outputStrategyStatus": "resolved",
+          "description": "Once the prosecutor agrees, the court shall seal without any participant petition, unless the public-interest balance goes the other way. There is nothing for the participant to file at this stage.",
+          "available": true
+        }
+      ],
+      "geography": {
+        "scope": "county",
+        "keys": [
+          "hennepin",
+          "ramsey",
+          "washington"
+        ],
+        "venue": "Statewide in authority, county-specific in practice. The county attorney where the county prosecuted; the city attorney where the city prosecuted."
+      },
+      "destination": {
+        "kind": "prosecutor",
+        "name": "The prosecuting authority, then the court",
+        "detail": "County attorney or city attorney at the request stage. The court seals on agreement without a petition."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Where the county runs no published programme.",
+          "outputStrategy": "custom_pleading",
+          "notes": "Participant-signed written request to the county or city attorney under § 609A.025."
+        },
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Identifies the correct prosecuting authority, explains the county portal route where one exists, and explains the no-petition court stage."
+        },
+        {
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Where the local programme requests it.",
+          "outputStrategy": "custom_pleading",
+          "notes": "Participant-authored rehabilitation material. LegalEase formats the participant's own facts and does not assess them."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks to identify the prosecuting authority and prepare the participant's factual summary.",
+      "participantInputs": [
+        {
+          "key": "county",
+          "question": "In which Minnesota county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutedBy",
+          "question": "Was the case prosecuted by the county attorney or by a city attorney?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the court file number?",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "subd3Ground",
+          "question": "Which § 609A.02, subd. 3 ground do you believe applies?",
+          "requirement": "required"
+        },
+        {
+          "key": "identifiableVictim",
+          "question": "Was there an identifiable victim in the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "dhsRecordsMatter",
+          "question": "Do Department of Human Services, DCYF, Department of Health or PELSB records matter for your work or licence?",
+          "requirement": "required"
+        },
+        {
+          "key": "participantAccount",
+          "question": "In your own words, why are you asking the prosecutor to agree?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "_manualCompletionNote": "Fields the generated request deliberately leaves blank.",
+      "manualCompletionItems": [
+        {
+          "item": "Participant signature",
+          "whereInPacket": "Written request signature block",
+          "why": "The request is the participant's own."
+        },
+        {
+          "item": "County portal fields",
+          "whereInPacket": "Not generated",
+          "why": "County portals are third-party intake systems. LegalEase does not complete or submit them."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Apply through the county portal where the county runs one, or send a written request to the county or city attorney where it does not. The court seals on agreement without a participant petition.",
+        "fees": "None identified for the prosecutor application. Unresolved whether any county charges.",
+        "feeWaiver": "Not applicable at the request stage.",
+        "notice": "Before agreeing, the prosecutor must make a good-faith effort to notify identifiable victims of the intended agreement and of the opportunity to object.",
+        "service": "Not applicable at the request stage. There is no participant petition at the court stage.",
+        "participantSignature": "Required on a written request.",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any decision about whether approaching the prosecutor is strategically advisable.",
+        "Any case with an identifiable victim.",
+        "Any case where Department of Human Services, DCYF, Department of Health or PELSB records matter.",
+        "The prosecutor declines, or asks to negotiate.",
+        "Any county without a published programme where the city or county attorney will not accept a written request."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "Whether any county charges a fee for the prosecutor application.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+            "sourceHeading": "TRACK 7 / FILING AND POST-FILING PROCESS",
+            "sourceStatement": "Fee: None identified for the prosecutor application. Unresolved whether any county charges."
+          }
+        },
+        {
+          "question": "Whether the Hennepin, Ramsey and Washington County programmes publish a downloadable application form, or are portal-only. The corpus holds no county prosecutor application, so the written-request branch is generated against the statute and the portal branch routes the participant to the county system.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+            "sourceHeading": "TRACK 7",
+            "sourceStatement": "Known local-form or local-practice requirements: Yes, and they vary. This is the most county-variable track in Minnesota."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Modelled as one statewide mechanism with county-specific implementation rather than split into separate relief nodes. Composed as mixed: a request stage with two alternative sub-branches, then a sequential court stage. The portal branch stays guidance on a precise ground, that county portals are third-party intake systems LegalEase cannot lawfully complete or submit on the participant's behalf. The written-request branch is packet-capable, because where no published programme exists the accepted vehicle is a participant-signed written request to the county or city attorney, and § 609A.025 supplies the mechanism and the destination. The court stage is guidance because the statute is expressly a no-petition mechanism.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase must not complete or submit a county portal application. It identifies the correct prosecuting authority, explains the mechanism and prepares the participant's factual summary.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 7 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "LegalEase may identify the correct prosecuting authority from the county and offense location, explain the mechanism, and prepare the participant's factual summary. LegalEase must not complete or submit a county portal application."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase does not obtain prosecutor agreement, does not negotiate, and does not advise whether making the request is strategically preferable to petitioning.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 7 / SELF-HELP LIMITS",
+              "sourceStatement": "Any decision about whether approaching the prosecutor is strategically advisable."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The court seals without any participant petition once the prosecutor agrees, unless the interests of the public and public safety in keeping the record public outweigh the disadvantages to the subject.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 7",
+              "sourceStatement": "Once the prosecutor agrees, the court shall seal without a petition unless it determines that the interests of the public and public safety in keeping the record public outweigh the disadvantages to the subject of not sealing it."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Route non-programme counties through the Minnesota Attorney General page, which is the statewide entry point for identifying the correct prosecuting authority.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 7 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "Route to the AG page for non-program counties."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Identifiable victims, disputed facts, negotiation, prosecutor refusal or a request for advocacy trigger handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 7 / SELF-HELP LIMITS",
+              "sourceStatement": "Any case with an identifiable victim."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Flag to counsel where Department of Human Services records matter: § 609A.03, subd. 7a(b)(4) permits a background-study opening unless the order is directed specifically to the commissioner of human services following § 609A.025 proceedings upon service of an order on the commissioner. That conditional is narrow.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 7 / FILING AND POST-FILING PROCESS",
+              "sourceStatement": "That conditional is narrow and should be flagged to counsel where DHS matters."
+            }
+          }
+        ]
+      },
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review."
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "effectiveDates": {
+        "effectiveFrom": "2024-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "No venue. There is no participant filing on this track."
+      },
+      "_participantInputsNote": "Questions LegalEase asks so it can set expectations and route correctly.",
+      "_supportingDocumentsNote": "Records the participant obtains for verification. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "There is no generated packet on this track.",
+      "manualCompletionItems": [],
+      "selfHelpStopConditions": [
+        "The automatic relief did not occur and the participant needs a route LegalEase cannot generate.",
+        "The participant asks for individualized legal advice about eligibility."
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 299C.11 and 638.02",
+          "url": "https://www.revisor.mn.gov/statutes/cite/299C.11",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch, Expunge Arrest Records help topic and six sample § 299C.11 demand letters",
+          "url": "https://www.mncourts.gov/Help-Topics/Expungement.aspx",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Attorney General expungement page; Hennepin, Ramsey and Washington County Attorney record-sealing application pages",
+          "url": "https://www.ag.state.mn.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "There is no participant filing on this track.",
+        "fees": "None.",
+        "feeWaiver": "Not applicable.",
+        "notice": "The source review states no participant notice obligation.",
+        "service": "No service. There is nothing to serve.",
+        "participantSignature": "No participant signature. There is no participant filing on this track.",
+        "notarization": "none"
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_pardon_auto_expungement",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "legalName": "Automatic Expungement Following a Pardon Extraordinary",
+      "publicName": "Records that clear automatically after a pardon",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. ch. 638",
+          "Minn. Stat. ch. 609A"
+        ],
+        "summary": "Where a pardon extraordinary is granted, expungement follows automatically. The participant does not file an expungement petition; the pardon application itself is a separate clemency process before the pardon body."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "bca_record"
+      ],
+      "eligibleDispositions": [
+        "conviction_pardoned_extraordinary"
+      ],
+      "exclusions": [
+        "Records where no pardon extraordinary has been granted."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Grant of a pardon extraordinary",
+          "duration": "None. Expungement follows automatically."
+        }
+      ],
+      "destination": {
+        "kind": "automatic",
+        "name": "Following the pardon body's grant",
+        "detail": "Expungement follows the pardon automatically. No participant expungement filing."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explains that expungement follows a granted pardon extraordinary automatically, that the pardon application itself is a separate clemency process outside this track, and how to verify the expungement occurred."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "pardonGranted",
+          "question": "Have you been granted a pardon extraordinary?",
+          "requirement": "required"
+        },
+        {
+          "key": "pardonDate",
+          "question": "On what date was it granted?",
+          "requirement": "conditional",
+          "conditionDescription": "Asked only where a pardon has been granted."
+        },
+        {
+          "key": "recordStillAppears",
+          "question": "Does the conviction still appear on Minnesota Court Records Online?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "recordStillAppears"
+        }
+      ],
+      "unresolvedQuestions": [],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Retained as process_guidance because expungement follows the pardon automatically and the participant files no expungement application, petition or motion. The clemency application itself is a separate process before the pardon body and is outside this track.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes before offering any paid petition. A participant whose record is already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain what automatic relief does not reach, including specially protected agencies and out-of-state records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "No participant expungement filing exists. Expungement follows the grant of a pardon extraordinary automatically.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 8 - PARDON EXTRAORDINARY; AUTOMATIC EXPUNGEMENT",
+              "sourceStatement": "PARDON EXTRAORDINARY; AUTOMATIC EXPUNGEMENT"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The pardon application itself is a clemency process before the pardon body and is not generated on this track.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 8 - PARDON EXTRAORDINARY; AUTOMATIC EXPUNGEMENT",
+              "sourceStatement": "PARDON EXTRAORDINARY; AUTOMATIC EXPUNGEMENT"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2015-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The district court in the county where the case was decided."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "District court administrator in the county of the case",
+        "detail": "Served on the agencies holding the records and on the prosecuting authority. The court sets a hearing."
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no record is collected or inspected as a condition of generating.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank, with instructions for when the court or participant supplies them.",
+      "participantInputs": [
+        {
+          "key": "county",
+          "question": "In which Minnesota county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the court file number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge in the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceDischargeDate",
+          "question": "When were you discharged from any sentence, probation or supervision?",
+          "requirement": "required"
+        },
+        {
+          "key": "newConvictions",
+          "question": "Have you been convicted of any new crime since?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "registrationRequired",
+          "question": "Are you required to register as a predatory offender?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records from this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsFeeWaiver",
+          "question": "Do you want to ask the court to waive the filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "EXP102 signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "Hearing date, time, courtroom and Zoom credentials",
+          "whereInPacket": "EXP102 and EXP104 hearing blocks",
+          "why": "Supplied by the court after filing. Left as clear blanks with instructions."
+        },
+        {
+          "item": "Agency service addresses",
+          "whereInPacket": "EXP104 service list",
+          "why": "Looked up by the participant before service."
+        },
+        {
+          "item": "Proof-of-service dates",
+          "whereInPacket": "EXP104",
+          "why": "Completed by the participant after service is effected."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 260B.198 and 299C.11",
+          "url": "https://www.revisor.mn.gov/statutes/cite/152.18",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "State v. C.A., 304 N.W.2d 353 (Minn. 1981); State v. Ambaye, 616 N.W.2d 256 (Minn. 2000); State v. Schultz, 676 N.W.2d 337 (Minn. App. 2004)",
+          "url": "https://mn.gov/law-library/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File EXP102 with the district court administrator in the county where the case was decided, with the applicable supporting forms. Serve the agencies holding the records and the prosecuting authority, then file EXP104 as proof of service.",
+        "fees": "A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver applies.",
+        "feeWaiver": "FEE102 Affidavit to Request Fee Waiver, with FEE103 where the court requests further detail. A statutory fee waiver applies to certain petitions.",
+        "notice": "The prosecuting authority and each agency holding records receive notice and may object. The court holds a hearing.",
+        "service": "The participant serves the agencies and the prosecuting authority and files EXP104 as proof.",
+        "participantSignature": "Required on the petition.",
+        "notarization": "Required where the form calls for a notarised signature."
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_petition_15218",
+      "legalName": "Petition to Expunge a Controlled-Substance Discharge under Minn. Stat. § 152.18",
+      "publicName": "Expunging a case discharged under the controlled-substance statute",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. § 152.18",
+          "Minn. Stat. ch. 609A"
+        ],
+        "summary": "Where a person was discharged under § 152.18 without an adjudication of guilt, the record may be expunged on petition using the statewide expungement form suite."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "agency_record"
+      ],
+      "eligibleDispositions": [
+        "section_152_18_discharge_without_adjudication"
+      ],
+      "exclusions": [
+        "Cases that did not receive a § 152.18 discharge.",
+        "Predatory-offender registration bar under § 609A.02, subd. 4."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Discharge under § 152.18",
+          "duration": "Per the statutory clause applicable to the disposition"
+        }
+      ],
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP102",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP102_Current-2.pdf",
+          "notes": "Petition for Expungement of Criminal Records, the statewide petition vehicle."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP104",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP104_Current.pdf",
+          "notes": "Proof of service. Completed by the participant after serving the agencies and the prosecuting authority."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP106",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP106_Current.pdf",
+          "notes": "Proposed order for the § 152.18 route. Judicial findings and signature remain blank."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the filing fee and no statutory waiver applies.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FEE102",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/forms/FEE102__affidavit-to-request-fee-waiver__rev-2024-07.pdf",
+          "notes": "Affidavit to Request Fee Waiver, Rev. 07/2024. FEE103 supplements it where the court requests further detail."
+        }
+      ],
+      "selfHelpStopConditions": [
+        "The prosecuting authority or an agency objects.",
+        "The court sets a contested hearing.",
+        "Whether the discharge was under § 152.18 is disputed.",
+        "Predatory-offender registration is required."
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A statewide official-form packet on EXP102, EXP104 and EXP106. Hearing details, agency addresses and service dates are manual-completion items and instructions, not packet gaps: the packet is generated before those values are known, with clear blanks.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes first. A participant already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The hearing date, hearing time, Zoom credentials and courtroom information are not known when the packet is generated. They are left as clear blanks with instructions explaining that the court supplies them after filing. They are not packet gaps.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Agency service addresses are looked up by the participant before service and inserted into the service list. An instruction, not a generation blocker.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "An objection by the prosecuting authority or an agency, or a contested hearing, triggers handoff. Generate the initial packet first.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 9 - PETITION; CONTROLLED SUBSTANCE DISCHARGE UNDER § 152.18",
+              "sourceStatement": "PETITION; CONTROLLED SUBSTANCE DISCHARGE UNDER § 152.18"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not generate EXP103. It is a prosecutor and court-side victim-notice form, not a participant packet component.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 2 / EXP103 (not in archive)",
+              "sourceStatement": "EXP103 (not in archive)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2015-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The district court in the county where the case was decided."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "District court administrator in the county of the case",
+        "detail": "Served on the agencies holding the records and on the prosecuting authority. The court sets a hearing."
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no record is collected or inspected as a condition of generating.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank, with instructions for when the court or participant supplies them.",
+      "participantInputs": [
+        {
+          "key": "county",
+          "question": "In which Minnesota county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the court file number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge in the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceDischargeDate",
+          "question": "When were you discharged from any sentence, probation or supervision?",
+          "requirement": "required"
+        },
+        {
+          "key": "newConvictions",
+          "question": "Have you been convicted of any new crime since?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "registrationRequired",
+          "question": "Are you required to register as a predatory offender?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records from this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsFeeWaiver",
+          "question": "Do you want to ask the court to waive the filing fee?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "EXP102 signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "Hearing date, time, courtroom and Zoom credentials",
+          "whereInPacket": "EXP102 and EXP104 hearing blocks",
+          "why": "Supplied by the court after filing. Left as clear blanks with instructions."
+        },
+        {
+          "item": "Agency service addresses",
+          "whereInPacket": "EXP104 service list",
+          "why": "Looked up by the participant before service."
+        },
+        {
+          "item": "Proof-of-service dates",
+          "whereInPacket": "EXP104",
+          "why": "Completed by the participant after service is effected."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 260B.198 and 299C.11",
+          "url": "https://www.revisor.mn.gov/statutes/cite/152.18",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "State v. C.A., 304 N.W.2d 353 (Minn. 1981); State v. Ambaye, 616 N.W.2d 256 (Minn. 2000); State v. Schultz, 676 N.W.2d 337 (Minn. App. 2004)",
+          "url": "https://mn.gov/law-library/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File EXP102 with the district court administrator in the county where the case was decided, with the applicable supporting forms. Serve the agencies holding the records and the prosecuting authority, then file EXP104 as proof of service.",
+        "fees": "A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver applies.",
+        "feeWaiver": "FEE102 Affidavit to Request Fee Waiver, with FEE103 where the court requests further detail. A statutory fee waiver applies to certain petitions.",
+        "notice": "The prosecuting authority and each agency holding records receive notice and may object. The court holds a hearing.",
+        "service": "The participant serves the agencies and the prosecuting authority and files EXP104 as proof.",
+        "participantSignature": "Required on the petition.",
+        "notarization": "Required where the form calls for a notarised signature."
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_petition_juvenile_as_adult",
+      "legalName": "Petition to Expunge a Conviction Following Certification for Adult Prosecution",
+      "publicName": "Expunging an adult conviction from a case you were certified into as a juvenile",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. ch. 609A",
+          "Minn. Stat. § 260B.125"
+        ],
+        "summary": "An adult conviction resulting from certification for adult prosecution may be expunged on petition using the statewide expungement form suite. This is an adult conviction route, not juvenile delinquency relief."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "agency_record"
+      ],
+      "eligibleDispositions": [
+        "adult_conviction_after_certification"
+      ],
+      "exclusions": [
+        "Juvenile delinquency adjudications, which are a separate scheme.",
+        "Predatory-offender registration bar under § 609A.02, subd. 4."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Per the statutory clause applicable to the disposition",
+          "duration": "As under § 609A.02, subd. 3"
+        }
+      ],
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP102",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP102_Current-2.pdf",
+          "notes": "Petition for Expungement of Criminal Records."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP104",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP104_Current.pdf",
+          "notes": "Proof of service. Completed by the participant after serving the agencies and the prosecuting authority."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP106",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP106_Current.pdf",
+          "notes": "Proposed order. Judicial findings and signature remain blank."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the filing fee and no statutory waiver applies.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FEE102",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/forms/FEE102__affidavit-to-request-fee-waiver__rev-2024-07.pdf",
+          "notes": "Affidavit to Request Fee Waiver, Rev. 07/2024. FEE103 supplements it where the court requests further detail."
+        }
+      ],
+      "selfHelpStopConditions": [
+        "The prosecuting authority or an agency objects.",
+        "The court sets a contested hearing.",
+        "Whether the case was certified for adult prosecution is disputed.",
+        "Predatory-offender registration is required."
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "A statewide official-form packet on EXP102, EXP104 and EXP106. Kept distinct from juvenile delinquency relief: this is an adult conviction resulting from certification for adult prosecution, and collapsing the two would misroute the participant.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes first. A participant already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The hearing date, hearing time, Zoom credentials and courtroom information are not known when the packet is generated. They are left as clear blanks with instructions explaining that the court supplies them after filing. They are not packet gaps.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Agency service addresses are looked up by the participant before service and inserted into the service list. An instruction, not a generation blocker.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Do not collapse this into juvenile delinquency relief. It is an adult conviction resulting from certification for adult prosecution.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 10 - PETITION; JUVENILE PROSECUTED AS AN ADULT",
+              "sourceStatement": "PETITION; JUVENILE PROSECUTED AS AN ADULT"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "An objection or contested hearing triggers handoff.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 10 - PETITION; JUVENILE PROSECUTED AS AN ADULT",
+              "sourceStatement": "PETITION; JUVENILE PROSECUTED AS AN ADULT"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "nodeType": "relief_track",
+      "outputStrategy": "official_pdf_fill",
+      "effectiveDates": {
+        "effectiveFrom": "2015-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The district court in the county where the case was decided."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "District court administrator in the county of the case",
+        "detail": "Served on the agencies holding the records and on the prosecuting authority. The court sets a hearing."
+      },
+      "_participantInputsNote": "Questions LegalEase asks. Generation runs on the participant's answers; no record is collected or inspected as a condition of generating.",
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "_manualCompletionNote": "Fields the generated packet deliberately leaves blank, with instructions for when the court or participant supplies them.",
+      "participantInputs": [
+        {
+          "key": "county",
+          "question": "In which Minnesota county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the court file number?",
+          "requirement": "required"
+        },
+        {
+          "key": "charges",
+          "question": "List every charge in the case.",
+          "requirement": "required"
+        },
+        {
+          "key": "disposition",
+          "question": "How did the case end?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceDischargeDate",
+          "question": "When were you discharged from any sentence, probation or supervision?",
+          "requirement": "required"
+        },
+        {
+          "key": "newConvictions",
+          "question": "Have you been convicted of any new crime since?",
+          "requirement": "required"
+        },
+        {
+          "key": "restitutionOutstanding",
+          "question": "Is any restitution still unpaid?",
+          "requirement": "required"
+        },
+        {
+          "key": "registrationRequired",
+          "question": "Are you required to register as a predatory offender?",
+          "requirement": "required"
+        },
+        {
+          "key": "agenciesHoldingRecords",
+          "question": "Which agencies do you believe hold records from this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "requestsFeeWaiver",
+          "question": "Do you want to ask the court to waive the filing fee?",
+          "requirement": "required"
+        },
+        {
+          "key": "statutoryClause",
+          "question": "Which statutory ground applies to your case?",
+          "requirement": "required"
+        },
+        {
+          "key": "rehabilitationFacts",
+          "question": "In your own words, what have you done since the case ended?",
+          "requirement": "required"
+        },
+        {
+          "key": "hardshipFacts",
+          "question": "In your own words, how is this record affecting your life now?",
+          "requirement": "required"
+        },
+        {
+          "key": "crimeVictimNexus",
+          "question": "Did the offence happen as a result of your being a victim of a crime, including trafficking?",
+          "requirement": "required"
+        },
+        {
+          "key": "firearmsOrViolence",
+          "question": "Was the offence a crime of violence, or does it affect firearm rights?",
+          "requirement": "required"
+        },
+        {
+          "key": "immigrationConsequences",
+          "question": "Do you have immigration status that could be affected?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Petitioner signature",
+          "whereInPacket": "EXP102 signature block",
+          "why": "The participant signs their own petition."
+        },
+        {
+          "item": "Hearing date, time, courtroom and Zoom credentials",
+          "whereInPacket": "EXP102 and EXP104 hearing blocks",
+          "why": "Supplied by the court after filing. Left as clear blanks with instructions."
+        },
+        {
+          "item": "Agency service addresses",
+          "whereInPacket": "EXP104 service list",
+          "why": "Looked up by the participant before service."
+        },
+        {
+          "item": "Proof-of-service dates",
+          "whereInPacket": "EXP104",
+          "why": "Completed by the participant after service is effected."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 260B.198 and 299C.11",
+          "url": "https://www.revisor.mn.gov/statutes/cite/152.18",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "State v. C.A., 304 N.W.2d 353 (Minn. 1981); State v. Ambaye, 616 N.W.2d 256 (Minn. 2000); State v. Schultz, 676 N.W.2d 337 (Minn. App. 2004)",
+          "url": "https://mn.gov/law-library/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File EXP102 with the district court administrator in the county where the case was decided, with the applicable supporting forms. Serve the agencies holding the records and the prosecuting authority, then file EXP104 as proof of service.",
+        "fees": "A district court filing fee applies unless a statutory fee waiver or a granted FEE102 waiver applies.",
+        "feeWaiver": "FEE102 Affidavit to Request Fee Waiver, with FEE103 where the court requests further detail. A statutory fee waiver applies to certain petitions.",
+        "notice": "The prosecuting authority and each agency holding records receive notice and may object. The court holds a hearing.",
+        "service": "The participant serves the agencies and the prosecuting authority and files EXP104 as proof.",
+        "participantSignature": "Required on the petition.",
+        "notarization": "Required where the form calls for a notarised signature."
+      },
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review or the adopted Batch 2 resolution memorandum.",
+      "trackId": "mn_petition_609a02_subd3",
+      "legalName": "Petition for Expungement of Certain Criminal Proceedings under Minn. Stat. § 609A.02, subd. 3",
+      "publicName": "Petition to clear your record",
+      "controllingAuthority": {
+        "citations": [
+          "Minn. Stat. § 609A.02, subd. 3",
+          "Minn. Stat. § 609A.02, subd. 4",
+          "Minn. Stat. § 609A.03"
+        ],
+        "summary": "The main participant petition. Eight statutory disposition clauses each carry their own waiting-period calculation. EXP105 carries the burden-of-proof branch. Subdivision 4 imposes a predatory-offender registration bar. The court may order expungement on the statutory factors after notice to the prosecuting authority and the agencies holding records."
+      },
+      "eligibleRecordTypes": [
+        "court_record",
+        "agency_record"
+      ],
+      "eligibleDispositions": [
+        "proceeding_resolved_in_petitioner_favour",
+        "diversion_or_stay_of_adjudication",
+        "petty_misdemeanour_or_misdemeanour_conviction",
+        "gross_misdemeanour_conviction",
+        "enumerated_felony_conviction",
+        "other_statutory_clause"
+      ],
+      "exclusions": [
+        "The predatory-offender registration bar under § 609A.02, subd. 4.",
+        "Dispositions outside the eight statutory clauses."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Proceeding resolved in the petitioner's favour",
+          "duration": "As specified by the applicable statutory clause"
+        },
+        {
+          "condition": "Diversion or stay of adjudication, with the charge dismissed and one year since discharge without a new crime",
+          "duration": "1 year"
+        },
+        {
+          "condition": "Petty misdemeanour or misdemeanour conviction, with two years since discharge of the sentence without a new crime",
+          "duration": "2 years"
+        },
+        {
+          "condition": "Gross misdemeanour conviction, with three years since discharge of the sentence without a new crime",
+          "duration": "3 years"
+        },
+        {
+          "condition": "Enumerated felony conviction, with four years since discharge of the sentence without a new crime",
+          "duration": "4 years"
+        }
+      ],
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP102",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP102_Current-2.pdf",
+          "notes": "Petition for Expungement of Criminal Records, the statewide petition vehicle."
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP104",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP104_Current.pdf",
+          "notes": "Proof of service. Completed by the participant after serving the agencies and the prosecuting authority."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP105",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP105_Current.pdf",
+          "notes": "Proposed order carrying the burden-of-proof branch for the § 609A.02, subd. 3 route. Judicial findings and signature remain blank."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "EXP101",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/EXP101.pdf",
+          "notes": "Official instructions, available in English, Spanish, Hmong and Somali."
+        },
+        {
+          "role": "fee_waiver",
+          "requirement": "conditional",
+          "conditionDescription": "Where the participant cannot pay the filing fee and no statutory waiver applies.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FEE102",
+          "officialSourceUrl": "private/Nationwide Record Clearing/LegalEase Minnesota/forms/FEE102__affidavit-to-request-fee-waiver__rev-2024-07.pdf",
+          "notes": "Affidavit to Request Fee Waiver, Rev. 07/2024. FEE103 supplements it where the court requests further detail."
+        }
+      ],
+      "selfHelpStopConditions": [
+        "The prosecuting authority or an agency objects.",
+        "The court sets a contested hearing.",
+        "The disposition is disputed.",
+        "Predatory-offender registration is required.",
+        "Crime-of-violence or firearm issues arise.",
+        "The participant advances a crime-victim nexus theory.",
+        "Immigration consequences are in play.",
+        "Specially protected agencies are involved.",
+        "The participant asks for individualized legal advocacy."
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The adopted Batch 2 memorandum controls and expressly approves this as a statewide official-form packet: EXP102, EXP104 and EXP105 form the core packet, and a custom pleading would create service and order-content risk without adding value. The eight statutory disposition clauses and their waiting periods live inside the track's rules rather than as separate relief nodes, and the crime-victim nexus is a branch here rather than a separate trafficking-survivor node.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Run the automatic routes first. A participant already covered by Clean Slate, automatic cannabis expungement or a Cannabis Expungement Board action should not pay for a petition.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 4 / Tracks 1, 2, 3, 4, 5, 7, 8 - non-petition mechanisms",
+              "sourceStatement": "non-petition mechanisms"
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "The hearing date, hearing time, Zoom credentials and courtroom information are not known when the packet is generated. They are left as clear blanks with instructions explaining that the court supplies them after filing. They are not packet gaps.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "Agency service addresses are looked up by the participant before service and inserted into the service list. An instruction, not a generation blocker.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The adopted memorandum classifies this expressly as a statewide official-form packet with EXP102, EXP104 and EXP105 as the core packet. A custom pleading would create service and order-content risk without adding value.",
+            "provenance": {
+              "classificationBasis": "batch_decision_matrix",
+              "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+              "sourceHeading": "Priority issue resolution matrix / 2. Minnesota",
+              "sourceStatement": "Track 11 is the main participant petition under Minn. Stat. §§ 609A.02, subd. 3, and 609A.03. It should be expressly classified as a statewide official-form packet. EXP102, EXP104, and EXP105 form the core packet. A custom pleading would create service and order-content risk without adding value."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Rehabilitation and hardship facts are participant-authored through structured prompts. LegalEase formats the participant's own words and never judges whether they are persuasive.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The crime-victim nexus is a branch inside this track. Do not create a separate trafficking-survivor relief node; Minnesota has no distinct remedy identified.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "SPECIALIZED MATTERS LISTED SEPARATELY",
+              "sourceStatement": "SPECIALIZED MATTERS LISTED SEPARATELY"
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The adopted memorandum preserves attorney handoff for objections, contested hearings, disputed dispositions, predatory-offender registration, crime-of-violence and firearm issues, crime-victim nexus theories, immigration, specially protected agencies, and requests for individualized advocacy. The handoff does not erase packet identity.",
+            "provenance": {
+              "classificationBasis": "batch_decision_matrix",
+              "sourceFile": "LegalEase_Batch_2_Legal_Research_Resolution_Memo_ADOPTED.md",
+              "sourceHeading": "Priority issue resolution matrix / 2. Minnesota",
+              "sourceStatement": "Implementation status: Buildable; attorney handoff for objections, contested hearings, disputed dispositions, registration, violence/firearm issues, crime-victim nexus theories, immigration, or requests to reach specially protected agencies."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Derive the waiting period from the applicable statutory clause, carry the mandatory firearms term where it applies, apply the registration bar, request agency confirmation, and address the restitution stay. These live inside the track's rules, not as separate nodes.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 11 - PETITION; CERTAIN CRIMINAL PROCEEDINGS (§ 609A.02, SUBD. 3)",
+              "sourceStatement": "PETITION; CERTAIN CRIMINAL PROCEEDINGS"
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not generate EXP103. It is a prosecutor and court-side victim-notice form, not a participant packet component.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "PART 2 / EXP103 (not in archive)",
+              "sourceStatement": "EXP103 (not in archive)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "mn_inherent_authority",
+      "nodeType": "relief_track",
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "individualized_advocacy"
+      ],
+      "legalName": "Inherent-Authority Petition to Seal Judicial Branch Records",
+      "publicName": "Petition to seal court records only",
+      "controllingAuthority": {
+        "citations": [
+          "State v. C.A., 304 N.W.2d 353 (Minn. 1981)",
+          "In re R.L.F., 256 N.W.2d 803 (Minn. 1977)",
+          "State v. Ambaye, 616 N.W.2d 256 (Minn. 2000)",
+          "State v. Schultz, 676 N.W.2d 337 (Minn. App. 2004)",
+          "City of St. Paul v. Froysland, 246 N.W.2d 435 (Minn. 1976)",
+          "State v. Davisson, 624 N.W.2d 292 (Minn. App. 2001)"
+        ],
+        "summary": "A judicially recognised inherent authority to seal judicial branch records, outside chapter 609A. Ambaye sets two grounds: where the petitioner's constitutional rights may be seriously infringed by retention of the records, or, where constitutional rights are not involved, whether expungement yields a benefit to the petitioner commensurate with the disadvantages to the public and the burden on the court. Under Schultz, absent constitutional infringement the judicial branch cannot order non-judicial records sealed, so relief reaches court records only."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "1981-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "judicial_branch_record"
+      ],
+      "eligibleDispositions": [
+        "conviction_not_qualifying_under_609A_02_subd_3"
+      ],
+      "exclusions": [
+        "Police, sheriff, prosecutor and BCA records, which remain public because relief reaches judicial branch records only.",
+        "The § 609A.02, subd. 4 registration bar, treated as a hard bar here as a matter of policy."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "None",
+          "duration": "None"
+        }
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "The district court in the county where the case was decided, the same venue and procedure as the main petition."
+      },
+      "destination": {
+        "kind": "clerk",
+        "name": "District court administrator in the county of the case",
+        "detail": "EXP102 and EXP104 are the vehicle and the § 609A.03 procedure applies, but relief reaches judicial branch records only."
+      },
+      "_componentsNote": "An official participant-facing packet framework exists for this mechanism — EXP102 as the petition vehicle whose item 9 final checkbox routes to inherent authority, EXP104 as proof of service, and EXP107 as the published proposed order. It is deliberately NOT declared as official_pdf_fill components here, because the intake schema has no field for packet capability that is identified but not delivered: any official_pdf_fill component is normalized into a track-source relationship and a generation target, which would assert that LegalEase fills EXP107. Delivery is therefore recorded as process_guidance and packet identity is recorded in the component notes and the limitations, so that the record does not claim no packet exists.",
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explain the mechanism, explain that relief reaches judicial branch records only, and route the participant to legal aid or private counsel. Record, without generating: the official packet framework is EXP102 (petition vehicle; item 9's final checkbox routes to inherent authority), EXP104 (proof of service) and EXP107 (proposed order, Rev 01/15). Neutral participant identifier, case and service fields on EXP102 and EXP104 are mechanically completable. EXP107 is not: paragraphs 4, 5, 7 and 8 are findings against the petitioner, paragraphs 6, 8 and 9 are open-ended legal-argument fields including the clear-and-convincing balancing, and paragraphs 2 and 3 require case-specific conclusions of law."
+        }
+      ],
+      "_participantInputsNote": "Questions LegalEase asks to explain the route and route the participant to counsel.",
+      "participantInputs": [
+        {
+          "key": "county",
+          "question": "In which Minnesota county was the case?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseNumber",
+          "question": "What is the court file number?",
+          "requirement": "required"
+        },
+        {
+          "key": "qualifiesUnder609A",
+          "question": "Does your case qualify under the ordinary statutory petition grounds?",
+          "requirement": "required"
+        },
+        {
+          "key": "registrationRequired",
+          "question": "Are you required to register as a predatory offender?",
+          "requirement": "required"
+        },
+        {
+          "key": "understandsCourtRecordsOnly",
+          "question": "Do you understand that this route reaches court records only, and that police, sheriff, prosecutor and BCA records stay public?",
+          "requirement": "required"
+        }
+      ],
+      "_supportingDocumentsNote": "Records the participant obtains. LegalEase never collects, inspects or authenticates them.",
+      "supportingDocuments": [
+        {
+          "name": "Your own Minnesota criminal history from the Bureau of Criminal Apprehension, and your case history from MCRO",
+          "obtainedFrom": "Minnesota Bureau of Criminal Apprehension and Minnesota Court Records Online",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request your own criminal history from the BCA and look your cases up on Minnesota Court Records Online. LegalEase never collects, inspects or authenticates them.",
+          "confirms": "caseNumber"
+        }
+      ],
+      "_manualCompletionNote": "No packet is delivered while direct self-help is out of scope.",
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "Minn. Stat. ch. 609A, §§ 609A.02, 609A.025 and 609A.03",
+          "url": "https://www.revisor.mn.gov/statutes/cite/609A",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minn. Stat. §§ 152.18, 260B.198 and 299C.11",
+          "url": "https://www.revisor.mn.gov/statutes/cite/152.18",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "Minnesota Judicial Branch expungement forms EXP101, EXP102, EXP104, EXP105, EXP106, EXP107 and fee-waiver forms FEE102 and FEE103",
+          "url": "https://www.mncourts.gov/GetForms.aspx?c=16",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "State v. C.A., 304 N.W.2d 353 (Minn. 1981); State v. Ambaye, 616 N.W.2d 256 (Minn. 2000); State v. Schultz, 676 N.W.2d 337 (Minn. App. 2004)",
+          "url": "https://mn.gov/law-library/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Venue, filing destination, fee, service and hearing timing are the same as the main statutory petition, because EXP102, EXP104 and the § 609A.03 procedure are the vehicle. LegalEase does not currently deliver this packet directly.",
+        "fees": "A district court filing fee applies plus a county law library fee, and it is not waived by statute on this route.",
+        "feeWaiver": "No statutory fee waiver on this route. A FEE102 waiver request may still be made.",
+        "notice": "The prosecuting authority and the agencies receive notice, the same as the statutory routes.",
+        "service": "The same as the statutory routes.",
+        "participantSignature": "Required on the petition.",
+        "notarization": "Required where the form calls for a notarised signature."
+      },
+      "selfHelpStopConditions": [
+        "The entire track. Every participant reaching this route is handed off to legal aid or private counsel."
+      ],
+      "_unresolvedQuestionsNote": "Each open question carries an impact and the element it affects.",
+      "unresolvedQuestions": [
+        {
+          "question": "The current revision status of EXP107. The copy held in the corpus is Rev 01/15 and no newer revision has been confirmed. The track is disabled for direct delivery, so this is a release matter rather than a legal-design blocker.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+            "sourceHeading": "PART 2 / EXP107_Current.pdf",
+            "sourceStatement": "Court form EXP107 (Rev 01/15)"
+          }
+        },
+        {
+          "question": "Whether § 609A.02, subd. 4 formally binds an inherent-authority order. The review treats the registration bar as excluded as a matter of policy.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+            "sourceHeading": "TRACK 12",
+            "sourceStatement": "Unresolved whether subd. 4 formally binds an inherent-authority order; treat as excluded."
+          }
+        }
+      ],
+      "_limitationsNote": "Every limitation is classified. Only legal_design_blocker withholds a track.",
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Packet identity and delivery scope are recorded separately. A participant-facing official packet framework exists: EXP102 is the petition vehicle and its item 9 final checkbox routes to inherent authority, EXP104 is proof of service, and EXP107 is the published proposed order. Direct self-help delivery is nonetheless outside current scope, and the reason is specific rather than a bare appeal to discretion. EXP107 is drafted as a court findings document: paragraphs 4, 5, 7 and 8 contain findings against the petitioner, paragraphs 6, 8 and 9 are open-ended legal-argument fields, and paragraphs 2 and 3 require case-specific conclusions of law. LegalEase cannot generate the constitutional-infringement analysis, cannot draft the balancing at paragraph 9, and cannot select among the conclusions of law without practising law. Those are the exact fields that prevent a completed self-help packet, and the proper output is a routed handoff to legal aid or private counsel. The intake schema was examined for a way to carry an attorney-handoff packet capability — neutral participant and case fields completable, legal-analysis fields left blank — and it has none: there is no packet-capability or delivery-scope field, and any component declared official_pdf_fill is normalized into a track-source relationship and an official-form generation target, which would assert that LegalEase fills EXP107. Delivery is therefore recorded as process_guidance with the packet framework preserved in the component notes and the limitations, rather than asserted as a generated packet.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "A participant-facing official packet framework exists — EXP102, EXP104 and EXP107 — but direct LegalEase delivery is outside current scope. Do not record this track as having no packet: packet identity is preserved and direct self-help filing is disabled.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 12 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "Outside the current LegalEase self-help scope"
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The intake schema cannot express an attorney-handoff packet capability with legal-analysis fields left blank. It has no packet-capability or delivery-scope field, and an official_pdf_fill component is normalized into a generation target and a track-source relationship. Delivery is recorded as process_guidance and the packet framework is recorded in the component notes instead. Revisit if the schema later carries a delivery-scope distinction.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 12 / OUTPUT STRATEGY",
+              "sourceStatement": "The proper output is a routed handoff."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase must not generate EXP107 or a supporting memorandum. The specific fields that prevent a completed self-help packet are EXP107 paragraphs 2 and 3, which require case-specific conclusions of law, and paragraphs 6, 8 and 9, which are open-ended legal-argument fields including the clear-and-convincing balancing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 12 / OUTPUT STRATEGY",
+              "sourceStatement": "LegalEase cannot generate the constitutional-infringement analysis, cannot draft the clear-and-convincing balancing at paragraph 9, and cannot select among the case-specific conclusions of law at paragraphs 2 and 3 without practicing law. The proper output is a routed handoff."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Every participant reaching this route is handed off to legal aid or private counsel. LegalEase may explain that the track exists and that it reaches court records only.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 12 / LEGAL-DESIGN DECISION",
+              "sourceStatement": "LegalEase may explain that the track exists, explain that it reaches court records only, and route to legal aid or private counsel."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "State plainly that relief reaches judicial branch records only. Police, sheriff, prosecutor and BCA records remain public, which the official instructions say expressly.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 12 / Records not affected",
+              "sourceStatement": "Police, sheriff, prosecutor, and BCA records remain public. EXP101 states this expressly."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain that the ordinary statutory petition should be exhausted first: the official instructions state that expungement of a conviction not meeting the 609A criteria is possible, but rare, and can only be granted for the court's records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 12",
+              "sourceStatement": "EXP101 Rev 7/24, which states that expungement of a conviction not meeting the 609A criteria \"is possible, but rare and can only be granted for the court's records.\""
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "There is no statutory fee waiver on this route, and a county law library fee applies in addition to the filing fee.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "MINNESOTA_LegalEase_Record_Clearing_Legal_Review.md",
+              "sourceHeading": "TRACK 12 / GEOGRAPHY, PACKET, FILING",
+              "sourceStatement": "fee ($310 plus county law library fee, not waived by statute)"
+            }
+          }
+        ]
+      },
+      "_provenanceNote": "Classifications carry classificationBasis, sourceFile, sourceHeading and the sourceStatement quoted from the controlling Minnesota review."
+    }
+  ]
+}

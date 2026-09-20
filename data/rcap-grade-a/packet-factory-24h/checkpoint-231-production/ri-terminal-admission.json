@@ -1,0 +1,357 @@
+{
+  "schemaVersion": "rcap-checkpoint-family-admission-evidence/v1",
+  "familyId": "ri_decriminalized-set",
+  "state": "COMPLETE_PACKET_PROVEN",
+  "denominator": 346,
+  "terminalCount": 232,
+  "rasterPending": 0,
+  "review": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260911-ri-complete.json",
+    "sha256": "d31e6ed7c3c59ea7d550fbfb200861388b058410b56f3b2148a4c64a39fa70ec"
+  },
+  "productWiring": {
+    "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/product-wiring.json",
+    "sha256": "52e07977d7c295d555423cc882a6890c48229d01a8147e4e2b55a55f74ec3b77"
+  },
+  "integration": {
+    "path": "data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/ri-terminal-integration.log",
+    "sha256": "3d55cce2bfd534af7e94332b07032846c02d0fa6d46813a985c2fec6d36a1bff"
+  },
+  "originalEvidence": {
+    "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34568277548/ORIGINAL_EVIDENCE_VERIFIED.json",
+    "sha256": "f5c3b37725c60ec81b5c1063f2407ba48c5c30a802e6795dc0ea734b1ec53caa"
+  },
+  "rasterQueueRow": {
+    "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+    "boundaryPdfSha256": "25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961",
+    "builderAssignment": null,
+    "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+    "canonicalPdfSha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
+    "coverage": {
+      "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "complete": true,
+      "documents": [
+        "canonical.pdf"
+      ],
+      "notRastered": [],
+      "notRenderedByThisGate": [],
+      "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+      "rastered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+    },
+    "currentRasterState": "RASTER_PASS",
+    "documents": [
+      {
+        "name": "canonical.pdf",
+        "pageCount": 10,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 10,
+          "sourceSha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+        "role": "canonical",
+        "sha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7"
+      },
+      {
+        "name": "boundary.pdf",
+        "pageCount": 10,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 10,
+          "sourceSha256": "25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+        "role": "boundary",
+        "sha256": "25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961"
+      }
+    ],
+    "documentsDigest": "8c424d311d9a37f09458fa6ad838f323ed2aacd3d7de00a99c4f66a13920939a",
+    "expectedPages": 10,
+    "familyId": "ri_decriminalized-set",
+    "fixtureSelection": {
+      "boundary": "the assembled packet, matched by exact name",
+      "canonical": "the assembled packet, matched by exact name"
+    },
+    "nextOwner": "RAS03",
+    "packetCommitSha": "7188fc54bc3d1482799d49d27aabd98dfb12e0d5",
+    "rasterReceipt": {
+      "boundToBoundarySha256": "25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961",
+      "boundToCanonicalSha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
+      "browserExecutable": "/home/runner/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+      "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+      "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "coversTheWholeFamily": true,
+      "documentsCovered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "documentsDigest": "8c424d311d9a37f09458fa6ad838f323ed2aacd3d7de00a99c4f66a13920939a",
+      "documentsMeasured": 2,
+      "documentsNotCovered": [],
+      "documentsRendered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "environmentProblems": [],
+      "everyCanonicalDocumentRendered": true,
+      "howThisReceiptWasRead": "The artifact blob store answers 403 at this environment's egress proxy, so the verdict was read from the job log server-side and parsed programmatically. Every digest, run id, job id and artifact id here comes from that payload or from the Actions API; none was transcribed by hand. This ingest refused to write unless the payload's canonical, boundary and documents digests each equalled the queued row's.",
+      "ingestedBy": "scripts/grade-a-packet-factory-24h/ingest-raster-receipt.mjs",
+      "jobConclusion": "success",
+      "jobId": "103165424821",
+      "packetCommitSha": "7188fc54bc3d1482799d49d27aabd98dfb12e0d5",
+      "packetCommitShaIsAGenerationStampNotAByteBinding": "This records which commit the render ran at. What the receipt BINDS is the canonical and boundary digests below, and only those.",
+      "pagesMeasured": 20,
+      "problems": [],
+      "receiptArtifact": {
+        "digest": "sha256:aa95188a046763a20cc92e4e05b8aaa96940faa8922484eb4ca95b3f8c79ef14",
+        "expiresAt": "2026-09-25T06:11:27Z",
+        "id": "10187009921",
+        "name": "rcap-raster-ri_decriminalized-set-34568277548"
+      },
+      "requestedScale": 2.5,
+      "verdict": "RASTER_PASS",
+      "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on.",
+      "whatThisDoesNotDecide": "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
+      "whatThisGateDidNotRender": [],
+      "workflowRunId": "34568277548"
+    },
+    "requestedScale": 2.5,
+    "supersededReceipts": [
+      {
+        "boundToBoundarySha256": "e2afb606c3023f139cca94ac94550be3b309fd7d1ba5a946c286e8ad1696c649",
+        "boundToCanonicalSha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101243946927); the family matrix depends on that job, so no family verdict exists without it",
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "ingestedOn": "2026-09-05T04:24:15.646Z",
+        "jobConclusion": "success",
+        "jobId": 101244281646,
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+        "renderedCommitSha": "e8079978db30ca94921b19f5bdfaa529253fd93f",
+        "supersededAt": "2026-09-05T12:18:07Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "verdict": "RASTER_PASS",
+        "whatThisGateDidNotRender": [],
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "33943027165"
+      },
+      {
+        "boundToBoundarySha256": "88a64e5ebd448197ce1c6ce89cf4c45247a97db25fa7008ca25773193564cf75",
+        "boundToCanonicalSha256": "fb1299a8f953939ea6d76cd99532281687e12e2e18ca3eccaabe365e9ecf8dce",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101305294436); the family matrix depends on that job, so no family verdict exists without it",
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "ingestedOn": "2026-09-05T14:14:25.738Z",
+        "jobConclusion": "success",
+        "jobId": 101305567093,
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+        "renderedCommitSha": "97be5bcdace3cb50c420b0ccece06c439168def0",
+        "supersededAt": "2026-09-05T18:15:27Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "verdict": "RASTER_PASS",
+        "whatThisGateDidNotRender": [],
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "33965687102"
+      },
+      {
+        "boundToBoundarySha256": "3b50486ac1ab516a3ac0b0965b61f9772894958ce1fb31f09556bf06d260279a",
+        "boundToCanonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101352833426); the family matrix depends on that job, so no family verdict exists without it",
+        "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "coverageReconciledFromTheRow": {
+          "wasClaimed": {
+            "coversTheWholeFamily": true,
+            "documentsCovered": [
+              "canonical.pdf"
+            ],
+            "documentsNotCovered": [
+              "boundary.pdf"
+            ],
+            "whatThisGateDidNotRender": [
+              "boundary.pdf"
+            ]
+          },
+          "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+        },
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "everyCanonicalDocumentRendered": true,
+        "ingestedOn": "2026-09-05T18:29:13.413Z",
+        "jobConclusion": "success",
+        "jobId": 101353182174,
+        "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+        "renderedCommitSha": "b8424a7ecb0769fc92aca7e635c31fb7552f103d",
+        "supersededAt": "2026-09-11T06:01:01Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+        "verdict": "RASTER_PASS",
+        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+        "whatThisGateDidNotRender": [
+          "boundary.pdf"
+        ],
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "33983515494"
+      }
+    ]
+  },
+  "masterQueueRow": {
+    "familyId": "ri_decriminalized-set",
+    "treatmentReconciliation": null,
+    "reviewedTreatmentGuidance": null,
+    "worklistGroupId": "ri_decriminalized-set",
+    "jurisdiction": "RI",
+    "routeKeys": [
+      "obligation:track-pathway:RI:ri_decriminalized:path-g-decriminalized-offense-expungement"
+    ],
+    "routeCount": 1,
+    "implementationStrategy": "official_pdf_fill",
+    "packetComponents": [
+      "component:ri_decriminalized-decriminalization-affidavit-3",
+      "component:ri_decriminalized-primary-filing-1",
+      "component:ri_decriminalized-proposed-order-2"
+    ],
+    "instrumentKinds": [
+      "decriminalization_affidavit",
+      "filing_instructions",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "officialFormFamily": "DC-33",
+    "forms": [
+      "DC-33"
+    ],
+    "sourceIds": [
+      "official-form:DC-33",
+      "official-form:DC-33-AFFIDAVIT",
+      "official-form:DC-33-ORDER"
+    ],
+    "sourceHashes": [
+      {
+        "sourceId": "official-form:DC-33",
+        "path": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+        "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+        "tier": "exact_form_number"
+      }
+    ],
+    "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+    "sourceBound": true,
+    "sourceReadiness": {
+      "ready": true,
+      "reasons": [],
+      "satisfiedByRelationship": [
+        "official-form:DC-33-AFFIDAVIT",
+        "official-form:DC-33-ORDER"
+      ],
+      "whatThatMeansForSourceIdentity": "These obligations are embedded sections, parent-document components, phantom published documents, nonofficial templates replaced by the governed composition strategy, or a product-time conditional choice. They do not require a standalone source binary.",
+      "boundSources": [
+        {
+          "sourceId": "official-form:DC-33",
+          "path": "STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+          "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+          "tier": "exact_form_number",
+          "resolvedBy": "census_form_number_against_committed_index"
+        }
+      ],
+      "boundGuidanceAuthorityRecords": [],
+      "boundAuthorities": [],
+      "boundAuthorityCount": 0,
+      "supersededSourceIds": [],
+      "namedOfficialForms": 1,
+      "effectiveOfficialSourceIds": [
+        "official-form:DC-33"
+      ],
+      "boundCount": 1,
+      "custodyClass": "SOURCE_GENUINELY_MISSING",
+      "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+      "custodyClassContradictedByThisRow": "custodyClass says SOURCE_GENUINELY_MISSING while this family binds 1 source(s) and readiness is ready. The binding is the measurement. The queue's own bySourceStatus, derived from readiness, does not count this family as missing.",
+      "directAttachment": true
+    },
+    "sourceReconciliation": {
+      "group": "B",
+      "disposition": "SOURCE_READY",
+      "unresolvedObligations": [],
+      "exactNextAction": "Bind DC-33 and render its affidavit region, then compose the District Court proposed order for the decriminalised-conduct branch.",
+      "exactResidual": "Counsel review of the exact generated canonical and boundary District Court proposed order, before this route opens commercially. It is an output gate and does not hold the build.",
+      "permissionHold": null,
+      "productQuestion": null,
+      "sourceReplacements": null,
+      "determinationInput": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json"
+    },
+    "verifierSourceHold": null,
+    "selectedIndependentVerdict": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "verifiedAtBase": "7188fc54bc3d1482799d49d27aabd98dfb12e0d5",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20260911-ri-complete.json"
+    },
+    "rasterEnrolmentRefusal": null,
+    "legalInputStatus": "SETTLED",
+    "ownerDeliveryTypeRefusal": null,
+    "verificationLapsedBecause": null,
+    "terminalTreatment": null,
+    "legalInputBasis": null,
+    "wave2LegalBlock": null,
+    "ownerCorrectionRequired": null,
+    "legalHoldReclassification": null,
+    "laneReturnLegalHold": null,
+    "executionReclassification": null,
+    "executionOwner": null,
+    "nextExecutableAction": null,
+    "routeMappingStatus": "BOUND",
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE",
+    "allNineCountersZero": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "failingCounters": [],
+    "failedObligationNames": [],
+    "failedObligations": [],
+    "continuationResult": null,
+    "c11Stopped": false,
+    "state": "COMPLETE_PACKET_PROVEN",
+    "activeOwner": null,
+    "activeOwnerLane": null,
+    "buildScript": "scripts/build-census-v1-ri_decriminalized-set.mjs",
+    "buildScriptExists": true,
+    "sharedBuildHost": null,
+    "directory": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill",
+    "ownedPaths": [
+      "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/**",
+      "scripts/build-census-v1-ri_decriminalized-set.mjs"
+    ],
+    "prohibitedPaths": [],
+    "importedBy": [
+      "ri_deferred_sentence-set",
+      "ri_first_offender_felony-set",
+      "ri_first_offender_misdemeanor-set",
+      "ri_multiple_misdemeanors-set"
+    ],
+    "exclusiveScript": false
+  }
+}

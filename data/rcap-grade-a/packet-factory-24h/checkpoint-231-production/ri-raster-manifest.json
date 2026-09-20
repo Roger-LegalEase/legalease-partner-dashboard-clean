@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "rcap-focused-raster-dispatch/v1",
+  "sourceQueue": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+  "scope": "Only changed RI decriminalized canonical and boundary PDFs; original source Off appearances restored and filing route trailer corrected; independent scoped review passed.",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "8f816dce34a9d64e1c195e3ceed97871b048ec28ada230b424c8afc4105930c7"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 10,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 10,
+            "sourceSha256": "25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "25954bf32f14108df69ec87ee92a62d88adcd2d416e9c6ecaf9fcde1b6f39961"
+        }
+      ],
+      "documentsDigest": "8c424d311d9a37f09458fa6ad838f323ed2aacd3d7de00a99c4f66a13920939a",
+      "expectedPages": 10,
+      "familyId": "ri_decriminalized-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "9f01c2f894f8d839e3f079b3204466ac2b0046d0",
+      "requestedScale": 2.5,
+      "supersededReceipts": [
+        {
+          "boundToBoundarySha256": "e2afb606c3023f139cca94ac94550be3b309fd7d1ba5a946c286e8ad1696c649",
+          "boundToCanonicalSha256": "912b6c385b91b87a54687e14d2562d7e23ef201ff9977f1abc708df88da02252",
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101243946927); the family matrix depends on that job, so no family verdict exists without it",
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "canonical.pdf"
+          ],
+          "documentsNotCovered": [],
+          "ingestedOn": "2026-09-05T04:24:15.646Z",
+          "jobConclusion": "success",
+          "jobId": 101244281646,
+          "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+          "renderedCommitSha": "e8079978db30ca94921b19f5bdfaa529253fd93f",
+          "supersededAt": "2026-09-05T12:18:07Z",
+          "supersededBecause": "the row now renders a different set of documents",
+          "verdict": "RASTER_PASS",
+          "whatThisGateDidNotRender": [],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33943027165"
+        },
+        {
+          "boundToBoundarySha256": "88a64e5ebd448197ce1c6ce89cf4c45247a97db25fa7008ca25773193564cf75",
+          "boundToCanonicalSha256": "fb1299a8f953939ea6d76cd99532281687e12e2e18ca3eccaabe365e9ecf8dce",
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101305294436); the family matrix depends on that job, so no family verdict exists without it",
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "canonical.pdf"
+          ],
+          "documentsNotCovered": [],
+          "ingestedOn": "2026-09-05T14:14:25.738Z",
+          "jobConclusion": "success",
+          "jobId": 101305567093,
+          "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+          "renderedCommitSha": "97be5bcdace3cb50c420b0ccece06c439168def0",
+          "supersededAt": "2026-09-05T18:15:27Z",
+          "supersededBecause": "the row now renders a different set of documents",
+          "verdict": "RASTER_PASS",
+          "whatThisGateDidNotRender": [],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33965687102"
+        },
+        {
+          "boundToBoundarySha256": "3b50486ac1ab516a3ac0b0965b61f9772894958ce1fb31f09556bf06d260279a",
+          "boundToCanonicalSha256": "f11ec35188b0b1941c37cb207c4113fdade2ae096d30e652b48ddf3c73074ffc",
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run (job 101352833426); the family matrix depends on that job, so no family verdict exists without it",
+          "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+          "coverageReconciledFromTheRow": {
+            "wasClaimed": {
+              "coversTheWholeFamily": true,
+              "documentsCovered": [
+                "canonical.pdf"
+              ],
+              "documentsNotCovered": [
+                "boundary.pdf"
+              ],
+              "whatThisGateDidNotRender": [
+                "boundary.pdf"
+              ]
+            },
+            "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+          },
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "canonical.pdf"
+          ],
+          "documentsNotCovered": [],
+          "everyCanonicalDocumentRendered": true,
+          "ingestedOn": "2026-09-05T18:29:13.413Z",
+          "jobConclusion": "success",
+          "jobId": 101353182174,
+          "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), and the job conclusion.",
+          "renderedCommitSha": "b8424a7ecb0769fc92aca7e635c31fb7552f103d",
+          "supersededAt": "2026-09-11T06:01:01Z",
+          "supersededBecause": "the row now renders a different set of documents",
+          "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+          "verdict": "RASTER_PASS",
+          "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+          "whatThisGateDidNotRender": [
+            "boundary.pdf"
+          ],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33983515494"
+        }
+      ]
+    }
+  ]
+}

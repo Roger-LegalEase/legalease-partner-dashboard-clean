@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ma-seal-decrim-set",
+  "worklistGroupId": "ma-seal-decrim-set",
+  "jurisdiction": "MA",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "networkAcquisitionsMade": 0,
+  "bindingMethod": "the MASTER_QUEUE row's own declared path and SHA-256, read at build time, matched byte-for-byte against the first mounted custody root that holds it; a second independently asserted digest in the builder must agree",
+  "routeKey": "obligation:track-only:MA:ma-seal-decrim",
+  "statutoryAuthority": "G.L. c. 276, § 100A (a recorded offense which is no longer a crime)",
+  "allSourcesExact": true,
+  "custodyRootsSearched": [
+    {
+      "root": "/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "exists": false,
+      "sha256": null
+    },
+    {
+      "root": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "exists": true,
+      "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce"
+    }
+  ],
+  "custodyRootUsed": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:Petition to Seal (Office of the Commissioner of Probation)"
+      ],
+      "documentId": "OCP-4",
+      "formNumber": "OCP-4",
+      "officialFormFamily": "Petition to Seal (Office of the Commissioner of Probation)",
+      "pathInArchive": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+      "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+      "byteLength": 216883,
+      "instrumentKind": "primary_filing",
+      "pageCount": 1,
+      "acroFieldCount": 23,
+      "editionFooterPrintedOnTheForm": "OCP 4/12"
+    }
+  ],
+  "custodyRecordDisagreement": {
+    "finding": "SOURCE_READY_BUILDABILITY.json and the MASTER_QUEUE row both classify this family custodyClass \"SOURCE_IDENTITY_UNRESOLVED\" with documentSourcesResolved 0, while the declared path holds the declared digest exactly.",
+    "basis": "That record says of itself that its two comparison arrays match manifest officialFormId strings against bound sourceId strings, that the vocabularies differ for the same document, and that a name there is a prompt to look rather than a finding. This build looked: the bytes bind.",
+    "consequence": "recorded for whoever owns the custody scalar; the source is in custody and this family built on it"
+  },
+  "sanitationObserved": {
+    "xfaPresentInInput": false,
+    "xfaRemoved": false,
+    "synthesizedAppearancesSuppressed": null,
+    "synthesizedWidgetBordersSuppressed": null
+  },
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that OCP 4/12 is the current published edition of the Petition to Seal — no freshness review has been done here",
+    "that any output is approved for participant delivery",
+    "that any record is eligible for sealing under G.L. c. 276, § 100A"
+  ]
+}

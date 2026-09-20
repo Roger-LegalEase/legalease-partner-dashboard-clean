@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-grade-a-r2-stopped/v1",
+  "assignmentId": "R2_ALREADY_ANSWERED_ENGINEERING",
+  "stopScopeRule": "WEC-6: every stop here is a ROW stop. The lane continued past each one.",
+  "laneStopped": false,
+  "rowsStopped": 1,
+  "stopped": [
+    {
+      "itemId": "obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "status": "STOPPED",
+      "jurisdiction": "OR",
+      "publicLabel": "Set aside an Oregon charge you were acquitted of",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which exact route and packet-configuration identities replace the overbroad ORS 137.225(1)(c) runtime treatment so never-charged matters use Option 3 and acquittal or ordinary-dismissal matters use separate ORS 137.225(1)(d) Option 2 treatments?",
+      "decisionRecord": {
+        "id": "LD-OR-01",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-OR-01"
+      },
+      "stopScope": "ROW",
+      "stopReason": "a newer counsel record names the route this retriage cites as legally overbroad, so the retriage's treatment may not be implemented",
+      "retriageClaim": "LD-OR-01 maps this route to one COURT SET-ASIDE PACKET.",
+      "supersedingRecord": {
+        "ids": [
+          "LWD-2026-08-29-OR-SUBSECTION",
+          "LWD-2026-08-29-OR-PACKET-SCOPE"
+        ],
+        "file": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+        "field": [
+          "decisions[] decisionId=LWD-2026-08-29-OR-SUBSECTION",
+          "decisions[] decisionId=LWD-2026-08-29-OR-PACKET-SCOPE"
+        ]
+      },
+      "recordEffect": "The existing broad route is legally overbroad. Never-charged matters must use a distinct ORS 137.225(1)(c) Option 3 configuration; acquittals must use a distinct ORS 137.225(1)(d) Option 2 configuration; ordinary dismissals must use a separate ORS 137.225(1)(d) Option 2 configuration. The treatments may share one packet family only if each has a distinct governed configuration; they may not resolve to one generic or null packet configuration.",
+      "whyThisRowCannotBeImplementedHere": "The record requires three disposition-bound configurations with distinct route identities. This lane holds one route key, not three, and route identity is not in its owned paths. Emitting a single binding would re-record the overbroad treatment the record retires.",
+      "controllingRecordResolved": true,
+      "requiredTreatments": [
+        {
+          "label": "NEVER CHARGED",
+          "authority": "ORS 137.225(1)(c)",
+          "formOption": "Option 3"
+        },
+        {
+          "label": "ACQUITTAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2"
+        },
+        {
+          "label": "ORDINARY DISMISSAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2"
+        }
+      ],
+      "requiredFacts": [
+        "no accusatory instrument was filed",
+        "the prosecuting attorney elected not to proceed",
+        "the statutory 60-day period has elapsed",
+        "exact arrest, citation, or charge identity",
+        "correct county and prosecuting office"
+      ],
+      "whatTheNextLaneNeedsToProduce": [
+        {
+          "label": "NEVER CHARGED",
+          "authority": "ORS 137.225(1)(c)",
+          "formOption": "Option 3",
+          "needs": "its own route identity, disposition predicate, packet configuration identity, required facts, specification and specification hash, fixture, verification snapshot, artifact-input hash, artifact review and legal/output approval"
+        },
+        {
+          "label": "ACQUITTAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2",
+          "needs": "its own route identity, disposition predicate, packet configuration identity, required facts, specification and specification hash, fixture, verification snapshot, artifact-input hash, artifact review and legal/output approval"
+        },
+        {
+          "label": "ORDINARY DISMISSAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2",
+          "needs": "its own route identity, disposition predicate, packet configuration identity, required facts, specification and specification hash, fixture, verification snapshot, artifact-input hash, artifact review and legal/output approval"
+        }
+      ],
+      "captainInput": "The conflict is between the retriage's cited aggregate decision and a newer counsel record. Resolving which controls is a Captain decision, not a worker's, and it is an input to this lane rather than part of it.",
+      "laneContinued": true
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "me-seal-gen-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "motion",
+      "documentId": "CR-218",
+      "field": "motion.1 Defendant was convicted of the following crime of name of crime",
+      "page": 1,
+      "printedContext": "Paragraph 1 - Defendant was convicted of the following crime of (name of crime)",
+      "disclosureLabel": "Paragraph 1 - Defendant was convicted of the following crime of (name of crime)",
+      "identity": "motion field 1 Defendant was convicted of the following crime of name of crime",
+      "why": "the committed record assigns the eligibility characterisation to the participant and names an unclear offence class as a point where self-help stops; no held record establishes any participant's own conviction",
+      "participantMustSupply": "the name of the crime exactly as the judgment names it. Paragraph 1 also asserts that the crime is eligible for sealing under 15 M.R.S. § 2261(6), and whether a crime is a current or former Class E crime, or matches one of the five listed pre-2017 marijuana offences, is a legal conclusion drawn from the judgment and the historical statute"
+    },
+    {
+      "document": "motion",
+      "documentId": "CR-218",
+      "field": "motion.Location Town",
+      "page": 1,
+      "printedContext": "Location (Town):",
+      "disclosureLabel": "Location (Town):",
+      "identity": "motion field Location Town",
+      "why": "the platform holds the county but no committed record establishes the court's town for any particular Maine case",
+      "participantMustSupply": "the town in which the court sits, as the caption of your own case names it"
+    },
+    {
+      "document": "motion",
+      "documentId": "CR-218",
+      "field": "motion.on mmddyyyy",
+      "page": 1,
+      "printedContext": "Paragraph 1 - on (mm/dd/yyyy), the date of the conviction",
+      "disclosureLabel": "Paragraph 1 - on (mm/dd/yyyy), the date of the conviction",
+      "identity": "motion field on mmddyyyy",
+      "why": "no held record establishes any participant's own conviction date, and the committed manifest asks that it be checked against the certified judgment",
+      "participantMustSupply": "the date you were convicted, in mm/dd/yyyy, from the judgment rather than from memory"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "motion",
+      "field": "motion.Superior Court",
+      "label": "\"X\" the court for filing - Superior Court",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "§ 2264(1) requires the motion to be filed in the court in which the conviction was entered, which is a fact about the participant's own case; the route covers all three courts"
+    },
+    {
+      "document": "motion",
+      "field": "motion.District Court",
+      "label": "\"X\" the court for filing - District Court",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the second of the same three-way election"
+    },
+    {
+      "document": "motion",
+      "field": "motion.Unified Criminal Docket",
+      "label": "\"X\" the court for filing - Unified Criminal Docket",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the third of the same three-way election"
+    },
+    {
+      "document": "motion",
+      "field": "motion.Date mmddyyyy",
+      "label": "Date (mm/dd/yyyy) beside the defendant's signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    },
+    {
+      "document": "motion",
+      "field": "motion.undefined",
+      "label": "Defendants Signature - the widget the form leaves unnamed, captioned \"Defendants Signature\" printed directly beneath it",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the motion personally, and the committed record says in terms that LegalEase leaves the signature and date blank"
+    },
+    {
+      "document": "motion",
+      "field": "motion.Defendants Attorney and Maine Bar No",
+      "label": "Defendants Attorney and Maine Bar No. (Having an attorney is not required for filing)",
+      "refusalClass": null,
+      "why": "completed only where an attorney appears for you; no representation fact is held for this participant and the form itself marks the line optional"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/me/me-seal-gen-set--official-pdf-fill/participant-instructions.md"
+}

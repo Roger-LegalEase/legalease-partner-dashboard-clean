@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-checkpoints/v1",
+  "assignmentId": "PF07",
+  "lane": "packet-build",
+  "shiftBaseSha": "18b5f4270",
+  "writtenAlongsideRatherThanOverwriting": "data/rcap-grade-a/packet-factory-24h/pf07/checkpoints.json already held an earlier PF07 shift's checkpoints. It was left untouched and this file was written beside it under a distinct name.",
+  "checkpointRule": "PF07.md asks for a checkpoint every five completed families or every two hours, whichever comes first. This lane was assigned four families, so no five-family checkpoint could land. Each family was instead committed and pushed as it finished, which is what the dispatching agent asked for so that completed families could be integrated immediately.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "familiesCompletedAtThisPoint": 1,
+      "families": [
+        "nc_145_5_misdemeanor-set"
+      ],
+      "commit": "06f2c66c4",
+      "pushed": "origin/pf07-20260909",
+      "artifactHashesPinned": [
+        "canonical 10d06d346fffa0b9c534922a1450880c6d26efdc15dc0b52035c081c72ebbdf9",
+        "boundary  e31a578a70709a2c03426163ed724bc316a935551a338e4f2ceef7e1b3fd561a"
+      ],
+      "allNineCountersZero": true,
+      "rasterState": "BUILT_RASTER_PENDING"
+    },
+    {
+      "checkpoint": 2,
+      "familiesCompletedAtThisPoint": 2,
+      "families": [
+        "me-seal-gen-set"
+      ],
+      "alsoInThisCommit": "the source-receipt correction for nc_145_5_misdemeanor-set, which had said every document was delivered_unmodified including the two this build writes onto and flattens. Packet bytes unchanged.",
+      "commit": "d2ead2b5b",
+      "pushed": "origin/pf07-20260909",
+      "artifactHashesPinned": [
+        "canonical 10e5a82b626d98851b525f380000e9435aa49c303f7f334d771f002dd89ade78",
+        "boundary  43593b8922759124491186b0a8460ff1b21633ed85eccba1fa11a7c88c0730cc"
+      ],
+      "allNineCountersZero": true,
+      "rasterState": "BUILT_RASTER_PENDING"
+    },
+    {
+      "checkpoint": 3,
+      "familiesCompletedAtThisPoint": 3,
+      "families": [
+        "az_certificate_second_chance-set"
+      ],
+      "commit": "666b50326",
+      "pushed": "origin/pf07-20260909",
+      "artifactHashesPinned": [
+        "canonical 5fa7e6d4f0761fa26d932ca667878a4acb50bdf18b6854cd25a9a2cb3ab7a27a",
+        "boundary  e8414477b71352df8e01ebfdce17bd1c66e07c9ca09af30fef062313deef2bfa"
+      ],
+      "allNineCountersZero": true,
+      "rasterState": "BUILT_RASTER_PENDING"
+    },
+    {
+      "checkpoint": 4,
+      "familiesCompletedAtThisPoint": 3,
+      "familiesStopped": [
+        "al-pardon-set"
+      ],
+      "families": [],
+      "note": "al-pardon-set is STOPPED as BLOCKED_SOURCE. Its overlay directory was never created, so the stop leaves it byte-for-byte unchanged by construction. No builder was written for it and no source was acquired.",
+      "rowsReturned": 4,
+      "familiesAssigned": 4
+    }
+  ]
+}

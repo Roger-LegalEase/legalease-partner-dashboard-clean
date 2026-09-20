@@ -48,15 +48,15 @@
     },
     "bySourceTreatment": {
       "unclassified_pre_batch_1_import": 424,
-      "form_candidate": 73,
+      "form_candidate": 77,
       "source_gated": 49,
-      "reference_only": 36,
+      "reference_only": 32,
       "historical_obsolete": 1
     },
     "byRuntimeEligibility": {
-      "ineligible_pending_source_legal_technical_visual_approval": 497,
+      "ineligible_pending_source_legal_technical_visual_approval": 501,
       "ineligible_until_stated_source_or_legal_output_gate_passes": 32,
-      "ineligible_never_a_participant_filing_artifact": 25,
+      "ineligible_never_a_participant_filing_artifact": 21,
       "never_selectable_as_participant_filing": 10,
       "never_selectable_superseded_revision": 1,
       "ineligible_pending_source_or_legal_output_gate": 17,
@@ -4568,15 +4568,17 @@
       "revisionDate": "unknown",
       "retrievalDate": "2026-07-31T00:00:00.000Z",
       "currency": "unknown",
-      "reliefTracksUsing": [],
-      "sourceTreatment": "reference_only",
+      "reliefTracksUsing": [
+        "co_petition_seal_arrest"
+      ],
+      "sourceTreatment": "form_candidate",
       "packageTier": "reference-only",
-      "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+      "runtimeEligibility": "ineligible_pending_source_legal_technical_visual_approval",
       "declaredGeographicScope": "as_recorded_in_review",
       "geographyNote": "",
       "officialTitle": "Order and Notice of Hearing - Sealing of Arrest and Criminal Records When No Charges Filed",
       "revision": "R 8/19",
-      "role": "court-generated hearing order",
+      "role": "participant-filed order and notice of hearing — the petitioner completes the caption (the \"§§ A-C\" of JDF 416); the court completes the finding, the hearing particulars, the signature and the certificate of service",
       "sizeBytes": 50720,
       "provenance": {
         "package": "LegalEase_Missing_Forms_Batch_1_Repo_Ready_v2",
@@ -4584,7 +4586,31 @@
         "manifestStatus": "repo_reference",
         "verifiedAgainst": "SHA256SUMS.txt"
       },
-      "pageCount": 1
+      "pageCount": 1,
+      "classificationCorrection": {
+        "correctedOn": "2026-09-15",
+        "correctedBy": "Sprint captain agent, executing Roger Roman's 2026-09-15 instruction to restore the two participant-filed Colorado adult sealing routes as packet-capable factory_v2 routes",
+        "supersedes": {
+          "sourceTreatment": "reference_only",
+          "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+          "role": "court-generated hearing order",
+          "reliefTracksUsing": []
+        },
+        "whyItWasWrong": "The earlier classification called this document court-generated reference material that is never a participant filing artifact. The issuing court's own filing guide says otherwise: JDF-416 (R: July 1, 2025), under the printed heading \"③ File the Request — File these forms into your criminal case or start a new case in the District Court:\", lists \"JDF 417 Request\", \"JDF 418 Order (just do §§ A-C)\", \"JDF 419 Notice (Just do §§ A-C)\", \"JDF 435 Order (just do §§ A-C)\". This document is the line \"JDF 419 Notice (Just do §§ A-C)\": the petitioner files it, completing the caption sections and nothing else. Being completed by the court after the caption does not make it reference material; it makes it a proposed order or notice the petitioner tenders.",
+        "basis": {
+          "guide": "JDF-416",
+          "guidePrintedRevision": "R: July 1, 2025",
+          "guideSha256": "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+          "guideCorpusIndexPath": "LegalEase Colorado/JDF416.pdf",
+          "guideHeading": "③ File the Request — File these forms into your criminal case or start a new case in the District Court:",
+          "guideLine": "JDF 419 Notice (Just do §§ A-C)",
+          "quotationsVerified": "asserted as literal substrings of the guide's content stream, read in stream order, by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
+        },
+        "packageTierNote": "packageTier still says reference-only because that is the corpus folder the file was delivered in; the folder name was the misclassification, not evidence for it.",
+        "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-419-form-notice-en",
+        "packetSetComponent": "co_petition_seal_arrest-set::co_petition_seal_arrest-jdf-419-3",
+        "revisionCurrency": "The held copy is the R 8/19 flat revision with an unlettered caption band; the JDF 416 that names it is R: July 1, 2025 and says \"§§ A-C\". A later revision is likely. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (egress proxy 403 on CONNECT), so the current revision could not be fetched; source-freshness review stays open."
+      }
     },
     {
       "jurisdiction": "CO",
@@ -4608,15 +4634,17 @@
       "revisionDate": "unknown",
       "retrievalDate": "2026-07-31T00:00:00.000Z",
       "currency": "unknown",
-      "reliefTracksUsing": [],
-      "sourceTreatment": "reference_only",
+      "reliefTracksUsing": [
+        "co_petition_seal_arrest"
+      ],
+      "sourceTreatment": "form_candidate",
       "packageTier": "reference-only",
-      "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+      "runtimeEligibility": "ineligible_pending_source_legal_technical_visual_approval",
       "declaredGeographicScope": "as_recorded_in_review",
       "geographyNote": "",
       "officialTitle": "Order Denying Petition to Seal Arrest and Criminal Records When No Charges Filed",
       "revision": "R 8/19",
-      "role": "court-generated denial order",
+      "role": "participant-filed proposed denial order — tendered blank alongside the JDF 418 grant order; the petitioner completes the caption (the \"§§ A-C\" of JDF 416); the court completes the finding, the reasons, the signature and the certificate of service",
       "sizeBytes": 50394,
       "provenance": {
         "package": "LegalEase_Missing_Forms_Batch_1_Repo_Ready_v2",
@@ -4624,7 +4652,31 @@
         "manifestStatus": "repo_reference",
         "verifiedAgainst": "SHA256SUMS.txt"
       },
-      "pageCount": 1
+      "pageCount": 1,
+      "classificationCorrection": {
+        "correctedOn": "2026-09-15",
+        "correctedBy": "Sprint captain agent, executing Roger Roman's 2026-09-15 instruction to restore the two participant-filed Colorado adult sealing routes as packet-capable factory_v2 routes",
+        "supersedes": {
+          "sourceTreatment": "reference_only",
+          "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+          "role": "court-generated denial order",
+          "reliefTracksUsing": []
+        },
+        "whyItWasWrong": "The earlier classification called this document court-generated reference material that is never a participant filing artifact. The issuing court's own filing guide says otherwise: JDF-416 (R: July 1, 2025), under the printed heading \"③ File the Request — File these forms into your criminal case or start a new case in the District Court:\", lists \"JDF 417 Request\", \"JDF 418 Order (just do §§ A-C)\", \"JDF 419 Notice (Just do §§ A-C)\", \"JDF 435 Order (just do §§ A-C)\". This document is the line \"JDF 435 Order (just do §§ A-C)\": the petitioner files it, completing the caption sections and nothing else. Being completed by the court after the caption does not make it reference material; it makes it a proposed order or notice the petitioner tenders.",
+        "basis": {
+          "guide": "JDF-416",
+          "guidePrintedRevision": "R: July 1, 2025",
+          "guideSha256": "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+          "guideCorpusIndexPath": "LegalEase Colorado/JDF416.pdf",
+          "guideHeading": "③ File the Request — File these forms into your criminal case or start a new case in the District Court:",
+          "guideLine": "JDF 435 Order (just do §§ A-C)",
+          "quotationsVerified": "asserted as literal substrings of the guide's content stream, read in stream order, by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
+        },
+        "packageTierNote": "packageTier still says reference-only because that is the corpus folder the file was delivered in; the folder name was the misclassification, not evidence for it.",
+        "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-435-form-order-en",
+        "packetSetComponent": "co_petition_seal_arrest-set::co_petition_seal_arrest-jdf-435-4",
+        "revisionCurrency": "The held copy is the R 8/19 flat revision with an unlettered caption band; the JDF 416 that names it is R: July 1, 2025 and says \"§§ A-C\". A later revision is likely. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (egress proxy 403 on CONNECT), so the current revision could not be fetched; source-freshness review stays open."
+      }
     },
     {
       "jurisdiction": "CO",
@@ -5262,15 +5314,17 @@
       "revisionDate": "unknown",
       "retrievalDate": "2026-07-31T00:00:00.000Z",
       "currency": "unknown",
-      "reliefTracksUsing": [],
-      "sourceTreatment": "reference_only",
+      "reliefTracksUsing": [
+        "co_motion_seal_conviction"
+      ],
+      "sourceTreatment": "form_candidate",
       "packageTier": "reference-only",
-      "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+      "runtimeEligibility": "ineligible_pending_source_legal_technical_visual_approval",
       "declaredGeographicScope": "as_recorded_in_review",
       "geographyNote": "",
       "officialTitle": "Order Denying Request to Seal Conviction Records",
       "revision": "R: August 7, 2024",
-      "role": "court-generated denial order",
+      "role": "participant-filed proposed denial order — tendered blank alongside the JDF 615 grant order; the movant completes sections A. Court, B. Parties to the Case and C. Case Details; the court completes section 1 Decision and section 2 So Ordered",
       "sizeBytes": 545525,
       "provenance": {
         "package": "LegalEase_Missing_Forms_Batch_1_Repo_Ready_v2",
@@ -5278,7 +5332,31 @@
         "manifestStatus": "repo_reference",
         "verifiedAgainst": "SHA256SUMS.txt"
       },
-      "pageCount": 1
+      "pageCount": 1,
+      "classificationCorrection": {
+        "correctedOn": "2026-09-15",
+        "correctedBy": "Sprint captain agent, executing Roger Roman's 2026-09-15 instruction to restore the two participant-filed Colorado adult sealing routes as packet-capable factory_v2 routes",
+        "supersedes": {
+          "sourceTreatment": "reference_only",
+          "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+          "role": "court-generated denial order",
+          "reliefTracksUsing": []
+        },
+        "whyItWasWrong": "The earlier classification called this document court-generated reference material that is never a participant filing artifact. The issuing court's own filing guide says otherwise: JDF-611 (R: August 7, 2024), under the printed heading \"③ File the Request — File these forms into your criminal case:\", lists \"JDF 612 Motion\", \"JDF 613 Order (just do §§ A-C)\", \"JDF 614 Notice (Just do §§ A-C)\", \"JDF 615 Order (just do §§ A-C)\". This document is the line \"JDF 613 Order (just do §§ A-C)\": the petitioner files it, completing the caption sections and nothing else. Being completed by the court after the caption does not make it reference material; it makes it a proposed order or notice the petitioner tenders.",
+        "basis": {
+          "guide": "JDF-611",
+          "guidePrintedRevision": "R: August 7, 2024",
+          "guideSha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+          "guideCorpusIndexPath": "LegalEase Colorado/reference-only/JDF-611__guide-to-sealing-conviction-records-single-case__rev-2024-08-07.pdf",
+          "guideHeading": "③ File the Request — File these forms into your criminal case:",
+          "guideLine": "JDF 613 Order (just do §§ A-C)",
+          "quotationsVerified": "asserted as literal substrings of the guide's content stream, read in stream order, by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
+        },
+        "packageTierNote": "packageTier still says reference-only because that is the corpus folder the file was delivered in; the folder name was the misclassification, not evidence for it.",
+        "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-613-form-order-en",
+        "packetSetComponent": "co_motion_seal_conviction-set::co_motion_seal_conviction-second-order-4",
+        "revisionCurrency": "The held copy is R: August 7, 2024, the same revision as the JDF 611 that names it. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (egress proxy 403 on CONNECT), so whether a later revision exists could not be checked; source-freshness review stays open."
+      }
     },
     {
       "jurisdiction": "CO",
@@ -5302,15 +5380,17 @@
       "revisionDate": "unknown",
       "retrievalDate": "2026-07-31T00:00:00.000Z",
       "currency": "unknown",
-      "reliefTracksUsing": [],
-      "sourceTreatment": "reference_only",
+      "reliefTracksUsing": [
+        "co_motion_seal_conviction"
+      ],
+      "sourceTreatment": "form_candidate",
       "packageTier": "reference-only",
-      "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+      "runtimeEligibility": "ineligible_pending_source_legal_technical_visual_approval",
       "declaredGeographicScope": "as_recorded_in_review",
       "geographyNote": "",
       "officialTitle": "Order and Notice of Hearing - Sealing Conviction Records",
       "revision": "R: August 7, 2024",
-      "role": "court-generated hearing order",
+      "role": "participant-filed order and notice of hearing — the movant completes sections A. Court, B. Parties to the Case and C. Case Details; the court completes section 1 Hearing Scheduled, section 2 Decision and section 3 So Ordered",
       "sizeBytes": 555787,
       "provenance": {
         "package": "LegalEase_Missing_Forms_Batch_1_Repo_Ready_v2",
@@ -5318,7 +5398,31 @@
         "manifestStatus": "repo_reference",
         "verifiedAgainst": "SHA256SUMS.txt"
       },
-      "pageCount": 1
+      "pageCount": 1,
+      "classificationCorrection": {
+        "correctedOn": "2026-09-15",
+        "correctedBy": "Sprint captain agent, executing Roger Roman's 2026-09-15 instruction to restore the two participant-filed Colorado adult sealing routes as packet-capable factory_v2 routes",
+        "supersedes": {
+          "sourceTreatment": "reference_only",
+          "runtimeEligibility": "ineligible_never_a_participant_filing_artifact",
+          "role": "court-generated hearing order",
+          "reliefTracksUsing": []
+        },
+        "whyItWasWrong": "The earlier classification called this document court-generated reference material that is never a participant filing artifact. The issuing court's own filing guide says otherwise: JDF-611 (R: August 7, 2024), under the printed heading \"③ File the Request — File these forms into your criminal case:\", lists \"JDF 612 Motion\", \"JDF 613 Order (just do §§ A-C)\", \"JDF 614 Notice (Just do §§ A-C)\", \"JDF 615 Order (just do §§ A-C)\". This document is the line \"JDF 614 Notice (Just do §§ A-C)\": the petitioner files it, completing the caption sections and nothing else. Being completed by the court after the caption does not make it reference material; it makes it a proposed order or notice the petitioner tenders.",
+        "basis": {
+          "guide": "JDF-611",
+          "guidePrintedRevision": "R: August 7, 2024",
+          "guideSha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+          "guideCorpusIndexPath": "LegalEase Colorado/reference-only/JDF-611__guide-to-sealing-conviction-records-single-case__rev-2024-08-07.pdf",
+          "guideHeading": "③ File the Request — File these forms into your criminal case:",
+          "guideLine": "JDF 614 Notice (Just do §§ A-C)",
+          "quotationsVerified": "asserted as literal substrings of the guide's content stream, read in stream order, by scripts/rcap-official-forms/build-colorado-caption-only-families.mjs"
+        },
+        "packageTierNote": "packageTier still says reference-only because that is the corpus folder the file was delivered in; the folder name was the misclassification, not evidence for it.",
+        "overlayFamily": "data/rcap-all50/overlays/production/colorado/jdf-614-form-notice-en",
+        "packetSetComponent": "co_motion_seal_conviction-set::co_motion_seal_conviction-notice-3",
+        "revisionCurrency": "The held copy is R: August 7, 2024, the same revision as the JDF 611 that names it. The issuing court's hosts were unreachable from the build environment on 2026-09-15 (egress proxy 403 on CONNECT), so whether a later revision exists could not be checked; source-freshness review stays open."
+      }
     },
     {
       "jurisdiction": "CO",

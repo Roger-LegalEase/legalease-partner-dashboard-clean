@@ -48,18 +48,34 @@ jobs:
         with:
           node-version: 22
 
+      # The receipt is matched to the artifact holding its bytes by name alone,
+      # so the name is derived once, before anything is downloaded, and both
+      # the acquire step and the upload step are handed that one string.
+      - name: Derive the artifact name
+        id: artifact_name
+        env:
+          RCAP_JURISDICTION: ${{ inputs.jurisdiction }}
+          RCAP_FORM_NUMBER: ${{ inputs.form_number }}
+        run: node scripts/rcap-derive-source-artifact-name.mjs
+
       - name: Acquire and receipt the official source
         env:
           RCAP_SOURCE_URL: ${{ inputs.url }}
           RCAP_JURISDICTION: ${{ inputs.jurisdiction }}
           RCAP_FORM_NUMBER: ${{ inputs.form_number }}
           RCAP_EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+          # Provenance for the ACQ -> PROMO handoff. A receipt with no run id
+          # can never be matched to the artifact it describes, so the acquire
+          # script refuses to write one inside Actions; this path passed
+          # neither value and so failed every dispatch before it fetched.
+          RCAP_ACQUISITION_RUN_ID: ${{ github.run_id }}
+          RCAP_ARTIFACT_NAME: ${{ steps.artifact_name.outputs.artifact_name }}
         run: node scripts/rcap-acquire-official-source.mjs
 
       - name: Upload the binary and its receipt
         uses: actions/upload-artifact@v4
         with:
-          name: rcap-source-${{ inputs.jurisdiction }}-${{ inputs.form_number }}
+          name: ${{ steps.artifact_name.outputs.artifact_name }}
           path: acquired-source/
           if-no-files-found: error
           retention-days: 30

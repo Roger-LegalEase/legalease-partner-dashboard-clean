@@ -1,0 +1,2118 @@
+{
+ "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+ "lane": "FIX64",
+ "laneKind": "repair",
+ "generatedBy": "lane FIX64",
+ "baseSha": "9c20f8c7c",
+ "branch": "fix64-ak-co-me-optin",
+ "whatThisLaneDid": "Opted four families with independent builders into the shared suppressSynthesizedAppearances option that FIX50 landed default-off, rebuilt them, and measured the delivered pages pixel for pixel against their pinned official forms. No shared machinery was edited and no default was changed.",
+ "everyOtherFamilyByteIdentical": {
+  "checked": "sha256 of all 5438 files under data/rcap-all50/overlays/census-v1, taken before the first edit and again after all four rebuilds",
+  "filesBefore": 5438,
+  "filesAfter": 5438,
+  "filesChanged": 30,
+  "filesChangedOutsideTheFourFamilyDirectories": 0,
+  "result": true
+ },
+ "rows": [
+  {
+   "itemId": "ak-tf800-set",
+   "familyId": "ak-tf800-set",
+   "jurisdiction": "AK",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-ak-tf800-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) -> scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten)",
+   "baseSha": "9c20f8c7c",
+   "branch": "fix64-ak-co-me-optin",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX64 ak-tf800-set -> CLAIM_OK FIX64 ak-tf800-set (repair, grant set f3cecafde90df221), exit 0. Asserted before any artifact of this family was opened.",
+   "verdictRepaired": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "942cab9b5",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "measurement": "data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json",
+    "whatVF08Found": "16 of 20 selection-widget readings across the two bound fixtures delivered a stroked square that TF-800 does not print. VF08's zero-write baseline over the same pinned bytes painted the identical pixels, so the ink came from the shared flattening step and not from this family."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The central acceptance receipt this family carried (RASTER_PASS, workflow run 33495068504, rendered commit 5f144ec10d2bf7404faf0811e98418e0b13f06ba) was bound to the two fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding, and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane, and the local 150 dpi rasters recorded under perWidgetMeasurement were measurement only and were deleted.",
+    "INDEPENDENT VERIFICATION. This lane opted the builder in and rebuilt these bytes, so it verifies none of them. It wrote no verdict and replaced none; acceptanceReceipt is null and nothing is scored here. VF08's reading was taken at base 942cab9b5 against the superseded bytes and does not transfer to the new ones.",
+    "THE COHORT'S OTHER FAMILIES. VF08 measured the same shared behaviour across a wider cohort. Only the four families named on this lane are opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after all four rebuilds, and the shared option stays default-off.",
+    "THE CASES THE OPTION LEAVES ALONE BY DESIGN. A widget that ships its own stream for the state it is set to, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered, and this row makes no claim about any of them beyond having measured them unchanged.",
+    "THE PREFLIGHT'S ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs reports 10/13 in this container. Two failures are properties of the container rather than of the repair (private/ reached through the symlink the assignment specifies, and one sampled corpus entry whose custody is not mounted here) and one is that the worktree carried uncommitted work while the repair was in progress. None is repaired here."
+   ],
+   "whatChanged": {
+    "theBuilder": "scripts/build-census-v1-ak-tf800-set.mjs now passes suppressSynthesizedAppearances: true in its single finalizeOfficialForm call, with a comment naming the VF08 measurement it answers. That is the only change to this builder and the only change of any kind outside this family's regenerated artifacts.",
+    "whyTheOptionAloneIsEnoughHere": "This builder hands finalizeOfficialForm the pinned source bytes themselves (sourceBytes: source.bytes). It performs no intermediate pdf-lib save of the source document before the shared finalizer runs, so the FIX57 pattern -- a neutralization save at pdf-lib's default updateFieldAppearances baking the square in before the finalizer is entered -- is absent, and no updateFieldAppearances: false repair was needed or made. Each of the four builders on this lane was read for that pattern and none of them carries it.",
+    "theSharedMachinery": "Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false, and its behaviour are exactly as FIX50 landed them; this lane only opts in.",
+    "whatTheOptionDoes": "For a check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, an empty form XObject sized to the widget's own /Rect is installed for that state before updateFieldAppearances runs. pdf-lib then reports no update is needed and synthesizes nothing, so the square is never drawn and never flattened. The missing state is supplied rather than a drawing suppressed.",
+    "whatIsNeverTouched": "A widget that already ships a stream for the state it is set to, a widget of a field this run wrote, a widget with no /AS, a widget whose /AP /N is a bare stream, and every text field, chooser and pushbutton. A ticked box still renders its mark from the stream the source ships.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change, and none was created. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json and the claim ledger's other entries were not opened for writing."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-ak-tf800-set.mjs",
+    "exit": 0,
+    "runTwiceByteIdentical": true,
+    "howProved": "The whole family directory was copied aside after one build and compared with diff -r against the next. Zero differences across every file, twice: once over two --no-raster builds and once over two full builds that also regenerate the committed page rasters.",
+    "pageCountUnchanged": true
+   },
+   "digests": {
+    "before": {
+     "tf800-canonical-filled.pdf": {
+      "sha256": "66d0c390198984a8c42a550d0077ef63dae98af3900f51630490ec8fcb0c54d6",
+      "bytes": 108325,
+      "pages": 3
+     },
+     "tf800-boundary-filled.pdf": {
+      "sha256": "b077fbfff439494d3af3ecf8e72c58af882b3c3b224205e632238e89459c95a5",
+      "bytes": 108449,
+      "pages": 3
+     }
+    },
+    "after": {
+     "tf800-canonical-filled.pdf": {
+      "sha256": "5b7e549d02811574dcf73fdc2f2dc24ffcaf6da747e4db58fe2c63ceeaf1ba1b",
+      "bytes": 107684,
+      "pages": 3
+     },
+     "tf800-boundary-filled.pdf": {
+      "sha256": "a7292a0db6c6a32be3f7d66d08c9959c95841fcd304e5d06f4e9fd51e96488b0",
+      "bytes": 107808,
+      "pages": 3
+     }
+    }
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, before the edit and again from the committed bytes after it. The pinned source of every bound document was resolved by SHA-256 against the mounted Master Library and rastered the same way. Each selection widget's /Rect was mapped to pixels on the delivered page through that page's own CropBox, and read three ways: dark pixels before, dark pixels after, and dark pixels the pinned form paints there itself.",
+    "dpi": 150,
+    "rastersDeletedAfterMeasuring": true,
+    "widgetRectsVF08Counted": 20,
+    "widgetRectsMeasuredHere": 20,
+    "widgetRectsNowCarryingExactlyThePinnedFormsOwnInk": 20,
+    "everyWidgetRectCleared": true,
+    "whatClearedMeans": "At that rect the delivered page after the repair is equal to the pinned form's own raster pixel for pixel -- pixelsDifferingFromPinnedSourceAfter is 0 -- so the page there carries the form's ink and nothing else.",
+    "noOtherPixelMoved": {
+     "changedPixelsAcrossBothFixtures": 560,
+     "changedPixelsOutsideTheMeasuredWidgetRects": 0,
+     "changedPixelsOutsideThoseRectsDilatedByOnePixel": null,
+     "note": "Zero. Every pixel that moved anywhere on any page of either fixture lies inside one of the measured widget rects.",
+     "participantWritesAndIntendedMarks": "Unchanged. Every participant write and every mark this run makes lies outside the measured rects, and no pixel outside those rects moved on any page; the widgets that ship their own state for the state they are set to were additionally read rect by rect and their ink is identical before and after."
+    },
+    "perFixture": [
+     {
+      "fixture": "tf800-canonical-filled.pdf",
+      "pages": 3,
+      "exposedWidgetRectsMeasured": 10,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 10,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 1,
+      "changedPixelsWholeFixture": 280,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 1,
+        "field": "Group1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 227.19,
+         "y": 221.59,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 473,
+         "x1": 498,
+         "y0": 1164,
+         "y1": 1189
+        },
+        "darkPixelsBefore": 165,
+        "darkPixelsAfter": 119,
+        "darkPixelsInPinnedSourceAtThisRect": 119,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Group1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 340.83,
+         "y": 221.59,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 710,
+         "x1": 735,
+         "y0": 1164,
+         "y1": 1189
+        },
+        "darkPixelsBefore": 137,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 205.66,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1197,
+         "y1": 1222
+        },
+        "darkPixelsBefore": 163,
+        "darkPixelsAfter": 115,
+        "darkPixelsInPinnedSourceAtThisRect": 115,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 191.05,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1227,
+         "y1": 1252
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 160.72,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1291,
+         "y1": 1316
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 140,
+        "darkPixelsInPinnedSourceAtThisRect": 140,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box4",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 144.62,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1324,
+         "y1": 1349
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box5",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 130.26,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1354,
+         "y1": 1379
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "mail",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 198.99,
+         "y": 344.6,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 414,
+         "x1": 439,
+         "y0": 908,
+         "y1": 933
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 140,
+        "darkPixelsInPinnedSourceAtThisRect": 140,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "tf",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 335.08,
+         "y": 344.6,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 698,
+         "x1": 723,
+         "y0": 908,
+         "y1": 933
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "emailCB",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 406.02,
+         "y": 344.6,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 845,
+         "x1": 870,
+         "y0": 908,
+         "y1": 933
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     },
+     {
+      "fixture": "tf800-boundary-filled.pdf",
+      "pages": 3,
+      "exposedWidgetRectsMeasured": 10,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 10,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 1,
+      "changedPixelsWholeFixture": 280,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 1,
+        "field": "Group1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 227.19,
+         "y": 221.59,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 473,
+         "x1": 498,
+         "y0": 1164,
+         "y1": 1189
+        },
+        "darkPixelsBefore": 165,
+        "darkPixelsAfter": 119,
+        "darkPixelsInPinnedSourceAtThisRect": 119,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Group1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 340.83,
+         "y": 221.59,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 710,
+         "x1": 735,
+         "y0": 1164,
+         "y1": 1189
+        },
+        "darkPixelsBefore": 137,
+        "darkPixelsAfter": 94,
+        "darkPixelsInPinnedSourceAtThisRect": 94,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 205.66,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1197,
+         "y1": 1222
+        },
+        "darkPixelsBefore": 163,
+        "darkPixelsAfter": 115,
+        "darkPixelsInPinnedSourceAtThisRect": 115,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box2",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 191.05,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1227,
+         "y1": 1252
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box3",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 160.72,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1291,
+         "y1": 1316
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 140,
+        "darkPixelsInPinnedSourceAtThisRect": 140,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box4",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 144.62,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1324,
+         "y1": 1349
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Check Box5",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.85,
+         "y": 130.26,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 1354,
+         "y1": 1379
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "mail",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 198.99,
+         "y": 344.6,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 414,
+         "x1": 439,
+         "y0": 908,
+         "y1": 933
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 140,
+        "darkPixelsInPinnedSourceAtThisRect": 140,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "tf",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 335.08,
+         "y": 344.6,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 698,
+         "x1": 723,
+         "y0": 908,
+         "y1": 933
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "emailCB",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 406.02,
+         "y": 344.6,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 845,
+         "x1": 870,
+         "y0": 908,
+         "y1": 933
+        },
+        "darkPixelsBefore": 141,
+        "darkPixelsAfter": 116,
+        "darkPixelsInPinnedSourceAtThisRect": 116,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     }
+    ]
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf800-set",
+    "before": "PASS_COMPLETE, nine counters zero, exit 0",
+    "after": "PASS_COMPLETE, nine counters zero, exit 0",
+    "note": "The counters did not see the defect before the repair and do not see the repair after it, which is why VF08's appearance read was needed."
+   },
+   "verifiers": [
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf800-set",
+     "when": "before and after",
+     "result": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 by appearance-registry and 3 by clearSourceCarriedTextValues",
+     "exitCode": 0
+    }
+   ],
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family ak-tf800-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": [
+     {
+      "formNumber": "TF-800",
+      "declaredSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "boundBy": "exact SHA-256 of the bytes against the mounted Master Library",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf"
+     }
+    ],
+    "staleArtifactBlock": "consulted; block consistent (12 hashes, 6 families) and this family's artifacts clear",
+    "theThreeFailures": [
+     "worktree_clean: the worktree carried this repair's uncommitted work while the preflight ran. Not a property of the environment.",
+     "private_is_git_ignored: .gitignore line 53 is private/, but private is reached here as the read-only symlink the assignment specifies and the trailing-slash rule does not match a symlink. git check-ignore -v private exits 0 and git status shows nothing under private, so nothing from the corpus can be committed.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container. Every source of this family binds by exact SHA-256 regardless, which the family_sources_bind check confirms."
+    ],
+    "notRepairedHere": true
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": {
+    "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted; they are not an acceptance receipt and no receipt was written, moved or re-pointed.",
+    "independentVerification": "Not done. This lane changed the builder and produced these bytes, so it cannot verify them. An independent lane has to re-read the repaired obligation on the new bytes at their own base."
+   }
+  },
+  {
+   "itemId": "ak-tf805-set",
+   "familyId": "ak-tf805-set",
+   "jurisdiction": "AK",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-ak-tf805-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) -> scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten)",
+   "baseSha": "9c20f8c7c",
+   "branch": "fix64-ak-co-me-optin",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX64 ak-tf805-set -> CLAIM_OK FIX64 ak-tf805-set (repair, grant set f3cecafde90df221), exit 0. Asserted before any artifact of this family was opened.",
+   "verdictRepaired": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "942cab9b5",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "measurement": "data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json",
+    "whatVF08Found": "10 of 10 selection-widget readings across the two bound fixtures delivered a stroked square that TF-805 does not print. VF08's zero-write baseline over the same pinned bytes painted the identical pixels, so the ink came from the shared flattening step and not from this family."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The central acceptance receipt this family carried (RASTER_PASS, workflow run 33495068504, rendered commit 5f144ec10d2bf7404faf0811e98418e0b13f06ba) was bound to the two fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding, and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane, and the local 150 dpi rasters recorded under perWidgetMeasurement were measurement only and were deleted.",
+    "INDEPENDENT VERIFICATION. This lane opted the builder in and rebuilt these bytes, so it verifies none of them. It wrote no verdict and replaced none; acceptanceReceipt is null and nothing is scored here. VF08's reading was taken at base 942cab9b5 against the superseded bytes and does not transfer to the new ones.",
+    "THE COHORT'S OTHER FAMILIES. VF08 measured the same shared behaviour across a wider cohort. Only the four families named on this lane are opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after all four rebuilds, and the shared option stays default-off.",
+    "THE CASES THE OPTION LEAVES ALONE BY DESIGN. A widget that ships its own stream for the state it is set to, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered, and this row makes no claim about any of them beyond having measured them unchanged.",
+    "THE PREFLIGHT'S ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs reports 10/13 in this container. Two failures are properties of the container rather than of the repair (private/ reached through the symlink the assignment specifies, and one sampled corpus entry whose custody is not mounted here) and one is that the worktree carried uncommitted work while the repair was in progress. None is repaired here."
+   ],
+   "whatChanged": {
+    "theBuilder": "scripts/build-census-v1-ak-tf805-set.mjs now passes suppressSynthesizedAppearances: true in its single finalizeOfficialForm call, with a comment naming the VF08 measurement it answers. That is the only change to this builder and the only change of any kind outside this family's regenerated artifacts.",
+    "whyTheOptionAloneIsEnoughHere": "This builder hands finalizeOfficialForm the pinned source bytes themselves (sourceBytes: source.bytes). It performs no intermediate pdf-lib save of the source document before the shared finalizer runs, so the FIX57 pattern -- a neutralization save at pdf-lib's default updateFieldAppearances baking the square in before the finalizer is entered -- is absent, and no updateFieldAppearances: false repair was needed or made. Each of the four builders on this lane was read for that pattern and none of them carries it.",
+    "theSharedMachinery": "Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false, and its behaviour are exactly as FIX50 landed them; this lane only opts in.",
+    "whatTheOptionDoes": "For a check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, an empty form XObject sized to the widget's own /Rect is installed for that state before updateFieldAppearances runs. pdf-lib then reports no update is needed and synthesizes nothing, so the square is never drawn and never flattened. The missing state is supplied rather than a drawing suppressed.",
+    "whatIsNeverTouched": "A widget that already ships a stream for the state it is set to, a widget of a field this run wrote, a widget with no /AS, a widget whose /AP /N is a bare stream, and every text field, chooser and pushbutton. A ticked box still renders its mark from the stream the source ships.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change, and none was created. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json and the claim ledger's other entries were not opened for writing."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-ak-tf805-set.mjs",
+    "exit": 0,
+    "runTwiceByteIdentical": true,
+    "howProved": "The whole family directory was copied aside after one build and compared with diff -r against the next. Zero differences across every file, twice: once over two --no-raster builds and once over two full builds that also regenerate the committed page rasters.",
+    "pageCountUnchanged": true
+   },
+   "digests": {
+    "before": {
+     "tf805-canonical-filled.pdf": {
+      "sha256": "bffda336fac95d0980e0a9130913c9189077e1fdc3f05b5a1d55065e5f5c9703",
+      "bytes": 68920,
+      "pages": 2
+     },
+     "tf805-boundary-filled.pdf": {
+      "sha256": "5dd98fef218f8310a8e46e41a9ca83e53d5295507bac0c82fce77e44f96d0ff5",
+      "bytes": 69035,
+      "pages": 2
+     }
+    },
+    "after": {
+     "tf805-canonical-filled.pdf": {
+      "sha256": "4f0eccc0580904955bb0542c81ae835128804c87304df33875ad6c98b19a9213",
+      "bytes": 68488,
+      "pages": 2
+     },
+     "tf805-boundary-filled.pdf": {
+      "sha256": "4e2f307af01f2f1331374240c7e528b9278e98c5811f0f9c93f8fcb8d4564e36",
+      "bytes": 68603,
+      "pages": 2
+     }
+    }
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, before the edit and again from the committed bytes after it. The pinned source of every bound document was resolved by SHA-256 against the mounted Master Library and rastered the same way. Each selection widget's /Rect was mapped to pixels on the delivered page through that page's own CropBox, and read three ways: dark pixels before, dark pixels after, and dark pixels the pinned form paints there itself.",
+    "dpi": 150,
+    "rastersDeletedAfterMeasuring": true,
+    "widgetRectsVF08Counted": 10,
+    "widgetRectsMeasuredHere": 10,
+    "widgetRectsNowCarryingExactlyThePinnedFormsOwnInk": 10,
+    "everyWidgetRectCleared": true,
+    "whatClearedMeans": "At that rect the delivered page after the repair is equal to the pinned form's own raster pixel for pixel -- pixelsDifferingFromPinnedSourceAfter is 0 -- so the page there carries the form's ink and nothing else.",
+    "noOtherPixelMoved": {
+     "changedPixelsAcrossBothFixtures": 498,
+     "changedPixelsOutsideTheMeasuredWidgetRects": 0,
+     "changedPixelsOutsideThoseRectsDilatedByOnePixel": null,
+     "note": "Zero. Every pixel that moved anywhere on any page of either fixture lies inside one of the measured widget rects.",
+     "participantWritesAndIntendedMarks": "Unchanged. Every participant write and every mark this run makes lies outside the measured rects, and no pixel outside those rects moved on any page; the widgets that ship their own state for the state they are set to were additionally read rect by rect and their ink is identical before and after."
+    },
+    "perFixture": [
+     {
+      "fixture": "tf805-canonical-filled.pdf",
+      "pages": 2,
+      "exposedWidgetRectsMeasured": 5,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 5,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 1,
+      "changedPixelsWholeFixture": 249,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 1,
+        "field": "why",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.75,
+         "y": 415,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 761,
+         "y1": 786
+        },
+        "darkPixelsBefore": 164,
+        "darkPixelsAfter": 119,
+        "darkPixelsInPinnedSourceAtThisRect": 119,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "why",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.75,
+         "y": 358.71,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 878,
+         "y1": 903
+        },
+        "darkPixelsBefore": 177,
+        "darkPixelsAfter": 140,
+        "darkPixelsInPinnedSourceAtThisRect": 140,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "mail",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 198.65,
+         "y": 557.29,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 413,
+         "x1": 438,
+         "y0": 465,
+         "y1": 489
+        },
+        "darkPixelsBefore": 138,
+        "darkPixelsAfter": 92,
+        "darkPixelsInPinnedSourceAtThisRect": 92,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "tf",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 334.74,
+         "y": 557.29,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 697,
+         "x1": 722,
+         "y0": 465,
+         "y1": 489
+        },
+        "darkPixelsBefore": 138,
+        "darkPixelsAfter": 92,
+        "darkPixelsInPinnedSourceAtThisRect": 92,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "emailCB",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 405.69,
+         "y": 557.29,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 845,
+         "x1": 870,
+         "y0": 464,
+         "y1": 489
+        },
+        "darkPixelsBefore": 163,
+        "darkPixelsAfter": 92,
+        "darkPixelsInPinnedSourceAtThisRect": 92,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     },
+     {
+      "fixture": "tf805-boundary-filled.pdf",
+      "pages": 2,
+      "exposedWidgetRectsMeasured": 5,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 5,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 1,
+      "changedPixelsWholeFixture": 249,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 1,
+        "field": "why",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.75,
+         "y": 415,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 761,
+         "y1": 786
+        },
+        "darkPixelsBefore": 164,
+        "darkPixelsAfter": 119,
+        "darkPixelsInPinnedSourceAtThisRect": 119,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "why",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 72.75,
+         "y": 358.71,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 151,
+         "x1": 176,
+         "y0": 878,
+         "y1": 903
+        },
+        "darkPixelsBefore": 177,
+        "darkPixelsAfter": 140,
+        "darkPixelsInPinnedSourceAtThisRect": 140,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "mail",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 198.65,
+         "y": 557.29,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 413,
+         "x1": 438,
+         "y0": 465,
+         "y1": 489
+        },
+        "darkPixelsBefore": 138,
+        "darkPixelsAfter": 92,
+        "darkPixelsInPinnedSourceAtThisRect": 92,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "tf",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 334.74,
+         "y": 557.29,
+         "w": 11.53,
+         "h": 11.44
+        },
+        "rectPx150dpi": {
+         "x0": 697,
+         "x1": 722,
+         "y0": 465,
+         "y1": 489
+        },
+        "darkPixelsBefore": 138,
+        "darkPixelsAfter": 92,
+        "darkPixelsInPinnedSourceAtThisRect": 92,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "emailCB",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 405.69,
+         "y": 557.29,
+         "w": 11.52,
+         "h": 11.52
+        },
+        "rectPx150dpi": {
+         "x0": 845,
+         "x1": 870,
+         "y0": 464,
+         "y1": 489
+        },
+        "darkPixelsBefore": 163,
+        "darkPixelsAfter": 92,
+        "darkPixelsInPinnedSourceAtThisRect": 92,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     }
+    ]
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf805-set",
+    "before": "PASS_COMPLETE, nine counters zero, exit 0",
+    "after": "PASS_COMPLETE, nine counters zero, exit 0",
+    "note": "The counters did not see the defect before the repair and do not see the repair after it, which is why VF08's appearance read was needed."
+   },
+   "verifiers": [
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-tf805-set",
+     "when": "before and after",
+     "result": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 by appearance-registry and 3 by clearSourceCarriedTextValues",
+     "exitCode": 0
+    }
+   ],
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family ak-tf805-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": [
+     {
+      "formNumber": "TF-805",
+      "declaredSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "boundBy": "exact SHA-256 of the bytes against the mounted Master Library",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf"
+     }
+    ],
+    "staleArtifactBlock": "consulted; block consistent (12 hashes, 6 families) and this family's artifacts clear",
+    "theThreeFailures": [
+     "worktree_clean: the worktree carried this repair's uncommitted work while the preflight ran. Not a property of the environment.",
+     "private_is_git_ignored: .gitignore line 53 is private/, but private is reached here as the read-only symlink the assignment specifies and the trailing-slash rule does not match a symlink. git check-ignore -v private exits 0 and git status shows nothing under private, so nothing from the corpus can be committed.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container. Every source of this family binds by exact SHA-256 regardless, which the family_sources_bind check confirms."
+    ],
+    "notRepairedHere": true
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": {
+    "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted; they are not an acceptance receipt and no receipt was written, moved or re-pointed.",
+    "independentVerification": "Not done. This lane changed the builder and produced these bytes, so it cannot verify them. An independent lane has to re-read the repaired obligation on the new bytes at their own base."
+   }
+  },
+  {
+   "itemId": "co_motion_seal_nonconviction-set",
+   "familyId": "co_motion_seal_nonconviction-set",
+   "jurisdiction": "CO",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) -> scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten)",
+   "baseSha": "9c20f8c7c",
+   "branch": "fix64-ak-co-me-optin",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX64 co_motion_seal_nonconviction-set -> CLAIM_OK FIX64 co_motion_seal_nonconviction-set (repair, grant set f3cecafde90df221), exit 0. Asserted before any artifact of this family was opened.",
+   "verdictRepaired": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "942cab9b5",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "measurement": "data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json",
+    "whatVF08Found": "14 of 24 selection-widget readings across the two bound fixtures delivered a stroked square that JDF-477 / JDF-478 does not print. VF08's zero-write baseline over the same pinned bytes painted the identical pixels, so the ink came from the shared flattening step and not from this family."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The central acceptance receipt this family carried (RASTER_PASS, workflow run 33495068504, rendered commit 5f144ec10d2bf7404faf0811e98418e0b13f06ba) was bound to the two fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding, and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane, and the local 150 dpi rasters recorded under perWidgetMeasurement were measurement only and were deleted.",
+    "INDEPENDENT VERIFICATION. This lane opted the builder in and rebuilt these bytes, so it verifies none of them. It wrote no verdict and replaced none; acceptanceReceipt is null and nothing is scored here. VF08's reading was taken at base 942cab9b5 against the superseded bytes and does not transfer to the new ones.",
+    "THE COHORT'S OTHER FAMILIES. VF08 measured the same shared behaviour across a wider cohort. Only the four families named on this lane are opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after all four rebuilds, and the shared option stays default-off.",
+    "THE CASES THE OPTION LEAVES ALONE BY DESIGN. A widget that ships its own stream for the state it is set to, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered, and this row makes no claim about any of them beyond having measured them unchanged.",
+    "THE PREFLIGHT'S ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs reports 10/13 in this container. Two failures are properties of the container rather than of the repair (private/ reached through the symlink the assignment specifies, and one sampled corpus entry whose custody is not mounted here) and one is that the worktree carried uncommitted work while the repair was in progress. None is repaired here.",
+    "THE CHANGED REPORT COUNTER ON THIS FAMILY. reports/actual-writes.json moved flattenedWidgetAppearancesReadFromOutputBytes from 51 to 40 in both fixture entries. Read back from the finalized bytes with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, 11 flattened widget-appearance placements were removed from the packet and none added; the pixel measurement below accounts for every pixel any of them carried. No claim is made here about what that builder-internal counter should be."
+   ],
+   "whatChanged": {
+    "theBuilder": "scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs now passes suppressSynthesizedAppearances: true in its single finalizeOfficialForm call, with a comment naming the VF08 measurement it answers. That is the only change to this builder and the only change of any kind outside this family's regenerated artifacts.",
+    "whyTheOptionAloneIsEnoughHere": "This builder hands finalizeOfficialForm the pinned source bytes themselves (sourceBytes: source.bytes). It performs no intermediate pdf-lib save of the source document before the shared finalizer runs, so the FIX57 pattern -- a neutralization save at pdf-lib's default updateFieldAppearances baking the square in before the finalizer is entered -- is absent, and no updateFieldAppearances: false repair was needed or made. Each of the four builders on this lane was read for that pattern and none of them carries it.",
+    "theSharedMachinery": "Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false, and its behaviour are exactly as FIX50 landed them; this lane only opts in.",
+    "whatTheOptionDoes": "For a check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, an empty form XObject sized to the widget's own /Rect is installed for that state before updateFieldAppearances runs. pdf-lib then reports no update is needed and synthesizes nothing, so the square is never drawn and never flattened. The missing state is supplied rather than a drawing suppressed.",
+    "whatIsNeverTouched": "A widget that already ships a stream for the state it is set to, a widget of a field this run wrote, a widget with no /AS, a widget whose /AP /N is a bare stream, and every text field, chooser and pushbutton. A ticked box still renders its mark from the stream the source ships.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change, and none was created. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json and the claim ledger's other entries were not opened for writing."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs",
+    "exit": 0,
+    "runTwiceByteIdentical": true,
+    "howProved": "The whole family directory was copied aside after one build and compared with diff -r against the next. Zero differences across every file, twice: once over two --no-raster builds and once over two full builds that also regenerate the committed page rasters.",
+    "pageCountUnchanged": true
+   },
+   "digests": {
+    "before": {
+     "canonical.pdf": {
+      "sha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
+      "bytes": 325622,
+      "pages": 5
+     },
+     "boundary.pdf": {
+      "sha256": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
+      "bytes": 325832,
+      "pages": 5
+     }
+    },
+    "after": {
+     "canonical.pdf": {
+      "sha256": "cd0a7f4b89fd520bed685c7f0455b043374126f766cde8c2dbfcbc5e11b35634",
+      "bytes": 320186,
+      "pages": 5
+     },
+     "boundary.pdf": {
+      "sha256": "3a4d91f01ea2c5370af234a7048a637a692c5f0fa1339f83ea9042e5af3f3260",
+      "bytes": 320396,
+      "pages": 5
+     }
+    }
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, before the edit and again from the committed bytes after it. The pinned source of every bound document was resolved by SHA-256 against the mounted Master Library and rastered the same way. Each selection widget's /Rect was mapped to pixels on the delivered page through that page's own CropBox, and read three ways: dark pixels before, dark pixels after, and dark pixels the pinned form paints there itself.",
+    "dpi": 150,
+    "rastersDeletedAfterMeasuring": true,
+    "widgetRectsVF08Counted": 24,
+    "widgetRectsMeasuredHere": 24,
+    "widgetRectsNowCarryingExactlyThePinnedFormsOwnInk": 24,
+    "everyWidgetRectCleared": true,
+    "whatClearedMeans": "At that rect the delivered page after the repair is equal to the pinned form's own raster pixel for pixel -- pixelsDifferingFromPinnedSourceAfter is 0 -- so the page there carries the form's ink and nothing else.",
+    "noOtherPixelMoved": {
+     "changedPixelsAcrossBothFixtures": 618,
+     "changedPixelsOutsideTheMeasuredWidgetRects": 0,
+     "changedPixelsOutsideThoseRectsDilatedByOnePixel": null,
+     "note": "Zero. Every pixel that moved anywhere on any page of either fixture lies inside one of the measured widget rects.",
+     "participantWritesAndIntendedMarks": "Unchanged. Every participant write and every mark this run makes lies outside the measured rects, and no pixel outside those rects moved on any page; the widgets that ship their own state for the state they are set to were additionally read rect by rect and their ink is identical before and after."
+    },
+    "perFixture": [
+     {
+      "fixture": "canonical.pdf",
+      "pages": 5,
+      "exposedWidgetRectsMeasured": 12,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 12,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 15,
+      "changedPixelsWholeFixture": 309,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 2,
+        "field": "8A.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.6,
+         "y": 485.51,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 263,
+         "x1": 284,
+         "y0": 619,
+         "y1": 639
+        },
+        "darkPixelsBefore": 148,
+        "darkPixelsAfter": 89,
+        "darkPixelsInPinnedSourceAtThisRect": 89,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "8B.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.39,
+         "y": 466.1,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 263,
+         "x1": 283,
+         "y0": 659,
+         "y1": 679
+        },
+        "darkPixelsBefore": 128,
+        "darkPixelsAfter": 108,
+        "darkPixelsInPinnedSourceAtThisRect": 108,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "8D.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.72,
+         "y": 402.94,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 264,
+         "x1": 284,
+         "y0": 791,
+         "y1": 811
+        },
+        "darkPixelsBefore": 128,
+        "darkPixelsAfter": 89,
+        "darkPixelsInPinnedSourceAtThisRect": 89,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "8E.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.72,
+         "y": 370.54,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 264,
+         "x1": 284,
+         "y0": 858,
+         "y1": 879
+        },
+        "darkPixelsBefore": 148,
+        "darkPixelsAfter": 108,
+        "darkPixelsInPinnedSourceAtThisRect": 108,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 3,
+        "field": "Sig_Esq",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 234.27,
+         "y": 533.62,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 488,
+         "x1": 508,
+         "y0": 518,
+         "y1": 539
+        },
+        "darkPixelsBefore": 174,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3A.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.82,
+         "y": 279.98,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1047,
+         "y1": 1067
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 130,
+        "darkPixelsInPinnedSourceAtThisRect": 130,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3B.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.97,
+         "y": 256.72,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 227,
+         "x1": 247,
+         "y0": 1095,
+         "y1": 1116
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3C.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.88,
+         "y": 233.57,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1143,
+         "y1": 1164
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 114,
+        "darkPixelsInPinnedSourceAtThisRect": 114,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3D.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.88,
+         "y": 175.97,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1263,
+         "y1": 1284
+        },
+        "darkPixelsBefore": 152,
+        "darkPixelsAfter": 130,
+        "darkPixelsInPinnedSourceAtThisRect": 130,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3E.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 109.14,
+         "y": 137,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 227,
+         "x1": 247,
+         "y0": 1345,
+         "y1": 1365
+        },
+        "darkPixelsBefore": 111,
+        "darkPixelsAfter": 110,
+        "darkPixelsInPinnedSourceAtThisRect": 110,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3F.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 109.14,
+         "y": 113.65,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 227,
+         "x1": 247,
+         "y0": 1393,
+         "y1": 1414
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3G.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.92,
+         "y": 90.31,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1442,
+         "y1": 1462
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 114,
+        "darkPixelsInPinnedSourceAtThisRect": 114,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     },
+     {
+      "fixture": "boundary.pdf",
+      "pages": 5,
+      "exposedWidgetRectsMeasured": 12,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 12,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 15,
+      "changedPixelsWholeFixture": 309,
+      "changedPixelsOutsideExposedRects": 0,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 2,
+        "field": "8A.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.6,
+         "y": 485.51,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 263,
+         "x1": 284,
+         "y0": 619,
+         "y1": 639
+        },
+        "darkPixelsBefore": 148,
+        "darkPixelsAfter": 89,
+        "darkPixelsInPinnedSourceAtThisRect": 89,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "8B.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.39,
+         "y": 466.1,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 263,
+         "x1": 283,
+         "y0": 659,
+         "y1": 679
+        },
+        "darkPixelsBefore": 128,
+        "darkPixelsAfter": 108,
+        "darkPixelsInPinnedSourceAtThisRect": 108,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "8D.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.72,
+         "y": 402.94,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 264,
+         "x1": 284,
+         "y0": 791,
+         "y1": 811
+        },
+        "darkPixelsBefore": 128,
+        "darkPixelsAfter": 89,
+        "darkPixelsInPinnedSourceAtThisRect": 89,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 2,
+        "field": "8E.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 126.72,
+         "y": 370.54,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 264,
+         "x1": 284,
+         "y0": 858,
+         "y1": 879
+        },
+        "darkPixelsBefore": 148,
+        "darkPixelsAfter": 108,
+        "darkPixelsInPinnedSourceAtThisRect": 108,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 3,
+        "field": "Sig_Esq",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 234.27,
+         "y": 533.62,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 488,
+         "x1": 508,
+         "y0": 518,
+         "y1": 539
+        },
+        "darkPixelsBefore": 174,
+        "darkPixelsAfter": 96,
+        "darkPixelsInPinnedSourceAtThisRect": 96,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3A.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.82,
+         "y": 279.98,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1047,
+         "y1": 1067
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 130,
+        "darkPixelsInPinnedSourceAtThisRect": 130,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3B.1",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.97,
+         "y": 256.72,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 227,
+         "x1": 247,
+         "y0": 1095,
+         "y1": 1116
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3C.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.88,
+         "y": 233.57,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1143,
+         "y1": 1164
+        },
+        "darkPixelsBefore": 135,
+        "darkPixelsAfter": 114,
+        "darkPixelsInPinnedSourceAtThisRect": 114,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3D.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.88,
+         "y": 175.97,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1263,
+         "y1": 1284
+        },
+        "darkPixelsBefore": 152,
+        "darkPixelsAfter": 130,
+        "darkPixelsInPinnedSourceAtThisRect": 130,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3E.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 109.14,
+         "y": 137,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 227,
+         "x1": 247,
+         "y0": 1345,
+         "y1": 1365
+        },
+        "darkPixelsBefore": 111,
+        "darkPixelsAfter": 110,
+        "darkPixelsInPinnedSourceAtThisRect": 110,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3F.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 109.14,
+         "y": 113.65,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 227,
+         "x1": 247,
+         "y0": 1393,
+         "y1": 1414
+        },
+        "darkPixelsBefore": 131,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 4,
+        "field": "478.3G.0",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 108.92,
+         "y": 90.31,
+         "w": 9.36,
+         "h": 9.36
+        },
+        "rectPx150dpi": {
+         "x0": 226,
+         "x1": 247,
+         "y0": 1442,
+         "y1": 1462
+        },
+        "darkPixelsBefore": 114,
+        "darkPixelsAfter": 114,
+        "darkPixelsInPinnedSourceAtThisRect": 114,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     }
+    ]
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
+    "before": "PASS_COMPLETE, nine counters zero, exit 0",
+    "after": "PASS_COMPLETE, nine counters zero, exit 0",
+    "note": "The counters did not see the defect before the repair and do not see the repair after it, which is why VF08's appearance read was needed."
+   },
+   "verifiers": [
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
+     "when": "before and after",
+     "result": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 by appearance-registry and 3 by clearSourceCarriedTextValues",
+     "exitCode": 0
+    }
+   ],
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family co_motion_seal_nonconviction-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": [
+     {
+      "formNumber": "JDF-477",
+      "declaredSha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+      "boundBy": "exact SHA-256 of the bytes against the mounted Master Library",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf"
+     },
+     {
+      "formNumber": "JDF-478",
+      "declaredSha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+      "boundBy": "exact SHA-256 of the bytes against the mounted Master Library",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf"
+     }
+    ],
+    "staleArtifactBlock": "consulted; block consistent (12 hashes, 6 families) and this family's artifacts clear",
+    "theThreeFailures": [
+     "worktree_clean: the worktree carried this repair's uncommitted work while the preflight ran. Not a property of the environment.",
+     "private_is_git_ignored: .gitignore line 53 is private/, but private is reached here as the read-only symlink the assignment specifies and the trailing-slash rule does not match a symlink. git check-ignore -v private exits 0 and git status shows nothing under private, so nothing from the corpus can be committed.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container. Every source of this family binds by exact SHA-256 regardless, which the family_sources_bind check confirms."
+    ],
+    "notRepairedHere": true
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": {
+    "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted; they are not an acceptance receipt and no receipt was written, moved or re-pointed.",
+    "independentVerification": "Not done. This lane changed the builder and produced these bytes, so it cannot verify them. An independent lane has to re-read the repaired obligation on the new bytes at their own base."
+   }
+  },
+  {
+   "itemId": "me-seal-prost-set",
+   "familyId": "me-seal-prost-set",
+   "jurisdiction": "ME",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-seal-prost-set--official-pdf-fill",
+   "status": "COMPLETED",
+   "laneKind": "repair",
+   "repairedByThisLane": true,
+   "buildHost": "scripts/build-census-v1-me-seal-prost-set.mjs",
+   "sharedHost": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm) -> scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten)",
+   "baseSha": "9c20f8c7c",
+   "branch": "fix64-ak-co-me-optin",
+   "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX64 me-seal-prost-set -> CLAIM_OK FIX64 me-seal-prost-set (repair, grant set f3cecafde90df221), exit 0. Asserted before any artifact of this family was opened.",
+   "verdictRepaired": {
+    "lane": "VF08",
+    "verdict": "FAIL_REPAIR_REQUIRED",
+    "verifiedAtBase": "942cab9b5",
+    "failedObligationNames": [
+     "CLIPPING_AND_OVERLAP"
+    ],
+    "measurement": "data/rcap-grade-a/packet-factory-24h/vf08/COHORT_MEASUREMENT.json",
+    "whatVF08Found": "6 of 6 selection-widget readings across the two bound fixtures delivered a stroked square that CR-289 does not print. VF08's zero-write baseline over the same pinned bytes painted the identical pixels, so the ink came from the shared flattening step and not from this family."
+   },
+   "obligationsRepaired": [
+    "CLIPPING_AND_OVERLAP"
+   ],
+   "obligationsThisRowDoesNotDischarge": [
+    "RASTER. The central acceptance receipt this family carried (RASTER_PASS, workflow run 33495068504, rendered commit 5f144ec10d2bf7404faf0811e98418e0b13f06ba) was bound to the two fixture digests recorded under digests.before, both of which this repair supersedes. It stops binding, and a fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were not opened for writing by this lane, and the local 150 dpi rasters recorded under perWidgetMeasurement were measurement only and were deleted.",
+    "INDEPENDENT VERIFICATION. This lane opted the builder in and rebuilt these bytes, so it verifies none of them. It wrote no verdict and replaced none; acceptanceReceipt is null and nothing is scored here. VF08's reading was taken at base 942cab9b5 against the superseded bytes and does not transfer to the new ones.",
+    "THE COHORT'S OTHER FAMILIES. VF08 measured the same shared behaviour across a wider cohort. Only the four families named on this lane are opted in, rebuilt or touched; every other family directory under data/rcap-all50/overlays/census-v1 was proved byte-identical after all four rebuilds, and the shared option stays default-off.",
+    "THE CASES THE OPTION LEAVES ALONE BY DESIGN. A widget that ships its own stream for the state it is set to, a widget with no /AS at all, a widget whose /AP /N is a bare stream rather than a state dictionary, and any widget of a field this run wrote. None is altered, and this row makes no claim about any of them beyond having measured them unchanged.",
+    "THE PREFLIGHT'S ENVIRONMENT FAILURES. scripts/verify-packet-build-environment.mjs reports 10/13 in this container. Two failures are properties of the container rather than of the repair (private/ reached through the symlink the assignment specifies, and one sampled corpus entry whose custody is not mounted here) and one is that the worktree carried uncommitted work while the repair was in progress. None is repaired here."
+   ],
+   "whatChanged": {
+    "theBuilder": "scripts/build-census-v1-me-seal-prost-set.mjs now passes suppressSynthesizedAppearances: true in its single finalizeOfficialForm call, with a comment naming the VF08 measurement it answers. That is the only change to this builder and the only change of any kind outside this family's regenerated artifacts.",
+    "whyTheOptionAloneIsEnoughHere": "This builder hands finalizeOfficialForm the pinned source bytes themselves (sourceBytes: source.bytes). It performs no intermediate pdf-lib save of the source document before the shared finalizer runs, so the FIX57 pattern -- a neutralization save at pdf-lib's default updateFieldAppearances baking the square in before the finalizer is entered -- is absent, and no updateFieldAppearances: false repair was needed or made. Each of the four builders on this lane was read for that pattern and none of them carries it.",
+    "theSharedMachinery": "Nothing in scripts/rcap-official-forms/rcap-active-content.mjs or scripts/rcap-official-forms/rcap-official-form-finalize.mjs was edited. The option, its default of false, and its behaviour are exactly as FIX50 landed them; this lane only opts in.",
+    "whatTheOptionDoes": "For a check-box or radio widget whose field this run did not write and whose current /AS state has no stream under /AP /N, an empty form XObject sized to the widget's own /Rect is installed for that state before updateFieldAppearances runs. pdf-lib then reports no update is needed and synthesizes nothing, so the square is never drawn and never flattened. The missing state is supplied rather than a drawing suppressed.",
+    "whatIsNeverTouched": "A widget that already ships a stream for the state it is set to, a widget of a field this run wrote, a widget with no /AS, a widget whose /AP /N is a bare stream, and every text field, chooser and pushbutton. A ticked box still renders its mark from the stream the source ships.",
+    "whatDidNotChange": "No default behaviour anywhere. No other family's builder, directory or bytes. No whitelist by family, form, field or route exists to change, and none was created. MASTER_QUEUE.json, RASTER_QUEUE.json, the legal-decision records, product-wiring.json and the claim ledger's other entries were not opened for writing."
+   },
+   "rebuild": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/build-census-v1-me-seal-prost-set.mjs",
+    "exit": 0,
+    "runTwiceByteIdentical": true,
+    "howProved": "The whole family directory was copied aside after one build and compared with diff -r against the next. Zero differences across every file, twice: once over two --no-raster builds and once over two full builds that also regenerate the committed page rasters.",
+    "pageCountUnchanged": true
+   },
+   "digests": {
+    "before": {
+     "cr289-canonical-filled.pdf": {
+      "sha256": "ce2e6bde63ac9524927ace30a128938174ff79db091ec8db26a4ad3d307daaf7",
+      "bytes": 175252,
+      "pages": 1
+     },
+     "cr289-boundary-filled.pdf": {
+      "sha256": "c56d43ba1b2341526fa7b7c17115b77435a1e030f70e2dfc93c76815f9cc2695",
+      "bytes": 175334,
+      "pages": 1
+     }
+    },
+    "after": {
+     "cr289-canonical-filled.pdf": {
+      "sha256": "4e44539864adc68ea7f7080693315ee08708f00659f7391c21aeda934010abf3",
+      "bytes": 175111,
+      "pages": 1
+     },
+     "cr289-boundary-filled.pdf": {
+      "sha256": "9a9a65a2a145b07982f573fe820e0aa088fc28ac1cc58136e9652217289cf70c",
+      "bytes": 175193,
+      "pages": 1
+     }
+    }
+   },
+   "perWidgetMeasurement": {
+    "method": "Every page of both fixtures rastered with pdftoppm at 150 dpi, greyscale, before the edit and again from the committed bytes after it. The pinned source of every bound document was resolved by SHA-256 against the mounted Master Library and rastered the same way. Each selection widget's /Rect was mapped to pixels on the delivered page through that page's own CropBox, and read three ways: dark pixels before, dark pixels after, and dark pixels the pinned form paints there itself.",
+    "dpi": 150,
+    "rastersDeletedAfterMeasuring": true,
+    "widgetRectsVF08Counted": 6,
+    "widgetRectsMeasuredHere": 6,
+    "widgetRectsNowCarryingExactlyThePinnedFormsOwnInk": 6,
+    "everyWidgetRectCleared": true,
+    "whatClearedMeans": "At that rect the delivered page after the repair is equal to the pinned form's own raster pixel for pixel -- pixelsDifferingFromPinnedSourceAfter is 0 -- so the page there carries the form's ink and nothing else.",
+    "noOtherPixelMoved": {
+     "changedPixelsAcrossBothFixtures": 386,
+     "changedPixelsOutsideTheMeasuredWidgetRects": 56,
+     "changedPixelsOutsideThoseRectsDilatedByOnePixel": null,
+     "note": "28 pixels per fixture fall one column outside a rect as this measurement rounds it: x=959, y=128..155, the right stroke of the square at the third widget, whose /Rect right edge lands mid-pixel. Read against the pinned source those 28 pixels differ before the repair and match it exactly after, so they are the square being removed and not new ink. Dilating every rect by one pixel leaves zero changed pixels unaccounted for.",
+     "participantWritesAndIntendedMarks": "Unchanged. Every participant write and every mark this run makes lies outside the measured rects, and no pixel outside those rects moved on any page; the widgets that ship their own state for the state they are set to were additionally read rect by rect and their ink is identical before and after."
+    },
+    "perFixture": [
+     {
+      "fixture": "cr289-canonical-filled.pdf",
+      "pages": 1,
+      "exposedWidgetRectsMeasured": 3,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 3,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 0,
+      "changedPixelsWholeFixture": 193,
+      "changedPixelsOutsideExposedRects": 28,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 1,
+        "field": "Superior Court",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 355.68,
+         "y": 717.48,
+         "w": 13.08,
+         "h": 13.08
+        },
+        "rectPx150dpi": {
+         "x0": 741,
+         "x1": 769,
+         "y0": 128,
+         "y1": 156
+        },
+        "darkPixelsBefore": 208,
+        "darkPixelsAfter": 153,
+        "darkPixelsInPinnedSourceAtThisRect": 153,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Unified Criminal Docket",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 355.68,
+         "y": 702.84,
+         "w": 13.08,
+         "h": 13.08
+        },
+        "rectPx150dpi": {
+         "x0": 741,
+         "x1": 769,
+         "y0": 158,
+         "y1": 186
+        },
+        "darkPixelsBefore": 208,
+        "darkPixelsAfter": 153,
+        "darkPixelsInPinnedSourceAtThisRect": 153,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "District Court",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 447.24,
+         "y": 717.48,
+         "w": 13.08,
+         "h": 13.08
+        },
+        "rectPx150dpi": {
+         "x0": 931,
+         "x1": 959,
+         "y0": 128,
+         "y1": 156
+        },
+        "darkPixelsBefore": 184,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     },
+     {
+      "fixture": "cr289-boundary-filled.pdf",
+      "pages": 1,
+      "exposedWidgetRectsMeasured": 3,
+      "widgetsNowCarryingExactlyThePinnedFormsOwnInk": 3,
+      "widgetsShippingTheirOwnStateVerifiedUnchanged": 0,
+      "changedPixelsWholeFixture": 193,
+      "changedPixelsOutsideExposedRects": 28,
+      "changedPixelsOutsideExposedRectsDilatedOnePixel": 0,
+      "participantWriteAndOwnStateRectsUnchanged": true,
+      "widgets": [
+       {
+        "page": 1,
+        "field": "Superior Court",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 355.68,
+         "y": 717.48,
+         "w": 13.08,
+         "h": 13.08
+        },
+        "rectPx150dpi": {
+         "x0": 741,
+         "x1": 769,
+         "y0": 128,
+         "y1": 156
+        },
+        "darkPixelsBefore": 208,
+        "darkPixelsAfter": 153,
+        "darkPixelsInPinnedSourceAtThisRect": 153,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "Unified Criminal Docket",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 355.68,
+         "y": 702.84,
+         "w": 13.08,
+         "h": 13.08
+        },
+        "rectPx150dpi": {
+         "x0": 741,
+         "x1": 769,
+         "y0": 158,
+         "y1": 186
+        },
+        "darkPixelsBefore": 208,
+        "darkPixelsAfter": 153,
+        "darkPixelsInPinnedSourceAtThisRect": 153,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       },
+       {
+        "page": 1,
+        "field": "District Court",
+        "state": "/Off",
+        "rectPdfUserSpace": {
+         "x": 447.24,
+         "y": 717.48,
+         "w": 13.08,
+         "h": 13.08
+        },
+        "rectPx150dpi": {
+         "x0": 931,
+         "x1": 959,
+         "y0": 128,
+         "y1": 156
+        },
+        "darkPixelsBefore": 184,
+        "darkPixelsAfter": 129,
+        "darkPixelsInPinnedSourceAtThisRect": 129,
+        "pixelsDifferingFromPinnedSourceAfter": 0,
+        "cleared": true
+       }
+      ]
+     }
+    ]
+   },
+   "countersBefore": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersAfter": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set",
+    "before": "PASS_COMPLETE, nine counters zero, exit 0",
+    "after": "PASS_COMPLETE, nine counters zero, exit 0",
+    "note": "The counters did not see the defect before the repair and do not see the repair after it, which is why VF08's appearance read was needed."
+   },
+   "verifiers": [
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family me-seal-prost-set",
+     "when": "before and after",
+     "result": "PASS_COMPLETE, nine counters zero",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+     "exitCode": 0
+    },
+    {
+     "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+     "when": "after all four rebuilds",
+     "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 UNDISPOSITIONED, 0 not examinable; 26 by appearance-registry and 3 by clearSourceCarriedTextValues",
+     "exitCode": 0
+    }
+   ],
+   "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<mounted Master Library> node scripts/verify-packet-build-environment.mjs --family me-seal-prost-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "exitCode": 1,
+    "familySourcesBind": [
+     {
+      "formNumber": "CR-289",
+      "declaredSha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+      "boundBy": "exact SHA-256 of the bytes against the mounted Master Library",
+      "resolvedFrom": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf"
+     }
+    ],
+    "staleArtifactBlock": "consulted; block consistent (12 hashes, 6 families) and this family's artifacts clear",
+    "theThreeFailures": [
+     "worktree_clean: the worktree carried this repair's uncommitted work while the preflight ran. Not a property of the environment.",
+     "private_is_git_ignored: .gitignore line 53 is private/, but private is reached here as the read-only symlink the assignment specifies and the trailing-slash rule does not match a symlink. git check-ignore -v private exits 0 and git status shows nothing under private, so nothing from the corpus can be committed.",
+     "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled -- a custody that is not mounted in this container. Every source of this family binds by exact SHA-256 regardless, which the family_sources_bind check confirms."
+    ],
+    "notRepairedHere": true
+   },
+   "acceptanceReceipt": null,
+   "whatWasNotDone": {
+    "centralRasterOnTheNewBytes": "Not done. The new fixtures have never been through .github/workflows/rcap-packet-raster-acceptance-batch.yml. The local pdftoppm rasters recorded above are this lane's own measurement, taken under /tmp and deleted; they are not an acceptance receipt and no receipt was written, moved or re-pointed.",
+    "independentVerification": "Not done. This lane changed the builder and produced these bytes, so it cannot verify them. An independent lane has to re-read the repaired obligation on the new bytes at their own base."
+   }
+  }
+ ]
+}

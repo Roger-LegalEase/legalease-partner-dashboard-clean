@@ -1,0 +1,103 @@
+{
+  "familyId": "al-diversion-set",
+  "trackId": "al-diversion",
+  "sourceMemoSha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+  "selfHelpStops": [
+    {
+      "condition": "The prosecutor or a victim files an objection.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The court sets a hearing.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The programme ended in a withheld adjudication rather than a dismissal.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The participant is choosing which record to spend one of the two capped expungements on.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Immigration, licensing or firearm consequences are in play.",
+      "literalPresent": true
+    }
+  ],
+  "requiredParticipantInputQuestions": [
+    {
+      "key": "programEndedInDismissal",
+      "question": "Did the programme end in a dismissal of the charge?",
+      "requirement": "required"
+    },
+    {
+      "key": "withheldAdjudication",
+      "question": "Or did it end in a withheld adjudication rather than a dismissal?",
+      "requirement": "required"
+    },
+    {
+      "key": "programType",
+      "question": "Which programme did you complete \u2014 diversion, drug court, mental health court, veterans court, or another accountability court?",
+      "requirement": "required"
+    },
+    {
+      "key": "priorProgramExpungements",
+      "question": "Have you already had two expungements granted for completing programmes like this? The cap is two.",
+      "requirement": "required"
+    },
+    {
+      "key": "countyOfFiling",
+      "question": "In which county were the charges filed?",
+      "requirement": "required"
+    }
+  ],
+  "supportingDocuments": [
+    {
+      "name": "Certified local record showing the dismissal was entered",
+      "obtainedFrom": "The clerk of the court where the charges were filed",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for a certified copy of the dismissal.",
+      "confirms": "programEndedInDismissal"
+    },
+    {
+      "name": "Certified ALEA criminal record",
+      "obtainedFrom": "Alabama Law Enforcement Agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request a certified criminal record from ALEA."
+    }
+  ],
+  "destination": {
+    "kind": "court",
+    "name": "Criminal division of the circuit court, county where the charges were filed",
+    "detail": "Court-controlled with a prosecutor and victim objection window."
+  },
+  "components": [
+    {
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65"
+    },
+    {
+      "role": "certificate_of_service",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65"
+    },
+    {
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "conditionDescription": "Where indigency is claimed.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "C-10-CRIMINAL"
+    }
+  ],
+  "manualCompletionItems": [
+    [
+      "Signature and date",
+      "The petitioner signs their own petition."
+    ]
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF17",
+  "worker": "VF-SRC-A",
+  "assignmentCount": 9,
+  "assignments": [
+    {
+      "itemId": "ri_nonconviction_sealing-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+      "decisiveDefect": "the packet does not state a filing fee or a waiver route. The closest it gets is a catch-all line that names it among other items without answering it or naming who to ask: \"- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.\"",
+      "failedProofObligations": [
+        "FEE_AND_WAIVER"
+      ],
+      "perObligation": {
+        "FEE_AND_WAIVER": {
+          "measuredDetail": "the packet does not state a filing fee or a waiver route. The closest it gets is a catch-all line that names it among other items without answering it or naming who to ask: \"- Confirm current revision, filing destination, local procedures, fees, attachments, service, and proposed-order requirements before filing.\"",
+          "whatRepairMustDo": "participant-instructions.md must state the filing fee and any waiver route, or name exactly who to ask and say the amount is not stated. A catch-all line listing 'fees' among other items does neither."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "pa_490_nonconviction-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill",
+      "decisiveDefect": "incompleteRows=1 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "REPEATING_ROWS": {
+          "measuredDetail": "incompleteRows=1 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A repeating row carries written cells beside required cells left blank. Either complete the row or leave the whole row blank; a half-written row reads as an answered question."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "the packet does not state where self-help ends. The closest it gets is a catch-all line that names it among other items without answering it or naming who to ask: \"These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\"",
+          "whatRepairMustDo": "participant-instructions.md must state where self-help ends."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "az_marijuana_expungement_arrest_no_charges-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-marijuana-expungement-arrest-no-charges-set--official-pdf-fill",
+      "decisiveDefect": "knownRequiredFieldsMissing=1 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "knownRequiredFieldsMissing=1 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A known required fact is not written where it belongs. Read the verifier's own knownRequiredFieldsMissing rows and write only those fields; do not re-derive the family."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "pa_9122_1_limited_access-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill",
+      "decisiveDefect": "knownRequiredFieldsMissing=2 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "SELF_HELP_STOP"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "knownRequiredFieldsMissing=2 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A known required fact is not written where it belongs. Read the verifier's own knownRequiredFieldsMissing rows and write only those fields; do not re-derive the family."
+        },
+        "REPEATING_ROWS": {
+          "measuredDetail": "incompleteRows=1 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A repeating row carries written cells beside required cells left blank. Either complete the row or leave the whole row blank; a half-written row reads as an answered question."
+        },
+        "SELF_HELP_STOP": {
+          "measuredDetail": "the packet does not state where self-help ends. The closest it gets is a catch-all line that names it among other items without answering it or naming who to ask: \"These files are deterministic review fixtures made from exact held official sources. They are not approved filing packets.\"",
+          "whatRepairMustDo": "participant-instructions.md must state where self-help ends."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "ny_160_59_petition-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+      "decisiveDefect": "knownRequiredFieldsMissing=7 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "knownRequiredFieldsMissing=7 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A known required fact is not written where it belongs. Read the verifier's own knownRequiredFieldsMissing rows and write only those fields; do not re-derive the family."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "ca-851-91-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-851-91-set--official-pdf-fill",
+      "decisiveDefect": "knownRequiredFieldsMissing=6 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "knownRequiredFieldsMissing=6 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A known required fact is not written where it belongs. Read the verifier's own knownRequiredFieldsMissing rows and write only those fields; do not re-derive the family."
+        },
+        "REPEATING_ROWS": {
+          "measuredDetail": "incompleteRows=1 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A repeating row carries written cells beside required cells left blank. Either complete the row or leave the whole row blank; a half-written row reads as an answered question."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "decisiveDefect": "knownRequiredFieldsMissing=7 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "knownRequiredFieldsMissing=7 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A known required fact is not written where it belongs. Read the verifier's own knownRequiredFieldsMissing rows and write only those fields; do not re-derive the family."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "decisiveDefect": "knownRequiredFieldsMissing=9 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "knownRequiredFieldsMissing=9 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A known required fact is not written where it belongs. Read the verifier's own knownRequiredFieldsMissing rows and write only those fields; do not re-derive the family."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "ca-1203-42-set",
+      "lane": "VF17",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-42-set--official-pdf-fill",
+      "decisiveDefect": "requiredOptionsMissing=10 (measured by running the completeness verifier in this container)",
+      "failedProofObligations": [
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS"
+      ],
+      "perObligation": {
+        "ROUTE_OPTIONS": {
+          "measuredDetail": "requiredOptionsMissing=10 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A route-determined election is unmade. The route decides it, not the participant, so it is named as unmade rather than described as theirs."
+        },
+        "REPEATING_ROWS": {
+          "measuredDetail": "incompleteRows=1 (measured by running the completeness verifier in this container)",
+          "whatRepairMustDo": "A repeating row carries written cells beside required cells left blank. Either complete the row or leave the whole row blank; a half-written row reads as an answered question."
+        }
+      },
+      "repairMustNotDo": [
+        "do not edit an artifact merely so a receipt matches it",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-grade-a-superseded-status-records/v1",
+  "purpose": "A machine-readable pointer from every record that once claimed launch, dispatch or readiness authority to the one that claims it now. Nothing here is deleted: these are the history of how the current state was reached, and several are the evidence behind it.",
+  "controllingRecord": "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+  "controllingExecutionOrder": "docs/LAUNCH_SEQUENCE.md",
+  "rule": "Exactly one record claims CURRENT launch authority. A record listed here is historical: it may be read as evidence and must not be read as current status.",
+  "superseded": [
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-v1/legal-review-triage.json",
+      "supersededBy": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+      "why": "It routed 47 of 86 rows to counsel. The corrected routing is 4, and the difference is 43 rows the Captain owed rather than an attorney."
+    },
+    {
+      "record": "data/rcap-all50/pdf-release-readiness.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+      "why": "A PDF-lane readiness record from the earlier all50 sprint. It predates the Grade-A census denominator and does not describe the 352-family population."
+    },
+    {
+      "record": "data/rcap-grade-a/active-lane-envelopes.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+      "why": "Lane envelopes from an earlier dispatch model. First-wave ownership is now decided by the reuse index and the assignment manifest, which are checked against each other for collisions."
+    },
+    {
+      "record": "data/rcap-all50/gate-b-assignments/index.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+      "why": "Gate-B assignment index from the all50 review sprint. Historical; its reviews are evidence, its assignments are not current."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/LAUNCH_CONTROL.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+      "why": "Renamed, not copied. The same record under the name the Phase 0 brief asks for; git carries the rename so no second file claims launch authority."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/first-wave-assignments.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+      "why": "Retired, then replaced. Its four Category B evidence-shard lanes existed to get the 55 medium-confidence routes classified; they came back classified, so the wave is retired in the control-baseline commit and re-dispatched by implementation archetype in the commit that follows. Two commits, because a manifest cannot name the commit that carries it."
+    },
+    {
+      "record": "docs/rcap/grade-a/captain/dispatch/first-wave/",
+      "supersededBy": "docs/rcap/grade-a/launch-control/prompts/",
+      "why": "The first-wave prompt directory carried four prompts telling a worker to research the 55 rows. A prompt file nobody is assigned is a dispatchable assignment with no manifest entry, no reuse record and no collision check, so the directory was retired rather than left beside the active one."
+    }
+  ],
+  "notSuperseded": [
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "It remains the authority for families, sources, legal review, category B, the launch gate and commercial state. The launch record reads those numbers from it rather than restating them, so there is one computation and one answer."
+    },
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "The frozen census denominator. The launch record reads its totals; nothing else may restate them."
+    },
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+      "status": "FROZEN_ASSIGNMENT",
+      "why": "Handed to a reviewer and pinned to one source blob. Not a status record and never regenerated."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "The reconciliation of the 55 returned decisions against this tree. The launch record reads its counts; the assignment manifest reads its archetype routing. Neither restates them."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "The 49 stage/branch pairs, the 3 confirmed exclusions and the 3 conversions. It is the record that keeps a controlled stage and its participant branch from collapsing into one identity."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "The mechanical review of the first wave's returns: parentage, scope, prohibited paths and required outputs checked against git rather than against a worker's summary. It also carries the four systemic findings the returns themselves prove."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "The one canonical answer for which of the 55 classified routes now has an integrated branch identity. Seven lanes returned seven schemas; this translates each lane's words once, through an adapter that refuses an unrecognised status rather than defaulting it."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "What the first wave did not finish, derived from the integrated records rather than from prose. It dispatches nothing; a residual wave needs a new Captain head and a new ownership manifest."
+    },
+    {
+      "record": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "The six clauses the next dispatch is bound by, each derived from a systemic finding in the return review. It binds from wave 2; the current dispatch is left exactly as the still-running lane read it."
+    }
+  ],
+  "controllingAssignmentManifest": "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+  "controllingStatusMirror": "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+  "twoCommitRetirement": "The obsolete wave is retired in the control-baseline commit and the new one is dispatched in the commit after it. Between those two commits this tree deliberately carries no assignment manifest: nothing is dispatched, which is the truth at that moment rather than a gap."
+}

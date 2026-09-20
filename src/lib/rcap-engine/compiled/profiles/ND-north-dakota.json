@@ -1,6 +1,11 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "ND",
     "name": "North Dakota",
@@ -816,7 +821,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "N.D.C.C. ch. 12-60.1",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -880,29 +886,14 @@
         "convicted_misdemeanor",
         "convicted_felony"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If a person pleads guilty or is found guilty of a first offense involving possession of one ounce or less of marijuana or two grams or less of THC, and judgment is entered, the court, on motion, must seal the court record if the person is not subsequently convicted within two years of a further controlled-substance violation. Once sealed, the court record may not be opened even by court order. (\"https://ndlegis.gov/cencode/t19c03-1.pdf\")",
-        "Was this a first offense for possession of one ounce or less of marijuana or two grams or less of THC, and did you avoid another controlled-substance conviction for two years?",
-        "North Dakota also has a Summary Pardon Application for certain marijuana offenses. The Pardon Advisory Board says people prosecuted and convicted of misdemeanor marijuana possession, marijuana ingestion, or marijuana paraphernalia who have had no other criminal convictions in the past five years may submit a Summary Pardon Application. Felony convictions are not eligible for the summary marijuana application and must use the regular pardon application. (\"https://www.docr.nd.gov/pardon-advisory-board?utm_source=chatgpt.com\")",
-        "A hearing cannot be held earlier than 45 days after the petition is filed, unless the prosecutor stipulates to sealing without a hearing or on a faster schedule. (\"https://ndlegis.gov/cencode/t12c60-1.pdf\")",
-        "Misdemeanor conviction Guilty plea or guilty finding, and no new conviction for at least 3 years before filing",
-        "Felony conviction Guilty plea or guilty finding, and no new conviction for at least 5 years before filing",
-        "2 They were not later found guilty of another DUI or any other criminal offense within 7 years of the first DUI violation.",
-        "DUI is a special North Dakota pathway. Do not use the general criminal-record sealing process. We need to check the exact DUI statute, whether seven years passed with no later criminal offense, and whether you had or have a commercial driver\u0019s license.",
-        "[3 years / 5 years / 7 years / 2 years / 61 days / not applicable / unknown]",
-        "Misdemeanor waiting period No new conviction for at least 3 years before filing",
-        "Felony waiting period No new conviction for at least 5 years before filing",
-        "Hearing timing Not earlier than 45 days after filing, unless prosecutor stipulates",
-        "DUI clean period No later DUI or any other criminal offense within 7 years",
-        "Nonconviction after Aug. 1, 2025 Court closes after 61 days",
-        "Nonconviction before Aug. 1, 2025 Petition; court closes within 10 days if eligible; no filing fee",
-        "Marijuana summary pardon Misdemeanor possession, ingestion, paraphernalia; no convictions in past five years",
-        "Chapter 12-60.1 What seal means Limits disclosure of court/prosecution records unless court order allows access Misdemeanor waiting period No new conviction for at least 3 years before filing Felony waiting period No new conviction for at least 5 years before filing Unconditional pardon Can support sealing petition General filing location Existing criminal case Petition documents Petition, proposed order, proof of service Burden Clear and convincing evidence Hearing timing Not earlier than 45 days after filing, unless prosecutor stipulates Registration offenses Barred from Chapter 12-60.1 Violent/intimidating felonies Barred during firearm-disability period DUI Separate 39-08-01.6 pathway DUI clean period No later DUI or any other criminal offense within 7 years CDL DUI issue Commercial drivers excluded Nonconviction after Aug.",
-        "1, 2025 Court closes after 61 days Nonconviction before Aug."
+        "the court closes the record by operation of the statute; the participant waits 61 complete days from the qualifying disposition, verifies on day 62 or the next business day, and files nothing to obtain the closure itself",
+        "This rule governs filings on or after 2025-08-01.",
+        "61 complete days from the qualifying disposition, then verify on day 62 or the next business day — The court's own implementation period, not a participant eligibility wait. Nothing is filed during it and nothing the participant does shortens it.."
       ],
       "exclusionRules": [
         "North Dakota also has a Summary Pardon Application for certain marijuana offenses. The Pardon Advisory Board says people prosecuted and convicted of misdemeanor marijuana possession, marijuana ingestion, or marijuana paraphernalia who have had no other criminal convictions in the past five years may submit a Summary Pardon Application. Felony convictions are not eligible for the summary marijuana application and must use the regular pardon application. (\"https://www.docr.nd.gov/pardon-advisory-board?utm_source=chatgpt.com\")",
@@ -922,10 +913,149 @@
       },
       "lawrenceRatification": {
         "status": "corrected_awaiting_reconfirmation",
-        "packet_capable": false,
+        "packet_capable": true,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass correction; re-confirm required before selling",
-        "lawrence_review": "corrected_needs_reconfirm"
+        "lawrence_review": "corrected_awaiting_reconfirmation",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-03",
+        "ruleId": "ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY",
+        "mechanism": "Automatic non-conviction court-record closing, with verification and correction",
+        "statute": "N.D.C.C. § 12-60.1-05",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "the court closes the record by operation of the statute; the participant waits 61 complete days from the qualifying disposition, verifies on day 62 or the next business day, and files nothing to obtain the closure itself"
+        },
+        "processingDeadlines": [
+          {
+            "label": "61 complete days from the qualifying disposition, then verify on day 62 or the next business day",
+            "note": "The court's own implementation period, not a participant eligibility wait. Nothing is filed during it and nothing the participant does shortens it."
+          }
+        ],
+        "requiredFacts": [
+          "What was the qualifying non-conviction disposition, and on what exact date? (nd_qualifying_disposition_date, confirmed against the authenticated record at final verification rather than recalled in screening)",
+          "Was that disposition entered on or after 2025-08-01?",
+          "Does the case still appear on the public index on day 62?",
+          "Has the clerk of the original court been asked in writing to implement the closure?",
+          "Does the criminal history held by BCI or the originating agency still show the matter?",
+          "Is eligibility contested?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "A qualifying non-conviction disposition is required",
+          "No individualized notice may be promised: neither the statute nor the official publications say the participant is told the record was closed",
+          "Contested eligibility is an attorney handoff, not a self-help filing"
+        ],
+        "packetFamily": null,
+        "effectiveFrom": "2025-08-01",
+        "deliveryGates": [
+          {
+            "id": "nd_pre_2025_petition_artifact",
+            "kind": "artifact_generation",
+            "items": [
+              "the official pre-2025-08-01 petition and proposed order for the pre_effective_date_petition branch"
+            ],
+            "owner": "RCAP packet factory",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: no rendered candidate exists yet",
+            "note": "Scoped to the pre-effective-date branch by id. It must not hold the post-2025-08-01 default, which is guidance and needs no artifact."
+          }
+        ],
+        "serviceBranches": [
+          {
+            "id": "pre_effective_date_petition",
+            "when": "the qualifying disposition was entered before 2025-08-01",
+            "selector": {
+              "operator": "date_before",
+              "factId": "nd_qualifying_disposition_date",
+              "value": "2025-08-01",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "participant_packet",
+            "packetFamily": "North Dakota § 12-60.1-05 Petition and Proposed Order",
+            "stage": "single_stage",
+            "packetComponents": [
+              "Petition under N.D.C.C. § 12-60.1-05",
+              "Proposed order"
+            ],
+            "commercialPosture": {
+              "checkoutEnabled": true,
+              "sponsoredGenerationEnabled": true,
+              "packetCreditsConsumed": 1,
+              "note": "This branch is a real participant filing, so its posture is its own rather than the automatic parent's. It stays closed today because its artifact gate is open, not because the branch forbids selling."
+            },
+            "branchDeliveryGateIds": [
+              "nd_pre_2025_petition_artifact"
+            ],
+            "note": "Before the amendment took effect the record does not close by operation of law, so the participant files the official petition and proposed order. The artifact does not exist yet, so this branch resolves to identified-but-not-yet-available. It must never be served the post-2025 verification guidance as though that were the completed outcome: the record will not close on its own and the participant would wait for something that never happens."
+          },
+          {
+            "id": "post_effective_date_automatic",
+            "when": "the qualifying disposition was entered on or after 2025-08-01",
+            "selector": {
+              "operator": "date_on_or_after",
+              "factId": "nd_qualifying_disposition_date",
+              "value": "2025-08-01",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "automatic_relief",
+            "packetFamily": null,
+            "stage": "automatic",
+            "note": "The record closes by operation of the statute. Wait 61 complete days from the qualifying disposition, verify on day 62 or the next business day, and file nothing to obtain the closure itself."
+          }
+        ],
+        "failureDisposition": [
+          {
+            "id": "nd_still_public_day_62",
+            "when": "the record still appears on the public index on day 62",
+            "selector": {
+              "operator": "is_true",
+              "factId": "nd_record_still_public_on_day_62",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "agency_correction",
+            "note": "First a written request to the clerk of the original court to implement the closure. If the clerk cannot correct it, a motion to enforce in the original criminal case."
+          },
+          {
+            "id": "nd_agency_history_error",
+            "when": "the BCI or originating-agency criminal history still shows the matter after the court record is closed",
+            "selector": {
+              "operator": "is_true",
+              "factId": "nd_agency_history_still_shows_matter",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "agency_correction",
+            "note": "A separate challenge to BCI or the originating agency. Closing the court record does not correct an agency history, and the two must not be presented as one step."
+          },
+          {
+            "id": "nd_eligibility_contested",
+            "when": "eligibility for the automatic closure is contested",
+            "selector": {
+              "operator": "is_true",
+              "factId": "nd_eligibility_contested",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "attorney_or_prosecutor",
+            "note": "A contested eligibility question is individualized advocacy."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Relief happens by operation of law on the default branch, so nothing is sold. The pre-effective-date branch is not built, so nothing is sold there either."
+        },
+        "notes": "Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did. The exact disposition date is a route-resolution fact confirmed at final verification, not a screening estimate: it decides which statute governs, and an approximate date selects the wrong branch. With the date absent the route resolves to needs-more-info rather than defaulting to either branch. CONTRACT MODEL: option B, branch-specific stage and commercial posture, chosen over two contracts. The routeKey is JURISDICTION:pathwayId and the compiled profile models this as one pathway, so two contracts would require inventing a second pathwayId for what is one statute at two points in its legislative history. The split is temporal, not mechanistic, which is what a branch is for; a second statute would need a second contract."
       }
     },
     {
@@ -1027,7 +1157,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1127,11 +1258,12 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "corrected_awaiting_reconfirmation",
-        "packet_capable": false,
-        "payment_allowed_when_engine_confirms": false,
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Lawrence first-pass correction; re-confirm required before selling",
-        "lawrence_review": "corrected_needs_reconfirm"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1194,7 +1326,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "North Dakota first-offense possession sealing provisions",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1307,7 +1440,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "North Dakota marijuana-specific summary-pardon/sealing relief provisions",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     }
   ],
@@ -1941,8 +2075,8 @@
         "sourceConditionText": "Path B - Nonconviction Court Record Closing"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:24-89",
       "candidatePathwayIds": [
@@ -3493,20 +3627,10 @@
       "when": {
         "backendPathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
         "requiredFields": [
-          "case_outcome",
-          "record_type",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "record_type",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -3515,17 +3639,24 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05"
+        "sourceConditionText": "the court closes the record by operation of the statute; the participant waits 61 complete days from the qualifying disposition, verifies on day 62 or the next business day, and files nothing to obtain the closure itself",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "pathways:24-89; section:24-89; section:230-280; decision_tree:230-280; corpus-unit:117; corpus-unit:18; corpus-unit:49; corpus-unit:114",
       "candidatePathwayIds": [
         "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-03",
+        "ruleId": "ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY",
+        "statute": "N.D.C.C. § 12-60.1-05",
+        "mechanism": "Automatic non-conviction court-record closing, with verification and correction"
+      }
     },
     {
       "id": "route-dui-record-sealing-under-the-separate-dui-statute",
@@ -4085,7 +4216,7 @@
       {
         "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
         "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "Close-Nonconviction-Records.pdf",

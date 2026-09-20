@@ -80,7 +80,7 @@ export async function saveAuthoritativeScreeningResultToBriefcase(input: {
     throw new AuthoritativeBriefcasePersistenceError("authoritative screening persistence requires a source-bound result");
   }
 
-  const clamped = clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(input.item)));
+  const clamped = clampAuthoritativeMatterInput(input.item);
   const fallbackItem = fallbackItemFromCreateInput(clamped);
   const supabase = getSupabaseAdminClient();
 
@@ -245,9 +245,14 @@ function mergeArtifactObjects(
   const merged: Record<string, unknown> = { ...current };
   for (const [key, value] of Object.entries(patch)) {
     const existing = merged[key];
-    merged[key] = isPlainObject(existing) && isPlainObject(value)
-      ? mergeArtifactObjects(existing, value)
-      : value;
+    // packetInformation.serverFacts is an explicit protected-authority
+    // allowlist, not an extensible participant map. Replace it so legacy or
+    // forged keys cannot survive the ordinary recursive envelope merge.
+    merged[key] = key === "serverFacts" && isPlainObject(value)
+      ? { ...value }
+      : isPlainObject(existing) && isPlainObject(value)
+        ? mergeArtifactObjects(existing, value)
+        : value;
   }
   return merged;
 }
@@ -265,6 +270,18 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
  * the committed packet in the participant's own locale, at the single write
  * path, with payment and credit closed.
  */
+/**
+ * The three release clamps every server-authoritative matter must pass before it
+ * is persisted, in the order the Briefcase persistence path has always applied
+ * them. Exported so the shared claim service applies exactly the same rules
+ * rather than growing a second, drifting copy of them.
+ */
+export function clampAuthoritativeMatterInput(
+  input: CreateConsumerBriefcaseItemInput
+): CreateConsumerBriefcaseItemInput {
+  return clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(input)));
+}
+
 function clampExactDeferral(input: CreateConsumerBriefcaseItemInput): CreateConsumerBriefcaseItemInput {
   const declaredTrackId = input.selectedTrackId
     ?? (typeof input.artifactRefs?.selectedTrackId === "string" ? input.artifactRefs.selectedTrackId : null);
@@ -643,10 +660,41 @@ export async function updateBriefcasePacketMetadata(
     items[index] = {
       ...items[index],
       packetStatus: metadata.packetStatus,
-      ...(metadata.artifactRefs ? { artifactRefs: metadata.artifactRefs } : {})
+      ...(metadata.artifactRefs ? {
+        artifactRefs: mergeArtifactObjects(items[index].artifactRefs ?? {}, metadata.artifactRefs)
+      } : {})
     };
     fallbackItemsByUser.set(userId, items);
     return items[index];
+  }
+
+  if (metadata.artifactRefs) {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const current = await supabase
+        .from("consumer_briefcase_items")
+        .select("artifact_refs_json, updated_at")
+        .eq("user_id", userId)
+        .eq("id", itemId)
+        .maybeSingle<{ artifact_refs_json: Record<string, unknown>; updated_at: string }>();
+      if (current.error || !current.data) return null;
+      const updated = await supabase
+        .from("consumer_briefcase_items")
+        .update({
+          packet_status: metadata.packetStatus,
+          ...(metadata.artifactRefs ? {
+            artifact_refs_json: mergeArtifactObjects(current.data.artifact_refs_json ?? {}, metadata.artifactRefs)
+          } : {}),
+          updated_at: new Date(Date.now() + attempt).toISOString()
+        })
+        .eq("user_id", userId)
+        .eq("id", itemId)
+        .eq("updated_at", current.data.updated_at)
+        .select("*")
+        .maybeSingle<ConsumerBriefcaseRow>();
+      if (updated.data) return rowToBriefcaseItem(updated.data);
+      if (updated.error) return null;
+    }
+    return null;
   }
 
   const updates: {
@@ -657,10 +705,6 @@ export async function updateBriefcasePacketMetadata(
     packet_status: metadata.packetStatus,
     updated_at: new Date().toISOString()
   };
-
-  if (metadata.artifactRefs) {
-    updates.artifact_refs_json = metadata.artifactRefs;
-  }
 
   const { data, error } = await supabase
     .from("consumer_briefcase_items")
@@ -685,6 +729,35 @@ export async function updateBriefcasePacketMetadataForWebhook(
   const supabase = getSupabaseAdminClient();
   if (!supabase) return updateBriefcasePacketMetadata(userId, itemId, metadata);
 
+  if (metadata.artifactRefs) {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const current = await supabase
+        .from("consumer_briefcase_items")
+        .select("artifact_refs_json, updated_at")
+        .eq("user_id", userId)
+        .eq("id", itemId)
+        .maybeSingle<{ artifact_refs_json: Record<string, unknown>; updated_at: string }>();
+      if (current.error || !current.data) return null;
+      const updated = await supabase
+        .from("consumer_briefcase_items")
+        .update({
+          packet_status: metadata.packetStatus,
+          ...(metadata.artifactRefs ? {
+            artifact_refs_json: mergeArtifactObjects(current.data.artifact_refs_json ?? {}, metadata.artifactRefs)
+          } : {}),
+          updated_at: new Date(Date.now() + attempt).toISOString()
+        })
+        .eq("user_id", userId)
+        .eq("id", itemId)
+        .eq("updated_at", current.data.updated_at)
+        .select("*")
+        .maybeSingle<ConsumerBriefcaseRow>();
+      if (updated.data) return rowToBriefcaseItem(updated.data);
+      if (updated.error) return null;
+    }
+    return null;
+  }
+
   const updates: {
     packet_status: ConsumerBriefcaseItem["packetStatus"];
     artifact_refs_json?: Record<string, unknown>;
@@ -693,10 +766,6 @@ export async function updateBriefcasePacketMetadataForWebhook(
     packet_status: metadata.packetStatus,
     updated_at: new Date().toISOString()
   };
-
-  if (metadata.artifactRefs) {
-    updates.artifact_refs_json = metadata.artifactRefs;
-  }
 
   const { data, error } = await supabase
     .from("consumer_briefcase_items")
@@ -714,14 +783,13 @@ export function saveEligibilityCheckToBriefcase(state: string, userId = "local-p
   const item = {
     id: consumerBriefcaseId("check", state, "started"),
     type: "eligibility_check" as const,
-    title: `${state} record check`,
+    title: `${state} screening`,
     state,
     status: "check_saved" as const,
     createdAt: startedAt,
-    summary: "Free guided check started and saved to your Briefcase.",
+    summary: "Free screening started and saved to your Briefcase.",
     nextSteps: ["Finish the screening questions.", "Return here any time to continue."],
-    paymentAllowed: false,
-    packetReady: false
+    paymentAllowed: false
   };
   rememberFallbackItem(userId, item);
   return item;
@@ -739,7 +807,6 @@ export function saveEligibilityResultToBriefcase(result: ExpungementAiEligibilit
     summary: result.userLabel,
     nextSteps: result.nextSteps,
     paymentAllowed: result.paymentAllowed,
-    packetReady: result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution",
     pathwayLabel: result.pathwayLabel,
     packetType: result.packetType,
     ...(result.treatmentClassification === "component_deferral"
@@ -775,7 +842,6 @@ export function saveGeneratedPacketToBriefcase(result: ExpungementAiEligibilityR
     summary: "Generated packet saved to Briefcase.",
     nextSteps: ["Download your packet.", "Review the filing checklist before you file."],
     paymentAllowed: false,
-    packetReady: true,
     pathwayLabel: result.pathwayLabel,
     packetType: result.packetType,
     packetStatus: "ready" as const
@@ -823,10 +889,9 @@ export function getConsumerBriefcaseItems(userId = "local-preview-user"): Consum
       state: "PA",
       status: "check_saved",
       createdAt: startedAt,
-      summary: "Wilma explained what a filing checklist is and pointed back to the free guided check.",
+      summary: "Wilma explained what a filing checklist is and pointed back to the free screening.",
       nextSteps: ["Continue the check from Briefcase."],
-      paymentAllowed: false,
-      packetReady: false
+      paymentAllowed: false
     }
   ];
 }
@@ -852,7 +917,6 @@ function fallbackItemFromCreateInput(input: CreateConsumerBriefcaseItemInput): C
     summary: input.summary,
     nextSteps: input.nextSteps,
     paymentAllowed: input.paymentAllowed,
-    packetReady: input.status === "packet_ready",
     pathwayLabel: input.pathwayLabel,
     packetType: input.packetType,
     artifactRefs: input.artifactRefs,
@@ -885,7 +949,6 @@ function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
     summary: summaryText,
     nextSteps: Array.isArray(row.next_steps_json) ? row.next_steps_json : [],
     paymentAllowed: row.payment_allowed,
-    packetReady: row.status === "packet_ready",
     pathwayLabel: row.pathway_label ?? undefined,
     packetType: row.packet_type ?? undefined,
     artifactRefs: row.artifact_refs_json,

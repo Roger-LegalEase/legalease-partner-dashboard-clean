@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF11",
+  "workerId": "FABLE-PB",
+  "lane": "packet-build",
+  "engine": "Claude Code Remote worker; commits and pushes to fable/pb, no PR",
+  "shiftBaseSha": "ee5bdb5b56d69c00750663087e5e8c5a6d144acf",
+  "familiesAssigned": 1,
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 13/13 passed, 0 failed, 4 not applicable (codex-cloud mode)",
+    "corpusMounted": "THREE custodies. The Master Library and the D source packs were already resolved in this container and were verified rather than re-downloaded: 51 jurisdictions, 499 files, 329 PDFs, all 498 governance checksums verifying, and the pinned OR/ND sources matching byte-for-byte. The human_source_returns custody, which the bootstrap script does not install, was mounted separately after verifying the Statement of Inability against the committed index digest.",
+    "whyNotBootstrapped": "scripts/rcap-corpus/bootstrap-private-corpus.sh failed on curl exit 23 with the container disk at 99% full. The corpus already present was verified against its own governance checksums and the committed index instead of being re-fetched. No corpus byte was written into this worktree and no corpus byte is committed."
+  },
+  "selfVerification": "none. This lane does not verify its own packets. The counters below are the builder's own count using the repository's own contract functions, and every one of the fifteen obligations is returned BUILT_RASTER_PENDING because a builder verdict is not a verdict.",
+  "rasterRule": "no page raster was produced in this container. Every fixture SHA-256 is reported so the central raster workflow can render the exact bytes. No family here is PASS_COMPLETE and none may become so without a hash-bound RASTER_PASS.",
+  "rows": [
+    {
+      "itemId": "tx_exp_acquittal-set",
+      "status": "COMPLETED",
+      "familyKind": "packet_family",
+      "whyThisIsAPacketFamilyAndNotAnAgencyTreatment": "it fills or delivers an official court form the repository holds by exact SHA-256, and the participant files it with a court",
+      "jurisdiction": "TX",
+      "routeKeys": [
+        "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request",
+        "obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition"
+      ],
+      "statutoryAuthority": "Tex. Code Crim. Proc. arts. 55A.002, 55A.201, 55A.251, 55A.253, 55A.254, 55A.301 and 102.0061",
+      "implementationStrategy": "custom_pleading",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading",
+      "buildScript": "scripts/build-census-v1-tx_exp_acquittal-set.mjs",
+      "componentSet": [
+        "tx_exp_acquittal-request-to-trial-court-1",
+        "tx_exp_acquittal-information-package-2",
+        "tx_exp_acquittal-petition-3",
+        "tx_exp_acquittal-proposed-order-4",
+        "tx_exp_acquittal-fee-waiver-statement-5",
+        "tx_exp_acquittal-filing-and-expectation-instructions-6"
+      ],
+      "sourcesBound": [
+        {
+          "sourceId": "official-form:Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+          "formNumber": "TX-SCT-22-9090-STATEMENT-OF-INABILITY",
+          "custody": "human_source_returns",
+          "pathInArchive": "private/human-source-returns/TX/TX__STATEMENTOFINABILITYTOAFFORDPAYMENTOFCOURTCOSTSO.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"
+        }
+      ],
+      "fieldMapArithmetic": {
+        "terminalFields": 179,
+        "written": 17,
+        "blank": 162,
+        "requiredBeforeFiling": 126,
+        "checks": "17 written + 162 blank = 179 terminal fields; every blank carries an approved disposition from the closed vocabulary and an undeclared blank fails the build"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "participantFacingObligations": {
+        "FILING_DESTINATION": {
+          "state": "HELD, and different on each branch",
+          "answer": "IN-WINDOW (art. 55A.201, within 30 days of acquittal): a request to the TRIAL COURT, with notice to the state, accompanied by the art. 55A.253 information package. OUT-OF-WINDOW (art. 55A.251): a verified ex parte petition filed with the DISTRICT CLERK OF THE COUNTY OF ARREST or of the alleged offence, which may not be the acquitting court.",
+          "readIn": [
+            "TX.memo track tx_exp_acquittal rules.filing"
+          ]
+        },
+        "FEE_AND_WAIVER": {
+          "state": "HELD, including a MANDATORY waiver on the in-window branch",
+          "answer": "art. 102.0061(a): a district court charges the ordinary county civil ex parte filing fee, not a flat amount; (b): a justice court or municipal court of record charges a flat $100. Art. 102.0061(c) REQUIRES the fee to be waived where the expunction relates to an acquittal other than one described by art. 55A.151 and the petition is filed not later than the 30th day after the acquittal; (d) requires waiver where entitlement arises under art. 55A.053(a)(2)(A) or (B). Separately art. 55A.254(f) makes the clerk charge $25 for each listed entity unable to receive an electronic transmission, repeated at the order stage under art. 55A.351(b-2) and (b-3), so the number of paper-only agencies named is a direct cost, twice over.",
+          "readIn": [
+            "TX.memo track tx_exp_acquittal rules.fees and rules.feeWaiver, read at source on 2026-08-06",
+            "the manifest pay_fee and apply_fee_waiver entries"
+          ],
+          "trapAvoided": "art. 102.006 was repealed by S.B. 1667 effective 2025-09-01 and permanently replaced by art. 102.0061 effective 2026-01-01. The old $250-$500 range is NOT quoted; it is named only so a participant who read it online learns it came from a repealed statute."
+        },
+        "SERVICE": {
+          "state": "HELD, and the participant serves nobody",
+          "answer": "the CLERK sends the petition and notice of hearing by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax; a state or local agency with a listed e-mail address MUST accept electronic service; the court sets a hearing not earlier than the 30th day after filing and notifies every listed entity other than the central federal depositories; and on receipt DPS notifies those, so the filer does not chase the FBI.",
+          "readIn": [
+            "TX.memo track tx_exp_acquittal rules.service and rules.notice"
+          ]
+        },
+        "SELF_HELP_STOP": {
+          "answer": "led by the art. 55A.151 criminal-episode bar, which also removes the art. 102.0061(c) mandatory fee waiver; plus uncertainty about that bar, uncertainty about the county of arrest once the window closes, a clerk that cannot produce the art. 55A.253(c) agency list, and non-citizenship",
+          "readIn": [
+            "TX.memo track tx_exp_acquittal controllingAuthority.summary and rules blocks",
+            "the manifest participantActionRequired entries"
+          ]
+        }
+      },
+      "fifteenObligations": [
+        {
+          "obligation": "ROUTE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "production-field-map.json carries routeKeys [\"obligation:unit:TX:tx_exp_acquittal:tx-acquittal-in-window-request\",\"obligation:unit:TX:tx_exp_acquittal:tx-acquittal-out-of-window-petition\"] and the statute Tex. Code Crim. Proc. arts. 55A.002, 55A.201, 55A.251, 55A.253, 55A.254, 55A.301 and 102.0061; every composed page prints the route keys on its own last line"
+        },
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "1 source(s) bound by exact SHA-256 against three records that must agree: the committed corpus index entry, the bytes mounted in the custody that index declares, and the pin in the builder"
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "componentSet [\"tx_exp_acquittal-request-to-trial-court-1\",\"tx_exp_acquittal-information-package-2\",\"tx_exp_acquittal-petition-3\",\"tx_exp_acquittal-proposed-order-4\",\"tx_exp_acquittal-fee-waiver-statement-5\",\"tx_exp_acquittal-filing-and-expectation-instructions-6\"]; every component appears in both rendered fixtures and in the page manifest"
+        },
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "17 write(s) declared, each read back from the assembled packet bytes and recorded in reports/actual-writes.json"
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "126 item(s) declared REQUIRED_BEFORE_FILING, every one disclosed in participant-instructions.md and listed in reports/blanks-left-for-the-participant.json"
+        },
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no route election is made by the build; the field map's routeSelectionNote states why for this family"
+        },
+        {
+          "obligation": "REPEATING_ROWS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "no repeating table carries a written cell, so no row reads as finished when it is not; the builder's incompleteRows counter is 0"
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "every signature, signature date and court-, clerk- or prosecutor-owned field is refused with a typed refusal class, and the byte proof asserts no refused field carries ink"
+        },
+        {
+          "obligation": "ARTIFACTS",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "two fixtures rendered, 22 pages each, hashes recorded in reports/rendered-artifacts.json and reported to Captain for the raster batch"
+        },
+        {
+          "obligation": "PAGE_ORDER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the page manifest records every packet page against its component and source page, in the component order the packet-set manifest declares"
+        },
+        {
+          "obligation": "CLIPPING_AND_OVERLAP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "not measurable in this container without a browser; no page raster was produced here, which is exactly what BUILT_RASTER_PENDING records"
+        },
+        {
+          "obligation": "FILING_DESTINATION",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "IN-WINDOW (art. 55A.201, within 30 days of acquittal): a request to the TRIAL COURT, with notice to the state, accompanied by the art. 55A.253 information package. OUT-OF-WINDOW (art. 55A.251): a verified ex parte petition filed with the DISTRICT CLERK OF THE COUNTY OF ARREST or of the alleged offence, which may not be the acquitting court."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "art. 102.0061(a): a district court charges the ordinary county civil ex parte filing fee, not a flat amount; (b): a justice court or municipal court of record charges a flat $100. Art. 102.0061(c) REQUIRES the fee to be waived where the expunction relates to an acquittal other than one described by art. 55A.151 and the petition is filed not later than the 30th day after the acquittal; (d) requires waiver where entitlement arises under art. 55A.053(a)(2)(A) or (B). Separately art. 55A.254(f) makes the clerk charge $25 for each listed entity unable to receive an electronic transmission, repeated at the order stage under art. 55A.351(b-2) and (b-3), so the number of paper-only agencies named is a direct cost, twice over."
+        },
+        {
+          "obligation": "SERVICE",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "the CLERK sends the petition and notice of hearing by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax; a state or local agency with a listed e-mail address MUST accept electronic service; the court sets a hearing not earlier than the 30th day after filing and notifies every listed entity other than the central federal depositories; and on receipt DPS notifies those, so the filer does not chase the FBI."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "builderState": "BUILT_RASTER_PENDING",
+          "evidence": "led by the art. 55A.151 criminal-episode bar, which also removes the art. 102.0061(c) mandatory fee waiver; plus uncertainty about that bar, uncertainty about the county of arrest once the window closes, a clerk that cannot produce the art. 55A.253(c) agency list, and non-citizenship"
+        }
+      ],
+      "artifactsForTheRasterBatch": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "40da6ac91f2aa86ccd3a3f524d81696b5cf00a203de5f088266592b5fe7fe290",
+          "pageCount": 22,
+          "byteLength": 973648
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/tx/tx-exp-acquittal-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "d59768743649d703e61aeae9620cbf1ec8f30026af6138b1998de047b49f16aa",
+          "pageCount": 22,
+          "byteLength": 974289
+        }
+      ],
+      "inkPerFixture": [
+        {
+          "fixture": "canonical",
+          "valuesReportedByFinalizer": 8,
+          "glyphs": 314,
+          "appearances": 17
+        },
+        {
+          "fixture": "boundary",
+          "valuesReportedByFinalizer": 8,
+          "glyphs": 689,
+          "appearances": 17
+        }
+      ],
+      "determinism": {
+        "proof": "built twice in this container; the WHOLE overlay tree hashed byte-for-byte identical, not only the fixtures",
+        "creationDatePinned": "stampDeterministic() from scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs is applied to every document this build creates, including the assembled packet, because pdf-lib stamps the wall clock into PDFDocument.create() and save({updateMetadata:false}) does not remove a stamp already there"
+      },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ],
+  "supersededShiftReturn": {
+    "note": "the return this file held before this shift wrote its own, preserved verbatim",
+    "document": {
+      "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+      "assignmentId": "PF11",
+      "workerId": "PF-C",
+      "lane": "packet-build",
+      "engine": "Claude 9h worker (normal Git; commits and pushes to claude/9h-pf-c)",
+      "shiftBaseSha": "09b741ad00be0d630bd73a72f66640294abab397",
+      "takenAfter": "the static queue PF12-PF16, as the Captain's nextLaneByWorker assignment for PF-C",
+      "familiesAssigned": 1,
+      "preflight": {
+        "laneGate": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 2 not applicable",
+        "rowGate": "PACKET_BUILD_ENVIRONMENT_READY: 15/15 passed"
+      },
+      "selfVerification": "none. The counters below are the builder's own count using the repository's own contract functions, not a verdict.",
+      "rows": [
+        {
+          "itemId": "wi_nc_doj_fingerprint_removal-set",
+          "status": "COMPLETED",
+          "jurisdiction": "WI",
+          "routeKey": "track:WI:wi_nc_doj_fingerprint_removal",
+          "statutoryAuthority": "Wis. Stat. § 165.84; Wisconsin Department of Justice, Crime Information Bureau form DJ-LE-250B",
+          "implementationStrategy": "official_pdf_fill",
+          "renderStrategy": "measured_flat_overlay",
+          "overlayDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+          "buildScript": "scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs",
+          "sourcesBound": [
+            {
+              "sourceId": "official-form:DJ-LE-250B",
+              "pathInArchive": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+              "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+              "byteLength": 475556,
+              "assetClassInCorpus": "SUPPORT"
+            }
+          ],
+          "counters": {
+            "knownRequiredFieldsMissing": 0,
+            "requiredFactsNotCollected": 0,
+            "unclassifiedBlanks": 0,
+            "incompleteRows": 0,
+            "requiredOptionsMissing": 0,
+            "requiredComponentsMissing": 0,
+            "invisibleWrites": 0,
+            "protectedWrites": 0,
+            "visualDefects": 0
+          },
+          "countersBasis": "reports/completeness-counters.json — computed with scripts/rcap-packet-completeness/completeness-contract.mjs",
+          "fields": {
+            "acroFormFields": 0,
+            "measuredCells": 33,
+            "written": 10,
+            "requiredBeforeFiling": 22,
+            "protected": 1,
+            "measuredHorizontalRules": 36,
+            "measuredVerticalRules": 15,
+            "cellsTooShallowToWriteIn": [
+              "subject-gender",
+              "subject-date-of-birth"
+            ]
+          },
+          "componentsRendered": [
+            "primary_filing",
+            "filing_instructions",
+            "arrest_event_mapping",
+            "disposition_documentation_package"
+          ],
+          "componentsNote": "primary_filing is the rendered form; filing_instructions is participant-instructions.md; arrest_event_mapping and disposition_documentation_package are reports/disposition-documentation-package.json, which records how an arrest event maps onto the form's three-row table and what the Bureau's own instruction sheet says must accompany the request.",
+          "artifacts": [
+            {
+              "fixture": "canonical",
+              "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/canonical.pdf",
+              "sha256": "5b475b11c17c35f8edc37bada78716e8b14471b1951966604b7a678412fc6cc6",
+              "byteLength": 490970,
+              "pageCount": 2,
+              "rasterPages": 2
+            },
+            {
+              "fixture": "boundary",
+              "file": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill/fixtures/boundary.pdf",
+              "sha256": "3fd596ff112fd2f6ef55ca9a14c2fe0702eb107af9f715554b45503e3d7861f3",
+              "byteLength": 491034,
+              "pageCount": 2,
+              "rasterPages": 2
+            }
+          ],
+          "notableDecisions": [
+            "This form has no AcroForm field and is not the shape the flat-overlay path was written for either: its answers go in the cells of a ruled table rather than on printed underlines. Every write box here is bounded by FOUR measured strokes — the rule above, the rule below and a vertical divider on each side — read out of the page's content stream and re-checked against the pinned binary on every build. A divider must additionally cover at least 80% of the height of the cell it bounds, because x=585.8 carries two separate strokes on this page, one down the name blocks and one down the arrest table, and the wrong one would put a value in the wrong column. This is the first family in the factory to bound a write box on four measured strokes rather than one.",
+            "No cell of the three-row arrest and conviction table is written. One column of every arrest row, ARRESTING AGENCY CASE #, is the arresting agency's own case number rather than the court case number the platform holds, so no row can be completed from the fact map and none is started. All eighteen cells are declared required before filing and named to the participant.",
+            "The DATE OF BIRTH cell is left blank. The form prints its own segmented template inside it, and the segments are underscore glyphs rather than strokes, so there is no measured box for any one of them and a single composed date written across the cell would print over the template.",
+            "The participant's name is written into BOTH name blocks — Person Submitting the Request and Subject of the Record. That is read off the form's own instruction 1, which says the request must be made by the requesting candidate, rather than assumed.",
+            "The form embeds a subsetted font whose glyph codes are the ASCII of the character minus 29, mixed on the same lines with normally encoded runs, so most of page 1 does not extract readably. The shift is exact and reversible, but which encoding a given run uses is not something the build reads, and a rule that un-shifts the runs that look wrong invents text. Every sentence the packet quotes from the form extracted plainly and is listed with where it was read; the rest is recorded as unreadable and the instructions tell the participant to read page 1 on the paper.",
+            "The top of every write box is measured, not offset by a constant: it begins three points under the lowest printed line inside the cell, and a cell with less than six points of clear space is recorded as too shallow to write in rather than written over. The build asserts that no cell it writes to is one of those."
+          ],
+          "correctionsMadeToThisRow": [
+            "A first revision of this builder labelled the two measured strokes at the foot of page 2 as two fingerprint boxes, one per index finger. The page raster showed that wrong: both strokes span x=280..399 and are the top and bottom of the SAME box, the one captioned LEFT INDEX FINGER. The right box's strokes are not in the page content stream at all, and neither are the Male and Female tick boxes in the GENDER cell — rulesOfPage, checkboxCandidates and strokedRectangles all find nothing there, although a reader sees all of them on the paper. The builder now records what it measured and says plainly what it could not, and infers no coordinate from where a caption sits.",
+            "A second correction, after the first page raster of the sibling family in PF10 showed it: the write boxes sat two points above their cell's bottom rule, which is the shared finalizer's own BASELINE_ABOVE_RULE and is right for a value on a printed underline. In a table cell the rule is the border, and a descender crossing it reads as ink belonging to the cell below. The baseline is now four points up, and the TOP of every box is measured too — three points under the lowest printed line inside the cell — rather than offset by a constant. That change independently found what the header comment had already reasoned: the GENDER and DATE OF BIRTH cells have no clear space under their printed contents, and both are now recorded as too shallow to write in. The artifact hashes in this row are the rebuilt ones; an earlier revision of this file carried the hashes of the build before the fix."
+          ],
+          "findingsRaisedForOthers": [
+            "The corpus files DJ-LE-250B under 04_SUPPORTING_PROCESS with assetClass SUPPORT and revision REV-UNKNOWN, although it is the operative request form for this route. The source is resolved by state and form number and binds by exact SHA-256; the filing is raised for the owner of the corpus index, which is outside this lane's owned paths.",
+            "Parts of this page's chrome — one of the two fingerprint boxes and both GENDER tick boxes — are drawn in a way that neither rulesOfPage nor pdf-stroked-boxes reaches, while the table rules on the same page are found normally. Any future family measuring geometry off a Wisconsin DOJ form should expect that split rather than treat a zero from checkboxCandidates as proof there is no box.",
+            "The boundary participant's name carries a typographic apostrophe (U+2019) and the finalized bytes carry the name without it. The behaviour is in the shared finalizer's font encoding and reproduces across every family in this factory that uses the same boundary fixture.",
+            "BLOCKING for the fleet, owner of the Captain branch: scripts/lib/pdf-page-raster.mjs does not exist at the current Captain head (5f144ec). The module is at scripts/raster/pdf-page-raster.mjs, and FIFTEEN builders on that branch still import the old path, so none of them can run there: ak-courtview, ak-tf805, co_motion_seal_nonconviction, co_multiple_conviction_seal, co_pardoned_conviction_seal, ky_void_seal_controlled_substance, md_second_chance_shielding, me-seal-prost, mi_setaside_marihuana, or_conviction_setaside, pa_age70_deceased, pa_pardon_expungement, va_seal_petition_misdemeanor, vt_exp_decriminalized, vt_seal_nonconviction. Two builders (ak-tf800, vt_seal_misdemeanor) already import the new path, so the migration is half done. A one-line re-export shim at the old path fixes all fifteen at once. This lane changed only its OWN builders, which now try the new path and fall back to the old, catching ERR_MODULE_NOT_FOUND and nothing else; the other builders are not this lane's to edit.",
+            "BLOCKING for the raster gate, owner of the packet-factory builder contract: assembled packet PDFs are NOT byte-reproducible. PDFDocument.create() stamps /CreationDate and /ModDate from the wall clock, and save({updateMetadata:false}) stops those being refreshed but not being set. Two builds of identical inputs were measured differing in exactly six bytes, all of them timestamp digits. A RASTER_PASS bound to one build's SHA-256 is therefore invalidated by a rebuild that changed nothing, which is the opposite of what a hash-bound gate is for. The fix is two lines before save: setCreationDate(new Date(0)) and setModificationDate(new Date(0)). This lane applied it to the three families no VF lane has been assigned, and proved reproducibility by rebuilding and comparing. It did NOT apply it to its earlier families: VF-SRC-A and VF-SRC-B are reading those now, and moving bytes under a verifier mid-read is worse than leaving a known non-determinism in place for the Captain to sequence."
+          ],
+          "independentVerificationStatus": "PENDING",
+          "commercialRoutesOpened": 0,
+          "productionTouched": false,
+          "artifactReproducibility": "byte-reproducible: rebuilt and compared, identical SHA-256. The PDF creation and modification dates are pinned to the Unix epoch so the artifact is a function of its inputs.",
+          "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+          "rasterStatusNote": "Rasters in this family were produced in this worker's own container, not by the central raster workflow. They are RASTER_LOCAL_PENDING_CENTRAL: review evidence for a human reader, not gate receipts. No family is PASS_COMPLETE without a hash-bound RASTER_PASS from .github/workflows/rcap-packet-raster-acceptance-batch.yml."
+        }
+      ],
+      "laneNote": "The Captain rebased shiftBaseSha to 2e6ca51b at 09:51:26Z, after this lane's families were built on the previous base 09b741ad. The shared machinery this lane depends on is unchanged between the two: completeness-contract.mjs, the finalizer, the field semantics, the anchor capture, the rule lines and the corpus index are all identical, so the counters in these rows were computed against the same contract the new base carries. What DID change is that scripts/lib/pdf-page-raster.mjs moved; see findingsRaisedForOthers. This branch was not reset onto the new base, because resetting would discard five commits of finished, pushed returns and the rebase reason given in the shift file — verifiers rebasing onto a base missing the integration waves — does not apply to a builder whose preflight already reads 15/15."
+    }
+  }
+}

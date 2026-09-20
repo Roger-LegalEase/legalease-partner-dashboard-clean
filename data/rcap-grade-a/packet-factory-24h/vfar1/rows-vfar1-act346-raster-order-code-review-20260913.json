@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-vfar1-code-review/v1",
+  "lane": "VFAR1",
+  "laneKind": "independent_code_review",
+  "reviewer": "/root/resume_vfar1",
+  "recordedAt": "2026-09-13T04:07:25Z",
+  "reviewedHead": "8d6ebafee152296fd76865585555af1c12bd8b88",
+  "familyId": "ar-act346-set",
+  "scope": {
+    "purpose": "bounded Act 346 raster-order retention review",
+    "visualAcceptanceRepeated": false,
+    "implementationEdited": false,
+    "sharedOutputsEdited": false,
+    "files": [
+      "scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs",
+      "scripts/rcap-packet-recovery/act346-raster-order.test.mjs",
+      "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs"
+    ]
+  },
+  "checks": [
+    {
+      "command": "node --test scripts/rcap-packet-recovery/ri-nonconviction-raster-order.test.mjs scripts/rcap-packet-recovery/act346-raster-order.test.mjs",
+      "exitCode": 0,
+      "tests": 23,
+      "passed": 23,
+      "failed": 0
+    },
+    {
+      "command": "node --check scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs && node --check scripts/rcap-packet-recovery/act346-raster-order.test.mjs && node --check scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check -- scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "exitCode": 0
+    },
+    {
+      "check": "call order",
+      "result": "PASS",
+      "evidence": "generate-raster-queue.mjs invokes Act346 retention at lines 856-860, before unreadable admission checks at 862 and documentsDigest computation at 916"
+    },
+    {
+      "check": "in-memory mutation controls",
+      "result": "PASS for covered controls; two acceptance fields exposed an untested gap",
+      "evidence": "valid retention returns the current document objects, leaves current/receipt/manifest/custody inputs unchanged, and refuses changed identity, duplicate, run, family, verdict, digest, and custody proof values"
+    }
+  ],
+  "requirements": {
+    "preserveRi": {
+      "status": "PASS",
+      "evidence": "The original RI guard and behavior remain in the shared helper; the existing RI suite passed all 10 tests, including changed-set invalidation and unrelated-family identity preservation."
+    },
+    "strictFamilyAndRun": {
+      "status": "PASS",
+      "evidence": "Act346 requires family ar-act346-set and workflow run 34732930032; wrong family, run, and non-PASS controls return the unchanged input."
+    },
+    "strictCustody": {
+      "status": "PASS_WITH_SCOPE_GAP",
+      "evidence": "The helper binds successful completed custody, selected family, one family proof, proof verdict, three verification flags, packet commit, page count, artifact/job IDs, artifact run/digest, and verdict path. It does not bind custody inputs family_batch/raster_manifest_path/requested_scale or require the selected-family list to be exact."
+    },
+    "cleanEvidence": {
+      "status": "FAIL",
+      "evidence": "The helper requires problems=[], environmentProblems=[], and coversTheWholeFamily=true, but a receipt mutation packetPdfsModified=1 still retained the reordered documents. The existing completed-raster validator requires packetPdfsModified===0."
+    },
+    "digestAndListEquality": {
+      "status": "PASS_WITH_SCOPE_GAP",
+      "evidence": "Receipt self-digest, manifest/receipt tuple equality, manifest digest equality, current/original member uniqueness, and current-to-original tuple membership are enforced. The receipt hashesBound canonical/boundary paths and pins are not independently checked by this helper."
+    },
+    "returnCurrentMetadata": {
+      "status": "PASS",
+      "evidence": "retainProvenOrder maps the proven order onto the current objects; the focused test asserts object identity and preserves current pageCountEvidence."
+    },
+    "unchangedAdmission": {
+      "status": "PASS",
+      "evidence": "The Act346 call only reorders the already discovered document array; it occurs before unreadable eligibility and digest calculation, and does not change coverage, state, or admission predicates for a valid proof."
+    }
+  },
+  "findings": [
+    {
+      "id": "VFAR1-ACT346-ORDER-001",
+      "severity": "high",
+      "status": "FIX_REQUIRED",
+      "file": "scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs",
+      "lines": "34-36",
+      "finding": "Act346 order retention accepts a receipt that says packet PDFs were modified.",
+      "reproduction": "Clone the accepted receipt, set packetPdfsModified to 1, and call retainAct346RasterOrder with the valid current documents, manifest, and custody. The function returns the reordered documents instead of refusing retention.",
+      "contractEvidence": "scripts/rcap-packet-recovery/ingest-completed-raster.mjs:74 asserts packetPdfsModified === 0; the central admission controls also reject packetPdfsModified=1.",
+      "requiredFix": "Require receipt.packetPdfsModified === 0 before retention and add the mutation to act346-raster-order.test.mjs."
+    },
+    {
+      "id": "VFAR1-ACT346-ORDER-002",
+      "severity": "medium",
+      "status": "FIX_REQUIRED",
+      "file": "scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs",
+      "lines": "57-59",
+      "finding": "The helper does not independently bind the receipt's hashesBound canonical/boundary paths and pins, although the established completed-raster validator treats those bindings as required acceptance evidence.",
+      "reproduction": "Clone the accepted receipt, change hashesBound.canonical.pinned, and call the helper with otherwise valid inputs. The function still retains the reordered documents because it only compares documentsRendered tuples.",
+      "contractEvidence": "scripts/rcap-packet-recovery/ingest-completed-raster.mjs:79-82 checks each row document against hashesBound path/pin; route-review-registration.mjs also requires packetPdfsModified and receipt bindings.",
+      "requiredFix": "Before retention, compare the receipt's canonical and boundary hashesBound path/pin to the corresponding manifest/current primary document bindings, and add a mutation control."
+    }
+  ],
+  "conclusion": {
+    "verdict": "CHANGES_REQUIRED",
+    "reason": "The 23 focused tests pass and all ordering/call-site requirements are met, but the helper can retain an order from a receipt that fails the repository's established packet-integrity acceptance checks.",
+    "visualStatus": "not reviewed by this code review",
+    "nextAction": "Captain should apply the two bounded assertions and extend the focused mutation controls, then rerun the same 23-test suite."
+  },
+  "fileSha256AtReview": {
+    "scripts/rcap-packet-recovery/ri-nonconviction-raster-order.mjs": "c6b2e04e3d41c179b805c170ea0e36b6b4a4140b91c56eaccb92f7dff0f22b5d",
+    "scripts/rcap-packet-recovery/act346-raster-order.test.mjs": "0491411fad6417a3075c9ba18b5c095b5b930405cd6bcbfde4ac82587fd1e49c",
+    "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs": "4a6193048c08cea9eb2cb558687dd67ef6f3c48c0a8bbb33fc7f0365d911a6d0"
+  }
+}

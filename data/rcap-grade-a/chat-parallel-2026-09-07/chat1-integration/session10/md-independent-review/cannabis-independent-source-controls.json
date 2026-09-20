@@ -1,0 +1,128 @@
+{
+  "scope": "INDEPENDENT_CURRENT_CANNABIS_SOURCE_RULE_CONTROLS",
+  "reviewer": "/root/independent_md_review",
+  "implementationAuthoredByReviewer": false,
+  "scriptSha256": "84843b23a809917b746a47b629e2ce82ef49d987667d616d705cf14b82fada6f",
+  "cannabisSha256": "dd2f4e7ad7a90bb9d2464f1fa3367dc86a4a0c9b9ea4f80ae0172cc2c7a5933b",
+  "helperSha256": "d3766ab8497e7e58194d2b3bb5275e9626f6a4329c2297ccaf2471f189ca366d",
+  "nativeValidator": true,
+  "rendererExecuted": false,
+  "rows": [
+    {
+      "name": "10-105(a)(11) has no added completion date",
+      "fixture": "canonical",
+      "factsSha256": "0661df0c6dfde7d9b5e2bb0c84b980d56bece10a17e759dfde71d25e193eda04",
+      "passed": true,
+      "expected": {
+        "mayMarkBasis": true,
+        "earliest": null
+      }
+    },
+    {
+      "name": "10-105(c)(8) actual completion day is supported",
+      "fixture": "selectable/possession-paid",
+      "factsSha256": "46e8ffc8c6e346172687a1b4105e0d3dbdbc1ea709d2182cb4b07ab719215466",
+      "passed": true,
+      "expected": {
+        "mayMarkBasis": true,
+        "earliest": "2026-09-07"
+      }
+    },
+    {
+      "name": "unknown completion does not select possession recital",
+      "fixture": "selectable/possession-paid",
+      "factsSha256": "1a937311e1470017c0c94b27cdb6f496b1ecfad85eca51020cf68cdeed56f4cc",
+      "passed": true,
+      "expected": {
+        "mayMarkBasis": false,
+        "missing": "case.completionDate"
+      }
+    },
+    {
+      "name": "10-110(c)(5) PWID exact three-year day supported",
+      "fixture": "selectable/pwid-paid",
+      "factsSha256": "fb7a7910932f5990dd1c6f1cc09276c0dcee6fa2fc385d93bfebc5817a62e28c",
+      "passed": true,
+      "expected": {
+        "mayMarkBasis": true,
+        "earliest": "2026-09-07"
+      }
+    },
+    {
+      "name": "PWID one day too early rejected",
+      "fixture": "selectable/pwid-paid",
+      "factsSha256": "960fcae858072549cd0ff2c88c000338a3dfb312b403b6a6209c73e8150d6e2d",
+      "passed": true,
+      "expected": {
+        "refusal": "WAITING_PERIOD_NOT_MET"
+      }
+    },
+    {
+      "name": "pending criminal proceeding rejected",
+      "fixture": "canonical",
+      "factsSha256": "632f1b5b2ea7a9c1c3fae8454b9f3545081c3606d4c97ca4fda37708d1292c4c",
+      "passed": true,
+      "expected": {
+        "refusal": "CONDITION_NOT_MET: confirmations.pendingCriminalProceeding"
+      }
+    },
+    {
+      "name": "known new conviction not yet eligible rejected",
+      "fixture": "selectable/pwid-new-conviction-now-eligible",
+      "factsSha256": "d1ee502a350551bc581735041c615171503b4e962bab9b90592d636dd5e1bc53",
+      "passed": true,
+      "expected": {
+        "refusal": "CONDITION_NOT_MET: confirmations.newConvictionNowEligible"
+      }
+    },
+    {
+      "name": "10-107 possession stays separate from ineligible assault",
+      "fixture": "selectable/possession-separate-from-ineligible-unit",
+      "factsSha256": "41dcc291ecdf4d7d767f2eef413be6c71f9c2eb61c912210ea4bc5cf8c880a47",
+      "passed": true,
+      "expected": {
+        "mayMarkBasis": true
+      }
+    },
+    {
+      "name": "PWID does not receive the simple-possession exception",
+      "fixture": "selectable/pwid-paid",
+      "factsSha256": "f3bc046c12ef2c7be426d771fdaebfce3b4e985183fabfae8a4fe3b8bde4a994",
+      "passed": true,
+      "expected": {
+        "refusal": "OTHER_UNIT_CHARGE_REQUIRES_COMPONENT_REVIEW"
+      }
+    },
+    {
+      "name": "already expunged court file rejected",
+      "fixture": "canonical",
+      "factsSha256": "f44d5d2d06b725d0fc260625f75cbc4262de9e727b03408ea15c2eb5e9e6ed3b",
+      "passed": true,
+      "expected": {
+        "refusal": "ALREADY_EXPUNGED"
+      }
+    },
+    {
+      "name": "Case Search absence with unknown court file cannot select recital",
+      "fixture": "canonical",
+      "factsSha256": "9ccb9eaf564f99dbe275ae992b4c5724e8db419dff807c51724c58ca7800890d",
+      "passed": true,
+      "expected": {
+        "mayMarkBasis": false,
+        "missing": "records.courtRecordStatus"
+      }
+    },
+    {
+      "name": "source-specific restricted-case exclusion blocks financial notice",
+      "fixture": "selectable/possession-waiver",
+      "factsSha256": "4ee3142befae50a062013bfb8b3bcfc0c4cfa9d8f82758b08dcfe4f35a977af7",
+      "passed": true,
+      "expected": {
+        "refusal": "CONDITION_NOT_MET: court.restrictedCaseType"
+      }
+    }
+  ],
+  "passed": 12,
+  "failed": 0,
+  "terminalPromotion": false
+}

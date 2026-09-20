@@ -344,7 +344,7 @@ for (const [code, pathways] of [...byJurisdiction.entries()].sort()) {
 // that every member shares, so a fix is scoped to a class rather than a pathway.
 const CLUSTER_RULES = [
   { id: "requested_question_not_projected", match: (r, record) => (record.diagnosis?.requestedQuestionsNotProjected ?? []).length > 0,
-    cause: "The evaluator asks for a question id the public profile projection never renders, so a real participant is asked for a fact the guided check has no question for and the exchange cannot complete.",
+    cause: "The evaluator asks for a question id the public profile projection never renders, so a real participant is asked for a fact the screening has no question for and the exchange cannot complete.",
     correction: "One projection correction: render these question ids in projectPublicProfile for the affected jurisdictions, or stop the evaluator requesting them there. Measured corpus-wide it is resolved_timing_bucket in CT, MD, MI, NJ, OH and WA and arrest_date in IN — six jurisdictions and one question, plus one more." },
   { id: "waiting_anchor_never_determined", match: (r) => r.includes("waiting_anchor_not_determined"),
     cause: "The public intake asks whether the sentence is complete but never asks WHEN, so no anchor date exists and every route carrying a waiting period fails closed.",

@@ -190,6 +190,20 @@ export type ComponentDeferral = {
 
 const COMPOSED_ROUTES_DIR = "data/rcap-all50/composed-routes";
 
+/** Original evidence must still exist. The current component evidence set is
+ * confined to composed routes plus this one correction assignment; an unknown
+ * location refuses rather than expanding the application's filesystem graph. */
+function componentEvidenceExists(relativePath: string): boolean {
+  const prefix = "data/rcap-all50/composed-routes/";
+  if (relativePath === "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json") {
+    return fs.existsSync(path.join(process.cwd(), "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json"));
+  }
+  if (!relativePath.startsWith(prefix)) return false;
+  const suffix = relativePath.slice(prefix.length);
+  if (!suffix || suffix.includes("\\") || suffix.split("/").some(part => !part || part === "." || part === "..")) return false;
+  return fs.existsSync(path.join(process.cwd(), "data/rcap-all50/composed-routes", suffix));
+}
+
 let deferralCache: Map<string, ComponentDeferral> | null = null;
 
 function localized(node: unknown): LocalizedText | null {
@@ -378,7 +392,7 @@ function loadComponentDeferrals(): Map<string, ComponentDeferral> {
           break;
         }
         for (const carrier of evidence) {
-          if (!carrier?.path || !fs.existsSync(path.join(process.cwd(), carrier.path))) {
+          if (!carrier?.path || !componentEvidenceExists(carrier.path)) {
             failure = `deferral treatment at ${componentId} cites an evidence carrier that does not resolve`;
             break;
           }

@@ -72,7 +72,10 @@ function workflowInvokedScripts() {
     for (const line of lines) {
       if (/^\s{6}- name:/.test(line)) { conditional = false; continue; }
       if (/^\s{8}if:/.test(line)) { conditional = true; continue; }
-      const run = /^\s{8}run:\s*node\s+scripts\/([A-Za-z0-9._-]+\.mjs)/.exec(line);
+      // Keyed the way the register is: a path relative to scripts/, so a
+      // verifier under scripts/rcap-official-forms/ invoked here is recognised
+      // as the entry that names it rather than read as a missing top-level file.
+      const run = /^\s{8}run:\s*node\s+scripts\/((?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+\.mjs)/.exec(line);
       if (run && !conditional) invoked.add(run[1]);
     }
   }
@@ -80,10 +83,23 @@ function workflowInvokedScripts() {
 }
 const workflowInvocations = workflowInvokedScripts();
 
-const onDisk = fs
-  .readdirSync(scriptsDir)
-  .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
-  .sort();
+// The top level and the three verifier subdirectories, matching the generator. These two files
+// are halves of one mechanism: if the register learns about a directory and the
+// check does not, every entry from that directory reads as naming a script that
+// does not exist, and the honest fix is for both to look in the same places.
+// Keys are paths relative to scripts/, so a security verifier and a top-level
+// one of the same name stay distinguishable.
+function verifierFilesUnder(relativeDir, prefix) {
+  const absolute = path.join(scriptsDir, relativeDir);
+  if (!fs.existsSync(absolute)) return [];
+  return fs
+    .readdirSync(absolute)
+    .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
+    .map((f) => `${prefix}${f}`);
+}
+const onDisk = [...verifierFilesUnder(".", ""), ...verifierFilesUnder("security", "security/"),
+  ...verifierFilesUnder("rcap-official-forms", "rcap-official-forms/"),
+  ...verifierFilesUnder("grade-a-route-obligation-census", "grade-a-route-obligation-census/")].sort();
 
 for (const file of onDisk) {
   if (!entries[file]) {
@@ -93,7 +109,7 @@ for (const file of onDisk) {
 
 for (const [file, entry] of Object.entries(entries)) {
   if (!onDisk.includes(file)) {
-    failures.push(`${file}: register names a script that is not in scripts/`);
+    failures.push(`${file}: register names a script that is not in scripts/ or one of its verifier subdirectories`);
     continue;
   }
   if (!VALID.has(entry.disposition)) {

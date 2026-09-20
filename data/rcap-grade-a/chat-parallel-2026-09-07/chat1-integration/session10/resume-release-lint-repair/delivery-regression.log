@@ -1,0 +1,405 @@
+{
+  "status": "PASS",
+  "executedDeliveryAndStreamCases": 20,
+  "httpHandlerCases": 22,
+  "httpCases": [
+    {
+      "handler": "rcap",
+      "case": "exact current verified artifact",
+      "status": "PASS",
+      "httpStatus": 200,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 1,
+      "exactPacketBytesSent": true
+    },
+    {
+      "handler": "rcap",
+      "case": "repeat remains verified",
+      "status": "PASS",
+      "httpStatus": 200,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 1,
+      "exactPacketBytesSent": true
+    },
+    {
+      "handler": "rcap",
+      "case": "missing current verification",
+      "status": "PASS",
+      "httpStatus": 409,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "wrong owner",
+      "status": "PASS",
+      "httpStatus": 403,
+      "verificationReads": 0,
+      "itemReads": 1,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "anonymous session",
+      "status": "PASS",
+      "httpStatus": 401,
+      "verificationReads": 0,
+      "itemReads": 0,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "stale artifact fact snapshot",
+      "status": "PASS",
+      "httpStatus": 409,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "wrong current route",
+      "status": "PASS",
+      "httpStatus": 403,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "wrong current matter",
+      "status": "PASS",
+      "httpStatus": 403,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "closed commercial authority",
+      "status": "PASS",
+      "httpStatus": 403,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 1,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "corrupt stored artifact",
+      "status": "PASS",
+      "httpStatus": 409,
+      "verificationReads": 0,
+      "itemReads": 1,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "exact current verified artifact",
+      "status": "PASS",
+      "httpStatus": 200,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 1,
+      "exactPacketBytesSent": true
+    },
+    {
+      "handler": "consumer",
+      "case": "repeat remains verified",
+      "status": "PASS",
+      "httpStatus": 200,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 1,
+      "exactPacketBytesSent": true
+    },
+    {
+      "handler": "consumer",
+      "case": "missing current verification",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "wrong owner",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 0,
+      "itemReads": 1,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "anonymous session",
+      "status": "PASS",
+      "httpStatus": 401,
+      "verificationReads": 0,
+      "itemReads": 0,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "stale artifact fact snapshot",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "wrong current route",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "wrong current matter",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "closed commercial authority",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 1,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "corrupt stored artifact",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 0,
+      "itemReads": 1,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "consumer",
+      "case": "invalid grant",
+      "status": "PASS",
+      "httpStatus": 404,
+      "verificationReads": 0,
+      "itemReads": 0,
+      "admissionCalls": 0,
+      "exactPacketBytesSent": false
+    },
+    {
+      "handler": "rcap",
+      "case": "sponsored owner current verification",
+      "status": "PASS",
+      "httpStatus": 200,
+      "verificationReads": 1,
+      "itemReads": 2,
+      "admissionCalls": 1,
+      "exactPacketBytesSent": true
+    }
+  ],
+  "handlerHashes": {
+    "src/app/api/rcap/packets/[jobId]/download/route.ts": "3153fc62662e940e721266a24c4ccb14a3de515211369ec7eea59046da2c9dcb",
+    "src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts": "ad7649e52d20569f274897748387e19c10ba7cea6118f392912b9106215e693d"
+  },
+  "mutationControls": [
+    {
+      "name": "reader omission guard removed",
+      "caughtByRequiredDenial": true,
+      "unmodifiedPacket": true
+    },
+    {
+      "name": "snapshot equality guard removed",
+      "caughtByRequiredDenial": true,
+      "unmodifiedPacket": true
+    },
+    {
+      "name": "route and matter equality guard removed",
+      "caughtByRequiredDenial": true,
+      "unmodifiedPacket": true
+    },
+    {
+      "name": "shared admission call skipped",
+      "caughtByRequiredDenial": true,
+      "unmodifiedPacket": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "missing current-reader port denied",
+      "status": "PASS",
+      "code": "verification_not_current",
+      "storageReads": 0,
+      "admissionCalls": 0
+    },
+    {
+      "name": "anonymous denied",
+      "status": "PASS",
+      "code": "unauthenticated",
+      "storageReads": 0,
+      "admissionCalls": 0
+    },
+    {
+      "name": "invalid job id denied",
+      "status": "PASS",
+      "code": "not_found",
+      "storageReads": 0,
+      "admissionCalls": 0
+    },
+    {
+      "name": "unknown job denied",
+      "status": "PASS",
+      "code": "not_found",
+      "storageReads": 0,
+      "admissionCalls": 0
+    },
+    {
+      "name": "cross-owner denied",
+      "status": "PASS",
+      "code": "unauthorized",
+      "storageReads": 0,
+      "admissionCalls": 0
+    },
+    {
+      "name": "not-yet-deliverable denied",
+      "status": "PASS",
+      "code": "not_deliverable",
+      "storageReads": 0,
+      "admissionCalls": 0
+    },
+    {
+      "name": "delivered job still needs current verification",
+      "status": "PASS",
+      "code": "verification_not_current",
+      "storageReads": 0,
+      "admissionCalls": 0
+    },
+    {
+      "name": "reader present but no current verification denied",
+      "status": "PASS",
+      "code": "verification_not_current",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "verification owner mismatch denied",
+      "status": "PASS",
+      "code": "unauthorized",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "missing current object denied",
+      "status": "PASS",
+      "code": "artifact_unavailable",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "changed output rejected",
+      "status": "PASS",
+      "code": "artifact_corrupt",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "current reader cannot bypass closed route authority",
+      "status": "PASS",
+      "code": "commercial_admission_denied",
+      "storageReads": 1,
+      "admissionCalls": 1
+    },
+    {
+      "name": "current verification cannot authorize stale job facts",
+      "status": "PASS",
+      "code": "verification_binding_mismatch",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "missing job verification binding denied",
+      "status": "PASS",
+      "code": "verification_binding_mismatch",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "another route cannot authorize this artifact",
+      "status": "PASS",
+      "code": "route_binding_mismatch",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "another matter cannot authorize this artifact",
+      "status": "PASS",
+      "code": "route_binding_mismatch",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "sponsored current verification matches its own binding",
+      "status": "PASS",
+      "code": "synthetic-authorized",
+      "storageReads": 1,
+      "admissionCalls": 1
+    },
+    {
+      "name": "sponsored stale verification denied",
+      "status": "PASS",
+      "code": "verification_binding_mismatch",
+      "storageReads": 1,
+      "admissionCalls": 0
+    },
+    {
+      "name": "reader plus explicitly synthetic authority exercises unchanged positive path",
+      "status": "PASS",
+      "code": "synthetic-authorized",
+      "storageReads": 1,
+      "admissionCalls": 1
+    },
+    {
+      "name": "actual stream delivers exact bytes under synthetic allowed authority",
+      "status": "PASS",
+      "byteLength": 170150,
+      "sha256": "348e5677f471acea22dd6643fea1c820db8779f218b2563417682433a8884be2"
+    }
+  ],
+  "packetPdfModified": false,
+  "deliveryCoreSha256": "ef222d5e5e71b6e7eb0dde87ba71cc89b3604778a210b82ff6206db62a734837",
+  "jobContractSha256": "e5c62b7812e00efe51df76c24973d5e99fea0e58adacd90dcbc7eb36595ee18d",
+  "databasePort": "synthetic",
+  "storagePort": "in-memory exact retained KY PDF",
+  "commercialAuthorityPort": "explicit synthetic test response",
+  "liveDatabase": false,
+  "realEntitlementCreated": false,
+  "productionTouched": false,
+  "installedFamilyFulfillment": false,
+  "fullRuntimeDependencyIntegration": false
+}

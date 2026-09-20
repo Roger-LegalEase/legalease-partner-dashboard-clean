@@ -1,0 +1,106 @@
+{
+  "familyId": "nj_ordinance-set",
+  "routeKeysReadFromFamilyText": [
+    "obligation:track-only:NJ:nj_ordinance"
+  ],
+  "declaredFields": 179,
+  "declaredRequiredFields": 68,
+  "requiredFieldsMissingFromGuide": [],
+  "fieldBuckets": {
+    "not_a_filing_fact": 2,
+    "candidate_write": 18,
+    "REQUIRED_BEFORE_FILING": 68,
+    "participant_sworn_narrative_or_legal_election": 28,
+    "NOT_APPLICABLE_ON_THIS_ROUTE": 14,
+    "signature_or_date_participant_completion": 4,
+    "court_prosecutor_clerk_or_agency_owned": 45
+  },
+  "priorCourtCorrections": {
+    "sigHearJdg": true,
+    "orderHearMnth": true,
+    "orderHearYr": true,
+    "hearDay": true,
+    "hearMnth": true,
+    "hearYr": true,
+    "hearTime": true,
+    "hearTimeM": true,
+    "orderFinalDay": true,
+    "orderFinalMnth": true,
+    "orderFinalYr": true
+  },
+  "priorLabelCorrections": {
+    "DefSbiNum": {
+      "label": "State Bureau of Identification (SBI number, if available, is (SBI number, if available)) \u2014 Expungement Order (Form C), page 30",
+      "presentInGuide": true
+    },
+    "arrest3Statute": {
+      "label": "(statute), arrest row (3) \u2014 Expungement Order (Form C - Continued), page 31",
+      "presentInGuide": true
+    },
+    "arrest4Statute": {
+      "label": "(statute), arrest row (4) \u2014 Expungement Order (Form C - Continued), page 31",
+      "presentInGuide": true
+    },
+    "arrest5Statute": {
+      "label": "(statute), arrest row (5) \u2014 Expungement Order (Form C - Continued), page 31",
+      "presentInGuide": true
+    }
+  },
+  "guiltyRefusal": {
+    "decision": "refuse",
+    "blankTreatment": "REQUIRED_BEFORE_FILING",
+    "requiredBeforeFiling": true,
+    "routeDetermined": false,
+    "determinedByTheCaseNotTheRoute": true,
+    "whyTheRouteCannotDetermineIt": "The route determines that this is a conviction track. It does not determine the sworn assertion this box makes. Marking it swears the whole of Petition for Expungement (Form A), item (d), delivered page 19, and 6 of that paragraph's 9 cells (guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt) have no held fact on this route, so the paragraph identifies no conviction. Which cells a particular matter fills, and whether it belongs to this item at all, is read off the participant's own court record and is a legal characterisation this packet names as a self-help stop. On this municipal-ordinance route there is a further reason the route cannot determine it: item (d) prints a state N.J.S.A. statute line, which a municipal ordinance conviction does not have, and the platform holds no exact ordinance citation or instruction authorizing a substitution into that line. Whether a matter is an ordinance, a disorderly persons offence or a Title 39 motor-vehicle matter is the classification this packet names as a self-help stop."
+  },
+  "selfHelpStops": {
+    "count": 12,
+    "allPresentAsGuideBullets": true,
+    "registryAndMemoAgree": true,
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "memoPath": "data/record-clearing/legal-design-intake/NJ.memo.json"
+  },
+  "sourceGroundedRouteHistory": {
+    "generationRequirements": [
+      {
+        "key": "ordMatterDetails",
+        "question": "For each matter: the county, the court and its level, the complaint or indictment number, the docket number, the offence and statute, the disposition and its date.",
+        "requirement": "required"
+      },
+      {
+        "key": "ordAllConvictions",
+        "question": "List every conviction you have anywhere, including other states and federal court, with the grading and the date.",
+        "requirement": "required"
+      }
+    ],
+    "noSourceSupportedSelectedMatterExemptionFound": true
+  },
+  "guideAnchors": {
+    "Write each one": [
+      16,
+      148
+    ],
+    "Leave the docket": [
+      63
+    ],
+    "Supply and verify": [
+      75
+    ],
+    "`CoverLtrEDt`": [
+      127
+    ],
+    "`mailPetition`": [
+      128
+    ],
+    "`CoverLtrGDt`": [
+      129
+    ],
+    "The item (d)": [
+      172
+    ],
+    "Where self-help ends": [
+      154
+    ]
+  }
+}

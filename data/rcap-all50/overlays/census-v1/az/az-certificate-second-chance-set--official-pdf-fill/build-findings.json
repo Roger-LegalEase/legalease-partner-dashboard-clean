@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "az_certificate_second_chance-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "NEITHER FORM HAS AN ACROFORM. Read from the pinned binaries, AOCCRSA3F-103023 (three pages) and AOCCRSA4F-103023 (two pages) carry no AcroForm and no field of any kind; the committed corpus index records acroFormPresent false and acroFieldCount 0 for both. Every blank on both forms is a printed stroke.",
+      "consequence": "Both are built through the measured flat-overlay path: every write box is four numbers read from the document's own content stream -- the y of the rule the value sits on and the x it starts and ends at -- matched against the pinned binary at build time, with the box ceiling taken from the lowest printed baseline above it inside its own span. A cell that does not measure stops the family; nothing is drawn at a guessed rectangle."
+    },
+    {
+      "finding": "A FLAT DOCUMENT HAS NO CENSUS TO CHECK A FIELD MAP AGAINST. The coverage gate that stops an AcroForm family whose map does not cover its own form cannot run here: there is no field list to compare with. A printed blank left out of the cell table would be a blank nothing asks about and no counter would see it.",
+      "consequence": "Both forms were read rule by rule from their own content streams and EVERY horizontal stroke the shared reader returns is declared as a cell -- twenty-seven on the application and fourteen on the order -- each with the y and x span it was measured at. The only strokes deliberately not declared are the two 0.75pt borders of the For Clerk's Use Only box on page 1 of each form, which are a box outline rather than a rule anything is written on."
+    },
+    {
+      "finding": "ONE PRINTED BLANK ON THE APPLICATION CANNOT BE MEASURED AT ALL. The \"on the ___ day of\" blank in the judgment sentence on page 2 is a filled stroke 33.27 points wide at y=680.97 x[434.93,468.20]. rulesOfPage in scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs takes minLength = 40, so it is not returned as a rule and no write box can be measured for it. The wider blank beside it, the month and year at x[504.45,573.25], is 68.80 points and is returned.",
+      "consequence": "No cell is declared for it, because a cell that cannot be measured stops the family and a rectangle invented for it would be exactly what the measured path exists to prevent. It is carried in the field map as a required-before-filing row with no measured rectangle, named in participant-instructions.md under what was deliberately left blank, and the measurement is recorded here. Nothing in the shared rule reader is changed by this lane; the threshold is reported for the lane that owns it."
+    },
+    {
+      "finding": "THE DATE-OF-BIRTH BLANK ON BOTH FORMS IS TYPED UNDERSCORE CHARACTERS, NOT A RULE. On the application it is the text run \"_______________________\" at x[144.50,283.74] y=428.40, and on the order \"______________________\" on the Date of Birth line; the content stream carries no stroke at either. The platform holds participant.date_of_birth and writes it on other families' forms.",
+      "consequence": "No cell is declared and no value is drawn, because there is no stroke for a measured box to sit on and this build never draws at a guessed rectangle. The blank is declared required-before-filing with the reason stated as what it is -- the form's own drawing, not an unavailable fact -- and participant-instructions.md says in terms that the platform holds the date and why the line is empty, rather than leaving the participant to wonder."
+    },
+    {
+      "finding": "THE PACKET-SET MANIFEST NAMES EDITIONS THE CORPUS DOES NOT CARRY. Its two components name AOCCRSA3F-010122 and AOCCRSA4F-010122; the committed corpus index carries neither, and carries the 10/30/2023 edition of each in three custodies at one SHA-256 apiece.",
+      "consequence": "This build binds the 10/30/2023 edition on the authority of a committed captain determination, DET-AZ-SECOND-CHANCE-CURRENT-EDITION-IS-HELD, which re-points both obligations and records that both held files exist at their recorded path and both digests recompute exactly. That determination is bound as a RECORD by this build, with five of its own statements re-read from the committed bytes as anchors, so the family stops if it is no longer there. A build lane may not decide which edition answers an obligation, and this one did not."
+    },
+    {
+      "finding": "AZ-8, THE FORM-CURRENCY RELEASE BLOCKER, IS OPEN AND IS NOT A BUILD BLOCKER. The committed track registry holds it in terms: the current revision of both forms must be confirmed on azcourts.gov before runtime release, both predate the 2024 rule amendments, and neither was verified against the AOC forms page in the review. The family's legal input is recorded as SETTLED.",
+      "consequence": "Built, and the blocker carried rather than dissolved: it is the first thing the source receipt says it does not establish, it is raised in the approval request, and it is named for the reviewer. A release gate is not a build gate, and a packet that quietly dropped the gate on its way through a build lane would be worse than one that was never built."
+    },
+    {
+      "finding": "THE CAPTION BLOCK IS THE SAME ON BOTH FORMS AND THE FACTS ARE WRITTEN ON BOTH. Person Filing, Address, City/State/Zip, Telephone, Email, County and Case Number are printed on page 1 of the application and again on page 1 of the order, and the case number is printed again at the top of every later page of both.",
+      "consequence": "Each is written everywhere the form prints a rule for it -- eight cells on the application and seven on the order. Two widgets that do not overlap are two places the form means the value to appear, and a form that prints a case number on every page is not defective for doing so."
+    },
+    {
+      "finding": "THE FORMS PRINT ONE RULE FOR \"City, State, Zip Code\" AND ONE FOR THE DECLARATION \"Address\", each asking for a value the platform holds in parts. Refusing them because the shared descriptor registry has no one-line fact would state a fact about the descriptor list as though it were a fact about what the platform holds.",
+      "consequence": "The fixtures compose participant.city_state_zip and participant.full_mailing_address from the four held parts, exactly as census-v1-nm_conviction-set does and for the reason it records. The composition is in the FIXTURES, never in the writer: no caller text reaches the page, and each composed value is fitted to its own measured box and refused whole rather than truncated if it will not fit."
+    },
+    {
+      "finding": "THE ORDER IS DELIVERED AS A COMPONENT AND WRITTEN ON ONLY IN ITS CAPTION. AOCCRSA4F is the judge's order; below the caption block it carries the findings, the two denial reasons, the grant, the DATED line and the Judicial Officer's signature.",
+      "consequence": "Ten cells are declared on its page 1 and four on its page 2; three of the fourteen are written and all of them are caption-block facts. Every finding, every part of the order and every court signature is declared with no fact and classified court-owned, and the instructions say in terms that the participant writes nothing on it below the caption."
+    },
+    {
+      "finding": "THE GUIDE IS PRINTED FROM THE RECORD, NOT FROM THE BUILDER. The committed packet-set manifest carries this packet set's own requiredBeforeFiling list, three of whose five lines are statements that the source review established nothing -- about notarisation, about a fee and about a waiver.",
+      "consequence": "This build reads legal-design-packet-set-manifests.json at build time and prints that list verbatim into participant-instructions.md with the count and the record's SHA-256 beside it, including the three lines that record an absence, because paraphrasing a recorded absence into a reassurance is how a gap becomes a promise. The fee and service sections then say in plain terms what the participant should do about each. If the record stops declaring the list the build STOPS with RECORD_NO_LONGER_DECLARES_WHAT_THE_PACKET_PRINTS."
+    }
+  ],
+  "captionCorrectionsApplied": []
+}

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF44",
+  "laneKind": "independent-verification",
+  "worker": "VF44",
+  "baseSha": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+  "dispatchSha": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+  "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+  "claimsAsserted": ["md_10105_early-set", "ct-cleanslate-petition-set"],
+  "claimsReleased": [],
+  "grantState": "both grants asserted and HELD at return. claim.mjs --can-assert VF44 read 2 assertable / 0 would-refuse in this worktree before assertion, grant set d2e18d664e658aac.",
+  "measuredBy": "VF44",
+  "independence": "VF44 built neither family and repaired neither. It read FIX141 (85ff27c0854c4f5c90a7774033dc50f64e54f7a4) and FIX143 (9ebfc2189fa9af8107beb971e86a925dedd701c7) from the committed tree and re-derived every number from the bytes rather than from either lane's report. Nothing in either family was modified by this lane.",
+  "measurementMethod": "pdftoppm -gray (PGM, single channel, maxval 255), annotations RENDERED unless a row says -hide-annotations was used as a deliberate control. Maryland at 300 dpi, threshold grey <= 128 and grey <= 200 as stated per count. Connecticut at 600 dpi, dark = grey < 128. Widget rectangles taken from the pinned SOURCE binaries' own /Rect entries via pdf-lib, mapped to pixels as round(pt * dpi/72) with y measured from the top of a 792pt page. Structural counts (flattened Form XObjects, painting operators) from a content-stream tokeniser that strips strings and comments before matching operator tokens, not a regex over raw stream text. Every zero reported below has a positive control in the same render pipeline that reads non-zero, and every guard was made to fail on the pre-repair bytes.",
+  "verdictSummary": "md_10105_early-set PASS on the three obligations VF44 scored; every measurement FIX141 published reproduces exactly. ct-cleanslate-petition-set FAIL_REPAIR_REQUIRED: the PDF repair itself is correct and confirmed, but two delivered artifacts of the family -- one of them participant-facing -- still tell the reader the filing carries 'Print Form' and 'Reset Form', which the repaired bytes no longer do.",
+  "rows": [
+    {
+      "itemId": "md_10105_early-set",
+      "familyId": "md_10105_early-set",
+      "lane": "VF44",
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "verdict": "PASS",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill",
+      "queueStateAtRead": "BUILT_RASTER_PENDING",
+      "grantHeld": true,
+      "obligationScope": "VF44 was dispatched to read one repair, not to perform a full fifteen-obligation independent read. Three obligations were measured; twelve are NOT_MEASURABLE_HERE because this lane did not open them. This PASS is a statement about the three, and it does not stand in for a complete independent read of the family.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "14/73",
+        "counterCaveat": "These are the counters verify-packet-completeness.mjs prints, run by VF44 at this base. They are real measurements for this family -- scripts/build-census-v1-md_10105_early-set.mjs line 834 computes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes rather than asserting it -- but visualDefects is derived from that GLYPH count, and the builder skips any appearance whose text strips to length zero (line ~852, `if (stripped.length === 0) continue;`). A stroked square carries no glyph, so the defect FIX141 repaired is outside this counter's reach by construction. VF44 proved this rather than inferring it: with the DEFECTIVE bytes (canonical 4258591d..., boundary 20e877b0...) staged into the family directory the verifier printed the identical line -- PASS_COMPLETE, 14/73 written, visualDefects 0, protectedWrites 0 -- and the tree was restored to the committed bytes immediately after. The counters are identical either side of a thirteen-square defect."
+      },
+      "proofObligations": {
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "FIX141's repair confirmed on the delivered bytes, every number re-derived first hand. (1) SOURCE STATE. All 13 check-box widgets on the two pinned binaries sit at /AS /Off and their /AP /N dictionaries hold ONLY the on state -- 11 keyed /On on CC-DC-CR-072C (9faa5251...) and 2 keyed /Yes on CC-DC-CR-078 (6dc8f576...). Not one carries an /Off entry of any kind, so there is no court-authored /Off stream to delete and the RI-OFF-APPEARANCE / FIX134 distinction holds on both binaries. (2) INK AT THE 13 SOURCE WIDGET RECTS, 300 dpi, PGM, annotations rendered, both delivered pages against the pinned sources rendered the same way with their own annotations: grey <= 128, BEFORE delivered 3218 vs source 2799, added +419, 10 of 13 rects differing, identical on both fixtures; AFTER delivered 2799 vs source 2799, added +0, 0 of 13 differing, both fixtures. grey <= 200, BEFORE 3691 vs 3402, added +289; AFTER 3402 vs 3402, added +0. Largest single rect deltas before: District Court p1 +76 and Circuit Court p2 +76. (3) WHOLE PAGE, before vs after, same render: 1260 pixels changed per fixture (page 1: 998, page 2: 262), every one of the 1260 LIGHTER, zero darker anywhere on either page of either fixture. VF44 went further than FIX141 and tested containment: all 1260 changed pixels fall inside the 13 source widget rectangles padded 2px, and 0 fall outside. The repair withdraws ink and adds none, and it touches nothing else on the sheet. (4) STRUCTURE. Flattened Form XObjects that paint but draw no glyph: 13 before, 0 after, on both fixtures. Each of the 13 was a bare stroked square (only painting operator `S`, stream length 127 or 191 bytes); after the repair those same 13 resource entries survive as ZERO-LENGTH streams, which is the empty /Off the two forms omit, and they paint nothing. The only glyph-free painting XObject left is the source's own image, /Im0. (5) POSITIVE CONTROL in the same pipeline: at grey <= 128, 300 dpi, the participant write boxes read 0-1349 dark px in the source and 1673-4442 in delivered canonical / 1749-8430 in delivered boundary, identical before and after the repair -- so the render draws flattened widget appearance ink rather than being blind to it, and no participant value moved."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both committed digests are exactly what FIX141 published: canonical 4258591d9ca8a8b14b167102ec868649888375701067468eae74da5528fee938 -> 178791922c9fc310c73f85fd5487aabba0989516dc204d1f77eff5d367f6946f, boundary 20e877b099b7c2742c75e873944f5f62a610cfbd1ae84acdd9875e0ee6e93522 -> bde04b9077717fea1a9540e77201b80c2e913f18f960ca688b0b3f61a7c06b1d, hashed by VF44 at HEAD and at 85ff27c08^. REPRODUCTION CONFIRMED: a full rebuild by VF44 against the mounted corpus (MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1) reproduced BOTH committed PDF digests byte-identically and left the fixtures untouched, so every byte that moved in FIX141 is attributable to the one flag. The only file the rebuild moved was source-receipt.json, and only its MASTER_QUEUE.json whole-file and entry pins, which drifted because the queue itself moved between FIX141's base and this one; it was reverted and the tree is clean. The change is confined to this family's own builder passing suppressSynthesizedAppearances, an option that already existed in scripts/rcap-official-forms/rcap-official-form-finalize.mjs at line 864 with default false; no shared default changed. Downstream artifacts were re-pointed correctly: filing-instructions.md and reports/independent-visual-review.json both carry the NEW digests. The family's own review guidance is current and true of the delivered bytes -- reports/independent-visual-review.json still instructs the reviewer that 'Neither sheet may show the word Reset', and VF44 measured that condition satisfied (see laneFindings.printFormChromeElsewhere)."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both declared sources were located and their SHA-256 recomputed from the bytes on disk by VF44: CC-DC-CR-072C at 9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac (888008 bytes, nationwide_recovery_pool_2026-09-02 under the main working tree, at the declared path) and CC-DC-CR-078 at 6dc8f576c2fe488b488948c6d50e0137c2fd9781a904179219c491b2f776ea1b (35270 bytes, master_library, at the declared path). Both match source-receipt.json exactly and allSourcesExact is true. The receipt's own caveat is accurate and worth keeping visible: 072C is held only in a custody the receipt itself declares PARTIAL, so it satisfies an individual source obligation and never a completeness assertion.",
+          "note": "Read-only. The source binaries were read from their custodies and never modified."
+        },
+        "ROUTE_IDENTITY": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope. VF44 was dispatched to verify one repair and did not open this obligation." },
+        "COMPONENT_SET": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "KNOWN_PREFILLS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "REQUIRED_BEFORE_FILING": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "ROUTE_OPTIONS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "REPEATING_ROWS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "PROTECTED_FIELDS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not measured independently. The builder computes refusedFieldsWithInk and publishes [] for all four document/fixture pairs, and VF44 did not re-derive it. A counter this lane could not measure is not a pass." },
+        "PAGE_ORDER": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "FILING_DESTINATION": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "FEE_AND_WAIVER": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "SERVICE": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "SELF_HELP_STOP": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." }
+      },
+      "rasterOwed": true,
+      "rasterFinding": "CONFIRMED OWED, and no existing receipt covers the new bytes. The RASTER_QUEUE.json row for this family carries verdict RASTER_PASS bound by boundToCanonicalSha256 4258591d... and boundToBoundarySha256 20e877b0... -- both pre-repair digests that describe no bytes in this tree. The receipt is at least honestly digest-bound, so it self-invalidates on inspection; that is not true of the border-cohort row (see the Connecticut row). build-status.json reads rasterState BUILT_RASTER_PENDING and independentVerificationStatus PENDING, which remains true of the new bytes. Do not treat the admitted receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/md_10105_early-set/ as covering 17879192.../bde04b90...",
+      "reportAccuracyNotes": [
+        "FIX141 wrote 'flattened XObjects carrying a painting operator 14 -> 1, the survivor being the source's own /Im0'. Read literally against every XObject that carries a painting operator the counts are 71 -> 58, and a reader checking the sentence as written will think the report is wrong. The predicate actually counted is narrower and correct: flattened appearances that PAINT BUT DRAW NO GLYPH, which is 13 stroke-only squares + /Im0 = 14 before and /Im0 alone after. VF44 reproduces that exactly. Two /Im0 image XObjects exist, one per page (objects 38 0 R and 120 0 R); '1' is the count of distinct resource names, not of occurrences.",
+        "FIX141's write-box control range '1673-8430' is the union across both fixtures, not one page: canonical reads 1673-4442 and boundary 1749-8430. The control holds either way.",
+        "Neither is a defect in the bytes. Both are phrasings that do not reproduce when a reader takes them at face value, which for a report whose whole purpose is to be independently re-derived is worth naming."
+      ]
+    },
+    {
+      "itemId": "ct-cleanslate-petition-set",
+      "familyId": "ct-cleanslate-petition-set",
+      "lane": "VF44",
+      "verifiedAtBase": "ca8f8909064882b38db1a732a72aad12a2fedb58",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "queueStateAtRead": "BUILT_RASTER_PENDING",
+      "grantHeld": true,
+      "obligationScope": "Three obligations measured; twelve NOT_MEASURABLE_HERE because this lane did not open them. The FAIL is on the one obligation FIX143 was repairing.",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": null,
+        "visualDefects": null,
+        "allZero": false,
+        "measuredHere": true,
+        "verifierResult": "PASS_COMPLETE",
+        "writtenFields": "6/22",
+        "whyTwoAreNull": "verify-packet-completeness.mjs prints protectedWrites 0 and visualDefects 0 for this family, but visualDefects is read out of reports/actual-writes.json nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, which scripts/build-census-v1-ct-cleanslate-petition-set.mjs line 1744 writes as the TYPED LITERAL 0, not a measurement. protectedWrites is read out of refusedFieldsWithInk, and the same block (lines 1735-1748) routes the four pushbutton captions away from that array into flattenedFormOwnButtonCaptions by design. So neither counter could have seen 'Print Form' and 'Reset Form' on the filing however loudly they were printed. A counter VF44 could not measure is null, never 0. FIX143 did not change line 1744, so the literal is still there at HEAD and the same counter would report visualDefects 0 for any recurrence."
+      },
+      "proofObligations": {
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "THE PDF REPAIR IS CORRECT AND CONFIRMED; THE FAMILY'S DELIVERED ARTIFACT SET IS NOT INTERNALLY CONSISTENT WITH IT. Two artifacts still shipping at HEAD assert a defect the repaired bytes no longer carry. (a) participant-instructions.md line 49, digest 11983df88a8ffd03bf92680b21cba8e08e8cdf14fdbc1bc6218c6baff557cf92 -- the digest FIX143 reported as 'unmoved', which is exactly why nothing detected it -- tells the participant: 'The words _Print Form_ and _Reset Form_ at the foot of each page. ... Flattening the form for filing turns them into ordinary text, so a filed copy carries them. ... they do not affect the filing.' VF44 measured 0 dark pixels at both button rectangles on BOTH pages of BOTH delivered fixtures at 600 dpi, dark = grey < 128, annotations rendered. The filed copy does not carry them. This is participant-facing and it is false of the bytes it describes; a participant comparing packet against instructions finds a discrepancy the instructions themselves created. (b) reports/independent-visual-review.json whatToLookAt[4] sends the independent human reviewer to 'The foot of both pages: flattening materialises the form's own Print Form and Reset Form button captions as static text ... they will appear on a filed copy. See build-findings.json -> advisory.' It sends a reviewer to inspect ink that is gone and points them at an advisory array FIX143 emptied in the same commit. Both strings are emitted by the builder at HEAD (scripts/build-census-v1-ct-cleanslate-petition-set.mjs lines 1318 and 2291) and FIX143's builder diff touched neither; a VF44 rebuild reproduced both files byte-identically, so this is what the builder still writes, not a stale committed copy. REPAIR IS SMALL AND WELL-SCOPED: two prose blocks in one builder, then rebuild. VF44 did not make it."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The byte-level repair is confirmed, and the account of it is right on substance. Measured at 600 dpi, PGM, dark = grey < 128, annotations rendered, against the pinned source b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c. (1) DELIVERED PAGE 2 IS NOW PIXEL-IDENTICAL TO THE COURT'S OWN PRINTED PAGE: after-repair canonical page 2 carries 616865 dark px, the source rendered with -hide-annotations carries 616865, added 0 and removed 0. Before the repair the same comparison read added 34825, removed 0. (2) THE CHROME. The four pushbuttons -- form1[0].#pageSet[0].Page1[0..1].{Print,Reset}Button1[0], captions '(Print Form)' and '(Reset Form)', rects (126,12) and (414,12) 68.4x12pt, on both pages -- put 16840 + 17985 = 34825 dark px per page on the pre-repair filing and 0 on the repaired one. (3) OVER-SUPPRESSION CHECKED, NOT ASSUMED: the court prints 0 dark px at both button rects on both pages with -hide-annotations, so the withdrawn ink is chrome and none of it is the form. (4) THE RECORDED DEFECT ADDS NO INK, as FIX143 said: the DENIED and GRANTED outlines at (46.8,709) and (46.8,691) 10x10pt are page content, 652 dark px each with annotations hidden, and the delivered packet reads 652 at each box BEFORE and AFTER -- 0 added, 0 removed, in both directions, and the count is flat from grey <= 127 through grey <= 160. VF44 reads the two boxes at 1304 px where FIX143 reported 1336; the 32px gap is a rect-derivation convention, it is threshold-insensitive, and it does not touch the finding. (5) STRUCTURE: XObjects per fixture 23 -> 19; stroke-only-no-glyph appearances 2 per fixture (4 across fixtures, exactly the recorded finding) -> 0; glyph-drawing appearances 20 -> 16, the four removed being the button captions; the two DENIED/GRANTED entries survive as zero-length streams. (6) REPRODUCTION: a VF44 rebuild against the mounted corpus reproduced BOTH committed digests byte-identically (canonical 28c4aef4..., boundary d3e379c8...) AND the four committed raster PNGs, leaving the tree clean. Canonical reports 'wrote 6', matching the six participant values."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "JD-CR-202 located in master_library at the declared path and its SHA-256 recomputed from the bytes on disk by VF44: b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c, matching source-receipt.json. pdfinfo emits 'Syntax Error: Suspects object is wrong type (boolean)' on this binary; it is the court's own byte and both poppler and pdf-lib render and parse it, so it is recorded, not treated as a defect."
+        },
+        "ROUTE_IDENTITY": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "COMPONENT_SET": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "KNOWN_PREFILLS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "REQUIRED_BEFORE_FILING": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "ROUTE_OPTIONS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "REPEATING_ROWS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "PROTECTED_FIELDS": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Not measured independently, and the family's published counter is not a measurement: see nineCounters.whyTwoAreNull." },
+        "PAGE_ORDER": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "FILING_DESTINATION": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "FEE_AND_WAIVER": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "SERVICE": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." },
+        "SELF_HELP_STOP": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "Out of this read's scope." }
+      },
+      "rasterOwed": true,
+      "rasterFinding": "CONFIRMED OWED. The RASTER_QUEUE.json row carries verdict RASTER_PASS bound to canonicalPdfSha256 d44ace77... and boundaryPdfSha256 e190d730..., both pre-repair digests describing no bytes in this tree. FIX143 re-committed the family's four LOCAL raster PNGs (they reproduce byte-identically on rebuild), and those are builder output, not a central raster receipt: they do not discharge the obligation and must not be read as covering 28c4aef4.../d3e379c8...",
+      "reportAccuracyNotes": [
+        "FIX143's controls are labelled backwards, and the correction strengthens the finding rather than weakening it. FIX143 reports 'Positive control in the same bytes: annotations-on vs hidden reads 17,203 and 18,453 added at the two button rects; negative control 0/0.' VF44 measures 17203 and 18453 as the annotations-on-minus-hidden delta on the COURT'S SOURCE, where the pushbuttons are still live widgets. In the pre-repair DELIVERED bytes the same comparison reads 16840 and 17985 with annotations on and the IDENTICAL 16840 and 17985 with -hide-annotations, i.e. 0 added -- which FIX143 recorded as its 'negative control 0/0'. That zero is not a negative control at all: it is the proof that the caption had been flattened into page content and would print whether or not a viewer draws annotations. The numbers are real and the conclusion is right; the attribution of which artifact each came from is wrong.",
+        "FIX143's 'Page 1 removes the same 35,656 pixels of button chrome' is the SOURCE's live widget chrome (17203 + 18453 = 35656), which appears as 'removed' only when the baseline is the source rendered WITH annotations. What the repair actually withdrew from the delivered page is 34825 px per page (2374864 -> 2340039 dark px on page 1, and 651690 -> 616865 on page 2). Both numbers are traceable; they are not the same quantity."
+      ]
+    }
+  ],
+  "laneFindings": {
+    "completenessVerifierCannotSeeEitherDefect": "verify-packet-completeness.mjs returns PASS_COMPLETE with visualDefects 0 on the DEFECTIVE Maryland bytes and PASS_COMPLETE with visualDefects 0 on the repaired ones -- VF44 ran both, staging the pre-repair fixtures in and restoring the committed bytes immediately after. The counters are byte-for-byte identical either side of thirteen squares of invented ink on a petition affirmed under penalties of perjury. The mechanism is now established rather than inferred, and it differs by family. MARYLAND: the counter IS measured, but it measures GLYPHS -- scripts/build-census-v1-md_10105_early-set.mjs skips any appearance whose text strips to zero length, and a stroked square has no text. CONNECTICUT: the counter is not measured at all -- scripts/build-census-v1-ct-cleanslate-petition-set.mjs line 1744 writes nonWhitespaceGlyphsOutsideMeasuredWriteBoxes as a typed literal 0. One counter is blind by construction, the other is asserted. Neither is a defect either lane introduced, and the second is still there at HEAD.",
+    "advisoriesAreAWriteOnlyChannel": "CONFIRMED, with the code that proves it. The eight advisories were there: FIX143's parent commit carries all eight in the family's build-findings.json, four per fixture, check 'flattening_materialised_the_forms_own_widget_caption', each with drawnText 'Print Form' or 'Reset Form', each rect, and each with the note 'a filed copy carries the words at the foot of the sheet. Recorded for visual review.' FIX143's commit removes all eight, correctly: the condition is gone, and a VF44 rebuild reproduces the file without them. Nothing read them. The only factory consumer of the file, readBlockingBuildFindings in scripts/grade-a-packet-factory-24h/generate-proven-family-legal-delta.mjs line 98, reads `.blocking ?? []` and nothing else; grep across scripts/rcap-packet-completeness/ and scripts/grade-a-packet-factory-24h/ finds no consumer of the advisory array at all. ANSWERED PLAINLY: a builder that finds a defect and files an advisory nobody reads is WORSE than one that does not find it, not merely equal to it. Equal would be a system that stayed silent and stayed honestly ignorant. This one produced a durable written record that the packet stamps 'Print Form' on a court filing, printed PASS_COMPLETE beside it, and shipped for months -- so the artifact that should have stopped the packet became the evidence that everyone had been told and nobody acted. It converts a detection failure into a disclosure failure, and it means the next reviewer who finds this defect can be told, truthfully and uselessly, that it was already known."
+  },
+  "printFormChromeElsewhere": {
+    "question": "Is 'Print Form'/'Reset Form' chrome reaching delivered pages anywhere else?",
+    "answeredCheaply": "PARTIALLY, and the part VF44 could answer from bytes already open is answered with numbers.",
+    "marylandMeasuredClean": "Maryland is the same hazard class and is clean. Both pinned Maryland sources carry a pushbutton of their own: CC-DC-CR-072C has one captioned '(Reset)' at (489.7,17.5) 72x18pt and CC-DC-CR-078 has one captioned '(Reset)' at (292.7,90.4) 72x18pt. At 300 dpi, grey <= 128, those rectangles read 5003 and 5361 dark px in the court's source with annotations RENDERED and 0 with -hide-annotations -- so the render sees pushbutton chrome, which is the positive control. On the delivered Maryland pages the same rectangles read 0, with annotations rendered, on the repaired bytes AND on the pre-repair bytes. The mechanism that keeps them clean is scripts/build-census-v1-md_10105_early-set.mjs passing detachNestedControlFields: true, and the family's own reports/independent-visual-review.json already tells its reviewer 'Neither sheet may show the word Reset'. 2 of 2 pushbuttons clean, measured.",
+    "indexLevelScanIsExhausted": "Zero files anywhere under data/rcap-all50/ now carry the check 'flattening_materialised_the_forms_own_widget_caption' or a drawnText of 'Print Form'/'Reset Form'. Connecticut's eight were the only recorded instances in the repository and FIX143's repair removed them. That is not evidence the defect is absent elsewhere: the advisory only exists where a builder runs that check, so an empty index-level scan is a statement about the checks, not about the packets.",
+    "thePopulationNumber": "detachNestedControlFields defaults to FALSE in the shared finalizer (scripts/rcap-official-forms/rcap-official-form-finalize.mjs line 649). Across the whole repository 13 scripts pass it true, of which 7 are census-v1 family builders: al-misd-nonconviction-90-set, az_marijuana_expungement_arrest_no_charges-set, ca-1203-4-set, ct-cleanslate-petition-set, md_10105_early-set, ne-setaside-custodial-set, rcap-in-custom-pleading. There are 311 census-v1 builder scripts and 193 --official-pdf-fill family directories. So roughly 186 official-PDF-fill families are built without the flag that stops a nested pushbutton caption reaching the filing. That is not 186 defects -- most source forms carry no pushbutton, and a non-nested pushbutton is caught by the flat sweep -- but it is the bounded population a sweep has to cover, and the safeguard is an opt-in that six families out of nearly two hundred have taken.",
+    "whatStillNeedsASweep": "Whether any of those families' DELIVERED bytes actually carry a materialised caption cannot be settled from the two families VF44 had open. It needs each family's pinned source opened to find pushbuttons and each delivered fixture's flattened appearances decoded for the caption text. VF44 DID NOT START ONE. The mechanical shape is already in the repository: scripts/rcap-official-forms/scan-synthesized-off-appearances.mjs is a sweeper over the same opt-in idea and is the natural thing to point at this, and the cheap first pass is source-side only -- count PDFButton fields per pinned source across the 193 official-PDF-fill families, which needs no rendering and narrows the population before any raster work."
+  },
+  "borderCohortRowConfirmed": "FIX143's disclosure checks out. data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json still publishes, for ct-cleanslate-petition-set, strokeOnlyAcrossFixtures 4, flattenedAppearances 22 and strokeOnly 2 per fixture with the exact DENIED/GRANTED rects -- against bytes where VF44 measures 0 stroke-only appearances and 18 flattened ones. currentState reads FAIL_REPAIR_REQUIRED and confirmation reads CONFIRMED_DEFECTIVE_PENDING_SOURCE_ACCOUNTING. The row's measuredFixtures entries are keyed by FILENAME only; the two 64-hex values on the row (ba24b17d..., skeleton 302bb35e...) match no file in the family directory, so no packet digest anywhere on the row could detect that the bytes moved. Contrast the RASTER_QUEUE rows for both families, which ARE digest-bound and therefore visibly stale. Also confirmed: the pre-repair reports published appearancesDrawn 23 where the Form-only count is 22, the extra one being the source's own image XObject.",
+  "worktreeState": "Clean at ca8f8909064882b38db1a732a72aad12a2fedb58 apart from this return file. No family artifact, builder, manifest or shared script was modified by VF44. The Maryland defective bytes and the Maryland source-receipt drift were both staged only for measurement and restored with git checkout in the same step. Both grants remain asserted and are NOT released.",
+  "selfVerificationDisclaimer": "VF44 built nothing and repaired nothing. No packet is approved, made sellable or promoted here; no commercial route is opened; production is untouched. Both families moved bytes and both owe a fresh CENTRAL raster over the new digests; no existing receipt covers them."
+}

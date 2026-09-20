@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF10",
+  "workerId": "BUILD-A",
+  "lane": "packet-build",
+  "engine": "Claude Code",
+  "shiftBaseSha": "3fcdb0f292f31d1a1bbc5778832d54401ef9c782",
+  "whyThisFileIsNotRowsJson": "data/rcap-grade-a/packet-factory-24h/pf10/rows.json already holds an earlier cohort's return for this lane and is not overwritten. This file is BUILD-A's return for the one PF10 family in the official_pdf_fill cohort. The two do not disagree: they cover disjoint families. rows.json covers rcap-tx-custom-pleading, il-prostitution-j-vacate-set and la-987-set-aside-and-dismiss-set; this file covers co_petition_seal_arrest-set, which rows.json does not mention.",
+  "familiesAssigned": ["co_petition_seal_arrest-set"],
+  "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 'co_petition_seal_arrest-set' returned CLAIM_OK before any read or write of family content",
+  "preflight": {
+    "laneGate": "PACKET_BUILD_ENVIRONMENT_NOT_READY — 12/13 passed, 1 failed, 4 not applicable",
+    "theOneFailingCheck": "corpus_matches_committed_index — 1 absent of 24 sampled",
+    "whyTheLaneRanAnyway": "an environment fact about this container's mount, not a packet defect: 14 of ~350 declared master_library entries (AL, CA, MO, NC and UT forms) are absent from the mount here. It is recorded rather than worked around, and the per-family row gate was run and recorded separately below.",
+    "rowGate": "node scripts/verify-packet-build-environment.mjs --family 'co_petition_seal_arrest-set' — family_sources_bind reported 1 of 2 sources not binding, which is a PATH result and not a CONTENT one; see sourcesBound."
+  },
+  "selfVerification": "none. This lane did not verify its own packet. The PASS_COMPLETE quoted below is scripts/rcap-packet-completeness/verify-packet-completeness.mjs, which is the repository's shared contract reader and not an independent verifier lane.",
+  "rasterRule": "No browser resolves in this container, so nothing was rastered. Every non-visual obligation is finished and the family is returned BUILT_RASTER_PENDING with the exact canonical and boundary digests below for the central raster batch.",
+  "rows": [
+    {
+      "itemId": "co_petition_seal_arrest-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "familyKind": "packet_family",
+      "jurisdiction": "CO",
+      "routeKeys": ["obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704"],
+      "statutoryAuthority": "C.R.S. § 24-72-704; Colorado Judicial Department forms JDF 417 and JDF 418",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
+      "componentSet": [
+        { "documentId": "JDF-417", "instrumentKind": "primary_filing", "pages": 3, "acroFields": 62, "widgets": 70, "rendered": true },
+        { "documentId": "JDF-418", "instrumentKind": "proposed_order", "pages": 2, "acroFields": 18, "widgets": 20, "rendered": true }
+      ],
+      "pageCountPerFixture": 5,
+      "sourcesBound": {
+        "method": "exact form number in the committed corpus index, then exact SHA-256 against the bytes on disk, over every indexed path in deterministic order",
+        "whyNotByDeclaredPath": "MASTER_QUEUE names both forms at private/source-imports/rcap-d-source-packs-2026-08-12/D3/... , a custody this container does not mount. Resolving by declared path reports both absent. Both resolve in the Master Library at the exact digests the queue pins — one binary in two custodies is one identity. The row gate's family_sources_bind failure for this family is that path effect and not a missing source.",
+        "documents": [
+          { "sourceId": "official-form:JDF-417", "formNumber": "JDF-417", "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4", "custody": "master_library" },
+          { "sourceId": "official-form:JDF-417-ORDER", "formNumber": "JDF-418", "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993", "custody": "master_library", "note": "the queue's source id names the order by the petition's number; the digest is the one the queue pins for JDF-417-ORDER" }
+        ]
+      },
+      "fieldMapArithmetic": {
+        "terminalFields": 80,
+        "canonicalWrites": 17,
+        "canonicalRefusals": 51,
+        "selectionControls": 12,
+        "checksum": "17 + 51 + 12 = 80, and 80 is 62 + 18, the exact AcroForm field count of the two pinned binaries"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "confirmedBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'co_petition_seal_arrest-set' → PASS_COMPLETE, 17/80 written",
+      "blankDispositions": {
+        "REQUIRED_BEFORE_FILING": 39,
+        "PROTECTED_FIELD": 13,
+        "PARTICIPANT_ELECTION_GENUINE": 10,
+        "LATER_COMPLETION": 1
+      },
+      "hiddenWidgetRule": {
+        "asserted": true,
+        "how": "annotation flags read from the pinned binaries; a write onto a widget carrying Invisible, Hidden or NoView fails an assertion before anything is rendered",
+        "measured": "0 hidden widgets of 70 on JDF 417 and 0 of 20 on JDF 418",
+        "whyItMatters": "the sibling family co_motion_seal_conviction-set builds on JDF 612, which ships 23 hidden text widgets, and a case-number write into one was reported by the finalizer while carrying no ink in the bytes. The reader was validated against JDF 612 and returns exactly those 23."
+      },
+      "sourceAuthoredInkRule": {
+        "asserted": true,
+        "how": "each pinned source is flattened UNWRITTEN and its own widget ink recorded, then compared against the finished artifact at every measured rectangle",
+        "found": "JDF 417 carries exactly one source-authored appearance — the word 'Petition' in the Title dropdown, the form's own default. It is classified as a documentAuthoredAppearance from the source's own value, is not delivered as a participant answer, and is not counted as a write. JDF 418 carries none.",
+        "consequence": "the packet does not write the document title. The shared semantics has no allowlisted fact for one, and inventing a fact to restate what the pinned source already states would be adding a fact rather than binding one."
+      },
+      "identifierAndThirdPartyRefusals": {
+        "thirdParty": "JDF 417 fields 2.1, 2.2, 2.3 and 2.4 are the PERSON IN INTEREST's name, birth date, mailing address and phone, asked for only when the filer is somebody else. All four are refused, labelled with the printed condition, and disclosed to the participant. Writing the participant's own identity into them would put one person's details in another person's block on a petition sworn under oath, and would read as a correctly completed form.",
+        "identifier": "the only identifier written is the participant's own date of birth, and only into the two blanks each form asks the participant for under its own 'My Information' and 'Defendant's Information' headings. Neither form asks for a social security number or a driver licence number, and none is written.",
+        "verifiedFromBytes": "reports/actual-writes.json lists every one of the 17 writes read back from the finalized bytes at its measured rectangle; none lands in 2.1-2.4"
+      },
+      "routeSelection": {
+        "stated": "the packet states its route in the field map, the source receipt and the participant instructions",
+        "notAnswered": "questions 4(b), 4(c), 4(d) and 4(e) of JDF 417 are carried to the participant under the case-determined exception, each with its own recorded reason why the route cannot settle it. 4(b) is included deliberately: the form prints both Yes and No under the same statute, § 24-72-704 reaches both an arrest with no charges and a case ending in a completed diversion agreement, and no fact this build holds says which is this participant's history. Writing a sworn answer from a route label would be guessing a legal answer.",
+        "forCounsel": "this asymmetry is the item most worth counsel's attention and is flagged in approval-request.json"
+      },
+      "valuesThatDoNotFit": {
+        "policy": "wrapped or refused with the measured width by the shared finalizer; never truncated and never drawn over printed ink",
+        "observed": "unfittable is empty on both fixtures and both documents; every boundary value fit, including a 58-character e-mail address and a 39-character hyphenated name"
+      },
+      "artifactsForTheRasterBatch": [
+        { "fixture": "canonical", "file": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/canonical.pdf", "sha256": "c446527450d252fee8a305cbbe52e9560ee19cb585783205f05c4a98656cc3db", "byteLength": 387040, "pageCount": 5 },
+        { "fixture": "boundary", "file": "data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/fixtures/boundary.pdf", "sha256": "79d7b0ed1c379d8924ce57bfd8ce5669494424bb1ec6a8a1ef348b1b47a0b3b5", "byteLength": 387365, "pageCount": 5 }
+      ],
+      "inkPerFixture": {
+        "canonical": { "JDF-417": { "glyphs": 154, "flattenedAppearances": 68 }, "JDF-418": { "glyphs": 97, "flattenedAppearances": 20 } },
+        "boundary": { "JDF-417": { "glyphs": 324, "flattenedAppearances": 68 }, "JDF-418": { "glyphs": 200, "flattenedAppearances": 20 } }
+      },
+      "determinism": {
+        "measured": true,
+        "method": "rebuilt from unchanged inputs and compared recursively with diff -r over the whole overlay directory",
+        "result": "byte-identical, every file, including both fixture PDFs",
+        "whatMakesItSo": "the packet is stamped with the shared fixed RCAP_PACKET_PDF_DATE, and no resolved filesystem path is recorded in any artifact — sources are recorded by custody name and in-archive path, so the bytes do not depend on where the Master Library is mounted"
+      },
+      "selfVerified": false,
+      "packetsSelfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "a rendered packet is review evidence. It authorizes no fulfillment and opens no commercial route, and BUILT_RASTER_PENDING is a workflow state rather than a verdict."
+    }
+  ]
+}

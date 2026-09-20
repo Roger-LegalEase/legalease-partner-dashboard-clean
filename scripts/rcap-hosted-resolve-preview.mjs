@@ -22,17 +22,48 @@
 // not evidence; the deployment record is.
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  expectedHostedReturnOrigin,
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const OUT_DIR = path.resolve("hosted-acceptance-evidence");
+const { root: OUT_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: process.cwd() });
 
 const HOSTNAME_INPUT = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").trim().replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const DEPLOYMENT_ID_INPUT = (process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "").trim();
 const APPLICATION_SHA = (process.env.HOSTED_APPLICATION_SHA ?? "").trim();
 const PROJECT_REF = (process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_TEAM = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT = process.env.VERCEL_PROJECT_ID ?? "";
+const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
+const EXPECTED_CLINIC_DEMO_MODE = CLINIC_DEMO_MODE || "none";
+const EXPECTED_STRIPE_CONFIGURED = CLINIC_DEMO_MODE === "mississippi_preview" ? "false" : "true";
+// Which catalog Product the Preview must be built to sell. It is baked into the
+// deployment at creation like every other environment variable, so a Preview
+// built without it sells the inline fallback and is NOT the deployment a run
+// proving the catalog path may reuse. "inline" is the honest name for that
+// absence rather than a wildcard.
+const EXPECTED_CATALOG_PRODUCT = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() || "inline";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
+
+if (!/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
+  console.error("PREVIEW RESOLUTION: HOSTED_APPLICATION_SHA must be one exact lowercase 40-character SHA");
+  process.exit(1);
+}
+if (PROJECT_REF !== EXPECTED_PROJECT_REF) {
+  console.error("PREVIEW RESOLUTION: ACCEPTANCE_SUPABASE_PROJECT_REF is not the pinned acceptance project");
+  process.exit(1);
+}
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
+const EXPECTED_RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA);
+const EXPECTED_RETURN_HOST = new URL(EXPECTED_RETURN_ORIGIN).host;
+const EXPECTED_CLINIC_SCOPE_SHA256 = CLINIC_DEMO_MODE === "mississippi_preview"
+  ? await resolveClinicScopeSha256()
+  : null;
 
 // Phases that transact — Checkout, payment, worker, artifact, delivery — need
 // the delivery route OPEN and narrowed to the named synthetic identity. Phases
@@ -47,6 +78,7 @@ const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
 const REQUIRED_ROUTE_STATE = "staging_scoped";
 const REQUIRE_STAGING_SCOPED = (process.env.HOSTED_REQUIRE_STAGING_SCOPED ?? "").trim() === "true";
 const routeStateOf = (deployment) => deployment?.meta?.rcapRouteState ?? null;
+const isPreviewTarget = (target) => target === null || target === "preview";
 
 /** The route state is acceptable for this phase, or it is not. Never inferred. */
 function routeStateAcceptable(state) {
@@ -96,9 +128,9 @@ function emit(outcome, extra = {}) {
 }
 
 const api = async (route) => {
-  const url = new URL(`https://api.vercel.com${route}`);
-  if (VERCEL_TEAM) url.searchParams.set("teamId", VERCEL_TEAM);
-  const response = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
+  const response = await fetch(hostedVercelScopedUrl(route, VERCEL_IDENTITY), {
+    headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
+  });
   if (!response.ok) throw new Error(`Vercel ${route} returned HTTP ${response.status}`);
   return response.json();
 };
@@ -110,7 +142,7 @@ const api = async (route) => {
  * environment someone could later mistake for the accepted one.
  */
 async function findExistingExactPreview() {
-  const listed = await api(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT)}&target=preview&state=READY&limit=40`);
+  const listed = await api(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&target=preview&state=READY&limit=40`);
   const candidates = listed.deployments ?? [];
   const examined = [];
   for (const summary of candidates) {
@@ -121,13 +153,25 @@ async function findExistingExactPreview() {
     const meta = full.meta ?? {};
     const state = routeStateOf(full);
     const matches = (full.readyState ?? full.status) === "READY"
-      && full.target !== "production"
+      && isPreviewTarget(full.target)
       && meta.rcapApplicationSha === APPLICATION_SHA
-      && (meta.rcapAcceptanceProjectRef ?? PROJECT_REF) === PROJECT_REF
-      && meta.rcapStripeConfigured === "true"
+      && meta.rcapAcceptanceProjectRef === PROJECT_REF
+      && meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
+      && (meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT
+      && meta.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
+      && meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
+      && (CLINIC_DEMO_MODE !== "mississippi_preview"
+        || (EXPECTED_CLINIC_SCOPE_SHA256 && meta.rcapStagingScopeSha256 === EXPECTED_CLINIC_SCOPE_SHA256))
       && routeStateAcceptable(state);
-    examined.push({ id, host: full.url ?? null, applicationSha: meta.rcapApplicationSha ?? null, routeState: state, matches });
-    if (matches) return { found: full, examined };
+    let aliasBound = false;
+    if (matches) {
+      try {
+        const aliased = await api(`/v13/deployments/${encodeURIComponent(EXPECTED_RETURN_HOST)}`);
+        aliasBound = (aliased.id ?? aliased.uid ?? null) === id;
+      } catch { /* absence is a mismatch */ }
+    }
+    examined.push({ id, host: full.url ?? null, applicationSha: meta.rcapApplicationSha ?? null, routeState: state, returnOrigin: meta.rcapReturnOrigin ?? null, aliasBound, matches: matches && aliasBound });
+    if (matches && aliasBound) return { found: full, examined };
   }
   return { found: null, examined };
 }
@@ -137,7 +181,7 @@ if (!HOSTNAME_INPUT && !DEPLOYMENT_ID_INPUT) {
   const { found, examined } = await findExistingExactPreview();
   if (found) {
     const id = found.id ?? found.uid ?? null;
-    const host = String(found.url ?? "").replace(/^https?:\/\//, "");
+    const host = EXPECTED_RETURN_HOST;
     ok("existing_exact_preview_found", `${host} (${id}); routeState=${routeStateOf(found)}`);
     emit("reused_exact_ready_preview", {
       hostname: host,
@@ -189,22 +233,54 @@ const deploymentId = deployment.id ?? deployment.uid ?? null;
 const readyState = deployment.readyState ?? deployment.status ?? null;
 const target = deployment.target ?? null;
 const meta = deployment.meta ?? {};
-const resolvedHost = deployment.url ? String(deployment.url).replace(/^https?:\/\//, "") : HOSTNAME_INPUT;
+const resolvedHost = EXPECTED_RETURN_HOST;
 
 deploymentId ? ok("deployment_id_resolved", deploymentId) : bad("deployment_id_resolved", "Vercel returned no deployment id");
 if (HOSTNAME_INPUT) {
-  resolvedHost === HOSTNAME_INPUT
+  HOSTNAME_INPUT === EXPECTED_RETURN_HOST
     ? ok("hostname_matches_the_authorized_preview", resolvedHost)
     : bad("hostname_matches_the_authorized_preview", `resolved ${resolvedHost}, authorized ${HOSTNAME_INPUT}`);
 }
 readyState === "READY" ? ok("deployment_is_ready", readyState) : bad("deployment_is_ready", `readyState=${readyState}`);
-// target null means Preview. "production" is the one value that must never pass.
-target !== "production" ? ok("target_is_preview_not_production", `target=${target}`) : bad("target_is_preview_not_production", "target=production");
+// Vercel represents Preview as null or "preview". No other target is admitted.
+isPreviewTarget(target) ? ok("target_is_preview_not_production", `target=${target}`) : bad("target_is_preview_not_production", `target=${target}`);
 
 const deployedSha = meta.rcapApplicationSha ?? null;
 deployedSha === APPLICATION_SHA
   ? ok("deployment_carries_the_authorized_application_sha", deployedSha)
   : bad("deployment_carries_the_authorized_application_sha", `deployment records ${deployedSha ?? "(none)"}, authorized ${APPLICATION_SHA}`);
+
+const deployedReturnOrigin = meta.rcapReturnOrigin ?? null;
+deployedReturnOrigin === EXPECTED_RETURN_ORIGIN
+  ? ok("deployment_carries_the_deterministic_return_origin", deployedReturnOrigin)
+  : bad("deployment_carries_the_deterministic_return_origin", `deployment records ${deployedReturnOrigin ?? "(none)"}, expected ${EXPECTED_RETURN_ORIGIN}`);
+
+meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
+  ? ok("deployment_carries_the_exact_clinic_mode", EXPECTED_CLINIC_DEMO_MODE)
+  : bad("deployment_carries_the_exact_clinic_mode", `deployment records ${meta.rcapClinicDemoMode ?? "(none)"}, expected ${EXPECTED_CLINIC_DEMO_MODE}`);
+meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
+  ? ok("deployment_carries_the_expected_stripe_posture", `rcapStripeConfigured=${EXPECTED_STRIPE_CONFIGURED}`)
+  : bad("deployment_carries_the_expected_stripe_posture", `deployment records ${meta.rcapStripeConfigured ?? "(none)"}, expected ${EXPECTED_STRIPE_CONFIGURED}`);
+
+(meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT
+  ? ok("deployment_sells_the_expected_catalog_product", `rcapCatalogProduct=${EXPECTED_CATALOG_PRODUCT}`)
+  : bad("deployment_sells_the_expected_catalog_product", `deployment sells ${meta.rcapCatalogProduct ?? "inline"}, expected ${EXPECTED_CATALOG_PRODUCT}; a Preview built against a different product cannot prove this one`);
+if (CLINIC_DEMO_MODE === "mississippi_preview") {
+  EXPECTED_CLINIC_SCOPE_SHA256 && meta.rcapStagingScopeSha256 === EXPECTED_CLINIC_SCOPE_SHA256
+    ? ok("deployment_carries_the_exact_two_participant_scope", EXPECTED_CLINIC_SCOPE_SHA256)
+    : bad("deployment_carries_the_exact_two_participant_scope",
+      `deployment records ${meta.rcapStagingScopeSha256 ?? "(none)"}; expected ${EXPECTED_CLINIC_SCOPE_SHA256 ?? "unresolvable synthetic cohort"}`);
+}
+
+try {
+  const aliased = await api(`/v13/deployments/${encodeURIComponent(EXPECTED_RETURN_HOST)}`);
+  const aliasDeploymentId = aliased.id ?? aliased.uid ?? null;
+  aliasDeploymentId === deploymentId
+    ? ok("deterministic_return_alias_resolves_to_exact_deployment", `${EXPECTED_RETURN_HOST} -> ${aliasDeploymentId}`)
+    : bad("deterministic_return_alias_resolves_to_exact_deployment", `${EXPECTED_RETURN_HOST} -> ${aliasDeploymentId ?? "(none)"}, expected ${deploymentId}`);
+} catch (error) {
+  bad("deterministic_return_alias_resolves_to_exact_deployment", String(error.message ?? error));
+}
 
 // The route state, stated outright. `disabled` is a legitimate gallery Preview
 // and an illegitimate payment one; only the phase decides which.
@@ -216,14 +292,10 @@ routeStateAcceptable(observedRouteState)
       + "A disabled Preview refuses unauthenticated delivery with 503 and a staging-scoped one with 401; both look safe, and only one can transact. "
       + "Deployment metadata is fixed at deploy time, so this Preview cannot be promoted — it needs a staging-scoped deployment.");
 
-const deployedProject = meta.rcapAcceptanceProjectRef ?? meta.acceptanceProjectRef ?? null;
-if (deployedProject) {
-  deployedProject === PROJECT_REF
-    ? ok("bound_to_the_acceptance_project", deployedProject)
-    : bad("bound_to_the_acceptance_project", `deployment records ${deployedProject}, authorized ${PROJECT_REF}`);
-} else {
-  ok("bound_to_the_acceptance_project", `not recorded in deployment metadata; asserted downstream against ${PROJECT_REF}`);
-}
+const deployedProject = meta.rcapAcceptanceProjectRef ?? null;
+deployedProject === PROJECT_REF
+  ? ok("bound_to_the_acceptance_project", deployedProject)
+  : bad("bound_to_the_acceptance_project", `deployment records ${deployedProject ?? "(none)"}, authorized ${PROJECT_REF}`);
 
 // No Production alias may be attached to a deployment the matrix will drive.
 try {
@@ -270,3 +342,17 @@ if (problems.length > 0) {
 
 emit("reused_exact_ready_preview", { hostname: resolvedHost, deploymentId, readyState, target, applicationSha: deployedSha, routeState: observedRouteState, rest });
 console.log(`  reusing ${origin} (${deploymentId}); no Vercel deployment command was executed.`);
+
+async function resolveClinicScopeSha256() {
+  if (!SUPABASE_ACCESS_TOKEN) return null;
+  const response = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `select id,email from auth.users where lower(email) in ('mvl-demo-participant-a@rcap-acceptance.test','mvl-demo-participant-b@rcap-acceptance.test') order by case lower(email) when 'mvl-demo-participant-a@rcap-acceptance.test' then 1 else 2 end`
+    })
+  });
+  const rows = await response.json().catch(() => null);
+  if (!response.ok || !Array.isArray(rows) || rows.length !== 2 || rows.some((row) => !/^[0-9a-f-]{36}$/i.test(row?.id ?? ""))) return null;
+  return createHash("sha256").update(rows.map((row) => row.id).join(",")).digest("hex");
+}

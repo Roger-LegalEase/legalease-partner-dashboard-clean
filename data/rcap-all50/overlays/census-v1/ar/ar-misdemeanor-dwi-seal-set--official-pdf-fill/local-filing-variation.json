@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "rcap-local-filing-variation/v1",
+  "familyId": "ar-misdemeanor-dwi-seal-set",
+  "jurisdiction": "AR",
+  "routeKeys": [
+    "obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-2"
+  ],
+  "evidenceBasis": "The printed text of the two pinned source binaries, and data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json for the route's own destination. No court or agency host was contacted; egress to those hosts is refused by policy.",
+  "statuteOrAuthority": "A.C.A. § 16-90-1405, with § 16-90-1405(b)(2) referring out to the lookback periods in § 5-65-111; offence: A.C.A. § 5-65-103 (as printed on both forms).",
+  "venue": {
+    "statement": "Circuit or district court in the county where the offence was committed and the person was convicted.",
+    "source": "route-obligation-candidate.json destination.name for this route key",
+    "howTheFormExpressesIt": "Both documents open 'IN THE ______ COURT OF ______, ARKANSAS' followed by '______ DIVISION'. The court type, the county and the division are three separate printed blanks on page 1.",
+    "platformFillsIt": false,
+    "whyNot": "The form prints no caption naming any of the three. The blanks are measured exactly, but the words beside them are 'IN THE', 'COURT OF', ', ARKANSAS' and 'DIVISION', and none of those names an allowlisted fact. This family will not assert a caption-to-fact binding the document does not express, so all three are left for the participant and the gap is reported rather than closed by inventing a label. See reports/blanks-left-for-the-participant.json."
+  },
+  "filing": {
+    "whoFiles": "the participant (processActor 'participant', participantCanInitiate true on this route)",
+    "whatIsFiled": "the ACIC Petition, with the ACIC Order tendered to the court as the proposed order it signs",
+    "verification": "The petition carries a VERIFICATION page: the petitioner swears the petition is true and correct before a notary ('Subscribed and sworn to before me on this ___ day of ___, 20___'), page 3.",
+    "identificationBlock": "Both documents end with 'THE FOLLOWING INFORMATION IS REQUIRED FOR PROPER IDENTIFICATION OF THE DEFENDANT IN THE STATE AND NATIONAL RECORD SYSTEMS' and ask for Race, Sex, DOB, Arrest Tracking Number, SID No. and FBI No. Of those the platform supplies only the date of birth; see the map for why each of the others is refused."
+  },
+  "fee": {
+    "established": true,
+    "amount": "$0",
+    "whatTheSourcesSay": "Neither pinned FORM states a filing fee, and neither names a fee-waiver route. The petition's paragraph 4 asserts the defendant 'has paid all court costs unless payment has been excused by the Court', which is a condition of sealing rather than a fee for filing. But the forms are not the whole repository: the compiled Arkansas profile states the fee outright in src/lib/rcap-engine/compiled/profiles/AR-arkansas.json — packetGenerator feeRules 'Act 1460 eliminated sealing filing fees; the real costs are records and any counsel' and 'Sealing petition filing fee $0 Filing fees eliminated by the 2019 amendments', and filingDestinationRules 'File in the circuit or district court that handled the case. Act 1460 eliminated filing fees for sealing.'",
+    "whyThatRuleReachesThisRoute": "A3 holds per fact and per route, so the profile counts only where it addresses THIS filing. It does. The delivered order's own decree seals the conviction 'pursuant to A.C.A. §16-90-1405' and directs compliance with '§16-90-1413' — both Act 1460 sections — and the same profile labels § 16-90-1405 'Situation B — Misdemeanor convictions' and lists this exact pair in its form table as 'Petition and Order to Seal Misdemeanor DWI / BWI Driving- or boating-while-intoxicated misdemeanor; 10-year wait.' The fee rule is keyed to Act 1460 sealing and this is an Act 1460 sealing.",
+    "theResidualStatedRatherThanBuried": "The profile's $0 sentence does not itself contain the words DWI or BWI, and Ark. Code Ann. § 5-65-111 — cited in the order's paragraph 7 — appears nowhere in the profile. § 5-65-111 supplies the ten-year ELIGIBILITY wait, not a separate filing scheme; the sealing is ordered under § 16-90-1405. The instruction states this limit to the participant rather than hiding it, so a counsel reader who disagrees can see exactly which link they are disputing.",
+    "whyTheOldRefusalWasWrong": "The section previously told the participant that 'no source this packet holds establishes what filing this petition costs — or whether it costs anything' and sent them to the clerk. That was a true claim about the two FORMS and a false claim about the REPOSITORY. DET-FEE-AND-WAIVER-001 A2 settles that the repository includes the compiled state profile for the family's jurisdiction, and A1 makes the named-authority stand-in unavailable where the repository holds the answer. The sibling ar-arrest-seal-set was repaired from the same profile; this family was not, until now.",
+    "whatIsStillNotEstablished": "Whether any individual court charges an administrative amount of its own at the counter. The clerk is kept for that residual only, and not for the statutory filing fee."
+  },
+  "service": {
+    "required": true,
+    "statement": "A copy of the petition must be provided to either the Prosecuting Attorney for the county in which the petition is filed or to the City Attorney — whichever office prosecuted the case — and to the arresting agency, by placing a copy in the United States mail postage prepaid or by hand delivering it.",
+    "source": "the petition's Certificate of Service, page 4, quoted from the pinned bytes",
+    "platformCompletesIt": false,
+    "whyNot": "The certificate attests to an act of service that has not happened. The certifying name and the date are refused by role, and the whole page is additionally withheld because it sits under the printed heading 'Certificate of Service', which the shared region vocabulary classifies as a service block."
+  },
+  "deliveryAfterTheOrder": {
+    "statement": "The order directs the Clerk to mail or transmit a certified copy of the ORDER to the Arkansas Crime Information [Center], the Administrative Office of the Courts, the prosecuting and/or city attorney, the District Court Clerk if applicable, and the arresting agency; each agency must then comply with A.C.A. § 16-90-1413 as it pertains to them.",
+    "source": "the order, page 2, quoted from the pinned bytes",
+    "actor": "the court clerk, not the participant and not the platform"
+  },
+  "eligibilityConditionsThePetitionAsserts": [
+    "the defendant pled guilty or was found guilty of the offence (paragraph 2)",
+    "the sentence for this offence is complete (paragraph 3)",
+    "all court costs are paid unless excused by the court (paragraph 4)",
+    "all court-ordered restitution, if any, is paid (paragraph 5)",
+    "all driver's licence suspension reinstatement fees are paid and reinstatement requirements completed, if the licence was suspended as a result of this plea or conviction (paragraph 6)",
+    "more than ten years have passed since the defendant's FIRST conviction for driving or boating while intoxicated, per § 5-65-111(b)(1) and/or (c)(1) (paragraph 7)",
+    "whether any felony charges are pending, with a space to state their status (paragraph 8)",
+    "whether the defendant is required to register as a sex offender (paragraph 9)",
+    "a request that the court find the defendant rehabilitated (paragraph 10)"
+  ],
+  "conditionsThePlatformDoesNotAnswer": {
+    "statement": "Paragraphs 8 and 9 are the only two choice controls on either document. They read as boxes on the page, but they are drawn as TEXT GLYPHS inside the text-showing operators, not as stroked paths: scripts/lib/pdf-stroked-boxes.mjs measures ZERO stroked rectangles on every page of both documents. The platform holds no fact for either question, so nothing is marked. markSelections refuses a box that was not measured off the document, and there is no measured stroked box here to give it.",
+    "selectionsMade": 0
+  },
+  "openLegalQuestionOnThisTrack": {
+    "routeKey": "obligation:unit:AR:ar-misdemeanor-dwi-seal:ar-misdemeanor-dwi-seal-stage-1",
+    "publicLabel": "Explain the two live waiting-period readings",
+    "recordedIn": "data/rcap-grade-a/route-obligation-census-v1/legal-review-triage.json (bucket TRUE_COUNSEL_DECISION)",
+    "effectOnThisFamily": "The committed route record marks this unit available=false and says stage 2 stays unavailable while the waiting-period conflict is open. This build does not resolve that question, does not touch legal eligibility, and does not change availability."
+  }
+}

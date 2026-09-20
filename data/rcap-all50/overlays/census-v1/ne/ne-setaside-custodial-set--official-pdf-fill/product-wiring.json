@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ne-setaside-custodial-set",
+  "routeKeys": [
+    "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+  ],
+  "routeSelectionId": "ne-custodial-cc-6-11-complete-set",
+  "implementationStrategy": "official_pdf_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "assignmentOwnedPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+  "evidenceOutputPath": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+  "note": "Review artifacts and maps create no authority. A route remains closed until exact output-level legal and independent visual approval exists in the separate control plane.",
+  "componentDisposition": [
+    {
+      "componentId": "ne-setaside-custodial-primary-filing-1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "packet page 1 (CC 6:11, Petition to Set Aside Criminal Conviction, Rev. 04/2024)"
+    },
+    {
+      "componentId": "ne-setaside-custodial-proposed-order-2",
+      "role": "proposed_order",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "packet page 2 (CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020)"
+    },
+    {
+      "componentId": "ne-setaside-custodial-notice-and-certificate-of-service-3",
+      "role": "notice_and_certificate_of_service",
+      "requirement": "conditional",
+      "disposition": "delivered_conditional_and_explained",
+      "where": "packet pages 3 and 4 (DC 1:15, Notice of Hearing and Certificate of Service, New 08/2019)",
+      "conditionStatedTo": "participant-instructions.md, \"Who must receive a copy, and how\": district court cases only; in county court the clerk schedules the hearing and mails the notice."
+    },
+    {
+      "componentId": "ne-setaside-custodial-instructions-4",
+      "role": "instructions",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "packet page 5 (CC 6:11a, Completing the Petition, Rev. 06/2024)"
+    },
+    {
+      "componentId": "ne-setaside-custodial-fee-waiver-5",
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "disposition": "not_generated_with_a_reason",
+      "where": null,
+      "reason": "No fitting official form exists: DC 6:7.1 is scoped to civil, appeals and emancipation matters and offers no criminal case type, and no county-court application form exists at all. The absence and the reason are stated to the participant in participant-instructions.md, \"What it costs, and what to do if you cannot pay\", and the mismatch is carried as a release blocker rather than papered over."
+    },
+    {
+      "componentId": "ne-setaside-custodial-local-rules-check-6",
+      "role": "local_rules_check",
+      "requirement": "required",
+      "disposition": "delivered",
+      "where": "participant-instructions.md, section \"Confirm what the filing court requires before you file\" (process guidance; the manifest gives this component no form)"
+    }
+  ],
+  "binding": {
+    "family": "ne-setaside-custodial-set",
+    "jurisdiction": "NE",
+    "routeKeys": [
+      "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "fee_waiver",
+      "instructions",
+      "local_rules_check",
+      "notice_and_certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ne-setaside-custodial-instructions-4",
+      "component:ne-setaside-custodial-notice-and-certificate-of-service-3",
+      "component:ne-setaside-custodial-primary-filing-1",
+      "component:ne-setaside-custodial-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-6-11",
+        "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CC-6-11.2",
+        "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:DC-1-15",
+        "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CC-6-11a",
+        "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34571064798",
+      "jobId": "103173830707",
+      "artifactId": "10187951033",
+      "boundToCanonicalSha256": "b02c3b62d14579e010deef29863fee2a85e28ed1abebc6acaa0514fdc1c0b7f4",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf64",
+      "verifiedAtBase": "3b8740972dde964f2dac21ea3c32507b4f1ce28d"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "rcap-scoped-importer-change/v1",
+  "author": "GPT-6 Astra mi_mo_closure agent",
+  "recordedAt": "2026-09-08T12:33:16.654249+00:00",
+  "problem": "The shared complete-review importer hardcodes fixtures/canonical.pdf and fixtures/boundary.pdf; reviewed MO output paths use selected dotted variant identities.",
+  "change": "New scoped helper accepts an alternative declared anchor only with family-confined nonsymlink custody, immutable exact published inventory/output, unique inventory membership and fixture role, Git/SHA identity, exact declared bytes and parsed pages. Existing standard fallback is unchanged. Shared host not edited by author.",
+  "files": [
+    {
+      "path": "scripts/rcap-packet-recovery/chat1/declared-whole-review-anchor.mjs",
+      "sha256": "b24dd2cd4cbb6f522ea136d5be1d38da6e70a192f8a6f595a72dd3b6b26636f1"
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/chat1/test-declared-whole-review-anchor.mjs",
+      "sha256": "b8b7d7318f0483a91e9b89ae8e3b58b12a8329e7abe4e979af6a3d860ecbd50f"
+    }
+  ],
+  "tests": {
+    "command": "node --test scripts/rcap-packet-recovery/chat1/test-declared-whole-review-anchor.mjs",
+    "exitCode": 0,
+    "tests": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "reviewer": "PENDING_ROOT_INDEPENDENT_REVIEW",
+  "packetFilesEdited": false,
+  "originalPacketReviewScopeIncludesThisNewCode": false,
+  "runtimeInstalled": false,
+  "productionTouched": false
+}

@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-focused-raster-dispatch/v1",
+  "sourceQueue": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+  "scope": "Two unchanged repaired Connecticut PDFs, four pages. No accepted current-byte raster exists; scoped ARTIFACTS repair passed; full-family review remains required.",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "boundaryPdfSha256": "d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "canonicalPdfSha256": "28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77",
+      "coverage": {
+        "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them",
+        "complete": true,
+        "documents": [
+          "petition-canonical-filled.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "petition-canonical-filled.pdf",
+          "petition-boundary-filled.pdf"
+        ],
+        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "petition-canonical-filled.pdf",
+          "pageCount": 2,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 2,
+            "sourceSha256": "28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "role": "canonical",
+          "sha256": "28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77"
+        },
+        {
+          "name": "petition-boundary-filled.pdf",
+          "pageCount": 2,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 2,
+            "sourceSha256": "d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "role": "boundary",
+          "sha256": "d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c"
+        }
+      ],
+      "documentsDigest": "1f6e39fe077c7af6b5cbc56c87e43171e3b8513d3d1c94d0eaf3ac41a72da15a",
+      "expectedPages": 2,
+      "familyId": "ct-cleanslate-petition-set",
+      "fixtureSelection": {
+        "boundary": "declared by the builder as the boundary artifact in reports/rendered-artifacts.json",
+        "canonical": "declared by the builder as the canonical artifact in reports/rendered-artifacts.json"
+      },
+      "nextOwner": "RAS03",
+      "packetCommitSha": "9830a634200332ce92bb4dce9da05d880a5c77fa",
+      "requestedScale": 2.5,
+      "supersededReceipts": [
+        {
+          "boundToBoundarySha256": "e190d7304260be94e84e46fb18710ee85e1f5a5314e7a7a5a5dd5eeb33b3d052",
+          "boundToCanonicalSha256": "d44ace77326e51a697450d18a033eadccf308b32d5d426ce5c73ffc989546e06",
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+          "coverageBasis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them",
+          "coverageReconciledFromTheRow": {
+            "wasClaimed": {
+              "coversTheWholeFamily": true,
+              "documentsCovered": [
+                "petition-canonical-filled.pdf"
+              ],
+              "documentsNotCovered": [
+                "petition-boundary-filled.pdf"
+              ],
+              "whatThisGateDidNotRender": [
+                "petition-boundary-filled.pdf"
+              ]
+            },
+            "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+          },
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "petition-canonical-filled.pdf"
+          ],
+          "documentsNotCovered": [],
+          "everyCanonicalDocumentRendered": true,
+          "jobConclusion": "success",
+          "jobId": "99815920101",
+          "receiptArtifact": {
+            "expiresAt": "2026-09-15T10:03:46Z",
+            "id": "9795506420",
+            "name": "rcap-raster-ct-cleanslate-petition-set-33495068504",
+            "zipSha256": "sha256:cf0d01d26f61b5735c1485ac5c0426fead27e4d7c8a4a0f143200afa8f29e775"
+          },
+          "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+          "supersededAt": "2026-09-11T01:50:43Z",
+          "supersededBecause": "the row now renders a different set of documents",
+          "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+          "verdict": "RASTER_PASS",
+          "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+          "whatThisGateDidNotRender": [
+            "petition-boundary-filled.pdf"
+          ],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33495068504"
+        }
+      ]
+    }
+  ]
+}

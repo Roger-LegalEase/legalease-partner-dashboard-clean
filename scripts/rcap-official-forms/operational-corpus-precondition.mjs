@@ -37,6 +37,7 @@ export const OPERATIONAL_CORPUS_ENV = "OFFICIAL_FORMS_SOURCE_DIR";
 export const OPERATIONAL_CORPUS_RELATIVE = "private/Nationwide Record Clearing";
 export const MASTER_LIBRARY_RELATIVE = "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
 export const MANIFEST_GENERATOR = "scripts/rcap-all50-overlay-factory-lib.mjs";
+export const NATIONWIDE_RESTORE_MANIFEST = "data/rcap-all50/nationwide-restore-manifest.json";
 
 /** The tree the operational manifest is generated from, however it was pointed at. */
 export function operationalCorpusPath(rootDir) {
@@ -121,6 +122,65 @@ function filesUnder(dir) {
 }
 
 /**
+ * SHAPE IS NOT COMPLETENESS.
+ *
+ * corpusShape() answers "does this look like the operational tree" by finding
+ * "LegalEase <State>/" folders at the top level. That was the only content test
+ * standing between a mounted directory and condition 7, and it is satisfied by
+ * a tree that is missing most of the corpus -- because a partial copy of the
+ * operational tree has the operational tree's exact shape.
+ *
+ * That is not hypothetical. The 2026-09-02 recovery pool at
+ * private/source-imports/Nationwide_Recovery_Pool_2026-09-02 holds 513 of the
+ * 583 files, in "LegalEase <State>/" folders, every byte hash-verified. Pointed
+ * at by OFFICIAL_FORMS_SOURCE_DIR it would have passed every test above it:
+ * it exists, it is readable, it is not empty, it is not the Master Library, and
+ * its shape is operational_nationwide. Condition 7 would then have been
+ * answered against a corpus with seventy documents missing, and the answer for
+ * each of those seventy would have been "not found in the delivery" -- which
+ * this module's own header records as the exact failure it exists to stop, in
+ * the exact form it took the first time.
+ *
+ * So completeness is measured, against the repository's own 583 path-and-hash
+ * pairs, and it is measured the way the bootstrap measures it: every recorded
+ * file present at its recorded hash. A hash mismatch counts as incomplete
+ * rather than as a separate class, because for this question they mean the same
+ * thing -- the corpus in front of us is not the inventoried one.
+ *
+ * A file the manifest does not record is NOT counted against the corpus. The
+ * bootstrap reports those and does not fail on them, and this follows it.
+ */
+export function corpusCompleteness(rootDir, dir) {
+  const manifestPath = path.join(rootDir, NATIONWIDE_RESTORE_MANIFEST);
+  if (!fs.existsSync(manifestPath)) return null;
+  let manifest;
+  try { manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8")); } catch { return null; }
+  const files = manifest.files ?? [];
+  if (files.length === 0) return null;
+
+  const absent = [];
+  const mismatched = [];
+  let verified = 0;
+  for (const file of files) {
+    const abs = path.join(dir, file.relativePath);
+    let bytes;
+    try { bytes = fs.readFileSync(abs); } catch { absent.push(file.relativePath); continue; }
+    if (crypto.createHash("sha256").update(bytes).digest("hex") !== file.sha256) { mismatched.push(file.relativePath); continue; }
+    verified += 1;
+  }
+  return {
+    manifest: NATIONWIDE_RESTORE_MANIFEST,
+    required: files.length,
+    verified,
+    absent: absent.length,
+    mismatched: mismatched.length,
+    complete: absent.length === 0 && mismatched.length === 0,
+    firstAbsent: absent.slice(0, 5),
+    firstMismatched: mismatched.slice(0, 5)
+  };
+}
+
+/**
  * Can condition 7 be evaluated, and against what.
  *
  * Returns `evaluable: false` with located refusals rather than throwing, so a
@@ -172,6 +232,35 @@ export async function resolveOperationalCorpus(rootDir, { requireManifestGenerat
       "operational_corpus_shape_unrecognized",
       `The path holds neither the operational tree's per-state folders nor anything else this check recognizes, so what it would regenerate is unknown. Expected the operational tree at ${expected.operationalCorpus}.`
     );
+  }
+
+  /*
+   * COMPLETENESS, once the tree in front of us claims to be the operational one.
+   *
+   * Only reached when the shape test passed, because measuring an absent or
+   * unrecognised tree against 583 hashes would just restate a refusal already
+   * made, in 583 lines. A tree that says it is the operational corpus and is
+   * not the whole of it is refused here by name, so a partial custody cannot
+   * answer a question that is about the complete corpus.
+   */
+  let completeness = null;
+  if (shape === "operational_nationwide") {
+    completeness = corpusCompleteness(rootDir, resolvedPath);
+    if (completeness && !completeness.complete) {
+      refuse(
+        "operational_corpus_incomplete",
+        `The tree has the operational corpus's shape but not its contents: ${completeness.verified} of `
+        + `${completeness.required} recorded files verified, ${completeness.absent} absent, `
+        + `${completeness.mismatched} mismatched against ${completeness.manifest}. `
+        + `Condition 7 asks what the operational manifest names, and a corpus missing `
+        + `${completeness.absent + completeness.mismatched} document(s) answers "not found in the delivery" for every `
+        + `one of them -- which is indistinguishable from a genuine zero-reference result and is exactly the `
+        + `failure this module exists to stop. A partial custody, such as the hash-verified recovery pool at `
+        + `private/source-imports/Nationwide_Recovery_Pool_2026-09-02, may satisfy an INDIVIDUAL source `
+        + `obligation by exact hash; it may never stand in for the complete corpus.`,
+        { completeness }
+      );
+    }
   }
 
   // The condition is about what the manifest generator produces, so a generator
@@ -229,6 +318,9 @@ export async function resolveOperationalCorpus(rootDir, { requireManifestGenerat
     masterLibraryIsNotASubstitute:
       "The Master Library answers what the current official edition of a form is. The operational tree answers what this platform builds packets from. Condition 7 asks the second question.",
     shape,
+    completeness,
+    shapeIsNotCompleteness:
+      "corpusShape() finds \"LegalEase <State>/\" folders, which a partial copy of the operational tree also has. completeness measures every file the restore manifest records; only that answers whether this is the operational corpus.",
     filesFound: files === null ? null : files.length,
     pdfsFound: files === null ? null : files.filter((file) => /\.pdf$/i.test(file)).length,
     manifestGenerator,

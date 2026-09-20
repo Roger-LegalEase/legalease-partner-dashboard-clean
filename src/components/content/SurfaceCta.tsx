@@ -31,7 +31,7 @@ export function SurfaceCta({
     : "Bring record-clearing access to the people you serve.";
 
   const defaultBody = isExpungement
-    ? "The guided check is free. No account or payment is required to begin. If a supported self-help packet is available, review your information before deciding whether to pay $50 to generate it."
+    ? "The screening is free. No account or payment is required to begin. If a supported self-help packet is available, review your information before deciding whether to pay $50 to generate it."
     : "LegalEase partners with courts, nonprofits, employers, and community organizations to make record clearing reachable. LegalEase provides self-help document preparation. It is not a law firm and does not give legal advice.";
 
   const defaultFootnote = isExpungement

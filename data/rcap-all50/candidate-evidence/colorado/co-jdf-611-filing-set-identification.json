@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "rcap-co-source-jdf611-identification/v1",
+  "lane": "G-CO-SOURCE",
+  "shardId": "S-GCO-SRC",
+  "jurisdiction": "CO",
+  "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+  "resolvedAt": "2026-08-29T11:21:55Z",
+
+  "question": "JDF 611's 'File the Request' step names four filings. Two of them -- a notice and a second order -- were carried as unresolved because an earlier reading of the guide could not recover their digits. This record resolves both, and records how, so the answer is checkable rather than asserted.",
+
+  "prohibitedMethods": [
+    "inference from adjacent form numbers",
+    "guessing from role or title",
+    "an unofficial form aggregator as controlling authority"
+  ],
+  "methodsUsed": [
+    "page-image inspection of the official JDF 611 guide at 300 dpi",
+    "corroboration against current official Colorado Judicial Branch self-help form pages and form PDFs"
+  ],
+
+  "primaryEvidence": {
+    "method": "page_image_inspection",
+    "document": "CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+    "documentTitleFromPdfMetadata": "JDF 611 - Guide to Sealing Conviction Records",
+    "documentAuthorFromPdfMetadata": "Colorado Courts",
+    "revisionPrintedOnPage": "R: August 7, 2024",
+    "heldIn": {
+      "releaseRepository": "Roger-LegalEase/legalease-source-artifacts",
+      "releaseTag": "source-corpus-2026-08-28",
+      "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+      "corpusRelativePath": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf"
+    },
+    "documentSha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+    "documentSha256Provenance": "recomputed with sha256sum from the corpus mounted by scripts/rcap-corpus/bootstrap-private-corpus.sh in this session; not read back from any committed record",
+    "documentBytes": 606173,
+    "documentPages": 2,
+    "render": {
+      "tool": "pdftoppm (poppler-utils 24.02.0)",
+      "command": "pdftoppm -r 300 -f 1 -l 1 -png -x 100 -y 2380 -W 1400 -H 620 <guide> <out>",
+      "page": 1,
+      "dpi": 300,
+      "cropRegionPx": { "x": 100, "y": 2380, "width": 1400, "height": 620 },
+      "cropSha256": "08bf80e1a641ad48cdf3ee30e32101a55e33726f9288c2c5da4825a867641df0",
+      "cropRetainedInRepository": false,
+      "cropRetentionNote": "The rendered crop is a derivative of an official PDF and stays out of the product repository with the bytes it came from. The render command and the crop's own digest are recorded so the same image can be reproduced from the pinned corpus and compared."
+    },
+    "readFromTheImage": [
+      { "checkbox": true, "formNumber": "JDF 612", "label": "Motion" },
+      { "checkbox": true, "formNumber": "JDF 613", "label": "Order (just do §§ A-C)" },
+      { "checkbox": true, "formNumber": "JDF 614", "label": "Notice (Just do §§ A-C)" },
+      { "checkbox": true, "formNumber": "JDF 615", "label": "Order (just do §§ A-C)" }
+    ]
+  },
+
+  "textLayerFinding": {
+    "claimUnderTest": "the guide renders the digits as vector glyphs, so the two form numbers do not survive text extraction",
+    "measured": "not reproduced. `pdftotext -layout` against the same pinned bytes recovers all four numbers -- JDF 612, JDF 613, JDF 614, JDF 615 -- in the 'File the Request' block.",
+    "consequence": "The digits are present in the document's text layer, so the earlier extraction failure was a property of the extractor used, not of the document. Identification here still rests on the page image, as the lane requires; the text layer is recorded only as a second, independent reading that agrees with it.",
+    "extractor": "pdftotext -layout (poppler-utils 24.02.0)"
+  },
+
+  "corroboration": [
+    {
+      "formNumber": "JDF 613",
+      "officialTitle": "Order Denying Request to Seal Conviction Records",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-request-seal-conviction-records",
+      "officialPdf": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF613.pdf",
+      "revisionReportedByOfficialSource": "R: August 7, 2024"
+    },
+    {
+      "formNumber": "JDF 614",
+      "officialTitle": "Order and Notice of Hearing to Seal Conviction Records",
+      "officialPage": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-and-notice-hearing-seal-conviction-records",
+      "officialPdf": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+      "revisionReportedByOfficialSource": "R: August 7, 2024"
+    },
+    {
+      "formNumber": "JDF 611",
+      "note": "The current guide is newer than the pinned copy and names the same four filings, so the identification is not an artifact of reading a stale revision.",
+      "officialPdf": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF611.pdf",
+      "revisionReportedByOfficialSource": "R: July 1, 2025",
+      "filingSetReportedByOfficialSource": [
+        "JDF 612 - Motion to Seal Criminal Conviction Records",
+        "JDF 613 - Order Denying Motion to Seal Criminal Conviction Records",
+        "JDF 614 - Order and Notice of Hearing to Seal Criminal Conviction Records",
+        "JDF 615 - Order to Seal Criminal Conviction Records"
+      ],
+      "instructionReportedByOfficialSource": "complete the entire Motion (JDF 612), and complete the caption only for the proposed orders (JDF 613, JDF 614, JDF 615)"
+    }
+  ],
+  "corroborationRetrievalMethod": "coloradojudicial.gov is refused by this session's network egress policy, so the official pages could not be fetched directly. The corroborating titles, revisions and filing-set listings above were read from an official-domain-restricted (coloradojudicial.gov, courts.state.co.us) search index over those same official pages and PDFs. That is weaker than a direct fetch and is labelled as such: it corroborates the page-image identification, it does not replace it, and it is not a byte-level verification of anything.",
+
+  "resolution": {
+    "jdf611NoticeIdentity": {
+      "formNumber": "JDF 614",
+      "officialTitle": "Order and Notice of Hearing to Seal Conviction Records",
+      "roleInFilingSet": "NOTICE",
+      "preparedBy": "movant, caption only (§§ A-C); the court completes the remainder",
+      "previouslyRecordedAs": null,
+      "confidence": "resolved"
+    },
+    "jdf611SecondOrderIdentity": {
+      "formNumber": "JDF 613",
+      "officialTitle": "Order Denying Request to Seal Conviction Records",
+      "roleInFilingSet": "ORDER_DENYING",
+      "preparedBy": "movant, caption only (§§ A-C); the court completes the remainder",
+      "previouslyRecordedAs": null,
+      "confidence": "resolved",
+      "note": "The set carries two proposed orders because the movant files both outcomes blank: JDF 613 for denial and JDF 615 for grant. JDF 615 is already in the pinned corpus; JDF 613 is the one that was missing."
+    }
+  },
+
+  "supersedes": {
+    "record": "data/rcap-all50/candidate-evidence/colorado/lane-g-captain-requests.json",
+    "field": "sourceVerificationRequest.missingFromCorpus",
+    "wasRecordedAs": "two entries with documentId null and the note 'form number not recoverable: JDF-611's digits do not survive text extraction'",
+    "nowResolvedTo": ["JDF 614 (NOTICE)", "JDF 613 (ORDER_DENYING)"],
+    "note": "That file is a record of what an earlier lane asked the captain for. It is left as written rather than edited, because rewriting a request after the fact would erase the question this lane was dispatched to answer. This record is the answer to it."
+  }
+}

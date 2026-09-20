@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "builder": "BUILDER-3",
+  "branch": "fable/b3",
+  "baseSha": "321650b5a",
+  "familiesCompleted": [
+    {
+      "familyId": "ma-expunge-mj-set",
+      "lane": "PF09",
+      "officialForm": "TC0021",
+      "sourceSha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+      "directory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-ma-expunge-mj-set.mjs",
+      "status": "COMPLETED",
+      "writes": 0,
+      "requiredBeforeFiling": 7,
+      "participantElections": 19,
+      "routeSelectionsMade": 0,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "notes": [
+        "XFA hybrid: the committed corpus index records xfaPresent false but the pinned binary carries an XFA packet pdf-lib removes on load; recorded in build-findings as a corpus-index fidelity issue.",
+        "Deliberately zero-write: docket number is never written by this lane's contract; the name-address-phone block has no composed descriptor (the MC 227a dinfo finding again); COURT DIVISION matches no descriptor. Canonical and boundary fixtures are byte-identical as a declared consequence.",
+        "Counsel questions raised in approval-request.json: TC0021 Rev. 11/22 currentness (the corpus gates this source), acceptability of a flattened XFA-hybrid rendering, and the queue's 'SS 100K / 100K 1/4' citation versus the form's own SS 100K 1/4."
+      ]
+    },
+    {
+      "familyId": "va_exp_nonconviction-set",
+      "lane": "PF02",
+      "officialForm": "CC-1473",
+      "officialFormAssigned": "CC-1473",
+      "officialFormMatchesAssignment": true,
+      "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "directory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "status": "COMPLETED",
+      "writes": 11,
+      "requiredBeforeFiling": 18,
+      "participantElections": 8,
+      "routeSelectionsMade": 4,
+      "components": [
+        "primary_filing",
+        "commonwealth_service_and_stipulation_request",
+        "ccre_forwarding_request",
+        "records_checklist",
+        "filing_instructions"
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "notes": [
+        "Built on the assigned form: CC-1473 prints Va. Code Sec. 19.2-392.2(A) on its own caption, agreeing with the track's recorded authority. No substitution.",
+        "The CITY OR COUNTY venue line cannot bind through the shared semantics (a field named City binds participant.city; a conflicting explicit mapping is refused by design), so it is required-before-filing and no matter.* fact is held in the fixtures; a venue-line descriptor is proposed to the semantics owner in build-findings.",
+        "Four petitioner/attorney route selections marked and read back as painted paths inside their own measured boxes; the Part 1 basis pair (acquitted vs nolle/dismissed) stays the participant's own CHECK ONE.",
+        "Fee, deadline and service mechanics are not established by the form and are delegated to the circuit court clerk by name; nothing invented."
+      ]
+    }
+  ],
+  "familiesStopped": [],
+  "countersAllZeroOn": ["ma-expunge-mj-set", "va_exp_nonconviction-set"],
+  "deterministicProven": {
+    "method": "each family built twice; sha256 over every file in the family directory diffed between runs",
+    "ma-expunge-mj-set": true,
+    "va_exp_nonconviction-set": true
+  },
+  "commits": [
+    "e688b6223 PF09: build ma-expunge-mj-set on TC0021, nine counters zero",
+    "5d16d15a0 PF02: build va_exp_nonconviction-set on CC-1473, nine counters zero",
+    "70ff66f25 Ledger: release PF09/ma-expunge-mj-set and PF02/va_exp_nonconviction-set"
+  ],
+  "claims": {
+    "assertedAndReleased": [
+      { "lane": "PF09", "familyId": "ma-expunge-mj-set" },
+      { "lane": "PF02", "familyId": "va_exp_nonconviction-set" }
+    ],
+    "ledgerVerified": "CLAIM_LEDGER_OK after both releases"
+  },
+  "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 for both families (--codex-cloud --minimum-captain-sha 13771582866352d77e46e5d0b9bc86f1abbb6752)",
+  "rastering": "none performed in this lane, per assignment; both families BUILT_RASTER_PENDING for the central workflow",
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

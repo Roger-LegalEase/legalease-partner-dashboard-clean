@@ -1,0 +1,303 @@
+{
+  "schemaVersion": "rcap-independent-unrelated-pr-check-audit/v1",
+  "reviewer": "/root/session10_admission_review",
+  "checkedPrHead": "a6cadb0bf023a77ca8216f151b14c3a4dfac5adf",
+  "actualPrMergeCheckout": "d2e3e84ac7afa49ea4a8363dce0f249366586fc3",
+  "mergeBaseHead": "ee4021b473018a469fea7a9a5325b41d1abff041",
+  "nevada": {
+    "run": 34243208224,
+    "job": 102118409307,
+    "failedStep": "Rebuild twice and compare every tracked family byte",
+    "exitCode": 1,
+    "cause": "The first completed no-raster rebuild refreshes the shared track registry pin from9fe5d0cc tobaa26b2e and correctly drops the now-stale old identityRefresh. The committed receipt was not reconciled after the registry whole-file change, so git diff --exit-code rejects it.",
+    "onlyLoggedChangedFamilyPath": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json",
+    "laterChecksNotExecuted": [
+      "second full rebuild",
+      "30 regression controls",
+      "completeness",
+      "68 unchanged-page pixel comparisons",
+      "20 changed-page bounds review"
+    ],
+    "sourceComparison": {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nv-independent-source-anchor-comparison.json",
+      "sha256": "4dd92c2f7f00a80c5b229e6ef10f37f559f48f2393c657f2568ed0e82d54368d",
+      "bytes": 1553
+    },
+    "currentFactoryState": "VERIFY_PENDING",
+    "newTerminalInCurrentBatch": false,
+    "nextRepair": "Use the independently compared six unchanged full Nevada track objects and unchanged global metadata to prepare the precise current-source receipt refresh, preserving the prior source-history attribution separately. Keep the generic drop-on-real-source-drift rule. Commit coherent receipt inputs then run the existing two-rebuild family-byte check; do not rerun an unchanged stale receipt."
+  },
+  "worker": {
+    "run": 34243208213,
+    "job": 102118409464,
+    "failedStep": "Fail-closed startup, and module graph resolves",
+    "exitCode": 1,
+    "expectedUnconfiguredWorkerExitCode": 2,
+    "publishedImageSource": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+    "publishedDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+    "publicationRun": 33764350427,
+    "cause": "Acceptance pulls the immutable old published image, not a build of this PR. Its source Dockerfile copied scripts and src but no runtime data. Import of route-ratification-registry.json cannot resolve; the alias loader fallback appends.ts, producing the observed ENOENT. The process crashes before its legitimate unconfigured storage refusal.",
+    "actualError": "ENOENT /app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts",
+    "currentSourceDockerfileAlreadyContainsDataClosure": true,
+    "nextRepair": "Complete the existing integrated worker-image publication using the already-committed runtime-data closure and existing release safeguards, bind the resulting new immutable digest in publication evidence, then run the existing image acceptance and remaining smoke/release checks. Do not keep accepting the old immutable bf4589d3 image or relax exit criteria.",
+    "startupFailureDoesNotEstablishSuccessfulNoCredentialRefusal": true
+  },
+  "priorActualFailures": [
+    {
+      "label": "nevada-special-route",
+      "run": 34227067268,
+      "job": 102063670436,
+      "head": "9f35db281d8de2664498a7f1d849976c31b925f1",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Rebuild twice and compare every tracked family byte"
+      ],
+      "log": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nevada-special-route-34227067268-job-102063670436.log",
+        "sha256": "de526a77f4f815c1c2a5b9f5dea238113800216aa4d4933bed2520f9017b9be7",
+        "bytes": 221271
+      },
+      "failureExcerpt": [
+        "2026-09-08T12:38:20.9262819Z diff --git a/data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json b/data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json",
+        "2026-09-08T12:38:20.9272465Z -      \"sha256\": \"9fe5d0ccf1b172877acdf6a5158e79dc040ce6f77ee47b2ee0403056acb0957f\",",
+        "2026-09-08T12:38:20.9274065Z +      \"sha256\": \"baa26b2e882933329aea3caedb0a8b6e31c2eae26489b35557556173f3d119dc\",",
+        "2026-09-08T12:38:21.7188816Z ##[error]Process completed with exit code 1."
+      ]
+    },
+    {
+      "label": "nevada-special-route",
+      "run": 34236689878,
+      "job": 102096110527,
+      "head": "3733121f95ee176ef90de4819980c59227de8cfe",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Rebuild twice and compare every tracked family byte"
+      ],
+      "log": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/nevada-special-route-34236689878-job-102096110527.log",
+        "sha256": "7381237f3281a9521685636a881c926629889524b39705cb194068d4269974c2",
+        "bytes": 221461
+      },
+      "failureExcerpt": [
+        "2026-09-08T14:13:10.2546329Z diff --git a/data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json b/data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json",
+        "2026-09-08T14:13:10.2555846Z -      \"sha256\": \"9fe5d0ccf1b172877acdf6a5158e79dc040ce6f77ee47b2ee0403056acb0957f\",",
+        "2026-09-08T14:13:10.2557382Z +      \"sha256\": \"baa26b2e882933329aea3caedb0a8b6e31c2eae26489b35557556173f3d119dc\",",
+        "2026-09-08T14:13:10.9850631Z ##[error]Process completed with exit code 1."
+      ]
+    },
+    {
+      "label": "worker-image-acceptance",
+      "run": 34227067444,
+      "job": 102063671610,
+      "head": "9f35db281d8de2664498a7f1d849976c31b925f1",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Fail-closed startup, and module graph resolves"
+      ],
+      "log": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/worker-image-acceptance-34227067444-job-102063671610.log",
+        "sha256": "a1f8084a92c3ad0f91721d0b77f45ee5bed7cb747ee58138ffd8de847d956cdb",
+        "bytes": 237659
+      },
+      "failureExcerpt": [
+        "2026-09-08T12:38:13.2433152Z Error: ENOENT: no such file or directory, open '/app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts'",
+        "2026-09-08T12:38:13.2458191Z ##[error]unconfigured worker exited 1; it must fail closed with 2",
+        "2026-09-08T12:38:13.2468466Z ##[error]Process completed with exit code 1."
+      ]
+    },
+    {
+      "label": "worker-image-acceptance",
+      "run": 34236689175,
+      "job": 102096110151,
+      "head": "3733121f95ee176ef90de4819980c59227de8cfe",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Fail-closed startup, and module graph resolves"
+      ],
+      "log": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/unrelated-pr-checks/worker-image-acceptance-34236689175-job-102096110151.log",
+        "sha256": "2bd243d1ce37c255062eeee92db3e45b497faf10d1b1d532f59663655f4ad3d2",
+        "bytes": 237532
+      },
+      "failureExcerpt": [
+        "2026-09-08T14:13:09.0623099Z Error: ENOENT: no such file or directory, open '/app/data/record-clearing/legal-decisions/route-ratification-registry.json.ts'",
+        "2026-09-08T14:13:09.0648549Z ##[error]unconfigured worker exited 1; it must fail closed with 2",
+        "2026-09-08T14:13:09.0658128Z ##[error]Process completed with exit code 1."
+      ]
+    }
+  ],
+  "priorToCurrentPublication": true,
+  "sourceFileIdentityComparisons": [
+    {
+      "path": ".github/workflows/rcap-nv-special-completion.yml",
+      "oldSha256": "e0402a9e051e7ff4330e449a5e3a7088c1112ccdbdb20a32cbade244f1d4ea71",
+      "newSha256": "e0402a9e051e7ff4330e449a5e3a7088c1112ccdbdb20a32cbade244f1d4ea71",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/build-census-v1-rcap-nv-custom-pleading.mjs",
+      "oldSha256": "71ee9620fa4aa6b580c63c61068fe89e33537c9ceed411ae62f30c9e9163c045",
+      "newSha256": "71ee9620fa4aa6b580c63c61068fe89e33537c9ceed411ae62f30c9e9163c045",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
+      "oldSha256": "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27",
+      "newSha256": "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27",
+      "unchanged": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/source-receipt.json",
+      "oldSha256": "3470cecf83b9f71f7fa26dcbf76d766dc678f4e05a59a41357a1e5fc3f32f77c",
+      "newSha256": "3470cecf83b9f71f7fa26dcbf76d766dc678f4e05a59a41357a1e5fc3f32f77c",
+      "unchanged": true
+    },
+    {
+      "path": ".github/workflows/rcap-worker-image-acceptance.yml",
+      "oldSha256": "0037e74760e88507b47e0b6335155843fd8a42113805d35e755cbc7854cdaf1e",
+      "newSha256": "0037e74760e88507b47e0b6335155843fd8a42113805d35e755cbc7854cdaf1e",
+      "unchanged": true
+    },
+    {
+      "path": "deploy/rcap-render-worker/Dockerfile",
+      "oldSha256": "c5db0a593258420a62e3e3d1a1979e374a33bfc542e766e86bbc9be69b00c7ac",
+      "newSha256": "c5db0a593258420a62e3e3d1a1979e374a33bfc542e766e86bbc9be69b00c7ac",
+      "unchanged": true
+    },
+    {
+      "path": "deploy/rcap-render-worker/Dockerfile.dockerignore",
+      "oldSha256": "a45905b3fe72b2a1a3af8128aab3df35636bcc03dad79d07c5b4b105e3b0d2be",
+      "newSha256": "a45905b3fe72b2a1a3af8128aab3df35636bcc03dad79d07c5b4b105e3b0d2be",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/lib/ts-esm-loader.mjs",
+      "oldSha256": "439420a5f4eaf30f837bd7f3169e020cca08b5274d697eec0020e98948a8d5ed",
+      "newSha256": "439420a5f4eaf30f837bd7f3169e020cca08b5274d697eec0020e98948a8d5ed",
+      "unchanged": true
+    },
+    {
+      "path": "data/rcap-render/worker-publication-evidence.json",
+      "oldSha256": "5208f1710c2a97a36584aa16c005f4a0d2d12cbba3af3bb67f9482a02eef8267",
+      "newSha256": "5208f1710c2a97a36584aa16c005f4a0d2d12cbba3af3bb67f9482a02eef8267",
+      "unchanged": true
+    }
+  ],
+  "preservedCentralAcceptance": [
+    {
+      "run": 34232991361,
+      "head": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+      "conclusion": "success",
+      "finalRunMetadata": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-central-34232991361/final-run.json",
+        "sha256": "eb83b9caa97618f6f8761b80bcf3dfa4b443999e5f52e8c9705e6cd8b2562b97",
+        "bytes": 16040
+      },
+      "finalJobsMetadata": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-central-34232991361/final-jobs.json",
+        "sha256": "dfc3bc41de29b2c43161d557c9f4b3b64380a4b0b16ac2dde762820b12a1746d",
+        "bytes": 28812
+      },
+      "jobs": [
+        {
+          "id": 102083533097,
+          "name": "Synthetic canary and live negative controls",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084556207,
+          "name": "Plan the family matrix",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084886995,
+          "name": "mi_setaside_application-set",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084887042,
+          "name": "ga-nonconv-pre2013-set",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084887048,
+          "name": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084887074,
+          "name": "md_10105_favorable-set",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084887097,
+          "name": "mo-610-145-mistaken-identity-set",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084887132,
+          "name": "mi_setaside_first_owi-set",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102084887153,
+          "name": "ky_nonconviction_expungement-set",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "receiptFilesModified": false
+    },
+    {
+      "run": 34240482971,
+      "head": "a3d4587b0fbbbfa887c78372afbfdb8824906333",
+      "conclusion": "success",
+      "finalRunMetadata": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-ia-central/final-run.json",
+        "sha256": "a2bd6320f2d2973275d88fbe890d5e267a9d828271748a17ab2d7899c5fb9458",
+        "bytes": 16040
+      },
+      "finalJobsMetadata": {
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-ia-central/final-jobs.json",
+        "sha256": "86560d664da2209a2faa1b8aecfc984ea4c314002b3b1754a73f0f1200bb0323",
+        "bytes": 8978
+      },
+      "jobs": [
+        {
+          "id": 102109063383,
+          "name": "Synthetic canary and live negative controls",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102110222182,
+          "name": "Plan the family matrix",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 102110643799,
+          "name": "ia-901c2-set",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "receiptFilesModified": false
+    }
+  ],
+  "effectOnAdmission": "These two failures do not contradict the separate successful immutable central packet receipts for the six-family batch and Iowa or the separately bound CT static guidance reviews. Nevada remains VERIFY_PENDING and is not a new accepted family. This audit adds no terminal claim.",
+  "effectOnRuntimeAndRelease": "The published worker image is not accepted: it cannot resolve its actual module graph. PR checks and runtime/release readiness remain incomplete; successful static family admissions do not grant production authority.",
+  "fullLogsSaved": true,
+  "buildsRunByReviewer": 0,
+  "workflowsRerun": 0,
+  "sharedFilesEdited": false,
+  "criteriaWaived": false
+}

@@ -1,0 +1,68 @@
+{
+  "worktree": "/tmp/rcap-vf02-de-pardon-final-20260911",
+  "expectedBase": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d",
+  "reviewedAtUtc": "2026-09-11T14:52:23.430767+00:00",
+  "commands": [
+    {
+      "name": "head",
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "bfdcdef3860edc7b1ca7bd693f07023690d8cd7d\n",
+      "stderr": ""
+    },
+    {
+      "name": "branch",
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exitCode": 0,
+      "stdout": "vf02-de-pardon-final-20260911\n",
+      "stderr": ""
+    },
+    {
+      "name": "status-before",
+      "command": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exitCode": 0,
+      "stdout": " M data/rcap-grade-a/packet-factory-24h/claim-ledger.json\n?? private\n",
+      "stderr": ""
+    },
+    {
+      "name": "claim-can-assert",
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--can-assert",
+        "VF02",
+        "de_pardon_expungement-set"
+      ],
+      "exitCode": 0,
+      "stdout": "CLAIM_OK VF02 de_pardon_expungement-set (independent-verification, grant set 85c2c49dccac4962)\n  ^ VF02 CAN assert de_pardon_expungement-set\n\n1 famil(ies) checked for VF02: 1 assertable, 0 would refuse\nAnswered by running the gate itself. Nothing was written.\n",
+      "stderr": "ledger: /tmp/rcap-vf02-de-pardon-final-20260911/data/rcap-grade-a/packet-factory-24h/claim-ledger.json  (1026 claims, generatedAtCommit bfdcdef3860edc7b1ca7bd693f07023690d8cd7d)\n"
+    },
+    {
+      "name": "claim-assert",
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--assert",
+        "VF02",
+        "de_pardon_expungement-set"
+      ],
+      "exitCode": 0,
+      "stdout": "CLAIM_OK VF02 de_pardon_expungement-set (independent-verification, grant set 85c2c49dccac4962)\n",
+      "stderr": "ledger: /tmp/rcap-vf02-de-pardon-final-20260911/data/rcap-grade-a/packet-factory-24h/claim-ledger.json  (1026 claims, generatedAtCommit bfdcdef3860edc7b1ca7bd693f07023690d8cd7d)\n"
+    }
+  ],
+  "preexistingChanges": "Captain-copied claim-ledger.json and untracked private symlink. These are infrastructure, not this lane output; neither will be changed, reverted or staged.",
+  "grantSet": "85c2c49dccac4962"
+}

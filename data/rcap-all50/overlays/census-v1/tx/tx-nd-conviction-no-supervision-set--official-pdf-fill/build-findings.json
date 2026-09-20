@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "tx_nd_conviction_no_supervision-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "Three sources bind, in TWO different custodies: the OCA model petition and the OCA model order are Master Library assets, and the Statement of Inability is held in human_source_returns, a custody carried by no release and writing its paths relative to the repository root rather than a corpus root.",
+      "consequence": "Custody roots are resolved through the shared resolver, which follows what the corpus index declares rather than the shape of the path. Each source binds by exact SHA-256 against the index entry, the mounted bytes and this family's own pin, and any disagreement is a source stop that writes nothing."
+    },
+    {
+      "finding": "The OCA order is one form for THREE sections — §§ 411.0725, 411.073 and 411.0735 — and its page 2 carries a box for each. This family is unambiguously the § 411.0735 route, so marking that box would look like stating the route the packet was built for. The sentence printed above the three boxes reads that the Court FINDS the petitioner entitled to file under the section indicated below.",
+      "consequence": "All three boxes are refused as court-owned. The box records a judicial FINDING rather than a route selection, and a packet that marked it would assert a finding no court has made. The participant is told in plain words, in the guidance and in the instructions, that their order is the § 411.0735 one and that the court marks the box."
+    },
+    {
+      "finding": "Gov't Code § 411.0745(b) requires a fee that generally applies to the filing of a CIVIL CASE. Read at source, the subsection sets the TYPE of fee and not an amount: county civil filing fee schedules govern and there is no flat statutory figure. OCA instructions describe the total as typically about $280, varying by county.",
+      "consequence": "The packet states exactly that, and names the clerk of the court being filed in as the authority who answers it. No figure is published as though it were the fee."
+    },
+    {
+      "finding": "The committed record warns in terms that the $28 figure belongs ONLY to the no-petition route under § 411.072(c) and is not a filing fee. This is a petition route under § 411.0735.",
+      "consequence": "The guidance names the $28 explicitly in order to tell the participant it is not theirs, because someone who has read it elsewhere otherwise arrives at the clerk's window with the wrong money."
+    },
+    {
+      "finding": "Section 411.0745(e) makes the COURT responsible for giving the State notice and an opportunity for a hearing, and the filer should not be charged for it. OCA instructions separately direct the petitioner to show proof that the district attorney received a copy.",
+      "consequence": "The packet states that the court gives notice and that the participant serves nobody, and ships the proof-of-delivery page as a CONDITIONAL component whose own first paragraph tells the participant to ask the clerk whether that county wants it."
+    },
+    {
+      "finding": "The waiting period turns on whether the misdemeanour was punishable BY FINE ONLY — in which case the completion date is itself the filing date — or otherwise, in which case it is the second anniversary of completion. Section 411.0735(c-1) separately lets the court refuse the order where it determines the offence was violent or sexual in nature, with an express exception for a Penal Code § 22.01 assault.",
+      "consequence": "Both are stated in the guidance in the participant's own terms, and both are stop conditions. The fine-only question is a stop rather than a caveat because a participant who guesses it wrong files two years early and pays a filing fee for a petition that cannot be granted."
+    },
+    {
+      "finding": "The Statement of Inability carries 132 AcroForm fields, almost all of them sworn financial and household facts, and it is sworn under penalty of perjury. The published petition binary also carries a typo in one field name: the petitioner in the opening line is named \"Naem2\".",
+      "consequence": "The Statement is classified by an ordered rule table with exhaustiveness asserted in both directions, and nothing financial is prefilled anywhere on it. The petition's field name is reproduced as \"Naem2\" exactly, because a field map keyed to a corrected spelling would bind to nothing."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-session10-independent-code-review/v1",
+  "reviewer": "session10_admission_review independent worker /root/session10_admission_review",
+  "implementationAuthor": "Session10 Captain /root",
+  "candidateCommit": "774e1c3e3fa7ffd8e4f2aefea384440e4b1dab90",
+  "scope": "Consumer receipt admission and inventory/source advancement code only; no semantic family self-approval",
+  "reviewedFiles": [
+    {
+      "path": "scripts/rcap-packet-recovery/session10/admit-central-batch.py",
+      "sha256": "bfde1a5721e5d622c45bd58cd6cbf9fe64d2fba5badf15f4c9009476731c3730"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+      "sha256": "8830172669d3cd0b4b21e1669bc756e4cf7e76367135da79a7709d8ff7a6534c"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/source-disposition-advancement.mjs",
+      "sha256": "5d67f3e9bfceaece3a115399ac3a8588a95c07378ad0f75a3d48346c3293b236"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs",
+      "sha256": "15b1c6cd2c711584cfc6edd3454f879a5644e645a80fe471d3031691653caec7"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs",
+      "sha256": "a45f991b2d60a7e5f1739b6bcb624cd9e5b9fcd0c21d1e9db9ecded54d44083d"
+    }
+  ],
+  "blockingFindings": [],
+  "resolvedFinding": {
+    "problem": "Consumer compared document arrays/digest but did not compare primary pin fields in the current and immutable queue rows before receipt bindings were assigned from the current row.",
+    "candidateImpact": "None observed: all six candidate/current primary pins matched the reviewed inventory.",
+    "resolution": "Captain added four-field equality check for canonical/boundary paths and SHA-256 pins to both queue versions.",
+    "independentVerification": "Matching isolated main inputs accepted; all eight current/immutable single-primary-field drifts refused.",
+    "helperSha256": "bfde1a5721e5d622c45bd58cd6cbf9fe64d2fba5badf15f4c9009476731c3730"
+  },
+  "checks": {
+    "passed": 56,
+    "total": 56,
+    "artifacts": [
+      "admission-controls.json",
+      "primary-pin-controls.json",
+      "source-advancement-controls.json"
+    ]
+  },
+  "conclusions": [
+    "Own-family acceptance while another family runs or fails preserves successful canary, matrix-plan, own-job, unchanged-byte, and immutable-artifact checks.",
+    "Actual committed inventory has KY 13 documents/90 pages, MD 15/60, GA 15/108, MI ordinary 8/36, MI OWI 6/24, and MO 13/108.",
+    "GA uses the retained builder fixture contract: 3 diagnostics and 12 conditional examples. Every document remains filingReady false and missing participant facts remain visible.",
+    "Source advancements bind existing independent Washington guidance review and exact retained Maine source adoption evidence while preserving original SOURCE_BLOCKED decisions and undischarged Washington participant-motion obligation.",
+    "Admission writes central raster proof only; retained independent semantic review attribution and packet/source bytes are unchanged by this reviewer."
+  ],
+  "preservesOriginalIndependentAttribution": true,
+  "realCentralReceiptsInspected": false,
+  "createsTerminalAcceptance": false,
+  "runtimeChanged": false,
+  "productionChanged": false,
+  "persistentWritesOutsideAssignedEvidenceDirectory": false,
+  "syntheticScratch": "/tmp only; removed after controls completed"
+}

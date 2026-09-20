@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-boundary-fixture/v4",
+  "applied": true,
+  "intent": "longest plausible participant values, so shrink-to-fit and the 6pt readable floor are exercised rather than asserted",
+  "facts": {
+    "participant.full_legal_name": "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+    "participant.date_of_birth": "1968-12-31",
+    "participant.street_address": "18244 Northwest Meadowbrook Terrace Extension Apartment 2201B",
+    "participant.city_state_zip": "Wappingers Falls, Massachusetts 02108-3417",
+    "participant.phone": "1-413-555-0199 ext. 44021",
+    "matter.county": "Salt Lake",
+    "matter.case_number": "249900123456789-CR-EX"
+  },
+  "written": [
+    {
+      "anchor": "FOR THE COUNTY OF",
+      "factId": "matter.county",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Case No:",
+      "factId": "matter.case_number",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "fontSize": 9.5,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "DOB:",
+      "factId": "participant.date_of_birth",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Name (typed or printed)",
+      "factId": "participant.full_legal_name",
+      "fontSize": 8.46,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "City/State/Zip",
+      "factId": "participant.city_state_zip",
+      "fontSize": 9.46,
+      "outcome": "fit"
+    }
+  ],
+  "refused": [
+    {
+      "anchor": "Address",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
+    },
+    {
+      "anchor": "Phone Number",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
+    }
+  ],
+  "unfittable": [
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "18244 Northwest Meadowbrook Terrace Extension Apartment 2201B",
+      "rect": {
+        "x": 74,
+        "y": 581.2,
+        "width": 138,
+        "height": 11.46
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 182.7
+    },
+    {
+      "anchor": "Phone Number",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "1-413-555-0199 ext. 44021",
+      "rect": {
+        "x": 469.97,
+        "y": 581.2,
+        "width": 53.73,
+        "height": 11.46
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 71.8
+    }
+  ],
+  "artifact": "fixtures/boundary-filled.pdf",
+  "reasonNotApplied": null
+}

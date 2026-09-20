@@ -1,0 +1,997 @@
+{
+ "record": "FONT_METRICS_MEASUREMENT",
+ "lane": "MEAS1",
+ "shift": "2026-09-09",
+ "worktree": "/home/user/v5c-worktree",
+ "branch": "v5c-fix-20260909b",
+ "baseCommit": "a2b19c6cec35a5fd64f3ad5c3948f4fff16969e6",
+ "scope": "One shared measurement module and one verifier that carried its own copy of the same mistake. No packet was built, repaired, rebuilt or rendered; no delivered byte changed. Re-measurement is reading.",
+ "theDefect": {
+  "statement": "A geometry check computes a drawn string's width from font metrics and compares its end x against a write box, a clip window or a page margin. If the metrics do not come from the font the page actually uses, the check reports a number with nothing to do with the page. It fails silently and in both directions.",
+  "whyBase14IsTheTrap": "A subset or embedded font carries an explicit /Widths array and its advances come straight from the file. The fourteen standard faces carry no /Widths at all: the viewer supplies Adobe AFM metrics from the /BaseFont name. A reader that only knows how to read /Widths must fall back to something, and that something is then applied uniformly to every base-14 page.",
+  "whatTheFallbackActuallyWas": "Not Helvetica. A uniform 500/1000 half-em advance for every glyph of every font with no /Widths, at scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs lines 229 and 291 as committed at a2b19c6ce ('else w = 500'), under a module comment asserting that 'every font in this corpus carries an explicit /Widths array'. That assertion was false.",
+  "bothDirectionsInOneFallback": "A half-em is WIDER than Times-Roman and Helvetica lowercase prose and NARROWER than their capitals and digits, so the single fallback errs in both directions on the same page. Rhode Island's composed order page 5 proves it twice at one type size in one face: the lowercase body line is read 109.23pt too WIDE and the capitals headline 7.29pt too NARROW."
+ },
+ "exposedSites": [
+  {
+   "site": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+   "role": "the shared reader. extractTextItems / groupIntoLines / pageRegions / captureWidgetContext",
+   "importers": 208,
+   "exposure": "ACTIVE. loadFonts read /Subtype, /FirstChar and /Widths and never read /BaseFont, so no base-14 face was ever identified. charAdvance and codeAdvance both fell to 'w = 500'.",
+   "status": "FIXED IN THIS COMMIT"
+  },
+  {
+   "site": "scripts/verify-rcap-pdf-final-visual-evidence.mjs",
+   "role": "clipping and overhang verdicts for the 38-family PDF finish wave, at freeze f34fe99d",
+   "exposure": "LATENT, and it is the textbook shape: a hardcoded HELVETICA_WIDTHS table applied by helveticaAdvance() to every run on every page, while the run's own /Tf name was parsed one line above the call and thrown away. Its own comment argued the assumption ('The overlay's fonts are /Subtype /Type1 /BaseFont /Helvetica ... So these are the widths the viewer will actually use') and nothing checked it. It holds today only because data/rcap-all50/overlays/production draws its overlay layer in Helvetica alone; the census-v1 tree it does not read draws 73,641 Times-Roman base-14 resources, so one composed family reaching this verifier makes the assumption false.",
+   "status": "FIXED IN THIS COMMIT"
+  },
+  {
+   "site": "scripts/rcap-official-forms/rcap-text-fitting.mjs",
+   "role": "the writer-side fitter, widthAt() -> font.widthOfTextAtSize()",
+   "exposure": "NOT EXPOSED, and named here so no lane re-checks it. It measures with the pdf-lib font object the builder is about to draw with, so its ruler is the drawing font by construction. Same for src/lib/rcap/grade-a/renderer.ts, src/lib/rcap/documents/packet-document-renderer.ts and src/lib/partners/onboarding/artifact-pdf.ts.",
+   "status": "NOT TOUCHED"
+  },
+  {
+   "site": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs line 808 and scripts/build-census-v1-rcap-ks-custom-pleading.mjs line 1238",
+   "role": "two builders that take Math.max(font.widthOfTextAtSize(text, size), text.length * size * 0.5)",
+   "exposure": "A half-em floor over a correct measurement. It can only over-estimate, so it refuses or shrinks values that would have fitted; it cannot ship an overflow. Named, not fixed: these are builder files this lane may not edit.",
+   "status": "FLAGGED FOR A REPAIR LANE"
+  },
+  {
+   "site": "scripts/measure-rcap-oregon-option-geometry.mjs",
+   "role": "the only other content-stream walker that tracks /Tf",
+   "exposure": "NONE. It measures stroked boxes and path geometry; it computes no string width.",
+   "status": "NOT TOUCHED"
+  }
+ ],
+ "latentTrapFoundAndDeliberatelyNotFixed": {
+  "where": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs, loadFonts and glyphsOf",
+  "what": "`const twoByte = subtype === \"Type0\"` compares a stringified PDFName, which reads '/Type0' with the leading slash. Every such test in the module is permanently false. Consequence: the /W and /DW tables type0Widths() builds are never consulted, and a Type0 string is walked one JS character per glyph instead of two.",
+  "corroboration": "The module already compensates downstream without naming the cause. collapseUtf16BE() exists, and its comment says 'Some forms draw two-byte codes through a font this walker resolves as a single-byte one -- NE DC-1-15 is 113 runs of it on page 1 alone'.",
+  "whyNotFixedHere": "Repairing it changes the decoded TEXT of every Type0 run, not just its width, and would land on all 208 importers at once including caption harvesting and field classification. That is a decoding change and it is not this lane's to make.",
+  "whatThisLaneDidInstead": "Refused to launder it. Because the CID widths genuinely are not read, a Type0 run now reports width null with metricsSource 'type0_cid_widths_not_read_by_this_walker', where the old code returned a half-em per glyph. 72,662 runs in data/rcap-all50/overlays/production and 3,748 in the Rhode Island fixtures are in this population; they are symbol, dingbat and source-page faces, not participant values.",
+  "ownedBy": "unassigned - a repair lane holding the decoding surface"
+ },
+ "theFix": {
+  "newModule": "scripts/rcap-official-forms/rcap-standard-14-metrics.mjs",
+  "cause": "The page's own font resource is read before anything is measured: /BaseFont for the face, /Encoding (name, or a dictionary's /BaseEncoding plus /Differences) for the code-to-glyph mapping, and the metric table is selected from that name.",
+  "metricsSource": "@pdf-lib/standard-fonts, already present as a pdf-lib dependency, which carries the Adobe AFM data for all fourteen faces. Deliberately not a hand-typed table: it is the same data pdf-lib uses when a builder DRAWS with a standard font, so the ruler that measures a delivered page is now the ruler that drew it, and there is no second copy to drift.",
+  "resolutionOrder": [
+   "/Widths from the file",
+   "/W plus /DW for a Type0 font",
+   "AFM for a standard-14 /BaseFont",
+   "null"
+  ],
+  "nullNotZero": "A font with no /Widths whose /BaseFont is not one of the fourteen returns width null and widthIsUnmeasurable true, never a number. A guess is indistinguishable downstream from a measurement. groupIntoLines now emits x2 null rather than x + 0 for such a run, because coalescing a null width to zero collapses the run to a point, which reads as no overflow - the direction that hides a clipped filing.",
+  "noSubstitutionIsTreatedAsAMeasurement": "Arial, ArialMT, TimesNewRomanPSMT and CourierNewPSMT are faces a viewer SUBSTITUTES a standard face for. Their real metrics are close but not identical, so they resolve to null rather than to Helvetica or Times. Treating a substitution as a measurement is the original defect in miniature.",
+  "originEstimated": "A run positioned by a cursor that moved across an unmeasurable advance carries originEstimated true. The flag clears at the next BT, Tm, Td, TD or T*, because each resets the text matrix from tlm and tlm is never advanced by the show-text cursor - so the contamination is bounded to one positioning span rather than latched for a whole stream.",
+  "deadCodeRemoved": "charAdvance() and advanceOf() are gone. Both measured per JS character rather than per glyph code, both carried their own copy of the half-em fallback, and nothing in the tree called either - two dead rulers a later lane could have picked up."
+ },
+ "fontsFoundInTheCorpus": {
+  "measuredOver": "1,009 delivered PDFs under data/rcap-all50/overlays/census-v1, all fifty states",
+  "type1FacesWithNoWidthsArray": {
+   "Times-Roman": 73641,
+   "Helvetica": 42140,
+   "Helvetica-Bold": 1315,
+   "ZapfDingbats": 329,
+   "Courier": 38,
+   "Times-Bold": 26,
+   "Symbol": 6,
+   "total": 117495
+  },
+  "note": "That set is closed and every member of it is a literal standard-14 name, so no aliasing is required for this corpus and none is performed.",
+  "encodingsOnThoseFaces": {
+   "WinAnsiEncoding": 116413,
+   "encodingDictionaryWithDifferencesAndNoBaseEncoding": 735,
+   "absent": 347
+  },
+  "metricsNowHeld": [
+   "Courier",
+   "Courier-Bold",
+   "Courier-Oblique",
+   "Courier-BoldOblique",
+   "Helvetica",
+   "Helvetica-Bold",
+   "Helvetica-Oblique",
+   "Helvetica-BoldOblique",
+   "Times-Roman",
+   "Times-Bold",
+   "Times-Italic",
+   "Times-BoldItalic",
+   "Symbol",
+   "ZapfDingbats"
+  ],
+  "encodingsNowHeld": [
+   "WinAnsiEncoding",
+   "StandardEncoding",
+   "the Symbol and ZapfDingbats built-in encodings",
+   "an /Encoding dictionary's /Differences over any of them"
+  ],
+  "notHeld": "MacRomanEncoding above code 127 (no page in this corpus uses it; high codes there resolve through WinAnsi names and anything the AFM does not hold comes back unmeasurable rather than guessed)."
+ },
+ "twoDirectionTest": {
+  "file": "scripts/rcap-official-forms/test-standard-14-metrics.mjs",
+  "command": "node scripts/rcap-official-forms/test-standard-14-metrics.mjs",
+  "result": "11 of 11 controls pass",
+  "everyCaseIsADeliveredPage": true,
+  "directionOne_manufacturedOverflow": {
+   "artifact": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+   "page": 5,
+   "face": "Times-Roman (base-14, WinAnsiEncoding, no /Widths)",
+   "fontSizePt": 11,
+   "originX": 72,
+   "value": "above-referenced case under R.I. Gen. Laws Sec. 12-1.3-2(g) and Sec. 12-1.3-3(e), and on the Affidavit in",
+   "halfEmRulerWidthPt": 577.5,
+   "halfEmRulerEndX": 649.5,
+   "correctedWidthPt": 468.27,
+   "correctedEndX": 540.27,
+   "marginX": 594,
+   "verdictUnderOldRuler": "55.50pt past the right margin",
+   "verdictUnderCorrectedRuler": "53.73pt clear of it",
+   "overReadPt": 109.23
+  },
+  "directionTwo_hiddenOverflow": {
+   "artifact": "data/rcap-all50/overlays/census-v1/md/md-10105-early-set--official-pdf-fill/fixtures/boundary.pdf",
+   "page": 1,
+   "face": "Helvetica (base-14, WinAnsiEncoding, no /Widths)",
+   "fontSizePt": 10.24,
+   "originX": 386.04,
+   "value": "C-04-CR-24-0011882-SUPPLEMENTAL",
+   "boundary": "the court's own printed case-number rule, read from the page's path operators, ending at x=572.40",
+   "halfEmRulerWidthPt": 158.72,
+   "halfEmRulerEndX": 544.76,
+   "apparentClearancePt": 27.64,
+   "correctedWidthPt": 183.8,
+   "correctedEndX": 569.84,
+   "actualClearancePt": 2.56,
+   "underReadPt": 25.08,
+   "whyItMatters": "Both rulers say this value fits. Only one of them knows by how little. The page was passing a clearance check on a number that overstated its headroom by a factor of ten, and a case number four characters longer crosses the court's rule while the old ruler still reports fifteen points of room."
+  },
+  "bothDirectionsOnOnePage": {
+   "artifact": "data/rcap-all50/overlays/census-v1/ri/ri-decriminalized-set--official-pdf-fill/fixtures/boundary.pdf",
+   "page": 5,
+   "face": "Times-Roman",
+   "fontSizePt": 11,
+   "lowercaseLine": {
+    "overReadPt": 109.23
+   },
+   "capitalsLine": {
+    "value": "THIS IS NOT A FORM PUBLISHED BY THE RHODE ISLAND JUDICIARY. Instruction 7 on page 1",
+    "underReadPt": 7.29
+   },
+   "consequence": "One face, one type size, one page, and the error changes sign. A constant guard subtracted from every write box cannot correct a signed error."
+  }
+ },
+ "reMeasurement": {
+  "method": "The committed reader at a2b19c6ce and the corrected reader were run over the same delivered bytes and their per-run widths compared. Nothing was rebuilt, rendered or written.",
+  "scope": "1,009 PDFs, 50 states, 3,584,853 text runs under data/rcap-all50/overlays/census-v1",
+  "boundaryBasis": "each run's own widget rectangle where its origin sits inside one, else the page's right text margin",
+  "manufacturedOverflowsCleared": 31902,
+  "runsNewlyCrossingTheirBoundary": 0,
+  "runsCrossingUnderBothRulers": 12,
+  "timesRomanRunsTheOldRulerReadTooWide": 65058,
+  "helveticaRunsTheOldRulerReadTooNarrow": 7335,
+  "runsNowCarryingEstimatedOrigin": 158946,
+  "againstTheCourtsOwnPrintedRules": {
+   "basis": "for every base-14 run the old ruler read NARROW, the horizontal stroke under its baseline that starts at or left of its origin, read from the page's own path operators",
+   "runsWhereTheOldRulerReadNarrow": 17173,
+   "ofThoseSittingOnAPrintedRule": 3656,
+   "nowMeasuredAsOverflowingThatRule": 17,
+   "apparentlyClearButActuallyOverflowing": 0
+  },
+  "perState": [
+   {
+    "state": "ak",
+    "runs": 22261,
+    "manufacturedOverflowsCleared": 199,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 39,
+    "timesRomanRunsOldRulerReadWide": 462,
+    "runsWithEstimatedOrigin": 1764
+   },
+   {
+    "state": "al",
+    "runs": 277517,
+    "manufacturedOverflowsCleared": 26,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 432,
+    "timesRomanRunsOldRulerReadWide": 81,
+    "runsWithEstimatedOrigin": 2486
+   },
+   {
+    "state": "ar",
+    "runs": 68109,
+    "manufacturedOverflowsCleared": 0,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 197,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 3364
+   },
+   {
+    "state": "az",
+    "runs": 36614,
+    "manufacturedOverflowsCleared": 61,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 104,
+    "timesRomanRunsOldRulerReadWide": 174,
+    "runsWithEstimatedOrigin": 1732
+   },
+   {
+    "state": "ca",
+    "runs": 6473,
+    "manufacturedOverflowsCleared": 0,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 152,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "co",
+    "runs": 61095,
+    "manufacturedOverflowsCleared": 146,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 159,
+    "timesRomanRunsOldRulerReadWide": 421,
+    "runsWithEstimatedOrigin": 22410
+   },
+   {
+    "state": "ct",
+    "runs": 1526,
+    "manufacturedOverflowsCleared": 444,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 11,
+    "timesRomanRunsOldRulerReadWide": 1044,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "dc",
+    "runs": 1787,
+    "manufacturedOverflowsCleared": 644,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 1610,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "de",
+    "runs": 15097,
+    "manufacturedOverflowsCleared": 276,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 19,
+    "timesRomanRunsOldRulerReadWide": 658,
+    "runsWithEstimatedOrigin": 1796
+   },
+   {
+    "state": "fl",
+    "runs": 7515,
+    "manufacturedOverflowsCleared": 598,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 529,
+    "timesRomanRunsOldRulerReadWide": 715,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "ga",
+    "runs": 72899,
+    "manufacturedOverflowsCleared": 1585,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 101,
+    "timesRomanRunsOldRulerReadWide": 2884,
+    "runsWithEstimatedOrigin": 2670
+   },
+   {
+    "state": "hi",
+    "runs": 126700,
+    "manufacturedOverflowsCleared": 0,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 76,
+    "timesRomanRunsOldRulerReadWide": 1432,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "ia",
+    "runs": 38628,
+    "manufacturedOverflowsCleared": 284,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 190,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 10
+   },
+   {
+    "state": "id",
+    "runs": 6049,
+    "manufacturedOverflowsCleared": 114,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 22,
+    "timesRomanRunsOldRulerReadWide": 278,
+    "runsWithEstimatedOrigin": 10
+   },
+   {
+    "state": "il",
+    "runs": 284263,
+    "manufacturedOverflowsCleared": 104,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 578,
+    "timesRomanRunsOldRulerReadWide": 299,
+    "runsWithEstimatedOrigin": 3316
+   },
+   {
+    "state": "in",
+    "runs": 82865,
+    "manufacturedOverflowsCleared": 813,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 63,
+    "timesRomanRunsOldRulerReadWide": 2017,
+    "runsWithEstimatedOrigin": 1164
+   },
+   {
+    "state": "ks",
+    "runs": 1620,
+    "manufacturedOverflowsCleared": 0,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 1460,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "ky",
+    "runs": 15218,
+    "manufacturedOverflowsCleared": 663,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 236,
+    "timesRomanRunsOldRulerReadWide": 411,
+    "runsWithEstimatedOrigin": 3038
+   },
+   {
+    "state": "la",
+    "runs": 6968,
+    "manufacturedOverflowsCleared": 3667,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 6611,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "ma",
+    "runs": 4740,
+    "manufacturedOverflowsCleared": 158,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 21,
+    "timesRomanRunsOldRulerReadWide": 310,
+    "runsWithEstimatedOrigin": 2772
+   },
+   {
+    "state": "md",
+    "runs": 259228,
+    "manufacturedOverflowsCleared": 1851,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 1097,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 1365
+   },
+   {
+    "state": "me",
+    "runs": 15989,
+    "manufacturedOverflowsCleared": 214,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 33,
+    "timesRomanRunsOldRulerReadWide": 509,
+    "runsWithEstimatedOrigin": 808
+   },
+   {
+    "state": "mi",
+    "runs": 9791,
+    "manufacturedOverflowsCleared": 6,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 263,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "mn",
+    "runs": 139780,
+    "manufacturedOverflowsCleared": 78,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 80,
+    "timesRomanRunsOldRulerReadWide": 205,
+    "runsWithEstimatedOrigin": 238
+   },
+   {
+    "state": "mo",
+    "runs": 147973,
+    "manufacturedOverflowsCleared": 991,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 516,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 3004
+   },
+   {
+    "state": "ms",
+    "runs": 6812,
+    "manufacturedOverflowsCleared": 2355,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 5972,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "nc",
+    "runs": 18394,
+    "manufacturedOverflowsCleared": 230,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 173,
+    "timesRomanRunsOldRulerReadWide": 320,
+    "runsWithEstimatedOrigin": 7796
+   },
+   {
+    "state": "nd",
+    "runs": 35609,
+    "manufacturedOverflowsCleared": 1144,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 31,
+    "timesRomanRunsOldRulerReadWide": 3506,
+    "runsWithEstimatedOrigin": 106
+   },
+   {
+    "state": "ne",
+    "runs": 20887,
+    "manufacturedOverflowsCleared": 147,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 99,
+    "timesRomanRunsOldRulerReadWide": 564,
+    "runsWithEstimatedOrigin": 1000
+   },
+   {
+    "state": "nh",
+    "runs": 52636,
+    "manufacturedOverflowsCleared": 202,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 120,
+    "timesRomanRunsOldRulerReadWide": 540,
+    "runsWithEstimatedOrigin": 120
+   },
+   {
+    "state": "nj",
+    "runs": 427786,
+    "manufacturedOverflowsCleared": 6,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 10,
+    "helveticaRunsOldRulerReadNarrow": 259,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 400
+   },
+   {
+    "state": "nm",
+    "runs": 129179,
+    "manufacturedOverflowsCleared": 27,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 114,
+    "timesRomanRunsOldRulerReadWide": 89,
+    "runsWithEstimatedOrigin": 69088
+   },
+   {
+    "state": "nv",
+    "runs": 3588,
+    "manufacturedOverflowsCleared": 1406,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 3187,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "ny",
+    "runs": 77050,
+    "manufacturedOverflowsCleared": 146,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 73,
+    "timesRomanRunsOldRulerReadWide": 344,
+    "runsWithEstimatedOrigin": 3928
+   },
+   {
+    "state": "oh",
+    "runs": 1421,
+    "manufacturedOverflowsCleared": 92,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 404,
+    "runsWithEstimatedOrigin": 70
+   },
+   {
+    "state": "ok",
+    "runs": 4816,
+    "manufacturedOverflowsCleared": 1723,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 4138,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "or",
+    "runs": 96484,
+    "manufacturedOverflowsCleared": 112,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 56,
+    "timesRomanRunsOldRulerReadWide": 220,
+    "runsWithEstimatedOrigin": 156
+   },
+   {
+    "state": "pa",
+    "runs": 24747,
+    "manufacturedOverflowsCleared": 116,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 316,
+    "timesRomanRunsOldRulerReadWide": 601,
+    "runsWithEstimatedOrigin": 2727
+   },
+   {
+    "state": "ri",
+    "runs": 64169,
+    "manufacturedOverflowsCleared": 1567,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 38,
+    "timesRomanRunsOldRulerReadWide": 2733,
+    "runsWithEstimatedOrigin": 2728
+   },
+   {
+    "state": "sc",
+    "runs": 5426,
+    "manufacturedOverflowsCleared": 1576,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 5,
+    "timesRomanRunsOldRulerReadWide": 3518,
+    "runsWithEstimatedOrigin": 2
+   },
+   {
+    "state": "sd",
+    "runs": 23213,
+    "manufacturedOverflowsCleared": 156,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 2,
+    "helveticaRunsOldRulerReadNarrow": 73,
+    "timesRomanRunsOldRulerReadWide": 397,
+    "runsWithEstimatedOrigin": 546
+   },
+   {
+    "state": "tn",
+    "runs": 9022,
+    "manufacturedOverflowsCleared": 3862,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 8104,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "tx",
+    "runs": 206154,
+    "manufacturedOverflowsCleared": 1043,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 98,
+    "timesRomanRunsOldRulerReadWide": 2376,
+    "runsWithEstimatedOrigin": 7192
+   },
+   {
+    "state": "ut",
+    "runs": 192792,
+    "manufacturedOverflowsCleared": 0,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 257,
+    "timesRomanRunsOldRulerReadWide": 0,
+    "runsWithEstimatedOrigin": 7058
+   },
+   {
+    "state": "va",
+    "runs": 119794,
+    "manufacturedOverflowsCleared": 1183,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 100,
+    "timesRomanRunsOldRulerReadWide": 2259,
+    "runsWithEstimatedOrigin": 0
+   },
+   {
+    "state": "vt",
+    "runs": 111714,
+    "manufacturedOverflowsCleared": 301,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 143,
+    "timesRomanRunsOldRulerReadWide": 642,
+    "runsWithEstimatedOrigin": 350
+   },
+   {
+    "state": "wa",
+    "runs": 221885,
+    "manufacturedOverflowsCleared": 588,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 376,
+    "timesRomanRunsOldRulerReadWide": 1160,
+    "runsWithEstimatedOrigin": 1384
+   },
+   {
+    "state": "wi",
+    "runs": 13251,
+    "manufacturedOverflowsCleared": 128,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 17,
+    "timesRomanRunsOldRulerReadWide": 299,
+    "runsWithEstimatedOrigin": 1054
+   },
+   {
+    "state": "wv",
+    "runs": 6659,
+    "manufacturedOverflowsCleared": 668,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 69,
+    "timesRomanRunsOldRulerReadWide": 1513,
+    "runsWithEstimatedOrigin": 1294
+   },
+   {
+    "state": "wy",
+    "runs": 660,
+    "manufacturedOverflowsCleared": 202,
+    "newlyCrossing": 0,
+    "crossingUnderBothRulers": 0,
+    "helveticaRunsOldRulerReadNarrow": 0,
+    "timesRomanRunsOldRulerReadWide": 591,
+    "runsWithEstimatedOrigin": 0
+   }
+  ]
+ },
+ "whichReportedOverflowsWereArtifacts": {
+  "answer": "31,902 run-level overflow readings across 45 of the 50 states were artifacts of the half-em ruler and clear their boundary when measured against the font the page uses. The five states with none are ar, ca, hi, ks and ut.",
+  "worstConcentrations": [
+   {
+    "state": "tn",
+    "runsCleared": 3862
+   },
+   {
+    "state": "la",
+    "runsCleared": 3667
+   },
+   {
+    "state": "ms",
+    "runsCleared": 2355
+   },
+   {
+    "state": "md",
+    "runsCleared": 1851
+   },
+   {
+    "state": "ok",
+    "runsCleared": 1723
+   },
+   {
+    "state": "ga",
+    "runsCleared": 1585
+   },
+   {
+    "state": "sc",
+    "runsCleared": 1576
+   },
+   {
+    "state": "ri",
+    "runsCleared": 1567
+   },
+   {
+    "state": "nv",
+    "runsCleared": 1406
+   },
+   {
+    "state": "va",
+    "runsCleared": 1183
+   },
+   {
+    "state": "nd",
+    "runsCleared": 1144
+   },
+   {
+    "state": "tx",
+    "runsCleared": 1043
+   }
+  ],
+  "namedExample": {
+   "family": "ri/ri-decriminalized-set--official-pdf-fill and its five Rhode Island siblings",
+   "runsCleared": 1567,
+   "note": "Every Rhode Island reading past the 594pt margin was manufactured. Under the corrected ruler no Rhode Island run in these fixtures passes the margin at all."
+  },
+  "caution": "These are RUN-LEVEL readings taken by this lane, not a list of findings other lanes filed. A lane holding a reported Rhode Island or Tennessee overflow should re-derive its own number before withdrawing anything."
+ },
+ "whichReportedOverflowsAreReal": {
+  "answer": "The 12 runs that cross their boundary under both rulers, and the 17 that overflow a printed court rule under both, are real and were real before. One class is WORSE than reported: where the old ruler read narrow, a real overrun was understated.",
+  "namedExample": {
+   "artifact": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/fixtures/rule-490-petition-boundary.pdf",
+   "alsoAt": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/fixtures/rule-490-petition-boundary.pdf",
+   "page": 1,
+   "face": "Helvetica",
+   "fontSizePt": 9.2,
+   "originX": 344.83,
+   "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+   "courtRuleEndsAtX": 437.16,
+   "overrunAsReported": 77.83,
+   "overrunAsMeasured": 88.64,
+   "understatedBy": 10.81,
+   "family": "PA rule-490 nonconviction and PA summary-conviction, boundary assemblies",
+   "forWhom": "a repair lane. This lane names the family and the measurement and does not repair it."
+  }
+ },
+ "didAnyPagePassOnlyBecauseTheRulerReadNarrow": {
+  "answer": "No, not at the threshold. Across all fifty states not one run that cleared its boundary under the old ruler crosses it under the corrected one, on either boundary basis - widget rectangle or the court's own printed rule.",
+  "butTheHeadroomWasFiction": "That answer is a threshold answer and it is the smaller half of the truth. 7,335 Helvetica-family runs were read narrower than they are drawn, and on 3,656 of them sitting on a printed court rule the reported clearance was overstated by up to 40.02pt. The pages below cleared their rule by a margin an order of magnitude smaller than the one on record, and a slightly longer participant value crosses while the old ruler still reports room.",
+  "tightestActualClearances": [
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 2,
+    "face": "Helvetica-Bold",
+    "fontSizePt": 12,
+    "originX": 201.99,
+    "value": "EXPUNCTION APPLICATIONS ONLY",
+    "courtRuleEndsAtX": 410.01,
+    "widthUnderOldRuler": 168,
+    "widthUnderCorrectedRuler": 208.02,
+    "oldRulerUnderstatedWidthBy": 40.02,
+    "apparentClearanceToTheRule": 40.02,
+    "actualClearanceToTheRule": 0
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 1,
+    "face": "Helvetica-Bold",
+    "fontSizePt": 12,
+    "originX": 140.63,
+    "value": "LAWFUL SELF-DEFENSE EXPUNCTION (s. 943.0578, F.S.)",
+    "courtRuleEndsAtX": 471.37,
+    "widthUnderOldRuler": 300,
+    "widthUnderCorrectedRuler": 330.73,
+    "oldRulerUnderstatedWidthBy": 30.73,
+    "apparentClearanceToTheRule": 30.73,
+    "actualClearanceToTheRule": 0
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 1,
+    "face": "Helvetica-Bold",
+    "fontSizePt": 12,
+    "originX": 161.96,
+    "value": "EARLY JUVENILE EXPUNCTION (s. 943.0515, F.S.)",
+    "courtRuleEndsAtX": 450.04,
+    "widthUnderOldRuler": 270,
+    "widthUnderCorrectedRuler": 288.08,
+    "oldRulerUnderstatedWidthBy": 18.08,
+    "apparentClearanceToTheRule": 18.08,
+    "actualClearanceToTheRule": 0
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 6,
+    "face": "Helvetica",
+    "fontSizePt": 10,
+    "originX": 91.8,
+    "value": "EXCEPTION: ",
+    "courtRuleEndsAtX": 155.15,
+    "widthUnderOldRuler": 55,
+    "widthUnderCorrectedRuler": 63.35,
+    "oldRulerUnderstatedWidthBy": 8.35,
+    "apparentClearanceToTheRule": 8.35,
+    "actualClearanceToTheRule": 0
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 3,
+    "face": "Helvetica",
+    "fontSizePt": 10,
+    "originX": 550.68,
+    "value": "35.00",
+    "courtRuleEndsAtX": 576,
+    "widthUnderOldRuler": 25,
+    "widthUnderCorrectedRuler": 25.02,
+    "oldRulerUnderstatedWidthBy": 0.02,
+    "apparentClearanceToTheRule": 0.32,
+    "actualClearanceToTheRule": 0.3
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/fl/fl-self-defense-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 4,
+    "face": "Helvetica-Bold",
+    "fontSizePt": 9,
+    "originX": 105.65,
+    "value": "Law: ",
+    "courtRuleEndsAtX": 129.02,
+    "widthUnderOldRuler": 22.5,
+    "widthUnderCorrectedRuler": 23,
+    "oldRulerUnderstatedWidthBy": 0.5,
+    "apparentClearanceToTheRule": -0.62,
+    "actualClearanceToTheRule": 0.36
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 4,
+    "face": "Helvetica-Bold",
+    "fontSizePt": 9,
+    "originX": 170.59,
+    "value": "Documents: ",
+    "courtRuleEndsAtX": 225.69,
+    "widthUnderOldRuler": 49.5,
+    "widthUnderCorrectedRuler": 54.5,
+    "oldRulerUnderstatedWidthBy": 5,
+    "apparentClearanceToTheRule": 4.62,
+    "actualClearanceToTheRule": 0.6
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 3,
+    "face": "Helvetica",
+    "fontSizePt": 10,
+    "originX": 391.18,
+    "value": "900.00",
+    "courtRuleEndsAtX": 422.4,
+    "widthUnderOldRuler": 30,
+    "widthUnderCorrectedRuler": 30.58,
+    "oldRulerUnderstatedWidthBy": 0.58,
+    "apparentClearanceToTheRule": 1.22,
+    "actualClearanceToTheRule": 0.64
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 13,
+    "face": "Helvetica",
+    "fontSizePt": 11,
+    "originX": 295.88,
+    "value": "Q",
+    "courtRuleEndsAtX": 305.4,
+    "widthUnderOldRuler": 5.5,
+    "widthUnderCorrectedRuler": 8.56,
+    "oldRulerUnderstatedWidthBy": 3.06,
+    "apparentClearanceToTheRule": 4.02,
+    "actualClearanceToTheRule": 0.96
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/fixtures/canonical.pdf",
+    "page": 13,
+    "face": "Helvetica",
+    "fontSizePt": 11,
+    "originX": 296.49,
+    "value": "A",
+    "courtRuleEndsAtX": 305.4,
+    "widthUnderOldRuler": 5.5,
+    "widthUnderCorrectedRuler": 7.34,
+    "oldRulerUnderstatedWidthBy": 1.84,
+    "apparentClearanceToTheRule": 3.41,
+    "actualClearanceToTheRule": 1.57
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 4,
+    "face": "Helvetica",
+    "fontSizePt": 10.5,
+    "originX": 535.87,
+    "value": "27101-2214",
+    "courtRuleEndsAtX": 594,
+    "widthUnderOldRuler": 52.5,
+    "widthUnderCorrectedRuler": 56.04,
+    "oldRulerUnderstatedWidthBy": 3.54,
+    "apparentClearanceToTheRule": 5.63,
+    "actualClearanceToTheRule": 2.09
+   },
+   {
+    "artifact": "data/rcap-all50/overlays/census-v1/co/co-pardoned-conviction-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+    "page": 3,
+    "face": "Helvetica",
+    "fontSizePt": 6.8,
+    "originX": 420.67,
+    "value": "2014CR0011882-SUPPLEMENTAL",
+    "courtRuleEndsAtX": 530.98,
+    "widthUnderOldRuler": 88.4,
+    "widthUnderCorrectedRuler": 108.09,
+    "oldRulerUnderstatedWidthBy": 19.69,
+    "apparentClearanceToTheRule": 21.91,
+    "actualClearanceToTheRule": 2.22
+   }
+  ]
+ },
+ "washingtonRightEdgeGuard": {
+  "where": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs line 84, RIGHT_EDGE_GUARD = 14",
+  "itsOwnStatedReason": "'Helvetica's encoded glyph advance can exceed the fit helper's estimate at a boundary. Artifact proof caught the final glyph 7pt past a rule, so mapped boxes reserve a measured 14pt right-edge guard.'",
+  "whatWasChecked": "Whether the guard is compensation for THIS defect. WA's write boxes are derived from underscore-leader glyph boxes via ch.x + ch.w out of this reader, so if those leaders were base-14 the guard would be explained by the half-em under-read.",
+  "result": "NEGATIVE, and reported as negative. Every underscore leader in the Washington fixtures is drawn in a font that carries its own /Widths: 0 of them change width under the corrected ruler. This correction neither explains nor retires that guard.",
+  "whatRemainsTrue": "The general premise of the comment is real - a half-em estimate does under-read Helvetica capitals and digits by 10-16%, measured. But it is not the cause on Washington's own pages, and a repair lane should not go looking for it there on the strength of this record.",
+  "status": "FLAGGED, NOT REPAIRED. This lane may not edit a builder."
+ },
+ "callersCoveredByThisChange": {
+  "throughRcapPdfAnchorCapture": 208,
+  "howToEnumerate": "grep -rl rcap-pdf-anchor-capture scripts src",
+  "whatChangesForThem": [
+   "A base-14 run's width is now the AFM width and metricsExact is true where it was false. Callers that SKIP inexact items (scripts/rcap-nm-flat-forms/nm-flat-blank-measurer.mjs line 265, scripts/build-census-v1-ar-pardon-seal-set.mjs) will now include runs they previously excluded, with correct widths.",
+   "A Type0 run's width is now null where it was a half-em per glyph. Callers reading item.width ?? 0 will read 0 rather than a fabricated number for those runs; the population is symbol, dingbat and source-page faces.",
+   "groupIntoLines run.x2 is null on an unmeasurable run instead of equal to x.",
+   "Items carry three new fields: baseFont, metricsSource, and widthIsUnmeasurable / originEstimated where they apply. Nothing existing was renamed or removed."
+  ],
+  "callersNotTouched": [
+   "Every builder under scripts/build-census-v1-*.mjs - out of this lane's bounds, and none needed editing.",
+   "Everything under scripts/grade-a-packet-factory-24h/ - out of bounds, and it holds no width measurement (grep for widthOfTextAtSize, extractTextItems, metricsExact returns nothing there).",
+   "scripts/rcap-official-forms/rcap-evidence-contract.mjs - its boxOf() reads item.width and its inside() test uses only the run's START x, so no placement verdict moves. Its drawnAt.width is now correct where it was not. Not edited.",
+   "scripts/rcap-official-forms/rcap-text-fitting.mjs - correct already, not edited."
+  ]
+ },
+ "whatThisLaneDidNotDo": [
+  "Did not build, repair, rebuild or render any packet.",
+  "Did not edit a builder, an overlay directory, a packet PDF, a central manifest, or anything under scripts/grade-a-packet-factory-24h/.",
+  "Did not launch a national rebuild.",
+  "Did not invent, pad or reconstruct a digest, a commit SHA or a run id.",
+  "Did not withdraw or amend another lane's filed finding."
+ ],
+ "regressionCheck": {
+  "method": "Each control was run against the corrected modules and then against the same modules restored to a2b19c6ce, so a red result is attributed rather than assumed.",
+  "passingBoth": [
+   "scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs",
+   "scripts/rcap-official-forms/test-widget-appearance-placement.mjs",
+   "scripts/rcap-official-forms/test-synthesized-off-appearances.mjs"
+  ],
+  "redAtHeadAndStillRedForTheSameReason": [
+   {
+    "test": "scripts/rcap-official-forms/test-name-date-component-semantics-mutations.mjs",
+    "output": "BASELINE IS RED: the verifier fails on unmutated sources, so no mutation below would prove anything.",
+    "attribution": "pre-existing at a2b19c6ce, exit 1 with and without this change"
+   },
+   {
+    "test": "scripts/rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs",
+    "attribution": "pre-existing at a2b19c6ce, exit 1 with and without this change"
+   }
+  ],
+  "newControl": {
+   "test": "scripts/rcap-official-forms/test-standard-14-metrics.mjs",
+   "result": "11 of 11 pass"
+  }
+ },
+ "sideEffectFoundWhileBaselining": {
+  "where": "scripts/verify-rcap-pdf-final-visual-evidence.mjs --check",
+  "what": "The --check mode is not read-only. Running it rewrote 90 committed evidence rasters under docs/record-clearing/pdf-visual-evidence/pdf-finish-final/ (e.g. AR-felony-petition-form-f-source-page-01.png, 90,264 bytes to 138,860 bytes). Every one was restored with `git checkout -- docs/record-clearing/pdf-visual-evidence/` and nothing was committed from that path.",
+  "alsoObserved": "The committed verifier at a2b19c6ce, with this lane's changes stashed, reports the SAME 'visual manifest is stale' failures for AR, NC, NE, VA, VT and WI. The staleness and the raster size change both pre-date this lane and are consistent with a rasterizer version difference in this environment, not with a font-metrics change.",
+  "status": "FLAGGED. A verifier whose check mode mutates committed evidence is a defect in the verifier; this lane did not repair it."
+ }
+}

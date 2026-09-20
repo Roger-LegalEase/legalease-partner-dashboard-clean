@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "rcap-actual-writes-byte-proof/v1",
+  "familyId": "ak-courtview-set",
+  "derivedFromArtifactBytes": true,
+  "note": "Read back from the finalized PDF bytes at every measured widget rectangle, not from the finalizer's own report. A value the finalizer says it wrote and the bytes do not carry is an invisible write and is counted as one.",
+  "documents": [
+    {
+      "fixture": "tf810-canonical",
+      "formNumber": "TF-810",
+      "sourceSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "valuesReportedByFinalizer": 5,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "addedGlyphsReadFromOutputBytes": 104,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": [],
+      "actualWrites": [
+        {
+          "field": "name",
+          "acroFieldName": "name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 105.79,
+            "y": 577.45,
+            "width": 218.62,
+            "height": 16.13
+          },
+          "printedCaption": "Name: Email*:",
+          "effectiveLabel": "Name",
+          "drawnText": [
+            "Jordan Avery Reyes"
+          ],
+          "expected": "Jordan Avery Reyes",
+          "matchesExpected": true
+        },
+        {
+          "field": "email",
+          "acroFieldName": "email",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 363.24,
+            "y": 576.51,
+            "width": 177.18,
+            "height": 17.06
+          },
+          "printedCaption": "Name: Email*:",
+          "effectiveLabel": "Email",
+          "drawnText": [
+            "jordan.reyes@example.org"
+          ],
+          "expected": "jordan.reyes@example.org",
+          "matchesExpected": true
+        },
+        {
+          "field": "address",
+          "acroFieldName": "address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 115.67,
+            "y": 534.23,
+            "width": 308.5,
+            "height": 15.28
+          },
+          "printedCaption": "Address: Phone:",
+          "effectiveLabel": "Address",
+          "drawnText": [
+            "412 Chugach Way, Anchorage, AK 99501"
+          ],
+          "expected": "412 Chugach Way, Anchorage, AK 99501",
+          "matchesExpected": true
+        },
+        {
+          "field": "phoneNo",
+          "acroFieldName": "phoneNo",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 461.32,
+            "y": 533.19,
+            "width": 79.63,
+            "height": 15.84
+          },
+          "printedCaption": "Address: Phone:",
+          "effectiveLabel": "Phone",
+          "drawnText": [
+            "907-555-0142"
+          ],
+          "expected": "907-555-0142",
+          "matchesExpected": true
+        },
+        {
+          "field": "caseNo",
+          "acroFieldName": "caseNo",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 440.83,
+            "y": 517.36,
+            "width": 98.91,
+            "height": 16.13
+          },
+          "printedCaption": "Case Name: Case Number:",
+          "effectiveLabel": "Case Number",
+          "drawnText": [
+            "3AN-19-04217CR"
+          ],
+          "expected": "3AN-19-04217CR",
+          "matchesExpected": true
+        }
+      ]
+    },
+    {
+      "fixture": "tf810-boundary",
+      "formNumber": "TF-810",
+      "sourceSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "proofMethod": "flattened widget appearances read back at every measured /Rect of the finalized bytes",
+      "valuesReportedByFinalizer": 5,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "addedGlyphsReadFromOutputBytes": 209,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": [],
+      "actualWrites": [
+        {
+          "field": "name",
+          "acroFieldName": "name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 105.79,
+            "y": 577.45,
+            "width": 218.62,
+            "height": 16.13
+          },
+          "printedCaption": "Name: Email*:",
+          "effectiveLabel": "Name",
+          "drawnText": [
+            "Maria-Alejandra OShaughnessy-Whitfield"
+          ],
+          "expected": "Maria-Alejandra O’Shaughnessy-Whitfield",
+          "matchesExpected": false
+        },
+        {
+          "field": "email",
+          "acroFieldName": "email",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 363.24,
+            "y": 576.51,
+            "width": 177.18,
+            "height": 17.06
+          },
+          "printedCaption": "Name: Email*:",
+          "effectiveLabel": "Email",
+          "drawnText": [
+            "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
+          ],
+          "expected": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+          "matchesExpected": true
+        },
+        {
+          "field": "address",
+          "acroFieldName": "address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 115.67,
+            "y": 534.23,
+            "width": 308.5,
+            "height": 15.28
+          },
+          "printedCaption": "Address: Phone:",
+          "effectiveLabel": "Address",
+          "drawnText": [
+            "1188 Upper Hillside Loop Road, Apartment 14B, Fairbanks, Alaska 99709-2214"
+          ],
+          "expected": "1188 Upper Hillside Loop Road, Apartment 14B, Fairbanks, Alaska 99709-2214",
+          "matchesExpected": true
+        },
+        {
+          "field": "phoneNo",
+          "acroFieldName": "phoneNo",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 461.32,
+            "y": 533.19,
+            "width": 79.63,
+            "height": 15.84
+          },
+          "printedCaption": "Address: Phone:",
+          "effectiveLabel": "Phone",
+          "drawnText": [
+            "(907) 555-0199 ext. 4417"
+          ],
+          "expected": "(907) 555-0199 ext. 4417",
+          "matchesExpected": true
+        },
+        {
+          "field": "caseNo",
+          "acroFieldName": "caseNo",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 440.83,
+            "y": 517.36,
+            "width": 98.91,
+            "height": 16.13
+          },
+          "printedCaption": "Case Name: Case Number:",
+          "effectiveLabel": "Case Number",
+          "drawnText": [
+            "4FA-24-01188CR"
+          ],
+          "expected": "4FA-24-01188CR",
+          "matchesExpected": true
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "tf810-canonical",
+      "formNumber": "TF-810",
+      "valuesReportedByFinalizer": 5,
+      "addedGlyphsReadFromOutputBytes": 104,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    },
+    {
+      "fixture": "tf810-boundary",
+      "formNumber": "TF-810",
+      "valuesReportedByFinalizer": 5,
+      "addedGlyphsReadFromOutputBytes": 209,
+      "flattenedWidgetAppearancesReadFromOutputBytes": 23,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "refusedFieldsWithInk": []
+    }
+  ],
+  "blockingFindings": []
+}

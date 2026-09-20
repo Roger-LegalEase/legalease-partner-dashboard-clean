@@ -12,7 +12,7 @@ export default function StartPage() {
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.08em] text-[#00A99D] shadow-sm">
             <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-            <LocalizedText k="start.eyebrow" fallback="Free guided check" />
+            <LocalizedText k="start.eyebrow" fallback="Free screening" />
           </span>
           <h1 className="mt-5 text-[42px] font-extrabold leading-[1.04] text-[#0B1320] md:text-[64px]">
             <LocalizedText k="start.heading" fallback="Start with what happened. See what may be available." />
@@ -24,7 +24,7 @@ export default function StartPage() {
             />
           </p>
           <div className="mx-auto mt-7 max-w-sm">
-            <FlowButton href="/expungement-ai/screening"><LocalizedText k="nav.start_free" fallback="Start free" /></FlowButton>
+            <FlowButton href="/expungement-ai/screening"><LocalizedText k="nav.start_free" fallback="Check my options" /></FlowButton>
           </div>
           <p className="mt-3 text-[13px] font-semibold">
             <Link className="text-[#0E9C8E] underline underline-offset-4" href="/briefcase">
@@ -42,7 +42,7 @@ export default function StartPage() {
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           <StartCard
             icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}
-            title={<LocalizedText k="start.card_check_title" fallback="Free guided check" />}
+            title={<LocalizedText k="start.card_check_title" fallback="Free screening" />}
             body={<LocalizedText k="start.card_check_body" fallback="Answer questions that reflect the record-clearing rules in the state you choose." />}
           />
           <StartCard

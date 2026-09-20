@@ -1,0 +1,101 @@
+{
+  "family": "va_exp_absolute_pardon-set",
+  "actual": {
+    "status": "PROVEN_ON_CURRENT_BYTES",
+    "proven": true,
+    "conclusive": true,
+    "reasons": [],
+    "documents": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+        "pinned": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+        "actual": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+        "identity": "MATCH"
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+        "pinned": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+        "actual": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+        "identity": "MATCH"
+      }
+    ]
+  },
+  "coverage": {
+    "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+    "complete": true,
+    "documents": [
+      "canonical.pdf"
+    ],
+    "notRastered": [],
+    "notRenderedByThisGate": [
+      "boundary.pdf"
+    ],
+    "rastered": [
+      "canonical.pdf"
+    ],
+    "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded."
+  },
+  "receiptCovered": [
+    "canonical.pdf"
+  ],
+  "requiredComponents": [
+    "primary_filing",
+    "records_checklist",
+    "filing_instructions"
+  ],
+  "additionalSelectableOutputs": [],
+  "controls": [
+    {
+      "name": "Actual current receipt passes strict declared-coverage and both PDF identity checks",
+      "result": "PASS",
+      "status": "PROVEN_ON_CURRENT_BYTES"
+    },
+    {
+      "name": "Current-row-only promotion identity lookup passes",
+      "result": "PASS",
+      "status": "PROVEN_ON_CURRENT_BYTES"
+    },
+    {
+      "name": "Existing selectable-output reader finds no extra VA conditional/native packets",
+      "result": "PASS",
+      "count": 0
+    },
+    {
+      "name": "All three exact required delivery components are in the sole five-page canonical assembly",
+      "result": "PASS",
+      "required": [
+        "primary_filing",
+        "records_checklist",
+        "filing_instructions"
+      ]
+    },
+    {
+      "name": "Whole-family flag cannot excuse omitted required canonical coverage",
+      "result": "PASS",
+      "status": "COVERAGE_INCOMPLETE"
+    },
+    {
+      "name": "Foreign document coverage is refused",
+      "result": "PASS",
+      "status": "RECEIPT_COVERS_A_DIFFERENT_DOCUMENT"
+    },
+    {
+      "name": "An additional required canonical document cannot hide behind current receipt",
+      "result": "PASS",
+      "status": "COVERAGE_INCOMPLETE"
+    },
+    {
+      "name": "Boundary hash drift is refused even though boundary central rendering is outside this contract",
+      "result": "PASS",
+      "status": "ARTIFACT_IDENTITY_MISMATCH"
+    },
+    {
+      "name": "Explicit partial receipt cannot pass",
+      "result": "PASS",
+      "status": "COVERAGE_INCOMPLETE"
+    }
+  ],
+  "scope": "In-memory cloned-row controls only; no queue/PDF/shared writes. No new raster or original visual review."
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "de_pardon_expungement-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "PENDING_INDEPENDENT_VERIFICATION",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "implementationStrategy": "official_pdf_fill",
+  "counselQuestionsRaised": [
+    "DE-5, carried in the committed track registry as a build_blocker on the eligibility branch: how far § 4375 escapes § 4374's exclusions in practice, given that CIV_EXP_02_A is captioned to § 4374 and a separate after-pardon order form exists. The registry directs that Cornette and Gieck be read in full and that Lawrence's position be obtained. This build wrote no § 4375 recital onto the § 4374-captioned form and left the statement to the participant, which is what the registry's manual completion item directs; whether that is sufficient is counsel's.",
+    "Whether CIV_EXP_08_A is the proposed order the Prothonotary expects on the after-pardon route. The committed track registry carries the equivalent question for the § 4374 route as a release blocker on packet_components, noting that all five Superior Court orders are published as court forms and the instructions say only \"Proposed Order\".",
+    "What the committed record means by the \"SBI cover letter\" named third in the § 4374 filing order. No committed record states its addressee or its content, so this build composed a filing cover sheet that identifies the petitioner and lists the filing's contents and asserts nothing else. If an SBI cover letter is a distinct instrument with required content, it is not built here.",
+    "Whether a date of birth written in ISO form (1978-03-14) is acceptable to the Prothonotary on these two forms. Neither form prints a date order beside the blank, so this build wrote the held value unchanged rather than inferring mm/dd/yyyy; if Delaware practice requires mm/dd/yyyy, the printed line that would justify it does not exist on the paper and the instruction has to come from counsel.",
+    "Whether leaving the entire charge table to the participant is right for this route. It follows the committed track registry's counsel classification for the sibling § 4374 family (\"History-dependent fields may be left as manual completion items\") and the shared field semantics, under which a disposition is a court fact. The pardon track's own registry entry carries no equivalent classification, so the sibling's is being relied on."
+  ],
+  "mattersForTheReviewersAttention": [
+    "Read the delivered PDFs, not this report. Both fixtures are one page per official form plus a composed cover sheet.",
+    "The charge tables on both official forms are delivered entirely blank, by design and on the committed record's instruction. A reviewer expecting a filled table should read the buildFindings and the routeSelectionsMade before treating it as a gap.",
+    "The petition prints \"Pursuant to 11 Del. C. § 4374\" on a packet built for the § 4375 route. That is the Court's own form and is left as printed.",
+    "The proposed order CIV_EXP_08_A carries the petitioner's caption details and nothing else; paragraph 5, the date and the judicial officer's signature line are untouched.",
+    "Dates are delivered in ISO form because neither form prints a date order beside its date blank. Read the delivered page and say whether that is acceptable in Delaware Superior Court.",
+    "One line of the verbatim requiredBeforeFiling list reads only \"Required.\" That is the committed manifest's own text for this family's notarize entry, printed as it stands rather than repaired here; see build-findings.json."
+  ]
+}

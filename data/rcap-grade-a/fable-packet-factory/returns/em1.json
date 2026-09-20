@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "fable-packet-factory-builder-return/v1",
+  "builder": "EM-1 (evergreen maintenance)",
+  "branch": "fable/em1",
+  "date": "2026-09-01",
+  "what": "Permanent route-maintenance system: nightly source monitor, route-scoped hold record + verifier, weekly/monthly/quarterly review assembler, and the 11-step source-change response procedure. No orchestration platform; machines observe and assemble, people decide.",
+  "files": [
+    ".github/workflows/rcap-nightly-source-monitor.yml",
+    ".github/workflows/rcap-maintenance-review.yml",
+    "scripts/rcap-source-monitor.mjs",
+    "scripts/rcap-maintenance-review.mjs",
+    "scripts/verify-rcap-route-holds.mjs",
+    "data/rcap-grade-a/maintenance/route-holds.json",
+    "data/rcap-grade-a/maintenance/review-tasks/README.md",
+    "docs/rcap/EVERGREEN_ROUTE_MAINTENANCE.md",
+    "package.json (test chain: + verify-rcap-route-holds.mjs && verify-rcap-route-holds.mjs --mutations)"
+  ],
+  "whatTheNightlyDoes": [
+    "Assembles 63 monitor targets: all 40 SOURCE_ACQUISITION_MANIFEST.json entries (28 with pinned sha256, 12 observe-only) plus 23 official-source-registry rows whose expectedFrom source-record resolves to an exact https URL and expected hash.",
+    "Filters every URL through scripts/lib/official-host-policy.mjs (the one importable host-policy module the acquisition path uses); non-allowlisted hosts are recorded as skipped and never fetched; redirects are followed hop-by-hop and an off-allowlist or off-exact-host redirect is refused and reported.",
+    "Records status, redirect chain, content-type, byte length, observed sha256; compares to the pin; outcomes: unchanged / changed_hash / changed_landing_page / vanished_or_unreachable / observed_unpinned / skipped_by_host_policy.",
+    "Writes a dated report artifact every run; ONLY on change/loss writes review-task JSON (intendedCommitPath data/rcap-grade-a/maintenance/review-tasks/<date>-<sourceId>.json) into the artifact and opens one GitHub issue per changed source, label source-change-review, deduped by title against open issues.",
+    "Derives routesUsing at runtime by joining data/rcap-ledger/launch-graph.json + data/record-clearing/legal-design-packet-set-manifests.json + manifest obligationKeys — generator-owned registries were NOT hand-edited."
+  ],
+  "whatTheNightlyDoesNot": [
+    "commit anything (workflows never commit here; review tasks reach the repo only via a person's reviewed commit)",
+    "auto-approve, auto-invalidate, or adopt observed bytes",
+    "place a hold or touch any route state, registry, or production resource",
+    "fetch from non-allowlisted hosts or follow redirects off the allowlist"
+  ],
+  "routeHolds": {
+    "record": "data/rcap-grade-a/maintenance/route-holds.json — single route-scoped hold carrier; header states why it is legitimate (ConsumerDeliveryRouteState is path-wide, release-readiness deploymentReadiness is config-completeness; neither can hold one route) and that RM-1's availability derivation consumes it read-tolerantly.",
+    "verifier": "scripts/verify-rcap-route-holds.mjs — schema, exact-scope (refuses wildcards, bare jurisdiction codes, 'ALL', unknown pathwayKeys against the launch graph), release discipline (no released hold without a reacceptance reference; reacceptance repo paths must exist), no duplicate active same-type holds; wired into npm test with --mutations."
+  },
+  "review": "scripts/rcap-maintenance-review.mjs assembles the packet from existing records (open source-change-review issues via API when token present, else last monitor report, else says so; unfinished routes from launch-graph incl. closest-to-done top 25; active holds; stale-artifact-block, problematic-pdf-register, verifier-dispositions) and publishes artifact + step summary. Scope auto resolves weekly/monthly/quarterly by date from one weekly cron; dispatch can force any scope. No state changes.",
+  "validationsRun": {
+    "node --check on all three new scripts": "pass",
+    "rcap-source-monitor.mjs --dry-run (no network)": "pass, exit 0 — 63 targets, 63 fetchable under host policy, 0 skipped, 0 config problems; plan JSON written",
+    "verify-rcap-route-holds.mjs": "OK — 0 rows, schema and discipline checks green on the empty record",
+    "verify-rcap-route-holds.mjs --mutations": "OK — 14/14 planted defects detected (wildcard, jurisdiction-wide, CA:*, ALL, unknown route, bad holdType, empty reason, missing evidence, released-without-reacceptance, released-before-placed, missing reacceptance path, duplicate active hold, premature reacceptance, wrong schemaVersion)",
+    "rcap-maintenance-review.mjs --scope weekly and --scope quarterly": "pass — packets written, tolerant fallbacks exercised (no token, no monitor report)",
+    "workflow YAML": "actionlint unavailable; both workflows parsed with js-yaml (jobs + on triggers verified)",
+    "package.json": "parses after test-chain extension",
+    "live fetch": "not run from this session (proxy egress 403 to court hosts); the GitHub runner performs the real fetches, and --dry-run is the committed no-network validation"
+  },
+  "invariants": [
+    "Nothing scheduled commits to branches, touches production, or auto-changes route state.",
+    "One host-policy module governs acquisition and monitoring alike.",
+    "A changed hash creates a review task and an issue; every determination above 'the bytes differ' belongs to a person (docs/rcap/EVERGREEN_ROUTE_MAINTENANCE.md, 11 steps, each mapped to its script/workflow or marked a human decision)."
+  ]
+}

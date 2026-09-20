@@ -1,0 +1,106 @@
+{
+  "basis": "each retained fixture's page content stream was decoded and searched for the values the D3A run declared it wrote; the fixtures are flattened, so a value set on a field but never drawn would not be found",
+  "bindingUnderReview": "production-field-map.json — the narrow binding the retained artifacts were rendered under",
+  "family": "jdf-417-form-petition-en",
+  "fixtures": [
+    {
+      "acroFormFieldsRemaining": 0,
+      "artifactBytes": 1152556,
+      "artifactSha256": "8a2767a57bec71aa583cb343d1d17b5bbe83ff66ceabae42473e67e6d464a72d",
+      "declaredWrites": 4,
+      "declaredWritesFoundOnPage": 4,
+      "declaredWritesNotFound": [],
+      "fixture": "canonical",
+      "flattened": true,
+      "protectedRows": [
+        {
+          "field": "Sig",
+          "page": 3,
+          "rowText": "Signature:"
+        },
+        {
+          "field": "Sig_Date",
+          "page": 3,
+          "rowText": "Date:"
+        },
+        {
+          "field": "Sig_Aty",
+          "page": 3,
+          "rowText": "Counsel Signature: (if any)"
+        }
+      ]
+    },
+    {
+      "acroFormFieldsRemaining": 0,
+      "artifactBytes": 1152427,
+      "artifactSha256": "9fdfc53be5013149e601fd9c0883a02759c070cf02c2761f135a3d5632dc6eb4",
+      "declaredWrites": 4,
+      "declaredWritesFoundOnPage": 3,
+      "declaredWritesNotFound": [
+        {
+          "field": "Case Number",
+          "finding": "the row carries only its printed label (\"Number:\"), so the renderer refused the value rather than clipping it — the declared binding produced no write on this artifact",
+          "rowOnPage": "Number:",
+          "value": "2023CR004182-CONSOLIDATED-WITH-2023CR004183-AND-2023CR004184"
+        }
+      ],
+      "fixture": "boundary",
+      "flattened": true,
+      "protectedRows": [
+        {
+          "field": "Sig",
+          "page": 3,
+          "rowText": "Signature:"
+        },
+        {
+          "field": "Sig_Date",
+          "page": 3,
+          "rowText": "Date:"
+        },
+        {
+          "field": "Sig_Aty",
+          "page": 3,
+          "rowText": "Counsel Signature: (if any)"
+        }
+      ]
+    },
+    {
+      "acroFormFieldsRemaining": 0,
+      "artifactBytes": 1151668,
+      "artifactSha256": "faf37cd37cf19fe87e28d6db461642e5d303c33cb20544ddbc8e16cbbfd56e4f",
+      "declaredWrites": 0,
+      "declaredWritesFoundOnPage": 0,
+      "declaredWritesNotFound": [],
+      "fixture": "negative",
+      "flattened": true,
+      "protectedRows": [
+        {
+          "field": "Sig",
+          "page": 3,
+          "rowText": "Signature:"
+        },
+        {
+          "field": "Sig_Date",
+          "page": 3,
+          "rowText": "Date:"
+        },
+        {
+          "field": "Sig_Aty",
+          "page": 3,
+          "rowText": "Counsel Signature: (if any)"
+        }
+      ]
+    }
+  ],
+  "note": "This is a reading of the bytes that are here. It is not a re-render: the official binary these artifacts were built from is not mounted in this environment.",
+  "protectedRowEvidence": {
+    "basis": "each protected row's text on the fact-bearing artifacts compared against the same row on the negative artifact, which was rendered with no participant facts; and each declared value searched for inside every protected row",
+    "declaredValuesFoundInAProtectedRow": [],
+    "noProtectedFieldWasWritten": true,
+    "rowsCompared": 3,
+    "rowsThatChangeWhenFactsArePresent": []
+  },
+  "schemaVersion": "rcap-colorado-actual-writes/v1",
+  "specSha256": "f753ed8260d8f672cb5c15bdc2ff28bb773866545f120afa57db5e70f45fabf8",
+  "specVersion": "co-jdf-417-binding/2026-08-29.1"
+}

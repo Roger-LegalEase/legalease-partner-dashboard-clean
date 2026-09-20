@@ -1,0 +1,200 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF18",
+  "laneKind": "independent-verification",
+  "worker": "VERIFIER-1",
+  "baseSha": "321650b5a71d16ce6b59e78147c8d39cd94c9d80",
+  "grantSet": "a9956c8db0b9c13d",
+  "measuredBy": "the fifteen proof obligations measured in this container from the committed bytes and records; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here; every artifact SHA-256 and raster PNG recomputed from the committed bytes; every flattened widget appearance decoded from the fixture PDF bytes with scripts/rcap-official-forms/pdf-flattened-widgets.mjs; the boundSource SHA-256 recomputed from the corpus file under MASTER_LIBRARY_SOURCE_DIR, and the full text of the pinned official form read from those corpus bytes",
+  "independence": "VERIFIER-1 built and repaired nothing in this factory and inherited no verdict. The prior read (vf01, FAIL_REPAIR_REQUIRED on SERVICE) is the claim under test: its failed obligation was re-measured here against the official form's own face, and this lane's different outcome is reasoned in the row rather than asserted.",
+  "sourceIdentityNote": "Unlike the vf01 read, the Master Library corpus IS mounted in this container, so SOURCE_IDENTITY is measured from the source bytes themselves — and the same corpus bytes settle the SERVICE question the instructions are silent on.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "ak-courtview-set",
+      "lane": "VF18",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId 'ak-courtview-set' agrees across all 10 records in the directory that carry one (grep over every committed JSON returned a single spelling). The worklist names exactly one route for the group (obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40, trackId ak-courtview); source-receipt.json and production-field-map.json carry the route-key form 'track:AK:ak-courtview', and the field map carries routeSelectionId 'ak-courtview-set-tf-810-primary-filing'. The instructions footer names the same route and authorities."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "recomputed from the corpus bytes in this container: sha256(STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf) = c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582 at 85386 bytes, equal to the boundSource in source-receipt.json and to the pageManifest sourceSha256 in reports/rendered-artifacts.json."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the route names one component, the TF-810 primary filing; the pinned source is a one-page AcroForm (pdfinfo on the corpus bytes: Pages 1) and both fixtures render that page; requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "decoded from the flattened widget appearance streams of both fixtures (23 appearances each): exactly the 5 mapped facts are drawn — name, email, address, phone, case number — each at its exact mapped rect, in both fixtures including the boundary's 74-character address and extension-bearing phone; knownRequiredFieldsMissing=0 measured by the completeness verifier here. Advisory carried forward from build-findings.json: the boundary participant name is written with a typographic apostrophe (U+2019) and the drawn bytes read back without it, the same shared-finalizer font-encoding behaviour recorded on ak-tf805-set and accepted on vt_seal_misdemeanor-set."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "production-field-map.json declares exactly 2 REQUIRED_BEFORE_FILING items — Case Name, and the Ground 10 rule-or-statute line — and participant-instructions.md names both in 'The items you must supply' with the page and the printed words. The decoded bytes confirm both blanks carry no ink."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 measured here. routeDeterminedSelections is deliberately empty with a recorded reason: which of the ten printed grounds is true is a fact about the requester's case, not a consequence of the route. All 14 selection controls (ten grounds plus the sub-reasons under grounds 2 and 3) are disclosed one by one in 'The choices that are yours', with the attachment duties of grounds 4 and 9 stated beside them; the packet states its own election as routeSelectionId 'ak-courtview-set-tf-810-primary-filing'."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 measured by the completeness verifier here; TF-810 carries no repeating rows."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "proven from the decoded appearance streams: all 18 non-prefill widget appearances are empty in both fixtures — every ground checkbox and sub-option, the Ground 10 line, the Case Name box, and the participant's date and signature line. The clerk's block at the foot (response, date sent, initials) carries no overlay ink; protectedWrites=0 and invisibleWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "every declared artifact recomputed from the committed bytes and equal to its record: tf810-canonical-filled.pdf ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83 at 66667 bytes, tf810-boundary-filled.pdf 03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e at 66782 bytes, and both raster PNGs match reports/rendered-artifacts.json. No *-unchanged-official.pdf component is declared; the uncommitted source binary was verified against the corpus bytes directly (SOURCE_IDENTITY above)."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "1 page read from the bytes of each fixture (pdfinfo), equal to the raster queue's expectedPages, the pageManifest (packet page 1 → TF-810 page 1) and the pinned source's own page count; the decoded appearance positions confirm the request content on that page."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here; every decoded write lands at its mapped rect exactly, and the boundary fixture's long values (74-character address, 58-character e-mail, phone with extension) are drawn inside their boxes."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md 'Where you file this': file with the clerk's office of your local Alaska trial court — the court named in the case number at the top of the form — 'The form says so in its own words', and the corpus TF-810 text confirms it ('you may file this request form at your local trial court'). That is the destination the worklist records for this route (the local trial court of Alaska's unitary system)."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the fee question is delegated to a named checkable authority in a dedicated line, not a catch-all: 'Any filing fee is not stated here, because it is not established in any source this packet holds and an unsourced figure in a filing instruction is worse than none. Ask the clerk.' — where 'the clerk' is the clerk's office of the local trial court named two sentences above and identifiable from the case number. Under the house standard, delegation to a named checkable authority passes; no figure is invented and the reason is stated."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "re-measured against the pinned official form's own face, which the vf01 read did not have the corpus to consult. TF-810 imposes NO service duty on the requester: the full form text (extracted in this lane from the corpus bytes at c5e55ce0…) contains no certificate of service, no 'serve a copy' direction and no opposing party — it is a correction request, not a petition, and the form closes its own loop internally: 'Instructions to Court Clerk: Email this request and final disposition order to the HelpDesk', followed by the court's response block back to the requestor ('Case removed / Case not removed', 'Date sent to requestor'). There is no service step for the packet to describe, and the instructions state the complete filing path the form prescribes — file at the clerk's office, the clerk's block at the foot is the court's. vf01's FAIL ('the packet never mentions who must be served or how at all') measured the instructions' silence without measuring whether service is owed; the form's face answers that it is not. The route's census lines 'Record serviceRecipients/serviceMethod/serviceTiming; current evidence is not recorded' are census bookkeeping present on every route in the worklist, not proof of a service duty. IMPROVEMENT, not an omission: a one-line 'you do not need to serve anyone; the clerk routes this request' would make the absence explicit for the participant."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated in 'What this packet is not': not legal advice, not filed for you, and it does not decide whether the case comes off the index. The stop is drawn item by item: every ground is left to the participant ('only you know which is true'), the attachments for grounds 4 and 9 are named and not supplied ('The platform holds neither attachment and does not attach them for you'), the signature and date are the participant's, and the clerk's block is the court's."
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "boundary-name apostrophe advisory (see KNOWN_PREFILLS): one U+2019 glyph not drawn by the shared finalizer's font encoding on this AK host; recorded for visual review, matching the accepted precedent on vt_seal_misdemeanor-set.",
+        "this lane's SERVICE outcome diverges from the vf01 read; the divergence is reasoned in the obligation detail from the official form's own text, which was unreachable in vf01's container, so the difference is legible rather than silent."
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "jobId": "99815920106",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "tf810-canonical-filled.pdf",
+        "artifactsTheFamilyRenders": 2,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 2,
+        "pagesTheGateRendered": 2,
+        "coverage": "COMPLETE",
+        "bindingProof": "canonical ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83 and boundary 03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e recomputed from disk in this container and equal to the receipt's pinned hashes"
+      },
+      "artifactProof": [
+        {
+          "document": "TF-810",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf",
+          "recordedSha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
+          "recomputedSha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
+          "bindsFromDisk": true,
+          "recordedByteLength": 66667,
+          "observedByteLength": 66667
+        },
+        {
+          "document": "TF-810",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf",
+          "recordedSha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e",
+          "recomputedSha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e",
+          "bindsFromDisk": true,
+          "recordedByteLength": 66782,
+          "observedByteLength": 66782
+        }
+      ],
+      "sourceProof": [
+        {
+          "sourceId": "official-form:TF-810",
+          "corpusPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+          "recordedSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+          "recomputedFromCorpusBytes": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+          "recordedByteLength": 85386,
+          "observedByteLength": 85386,
+          "bindsFromCorpus": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf"
+      ]
+    }
+  ]
+}

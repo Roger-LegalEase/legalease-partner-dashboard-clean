@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "fl-juvenile-diversion-set",
+  "worklistGroupId": "fl-juvenile-diversion-set",
+  "jurisdiction": "FL",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "the owner-custodied source byte expressly retained for this family is read from its recovered reference path and asserted by SHA-256 and byte length; no acquisition, research, or substitution occurs",
+  "allSourcesExact": true,
+  "routeKeys": [
+    "obligation:track-pathway:FL:fl-juvenile-diversion:juvenile-diversion-expunction-943-0582"
+  ],
+  "sourceBinaryCommitted": true,
+  "mountedReadOnlySource": {
+    "documentId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+    "sourceId": "official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+    "custodyPath": "/workspaces/legalease-partner-dashboard-clean/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf",
+    "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+    "byteLength": 23990,
+    "pageCount": 5,
+    "printedFormNumber": "FDLE40-025",
+    "revision": "Revised July 2022"
+  },
+  "documents": [
+    {
+      "documentId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+      "formNumber": "FDLE40-025",
+      "kind": "held_official_pdf",
+      "role": "primary_filing",
+      "sha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+      "byteLength": 23990,
+      "pageCount": 5
+    }
+  ],
+  "authorityRecords": [
+    {
+      "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+      "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+      "byteLength": 121810
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+      "byteLength": 3711575,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-12",
+        "was": {
+          "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+          "byteLength": 3710466
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "anchorsCompared": 5,
+        "anchorDetail": [
+          "packetManifestSharedMetadata: identical",
+          "packetSet:dc_innocence_expungement-set: identical",
+          "packetSet:fl-juvenile-diversion-set: identical",
+          "packetSet:il-prostitution-j-vacate-set: identical",
+          "packetSet:ms-misd-addl-set: identical"
+        ],
+        "anchorsIdentical": 5,
+        "identicalAnchorSha256": {
+          "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+          "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+          "packetSet:fl-juvenile-diversion-set": "2d34ddef315589a4c06463918a5ff90ef990b8f34464dde9a07d77e70df4b9d5",
+          "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+          "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "fl-juvenile-diversion-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "fl-juvenile-diversion-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:FL:fl-juvenile-diversion:juvenile-diversion-expunction-943-0582",
+                "packetSetId": "fl-juvenile-diversion-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "de_discretionary_family_court-set"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "7eac21e1e2634a0cbc04afaf459f4fe2be96e64b",
+          "commit": "fded60e657631cdee0c146396e446482f4d66384",
+          "commitsWithThisPath": 66,
+          "distinctBlobs": 59,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "path": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+      "sha256": "ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679",
+      "byteLength": 236236
+    },
+    {
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "byteLength": 2629290
+    },
+    {
+      "path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "sha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+      "byteLength": 64212
+    }
+  ],
+  "formIdentityNote": "The held official source is the FDLE renderer output titled Application for a Juvenile Diversion Expunction, printed form FDLE40-025, Revised July 2022.",
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "participant eligibility",
+    "source freshness beyond the exact PF21 binding and committed acquisition return",
+    "independent verification, raster acceptance, counsel approval, or fulfillment authority"
+  ]
+}

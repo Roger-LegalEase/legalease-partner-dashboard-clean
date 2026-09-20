@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF65",
+  "laneKind": "independent-verification",
+  "worker": "VF65",
+  "reviewer": "/root/pending_readiness",
+  "sessionIdentity": "/root/pending_readiness",
+  "familyId": "rcap-ga-guidance-implementation",
+  "baseSha": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+  "dispatchSha": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+  "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
+  "verdict": "PASS",
+  "scope": "Independent static semantic pre-raster review of GA guidance implementation. No source/output edits, build, local raster or dispatch. Visual obligations remain explicitly unmeasured.",
+  "rows": [
+    {
+      "itemId": "rcap-ga-guidance-implementation",
+      "familyId": "rcap-ga-guidance-implementation",
+      "lane": "VF65",
+      "verdict": "PASS",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Route contract, guidance specification and output all identify GA retroactive First Offender treatment under \u00a742-8-66; this stage is pre-consent guidance."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All relied-on committed authority records are bound by exact source-receipt hashes; this stage has no Master Library binary source."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Rendered artifacts and field map contain exactly the two declared components: participant factual record and process guidance."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Only participant identity/contact facts are written to the factual record; nine route facts remain participant-supplied blanks."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The nine factual questions and consent-stage actions are stated; nothing is represented as filed."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Written prosecutorial consent is a prerequisite; silence, refusal, unanswered request and no-known-objection do not satisfy it."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No repeated filing rows are generated; the factual record questions are individually represented."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Signature/date and all participant factual responses remain blank; no prosecutorial consent is fabricated or written."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Canonical and boundary assembled PDFs are present and byte-hashed; completeness counters report all nine zero."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both assembled fixtures contain factual-record pages first and process-guidance pages second, matching component order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": false,
+          "result": "NOT_MEASURABLE_HERE",
+          "finding": "No current central raster; visual check deferred."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Guidance directs the participant to the prosecuting attorney first and convicting court only after written consent; nothing is filed in this stage."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guidance states the statutory no-filing-fee treatment for \u00a742-8-66 and does not invent a waiver artifact."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No service occurs before consent; post-consent petition service belongs to the separate petition family."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Consent negotiation, contested hearing, immigration consequences and other recorded boundaries are directed to legal help/referral desks."
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null,
+        "allZero": false,
+        "measuredHere": true,
+        "counterNote": "Eight nonvisual counters are zero from completeness and byte proofs; visualDefects remains unmeasured pending central raster."
+      },
+      "stageReview": {
+        "stages": [
+          "pre_consent",
+          "qualifying_order_on_or_after_2026_07_01"
+        ],
+        "separatePetitionFamilyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+        "secondPetitionGenerated": false,
+        "writtenConsentGenerated": false,
+        "actualWrittenConsentBelongsTo": "separate post-consent petition family only"
+      },
+      "remainingRequirements": [
+        "Central raster receipt and direct visual review of all assembled pages.",
+        "Separate post-consent petition family must retain independent acceptance; this guidance return does not approve it.",
+        "Product wiring and runtime remain closed."
+      ],
+      "evidenceRead": [
+        "scripts/build-census-v1-rcap-ga-guidance-implementation.mjs",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/completeness-counters.json",
+        "data/record-clearing/legal-design-specifications.json",
+        "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+        "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      ]
+    }
+  ],
+  "sharedWrites": {
+    "queue": false,
+    "manifests": false,
+    "source": false,
+    "output": false,
+    "dispatch": false
+  }
+}

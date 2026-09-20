@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "rcap-ca-checker-repair-independent-code-review/v1",
+  "reviewedAt": "2026-09-13T13:07:25Z",
+  "reviewer": "/root/ks_arrest_final",
+  "independentOfAuthor": true,
+  "familyId": "ca-diversion-seal-set",
+  "jurisdiction": "CA",
+  "reviewTargets": [
+    "scripts/verify-packet-build-environment.mjs",
+    "scripts/verify-family-source-resolution.test.mjs"
+  ],
+  "transfer": {
+    "receipt": {
+      "path": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-20260913/TRANSFER_RECEIPT.json",
+      "sha256": "ccff60c600b624120b05de64619dc98e2c4bb65b08930f7f487da2e7a4197a79",
+      "byteLength": 2005
+    },
+    "patch": {
+      "path": "private/packet-factory-24h/transfers/pf20-ca-checker-repair-20260913/ca-checker-repair.patch",
+      "sha256": "100c3c1351bff09583856631655b06aeaefdbd4406edfbd1309096f92f2dfca0",
+      "byteLength": 15462
+    },
+    "patchSha256MatchesReceipt": true,
+    "patchByteLengthMatchesReceipt": true,
+    "sourceCommand": "git diff --binary --no-ext-diff 4b1a51b3a869625054ebdb6549a8022c6c7abd07 7c59b4bb8253cd2dc15c612d26083b0121b5b758 -- scripts/verify-family-source-resolution.test.mjs scripts/verify-packet-build-environment.mjs",
+    "workerBaseCommit": "4b1a51b3a869625054ebdb6549a8022c6c7abd07",
+    "workerCandidateCommit": "7c59b4bb8253cd2dc15c612d26083b0121b5b758",
+    "captainApplyCheckRecordedByTransfer": true,
+    "captainApplyCheckReverified": true,
+    "appliedLocally": true,
+    "appliedAgainstCaptainHead": "6f0a1fcfef666168affecc3d60b5ebdfb1b920e0",
+    "currentCaptainHeadAtReview": "80d9f375be8ac18b0e4d0df5437e2b690acc2b79",
+    "targetBytes": {
+      "scripts/verify-packet-build-environment.mjs": {
+        "headBeforePatchSha256": "9247a7f9acbcaa710adeca0807e663264e9efc29ecb22d277378d728db595e44",
+        "currentPatchedSha256": "92907e0d62dd4fbe5c1dfd7283b1731dabd60644b02df3d8bab4d2231d6f40c8",
+        "currentPatchedByteLength": 101725,
+        "transferExpectedSha256": "92907e0d62dd4fbe5c1dfd7283b1731dabd60644b02df3d8bab4d2231d6f40c8",
+        "currentPatchedMatchesTransfer": true
+      },
+      "scripts/verify-family-source-resolution.test.mjs": {
+        "headBeforePatchSha256": "5acdaacf4125fab834c55585714b7ea8aecda597e77c92db06dcff82a42741e5",
+        "currentPatchedSha256": "ab253cd21adf1e2dc7cb003c9bfbe1f6b2e275902e893cf00e3b930bbfccfc4c",
+        "currentPatchedByteLength": 17722,
+        "transferExpectedSha256": "ab253cd21adf1e2dc7cb003c9bfbe1f6b2e275902e893cf00e3b930bbfccfc4c",
+        "currentPatchedMatchesTransfer": true
+      }
+    }
+  },
+  "scope": {
+    "familyId": "ca-diversion-seal-set",
+    "recoverySourceId": "CA-SDSC-CRM-307",
+    "sourceId": "official-form:SDSC-CRM-307",
+    "admission": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+    "inputManifest": "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json",
+    "heldCorpusPath": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+    "expectedSha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+    "expectedByteLength": 211228,
+    "currentBody": {
+      "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+      "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+      "byteLength": 211228
+    },
+    "sourceWave": {
+      "path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+      "sha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+      "byteLength": 64212
+    },
+    "inputManifestCurrent": {
+      "path": "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json",
+      "sha256": "60de802c3e193b4d205018fe960f197e972cae2eba1f6f935d680b38da3ce844",
+      "byteLength": 31140
+    },
+    "queueUsedAsAdmission": false,
+    "legalOrTerminalReviewPerformed": false,
+    "packetOrBuildReviewPerformed": false
+  },
+  "verdict": "CHANGES_REQUIRED",
+  "findings": [
+    {
+      "id": "CA-CHECKER-CODE-01",
+      "severity": "BLOCKING",
+      "title": "Input manifest digest is only format-checked",
+      "location": "scripts/verify-packet-build-environment.mjs:375-376",
+      "observed": "The resolver requires the exact inputManifest filename and merely checks inputManifestSha256 against the 64-lowercase-hex pattern. A hermetic admission with inputManifestSha256 set to 64 zeros still returned the governed CRM-307 binding when the exact body was present.",
+      "probe": {
+        "mutatedField": "inputManifestSha256",
+        "mutatedValue": "0000000000000000000000000000000000000000000000000000000000000000",
+        "expectedTrackedInputManifestSha256": "60de802c3e193b4d205018fe960f197e972cae2eba1f6f935d680b38da3ce844",
+        "returnedBinding": {
+          "sourceId": "official-form:SDSC-CRM-307",
+          "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+          "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+          "byteLength": 211228,
+          "tier": "exact_content_hash",
+          "resolvedBy": "committed_source_recovery_wave1_governed_adoption"
+        },
+        "result": "FAIL_CLOSED_EXPECTED_BUT_ACCEPTED"
+      },
+      "impact": "The adoption record can carry a false provenance digest while still being accepted. The current root input manifest is tracked and hashes to 60de802c3e193b4d205018fe960f197e972cae2eba1f6f935d680b38da3ce844, so the resolver can verify the named file and exact digest instead of treating the field as decorative metadata.",
+      "requiredFix": "Resolve the fixed tracked input-manifest path under the repository root, reject symlink or escape paths as appropriate, and require its current SHA-256 to equal admission.inputManifestSha256. Add a hermetic mutation test that changes the digest and expects null."
+    },
+    {
+      "id": "CA-CHECKER-CODE-02",
+      "severity": "BLOCKING",
+      "title": "Conflicting acquired receipt candidate is ignored",
+      "location": "scripts/verify-packet-build-environment.mjs:394-401",
+      "observed": "The resolver filters for matching acquired receipts and requires one match, but it does not reject an additional acquired receipt for the same recovery source with a different digest. A fixture containing the current correct acquired receipt plus a second acquired receipt with an all-zero SHA still returned the governed binding.",
+      "probe": {
+        "sourceId": "CA-SDSC-CRM-307",
+        "acquiredCandidateCount": 2,
+        "matchingAcquiredCandidateCount": 1,
+        "conflictingCandidate": {
+          "status": "acquired",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "byteLength": 211228,
+          "storedFilename": "crm307.pdf"
+        },
+        "result": "FAIL_CLOSED_EXPECTED_BUT_ACCEPTED"
+      },
+      "impact": "Ambiguous source custody is silently accepted when one candidate happens to match the hard-coded pin. That leaves the governed adoption record with contradictory acquired evidence.",
+      "requiredFix": "Count all acquired receipt candidates for the exact recovery source, require exactly one acquired candidate, and require that candidate to match the immutable source ID, SHA, length and filename. Add a duplicate-conflicting-receipt refusal test."
+    },
+    {
+      "id": "CA-CHECKER-CODE-03",
+      "severity": "BLOCKING",
+      "title": "Unresolved custody row with conflicting heldAs is overridden",
+      "location": "scripts/verify-packet-build-environment.mjs:485-495",
+      "observed": "The CA custody conflict filter only tests source.resolved === true. A hermetic CA row with the expected source ID, resolved false, and a non-null heldAs pointing to wrong.pdf was treated as the ordinary stale zero-source shape; the resolver appended the governed path and familySources returned the correct path with no unresolvable entry.",
+      "probe": {
+        "row": {
+          "sourceId": "official-form:SDSC-CRM-307",
+          "resolved": false,
+          "heldAs": {
+            "path": "reference/source-recovery/2026-09-11-wave1/wrong.pdf",
+            "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+            "byteLength": 211228
+          }
+        },
+        "familySourcesUnresolvable": [],
+        "returnedPath": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+        "result": "FAIL_CLOSED_EXPECTED_BUT_ACCEPTED"
+      },
+      "impact": "A conflicting custody assertion can be hidden by the bridge simply because its resolved flag is false. The exact governed path does not control the row when a non-null alternate binding is present.",
+      "requiredFix": "Permit the known stale shape only when heldAs is absent; if the expected CA source ID has any non-null heldAs or a resolved binding, require exact path, SHA and byte length, otherwise add an unresolvable conflict and block family_sources_bind. Add a negative test for resolved false with conflicting heldAs."
+    },
+    {
+      "id": "CA-CHECKER-TEST-01",
+      "severity": "BLOCKING_TEST_HARNESS",
+      "title": "Transferred full test file is stale against the current closed Kansas families",
+      "location": "scripts/verify-family-source-resolution.test.mjs:316-321",
+      "observed": "The full supplied test file ran 16 tests with 15 passed and 1 failed. The unchanged assertion expects ks-22-2410-arrest-set to be UNRESOLVABLE, but current Captain custody already has three exact resolved sources and the current family_sources_bind result is BINDS. The second registration-relief assertion is likewise a current closed exact-source family and is not a valid negative fixture.",
+      "currentEvidence": {
+        "currentCaptainHead": "80d9f375be8ac18b0e4d0df5437e2b690acc2b79",
+        "ksArrestFamilySourcesBind": "BINDS",
+        "ksRegistrationFamilySourcesBind": "BINDS",
+        "failure": "Expected UNRESOLVABLE; actual BINDS for ks-22-2410-arrest-set",
+        "fullTestResult": "15 passed, 1 failed"
+      },
+      "impact": "The focused regression suite is not green on the current Captain, so a claimed passing patch review would conceal an environment-dependent stale negative assertion.",
+      "requiredFix": "Replace this current-state negative with a hermetic synthetic missing-indexed-body fixture or narrow it to a demonstrably absent source. Preserve the existing missing/corrupt-body and ambiguity refusals, and do not turn it into a queue-pin-only check.",
+      "implementationCausality": "The CA-specific additions did not alter Kansas resolution; this is a pre-existing assertion that predates the current Kansas closures. It still blocks a green current-Captain review."
+    }
+  ],
+  "verification": {
+    "patchApplyCheck": {
+      "command": "git apply --check --verbose private/packet-factory-24h/transfers/pf20-ca-checker-repair-20260913/ca-checker-repair.patch",
+      "result": "PASS"
+    },
+    "patchHash": {
+      "result": "PASS",
+      "currentSha256": "100c3c1351bff09583856631655b06aeaefdbd4406edfbd1309096f92f2dfca0",
+      "receiptSha256": "100c3c1351bff09583856631655b06aeaefdbd4406edfbd1309096f92f2dfca0",
+      "byteLength": 15462
+    },
+    "syntax": {
+      "command": "node --check scripts/verify-packet-build-environment.mjs && node --check scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS"
+    },
+    "whitespace": {
+      "command": "git diff --check -- scripts/verify-packet-build-environment.mjs scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS"
+    },
+    "caFocusedTests": {
+      "command": "node --test --test-name-pattern='CA wave' scripts/verify-family-source-resolution.test.mjs",
+      "result": "PASS",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "fullFocusedFile": {
+      "command": "node --test scripts/verify-family-source-resolution.test.mjs",
+      "result": "FAIL",
+      "tests": 16,
+      "passed": 15,
+      "failed": 1,
+      "failure": "stale ks-22-2410-arrest-set negative expects UNRESOLVABLE but current Captain returns BINDS"
+    },
+    "liveCAFamilyGate": {
+      "command": "runAll(process.cwd(), { family: 'ca-diversion-seal-set' }).find(result => result.id === 'family_sources_bind')",
+      "result": "PASS",
+      "detail": "1/1 source binds by exact SHA-256 (custody_reconciliation)",
+      "currentSources": [
+        {
+          "sourceId": "official-form:SDSC-CRM-307",
+          "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+          "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+          "byteLength": 211228,
+          "resolvedBy": "committed_source_recovery_wave1_governed_adoption"
+        }
+      ]
+    },
+    "customFailClosedProbes": [
+      {
+        "name": "wrong recovery source id",
+        "result": "PASS_REFUSED"
+      },
+      {
+        "name": "wrong obligation id",
+        "result": "PASS_REFUSED"
+      },
+      {
+        "name": "direct body symlink",
+        "result": "PASS_REFUSED"
+      },
+      {
+        "name": "parent directory symlink outside repository",
+        "result": "PASS_REFUSED"
+      },
+      {
+        "name": "valid-format wrong inputManifestSha256",
+        "result": "FAIL_ACCEPTED"
+      },
+      {
+        "name": "correct plus conflicting acquired receipt",
+        "result": "FAIL_ACCEPTED"
+      },
+      {
+        "name": "unresolved row with conflicting heldAs",
+        "result": "FAIL_ACCEPTED"
+      },
+      {
+        "name": "unrelated family resolver call",
+        "result": "PASS_REFUSED"
+      }
+    ],
+    "currentSourceBody": {
+      "result": "PASS",
+      "path": "reference/source-recovery/2026-09-11-wave1/crm307.pdf",
+      "sha256": "da6852b5762dea47a17e8159a67e07215543a8524be623709f4856aed169b287",
+      "byteLength": 211228
+    },
+    "currentInputManifest": {
+      "result": "PASS",
+      "path": "SOURCE_BLOCKED_RECOVERY_WAVE1_2026-09-11.json",
+      "sha256": "60de802c3e193b4d205018fe960f197e972cae2eba1f6f935d680b38da3ce844",
+      "byteLength": 31140
+    }
+  },
+  "preservedControls": [
+    "CA bridge is exact-family scoped to ca-diversion-seal-set.",
+    "Returned source ID, path, SHA-256 and byte length are immutable constants and the current CRM-307 body is rehashed before acceptance.",
+    "No MASTER_QUEUE read occurs in the CA resolver; the CA-specific fixture passes without a queue file.",
+    "Wrong source identity, wrong obligation, missing body, corrupt body, direct body symlink, parent-directory symlink escape and another-family binding all refuse in the exercised probes.",
+    "The current live CA family_sources_bind result binds exactly 1/1 source by exact SHA-256.",
+    "No closed-family repin or general form-number tier change was introduced by the CA diff."
+  ],
+  "patchScopeReview": {
+    "newProductionOrPacketFiles": false,
+    "sourceOrCustodyFilesChanged": false,
+    "queueFilesChangedByPatch": false,
+    "generalResolverChanged": false,
+    "CAOnlyChanges": true,
+    "sharedGeneratedArtifactsCommitted": false,
+    "patchRemainsUncommitted": true
+  },
+  "nonActions": [
+    "No source acquisition or legal research was performed.",
+    "No packet build, raster, queue regeneration, source receipt, custody record or production artifact was changed.",
+    "No commit was created."
+  ],
+  "nextAcceptance": "Repair the three CA fail-closed gaps and replace the stale Kansas negative assertion with a hermetic current-safe test; rerun the full focused file and obtain a clean independent PASS before CA build proceeds."
+}

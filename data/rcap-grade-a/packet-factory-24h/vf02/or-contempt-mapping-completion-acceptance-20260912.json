@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-vf02-mapping-completion-acceptance/v1",
+  "reviewKind": "identity_mapping_completion",
+  "lane": "VF02",
+  "reviewedAt": "2026-09-12T20:25:30.129Z",
+  "reviewedAtBase": "7abe0badf93e02c1bce940ca6cd86739016b2b57",
+  "familyId": "or_contempt_setaside-set",
+  "status": "PASS_MAPPING_COMPLETION_ONLY",
+  "packetAcceptance": false,
+  "terminalAcceptance": false,
+  "rasterDispatchAuthorized": false,
+  "commercialAuthority": false,
+  "scope": "Independent acceptance of the owner-correction transition only. This record confirms the existing alias-to-canonical route mapping and preserves all downstream packet, source, completeness, raster, independent acceptance, and route-ratification gates.",
+  "ownerCorrection": {
+    "file": {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+      "sha256": "fbb775ef09986af8a8b543a8a8c916464c94403b672753e0f69f41968e1f6c2a",
+      "byteLength": 39527
+    },
+    "row": {
+      "familyId": "or_contempt_setaside-set",
+      "stateOverride": null,
+      "completedStateOverride": "PRODUCT_PATH_PENDING",
+      "executionOwner": "CAPTAIN",
+      "ownerDecision": "This is identity reconciliation, not unresolved doctrine.",
+      "nextExecutableAction": "Build the separately scoped ORS 137.225(1)(a) family from the exact held sources, preserving or_contempt_setaside and or_contempt_setaside-set as historical aliases. The terminal nonconviction sibling is not this family and is not reopened.",
+      "completionEvidence": {
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-identity-reconciliation-20260912.json",
+        "sha256": "063b7770f1eece2cd69711cd51f4baff41e0462e8a257a3dccf619910dd7beeb",
+        "byteLength": 13027,
+        "scope": "Existing track registry routeIdentityMapping is MAPPED / OBSOLETE_ALIAS to OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a, duplicateFamily=false. Independent VF02 confirmed distinct predicates and packet scope from rcap-or-official-pdf-fill. This completes identity mapping only.",
+        "remainingGates": "Separate packet implementation, current-source and current-byte completeness, raster, independent acceptance and route-ratification remain. No packet PASS, terminal transition, runtime route change, or commercial authority is granted."
+      }
+    }
+  },
+  "mapping": {
+    "reviewReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf02/or-contempt-identity-reconciliation-20260912.json",
+      "sha256": "063b7770f1eece2cd69711cd51f4baff41e0462e8a257a3dccf619910dd7beeb",
+      "byteLength": 13027
+    },
+    "priorReviewStatus": "IDENTITY_RECONCILIATION_PASS",
+    "legacyTrackId": "or_contempt_setaside",
+    "legacyPacketSetId": "or_contempt_setaside-set",
+    "canonicalRouteId": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+    "relationship": "OBSOLETE_ALIAS",
+    "duplicateFamily": false,
+    "historyDisposition": "Preserve the legacy track and packet-set identifiers as historical aliases; route them to the canonical ORS 137.225(1)(a) path and do not create a duplicate family.",
+    "terminalSiblingExcluded": "rcap-or-official-pdf-fill"
+  },
+  "existingOriginalReview": {
+    "file": {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-original-final-20260912.json",
+      "sha256": "27f7cae1171f52b11523288e1a0e3fa6fe86ef5b39256663f5dbf7ec11495cee",
+      "byteLength": 96196
+    },
+    "lane": "VF04",
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "familyId": "rcap-or-official-pdf-fill",
+    "noReReview": "Referenced for provenance only; this acceptance does not reopen or re-review the terminal packet."
+  },
+  "result": {
+    "ownerRowMatchesReview": true,
+    "currentOwnerTransitionPreservesHistory": true,
+    "downstreamGatesPreserved": true,
+    "routeOpened": false,
+    "packetTerminalized": false,
+    "exactRemainingWork": "Build the separately scoped ORS 137.225(1)(a) family, then complete its independent source/byte/completeness/raster/acceptance and route-ratification gates."
+  }
+}

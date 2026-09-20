@@ -1,0 +1,9 @@
+CLAIM_OK: node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF02 ut_pet_special_certificate-set (grant set 68b7fb4c3981d80b)
+EXIT 0: RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-ut_pet_special_certificate-set.mjs --check
+EXIT 0: node scripts/lib/ut-special-certificate-stage-gate.test.mjs
+EXIT 0: node scripts/rcap-packet-recovery/ut-special-certificate-completeness.test.mjs
+EXIT 0: node --check scripts/build-census-v1-ut_pet_special_certificate-set.mjs
+EXIT 0: node --check scripts/build-census-v1-ut_pet_acquittal-set.mjs
+EXIT 0: node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_special_certificate-set (PASS_COMPLETE; nine counters zero)
+EXIT 0: base/current shared-host non-special selectedControl comparison (3,584 cases identical and unmutated)
+NOT RUN: local raster, full repository suite, production/live/runtime wiring.

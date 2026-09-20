@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-grade-a-participant-delivery-raster-review/v1",
+  "routeKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "packetFamily": "ms-nonconv-set",
+  "reviewedOn": "2026-09-03",
+  "reviewer": "Codex primary implementation agent /root",
+  "rasterizer": "pdftoppm 24.02.0 at 150 dpi",
+  "pageDimensions": "1275x1650 RGB PNG",
+  "status": "passed",
+  "reviewScope": "All 25 pages of the new participant-delivery pair were opened, rastered, and inspected. Text bounding-box scans reported zero out-of-page words. The review checked captions, facts, protected full-SSN placement, participant-owned signature and notarization blanks, judge/clerk/notary/service-completion blanks, page continuity, clipping, overlap, unresolved placeholders, and field ownership.",
+  "artifacts": [
+    {
+      "fixture": "participant_delivery_canonical",
+      "sourcePdf": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-a-canonical.pdf",
+      "sourcePdfSha256": "413f6226500a5dc13cbad2ce7ec664a55dcdb48d80cd8bef9fa746f369c6553f",
+      "pageCount": 12,
+      "pagesReviewed": 12,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-a",
+      "pageSha256": [
+        "714ebe52d0061fbb7f99ef84ada99444e2b83162ae23f93ca58a3a83238122a4",
+        "c19a3f516cf0d51cb40991fbb04b5eae9042bbb60b4820c2b6e6b44afd336a55",
+        "a3485e0197c84eb426a2af75b7b0b782f0f528195e8e92d1b45cab1b0c6effca",
+        "f8a10129bb25f372a027b74a97d00592b446b5fb1d206667ea1358cbfe98d4af",
+        "bd31e643a14255bbb637d434a6700d450e2c0b9fa597599e6ec4fc567c5ef0b7",
+        "46b8a9fb163f332ce800925941633a6d1960e00bcaafb49847bb95311340e8fa",
+        "53ea05b2552b15013bb1bc15c851229eabc4dac6a6f4166d3c15d77becdf0a76",
+        "c30ddc205647c571ba3b3e94581fedf557812b9e32e8a4fa6ce157e19d062f34",
+        "65af6c295fbd13445fc90b3111e8ed358f54ccb886e045f99e59da3370550381",
+        "43348d9bd90e09bbf9337d75603f80adb3672ff5eada4c7a0e33b43756952791",
+        "59825069bee645ffbf023a9ddc039c4f32b593903f85978cb320f606117fca34",
+        "4a1ef74c10dd9427dda7d3a688cac8592b4ac79a17c387abc14646c0f033764d"
+      ],
+      "fullSsnPage": 8,
+      "outOfPageWordCount": 0
+    },
+    {
+      "fixture": "participant_delivery_boundary",
+      "sourcePdf": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-clinic-demo-participant-b-boundary.pdf",
+      "sourcePdfSha256": "9f766f22524dcac9edfc340e1a77efda8e7cc821cce8672bc8daf9e853c738e1",
+      "pageCount": 13,
+      "pagesReviewed": 13,
+      "rasterDirectory": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-clinic-demo-participant-delivery-rasters/participant-b",
+      "pageSha256": [
+        "714ebe52d0061fbb7f99ef84ada99444e2b83162ae23f93ca58a3a83238122a4",
+        "184f1462258d2d6204e59b734a41ecbad512e4b13c25d7829fa095cea922f4c9",
+        "c1fd828d416519741c747713724a9132dc4c6e63a6e371910a7dce5fea5ee8a2",
+        "57d3e7fce938a4dc1405288eb47879de9b2f64cd8c21398a088bebd781098678",
+        "72245bc7968b5e76c1775df6b80f778ee6b702d183cd3831f5e2f3913cc5ce17",
+        "d19e302d6e90cdbd834bdfe137210a5f1264e3d9b3c058d351f29d07dd80dcef",
+        "91aeeb7f49a73acf9f8bb9d1897994f1d041c1b5366b091fcb93f9709b615330",
+        "306aa9547dfba7d494bdcdf84a11f2899f12cd869f826689c8c086c2470b4753",
+        "1232d336e763469116ccd2237289a5da45e2f1fcfedcf9aaf9e7e6d9c1e63960",
+        "799f3ce798e346d7bedb82c564e6e6a41c069e1aad84e6362a08b4785343b18e",
+        "52be3973695828819a884d58ea91934dcb32a24d4fd08a99003469f09ece31e1",
+        "59825069bee645ffbf023a9ddc039c4f32b593903f85978cb320f606117fca34",
+        "a56460b3c83eae4dd0b9b1ab06c96f5202060b80ad6bafa941cc41716c1265fd"
+      ],
+      "fullSsnPage": 9,
+      "outOfPageWordCount": 0
+    }
+  ],
+  "findings": {
+    "everyPageOpened": true,
+    "everyPageRastered": true,
+    "everyPageReviewed": true,
+    "clipping": "none observed; zero out-of-page words",
+    "overlap": "none observed",
+    "placeholderText": "none",
+    "inventedFact": "none; all populated values originate in the checked-in synthetic participant fixtures",
+    "wrongFieldWrite": "none; full SSNs appear only in the confidential identifier addenda and public pleading pages use only matching last four",
+    "participantSignatureBlanks": "preserved",
+    "participantNotarizationBlanks": "preserved",
+    "judgeClerkNotaryAndServiceCompletionFields": "preserved blank",
+    "composerGuard": "both fixtures use participant_delivery and passed without an internal_review exception"
+  },
+  "approvalState": "PENDING_NEW_EXACT_HASH_COUNSEL_APPROVAL",
+  "priorApprovalReused": false,
+  "commercialEffect": "none; sponsored Preview and consumer-paid delivery remain held"
+}

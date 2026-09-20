@@ -1,0 +1,374 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "nc_146_acquittal_petition-set",
+  "worklistGroupId": "nc_146_acquittal_petition-set",
+  "jurisdiction": "NC",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time with every relied-on statement re-read from the committed bytes as an anchor, and every official agency document bound by exact SHA-256 resolved through the committed corpus index and its declared custody roots",
+  "routeKeys": [
+    "obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146"
+  ],
+  "statutoryAuthority": [
+    "G.S. 15A-146",
+    "G.S. 15A-146(a2)",
+    "G.S. 15A-146(a6)",
+    "G.S. 15A-146(c)",
+    "G.S. 15A-150",
+    "G.S. 15A-153"
+  ],
+  "legalName": "Petition and Order of Expunction Under G.S. 15A-146(a2) (Not Guilty or Not Responsible)",
+  "allSourcesExact": true,
+  "formIdentityNote": "Both documents are the North Carolina Administrative Office of the Courts' own published forms, bound by exact SHA-256 through the committed corpus index and delivered as the AOC issues them. G.S. 15A-146(c) requires a petition under this section to be on a form approved by the AOC, so substituting or composing one would make the filing refusable on its face; nothing here is composed, substituted or invented. AOC-CR-288 replaced AOC-CR-264 for G.S. 15A-146(a2) petitions and says so on its own face.",
+  "agencyTreatmentNote": null,
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-packet-set-manifests.json"
+      ],
+      "recordId": "packet-set-manifest:nc_146_acquittal_petition-set",
+      "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+      "byteLength": 3711585,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed packet-set manifest for this exact packet set. Under DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A2 its participantActionRequired entries are a held source, and here they settle the filing destination, the fee, the waiver, the service position, and the records the participant must obtain and keep",
+      "anchorStatementsVerified": 6,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-13",
+        "was": {
+          "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+          "byteLength": 3711575
+        },
+        "why": "The record was rewritten around this receipt's anchors. 2 named entries moved between the blob carrying the previous pin and the bytes on disk (wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "anchorsCompared": 5,
+        "anchorDetail": [
+          "packetManifestSharedMetadata: identical",
+          "packetSet:dc_innocence_expungement-set: identical",
+          "packetSet:il-prostitution-j-vacate-set: identical",
+          "packetSet:ms-misd-addl-set: identical",
+          "packetSet:nc_146_acquittal_petition-set: identical"
+        ],
+        "anchorsIdentical": 5,
+        "identicalAnchorSha256": {
+          "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+          "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+          "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+          "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+          "packetSet:nc_146_acquittal_petition-set": "ddef12e9aa38e522e19e96102a11096a89e2e9b0566fb7c30b4847f6ae02b64a"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nc_146_acquittal_petition-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "nc_146_acquittal_petition-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "nc_146_acquittal_petition-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+                "packetSetId": "nc_146_acquittal_petition-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "wv_nc_acquittal_dismissal-set",
+          "wv_nc_diversion_deferred-set"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-12",
+          "was": {
+            "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+            "byteLength": 3710466
+          },
+          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+          "anchorsCompared": 5,
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:ms-misd-addl-set: identical",
+            "packetSet:nc_146_acquittal_petition-set: identical"
+          ],
+          "anchorsIdentical": 5,
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+            "packetSet:nc_146_acquittal_petition-set": "ddef12e9aa38e522e19e96102a11096a89e2e9b0566fb7c30b4847f6ae02b64a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+          "anchorScope": {
+            "anchorIds": [
+              "nc_146_acquittal_petition-set"
+            ],
+            "derivation": {
+              "declarations": [
+                {
+                  "basis": "pin.recordId",
+                  "packetSetId": "nc_146_acquittal_petition-set"
+                },
+                {
+                  "basis": "receipt.familyId exact packetSetId",
+                  "packetSetId": "nc_146_acquittal_petition-set"
+                },
+                {
+                  "basis": "receipt.routeKeys:obligation:track-pathway:NC:nc_146_acquittal_petition:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+                  "packetSetId": "nc_146_acquittal_petition-set"
+                }
+              ],
+              "globalMetadataComparedAsOneAnchor": true
+            }
+          },
+          "entriesThatMovedInThisRecord": [
+            "de_discretionary_family_court-set"
+          ],
+          "recoveredFrom": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "7eac21e1e2634a0cbc04afaf459f4fe2be96e64b",
+            "commit": "fded60e657631cdee0c146396e446482f4d66384",
+            "commitsWithThisPath": 66,
+            "distinctBlobs": 59,
+            "blobsHashed": 2
+          },
+          "previousIdentityRefresh": {
+            "refreshedOn": "2026-09-12",
+            "was": {
+              "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
+              "byteLength": 3708358
+            },
+            "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+            "anchorsCompared": 2,
+            "anchorDetail": [
+              "recordGlobalMetadata: identical",
+              "packetSet:nc_146_acquittal_petition-set: identical"
+            ],
+            "anchorsIdentical": 2,
+            "identicalAnchorSha256": {
+              "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+              "packetSet:nc_146_acquittal_petition-set": "ecc12ddac2fbf3800a284495aacff7f3e58eceb5ff838b2b7c01dcb34f3a7aa5"
+            },
+            "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+            "anchorScope": {
+              "anchorIds": [
+                "nc_146_acquittal_petition-set"
+              ],
+              "basis": "packet-set-manifest:nc_146_acquittal_petition-set"
+            },
+            "entriesThatMovedInThisRecord": [
+              "il-seal-edu-set"
+            ],
+            "recoveredFrom": {
+              "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+              "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
+            },
+            "previousIdentityRefresh": {
+              "refreshedOn": "2026-09-12",
+              "was": {
+                "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "byteLength": 3708050
+              },
+              "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_superior_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+              "anchorsCompared": 2,
+              "anchorDetail": [
+                "recordGlobalMetadata: identical",
+                "packetSet:nc_146_acquittal_petition-set: identical"
+              ],
+              "anchorsIdentical": 2,
+              "identicalAnchorSha256": {
+                "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "packetSet:nc_146_acquittal_petition-set": "ecc12ddac2fbf3800a284495aacff7f3e58eceb5ff838b2b7c01dcb34f3a7aa5"
+              },
+              "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+              "anchorScope": {
+                "anchorIds": [
+                  "nc_146_acquittal_petition-set"
+                ],
+                "basis": "packet-set-manifest:nc_146_acquittal_petition-set"
+              },
+              "entriesThatMovedInThisRecord": [
+                "de_discretionary_superior_court-set"
+              ],
+              "recoveredFrom": {
+                "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+                "commit": "cb9030a2d8b700300897c399ef02c4dccc5c8d88"
+              },
+              "previousIdentityRefresh": {
+                "refreshedOn": "2026-09-10",
+                "was": {
+                  "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+                  "byteLength": 3694688
+                },
+                "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for nc_146_acquittal_petition-set and the record's global authority fields were recovered from the blob carrying the previous pin (1784eec3da534eca557d2f6bae86204a9114cb9f) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+                "recoveredFromCommit": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+                "anchorsCompared": 2,
+                "anchorDetail": [
+                  "recordGlobalMetadata: identical",
+                  "packetSet:nc_146_acquittal_petition-set: identical"
+                ],
+                "anchorsIdentical": 2,
+                "identicalAnchorSha256": {
+                  "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                  "packetSet:nc_146_acquittal_petition-set": "ecc12ddac2fbf3800a284495aacff7f3e58eceb5ff838b2b7c01dcb34f3a7aa5"
+                },
+                "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+                "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+              },
+              "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+            },
+            "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+          },
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-track-registry.json"
+      ],
+      "recordId": "track-registry:nc_146_acquittal_petition",
+      "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed legal-design track registry entry for this track. It settles the venue and the destination this packet states, and it is the source of the stop conditions the packet carries word for word",
+      "anchorStatementsVerified": 4,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "registryGlobalMetadata: identical",
+          "track:nc_146_acquittal_petition: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:nc_146_acquittal_petition": "a0c18b7c179eb8f1268e44618adccdbbe528176099f258b034fc9c6d7c9ecc84"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nc_146_acquittal_petition"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "nc_146_acquittal_petition"
+            ],
+            "fromReceiptRouteKeys": [
+              "nc_146_acquittal_petition"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-09",
+          "was": {
+            "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
+            "byteLength": 16775681
+          },
+          "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+          "anchorsCompared": 1,
+          "anchorDetail": [
+            "nc_146_acquittal_petition: identical"
+          ],
+          "anchorsIdentical": 1,
+          "entriesThatMovedInThisRecord": [
+            "ri_first_offender_misdemeanor",
+            "ri_multiple_misdemeanors"
+          ],
+          "previousPinLastSeenAtCommit": "94445c6a4",
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    }
+  ],
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:AOC-CR-288"
+      ],
+      "documentId": "AOC-CR-288",
+      "formNumber": "AOC-CR-288",
+      "officialTitle": "Petition and Order of Expunction Under G.S. 15A-146(a2) (Not Guilty Or Not Responsible)",
+      "revision": "REV-2025-03",
+      "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "byteLength": 243887,
+      "custody": "master_library",
+      "pathInCustody": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "corpusIndexAgrees": true,
+      "pageCount": 2,
+      "acroFieldCount": 128,
+      "structuralClassObserved": "acroform",
+      "instrumentKind": "primary_filing",
+      "renderStrategy": "delivered_unmodified"
+    },
+    {
+      "sourceIds": [
+        "official-form:AOC-CR-288-INSTRUCTIONS"
+      ],
+      "documentId": "AOC-CR-288-INSTRUCTIONS",
+      "formNumber": "AOC-CR-288-INSTRUCTIONS",
+      "officialTitle": "Instructions for Petition and Order of Expunction Under G.S. 15A-146(a2) (Not Guilty Or Not Responsible)",
+      "revision": "REV-2025-03",
+      "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+      "byteLength": 217013,
+      "custody": "master_library",
+      "pathInCustody": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "corpusIndexAgrees": true,
+      "pageCount": 1,
+      "acroFieldCount": 0,
+      "structuralClassObserved": "flat_pdf",
+      "instrumentKind": "instructions",
+      "renderStrategy": "delivered_unmodified"
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family prepares for",
+    "that these are the current official editions of either AOC form, or that neither has been superseded since the archive was assembled",
+    "that any particular North Carolina charge was disposed of by a finding of not guilty or not responsible",
+    "that every charge related to any particular case has reached final disposition"
+  ]
+}

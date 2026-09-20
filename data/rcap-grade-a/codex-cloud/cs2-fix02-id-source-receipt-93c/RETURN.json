@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "workerId": "CODEX-CS2-FIX02-ID-SOURCE-RECEIPT",
+  "lane": "FIX02",
+  "laneKind": "repair",
+  "status": "COMPLETED_LOCAL_PUSH_BLOCKED",
+  "base": "93c37a96b86feca8a7322a33d1cf9eb3d1db1eab",
+  "branch": "codex/cs2-fix02-id-source-receipt-93c",
+  "commit": "622d4f6017bb0dcf703ed63e9a60ce4175e1f4e7",
+  "commitMeaning": "Exact local repair commit containing the refreshed source receipt and append-only FIX02 row. The later commit containing this RETURN record is necessarily reported in the final handoff because a commit cannot contain its own identity.",
+  "pushed": "NO — fatal: could not read Username for 'https://github.com': No such device or address",
+  "claim": "CLAIM_OK FIX02 id_set_aside_dismissal-set (repair, grant set 2014c8f5975be4ce)",
+  "family": "id_set_aside_dismissal-set",
+  "route": "obligation:track-only:ID:id_set_aside_dismissal",
+  "obligationRepaired": "SOURCE_IDENTITY",
+  "repair": "Refreshed the zero-document custom pleading's three mutable committed-authority pins from current committed bytes after re-reading and proving the route-specific anchors required by the existing builder. No mutable whole-file movement was treated as substantive source change.",
+  "sourceIdentity": {
+    "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "documentSources": 0,
+    "sourceResearchPerformed": false,
+    "sourcesAcquiredOrSubstituted": 0,
+    "records": [
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "old": {
+          "sha256": "baee41175a96d82aab61a4e04a1927d9cace454f0ae950979213690ad3a374d4",
+          "byteLength": 16586143
+        },
+        "new": {
+          "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+          "byteLength": 16586150
+        },
+        "routeObject": "$.tracks[130]",
+        "anchorsVerified": 13
+      },
+      {
+        "path": "data/record-clearing/legal-design-specifications.json",
+        "old": {
+          "sha256": "cc0c79598a8406e08d606901fafb01972bb75ac1e7d0eca8df59209c0773f9c5",
+          "byteLength": 16829383
+        },
+        "new": {
+          "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+          "byteLength": 16829391
+        },
+        "routeObject": "$.customPleadingSpecs[77]",
+        "anchorsVerified": 1
+      },
+      {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "old": {
+          "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+          "byteLength": 2599752
+        },
+        "new": {
+          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "byteLength": 2607149
+        },
+        "routeObject": "$.routes[173]",
+        "anchorsVerified": 1
+      }
+    ],
+    "finalReceiptSha256": "73191aedc158e04f2bb3da8f26eeada5b3e106ad6ee28494b5bf5ba3e69b16b0",
+    "finalReceiptRehashMatchesAllThreeCommittedFiles": true
+  },
+  "anchorsProven": {
+    "builderCheck": "CHECK_ONLY; 3 records bound; 15 anchors verified",
+    "track": "The unique id_set_aside_dismissal object retains the exact legal name, I.C. § 19-2604(1) mechanism and authority, sentencing-court venue, five generation questions, fee nonstatement, service-confirmation block, and filing-vehicle-confirmation block required by the builder.",
+    "specification": "The unique Idaho specification retains componentId id_set_aside_dismissal-primary-filing-1 and its route-specific venue, authority, rules, generation requirements, and packet instructions.",
+    "route": "The unique census route retains obligation:track-only:ID:id_set_aside_dismissal, statute I.C. § 19-2604(1), track id_set_aside_dismissal, custom_pleading strategy, packet set id_set_aside_dismissal-set, and sentencing-court destination.",
+    "changedOrMissing": false
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family 'id_set_aside_dismissal-set'",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "familySourcesBind": "PASS — zero-source CUSTOM_PLEADING_FROM_CODIFIED_TEXT composition binds committed legal records by hash inside its builder",
+    "qualifiedGlobalFailures": [
+      "master_library_mounted",
+      "master_library_complete",
+      "corpus_matches_committed_index"
+    ],
+    "gateHandling": "Proceeded only under the assignment's explicit zero-document-family exception after family_sources_bind passed; no source-bearing-family gate was weakened."
+  },
+  "packets": [
+    {
+      "fixture": "canonical",
+      "sha256Before": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+      "sha256After": "7773edfbbad30e588ee71061cd226d6c8385e5b35d3d8fa40d43497507dbddbc",
+      "byteLengthBefore": 10134,
+      "byteLengthAfter": 10134,
+      "pageCount": 4,
+      "unchanged": true
+    },
+    {
+      "fixture": "boundary",
+      "sha256Before": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+      "sha256After": "69627731b56805a3b8a37b24c7cfc9b72a9b99d87a09cf85e44e05e0c9cbbf5f",
+      "byteLengthBefore": 10351,
+      "byteLengthAfter": 10351,
+      "pageCount": 4,
+      "unchanged": true
+    }
+  ],
+  "rasterAcceptance": {
+    "workflowRunId": 33605354695,
+    "exactHashBoundRunRemainsValid": true,
+    "reason": "Both covered packet identities are unchanged."
+  },
+  "determinism": {
+    "command": "node scripts/build-census-v1-id_set_aside_dismissal-set.mjs --no-raster",
+    "successfulRuns": 2,
+    "canonicalHashLengthAndPagesIdenticalAcrossRuns": true,
+    "boundaryHashLengthAndPagesIdenticalAcrossRuns": true,
+    "wholeFamilyTreeIdenticalAcrossRuns": true,
+    "postBuildTreeSha256": "2b402a59737b62bb9c0b3398cb792760808e784bbd65ad7d98dabe55ac943e82",
+    "result": "DETERMINISTIC"
+  },
+  "focusedTests": [
+    {
+      "test": "exact current SHA-256 and byte length for all three mutable committed authority records",
+      "result": "PASS"
+    },
+    {
+      "test": "route-specific anchor read plus existing builder --check",
+      "result": "PASS; unique route objects found and 15/15 builder anchors verified"
+    },
+    {
+      "test": "normal Codespaces preflight family_sources_bind",
+      "result": "PASS; qualified global preflight result recorded"
+    },
+    {
+      "test": "two deterministic no-raster builds",
+      "result": "PASS; both COMPLETED with all builder counters zero and identical family bytes"
+    },
+    {
+      "test": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'id_set_aside_dismissal-set'",
+      "result": "PASS_COMPLETE 6/14 written; all nine counters zero"
+    },
+    {
+      "test": "final source-receipt rehash, exact PDF hash/length/page checks, JSON validation, git diff --check, family diff and allowed-path audits",
+      "result": "PASS"
+    }
+  ],
+  "changedPaths": [
+    "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/fix02/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs2-fix02-id-source-receipt-93c/RETURN.json"
+  ],
+  "familyDiffOnlySourceReceipt": true,
+  "builderEdited": false,
+  "packetPdfEdited": false,
+  "sourceOrLegalAuthorityEdited": false,
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "productionTouched": false
+}

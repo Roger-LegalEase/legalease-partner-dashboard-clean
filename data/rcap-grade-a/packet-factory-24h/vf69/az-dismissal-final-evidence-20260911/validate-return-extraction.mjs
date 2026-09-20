@@ -1,0 +1,24 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+const ev='data/rcap-grade-a/packet-factory-24h/vf69/az-dismissal-final-evidence-20260911';
+const central=path.resolve('data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json');
+const before=fs.readFileSync(central);
+const originalWrite=fs.writeFileSync.bind(fs);
+let captured=null;
+fs.writeFileSync=(file,bytes,...args)=>{
+ assert.equal(path.resolve(String(file)),central,'Extractor attempted unanticipated write');
+ captured=JSON.parse(String(bytes));
+ originalWrite(ev+'/extractor-output.json',bytes,...args);
+};
+await import('../../../../../scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs');
+fs.writeFileSync=originalWrite;
+assert.deepEqual(fs.readFileSync(central),before,'Central state changed');
+assert(captured);
+const rows=captured.rows.filter(r=>r.familyId==='az_record_sealing_dismissal_not_guilty-set'&&!r.superseded);
+assert.equal(rows.length,1);
+assert.equal(rows[0].verdict,'FAIL_REPAIR_REQUIRED');
+assert(rows[0].failedObligationNames.includes('REQUIRED_BEFORE_FILING'));
+const summary={result:'PASS',centralStateUnchanged:true,outputRedirectionOnly:true,selectedRow:rows[0],refusedRowsForThisFamily:captured.refusedRows.filter(x=>x.includes('az_record_sealing_dismissal_not_guilty-set'))};
+originalWrite(ev+'/extraction-validation.json',JSON.stringify(summary,null,2)+'\n');
+console.log(JSON.stringify({returnFormat:'PASS',selectedFamily:rows[0].familyId,verdict:rows[0].verdict,failedObligations:rows[0].failedObligations,centralStateUnchanged:true}));

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF23",
+  "workerId": "claude-opus5-pf03-pf23-20260909",
+  "workerBranch": "pf03-pf23-build-20260909",
+  "engine": "Claude Opus 5 packet-build worker in an isolated git worktree, executing PF03 and PF23 as two lanes under the launching dispatch's container, raster and return overrides",
+  "lane": "packet-build",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "shiftBaseSha": "08960cf4a779278e22a10fe782fcbffdb8823a66",
+  "familiesAssigned": 2,
+  "rowsReturned": 2,
+  "familiesCompleted": [],
+  "familiesStopped": [
+    "ia-12346-set",
+    "ma-expunge-k-set"
+  ],
+  "blockedSource": [
+    "ia-12346-set",
+    "ma-expunge-k-set"
+  ],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs",
+    "result": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+    "rasterizerProbe": "node scripts/verify-packet-build-environment.mjs --require-rasterizer -> page_rasterizer_available ok: chromium at /opt/pw-browsers/chromium-1223/chrome-linux/chrome (PLAYWRIGHT_BROWSERS_PATH) rendered a page: paper 2040x2640px. browser_environment_exported FAILs in this container because RCAP_CHROMIUM_PATH is not exported and PLAYWRIGHT_BROWSERS_PATH is absent from /root/.legalease-corpus-env; the rasterizer itself resolves and renders, and the lane gate this assignment names does not include that export check.",
+    "flagsNotPassed": "--codex-cloud and --minimum-captain-sha were not passed: this is not a Codex Cloud container and the dispatch directed the unflagged invocation."
+  },
+  "focusedCheck": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <familyId>",
+    "result": "not run for either family",
+    "why": "Both families stopped at the source-binding gate with nothing built, so there are no packet bytes for a completeness check to read."
+  },
+  "laneNotes": [
+    "Both assigned families stop at the same gate and for the same reason, and the reason is not the one the dispatch anticipated for either. The dispatch expected ma-expunge-k-set to build. It does not: the custody reconciliation records it SOURCE_IDENTITY_UNRESOLVED with documentSourcesResolved 0.",
+    "ia-12346-set stops as predicted, but wider: it names two document sources, Rule 2.86 Form 3 and the Certification of Service by Mailing or Delivery, and neither resolves, so both of its required components lack a bound document.",
+    "Three records disagree about these families and the disagreement is worth a Captain's attention rather than a worker's silence. MASTER_QUEUE.json reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES and state SOURCE_READY; SOURCE_READY_BUILDABILITY.json reads EVERY_BOUND_SOURCE_IS_A_HELD_PDF for ma-expunge-k-set; source-custody-reconciliation.json reads SOURCE_IDENTITY_UNRESOLVED with commissionAcquisition true. The row gate reads the custody record and refuses, which is the gate this assignment names."
+  ],
+  "packetsSelfVerified": 0,
+  "otherPfPromptsExecutedInThisWorktree": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "claimsReleased": 0,
+  "claimLedgerCommitted": false,
+  "grantsNothing": "No family was built, so nothing here is verified, approved or sellable, and no route was opened.",
+  "rows": [
+    {
+      "itemId": "ia-12346-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "IA",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "countersNotMeasuredReason": "The family was never built, so there are no packet bytes to measure. Reporting zeros here would read as a clean packet.",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable; family_sources_bind: ia-12346-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.",
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:Rule 2.86 Form 3",
+          "sha256": null,
+          "why": "resolved:false, heldAs:null, absence 'label_does_not_identify_a_document'. The buildability aid additionally records its only path as the acquisition locator google-drive:1B9EqDhgSht4QSkDazS7yJF-gmfgeB-r1, with no entry at that digest in the governed corpus index and no file under any mounted root hashing to it."
+        },
+        {
+          "sourceId": "official-form:Certification of Service by Mailing or Delivery",
+          "sha256": null,
+          "why": "resolved:false, heldAs:null, absence 'label_does_not_identify_a_document'. This is the family's certificate_of_service component, so a second required component has no bound document."
+        }
+      ],
+      "sourcesThatBound": [],
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "commissionAcquisition": true,
+      "whyStopped": "This family's row in data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json reads EVERY_BOUND_SOURCE_IS_A_HELD_PDF and MASTER_QUEUE.json reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES, and both are contradicted by the governed custody record. data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json records this family as custodyClass SOURCE_IDENTITY_UNRESOLVED with documentSourcesResolved 0, every documentSource carrying resolved:false, heldAs:null and absence 'label_does_not_identify_a_document', and commissionAcquisition true. The dispatch aid resolved a path by filename similarity and read its first bytes; it pins no digest, and its own text says it is not a source determination and that an id-string name is 'a prompt to look, never a finding'. There is therefore no pinned SHA-256 for this label to bind against, so builder-contract rule 1 cannot be satisfied and the family is stopped rather than built.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12346-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent at the base commit and absent now; this lane created nothing under it",
+      "artifacts": [],
+      "additionalFinding": "Confirmed as the dispatch predicted, and the custody record shows the shortfall is wider than the dispatch stated: this family names TWO document sources and neither resolves. The dispatch described only the Rule 2.86 Form 3 locator; the certificate_of_service source is equally unbound, so the family is short a bound document for two of its required components, not one."
+    },
+    {
+      "itemId": "ma-expunge-k-set",
+      "status": "STOPPED",
+      "verdict": "BLOCKED_SOURCE",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "MA",
+      "implementationStrategy": "official_pdf_fill",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersMeasured": false,
+      "countersNotMeasuredReason": "The family was never built, so there are no packet bytes to measure. Reporting zeros here would read as a clean packet.",
+      "rowGateResult": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/13 passed, 1 failed, 4 not applicable; family_sources_bind: ma-expunge-k-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.",
+      "sourcesThatDidNotBind": [
+        {
+          "sourceId": "official-form:Petition for Expungement, G.L. c. 276, § 100K",
+          "sha256": null,
+          "why": "resolved:false, heldAs:null, absence 'label_does_not_identify_a_document' in the custody reconciliation; no digest is pinned for this label anywhere"
+        }
+      ],
+      "sourcesThatBound": [],
+      "custodyClass": "SOURCE_IDENTITY_UNRESOLVED",
+      "commissionAcquisition": true,
+      "whyStopped": "This family's row in data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json reads EVERY_BOUND_SOURCE_IS_A_HELD_PDF and MASTER_QUEUE.json reads sourceStatus SOURCE_BOUND_BY_HELD_BYTES, and both are contradicted by the governed custody record. data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json records this family as custodyClass SOURCE_IDENTITY_UNRESOLVED with documentSourcesResolved 0, every documentSource carrying resolved:false, heldAs:null and absence 'label_does_not_identify_a_document', and commissionAcquisition true. The dispatch aid resolved a path by filename similarity and read its first bytes; it pins no digest, and its own text says it is not a source determination and that an id-string name is 'a prompt to look, never a finding'. There is therefore no pinned SHA-256 for this label to bind against, so builder-contract rule 1 cannot be satisfied and the family is stopped rather than built.",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-k-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "overlayDirectoryState": "absent at the base commit and absent now; this lane created nothing under it",
+      "artifacts": [],
+      "additionalFinding": "The label names a specific statute, G.L. c. 276 § 100K, and the held candidates are not all that statute. In the mounted recovery pool under LegalEase massachusetts/: jud-Petition-for-Expungement.pdf (sha256 19842819786d812c..., re-hashed by this worker), jud-Petition-for-Expungement-of-Marijuana-Offenses-2022-11-08-final.pdf (sha256 a9d80fab51668c59...), and source-gated/MA-Probation-Service__petition-to-expunge-under-GL-c-276-sections-100F-100G-100H__rev-2018-10-11.pdf (sha256 5ccb13e55c07a520...), which is §§100F-100H and a different statutory route from §100K. Selecting the wrong one would build a packet for a statute the participant is not proceeding under, which is a legal defect and not a formatting one."
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "cb01-crosswalk-delta/v1",
+  "assignment": "CB01_ROUTE_AND_BRANCH_INTEGRATION_FACTORY",
+  "baseSha": "110c028aaeccad30d5d673d46110d5fc3859db4e",
+  "generatedAt": "2026-09-01T00:00:00Z",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "reviewed": 17,
+  "applied": 3,
+  "stopped": 14,
+  "crosswalksApplied": [
+    {
+      "source": "data/rcap-grade-a/category-b-integration/c4-split-objection-hearing-appeal/crosswalks.json",
+      "index": 0,
+      "record": {
+        "originalRouteKey": "obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "reuseDecision": "REUSE_AS_IS",
+        "participantABranchRouteKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "binding": {
+          "matchedForm": "CR-202",
+          "canonicalFormId": "official-form:JD-CR-202",
+          "participantFacingInstrument": "primary_filing: JD-CR-202",
+          "packetSetId": "ct-cleanslate-petition-set",
+          "outputStrategy": "official_pdf_fill",
+          "jurisdiction": "CT",
+          "scope": "Reuse the existing participant-initiated Clean Slate route for the JD-CR-202 petition and its committed missed-automatic-erasure review workflow; do not create a second Category A route."
+        },
+        "evidence": [
+          {
+            "record": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+            "location": "rows[originalRouteKey=the C4 CT route].existingCanonicalMatch",
+            "fact": "The canonical match is true and names the existing Category A route, matched form CR-202, and packet set ct-cleanslate-petition-set."
+          },
+          {
+            "record": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+            "location": "rows[originalRouteKey=the C4 CT route].reuseDecision",
+            "fact": "The committed decision is REUSE_AS_IS because an existing Category A route already requires the named instrument."
+          },
+          {
+            "record": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+            "location": "pairs[bStageRouteKey=the C4 CT route]",
+            "fact": "The stage/branch control record binds the automatic B route to the existing JD-CR-202 A route and marks the A branch as already existing."
+          },
+          {
+            "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "location": "routes[routeKey=the JD-CR-202 participant A route]",
+            "fact": "The canonical Category A record is participant-initiated, names primary_filing: JD-CR-202, uses official_pdf_fill, carries packet set ct-cleanslate-petition-set, and requires official-form:JD-CR-202."
+          },
+          {
+            "record": "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+            "location": "families[worklistGroupId=ct-cleanslate-petition-set]",
+            "fact": "The existing official-PDF work is present in the captain tree and marked REUSE_AS_IS and not free to dispatch for rebuilding."
+          },
+          {
+            "record": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+            "location": "petitioned Clean Slate pathway and committed forms/filing guidance",
+            "fact": "The profile identifies JD-CR-202 for the pre-2000 cohort and as the basis for review of a missed automatic erasure; an SPBI report supports the hearing request."
+          }
+        ],
+        "confirmation": {
+          "confirmed": true,
+          "identityOnly": true,
+          "newRouteCreated": false,
+          "packetFamilyCreated": false,
+          "commercialAuthorityGranted": false,
+          "note": "The crosswalk confirms canonical route identity and reuse. It does not prove a packet, approve an output, or open the route commercially."
+        }
+      }
+    },
+    {
+      "source": "data/rcap-grade-a/category-b-integration/c5-split-post-order-enforcement/crosswalks.json",
+      "index": 1,
+      "record": {
+        "bStageRouteKey": "obligation:track-only:MD:md_10104_pre_service",
+        "status": "CONFIRMED_SCENARIO_SPLIT",
+        "aBranchRouteKeys": [
+          "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+          "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105"
+        ],
+        "matchedForms": [
+          "CC-DC-CR-072A",
+          "CC-DC-CR-072C",
+          "CC-DC-CR-078"
+        ],
+        "basis": "The frozen census separates ordinary favorable-disposition filing from filing before the three-year period. The first existing Category A route requires CC-DC-CR-072A; the second requires CC-DC-CR-072C and CC-DC-CR-078. Timing selectors cover both committed instrument scenarios without attributing the waiver to the 072A route.",
+        "scenarioBindings": [
+          {
+            "when": "The ordinary favorable-disposition petition timing applies.",
+            "aBranchRouteKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+            "instrument": "CC-DC-CR-072A Petition for Expungement."
+          },
+          {
+            "when": "The person seeks early filing instead of waiting three years and the General Waiver and Release path applies.",
+            "aBranchRouteKey": "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105",
+            "instrument": "CC-DC-CR-072C with CC-DC-CR-078 General Waiver and Release."
+          }
+        ],
+        "coveredInstrumentParts": [
+          "CC-DC-CR-072A Petition for Expungement under the ordinary favorable-disposition timing route.",
+          "CC-DC-CR-072C and CC-DC-CR-078 under the distinct early-filing route."
+        ],
+        "uncoveredInstrumentParts": [],
+        "noDuplicateRouteCreated": true,
+        "evidencePointers": [
+          "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json#pairs[bStageRouteKey=obligation:track-only:MD:md_10104_pre_service]",
+          "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json#rows[originalRouteKey=obligation:track-only:MD:md_10104_pre_service]",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105]",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105]"
+        ]
+      }
+    },
+    {
+      "source": "data/rcap-grade-a/category-b-integration/c5-split-post-order-enforcement/crosswalks.json",
+      "index": 6,
+      "record": {
+        "bStageRouteKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge",
+        "status": "CONFIRMED_SCENARIO_SPLIT",
+        "aBranchRouteKeys": [
+          "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
+          "obligation:track-only:WI:wi_exp_cr266"
+        ],
+        "matchedForms": [
+          "CR-266",
+          "CR-267"
+        ],
+        "basis": "The frozen census explicitly sends a supervised-case missing certificate to the existing follow-up A route and reserves CR-266 with CR-267 for the distinct no-probation and no-incarceration scenario. Together, scenario selectors cover the composite participant instrument without creating a duplicate route.",
+        "scenarioBindings": [
+          {
+            "when": "Probation, incarceration, or another supervised sentence ended and the certificate was never issued or forwarded.",
+            "aBranchRouteKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
+            "outputStrategy": "custom_pleading",
+            "instrument": "Written request to the supervising or detaining authority to issue and forward the certificate of discharge."
+          },
+          {
+            "when": "The person was not placed on probation and was not sentenced to incarceration.",
+            "aBranchRouteKey": "obligation:track-only:WI:wi_exp_cr266",
+            "outputStrategy": "official_pdf_fill",
+            "instrument": "CR-266 petition with proposed CR-267 order."
+          }
+        ],
+        "coveredInstrumentParts": [
+          "Written missing-certificate follow-up for supervised cases.",
+          "CR-266 and CR-267 filing for the no-probation and no-incarceration scenario."
+        ],
+        "uncoveredInstrumentParts": [],
+        "correctionsToGeneratedProposal": [
+          "The generated stage crosswalk names only wi_exp_cr266; that route cannot cover a supervised-case missing certificate."
+        ],
+        "noDuplicateRouteCreated": true,
+        "evidencePointers": [
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-only:WI:wi_exp_certificate_of_discharge]",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-only:WI:wi_exp_certificate_of_discharge_followup]",
+          "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json#routes[routeKey=obligation:track-only:WI:wi_exp_cr266]"
+        ]
+      }
+    }
+  ],
+  "packetFamilies": {
+    "referenced": [
+      "ct-cleanslate-petition-set",
+      "md_10105_favorable-set",
+      "md_cannabis_petition-set",
+      "mn_pardon_auto_expungement-set",
+      "ne-out-of-jurisdiction-routing-set",
+      "ny_160_59_petition-set",
+      "rcap-ak-participant-agency-application",
+      "rcap-ca-official-pdf-fill",
+      "rcap-co-official-pdf-fill",
+      "rcap-ct-custom-pleading",
+      "rcap-ct-official-pdf-fill",
+      "rcap-dc-custom-pleading",
+      "rcap-de-participant-agency-application",
+      "rcap-il-custom-pleading",
+      "rcap-il-participant-agency-application",
+      "rcap-in-custom-pleading",
+      "rcap-ky-official-pdf-fill",
+      "rcap-md-official-pdf-fill",
+      "rcap-md-participant-agency-application",
+      "rcap-mi-official-pdf-fill",
+      "rcap-mn-guidance-implementation",
+      "rcap-mn-participant-agency-application",
+      "rcap-mo-custom-pleading",
+      "rcap-mt-participant-agency-application",
+      "rcap-nc-official-pdf-fill",
+      "rcap-ne-custom-pleading",
+      "rcap-ne-guidance-implementation",
+      "rcap-nh-official-pdf-fill",
+      "rcap-nj-custom-pleading",
+      "rcap-ny-official-pdf-fill",
+      "rcap-pa-custom-pleading",
+      "rcap-ut-custom-pleading",
+      "rcap-va-custom-pleading",
+      "rcap-va-guidance-implementation",
+      "rcap-vt-participant-agency-application",
+      "rcap-wv-custom-pleading",
+      "va_exp_actual_innocence-set"
+    ],
+    "present": [
+      "ct-cleanslate-petition-set",
+      "md_10105_favorable-set",
+      "md_cannabis_petition-set",
+      "mn_pardon_auto_expungement-set",
+      "ne-out-of-jurisdiction-routing-set",
+      "ny_160_59_petition-set",
+      "va_exp_actual_innocence-set"
+    ],
+    "absent": [
+      "rcap-ak-participant-agency-application",
+      "rcap-ca-official-pdf-fill",
+      "rcap-co-official-pdf-fill",
+      "rcap-ct-custom-pleading",
+      "rcap-ct-official-pdf-fill",
+      "rcap-dc-custom-pleading",
+      "rcap-de-participant-agency-application",
+      "rcap-il-custom-pleading",
+      "rcap-il-participant-agency-application",
+      "rcap-in-custom-pleading",
+      "rcap-ky-official-pdf-fill",
+      "rcap-md-official-pdf-fill",
+      "rcap-md-participant-agency-application",
+      "rcap-mi-official-pdf-fill",
+      "rcap-mn-guidance-implementation",
+      "rcap-mn-participant-agency-application",
+      "rcap-mo-custom-pleading",
+      "rcap-mt-participant-agency-application",
+      "rcap-nc-official-pdf-fill",
+      "rcap-ne-custom-pleading",
+      "rcap-ne-guidance-implementation",
+      "rcap-nh-official-pdf-fill",
+      "rcap-nj-custom-pleading",
+      "rcap-ny-official-pdf-fill",
+      "rcap-pa-custom-pleading",
+      "rcap-ut-custom-pleading",
+      "rcap-va-custom-pleading",
+      "rcap-va-guidance-implementation",
+      "rcap-vt-participant-agency-application",
+      "rcap-wv-custom-pleading"
+    ]
+  }
+}

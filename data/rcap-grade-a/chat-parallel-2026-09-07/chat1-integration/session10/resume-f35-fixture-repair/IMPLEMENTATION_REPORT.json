@@ -1,0 +1,138 @@
+{
+  "status": "IMPLEMENTED_PENDING_CAPTAIN_INDEPENDENT_REVIEW_AND_FULL_CLEAN_SCRATCH_SUITE",
+  "sourceHead": "3afd560520503a217c7b7edd3c5e65eb42fc9243",
+  "scope": [
+    "scripts/grade-a-packet-factory-24h/verify.mjs",
+    "scripts/grade-a-packet-factory-24h/test-post-repair-reread-fixture.mjs"
+  ],
+  "sourcePins": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/verify.mjs",
+      "bytes": 149520,
+      "sha256": "d36ef13bbfc730dff0e07622f8731eac9a160b5108903ac435883a1f6b49e498"
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-post-repair-reread-fixture.mjs",
+      "bytes": 6760,
+      "sha256": "2143af1ef4e002803c5d72b1b64d7ff7a8478ca3ad6949f83dd43f0bfba798e5"
+    }
+  ],
+  "problem": {
+    "publishedSource": "2b432317500fbd35e7390c00b1dc916c4355dff1",
+    "logs": [
+      "resume-publication-2b432317/source-conveyor.log",
+      "resume-publication-2b432317/factory-audit.log"
+    ],
+    "cause": "Mutation setup required an unfinished live causal reread. After Nevada completion none remained, so setup threw even though production F35 passed."
+  },
+  "implementation": [
+    "Extracted the existing production F31/F35 block into checkClaimHistoryAndPostRepairRereads; block bytes match the original after only ROOT-to-root parameter substitution. Live run calls it in the same check order.",
+    "Retained both existing live F35 mutations when an actual causal subject exists. With no subject, execute the existing production checks and repair reader against a tiny isolated Git history instead. There is no live-data substitute and no skip of F35.",
+    "Fallback requires a passing baseline, refusal when its sole exact repair completion is revoked, and refusal when both selected/substantive verdict bases advance to committed repaired HEAD. F31 must stay green in every case. Actual F31/F35 output and child exit code are required; an exception cannot stand in for a detected refusal.",
+    "Each negative control is followed by restoring the original bytes and requiring the positive baseline again; Git checks fixture restoration and finally removes only this generated temporary fixture."
+  ],
+  "validation": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-post-repair-reread-fixture.mjs --json",
+      "exitCode": 0,
+      "elapsedSeconds": 0.598,
+      "result": "3 isolated controls plus 2 restoration baselines; exact F35 refusals; F31 green; fixture restored"
+    },
+    {
+      "command": "node node_modules/eslint/bin/eslint.js scripts/grade-a-packet-factory-24h/verify.mjs scripts/grade-a-packet-factory-24h/test-post-repair-reread-fixture.mjs",
+      "exitCode": 0,
+      "elapsedSeconds": 3.185,
+      "result": "No lint errors or warnings"
+    },
+    {
+      "check": "existing-reader-controls",
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/test-post-repair-return-reader.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.327,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-f35-fixture-repair/existing-reader-controls.log"
+    },
+    {
+      "check": "existing-reread-controls",
+      "command": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/test-post-repair-reread.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.034,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-f35-fixture-repair/existing-reread-controls.log"
+    }
+  ],
+  "isolatedActualResults": {
+    "cases": [
+      {
+        "name": "valid causal repair and executable reread baseline",
+        "failedIds": [],
+        "results": [
+          {
+            "id": "F31",
+            "title": "historical BLOCKED_BEFORE_CLAIM rows remain preserved without outranking current substantive verdicts",
+            "ok": true,
+            "observed": "1 preserved refusal row(s) beside current substantive verdicts, 0 only-refusal family(ies); 0 problem(s): "
+          },
+          {
+            "id": "F35",
+            "title": "every post-failure reread is causally bound to a completed repair and an executable independent dispatch",
+            "ok": true,
+            "observed": "0 problem(s): "
+          }
+        ]
+      },
+      {
+        "name": "revoking the exact completed repair is refused",
+        "failedIds": [
+          "F35"
+        ],
+        "results": [
+          {
+            "id": "F31",
+            "title": "historical BLOCKED_BEFORE_CLAIM rows remain preserved without outranking current substantive verdicts",
+            "ok": true,
+            "observed": "1 preserved refusal row(s) beside current substantive verdicts, 0 only-refusal family(ies); 0 problem(s): "
+          },
+          {
+            "id": "F35",
+            "title": "every post-failure reread is causally bound to a completed repair and an executable independent dispatch",
+            "ok": false,
+            "observed": "1 problem(s): fixture-causal-reread is VERIFY_PENDING after FAIL without complete causal repair and executable reread evidence"
+          }
+        ]
+      },
+      {
+        "name": "repair and artifacts that do not postdate the failed verdict are refused",
+        "failedIds": [
+          "F35"
+        ],
+        "results": [
+          {
+            "id": "F31",
+            "title": "historical BLOCKED_BEFORE_CLAIM rows remain preserved without outranking current substantive verdicts",
+            "ok": true,
+            "observed": "1 preserved refusal row(s) beside current substantive verdicts, 0 only-refusal family(ies); 0 problem(s): "
+          },
+          {
+            "id": "F35",
+            "title": "every post-failure reread is causally bound to a completed repair and an executable independent dispatch",
+            "ok": false,
+            "observed": "1 problem(s): fixture-causal-reread is VERIFY_PENDING after FAIL without complete causal repair and executable reread evidence"
+          }
+        ]
+      }
+    ],
+    "restored": true
+  },
+  "notExecuted": [
+    "No full verify.mjs --mutations against shared root data",
+    "No generator, native audit, packet build, image operation, workflow dispatch, staging or commit"
+  ],
+  "requiredNext": "Captain independently reviews the two exact source pins, commits the coherent candidate, then runs node scripts/grade-a-packet-factory-24h/verify.mjs --mutations in the reserved existing clean scratch. Full convergence is not claimed here.",
+  "terminalDelta": 0,
+  "productionDeploymentChange": false
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-grade-a-independent-completeness-verification/v1",
+  "assignmentId": "VS03_S2_CONTINUATION_INDEPENDENT_VERIFICATION",
+  "baseSha": "40ccc028a2af8eac94743cdb32237e3af56a6642",
+  "minimumCaptainSha": "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf",
+  "rows": [
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0,
+      "evidenceRead": {
+        "fieldMapAndArtifactRecomputation": "production-field-map.json, field-census.census-v1.json, reports/actual-writes.json, reports/rendered-artifacts.json, canonical.pdf, and boundary.pdf; focused verifier independently returned all nine counters at zero (26/89 fields written).",
+        "requiredBeforeFiling": "All 19 unique REQUIRED_BEFORE_FILING fields from canonical/boundary refusals are named in participant-instructions.md; no required-before-filing field is also written in the same SCA-C906 document, and the current-address write is expressly distinguished from required historical addresses.",
+        "artifactHashes": "canonical d477bc4a7f18aaac153c56760fc11dca69a317dc49b2eff7362b1d41ba27b4e4 / 173042 bytes; boundary 27ed521c46fc25fd8edb60501a47322db459aa2196b0b4fd54a6fd5182d12860 / 173253 bytes; independently rehashed bytes match reports/rendered-artifacts.json.",
+        "sourceExactness": "Mounted SCA-C906 (REV-2019-06-04) independently rehashed to 43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c / 176072 bytes, matching source-receipt.json; family preflight bound 2/2 custody entries exactly.",
+        "protectedBoundary": "reports/actual-writes.json records zero protectedFieldsWithInk for canonical and boundary, every reported write visible, and direct map comparison found zero protected or required-before-filing field writes; signatures, signature dates, certification/service, court, clerk, and prosecutor fields remain refused.",
+        "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing"
+      }
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0,
+      "evidenceRead": {
+        "fieldMapAndArtifactRecomputation": "production-field-map.json, field-census.census-v1.json, reports/actual-writes.json, reports/rendered-artifacts.json, canonical.pdf, and boundary.pdf; focused verifier independently returned all nine counters at zero (21/166 fields written).",
+        "requiredBeforeFiling": "All 19 unique REQUIRED_BEFORE_FILING fields from canonical/boundary refusals are named in participant-instructions.md; no required-before-filing field is also written in either SCA-C906 or SCA-C900, and the current-address write is expressly distinguished from required historical addresses.",
+        "artifactHashes": "canonical dc8ec89cc5760e1a02d789216885c91bf477a264a000bd58f1c3608fdc0c0d21 / 391281 bytes; boundary 85462388778b3e78519e54169e981721ade269a7aeaf092ccdbc7fe1fb995d8d / 391504 bytes; independently rehashed bytes match reports/rendered-artifacts.json.",
+        "sourceExactness": "Mounted SCA-C906 independently rehashed to 43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c / 176072 bytes and SCA-C900 to 89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e / 204715 bytes, matching source-receipt.json; family preflight bound 3/3 custody entries exactly.",
+        "protectedBoundary": "reports/actual-writes.json records zero protectedFieldsWithInk for canonical and boundary, every reported write visible, and direct map comparison found zero protected or required-before-filing field writes; signatures, signature dates, certification/service, court, clerk, and prosecutor fields remain refused.",
+        "preflight": "PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing"
+      }
+    }
+  ]
+}

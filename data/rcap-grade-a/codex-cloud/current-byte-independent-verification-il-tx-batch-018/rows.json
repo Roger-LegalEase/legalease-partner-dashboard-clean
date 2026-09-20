@@ -1,0 +1,352 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-IL-TX-BATCH-018",
+  "laneKind": "independent-verification",
+  "worker": "CODEX-GA-ROUTE-VERIFY",
+  "baseSha": "018cd558455454ca44e7deac8efa7b0e881375d3",
+  "claimsReissued": 0,
+  "claimHandling": "This focused current-byte reread used the released family evidence without asserting, acquiring, or reissuing a claim.",
+  "independence": "The verifier did not build or repair any of these families and generated no packet or raster artifact.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "PASS": 0,
+    "FAIL_REPAIR_REQUIRED": 3,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "BLOCKED_BEFORE_CLAIM": 0,
+    "STOPPED": 0
+  },
+  "rows": [
+    {
+      "itemId": "il-exp-nonconv-set",
+      "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-IL-TX-BATCH-018",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-nonconv-set--official-pdf-fill",
+      "currentByteBinding": {
+        "familyTreeGitOid": "537baf1090805bd3d78d69ffd6460a70445174b8",
+        "entryBuildScript": {
+          "path": "scripts/build-census-v1-il-exp-nonconv-set.mjs",
+          "gitBlobOid": "c23a20384bc9ee156b51e9cd5d830c7525d032b5",
+          "sha256": "9006109f16e1878def884429a43a1aaf1e062003719f45357aacee5bed6939da",
+          "byteLength": 23380
+        }
+      },
+      "sourceBinding": {
+        "corpusMounted": true,
+        "boundDocumentsRehashed": 5,
+        "allHashesAndByteLengthsMatch": true,
+        "documents": [
+          {"id": "EXP-AD Request", "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853", "byteLength": 1015247},
+          {"id": "EXP-AD Case List", "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c", "byteLength": 744328},
+          {"id": "EXP-AD Additional Cases Expungement", "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00", "byteLength": 821758},
+          {"id": "EXP-AD Order Granting", "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305", "byteLength": 823679},
+          {"id": "FW-CIV-APPLICATION", "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5", "byteLength": 1051549}
+        ]
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "be547c0bcdbc98cbcc2b2b9f5675220d478c01085474ca960ce2cda58d7cc5ba", "byteLength": 2103859, "pageCount": 14},
+        {"fixture": "boundary", "sha256": "eb99fb60f6d8825d6d9e363e852b78c49039b2f40cc3fa61adb427af14c44ba5", "byteLength": 2104631, "pageCount": 14}
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33844904078",
+        "renderedCommitSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+        "jobId": "100935414073",
+        "artifactId": "9926426181",
+        "boundToCanonicalSha256": "be547c0bcdbc98cbcc2b2b9f5675220d478c01085474ca960ce2cda58d7cc5ba",
+        "boundToBoundarySha256": "eb99fb60f6d8825d6d9e363e852b78c49039b2f40cc3fa61adb427af14c44ba5",
+        "documentsMeasured": 2,
+        "pagesMeasured": 28,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "semanticDefectsOutsideCounterModel": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The request selects Page 1 - Request to Expunge Records and the family remains limited to the Illinois non-conviction expungement route."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All five bound Illinois source PDFs were independently rehashed from mounted current bytes and every digest and byte length matches the receipt."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both fourteen-page artifacts contain the request, case list, additional-cases continuation, proposed order, and civil fee-waiver application."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "All 27 charge-entry fields across the Request and Additional Cases forms are incorrectly bound to matter.case_number and print 2021-CF-004217 instead of the known charge."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "FAIL", "finding": "The participant guidance does not accurately reconcile the already-inked malformed charge rows with the remaining case facts the participant must supply, so the packet is not truthfully completion-ready."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The expungement route is selected while participant legal elections and court determinations remain unselected."},
+        "REPEATING_ROWS": {"measured": true, "result": "FAIL", "finding": "Later repeated charge cells are inked while their sibling case, agency, date, and outcome cells remain blank; the Case List also spreads one record across arrest1 through arrest5 as though those one-dimensional slots were five columns."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "FAIL", "finding": "The participant criminal case number is written into five clerk-reserved caption fields: Request 7 - Case Number, Case List 7 - Case Number, Additional Cases 7 - Case Number, Order 7 - Case Number, and FW-CIV 4 - Case Number."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently match their exact current SHA-256 values, byte lengths, and fourteen-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests preserve the complete fourteen-page component sequence without a missing or duplicate page."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "FAIL", "finding": "The Case List arrest3 charge is deliberately shortened by the builder's safeSet path to Charge exactly as shown o…, so the exact participant fact is truncated despite the visual raster reporting zero layout problems."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions identify the circuit clerk in every county where a case was charged and preserve the Cook County district detail."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "County-variable court costs and the Illinois State Police processing charge are distinguished, and the official FW-CIV fee-waiver application is included without inventing eligibility."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The instructions truthfully assign statutory distribution of the filing to the circuit clerk rather than the participant."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The packet stops for uncertain eligibility, multiple counties, objections, hearings, immigration consequences, and other legal-review conditions."}
+      },
+      "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "REPEATING_ROWS", "PROTECTED_FIELDS", "CLIPPING_AND_OVERLAP"],
+      "unmeasuredObligations": [],
+      "evidenceRead": [
+        "exact family tree, builder, current field map, write report, instructions, approval and wiring at 018cd558455454ca44e7deac8efa7b0e881375d3",
+        "all five mounted source binaries and both exact current fourteen-page PDF artifacts",
+        "admitted whole-family RASTER_PASS receipt from run 33844904078"
+      ]
+    },
+    {
+      "itemId": "il-exp-supervision-set",
+      "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-IL-TX-BATCH-018",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill",
+      "currentByteBinding": {
+        "familyTreeGitOid": "4dcfa622b8e186fa38a7a25964fa4c38d74aa127",
+        "entryBuildScript": {
+          "path": "scripts/build-census-v1-il-exp-supervision-set.mjs",
+          "gitBlobOid": "622347ac34e1a843795767f293d7871ba6a83b76",
+          "sha256": "f70588a6cd2a239146ee0db64f280c634f1455cd6eac979586ce80401588073a",
+          "byteLength": 22684
+        }
+      },
+      "sourceBinding": {
+        "corpusMounted": true,
+        "boundDocumentsRehashed": 4,
+        "allHashesAndByteLengthsMatch": true,
+        "documents": [
+          {"id": "EXP-AD Request", "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853", "byteLength": 1015247},
+          {"id": "EXP-AD Case List", "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c", "byteLength": 744328},
+          {"id": "EXP-AD Order Granting", "sha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305", "byteLength": 823679},
+          {"id": "FW-CIV-APPLICATION", "sha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5", "byteLength": 1051549}
+        ]
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb", "byteLength": 1734519, "pageCount": 13},
+        {"fixture": "boundary", "sha256": "df3754d4f3f15da219bba84363aa45fb2ad923416948dbe5fe02e1e709eb3cc2", "byteLength": 1735184, "pageCount": 13}
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33844904078",
+        "renderedCommitSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+        "jobId": "100935414168",
+        "artifactId": "9926561955",
+        "boundToCanonicalSha256": "330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb",
+        "boundToBoundarySha256": "df3754d4f3f15da219bba84363aa45fb2ad923416948dbe5fe02e1e709eb3cc2",
+        "documentsMeasured": 2,
+        "pagesMeasured": 26,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The family consistently selects the Illinois expungement route for completed supervision and does not cross into a conviction-sealing route."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All four bound Illinois source PDFs were independently rehashed from mounted current bytes and every digest and byte length matches the receipt."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both thirteen-page artifacts contain the request, case list, proposed order, and civil fee-waiver application in full."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "The repaired map binds charge fields to matter.charge, writes only the first applicable row, leaves unused rows blank, and carries all declared participant-known facts without ellipsis."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "The instructions disclose the ISP statewide transcript, certified dispositions, per-case expunge-or-seal decision, signatures, dates, and conditional hearing facts; required-before-filing counters are zero."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The supervision-expungement route is explicit while participant legal elections and court determinations remain unselected."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "Only the first known case row is populated and no later repeating row contains a partial record."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "All four clerk-reserved case-number captions, signatures, dates, judicial findings, and service events remain blank; protectedWrites is zero."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently match their exact current SHA-256 values, byte lengths, and thirteen-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests preserve the complete thirteen-page component sequence without a missing or duplicate page."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "The admitted full-family receipt binds both current artifacts, measures all 26 pages, and reports zero problems; the current write report contains no ellipsized value."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions identify the circuit clerk in every county where a case was charged and preserve Cook County district handling."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "County-variable court costs and the Illinois State Police processing charge are distinguished, and the official FW-CIV fee-waiver application is included without inventing eligibility."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The instructions truthfully assign statutory distribution of the filing to the circuit clerk rather than the participant."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "The packet stops for uncertain eligibility, multiple counties, objections, hearings, immigration consequences, and other legal-review conditions."}
+      },
+      "failedProofObligations": [],
+      "unmeasuredObligations": [],
+      "evidenceRead": [
+        "exact family tree, repaired builder, current field map, write report, instructions, approval and wiring at 018cd558455454ca44e7deac8efa7b0e881375d3",
+        "all four mounted source binaries and both exact current thirteen-page PDF artifacts",
+        "admitted whole-family RASTER_PASS receipt from run 33844904078"
+      ]
+    },
+    {
+      "itemId": "tx_nd_dwi_deferred-set",
+      "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-IL-TX-BATCH-018",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-deferred-set--official-pdf-fill",
+      "currentByteBinding": {
+        "familyTreeGitOid": "7c2a8cef2fa9626209bd049da9a72814e6e86505",
+        "entryBuildScript": {
+          "path": "scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs",
+          "gitBlobOid": "eacef5d33b86eee98fdd9b3bb65ba24d5923a4cb",
+          "sha256": "125ee5618a10fe8af498d3059ab8c78329e0802188d35c8dde4b24dc007494b7",
+          "byteLength": 123791
+        }
+      },
+      "sourceBinding": {
+        "corpusMounted": true,
+        "boundDocumentsRehashed": 3,
+        "allHashesAndByteLengthsMatch": true,
+        "documents": [
+          {"id": "TX-GC-411.0726-PETITION", "custody": "master_library", "sha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d", "byteLength": 193841},
+          {"id": "TX-GC-411.0726-ORDER", "custody": "master_library", "sha256": "c2b4c3ecf0033ef5af21ae05eaf79f7be197228150c5d6e752d1d423736d2b06", "byteLength": 110549},
+          {"id": "TX-SCT-22-9090-STATEMENT-OF-INABILITY", "custody": "human_source_returns", "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d", "byteLength": 6667524}
+        ]
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "a991f3b4e6a27ebf11bd52ef3370f7e0e4d2b63282ea57585932a172ed0d98e6", "byteLength": 1221517, "pageCount": 24},
+        {"fixture": "boundary", "sha256": "6892d5d7e21334cc8a4f30507e40db5f5ec8759b7043701ab04cf5ead4c909cd", "byteLength": 1221875, "pageCount": 24}
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33844904078",
+        "renderedCommitSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+        "jobId": "100935414104",
+        "artifactId": "9926524678",
+        "boundToCanonicalSha256": "a991f3b4e6a27ebf11bd52ef3370f7e0e4d2b63282ea57585932a172ed0d98e6",
+        "boundToBoundarySha256": "6892d5d7e21334cc8a4f30507e40db5f5ec8759b7043701ab04cf5ead4c909cd",
+        "documentsMeasured": 2,
+        "pagesMeasured": 48,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "semanticDefectsOutsideCounterModel": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The field map, receipt, and instructions remain limited to the Texas section 411.0726 DWI or BWI deferred-adjudication nondisclosure route."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The official petition, proposed order, and statewide Statement of Inability were independently rehashed in their declared custody and match all current pins."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both twenty-four-page artifacts contain the five-page petition, three-page proposed order, conditional one-page proof, twelve-page fee-waiver statement, and three-page participant instructions."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "FAIL", "finding": "The instructions say nothing financial is filled in and assign signature and date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "The participant's evidence attachment and filing-fee-or-waiver elections remain unselected; judicial findings and order choices remain court-owned."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The fee-waiver map gives every repeating financial field an explicit disposition and does not create a partial participant-authored row; the defect is preserved nonempty source content."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "FAIL", "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently match their exact current SHA-256 values, byte lengths, and twenty-four-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests remain contiguous from pages 1 through 24 and preserve all five components in declared order."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "The admitted full-family receipt binds both current artifacts, measures all 48 pages, and reports zero raster problems."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions direct filing with the clerk of the sentencing court and preserve in-person, e-file, and mail channels subject to clerk confirmation."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "No flat county fee is asserted; the packet distinguishes the statewide model estimate from the current clerk-controlled amount and includes the Rule 145 waiver path."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The packet explains court notice under section 411.0745(e) and conditionally includes proof for any clerk-required delivery to the prosecutor."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Eligibility, waiting-period, collision, criminal-history, local notarization, objection, and hearing uncertainties trigger clerk or legal-help stops."}
+      },
+      "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "PROTECTED_FIELDS"],
+      "unmeasuredObligations": [],
+      "evidenceRead": [
+        "exact family tree, builder, current map, build findings, write report, instructions, approval and wiring at 018cd558455454ca44e7deac8efa7b0e881375d3",
+        "all three mounted source binaries and both exact current twenty-four-page PDF artifacts",
+        "source and artifact AcroForm values for the three retained fee-waiver fields",
+        "admitted whole-family RASTER_PASS receipt from run 33844904078"
+      ]
+    },
+    {
+      "itemId": "tx_nd_probation_misdemeanor-set",
+      "lane": "CURRENT-BYTE-INDEPENDENT-VERIFICATION-IL-TX-BATCH-018",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/tx/tx-nd-probation-misdemeanor-set--official-pdf-fill",
+      "currentByteBinding": {
+        "familyTreeGitOid": "f1b927c34f80299d5c23cdeb3aeeece7eed39cec",
+        "entryBuildScript": {
+          "path": "scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs",
+          "gitBlobOid": "464258ab79a3eef172fdb419889e99757c8454a3",
+          "sha256": "0e788ca2826e9e452494ae63465210bf7a26ab7a1ab25018c9833e4a3919e764",
+          "byteLength": 127383
+        }
+      },
+      "sourceBinding": {
+        "corpusMounted": true,
+        "boundDocumentsRehashed": 3,
+        "allHashesAndByteLengthsMatch": true,
+        "documents": [
+          {"id": "TX-GC-411.073-PETITION", "custody": "master_library", "sha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a", "byteLength": 199537},
+          {"id": "TX-GC-411.0725-073-0735-ORDER", "custody": "master_library", "sha256": "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680", "byteLength": 110504},
+          {"id": "TX-SCT-22-9090-STATEMENT-OF-INABILITY", "custody": "human_source_returns", "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d", "byteLength": 6667524}
+        ]
+      },
+      "artifacts": [
+        {"fixture": "canonical", "sha256": "c2811db63f9e2d180e2dccc4745855f59cc5550fb63bd3147d8ca981f5df28b8", "byteLength": 1221605, "pageCount": 24},
+        {"fixture": "boundary", "sha256": "4df5090c138ae6359b6066ca70e1c4ecfdcfda52fb26d281b005a3c54eea4f96", "byteLength": 1221970, "pageCount": 24}
+      ],
+      "rasterEvidence": {
+        "verdict": "RASTER_PASS",
+        "workflowRunId": "33850403312",
+        "renderedCommitSha": "b61e502996185ac1e23da4d0ae3f6b5b0a092a16",
+        "jobId": "100953975798",
+        "artifactId": "9928680345",
+        "boundToCanonicalSha256": "c2811db63f9e2d180e2dccc4745855f59cc5550fb63bd3147d8ca981f5df28b8",
+        "boundToBoundarySha256": "4df5090c138ae6359b6066ca70e1c4ecfdcfda52fb26d281b005a3c54eea4f96",
+        "documentsMeasured": 2,
+        "pagesMeasured": 48,
+        "problemsFound": 0,
+        "coversTheWholeFamily": true
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "semanticDefectsOutsideCounterModel": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The field map, receipt, and instructions remain limited to the Texas section 411.073 misdemeanor-conviction nondisclosure route after community supervision."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "The official petition, combined-section proposed order, and statewide Statement of Inability were independently rehashed in their declared custody and match all current pins."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Both twenty-four-page artifacts contain the five-page petition, three-page proposed order, conditional one-page proof, twelve-page fee-waiver statement, and three-page participant instructions."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "FAIL", "finding": "The fee-waiver source carries three nonempty AcroForm values that the builder preserves in both artifacts: Value / Valor 11 = 0, Amount Cantidad 15 = 0, and Today = 12/15/2022. None is a participant fact supplied by the fixture."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "FAIL", "finding": "The instructions assign every financial fact plus the signature date to the participant, but the current fee-waiver pages already assert two sworn zero totals and a declaration date, making the completion directions materially inaccurate."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "PASS", "finding": "Both waiting-period branch choices, the evidence attachment, and filing-fee-or-waiver election remain participant-controlled; the combined order's legal finding boxes remain court-owned."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The fee-waiver map gives every repeating financial field an explicit disposition and does not create a partial participant-authored row; the defect is preserved nonempty source content."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "FAIL", "finding": "The unsigned sworn fee-waiver declaration is falsely dated 12/15/2022 and two sworn participant financial totals are prepopulated as zero; these source values are not classified by the production field map."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Canonical and boundary PDFs independently match their exact current SHA-256 values, byte lengths, and twenty-four-page parser counts."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "Both manifests remain contiguous from pages 1 through 24 and preserve all five components in declared order."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "The admitted full-family receipt binds both current artifacts, measures all 48 pages, and reports zero raster problems."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "The instructions direct filing with the clerk of the sentencing court and preserve in-person, e-file, and mail channels subject to clerk confirmation."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "No flat county fee is asserted; the packet distinguishes the statewide model estimate from the current clerk-controlled amount and includes the Rule 145 waiver path."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "The packet explains court notice under section 411.0745(e) and conditionally includes proof for any clerk-required delivery to the prosecutor."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Eligibility, supervision type, waiting-period, criminal-history, local notarization, objection, and hearing uncertainties trigger clerk or legal-help stops."}
+      },
+      "failedProofObligations": ["KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING", "PROTECTED_FIELDS"],
+      "unmeasuredObligations": [],
+      "evidenceRead": [
+        "exact family tree, builder, current map, build findings, write report, instructions, approval and wiring at 018cd558455454ca44e7deac8efa7b0e881375d3",
+        "all three mounted source binaries and both exact current twenty-four-page PDF artifacts",
+        "source and artifact AcroForm values for the three retained fee-waiver fields",
+        "admitted whole-family RASTER_PASS receipt from run 33850403312"
+      ]
+    }
+  ],
+  "packetOrRasterBytesModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

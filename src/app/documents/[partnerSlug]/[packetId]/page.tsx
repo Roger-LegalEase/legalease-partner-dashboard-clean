@@ -1,12 +1,8 @@
 import Link from "next/link";
+import { DocumentPacketRenderer } from "@/components/rcap/documents/DocumentPacketRenderer";
 import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { DcDocumentPacketPreview } from "@/components/rcap/documents/dc/DcDocumentPacketPreview";
-import { MississippiPetitionPacketPreview } from "@/components/rcap/documents/mississippi/MississippiPetitionPacketPreview";
-import { IllinoisDocumentPacketPreview } from "@/components/rcap/documents/illinois/IllinoisDocumentPacketPreview";
-import { PennsylvaniaDocumentPacketPreview } from "@/components/rcap/documents/pennsylvania/PennsylvaniaDocumentPacketPreview";
-import { TexasHarrisDocumentPacketPreview } from "@/components/rcap/documents/texas-harris/TexasHarrisDocumentPacketPreview";
 import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { getRcapDocumentPacket } from "@/lib/rcap/documents/source-repository";
 
@@ -40,7 +36,7 @@ export default async function MississippiDocumentPacketPage({
           Back to documents
         </Link>
         <div className="mt-6 print:mt-0">
-          {packet.state === "TX" ? <TexasHarrisDocumentPacketPreview packet={packet} /> : packet.state === "PA" ? <PennsylvaniaDocumentPacketPreview packet={packet} /> : packet.state === "DC" ? <DcDocumentPacketPreview packet={packet} /> : packet.state === "IL" ? <IllinoisDocumentPacketPreview packet={packet} /> : <MississippiPetitionPacketPreview packet={packet} />}
+          <DocumentPacketRenderer packet={packet} />
         </div>
       </div>
     </main>

@@ -1,0 +1,156 @@
+{
+  "lane": "VF02",
+  "familyId": "tx_nd_automatic_misdemeanor_deferred-set",
+  "reviewBaseSha": "665f6cdbf95322b11e77defafffff6ea193bd2cc",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "repairAssignments": [
+    {
+      "id": "TX072-VF02-01",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS"
+      ],
+      "severity": "blocking",
+      "finding": "The Statement caption leaves the known court number and known court type blank in both fixtures. The source directs the participant to copy the court caption; these are not judge-only fields. Canonical holds County Court at Law No. 2 and boundary holds County Criminal Court at Law No. 15, visibly printed on packet page 4. Packet page 11 has no number and none of the five court-type choices selected.",
+      "measurement": {
+        "packetPage": 11,
+        "courtNumberRect": {
+          "x": 75.96,
+          "y": 208.56,
+          "width": 292.08,
+          "height": 25.573
+        },
+        "courtNumberReadback": [
+          "",
+          ""
+        ],
+        "courtNumberInteriorDarkPixels": [
+          0,
+          0
+        ],
+        "courtTypeField": "Choice 1",
+        "expectedCourtTypeState": "Choice3",
+        "expectedLabel": "County Court at Law",
+        "choice3Rect": {
+          "x": 391.01,
+          "y": 157.017,
+          "width": 18,
+          "height": 18
+        },
+        "allFiveControlCenterDarkPixelsPerFixture": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sourceSelectedMarkPresent": false
+      },
+      "repair": "Map the held court number and select the source-authored County Court at Law option from the held court identity. Keep the source Cause Number blank because its printed instruction assigns it to the clerk; do not infer a county that the fixture does not explicitly hold."
+    },
+    {
+      "id": "TX072-VF02-02",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "severity": "blocking",
+      "finding": "All three declaration birth-date boxes on packet page 21 are blank although page 12 prints the complete held DOB. The map incorrectly treats Day / D\u00eda and Month / Mes as signature/date protected; Year / A\u00f1o is generic REQUIRED_BEFORE_FILING. The participant instructions do not identify a manual birth-date completion task, omit Day / D\u00eda and Month / Mes, and describe Year / A\u00f1o only with a generic financial/household completion sentence.",
+      "measurement": {
+        "heldDobCanonical": "1993-04-16",
+        "heldDobBoundary": "1992-02-29",
+        "packetPage12Readback": [
+          "04/16/1993",
+          "02/29/1992"
+        ],
+        "packetPage12DobDarkPixels": [
+          1609,
+          1628
+        ],
+        "packetPage21BirthMonthDayYearDarkPixelsPerFixture": [
+          0,
+          0,
+          0
+        ],
+        "sharedSourceField": "Month / Mes",
+        "sharedWidgets": [
+          {
+            "sourcePage": 11,
+            "role": "participant date of birth",
+            "rect": {
+              "x": 79.7302,
+              "y": 495.561,
+              "width": 49.0948,
+              "height": 19.898
+            }
+          },
+          {
+            "sourcePage": 12,
+            "role": "notary subscription date",
+            "rect": {
+              "x": 135.241,
+              "y": 265.173,
+              "width": 180.833,
+              "height": 19.898
+            }
+          }
+        ]
+      },
+      "repair": "Correct the birth-date classification and completion treatment without marking the notary widget. Prefer per-widget source-faithful DOB output on source page 11; if a governed manual-completion exception is retained for the shared field, record that actual exception and give a precise declaration-DOB task. Do not label the participant DOB a signature date, and do not globally fill Month / Mes because its second widget belongs to the notary. This finding is specific to the automatic family and does not reopen the other Texas families."
+    },
+    {
+      "id": "TX072-VF02-03",
+      "obligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "severity": "blocking",
+      "finding": "Known address data is withheld. The Statement mailing-address field on packet page 12 is blank in both fixtures although the OCA letter page 6 contains the held mailing address. The boundary declaration page 21 prints only 901 West Twenty-Third Street, Apartment 14 and omits the supplied El Paso, Texas 79901, despite the printed field requiring Street, city, zip, country.",
+      "measurement": {
+        "mailingField": "Mailing  Direcci\u00f3n Postal",
+        "mailingRect": {
+          "x": 269.52,
+          "y": 448.92,
+          "width": 246.96,
+          "height": 18.72
+        },
+        "mailingDrawnTextPerFixture": [
+          "",
+          ""
+        ],
+        "mailingInteriorDarkPixelsPerFixture": [
+          0,
+          0
+        ],
+        "declarationAddressField": "My address is  Mi domicilio es",
+        "declarationAddressRect": {
+          "x": 77.64,
+          "y": 431.56,
+          "width": 373.8,
+          "height": 24.72
+        },
+        "boundaryDrawnText": "901 West Twenty-Third Street, Apartment 14",
+        "omittedHeldFact": "El Paso, Texas 79901",
+        "boundaryAddressInteriorDarkPixels": 5683
+      },
+      "repair": "Use a consistent complete address value for the Statement mailing and declaration fields, composed from the held street and city/state/ZIP without duplicating a suffix already present in the canonical street value. Preserve safe fitting within the existing source rectangles; do not invent an unsupplied country or home-address relationship."
+    },
+    {
+      "id": "TX072-VF02-04",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "severity": "blocking",
+      "finding": "The guide tells the participant to complete Cause number on the Statement caption by copying the recovery matter. The exact source on packet page 11 instead says the Clerk\u2019s office will fill in the Cause Number when the form is filed. The PDF correctly leaves this box blank; the required-before-filing instruction and classification are wrong.",
+      "measurement": {
+        "packetPage": 11,
+        "sourceInstruction": "The Clerk\u2019s office will fill in the Cause Number when you file this form.",
+        "guideLabel": "Cause number on the Statement caption",
+        "guideInstruction": "copy the caption information from the recovery matter before submission",
+        "currentPdfBlank": true
+      },
+      "repair": "Reclassify the source Cause Number field as clerk-owned, retain the blank, and remove the participant instruction to complete it. Keep this distinct from the participant-completable Court Number field."
+    }
+  ],
+  "packetEditsMade": 0,
+  "assignmentScope": "Bounded repair recommendation only; root handles any future custody/integration/dispatch."
+}

@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "packet-factory-24h/lane-gate-stop/v1",
+  "whatThisIsNot": "This is NOT rows.json. The lane gate did not pass, so no family row was written and no family was claimed, read or built. A rows.json here would assert that families were evaluated; none were.",
+  "lane": "PF11",
+  "worker": "PF-B",
+  "workerBranch": "claude/9h-pf-b",
+  "shiftBaseSha": "c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+  "captainBranch": "claude/legalease-sprint-captain-utucnw",
+  "laneStatus": "LANE_STOP_ENVIRONMENT",
+  "stoppedAt": "lane_gate",
+  "familiesAssigned": 1,
+  "rowsWritten": 0,
+  "familiesClaimed": 0,
+  "overlayDirectoriesTouched": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "laneGate": {
+    "command": "node scripts/verify-packet-build-environment.mjs --codex-cloud --minimum-captain-sha c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6 --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json",
+    "verdict": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+    "ratio": "10/13 passed, 3 failed, 3 not applicable",
+    "checksThatFailed": [
+      {
+        "check": "master_library_mounted",
+        "detail": "absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+      },
+      {
+        "check": "master_library_complete",
+        "detail": "the corpus root cannot be walked (absent is not empty)"
+      },
+      {
+        "check": "corpus_matches_committed_index",
+        "detail": "the corpus root cannot be walked; nothing to compare the index against"
+      }
+    ],
+    "allThreeAreOneRootCause": true,
+    "rootCause": "The governed Master Library (Edition 1) is not mounted in this container and cannot be fetched from it, because this session's GitHub access layer does not carry the source-artifacts repository.",
+    "captainPreflightFixConfirmed": {
+      "check": "browser_environment_exported",
+      "wasBefore": "FAIL — RCAP_CHROMIUM_PATH is not exported",
+      "isNow": "not applicable: this invocation renders nothing, so it needs no browser exported",
+      "verdict": "CONFIRMED FIXED at c6d7ffe7. This was a real fleet-wide blocker and it is gone. It was not, however, the only one in this container."
+    }
+  },
+  "recoveryAttempted": {
+    "script": "scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "timesRun": 2,
+    "releaseRepo": "Roger-LegalEase/legalease-source-artifacts",
+    "releaseTag": "source-corpus-2026-08-28",
+    "result": "REFUSED_AT_RELEASE_LOOKUP",
+    "httpStatus": 403,
+    "correctionToTheEarlierReport": "PF-B's first return called this 'the token may lack access', which is the wording the script prints on any non-200. That was one step off, and so was the Captain's correction of it. The 403 does not come from GitHub at all.",
+    "responseBodyVerbatim": "GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:\"push\" to attach the repository with credentials.",
+    "whatThatMeans": "The refusal is issued by this session's GitHub access layer before the request reaches GitHub. The Captain's own check answering HTTP 200 is consistent with this: the Captain ran it from an environment where the source-artifacts repository is in scope. Repository scope is per-session, so a 200 there proves nothing about here.",
+    "remedyAttempted": {
+      "tool": "add_repo",
+      "modes": [
+        "read",
+        "push"
+      ],
+      "result": "DENIED_BY_PERMISSION_CLASSIFIER in both modes",
+      "note": "add_repo is the remedy the 403 body itself names. It is not available to this worker, so the corpus cannot be brought into scope from inside the lane."
+    },
+    "whatWouldUnblockIt": [
+      "an operator grants this session access to Roger-LegalEase/legalease-source-artifacts (add_repo approved, or repository access granted in the Claude GitHub settings), after which bootstrap-private-corpus.sh succeeds unaided; or",
+      "the corpus is pre-mounted at the install root before the worker starts; or",
+      "PF07-PF11 are re-dispatched to a worker whose session already carries the source-artifacts repository."
+    ]
+  },
+  "rowGateEvidence": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <familyId> --codex-cloud --minimum-captain-sha c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+    "note": "Every family resolves its source identity to exactly one committed index entry and binds zero of them. That is one environment fact reported six times, not a per-family source defect. These are NOT BLOCKED_SOURCE findings: BLOCKED_SOURCE names a source that failed to bind while the corpus was present, and the corpus was never present here.",
+    "verdictPerFamily": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed, 2 not applicable"
+  },
+  "families": [
+    {
+      "familyId": "wi_nc_doj_fingerprint_removal-set",
+      "jurisdiction": "WI",
+      "implementationStrategy": "official_pdf_fill",
+      "officialForms": [
+        "DJ-LE-250B"
+      ],
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/wi/wi-nc-doj-fingerprint-removal-set--official-pdf-fill",
+      "overlayDirectoryTouched": false,
+      "claimed": false,
+      "artifactsRead": 0,
+      "artifactsWritten": 0,
+      "sourceIdentityResolves": true,
+      "sourcesTotal": 1,
+      "sourcesBound": 0,
+      "sources": [
+        {
+          "sourceId": "official-form:DJ-LE-250B",
+          "resolvedFrom": "data/rcap-all50/local-source-corpus-index.json",
+          "indexMatches": 1,
+          "pathInMasterLibrary": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+          "pinnedSha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+          "presentOnDisk": false,
+          "observedSha256": null,
+          "bound": false,
+          "whyNotBound": "the Master Library is not mounted in this container, so the pinned bytes are not on disk to hash"
+        }
+      ]
+    }
+  ],
+  "whatWasDeliberatelyNotDone": [
+    "No family was claimed. The claim ledger already carries a Captain-registered packet-build claim for each of these families on this lane; asserting a claim from a lane that produced nothing would mark the family taken by a worker that cannot build it.",
+    "No overlay directory was created, opened or modified. Every assigned overlay directory is byte-for-byte as the shift base left it.",
+    "No rows.json and no checkpoints.json were written. The lane gate says no row is written when it does not pass, and a STOPPED row would assert a family evaluation that never happened.",
+    "No packet was built on an unbound source, and no fact was invented. Six official_pdf_fill families cannot be filled without the official PDF bytes they overlay.",
+    "MASTER_LIBRARY_SOURCE_DIR was not exported, per the Captain's instruction and because there is no corpus to point it at."
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "rcap-independent-semantic-preflight/v1",
+  "familyId": "nh_petition_vacated-set",
+  "lane": "VF03",
+  "status": "FAIL_REPAIR_REQUIRED",
+  "dispatchAuthorized": false,
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "observedAtCommit": "353bd91959e26d356c2c94f47f0947004c59eac5",
+  "claim": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/claim.txt",
+    "sha256": "f0d50ce223f78f894e013ea4bedb2bccdae9ac9fb3d9396e42d8b0a15c574a86",
+    "byteLength": 93
+  },
+  "bindingDecision": {
+    "disposition": "LEGAL_CLEAR",
+    "decisionId": "NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL",
+    "bindingProductRule": "NHJB-2328 is the confidential Statement of Assets and Liabilities, not the fee-waiver motion. Use NHJB-2886-DFPe Motion to Waive Filing Fees with NHJB-2328 attached as required; preserve confidentiality and follow the motion's own service certification/form rules.",
+    "authority": "New Hampshire Courts NHJB-2886-DFPe and NHJB-2328 cited in the supplied disposition.",
+    "liftCondition": null,
+    "producedOn": "2026-09-11",
+    "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "decisionRecords": [
+      "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+    ],
+    "supersedesDecisionId": null,
+    "supersededDecisionRecord": null,
+    "evidenceType": "legal_design_disposition",
+    "documentaryPermissionStoredInRepository": null,
+    "owner": null,
+    "independentReviewSawExactDecisionRecord": {
+      "verifiedAtBase": "d974bcdd8",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "decisionRecords": [
+        "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
+      ],
+      "available": false,
+      "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+      "recordBindings": [
+        {
+          "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+          "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+          "matches": false
+        }
+      ]
+    },
+    "historicalLegalEntrancesRemainEvidenceOnly": true,
+    "changesNoSourceBuildRasterReviewOwnerOrProductGate": true
+  },
+  "bindingDecisionRecord": {
+    "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+    "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+    "byteLength": 22372
+  },
+  "historicalReview": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/historical-native-rows-snapshot.json",
+    "sha256": "be52e95c8dae247929228c9a87846ac5ec50978c094da3a00604c1a38f946e0d",
+    "byteLength": 36825
+  },
+  "measurements": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/current-pdf-semantic-measurements.json",
+      "sha256": "6be9b3bf6ecd3cbcd98836a5a05b6d9124150f7b20d76484aa689e283d3da1ea",
+      "byteLength": 166543
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/additional-known-omissions.json",
+      "sha256": "a41b7461c5ab6e1517d4e2f0645980cbaad05bc5a08071f7c8baa26f284d9654",
+      "byteLength": 5937
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/source-date-format-measurements.json",
+      "sha256": "cc1ce4c0afc7b4543f1cad5df65da8ceba028173b66791944a0dc2ebf2a11f56",
+      "byteLength": 2424
+    }
+  ],
+  "currentDocuments": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "436ed4d5ddff113fbed55aa7b58370745a31a38ce9083e49a84f00372ed9e376",
+      "byteLength": 202264
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "f53a1a29120ce9bea9c0c5d049846898909bdb29e36358a659021f9ccb1b56c2",
+      "byteLength": 202315
+    }
+  ],
+  "findings": [
+    {
+      "id": "NH-PREFLIGHT-WRONG-WAIVER-MOTION",
+      "obligations": [
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "FEE_AND_WAIVER"
+      ],
+      "locations": [
+        "source-receipt documents[1]",
+        "production-field-map maps[NHJB-2311]",
+        "both PDFs pages4\u20135",
+        "guide opening and fee sections"
+      ],
+      "defect": "Current packet delivers NHJB-2311-Se instead of the NHJB-2886-DFPe motion expressly required by NH-FEE-WAIVER-2886-WITH-2328-CONFIDENTIAL.",
+      "repair": "Implement the existing additive decision through governed source binding and builder assembly: current2886 motion plus confidential2328 as required. Preserve old2311 history; no new legal hold."
+    },
+    {
+      "id": "NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "locations": [
+        "both PDFs page11",
+        "participant guide The two fee-waiver papers and What is still open",
+        "source NHJB-2328-DFPe*2018 e-filing statement, packet pages6\u20138"
+      ],
+      "defect": "Delivered guide still treats fee-waiver service and confidential handling as unresolved and asks participant to determine accepted version and whether the complete financial statement should be served. Current binding decision requires confidential2328 handling and the motion\u2019s own service certification/rules.",
+      "repair": "Carry the governed motion/statement actor and confidentiality rules explicitly; remove superseded legal-question handback; never treat the court\u2019s petition transmission as resolving financial-statement service."
+    },
+    {
+      "id": "NH-PREFLIGHT-KNOWN-FACT-OMISSIONS",
+      "obligations": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "locations": [
+        "exact field/rect rows in current-pdf-semantic-measurements.json and additional-known-omissions.json"
+      ],
+      "defect": "48 known blank field occurrences plus2 incomplete residence addresses. Both fixtures omit city, seven neutral signature-block fields on each financial form, record-request name parts and full address, and flat2311 order-page case caption. Boundary additionally loses seven existing case-number widget occurrences and one phone. Field names or fit failures do not justify handback of supplied facts.",
+      "repair": "Map semantic printed labels, compose full addresses from supplied structured parts, handle full boundary values, retain true signatures/dates blank. Re-measure every current known occurrence after replacing2311."
+    },
+    {
+      "id": "NH-PREFLIGHT-DOB-FORMAT",
+      "obligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "locations": [
+        "both PDFs pages1,6,9; source DOB/1.2/Date widget labels"
+      ],
+      "defect": "All6 dates print ISO YYYY-MM-DD while the authoritative source widget instruction requests mm/dd/yyyy.",
+      "repair": "Format the same supplied DOB value as source requires; preserve source form fidelity and exact date meaning."
+    },
+    {
+      "id": "NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "SERVICE"
+      ],
+      "locations": [
+        "source NHJB-2956 p1 INSTRUCTIONS",
+        "both PDFs page12",
+        "participant guide step8 and SectionII exclusion"
+      ],
+      "sourceRequirement": "All requests by mail must have both sections completed and Section II notarized.",
+      "defect": "Guide instructs sending the request to State Police with the stated mailing materials but always leaves SectionII blank as third-party-only. The held source permits SectionI-only for own-record in-person requests; it does not give that exception to mail.",
+      "repair": "Encode actual submission-channel choice and its source conditions. In-person self-request may use SectionI-only; mailed requests must follow both-section/notary instructions. Never fabricate service, recipient or notarization."
+    },
+    {
+      "id": "NH-PREFLIGHT-OPTIONAL-AS-MANDATORY",
+      "obligations": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "locations": [
+        "production-field-map requiredBeforeFiling NHJB-2317/ChargeID and NHJB-2956/name.2",
+        "guide blanket Fill every item and field tables"
+      ],
+      "defect": "ChargeID is expressly if known and maiden/alias is if any in source metadata, but both are declared unconditionally REQUIRED_BEFORE_FILING.",
+      "repair": "Model their actual conditions and preserve truthful unknown/not-applicable outcomes without presenting optional data as a filing prerequisite."
+    },
+    {
+      "id": "NH-PREFLIGHT-INTERNAL-METADATA-COPY",
+      "obligations": [
+        "ARTIFACTS"
+      ],
+      "locations": [
+        "both PDFs pages13,15 route footers and page15 source-file paragraph",
+        "participant guide field-name/binder explanations and route footer"
+      ],
+      "defect": "Delivered copy exposes internal route identifiers, repository paths, source SHA machinery, sig.N/AcroForm naming, and implementation limitations as participant instructions.",
+      "repair": "Keep technical metadata in manifests/review evidence; make delivered instructions describe participant actions and source requirements in plain language."
+    }
+  ],
+  "semanticChecks": {
+    "routeIdentity": "Already-obtained vacatur, no waiting period, exclusion of automaticII-a cases, and one offence per petition are described. Current fixtures concern2016/2018 matters, consistent with printed pre2019 petition heading. Broader date/route coverage is not granted by this failed preflight.",
+    "sourceBinding": "All4 currently used source binaries rehashed. Identity is insufficient because the current component set contradicts the new binding decision.",
+    "componentOrder": "Current15pages:2317p1\u20133,2311p4\u20135,2328p6\u20138,2956p9,post-filing guidance10\u201313,effect/limits14\u201315. Both required guidance components are present.",
+    "allKnownParticipantFields": "Both exact fixture literals and every source widget context were inspected; missing and partial known facts enumerated independently rather than taking builder zeros. All30 current PDF page texts reviewed: full canonical plus complete boundary diff, whose remaining text is identical.",
+    "optionsAndRepeats": "One offense stated; financial alternatives and sworn elections unselected. Mailing-channel branch and optional-input classifications fail as listed.",
+    "protectedOwnership": "Actual signatures/dates and court findings are left blank in current text; neutral contact fields were incorrectly grouped into signature refusal class. Final visual/ink acceptance still pending.",
+    "filingDestination": "Court that handled the vacated matter; no invented court assignment or courthouse address.",
+    "feeAndService": "Current fee source caveats retained; new governing waiver and confidentiality treatment not implemented. Petition court transmission is separately described.",
+    "selfHelpStop": "All10 current codified stop conditions printed, including vacatur dispute/obtaining vacatur, opposition/hearing, multi-court, non-NH records, repeatdenial, federal/immigration, private database and firearm limits.",
+    "visualGate": "No new raster or visual approval. Current source/widget/page semantics establish these failures before dispatch."
+  },
+  "knownBlankOccurrences": 48,
+  "knownPartialOccurrences": 2,
+  "dateFormatMismatches": 6,
+  "packetPdfsModified": false,
+  "oldEvidenceSuperseded": false,
+  "nextStep": "Repair exact implementation/input/guidance defects under the already-cleared legal decision; repeat semantic preflight, then central raster all changed PDFs."
+}

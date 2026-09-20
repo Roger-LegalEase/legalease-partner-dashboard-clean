@@ -1,0 +1,401 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "me-seal-gen-set",
+  "worklistGroupId": "me-seal-gen-set",
+  "jurisdiction": "ME",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time with every relied-on statement re-read from the committed bytes as an anchor, and every official agency document bound by exact SHA-256 resolved through the committed corpus index and its declared custody roots",
+  "routeKeys": [
+    "obligation:track-pathway:ME:me-seal-gen:adult-conviction-sealing"
+  ],
+  "statutoryAuthority": [
+    "15 M.R.S. § 2261",
+    "15 M.R.S. § 2262",
+    "15 M.R.S. § 2263",
+    "15 M.R.S. § 2264",
+    "15 M.R.S. § 2265",
+    "15 M.R.S. § 2266",
+    "15 M.R.S. § 2267",
+    "15 M.R.S. § 2269",
+    "16 M.R.S. § 705",
+    "16 M.R.S. § 708",
+    "17-A M.R.S. § 1502(2)",
+    "PL 2021, c. 674",
+    "PL 2023, c. 409",
+    "PL 2023, c. 666",
+    "PL 2025, c. 513",
+    "Me. Admin. Order JB-05-26 (A. 3-26)"
+  ],
+  "legalName": "Motion to Seal Criminal History Record Information (15 M.R.S. ch. 310-A, §§ 2262-2264)",
+  "allSourcesExact": true,
+  "formIdentityNote": "CR-218 is the Maine Judicial Branch's own published Motion to Seal Criminal History, Rev. 7/24, one page, bound by exact SHA-256 through the committed corpus index and delivered as the Judicial Branch issues it. The pinned binary is encrypted with an empty user password; this build carries it through a deterministic pikepdf decryption proved equivalent to the official binary page for page, field for field and content stream for content stream, and stops rather than rendering if that proof fails. The bound identity is the official encrypted binary and its SHA-256 is recomputed from the file on disk before and after the read.",
+  "agencyTreatmentNote": null,
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-packet-set-manifests.json"
+      ],
+      "recordId": "packet-set-manifest:me-seal-gen-set",
+      "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+      "byteLength": 3711585,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed packet-set manifest for this exact packet set. Its participantActionRequired entries settle the filing destination, the fee position, the fee-waiver position, the service position and every record the participant is advised to obtain and confirm; its requiredBeforeFiling list is read from these bytes at build time and printed verbatim into participant-instructions.md",
+      "anchorStatementsVerified": 7,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-13",
+        "was": {
+          "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+          "byteLength": 3711575
+        },
+        "why": "The record was rewritten around this receipt's anchors. 2 named entries moved between the blob carrying the previous pin and the bytes on disk (wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "anchorsCompared": 5,
+        "anchorDetail": [
+          "packetManifestSharedMetadata: identical",
+          "packetSet:dc_innocence_expungement-set: identical",
+          "packetSet:il-prostitution-j-vacate-set: identical",
+          "packetSet:me-seal-gen-set: identical",
+          "packetSet:ms-misd-addl-set: identical"
+        ],
+        "anchorsIdentical": 5,
+        "identicalAnchorSha256": {
+          "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+          "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+          "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+          "packetSet:me-seal-gen-set": "cc7a793611f8ca3ea7007f8e3950dd46176d0c59bc177b58c29b48b914c2dab6",
+          "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "me-seal-gen-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "pin.recordId",
+                "packetSetId": "me-seal-gen-set"
+              },
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "me-seal-gen-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:ME:me-seal-gen:adult-conviction-sealing",
+                "packetSetId": "me-seal-gen-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "wv_nc_acquittal_dismissal-set",
+          "wv_nc_diversion_deferred-set"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8b6acc3d0f42620902434d0869d89551097f9961",
+          "commit": "d70e5995ef28155a4baf16edf0f1dc68293522a1",
+          "commitsWithThisPath": 67,
+          "distinctBlobs": 60,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-12",
+          "was": {
+            "sha256": "5a3c9748b55fca6a76e270b4a75f38e89c7615743062ce57501957471828a585",
+            "byteLength": 3710466
+          },
+          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_family_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+          "anchorsCompared": 5,
+          "anchorDetail": [
+            "packetManifestSharedMetadata: identical",
+            "packetSet:dc_innocence_expungement-set: identical",
+            "packetSet:il-prostitution-j-vacate-set: identical",
+            "packetSet:me-seal-gen-set: identical",
+            "packetSet:ms-misd-addl-set: identical"
+          ],
+          "anchorsIdentical": 5,
+          "identicalAnchorSha256": {
+            "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+            "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+            "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+            "packetSet:me-seal-gen-set": "cc7a793611f8ca3ea7007f8e3950dd46176d0c59bc177b58c29b48b914c2dab6",
+            "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+          "anchorScope": {
+            "anchorIds": [
+              "me-seal-gen-set"
+            ],
+            "derivation": {
+              "declarations": [
+                {
+                  "basis": "pin.recordId",
+                  "packetSetId": "me-seal-gen-set"
+                },
+                {
+                  "basis": "receipt.familyId exact packetSetId",
+                  "packetSetId": "me-seal-gen-set"
+                },
+                {
+                  "basis": "receipt.routeKeys:obligation:track-pathway:ME:me-seal-gen:adult-conviction-sealing",
+                  "packetSetId": "me-seal-gen-set"
+                }
+              ],
+              "globalMetadataComparedAsOneAnchor": true
+            }
+          },
+          "entriesThatMovedInThisRecord": [
+            "de_discretionary_family_court-set"
+          ],
+          "recoveredFrom": {
+            "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+            "blobId": "7eac21e1e2634a0cbc04afaf459f4fe2be96e64b",
+            "commit": "fded60e657631cdee0c146396e446482f4d66384",
+            "commitsWithThisPath": 66,
+            "distinctBlobs": 59,
+            "blobsHashed": 2
+          },
+          "previousIdentityRefresh": {
+            "refreshedOn": "2026-09-12",
+            "was": {
+              "sha256": "48bfbb011c4f76215275259873e63c4a83848d28dfc982b01b2ab233a3855d30",
+              "byteLength": 3708358
+            },
+            "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (il-seal-edu-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+            "anchorsCompared": 2,
+            "anchorDetail": [
+              "recordGlobalMetadata: identical",
+              "packetSet:me-seal-gen-set: identical"
+            ],
+            "anchorsIdentical": 2,
+            "identicalAnchorSha256": {
+              "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+              "packetSet:me-seal-gen-set": "d78fb5cb84cc26dd550013e9b817947461b61736a2148e57ee238c4d39a17c2d"
+            },
+            "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+            "anchorScope": {
+              "anchorIds": [
+                "me-seal-gen-set"
+              ],
+              "basis": "packet-set-manifest:me-seal-gen-set"
+            },
+            "entriesThatMovedInThisRecord": [
+              "il-seal-edu-set"
+            ],
+            "recoveredFrom": {
+              "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+              "commit": "caf3a021cd4188792781382197659f4e04c15e6a"
+            },
+            "previousIdentityRefresh": {
+              "refreshedOn": "2026-09-12",
+              "was": {
+                "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "byteLength": 3708050
+              },
+              "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (de_discretionary_superior_court-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+              "anchorsCompared": 2,
+              "anchorDetail": [
+                "recordGlobalMetadata: identical",
+                "packetSet:me-seal-gen-set: identical"
+              ],
+              "anchorsIdentical": 2,
+              "identicalAnchorSha256": {
+                "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "packetSet:me-seal-gen-set": "d78fb5cb84cc26dd550013e9b817947461b61736a2148e57ee238c4d39a17c2d"
+              },
+              "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+              "anchorScope": {
+                "anchorIds": [
+                  "me-seal-gen-set"
+                ],
+                "basis": "packet-set-manifest:me-seal-gen-set"
+              },
+              "entriesThatMovedInThisRecord": [
+                "de_discretionary_superior_court-set"
+              ],
+              "recoveredFrom": {
+                "method": "git show exact pre-correction manifest; SHA-256 equals receipt pin",
+                "commit": "cb9030a2d8b700300897c399ef02c4dccc5c8d88"
+              },
+              "previousIdentityRefresh": {
+                "refreshedOn": "2026-09-10",
+                "was": {
+                  "sha256": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+                  "byteLength": 3694688
+                },
+                "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for me-seal-gen-set and the record's global authority fields were recovered from the blob carrying the previous pin (1784eec3da534eca557d2f6bae86204a9114cb9f) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+                "recoveredFromCommit": "1784eec3da534eca557d2f6bae86204a9114cb9f",
+                "anchorsCompared": 2,
+                "anchorDetail": [
+                  "recordGlobalMetadata: identical",
+                  "packetSet:me-seal-gen-set: identical"
+                ],
+                "anchorsIdentical": 2,
+                "identicalAnchorSha256": {
+                  "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                  "packetSet:me-seal-gen-set": "d78fb5cb84cc26dd550013e9b817947461b61736a2148e57ee238c4d39a17c2d"
+                },
+                "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+                "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+              },
+              "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+            },
+            "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+          },
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-track-registry.json"
+      ],
+      "recordId": "track-registry:me-seal-gen",
+      "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed legal-design track registry entry for this track. It settles the venue and destination this packet states, the four-year waiting period and the point it is measured from, the exclusion set, the paragraph 3 defect, the § 2264(7) self-reporting duty and the stop conditions the packet carries word for word",
+      "anchorStatementsVerified": 12,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "registryGlobalMetadata: identical",
+          "track:me-seal-gen: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:me-seal-gen": "7295afbc604c3f1d7321c6c711d776a63a351e60745ab4d6d3b09337e5690741"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "me-seal-gen"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "me-seal-gen"
+            ],
+            "fromReceiptRouteKeys": [
+              "me-seal-gen"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    }
+  ],
+  "transport": [
+    {
+      "sourceId": "official-form:CR-218",
+      "documentId": "CR-218",
+      "ok": true,
+      "sourceSha256Before": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+      "sourceSha256After": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+      "sourceUnchanged": true,
+      "sourceEncrypted": true,
+      "derivedSha256": "6d320c100e9eb4ce45bff3584a88ef67efbab905be8815311bd9c5c8b9f588f6",
+      "derivedByteLength": 175359,
+      "derivedEncrypted": false,
+      "equivalent": true,
+      "delta": {
+        "pageCount": null,
+        "pageGeometry": [],
+        "fieldsOnlyInOfficial": [],
+        "fieldsOnlyInDerivative": [],
+        "fieldDifferences": [],
+        "contentStreamIdenticalPages": [
+          0
+        ],
+        "contentStreamChangedPages": []
+      },
+      "pikepdfVersion": "10.12.0",
+      "libqpdfVersion": "12.3.2",
+      "createdBy": "pikepdf.open(exact_pinned_source).save(derived, deterministic_id=True)",
+      "fidelityLogic": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py"
+    }
+  ],
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:CR-218"
+      ],
+      "documentId": "CR-218",
+      "formNumber": "CR-218",
+      "officialTitle": "Motion to Seal Criminal History",
+      "revision": "REV-2024-07",
+      "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+      "byteLength": 175359,
+      "custody": "nationwide_recovery_pool_2026_09_02",
+      "pathInCustody": "LegalEase Maine/MJB-Form-cr-218.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "transport": {
+        "why": "the pinned official binary is an encrypted PDF with an empty user password; pdf-lib cannot open it and throws in PDFCatalog.Pages, so neither a census nor an ink audit is possible against those bytes directly",
+        "method": "pikepdf.open(exact_pinned_source).save(derived, deterministic_id=True)",
+        "derivedSha256": "6d320c100e9eb4ce45bff3584a88ef67efbab905be8815311bd9c5c8b9f588f6",
+        "derivedByteLength": 175359,
+        "sourceEncrypted": true,
+        "derivedEncrypted": false,
+        "officialSha256UnchangedByTheRead": true,
+        "equivalenceProvedBy": "scripts/census-v1-ca-1203-4-set/compare-official-vs-rescued.py",
+        "equivalenceDelta": {
+          "pageCount": null,
+          "pageGeometry": [],
+          "fieldsOnlyInOfficial": [],
+          "fieldsOnlyInDerivative": [],
+          "fieldDifferences": [],
+          "contentStreamIdenticalPages": [
+            0
+          ],
+          "contentStreamChangedPages": []
+        },
+        "pikepdfVersion": "10.12.0",
+        "libqpdfVersion": "12.3.2",
+        "derivativeIsNotAnIdentity": "the bound identity is the official binary above; this derivative is a build-time transport copy, is not committed, and is deleted when the build ends"
+      },
+      "corpusIndexAgrees": false,
+      "pageCount": 1,
+      "acroFieldCount": 15,
+      "structuralClassObserved": "unreadable",
+      "instrumentKind": "Maine § 2264 Adult Conviction Sealing Motion",
+      "renderStrategy": "acroform_filled_and_flattened_by_the_shared_official_form_finalizer_after_a_proven_equivalent_unlock"
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family prepares for",
+    "that this is the current official edition of CR-218, or that the Judicial Branch has not superseded it since the archive was assembled",
+    "that any particular Maine conviction is an eligible criminal conviction within 15 M.R.S. § 2261(6)",
+    "that the four-year period of § 2262(2) has run, or that every sentencing alternative has been fully satisfied",
+    "that the movant has or has not a service obligation to the prosecutorial office, which the committed record holds open"
+  ]
+}

@@ -1,0 +1,396 @@
+{
+  "schemaVersion": "rcap-lane-return/v1",
+  "lane": "FIX140",
+  "laneKind": "repair",
+  "dispatch": "Four families dispatched as failing exactly one obligation, ARTIFACTS: in_arrest_no_charges-set, in_section1_petition-set, mi_setaside_trafficking-set, ne-setaside-custodial-set.",
+  "dispatchPremiseIsWrongAndHowIKnow": "Read from VERIFIER_RETURNS.json at this base, applying the file's own supersessionRule (commit ancestry of verifiedAtBase). Only mi_setaside_trafficking-set's current row fails ARTIFACTS alone. in_arrest_no_charges-set's current row is vf26 at 03093a923 and fails five: ARTIFACTS, CLIPPING_AND_OVERLAP, REQUIRED_BEFORE_FILING, ROUTE_IDENTITY, SERVICE. in_section1_petition-set's current row is the same vf26 read and fails four. ne-setaside-custodial-set's current row is vf29 at 9b5f73276 and fails ARTIFACTS and PAGE_ORDER. The single-obligation rows for three of the four are the vf90 rows at a09ef20d, which are marked superseded:true in the file itself.",
+  "generatedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+  "worktree": "/home/user/ln1-worktree",
+  "branch": "lane-fix140-20260910",
+  "howTheSourceWasRendered": "pdftoppm with annotations drawn (the tool's default; -hide-annotations used ONLY to build a page-content-only negative control, never to measure). Grey threshold and resolution are published beside every pixel count. Where a zero is claimed, the annotated render is proved to draw widget /AP /N ink by the content-only control differing in the same crop.",
+  "sharedModuleChanges": "NONE. No file under scripts/rcap-official-forms/ or any other shared module was modified by this lane.",
+  "buildersChanged": "NONE.",
+  "packetBytesMoved": "NONE. Every fixture of all four families is byte-identical to this base. Two rebuild reproducibility probes were run and reverted; digests below.",
+  "centralArtifactsEdited": "NONE. This file is the lane's own return.",
+  "packetsSelfVerified": "NONE. This lane built nothing and accepts nothing. Every family below is handed to an independent reader.",
+  "verdictSet": "NONE.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "familiesOwingAFreshCentralRasterFromTHISLane": [],
+  "whyNoFamilyOwesOneFromThisLane": "No fixture byte moved. Indiana separately owes a central raster for a reason that predates this lane: RASTER_QUEUE.historicalRasterRows[29] and [34] bind packet-boundary a7b34ccf, and the committed boundary at this base is 0e39d7c6.",
+  "rows": [
+    {
+      "familyId": "mi_setaside_trafficking-set",
+      "jurisdiction": "MI",
+      "status": "NO_REPAIR_NEEDED_GROUND_DISCHARGED_ON_EVIDENCE",
+      "currentRow": {
+        "lane": "vf90",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "a09ef20d342929fb68141828508f38e65a5a8545",
+        "failedObligations": [
+          "ARTIFACTS"
+        ]
+      },
+      "theRowRecordsNoFinding": "The VF90 row carries failedObligationNames ARTIFACTS with no per-obligation finding beside it. Its ground is in its own whatWasMeasured block: 28 stroke-only flattened appearances across the two fixtures, 26 matching a pinned source stream, 2 matching nothing.",
+      "isStale": true,
+      "stalenessProof": {
+        "atVf90sBase": "git show a09ef20d3:data/rcap-grade-a/packet-factory-24h/BORDER_COHORT_REMEDIATION.json records this family as SYNTHESIZED_INK_CONFIRMED, strokeOnlyMatchingNothing 2, strokeOnlyMatchingAPinnedSourceStream 26.",
+        "correctedAt": "346b2a23c373583508977a431b15c66681e3f1e7, 2026-09-10 04:39:07 +0000, 'Eight families were about to be told to erase the court's own ink'. a09ef20d is an ancestor of 346b2a23c and 346b2a23c is an ancestor of this base; both checked with git merge-base --is-ancestor.",
+        "atThisBase": "The committed ledger records EVERY_STROKE_IS_THE_FORMS_OWN_SOME_WITH_ITS_BACKGROUND_FILL_STRIPPED, strokeOnlyMatchingNothing 0, strokeOnlyThatIsASourceStreamMinusItsBackgroundFill 2. This family is named in sourceAccountingPass.normaliserCorrectedOn.families.",
+        "whatThatAloneDoesNotSettle": "The corrected ledger says the remedy RESTORES rather than removes. Whether the stripped fill has any visible consequence is a raster question, and the ledger does not answer it. VF90's own clearing condition asks for exactly that: render the pinned source to see what its /AP covers, then a directional raster difference in BOTH directions."
+      },
+      "whatIMeasuredMyself": {
+        "pinnedSource": {
+          "path": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+          "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+          "onDiskShaRecomputed": true
+        },
+        "deliveredCanonicalSha256": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+        "deliveredBoundarySha256": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2",
+        "classification": "scripts/grade-a-packet-factory-24h/classify-flattened-widget-appearances.mjs on canonical.pdf against the pinned source: 104 flattened appearances, 14 carrying a path-painting operator, 14 stroke-only, 0 painting-and-showing-text, 0 undecodable, 0 appearances not placed at their own source widget.",
+        "theOneUnaccountedStream": {
+          "name": "/FlatWidget-773902752",
+          "page": 3,
+          "sourceWidgetField": "posnoticecheck",
+          "presentInBothFixtures": true,
+          "deliveredStreamSha256": "a0b9c92bb5aeaeb2b5b034cc7dceebc364f8153a8258ba9daf58b0ddf04927d1",
+          "deliveredStreamBytes": "q\\n\\n0 G\\n0 w\\n0 0 8.2573 12.2473 re\\ns\\nQ\\n",
+          "sourceApNOffSha256": "f0addab9a67e111fee832e4460fc3cf41239fa118eb6864b50d5a4e91e92971f",
+          "sourceApNOffBytes": "q\\n1 g\\n0 0 8.2573 12.2473 re\\nf\\n0 G\\n0 w\\n0 0 8.2573 12.2473 re\\ns\\nQ\\n",
+          "relation": "The delivered stream is the source's own /AP /N /Off stream with its leading opaque white fill ('1 g ... f') removed. Same BBox [0 0 8.25726 12.2473], identity Matrix, same widget /Rect. The retained ink is the court's own black outline stroke.",
+          "isItTicked": "No. The flattened state is /Off. The source's /Yes stream carries a ZapfDingbats '4' glyph; no delivered stream on this page shows text. A service box is left unticked, which is correct: service has not happened when the packet is produced."
+        },
+        "pixelProofAtTheWidget": {
+          "resolution": "600 dpi",
+          "greyThreshold": "a pixel is dark when its 8-bit grey value is < 128",
+          "renderer": "pdftoppm -r 600 -gray -png -f 3 -l 3; the source rendered WITH annotations (tool default) and, separately, with -hide-annotations as a negative control ONLY",
+          "scope": "page 3 only, cropped to posnoticecheck's own /Rect [367.743 503.25 376 515.497]",
+          "atZeroPad": {
+            "cropPx": "68 x 102",
+            "sourceWithAnnotations": 68,
+            "sourcePageContentOnly": 0,
+            "deliveredCanonical": 68,
+            "deliveredBoundary": 68,
+            "canonicalVsSource": {
+              "added": 0,
+              "removed": 0
+            },
+            "boundaryVsSource": {
+              "added": 0,
+              "removed": 0
+            }
+          },
+          "atThreePointPad": {
+            "cropPx": "118 x 152",
+            "sourceWithAnnotations": 460,
+            "sourcePageContentOnly": 118,
+            "deliveredCanonical": 460,
+            "deliveredBoundary": 460,
+            "canonicalVsSource": {
+              "added": 0,
+              "removed": 0
+            },
+            "boundaryVsSource": {
+              "added": 0,
+              "removed": 0
+            }
+          },
+          "theZeroIsNotAnEmptyRender": "Inside the widget rect the annotated source draws 68 dark pixels and the page-content-only control draws 0. The render demonstrably paints widget /AP /N ink, so added 0 / removed 0 is a match and not a failure to draw.",
+          "whatTheStrippedFillWasCovering": "Nothing. The annotation layer removes 0 pixels from the content-only control anywhere in the padded crop, so the source's opaque white fill hides no printed page ink. Michigan prints no box there; the box IS the annotation. Stripping the fill is therefore invisible on paper."
+        },
+        "directionalRasterBothDirections": {
+          "resolution": "200 dpi",
+          "greyThreshold": "< 128",
+          "comparison": "source rendered WITH annotations against each delivered fixture, whole page, all four pages",
+          "canonical": [
+            {
+              "page": 1,
+              "added": 29754,
+              "removed": 0
+            },
+            {
+              "page": 2,
+              "added": 1130,
+              "removed": 0
+            },
+            {
+              "page": 3,
+              "added": 1130,
+              "removed": 0
+            },
+            {
+              "page": 4,
+              "added": 0,
+              "removed": 0
+            }
+          ],
+          "boundary": [
+            {
+              "page": 1,
+              "added": 61624,
+              "removed": 0
+            },
+            {
+              "page": 2,
+              "added": 930,
+              "removed": 0
+            },
+            {
+              "page": 3,
+              "added": 930,
+              "removed": 0
+            },
+            {
+              "page": 4,
+              "added": 0,
+              "removed": 0
+            }
+          ],
+          "reading": "Removed is 0 on every page of both fixtures: no over-suppression anywhere in the packet, not only at the accounted widget. Added is the written participant values, and is larger on boundary because that profile writes longer values."
+        }
+      },
+      "conclusion": "VF90's clearing condition is met in its own words: the unaccounted streams are shown to be the form's own ink, correctly placed, and the family clears without a byte moving. I set no verdict. This is a repair lane's evidence and needs an independent read.",
+      "canonicalSha256Before": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+      "canonicalSha256After": "acb9bf49ab83059266162eb046e4e55be6f44d9f0647e7099325bedae31e28ee",
+      "boundarySha256Before": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2",
+      "boundarySha256After": "90bd30df3077f8dc819f4c227c7cc254d1773fc0db9fc51ecf42febe950b58a2",
+      "markdownMoved": "none",
+      "rasterOwed": false,
+      "rasterState": "The committed raster row RASTER_QUEUE.historicalRasterRows[47] binds boundary 90bd30df and canonical acb9bf49, which are the digests on disk at this base. Nothing moved, so nothing is owed.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersHowMeasured": "Every one is null because this lane produced no build of this family and measured none of the nine. The work here is byte classification plus a directional raster, and it is reported as that."
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "jurisdiction": "NE",
+      "status": "STOPPED_CANNOT_BE_REPAIRED_BY_A_SINGLE_FAMILY_BUILD_LANE",
+      "currentRow": {
+        "lane": "vf29",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "9b5f732769578aed5b32f94346dee5b25e5fb5e4",
+        "failedObligations": [
+          "ARTIFACTS",
+          "PAGE_ORDER"
+        ]
+      },
+      "whatVf29Said": "The VF90 ground for ARTIFACTS is discharged (VF29 proved the two stroke-only streams are the form's own ink at 600 dpi and cleared them). What survives is that reports/actual-writes.json publishes proofSummary.addedGlyphs as null on CC-6-11, CC-6-11.2 and DC-1-15, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes appears nowhere in the family directory.",
+      "theBuilderIsAlreadyRepaired": {
+        "commit": "b467824f1, 2026-09-10 06:56:37 +0000, 'FIX135: Nebraska's page order, phantom controls and glyph readings are repaired in the builder, and the family is STOPPED because it cannot be rebuilt'",
+        "laterThanVf29": "VF29 read at 9b5f73276 (2026-09-10 05:24:17). The builder repair landed 92 minutes after that read, so VF29's remark that FIX135 'was right to name it and not make it' describes a base before the repair existed.",
+        "whatIsInTheBuilderNow": "emitOutputByteGlyphReadings: true and assertAssembledOrderAgainstTheManifest: true, both declared by this family's config alone, plus the drop of CC-6-11a's 16 phantom selectionControls.",
+        "whyTheOutputStillFails": "The family was never rebuilt on the repaired builder. reports/actual-writes.json at this base still carries addedGlyphs null on documents 0, 1, 3, 4, 5 and 7, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is still absent. The obligation fails on the delivered artifact, which is the right place for it to fail."
+      },
+      "iReproducedTheBlocker": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=... node scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+        "result": "AssertionError at assertEveryDisclosedBlankIsNamed (scripts/build-census-v1-ne-setaside-custodial-set.mjs:1972): 'ne-setaside-custodial-set: 4 disclosed blank(s) carry no plain meaning and would reach the participant as a harvested fragment: DC-1-15/Text44, DC-1-15/Text46, DC-1-15/Text1, DC-1-15/Text74'.",
+        "thePageOrderRepairDoesWork": "Before the throw the build printed 'assembled order CC-6-11 -> CC-6-11.2 -> DC-1-15 -> CC-6-11A matches the manifest' on both fixtures. PAGE_ORDER is fixed in the builder and blocked by the same wall.",
+        "workingTreeRestored": "The failed build left 8 files modified. All were restored with git checkout and the fixtures are back at the committed dd1cde67 / 07a9b4ab. See defectsNoCounterCanSee below."
+      },
+      "rootCauseIEstablishedMyself": {
+        "whatFix135Named": "A null-coercion in scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs: groupIntoLines emits run.x2 null for an unmeasurable run, and captureWidgetContext tests 'run.x2 > rect.x + 1' then coerces that null in 'rect.x - run.x2'.",
+        "thatIsTheSymptom": "It is real -- three sites coerce a null x2 (captureWidgetContext line 888, cellTextLeftOf line 777, pageRegions xRight line 846) -- but it is not why the widths are null.",
+        "theCause": "Every text font on DC 1:15 is a Type0 composite font that ships its own metrics. I read the source's font resources directly: pages 1 and 2 carry 21 /Type0 fonts (subsetted TimesNewRoman), every one with DescendantFonts, a /W array and /DW 1000. The module never reads them because rcap-pdf-anchor-capture.mjs:260 is 'const twoByte = subtype === \"Type0\"' while subtype is a stringified PDFName and therefore reads '/Type0'. The comparison is permanently false, so cidWidths is never consulted and every glyph on the form measures null.",
+        "measured": "On the pinned DC 1:15 (sha256 43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b): page 1, 113 of 130 runs carry x2 null; page 2, 101 of 119. Every run reports metricsExact false. All four named widgets return effectiveLabel null with labelBasis no_printed_caption_within_reach, while the line above Text44 plainly prints '__________________________, Judge of the ____________________Court of'.",
+        "whyIDidNotFixIt": "The module itself flags this trap and refuses it, for a reason I confirmed rather than inherited: twoByte also drives two-byte string walking, so repairing the comparison changes the decoded TEXT of every Type0 run, not only its width. The module says that lands on all 208 of its importers at once, including caption harvesting and field classification, and collapseUtf16BE exists downstream specifically to compensate for the present behaviour. The two concerns are not separable: CID widths are keyed by codes the walker is currently mis-splitting, so reading /W without fixing the decoding yields wrong widths. A lane holding four families does not get to decide what 208 importers produce on their next rebuild.",
+        "whatARollbackWouldCost": "FIX135 proved that reverting this one file to e258e47a0^ makes the unmodified builder reproduce the committed digests exactly. It would also restore the behaviour that commit removed: a uniform 500/1000 half-em fabricated for every glyph. The committed NE packet's DC 1:15 captions, and the court-owned vs participant-owned role classification derived from them, were harvested under that fabricated ruler. Restoring the packet by that route restores it on invented geometry."
+      },
+      "whyIDidNotPatchTheOutputInstead": "The two glyph readings could be computed from the committed bytes and written into reports/actual-writes.json without a rebuild. That is patching output rather than repairing a cause, the builder already contains the correct emit, and a report written by hand beside fixtures it did not measure is the defect class this factory exists to catch.",
+      "pageOrder": "Not decided here. VF29 recorded that the source receipt lists the four documents in the DELIVERED order while legal-design-packet-set-manifests.json declares components 3 and 4 the other way, and left the choice between reordering the packet and amending the manifest to whoever owns the manifest. I agree and add nothing: the builder's repair takes the manifest's side, and if the manifest is the wrong record that repair delivers the wrong order correctly.",
+      "whatIsMissing": "A repair to scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs's Type0 handling, made by a lane that holds the corpus and can re-read what the decoding change does to caption harvesting and field-role classification across all importers. Until then this family cannot be rebuilt, and ARTIFACTS cannot be cleared without a rebuild.",
+      "canonicalSha256Before": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+      "canonicalSha256After": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+      "boundarySha256Before": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+      "boundarySha256After": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+      "markdownMoved": "none",
+      "rasterOwed": false,
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersHowMeasured": "All null. This lane produced no build of this family; the one build attempted refused before completing. Nothing was measured, so nothing is reported as zero."
+    },
+    {
+      "familyId": "in_arrest_no_charges-set",
+      "jurisdiction": "IN",
+      "status": "ARTIFACTS_STOPPED_AS_AN_OWNER_QUESTION_OTHER_OBLIGATIONS_ALREADY_STALE",
+      "currentRow": {
+        "lane": "vf26",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+        "failedObligations": [
+          "ARTIFACTS",
+          "CLIPPING_AND_OVERLAP",
+          "REQUIRED_BEFORE_FILING",
+          "ROUTE_IDENTITY",
+          "SERVICE"
+        ]
+      },
+      "artifactsIsNotStale": {
+        "recomputedAtThisBase": "sha256sum over all four fixtures of both Indiana families.",
+        "packetBoundaryFilled": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9 -- the same file in both families, 250876 bytes.",
+        "insertsCanonicalAndBoundary": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343 -- one file across all four insert fixtures of both families.",
+        "packetCanonical": "d24f831d824e29da09683485bfe0eea955d6440f48e581bc4fe8c8380ed9ad4f here, 6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620 in the sibling, 251802 against 251801 bytes.",
+        "soTheCloneStands": "VF26's ARTIFACTS finding is true on the bytes at this base."
+      },
+      "whyIDidNotRepairIt": {
+        "theTwoFamiliesBindOneSource": "MASTER_QUEUE records both families binding the same five source ids at the same path and the same sha256 b04f2941, plus the same insert binary 65500e2c. The published CCA Section 1 bundle is one document and both tracks file it.",
+        "whatWouldHaveToDifferOnPaper": "The only marks on the bundle that separate the two tracks are the insert form's disposition elections: Check Box17/18 'Since the date given above, the ___ County Prosecutor has declined to file', Check Box21/22 'all charges were either not filed or dismissed by the State before trial', Check Box23/24 'following trial, Petitioner was found not guilty on all charges', Check Box25/27 'All ___ vacated on'.",
+        "whyABuilderMayNotTickThem": "legal-design-track-registry.json makes 'disposition' a REQUIRED generationRequirement in both tracks -- 'How did the matter end - all charges dismissed, acquitted, vacated, a no-true finding, or never charged?' It is a participant fact collected at runtime, not a route constant. Check Box17/18 additionally asserts an act of the prosecuting attorney. Ticking either from route membership would fabricate a participant fact and a prosecutor act.",
+        "theFactoryAlreadySaysThisIsNotALanesCall": "CLONED_FAMILY_PACKETS.json: 'A clone names a question, not its answer. It says two families deliver the same document; it does not say which of them owed a different one.' Deciding which of these two owed a different document -- or whether one of them should be a separate family at all -- is an owner decision, not a build repair.",
+        "onePartIsNotACloneAtAll": "inserts-canonical-filled.pdf and inserts-boundary-filled.pdf are identical WITHIN each family because the insert document receives zero writes in both profiles (valuesReportedByFinalizer 0, addedGlyphs 0). Four identical files is the truthful output of one zero-write document rendered twice in two families. What is misleading is the name: a fixture called '-filled' that contains no fill."
+      },
+      "obligationsOtherThanArtifactsAreStale": {
+        "repairedAt": "284cc10ef, 2026-09-10 05:33:35 +0000, 'FIX132: in_arrest_no_charges-set states its own route's waiting period, and discloses the order's agency blanks'. VF26's base 03093a923 (04:22:56) is an ancestor of it.",
+        "routeIdentity": "VF26 found the guide telling this family's participant that the committed record sets the wait at 'one year from the arrest, charge or allegation, whichever is later' and permits early filing 'on the written agreement of the prosecuting attorney', neither of which is in track in_arrest_no_charges. I grepped participant-instructions.md at this base: 0 occurrences of 'whichever is later' and 0 of 'written agreement of the prosecuting'. The sibling guide still carries both, which is correct -- track in_section1_petition's waitingPeriods hold exactly those two entries. Discharged.",
+        "serviceAndRequiredBeforeFiling": "VF26 found no occurrence of 'Law Enforcement Agencies', none of 'page 14', no blanks-table row above page 8, and a step 8 telling the participant to 'leave the rest'. At this base the guide carries 'Law Enforcement Agencies' 4 times, 'page 14' 3 times including a blanks-table row, and 'leave the rest' 0 times. Discharged.",
+        "clippingAndOverlap": "NOT discharged. Measured below on my own render."
+      },
+      "clippingAndOverlapReproducedIndependently": {
+        "whyIMeasuredAnObligationOutsideMyDispatch": "It is the largest defect on these bytes and it sits on the same insert file the ARTIFACTS clone is about. I confirm it rather than repair it.",
+        "renderer": "pdftoppm -r 200 -gray -png, source rendered with annotations, against inserts-canonical-filled.pdf",
+        "greyThreshold": "< 128",
+        "pinnedInsertSource": {
+          "path": "STATES/IN/02_PACKET_FORMS/IN__FORM__CCA-SECTION1-INSERTS__section-1-non-conviction-expungement-facts-findings-and-exhibit-inserts__REV-2020-01__EN.pdf",
+          "sha256": "65500e2cf0916fddbe20afc0e12906c03c7e10aefd148de71b48bc9782f04707"
+        },
+        "perPage": [
+          {
+            "page": 1,
+            "added": 2450,
+            "removed": 10372
+          },
+          {
+            "page": 2,
+            "added": 0,
+            "removed": 0
+          },
+          {
+            "page": 3,
+            "added": 4373,
+            "removed": 12656
+          },
+          {
+            "page": 4,
+            "added": 3242,
+            "removed": 4151
+          }
+        ],
+        "totalRemoved": 27179,
+        "agreesWithVf26": "VF26 recorded 27179 removed pixels on the inserts. My independent render reproduces that number exactly.",
+        "andTheAddedInkIsWorseThanRecorded": "10065 dark pixels are ADDED across the three pages of a document that writes zero values. reports/actual-writes.json records flattenedWidgetAppearancesReadFromOutputBytes 78 with valuesReportedByFinalizer 0: 78 widget appearances are stamped onto a filing that has nothing to say.",
+        "causeIFoundInTheCode": "FIX132's remedy is preserveUnwrittenSelectionBackgrounds, and its own comment in the builder states its scope: 'keeps the court's own blank-state paint on an UNWRITTEN check box or radio group only'. scripts/rcap-official-forms/rcap-active-content.mjs:1385 confirms it -- preserveAuthoredPaint requires 'field instanceof PDFCheckBox || field instanceof PDFRadioGroup'. The erased ink is on 40 DROPDOWN widgets, which are choice fields and are never eligible. Those go down the branch above at line 1362, where a field is kept only if EVERY one of its widgets is silent ('a field showing a prompt on any widget is dropped whole'); a dropdown whose option list shows a word on one widget drops all its widgets, including the ones that draw only the FACTS grid's writing rules and Exhibit A's disposition table.",
+        "whyIDidNotFixThatEither": "The fix is a per-widget rather than per-field keepSilent test inside a shared module. That is a semantic decision with corpus-wide reach, it is a different obligation from the one I was dispatched on, and it is the same area FIX132 already got wrong once while its commit message stated 'Removed ink not accounted to a selection widget: 0'."
+      },
+      "reproducibilityProbe": "node scripts/build-census-v1-in_arrest_no_charges-set.mjs at this base reproduces all 17 files of the family directory byte for byte. The builder is not the obstacle; the decision is.",
+      "canonicalSha256Before": "d24f831d824e29da09683485bfe0eea955d6440f48e581bc4fe8c8380ed9ad4f",
+      "canonicalSha256After": "d24f831d824e29da09683485bfe0eea955d6440f48e581bc4fe8c8380ed9ad4f",
+      "boundarySha256Before": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+      "boundarySha256After": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+      "insertsCanonicalSha256BeforeAndAfter": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+      "insertsBoundarySha256BeforeAndAfter": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+      "markdownMoved": "none",
+      "rasterOwed": "Not from this lane -- no byte moved. This family already owed one before I arrived: RASTER_QUEUE.historicalRasterRows[29] binds boundary a7b34ccf against a committed 0e39d7c6, and .notEligible[50] records why it has not been dispatched.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersHowMeasured": "All null. This lane produced no accepted build of this family; the one build run was a reproducibility probe that wrote the identical bytes back. Nothing among the nine was measured."
+    },
+    {
+      "familyId": "in_section1_petition-set",
+      "jurisdiction": "IN",
+      "status": "ARTIFACTS_STOPPED_AS_AN_OWNER_QUESTION_OTHER_OBLIGATIONS_ALREADY_STALE",
+      "currentRow": {
+        "lane": "vf26",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "03093a9234911fe252c05284a9478c00f5995ae8",
+        "failedObligations": [
+          "ARTIFACTS",
+          "CLIPPING_AND_OVERLAP",
+          "REQUIRED_BEFORE_FILING",
+          "SERVICE"
+        ]
+      },
+      "sameAnalysisAsItsSibling": "This family is the other half of the same clone and the same insert file. Everything recorded on in_arrest_no_charges-set's ARTIFACTS and CLIPPING_AND_OVERLAP rows was measured on files this family also owns, byte for byte.",
+      "artifactsIsNotStale": "Recomputed here: packet-boundary 0e39d7c6 (identical to the sibling), all four inserts f06f7dbb, packet-canonical 6958a2a2 at 251801 bytes against the sibling's 251802.",
+      "theOneByteDifference": "VF26 located it in three flattened appearance streams, '/Helvetica 12 Tf' here against '/Helvetica 11 Tf' in the sibling, over the identical value for Example County in the identical 108 x 13.08 rect. The two builders reached the same clipping fix by different mechanisms: this one sorts each field's widget census narrowest-first before the finalizer (censusFittedToTheNarrowestWidget), the sibling opts into fitTextPerWidget. I read both builders and confirm the divergence is that and nothing else. It is a real inconsistency -- two packets from one source setting one value at two point sizes -- but it is not what makes them a clone, and closing it would make them MORE identical, not less.",
+      "serviceAndRequiredBeforeFiling": "Repaired at d136f17f9, 2026-09-10 05:34:15 +0000, a descendant of VF26's base. At this base this guide carries 'Law Enforcement Agencies' 4 times, 'page 14' 3 times and 'leave the rest' 0 times. Its 'whichever is later' and 'written agreement of the prosecuting attorney' occurrences are correct for THIS track and are not the sibling's contamination.",
+      "clippingAndOverlap": "Not discharged. Same 27179 removed pixels on the same insert bytes; see the sibling's row for the measurement and the cause.",
+      "reproducibilityProbe": "node scripts/build-census-v1-in_section1_petition-set.mjs at this base reproduces the whole family directory byte for byte.",
+      "canonicalSha256Before": "6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620",
+      "canonicalSha256After": "6958a2a2f3537ab4bdc42c0ca61b63f545a20f08486c30075c18e1361a9df620",
+      "boundarySha256Before": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+      "boundarySha256After": "0e39d7c6d68902eed95189dd81638ad6e25ac78f1377eb07058a8941963140b9",
+      "insertsCanonicalSha256BeforeAndAfter": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+      "insertsBoundarySha256BeforeAndAfter": "f06f7dbb1733604e4349819a458f07be9c959652301b427ca029c48b820d3343",
+      "markdownMoved": "none",
+      "rasterOwed": "Not from this lane. Pre-existing: RASTER_QUEUE.historicalRasterRows[34] binds boundary a7b34ccf against a committed 0e39d7c6.",
+      "counters": {
+        "knownRequiredFieldsMissing": null,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": null,
+        "requiredOptionsMissing": null,
+        "requiredComponentsMissing": null,
+        "invisibleWrites": null,
+        "protectedWrites": null,
+        "visualDefects": null
+      },
+      "countersHowMeasured": "All null, for the same reason as its sibling."
+    }
+  ],
+  "defectsNoCounterCanSee": [
+    {
+      "what": "A refusing build leaves moved bytes in the working tree.",
+      "where": "scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+      "detail": "The builder saves both fixtures and re-renders six raster pages BEFORE assertEveryDisclosedBlankIsNamed throws at line 1972. After the AssertionError, git status showed 8 modified files: fixtures/canonical.pdf, fixtures/boundary.pdf and raster/{canonical,boundary}/page-0{3,4,5}.png. A build that refuses has published nothing and should leave nothing; a lane that does not check git status after a failed run commits a packet no build ever accepted.",
+      "whatIDidAboutIt": "Restored with git checkout and confirmed the fixtures are back at dd1cde67 / 07a9b4ab. Not repaired -- it is in a builder whose blocker I could not clear, and the ordering fix belongs with the rebuild."
+    },
+    {
+      "what": "78 widget appearances stamped onto a document that writes nothing.",
+      "where": "Both Indiana families' inserts-canonical-filled.pdf and inserts-boundary-filled.pdf, one file, f06f7dbb.",
+      "detail": "valuesReportedByFinalizer 0, addedGlyphs 0, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0, refusedFieldsWithInk [], participantNameTokensOutsideTheNameAllowlist 0 -- every counter on that artifact reads clean. The page nonetheless loses 27179 dark pixels of the court's printed ink and gains 10065 of the flatten's own. No counter in the nine, and none in that report, can see a substitution that removes ink and adds ink in the same operation."
+    },
+    {
+      "what": "A fixture named '-filled' that contains no fill.",
+      "where": "Both Indiana families: inserts-canonical-filled.pdf and inserts-boundary-filled.pdf are the same zero-write file, four copies across two families.",
+      "detail": "The canonical and boundary profiles are supposed to exercise a document at two extremes. On this document they exercise nothing, and the file names assert otherwise. A reader comparing the two insert fixtures to see what a boundary value does gets a byte-identical answer and no signal that the comparison was empty."
+    },
+    {
+      "what": "The committed Nebraska packet's field captions were harvested with fabricated font metrics.",
+      "where": "DC 1:15 in ne-setaside-custodial-set, and by extension anywhere in the corpus that a Type0 form was censused before 2026-09-09.",
+      "detail": "Every text font on DC 1:15 is Type0 with its own /W and /DW, and the anchor-capture module has never read them because its subtype comparison keeps a leading slash. Before commit e258e47a0 the module answered that gap with a uniform 500/1000 half-em for every glyph. The captions in the committed packet, and the court-owned vs participant-owned role classification derived from those captions, were decided under that invented ruler. e258e47a0 replaced the fabrication with an honest null, which is why the builder now refuses -- the refusal is the first true thing this form has been told about its own geometry. Rolling that file back to unblock Nebraska would restore the packet by restoring the fiction."
+    },
+    {
+      "what": "A dispatch that names one obligation for four families where the ledger names sixteen.",
+      "where": "This lane's own assignment.",
+      "detail": "Three of the four families were handed to me as ARTIFACTS-only. Their current rows fail five, four and two obligations respectively. The single-obligation rows are the vf90 rows at a09ef20d, each already marked superseded:true in VERIFIER_RETURNS.json. A repair lane that had worked from its dispatch rather than from the file would have reported three families fixed while a false filing-deadline statement, an undisclosed proposed-order service list and 27179 erased pixels stood."
+    }
+  ],
+  "grantsNothing": "This return sets no verdict, promotes no route, opens no commercial authority and accepts no packet. It is a repair lane's evidence and every family in it needs an independent read.",
+  "claim": "CLAIM_OK FIX140 all four families (repair, grant set 1f2b0e4afb74b5f2), verified with claim.mjs --can-assert; the ledger was not written and the grants are NOT released -- the Captain releases them."
+}

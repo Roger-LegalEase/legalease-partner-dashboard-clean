@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-checkpoints/v1",
+  "assignmentId": "VF02",
+  "workerId": "VF02",
+  "workerBranch": "pfc-vf-20260909",
+  "shift": "vf02-20260909d",
+  "laneKind": "independent-verification, four VERIFY_PENDING families each holding an admitted RASTER_PASS",
+  "checkpointRule": "One row per family, written as it finishes, committed before the next is started. This lane builds nothing and repairs nothing; a defect is a verdict and a repair assignment, never an edit.",
+  "checkpoints": [
+    {
+      "n": 1,
+      "what": "Claim gate. All four asserted on VF02 before any family artifact was opened - node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 '<familyId>' - each returning CLAIM_OK under grant set 68a665634f7e38b0. None refused, so no BLOCKED_BEFORE_CLAIM on this shift.",
+      "familiesCompletedAtThisPoint": [],
+      "pushed": false
+    },
+    {
+      "n": 2,
+      "what": "Preflight run and reported rather than worked around. PACKET_BUILD_ENVIRONMENT_NOT_READY: 12/14 passed, 2 failed, 3 not applicable. Failures: private_is_git_ignored (private/ is NOT git-ignored here) and family_sources_bind for census-pending-family:ME:juvenile-sealing. Neither was repaired by this lane. The second is contradicted by the bytes, which is recorded in the Maine row rather than reconciled.",
+      "familiesCompletedAtThisPoint": [],
+      "pushed": false
+    },
+    {
+      "n": 3,
+      "what": "Artifact identity established for all four before any content reading. I recomputed canonical and boundary SHA-256 for each family from the bytes on disk and compared them to both reports/rendered-artifacts.json and the family's RASTER_QUEUE.json row. All eight digests agree in all three places, so each admitted RASTER_PASS is bound to the exact bytes this lane read. This matters for il-exp-qualprob-set and ri_multiple_misdemeanors-set, both flagged as having moved bytes since an earlier reading: their raster receipts are current with the files at this base.",
+      "familiesCompletedAtThisPoint": [],
+      "pushed": false
+    },
+    {
+      "n": 4,
+      "what": "Maine finished: PASS_COMPLETE_INDEPENDENT. The pointed check on the encrypted-source pattern clears - the family binds the official encrypted binary MJB-Form-jv-043.pdf (79d0e40d..., 173449 bytes, /Encrypt V5 R6 AES-256), NOT the committed review derivative maine-mjb-form-jv-043-rescued.pdf (e41e19e4...), whose digest appears nowhere in this family's records. I reproduced the build-time pikepdf transport myself and got the receipt's derivedSha256 exactly. All fifteen obligations scored, fourteen PASS and REPEATING_ROWS NOT_MEASURABLE_HERE because JV-043 carries no row structure. All nine counters measured zero by this lane. One receipt inaccuracy recorded as an observation: documents[0].byteLength carries the derivative's 172380 beside the official binary's digest.",
+      "familiesCompletedAtThisPoint": [
+        "census-pending-family:ME:juvenile-sealing"
+      ],
+      "pushed": true
+    },
+    {
+      "n": 5,
+      "what": "Minnesota finished: FAIL_REPAIR_REQUIRED on SERVICE, reported to the Captain immediately rather than held to the end of shift. All nine counters measure ZERO and the family still fails - the defect is a false statement in participant-instructions.md about EXP104's own printed page. The guide says three service boxes are marked (Required) and names MN DHS/Office of Inspector General as one of them; six are marked (Required) and DHS/OIG (box 9) is not one, it is '(check box & use if related to your case)'. The guide's follow-on sentence therefore makes boxes 3, 4, 5 and 6 - including the County Attorney's Office, the prosecuting authority - read as optional. Second limb: the County Attorney's Office is labelled 'Service list box 8' in both the blanks record and the guide, but it is box 4 on the form; box 8 is the City Attorney's Office, and the City Attorney field is ALSO labelled box 8, so box 4 is named nowhere. The two builder claims I was asked to recheck both hold: the disclosure list is in correct numeric order (item 16 last, not sorted above item 10), and the delivered page order matches the manifest across all 25 pages, confirmed from each page's own printed footer. The queue-versus-records strategy disagreement is real and recorded on both sides without reconciliation.",
+      "familiesCompletedAtThisPoint": [
+        "census-pending-family:ME:juvenile-sealing",
+        "mn_petition_609a02_subd3-set"
+      ],
+      "pushed": true
+    },
+    {
+      "n": 6,
+      "what": "Illinois finished: PASS_COMPLETE_INDEPENDENT. All four route elections verified on the page by comparing each tick's x against the x of the form's own empty-box glyph - item 1 Yes, item 12 No, Section 8 (qualified probation, five years), outcome code QP, which the form's own legend on that page defines. All 45 declared writes located in the bytes; the proposed Order carries no tick anywhere, matching its printed instruction that the judge checks the boxes. Near-clone question answered WITHOUT reading the two sibling families, on which this lane holds no claim: measured from my own 13 pages plus MASTER_QUEUE, 4 pages carry route-distinguishing ink and 9 do not. Eight IL families bind the identical four-form EXP-AD set, so near-identity is structural - Illinois publishes one statewide set for both expungement and sealing. The closer pair worth a reader's attention is qualprob versus supervision, which differ by one tick position and a two-letter outcome code printed on adjacent lines of the same legend. Fee figures were grounded in the committed track registry rather than accepted. The bytes-moved flag resolves clean: the admitted RASTER_PASS pins the exact bytes I read.",
+      "familiesCompletedAtThisPoint": [
+        "census-pending-family:ME:juvenile-sealing",
+        "mn_petition_609a02_subd3-set",
+        "il-exp-qualprob-set"
+      ],
+      "pushed": true
+    },
+    {
+      "n": 7,
+      "what": "Rhode Island finished: FAIL_REPAIR_REQUIRED, recorded under ROUTE_IDENTITY. All nine counters measure ZERO for the second time in this return and the packet is still wrong on the page. Four delivered pages print this factory's internal obligation-census keys as a 'Route: obligation:unit:RI:...' trailer. The decisive one is packet page 6 - page 2 of the composed proposed order, the page carrying the court's findings, the GRANTED/DENIED boxes, the Justice/Judge signature line, the date of entry and the Clerk's certification - where the line sits at the very top, above the build's own 'EVERYTHING BELOW THIS LINE IS THE COURT'S' divider, on a document handed to a judge to sign. Pages 8, 14 and 15 carry the same line on guidance rather than filings. Everything else on this family measures clean, including a genuinely careful handling of a place where DC-33's Part Three B sixth box disagrees with the statute. Noted for the other RI families: build-status.json records buildHost as a SIBLING family's script, so the trailer is likely a shared composer behaviour rather than one family's slip.",
+      "familiesCompletedAtThisPoint": [
+        "census-pending-family:ME:juvenile-sealing",
+        "mn_petition_609a02_subd3-set",
+        "il-exp-qualprob-set",
+        "ri_multiple_misdemeanors-set"
+      ],
+      "pushed": true
+    },
+    {
+      "n": 8,
+      "what": "Maine amended after the Captain's extraction refusal, on re-reading rather than on request. REPEATING_ROWS moves NOT_MEASURABLE_HERE -> PASS. The finding is unchanged and was re-verified before the edit: I reopened the pikepdf-decrypted official binary, enumerated all 14 terminal widgets with their rects, and tested for an indexed row group three ways - by name stem, by shared x and width, and by regular y spacing. Three candidates surface and all three dispose affirmatively. Mailing Address 1 and 2 are one address on two lines, stacked in the signature block, and BOTH carry ink in the delivered canonical, so even read as a two-row group it is complete. Check Box1/2/3 sit at the same y on one caption line at three different x - one mutually exclusive option group, not three rows - and none is marked. The five widgets sharing x=328.6 and width 251.6 are a stacked contact block of differently labelled facts, not indexed instances of a row schema. No widget name carries a row index. The original row already contained the contradiction this amendment fixes: it scored incompleteRows as a MEASURED 0 on exactly this reasoning while calling the obligation unmeasurable. Nothing else in the row changed - no other obligation, no counter, no digest, no verdict.",
+      "familiesCompletedAtThisPoint": [
+        "census-pending-family:ME:juvenile-sealing",
+        "mn_petition_609a02_subd3-set",
+        "il-exp-qualprob-set",
+        "ri_multiple_misdemeanors-set"
+      ],
+      "pushed": true
+    }
+  ],
+  "shiftSummary": {
+    "familiesClaimed": 4,
+    "PASS_COMPLETE_INDEPENDENT": [
+      "census-pending-family:ME:juvenile-sealing",
+      "il-exp-qualprob-set"
+    ],
+    "FAIL_REPAIR_REQUIRED": [
+      "mn_petition_609a02_subd3-set",
+      "ri_multiple_misdemeanors-set"
+    ],
+    "BLOCKED_SOURCE": [],
+    "BLOCKED_LEGAL_INPUT": [],
+    "BLOCKED_BEFORE_CLAIM": [],
+    "overlayDirectoriesModified": 0,
+    "buildScriptsModified": 0,
+    "centralArtifactsModified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": "NO",
+    "bothFailuresPassedAllNineCounters": "Both FAILs measure nine zeros. Neither was reachable from a build report, a counter or a raster: one is participant copy contradicting the delivered form's own printed page, the other is internal machine text on a filing. This is the second and third confirmation of the brief's central rule in a single shift.",
+    "repairAssignmentsLocation": "Inside each failing row's repairsNeeded block. The lane's shared repair-assignments.json was NOT written, because it already carries an earlier return and this shift may not overwrite one.",
+    "grantsNothing": "Two independent PASSes prove two packets complete against their own controlling records. They approve no output, promote no route and open no commercial path.",
+    "vocabularyNote": "NOT_MEASURABLE_HERE means this lane could not reach the question. An obligation whose governing structure does not exist on the paper is reachable and answerable, and its answer is PASS with the absence as the evidence. This lane got that wrong once, on Maine, and the row is amended. No other row in this return scores any obligation NOT_MEASURABLE_HERE."
+  }
+}

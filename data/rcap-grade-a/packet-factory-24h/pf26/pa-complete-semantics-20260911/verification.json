@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "pf26-pa-complete-semantics-verification/v1",
+  "familyId": "pa_6308_underage-set",
+  "generatedAt": "2026-09-11T13:58:32Z",
+  "base": "c74fed1dc8c163ea024187901c477286e3736ea5",
+  "branch": "pf26-pa-complete-20260911",
+  "claim": "CLAIM_OK PF26 pa_6308_underage-set (packet-build, grant set 80e57194bc1b44bf)",
+  "preflight": {
+    "command": "MASTER_LIBRARY_SOURCE_DIR=<exact held master library> node scripts/verify-packet-build-environment.mjs --family pa_6308_underage-set --minimum-captain-sha c74fed1dc8c163ea024187901c477286e3736ea5",
+    "exitStatus": 1,
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "sourceResult": "family_sources_bind PASS: 2/2 exact sources bind; master library 499 files, 329 PDFs, 51 jurisdictions; sampled corpus entries byte-exact",
+    "checkoutWrapperFailures": [
+      "isolated checkout is shallow",
+      "task-provided read-only private symlink appears as an untracked path",
+      "task-provided private symlink is not git-ignored in this isolated checkout"
+    ],
+    "evidence": "preflight.log"
+  },
+  "sourceBindings": [
+    {
+      "documentId": "PA-RCRIM-P-490-PETITION",
+      "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+      "byteLength": 87204
+    },
+    {
+      "documentId": "PA-RCRIM-P-490-ORDER",
+      "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+      "byteLength": 143399
+    },
+    {
+      "documentId": "PA-RCRIM-P-790-PETITION",
+      "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+      "byteLength": 87647
+    },
+    {
+      "documentId": "PA-RCRIM-P-790-ORDER",
+      "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+      "byteLength": 151853
+    }
+  ],
+  "defectRepairs": [
+    {
+      "id": "PA-VF62-01",
+      "result": "Complete held address and complaint/arrest/agency composites are written where readable; the oversized boundary address is measured and disclosed. Both petition row-1 charge cells and Rule 790 order Text15 identify the held charge, the missing companion facts, and the whole-entry withholding rule."
+    },
+    {
+      "id": "PA-VF62-02",
+      "result": "Historical judge/court-address, affiant, and conditional missing-history-reason fields are participant record facts. Both proposed-order Disposition fields are future judicial acts and are no longer participant before-filing tasks."
+    },
+    {
+      "id": "PA-VF62-03",
+      "result": "Date on Complaint maps to matter.complaint_or_citation_date. Synthetic offense dates differ from complaint/citation dates, and saved-byte proof observes the independently collected value on both petitions."
+    },
+    {
+      "id": "PA-VF62-04",
+      "result": "All six governed questions, conditional PennDOT proof plus answer-correction step, and the State Police report obtained within 60 days and attached are carried from the registry, PA intake memo, and packet-set manifest."
+    },
+    {
+      "id": "PA-VF62-05",
+      "result": "The guide names the Clerk of the courts of the judicial district in which the charges were disposed and retains the exact court-level selector and unknown-court stop."
+    },
+    {
+      "id": "PA-VF62-06",
+      "result": "The guide states county fee variability, the absence of a confirmed statewide amount, and the statewide in forma pauperis route without inventing a fee."
+    },
+    {
+      "id": "PA-VF62-07",
+      "result": "All three governed stops are carried word for word: incomplete suspension, any other unsatisfied sentence condition, and participant under 21."
+    }
+  ],
+  "fieldMapDelta": {
+    "rowsBefore": 217,
+    "rowsAfter": 217,
+    "candidateWritesBefore": 43,
+    "candidateWritesAfter": 45,
+    "requiredBeforeFilingBefore": 119,
+    "requiredBeforeFilingAfter": 142,
+    "refusalClassRowsBefore": 55,
+    "refusalClassRowsAfter": 30
+  },
+  "rasterInputInventory": [
+    {
+      "artifact": "rule-490-order-canonical.pdf",
+      "beforeSha256": "2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea",
+      "afterSha256": "e352022073c6b43b4f428a6d8e03f9a69800097d0e1cea02f0101f8484648c52",
+      "beforeBytes": 220816,
+      "afterBytes": 221773,
+      "byteDelta": 957,
+      "changed": true,
+      "freshRasterRequired": true
+    },
+    {
+      "artifact": "rule-490-petition-canonical.pdf",
+      "beforeSha256": "c2d6a4b36adb93a94a5fd495b231f448a31bffec726cf93a41646cc20799643c",
+      "afterSha256": "0bc45b2c0ac23fac1d5f64fbb340cf29cb93af01e29da5d6e1f0923121469a5d",
+      "beforeBytes": 123064,
+      "afterBytes": 123063,
+      "byteDelta": -1,
+      "changed": true,
+      "freshRasterRequired": true
+    },
+    {
+      "artifact": "rule-790-order-boundary.pdf",
+      "beforeSha256": "b61ec40aa8d9d9a1a4caadc659b576068b585caf529f95b114b414f92a707c7c",
+      "afterSha256": "5dcb402f6af5df9930d7283e62d15407f9734862b46063674f0c4c65302ef957",
+      "beforeBytes": 194831,
+      "afterBytes": 195781,
+      "byteDelta": 950,
+      "changed": true,
+      "freshRasterRequired": true
+    },
+    {
+      "artifact": "rule-790-petition-boundary.pdf",
+      "beforeSha256": "2752be17246bbaaecef7992f131a9d6e861b9ea3024a84e4076539c561282c69",
+      "afterSha256": "a88f0a3cbab962faf0cd06e1a916d8ebf40b34fdfe43041574979b64b0134cb9",
+      "beforeBytes": 120325,
+      "afterBytes": 120325,
+      "byteDelta": 0,
+      "changed": true,
+      "freshRasterRequired": true
+    },
+    {
+      "artifact": "certificate-of-service-canonical.pdf",
+      "beforeSha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+      "afterSha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad",
+      "beforeBytes": 2711,
+      "afterBytes": 2711,
+      "byteDelta": 0,
+      "changed": false,
+      "freshRasterRequired": false
+    },
+    {
+      "artifact": "certificate-of-service-boundary.pdf",
+      "beforeSha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+      "afterSha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8",
+      "beforeBytes": 2778,
+      "afterBytes": 2778,
+      "byteDelta": 0,
+      "changed": false,
+      "freshRasterRequired": false
+    }
+  ],
+  "rasterDispatchPerformed": false,
+  "verification": [
+    {
+      "command": "node --test scripts/rcap-packet-recovery/pa-6308-complete-semantics.test.mjs",
+      "exitStatus": 0,
+      "result": "4 passed, 0 failed",
+      "evidence": "focused-tests.log"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=<exact held master library> RCAP_NO_LOCAL_RASTER=1 node scripts/build-census-v1-pa_6308_underage-set.mjs --check-nonvisual",
+      "exitStatus": 0,
+      "result": "NONVISUAL CHECK PASS; 6 PDFs; saved-byte proof checked",
+      "evidence": "nonvisual.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_6308_underage-set",
+      "exitStatus": 0,
+      "result": "PASS_COMPLETE; 45/217 written; all nine reported counters zero",
+      "evidence": "completeness.log"
+    },
+    {
+      "command": "NJ clean-slate and ordinance --check-nonvisual",
+      "exitStatus": 0,
+      "result": "Both shared-host non-PA controls pass and their rendered-artifact hashes are unchanged",
+      "evidence": "nonpa-regression.log"
+    }
+  ],
+  "remainingGates": [
+    "Fresh central all-page raster and independent review are required for the four changed official-form PDFs.",
+    "Completed-output legal approval has not been granted.",
+    "Current form revision and local-practice review remain open as already recorded.",
+    "Commercial authority and runtime selection remain false."
+  ],
+  "selfApproval": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

@@ -1,0 +1,94 @@
+{
+  "familyId": "al-pardoned-felony-set",
+  "trackId": "al-pardoned-felony",
+  "sourceMemoSha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+  "selfHelpStops": [
+    {
+      "condition": "The pardon withholds firearm rights and the restoration question controls.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The prosecutor or a victim files an objection.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The court sets a hearing.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Immigration, licensing or firearm consequences are in play.",
+      "literalPresent": true
+    }
+  ],
+  "requiredParticipantInputQuestions": [
+    {
+      "key": "pardonDate",
+      "question": "On what date was the pardon granted?",
+      "requirement": "required"
+    },
+    {
+      "key": "restorationLanguage",
+      "question": "What does the pardon certificate say about restoration of your civil and political rights?",
+      "requirement": "required"
+    },
+    {
+      "key": "firearmRightsExcluded",
+      "question": "Does the pardon expressly exclude firearm rights from the restoration?",
+      "requirement": "required"
+    },
+    {
+      "key": "countyOfFiling",
+      "question": "In which county were the charges filed?",
+      "requirement": "required"
+    }
+  ],
+  "supportingDocuments": [
+    {
+      "name": "Pardon certificate",
+      "obtainedFrom": "Alabama Board of Pardons and Paroles",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Attach the pardon certificate to the petition. It is a filing attachment and reference document; LegalEase does not approve it.",
+      "confirms": "restorationLanguage"
+    },
+    {
+      "name": "Certified ALEA criminal record",
+      "obtainedFrom": "Alabama Law Enforcement Agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request a certified criminal record from ALEA."
+    }
+  ],
+  "destination": {
+    "kind": "court",
+    "name": "Criminal division of the circuit court, county where the charges were filed",
+    "detail": "Court-controlled with a prosecutor and victim objection window."
+  },
+  "components": [
+    {
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65"
+    },
+    {
+      "role": "certificate_of_service",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65"
+    },
+    {
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "conditionDescription": "Where indigency is claimed.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "C-10-CRIMINAL"
+    }
+  ],
+  "manualCompletionItems": [
+    [
+      "Signature and date",
+      "The petitioner signs their own petition."
+    ]
+  ]
+}

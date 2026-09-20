@@ -71,7 +71,7 @@ function topicQuestions(questions: PublicQuestion[]) {
 
 /**
  * Build the homepage's presentation-safe state summaries from the same public projection served
- * to the guided check. Only names, counts, and participant-facing prompts cross into the client.
+ * to the screening. Only names, counts, and participant-facing prompts cross into the client.
  */
 export function buildCoverageSummaries(): CoverageSummary[] {
   const summaries = getAllJurisdictionProfiles()

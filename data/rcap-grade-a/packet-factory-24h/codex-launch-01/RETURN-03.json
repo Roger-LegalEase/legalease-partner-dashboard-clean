@@ -1,0 +1,1162 @@
+{
+  "schemaVersion": "rcap-launch-engineering-return/v1",
+  "lane": "CODEX-LAUNCH-01",
+  "continuationId": "codex-launch-01-continuation-v2",
+  "recordedOn": "2026-09-06T04:31:58.051599+00:00",
+  "status": "LOCAL_DELIVERY_ENGINEERING_COMPLETE; LIVE_ILLINOIS_DENIED; HOSTED_NOT_RUN",
+  "selectedCaptainSha": "ba7f95cf3dedffc503efc7ec077e05803f45ac6d",
+  "postMergeWorkerHead": "bbbdd89b4cddff87fe00fb63d2134862ef5ca646",
+  "base": "bbbdd89b4cddff87fe00fb63d2134862ef5ca646",
+  "diffBase": "bbbdd89b4cddff87fe00fb63d2134862ef5ca646",
+  "branch": "codex/launch-01-il-delivery",
+  "commit": "91517f3ad6e41eb35c69cb76fc0208c421e155d3",
+  "commitMeaning": "Last executable implementation checkpoint. The return itself is committed afterwards. No old immutable image is claimed to contain this code.",
+  "recovery": {
+    "initialHead": "198ac619170250d0f5eabdd06324b9ee281b4ebb",
+    "initialDirtyPaths": [],
+    "selectedCaptainRequiredAncestor": "ba7f95cf3dedffc503efc7ec077e05803f45ac6d",
+    "update": "Ordinary merge into the existing worker branch; accepted Outcome A and RETURN-02 preserved. No reset, rebase, branch replacement or force-push. No repeated restart for unrelated Captain work."
+  },
+  "pushedCommits": [
+    "bbbdd89b4cddff87fe00fb63d2134862ef5ca646",
+    "93ec2cbb1e52b145b6b13a0cc339544b6f8546f7",
+    "d9410e75d59f6f7a9d0c3a19f38311ebbca52b1e",
+    "9d8053c341be54c7c1c59eac99e719f135370dcb",
+    "76a0f8623087f9c14cea360bc1a30ab1118ea0b3",
+    "91517f3ad6e41eb35c69cb76fc0208c421e155d3"
+  ],
+  "changedPaths": [
+    "scripts/test-rcap-il-delivery-boundaries.mjs",
+    "scripts/test-rcap-il-personalization.mjs",
+    "scripts/test-rcap-il-sponsored-transaction.mjs",
+    "src/lib/expungement-ai/consumer-render-request.ts",
+    "src/lib/expungement-ai/packet-generation.ts",
+    "src/lib/rcap/render/commercial-admission.ts",
+    "src/lib/rcap/render/job-queue.ts",
+    "src/lib/rcap/render/packet-delivery.ts",
+    "src/lib/rcap/render/personalized-packet.ts",
+    "src/lib/rcap/render/sponsored-packet.ts",
+    "supabase/migrations/20260906130000_verified_artifact_regeneration.sql",
+    "data/rcap-grade-a/packet-factory-24h/codex-launch-01/RETURN-03.json"
+  ],
+  "captainOwnedDependency": {
+    "originalCommit": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+    "workerCherryPick": "9d8053c341be54c7c1c59eac99e719f135370dcb",
+    "path": "supabase/migrations/20260906130000_verified_artifact_regeneration.sql",
+    "disposition": "Imported unchanged at Captain instruction. Applied only to disposable local PostgreSQL. Do not reapply this cherry-pick when integrating worker-authored commits into Captain.",
+    "reason": "Real integration proved consumer ON CONFLICT DO NOTHING kept stale provenance and sponsored regeneration returned artifact_conflict. Captain supplied the guarded replacement/history migration; worker extended its tests."
+  },
+  "additionalExactScopeGrant": {
+    "path": "src/lib/expungement-ai/consumer-render-request.ts",
+    "grantedBy": "Codex Captain in this session",
+    "change": "Only the existing provider_dispatch import/call replaced with shared governProviderDispatch. No other consumer-render-request change."
+  },
+  "verifiersBefore": [
+    {
+      "command": "node scripts/verify-route-resolution.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-0.log",
+      "logSha256": "849b08e85411f93df2d86604487347a58afd43c012120cdd8821d8ecf4927dfa"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-1.log",
+      "logSha256": "1b342f4e08cda8e8bb2bbbd26cfc781588a11703628c780e3b0e424bb9ce574f"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-2.log",
+      "logSha256": "062cc558cf7d896ca4f5024b5d3dbe5ec4e73154073d517996ece44d85cb00c5"
+    },
+    {
+      "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-3.log",
+      "logSha256": "53e51a210b1a929951fdd363b364e0089a64c26b1655d35d32f0d7b53d7a2fdf"
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs --check",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-4.log",
+      "logSha256": "d8b75e8dbd8f2dfcaf13fa89b353ac07aea04d8de6d05f9dbf5f11ba58693bca"
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-5.log",
+      "logSha256": "9121186c887b075d503d929641d5c66d564d0518b1926c805f6dd4509dc10142"
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-6.log",
+      "logSha256": "8d7161c7689f04fe0c5bbac94391997ec98cdef226a691a95afd532f9607ae2e"
+    },
+    {
+      "command": "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-7.log",
+      "logSha256": "9c4f02ebe449a85ef0b95b2981ec86291e2f60471aa40aadda085d4b48864a14"
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-8.log",
+      "logSha256": "b287abd41f0e8158ed0a81d38faeaaa2967d0bd6053d9ac64a549e5abff13841"
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-9.log",
+      "logSha256": "5f03a22face5bd30a7538f5ded839e5bf5e0e1a0c0cf67bb8f8deffdc5db0e2d"
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-10.log",
+      "logSha256": "be1cbda60a59d49a36c0c14d76bd31d1ce6805d3806f5a9334b0054f836ec863"
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-11.log",
+      "logSha256": "d5c5b1aab55c6931f4f98cdbf29c0bbee424d5354d575115207a9ffbacf60313"
+    },
+    {
+      "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-12.log",
+      "logSha256": "4663274b2aeb262e8b2ae0870bde01d039c5c069047caf7783eb7bdc6bb1eb99"
+    },
+    {
+      "command": "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-13.log",
+      "logSha256": "5ff8e6c5d49663d0d4def799b44606c49c403f772a9d37eb00f22cccbfb3c97b"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-path.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-14.log",
+      "logSha256": "c8f2da9949b276fddcaabec380515bd2caab8b80e0ab4c39fb72c5bc791af762"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-jobs.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-15.log",
+      "logSha256": "a1fedd313f756672e03c444632febc71a5b65c1e9d4d592ca95c97eda4bfb30e"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-contract.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-16.log",
+      "logSha256": "879e0885f5835b0f1afeb27449a299906886347ab31620d4b7f86d3e8f3683fc"
+    },
+    {
+      "command": "node scripts/verify-rcap-render-job-contract.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-17.log",
+      "logSha256": "040fec6c62c1f71479292611e4fbe4777b01b616e944cca12de2afb4fed486ae"
+    },
+    {
+      "command": "node scripts/verify-rcap-render-worker-delivery.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-03/before-18.log",
+      "logSha256": "3773a26b7bd38357e8e69c4e482ef13fd84cc30bd47fea88204abe8677276af9"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-e2e.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-03/before-19.log",
+      "logSha256": "c2aec7e2f1c9b26c8e7d7aa86b2d775f7618b8a87ff164443a58927a53d47f72"
+    },
+    {
+      "command": "node scripts/verify-rcap-il-delivery-binding.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-20.log",
+      "logSha256": "5bae68f1babc538865ef3b4aee39aa27f9bfc3a382ad711570b9de7c4ae70dfa"
+    },
+    {
+      "command": "node scripts/verify-rcap-il-consumer-authority.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-21.log",
+      "logSha256": "b6d4ae9feb9d78aa71836af1b1b0d8f1053bcb4163b00087983016a96dcb0421"
+    },
+    {
+      "command": "node scripts/test-rcap-il-personalization.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-03/before-22.log",
+      "logSha256": "0ee66e9eb464dd98a08259a2b0bdc74634faff51b2739e0efbed694a2bdb5782"
+    },
+    {
+      "command": "npx tsc --noEmit -p .",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-23.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "node scripts/test-rcap-il-participant-renderer.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-24.log",
+      "logSha256": "2c945131afd717769ca06926dd59ff4017fea66f5c7630a4fca74c6f4e9f41d3"
+    },
+    {
+      "command": "node scripts/test-rcap-il-sponsored-transaction.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/before-25.log",
+      "logSha256": "c1e181feebbf1c6d909c8ae99f50d882d34cf118c3fec8586f62489216eaa091"
+    }
+  ],
+  "verifiersAfter": [
+    {
+      "command": "node scripts/verify-route-resolution.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-0.log",
+      "logSha256": "849b08e85411f93df2d86604487347a58afd43c012120cdd8821d8ecf4927dfa",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-1.log",
+      "logSha256": "1b342f4e08cda8e8bb2bbbd26cfc781588a11703628c780e3b0e424bb9ce574f",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-factory-v2-route.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-2.log",
+      "logSha256": "062cc558cf7d896ca4f5024b5d3dbe5ec4e73154073d517996ece44d85cb00c5",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/generate-rcap-factory-v2-registry.mjs --check",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-3.log",
+      "logSha256": "53e51a210b1a929951fdd363b364e0089a64c26b1655d35d32f0d7b53d7a2fdf",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs --check",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-4.log",
+      "logSha256": "d8b75e8dbd8f2dfcaf13fa89b353ac07aea04d8de6d05f9dbf5f11ba58693bca",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-5.log",
+      "logSha256": "9121186c887b075d503d929641d5c66d564d0518b1926c805f6dd4509dc10142",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-launch-graph.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-6.log",
+      "logSha256": "8d7161c7689f04fe0c5bbac94391997ec98cdef226a691a95afd532f9607ae2e",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-no-checkout-on-automatic-routes.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-7.log",
+      "logSha256": "9c4f02ebe449a85ef0b95b2981ec86291e2f60471aa40aadda085d4b48864a14",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --governance-only",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-8.log",
+      "logSha256": "b287abd41f0e8158ed0a81d38faeaaa2967d0bd6053d9ac64a549e5abff13841",
+      "result": "PASS",
+      "scope": "Governance assertions only; the full national closure gate was intentionally not requested and remains unexecuted (8 existing closure invariants open)."
+    },
+    {
+      "command": "node scripts/verify-rcap-sellable-pathway-closure.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-9.log",
+      "logSha256": "5f03a22face5bd30a7538f5ded839e5bf5e0e1a0c0cf67bb8f8deffdc5db0e2d",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-10.log",
+      "logSha256": "be1cbda60a59d49a36c0c14d76bd31d1ce6805d3806f5a9334b0054f836ec863",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-money-gate-delivery-binding.mjs --mutations",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-11.log",
+      "logSha256": "d5c5b1aab55c6931f4f98cdbf29c0bbee424d5354d575115207a9ffbacf60313",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/final-wiring-0.log",
+      "logSha256": "e8f501807150ad80219022a4e256f524ae6451afeb7ca70f6aacab9caaae367c",
+      "initialAfterResult": {
+        "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+        "exitCode": 1,
+        "log": "/tmp/codex-launch-03/after-12.log",
+        "logSha256": "72dd8b6e273edae26d88eb41a9f4283579dafb539850be27e94da8c7177a56a3"
+      },
+      "repair": "Shared point-specific treatments restored the unchanged one-governed-callsite assertion; no evaluator rule or verifier assertion changed.",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-consumer-delivery-environment.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-13.log",
+      "logSha256": "5ff8e6c5d49663d0d4def799b44606c49c403f772a9d37eb00f22cccbfb3c97b",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-path.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-14.log",
+      "logSha256": "c8f2da9949b276fddcaabec380515bd2caab8b80e0ab4c39fb72c5bc791af762",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-render-jobs.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-15.log",
+      "logSha256": "a1fedd313f756672e03c444632febc71a5b65c1e9d4d592ca95c97eda4bfb30e",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-contract.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-16.log",
+      "logSha256": "879e0885f5835b0f1afeb27449a299906886347ab31620d4b7f86d3e8f3683fc",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-render-job-contract.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-17.log",
+      "logSha256": "040fec6c62c1f71479292611e4fbe4777b01b616e944cca12de2afb4fed486ae",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-render-worker-delivery.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-03/after-18.log",
+      "logSha256": "3773a26b7bd38357e8e69c4e482ef13fd84cc30bd47fea88204abe8677276af9",
+      "result": "FAIL",
+      "cause": "Preserved approved-fixture pin mismatch: actual canonical.pdf d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657 differs from owner-approved pin 7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d. Present at continuation base; no assertion, fixture, pin or approval changed.",
+      "scope": "The command exits 1; downstream work after its assertion is not counted as passed."
+    },
+    {
+      "command": "node scripts/verify-rcap-packet-delivery-e2e.mjs",
+      "exitCode": 1,
+      "log": "/tmp/codex-launch-03/after-19.log",
+      "logSha256": "1a8b59d3833b32578712ff072e689330e41c9d51ebf2e2e0bdb00df1c471b66c",
+      "result": "FAIL",
+      "cause": "Preserved approved-fixture pin mismatch: actual canonical.pdf d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657 differs from owner-approved pin 7daaa389709afebccd46cdcee56b16c9888eb4ddcda2475c6c1e0b7315b9517d. Present at continuation base; no assertion, fixture, pin or approval changed.",
+      "scope": "The command exits 1; downstream work after its assertion is not counted as passed."
+    },
+    {
+      "command": "node scripts/verify-rcap-il-delivery-binding.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-20.log",
+      "logSha256": "5bae68f1babc538865ef3b4aee39aa27f9bfc3a382ad711570b9de7c4ae70dfa",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-rcap-il-consumer-authority.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-21.log",
+      "logSha256": "b6d4ae9feb9d78aa71836af1b1b0d8f1053bcb4163b00087983016a96dcb0421",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/test-rcap-il-personalization.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-22.log",
+      "logSha256": "4db62b8a481f143370f8dd817eebcd31262b60650acd2b3f9ca4f7d93b875867",
+      "result": "PASS"
+    },
+    {
+      "command": "npx tsc --noEmit -p .",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-23.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/test-rcap-il-participant-renderer.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-24.log",
+      "logSha256": "2c945131afd717769ca06926dd59ff4017fea66f5c7630a4fca74c6f4e9f41d3",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/test-rcap-il-sponsored-transaction.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-25.log",
+      "logSha256": "910de75342b215ace1b055a32f69eb7a4b25bd9ce9f2534193d18aff26d6cb1e",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/test-rcap-il-personalization.mjs --verify-fail-closed",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/after-26.log",
+      "logSha256": "8ac2c431efa50a1324cc6480165f06430efbea290d9848e55bc33bc72e9ceb9b",
+      "result": "PASS"
+    }
+  ],
+  "additionalChecks": [
+    {
+      "command": "node scripts/generate-rcap-launch-graph.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/default-launch-generator.log"
+    },
+    {
+      "command": "npx eslint src/lib/expungement-ai/packet-generation.ts src/lib/expungement-ai/consumer-render-request.ts src/lib/rcap/render/commercial-admission.ts src/lib/rcap/render/job-queue.ts src/lib/rcap/render/packet-delivery.ts src/lib/rcap/render/personalized-packet.ts src/lib/rcap/render/sponsored-packet.ts scripts/test-rcap-il-personalization.mjs scripts/test-rcap-il-delivery-boundaries.mjs scripts/test-rcap-il-sponsored-transaction.mjs",
+      "exitCode": 0,
+      "log": "/tmp/codex-launch-03/final-wiring-1.log",
+      "logSha256": "982ceeeb981f9b16210ea223d28e34e84b84e731b690b5455069e7e0c40189c6"
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    },
+    {
+      "command": "createWorkerInputPlan from scripts/rcap-hosted-acceptance-worker-input-plan.mjs",
+      "exitCode": 0,
+      "result": "rebuild-required",
+      "log": "/tmp/codex-launch-03/worker-input-plan.json"
+    }
+  ],
+  "acceptanceSummary": {
+    "before": {
+      "commands": 26,
+      "exit0": 23,
+      "exit1": 3
+    },
+    "latest": {
+      "commands": 27,
+      "exit0": 25,
+      "exit1": 2
+    },
+    "taskCausedFailuresRemaining": 0,
+    "preservedBaseFailures": 2,
+    "eslint": "Exit 0 on all changed TypeScript/MJS inputs; one pre-existing unused slug warning in packet-generation.ts.",
+    "unit": "Canonical authority/binding and unchanged Lane-F 52/52 pass.",
+    "localIntegration": "Original sponsored SQL matrix passes 69/69 including Mississippi under the new forward migration.",
+    "actualGeneration": "Real generation entry, verified enqueue, worker/provider adapter, PDF renderer, filesystem storage, protected publication and authorized download pass for consumer and sponsored cases.",
+    "negativeRendering": "Separate --verify-fail-closed command passes; explicit failing renderer double produces no artifact/Ready/consumption.",
+    "currentRegistry": "REVOKED; allowed=false/admitted=false, independently tested against committed bytes.",
+    "hosted": "Not run."
+  },
+  "outcomeA": {
+    "closed": true,
+    "evidence": "Accepted RETURN-02 implementation retained. Same disk-loaded evaluator/observation fixtures prove valid canonical lookup with no legacy duplicate and 15 invalid bindings. Committed Illinois version 2 remains revoked and denied."
+  },
+  "outcomeB": {
+    "closed": true,
+    "scope": "Local continuation engineering acceptance with isolated synthetic authority; no commercial release approval or hosted acceptance.",
+    "evidence": "Existing participant composer and sponsored authority/enqueue/finalizer are connected. Real personalized generation and all nine delivery requirements pass after the Captain-owned guarded regeneration dependency. No second queue, storage, scheduler, ledger or approval system introduced."
+  },
+  "proofs": [
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "Two consumer and two sponsored participants produce distinct real PDFs containing their own name in both court documents and their own address, with case-insensitive cross-participant leakage checks."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "Changing mailing_address changes the rendered address and removes the previous address in both consumer and sponsored regenerated PDFs."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "For each participant, the actual exported worker adapter renders the same claim twice more byte-identically; the existing direct-render normalized fingerprint check also passes."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "Artifacts bind to the immutable packet, job, owner, matter, exact track/family/specification and current verification. Current protected provenance and delivery core recheck these bindings."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "Consumer jobs retain zero_charge finalization plus exactly one payment consumption per paid matter. Sponsored jobs retain consumed partner accounting plus one Clinic allowance/event. Regeneration creates no additional consumption or payment."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "Duplicate generation before work reuses the job. Completed generation and finalization retries reuse current artifacts, change no accounting and append no history. Failed-render retries reuse jobs."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "All four owners stream and repeat-download their own result. Consumers also issue and authorize real local opaque grants twice. Regenerated consumer grants work; old revision grants are explicitly revoked."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "Other-user, absent/wildcard/automatic track, wrong family, wrong event, stale verification and committed invalid authority are denied. Wrong-event generation creates no job. Live Illinois remains revoked."
+    },
+    {
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "result": "PASS",
+      "evidence": "Changed verification publishes a new current job and revision 2 for consumer and sponsored matters. One prior immutable artifact is retained with accessible stored bytes. Repeated regenerated finalization changes no history or consumption. Unauthorized owner/history/stale/same-verification/failed-job replacements are denied."
+    }
+  ],
+  "deliveryResults": [
+    {
+      "item": 1,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "Two consumer and two sponsored participants produce distinct real PDFs containing their own name in both court documents and their own address, with case-insensitive cross-participant leakage checks.",
+      "artifactDigests": [
+        "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508"
+      ]
+    },
+    {
+      "item": 2,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "Changing mailing_address changes the rendered address and removes the previous address in both consumer and sponsored regenerated PDFs.",
+      "artifactDigests": [
+        "e8b39b1f40fb1298bfb6906c8144a8e1e603de31e97dbfae7ef328581c7a7a73",
+        "607ab1efef1aa7f2946b063c77d739a376e3a54a655393a2ead4c7acfb03de33"
+      ]
+    },
+    {
+      "item": 3,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "For each participant, the actual exported worker adapter renders the same claim twice more byte-identically; the existing direct-render normalized fingerprint check also passes.",
+      "artifactDigests": [
+        "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508"
+      ]
+    },
+    {
+      "item": 4,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "Artifacts bind to the immutable packet, job, owner, matter, exact track/family/specification and current verification. Current protected provenance and delivery core recheck these bindings.",
+      "artifactDigests": [
+        "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508"
+      ]
+    },
+    {
+      "item": 5,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "Consumer jobs retain zero_charge finalization plus exactly one payment consumption per paid matter. Sponsored jobs retain consumed partner accounting plus one Clinic allowance/event. Regeneration creates no additional consumption or payment.",
+      "artifactDigests": [
+        "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508"
+      ]
+    },
+    {
+      "item": 6,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "Duplicate generation before work reuses the job. Completed generation and finalization retries reuse current artifacts, change no accounting and append no history. Failed-render retries reuse jobs.",
+      "artifactDigests": [
+        "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508"
+      ]
+    },
+    {
+      "item": 7,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "All four owners stream and repeat-download their own result. Consumers also issue and authorize real local opaque grants twice. Regenerated consumer grants work; old revision grants are explicitly revoked.",
+      "artifactDigests": [
+        "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508"
+      ]
+    },
+    {
+      "item": 8,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "Other-user, absent/wildcard/automatic track, wrong family, wrong event, stale verification and committed invalid authority are denied. Wrong-event generation creates no job. Live Illinois remains revoked.",
+      "artifactDigests": [
+        "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508"
+      ]
+    },
+    {
+      "item": 9,
+      "result": "PASS",
+      "testName": "node scripts/test-rcap-il-personalization.mjs",
+      "evidence": "Changed verification publishes a new current job and revision 2 for consumer and sponsored matters. One prior immutable artifact is retained with accessible stored bytes. Repeated regenerated finalization changes no history or consumption. Unauthorized owner/history/stale/same-verification/failed-job replacements are denied.",
+      "artifactDigests": [
+        "e8b39b1f40fb1298bfb6906c8144a8e1e603de31e97dbfae7ef328581c7a7a73",
+        "607ab1efef1aa7f2946b063c77d739a376e3a54a655393a2ead4c7acfb03de33"
+      ]
+    }
+  ],
+  "personalizationAndIsolationEvidence": {
+    "participants": [
+      {
+        "mode": "consumer",
+        "matterId": "e32d1fc3-5493-4af1-a9b7-38913e23da6c",
+        "jobId": "6fb255bc-de54-4226-99b0-d6a2127076bd",
+        "packetId": "56786899-2d99-4aa2-8935-6edb58882336",
+        "participant": "Alice Example",
+        "expectedAddress": "101 First Street",
+        "sha256": "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "verificationHash": "3e50b9aa28de5ece92e4d84c167ce7e16682bf3a9a544a1288ca2107bd3b0d73"
+      },
+      {
+        "mode": "consumer",
+        "matterId": "f58cc24d-ccfb-4241-a2d8-56c492bf163b",
+        "jobId": "66ca7911-4bfa-434a-8847-7993c545001b",
+        "packetId": "c09fa3e9-a5c1-40f3-8f8d-619b75a2610c",
+        "participant": "Bruno Sample",
+        "expectedAddress": "202 Second Street",
+        "sha256": "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "verificationHash": "88be00de49a481fcce31147858ef502b46748245d5ee5d7cf55bf915eb4464aa"
+      },
+      {
+        "mode": "sponsored",
+        "matterId": "6bf4fce2-13f4-4727-b07a-a58e19daef57",
+        "jobId": "afcc9d8e-4fd4-4de2-8096-5770ad80f2bb",
+        "packetId": "86162d88-a802-4f7e-840c-c2e66d4c2d5b",
+        "participant": "Claire Sponsored",
+        "expectedAddress": "404 Third Street",
+        "sha256": "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "verificationHash": "e2abf0144b29c9f80651604af4fcb5689810ec708de74453cc3ae8e2ddb5116f"
+      },
+      {
+        "mode": "sponsored",
+        "matterId": "678dabac-74df-4dbe-82ba-db9162ea26c3",
+        "jobId": "8275e5e5-0bac-40ca-a890-f36a8e1f003e",
+        "packetId": "dfeffc9b-01fd-43ba-84c2-edda8bb89262",
+        "participant": "Diego Sponsored",
+        "expectedAddress": "505 Fourth Street",
+        "sha256": "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508",
+        "verificationHash": "d2fcee2861146413f7bbd606111e66886a620208e1c245741cbdf9d200aa131d"
+      }
+    ],
+    "failures": [],
+    "revisions": [
+      {
+        "mode": "consumer",
+        "revision": 2,
+        "historyLength": 1,
+        "priorSha256": "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "currentSha256": "e8b39b1f40fb1298bfb6906c8144a8e1e603de31e97dbfae7ef328581c7a7a73",
+        "repeatUnchanged": true,
+        "mutationRefusals": 5
+      },
+      {
+        "mode": "sponsored",
+        "revision": 2,
+        "historyLength": 1,
+        "priorSha256": "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "currentSha256": "607ab1efef1aa7f2946b063c77d739a376e3a54a655393a2ead4c7acfb03de33",
+        "repeatUnchanged": true,
+        "mutationRefusals": 5
+      }
+    ],
+    "initialAccounting": {
+      "consumerConsumptions": 2,
+      "sponsoredLedgerConsumptions": 2,
+      "clinicAllowance": 2,
+      "clinicEvents": 2
+    },
+    "changedFact": {
+      "field": "mailing_address",
+      "before": "101 First Street",
+      "after": "303 Changed Avenue",
+      "contentChanged": true,
+      "jobId": "1d96ffe6-fd47-4c51-83e7-1031cae03527",
+      "sha256": "e8b39b1f40fb1298bfb6906c8144a8e1e603de31e97dbfae7ef328581c7a7a73"
+    },
+    "regeneration": "PASS",
+    "sponsoredChangedFact": {
+      "field": "mailing_address",
+      "before": "404 Third Street",
+      "after": "606 Sponsor Change",
+      "sha256": "607ab1efef1aa7f2946b063c77d739a376e3a54a655393a2ead4c7acfb03de33",
+      "jobId": "e8eaa95d-cb56-4f9c-a48f-45b14e2f4b3f"
+    },
+    "failedReplacementDenied": true,
+    "localOnly": true
+  },
+  "syntheticArtifactsDirectory": "/tmp/il-personalization-70lJl4",
+  "syntheticEvidenceSha256": "61ffba21474b7447ef961a565389f25c4ee60b818e2b58cf0a50dd024bce5a92",
+  "failedRenderEvidence": {
+    "participants": [],
+    "failures": [],
+    "revisions": [],
+    "result": "FAIL-CLOSED checks PASS; explicit renderer failure double, no artifact or Ready",
+    "inputs": [
+      {
+        "participant": "Alice Example",
+        "expectedAddress": "101 First Street",
+        "matterId": "89592ab4-35b1-4901-b31a-2b083cde1c9b",
+        "jobId": "81860226-fa49-4ad3-8ee0-30c6c68015bf",
+        "verificationHash": "3e50b9aa28de5ece92e4d84c167ce7e16682bf3a9a544a1288ca2107bd3b0d73"
+      },
+      {
+        "participant": "Bruno Sample",
+        "expectedAddress": "202 Second Street",
+        "matterId": "7f5bdf9e-18cf-47d7-a621-88297a011a76",
+        "jobId": "b7a8f63c-aa09-47c8-945c-e2265613b6d3",
+        "verificationHash": "88be00de49a481fcce31147858ef502b46748245d5ee5d7cf55bf915eb4464aa"
+      },
+      {
+        "participant": "Claire Sponsored",
+        "expectedAddress": "404 Third Street",
+        "matterId": "e037e9c4-cf63-4653-910a-f165c11bd54c",
+        "jobId": "d07d2fda-b873-49db-8462-a71178640978",
+        "verificationHash": "e2abf0144b29c9f80651604af4fcb5689810ec708de74453cc3ae8e2ddb5116f"
+      },
+      {
+        "participant": "Diego Sponsored",
+        "expectedAddress": "505 Fourth Street",
+        "matterId": "166fe27a-fd94-46bf-af5b-2a6f53980a8f",
+        "jobId": "4e79aea5-4f5f-49b2-94fc-844ddd95c0fb",
+        "verificationHash": "d2fcee2861146413f7bbd606111e66886a620208e1c245741cbdf9d200aa131d"
+      }
+    ],
+    "artifacts": 0,
+    "consumerConsumptions": 0,
+    "sponsoredConsumptions": 0
+  },
+  "failedRenderArtifactsDirectory": "/tmp/il-personalization-IMGpoS",
+  "testDoubles": [
+    {
+      "boundary": "Commercial authority",
+      "replacement": "Independent synthetic complete record and observation loaded from a temporary directory through the same production disk loader, structural/history checks and evaluator. No participant injection API, no live registry edits and no synthetic legal approval."
+    },
+    {
+      "boundary": "Supabase network/client",
+      "replacement": "Existing test client translates application RPC/table calls into actual SQL as service_role against disposable PostgreSQL; worker claim/start/fail/event transport uses direct local SQL. No hosted Supabase transport exercised."
+    },
+    {
+      "boundary": "Authentication/session",
+      "replacement": "Synthetic auth.users/roles and caller user IDs; owner-scoped Briefcase presentation reader is a test fixture. No hosted cookie, session, identity provider or auth handoff acceptance."
+    },
+    {
+      "boundary": "Source presentation and final legal verification",
+      "replacement": "Test presentation returns seeded claimed source/session identities; final screening/profile re-evaluation and review-complete model are fixtures. The current verification read and all protected enqueue/guard/finalization/grant RPCs are real. Sponsored SQL independently rederives ownership and program/event scope from seeded protected rows."
+    },
+    {
+      "boundary": "Base schema",
+      "replacement": "Minimal auth, source, document, Clinic and program prerequisite tables seeded locally; the existing job/payment/provenance/grant migrations, DEL-B and Captain regeneration migration execute for real. This is not a complete hosted schema-upgrade canary."
+    },
+    {
+      "boundary": "Payment provider",
+      "replacement": "Synthetic checkout/payment events enter real bind_consumer_checkout_verification and record_consumer_packet_payment RPCs. No Stripe network, payment collection or webhook-signature acceptance claimed by this integration."
+    },
+    {
+      "boundary": "Artifact storage",
+      "replacement": "Filesystem upload/read adapter replacing hosted private object storage. Actual PDFs are validated, stored, reread and hash-checked. No hosted Storage authorization/availability claim."
+    },
+    {
+      "boundary": "Rendering",
+      "replacement": "Successful personalization uses the actual exported scripts/rcap-render-worker.mjs adapter, composeParticipantDeliveryPacket and renderGradeAPacketPdf without a fixture substitute. Dedicated failure cases deliberately inject throwing renderer ports. The original 69-case transaction suite retains its fixed-PDF adapter solely for transaction regression."
+    },
+    {
+      "boundary": "Unit delivery",
+      "replacement": "Existing binding unit test has synthetic completed job/accounting/storage and a small synthetic PDF. Its positive unit result is not used as personalization evidence."
+    },
+    {
+      "boundary": "Worker image identity",
+      "replacement": "Local worker cycles carry a local test marker (sha256:local-personalization-test). It is neither a local image ID nor a published immutable image digest. No container image acceptance executed in this worker task."
+    }
+  ],
+  "currentRegistry": {
+    "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "sha256": "2a5492de3a1752b37e94e6d3669b569a7ef006260a406257d61e193e556172c1",
+    "recordId": "grade-a-il-felony-prostitution-relief-v1",
+    "version": 2,
+    "revocation": {
+      "revoked": true,
+      "reason": "First-cohort evidence refusal: il-prostitution-j-vacate-set has no current independent complete verdict",
+      "revokedAt": "2026-09-05",
+      "revokedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs"
+    },
+    "runtimeDecision": "REVOKED",
+    "allowed": false,
+    "modified": false
+  },
+  "workerInputsChanged": [
+    "src/lib/expungement-ai/consumer-render-request.ts",
+    "src/lib/expungement-ai/packet-generation.ts",
+    "src/lib/rcap/render/commercial-admission.ts",
+    "src/lib/rcap/render/job-queue.ts",
+    "src/lib/rcap/render/packet-delivery.ts",
+    "src/lib/rcap/render/personalized-packet.ts",
+    "src/lib/rcap/render/sponsored-packet.ts"
+  ],
+  "workerPublication": {
+    "check": {
+      "schemaVersion": "rcap-worker-input-plan/v1",
+      "acceptedSourceSha": "b680a4e4dd92e7422bc7030aa2189026929782a1",
+      "acceptedDigest": "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864",
+      "candidateSha": "91517f3ad6e41eb35c69cb76fc0208c421e155d3",
+      "canonicalInputs": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json",
+        "scripts/rcap-render-worker.mjs",
+        "scripts/lib",
+        "src",
+        "deploy/rcap-render-worker/Dockerfile"
+      ],
+      "changedPaths": [
+        "deploy/rcap-render-worker/Dockerfile",
+        "scripts/lib/il-prostitution-j-vacate-composition.mjs",
+        "scripts/lib/indiana-cca-section1-guide.mjs",
+        "scripts/lib/route-artifact-scope.mjs",
+        "scripts/rcap-render-worker.mjs",
+        "src/app/api/rcap/packets/[jobId]/download/route.ts",
+        "src/lib/clinic-mode/result-follow-up.ts",
+        "src/lib/expungement-ai/consumer-render-request.ts",
+        "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+        "src/lib/expungement-ai/packet-generation.ts",
+        "src/lib/expungement-ai/payment-adapter.ts",
+        "src/lib/legal-authority/authority.json",
+        "src/lib/legal-authority/routes/single-routes.json",
+        "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+        "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+        "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+        "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+        "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+        "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+        "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+        "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+        "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+        "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/documents/factory-v2-registry.ts",
+        "src/lib/rcap/documents/packet-route-resolver.ts",
+        "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+        "src/lib/rcap/grade-a/composer.ts",
+        "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts",
+        "src/lib/rcap/grade-a/packet-specification.ts",
+        "src/lib/rcap/grade-a/participant-packet.ts",
+        "src/lib/rcap/grade-a/renderer.ts",
+        "src/lib/rcap/render/commercial-admission.ts",
+        "src/lib/rcap/render/job-queue.ts",
+        "src/lib/rcap/render/packet-delivery.ts",
+        "src/lib/rcap/render/personalized-packet.ts",
+        "src/lib/rcap/render/sponsored-packet.ts"
+      ],
+      "aggregateInputSha256": "sha256:e967b593f7b5bc4947bbed458ca5b16920e49b384938e4d66d7e269853f2f926",
+      "aggregateAlgorithm": "sha256 of sorted path, mode, type, and Git object ID records",
+      "rebuildRequired": true,
+      "decision": "rebuild-required",
+      "image": {
+        "sourceSha": "91517f3ad6e41eb35c69cb76fc0208c421e155d3",
+        "tags": [
+          "91517f3ad6e41eb35c69cb76fc0208c421e155d3"
+        ],
+        "tagPolicy": "full-40-character-candidate-sha-only",
+        "digest": "pending",
+        "ociAnnotations": {
+          "org.opencontainers.image.revision": "91517f3ad6e41eb35c69cb76fc0208c421e155d3"
+        }
+      }
+    },
+    "meaning": "The plan API calls the comparison fields acceptedSourceSha/acceptedDigest; here they identify the recorded previous publication. That publication still lacks hosted registry-pull acceptance and is not input-equivalent to this implementation.",
+    "localImageId": null,
+    "publishedDigestForThisImplementation": null,
+    "publicationExecuted": false,
+    "required": "Captain must integrate the final inputs, build/test and publish a new immutable worker image through the existing release process before claiming that digest executes this implementation.",
+    "captainFollowup": {
+      "commit": "05b2b304a",
+      "status": "Reported integrated on Captain after this worker test snapshot; not merged for an unrelated restart.",
+      "change": "Worker input planner now derives actual Dockerfile COPY closure, including read-only runtime data, manifest and preflight omitted by the inherited snapshot planner. Captain must recompute the complete publication plan on its integrated final HEAD. The 43-path count above is historical snapshot evidence, not the complete final image input closure."
+    }
+  },
+  "invariants": {
+    "launchGraphRows": 262,
+    "allPerRouteRowsByteIdenticalToBase": true,
+    "paymentAllowedBefore": 28,
+    "paymentAllowedAfter": 28,
+    "operationallySellableBefore": 0,
+    "operationallySellableAfter": 0,
+    "jsonSha256": "8f863f62cdcd4f49446a285106a2fc44bb9615b4fde36183e2ad2d5da68912cc",
+    "markdownSha256": "06d2d9718de307ce5bdbad97ec91fc7501ecf01e0afe0a5d2ec34627e361f7e2",
+    "defaultGeneratorWroteBothOutputs": true,
+    "markdownAndJsonBothByteIdenticalToBase": true,
+    "protectedPacketAuthoritySpecAndPinEdits": []
+  },
+  "launchGraphRowBefore": {
+    "pathwayKey": "IL:felony-prostitution-relief",
+    "jurisdiction": "IL",
+    "pathwayId": "felony-prostitution-relief",
+    "pathwayLabel": "Felony-prostitution relief",
+    "availability": "UNFINISHED",
+    "compiledPathway": {
+      "present": true,
+      "profileVersion": "2026-06-19-source-conversion-1"
+    },
+    "registryTracks": [
+      "il-prostitution-j-auto",
+      "il-prostitution-j-vacate"
+    ],
+    "registryGap": false,
+    "pathwayLevelPacketRecord": null,
+    "packetFamilies": [
+      "rcap-il-guidance-implementation"
+    ],
+    "packetSets": [
+      {
+        "packetSetId": "il-prostitution-j-auto-set",
+        "trackId": "il-prostitution-j-auto",
+        "components": 1
+      },
+      {
+        "packetSetId": "il-prostitution-j-vacate-set",
+        "trackId": "il-prostitution-j-vacate",
+        "components": 2
+      }
+    ],
+    "ownerApprovedLegalStatus": "approved_by_decision_owner",
+    "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "legalBasis": "owner_approved_packet_family",
+    "packetSpecification": {
+      "complete": true,
+      "componentCount": 3,
+      "participantActionsRequired": 19
+    },
+    "sourceAssets": {
+      "officialFormIdsNamed": [],
+      "officialFormIdsHeldInThisRepository": [],
+      "allNamedSourcesHeld": false
+    },
+    "technicalStatus": {
+      "completedOutputVerifierResults": [
+        "passed"
+      ],
+      "current": true
+    },
+    "pdfStatus": {
+      "problematicAssets": [],
+      "hold": false
+    },
+    "renderer": {
+      "trackId": "il-prostitution-j-vacate",
+      "routeKind": "factory_v2",
+      "rendererKind": "packet_document_v1",
+      "packetSetIds": [
+        "il-prostitution-j-vacate-set"
+      ],
+      "reason": "IL felony-prostitution-relief builds through the shared packet factory from packet set il-prostitution-j-vacate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+    },
+    "publicWitness": {
+      "reachesThisPathway": true,
+      "settled": true,
+      "resultCode": "likely_not_eligible",
+      "rounds": 1
+    },
+    "paymentResult": {
+      "allowedAtTheEvaluator": false,
+      "sellableAtTheResolver": false,
+      "creditConsumable": false
+    },
+    "artifactResult": {
+      "rendered": true,
+      "deterministic": true,
+      "sha256": "e2ab3592cd8c9b4f69d7f97914754b3739f52f2d486715af72c55f3726620dde",
+      "characters": 3192,
+      "sections": 11,
+      "warnings": 0,
+      "errors": [],
+      "scope": {
+        "routeId": "IL:felony-prostitution-relief",
+        "trackId": "il-prostitution-j-vacate",
+        "packetFamilyId": "il-prostitution-j-vacate-set",
+        "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f"
+      }
+    },
+    "dtcResult": {
+      "deliverable": false
+    },
+    "rcapResult": {
+      "creditConsumable": false
+    },
+    "operationalGates": {
+      "publicWitnessReachesThisPathway": true,
+      "authoritativeIntendedPathway": true,
+      "paymentAllowed": false,
+      "packetSpecificationComplete": true,
+      "ownerApprovedLegalDesign": true,
+      "technicalApprovalCurrent": true,
+      "rendererSelected": true,
+      "deterministicArtifactProven": true,
+      "noProblematicPdfHold": true
+    },
+    "unmetOperationalGates": [
+      "paymentAllowed"
+    ],
+    "fulfillmentAuthorityAdmitted": false,
+    "operationallySellable": false,
+    "allOperationalGatesMet": false
+  },
+  "launchGraphRowAfter": {
+    "pathwayKey": "IL:felony-prostitution-relief",
+    "jurisdiction": "IL",
+    "pathwayId": "felony-prostitution-relief",
+    "pathwayLabel": "Felony-prostitution relief",
+    "availability": "UNFINISHED",
+    "compiledPathway": {
+      "present": true,
+      "profileVersion": "2026-06-19-source-conversion-1"
+    },
+    "registryTracks": [
+      "il-prostitution-j-auto",
+      "il-prostitution-j-vacate"
+    ],
+    "registryGap": false,
+    "pathwayLevelPacketRecord": null,
+    "packetFamilies": [
+      "rcap-il-guidance-implementation"
+    ],
+    "packetSets": [
+      {
+        "packetSetId": "il-prostitution-j-auto-set",
+        "trackId": "il-prostitution-j-auto",
+        "components": 1
+      },
+      {
+        "packetSetId": "il-prostitution-j-vacate-set",
+        "trackId": "il-prostitution-j-vacate",
+        "components": 2
+      }
+    ],
+    "ownerApprovedLegalStatus": "approved_by_decision_owner",
+    "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "legalBasis": "owner_approved_packet_family",
+    "packetSpecification": {
+      "complete": true,
+      "componentCount": 3,
+      "participantActionsRequired": 19
+    },
+    "sourceAssets": {
+      "officialFormIdsNamed": [],
+      "officialFormIdsHeldInThisRepository": [],
+      "allNamedSourcesHeld": false
+    },
+    "technicalStatus": {
+      "completedOutputVerifierResults": [
+        "passed"
+      ],
+      "current": true
+    },
+    "pdfStatus": {
+      "problematicAssets": [],
+      "hold": false
+    },
+    "renderer": {
+      "trackId": "il-prostitution-j-vacate",
+      "routeKind": "factory_v2",
+      "rendererKind": "packet_document_v1",
+      "packetSetIds": [
+        "il-prostitution-j-vacate-set"
+      ],
+      "reason": "IL felony-prostitution-relief builds through the shared packet factory from packet set il-prostitution-j-vacate-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+    },
+    "publicWitness": {
+      "reachesThisPathway": true,
+      "settled": true,
+      "resultCode": "likely_not_eligible",
+      "rounds": 1
+    },
+    "paymentResult": {
+      "allowedAtTheEvaluator": false,
+      "sellableAtTheResolver": false,
+      "creditConsumable": false
+    },
+    "artifactResult": {
+      "rendered": true,
+      "deterministic": true,
+      "sha256": "e2ab3592cd8c9b4f69d7f97914754b3739f52f2d486715af72c55f3726620dde",
+      "characters": 3192,
+      "sections": 11,
+      "warnings": 0,
+      "errors": [],
+      "scope": {
+        "routeId": "IL:felony-prostitution-relief",
+        "trackId": "il-prostitution-j-vacate",
+        "packetFamilyId": "il-prostitution-j-vacate-set",
+        "specificationSha256": "bc9050e096eeb99677edb9815eacae7c68d22914d8c08a785dfc375c68ed010f"
+      }
+    },
+    "dtcResult": {
+      "deliverable": false
+    },
+    "rcapResult": {
+      "creditConsumable": false
+    },
+    "operationalGates": {
+      "publicWitnessReachesThisPathway": true,
+      "authoritativeIntendedPathway": true,
+      "paymentAllowed": false,
+      "packetSpecificationComplete": true,
+      "ownerApprovedLegalDesign": true,
+      "technicalApprovalCurrent": true,
+      "rendererSelected": true,
+      "deterministicArtifactProven": true,
+      "noProblematicPdfHold": true
+    },
+    "unmetOperationalGates": [
+      "paymentAllowed"
+    ],
+    "fulfillmentAuthorityAdmitted": false,
+    "operationallySellable": false,
+    "allOperationalGatesMet": false
+  },
+  "launchGraphEvidenceLimit": "Its deterministic artifact is the existing composed-text probe. The new personalized PDF proof is the actual integration evidence above; no personalized PDF is expected to share the approved fixture pin.",
+  "routesOpened": 0,
+  "paymentTouched": false,
+  "paymentTouchedMeaning": "No price, commercial flag, payment writer, Stripe configuration or live payment behavior changed. Existing payment and sponsored-accounting operations are exercised with synthetic local records and retain exactly-once semantics.",
+  "productionTouched": false,
+  "production": "NO",
+  "hostedResults": "not run",
+  "whatRemains": [
+    "Captain-controlled disposition of the preserved canonical PDF pin mismatch and Illinois applicable legal/packet approval requirements. Actual Illinois remains revoked; positive synthetic tests approve nothing.",
+    "Captain integration/publication of a new tested immutable worker image containing all final executable dependencies. Existing publication is not current code; no worker image was built/published by this task.",
+    "Authorized nonproduction forward-chain migration and schema acceptance, including DEL-B and the new guarded artifact-regeneration migration. Only disposable local PostgreSQL was changed here.",
+    "Hosted authenticated consumer and sponsored canaries through actual endpoints, actual test payment/sponsorship authority, actual private object storage, owner/repeat download, isolation, stale verification, failed render and exactly-once accounting. Hosted credentials/tools and approval remain outside this worker execution."
+  ],
+  "environment": {
+    "cwd": "/workspaces/legalease-partner-dashboard-clean",
+    "node": "v24.14.0",
+    "execution": "Git-capable worker checkout; disposable PostgreSQL and filesystem artifacts only; no image execution or hosted acceptance."
+  }
+}

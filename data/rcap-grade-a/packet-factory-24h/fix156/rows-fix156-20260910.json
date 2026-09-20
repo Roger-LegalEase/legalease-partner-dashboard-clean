@@ -1,0 +1,305 @@
+{
+ "schemaVersion": "rcap-verifier-rows/v2",
+ "lane": "FIX156",
+ "laneKind": "repair",
+ "worktree": "/home/user/fixa-worktree",
+ "branch": "lane-fix156-20260910",
+ "verifiedAtBase": "7dbe69631c704176cc850b898ae5d71441a38553",
+ "generatedAtBase": "7dbe69631c704176cc850b898ae5d71441a38553",
+ "grantSet": "81f60e8db1623fc8",
+ "whatWasRead": "Three families dealt as SOURCE_IDENTITY repairs (fl-10yr-bridge-set also SERVICE). Every obligation label was re-read from the row this file's own supersession rule selects (superseded !== true): vf06 for ar-felony-seal-set, vf08 for in_infraction_nondisclosure-set, vf02 for fl-10yr-bridge-set. All three findings were re-derived from bytes at this base with sha256sum and from git blobs, never from a lane's report of them.",
+ "theHeadlineOfThisLane": "The three families are three different states, and only one of them was still broken. Two (AR, IN) were already repaired at this base by FIX145 at 662de750d, which is an ancestor of this base and POSTDATES all three dispatched verifier reads; this lane re-measured them independently rather than trusting either FIX145's report or the stale finding, and both bind exact. The third (FL) is not a pin-drift family at all: its central source byte exists in no custody and its builder refuses, so no repair of any kind can reach its delivered artifact from this container.",
+ "builtAnything": false,
+ "packetsSelfVerified": 0,
+ "repairsMade": 1,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "byteMovementInThisLane": "ZERO. No delivered byte under any of the three families moved. The only file this lane modified is scripts/build-census-v1-fl-10yr-bridge-set.mjs, a builder, whose output cannot be produced in this container.",
+ "rasterState": "NO FAMILY IN THIS LANE OWES A FRESH CENTRAL RASTER AS A RESULT OF THIS LANE, because no delivered byte moved. Canonical and boundary sha256 were measured with sha256sum before and after every action and are identical in all six pairs. fl-10yr-bridge-set's raster obligation when it is eventually rebuilt is null, not zero: this lane cannot run that builder and so cannot know whether its PDFs would come back byte-identical.",
+ "corpusMountUsed": "private/source-imports/ in this worktree; custodies master_library, d_source_packs, human_source_returns and nationwide_recovery_pool_2026_09_02 are present, src05_worker_materialization_2026_09_02 is not.",
+ "howBytesWereMeasured": "Every digest in this file was produced by sha256sum, by node:crypto over bytes read from disk, or by piping a git blob through sha256sum. None was transcribed from a report, a receipt or a finding. Manifest and registry entries were compared object-for-object over a key-sorted canonical JSON serialisation, keyed on packetSetId / trackId.",
+ "grantsNothing": "A repair promotes nothing, opens no route, approves no packet and issues no acceptance receipt. No commercial route was opened, no production path touched, no Stripe/Supabase/auth/RLS/credential surface touched, no shared manifest outside fix156/ written, nothing pushed.",
+ "independentVerificationOwed": "Yes, on all three rows, by a lane that is not FIX156 and not FIX145. This lane repaired fl-10yr-bridge-set's builder and therefore does not verify it. Its reads of ar-felony-seal-set and in_infraction_nondisclosure-set are independent of the repair (FIX145 made it, not this lane) but do not discharge FIX145's own PENDING_INDEPENDENT_READ.",
+ "rows": [
+  {
+   "familyId": "in_infraction_nondisclosure-set",
+   "itemId": "in_infraction_nondisclosure-set",
+   "jurisdiction": "IN",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+   "dispatchedObligation": "SOURCE_IDENTITY",
+   "currentRowRead": "vf08 (verifiedAtBase 9e7582a9d1cec2bf96aad25d8071b10603282f0b)",
+   "result": "PASS",
+   "disposition": "ALREADY_REPAIRED_BEFORE_THIS_LANE_CONFIRMED_INDEPENDENTLY",
+   "whichMechanismThisActuallyIs": "WHOLE-FILE PIN DRIFT, remedied by identityRefresh. Confirmed, not assumed: the family binds no source bytes at all (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, documents[] empty), so the whole obligation rests on three grounding records, and the drift is in one of them.",
+   "howThatWasEstablishedRatherThanTheOther": "The record that moved is data/record-clearing/legal-design-packet-set-manifests.json, a shared mutable repository record. This lane extracted the manifest blob at BOTH historical pins and compared this family's own packetSets entry across the whole span: at 77f24687c (blob sha256 563147bf8431e5d3..., the original pin), at d798dc66b (blob 6076f7346c41bbef..., the second pin) and in the working tree at this base (80b5e071055469b6...). The entry's canonical hash is b5cd63dd49f8c1109ca7fc912eaa9a7a73689a3ba086d8794ba69177c0e123a4 at ALL THREE. Nothing this family binds moved; the containing file's identity did. That is what makes identityRefresh honest here rather than laundering.",
+   "whatMovedInsteadAndWhyItIsUnrelated": "B->C drift changed exactly 6 of 497 entries: co_motion_seal_conviction-set, nc_146_dismissal_petition-set, ri_deferred_sentence-set, ri_first_offender_felony-set, ri_first_offender_misdemeanor-set, ri_multiple_misdemeanors-set (commits 00d2425ca, f06f33bc6, 1784eec3d). A->B changed 7 others and added the top-level factoryV2RouteMigrations key. This lane also searched that new key for every spelling of this family's id and of its route: it names 4 routes, none of them Indiana's. So the record moved for reasons that have nothing to do with this family, in both moves.",
+   "whoRepairedIt": "FIX145, at commit 662de750d, which is an ancestor of this base. FIX145's identityRefresh re-anchored the pin to 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3694688.",
+   "whyTheDispatchedFindingLooksWrongNow": "vf08 read at 9e7582a9d and recorded the receipt pinning 563147bf8431e5d3 / 3677637. Neither that pin nor the 6076f734 it names as the recomputation is current. vf08's base predates FIX145; its MECHANISM is exactly right and its numbers are two moves stale.",
+   "pinsThisLaneRecomputedItself": [
+    {
+     "path": "data/record-clearing/legal-design-intake/IN.memo.json",
+     "declared": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+     "recomputed": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+     "byteLength": 176778,
+     "bindsExact": true
+    },
+    {
+     "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+     "declared": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+     "recomputed": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+     "byteLength": 3694688,
+     "bindsExact": true
+    },
+    {
+     "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+     "declared": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c",
+     "recomputed": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c",
+     "byteLength": 8069,
+     "bindsExact": true
+    }
+   ],
+   "allThreeGroundingRecordsBindExact": true,
+   "canonicalSha256": {
+    "before": "f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7",
+    "after": "f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7",
+    "moved": false
+   },
+   "boundarySha256": {
+    "before": "bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf",
+    "after": "bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf",
+    "moved": false
+   },
+   "freshRasterOwed": false,
+   "determinismControl": "The unmodified builder scripts/build-census-v1-in_infraction_nondisclosure-set.mjs was run at this base: exit 0, and git status --porcelain empty afterwards. The rebuild reproduced the receipt including FIX145's hand-written identityRefresh annotation, which is the tripwire that proves the annotation is builder-preserved and not a hand edit that the next rebuild would erase.",
+   "verifierExitStatus": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set",
+    "exitCode": 0,
+    "verdict": "PASS_COMPLETE",
+    "written": "2/19",
+    "nineCountersZero": true
+   },
+   "whatThisVerifierExitDoesNotEstablish": "That the pin binds. This verifier resolves source currentness from the receipt's own allSourcesExact boolean and never recomputes; documents[] is empty here, so the boolean alone decides the family. It returned exit 0 with nine zeros throughout the entire period the pin was stale. The exact-binding claim in this row rests on this lane's own recomputation, not on that exit code.",
+   "byteFree": true
+  },
+  {
+   "familyId": "ar-felony-seal-set",
+   "itemId": "ar-felony-seal-set",
+   "jurisdiction": "AR",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+   "dispatchedObligation": "SOURCE_IDENTITY",
+   "currentRowRead": "vf06 (verifiedAtBase 5de917b3574b6e27df362e13b86b4bfaac4915f8)",
+   "result": "PASS",
+   "disposition": "ALREADY_REPAIRED_BEFORE_THIS_LANE_CONFIRMED_INDEPENDENTLY",
+   "whichMechanismThisActuallyIs": "THE SAME WHOLE-FILE PIN DRIFT AS INDIANA, on the same record, at the same two digests. It is NOT a compiled-profile disagreement.",
+   "theDispatchBriefWasWrongAboutThisFamily": "This lane was dispatched being told that AR's disagreement was with a compiled profile under src/lib/rcap-engine/compiled/profiles/ and that this had to be adjudicated for authority. It did not, and there was nothing to adjudicate. vf06's own finding, read in full, states that the compiled profile 'also recomputes equal at 640152c67534...'; this lane recomputed it and it does: src/lib/rcap-engine/compiled/profiles/AR-arkansas.json is 640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470 / 121627 bytes, exactly as pinned. Both official ACIC PDFs also bind exact. The single failing pin was data/record-clearing/legal-design-packet-set-manifests.json. Nothing was changed on either side of a conflict that does not exist.",
+   "howThatWasEstablishedRatherThanTheOther": "Same method as Indiana and applied to BOTH Arkansas entries the receipt's four anchorStatements rest on. Canonical entry hashes across the full span 77f24687c -> d798dc66b -> this base: ar-felony-seal-set 89154a3fb152e85e553ed959789a222ec697d21cd9f2dd97070634591a2e2188 at all three; ar-drug-court-set dccfc686984ccf723daed8a98a6ad6a7f5c231332e7e462620cc7586f33ad11f at all three. Neither Arkansas entry appears among the 6 that moved, and factoryV2RouteMigrations names no Arkansas route.",
+   "whoRepairedIt": "FIX145, at commit 662de750d, an ancestor of this base.",
+   "pinsThisLaneRecomputedItself": [
+    {
+     "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+     "declared": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+     "recomputed": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+     "byteLength": 178947,
+     "bindsExact": true
+    },
+    {
+     "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+     "declared": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+     "recomputed": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+     "byteLength": 240203,
+     "bindsExact": true
+    },
+    {
+     "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+     "declared": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+     "recomputed": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+     "byteLength": 121627,
+     "bindsExact": true
+    },
+    {
+     "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+     "declared": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+     "recomputed": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+     "byteLength": 3694688,
+     "bindsExact": true
+    }
+   ],
+   "officialSourceResolution": "Both ACIC digests were additionally resolved by content hash through data/rcap-all50/local-source-corpus-index.json: each is present in master_library and in d_source_packs, and the petition and order are each additionally present in nationwide_recovery_pool_2026_09_02. Nothing about these two forms changed upstream.",
+   "canonicalSha256": {
+    "before": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
+    "after": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
+    "moved": false
+   },
+   "boundarySha256": {
+    "before": "daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb",
+    "after": "daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb",
+    "moved": false
+   },
+   "freshRasterOwed": false,
+   "determinismControl": "The unmodified builder was run as scripts/build-census-v1-ar-felony-seal-set.mjs --no-raster: exit 0, git status --porcelain empty afterwards. This matters more here than elsewhere, because this builder calls fs.rmSync on its own output directory before rebuilding; FIX145's snapshotPriorDocuments() fix is what lets preserveIdentityRefresh read the committed receipt before the wipe. That fix is confirmed working at this base by the empty porcelain: the annotation survived a real rebuild.",
+   "verifierExitStatus": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-felony-seal-set",
+    "exitCode": 0,
+    "verdict": "PASS_COMPLETE",
+    "written": "40/96",
+    "nineCountersZero": true
+   },
+   "whatThisVerifierExitDoesNotEstablish": "Same blindness as Indiana: allSourcesExact is read, never recomputed.",
+   "byteFree": true
+  },
+  {
+   "familyId": "fl-10yr-bridge-set",
+   "itemId": "fl-10yr-bridge-set",
+   "jurisdiction": "FL",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
+   "dispatchedObligation": [
+    "SOURCE_IDENTITY",
+    "SERVICE"
+   ],
+   "currentRowRead": "vf02 (verifiedAtBase 21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14), verdict BLOCKED_SOURCE",
+   "result": {
+    "SOURCE_IDENTITY": "FAIL",
+    "SERVICE": "FAIL"
+   },
+   "disposition": "STOPPED_ON_SOURCE_CUSTODY; SERVICE REPAIRED AT ORIGIN ONLY, UNDELIVERED",
+   "whichMechanismThisActuallyIs": "NOT the pin-drift class. This family's central source byte exists nowhere. It is a source-custody question, which this lane is expressly not the one to resolve, and it did not resolve it.",
+   "sourceIdentityFinding": {
+    "reproduces": true,
+    "whatThisLaneMeasured": "source-receipt.json declares documentId FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION at sha256 ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650 / 26602 bytes at custodyPath /workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf. That path does not exist in this container. This lane then searched for the byte by CONTENT rather than by path: it is absent from all 984 entries of data/rcap-all50/local-source-corpus-index.json, and absent from a sha256sum sweep of every file under private/source-imports/ and private/human-source-returns/ in this worktree. The receipt also records sourceBinaryCommitted:false, so it was never committed either. The byte is in no custody, by path or by content.",
+    "whyThisIsNotAnUnmountedCustodyArtefact": "The only custody this container lacks is src05_worker_materialization_2026_09_02 (14 binaries). The other four, including d_source_packs and nationwide_recovery_pool_2026_09_02, are all present and were all swept.",
+    "whyThisLaneDidNotRepin": "The governed corpus holds a DIFFERENT FDLE instrument, STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FDLE40-021-EXPUNCTION..., at 31782 bytes against the pinned 26602. Repinning to it would be substituting one document for another and calling it a refresh, and it would silently change what six of the eight delivered pages are bound to. No digest was written, adjusted or invented on this family.",
+    "threeFalseStatementsStandingInTheReceipt": [
+     "allSourcesExact: true",
+     "custodyClass: SOURCE_BOUND_BY_HELD_BYTES",
+     "bindingMethod: 'the exact held FDLE byte is read directly from mounted source custody; no acquisition, copy, research, or substitution'"
+    ],
+    "escalation": "SOURCE CUSTODY / REMATERIALIZATION. Someone with custody authority must either produce the byte with sha256 ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650, or record an owner determination that the family rebinds to a different FDLE instrument, which is a change to what the participant receives and is not a repair lane's call."
+   },
+   "twoFurtherPinDriftsVF02DidNotSee": {
+    "whyTheyMatter": "Both are in compositionAuthority.records and both were measured by this lane at this base. Neither is the blocker, and neither can be remedied while the builder cannot run.",
+    "drifts": [
+     {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "declared": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+      "declaredByteLength": 3683419,
+      "recomputed": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+      "recomputedByteLength": 3694688,
+      "class": "whole-file pin drift",
+      "identityRefreshWouldBeHonest": true,
+      "evidence": "fl-10yr-bridge-set's own packetSets entry hashes b6203cd10e5bc70ee01b131b1cbcee1f1a1cf0b174b19b3205b8857a501fca59 at 77f24687c, at d798dc66b and at this base - identical across the whole span - and factoryV2RouteMigrations names no Florida route. The receipt already carries a 2026-09-05 identityRefresh for the PREVIOUS move of this same pin, so this is its second lapse.",
+      "whyNotDoneHere": "The only sanctioned mechanism is the builder, and the builder refuses at source. Hand-writing a measured digest onto the receipt would produce a receipt state that no build ever emitted, on a family whose allSourcesExact:true is false for an unrelated and unresolved reason. That would make the receipt look healthier than the family is."
+     },
+     {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "declared": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+      "declaredByteLength": 16586150,
+      "recomputed": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "recomputedByteLength": 16781025,
+      "class": "whole-file pin drift",
+      "identityRefreshWouldBeHonest": true,
+      "evidence": "The pin's provenance was located: the blob at 0be1fee76 recomputes to exactly 232466b66958cea7..., confirming where the pin was taken. This family's own track entry hashes 6ff7316f86eecd231c03ef95dab8ed2400dfb78fc94f75286fe071f1be29bf11 in that blob and in the working tree at this base - identical - and its rules.service sentence is unchanged across the move. 23 of 502 tracks moved and one was added (wy_traffick_6_2_708); fl-10yr-bridge is not among them.",
+      "whyNotDoneHere": "Same reason."
+     }
+    ]
+   },
+   "recordsThatDoBind": [
+    {
+     "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+     "bindsExact": true
+    },
+    {
+     "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+     "bindsExact": true,
+     "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065"
+    }
+   ],
+   "serviceFinding": {
+    "reproduces": true,
+    "howItWasRead": "the delivered participant-instructions.md was read as bytes on disk, not the builder's intent",
+    "whatWasThere": "The page never mentions a certificate of service. It names service exactly once, inside a Stage 2 list of things to 'confirm ... with the clerk in the circuit of arrest' - which tells a self-represented filer that service is a local detail to ask about, not a requirement the record has already settled.",
+    "whatTheRecordsActuallyHold": "THREE records this family binds carry the requirement in identical words - 'Certificate of service at the court stage.' - at data/record-clearing/legal-design-intake/FL.memo.json tracks[fl-10yr-bridge].rules.service, data/record-clearing/legal-design-track-registry.json tracks[fl-10yr-bridge].rules.service, and data/record-clearing/legal-design-packet-set-manifests.json packetSets[fl-10yr-bridge-set].participantActionRequired[kind=serve_party].description, the last of which is requirement:'required'. The packet set declares four components and none of them is a certificate_of_service.",
+    "whatTheRecordsDoNotHold": "Any recipient and any method, for THIS track. Florida's OTHER tracks in the same memo do name recipients ('Certificate of service on three recipients at Stage 2'), and taking that number from a different track would have been fabrication. The repaired page states expressly that the records name neither and sends the participant to the clerk for that and only that."
+   },
+   "repair": {
+    "where": "scripts/build-census-v1-fl-10yr-bridge-set.mjs. No delivered byte was hand-edited, and none could be.",
+    "what": [
+     "serviceRequirement(): reads all three records at build time, asserts the sentence is stated identically by all three, asserts the serve_party action is still requirement:'required', asserts the sentence still names no recipient or method, and asserts the packet set still declares no certificate_of_service component. Any of those changing fails the build instead of printing a stale requirement.",
+     "A '## Certificate of service' section on participant-instructions.md quoting the record's sentence verbatim as a blockquote, then saying in plain language what a certificate of service is, that it is required here, that this packet contains none, that the records name no recipient or method, and that the absence of one from the packet does not mean none is owed.",
+     "The Stage 2 sentence no longer lists 'service' among the things merely to confirm with the clerk; it now directs the participant to prepare the certificate of service and confirm the genuinely local requirements."
+    ],
+    "whyAssertedAndNotPinned": "The receipt already binds all three of these records by whole-file SHA-256 and two of those three pins are stale at this base for reasons that have nothing to do with Florida. A whole-file pin cannot say whether THIS SENTENCE moved, which is the only thing the page depends on. This is the same conclusion FIX145 reached on ia-12347-set.",
+    "nothingWasFabricated": "The quoted sentence is the record's own, verbatim. No statute, form number, edition, deadline, recipient, service method, prosecutor act or judicial finding was authored by this lane."
+   },
+   "howTheRepairWasExercisedGivenTheBuilderCannotRun": {
+    "theProblem": "scripts/build-census-v1-fl-10yr-bridge-set.mjs asserts on the FDLE byte before it writes anything, so it cannot emit participant-instructions.md in this container. A builder edit nobody can execute is an unverified claim.",
+    "theControl": "participantInstructions() is a pure function of the required-before-filing rows. This lane loaded the committed production-field-map.json, derived the four rows through the builder's own unmodified requiredBeforeFiling(), and rendered the page with the builder's own unmodified participantInstructions(). The result was byte-identical to the committed participant-instructions.md. That establishes the harness reproduces the real text path exactly, so what it renders with the repair applied is what the builder would write.",
+    "theResult": "Rendered with the repair, the output differs from the committed page in exactly two places and nowhere else: the rewritten Stage 2 sentence and the new '## Certificate of service' section. Verified by unified diff over the two renders.",
+    "negativeControlsRun": [
+     {
+      "mutation": "FL.memo.json rules.service changed to 'Certificate of service on the State Attorney at the court stage.'",
+      "result": "build fails, exit 1: 'the service requirement is stated differently by data/record-clearing/legal-design-track-registry.json (...) than by data/record-clearing/legal-design-intake/FL.memo.json (...); this build will not choose between them'",
+      "recordRestored": "git checkout; sha256 back to 9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065"
+     },
+     {
+      "mutation": "the manifest's serve_party requirement changed from 'required' to 'conditional'",
+      "result": "build fails, exit 1: 'the serve_party action on fl-10yr-bridge-set is no longer required (conditional); the participant page states that it is, so the page must be re-derived rather than reprinted'",
+      "recordRestored": "git checkout; sha256 back to 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7"
+     }
+    ],
+    "afterTheControls": "The repaired render was reproduced byte-identically after both records were restored, and git status --porcelain shows only the builder modified."
+   },
+   "whatIsStillOwedOnThisFamily": "The delivered participant-instructions.md at this base is STILL THE DEFECTIVE ONE, sha256 1129ff0e0fc46066dc366e25087fd9e036657dd0ab38666deed97842f562ad70. The SERVICE repair exists only at origin. It reaches the participant only when the FDLE byte is restored to custody and the builder is rerun. fl-10yr-bridge-set remains BLOCKED_SOURCE and must not be treated as SERVICE-clean on the strength of this commit.",
+   "canonicalSha256": {
+    "before": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+    "after": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+    "moved": false
+   },
+   "boundarySha256": {
+    "before": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511",
+    "after": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511",
+    "moved": false
+   },
+   "freshRasterOwed": false,
+   "freshRasterOwedOnEventualRebuild": null,
+   "freshRasterOwedOnEventualRebuildWhyNull": "This lane cannot run this builder and therefore cannot measure whether its two fixtures would return byte-identical. It is unmeasured here, not zero.",
+   "builderExitStatus": {
+    "command": "node scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+    "exitCode": 1,
+    "output": "AssertionError [ERR_ASSERTION]: BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION is absent at the read-only custody mount /workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf",
+    "wroteAnything": false,
+    "porcelainAfter": "empty except the builder edit"
+   },
+   "verifierExitStatus": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
+    "exitCode": 0,
+    "verdict": "PASS_COMPLETE",
+    "written": "44/140",
+    "nineCountersZero": true
+   },
+   "whatThisVerifierExitDoesNotEstablish": "Anything at all about this family. It returns exit 0 and nine zeros on a family whose central source byte exists in no custody and whose participant page omits a required certificate of service. It reads allSourcesExact from the receipt without recomputing, and it has no SERVICE obligation at all. This is the single most misleading green signal this lane met.",
+   "byteFree": true
+  }
+ ],
+ "aDefectNoCounterCanSee": "fl-10yr-bridge-set reads PASS_COMPLETE, exit 0, nine counters zero, at a base where six of its eight delivered pages are bound to a byte that exists in no custody and its participant page omits a certificate of service that three of its own records require. Both defects are invisible to every counter in verify-packet-completeness.mjs, and one of them is invisible because the verifier asks the receipt whether the receipt is right.",
+ "outOfScopeObservedNotActedOn": [
+  {
+   "what": "scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs FAILS at this base, exit 1, naming data/rcap-all50/overlays/census-v1/co/co-petition-seal-arrest-set--official-pdf-fill/source-receipt.json as carrying an annotation its builder scripts/build-census-v1-co_petition_seal_arrest-set.mjs would erase on rebuild.",
+   "provenPreExisting": "Yes. Confirmed by stashing this lane's only edit and rerunning: it fails identically at the untouched base. Not caused by FIX156.",
+   "notActedOn": "co-petition-seal-arrest-set is not in this lane's grant set."
+  },
+  {
+   "what": "Both sibling tripwires pass at this base with the FIX156 edit applied: verify-identity-refresh-survives-rebuild.mjs reports 302 receipts compared, 65 carrying an identityRefresh, EVERY_IDENTITY_REFRESH_SURVIVED; verify-governance-state-survives-rebuild.mjs reports 296 product-wiring records, EVERY_GOVERNANCE_KEY_SURVIVED."
+  },
+  {
+   "what": "The MASTER_QUEUE.json circular-pin cohort described in the dispatch was not met by any of these three families and was not touched."
+  },
+  {
+   "what": "The deeper standing issue, already recorded by FIX145 and reaffirmed by every measurement in this lane: binding a shared, mutable repository record by whole-file SHA-256 is not a source binding. data/record-clearing/legal-design-packet-set-manifests.json has now gone stale THREE times in eight days across this lane's families, and no counter reported any of the three. A verbatim content assertion on the sentences a packet actually depends on is what survives; this lane implemented that pattern for Florida's service requirement."
+  }
+ ],
+ "grantsReleased": [
+  "ar-felony-seal-set",
+  "in_infraction_nondisclosure-set",
+  "fl-10yr-bridge-set"
+ ]
+}

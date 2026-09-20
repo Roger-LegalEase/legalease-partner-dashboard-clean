@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-return/v1",
+  "lane": "DEL-D",
+  "title": "Render-worker container packaging: the image now carries the read-only runtime data the worker reads",
+  "branch": "del-d-render-worker-image",
+  "baseCommit": "cba72cf5a",
+  "recordedAt": "2026-09-06T00:45:23Z",
+  "problem": "deploy/rcap-render-worker/Dockerfile copied package manifests, tsconfig, scripts/rcap-render-worker.mjs, scripts/lib/ and src/ - and no data/ at all. Every read-only input the worker resolves through process.cwd() was absent inside the container. Because those readers are guarded, the result was not a crash on the paths that matter but a worker that starts and refuses: proved here by running the real entry point against an image with data/rcap-ledger hidden, which dies at module load on data/rcap-ledger/packet-correction-required.json.",
+  "filesPackaged": {
+    "count": 67,
+    "bytes": 10625170,
+    "manifest": "deploy/rcap-render-worker/runtime-data-manifest.json",
+    "generator": "deploy/rcap-render-worker/build-runtime-data-manifest.mjs (--check re-verifies)",
+    "comparison": "10.6 MB of the 1.1 GB in data/. No private/ corpus, no participant data, no secrets, no test-authority override, no whole-data copy.",
+    "groups": [
+      "data/rcap-grade-a/fulfillment-authority-registry.json, fulfillment-observation-snapshot.json, maintenance/route-holds.json",
+      "data/rcap-codex/release-readiness.json",
+      "data/rcap-all50/problematic-pdf-register.json, review-artifacts/f2-dispositions.json, guidance-packets/ (34 json)",
+      "data/rcap-ledger/packet-fulfillment-records.json, packet-correction-required.json, route-kind-adjudications.json, route-presentation-conflicts.json, track-pathway-crosswalk.json",
+      "data/record-clearing/factory-v2-route-registry.json, legal-design-packet-set-manifests.json, legal-decisions/route-ratification-registry.json",
+      "data/record-clearing/packet-specifications/ (19 json, complete because the binding scans the whole directory)"
+    ]
+  },
+  "derivation": "Traced, not copied. Static traversal of the import graph from scripts/rcap-render-worker.mjs resolving @/ and @/../data specifiers found 95 local modules and 23 ESM JSON data imports that the module graph cannot load without. Then fs.readFileSync/readdirSync/existsSync were instrumented while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket, renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry, and the union of both was packaged.",
+  "deliberateExclusions": [
+    "data/rcap-all50/composed-routes (324 files) and data/rcap-all50/terminalization-treatments (39 files): read by loadComponentDeferrals/loadTerminalTreatments, which are reached only from briefcase item CREATION clamps (clampExactDeferral, clampComponentDeferral, clampTerminalTreatment). The worker's path is getBriefcaseItemForWebhook, a read, which does not call them.",
+    "Overlay family fixture PDFs: factory-v2-registry.ts artifactPins compare path and sha256 STRINGS against database rows. composer.ts and renderer.ts perform no filesystem reads at all, so the worker composes from the specification object and opens no overlay directory. The task brief anticipated overlay family directories as runtime inputs; the code says otherwise and the code was followed.",
+    "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json: CONTROLLING_DECISION_RECORD is an exported citation string, never read from disk."
+  ],
+  "imageBuilt": {
+    "built": true,
+    "tag": "rcap-render-worker:del-d",
+    "id": "sha256:1e3eebe5aeafef0c1e78bc296654713adee919cfbfe8435ababe1064830dc447",
+    "digestScope": "Local content digest only. The image was NOT pushed, so no registry digest exists and none may be recorded as an artifact container_digest.",
+    "sizeBytes": 258312602,
+    "buildCommand": "docker build -f deploy/rcap-render-worker/Dockerfile --secret id=proxy_ca,src=<ca-bundle> -t rcap-render-worker:del-d .",
+    "baseImageObstacle": "docker pull node:22-slim fails: the Hub manifest is reachable but blob fetches from production.cloudfront.docker.com are denied by egress policy with a gateway 403 ('failed to copy: httpReadSeeker: failed open: ... Forbidden'). The identical library image was pulled from the reachable mirror mirror.gcr.io/library/node:22-slim (digest sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5) and retagged locally; the Dockerfile still reads FROM node:22-slim and was not changed for this.",
+    "npmObstacle": "npm ci inside the build failed with 'Exit handler never called!' because the build network re-signs TLS and the container did not trust the proxy CA (SELF_SIGNED_CERT_IN_CHAIN). The deps stage now accepts an OPTIONAL BuildKit secret 'proxy_ca'; it is absent by default so an ordinary build is unchanged, it is a secret rather than a build arg so it never enters a layer or image history, and only node_modules leaves that stage so no CA reaches the runtime image. docker history shows zero certificate material.",
+    "reproducibility": {
+      "layerCount": 23,
+      "rootfsLayerSetSha256": "b8285b1477ba5283726da53d61882fd4fc6f9a7c82ac814438b3626c68beba1b",
+      "note": "Rebuilding the same committed tree produced a different top-level manifest digest (sha256:3a0357d880d62301b859244f2c8bdec743d1d8c58f428cce4bb50bf83c830e22) while every one of the 23 rootfs layers was byte-identical. BuildKit stamps an attestation manifest with build metadata, so the manifest digest is not reproducible; the filesystem content is. Identify this image by the rootfs layer set above, not by the manifest digest alone."
+    }
+  },
+  "containerSmokeTest": {
+    "ranInsideBuiltContainer": true,
+    "notFromSourceCheckout": "Every test below is a process inside the built image. The equivalent source-checkout runs were used only to derive the file list and to cross-check the in-container decisions.",
+    "primary": {
+      "command": "docker run --rm --network none rcap-render-worker:del-d node deploy/rcap-render-worker/preflight.mjs",
+      "exit": 0,
+      "proved": "67/67 packaged files present and byte-identical; module graph loaded inside the image; 51 compiled jurisdiction profiles; the Grade-A authority gate reached a reasoned decision for all 14 records with 2 ALLOWED and 12 reasoned refusals, matching the source checkout exactly.",
+      "outputTail": [
+        "data manifest: 67 files declared, 0 missing, 0 mismatched",
+        "module graph: loaded; 51 compiled jurisdiction profiles",
+        "  DC:dc_actual_innocence_expungement_16_803 -> ALLOWED",
+        "  IL:felony-prostitution-relief -> refused: IL:felony-prostitution-relief: REVOKED. Authority for IL:felony-prostitution-relief was revoked by scripts/gen",
+        "  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED",
+        "authority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided",
+        "specification directory: 19 files scannable at data/record-clearing/packet-specifications",
+        "",
+        "PREFLIGHT OK: packaged data complete and the worker reached a reasoned decision for every Grade-A record"
+      ]
+    },
+    "realEntryPoint": {
+      "command": "docker run --rm --network none rcap-render-worker:del-d node scripts/rcap-render-worker.mjs --once",
+      "exit": 2,
+      "outputTail": [
+        "rcap-render-worker: Supabase is not configured; the worker has no storage or queue to run against."
+      ],
+      "proved": "The shipped entry point loads its whole module graph from the packaged layout and refuses for the right reason - no database was configured - rather than for a missing data file."
+    },
+    "mutations": [
+      {
+        "command": "docker run --rm --network none -v /tmp/empty-specs:/app/data/record-clearing/packet-specifications:ro rcap-render-worker:del-d node deploy/rcap-render-worker/preflight.mjs",
+        "exit": 1,
+        "outputTail": [
+          "data manifest: 67 files declared, 19 missing, 0 mismatched"
+        ],
+        "proved": "The packaged specification directory is load-bearing."
+      },
+      {
+        "command": "docker run --rm --network none -v /tmp/empty-ledger:/app/data/rcap-ledger:ro rcap-render-worker:del-d node scripts/rcap-render-worker.mjs --once",
+        "exit": 1,
+        "outputTail": [
+          "  code: 'ENOENT',",
+          "  syscall: 'open',",
+          "  path: '/app/data/rcap-ledger/packet-correction-required.json.ts'"
+        ],
+        "proved": "Without the packaged ledger the worker cannot even load - the exact state of every image built from the previous Dockerfile."
+      }
+    ]
+  },
+  "fingerprintRecording": {
+    "existingProcessFound": "data/rcap-staging-action.json (imageInputs + imageInputFingerprint), generated by scripts/generate-rcap-staging-action.mjs, verified by scripts/verify-rcap-image-input-fingerprint.mjs. It fingerprints image INPUTS; it does not record a built image, and no push or digest-publication step exists anywhere in scripts/ or docs/.",
+    "whereRecorded": "deploy/rcap-render-worker/IMAGE_BUILD_RECORD.json",
+    "noPublicationProcessExists": true,
+    "staleFingerprintIsPreExisting": "verify-rcap-image-input-fingerprint.mjs already failed at base commit cba72cf5a: src/, scripts/lib/ and scripts/rcap-render-worker.mjs all differ from the fingerprint base 3285b660, none of which this lane touched. This lane adds the Dockerfile delta on top."
+  },
+  "changesNeededOutsideThisLane": [
+    {
+      "file": "data/rcap-staging-action.json",
+      "issue": "imageInputs says 'Exactly the paths the Dockerfile copies' and lists seven paths, none under data/. The Dockerfile now copies the 67-file runtime-data closure, so the fingerprint no longer describes what a build would copy.",
+      "requiredChange": "Its owner should regenerate with scripts/generate-rcap-staging-action.mjs and extend imageInputs (and imageInputEquivalenceRule) to cover the packaged data paths, ideally by consuming deploy/rcap-render-worker/runtime-data-manifest.json. Not edited here - not this lane's file."
+    },
+    {
+      "file": "src/lib/rcap/grade-a/composer.ts",
+      "issue": "Both routes the authority gate ALLOWS today cannot be composed. composeGradeAPacket throws GradeAPacketCompositionError for DC:dc_actual_innocence_expungement_16_803 and WY:felony-conviction-expungement-w-s-7-13-1502: 'the specification uses section kind \"approved_shipping_component\", which this composer does not implement. Refusing rather than omitting the section.' Observed from the source checkout, unchanged by packaging. This is consistent with codex-launch-01 RETURN-02 Outcome B remaining open on B-PACKET-RENDERER. No packaged data can fix it; a composer able to emit that section kind is required before this image renders anything.",
+      "requiredChange": "Owned by the Captain / packet repair lane, per RETURN-02. Not touched here."
+    }
+  ],
+  "whatWasNotDone": [
+    "No image was pushed to any registry, and no existing image is claimed to contain this packaging. The fulfillment registry still pins provider.imageDigest sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864, which predates these data layers.",
+    "No end-to-end render was produced in the container. The composer refuses both currently-allowed routes on a section kind it does not implement (see changesNeededOutsideThisLane), so the deepest honest in-container proof is the authority/specification decision, not a rendered PDF.",
+    "No ephemeral Postgres run. The worker's first real decision with the packaged data is reached before any database contact, and the composer defect above means a queue-driven run could not have rendered either; the in-container mutation tests were used to prove the data is load-bearing instead.",
+    "scripts/rcap-render-worker.mjs, src/**, supabase/** and every packet family were left untouched. No change to the worker script was needed: it runs from the packaged layout as-is because WORKDIR /app preserves the repository-relative paths its readers resolve against process.cwd().",
+    "data/rcap-staging-action.json was not regenerated (not this lane's file)."
+  ]
+}

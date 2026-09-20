@@ -38,9 +38,9 @@ export const wilmaLiveModelVersion = "wilma-openai-responses-v1";
 export function draftWilmaPlaceholderResponse(message: string, locale: "en" | "es" = "en") {
   if (/\b(eligible|qualify|qualification|do i qualify|yes or no)\b/i.test(message)) {
     if (locale === "es") {
-      return "La revisión guiada gratis usa sus respuestas y las reglas de su estado para mostrar qué opciones podrían estar disponibles. Puedo explicar las preguntas, pero no decido qué opción está disponible.";
+      return "La evaluación gratuita usa sus respuestas y las reglas de su estado para mostrar qué opciones podrían estar disponibles. Puedo explicar las preguntas, pero no decido qué opción está disponible.";
     }
-    return "The free guided check uses your answers and your state's rules to show which options may be available. I can explain any question and help you return to the check, but I do not decide which option is available. Want to go through it?";
+    return "The free screening uses your answers and your state's rules to show which options may be available. I can explain any question and help you return to the check, but I do not decide which option is available. Want to go through it?";
   }
 
   if (/\b(lawyer|attorney|legal advice|what should i file|strategy)\b/i.test(message)) {
@@ -52,13 +52,13 @@ export function draftWilmaPlaceholderResponse(message: string, locale: "en" | "e
 
   if (/\b(expungement|sealing|petition|filing|court)\b/i.test(message)) {
     if (locale === "es") {
-      return "Puedo explicarle el proceso general con palabras claras. La revisión guiada gratis muestra qué opciones podrían estar disponibles. Para una estrategia legal sobre su caso, hable con un abogado o con ayuda legal.";
+      return "Puedo explicarle el proceso general con palabras claras. La evaluación gratuita muestra qué opciones podrían estar disponibles. Para una estrategia legal sobre su caso, hable con un abogado o con ayuda legal.";
     }
-    return "I can explain how the general process works in plain English. The free guided check shows which options may be available. A lawyer or legal aid should handle legal strategy for your case.";
+    return "I can explain how the general process works in plain English. The free screening shows which options may be available. A lawyer or legal aid should handle legal strategy for your case.";
   }
 
   if (locale === "es") {
-    return "Puedo ayudarle a entender los pasos y las palabras confusas. La revisión guiada gratis usa sus respuestas y las reglas correspondientes para mostrar qué opciones podrían estar disponibles.";
+    return "Puedo ayudarle a entender los pasos y las palabras confusas. La evaluación gratuita usa sus respuestas y las reglas correspondientes para mostrar qué opciones podrían estar disponibles.";
   }
-  return "I can help explain the steps and confusing words. The free guided check uses your answers and the applicable rules to show which options may be available.";
+  return "I can help explain the steps and confusing words. The free screening uses your answers and the applicable rules to show which options may be available.";
 }

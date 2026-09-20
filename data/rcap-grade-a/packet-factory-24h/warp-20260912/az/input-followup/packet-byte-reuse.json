@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "rcap-current-byte-raster-reuse/v1",
+  "familyId": "az_set_aside-set",
+  "result": "EXACT_PACKET_BYTES_UNCHANGED",
+  "packetPdfsChanged": false,
+  "packets": [
+    {
+      "fixture": "canonical",
+      "pages": 7,
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4",
+      "byteLength": 243378
+    },
+    {
+      "fixture": "boundary",
+      "pages": 8,
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114",
+      "byteLength": 244691
+    }
+  ],
+  "priorIndependentFail": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-az-current-form-initial-input-fail-20260912.json",
+  "priorRaster": {
+    "runId": "34663873573",
+    "packetCommit": "6b3dcb26fde432d3efdfec78306cda296cfb2590",
+    "pages": 15,
+    "verdict": "data/rcap-grade-a/packet-factory-24h/raster-runs/34663873573/az_set_aside-set.verdict.json",
+    "verdictSha256": "2718fbacad6cb39b8edfd9e305ae8914aa3a3d5195b35f081fad2f2cf1c3fd43"
+  },
+  "reuseBasis": "The input repair changes the collection contract, field map, status report, findings, and participant instructions only. Both packet PDFs match the exact SHA-256 values and page counts independently reviewed after central raster run 34663873573; no raster evidence is transferred to changed bytes."
+}

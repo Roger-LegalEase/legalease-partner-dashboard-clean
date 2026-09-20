@@ -1,0 +1,50 @@
+✔ the cutoff and 61-day clock use order entry, excluding that date and ignoring a generic disposition date (1.986141ms)
+✔ pre-effective orders, unknown or mixed whole-case dispositions, and any appeal fail closed (0.336689ms)
+✔ each statutory-exception predicate must be known and false (0.489775ms)
+✔ weekend and explicitly supplied legal-holiday last days extend under the supplied calendar (0.855268ms)
+✔ missing calendar data fails automatic calculation; explicitly verified dates are the closed alternative (0.330968ms)
+✔ evaluation date is valid and future order or observation facts fail closed (0.250217ms)
+✔ premature, unknown and non-public post-period attempts do not enter the failure branch (0.368749ms)
+✔ the packet-fact adapter refuses unknown gates and carries derived entry-date facts without inference (2.127254ms)
+✔ the production --check entrypoint validates both gates and is byte-for-byte read-only (27.56061ms)
+✖ generated four-component maps carry collected case facts and preserve court-owned acts (3.464011ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 220.491543
+
+✖ failing tests:
+
+test at scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs:221:1
+✖ generated four-component maps carry collected case facts and preserve court-owned acts (3.464011ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + {
+  +   artifactId: '10276130128',
+  +   boundToCanonicalSha256: '042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2',
+  +   coversTheWholeFamily: true,
+  +   jobId: '103361882466',
+  +   verdict: 'RASTER_PASS',
+  +   workflowRunId: '34628970364'
+  + }
+  - null
+
+      at TestContext.<anonymous> (file:///tmp/rcap-vf01-nd-final-20260911/scripts/rcap-packet-recovery/test-nd-nonconviction-timing.mjs:251:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1397:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:969:18)
+      at Test.postRun (node:internal/test_runner/test:1537:19)
+      at Test.run (node:internal/test_runner/test:1462:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { verdict: 'RASTER_PASS', workflowRunId: '34628970364', jobId: '103361882466', artifactId: '10276130128', boundToCanonicalSha256: '042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2', coversTheWholeFamily: true },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

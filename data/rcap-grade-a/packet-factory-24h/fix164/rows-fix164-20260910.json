@@ -1,0 +1,230 @@
+{
+ "schemaVersion": "rcap-grade-a-lane-rows/v1",
+ "lane": "FIX164",
+ "laneKind": "complex_execution_repair",
+ "isIndependentVerification": false,
+ "worktree": "/home/user/fixb-worktree",
+ "branch": "lane-fix164-20260910",
+ "repairedAtBase": "e89a2d69d4ea9c11b720047eab5037ddc3939e4d",
+ "commits": [
+  {
+   "sha": "c1ac336341320da8ac0e3aa230631084cc89bba4",
+   "family": "ia-12347-set"
+  },
+  {
+   "sha": "0447b75b6283ab79361904cf0abbca2d55faf0ee",
+   "family": "mn_petition_15218-set"
+  }
+ ],
+ "respondingTo": "VF57 FAIL_REPAIR_REQUIRED on ia-12347-set (REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, FEE_AND_WAIVER) at data/rcap-grade-a/packet-factory-24h/vf57/rows-vf57-20260910.json, and VF56 FAIL_REPAIR_REQUIRED on mn_petition_15218-set (KNOWN_PREFILLS, ARTIFACTS, REQUIRED_BEFORE_FILING, SELF_HELP_STOP) at data/rcap-grade-a/packet-factory-24h/vf56/rows-vf56-20260910.json.",
+ "grantSet": "75d93020280616c1",
+ "claimCommandsRun": [
+  "--assert FIX164 ia-12347-set",
+  "--assert FIX164 mn_petition_15218-set"
+ ],
+ "scopeHeldTo": "Two packet families and their two builders. No shared manifest under data/rcap-grade-a/packet-factory-24h/ was written except this lane's own fix164/ directory. No route change, no runtime change, no production, no migration, no push. data/record-clearing/legal-design-track-registry.json and data/record-clearing/legal-design-packet-set-manifests.json were READ and asserted against; neither was modified.",
+ "everyFailingObligationWasReproducedBeforeItWasRepaired": "Yes, independently of the verifying lane's report. Every string VF57 and VF56 counted at zero was re-grepped against the delivered markdown at this base and every count reproduced. The Iowa item-1 mark was confirmed by decompressing the delivered canonical.pdf content streams and decoding the show-text operators: an 'X' at x=91 y=395 on page 1, present before and absent after. The Minnesota truncated glyph read was reproduced from the committed record and its cause located by instrumenting the builder under --check, which writes nothing.",
+ "theDeterminismControlRanFirst": {
+  "iowa": "The UNMODIFIED builder was run at this base with MASTER_LIBRARY_SOURCE_DIR set, before any edit. All 14 delivered files hashed byte-identically to the committed tree and `git status` came back empty. The builder does not write product-wiring.json, so Iowa has none of the governance-strip hazard.",
+  "minnesota": "The UNMODIFIED builder was run at this base before any edit. Both fixtures reproduced byte-identically, and THREE records drifted with no edit of this lane's at all: product-wiring.json (the six-key governance strip, plus a silent rewrite of the FEE102 source tier), reports/actual-writes.json (the stale truncated glyph read) and field-census.census-v1.json. The family was restored with `git checkout` to the committed state and re-hashed before any repair began.",
+  "afterRepair": "Each repaired builder was run twice more; both reproduce their own output exactly."
+ },
+ "gitStatusCheckedAfterEveryBuild": "Yes, after every run of either builder including all eight deliberate guard-break runs. No builder deleted a family directory or replaced a delivered guide with a stub in this lane. Every guard stop was additionally verified to have left the family directory byte-identical, by hashing every file before and after.",
+ "builtAnything": "Rebuilt both families from their own builders. Iowa's PDF bytes moved, on one obligation, deliberately. Minnesota's did not move at all.",
+ "packetsSelfVerified": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "rows": [
+  {
+   "itemId": "ia-12347-set",
+   "familyId": "ia-12347-set",
+   "jurisdiction": "IA",
+   "disposition": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+   "bytesBeforeRepair": {
+    "canonical": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+    "canonicalByteLength": 302843,
+    "boundary": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+    "boundaryByteLength": 302931
+   },
+   "bytesAfterRepair": {
+    "canonical": "830d67c3d423b615ed01efbc9c32cdb6a5ca0f89917fc8c13201070bb5fa9b91",
+    "canonicalByteLength": 302795,
+    "boundary": "a8685beb36fe2ed04c07663d20e3c62512f3b3642665555f2e663536233c3e9c",
+    "boundaryByteLength": 302886
+   },
+   "sourceDigestUnmoved": {
+    "official-form:Rule 2.86 Form 4": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+    "note": "One binary carries both official-form labels this family names. Re-hashed off the corpus mount at build time; identical to the source receipt and to VF57's own hash."
+   },
+   "pdfBytesMoved": true,
+   "whichRepairMovedThem": "ROUTE_OPTIONS alone. REQUIRED_BEFORE_FILING and FEE_AND_WAIVER are markdown and moved no PDF byte. Withdrawing the item-1 mark removes one drawn 'X' from page 1 of each fixture and necessarily changes the content stream.",
+   "whatThatCost": "The RASTER_PASS admitted at packetCommit 4bf305425, run 34352802308, bound canonical d8bf1526... and boundary 33564a98... and no longer describes the delivered bytes. It is WITHDRAWN, not deleted: generate-product-wiring.mjs --family ia-12347-set moved it whole under binding.acceptanceReceiptWithdrawn carrying both digests, and re-pinned the two component digests. A fresh central raster is now OWED for this family.",
+   "acceptanceReceiptStillBinds": false,
+   "freshCentralRasterOwed": true,
+   "whyTheRepairWasWorthTheReceipt": "The receipt is a byte-binding and a calibration record, not visual approval. Its own admission-proof.json records independentSemanticApproval false, viewportDimensionsCheckedAgainstASecondSource false on all four pages, and imageBytesReadBy stating the admission 'read the published inventory, not the PNG bytes'. No person has seen a pixel of this family, before or after. RASTER_QUEUE.json moreover already carried this family under notEligible with currentGateAuthority false, on the ground that 'the current failed obligations have not been repaired', so no live gate authority was withdrawn by this lane. Against that: the packet was checking, on the participant's behalf, one of two numbered sworn statements printed under 'Defendant acknowledges that the following statements are true and correct to the best of Defendant's knowledge' on an application signed under penalty of perjury - and it was the one election the controlling record reserves to the participant in four separate places. A raster is re-earnable through the queue. A pre-answered sworn election is not curable by disclosure.",
+   "rasterQueueIsTheGateAndThisLaneDidNotTouchIt": "RASTER_QUEUE.json is a shared manifest outside this lane's fix164/ directory and was NOT written. generate-raster-queue.mjs re-derives every row's digests from the fixtures on disk and supersedes a receipt whose binding no longer matches; running it is owed to whoever owns that manifest. This row records the debt rather than clearing it.",
+   "filesChanged": [
+    "scripts/build-census-v1-ia-12347-set.mjs",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/filing-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/reports/builder-completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill/reports/rendered-artifacts.json"
+   ],
+   "obligationResults": {
+    "REQUIRED_BEFORE_FILING": "REPAIRED. The registry's requiredBeforeFiling entry two, 'Confirmation that the conviction is under Sec 123.47(3) - Form 4, item 1.', now reaches the participant. participant-instructions.md states that the route is for a conviction under section 123.47(3) or a similar local ordinance, that item 1 is printed citing section 123.47 as a whole, and that the participant must confirm the subsection against their own court record before signing. Delivered counts, re-grepped off disk: '123.47(3)' 3 (was 0), 'subsection 3' 2 (was 0). Record entries disclosed to the participant: 5 of 5, was 4 of 5.",
+    "ROUTE_OPTIONS": "REPAIRED. eligible_conviction_selected is no longer a write. It is carried in ELECTIONS as a genuine participant election, routeDetermined false, requiredBeforeFiling true, and the box is left unmarked. Confirmed on the delivered bytes: the 'X' at x=91 y=395 is gone and the item-2 'X' at x=91 y=338 remains. Item 2 was deliberately NOT touched, on VF57's own basis, which this lane checked in the record: interveningConvictions is a required generationRequirement and item 2 restates it, and item 2 is not a manualCompletionItem.",
+    "FEE_AND_WAIVER": "REPAIRED. filing-instructions.md now states that unpaid court debt and other financial obligations do not have to be paid first on this route, under Iowa R. Crim. P. 2.83(3), and that no fee has been confirmed either way. Delivered counts: 'court debt' 2 (was 0), '2.83(3)' 1 (was 0), 'financial obligation' 1 (was 0).",
+    "SELF_HELP_STOP": "Was already PASS at this base and is unchanged: 2 of 2 registry stop conditions still carried verbatim, still builder-asserted.",
+    "theOtherElevenObligations": "Not re-verified by this lane. VF57 passed them at this base; this lane holds the repair grant, not the verification grant, and asserts no verdict on them."
+   },
+   "guardAdded": "The build asserts the two record sentences verbatim against the track registry in six places, and separately greps its own emitted markdown for five participant-facing strings before writing anything. The markdown match is deliberately against RAW text, not a whitespace-normalised copy, because an independent lane greps the file as it sits on disk and a phrase broken across a line break reads as zero occurrences to that grep.",
+   "guardProvenToFire": [
+    "Removed the Rule 2.83(3) sentence -> STOPPED RECORD_SENTENCE_NOT_ON_THE_DELIVERED_PAGE on '2.83(3)' and 'financial obligations', overlayDirectoryTouched false.",
+    "Removed the subsection disclosure -> STOPPED on '123.47(3)' and 'subsection 3', overlayDirectoryTouched false.",
+    "Drifted a held literal from the registry (registry untouched) -> ERR_ASSERTION, exit 1.",
+    "It also fired unprompted during the repair, on 'financial obligations' having wrapped across a line break - which is the reason the match is raw rather than normalised.",
+    "After each break the whole family directory was re-hashed and was byte-identical to before the test; the builder was then restored and reproduced the repaired output exactly."
+   ],
+   "countersThisLaneDidMeasure": {
+    "recordRequiredBeforeFilingItemsDeclared": 5,
+    "recordRequiredBeforeFilingItemsDisclosedToTheParticipant": 5,
+    "selectionControlsMarkedByTheBuild": 1,
+    "selectionControlsMarkedByTheBuildBefore": 2,
+    "manualCompletionItemsPreAnsweredByTheBuild": 0,
+    "manualCompletionItemsPreAnsweredByTheBuildBefore": 1,
+    "pdfFilesWhoseBytesMoved": 2,
+    "builderNineCounters": "all zero"
+   },
+   "countersThisLaneDidNotMeasure": {
+    "note": "null because NOT MEASURED by this lane, never because measured as zero.",
+    "visualDefects": null,
+    "why": "No page image of this family has been rendered or read, by this lane or by anyone. The withdrawn RASTER_PASS never read its own PNG bytes. The completeness verifier prints 'visualDefects 0', but that figure is derived from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes - a byte-level count of glyphs outside a declared rect - and is not a pixel measurement."
+   }
+  },
+  {
+   "itemId": "mn_petition_15218-set",
+   "familyId": "mn_petition_15218-set",
+   "jurisdiction": "MN",
+   "disposition": "REPAIRED_AWAITING_INDEPENDENT_VERIFICATION",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill",
+   "bytesBeforeRepair": {
+    "canonical": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+    "boundary": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda"
+   },
+   "bytesAfterRepair": {
+    "canonical": "cbdea2b8edd3e7151fc376273ac59832c2dbbb0486ad04b7cb08073fce5b3346",
+    "boundary": "9ef91d9772ab7307e8877fc52e4db7878b1c4c2a2bf0106d8d63ce10fa7deeda"
+   },
+   "pdfBytesMoved": false,
+   "whyNot": "Every repair here is a record, a guide, or a measurement. The KNOWN_PREFILLS failure was decided AGAINST drawing the value: the build had already measured that the boundary court file number needs 118 points at the smallest readable size (6 point) against 106.4, 100.4 and 107 points of usable width on EXP102, EXP104 and EXP106 page 1, so printing it would run it off the court's own rule. The refusal stands and the guide stops asserting the opposite. Both fixtures were re-hashed off disk after four separate rebuilds and are unchanged every time.",
+   "acceptanceReceiptStillBinds": true,
+   "freshCentralRasterOwed": false,
+   "rasterNote": "The RASTER_PASS from workflowRunId 34413372916 binds canonical cbdea2b8ed..., which is still what is on disk. VF56 verified that binding four ways independently and this lane moved nothing it binds. The receipt was preserved through four rebuilds by the governance module rather than restored by hand.",
+   "theWarnedREBUILDHAZARDWASREALANDISNOWFIXEDRATHERTHANWORKEDAROUND": "The grant warned that re-running this builder silently strips the central RASTER_PASS from product-wiring.json and flips sourceIdentity. The determinism control reproduced both: one unmodified rebuild deleted all six governance keys - acceptanceReceipt, lastIndependentVerification, paymentEligible, sponsorshipEligible, whyPaymentIsClosed, maintenanceRelationship - and rewrote the FEE102 source tier from the committed exact_form_number to this builder's hardcoded exact_content_hash. Rather than restore by hand and leave the next lane to hit it, the write now routes through preserveGovernanceState() and writeWiringChecked() from scripts/rcap-packet-completeness/governance-preservation.mjs, the modules three sibling census builders already use, and committed source tiers are carried forward for any source whose binary has not moved. All six keys survived every rebuild after the fix. This lane did NOT have to restore anything by hand.",
+   "filesChanged": [
+    "scripts/build-census-v1-mn_petition_15218-set.mjs",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/filing-instructions.md",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/mn/mn-petition-15218-set--official-pdf-fill/field-census.census-v1.json"
+   ],
+   "filesDeliberatelyNotTouched": [
+    "fixtures/canonical.pdf and fixtures/boundary.pdf, byte-identical, which is what keeps the RASTER_PASS binding",
+    "production-field-map.json, blanks.json, caption-evidence.json, rendered-artifacts.json, source-receipt.json, approval-request.json, build-status.json and build-findings.json, all of which the repaired builder reproduced byte-identically"
+   ],
+   "obligationResults": {
+    "KNOWN_PREFILLS": "REPAIRED, by making the guide true of the bytes rather than by drawing the value. Both false sentences in filing-instructions.md are now GENERATED from the write outcomes across both fixtures, and the participant is told which Court File Number lines can be blank, the measured reason for each, and to write the number in by hand before filing. The refusal also now reaches reports/actual-writes.json: a written:false row that carried an empty read and nothing else now carries its class, measured rule width, usable width, required width, smallest readable size and a participant-facing sentence.",
+    "ARTIFACTS": "REPAIRED, and the reader was fixed rather than the number. The published read for the boundary EXP102 charge write is now the full 'Fifth-degree possession of a controlled substance, aiding and abetting, continued for dismissal' at 84 glyphs, against the truncated 'continued for dismis' at 81. The committed record was stale rather than the code wrong - the current reader returns all 95 glyphs of that run, confirmed by instrumenting the builder under --check - and the drift was invisible because nothing compared the two figures in the record that both claim to read the same bytes. A blocking check now requires documentGlyphTotal to equal perWriteGlyphTotal plus glyphsOutsideEveryMeasuredWriteBox, and the reconciliation is published per document row. All 8 rows reconcile: 262/42/52/42 canonical and 684/73/83/110 boundary.",
+    "REQUIRED_BEFORE_FILING": "REPAIRED. Both missing manifest entries now reach the participant under a new 'Before you start: get your own records' section: obtain your own BCA criminal history and your own MCRO case history, and check the court file number against them. Delivered counts, re-grepped off disk: 'criminal history' 1 (was 0), 'Bureau of Criminal Apprehension' 1 (was 0), 'MCRO' 1 (was 0), 'court file number' 5 in participant-instructions.md (was 0). Manifest entries reaching the participant in some form: 10 of 10, was 8 of 10.",
+    "SELF_HELP_STOP": "REPAIRED. All four track selfHelpStopConditions are now printed in the record's own words under 'Where this packet stops and you need a lawyer'. The Sec 152.18 condition is widened to cover the case the record actually names - the classification being DISPUTED, not only known to be wrong - and the registration condition carries the track's own exclusion, a predatory-offender registration bar under Minn. Stat. Sec 609A.02, subd. 4. Delivered counts: 'predatory' 2 (was 0), 'registration' 3 (was 0), '609A.02, subd. 4' 1 (was 0).",
+    "ROUTE_OPTIONS": "Was PASS at this base and this lane did not change any mark, but see theFALSEBASISVF56RECORDED below. This lane repeats no claim that rests on it.",
+    "theOtherTenObligations": "Not re-verified by this lane, which holds the repair grant and not the verification grant."
+   },
+   "theFALSEBASISVF56RECORDED": "VF56 recorded that FIX158's stated basis - that a 'Choices only you can make' heading explains the route-inapplicable boxes - is FALSE of the delivered bytes: 0 of the 11 NOT_APPLICABLE_ON_THIS_ROUTE boxes is named there. This lane confirms it holds no weight in anything written here. No sentence added by this lane leans on that heading, and the residual sweep sentence 'Every other box in this packet is empty and is yours' was left exactly as committed rather than being re-justified. Whether that sweep needs narrowing over those ten boxes is a live question this lane did not answer and did not paper over.",
+   "unmeasuredZeroFoundAndFIXED": "field-census.census-v1.json published glyphAdvance 0 for all 95 printed selection controls. It was not a measurement: the shared text extractor no longer returns a per-character width for the two bytes a ballot box decodes as, and '(w ?? 0) + (w ?? 0)' turned the absence into the number 0, which reads as a zero-width box. It is now null with a stated reason, and a control with neither a readable outline nor a measurable advance stops the build rather than having a cell invented for it. Geometry is unaffected: all 95 have a readable embedded glyph outline, which is what the cell is measured from.",
+   "guardsProvenToFire": [
+    "Dropped the predatory-offender section -> STOPPED naming 'predatory', 'registration', '609A.02, subd. 4'.",
+    "Dropped the BCA/MCRO step -> STOPPED naming 'criminal history', 'Bureau of Criminal Apprehension', 'MCRO'.",
+    "Drifted a held literal from the packet-set manifest, manifest untouched -> STOPPED in verifyControllingRecords.",
+    "Truncated the glyph reader, re-introducing the ARTIFACTS defect -> STOPPED with per_write_glyph_reads_do_not_reconcile_with_the_document_total, 684 against 675 and 73 against 70.",
+    "Wrote the wiring wholesale as the pre-fix builder did -> REFUSED by writeWiringChecked naming all six governance keys.",
+    "Every one of these was re-hashed afterwards and left the family directory byte-identical. Both participant documents are now composed BEFORE any byte is written, so a stop leaves nothing half-written."
+   ],
+   "countersThisLaneDidMeasure": {
+    "manifestRequiredBeforeFilingEntriesDeclared": 10,
+    "manifestRequiredBeforeFilingEntriesReachingTheParticipant": 10,
+    "manifestRequiredBeforeFilingEntriesReachingTheParticipantBefore": 8,
+    "selfHelpStopConditionsDeclared": 4,
+    "selfHelpStopConditionsReachingTheParticipant": 4,
+    "selfHelpStopConditionsReachingTheParticipantBefore": 3,
+    "documentRowsWhoseGlyphReadsReconcile": 8,
+    "documentRowsTotal": 8,
+    "pdfFilesWhoseBytesMoved": 0,
+    "governanceKeysLostOnRebuild": 0,
+    "governanceKeysLostOnRebuildBefore": 6
+   },
+   "countersThisLaneDidNotMeasure": {
+    "note": "null because NOT MEASURED by this lane, never because measured as zero.",
+    "visualDefects": null,
+    "why": "This lane rendered no page image and read none. The RASTER_PASS that binds these bytes records, in its own admission-proof, that the PNG bodies were never read - artifact blob storage was unreachable, CONNECT tunnel failed 403 - with viewportDimensionsCheckedAgainstASecondSource false on every page. It binds the right bytes and attests that 34 pages rendered nonblank and correctly calibrated; nobody in this repository has looked at the images."
+   }
+  }
+ ],
+ "verifierRun": {
+  "verifier": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+  "invokedAs": "--family <id>, per the grant. A bare family name was also run as a control and exits 2 with UNRECOGNISED_ARGUMENT, as documented.",
+  "actualPrintedVerdicts": {
+   "ia-12347-set": "ok   ia-12347-set   PASS_COMPLETE   15/39 written  |  1 famil(ies) audited - 1 PASS_COMPLETE",
+   "mn_petition_15218-set": "ok   mn_petition_15218-set   PASS_COMPLETE   30/387 written  |  1 famil(ies) audited - 1 PASS_COMPLETE"
+  },
+  "actualExitStatus": "0 for both --family runs. 2 for both bare-name control runs.",
+  "whyThisPASSISNOTEVIDENCEOFANYTHINGTHISLANEDID": "This verifier cannot see any of the seven repairs. Grepped over the file: 'selfHelpStop' and 'self_help' 0 hits, 'packetInstructions' 0, 'fee_and_waiver' and 'feeWaiver' 0, 'route_options' and 'ROUTE_OPTIONS' 0, 'glyphCountReadFromFinalPdfBytes' 0. Its nine counters cannot observe whether a guide carries a directed statement, whether a sworn election was pre-answered, or whether a published glyph read is true of the bytes. It printed the SAME verdict on both families while every one of these defects was live, and this is on the record rather than inferred: VF57 recorded 'exit 0, ok ia-12347-set PASS_COMPLETE 16/39 written, nine counters all zero' at this base, and FIX158 recorded exit 0, PASS_COMPLETE and all-zero counters on mn_petition_15218-set against a tree where both of its dispatched defects were live. The only thing that moved on the Iowa line is the written count, 16/39 to 15/39, because the item-1 mark is no longer a write - the verifier reports that as a smaller number, not as a repair.",
+  "andITPRINTSVISUALDEFECTSZEROONBOTH": "Its visualDefects counter is derived at line 670 from nonWhitespaceGlyphsOutsideMeasuredWriteBoxes, a byte-level count of glyphs outside a declared rect. It is not a pixel measurement and no page image of either family has been read. Read as 'no page image was measured', not as zero defects. Iowa's raster receipt is now withdrawn, so nothing at all covers its current bytes."
+ },
+ "otherChecksRun": {
+  "verify-governance-state-survives-rebuild.mjs": "EVERY_GOVERNANCE_KEY_SURVIVED, 296 records compared against HEAD, exit 0",
+  "test-governance-state-preserved-on-rebuild.mjs": "all end-to-end cases ok, exit 0",
+  "verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED, exit 0",
+  "verify-absent-is-not-zero.test.mjs": "exit 0",
+  "verify-declared-keys-reach-the-contract.mjs": "EVERY_DECLARED_KEY_REACHES_THE_CONTRACT, exit 0",
+  "verify-route-election-is-made.test.mjs": "exit 0"
+ },
+ "whatThisLaneCouldNotRepair": [
+  {
+   "item": "A fresh central raster for ia-12347-set",
+   "reason": "Only the central raster acceptance workflow issues a receipt. This lane moved the bytes that withdrew the old one and cannot replace it. RASTER_QUEUE.json, which is the gate that re-derives digests from disk and supersedes stale receipts, is a shared manifest outside this lane's fix164/ directory and was deliberately not written.",
+   "owedTo": "whoever owns RASTER_QUEUE.json and the central raster workflow"
+  },
+  {
+   "item": "Iowa's two unscored packetInstructions, recorded by VF57 as observed-not-scored",
+   "reason": "VF57 measured that '22.7' and 'felony' occur zero times, so the packet never says what expungement on this track does to the record or that Iowa has no felony expungement, and that 'enhance' occurs zero times, so the enhancement benefit under Sec 123.47(4) is absent. This lane CONFIRMED all three counts are still zero after its repair. It did not carry them, because VF57 could not fit either instruction to one of the fifteen obligation names and recorded them for the Captain to route. Repairing an unrouted observation under a grant scoped to three named obligations would be this lane deciding an obligation mapping it was not given.",
+   "owedTo": "the Captain, to route to whichever obligation owns participant outcome copy"
+  },
+  {
+   "item": "Minnesota's ROUTE_OPTIONS residual sweep over the 11 route-inapplicable boxes",
+   "reason": "VF56 scored ROUTE_OPTIONS PASS and explicitly declined to manufacture a failure from the gap, while recording that 0 of the 11 NOT_APPLICABLE_ON_THIS_ROUTE boxes is named in the guide and that FIX158's stated basis for the sweep sentence is false of the delivered bytes. This lane holds no grant on a passing obligation and left the sentence exactly as committed rather than re-justifying it on a basis it had just been told does not hold.",
+   "owedTo": "a later lane, on a grant that names ROUTE_OPTIONS"
+  },
+  {
+   "item": "The field-census printedInkFractionOnTheRule drift on one EXP102 rule, 0.4 to 0.23",
+   "reason": "Pre-existing and reproduced by the UNMODIFIED builder in the determinism control, before any edit of this lane's. It is one measurement of a source rule, not a claim about the delivered packet, and this lane did not root-cause it. The committed value does not reproduce from the current code and pinned sources; the value now committed is the one the current code produces. Recorded rather than silently carried.",
+   "owedTo": "whoever owns scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs"
+  },
+  {
+   "item": "Any visual or semantic approval of either family",
+   "reason": "No page image of either family has been read by anyone. Neither raster admission read its own PNG bytes.",
+   "owedTo": "visual review, which remains a blocker for approved_for_live on both"
+  }
+ ],
+ "independentVerificationOwed": "Both families. Owed to a lane that is neither FIX164, which built them, nor VF57 or VF56, which recorded the failures. This lane self-verified nothing: it asserts what it measured and what it changed, and no verdict on either family.",
+ "grantsNothing": "This lane opened no commercial route, promoted no route, granted no approved_for_live, touched no production, ran no migration and changed no runtime selectability. paymentEligible and sponsorshipEligible remain false on mn_petition_15218-set and were preserved through every rebuild rather than dropped. ia-12347-set's product wiring remains DECLARED_NOT_INSTALLED with authorityCreated none. Repairing a defect creates no fulfillment record and authorizes nothing."
+}

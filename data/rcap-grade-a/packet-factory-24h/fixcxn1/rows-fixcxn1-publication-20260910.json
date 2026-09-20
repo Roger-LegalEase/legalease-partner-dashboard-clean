@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIXCXN1",
+  "laneKind": "shared-host-repair",
+  "status": "STOPPED",
+  "isIndependentVerification": false,
+  "base": "43ff6bc5e9f90bc7b3be712d23fc8e34fc58600e",
+  "branch": "lane-fixcxn1-publication-20260910",
+  "grantState": "FIXCXN1 can-assert rerun against this checkout: 3 assertable, 0 would refuse; grant set 84f496c27afdcee8. Nothing was written and no grant was released.",
+  "families": [
+    "nj_clean_slate-set",
+    "nj_ordinance-set",
+    "nj_indictable_conviction-set"
+  ],
+  "source": {
+    "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+    "byteLength": 1924831,
+    "pageCount": 43,
+    "fieldCount": 179,
+    "masterLibrarySourceDir": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "sourceBytesModified": false
+  },
+  "publicationRepair": {
+    "implementation": "The existing build body runs against a seeded sibling staging directory for exactly the three listed NJ families. It publishes by same-filesystem directory swap only after the body returns successfully; source, guard, or renderer failures discard staging and preserve the live directory.",
+    "outputPrefixScope": "data/rcap-all50/overlays/census-v1/nj/",
+    "otherFamiliesUseExistingPath": true,
+    "allOtherArtifactsLeftByteIdenticalAndUncommitted": true,
+    "cleanSlateMapRetained": true,
+    "cleanSlateMapPreBuildSha256": "c310c7293b98d00ef7370373c6b7eed083e9317131f2361db1e3f442cf12a383",
+    "cleanSlateMapPostBuildSha256": "2f743e4d31ced460979b40b1fefc996f00820e7a45abe6ed2517808a57cbe52f",
+    "cleanSlateMapChangedFields": [
+      "orderHearMnth", "hearMnth", "hearYr", "DefSbiNum", "orderFinalMnth",
+      "orderFinalYr", "arrest3Statute", "arrest4Statute", "arrest5Statute", "mailPetition"
+    ],
+    "validBuilds": {
+      "exitCode": 0,
+      "families": [
+        "nj_clean_slate-set",
+        "nj_ordinance-set",
+        "nj_indictable_conviction-set"
+      ],
+      "result": "Each plain wrapper reported BUILD PASS (2 PDFs; 86 page rasters).",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-clean-slate.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-clean-v3.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-ordinance.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-valid-indictable.log"
+      ]
+    },
+    "sourceIdentityFailure": {
+      "exitCode": 1,
+      "scratchConfig": true,
+      "result": "Expected source SHA-256 drift assertion; the complete ordinance output inventory was unchanged.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-source-fault.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-source-fault.exit",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-before-source-fault.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-after-source-fault.sha256"
+      ],
+      "inventoryUnchanged": true
+    },
+    "guardFailure": {
+      "exitCode": 1,
+      "mutation": "declareWithdrawnElectionsInFieldMap=false with guardFieldMapSelectionsAgainstDeliveredMarks=true",
+      "result": "Expected delivered-mark guard assertion; the complete ordinance output inventory was unchanged and the source line was restored.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-guard-fault.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-guard-fault.exit",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-before-guard-fault.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-after-guard-fault.sha256"
+      ],
+      "inventoryUnchanged": true
+    },
+    "publicationAndRollbackFailure": {
+      "exitCode": 1,
+      "scratchOnly": true,
+      "result": "Forced publication failure followed by forced rollback failure preserved the complete prior backup and reported its exact path; the scratch live output was absent.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-fault.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-fault.exit",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-before.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-backup.sha256",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-rollback-backup.path"
+      ],
+      "backupPreserved": true,
+      "backupInventoryUnchanged": true
+    },
+    "freshOutputParent": {
+      "exitCode": 0,
+      "scratchOnly": true,
+      "result": "A clean-slate build created its previously absent output parent and emitted 98 fresh files.",
+      "logs": [
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-fresh-parent.log",
+        "data/rcap-grade-a/packet-factory-24h/fixcxn1/publication-fresh-parent.sha256"
+      ]
+    }
+  },
+  "rows": [
+    {
+      "itemId": "nj_clean_slate-set",
+      "familyId": "nj_clean_slate-set",
+      "status": "STOPPED",
+      "laneKind": "shared-host-repair",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill",
+      "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
+      "stopClass": "PUBLICATION_SAFETY_ONLY",
+      "finding": "Publication safety is implemented and independently exercised through valid, source-identity-failure, delivered-mark-guard-failure, and scratch rollback-failure plain commands. The builder-retained map reconciliation is the only intended clean-slate artifact change; this row makes no legal, visual, commercial, or terminal claim.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
+      "packetsSelfVerified": 0
+    },
+    {
+      "itemId": "nj_ordinance-set",
+      "familyId": "nj_ordinance-set",
+      "status": "STOPPED",
+      "laneKind": "shared-host-repair",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 15,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
+      "stopClass": "PUBLICATION_SAFETY_ONLY",
+      "finding": "The 15 known ordinance facts remain missing and no value was fabricated; all other ordinance artifacts remain byte-identical. Publication failure preservation is proven; no terminal, legal, visual, commercial, or route claim is made.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
+      "packetsSelfVerified": 0
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "familyId": "nj_indictable_conviction-set",
+      "status": "STOPPED",
+      "laneKind": "shared-host-repair",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "obligationCoverage": ["ROUTE_OPTIONS", "REQUIRED_BEFORE_FILING"],
+      "stopClass": "PUBLICATION_SAFETY_ONLY",
+      "finding": "Publication safety is implemented and tested for the granted family. This row preserves null measurements and makes no legal, visual, commercial, or terminal claim.",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/fixcxn1/rows-fixcxn1-publication-20260910.json",
+      "packetsSelfVerified": 0
+    }
+  ],
+  "scopeControls": {
+    "centralManifestsTouched": false,
+    "centralQueuesTouched": false,
+    "sourceBodiesCommitted": false,
+    "siblingDirectoryChanges": false,
+    "privateSymlinkPreserved": true,
+    "cleanSlateMapOnlyCommitted": true,
+    "otherFamilyArtifactsCommitted": false,
+    "nextGate": "STOPPED: publication-safety repair is recorded; no route promotion, admission, owner decision, or terminal acceptance is asserted."
+  }
+}

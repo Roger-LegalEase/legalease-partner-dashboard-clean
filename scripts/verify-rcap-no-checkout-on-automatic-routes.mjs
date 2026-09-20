@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 // No automatic/no-filing route can show checkout — the lane-B invariant.
 //
 // Lane B reported (2026-08-12): Michigan's compiled rule-11 declared

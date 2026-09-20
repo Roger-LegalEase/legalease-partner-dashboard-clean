@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "cb08-commands/v1",
+  "baseSha": "110c028aaeccad30d5d673d46110d5fc3859db4e",
+  "shiftBaseSha": "c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6",
+  "commands": [
+    {
+      "command": "npm test",
+      "purpose": "authoritative full chain",
+      "exitCode": 1,
+      "durationSeconds": 8,
+      "dirtyBefore": false,
+      "dirtyAfter": false,
+      "result": "stopped at verify-tracked-mutation-safety.mjs: 2/42 checks failed"
+    },
+    {
+      "command": "npm test",
+      "purpose": "single reproduction of the authoritative-chain failure after the initial run",
+      "exitCode": 1,
+      "durationSeconds": 8,
+      "dirtyBefore": false,
+      "dirtyAfter": false,
+      "result": "same 2/42 failures"
+    },
+    {
+      "command": "node scripts/test-rcap-phase52-mutations.mjs",
+      "purpose": "diagnose the nested failing mutation suite",
+      "exitCode": 1,
+      "durationSeconds": 2,
+      "dirtyBefore": false,
+      "dirtyAfter": false,
+      "result": "12 mutations survived because the Phase 52 verifier skips without ephemeral PostgreSQL"
+    }
+  ],
+  "operatorNote": "An additional diagnostic invocation of verify-tracked-mutation-safety overlapped the still-running first npm process and transiently reported 3/42. It is excluded from chain classification as operator-induced concurrency; no mutation files remained dirty."
+}

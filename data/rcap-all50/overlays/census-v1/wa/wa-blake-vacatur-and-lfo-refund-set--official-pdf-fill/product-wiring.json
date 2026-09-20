@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "wa_blake_vacatur_and_lfo_refund-set",
+  "routeKeys": [
+    "obligation:track-pathway:WA:wa_blake_vacatur_and_lfo_refund:blake-drug-possession-vacation-and-refund-route"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "binding": {
+    "family": "wa_blake_vacatur_and_lfo_refund-set",
+    "jurisdiction": "WA",
+    "routeKeys": [
+      "obligation:track-pathway:WA:wa_blake_vacatur_and_lfo_refund:blake-drug-possession-vacation-and-refund-route"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "filing_instructions",
+      "lfo_refund_claim",
+      "primary_filing",
+      "proposed_order",
+      "records_checklist"
+    ],
+    "packetComponents": [
+      "component:wa_blake_vacatur_and_lfo_refund-lfo-refund-claim-3",
+      "component:wa_blake_vacatur_and_lfo_refund-primary-filing-1",
+      "component:wa_blake_vacatur_and_lfo_refund-proposed-order-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:Blake-001",
+        "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:Blake-002",
+        "sha256": "f3c516804c01f2d8950a7ec5b594e73be94a93504312ec26771152b729c2fd5d",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:Blake-005",
+        "sha256": "b266545459aeb0a0e074755fbf2100118903ab5c20425934d0cf5aba2ac3c635",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "source-sha256:a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+        "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34807137532",
+      "jobId": "103861827111",
+      "artifactId": "10334011713",
+      "boundToCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfwablake3",
+      "verifiedAtBase": "b1237a197dec28149fc1bf4577e7b3bc0dad0ea6"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "This write authored a different acceptance receipt. The superseded receipt is kept as history rather than overwritten; it is not carried forward as though it still applied.",
+        "boundToCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+        "replacedByCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34804012657",
+          "jobId": "103852833010",
+          "artifactId": "10332377339",
+          "boundToCanonicalSha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
+  }
+}

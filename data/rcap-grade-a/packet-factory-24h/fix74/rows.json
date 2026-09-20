@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX74",
+  "laneKind": "repair",
+  "rows": [
+    {
+      "itemId": "va_exp_nonconviction-set",
+      "familyId": "va_exp_nonconviction-set",
+      "lane": "FIX74",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "Central raster acceptance on the new bytes (RASTER_QUEUE receipt is still bound to the superseded canonical/boundary pair).",
+        "Independent verification of this repair by a verification lane.",
+        "The CLIPPING_AND_OVERLAP, ROUTE_IDENTITY, SOURCE_IDENTITY and every other proof obligation VF03 measured: this lane re-measured none of them and inherits none of them.",
+        "Counsel review, visual review and source-freshness review; no route promotion is claimed."
+      ],
+      "baseCommit": "b6384fb25",
+      "branch": "fix74-va-exp-fee",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX74 va_exp_nonconviction-set -> CLAIM_OK FIX74 va_exp_nonconviction-set (repair, grant set 55a842d3d0b8278a), exit 0. Asserted before any family artifact was read.",
+      "fixtureDigestsConfirmedAgainstVF03": {
+        "canonicalSha256": "be8bd4375526b04171d7d55ccdd4eb40958bc6ff2aa7559603110fb68c260fcb",
+        "boundarySha256": "de2b0b59e205d053d77b0aaf090d373cc8af00c0e2fbdff2ed7a821c7cf2ff20",
+        "match": true,
+        "note": "sha256sum over fixtures/ on disk at b6384fb25 returned exactly VF03's canonical and boundary digests before anything was edited."
+      },
+      "whatChanged": "Two lines, both in scripts/build-census-v1-va_exp_nonconviction-set.mjs, and the artifacts they produce. (1) Composed filing_instructions page, line 732-733: the heading 'TWO THINGS THIS PACKET DOES NOT TELL YOU' became 'THE FILING FEE, AND ONE THING THIS PACKET DOES NOT TELL YOU' and the fee bullet's 'Ask the circuit court clerk. No amount is stated here because none is established by the petition...' was replaced by the record's own answer with its citation. (2) participantInstructions(), line 1188-1189: the 'Two things this packet does not tell you...' lead-in and the bullet 'The filing fee, and whether it can be waived. Ask the clerk of the circuit court above.' became the same answer as a standalone paragraph, followed by 'One thing this packet does not tell you, because it is not established by the petition:'. Nothing else moved: the service/deadline bullet, the CC-1416 sentence, the CCRE forwarding page's own 'ask the circuit court clerk' sentence about the State Police procedure, and the records-checklist CC-1416 line are untouched, being different obligations.",
+      "feeSentenceAsDelivered": {
+        "onThePage": "- The filing fee, and whether it can be waived. No court fees or costs are payable for filing this petition: Va. Code 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.",
+        "onThePageLocation": "canonical.pdf and boundary.pdf page 6 (filing_instructions), under the heading 'THE FILING FEE, AND ONE THING THIS PACKET DOES NOT TELL YOU'; pdftotext -layout page-6 lines 33 (heading) and 35-38 (the sentence, wrapped over four rendered lines). The section symbol is dropped on the page because the composer's sanitizePdfText rewrites it; the citation prints as 'Va. Code 19.2-392.2(A)'.",
+        "inParticipantInstructions": "**The filing fee, and whether it can be waived.** No court fees or costs are payable for filing this petition: Va. Code \u00a7 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, so there is no filing fee and nothing to waive. The CCRE charges its own fee for the participant's own copy of their record.",
+        "inParticipantInstructionsLocation": "participant-instructions.md line 13 (the 'Where you file this' section); line 15 now carries the lead-in 'One thing this packet does **not** tell you, because it is not established by the petition:' and line 16 the unchanged service/deadline bullet.",
+        "sourceOfEveryClause": "data/record-clearing/legal-design-track-registry.json tracks[438] va_exp_nonconviction: fees ('none. Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection...') and feeWaiver ('none - no court fee is charged. The CCRE charges its own fee for the participant's own copy of their record.'). The CCRE sentence is carried verbatim from feeWaiver and nothing was added to it. The same two sentences are the pay_fee and apply_fee_waiver entries of packetSetId va_exp_nonconviction-set in data/record-clearing/legal-design-packet-set-manifests.json.",
+        "noAmountWritten": "No fee amount appears anywhere in the packet. The record carries none, and none was invented; the CCRE's charge is named without a figure because the record names it without a figure."
+      },
+      "grepProof": {
+        "askTheClerkGoneFromTheFeeLine": "pdftotext canonical.pdf | grep -i 'ask the clerk|ask the circuit court clerk|ask the same clerk' returns 4 hits, all of them other obligations: line 120 service manner (commonwealth_service page), line 148 State Police procedure (ccre_forwarding_request), line 176 CC-1416 (records_checklist), line 211 the deadline/service bullet. None is the fee line. grep -i 'ask the clerk' participant-instructions.md returns nothing.",
+        "citationPresentOnBoth": "grep '19.2-392.2(A)' over pdftotext of canonical.pdf page 6 hits the fee sentence; grep over participant-instructions.md hits line 13. Both fixtures carry the identical page-6 text (canonical and boundary page-6 rasters are byte-identical to each other's counterpart change)."
+      },
+      "rebuild": {
+        "command": "node scripts/build-census-v1-va_exp_nonconviction-set.mjs --no-raster (MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library)",
+        "runs": 2,
+        "exitCodes": [
+          0,
+          0
+        ],
+        "byteIdentical": true,
+        "evidence": "The whole family directory from run 1 was copied to /tmp/fix74/build1 and diff -r --brief against the directory after run 2 reported no differences."
+      },
+      "digests": {
+        "before": {
+          "canonical.pdf": {
+            "sha256": "be8bd4375526b04171d7d55ccdd4eb40958bc6ff2aa7559603110fb68c260fcb",
+            "bytes": 126840,
+            "pages": 7
+          },
+          "boundary.pdf": {
+            "sha256": "de2b0b59e205d053d77b0aaf090d373cc8af00c0e2fbdff2ed7a821c7cf2ff20",
+            "bytes": 127081,
+            "pages": 7
+          },
+          "canonical--CC-1473-primary-filing.pdf": {
+            "sha256": "fec0c22338cd5c0bd0c08ae9f4e65ed0ec052b968cb9db0f1fd882d6e08c60c9",
+            "bytes": 115313
+          },
+          "boundary--CC-1473-primary-filing.pdf": {
+            "sha256": "81c567b6cece7780b3f8f6a9015ace596e6e43b7dee15df419de1454d8145c33",
+            "bytes": 115459
+          }
+        },
+        "after": {
+          "canonical.pdf": {
+            "sha256": "829c2fabfefbedbc5854fe77c40afdda410ffc1b7f656c7a2f425f2ca7334126",
+            "bytes": 126955,
+            "pages": 7
+          },
+          "boundary.pdf": {
+            "sha256": "bba39493d38e44f4ffe016b174c39090cc24aaa1dec03794a8f405ea3f5bbbc1",
+            "bytes": 127195,
+            "pages": 7
+          },
+          "canonical--CC-1473-primary-filing.pdf": {
+            "sha256": "fec0c22338cd5c0bd0c08ae9f4e65ed0ec052b968cb9db0f1fd882d6e08c60c9",
+            "bytes": 115313,
+            "unchanged": true
+          },
+          "boundary--CC-1473-primary-filing.pdf": {
+            "sha256": "81c567b6cece7780b3f8f6a9015ace596e6e43b7dee15df419de1454d8145c33",
+            "bytes": 115459,
+            "unchanged": true
+          }
+        },
+        "pageCountUnchanged": true
+      },
+      "pixelMeasurements": {
+        "method": "pdftoppm into /tmp/fix74 only, deleted after measuring; no raster PNG is committed. Every page of both fixtures at 150 dpi before and after; the changed pages 6-7 of both fixtures at 300 dpi before and after.",
+        "pagesChanged": [
+          "canonical p6",
+          "boundary p6"
+        ],
+        "pixelIdenticalAt150dpi": "canonical pages 1,2,3,4,5,7 and boundary pages 1,2,3,4,5,7 are byte-identical PNGs before vs after (cmp -s). Page 7 did not move: the four added wrapped lines fit inside page 6's existing 45-row body.",
+        "page6InkBboxAt300dpi": {
+          "before": {
+            "x": [
+              300,
+              2248
+            ],
+            "y": [
+              269,
+              2604
+            ]
+          },
+          "after": {
+            "x": [
+              300,
+              2241
+            ],
+            "y": [
+              269,
+              2665
+            ]
+          },
+          "identicalForBothFixtures": true
+        },
+        "declaredWriteBox": "The composed renderer's own text box: margin 72 pt on all four sides of a 612x792 pt page, i.e. x 300..2250 px and y 300..3000 px at 300 dpi, with the first baseline's ascenders reaching y 269 as they do on every composed page of this packet, before and after alike.",
+        "newSentenceInsideTheBox": "The repaired block occupies, at 300 dpi on page 6 of both fixtures: heading y 2202-2239 x 301-1797; the four wrapped sentence rows y 2321-2363 x 301-2191, y 2381-2423 x 300-2158, y 2442-2484 x 301-2199, y 2502-2544 x 301-1339. Every row sits inside x 300..2250 and y 300..3000. No overlap: each row is separated from its neighbours by blank pixel rows (18 px between consecutive body rows, 82 px above the heading), the same spacing the untouched rows on the page carry, and the bottom-most ink on the page is y 2665, 335 px clear of the bottom margin."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "verifiers": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set (before)",
+          "result": "PASS_COMPLETE, 15/56 written, nine counters zero",
+          "exitCode": 0
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set (after)",
+          "result": "PASS_COMPLETE, 15/56 written, nine counters zero",
+          "exitCode": 0
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs --family va_exp_nonconviction-set",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh",
+          "exitCode": 0
+        },
+        {
+          "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family va_exp_nonconviction-set --allow-empty",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED, 0 undispositioned. The first run without --allow-empty exited 0 with BROKEN_DENOMINATOR because this family's census carries no source value at all; confirmed by hand before passing the flag - grep -c sourceValue over field-census.census-v1.json returns 0, so the empty denominator is the corpus and not a misspelled reader.",
+          "exitCode": 0
+        }
+      ],
+      "preflight": "node scripts/verify-packet-build-environment.mjs --assignment data/rcap-grade-a/packet-factory-24h/ACTIVE_ASSIGNMENTS.json --family va_exp_nonconviction-set, MASTER_LIBRARY_SOURCE_DIR exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, run on the clean tree before anything was edited: PACKET_BUILD_ENVIRONMENT_NOT_READY, 11/13 passed, 2 failed, 4 not applicable. The two failures are the same two VF03 recorded at c708dff4d and neither touches this family: private_is_git_ignored fails because private/ is mounted as a symlink and the check runs git check-ignore -q on 'private/', and corpus_matches_committed_index reports 1 absent of 24 sampled. family_sources_bind passed 1/1 by exact SHA-256, and the worktree was clean at b6384fb25 with zero skip-worktree entries.",
+      "otherFamiliesUntouched": "git status --porcelain names six paths and no others: the four changed artifacts in this family's directory (fixtures/canonical.pdf, fixtures/boundary.pdf, participant-instructions.md, reports/independent-visual-review.json, reports/rendered-artifacts.json) plus scripts/build-census-v1-va_exp_nonconviction-set.mjs. Every other family directory in the tree is byte-identical to b6384fb25.",
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster acceptance was run on the new bytes. RASTER_QUEUE.json rows[155] still binds its RASTER_PASS receipt (workflowRunId 33977742636) to canonical be8bd4375526... and boundary de2b0b59..., which this repair supersedes; the family needs a fresh central raster against 829c2fab... and bba39493....",
+        "No independent verification of this repair. This lane wrote the fee sentence and measured it; a verification lane must read it against the track record independently. This lane self-verified nothing beyond the mechanical checks reported here.",
+        "The other fourteen proof obligations VF03 measured were not re-measured; only FEE_AND_WAIVER was repaired and only its evidence is claimed.",
+        "No build-status, RASTER_QUEUE, promotion manifest or route record was edited, and no route was promoted."
+      ]
+    }
+  ]
+}

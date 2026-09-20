@@ -151,12 +151,12 @@ for (const key of enKeys) {
 }
 
 requireCondition(APPROVED_LANDING_COPY_EN.hero_h1 === "The law is complicated. Your next step should not be.", "Hero is missing the approved headline.");
-for (const phrase of ["free guided check", "review your information", "$50", "generate it"]) requireCondition(APPROVED_LANDING_COPY_EN.hero_sub.toLowerCase().includes(phrase.toLowerCase()), `Hero description is missing ${JSON.stringify(phrase)}.`);
+for (const phrase of ["Check your record-clearing options for free", "No account required", "review your information", "$50", "generate it"]) requireCondition(APPROVED_LANDING_COPY_EN.hero_sub.toLowerCase().includes(phrase.toLowerCase()), `Hero description is missing ${JSON.stringify(phrase)}.`);
 
 const primaryCtaKeys = ["announce_cta", "nav_cta", "m_cta", "hero_cta1", "prob_cta", "elig_cta", "how_cta", "pr_cta", "fn_cta", "ft_check", "sticky_cta"];
 for (const key of primaryCtaKeys) {
-  requireCondition(APPROVED_LANDING_COPY_EN[key] === "Start free", `English primary CTA ${key} is not Start free.`);
-  requireCondition(APPROVED_LANDING_COPY_ES[key] === "Comenzar gratis", `Spanish primary CTA ${key} is not Comenzar gratis.`);
+  requireCondition(APPROVED_LANDING_COPY_EN[key] === "Check my options", `English primary CTA ${key} is not Check my options.`);
+  requireCondition(APPROVED_LANDING_COPY_ES[key] === "Ver mis opciones", `Spanish primary CTA ${key} is not Ver mis opciones.`);
 }
 
 requireCondition(/No account to begin/i.test(APPROVED_LANDING_COPY_EN.hero_micro), "Hero does not state that no account is needed to begin.");
@@ -172,16 +172,16 @@ requireCondition(/Not a law firm/i.test(APPROVED_LANDING_COPY_EN.hero_disclaimer
 requireCondition(/court or agency makes the final decision/i.test(APPROVED_LANDING_COPY_EN.hero_disclaimer), "The final decision-maker is missing from the hero.");
 
 const homeSource = HOME_V3_TSX.map(read).join("\n");
-requireCondition(/function StartFreeLink[\s\S]*?href="\/expungement-ai\/start"/.test(homeSource), "Reusable Start free CTA does not open the guided-check entry.");
-requireCondition((homeSource.match(/<StartFreeLink\b/g) ?? []).length >= 5, "Canonical sections do not expose the expected Start free actions.");
-for (const match of homeSource.matchAll(/href="(\/expungement-ai\/start)"/g)) requireCondition(match[1] === "/expungement-ai/start", `Start free points to ${match[1]}.`);
+requireCondition(/function StartFreeLink[\s\S]*?href="\/expungement-ai\/start"/.test(homeSource), "Reusable primary CTA does not open the screening entry.");
+requireCondition((homeSource.match(/<StartFreeLink\b/g) ?? []).length >= 5, "Canonical sections do not expose the expected primary CTA actions.");
+for (const match of homeSource.matchAll(/href="(\/expungement-ai\/start)"/g)) requireCondition(match[1] === "/expungement-ai/start", `The primary CTA points to ${match[1]}.`);
 
 const sampleIsReal = fs.existsSync(path.join(ROOT, SAMPLE_MODAL)) && fs.existsSync(path.join(ROOT, SAMPLE_DATA));
 const sampleTriggers = (homeSource.match(/data-sample-packet-trigger="true"/g) ?? []).length;
 requireCondition(sampleIsReal && sampleTriggers === 2, "Hero and footer must open the real local sanitized sample preview exactly twice.");
 requireCondition(homeSource.includes('id="what-you-get"'), "The What you get navigation target is missing.");
 requireCondition(homeSource.includes('/expungement-ai#what-you-get'), "Navigation or footer does not link to What you get.");
-requireCondition(read(CONTENT_BRAND).includes('primary: { label: "Start free", href: "/expungement-ai/start"'), "Shared Expungement.ai content CTA does not use Start free or the guided-check entry.");
+requireCondition(read(CONTENT_BRAND).includes('primary: { label: "Check my options", href: "/expungement-ai/start"'), "Shared Expungement.ai content CTA does not use Check my options or the screening entry.");
 requireCondition(!/testi(?:monial)?/i.test(homeSource), "Testimonials render without verified quotes and consent.");
 requireCondition(!/\[(?:verified|placeholder|insert)/i.test(homeSource), "An editorial placeholder renders.");
 requireCondition(homeSource.includes('href="/privacy"') && homeSource.includes('href="/terms"'), "Privacy or terms link is missing.");
@@ -193,7 +193,7 @@ requireCondition(Object.keys(profiles).length === 51 && Boolean(profiles.DC), "T
 const layout = read(LANDING_LAYOUT);
 for (const value of [
   "Expungement.ai | Free guided record-clearing check",
-  "Start a free guided check. If a supported self-help packet is available, review your information before paying $50 to generate it."
+  "Start a free screening. If a supported self-help packet is available, review your information before paying $50 to generate it."
 ]) requireCondition(layout.includes(value), `Metadata is missing approved value: ${value}`);
 
 const mutations = [

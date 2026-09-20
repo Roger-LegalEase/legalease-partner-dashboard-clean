@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "rcap-pf10-native-raster-declaration-proof/v1",
+  "assignmentId": "PF10",
+  "familyId": "ky_misdemeanor_expungement-set",
+  "baseCommit": "82fbad2032d2cf81023e236af209de91d3943ee2",
+  "scope": "Native selectable raster enrollment proof only. No raster was run, no central file was written, and no route or commercial authority changed.",
+  "claimPreflight": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --can-assert PF10 ky_misdemeanor_expungement-set",
+    "result": "CLAIM_OK; 1 assertable; 0 would refuse; nothing written"
+  },
+  "bytePreservation": {
+    "allSixLogicalPdfHashesUnchanged": true,
+    "documents": [
+      {
+        "logicalDocument": "canonical assembled packet",
+        "oldFixture": "canonical.pdf",
+        "fixture": "canonical.pdf",
+        "sha256Before": "eb3bc4e0488d99afbdf0127c4c303bc14e0c87b18a2d237e20373c51074a48c1",
+        "sha256After": "eb3bc4e0488d99afbdf0127c4c303bc14e0c87b18a2d237e20373c51074a48c1",
+        "byteLength": 185685,
+        "pageCount": 5
+      },
+      {
+        "logicalDocument": "ordinary traffic election",
+        "oldFixture": "elections/ordinary-traffic.pdf",
+        "fixture": "selectable/ordinary-traffic.pdf",
+        "sha256Before": "78cd4f083c891bf6c42e3b8fd4fcb918eb78977cd8115c42a59ab3728f304346",
+        "sha256After": "78cd4f083c891bf6c42e3b8fd4fcb918eb78977cd8115c42a59ab3728f304346",
+        "byteLength": 185743,
+        "pageCount": 5
+      },
+      {
+        "logicalDocument": "ordinary violation election",
+        "oldFixture": "elections/ordinary-violation.pdf",
+        "fixture": "selectable/ordinary-violation.pdf",
+        "sha256Before": "f2b453fe2ea3258a0d0845c6e004f7b5252f0fe0073f33ba542f4e27bcee12ee",
+        "sha256After": "f2b453fe2ea3258a0d0845c6e004f7b5252f0fe0073f33ba542f4e27bcee12ee",
+        "byteLength": 185636,
+        "pageCount": 5
+      },
+      {
+        "logicalDocument": "KRS 218A.275(8) void election",
+        "oldFixture": "elections/void-218A275-8.pdf",
+        "fixture": "selectable/void-218a275-8.pdf",
+        "sha256Before": "f043260ef4a90b042b221732248e2658f7b2509a44ef49e46f3e515ecfa4d810",
+        "sha256After": "f043260ef4a90b042b221732248e2658f7b2509a44ef49e46f3e515ecfa4d810",
+        "byteLength": 185814,
+        "pageCount": 5
+      },
+      {
+        "logicalDocument": "KRS 218A.276(8) void election",
+        "oldFixture": "elections/void-218A276-8.pdf",
+        "fixture": "selectable/void-218a276-8.pdf",
+        "sha256Before": "8cabc7383053d36d3eb683797816996e85d958be63fde7d238f67c06ec61f451",
+        "sha256After": "8cabc7383053d36d3eb683797816996e85d958be63fde7d238f67c06ec61f451",
+        "byteLength": 185747,
+        "pageCount": 5
+      },
+      {
+        "logicalDocument": "boundary assembled packet",
+        "oldFixture": "boundary.pdf",
+        "fixture": "boundary.pdf",
+        "sha256Before": "eadcc7f7669e5e58a928eaa10614be774a2d9666c8c714b28211142d998bafca",
+        "sha256After": "eadcc7f7669e5e58a928eaa10614be774a2d9666c8c714b28211142d998bafca",
+        "byteLength": 342861,
+        "pageCount": 7
+      }
+    ]
+  },
+  "nativeConditionalContractProof": {
+    "implementation": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs#conditionalPacketDocuments",
+    "invokedAgainstActualProductionReport": true,
+    "selectedCount": 4,
+    "allRoles": "canonical",
+    "allDeclaredHashesAndPageCountsMatchedActualFiles": true,
+    "selectedInReturnedOrder": [
+      "selectable/ordinary-traffic.pdf",
+      "selectable/ordinary-violation.pdf",
+      "selectable/void-218a275-8.pdf",
+      "selectable/void-218a276-8.pdf"
+    ]
+  },
+  "centralDocumentSetProof": {
+    "implementation": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs#fixturesOf+documentSet",
+    "method": "Executed the current source prefix in memory with only import URLs and ROOT redirected to this isolated checkout; invoked its real fixturesOf and documentSet against the actual family directory; asserted the exact returned order. No master state was fabricated and no central output was written.",
+    "manifestReadyOrder": [
+      {
+        "role": "canonical",
+        "fixture": "canonical.pdf",
+        "sha256": "eb3bc4e0488d99afbdf0127c4c303bc14e0c87b18a2d237e20373c51074a48c1",
+        "pageCount": 5
+      },
+      {
+        "role": "canonical",
+        "fixture": "selectable/ordinary-traffic.pdf",
+        "sha256": "78cd4f083c891bf6c42e3b8fd4fcb918eb78977cd8115c42a59ab3728f304346",
+        "pageCount": 5
+      },
+      {
+        "role": "canonical",
+        "fixture": "selectable/ordinary-violation.pdf",
+        "sha256": "f2b453fe2ea3258a0d0845c6e004f7b5252f0fe0073f33ba542f4e27bcee12ee",
+        "pageCount": 5
+      },
+      {
+        "role": "canonical",
+        "fixture": "selectable/void-218a275-8.pdf",
+        "sha256": "f043260ef4a90b042b221732248e2658f7b2509a44ef49e46f3e515ecfa4d810",
+        "pageCount": 5
+      },
+      {
+        "role": "canonical",
+        "fixture": "selectable/void-218a276-8.pdf",
+        "sha256": "8cabc7383053d36d3eb683797816996e85d958be63fde7d238f67c06ec61f451",
+        "pageCount": 5
+      },
+      {
+        "role": "boundary",
+        "fixture": "boundary.pdf",
+        "sha256": "eadcc7f7669e5e58a928eaa10614be774a2d9666c8c714b28211142d998bafca",
+        "pageCount": 7
+      }
+    ]
+  },
+  "verification": [
+    {
+      "command": "node scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs",
+      "result": "6 PDFs; 32 pages; RASTER_PENDING"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/test-ky-misdemeanor.mjs data/rcap-grade-a/packet-factory-24h/pf10/ky-misdemeanor-20260911/author-qa.json",
+      "result": "25 passed; 0 failed"
+    },
+    {
+      "command": "node scripts/build-census-v1-ky_misdemeanor_expungement-set.mjs --check",
+      "result": "CHECK_PASS_RASTER_PENDING; 6 packets; 2 exact sources"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ky_misdemeanor_expungement-set",
+      "result": "PASS_COMPLETE; 45/66 written; all nine counters zero"
+    }
+  ]
+}

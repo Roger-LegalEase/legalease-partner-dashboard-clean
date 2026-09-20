@@ -1,0 +1,83 @@
+diff --git a/data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/product-wiring.json b/data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/product-wiring.json
+index 7925affd9..670761278 100644
+--- a/data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/product-wiring.json
++++ b/data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/product-wiring.json
+@@ -49,41 +49,26 @@
+       "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_still_public_day_62:written_clerk_correction_request"
+     ],
+     "deliveryType": "custom_pleading",
+-    "instrumentKinds": [
+-      "clerk_correction_request",
+-      "enforcement_motion",
+-      "proposed_order",
+-      "filing_instructions"
+-    ],
+-    "packetComponents": [
+-      {
+-        "componentId": "clerk_correction_request",
+-        "order": 1,
+-        "condition": null
+-      },
+-      {
+-        "componentId": "enforcement_motion",
+-        "order": 2,
+-        "condition": "Used only AFTER the written request: the recorded sequence is a written request to the office of the original court first, and the motion to enforce in the original criminal case only if that office states that judicial action is required or does not correct the record."
+-      },
+-      {
+-        "componentId": "proposed_order",
+-        "order": 3,
+-        "condition": "Travels with the enforcement motion only; nothing on it is decided, signed or dated by the participant."
+-      },
+-      {
+-        "componentId": "filing_instructions",
+-        "order": 4,
+-        "condition": null
+-      }
+-    ],
++    "instrumentKinds": [],
++    "packetComponents": [],
+     "fieldMap": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/production-field-map.json",
+     "instructions": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/participant-instructions.md",
+     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/reports/rendered-artifacts.json",
+     "sourceReceipt": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/source-receipt.json",
+     "sourceVersion": [],
+-    "acceptanceReceipt": null,
+-    "lastIndependentVerification": null,
++    "acceptanceReceipt": {
++      "verdict": "RASTER_PASS",
++      "workflowRunId": "34628970364",
++      "jobId": "103361882466",
++      "artifactId": "10276130128",
++      "boundToCanonicalSha256": "042abebbea6753740dab0b232722e76f715490cea12c634196fa6a337ad742a2",
++      "coversTheWholeFamily": true
++    },
++    "lastIndependentVerification": {
++      "verdict": "PASS_COMPLETE_INDEPENDENT",
++      "lane": "vf09",
++      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757"
++    },
+     "paymentEligible": false,
+     "sponsorshipEligible": false,
+     "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+@@ -92,21 +77,6 @@
+       "sharedBuildHost": null,
+       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+-    },
+-    "supersededAcceptanceReceipt": {
+-      "verdict": "RASTER_PASS",
+-      "workflowRunId": "33579500812",
+-      "jobId": "100091041747",
+-      "artifactId": "9828004789",
+-      "boundToCanonicalSha256": "61bedadea4d79733ae2903993d4525835e08df8f28d191bdb2b3b66fe2e78c96",
+-      "coversTheWholeFamily": true,
+-      "supersededBecause": "The entry-date, whole-case and appeal-gate repair changed both fixture PDFs; exact-byte review must be earned again."
+-    },
+-    "supersededIndependentVerification": {
+-      "verdict": "PASS_COMPLETE_INDEPENDENT",
+-      "lane": "vf09",
+-      "verifiedAtBase": "7fcfb7d40aafe7bd7350fc735ea09d16524cb757",
+-      "supersededBecause": "The entry-date, whole-case and appeal-gate repair changed both fixture PDFs; exact-byte review must be earned again."
+     }
+   }
+ }

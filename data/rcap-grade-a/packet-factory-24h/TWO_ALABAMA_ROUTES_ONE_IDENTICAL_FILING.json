@@ -1,0 +1,42 @@
+{
+ "schemaVersion": "rcap-two-alabama-routes-one-identical-filing/v1",
+ "generatedBy": "Captain, confirming FIX10's finding on the bytes rather than carrying its report",
+ "generatedAt": "2026-09-10T11:31:50.111Z",
+ "atCommit": "ff29e81665f7b5641dfdef5ad8fdcf783c783a5f",
+ "theFinding": "al-pardoned-felony-set and al-felony-nonconviction-90-set deliver the same filing. Every page of one reads identically to the same page of the other.",
+ "foundBy": "FIX10, which reported both limbs of REFUSED_34418960259 still standing at HEAD. This record is my own measurement of it, not a repetition of the report.",
+ "measurement": {
+  "method": "pdftotext -layout, page by page, sha256 of the extracted text of each page. Text, not pixels: this establishes that the two filings say the same thing, not that they render identically.",
+  "pageCount": {
+   "canonical": {
+    "al-pardoned-felony-set": 11,
+    "al-felony-nonconviction-90-set": 11
+   },
+   "boundary": {
+    "al-pardoned-felony-set": 11,
+    "al-felony-nonconviction-90-set": 11
+   }
+  },
+  "fileDigests": {
+   "canonical": {
+    "al-pardoned-felony-set": "b763d0872bd3058088aa4a9bf03bba49aa204a0e3aff59ebd4955cf72d2936fb",
+    "al-felony-nonconviction-90-set": "504731a37cda8b7b6ef801555bd380aee76c56da76ce22c65bb9eeddb3bad2c2"
+   },
+   "boundary": {
+    "al-pardoned-felony-set": "c7efd5ab764e9f96628290f0df18cebf51244b9d31beb1c9ebcc1cf79279165b",
+    "al-felony-nonconviction-90-set": "645a143db875a9e0ee38b5ba20a4060d06b2f0efa88db87ba651984b941a5208"
+   }
+  },
+  "identicalPages_canonical": "11 of 11",
+  "identicalPages_boundary": "11 of 11"
+ },
+ "whyItMatters": "A route sells only what a record proves it delivers. Two routes with different eligibility grounds -- a pardoned felony and a felony non-conviction after 90 days -- deliver one document between them, so at most one of them is delivering the filing its own ground calls for, and nothing in the packet says which.",
+ "whatIsNotClaimed": [
+  "That either document is defective on its face. Both are the same CR-65 petition and it may be the correct form for both grounds.",
+  "That the two routes must differ in every respect. Alabama uses one petition form; what has to differ is what the packet elects and states on it.",
+  "That any raster or counter was wrong. No counter compares two families, so none of them could have seen this."
+ ],
+ "theHold": "al-pardoned-felony-set moved FAIL_REPAIR_REQUIRED -> BUILT_RASTER_PENDING on this integration run and a central raster is dispatched for it. A raster measures pixels and cannot answer this. Neither family is promoted to terminal on that raster while this stands.",
+ "whoDecides": "Roger. Whether one Alabama petition correctly serves both grounds, and what each route must elect on it, is a legal question this factory cannot settle from the corpus. AL.memo.json already carries AL-7 as an unresolvedQuestions entry with impact build_blocker.",
+ "grantsNothing": "This records a measurement and a hold. It repairs nothing and promotes nothing."
+}

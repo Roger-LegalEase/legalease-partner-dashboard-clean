@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ut_pet_remove_link-set",
+  "routeKey": "obligation:track-only:UT:ut_pet_remove_link",
+  "routeKeys": [
+    "obligation:track-only:UT:ut_pet_remove_link"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "generatedBy": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+  "derivedFrom": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/reports/rendered-artifacts.json",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "binding": {
+    "family": "ut_pet_remove_link-set",
+    "jurisdiction": "UT",
+    "routeKeys": [
+      "obligation:track-only:UT:ut_pet_remove_link"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "filing_and_expectation_instructions",
+      "motion",
+      "motion_commissioner_track",
+      "notice_to_submit_or_notice_of_hearing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ut_pet_remove_link-motion-1",
+      "component:ut_pet_remove_link-motion-commissioner-track-2",
+      "component:ut_pet_remove_link-notice-to-submit-or-notice-of-hearing-4",
+      "component:ut_pet_remove_link-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:1501CR",
+        "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:1501CR-C",
+        "sha256": "25e24089f588bf32121cf01fe0c3a32e5eb576c757670baad163bc4b4f023951",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:1502CR",
+        "sha256": "d23d74d35aafbc5eab484a5753aab3b80bf8be93995f72f141a3b9c3926dae27",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:1110GE",
+        "sha256": "c2ca5eb5fdb0303025b2fa5f24263cef225cc863161128c4b42a11b998981c72",
+        "tier": "exact_content_hash"
+      },
+      {
+        "sourceId": "official-form:1111GE",
+        "sha256": "3e623db96048111929a98c5a36a8e8f4d4dd6411d6b8baece81d3f2ce1512544",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34787156519",
+      "jobId": "103805137543",
+      "artifactId": "10326948118",
+      "boundToCanonicalSha256": "fd705afae7e177db7824e1ce48256e2a025c916b496c046cef70a61ff9e9e687",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfutnext1",
+      "verifiedAtBase": "48a504a048b579997bbac93bc00e86787d1bc90b"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ut_pet_remove_link-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
+    "packetSetId": "ut_pet_remove_link-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      {
+        "componentId": "ut_pet_remove_link-set-component-1",
+        "role": "primary_filing",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "fd705afae7e177db7824e1ce48256e2a025c916b496c046cef70a61ff9e9e687",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ut_pet_remove_link-set-component-2",
+        "role": "companion_document",
+        "order": 2,
+        "documentId": "commissioner-canonical",
+        "file": "data/rcap-all50/overlays/census-v1/ut/ut-pet-remove-link-set--official-pdf-fill/fixtures/commissioner-canonical.pdf",
+        "sha256": "8243a5588b1f2986453d669b006dbe60341b48ef25b431c213c7d0483a0fe0ed",
+        "requirement": "required"
+      }
+    ]
+  }
+}

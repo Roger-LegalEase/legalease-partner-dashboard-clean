@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The census records this route's destination as not recorded; the compiled Oklahoma profile names it outright as the district court where the juvenile record is located.",
+      "consequence": "The packet states the destination rather than delegating it. DET-FEE-AND-WAIVER-001-A2 and A1 together: ask the repository first, and where it answers, say so."
+    },
+    {
+      "finding": "An earlier build printed the route contract's requiredFacts array on the face of the petition as this route's fact set - fourteen items running 'Exact route?', 'Arrest/charge limitations?', 'Prosecutor declination?', 'Reversal/dismissal?', 'DNA innocence?', 'Pardon?', 'Deferred order and dismissal?', 'Full-record versus court-record relief?', 'Reclassification date?', 'Fine amount/payment?', 'Trafficking nexus?', 'Juvenile completion?', 'VPO hearing/vacatur/death?' and 'Portal/automatic status?'. That array is not this route's fact set. All ELEVEN Oklahoma routes in src/lib/legal-authority/routes/route-splits.json carry it identically under ruleId OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP: it is one question per sibling route plus generic ones, an analyst checklist for choosing between the eleven, not the facts a Sec. 2-6-109 juvenile petition alleges.",
+      "consequence": "Printing it on the filing the participant signs was the sibling-route read-across DET-FEE-AND-WAIVER-001-A3 forbids, on the face of a court document, and it asked the participant fourteen questions they cannot answer while never asking for the facts the section turns on. Section C is now the nine facts the compiled Oklahoma profile records this route as turning on - the court and county where the juvenile record is located, the juvenile case number, the nature and date of the disposition, the date its requirements were completed, the date the case was dismissed or closed, whether any adult matter is pending, whether costs, restitution, fines and ordered requirements are completed, and the law-enforcement agency holding the related file - and each blank names the court or agency document to copy it from. The fourteen strings are removed from the route contract's mustContain anchors, because this build no longer reads them."
+    },
+    {
+      "finding": "Correcting the route contract's requiredFacts array itself is NOT done here. That array is shared by eleven Oklahoma routes under one ruleId, and changing it in src/lib/legal-authority/routes/route-splits.json would move ten routes this repair does not hold.",
+      "consequence": "The array is left exactly as it stands and this packet simply stops reading it as a participant fact set. If it is to be corrected, that is a separate change against eleven routes."
+    },
+    {
+      "finding": "The compiled profile records the effect of a grant precisely, including that records are NOT physically destroyed by default and that juvenile and criminal-justice actors retain access.",
+      "consequence": "That is carried to the participant. A packet that promised destruction would be promising something the record says does not happen."
+    }
+  ]
+}

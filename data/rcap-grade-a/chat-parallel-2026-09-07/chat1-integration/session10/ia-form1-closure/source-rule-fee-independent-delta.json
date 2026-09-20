@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-independent-source-rule-fee-delta/v1",
+  "familyId": "ia-901c2-set",
+  "reviewer": "GPT-6 Astra mi_mo_closure independent of original Chat8 implementation",
+  "candidateEditedByReviewer": false,
+  "candidateCodeCommit": "17930aecb90bec3197878ed04c54df6c22b1bfc7",
+  "candidateArchiveSha256": "6a3f719e511a4829c79e73f47b809f240f02bafa1d69c04a3668d61a8b42be92",
+  "originalReview": "ia-form1-native-v2-review-return.json",
+  "originalReviewerAttribution": "ChatGPT separate Chat10 independent reviewer",
+  "verdict": "PASS_SOURCE_RULE_FEE_DELTA",
+  "originalClosedFindingsPreserved": [
+    "IA-03"
+  ],
+  "sourceIdentity": {
+    "criterion": "SOURCE IDENTITY: every source binds by exact SHA-256, recomputed from the bytes",
+    "criterionPath": "docs/rcap/grade-a/packet-factory-24h/VF03.md",
+    "criterionFileSha256": "51c68b29ef94b441a63b632d3c547e4cc0e6bf3ee4bbdf45b78b9c17740511ad",
+    "result": "PASS",
+    "heldSource": {
+      "path": "reference/chat-parallel-2026-09-07/chat8/ia-rule-2-86-form-1-2024-08.pdf",
+      "sha256": "c7a6c42baa70cd327ee1567081791682d6a89ea121012fdd5de0b86876bfd0e5",
+      "bytes": 1449490,
+      "edition": "August2024",
+      "pages": 3
+    },
+    "receiptPath": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill/source-receipt.json",
+    "receiptSha256": "7f9c5ddd7960c5e5a2d90f6142f4eab43f3e283e915df8668a2e5e83805f19c3",
+    "allFiveSourceReceiptLinksMatchHeldBytes": true,
+    "sourceApplicability": {
+      "currentIssuerUrl": "https://www.iowacourts.gov/collections/867/files/1962/embedDocument/",
+      "currentIssuerPath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/current-form1.pdf",
+      "currentIssuerSha256": "983d13752a6c7569ae9a1d4fe2f88dfb58ee68c2b93ea2cc64bffd8f7ce91840",
+      "currentIssuerBytes": 292048,
+      "allThreeCurrentIssuerPagesTextReadAndWholePageVisuallyInspected": true,
+      "allThreeHeldPagesWholePageVisuallyInspected": true,
+      "observations": "Same August2024 Form1 substantive content, same3page order, original-case caption, five conditions, acknowledgments, self-represented/attorney execution areas and embedded paper-service certificate. Held fillable version includes viewer Save/Print/Clear and Show/Hide Lines controls. Exact file identity is not asserted between current issuer and held fillable source. These viewer controls were already classified in the independently reviewed candidate.",
+      "measurementPath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/issuer-held-form1-measurements.json"
+    }
+  },
+  "closedFindings": [
+    {
+      "id": "IA-04",
+      "result": "CLOSED",
+      "evidence": "Exact current issuer all3pages obtained/read/viewed; exact Chapter2 linked from current official August2026 index obtained. All Rules2.80 through2.85 read in full and completepages89\u201391 visually inspected.",
+      "rulesPublication": {
+        "indexUrl": "https://www.legis.iowa.gov/law/courtRules/courtRulesListings",
+        "indexPath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/current-rule-listings.html",
+        "indexSha256": "19c20da7a4b319ed7534ada2149be75a9f3aedde1553e41b1de0e28c6e19abf2",
+        "indexPublication": "August2026",
+        "chapterUrl": "https://www.legis.iowa.gov/docs/ACO/CR/LINC/08-31-2026.chapter.2.pdf",
+        "chapterPath": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/current-august2026-chapter2.pdf",
+        "chapterBytes": 21710824,
+        "chapterSha256": "4a64068b4d059421929afaf7ee8ef25f00f8e962d852f4cf7184d91c852e0eda",
+        "printedRelevantPageEdition": "May2025",
+        "pageScope": "PDF89\u201391/printed85\u201387",
+        "currentnessMeaning": "These are the chapter bytes currently served by the official August2026 publication index. Printed pages retain their May2025 dates; no invented new amendment date.",
+        "custody": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/current-rule-custody.json"
+      },
+      "contentConfirmed": [
+        "2.80 all-dismissed/acquitted original separately numbered case; substantial compliance withForm1; county-attorney service; confidential application/attachments",
+        "2.83(1)20days after service unless court orders otherwise; response confidential",
+        "2.83(3)case-only financial obligations; separatecivil room-and-board under356.7 excluded",
+        "2.84(1)narrow court-record confidentiality with statutory permitted access",
+        "2.84(5)appellate records excluded except simple-misdemeanor appeals to district court",
+        "2.85separate901C.3confidential prior-expungement registry not substituted for901C.2"
+      ]
+    },
+    {
+      "id": "IA-FEE-SOURCE",
+      "result": "CLOSED_FOR_EXISTING_STATIC_GUIDE_SCOPE",
+      "criterion": "FEE AND WAIVER: the fee and any waiver route are stated",
+      "criterionPath": "docs/rcap/grade-a/packet-factory-24h/VF03.md:70",
+      "observations": "All five complete delivered guides accurately attribute the no-application-fee statement to University of Iowa Student Legal Services, direct confirmation of case-specific amounts, separate case debt and copies/postage, and include no invented fee waiver. Fresh first-party university page states that this expungement request has no filing fee. Current2026criminal-fee statute602.8106was read in full; its enumerated fees do not provide a separate901C.2expungement-application fee. Current901C.2 and Rule2.80 place this request in the existingcriminalcase; no newcivilpetition fee is applied.",
+      "primaryFeeSource": {
+        "url": "https://www.legis.iowa.gov/docs/code/2026/602.8106.pdf",
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/current-criminal-fees.pdf",
+        "sha256": "4e92f1faab0f0eb48e0e75d9039202c0fe3e99537c5c4c9176e390c49589acef"
+      },
+      "practiceSource": {
+        "url": "https://studentlegal.uiowa.edu/know-the-law/criminal-law/expungement",
+        "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/current-uiowa-fee.html",
+        "sha256": "d34bfb36eeb80f2f89eb8fae824e9d55e94dac4d23fe0908b027bc96bd1c0203"
+      },
+      "inferenceLabel": "Absence of a separate application fee from the enumerated criminal-fee statute corroborates the explicit university practice statement; it is an inference from these sources, not a newly obtained court-issued statewide no-fee schedule.",
+      "limits": "No external clerk inquiry or fee-waiver order is claimed. Existing case-specific confirmation and court-debt requirements remain; original fee-source caution is preserved as historical scope, not disguised as an observed packet defect."
+    }
+  ],
+  "diagnostics": {
+    "currentExecutionEvidence": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/ia-form1-closure/current-independent-expected-outcome-audit.json",
+    "aggregateResult": "FAIL_ROUTE_SELECTION",
+    "requiredOptionsMissing": 2,
+    "expectedDiagnostic": "exact-day-180",
+    "expectedRejectionAsserted": true,
+    "supportedStructuralPasses": [
+      "canonical",
+      "boundary",
+      "good-cause-waiver"
+    ],
+    "missingContact": "StructuralPASS does not grant filing authority:12controls/11genuinely unknownfacts remain disclosed.",
+    "allFilingReadyFlags": false,
+    "candidatePathsUnchanged": 65,
+    "scope": "No global zero-counter rewriting or claim that a diagnostic is filing-positive. Expected-outcome-aware admission still must be integrated through the existing verifier."
+  },
+  "publication": "Root integrates exact installedfiles; this delta is not a publicationreceipt, centralraster, wholefamilyterminal grant or runtimeauthority.",
+  "remaining": [
+    "Consume exact original page/importer review at immutable installedpublication",
+    "Integrate expected-outcome-aware supported/diagnostic accounting without suppressing the raw2counter refusal",
+    "Exhaustive selected-output central enrollment and truthful conditional declareddelivery",
+    "Runtime current verification, participant-bound inputs, entitlement and authorized delivery remain separate"
+  ],
+  "sourceUrlsInExistingCandidate": "Builder route-contract.rules retains the older inaccessible CourtRulesChapter/02.pdf alias; this review binds the current officialindex/chapter directly. No candidate source-link modification occurred during rootpublication freeze."
+}

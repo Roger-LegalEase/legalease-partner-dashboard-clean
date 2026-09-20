@@ -1,0 +1,61 @@
+{
+  "command": [
+    "docker",
+    "build",
+    "--progress=plain",
+    "--label",
+    "org.opencontainers.image.revision=f63954e3aa156a00010059ca8265081944933273",
+    "-f",
+    "deploy/rcap-render-worker/Dockerfile",
+    "-t",
+    "rcap-render-worker:current-f63954e3a",
+    "."
+  ],
+  "exitCode": 0,
+  "sourceCommit": "f63954e3aa156a00010059ca8265081944933273",
+  "localOnly": true,
+  "imageTag": "rcap-render-worker:current-f63954e3a",
+  "localImageId": "sha256:937b8d9d7484c785808b85106b3f542535546a8aeb7d7b8f971b72b0e96ced78",
+  "sizeBytes": 258310153,
+  "revisionLabel": "f63954e3aa156a00010059ca8265081944933273",
+  "publishedRegistryDigest": null,
+  "registryPublished": false,
+  "evidence": {
+    "build.log": {
+      "path": "data/rcap-grade-a/packet-factory-24h/codex-image-01/current-image-f63954e3a/build.log",
+      "sha256": "62602e6e16cd87bc7ca3d64c8818a120d9c32122eab41a9c1e59ad4ecabb0b0d"
+    },
+    "preflight.log": {
+      "path": "data/rcap-grade-a/packet-factory-24h/codex-image-01/current-image-f63954e3a/preflight.log",
+      "sha256": "f394342ce1a3535f5fb0fbe68e7967bb001c257fb392b459a3eab0e688a58839"
+    }
+  },
+  "packagingResult": "ALL OK: packaged assets, worker imports and registry decisions verified",
+  "packagingCommand": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--read-only",
+    "--tmpfs",
+    "/tmp:rw,noexec,nosuid,size=64m",
+    "rcap-render-worker:current-f63954e3a",
+    "node",
+    "deploy/rcap-render-worker/preflight.mjs"
+  ],
+  "packagingExitCodeEvidence": "Completed terminal command exited 0 and log reached ALL OK after all checks; wrapper exit is recorded, not a separate container status inspection",
+  "packagedFiles": 67,
+  "authorityDecisions": {
+    "total": 14,
+    "allowed": 2,
+    "refused": 12,
+    "illinois": "REVOKED"
+  },
+  "personalizationTests": "Prior current-executable-input acceptance retained; not repeated for changed data registry/manifest only",
+  "publicationHold": "Existing GitHub credential returns HTTP 403 on workflow_dispatch; saved Codespaces credential is invalid",
+  "approvalHold": "Illinois current canonical PDF still differs from adopted approval pin",
+  "hostedAcceptance": "NOT_RUN",
+  "productionTouched": false,
+  "liveStripeTouched": false
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "name": "build-1",
+    "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+    "exitCode": 0
+  },
+  {
+    "name": "build-2",
+    "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs",
+    "exitCode": 0
+  },
+  {
+    "name": "builder-check",
+    "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --check",
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "court-current",
+    "command": "node data/rcap-grade-a/packet-factory-24h/fix91/court-choice-repair/verify-current.mjs",
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "prior-prefills",
+    "command": "node data/rcap-grade-a/packet-factory-24h/fix91/recovery/verify-current.mjs",
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "self-test",
+    "command": "node scripts/build-census-v1-ne-setaside-custodial-set.mjs --self-test",
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "completeness",
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "source-presentation-mutations",
+    "command": "node data/rcap-grade-a/packet-factory-24h/fix91/completion/test-source-presentation.mjs",
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "case-determined",
+    "command": "node scripts/rcap-packet-completeness/verify-case-determined-exception.mjs",
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  {
+    "name": "declaration-keys",
+    "command": "node scripts/rcap-packet-completeness/verify-declared-keys-reach-the-contract.mjs",
+    "exitCode": 0,
+    "result": "PASS"
+  }
+]

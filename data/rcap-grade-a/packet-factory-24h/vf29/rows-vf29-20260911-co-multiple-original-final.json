@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "rcap-verifier-return/v1",
+  "lane": "VF29",
+  "laneKind": "independent-verification",
+  "worker": "VF29",
+  "reviewer": "/root/pending_readiness",
+  "sessionIdentity": "/root/pending_readiness",
+  "familyId": "co_multiple_conviction_seal-set",
+  "baseSha": "f352179fb39bf817e56f2274908c28bd12e98358",
+  "dispatchSha": "380620df6aa089ea5e0cfd58c2ab6dd2f472cd1d",
+  "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "scope": "Independent static review by /root/pending_readiness plus original fourteen-page visual review by /root. No packet byte changes in this review.",
+  "rows": [
+    {
+      "itemId": "co_multiple_conviction_seal-set",
+      "familyId": "co_multiple_conviction_seal-set",
+      "jurisdiction": "CO",
+      "lane": "VF29",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "executionState": "COMPLETE_PACKET_PROVEN",
+      "commercialAuthority": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The route key, source receipt, field map, guide and registry identify CO multiple-conviction sealing under C.R.S. 24-72-709; no second route or commercial authority is created."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "JDF-641 and JDF-642 are exact held source binaries: 6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02 and 584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Two components are delivered in registry order: co_multiple_conviction_seal-primary-filing-1 and co_multiple_conviction_seal-proposed-order-2. The declared-not-installed product-wiring proposal is not treated as authority."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Actual byte proof measures exactly eight held participant facts and 14 field writes, with 0 glyphs outside measured write boxes; all other fields are classified and disclosed."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The 60 conviction-table cells remain participant required-before-filing blanks; instructions require the participant to supply convictions and completion dates from records."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "No route-determined selection is fabricated. Participant service method, court elections and later completion controls remain disclosed blanks."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The 15-row, four-column conviction table is intact and wholly blank on both fixtures; no partial row is emitted."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Court and later-completion fields remain unwritten; actual byte proof reports zero protected writes and zero glyphs outside declared write boxes."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current canonical and boundary packets are seven pages each, with current hashes recorded below. Actual byte proof is genuine and not a literal counter: 122/21 appearances and 136/91 glyphs at written widgets for canonical, 122/21 and 268/193 for boundary."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Both fixtures contain JDF-641 pages 1-5 followed by JDF-642 pages 1-2, matching the declared component order."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Guidance directs filing to the proper Colorado court and preserves the recorded filing destination; no runtime route is opened."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Fee and waiver guidance is recorded for participant confirmation without inventing a waiver or payment result."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Service is disclosed as a participant action completed at the actual time of service; no service is falsely performed by the packet."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The guide carries the registry self-help stops and hands off contested or legally unresolved matters."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Root directly viewed all14 original central PNG pages, canonical1-7 and boundary1-7. Source underline widgets remain single rules, full boundary name/address/email/case values fit, no clipping or overlapping text, table15rows intact and blank, court decisions and signatures unfilled. Original ZIP/PNG hashes and current+committed PDFs verified against successful central run34583375403."
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "visualMeasuredHere": true,
+        "counterNote": "Eight nonvisual counters supported by independent measured byte proof; visualDefects0 supported by direct review of all14 original central pages."
+      },
+      "currentArtifacts": {
+        "canonical": {
+          "sha256": "dd8a44b1868186a98703443d84c9215caf5807b6b37d632f7fa10b1d6dc9bd5d",
+          "pages": 7
+        },
+        "boundary": {
+          "sha256": "c1c6377deca4dce8d9bb3abee5e78629b449ae1f86a75b719df4ebcf13f31d8f",
+          "pages": 7
+        }
+      },
+      "byteProof": {
+        "actualWrites": "reports/actual-writes.json",
+        "canonicalJDF641": {
+          "writtenValues": 8,
+          "appearances": 122,
+          "glyphsAtWrittenWidgets": 136,
+          "outsideCount": 0,
+          "underlinesDeliveredAsSingleRule": 9,
+          "boxes": 0
+        },
+        "canonicalJDF642": {
+          "writtenValues": 6,
+          "appearances": 21,
+          "glyphsAtWrittenWidgets": 91,
+          "outsideCount": 0,
+          "underlinesDeliveredAsSingleRule": 7,
+          "boxes": 0
+        },
+        "boundaryJDF641": {
+          "underlinesDeliveredAsSingleRule": 9,
+          "boxes": 0,
+          "outsideCount": 0
+        },
+        "boundaryJDF642": {
+          "underlinesDeliveredAsSingleRule": 7,
+          "boxes": 0,
+          "outsideCount": 0
+        }
+      },
+      "remainingRequirements": [],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/co/co-multiple-conviction-seal-set--official-pdf-fill/product-wiring.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/rcap-grade-a/packet-factory-24h/vf29/rows-vf29-20260910-cone.json",
+        "scripts/build-census-v1-co_multiple_conviction_seal-set.mjs",
+        "scripts/rcap-official-forms/rcap-active-content.mjs",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34583375403/ORIGINAL_EVIDENCE_VERIFIED.json"
+      ],
+      "baseSha": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "originalEvidence": {
+        "familyId": "co_multiple_conviction_seal-set",
+        "jobId": 103212768557,
+        "artifact": {
+          "id": 10192802918,
+          "node_id": "MDg6QXJ0aWZhY3QxMDE5MjgwMjkxOA==",
+          "name": "rcap-raster-co_multiple_conviction_seal-set-34583375403",
+          "size_in_bytes": 4905632,
+          "url": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/10192802918",
+          "archive_download_url": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/artifacts/10192802918/zip",
+          "expired": false,
+          "digest": "sha256:f97d5aacd0d29cc1633900078bf58c6cc8ce4e91ddfc5816f490a0bab591bebd",
+          "created_at": "2026-09-11T09:24:44Z",
+          "updated_at": "2026-09-11T09:24:44Z",
+          "expires_at": "2026-09-25T09:24:43Z",
+          "workflow_run": {
+            "id": 34583375403,
+            "repository_id": 1248656766,
+            "head_repository_id": 1248656766,
+            "head_branch": "claude/legalease-sprint-captain-utucnw",
+            "head_sha": "380620df6aa089ea5e0cfd58c2ab6dd2f472cd1d"
+          }
+        },
+        "packetCommit": "380620df6aa089ea5e0cfd58c2ab6dd2f472cd1d",
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34583375403/co_multiple_conviction_seal-set.verdict.json",
+        "pagesMeasured": 14,
+        "verdict": "RASTER_PASS",
+        "currentAndPinnedPdfHashesVerified": true,
+        "originalArtifactAndJobLogAgree": true,
+        "originalPngBytesVerified": true,
+        "archivePath": "data/rcap-grade-a/packet-factory-24h/raster-runs/34583375403/co_multiple_conviction_seal-set.zip",
+        "archiveSha256": "f97d5aacd0d29cc1633900078bf58c6cc8ce4e91ddfc5816f490a0bab591bebd",
+        "jobLogSha256": "8bb6c37d98412a6deffd1ae0a4dff55dc95e964dcf37ad14b70ac61c434e2783"
+      },
+      "visualPagesReviewed": {
+        "canonical": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "boundary": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    }
+  ],
+  "sharedWrites": {
+    "queue": false,
+    "manifests": false,
+    "source": false,
+    "output": false,
+    "dispatch": false
+  },
+  "visualReviewer": "/root"
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "cb08-repair-proposals/v1",
+  "proposals": [
+    {
+      "id": "CB08-RP001",
+      "failureId": "CB08-F001",
+      "targetPaths": ["scripts/test-rcap-phase52-mutations.mjs"],
+      "collision": false,
+      "minimalRepair": "Before registering or applying mutations, import ephemeralPgAvailable from scripts/lib/rcap-ephemeral-pg.mjs and emit an explicit environment-blocked result when it is false. Do not interpret a verifier SKIPPED exit as a green mutation result.",
+      "acceptance": [
+        "With PostgreSQL available, all 12 mutations make the verifier red and the clean verifier passes.",
+        "Without PostgreSQL, the harness reports ENVIRONMENT_BLOCKED before modifying the migration.",
+        "The migration, mutation journal, and mutation lock remain clean after both cases."
+      ],
+      "applied": false,
+      "reasonNotApplied": "CB08 is triage-only and broad fixes are prohibited."
+    }
+  ]
+}

@@ -123,10 +123,22 @@ assertIncludes("src/lib/expungement-ai/payment-adapter.ts", [
 // signature-verified webhook, which is the only thing that records a payment at
 // all — so that is where this marker has to be asserted, or the check would
 // pass while nothing set the status.
+// The marker used to be `item.packetStatus === "ready" ? "ready" : "pending"`,
+// which asserted that the webhook could carry a packet straight to Ready. The
+// protected-packet-commerce hardening removed that path: packet status follows
+// the durable render queue, and only validated stored bytes may produce Ready.
+// So the assertion is inverted — the webhook must write pending, and must not
+// be able to write ready at all.
 assertIncludes("src/lib/expungement-ai/checkout-reconciliation.ts", [
-  "updateBriefcasePacketStatusForWebhook",
-  "item.packetStatus === \"ready\" ? \"ready\" : \"pending\""
+  "updateBriefcasePacketStatusForWebhook"
 ]);
+{
+  const source = read("src/lib/expungement-ai/checkout-reconciliation.ts");
+  const call = source.slice(source.indexOf("updateBriefcasePacketStatusForWebhook("));
+  const args = call.slice(0, call.indexOf(");") + 2);
+  assert(/"pending"/.test(args), "the payment webhook must record the queued packet status as pending");
+  assert(!/"ready"/.test(args), "the payment webhook must not be able to mark a packet ready; only validated stored bytes may");
+}
 
 for (const envName of ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_PARTNER_APP_URL", "NEXT_PUBLIC_EXPUNGEMENT_AI_URL"]) {
   assert(read("scripts/verify-stripe-readiness.mjs").includes(envName), `Stripe readiness verifier missing ${envName}.`);

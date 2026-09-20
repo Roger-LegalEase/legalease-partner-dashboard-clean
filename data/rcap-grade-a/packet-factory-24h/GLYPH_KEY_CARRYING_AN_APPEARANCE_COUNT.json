@@ -1,0 +1,28 @@
+{
+ "schemaVersion": "rcap-glyph-key-carrying-an-appearance-count/v1",
+ "generatedBy": "Captain, reproducing VF31's cross-family finding by reading every build-census-v1-*.mjs assignment to the key",
+ "generatedAt": "2026-09-10T08:41:22.346743Z",
+ "atCommit": "9210c84f5eabaf46d4e9121fde15bda6e592a960",
+ "theDefect": "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is a GLYPH count by its own name, and these builders assign it an APPEARANCE count. An appearance can carry many glyphs or none, so the published number is neither an upper nor a lower bound on the quantity the key names.",
+ "foundBy": "VF31, while independently re-reading ar-cs-possession-seal-set after FIX01 repaired the same mismatch there",
+ "howIChecked": "read every build-census-v1-*.mjs and extracted each assignment to the key. 389 assignments across all builders; eight take a value whose name says appearances.",
+ "sevenAreTheRawMismatch": [
+  "build-census-v1-ar-act531-set.mjs",
+  "build-census-v1-ar-arrest-seal-set.mjs",
+  "build-census-v1-ar-misdemeanor-seal-set.mjs",
+  "build-census-v1-id_clean_slate_shield-set.mjs",
+  "build-census-v1-id_isp_expungement-set.mjs",
+  "build-census-v1-nd-nonconviction-close-petition-set.mjs",
+  "build-census-v1-official-form-treatment:obligation:research-decision-route:AL:al-olr.mjs"
+ ],
+ "eachAssigns": "proof.appearancesOutsideMeasuredWriteBoxes",
+ "theEighthIsNotADefect": {
+  "builder": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+  "assigns": "glyphsIn(appearancesOutsideMeasuredWriteBoxes)",
+  "why": "it converts the appearances to a glyph count through glyphsIn() before publishing, so the value matches the key. VF31 named seven and seven is right; the eighth only looks like the others until the call is read."
+ },
+ "whatWasAlreadyFixed": "FIX01 repaired ar-cs-possession-seal-set: the glyph reading now goes under the glyph key -- null, never 0, when no pinned source is supplied -- and the appearance count under appearancesCarryingInkOutsideEveryCensusMeasuredWriteBox. VF31 confirmed the new key is referenced by exactly one file, that family's own builder, so nothing downstream reads the old key expecting the old unit.",
+ "notRepairedHere": "Seven builders, seven families, none of them mine to widen into and none dispatched for it. Recorded so the next lane on any of those families has the finding rather than re-deriving it.",
+ "aRelatedNamingProblemOnTheSameCounter": "VF31 also established that appearancesNotPlacedAtTheirOwnSourceWidget misdescribes what it marks. On ar-cs-possession all 140 appearances match their source origin to better than 0.01pt; the single flagged one is a source-authored BBox/Rect mismatch that the pinned ACIC order itself ships. A real mis-binding would arrive looking exactly like that harmless one.",
+ "grantsNothing": "This records a measurement. It repairs nothing and promotes no family."
+}

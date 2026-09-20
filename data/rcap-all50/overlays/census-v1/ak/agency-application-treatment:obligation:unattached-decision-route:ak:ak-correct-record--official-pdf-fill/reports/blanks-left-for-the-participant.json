@@ -1,0 +1,297 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+  "requiredBeforeFiling": [
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.date_and_time_granted_or_denied",
+      "page": 1,
+      "printedContext": "Date and time granted / denied",
+      "disclosureLabel": "Date and time granted / denied",
+      "identity": "dps_correction_request field date_and_time_granted_or_denied",
+      "why": "conditional on a denial the platform does not know about",
+      "participantMustSupply": "the date and time the right or privilege was granted or denied - only if the right-hand column applies to you"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.drivers_license",
+      "page": 1,
+      "printedContext": "Drivers License State / #",
+      "disclosureLabel": "Drivers License State / #",
+      "identity": "dps_correction_request field drivers_license",
+      "why": "the shared semantics refuse a government identifier on any form, so the platform will not write a licence number even where it holds one",
+      "participantMustSupply": "your driver's licence issuing state and number, from the licence itself"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.fax",
+      "page": 1,
+      "printedContext": "Fax #",
+      "disclosureLabel": "Fax #",
+      "identity": "dps_correction_request field fax",
+      "why": "the platform holds no fax fact",
+      "participantMustSupply": "a fax number the agency can reach you on, if you have one; leave it empty if you do not"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.maiden_alias_name",
+      "page": 1,
+      "printedContext": "Maiden/Alias name",
+      "disclosureLabel": "Maiden/Alias name",
+      "identity": "dps_correction_request field maiden_alias_name",
+      "why": "the platform holds no alias fact, and binding the participant's legal name into an alias blank would assert an alias that may not exist",
+      "participantMustSupply": "any maiden name or alias your record might be held under; the agency searches on these"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.other_contact",
+      "page": 1,
+      "printedContext": "Other (cell or message #)",
+      "disclosureLabel": "Other (cell or message #)",
+      "identity": "dps_correction_request field other_contact",
+      "why": "the platform holds one telephone fact and writes it to the telephone blank; a second number is one it does not hold",
+      "participantMustSupply": "a mobile or message number the agency can reach you on, if you want to give one that is not your main telephone number"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.person_using_identity",
+      "page": 1,
+      "printedContext": "Name of the person using your identity",
+      "disclosureLabel": "Name of the person using your identity",
+      "identity": "dps_correction_request field person_using_identity",
+      "why": "the identity of another person is not a fact the platform holds",
+      "participantMustSupply": "the name of the person using your identity, if you know it - the form asks for this only where your reason is mistaken identity or false accusation"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.problem_description",
+      "page": 1,
+      "printedContext": "What is the problem with your criminal history",
+      "disclosureLabel": "What is the problem with your criminal history",
+      "identity": "dps_correction_request field problem_description",
+      "why": "the account of what is wrong with a record is the participant's own and the substance the agency decides on; the platform has not seen the record",
+      "participantMustSupply": "the precise entry that is wrong, why it is inaccurate or incomplete, the correct data, the originating agency and case, and the correction you are asking for - use the back of the form if you need more room, as the form instructs. The evidence checklist page in this packet has each of those as a heading"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.requester_name",
+      "page": 1,
+      "printedContext": "Requester Name (if not subject)",
+      "disclosureLabel": "Requester Name (if not subject)",
+      "identity": "dps_correction_request field requester_name",
+      "why": "the form itself makes this blank conditional on the requester not being the subject, and the platform holds no fact about anyone else",
+      "participantMustSupply": "nothing, if the record you are correcting is your own - the form asks for this only where the person making the request is someone other than the subject of the record. If you are making the request for someone else, put your own name here"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.responsible_person_mailing_address",
+      "page": 1,
+      "printedContext": "Mailing address of the person responsible for granting or denying the privilege",
+      "disclosureLabel": "Mailing address of the person responsible for granting or denying the privilege",
+      "identity": "dps_correction_request field responsible_person_mailing_address",
+      "why": "a third party's address is not a fact the platform holds, and the participant's own address belongs in the left-hand column",
+      "participantMustSupply": "that person's postal address - only if the right-hand column applies to you"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.responsible_person_name",
+      "page": 1,
+      "printedContext": "Name of the person responsible for granting or denying the privilege",
+      "disclosureLabel": "Name of the person responsible for granting or denying the privilege",
+      "identity": "dps_correction_request field responsible_person_name",
+      "why": "the identity of a third party is not a fact the platform holds",
+      "participantMustSupply": "the name of the person who granted or denied it - only if the right-hand column applies to you"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.responsible_person_telephone",
+      "page": 1,
+      "printedContext": "Telephone number of the person responsible for granting or denying the privilege",
+      "disclosureLabel": "Telephone number of the person responsible for granting or denying the privilege",
+      "identity": "dps_correction_request field responsible_person_telephone",
+      "why": "a third party's telephone number is not a fact the platform holds",
+      "participantMustSupply": "that person's telephone number - only if the right-hand column applies to you"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.responsible_person_title",
+      "page": 1,
+      "printedContext": "Title of the person responsible for granting or denying the privilege",
+      "disclosureLabel": "Title of the person responsible for granting or denying the privilege",
+      "identity": "dps_correction_request field responsible_person_title",
+      "why": "the details of a third party are not facts the platform holds",
+      "participantMustSupply": "that person's job title - only if the right-hand column applies to you"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.right_or_privilege",
+      "page": 1,
+      "printedContext": "Right or privilege granted or denied",
+      "disclosureLabel": "Right or privilege granted or denied",
+      "identity": "dps_correction_request field right_or_privilege",
+      "why": "the whole right-hand column is conditional on the record having been used to deny a right or privilege, which the platform does not know",
+      "participantMustSupply": "the right or privilege that was or will be denied because of the record - only if that has happened; leave the whole right-hand column empty if it has not"
+    },
+    {
+      "document": "dps_correction_request",
+      "documentId": "DPS-CRI-103",
+      "field": "dps_correction_request.ssn",
+      "page": 1,
+      "printedContext": "SSN",
+      "disclosureLabel": "SSN",
+      "identity": "dps_correction_request field ssn",
+      "why": "the shared semantics refuse a government identifier on any form, so the platform will not write a Social Security number",
+      "participantMustSupply": "your Social Security number, if you choose to give it"
+    },
+    {
+      "document": "evidence_checklist",
+      "documentId": "evidence_checklist",
+      "field": "evidence_checklist.checklist_person_using_identity",
+      "page": 1,
+      "printedContext": "The name of the person using your identity, if known",
+      "disclosureLabel": "The name of the person using your identity, if known",
+      "identity": "evidence_checklist field checklist_person_using_identity",
+      "why": "the identity of another person is not a fact the platform holds",
+      "participantMustSupply": "the name of the person using your identity, if you know it - the form asks for this where the reason is mistaken identity or false accusation"
+    },
+    {
+      "document": "evidence_checklist",
+      "documentId": "evidence_checklist",
+      "field": "evidence_checklist.correct_data",
+      "page": 1,
+      "printedContext": "The correct disposition or data",
+      "disclosureLabel": "The correct disposition or data",
+      "identity": "evidence_checklist field correct_data",
+      "why": "the correct value for a record the platform has not seen is not a fact it holds",
+      "participantMustSupply": "what the entry should say instead"
+    },
+    {
+      "document": "evidence_checklist",
+      "documentId": "evidence_checklist",
+      "field": "evidence_checklist.correction_requested",
+      "page": 1,
+      "printedContext": "The correction requested",
+      "disclosureLabel": "The correction requested",
+      "identity": "evidence_checklist field correction_requested",
+      "why": "the relief a participant asks for on their own record is theirs to state",
+      "participantMustSupply": "what you are asking the record-holder to do, stated plainly"
+    },
+    {
+      "document": "evidence_checklist",
+      "documentId": "evidence_checklist",
+      "field": "evidence_checklist.originating_agency_and_case",
+      "page": 1,
+      "printedContext": "The originating agency and case",
+      "disclosureLabel": "The originating agency and case",
+      "identity": "evidence_checklist field originating_agency_and_case",
+      "why": "which agency originated a particular entry lives on the record itself",
+      "participantMustSupply": "which agency created the entry, and the case or incident number it belongs to"
+    },
+    {
+      "document": "evidence_checklist",
+      "documentId": "evidence_checklist",
+      "field": "evidence_checklist.precise_entry",
+      "page": 1,
+      "printedContext": "The precise entry that is inaccurate or incomplete",
+      "disclosureLabel": "The precise entry that is inaccurate or incomplete",
+      "identity": "evidence_checklist field precise_entry",
+      "why": "the platform has not seen any participant's Alaska criminal history record",
+      "participantMustSupply": "the entry exactly as your DPS criminal history record prints it, not a description of it"
+    },
+    {
+      "document": "evidence_checklist",
+      "documentId": "evidence_checklist",
+      "field": "evidence_checklist.supporting_documentation",
+      "page": 1,
+      "printedContext": "The supporting documentation being attached",
+      "disclosureLabel": "The supporting documentation being attached",
+      "identity": "evidence_checklist field supporting_documentation",
+      "why": "what a participant holds and attaches is not a fact the platform can know",
+      "participantMustSupply": "which of the certified disposition, identity documents, fingerprints and other court documents you are attaching, and the name of each"
+    },
+    {
+      "document": "evidence_checklist",
+      "documentId": "evidence_checklist",
+      "field": "evidence_checklist.why_inaccurate",
+      "page": 1,
+      "printedContext": "Why the entry is inaccurate or incomplete",
+      "disclosureLabel": "Why the entry is inaccurate or incomplete",
+      "identity": "evidence_checklist field why_inaccurate",
+      "why": "this is the participant's own account of their own record",
+      "participantMustSupply": "what specifically is wrong with the entry, or what is missing from it"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.reason_mistaken_identity",
+      "label": "Reason box: MISTAKEN IDENTITY / FALSELY ACCUSED",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which of the form's five reasons is true is a fact about the participant's own record; the route does not determine it, and this reason additionally requires the participant to arrange fingerprints through the Bureau"
+    },
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.reason_personal_descriptors",
+      "label": "Reason box: PERSONAL DESCRIPTORS IN ERROR",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"
+    },
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.reason_charge_information",
+      "label": "Reason box: CHARGE INFORMATION IN ERROR",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"
+    },
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.reason_missing_disposition",
+      "label": "Reason box: MISSING OR WRONG COURT OR PROSECUTOR DISPOSITION INFORMATION",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"
+    },
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.reason_set_aside_missing",
+      "label": "Reason box: SET ASIDE INFORMATION IS MISSING",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "which of the form's five reasons is true is a fact about the participant's own record and the route does not determine it"
+    },
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.record_subject_signature",
+      "label": "Record Subject's Signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the form carries an unsworn falsification certification under AS 11.56.210 over this line; the requester signs it personally"
+    },
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.signature_date",
+      "label": "Date beside the Record Subject's Signature",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the form is signed would be false"
+    },
+    {
+      "document": "dps_correction_request",
+      "field": "dps_correction_request.dps_decision_block",
+      "label": "Bureau use only - the decision block at the foot of the form",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "DPS Received, DPS has information, Approved, Denied, the forwarding line and its due date are all completed by the Criminal Records and Identification Bureau"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill/participant-instructions.md"
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-repair-lane-assignments/v1",
+  "lane": "FIX05",
+  "worker": "CODEX-CS1-FIX05-AZ-NOTARIZATION",
+  "baseSha": "e435be15b39aa16683173ef274dd9ffdae0a179e",
+  "branch": "codex/cs1-fix05-az-notarization-e435",
+  "assignmentCount": 1,
+  "assignments": [
+    {
+      "itemId": "az_wrongful_arrest_clearance-set",
+      "familyId": "az_wrongful_arrest_clearance-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/az/az-wrongful-arrest-clearance-set--custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:AZ:az_wrongful_arrest_clearance"
+      ],
+      "status": "COMPLETED",
+      "completedAt": "2026-09-04T15:52:25Z",
+      "repairedByThisLane": true,
+      "claim": "CLAIM_OK FIX05 az_wrongful_arrest_clearance-set (repair, grant set 22d24105ad116bc1)",
+      "currentFailedObligation": "REQUIRED_BEFORE_FILING",
+      "obligationRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "repairScope": "Add the exact truthful notarization non-statement to participant instructions and the rendered filing-instructions component only.",
+      "beforeArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "ae9d2adfcc34c4aa45012493466e0b86e49ace944aa552998ffec4c2a36166ee",
+          "byteLength": 9194,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "9ff414dfc5ee70776d55cf44400479680d1b3043789d189232c879e0e8eb36f9",
+          "byteLength": 9418,
+          "pageCount": 4
+        }
+      ],
+      "afterArtifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "6a0c2d807560a619c234a003ce8bf40031a73625aec815e2360ef8ec347506d6",
+          "byteLength": 9254,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "5d62c2e04775223b983cf502af0571f1a77c2bf9e6f1042ea916de4b62adf1bc",
+          "byteLength": 9480,
+          "pageCount": 4
+        }
+      ],
+      "deterministicRebuild": {
+        "command": "node scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
+        "completeBuilds": 2,
+        "hashesAndByteLengthsIdentical": true
+      },
+      "focusedTests": [
+        "Two complete executions of node scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs => COMPLETED with identical canonical and boundary SHA-256 values and byte lengths",
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_wrongful_arrest_clearance-set => PASS_COMPLETE 6/12 written; all nine counters zero",
+        "Exact-string grep confirms the notarization non-statement in participant-instructions.md",
+        "pdftotext exact-string checks confirm the notarization non-statement in canonical.pdf and boundary.pdf"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "returnedForIndependentReverification": true,
+      "centralStateEdits": 0,
+      "claimsReleased": 0,
+      "selfVerificationPerformed": 0,
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

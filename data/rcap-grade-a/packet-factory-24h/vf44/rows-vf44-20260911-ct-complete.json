@@ -1,0 +1,41 @@
+{
+  "schemaVersion":"rcap-verifier-lane-return/v1",
+  "lane":"VF44",
+  "laneKind":"independent-verification",
+  "reviewer":"/root/ar_independent_review",
+  "sessionIdentity":"/root/ar_independent_review",
+  "familyId":"ct-cleanslate-petition-set",
+  "baseSha":"053bc2589b3b0ee4d57d447c88417ec941a898cc",
+  "verifiedAtBase":"053bc2589b3b0ee4d57d447c88417ec941a898cc",
+  "packetCommit":"ae5f8447d6840714b3c376af3b8037091b2ae288",
+  "verdict":"PASS_COMPLETE_INDEPENDENT",
+  "rows":[
+    {
+      "itemId":"ct-cleanslate-petition-set",
+      "familyId":"ct-cleanslate-petition-set",
+      "verdict":"PASS_COMPLETE_INDEPENDENT",
+      "proofObligations":{
+        "ROUTE_IDENTITY":{"measured":true,"result":"PASS","finding":"Current CT JD-CR-202 petition route, route key, product wiring and field map agree."},
+        "SOURCE_IDENTITY":{"measured":true,"result":"PASS","finding":"Source receipt and recomputed source bytes match JD-CR-202 SHA-256 b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c."},
+        "COMPONENT_SET":{"measured":true,"result":"PASS","finding":"The declared primary filing component and both canonical/boundary fixtures are present and bound to this family."},
+        "KNOWN_PREFILLS":{"measured":true,"result":"PASS","finding":"Original PNGs and extracted PDF text show correct fitting participant name, email, phone, DOB, address and canonical docket; boundary over-width name and docket are visibly blank and explicitly refused. No known fitting participant value is missing."},
+        "REQUIRED_BEFORE_FILING":{"measured":true,"result":"PASS","finding":"The three participant fields are listed consistently in the field map and instructions; oath, sworn statements, officer completion and court-order completion are clearly required."},
+        "ROUTE_OPTIONS":{"measured":true,"result":"PASS","finding":"One-case-per-form rule and six closed-court page-2 redirections are present; runtimeSelectable is false and no silent route choice is made."},
+        "REPEATING_ROWS":{"measured":true,"result":"PASS","finding":"The two-page JD-CR-202 packet has one docket and no repeating case/charge row group."},
+        "PROTECTED_FIELDS":{"measured":true,"result":"PASS","finding":"All four original PNGs show blank participant and officer attestation rows and blank court decree, judge, clerk, date and decision controls. Direct PDF text and widget geometry show no participant value in those protected rectangles; the current actual-writes record has no refused field with ink, used only as corroboration."},
+        "ARTIFACTS":{"measured":true,"result":"PASS","finding":"Canonical PDF SHA-256 28c4aef4146df8956dd3eb36402ee031f98fc9af61ddf1b986b774ffbf219b77 (247096 bytes, 2 pages) and boundary PDF SHA-256 d3e379c8dbc4c716cd80ec107edcc069b585cc4934b28adb1db40fe19c26c09c (247117 bytes, 2 pages) match the central receipt. The five stale participant-field prose descriptions were corrected at the reviewed tree head and reread; PDFs remained unchanged."},
+        "PAGE_ORDER":{"measured":true,"result":"PASS","finding":"All four original PNGs show page 1 petition followed by page 2 Order of the Court and closed-court filing chart; no page is missing or reordered."},
+        "CLIPPING_AND_OVERLAP":{"measured":true,"result":"PASS","finding":"All four original central PNGs were inspected at high detail. Page boundaries and all written values are within their intended boxes; no clipping, overlap, truncation or stray rendered control caption was observed."},
+        "FILING_DESTINATION":{"measured":true,"result":"PASS","finding":"Instructions and page-2 chart identify sentencing-court filing and each of the six closed-court receiving locations."},
+        "FEE_AND_WAIVER":{"measured":true,"result":"PASS","finding":"Instructions disclose the $0 petition fee with source basis and distinguish the separate agency record-check cost; no unsupported waiver claim is made."},
+        "SERVICE":{"measured":true,"result":"PASS","finding":"The packet honestly states held sources do not establish recipient/timing, directs the participant to ask the filing clerk, and does not imply service is unnecessary."},
+        "SELF_HELP_STOP":{"measured":true,"result":"PASS","finding":"Instructions require reading sworn eligibility statements, signing before a proper officer, leaving officer/court sections blank, and state the packet does not decide eligibility."}
+      },
+      "nineCounters":{"knownRequiredFieldsMissing":0,"requiredFactsNotCollected":0,"unclassifiedBlanks":0,"incompleteRows":0,"requiredOptionsMissing":0,"requiredComponentsMissing":0,"invisibleWrites":0,"protectedWrites":0,"visualDefects":0,"allZero":true,"measuredHere":true},
+      "rasterReceipt":{"workflowRunId":34552378678,"conclusion":"success","jobId":103118431958,"artifactId":10181406680,"jobLogSha256":"c6f14193d9d1ca1d058e916824fde3b50da15b6726ab9c20cb5827743cae0a4c","verdict":"RASTER_PASS","pagesMeasured":4,"originalArchive":"data/rcap-grade-a/packet-factory-24h/raster-runs/34552378678/ct-cleanslate-petition-set.zip","archiveSha256":"7bdc81fad4aa81264c4ad17810466ea27038aa21882170e6f4928d372295b958","originalPngsInspected":4},
+      "evidence":["data/rcap-grade-a/packet-factory-24h/raster-runs/34552378678/ORIGINAL_EVIDENCE_VERIFIED.json","data/rcap-grade-a/packet-factory-24h/raster-runs/34552378678/ct-cleanslate-petition-set.verdict.json","data/rcap-grade-a/packet-factory-24h/raster-runs/34552378678/jobs.json","data/rcap-grade-a/packet-factory-24h/checkpoint-230-followthrough/ct-caption-prose-repair.json","data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/caption-channel-defect.json","data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/actual-writes.json"],
+      "remainingRequirements":[],
+      "sharedWrites":{"queue":false,"manifests":false,"familyArtifacts":false,"commits":false,"dispatch":false}
+    }
+  ]
+}

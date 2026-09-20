@@ -1,0 +1,6 @@
+comparison: recursive byte comparison of the live target family against the disposable snapshot after the native-control test rebuilt the copied family twice
+onlyDifference: product-wiring.json
+liveProductWiringSha256: 1a85cef2b545c6c6e88ad806a003bbcdf99fda355877ebf292c8037cb60000f9
+rebuiltSnapshotProductWiringSha256: 51abc6836715f3a677d5cc22325e12902cbd1bc0c027cf542e512873fb87a12a
+preservedPacketHashes: canonical b6c2532b99fea6a8e7fafaffeee7e57f8335c6a389b6699d2b06eafe2f2cb8c8; boundary c904c423f5330a8bdce372f27d605009be048eeb80d596ee12b99f1ab15927fa
+finding: the builder rewrites product-wiring.json and removes factory-owned sourceVersion, lastIndependentVerification, whyPaymentIsClosed, and maintenanceRelationship fields while replacing the installed instrumentKinds and packetComponents ordering/content. The native test checks deterministic packet PDF hashes, so it does not detect this rebuild-preservation defect.

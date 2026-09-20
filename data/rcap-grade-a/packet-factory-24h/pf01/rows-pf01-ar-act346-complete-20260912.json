@@ -1,0 +1,306 @@
+{
+  "schemaVersion": "rcap-packet-build-return/v1",
+  "lane": "PF01",
+  "laneKind": "packet-build",
+  "baseSha": "c5b3bcc7e5618ee4bda9c3ca076159d3cb7cd393",
+  "headShaAtReturn": "c5b3bcc7e5618ee4bda9c3ca076159d3cb7cd393",
+  "isIndependentVerification": false,
+  "implementationWorkingTree": true,
+  "rows": [
+    {
+      "itemId": "ar-act346-set",
+      "familyId": "ar-act346-set",
+      "status": "COMPLETED",
+      "laneKind": "packet-build",
+      "implementedBy": [
+        "sd_caption"
+      ],
+      "buildCommit": null,
+      "implementationCommit": null,
+      "completion": "Built the staged Arkansas Act 346 first-offender route from the two exact held ACIC form binaries. Stage 1 is a separate participant process guide that does not recreate the plea election; stage 2 contains the official petition and proposed order. The petition pre-fills only confirmed name, county, case number, one charged-offense line, date of birth, and the held address block. The proposed order carries caption facts only; court findings, recitals, elections, identification blocks, signatures, verification, service and judge-owned fields remain blank with typed handoffs.",
+      "jurisdiction": "AR",
+      "implementationStrategy": "official_pdf_fill",
+      "renderStrategy": "exact_source_acroform_fill_with_sequential_stage_guidance",
+      "routeKeys": [
+        "obligation:unit:AR:ar-act346:ar-act346-stage-1",
+        "obligation:unit:AR:ar-act346:ar-act346-stage-2"
+      ],
+      "buildScript": "scripts/build-census-v1-ar-act346-set.mjs",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill",
+      "changedScope": {
+        "builder": "scripts/build-census-v1-ar-act346-set.mjs",
+        "generatedFiles": [
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/source-receipt.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/field-census.census-v1.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/production-field-map.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/actual-writes.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/focused-self-test.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/charge-caption-proof.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/participant-name-placement.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/build-findings.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/component-set.json",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/stage-1-process-guidance.md",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+          "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/approval-request.json"
+        ],
+        "sharedGovernanceFilesChangedByThisLane": [],
+        "historicalFilesPreserved": [
+          "data/rcap-all50/composed-routes/arkansas/ar-act346/route.json",
+          "data/rcap-all50/composed-routes/arkansas/ar-act346/handoff.md",
+          "data/rcap-all50/composed-routes/arkansas/ar-act346/participant-instructions.md",
+          "data/record-clearing/legal-design-track-registry.json"
+        ]
+      },
+      "componentSet": [
+        "ar-act346-process-guidance-1",
+        "ar-act346-primary-filing-2",
+        "ar-act346-proposed-order-3"
+      ],
+      "componentCount": 3,
+      "conditionalComponentIds": [
+        "ar-act346-process-guidance-1"
+      ],
+      "sourceBinding": {
+        "sourceReceipt": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/source-receipt.json",
+        "sourceReceiptSha256": "fcbb7cd0104ef18f99073c431c21ebcb828cd6d9c0451009bf4d9c0253cfd387",
+        "custodyRead": "held exact source-recovery petition plus held Master Library order",
+        "allSourcesExact": true,
+        "sources": [
+          {
+            "sourceId": "official-form:ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "documentId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "component": "primary_filing",
+            "pathInArchive": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-ACT346-SET__ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS__b90179f471d3.pdf",
+            "sha256": "b90179f471d3b47bc4aa4d40d8b1cf7aa4c0633d05c4ba5ad3d5a49895bbacd3",
+            "byteLength": 530147,
+            "pageCount": 5,
+            "selectedSourcePages": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "sourceBindingEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
+          },
+          {
+            "sourceId": "official-form:ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "documentId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "component": "proposed_order",
+            "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+            "sha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+            "byteLength": 307979,
+            "pageCount": 3,
+            "selectedSourcePages": [
+              1,
+              2,
+              3
+            ],
+            "sourceBindingEvidence": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json"
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+          "sha256": "75bffbd8493de56f1f39b7f67ff9dc93e50926fb284678209d11610eb2512f76",
+          "byteLength": 553518,
+          "fixture": "petition-canonical",
+          "pageCount": 5,
+          "role": "canonical_fixture"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+          "sha256": "59a301da89ce8b7535d84781e06a88c78f60946053d3b9d8ab4db0a1b99536c8",
+          "byteLength": 553423,
+          "fixture": "petition-boundary",
+          "pageCount": 5,
+          "role": "boundary_fixture"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+          "sha256": "cb9d2019b25a9f492dcd6d483c642d2c9961d23ff6e3e8eb0db50a4c7a0c1a32",
+          "byteLength": 306189,
+          "fixture": "order-canonical",
+          "pageCount": 3,
+          "role": "canonical_fixture"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+          "sha256": "36d0464105a775214a93026296b38ee1822595cf4d807ed61066f09caf44e871",
+          "byteLength": 305836,
+          "fixture": "order-boundary",
+          "pageCount": 3,
+          "role": "boundary_fixture"
+        }
+      ],
+      "determinism": {
+        "verified": true,
+        "proof": "Repeated --no-raster builds from the same held source bytes produced the same four fixture hashes recorded here; no raster bytes are retained.",
+        "creationDatePinned": "shared official-form finalizer"
+      },
+      "fieldMapArithmetic": {
+        "terminalFields": 86,
+        "written": 13,
+        "blank": 73,
+        "requiredBeforeFiling": 14,
+        "protectedBlanks": 47,
+        "participantElectionBlanks": 4,
+        "optionalParticipantBlanks": 8,
+        "undeclaredBlanks": 0,
+        "writesProvenFromOutputBytes": 13
+      },
+      "participantFacingObligations": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "statedInThePacket": "PASS — file the stage-2 petition and proposed order in the Arkansas court that handled the underlying case; confirm court name and division with the clerk."
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "statedInThePacket": "PASS — the route record does not establish a filing-fee amount or waiver procedure; the guide tells the participant to ask the filing clerk and does not invent an amount."
+        },
+        {
+          "obligation": "SERVICE",
+          "statedInThePacket": "PASS — the guide follows the form certificate and route record: provide the petition to the prosecuting or city attorney and arresting agency, serve within three days of filing, and complete the certificate only after actual service; the route record states a 30-day objection window."
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "statedInThePacket": "PASS — all five registry stops are stated in the participant guide, including the exact Act 346 probation, objection, contested-hearing, collateral-consequence, and plea-stage negotiation boundaries."
+        }
+      ],
+      "fifteenObligations": {
+        "ROUTE_IDENTITY": "PASS",
+        "SOURCE_IDENTITY": "PASS",
+        "COMPONENT_SET": "PASS",
+        "KNOWN_PREFILLS": "PASS",
+        "REQUIRED_BEFORE_FILING": "PASS",
+        "ROUTE_OPTIONS": "PASS",
+        "REPEATING_ROWS": "PASS",
+        "PROTECTED_FIELDS": "PASS",
+        "ARTIFACTS": "BUILT_RASTER_PENDING",
+        "PAGE_ORDER": "PASS",
+        "CLIPPING_AND_OVERLAP": "BUILT_RASTER_PENDING",
+        "FILING_DESTINATION": "PASS",
+        "FEE_AND_WAIVER": "PASS",
+        "SERVICE": "PASS",
+        "SELF_HELP_STOP": "PASS"
+      },
+      "checks": {
+        "claimAssertion": {
+          "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF01 ar-act346-set",
+          "result": "CLAIM_OK PF01 ar-act346-set (packet-build, grant set 77c639b9b4f9b1d5)"
+        },
+        "syntax": {
+          "command": "node --check scripts/build-census-v1-ar-act346-set.mjs",
+          "result": "PASS"
+        },
+        "builderBuild": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/build-census-v1-ar-act346-set.mjs --no-raster",
+          "result": "PASS; petition 50 fields/5 pages (10 canonical, 8 boundary writes), order 36 fields/3 pages (3 canonical, 1 boundary write), four fixtures, zero builder findings."
+        },
+        "nativeCompleteness": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ar-act346-set --write",
+          "result": "PASS_COMPLETE; 13/86 terminal writes and all nine counters zero.",
+          "report": "/tmp/rcap-packet-completeness/ar-act346-set.json",
+          "reportSha256": "d0ec9cd9b54faf1c6f873ef499461eaccde7be9dd584d61d78a3c6cbbde8c7e9",
+          "exitCode": 0
+        },
+        "governanceSurvival": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs --family ar-act346-set",
+          "result": "EVERY_GOVERNANCE_KEY_SURVIVED",
+          "exitCode": 0
+        },
+        "focusedSelfTest": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/focused-self-test.json",
+          "sha256": "437594b9194b720469f21df06bc4808821d05880be492a0274ef50af66d09105",
+          "result": "PASS; both exact source hashes verified, all four saved outputs reopened, zero builder findings, zero refused-field ink, zero name placements outside the allowlist, participant guides non-empty with no undefined token, page-3 order grant decree blank, legacy composed route explicitly excluded from current participant delivery, and no raster files."
+        },
+        "chargeCaptionProof": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/charge-caption-proof.json",
+          "sha256": "128636d10e2d894ae1c67acbaae0c04404a5072a234f8dd99c1a8abaab5cd5b2",
+          "result": "PASS; 22 charge-caption blanks examined and none carries a participant name."
+        },
+        "renderedArtifacts": {
+          "path": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "02318c916b85202e49f696f70d3a7e2ac0076059ec01846a46135d4e41e308d1",
+          "result": "PASS; fresh exact-byte fixtures recorded, rasterisation false and rasters empty; legacy composed-route directory is retained as historical evidence and excluded from current participant delivery."
+        },
+        "participantGuidance": {
+          "command": "rg -n \"\\bundefined\\b\" data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/stage-1-process-guidance.md",
+          "result": "PASS; both guides are non-empty, no undefined token is present, and the exact Act 346 probation stop is stated.",
+          "files": [
+            "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/stage-1-process-guidance.md"
+          ],
+          "sha256": "8fe05999014052d4378ac354ea6ccc5b44f433218126cf67c872eb3dc0a33831"
+        },
+        "orderDecreeProtection": {
+          "result": "PASS; the source Defendant widget at page 3 is court-owned, absent from explicit prefill mappings, refused by role, and blank in both saved fixtures.",
+          "productionFieldMap": "data/rcap-all50/overlays/census-v1/ar/ar-act346-set--official-pdf-fill/production-field-map.json",
+          "field": "Defendant",
+          "sourcePage": 3,
+          "canonicalWritten": false,
+          "boundaryWritten": false
+        },
+        "selfHelpStopCoverage": {
+          "command": "node scripts/rcap-truth-checks/check-b-self-help-stop-coverage.mjs --family ar-act346-set --no-write",
+          "result": "PASS; 5/5 registry self-help stop conditions carried verbatim, no condition unrepresented, no hearing inversion."
+        },
+        "routeLabel": {
+          "command": "node scripts/rcap-truth-checks/check-c-participant-route-label.mjs --family ar-act346-set --no-write",
+          "result": "PASS; no unknown participant-facing route labels."
+        },
+        "sourceCarriedValuesDisposition": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family ar-act346-set --allow-empty --json",
+          "result": "PASS; 0 source-carried values in the AR census, so the allow-empty denominator is explicit; findings 0."
+        },
+        "currentByteBindingAudit": {
+          "command": "MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node /tmp/ar-act346-post-build-check.mjs",
+          "path": "/tmp/ar-act346-post-build-check.json",
+          "sha256": "d78165cf2cb992791ef4a7b42204d9273a8d62a6abeb80d376ca6dce0493a090",
+          "result": "PASS; 48 current-byte, guide, source-candidate, queue/worklist, native-return-schema and artifact-binding checks passed; visual and independent semantic measurements remain unperformed."
+        }
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "allNineCountersZero": true,
+      "nativeCompletenessResult": "PASS_COMPLETE",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterDispatched": false,
+      "independentVerification": "PENDING_INDEPENDENT_SEMANTIC_REVIEW",
+      "visualReview": {
+        "measured": false,
+        "result": null,
+        "status": "PENDING"
+      },
+      "remainingGates": [
+        "independent semantic packet review",
+        "central current-byte raster acceptance",
+        "independent original visual review"
+      ],
+      "legalLimitations": "This worker return binds the route records and exact held form sources only. It does not establish eligibility, decide Act 346 placement or completion, resolve an individual filing fee or waiver, constitute legal advice, or grant output approval, live authority, filing authority, or delivery authority.",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This PF01 packet-build return records source-bound implementation and nonvisual checks only; it opens no commercial route and grants no filing, delivery, or live authority."
+    }
+  ],
+  "historicalEvidencePreserved": true,
+  "independentAcceptanceClaimed": false,
+  "rasterDispatched": false,
+  "claimsReleased": false
+}

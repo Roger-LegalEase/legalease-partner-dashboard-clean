@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "rcap-raster-family-refusal/v1",
+  "recordedBy": "RX2 receipt-transport lane, 2026-09-10",
+  "runId": "34418960259",
+  "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+  "packetCommit": "deead9f250e606887d80837a2f4cb7423d7afa49",
+  "whatThisIs": "Two families of run 34418960259 carried clean RASTER_PASS receipts with zero problems and were REFUSED admission on the delivered bytes. The refusal is the outcome, not a failure of the transport: every receipt in this run arrived whole and every importer check would have passed.",
+  "refused": {
+    "al-pardoned-felony-set": {
+      "jobId": "102690667459",
+      "receipt": "RASTER_PASS, 22 pages, 0 problems, verdict and inventory agree entry by entry",
+      "boundToCanonicalSha256": "985f5109580e569525a848adee80004a020d460e6d5a07db90bfc2b3dca6b2f0",
+      "boundToBoundarySha256": "bf42599d8545ee2e470f5bc2b298d64562966c9c71e1a7578c85ca958b29ff6f",
+      "reason": "The petition ticks no eligibility ground on the CR-65 it files, and the document it delivers is byte-for-byte the same petition al-felony-nonconviction-90-set delivers apart from the invisible /Title metadata string. A petition that ticks no eligibility ground is not a filing, and one document serving two eligibility routes is not two families."
+    },
+    "al-felony-nonconviction-90-set": {
+      "jobId": "102690667550",
+      "receipt": "RASTER_PASS, 22 pages, 0 problems, verdict and inventory agree entry by entry",
+      "boundToCanonicalSha256": "e7cd495ccdfc8ecb171a0ce59d4687c428c0c825618598311b354ecfe83332dd",
+      "boundToBoundarySha256": "8c9374e14f5695ea7499bbf71ca7c09d0c82202392869ade7951f9de62f79784",
+      "reason": "The petition ticks no eligibility ground on the CR-65 it files, and the document it delivers is byte-for-byte the same petition al-pardoned-felony-set delivers apart from the invisible /Title metadata string. A petition that ticks no eligibility ground is not a filing, and one document serving two eligibility routes is not two families."
+    }
+  },
+  "admittedFromTheSameRun": {
+    "al-felony-dwop-set": {
+      "jobId": "102690667465",
+      "why": "It survives both tests. Its canonical and boundary fixtures are two different documents, not one document under two names, and it ticks exactly one CR-65 eligibility ground -- the one that names its own route.",
+      "groundTicked": {
+        "page": 3,
+        "widget": "FlatWidget-1836459056",
+        "appearance": "ZapfDingbats glyph (4), a drawn check mark, inside the widget's own 10.32 x 14.36 pt box",
+        "printedText": "the charge was dismissed without prejudice more than five years ago, has not been refiled, and I have not been convicted of any other felony or misdemeanor crime, any violation, or any traffic violation, excluding minor traffic violations, during the previous five years."
+      }
+    }
+  },
+  "eligibilityBoxesTickedReadFromDeliveredContentStreams": {
+    "al-felony-dwop-set": {
+      "cr65EligibilityGroundsTicked": [
+        3
+      ],
+      "otherTickedWidgets": [
+        {
+          "page": 9,
+          "widget": "FlatWidget-9032007329",
+          "whatItIs": "the C-10-CRIMINAL Affidavit of Substantial Hardship caption box 'STATE OF ALABAMA' -- a caption selection, not an eligibility ground"
+        }
+      ],
+      "totalFlattenedCheckboxWidgetsOnThePacket": 216
+    },
+    "al-pardoned-felony-set": {
+      "cr65EligibilityGroundsTicked": [],
+      "otherTickedWidgets": [
+        {
+          "page": 9,
+          "widget": "FlatWidget-9032007329",
+          "whatItIs": "the C-10-CRIMINAL Affidavit of Substantial Hardship caption box 'STATE OF ALABAMA' -- a caption selection, not an eligibility ground"
+        }
+      ],
+      "totalFlattenedCheckboxWidgetsOnThePacket": 216
+    },
+    "al-felony-nonconviction-90-set": {
+      "cr65EligibilityGroundsTicked": [],
+      "otherTickedWidgets": [
+        {
+          "page": 9,
+          "widget": "FlatWidget-9032007329",
+          "whatItIs": "the C-10-CRIMINAL Affidavit of Substantial Hardship caption box 'STATE OF ALABAMA' -- a caption selection, not an eligibility ground"
+        }
+      ],
+      "totalFlattenedCheckboxWidgetsOnThePacket": 216
+    }
+  },
+  "canonicalVersusBoundaryWithinEachFamily": {
+    "al-felony-dwop-set": {
+      "canonicalSha256": "f5b365db7086f038634561e1f0baadd7cc8cc53fdfd5b6b6d02aa68643948027",
+      "boundarySha256": "0fecc946850f1f70d472a40b6144efdfc2dd371c61c6c117608903b56afa9856",
+      "documentInfoKeysDiffering": [
+        "/Title"
+      ],
+      "extractedTextLinesDiffering": 321,
+      "pageImagesIdenticalBetweenTheTwoFixtures": [
+        7,
+        11
+      ],
+      "finding": "The two fixtures are genuinely different documents: a different petitioner, county, case number, address and date of birth. Nine of eleven pages render to different images; pages 7 and 11 carry no fillable field and are the only two that match."
+    },
+    "al-pardoned-felony-set": {
+      "canonicalSha256": "985f5109580e569525a848adee80004a020d460e6d5a07db90bfc2b3dca6b2f0",
+      "boundarySha256": "bf42599d8545ee2e470f5bc2b298d64562966c9c71e1a7578c85ca958b29ff6f",
+      "documentInfoKeysDiffering": [
+        "/Title"
+      ],
+      "extractedTextLinesDiffering": 321,
+      "pageImagesIdenticalBetweenTheTwoFixtures": [
+        7,
+        11
+      ],
+      "finding": "The two fixtures are genuinely different documents: a different petitioner, county, case number, address and date of birth. Nine of eleven pages render to different images; pages 7 and 11 carry no fillable field and are the only two that match."
+    },
+    "al-felony-nonconviction-90-set": {
+      "canonicalSha256": "e7cd495ccdfc8ecb171a0ce59d4687c428c0c825618598311b354ecfe83332dd",
+      "boundarySha256": "8c9374e14f5695ea7499bbf71ca7c09d0c82202392869ade7951f9de62f79784",
+      "documentInfoKeysDiffering": [
+        "/Title"
+      ],
+      "extractedTextLinesDiffering": 321,
+      "pageImagesIdenticalBetweenTheTwoFixtures": [
+        7,
+        11
+      ],
+      "finding": "The two fixtures are genuinely different documents: a different petitioner, county, case number, address and date of birth. Nine of eleven pages render to different images; pages 7 and 11 carry no fillable field and are the only two that match."
+    }
+  },
+  "crossFamilyPageImageIdentity": {
+    "al-felony-dwop-set vs al-pardoned-felony-set": {
+      "pageImagesCompared": 22,
+      "byteIdentical": 20,
+      "differing": [
+        "boundary/page-003.png",
+        "canonical/page-003.png"
+      ]
+    },
+    "al-felony-dwop-set vs al-felony-nonconviction-90-set": {
+      "pageImagesCompared": 22,
+      "byteIdentical": 20,
+      "differing": [
+        "boundary/page-003.png",
+        "canonical/page-003.png"
+      ]
+    },
+    "al-pardoned-felony-set vs al-felony-nonconviction-90-set": {
+      "pageImagesCompared": 22,
+      "byteIdentical": 22,
+      "differing": []
+    }
+  },
+  "contradictsARecordInThisRepo": {
+    "record": "data/rcap-grade-a/packet-factory-24h/raster-runs/RECEIPT_TRANSPORT_FROM_JOB_LOGS.json, key notAGate",
+    "itSays": "'their canonical.pdf and boundary.pdf differ only in the invisible /Title metadata string'",
+    "measuredInstead": "False of these bytes, and the bytes have not moved: al-pardoned-felony-set and al-felony-nonconviction-90-set carry the same canonical and boundary SHA-256 at b311ef066 (the commit that note was written against) and at deead9f25. Within each family the two fixtures differ in visible field content on nine of eleven pages, and this run's own page images differ on nine of eleven. The /Title-only identity is real but it lies BETWEEN THE TWO FAMILIES, not between the two fixtures: al-pardoned-felony-set and al-felony-nonconviction-90-set deliver the same 22 page images, byte for byte, canonical and boundary alike.",
+    "whatStandsUnchanged": "The rest of the note holds exactly. Both families produce clean RASTER_PASS receipts with zero problems; their 22 page images are byte-identical to each other; neither ticks any eligibility box on the CR-65 it files; the raster gate cannot see any of this and the importer would have admitted both."
+  },
+  "howThisWasMeasured": "Page-image identity from the three families' own RCAP_RECEIPT_INVENTORY payloads, extracted programmatically from the saved job-log responses; no digest was retyped. Checkbox state, /Info keys and per-page content streams from the delivered PDFs at deead9f25 with pikepdf and pdftotext, not from any build report.",
+  "grantsNothing": "A refusal here withholds static family admission only. It sets no verdict, promotes nothing, opens no route, closes no route and asserts nothing about production. RASTER_PASS on these two families remains what the central workflow recorded."
+}

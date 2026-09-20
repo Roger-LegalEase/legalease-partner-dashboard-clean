@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+await import("./verify-rcap-il-delivery-binding.mjs");
 // Focused gate on the factory_v2 resolver branch.
 //
 //   node scripts/verify-rcap-factory-v2-route.mjs
@@ -137,7 +138,17 @@ function failures(registry) {
 
   // B — the resolver branch itself.
   const resolver = strippedSource(RESOLVER_PATH);
-  const branch = resolver.slice(resolver.indexOf("factoryV2RouteFor(jurisdiction, pathwayId)"));
+  // The branch is located by the call the resolver actually makes. This anchor
+  // was written as the exact two-argument call factoryV2RouteFor(jurisdiction,
+  // pathwayId); 07804aa68 added the third argument the exact-track-selection
+  // contract requires (input.trackId), so the anchor stopped matching, indexOf
+  // returned -1, and slice(-1) made "the branch" the last character of the
+  // file — B-kind, B-sellable and B-credit were then measured against that one
+  // character rather than against the branch, which sets all three. Anchored
+  // now on the call prefix B-single and B-order already use, and a missing call
+  // is an empty branch rather than a one-character one, so B-branch can fire.
+  const branchAt = resolver.indexOf("factoryV2RouteFor(");
+  const branch = branchAt < 0 ? "" : resolver.slice(branchAt);
   fail(branch.length > 0, "B-branch: the resolver never calls the factory_v2 registry");
   fail(/routeKind:\s*``/.test(branch) || /routeKind/.test(branch), "B-kind: the factory_v2 branch sets no routeKind");
   fail(/sellable:\s*false/.test(branch), "B-sellable: the factory_v2 branch does not hard-code sellable false");
@@ -169,17 +180,23 @@ function failures(registry) {
     } else {
       // Not an error on its own — a suppression legitimately outranks the
       // factory — but it must be a suppression and never a silent sale.
-      fail(resolution.sellable === false || resolution.routeKind === "legacy_verified",
+      fail(resolution.sellable === false,
         `L-suppressed ${route.pathwayKey}: admitted by the registry, resolved as ${resolution.routeKind}, and sellable`);
     }
   }
   fail(resolvedAsFactory > 0, "L-live: no admitted route actually resolves as factory_v2 through the resolver");
 
-  // The legacy generators keep working and keep selling.
+  // The legacy generators keep their own route and keep rendering. They no
+  // longer sell: ADR-0004 retired their commercial authority, so the factory is
+  // not competing with them for a sale — there is no sale to compete for. What
+  // still matters here is that admission to the factory never quietly absorbs a
+  // legacy jurisdiction's route identity.
   for (const code of LEGACY_VERIFIED_JURISDICTIONS) {
     const resolution = resolvePacketRoute({ state: code, pathway: "" });
-    fail(resolution.routeKind === "legacy_verified",
-      `L-legacy ${code}: resolved as ${resolution.routeKind}; the live legacy generator must keep its own route`);
+    fail(resolution.routeKind === "legacy_retired",
+      `L-legacy ${code}: resolved as ${resolution.routeKind}; the retired legacy generator must keep its own route`);
+    fail(resolution.sellable === false && resolution.creditConsumable === false,
+      `L-legacy-closed ${code}: a retired legacy generator resolved with commercial authority`);
   }
 
   // An unknown route still fails closed.

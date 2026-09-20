@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | LegalEase Partner"
   },
   description:
-    "LegalEase partners with courts, nonprofits, employers, and community organizations to make record clearing reachable. Self-help document preparation — not a law firm.",
+    "LegalEase partners with courts, nonprofits, employers, and community organizations to make record clearing reachable. We provide self-help document preparation. We are not a law firm.",
   openGraph: {
     siteName: "LegalEase Partner",
     type: "website"

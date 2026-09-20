@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-governed-resolver-independent-code-review/v1",
+  "reviewedAt": "2026-09-13T14:55:07.137Z",
+  "reviewer": "/root/resolver_review",
+  "independentOfAuthor": true,
+  "verdict": "PASS",
+  "scope": "Bounded canonical-binding correction after PF20-NEW-CAPTAIN-RESOLVER-01; source resolver code only, not packet or terminal approval.",
+  "priorReview": "data/rcap-grade-a/packet-factory-24h/pf20/governed-resolver-new-captain-independent-review-20260913.json",
+  "reviewedWorker": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "reviewedWorktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+  "targetBytes": {
+    "scripts/verify-packet-build-environment.mjs": {
+      "sha256": "d7c5c7d008ba6eb9a91ee7bb017df2833817885c13178b89ece81b63d14927ec",
+      "byteLength": 119887
+    },
+    "scripts/verify-family-source-resolution.test.mjs": {
+      "sha256": "fe910672030cec6106e9a240baa7a8ce520a69b9beb57ce2e3d253de014049b0",
+      "byteLength": 25882
+    }
+  },
+  "captainWorkerExactHashMatch": true,
+  "findings": [],
+  "resolvedFinding": {
+    "id": "PF20-NEW-CAPTAIN-RESOLVER-01",
+    "disposition": "RESOLVED",
+    "evidence": "After recovered admission succeeds and unresolvable is empty, matching preloaded governed source IDs are removed and exactly one canonical recovered binding is emitted with pathRoot=repositoryRoot and byteLength. Both single and identical duplicate resolved custody now pass native family_sources_bind with one returned source."
+  },
+  "verification": {
+    "boundedDiff": {
+      "base": "57f498591609462b7ed9d6680fed5ce355147593",
+      "result": "PASS",
+      "description": "Only canonical recovered-binding replacement and one two-case positive regression added to previously reviewed code. Contradiction and admission checks remain upstream and unchanged."
+    },
+    "focused": {
+      "command": "/usr/local/share/nvm/versions/node/v22.23.2/bin/node --test --test-name-pattern=\"governed|hermetic|CA\" scripts/verify-family-source-resolution.test.mjs",
+      "execution": "existing worker",
+      "passed": 12,
+      "failed": 0
+    },
+    "positiveCases": [
+      "Canonical single resolved custody binds exact repository body",
+      "Canonical identical duplicate resolved custody emits one repositoryRoot source and binds"
+    ],
+    "negativeCases": [
+      "Contradictory duplicate custody rows refused",
+      "Recovery-only and unrelated sourceId aliases refused",
+      "Mismatched sourceObligationId refused",
+      "Preloaded exact custody cannot bypass invalid adoption",
+      "Wrong source hash, missing body and wrong-family binding refused",
+      "Stale manifest, wrong source identity and duplicate receipts refused",
+      "Unresolved non-null heldAs conflict refused",
+      "Hermetic missing indexed body refused"
+    ],
+    "familyCoverage": "All seven governed resolver families / 15 expected bodies retained by focused coverage test",
+    "syntax": "PASS both files on worker",
+    "whitespace": "PASS both-file Captain diff"
+  },
+  "limitations": [
+    "The prior full worker resolver suite had 19/21 PASS, with two corpus-dependent failures reported by author as pre-existing partial-corpus limitations. This bounded rereview reran the affected focused suite; it does not claim full-suite PASS.",
+    "No code integration, prerequisite batch, packet semantics, raster, terminal-status promotion or commercial authority is granted by this code review."
+  ],
+  "nonActions": [
+    "No code edits, builds, dispatches, commits, pushes, source acquisition or shared output generation.",
+    "Original independent refusal preserved unchanged. Only this additive review file written on Captain."
+  ],
+  "nextGate": "Captain may integrate the exact reviewed two-file correction and perform appropriate required checks; preserve existing terminal evidence and worker-only heavy execution."
+}

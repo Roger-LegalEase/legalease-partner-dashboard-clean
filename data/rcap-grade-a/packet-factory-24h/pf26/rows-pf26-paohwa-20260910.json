@@ -1,0 +1,918 @@
+{
+ "schemaVersion": "rcap-lane-rows/v1",
+ "lane": "PF26",
+ "laneKind": "packet-build",
+ "dispatch": "Three families at PRODUCT_PATH_PENDING, each carrying an owner executionReclassification that moved it out of the legal queue into route-mapping work with an exact next executable action. Ohio and Washington additionally carry a current independent verdict of BLOCKED_LEGAL_INPUT, which the reclassification override is read before; that override was treated as deliberate and as no licence to answer a legal question.",
+ "generatedAtBase": "1fce87ab68bb071edcbb86fb7c59752669a20fd1",
+ "worktree": "/home/user/pfa-worktree",
+ "branch": "pf26-paohwa-20260910",
+ "allThreeStopped": "Each for a different and exactly named reason. None is a failure to do the work; each is the refusal the assignment asks for.",
+ "governanceVerifier": {
+  "command": "npm run rcap:verify-governance-preservation",
+  "exitStatus": 0,
+  "result": "GOVERNANCE_PRESERVATION_OK, 16 of 16 checks pass, EVERY_GOVERNANCE_KEY_SURVIVED_WHERE_MEASURABLE",
+  "theCaveatThatMatters": "244 records could NOT be measured because their product-wiring.json is not checked out in this sparse worktree. That is a limit of the worktree, not a pass over those records, and the verifier says so itself: 'If that is a sparse checkout, widen it and re-run before trusting this result.'",
+  "whatItDoesAndDoesNotCoverHere": "No family in this lane moved a byte, so no governance state was at risk from this branch. The verifier was run because the assignment asks for it, not because a receipt was touched."
+ },
+ "sourcesAllResolvedByContentDigest": [
+  {
+   "sourceId": "official-form:PA-RCRIM-P-490-PETITION",
+   "sha256": "082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3",
+   "byteLength": 87204
+  },
+  {
+   "sourceId": "official-form:PA-RCRIM-P-490-ORDER",
+   "sha256": "ac671421035b12b61d3cfbfaac04bb5676f619b968db879f6992e3279110ce90",
+   "byteLength": 143399
+  },
+  {
+   "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
+   "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+   "byteLength": 87647
+  },
+  {
+   "sourceId": "official-form:PA-RCRIM-P-790-ORDER",
+   "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+   "byteLength": 151853
+  },
+  {
+   "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+   "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+   "byteLength": 235789
+  },
+  {
+   "sourceId": "official-form:CrRLJ-09.0100",
+   "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+   "byteLength": 161259
+  },
+  {
+   "sourceId": "official-form:CrRLJ-09.0200",
+   "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+   "byteLength": 160460
+  }
+ ],
+ "sourceBuildabilityRecord": "None of the three families appears in data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json, whose rows cover 73 families and not these. The measurement therefore had to be taken directly: all seven bound sources were resolved by exact SHA-256 and byte length under MASTER_LIBRARY_SOURCE_DIR and all seven resolve. No source is missing on any of the three.",
+ "aQueueRowThatUnderstatesItsFamily": "MASTER_QUEUE.json names only the two Rule 490 sources for pa_6308_underage-set, while the family binds and renders four. Both Rule 790 sources resolve by exact SHA-256 under MASTER_LIBRARY_SOURCE_DIR and are recorded in the family's own source-receipt.json. The queue row's sourceHashes list is the incomplete record, not the packet.",
+ "rows": [
+  {
+   "familyId": "pa_6308_underage-set",
+   "jurisdiction": "PA",
+   "implementationStrategy": "custom_pleading",
+   "status": "STOPPED",
+   "rasterState": null,
+   "claim": "CLAIM_OK PF26 pa_6308_underage-set (packet-build, grant set ffd90c8a4a4b9446)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill",
+   "buildScript": "scripts/build-census-v1-pa_6308_underage-set.mjs",
+   "sharedBuildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+   "artifactsCommitted": false,
+   "artifactsAreAtTheirCommittedBytes": "Every file under the family directory is exactly as committed at base 1fce87ab68bb071edcbb86fb7c59752669a20fd1. The builder changes described below ARE committed and no artifact in the tree reflects them.",
+   "whyStopped": {
+    "blocker": "REGRESSED_SHARED_CAPTION_MODULE",
+    "module": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs at commit e258e47a0, which is an ancestor of this base and is the most recent change to that file",
+    "mechanism": "The 'printed to the left in the same cell' branch does not filter a null x2. `run.x2 > rect.x + 1` is false when x2 is null, so the run is not skipped, and `rect.x - run.x2` evaluates to rect.x -- the run is silently treated as ending at zero. The 'printed directly above in the same column' branch was updated for the null and this one was not, and it runs first.",
+    "whyItStopsThisFamily": "The two PA petitions and the two PA orders capture every printed caption through this module. A rebuild of this family on the current module changes or destroys 28 census captions, and this lane will not commit a census that says the form prints something it does not.",
+    "whatTheRebuildDoesToTheCaptions": "28 fields change label or labelBasis; in every case the basis flips to printed_to_the_left_in_the_same_cell or the caption truncates. 6 gain control-character labels where the committed census carried null. 2 lose their caption entirely.",
+    "exactWidgetsNamed": [
+     {
+      "document": "PA-RCRIM-P-490-ORDER",
+      "widget": "Checkbox1",
+      "committedLabel": null,
+      "labelOnARebuild": "U+0007 U+0006 (two control characters, printed here by codepoint)",
+      "committedBasis": "no_printed_caption_within_reach"
+     },
+     {
+      "document": "PA-RCRIM-P-490-ORDER",
+      "widget": "Checkbox2",
+      "committedLabel": null,
+      "labelOnARebuild": "U+0007 U+0006 (two control characters, printed here by codepoint)",
+      "committedBasis": "no_printed_caption_within_reach"
+     },
+     {
+      "document": "PA-RCRIM-P-490-ORDER",
+      "widget": "Checkbox3",
+      "committedLabel": null,
+      "labelOnARebuild": "U+0002 (one control character)",
+      "committedBasis": "no_printed_caption_within_reach"
+     },
+     {
+      "document": "PA-RCRIM-P-790-ORDER",
+      "widget": "Checkbox1",
+      "committedLabel": null,
+      "labelOnARebuild": "U+0007 U+0006 (two control characters, printed here by codepoint)",
+      "committedBasis": "no_printed_caption_within_reach"
+     },
+     {
+      "document": "PA-RCRIM-P-790-ORDER",
+      "widget": "Checkbox2",
+      "committedLabel": null,
+      "labelOnARebuild": "U+0007 U+0006 (two control characters, printed here by codepoint)",
+      "committedBasis": "no_printed_caption_within_reach"
+     },
+     {
+      "document": "PA-RCRIM-P-790-ORDER",
+      "widget": "Checkbox3",
+      "committedLabel": null,
+      "labelOnARebuild": "U+0007 U+0006 (two control characters, printed here by codepoint)",
+      "committedBasis": "no_printed_caption_within_reach"
+     },
+     {
+      "document": "PA-RCRIM-P-490-ORDER",
+      "widget": "Alias3",
+      "committedLabel": "2.Alias(es): ________________________________________",
+      "labelOnARebuild": null,
+      "note": "caption lost entirely; basis becomes no_printed_caption_within_reach"
+     },
+     {
+      "document": "PA-RCRIM-P-790-ORDER",
+      "widget": "Alias3",
+      "committedLabel": "2.Alias(es): ________________________________________",
+      "labelOnARebuild": null,
+      "note": "caption lost entirely"
+     },
+     {
+      "document": "PA-RCRIM-P-490-ORDER",
+      "widget": "Petition/Motion",
+      "committedLabel": "AND NOW, this ____ day of ____________, 20___, after conside",
+      "labelOnARebuild": "AND NOW, this ____ day of ____________, 20",
+      "note": "THE JUDGE'S ORDER LINE. Basis flips from printed_directly_above_in_the_same_column to printed_to_the_left_in_the_same_cell, which is the unfixed branch."
+     },
+     {
+      "document": "PA-RCRIM-P-790-ORDER",
+      "widget": "Petition/Motion",
+      "committedLabel": "AND NOW, this ____ day of ____________, 20___, after conside",
+      "labelOnARebuild": "AND NOW, this ____ day of ____________, 20",
+      "note": "the same line on the Rule 790 order"
+     },
+     {
+      "document": "PA-RCRIM-P-490-PETITION",
+      "widget": "District#",
+      "committedLabel": "County of",
+      "labelOnARebuild": "_______________________",
+      "note": "the caption is replaced by the blank rule printed beside it"
+     },
+     {
+      "document": "PA-RCRIM-P-790-PETITION",
+      "widget": "District#",
+      "committedLabel": "County of ______________________",
+      "labelOnARebuild": "_______________________"
+     },
+     {
+      "document": "PA-RCRIM-P-490-PETITION",
+      "widget": "DocketSeg3",
+      "committedLabel": "Docket No: CP-  -",
+      "labelOnARebuild": "Docket No: CP-"
+     },
+     {
+      "document": "PA-RCRIM-P-790-PETITION",
+      "widget": "DocketSeg3",
+      "committedLabel": "Docket No: CP-  -",
+      "labelOnARebuild": "Docket No: CP-"
+     },
+     {
+      "document": "PA-RCRIM-P-490-ORDER and PA-RCRIM-P-790-ORDER",
+      "widget": "PetitionerName, Alias1, PetitionersAddress, PetitionersDOB, PetitionersSSN, Restitution, Docket#, OTN",
+      "committedLabel": "each carried its printed item number, for example '1.Petitioner Name', '5.Petitioner's Social Security Number', '12.If the'",
+      "labelOnARebuild": "the leading item number is dropped, for example 'Petitioner Name'",
+      "note": "14 fields across the two orders. The printed row number is exactly the disambiguator DEFECTS_NO_COUNTER_CAN_SEE says to resolve a cell by, and it is what the rebuild removes."
+     }
+    ],
+    "theDirectionTestTheCoordinatorAsksFor": {
+     "result": "CLEAN ON THIS FAMILY, and it is measured rather than assumed.",
+     "requiredBeforeFilingOnTheOfficialForms": "116 committed, 116 on a rebuild",
+     "requiredBeforeFilingFlips": 0,
+     "refusalClassChanges": 0,
+     "fieldMapLabelChanges": 0,
+     "why": "production-field-map.json carries its own effectiveLabel, declared by the builder rather than re-derived from the census on every run, so the census regression does not reach the map, the participant guide or any role classification. No court- or service-owned blank became a participant task, and participant-instructions.md rebuilds byte-identical at base.",
+     "soTheHarmIsToTheEvidenceRecordNotYetToTheParticipant": "The regressed captions land in field-census.census-v1.json, which is what downstream lanes and the completeness contract read as the record of what the form prints. That is why this family is stopped rather than shipped."
+    },
+    "reproducedTheCoordinatorsOwnTest": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs was checked out at e258e47a0^, nothing else was changed, and the unmodified builder was run. field-census.census-v1.json then reproduces BYTE-EXACT. That reproduces FIX135's Nebraska finding on a second, independent state. The module was restored to base; `git diff HEAD` on it is empty in this branch.",
+    "aSecondAndSeparateNonReproducibility": {
+     "what": "Rolling the caption module back does NOT make the four official-form fixtures reproduce. With the module at e258e47a0^ and no other edit, rule-490-petition-canonical still produces c89f8995568592f774195f12419f0b24577ee0f4b20fc7d083ce29d6d433e93b against the committed 1048b6276acfea471f1aee7839c4a638124c5ac10627c1e335ef7cecbf2074e0 -- the same digest it produces with the module in place. preparedSourceSha256 changes for all four documents either way.",
+     "diagnosis": "Staleness, not non-determinism. The committed fixtures were written by 4ffc53224 on 2026-09-04; scripts/rcap-official-forms/rcap-official-form-finalize.mjs and rcap-active-content.mjs have changed at least three times since (6acf12a77 FIX85, cfd9b4a96, b191fbb60 today) and the family was never regenerated. The change is upstream of every write decision: no write, refusal, selection or held-but-not-printed row differs.",
+     "consequence": "The four committed PA fixture digests do not describe what the current shared finalizer produces. This family holds acceptanceReceipt null so nothing is laundered, but the same staleness on a family that holds a receipt would be."
+    }
+   },
+   "ownerDirectedAction": "Bind court-status facts to the proper filing vehicle, refuse automatic selection when status is not established, and then build the selected artifact.",
+   "howFarTheOwnerActionGot": "The binding half is verified and was already correct at base. The build half was completed and measured, and then NOT committed because of the blocker above.",
+   "whatWasBoundToWhichVehicle": {
+    "controllingFact": "matter.court_level",
+    "whereTheFactIsStatedInTheControllingRecord": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/route-vehicle-map.json -- controllingFact and acceptedValues, whose mappingAuthority is the committed legal-design generation requirement and the owner execution decision. The same binding is restated in packet-component-specification.json courtStatusMetadata.selectors, which names the required record source as the court docket or a clerk-certified disposition.",
+    "magisterial_district_judge": "vehicle rule_490 -- PA-RCRIM-P-490-PETITION as primary filing, PA-RCRIM-P-490-ORDER as proposed order",
+    "court_of_common_pleas": "vehicle rule_790 -- PA-RCRIM-P-790-PETITION and PA-RCRIM-P-790-ORDER",
+    "anythingElse": "STOP_NO_ARTIFACT. pa6308VehicleFor throws before any participant artifact is selected when matter.court_level is absent, empty, or outside those two recorded values. The refusal is in the selector, not in prose.",
+    "noInferenceRule": "Do not select from the charge label, packet directory name, or user recollection.",
+    "authoredByThisLane": false
+   },
+   "factsRefusedRatherThanMapped": [
+    "The locally accepted service method. The governed record establishes the recipient (attorney for the Commonwealth) and the timing (concurrently with filing) and establishes no method. The certificate prints the recipient and the timing, leaves the method blank, and says on its own face that the record does not establish one.",
+    "Every performed-service fact -- office and address served, date service occurred, signature and its date. Service has not occurred, so no value exists.",
+    "Any filing fee. No fee figure appears anywhere in this packet because no bound source states one.",
+    "matter.court_level itself. The build renders one fixture per vehicle as evidence and selects neither at runtime; route-vehicle-map.json records generationAllowed false and runtimeSelectable false."
+   ],
+   "localFormsFoundMissing": [],
+   "buildWorkCommittedAsCodeOnly": {
+    "one": "The composed certificate of service moved onto the declared channel the completeness contract reads. All six refused lines declared refusalClass 'unmailed_or_unperformed_service' alongside requiredBeforeFiling false -- a class outside the contract's closed vocabulary -- so classifyBlank refused all six as UNCLASSIFIED_BLANK. That was the whole of this family's unclassifiedBlanks counter (6) and the whole of its recorded rasterEnrolmentRefusal. Three performed-service facts now travel as REQUIRED_BEFORE_FILING with an identity and the printed line as the label; the signature and its date stay protected under signature_or_date_participant_completion. This is the shape FIX84 already gave the pa_490_nonconviction-set and pa_790_nonconviction-set certificates for the same two rules and the same recipient. Measured on a local build: unclassifiedBlanks 6 -> 0.",
+    "two": "The recipient caption became the siblings' 'Office and address where the copy was served:' and the separate 'Service address:' line folded into it. The old caption, 'Name and office of the attorney for the Commonwealth served:', classified as ATTORNEY_BLOCK -- a field about the petitioner's own counsel, which this is not and which is not the participant's to complete at all. The recipient is still named one line above in the certificate's own certifying sentence.",
+    "three": "preserveUnwrittenSelectionBackgrounds on the two PETITION documents, which both sibling PA families already pass on the same two sources and this family did not. Decided on the pixels per widget, not copied from a label.",
+    "four": "The family's three notes were rewritten to address the participant. They are the last thing guidedParticipantInstructions emits, appended with a single newline and no heading of their own, so on the delivered page they continued the bullet list of 'Exact facts still required before filing' -- and one of them read 'generation stops before any participant artifact is selected', this factory's vocabulary about its own generator, reaching a participant page as an item they were told to supply.",
+    "five": "The two output-byte glyph readings are emitted per artifact into reports/actual-writes.json and reports/rendered-artifacts.json, read from the produced PDF. verify-packet-completeness.mjs derives invisibleWrites and visualDefects from actualWrites.artifacts and reported both UNMEASURED for this family before; with the readings present all nine counters become measurable."
+   },
+   "countersMeasuredOnTheUncommittedBuild": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 6,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": null,
+    "protectedWrites": 0,
+    "visualDefects": null
+   },
+   "whichCountersObjectIsWhich": "`counters` describes the COMMITTED tree, which is what this family still is: unclassifiedBlanks 6, and invisibleWrites and visualDefects null because the committed reports/actual-writes.json carries neither output-byte glyph reading, so nobody measured them. `countersMeasuredOnTheUncommittedBuild` is what the repaired build produced locally and is recorded so the work is not lost; it describes bytes that are not in this branch.",
+   "countersMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs auditFamily, imported and run against the tree. --write was NOT passed, so PACKET_COMPLETENESS_MATRIX.json is untouched.",
+   "measurementsTakenOnTheUncommittedBuild": {
+    "note": "These describe bytes this lane produced and did not commit. They are recorded because they are the evidence for the two page defects found, and because a later rebuild should reproduce them once the caption module is decided.",
+    "howTheSourceWasRendered": {
+     "renderer": "poppler pdftoppm 24.02.0, invoked as `pdftoppm -r 600 -gray -aa yes <pdf> <prefix>`. Poppler draws widget annotations and applies ISO 32000-1 12.5.5; no flag suppressing annotations was passed and none exists on this tool.",
+     "threshold": "grey < 128 counts as a dark pixel, at 600 dpi, on 5100x6600 letter pages",
+     "provedNotAssumed": "Proved on the pinned PA-RCRIM-P-490-PETITION (082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3) against a control copy with every page /Annots and the catalog /AcroForm removed: page 1 renders 1,865,532 dark pixels normally and 1,862,518 with annotations removed, so 6,032 dark pixels are drawn by ANNOTATIONS ALONE and by nothing in page content, and a further 3,018 page-content dark pixels are COVERED when annotations are drawn. The same command was used for every render in this return.",
+     "controlCopyBuiltBy": "pdf-lib, page /Annots deleted and catalog /AcroForm dropped; used only as a control and never as a comparison baseline."
+    },
+    "fourDoubledFrameSelectionWidgetsFoundAndRepaired": [
+     {
+      "artifact": "rule-490-petition-canonical",
+      "rectPt": [
+       461.82,
+       270.1,
+       475.36,
+       282.16
+      ],
+      "pageArtAloneAnnotationsOff": 1694,
+      "sourceAsAViewerRendersIt": 3236,
+      "deliveredBeforeRepair": 4634,
+      "deliveredAfterRepair": 3236,
+      "addedBefore": 1398,
+      "addedAfter": 0,
+      "removedBefore": 0,
+      "removedAfter": 0
+     },
+     {
+      "artifact": "rule-490-petition-canonical",
+      "rectPt": [
+       528.05,
+       269.82,
+       540.49,
+       281.89
+      ],
+      "pageArtAloneAnnotationsOff": 1620,
+      "sourceAsAViewerRendersIt": 3092,
+      "deliveredBeforeRepair": 4712,
+      "deliveredAfterRepair": 3092,
+      "addedBefore": 1620,
+      "addedAfter": 0,
+      "removedBefore": 0,
+      "removedAfter": 0,
+      "note": "4,712 = 3,092 + 1,620 exactly. Both drawings present at once -- the Colorado shape, stated arithmetically."
+     },
+     {
+      "artifact": "rule-790-petition-boundary",
+      "rectPt": [
+       456.87,
+       259.98,
+       471.9,
+       272.78
+      ],
+      "pageArtAloneAnnotationsOff": 1975,
+      "sourceAsAViewerRendersIt": 3889,
+      "deliveredBeforeRepair": 5044,
+      "deliveredAfterRepair": 3782,
+      "addedBefore": 1262,
+      "addedAfter": 0,
+      "removedBefore": 107,
+      "removedAfter": 107
+     },
+     {
+      "artifact": "rule-790-petition-boundary",
+      "rectPt": [
+       527.11,
+       259.7,
+       541.4,
+       272.5
+      ],
+      "pageArtAloneAnnotationsOff": 2211,
+      "sourceAsAViewerRendersIt": 3576,
+      "deliveredBeforeRepair": 5175,
+      "deliveredAfterRepair": 3576,
+      "addedBefore": 1599,
+      "addedAfter": 0,
+      "removedBefore": 0,
+      "removedAfter": 0
+     }
+    ],
+    "whatTheDefectWas": "Each of those four widgets ships /MK << /BC [0] /BG [1] >> and an /AP /N /Off of `1 g / 0 0 <w> <h> re / f / 0.5 0.5 <w-1> <h-1> re / s` -- an opaque white fill the size of its own BBox, then a thin stroked square. The PA page content prints a heavy box at each rectangle, the /AP covers it and strokes a cleaner one in its place, and with the fill stripped the participant was handed BOTH drawings superimposed at all four controls.",
+    "theTenLeftAlone": "Ten further selection widgets across the four forms carry no leading opaque fill and measure pixel-identical across page-art-alone, source-as-a-viewer and delivered. Nothing was restored at any of them, which is the other half of the FIX137 rule: restore what masked printed art, leave alone what masked blank paper.",
+    "theOneRemainingRemoval": {
+     "artifact": "rule-790-petition-boundary",
+     "page": 1,
+     "removedDarkPixels": 107,
+     "geometry": "a single one-pixel-wide vertical run at x = 471.84pt, y 260.04 to 272.76pt from the foot of the page, at 600 dpi, grey < 128",
+     "whatItIs": "the outermost antialiased column of the right edge of the printed check box at /Rect [456.869 259.976 471.900 272.780]. The printed border renders 13 pixels wide in the source and 12 in the delivered page. No word, rule or caption of the court's text is affected.",
+     "whatItIsNot": "not the stripped-background defect: it survives with preserveUnwrittenSelectionBackgrounds passed. It is a sub-pixel difference between poppler's 12.5.5 fit of the annotation and the flattener's 1:1 stamp of the same appearance.",
+     "notExplained": "This lane reported it rather than chasing it below the pixel."
+    },
+    "wholePageDirectional": [
+     {
+      "artifact": "rule-490-petition-canonical",
+      "page": 1,
+      "added": 98064,
+      "removed": 0,
+      "sourceDark": 1865532,
+      "deliveredDark": 1963596
+     },
+     {
+      "artifact": "rule-490-order-canonical",
+      "page": 1,
+      "added": 71980,
+      "removed": 0,
+      "sourceDark": 1058559,
+      "deliveredDark": 1130539,
+      "negativeControl": true
+     },
+     {
+      "artifact": "rule-490-order-canonical",
+      "page": 2,
+      "added": 61754,
+      "removed": 0,
+      "sourceDark": 1141248,
+      "deliveredDark": 1203002,
+      "negativeControl": true
+     },
+     {
+      "artifact": "rule-790-petition-boundary",
+      "page": 1,
+      "added": 61065,
+      "removed": 107,
+      "sourceDark": 1876297,
+      "deliveredDark": 1937255
+     },
+     {
+      "artifact": "rule-790-order-boundary",
+      "page": 1,
+      "added": 28430,
+      "removed": 0,
+      "sourceDark": 1248492,
+      "deliveredDark": 1276922,
+      "negativeControl": true
+     },
+     {
+      "artifact": "rule-790-order-boundary",
+      "page": 2,
+      "added": 113888,
+      "removed": 0,
+      "sourceDark": 1181188,
+      "deliveredDark": 1295076,
+      "negativeControl": true
+     }
+    ],
+    "negativeControlExplained": "Both proposed orders. Neither carries a selection widget with an authored background fill, and all four of their pages are byte-identical before and after the selection-background change: digests 2339fbe6c7e9ee2d7a255ad5976083af54d86362b331d32fb76ed2dc265954ea and b61ec40aa8d9d9a1a4caadc659b576068b585caf529f95b114b414f92a707c7c either side.",
+    "outputByteGlyphReadingsFromTheProducedPDFs": [
+     {
+      "artifact": "rule-490-petition-canonical",
+      "flattenedWidgetAppearancesReadFromOutputBytes": 82,
+      "addedGlyphsReadFromOutputBytes": 162,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "appearancesNotPlacedAtTheirOwnSourceWidget": 0
+     },
+     {
+      "artifact": "rule-490-order-canonical",
+      "flattenedWidgetAppearancesReadFromOutputBytes": 32,
+      "addedGlyphsReadFromOutputBytes": 154,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "appearancesNotPlacedAtTheirOwnSourceWidget": 1
+     },
+     {
+      "artifact": "rule-790-petition-boundary",
+      "flattenedWidgetAppearancesReadFromOutputBytes": 82,
+      "addedGlyphsReadFromOutputBytes": 110,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "appearancesNotPlacedAtTheirOwnSourceWidget": 1
+     },
+     {
+      "artifact": "rule-790-order-boundary",
+      "flattenedWidgetAppearancesReadFromOutputBytes": 29,
+      "addedGlyphsReadFromOutputBytes": 211,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "appearancesNotPlacedAtTheirOwnSourceWidget": 1
+     },
+     {
+      "artifact": "certificate-of-service-canonical",
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "appearancesNotPlacedAtTheirOwnSourceWidget": null
+     },
+     {
+      "artifact": "certificate-of-service-boundary",
+      "flattenedWidgetAppearancesReadFromOutputBytes": 0,
+      "addedGlyphsReadFromOutputBytes": 0,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": null,
+      "appearancesNotPlacedAtTheirOwnSourceWidget": null
+     }
+    ],
+    "readingModuleAndTheOvercountCaveat": "scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, imported and not modified. It matches only /FlatWidget-N and /ExactFactOverlay-N, so it is NOT exposed to the FLATTENED_WIDGET_OVERCOUNT trap in pdf-flattened-widgets.mjs where any XObject drawn as `q <cm> /<name> Do` -- a scanned page image included -- counts as an appearance this build flattened. The filtering was done at this call site and is stated here because it was.",
+    "theThreeAppearancesNotAtTheirOwnSourceWidget": "Read and explained rather than left as a number. On both proposed orders it is the court's own CourtSignature widget, whose flattened appearance carries a default BBox [0,0,100,100] instead of the widget's roughly 200 x 28pt /Rect, so a 100pt square is stamped at the judge's signature block. It draws no glyph and, measured at 600 dpi, removes nothing -- removed is 0 on all four order pages -- but it is the same shape as the Alabama CR-65 finding, where an appearance that painted nothing began painting once a family wrote near it. On the 790 petition it is the source's OWN defect: the (Defendant) widget ships /AP /N BBox [0 0 161.479 10.2] against a /Rect 148.489pt wide, so the appearance is 13pt wider than the box the form declares."
+   },
+   "instructionsReadAgainstTheDeliveredPages": "Both directions, on the uncommitted build. The guide's 'Complete service certificates only after service actually occurs' agrees with the certificate's printed 'DO NOT SIGN OR DATE THIS CERTIFICATE UNTIL SERVICE HAS ACTUALLY OCCURRED.' The three certificate blanks the guide names are named by the exact caption printed beside each. No page is described as signed, completed or executed when it prints otherwise.",
+   "internalVocabularyOnFiledPages": "pdftotext over all six delivered PDFs returns no route key, no component id, no census-v1 path, no FlatWidget name and no build vocabulary. The only brand string is 'LegalEase' in the certificate's sentence disclaiming who performed service, which is the wording both approved sibling certificates already carry.",
+   "governancePreservation": "acceptanceReceipt is null on this family and no byte moved in the committed tree, so there was nothing to carry forward and nothing to withdraw.",
+   "sharedModuleChanges": "none. completeness-contract.mjs, rcap-active-content.mjs, rcap-official-form-finalize.mjs, rcap-output-glyph-reading.mjs and rcap-pdf-anchor-capture.mjs were read and are byte-identical to base in this branch. rcap-pdf-anchor-capture.mjs was checked out at e258e47a0^ for one measurement and restored; `git diff HEAD` on it is empty.",
+   "sharedBuildHostChanges": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs hosts fourteen families. Every edit is family-scoped: PA_6308_SERVICE_CERTIFICATE and PA_6308_CERTIFICATE_LINES (referenced only by this family), FAMILY['pa_6308_underage-set'].notes and its two cloneDoc calls, and one helper gated by OUTPUT_GLYPH_READING_FAMILIES, a set containing this family alone. No sibling can produce different bytes under any of them.",
+   "whyTheSiblingsWereNotRebuilt": "Scope was established by construction rather than by rebuilding, deliberately. Rebuilding a sibling in this container would commit the regressed captions this family is stopped for, would commit the separate finalizer staleness described above, and -- because neither shared build host calls carryForwardGovernance -- would erase any acceptance receipt that sibling holds. The thirteen siblings were left untouched and unbuilt.",
+   "packetsSelfVerified": 0,
+   "verdictSet": "none",
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralArtifactsEdited": "none"
+  },
+  {
+   "familyId": "rcap-oh-custom-pleading-clean-tracks",
+   "jurisdiction": "OH",
+   "implementationStrategy": "custom_pleading",
+   "status": "STOPPED",
+   "rasterState": null,
+   "claim": "CLAIM_OK PF26 rcap-oh-custom-pleading-clean-tracks (packet-build, grant set ffd90c8a4a4b9446)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading",
+   "buildScript": "scripts/build-census-v1-rcap-oh-custom-pleading-clean-tracks.mjs",
+   "sharedBuildHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+   "artifactsCommitted": false,
+   "notRebuilt": "No byte of this family was touched. It holds a live acceptance receipt -- RASTER_PASS, workflow run 33850403312, job 100953975759, artifact 9928647531 -- bound to boundToCanonicalSha256 fbf1c284b7bf9e76d782279de376e0a5eef8cbe619887033f27fe628ff1065cb, which was verified against the bytes with sha256sum and matches tracks/oh_2953_32_sealing/rendered/canonical/canonical.pdf exactly. Its shared build host does not call carryForwardGovernance, so a rebuild would have erased that receipt rather than withdrawing it.",
+   "ownerDirectedAction": "Bind statewide composed routes versus local-court application routes, split delivery types where required, and route exact missing local forms or instructions to source work.",
+   "whyStopped": {
+    "blocker": "NO_LOCAL_APPLICATION_FORM_IN_CUSTODY, AND THE FILING COURT IS NOT ESTABLISHED",
+    "theBindingHalfIsAnswerable": "The statewide half is settled by the record and the packet already states it. The compiled Ohio profile src/lib/rcap-engine/compiled/profiles/OH-ohio.json carries the filing rule per statutory section and the packet's own participant-instructions.md states each one rather than delegating it: R.C. 2953.32 -- the sentencing court for an Ohio conviction, or a court of common pleas for an out-of-state or federal conviction; R.C. 2953.33 -- the court where the case was pending, dismissed, resulted in not guilty, or where the grand jury no-billed; R.C. 2953.35 -- the sentencing court.",
+    "theLocalHalfIsNot": "There is no statewide Ohio application form for any of these sections and the packet's own build-findings.json says so in as many words: 'No statewide mandatory primary application was identified; local-form coverage is an explicit release blocker.' The pleading configuration says the same about the verification: verificationStatute.citation is null with the note 'No statewide verification language is asserted; use the local court form.'",
+    "whatIsMissing": "the current application form and local filing instructions of the specific Ohio court of common pleas or municipal court that handled the case",
+    "whyItCannotBeReducedToOneIdentifier": "It is per-court by design. Each Ohio common pleas and municipal court publishes its own application to seal or expunge, and the controlling record names no court for this route -- the routeKey is obligation:track-only:OH:oh_2953_32_sealing, which binds a statutory track and not a venue. Naming a single form identifier here would be inventing one.",
+    "theExactUnestablishedFact": "the identity of the sentencing or handling court, which is what R.C. 2953.32(B), 2953.33 and 2953.35 each make the filing venue, and which the composed caption depends on",
+    "andThereforeAlsoTheCaption": "All four delivered pleadings print the caption 'IN THE OHIO COURT THAT HANDLED THE CASE - LOCAL CAPTION MUST BE CONFIRMED' as the court's own name, and each prints six bracketed operator directives inside its numbered allegations: [CHARGE MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION], [ARRESTING AGENCY MUST BE CONFIRMED], [ARREST DATE TO BE CONFIRMED], [DISPOSITION MUST BE CONFIRMED FROM THE CERTIFIED DISPOSITION], [DISPOSITION DATE TO BE CONFIRMED] and [STATUTORY ELIGIBILITY BASIS MUST BE CONFIRMED AGAINST THE CITED STATUTE AND THE CERTIFIED RECORD]. Each is disclosed to the participant by name in participant-instructions.md, so the packet does not contradict itself; but a placeholder is not a caption, and this lane will not compose a substitute local form to remove it.",
+    "whatThisLaneRefusedToDo": "compose an Ohio application form. The assignment says to name a missing local form exactly and route it to source work rather than composing a substitute, and that is what this row does."
+   },
+   "theDeliveryTypeSplitTheOwnerAsksFor": {
+    "whatIsWrongToday": "One family, one declared deliveryType (custom_pleading), one declared routeKey (obligation:track-only:OH:oh_2953_32_sealing) and one declared packetComponent (component:oh_2953_32_sealing-bci-transmission-5) -- delivering FOUR composed tracks across THREE statutory sections plus an unchanged official BCI companion. Three of the four tracks are delivered under no declared route at all.",
+    "theFourTracksDelivered": [
+     "oh_2953_32_sealing",
+     "oh_2953_32_expungement",
+     "oh_2953_33_nonconviction",
+     "oh_2953_35_firearm"
+    ],
+    "theSplitAsThisLaneReadsIt": "On every one of these routes the PRIMARY FILING is a local-court official application (official_pdf_fill in this factory's vocabulary), which custody does not hold; the composed statutory drafts are supporting pleadings (custom_pleading); and the BCI request is a post-order transmission companion with its own delivery moment, after a signed order exists. A single family serving all three at one deliveryType is the defect the owner names.",
+    "whyThisLaneDidNotPerformTheSplit": "The split needs new route keys and new family rows, which live in MASTER_QUEUE.json and the route-obligation census -- central artifacts this lane must not edit -- and the official_pdf_fill limb of it cannot be built at all while the local application is missing. Performing half of it would leave a family that still silently serves both.",
+    "instrumentKindsIsEmpty": "binding.instrumentKinds is [] on this family's product-wiring while four distinct instruments are delivered."
+   },
+   "whatIsCorrectAndShouldNotBeDisturbed": [
+    "The BCI companion is byte-identical to the pinned source: 9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb, matching STATES/OH/04_SUPPORTING_PROCESS/OH__SUPPORT__OH-BCI-SEALING-EXPUNGEMENT-REQUEST__re-sealing-and-or-expungements__REV-UNKNOWN__EN.pdf under MASTER_LIBRARY_SOURCE_DIR. It is not prefilled and the guide says it is not sent before a signed order exists.",
+    "The fee is handled as the record allows and no further: the guide states the $50 application fee unless indigent per R.C. 2953.32 and 2953.35, no fee for dismissal, not-guilty and no-bill sealing under 2953.33, then says the additional local court fee is permitted up to $50, is not fixed by statute, and must be asked of the clerk of the filing court. No local fee figure is stated.",
+    "Service is answered rather than delegated: the guide states that the participant serves nobody, that the court notifies the prosecutor, and gives the statutory notice and hearing windows per section. It also tells the participant not to complete a certificate of service, and no certificate is generated.",
+    "Every bracketed placeholder printed on a pleading is disclosed to the participant by name, with the reason the packet holds no value for it. The guide and the pages agree in both directions."
+   ],
+   "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": null,
+    "protectedWrites": 0,
+    "visualDefects": null
+   },
+   "countersMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs auditFamily against the committed tree, --write not passed.",
+   "whyTwoCountersAreNullHereAndZeroInTheCommittedQueue": "THIS CONTRADICTS A COMMITTED RECORD AND IT IS THE SHARPEST THING IN THIS ROW. auditFamily returns PASS_COMPLETE with nine zeros for this family, and MASTER_QUEUE.json records allNineCountersZero true. It reaches that by a carve-out: invisibleWrites and visualDefects are nulled only when at least one artifact record exists but carries neither output-byte glyph reading, and this family has NO reports/actual-writes.json at all, so artifactRecords.length === 0 and the nulling is skipped entirely. The carve-out's own stated justification is that 'a zero-source composition binds no document bytes by design'. This family is not that: it binds NINE delivered PDFs by SHA-256 in reports/rendered-artifacts.json, one of which carries a live RASTER_PASS acceptance receipt bound to its exact digest. So two counters are published as measured zeros for a family where nobody measured them. This lane publishes them as null, which is what they are, and did not change the shared verifier.",
+   "artifacts": [
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/canonical/canonical.pdf",
+     "sha256": "fbf1c284b7bf9e76d782279de376e0a5eef8cbe619887033f27fe628ff1065cb",
+     "byteLength": 5610,
+     "pageCount": 2,
+     "note": "the digest the acceptance receipt binds"
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_sealing/rendered/boundary/boundary.pdf",
+     "sha256": "43acb3e1195fb1887e7fce984bb60c86dfdd1ba2e5ea563b7ad618435fee1e2e",
+     "byteLength": 6557,
+     "pageCount": 2
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_expungement/rendered/canonical/canonical.pdf",
+     "sha256": "c07ffa2bc32bee08f8bb81280042c5477560e770dcf8efdea1ad52b0c19d45b9",
+     "byteLength": 5664,
+     "pageCount": 2
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_32_expungement/rendered/boundary/boundary.pdf",
+     "sha256": "52fcfb3e632223b8ffc238175f232fef31e0bd3d740b4024aba39f659688adf1",
+     "byteLength": 6574,
+     "pageCount": 2
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_33_nonconviction/rendered/canonical/canonical.pdf",
+     "sha256": "706adfcd0ba6a26778374545a4d9c2b1e5d1138cb1a15a4acf2b293716e11406",
+     "byteLength": 5728,
+     "pageCount": 2
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_33_nonconviction/rendered/boundary/boundary.pdf",
+     "sha256": "4e8955cd1461d3e091230d5d9831ae4c952b95a214626bd425bc509effd79028",
+     "byteLength": 6628,
+     "pageCount": 2
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_35_firearm/rendered/canonical/canonical.pdf",
+     "sha256": "375eb1262bfce63677f756b1ab22d90b2f9c459e2fcc98aaaeacf899d8970214",
+     "byteLength": 6091,
+     "pageCount": 2
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/tracks/oh_2953_35_firearm/rendered/boundary/boundary.pdf",
+     "sha256": "51aaec6a1f3900aa40ea9b2d6bf3c955d0a819c9ffc9ddb12691d790f4c8351c",
+     "byteLength": 6988,
+     "pageCount": 2
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/companion/OH-BCI-SEALING-EXPUNGEMENT-REQUEST--official-source.pdf",
+     "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+     "byteLength": 235789,
+     "pageCount": 1,
+     "note": "unchanged official source, held as a post-order companion"
+    }
+   ],
+   "digestsMeasuredBy": "sha256sum on the committed files",
+   "pageCountMeasuredBy": "pdfinfo",
+   "directionalRasterAgainstThePinnedSource": null,
+   "whyNoDirectionalRead": "Eight of the nine artifacts are composed pleadings that bind no pinned source binary, so there is no source render to difference against. The ninth is the BCI companion, which is byte-identical to its pinned source, so a difference on it is zero by identity rather than by measurement and is not published as a pixel reading.",
+   "outputByteGlyphReadings": null,
+   "whyNoGlyphReadings": "This family's reports/rendered-artifacts.json carries neither reading -- it is one of the twenty-five directories that emit neither. Emitting them requires rebuilding, and rebuilding would move bytes on a family holding a live acceptance receipt through a host that does not carry governance forward. They are left unmeasured and reported as null rather than fabricated as zero.",
+   "localFormsFoundMissing": [
+    {
+     "identifier": "the current application to seal or expunge a record of the specific Ohio court of common pleas or municipal court that handled the case",
+     "statutorySections": [
+      "Ohio Rev. Code Sec. 2953.32",
+      "Ohio Rev. Code Sec. 2953.33",
+      "Ohio Rev. Code Sec. 2953.35"
+     ],
+     "whyItIsNotOneIdentifier": "Ohio publishes no statewide mandatory application for these sections; each court publishes its own, and the controlling record binds a statutory track rather than a venue.",
+     "routeTo": "source work"
+    },
+    {
+     "identifier": "that same court's current local filing instructions and its required caption",
+     "whyItMatters": "the composed pleadings print a caption placeholder in the court's own name because no held source names a statewide Ohio caption",
+     "routeTo": "source work"
+    },
+    {
+     "identifier": "the verification or declaration language that court requires on the application",
+     "whyItMatters": "pleading-config.json records verificationStatute.citation as null with the note that no statewide verification language is asserted, and the delivered pleading prints a 'VI. VERIFICATION' heading over an unsworn signature rule",
+     "routeTo": "source work"
+    }
+   ],
+   "factsRefusedRatherThanMapped": [
+    "The filing court's identity and caption. Not established by any held source; the caption prints a placeholder rather than a guessed court.",
+    "The charge, arresting agency, arrest date, disposition and disposition date. The packet holds none of them for this matter and prints a named placeholder for each rather than a value.",
+    "The statutory eligibility basis. The packet does not decide eligibility and does not put its own non-certification sentence into a pleading's eligibility allegation.",
+    "The local court fee. The statute fixes $50 unless indigent and permits a further local fee up to $50 that it does not fix; the packet states the statutory figure the record gives and sends the participant to the clerk for the local one."
+   ],
+   "governancePreservation": "No byte moved, so carryForwardGovernance had nothing to carry and the acceptance receipt is untouched and still describes the bytes in the tree.",
+   "packetsSelfVerified": 0,
+   "verdictSet": "none",
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralArtifactsEdited": "none"
+  },
+  {
+   "familyId": "wa_vac_substance_use_disorder-set",
+   "jurisdiction": "WA",
+   "implementationStrategy": "official_pdf_fill",
+   "status": "STOPPED",
+   "rasterState": null,
+   "claim": "CLAIM_OK PF26 wa_vac_substance_use_disorder-set (packet-build, grant set ffd90c8a4a4b9446)",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+   "buildScript": "scripts/build-census-v1-wa_vac_substance_use_disorder-set.mjs",
+   "sharedBuildHost": "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+   "artifactsCommitted": false,
+   "notRebuilt": "No byte of this family was touched. It holds a live acceptance receipt -- RASTER_PASS, workflow run 33850403312, job 100953975778, artifact 9928668736 -- bound to boundToCanonicalSha256 846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad, verified against the bytes with sha256sum and matching fixtures/crrlj-09-0100-canonical-filled.pdf exactly. Its shared build host does not call carryForwardGovernance either.",
+   "ownerDirectedAction": "Map RCW 9.96.060(6) to the correct vehicle without selecting the unrelated DUI option, keep generation fail-closed, and treat the local fee as a clerk lookup.",
+   "whyStopped": {
+    "blocker": "THE VEHICLE CARRIES NO ELECTION FOR THIS GROUND, AND WHICH ELECTION STATES IT IS A LEGAL QUESTION THE CONTROLLING RECORD DOES NOT SETTLE",
+    "theExactQuestion": "For the RCW 9.96.060(6) substance-use-disorder vacate pathway, which election on CrRLJ 09.0100 (rev. 11/2024), if any, states that ground -- section 7 as an offence not otherwise specified, or does this route require a different or modified pleading?",
+    "whereThatQuestionIsAlreadyRecorded": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/route-options-block.json, field theExactQuestion, recorded by FIX10 on 2026-09-02 under assignment FABLE-R21. This lane re-read the form and reproduces the finding rather than restating it.",
+    "whatWasReadFirstHandByThisLane": "CrRLJ 09.0100 rev. 11/2024, sha256 1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b, resolved by digest under MASTER_LIBRARY_SOURCE_DIR. Its four printed elections are section 3 Conviction as Victim (page 1), section 5 Prior Offense keyed to RCW 46.61.5055 (page 2), section 6 Domestic Violence (page 4) and section 7 Offenses not otherwise specified above (page 4). No printed section names RCW 9.96.060(6).",
+    "theNamedWrongAnswer": "The form's only printed occurrence of the words 'substance use disorder' is on PAGE 4, inside the definition list of what counts as a 'prior offense' for section 5: 'An equivalent out-of-state deferred prosecution for DUI or Physical Control, including a substance use disorder treatment program. (RCW 46.61.5055(14)(a)(xvi))'. It matches this route's words while answering a different statutory section's question. Reading it as this route's ground would put a DUI prior-offence declaration under a participant asking for RCW 9.96.060(6) relief, on a declaration signed under penalty of perjury.",
+    "corroboration": "src/lib/rcap-engine/compiled/profiles/WA-washington.json contains zero occurrences of '9.96.060(6)' and zero of 'substance use disorder'; no pathway or rule in it implements this ground. This lane confirmed the route-options block's statement rather than taking it on trust.",
+    "whyThisLaneDidNotAnswerIt": "Whether a statutory ground falls within a form's residual election is a legal characterisation, not a mapping. The assignment is explicit that a question the controlling record does not settle stops the family with the question named, and that a vehicle or ground the record does not establish is never selected."
+   },
+   "theDuiOptionWasNotSelectedMeasured": {
+    "howItWasProved": "Not from the field map and not from the build report -- from the delivered pixels against the pinned source.",
+    "dpi": 600,
+    "threshold": "grey < 128 is dark",
+    "sourceRender": "poppler pdftoppm with annotations drawn; see howTheSourceWasRendered",
+    "pagesTwoThreeAndFourArePixelIdentical": "On BOTH fixtures, pages 2, 3 and 4 of CrRLJ 09.0100 read added 0 and removed 0 against the pinned source. Those three pages carry section 5's election, the entire prior-offence definition list containing the only printed occurrence of 'substance use disorder', section 6's election and section 7's election. Not one dark pixel was added or removed on any of them.",
+    "sectionThreeMeasuredSeparately": "Section 3's election is on page 1, which does carry writes, so its region was measured on its own: x 81 to 127pt, y 131.4 to 147.2pt from the foot of the page. Page art alone with annotations off 1,704 dark pixels; source as a viewer renders it 1,704; delivered 1,704; added 0; removed 0, on both the canonical and the boundary fixture.",
+    "soAllFourPrintedElectionsAreUnmarkedInTheDeliveredBytes": true,
+    "whyThatIsTheRightRefusalAndNotAMissingMark": "There is no election on this form for this route's ground, so requiredOptionsMissing = 0 is consistent with the block rather than in tension with it: there is no election to be missing, which is the whole problem."
+   },
+   "generationIsFailClosed": "route-options-block.json records generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0; product-wiring records paymentEligible false and sponsorshipEligible false; the guide's own header states EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY. Nothing in this return changes any of them.",
+   "theLocalFeeIsTreatedAsAClerkLookup": {
+    "onThePages": "No fee figure and no waiver rule appears on any of the four delivered PDFs. Verified with pdftotext over all four: zero matches for a currency amount, for 'filing fee' and for 'waiver'.",
+    "inTheGuide": "participant-instructions.md, section 'Filing fee and fee waiver': neither CrRLJ 09.0100 nor the official instruction sheet CrRLJ 09.0300 states a filing fee for a petition to vacate, the packet does not invent one, and the participant is sent to the clerk of the sentencing court with three specific questions -- whether a fee applies in that court, the amount if one does, and whether a waiver is available and how to apply. It closes by saying the clerk is the authority for all three and not to rely on a fee amount from any other source, including the packet.",
+    "assessment": "This limb of the owner action is already satisfied by the committed packet and this lane changed nothing about it."
+   },
+   "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": null,
+    "protectedWrites": 0,
+    "visualDefects": null
+   },
+   "countersMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs auditFamily against the committed tree, --write not passed.",
+   "whyInvisibleWritesAndVisualDefectsAreNull": "The committed reports carry neither output-byte glyph reading for this family, so the contract cannot measure either counter. MASTER_QUEUE.json publishes both as 0 with allNineCountersZero true; that is an unmeasured zero and this row does not repeat it.",
+   "andWhyTheGlyphReadingCannotSimplyBeAddedHere": "MEASURED, NOT ASSUMED. scripts/rcap-official-forms/rcap-output-glyph-reading.mjs counts only XObjects named /FlatWidget-N or /ExactFactOverlay-N. Run against all four delivered WA fixtures it returns flattenedWidgetAppearancesReadFromOutputBytes 0 and addedGlyphsReadFromOutputBytes 0 -- while the delivered page 5 plainly prints 'Jordan Avery Reyes' and '118 Maple Street, Springfield, WA 98101'. The WA host writes participant values straight into the page content stream: the delivered bytes contain no `Do` invocation at all and no /AcroForm. So that module's zero on this family would be a FALSE ZERO of exactly the shape DEFECTS_NO_COUNTER_CAN_SEE records, and the honest value by that method is null. Whoever adds these readings to the WA host needs a different measurement, not this module.",
+   "artifacts": [
+    {
+     "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+     "fixture": "canonical",
+     "sha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+     "byteLength": 158439,
+     "pageCount": 5,
+     "sourceSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+     "sourcePageCount": 5
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+     "fixture": "boundary",
+     "sha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+     "byteLength": 158615,
+     "pageCount": 5,
+     "sourceSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+     "sourcePageCount": 5
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+     "fixture": "canonical",
+     "sha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+     "byteLength": 157661,
+     "pageCount": 6,
+     "sourceSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+     "sourcePageCount": 6
+    },
+    {
+     "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+     "fixture": "boundary",
+     "sha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+     "byteLength": 157759,
+     "pageCount": 6,
+     "sourceSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+     "sourcePageCount": 6
+    }
+   ],
+   "canonicalSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+   "boundarySha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+   "canonicalPageCount": 5,
+   "boundaryPageCount": 5,
+   "whichDocumentTheTopLevelDigestsName": "CrRLJ 09.0100, the primary filing and the document the acceptance receipt is bound to. The proposed order's digests are listed per artifact.",
+   "digestsMeasuredBy": "sha256sum on the committed files",
+   "pageCountMeasuredBy": "pdfinfo",
+   "howTheSourceWasRendered": {
+    "renderer": "poppler pdftoppm 24.02.0, invoked as `pdftoppm -r 600 -gray -aa yes <pdf> <prefix>`. Poppler draws widget annotations and applies ISO 32000-1 12.5.5; no flag suppressing annotations was passed and none exists on this tool.",
+    "threshold": "grey < 128 counts as a dark pixel, at 600 dpi, on 5100x6600 letter pages",
+    "provedNotAssumed": "Proved on the pinned PA-RCRIM-P-490-PETITION (082c515ce5a60de33798508c6dd76589f83758ac2ddd8244e934b379ce05def3) against a control copy with every page /Annots and the catalog /AcroForm removed: page 1 renders 1,865,532 dark pixels normally and 1,862,518 with annotations removed, so 6,032 dark pixels are drawn by ANNOTATIONS ALONE and by nothing in page content, and a further 3,018 page-content dark pixels are COVERED when annotations are drawn. The same command was used for every render in this return.",
+    "controlCopyBuiltBy": "pdf-lib, page /Annots deleted and catalog /AcroForm dropped; used only as a control and never as a comparison baseline."
+   },
+   "aRenderProofSpecificToThisSource": "The annotation-free control on CrRLJ 09.0100 page 1 returns 1,156,387 dark pixels with annotations and 1,156,387 without -- 0 drawn by annotations alone and 0 covered. That is NOT a blind render: the same command is independently proved to draw /AP /N ink (6,032 px on the PA source), and this source structurally has nothing to draw. Walking every page /Annots of the pinned CrRLJ 09.0100 with pdf-lib finds ZERO appearance streams: no widget on the form carries an /AP /N at all. So every zero taken from this render is a real zero.",
+   "directionalRasterAgainstThePinnedSource": {
+    "dpi": 600,
+    "threshold": "grey < 128 is dark",
+    "bothDirections": "added AND removed reported per page for every page of all four artifacts",
+    "removedIsZeroOnEveryPageOfEveryArtifact": true,
+    "perPage": [
+     {
+      "fixture": "crrlj-09-0100-canonical",
+      "page": 1,
+      "added": 136538,
+      "removed": 0,
+      "sourceDark": 1156387,
+      "deliveredDark": 1292925
+     },
+     {
+      "fixture": "crrlj-09-0100-canonical",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2136736,
+      "deliveredDark": 2136736,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0100-canonical",
+      "page": 3,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2356407,
+      "deliveredDark": 2356407,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0100-canonical",
+      "page": 4,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2504704,
+      "deliveredDark": 2504704,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0100-canonical",
+      "page": 5,
+      "added": 38271,
+      "removed": 0,
+      "sourceDark": 1056077,
+      "deliveredDark": 1094348
+     },
+     {
+      "fixture": "crrlj-09-0100-boundary",
+      "page": 1,
+      "added": 188310,
+      "removed": 0,
+      "sourceDark": 1156387,
+      "deliveredDark": 1344697
+     },
+     {
+      "fixture": "crrlj-09-0100-boundary",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2136736,
+      "deliveredDark": 2136736,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0100-boundary",
+      "page": 3,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2356407,
+      "deliveredDark": 2356407,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0100-boundary",
+      "page": 4,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2504704,
+      "deliveredDark": 2504704,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0100-boundary",
+      "page": 5,
+      "added": 73450,
+      "removed": 0,
+      "sourceDark": 1056077,
+      "deliveredDark": 1129527
+     },
+     {
+      "fixture": "crrlj-09-0200-canonical",
+      "page": 1,
+      "added": 49268,
+      "removed": 0,
+      "sourceDark": 1718051,
+      "deliveredDark": 1767319
+     },
+     {
+      "fixture": "crrlj-09-0200-canonical",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2438365,
+      "deliveredDark": 2438365,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0200-canonical",
+      "page": 3,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2402517,
+      "deliveredDark": 2402517,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0200-canonical",
+      "page": 4,
+      "added": 40452,
+      "removed": 0,
+      "sourceDark": 2525104,
+      "deliveredDark": 2565556
+     },
+     {
+      "fixture": "crrlj-09-0200-canonical",
+      "page": 5,
+      "added": 25469,
+      "removed": 0,
+      "sourceDark": 2352647,
+      "deliveredDark": 2378116
+     },
+     {
+      "fixture": "crrlj-09-0200-canonical",
+      "page": 6,
+      "added": 12305,
+      "removed": 0,
+      "sourceDark": 280219,
+      "deliveredDark": 292524
+     },
+     {
+      "fixture": "crrlj-09-0200-boundary",
+      "page": 1,
+      "added": 71628,
+      "removed": 0,
+      "sourceDark": 1718051,
+      "deliveredDark": 1789679
+     },
+     {
+      "fixture": "crrlj-09-0200-boundary",
+      "page": 2,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2438365,
+      "deliveredDark": 2438365,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0200-boundary",
+      "page": 3,
+      "added": 0,
+      "removed": 0,
+      "sourceDark": 2402517,
+      "deliveredDark": 2402517,
+      "negativeControl": true
+     },
+     {
+      "fixture": "crrlj-09-0200-boundary",
+      "page": 4,
+      "added": 40452,
+      "removed": 0,
+      "sourceDark": 2525104,
+      "deliveredDark": 2565556
+     },
+     {
+      "fixture": "crrlj-09-0200-boundary",
+      "page": 5,
+      "added": 25469,
+      "removed": 0,
+      "sourceDark": 2352647,
+      "deliveredDark": 2378116
+     },
+     {
+      "fixture": "crrlj-09-0200-boundary",
+      "page": 6,
+      "added": 21815,
+      "removed": 0,
+      "sourceDark": 280219,
+      "deliveredDark": 302034
+     }
+    ],
+    "negativeControlExplained": "Ten of the twenty-two delivered pages carry no write at all and read added 0 / removed 0 -- pixel-identical to the source render. Those are the controls, and they are the same pages that carry the elections this route must not mark.",
+    "aBoundaryFixtureThatDoesNotDiffer": "On CrRLJ 09.0200, pages 4 and 5 read the identical added counts (40,452 and 25,469) on the canonical and the boundary fixture. Those pages carry the order's findings and clerk sections and take no participant value, so the two fixtures do not diverge there. Only pages 1 and 6 diverge, which is where the caption and the distribution block sit."
+   },
+   "factsRefusedRatherThanMapped": [
+    "The election that states the RCW 9.96.060(6) ground. No printed section names that subsection and this lane will not choose one; section 7 is a candidate, not an answer.",
+    "The section 5 DUI prior-offence election. Named as a wrong answer in the owner action and refused on the pixels: pages 2, 3 and 4 are untouched.",
+    "The court filing fee and any waiver route. No held source states either for this route; the participant is sent to the clerk of the sentencing court.",
+    "County-level attachment and hearing-scheduling practice, which the family's own build-findings records as unresolved."
+   ],
+   "localFormsFoundMissing": [],
+   "governancePreservation": "No byte moved, so nothing was carried forward and nothing withdrawn; the acceptance receipt still describes the bytes in the tree.",
+   "sharedModuleChanges": "none",
+   "sharedBuildHostChanges": "none -- scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs is untouched",
+   "packetsSelfVerified": 0,
+   "verdictSet": "none",
+   "commercialRoutesOpened": 0,
+   "productionTouched": false,
+   "centralArtifactsEdited": "none"
+  }
+ ]
+}

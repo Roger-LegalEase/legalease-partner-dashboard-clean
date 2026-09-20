@@ -1,0 +1,277 @@
+{
+  "schemaVersion": "rcap-codex-cloud-repair-return/v1",
+  "worker": "CODEX-CS2-FIX15",
+  "lane": "FIX15",
+  "branch": "codex/cs2-fix15",
+  "captainCommit": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+  "startingHead": "fc95a33ac24622e70e86114eaca363d3c4b1f350",
+  "createdAt": "2026-09-03T02:16:36Z",
+  "status": "READY_FOR_INDEPENDENT_REREVIEW",
+  "passAwarded": false,
+  "visualApprovalCreated": false,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX15 rcap-ks-custom-pleading",
+    "result": "CLAIM_OK",
+    "grant": "e89a06c32b684291",
+    "released": false
+  },
+  "scope": {
+    "familyId": "rcap-ks-custom-pleading",
+    "repairedRoutes": [
+      "ks-12-4516-municipal",
+      "ks-12-4516a-municipal-arrest"
+    ],
+    "kansasJudicialCouncilIssuerPermissionRoutesTouched": 0,
+    "legalContentChanged": false,
+    "componentsChanged": false,
+    "routesChanged": false,
+    "filingInstructionsChanged": false,
+    "authorityChanged": false,
+    "productionTouched": false
+  },
+  "repair": {
+    "failedObligationsTargeted": [
+      "CLIPPING_AND_OVERLAP",
+      "KNOWN_PREFILLS"
+    ],
+    "cause": "The composed PDFs use unembedded standard Times. Wrapping used only pdf-lib's nominal Times widths, while Chromium's substituted Times glyphs rendered wider and clipped at the right MediaBox edge.",
+    "change": "The Kansas municipal renderer now wraps against the larger of the nominal Times width and the PDF standard-font 500-unit fallback width, preserving 11-point Times, 72-point margins, and all packet text. A route-artifacts-only mode rebuilds only the four municipal deliverables and refreshes only their four rows in the family rendered-artifacts record.",
+    "focusedResult": "NO_TARGETED_DEFECT_OBSERVED_PENDING_INDEPENDENT_FIFTEEN_OBLIGATION_REREVIEW"
+  },
+  "routePdfs": [
+    {
+      "route": "ks-12-4516-municipal",
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/canonical.pdf",
+      "before": {
+        "sha256": "f79d5b4e82d3ccf22c9b03aa42ad202e0796a13b4de95f3d25b38b2adf22f810",
+        "byteLength": 18262,
+        "pageCount": 6
+      },
+      "after": {
+        "sha256": "7d0c883eeb91e91e5aba6c23284d6de2ea4e409212664fb29ec5f29dfa8feba8",
+        "byteLength": 20219,
+        "pageCount": 8
+      },
+      "normalizedExtractedTextUnchanged": true,
+      "normalizedExtractedTextSha256": "0aa32403da2199461582b6d050fb317c828aea3fc8ef4302bafe8b29354cefa2"
+    },
+    {
+      "route": "ks-12-4516-municipal",
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516-municipal/boundary.pdf",
+      "before": {
+        "sha256": "7b234e970d38bdc0515122916c6f3961f1140e74f12978b6096e6aa34928600f",
+        "byteLength": 18886,
+        "pageCount": 7
+      },
+      "after": {
+        "sha256": "61642d388cbfbdcc481aa7414db7a1b457295fba81707775c86bf087be4a608f",
+        "byteLength": 20427,
+        "pageCount": 8
+      },
+      "normalizedExtractedTextUnchanged": true,
+      "normalizedExtractedTextSha256": "8d6341dff0a0339c69529ff70f2d3f62cecc63666dafe49414d0d03e31581a8d"
+    },
+    {
+      "route": "ks-12-4516a-municipal-arrest",
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/canonical.pdf",
+      "before": {
+        "sha256": "8a85bc0f2365938bd8b5e0483585b95abf2550a6cc24a4717b0d72001abd708d",
+        "byteLength": 17378,
+        "pageCount": 6
+      },
+      "after": {
+        "sha256": "3dd2547beb4c5f91777f3d418ee96ccfd9dc854cdfce19b00ffd38ff024ec275",
+        "byteLength": 18274,
+        "pageCount": 6
+      },
+      "normalizedExtractedTextUnchanged": true,
+      "normalizedExtractedTextSha256": "467b020b9a4c33c144ff3733d991b281a21ebe6f9d497f63e4772652e0656572"
+    },
+    {
+      "route": "ks-12-4516a-municipal-arrest",
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/fixtures/routes/ks-12-4516a-municipal-arrest/boundary.pdf",
+      "before": {
+        "sha256": "dd364be7194a5e23643057ba75e5d5ea84950e7cd18b2945db5483761b9f3617",
+        "byteLength": 17578,
+        "pageCount": 6
+      },
+      "after": {
+        "sha256": "dff8faa3a25fffb9dc6f4610dfffa44989f7e80b554a47eaec81fdfb7a18cdc2",
+        "byteLength": 18476,
+        "pageCount": 6
+      },
+      "normalizedExtractedTextUnchanged": true,
+      "normalizedExtractedTextSha256": "275502324eaece85d4476ed7d67c12ef6ef2002cb1fb1895f84215491105a38f"
+    }
+  ],
+  "determinism": {
+    "method": "Each clean pass deleted exactly the four named route PDFs, invoked the builder in a separate Node process with --route-artifacts-only --no-raster, and required all four regenerated SHA-256 hashes and byte lengths to match the first clean pass.",
+    "cleanBuilds": 2,
+    "byteForByteIdentical": true,
+    "familyAssemblyWritten": false,
+    "routeArtifactsWritten": 4,
+    "routeArtifactRowsRefreshed": 4
+  },
+  "knownPrefills": {
+    "allExpectedValuesReadBackFromExactPdfBytes": true,
+    "missingExpectedValues": 0,
+    "boundaryMailingAddress": "1188 Upper Tallahatchie Crossing Road, Apartment 14B, Fort Saint Clairsville 39501-2214",
+    "ks-12-4516-municipal": {
+      "page": 4,
+      "extractableInFull": true,
+      "directlyInspected": true,
+      "visiblyClipped": false
+    },
+    "ks-12-4516a-municipal-arrest": {
+      "page": 3,
+      "extractableInFull": true,
+      "directlyInspected": true,
+      "visiblyClipped": false
+    }
+  },
+  "rasterMeasurement": {
+    "engine": "Chromium PDF viewer",
+    "browserVersion": "148.0.7778.96",
+    "scalePixelsPerPoint": 2.5,
+    "dpi": 180,
+    "onlyChangedPdfsRastered": true,
+    "documentsRastered": 4,
+    "pagesRasteredAndMeasured": 28,
+    "directInspectionCompletedForEveryPage": true,
+    "pagesWithRightEdgeClipping": 0,
+    "pagesWithTextOutsideMediaBox": 0,
+    "pagesWithOverlap": 0,
+    "pagesWithCropping": 0,
+    "unreadablePages": 0,
+    "minimumRasterRightMarginPx": 215,
+    "minimumVectorRightMarginPt": 72.5,
+    "temporaryRasterFilesCommitted": false,
+    "documents": [
+      {
+        "route": "ks-12-4516-municipal",
+        "fixture": "canonical",
+        "uniformFindings": {
+          "edgeInkPixels": 0,
+          "inkPixelsWithinFivePxOfPageEdge": 0,
+          "textLinesOutsideMediaBox": 0,
+          "overlapPairs": 0,
+          "verticalCropRiskLines": 0,
+          "paperSizeDriftPx": 0,
+          "readability": "READABLE_ON_DIRECT_INSPECTION"
+        },
+        "pages": [
+          { "page": 1, "rasterSha256": "66873da3c6bfeb5ca01c7e627148195a9c9a961bfa694c3a8dccb9bd04bfcce9", "rasterByteLength": 613926, "rightInkMarginPx": 215, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 2, "rasterSha256": "b146c9c25b42e3cafc070dfe31d9544ff60e9dab600507e2530169500cd7d12f", "rasterByteLength": 382364, "rightInkMarginPx": 379, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 3, "rasterSha256": "566e5fffd9ee696db1d024a47bcfd6df364880da9f75242ba66c685edfa8f866", "rasterByteLength": 468590, "rightInkMarginPx": 380, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 4, "rasterSha256": "95227f1b8d706b8dffc02874860eab46df07bb952a8f99695f8b4db110bf469a", "rasterByteLength": 116037, "rightInkMarginPx": 485, "minimumVectorRightMarginPt": 94.5 },
+          { "page": 5, "rasterSha256": "ad287edd475dc2d578175678bd61f21bd87008b8d291599959eadcd35f22980f", "rasterByteLength": 299807, "rightInkMarginPx": 282, "minimumVectorRightMarginPt": 78 },
+          { "page": 6, "rasterSha256": "ccb2524987ccf4cb00a8c4d77cb83db47c04259e3cdeddd97b6c7f093c010cbf", "rasterByteLength": 696053, "rightInkMarginPx": 227, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 7, "rasterSha256": "c94eba4fb6e11ae240548adc80478110abfea62e0d20a0d845c9989ec7a34098", "rasterByteLength": 654606, "rightInkMarginPx": 373, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 8, "rasterSha256": "438158d0099b29e4790a4e2ea098175b0f68628106bde1f77dff5fbe291ee3e3", "rasterByteLength": 36628, "rightInkMarginPx": 543, "minimumVectorRightMarginPt": 160.5 }
+        ]
+      },
+      {
+        "route": "ks-12-4516-municipal",
+        "fixture": "boundary",
+        "uniformFindings": {
+          "edgeInkPixels": 0,
+          "inkPixelsWithinFivePxOfPageEdge": 0,
+          "textLinesOutsideMediaBox": 0,
+          "overlapPairs": 0,
+          "verticalCropRiskLines": 0,
+          "paperSizeDriftPx": 0,
+          "readability": "READABLE_ON_DIRECT_INSPECTION"
+        },
+        "pages": [
+          { "page": 1, "rasterSha256": "7909be5eed1b77dde95ac2b84c27d4c653e24d6afecea6575d9ad619dbda96ac", "rasterByteLength": 627911, "rightInkMarginPx": 215, "minimumVectorRightMarginPt": 78 },
+          { "page": 2, "rasterSha256": "b146c9c25b42e3cafc070dfe31d9544ff60e9dab600507e2530169500cd7d12f", "rasterByteLength": 382364, "rightInkMarginPx": 379, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 3, "rasterSha256": "566e5fffd9ee696db1d024a47bcfd6df364880da9f75242ba66c685edfa8f866", "rasterByteLength": 468590, "rightInkMarginPx": 380, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 4, "rasterSha256": "8153011e7f0a4dbf3f26347cea8111dbbbea3de5da1671332a4ccc63f74d7732", "rasterByteLength": 149443, "rightInkMarginPx": 334, "minimumVectorRightMarginPt": 94.5 },
+          { "page": 5, "rasterSha256": "d42d269c6e08538b64e528ad1bcf5c5c16e406889c04a387c89337597c1a098a", "rasterByteLength": 306027, "rightInkMarginPx": 282, "minimumVectorRightMarginPt": 78 },
+          { "page": 6, "rasterSha256": "fb441ebdc1b9ecc19c382179f82364f18cf33fc9ef55966f2ac8da10066edd08", "rasterByteLength": 703525, "rightInkMarginPx": 227, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 7, "rasterSha256": "c94eba4fb6e11ae240548adc80478110abfea62e0d20a0d845c9989ec7a34098", "rasterByteLength": 654606, "rightInkMarginPx": 373, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 8, "rasterSha256": "438158d0099b29e4790a4e2ea098175b0f68628106bde1f77dff5fbe291ee3e3", "rasterByteLength": 36628, "rightInkMarginPx": 543, "minimumVectorRightMarginPt": 160.5 }
+        ]
+      },
+      {
+        "route": "ks-12-4516a-municipal-arrest",
+        "fixture": "canonical",
+        "uniformFindings": {
+          "edgeInkPixels": 0,
+          "inkPixelsWithinFivePxOfPageEdge": 0,
+          "textLinesOutsideMediaBox": 0,
+          "overlapPairs": 0,
+          "verticalCropRiskLines": 0,
+          "paperSizeDriftPx": 0,
+          "readability": "READABLE_ON_DIRECT_INSPECTION"
+        },
+        "pages": [
+          { "page": 1, "rasterSha256": "456b63eb65002876e3666f3cb145aed0ff9005f7ffec5e52bc9b1417430c479b", "rasterByteLength": 585709, "rightInkMarginPx": 215, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 2, "rasterSha256": "873bf5d0686830f06797c7306e8387a9261e5fda0a92e874077141534dfa20ae", "rasterByteLength": 419025, "rightInkMarginPx": 395, "minimumVectorRightMarginPt": 78 },
+          { "page": 3, "rasterSha256": "6c701248dcdf377291f0c6cfac3d4079732ef1df219022a6a07adf701809173e", "rasterByteLength": 393435, "rightInkMarginPx": 413, "minimumVectorRightMarginPt": 78 },
+          { "page": 4, "rasterSha256": "deede5dc9c1af0a79aa087a3efddb063d3a5e38b5c85ca87643e2cadf5c17717", "rasterByteLength": 304910, "rightInkMarginPx": 298, "minimumVectorRightMarginPt": 78 },
+          { "page": 5, "rasterSha256": "9835e5c511b0a24eb1e9a62dd7609fe5d4ed0fc3c85da41a38ac8a82a2643ce7", "rasterByteLength": 672422, "rightInkMarginPx": 280, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 6, "rasterSha256": "fd94db7b1999fa8fca226bf63915c0b9be8682f78b64e03e1d41d41dad90f58b", "rasterByteLength": 634660, "rightInkMarginPx": 389, "minimumVectorRightMarginPt": 72.5 }
+        ]
+      },
+      {
+        "route": "ks-12-4516a-municipal-arrest",
+        "fixture": "boundary",
+        "uniformFindings": {
+          "edgeInkPixels": 0,
+          "inkPixelsWithinFivePxOfPageEdge": 0,
+          "textLinesOutsideMediaBox": 0,
+          "overlapPairs": 0,
+          "verticalCropRiskLines": 0,
+          "paperSizeDriftPx": 0,
+          "readability": "READABLE_ON_DIRECT_INSPECTION"
+        },
+        "pages": [
+          { "page": 1, "rasterSha256": "382f7dda92fdf1befbaa77240bae788dd85465a1c7e37b42df116453b6249716", "rasterByteLength": 599077, "rightInkMarginPx": 215, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 2, "rasterSha256": "873bf5d0686830f06797c7306e8387a9261e5fda0a92e874077141534dfa20ae", "rasterByteLength": 419025, "rightInkMarginPx": 395, "minimumVectorRightMarginPt": 78 },
+          { "page": 3, "rasterSha256": "bfdedf16a4224bc407c706404d8eff93fbaf42e0dc0b2a9cd99023d6da8bed2a", "rasterByteLength": 428651, "rightInkMarginPx": 334, "minimumVectorRightMarginPt": 78 },
+          { "page": 4, "rasterSha256": "ec2483bb7003ae511cf2340add0faeb2d99bb864140c5d349655189a81de621f", "rasterByteLength": 312276, "rightInkMarginPx": 298, "minimumVectorRightMarginPt": 78 },
+          { "page": 5, "rasterSha256": "eed10156cd9d583f33132f696ffc806244bb62ec91ed65fd50ff327770d65b90", "rasterByteLength": 679131, "rightInkMarginPx": 280, "minimumVectorRightMarginPt": 72.5 },
+          { "page": 6, "rasterSha256": "fd94db7b1999fa8fca226bf63915c0b9be8682f78b64e03e1d41d41dad90f58b", "rasterByteLength": 634660, "rightInkMarginPx": 389, "minimumVectorRightMarginPt": 72.5 }
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    {
+      "path": "scripts/build-census-v1-rcap-ks-custom-pleading.mjs",
+      "before": { "sha256": "b6efd3c05068d895ac76e718392aa923735d30922eccaa1dc0e48dea0fffd2b3", "byteLength": 119463 },
+      "after": { "sha256": "5425f498e45dafc8a5dd54117673177b0fc03950e01b999239dd71c8f9e2f5de", "byteLength": 121114 }
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+      "before": { "sha256": "e8822b25985477bb5a15bd56b03b60f90c4ec95704ed28a7ab9322113e8b7383", "byteLength": 22877 },
+      "after": { "sha256": "d920d01e70599c9cc3619855607c88a2bca0eb0365603a23e0ef5bcf91b0726e", "byteLength": 23602 }
+    }
+  ],
+  "validation": {
+    "claimAssertion": "OK",
+    "javascriptSyntax": "OK",
+    "builderCheckOnly": "OK_3_RECORDS_62_ANCHORS",
+    "routePdfParsing": "OK",
+    "manifestMatchesExactPdfHashesBytesPagesAndPageManifests": true,
+    "normalizedOldNewTextEquality": "OK_ALL_FOUR",
+    "knownPrefillReadback": "OK_ALL_EXPECTED_VALUES",
+    "twoCleanBuildDeterminism": "OK",
+    "jsonParsing": "OK",
+    "gitDiffCheck": "OK",
+    "stagedPathsRestrictedToWritablePaths": true
+  },
+  "reviewBoundary": {
+    "fullFifteenObligationRereviewRunByThisWorker": false,
+    "fullFifteenObligationRereviewRequiredFromDifferentVerifier": true,
+    "centralQueuesLedgersRoutesOrFulfillmentEdited": false,
+    "canariesRun": false,
+    "productionTouched": false,
+    "approvalGranted": false
+  }
+}

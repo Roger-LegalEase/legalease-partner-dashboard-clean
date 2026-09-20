@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "rcap-census-v1-local-variation/v1",
+  "family": "ak-tf805-set",
+  "routeKey": "obligation:track-only:AK:ak-tf805",
+  "workType": "LOCAL_VARIATION_REQUIRED",
+  "status": "recorded_and_tested_with_one_named_gap_remaining",
+  "basis": [
+    "data/record-clearing/legal-design-packet-set-manifests.json (packetSetId ak-tf805-set)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routeKey obligation:track-only:AK:ak-tf805)",
+    "data/rcap-all50/overlays/production/alaska/tf-805-form-en/field-census.json (inherited; field names and printed label fragments only)",
+    "private/source-imports/.../AK__FORM__TF-805__...__REV-2025-05__EN.pdf (the official binary itself, read first-hand by this lane at sha256 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54)"
+  ],
+  "basisLimits": "The predecessor lane recorded this from committed repository records only, because the binary was absent, and marked unresolved anything whose answer lives on the form itself. This lane has now read the form. Entries below carry `resolvedFromTheDocument` where the document answered a question that was previously open, and the original unresolved wording is preserved in `previouslyUnresolved` so the change is auditable. One question -- whether a filing fee applies -- the form does not answer, and it stays open.",
+  "venue": {
+    "variation": "single_destination_no_county_variation_recorded",
+    "destination": "The local trial court",
+    "detail": "The route record names one destination kind (court) and no per-borough or per-district branching. Alaska's trial courts are a unitary state system, so no county-level filing-office variation is recorded.",
+    "unresolved": "Which specific trial court location receives the request -- the court that heard the underlying case -- is matter-specific and is a participant-supplied fact, not a route constant.",
+    "confidence": "high",
+    "needsLocalConfirmation": true,
+    "resolvedFromTheDocument": "Page 1 prints 'Filing Instructions: File this request with the Clerk's Office at your local trial court.' That confirms the single-destination reading: the filing office is the clerk of the local trial court, and the form states no per-borough or per-district variation."
+  },
+  "fee": {
+    "variation": "no_fee_stated_by_source_review",
+    "sourceReviewSays": "The source review does not state a filing fee for this request.",
+    "requirementAsRecorded": "required",
+    "unresolved": "STILL OPEN. Whether an Administrative Rule 40(b)/(c) request carries a filing fee is not established by any committed record and is not answered by the form. This must not be presented to a participant as fee-free.",
+    "confidence": "low",
+    "needsLocalConfirmation": true,
+    "resolvedFromTheDocument": null,
+    "whatTheFormSays": "Nothing. TF-805 prints no fee, no fee schedule and no fee-waiver reference on either page. The form's silence is not evidence that no fee is due -- Alaska publishes filing fees in a separate schedule, which this lane has not read and will not fetch."
+  },
+  "feeWaiver": {
+    "variation": "not_addressed_by_source_review",
+    "sourceReviewSays": "The source review does not address a fee waiver.",
+    "requirementAsRecorded": "conditional",
+    "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+    "unresolved": "STILL OPEN. Dependent on the unresolved fee question above.",
+    "confidence": "low",
+    "needsLocalConfirmation": true,
+    "whatTheFormSays": "Nothing. No waiver instrument is named on the form or in the packet set."
+  },
+  "verificationAndNotarization": {
+    "variation": "sworn_verification_on_form_administered_before_an_officer",
+    "previouslyRecordedAs": "sworn_verification_on_form_no_separate_notarization_stated",
+    "correctedFromTheDocument": "The predecessor recorded that the source review stated no notarization requirement beyond the sworn verification. Reading the form corrects that: page 1 carries a full notarial jurat under the Verification heading -- 'Subscribed and sworn to or affirmed before me at ______, Alaska on ______', a signature rule for the officer, '(SEAL)', the designation 'Court clerk, notary public, or other person authorized to administer oaths.' and 'My commission expires ______'.",
+    "participantAction": "The requestor signs and swears to their own request in front of a court clerk, a notary public or another person authorized to administer oaths. The request cannot be completed alone at a desk.",
+    "measuredNote": "None of the jurat blanks is an AcroForm field. Measured: page 1 has nine widgets and every one of them is above y=476; the whole verification and jurat area below y=213 carries printed rules and no fillable field. No map can reach them and none should.",
+    "confidence": "high",
+    "needsLocalConfirmation": false
+  },
+  "deliveryAndService": {
+    "variation": "certificate_of_service_carried_on_the_form_with_multiple_methods",
+    "instrument": "The certificate of service is part of TF-805 itself, on page 2. The packet set does not add a separate service document.",
+    "methodControlsObservedInInheritedCensus": [
+      {
+        "field": "mail",
+        "type": "checkbox",
+        "page": 2,
+        "readsAs": "mail",
+        "confidence": "high",
+        "measured": "widget x=198.65 y=557.29; printed box measured at x=199.05 y=557.15"
+      },
+      {
+        "field": "hd",
+        "type": "checkbox",
+        "page": 2,
+        "readsAs": "hand-delivery",
+        "confidence": "high",
+        "measured": "widget x=245.40 y=557.29; printed box measured at x=245.88 y=557.15"
+      },
+      {
+        "field": "tf",
+        "type": "checkbox",
+        "page": 2,
+        "readsAs": "TrueFiling",
+        "confidence": "high",
+        "previouslyUnresolved": "the printed label fragment carried in the inherited census was truncated and the binary was absent, so this abbreviation was not expanded",
+        "resolvedFromTheDocument": "Page 2 prints 'and any attachments by [ ] mail. [ ] hand-delivery. [ ] TrueFiling. [ ] email.' and this is the third of the four boxes, at widget x=334.74 against the printed box measured at x=335.10. 'tf' is TrueFiling, Alaska's electronic filing system; page 2 also prints 'check TrueFiling availability at https://ak-courts.info/tfcourts'.",
+        "measured": "widget x=334.74 y=557.29; printed box measured at x=335.10 y=557.15"
+      },
+      {
+        "field": "emailCB",
+        "type": "checkbox",
+        "page": 2,
+        "readsAs": "email",
+        "confidence": "high",
+        "measured": "widget x=405.69 y=557.29; printed box measured at x=406.33 y=557.15"
+      }
+    ],
+    "timingRule": "The certificate states service on a date AND a time. It is a statement about something that has already happened, so no part of it can be completed before the participant actually serves. Proved from the artifact bytes in reports/service-block-proof.json: all eight fields inside the measured certificate box are blank in both fixtures.",
+    "unresolved": "Who must be served remains matter-specific: the form carries a free-text 'I served these people:' line rather than a fixed list. This is consistent with a served set that varies by case and is not a route constant.",
+    "confidence": "medium",
+    "needsLocalConfirmation": true,
+    "renamedKey": "These are no longer 'observed in the inherited census'. Every one was measured off the document by this lane and agrees with the inherited record; the key is kept so the record diffs cleanly against its predecessor.",
+    "methodPrecedenceOnTheForm": "The form orders the methods rather than offering four equals. Page 2 prints 'Use TrueFiling to serve the other party if: both you and the other party are using TrueFiling; or you are using TrueFiling and the other party gave their email address to the court.' and then 'Use the Certificate of Service below if: the other party is not using TrueFiling and did not give their email address to the court; TrueFiling is not available; or you are exempt from using TrueFiling.' So the certificate of service is the fallback path, not the default one.",
+    "emailMethodCondition": "The form conditions the email box on a fact about the OTHER party: '[You can only use email if the other party provided an email address to the court]'. The platform cannot evaluate that condition, which is one reason emailCB is refused by role in this family."
+  },
+  "filing": {
+    "variation": "participant_filed",
+    "detail": "File the request with the local trial court. The participant may initiate; the process actor is the court.",
+    "confidence": "high"
+  },
+  "postFilingConstraint": {
+    "variation": "re_request_window_attached_to_rule_40(c)_only",
+    "previouslyUnresolved": "The exact rule, its trigger and its duration were not established; the inherited label fragment was truncated and the binary absent. The predecessor correctly refused to state a five-year rule on the strength of that fragment.",
+    "resolvedFromTheDocument": "Page 1 prints, beneath the second ground: '[NOTE: under subsection (c) of the rule, the name removal will last for five years. After five years, you must file a new request if you want your name to stay as \"Not Published.\"]' Page 2's order block confirms it from the court's side: the Rule 40(c) decretal paragraph reads 'The clerk shall substitute \"Not Published\" for the party's name on the online public index for five years. After five years, the party's name will appear on the online public index unless the presiding judge orders the name protected for a longer time upon another request by the party.'",
+    "detail": "The five-year window attaches to Administrative Rule 40(c) ONLY. The Rule 40(b) decretal paragraph on page 2 carries no time limit: it reads simply 'The clerk shall substitute \"Not Published\" for the party's name on the online public index.' This distinction matters to a participant choosing a ground, and it is the difference the predecessor's truncated fragment could not show.",
+    "whoChooses": "The participant, via the `why` radio. That is why this family refuses that field by role rather than defaulting it: 40(b) and 40(c) have different durations and different legal tests.",
+    "confidence": "high",
+    "needsLocalConfirmation": false
+  },
+  "testStatus": {
+    "tested": true,
+    "how": "Canonical and boundary fixtures were rendered from the verified binary and each variation was exercised against them, then read back from the artifact bytes at each field's measured rectangle rather than from the render report.",
+    "whatWasExercised": {
+      "venue": "No venue field exists on the form to fill; the destination is printed instruction text. Nothing to render, and recorded as such rather than claimed as tested.",
+      "filing": "Participant-filed: the participant's own identifying block on page 1 renders and the court's order block does not, which is what a participant-filed request handed to a court should look like.",
+      "verification": "Exercised: the Verification signature, date and the whole notarial jurat are blank in both fixtures. Confirmed visually on the rastered pages and from the bytes.",
+      "deliveryAndService": "Exercised: all eight certificate-of-service fields, including all four method boxes, are blank in both fixtures. Proved geometrically against the certificate box measured off the document.",
+      "postFilingConstraint": "Exercised negatively: the `why` radio is unmarked in both fixtures, so neither the 40(b) nor the 40(c) ground -- and therefore neither duration -- is elected on the participant's behalf.",
+      "fee": "NOT exercised. There is nothing to exercise while the fee question is unresolved, and no fee field exists on the form."
+    },
+    "previously": "The predecessor recorded 'tested: false' because no packet could be rendered while the source binary was absent. That is now discharged for every variation except the fee, which has no rendering to test."
+  }
+}

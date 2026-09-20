@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "rcap-source-fidelity/v1",
+  "packManifestIsAuthority": true,
+  "sha256Matches": true,
+  "byteLengthMatches": true,
+  "declaredVsObserved": {
+    "structuralClass": {
+      "declared": "acroform_pdf",
+      "observed": "acroform"
+    },
+    "pages": {
+      "declared": 2,
+      "observed": 2
+    },
+    "fieldCount": {
+      "declared": 22,
+      "observed": 22
+    }
+  },
+  "statePackFidelityFindings": [
+    "This binary and the other Oregon record-check request share all 22 field names and all 22 widget rectangles and differ by 23 bytes. Their sha256 values differ, the manifest assigns them different document ids and roles, and both are carried as separate families on that authority. A reviewer comparing the two packages should expect the field census to be identical.",
+    "Date presentation, recorded for D0 rather than for Oregon: this form captions its DATE OF BIRTH field MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
+    "The 'AREA CODE' field is refused for want of an allowlisted fact: no descriptor describes an area code on its own. The complete telephone number is written into 'PHONE NUMBER', which is the field the form labels for it, and the area-code box is left to the participant."
+  ],
+  "nonFilingHold": null
+}

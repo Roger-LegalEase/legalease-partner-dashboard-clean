@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "fix05-pa-final-raster-reuse/v1",
+  "familyId": "pa_6308_underage-set",
+  "status": "COMPLETED",
+  "repairCommitWithCurrentPdfBytes": "2864db4f9e63e1ca936e8551eec221ee4aa807ef",
+  "originalEvidence": {
+    "runId": "34627159438",
+    "packetCommitSha": "c200f0cec306a3d219371b7118893dd4d24d0536",
+    "verdict": {
+      "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34627159438/pa_6308_underage-set.verdict.json",
+      "sha256": "c8b3b8066269715e77de0174c560b8aa21cd12ded53b779b5496bcdd2e9a6a85"
+    },
+    "pageInventory": {
+      "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34627159438/pa_6308_underage-set.PAGE_IMAGES_SHA256.json",
+      "sha256": "fc89385b0507f206ca4b3d6562e9d00044903c3991a76e1ac06c398645779be8"
+    },
+    "receiptVerification": {
+      "schemaVersion": "rcap-original-receipt-verification/v1",
+      "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34627159438/pa_6308_underage-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+      "sha256": "e6cc3118722cf3e530ac7bece1bf7d442b8fb9a4c829d1980aee17b66a620ebe"
+    },
+    "artifact": {
+      "id": 10275441234,
+      "name": "rcap-raster-pa_6308_underage-set-34627159438",
+      "zipSha256": "fa45d034a2f6eaf42895a8aaba16b68b2391f971a9a088efc6a4ac00cc559b69",
+      "apiDigestMatches": true
+    },
+    "documentsDigest": "c92d9ff21530754acd9b92d9cece62bb88e9205430cf7e42a7cc949a16028959",
+    "copiedOriginalPages": [
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34627159438/pa_6308_underage-set/rule-490-petition-canonical/page-001.png",
+        "sha256": "1e84b86c21c2eda02e8fefd7bf298e56d1d71bc51eda9baad6aaff34072ca83f",
+        "byteLength": 481614
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34627159438/pa_6308_underage-set/rule-790-order-boundary/page-001.png",
+        "sha256": "c34ada077fdbfb5a940b539227d49c015313122a0a206781ad4fd68df2c9550e",
+        "byteLength": 323105
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34627159438/pa_6308_underage-set/rule-790-order-boundary/page-002.png",
+        "sha256": "d7a97a33ef3954a5dd43cab3cd313a142cfa32efa7fdb9a5d82672a0f1cf2c22",
+        "byteLength": 280181
+      },
+      {
+        "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34627159438/pa_6308_underage-set/rule-790-petition-boundary/page-001.png",
+        "sha256": "f79317603d2e1ff6a041a8c4e035c275c6a9582c41c54cb558d63e3057d83da7",
+        "byteLength": 455545
+      }
+    ]
+  },
+  "nextRunPlan": {
+    "manifest": "data/rcap-grade-a/packet-factory-24h/fix05/pa-disposition-20260911/proposed-fresh-six-document-manifest.json",
+    "documentsDigest": "9f6c863de2869a3b4e9bd04104de1286bdac152315e5ffa4ed37c361c7cdd3ab",
+    "documents": 6,
+    "pages": 8,
+    "reuseDocuments": 5,
+    "reusePages": 6,
+    "freshDocuments": [
+      "rule-490-order-canonical.pdf"
+    ],
+    "freshPages": 2,
+    "allSixPdfHashesUnchangedFromRepairCommit": true
+  },
+  "actualFiveDocumentCli": {
+    "manifest": "data/rcap-grade-a/packet-factory-24h/fix05/pa-disposition-20260911/all-reuse-five-document-manifest.json",
+    "verdict": "RASTER_PASS",
+    "browserExecutable": null,
+    "resolvedBy": "not-needed-all-pages-reused",
+    "documents": 5,
+    "pages": 6,
+    "freshRenderedPages": 0,
+    "coversTheWholeFamily": false,
+    "problems": [],
+    "environmentProblems": []
+  },
+  "guards": {
+    "changedRule490OrderRefused": true,
+    "unknownFamilyRefused": true,
+    "unknownDocumentRefused": true,
+    "currentPdfMismatchRefused": true,
+    "missingPageRefused": true,
+    "changedImageRefused": true,
+    "changedVerdictRefused": true,
+    "changedInventoryRefused": true,
+    "changedReceiptVerificationRefused": true,
+    "changedScaleRefused": true,
+    "certificatePolicyStillUsesOriginalRun34602289097": true
+  },
+  "guide": {
+    "rawAcroFormNamesRemovedFromNewSentence": true,
+    "pdfsChangedByGuideEdit": false
+  },
+  "checks": [
+    {
+      "command": "node --test scripts/raster/reuse-original-page-evidence.test.mjs",
+      "result": "20/20 PASS"
+    },
+    {
+      "command": "node --test scripts/rcap-packet-recovery/pa-6308-complete-semantics.test.mjs",
+      "result": "4/4 PASS"
+    },
+    {
+      "command": "node scripts/rcap-raster-batch.mjs --manifest <all-reuse-five-document-manifest> --family pa_6308_underage-set --commit 2864db4f... --scale 2.5 --run-id <test> --out <tmp>",
+      "result": "RASTER_PASS; five documents and six pages reused; browser null; zero fresh renders"
+    }
+  ],
+  "independentApprovalClaimed": false,
+  "centralAdmissionChanged": false,
+  "localRasterPerformed": false,
+  "productionTouched": false
+}

@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "ms-nonadj-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.agency_case_number",
+      "page": 1,
+      "printedContext": "Case number assigned by that agency, if one appears on the record",
+      "disclosureLabel": "Case number assigned by that agency, if one appears on the record",
+      "identity": "primary_filing field agency_case_number",
+      "why": "no agency identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the agency's own case number, copied from the record if one appears there"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.arrest_date",
+      "page": 1,
+      "printedContext": "Date of arrest or citation",
+      "disclosureLabel": "Date of arrest or citation",
+      "identity": "primary_filing field arrest_date",
+      "why": "no arrest fact is held for a record the platform has not seen",
+      "participantMustSupply": "the arrest or citation date, taken from the case papers"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.arresting_agency",
+      "page": 1,
+      "printedContext": "Name of the agency that arrested or cited the petitioner",
+      "disclosureLabel": "Name of the agency that arrested or cited the petitioner",
+      "identity": "primary_filing field arresting_agency",
+      "why": "an agency name is a case fact the participant obtains from the record, not a field the court owns",
+      "participantMustSupply": "the name of the agency that arrested or cited you, taken from the case papers"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.cause_number",
+      "page": 1,
+      "printedContext": "Cause number of the case, on the petition",
+      "disclosureLabel": "Cause number of the case, on the petition",
+      "identity": "primary_filing field cause_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the cause number, copied from the court record; where the court assigns a new number for the expungement petition, that office supplies it at filing"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.charge_description",
+      "page": 1,
+      "printedContext": "Charge in the cause, worded exactly as the record words it",
+      "disclosureLabel": "Charge in the cause, worded exactly as the record words it",
+      "identity": "primary_filing field charge_description",
+      "why": "no charge fact is held for a record the platform has not seen",
+      "participantMustSupply": "the charge, worded exactly as the court record words it, with the Mississippi Code section if the record shows one"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.completion_date",
+      "page": 1,
+      "printedContext": "Date the petitioner completed every condition, as the proof of completion shows",
+      "disclosureLabel": "Date the petitioner completed every condition, as the proof of completion shows",
+      "identity": "primary_filing field completion_date",
+      "why": "completion is proved by records the participant obtains, none of which the platform has seen",
+      "participantMustSupply": "the completion date, from the proof of completion the exhibit checklist names"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.conditions_imposed",
+      "page": 1,
+      "printedContext": "Conditions the court imposed, as the nonadjudication order states them",
+      "disclosureLabel": "Conditions the court imposed, as the nonadjudication order states them",
+      "identity": "primary_filing field conditions_imposed",
+      "why": "the conditions live on an order the platform has not seen",
+      "participantMustSupply": "the conditions, copied from the nonadjudication order itself"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.court_and_county",
+      "page": 1,
+      "printedContext": "Court in the caption of the petition - justice, county, circuit or municipal court, and its county (for a municipal court, its city)",
+      "disclosureLabel": "Court in the caption of the petition - justice, county, circuit or municipal court, and its county (for a municipal court, its city)",
+      "identity": "primary_filing field court_and_county",
+      "why": "which of Mississippi's four trial court levels heard the case is a case fact on a record the platform has not seen, and is never hardcoded",
+      "participantMustSupply": "the court that heard the case and its county or city, exactly as the case papers show them - Mississippi has four trial court levels and the office of that court can confirm which heard yours"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.dismissal_date",
+      "page": 1,
+      "printedContext": "Date of the order dismissing the cause and closing the case",
+      "disclosureLabel": "Date of the order dismissing the cause and closing the case",
+      "identity": "primary_filing field dismissal_date",
+      "why": "no order fact is held for a record the platform has not seen",
+      "participantMustSupply": "the dismissal date, from the certified copy of the dismissal order"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.nonadjudication_date",
+      "page": 1,
+      "printedContext": "Date of the order of nonadjudication",
+      "disclosureLabel": "Date of the order of nonadjudication",
+      "identity": "primary_filing field nonadjudication_date",
+      "why": "no order fact is held for a record the platform has not seen",
+      "participantMustSupply": "the date of the order withholding acceptance of the guilty plea and imposing conditions, from the certified copy"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.offense_date",
+      "page": 1,
+      "printedContext": "Date of the offense, as the record states it",
+      "disclosureLabel": "Date of the offense, as the record states it",
+      "identity": "primary_filing field offense_date",
+      "why": "no offense fact is held for a record the platform has not seen",
+      "participantMustSupply": "the offense date, copied from the record"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.other_names",
+      "page": 1,
+      "printedContext": "Any other name the case record is under, exactly as the record states it",
+      "disclosureLabel": "Any other name the case record is under, exactly as the record states it",
+      "identity": "primary_filing field other_names",
+      "why": "what name the record carries is a case fact the platform has not seen",
+      "participantMustSupply": "any other name the record is under, copied exactly from the record, or left empty where there is none"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.agency_list",
+      "page": 1,
+      "printedContext": "Names of the persons and offices keeping official records of the cause, to be conformed by the order",
+      "disclosureLabel": "Names of the persons and offices keeping official records of the cause, to be conformed by the order",
+      "identity": "proposed_order field agency_list",
+      "why": "which offices keep records of this cause is a case fact the platform has not seen, and the archived models' hardcoded county names are not inherited",
+      "participantMustSupply": "each person and office keeping an official record of the cause, written as the record names them - for example the arresting or citing office, the county sheriff's department, and the court; never guessed and never pre-printed"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.cause_number",
+      "page": 1,
+      "printedContext": "Cause number of the case, on the proposed order",
+      "disclosureLabel": "Cause number of the case, on the proposed order",
+      "identity": "proposed_order field cause_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the cause number, copied from the court record; where the court assigns a new number for the expungement petition, that office supplies it at filing"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.court_and_county",
+      "page": 1,
+      "printedContext": "Court in the caption of the proposed order - justice, county, circuit or municipal court, and its county (for a municipal court, its city)",
+      "disclosureLabel": "Court in the caption of the proposed order - justice, county, circuit or municipal court, and its county (for a municipal court, its city)",
+      "identity": "proposed_order field court_and_county",
+      "why": "which of Mississippi's four trial court levels heard the case is a case fact on a record the platform has not seen, and is never hardcoded",
+      "participantMustSupply": "the court that heard the case and its county or city, exactly as the case papers show them - Mississippi has four trial court levels and the office of that court can confirm which heard yours"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.cause_number",
+      "page": 1,
+      "printedContext": "Cause number of the case, on the certificate",
+      "disclosureLabel": "Cause number of the case, on the certificate",
+      "identity": "certificate_of_service field cause_number",
+      "why": "no case identifier is held for a record the platform has not seen",
+      "participantMustSupply": "the cause number, copied from the court record; where the court assigns a new number for the expungement petition, that office supplies it at filing"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.court_and_county",
+      "page": 1,
+      "printedContext": "Court in the caption of the certificate - justice, county, circuit or municipal court, and its county (for a municipal court, its city)",
+      "disclosureLabel": "Court in the caption of the certificate - justice, county, circuit or municipal court, and its county (for a municipal court, its city)",
+      "identity": "certificate_of_service field court_and_county",
+      "why": "which of Mississippi's four trial court levels heard the case is a case fact on a record the platform has not seen, and is never hardcoded",
+      "participantMustSupply": "the court that heard the case and its county or city, exactly as the case papers show them - Mississippi has four trial court levels and the office of that court can confirm which heard yours"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.prosecuting_authority_address",
+      "page": 1,
+      "printedContext": "Name and mailing address of the prosecuting authority served",
+      "disclosureLabel": "Name and mailing address of the prosecuting authority served",
+      "identity": "certificate_of_service field prosecuting_authority_address",
+      "why": "the platform holds no address for the prosecuting authority, the recipient varies by court level and district, and the archived models' hardcoded Greenville address is not inherited",
+      "participantMustSupply": "the name and current published mailing address of the prosecuting authority for the court - the district attorney for the circuit district for a circuit-court case, or the county or municipal prosecuting authority for a lower court; never a default address"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.petitioner_signature",
+      "label": "Signature of the petitioner on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the petitioner signs the petition personally; the archived models' 'by and through his attorney' phrase is removed because this is a self-help packet"
+    },
+    {
+      "document": "primary_filing",
+      "field": "primary_filing.signature_date",
+      "label": "Date beside the petitioner's signature on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the petition is signed would be false"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.judge_signature_and_entry",
+      "label": "Judge's signature line and date of entry of the order",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the order is the court's; the judge signs and dates it, or does not"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.approved_as_to_form",
+      "label": "Approved-as-to-form signature block for the prosecuting authority",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "some districts expect the prosecuting authority to approve the order as to form before the judge signs; the block is never pre-signed and never pre-filled"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.service_date",
+      "label": "Date of service of the copy",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the copy is actually delivered would be false"
+    },
+    {
+      "document": "certificate_of_service",
+      "field": "certificate_of_service.certifier_signature",
+      "label": "Signature on the certificate of service",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the certificate is signed when the copy actually goes out"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/participant-instructions.md"
+}

@@ -1,0 +1,28 @@
+{
+  "recordedAtCommit": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+  "queuePath": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+  "queueRowSha256": "08ddb9448eb49e54f42bd3db0d3618dac2df4ca246a193d642de478c1b54f376",
+  "receipt": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33923497915",
+    "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+    "renderedCommitSha": "d6f430105dfc942be321b64243a77b666992547a",
+    "jobId": "101187692821",
+    "jobConclusion": "success",
+    "boundToCanonicalSha256": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
+    "boundToBoundarySha256": "d05de02906fe2632b75d1a91acb2d2cd84a073c1d918e11aed57556d2742872c",
+    "documentsCovered": [
+      "canonical.pdf"
+    ],
+    "documentsNotCovered": [],
+    "coversTheWholeFamily": true,
+    "receiptArtifact": {
+      "id": "9956058261",
+      "name": "rcap-raster-agency-application-treatment:obligation:track-only:CT:ct-destruction-request-33923497915",
+      "zipSha256": "sha256:612183ead612018b830025f4feb557f6d18aa333e98df4809cf8b271f4baba54"
+    },
+    "receiptArtifactsNotDownloadedHere": "This session cannot fetch workflow artifacts: the download redirects to blob storage the egress proxy denies. The PNG receipts were NOT read here. The binding rests on the pinned commit, the queue's own pinned SHA-256 pair as of that commit (which the batch re-verifies from disk and refuses on mismatch), the job conclusion, and the receipt artifact id and zip digest.",
+    "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+  },
+  "scope": "Historical queue records canonical-only coverage and both PDF pins. Its own receipt says its ZIP/PNGs were not downloaded there. This reviewer neither downloads nor re-renders them, and does not claim a new two-page central acceptance."
+}

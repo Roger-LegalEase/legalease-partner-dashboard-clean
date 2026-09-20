@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "rcap-lane-g-legal-design-set/v1",
+  "lane": "G",
+  "jurisdiction": "CO",
+  "packetFamily": "colorado",
+  "purpose": "The filing design for each assigned Colorado route, transcribed first-hand this session from the issuing court's own instruction PDF in the pinned corpus. Held as a flat file rather than a directory: everything that is a directory under production/<state>/ is enumerated as an official-form review family by scripts/generate-rcap-review-manifests.mjs, and lane evidence is not a form family.",
+  "byRoute": {
+    "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704": {
+      "schemaVersion": "rcap-lane-g-legal-design/v1",
+      "lane": "G",
+      "jurisdiction": "CO",
+      "routeId": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+      "statute": "C.R.S. \u00a7 24-72-704 \u2014 sealing of arrest records when no charges were filed",
+      "authority": {
+        "basis": "read first-hand this session from the official Colorado Judicial instruction sheet in the pinned corpus, decoded from the page content stream",
+        "instrumentIdentity": "CO__INSTRUCTIONS__JDF-416__guide-to-sealing-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+        "instrumentSha256": "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+        "instrumentSha256Basis": "recomputed from the installed bytes; see lane-g-source-verification.json",
+        "revisionOnFace": "R: July 1, 2025",
+        "pages": 2,
+        "notRatified": "This is the issuing court's own participant guide, transcribed. It is not a legal opinion by this lane and it has not been through Colorado counsel review, which the state index still records as missing from the supplied corpus."
+      },
+      "qualifications": {
+        "allOf": [
+          "No charges were filed in court."
+        ],
+        "andOneOf": [
+          "You completed a diversion agreement.",
+          "The statute of limitations has expired for all those offenses.",
+          "You are no longer being investigated for those offenses."
+        ]
+      },
+      "preparation": [
+        "Collect the case report numbers, case numbers and arrest numbers from the original arrest or criminal records.",
+        "Get the mailing address for every agency that holds your records."
+      ],
+      "filingDestination": {
+        "court": "District Court",
+        "howFiled": "File these forms into your existing criminal case, or start a new case in the District Court.",
+        "verbatimOnFace": "File these forms into your criminal case or start a new case in the District Court"
+      },
+      "requiredFilingSet": [
+        {
+          "documentId": "JDF-417",
+          "role": "REQUEST",
+          "onFaceInstruction": "Request. Be sure to list all agency addresses you found in Step 2.",
+          "presentInCorpus": true
+        },
+        {
+          "documentId": "JDF-418",
+          "role": "ORDER",
+          "onFaceInstruction": "Order (just do \u00a7\u00a7 A-C)",
+          "presentInCorpus": true
+        },
+        {
+          "documentId": "JDF-419",
+          "role": "NOTICE",
+          "onFaceInstruction": "Notice (just do \u00a7\u00a7 A-C)",
+          "presentInCorpus": false
+        },
+        {
+          "documentId": "JDF-435",
+          "role": "ORDER",
+          "onFaceInstruction": "Order (just do \u00a7\u00a7 A-C)",
+          "presentInCorpus": false
+        }
+      ],
+      "feeAndWaiver": {
+        "feeOnFace": "The Clerk will let you know the fee (if any) when filing.",
+        "amountStatedOnFace": null,
+        "waiverPath": [
+          {
+            "documentId": "JDF-205",
+            "role": "MOTION",
+            "onFaceInstruction": "Motion to Waive Fees",
+            "presentInCorpus": false
+          },
+          {
+            "documentId": "JDF-206",
+            "role": "ORDER",
+            "onFaceInstruction": "Order (just do \u00a7\u00a7 A-C)",
+            "presentInCorpus": false
+          }
+        ]
+      },
+      "copyAndService": {
+        "requirement": "Mail a copy of your forms to each of the agencies you listed in your request (Form JDF 417).",
+        "servedParties": "every records-holding agency listed by the participant on JDF-417",
+        "proofOfServiceOnForm": "JDF-417 carries a certificate-of-service block (fields GroupCoS, CoS_Other, CoS_Date)."
+      },
+      "hearingAndObjectionStops": [
+        "The Court may hold a hearing.",
+        "Be prepared to show why you qualify to have your case sealed."
+      ],
+      "postFilingSteps": [
+        "If the Court approves the request, the Court sends the order to the agency addresses listed in the Request.",
+        "The agencies generally seal the records within 30 days of receiving the order."
+      ],
+      "recordsLookupAids": {
+        "courtRecords": "The clerk of the court's office for each respective court can provide county and district court files.",
+        "arrestRecords": "Contact the arresting agency; their files have the arresting agency and arrest numbers.",
+        "criminalHistory": "www.cbirecordscheck.com \u2014 Colorado Bureau of Investigation, 690 Kipling Street, Suite 315, Lakewood, CO 80215, phone 303-239-4208."
+      },
+      "genericInformationNoticeOnFace": "This guide only has basic information. Consult a lawyer and review the law to see what applies to your case."
+    },
+    "CO:petition-based-conviction-sealing-jdf-612-24-72-706": {
+      "schemaVersion": "rcap-lane-g-legal-design/v1",
+      "lane": "G",
+      "jurisdiction": "CO",
+      "routeId": "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+      "statute": "C.R.S. \u00a7 24-72-706 \u2014 sealing of conviction records, single district or county court case",
+      "authority": {
+        "basis": "read first-hand this session from the official Colorado Judicial instruction sheet in the pinned corpus, decoded from the page content stream",
+        "instrumentIdentity": "CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+        "instrumentSha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+        "instrumentSha256Basis": "recomputed from the installed bytes; see lane-g-source-verification.json",
+        "revisionOnFace": "R: August 2024",
+        "pages": 2,
+        "extractionLimitation": "This instrument's text is drawn with a font whose encoding offsets every character by -29. Letters decode cleanly and are transcribed below. The digits do not survive extraction at all, so the form NUMBERS this guide cites for its Notice and its second Order could not be read first-hand and are recorded as unknown rather than guessed. JDF-416, the sibling guide for the non-conviction route, does extract cleanly and names its four filings explicitly; the two guides share an identical four-filing structure.",
+        "notRatified": "This is the issuing court's own participant guide, transcribed. It is not a legal opinion by this lane and it has not been through Colorado counsel review, which the state index still records as missing from the supplied corpus."
+      },
+      "preparation": [
+        "Verify your conviction can be sealed.",
+        "Wait for the time minimum from completing your sentence.",
+        "Get the mailing address for every agency with your records.",
+        "Get a criminal history report from www.cbirecordscheck.com (possible fees), then start the filing step within the stated number of days of that report.",
+        "Check with your local court to see if it also requires an FBI fingerprint-based report."
+      ],
+      "filingDestination": {
+        "court": "the court holding the criminal case (district or county court)",
+        "howFiled": "File these forms into your criminal case.",
+        "verbatimOnFace": "File these forms into your criminal case"
+      },
+      "requiredFilingSet": [
+        {
+          "documentId": "JDF-612",
+          "role": "MOTION",
+          "onFaceInstruction": "Motion. Be sure to list all agency addresses you found in the preparation step.",
+          "presentInCorpus": true
+        },
+        {
+          "documentId": "JDF-615",
+          "role": "ORDER",
+          "onFaceInstruction": "Order (just do \u00a7\u00a7 A-C)",
+          "presentInCorpus": true
+        },
+        {
+          "documentId": null,
+          "role": "NOTICE",
+          "onFaceInstruction": "Notice (just do \u00a7\u00a7 A-C)",
+          "presentInCorpus": false,
+          "identityUnknownBecause": "the guide's digits do not survive text extraction, and no notice form for this route exists anywhere in the pinned corpus"
+        },
+        {
+          "documentId": null,
+          "role": "ORDER",
+          "onFaceInstruction": "Order (just do \u00a7\u00a7 A-C)",
+          "presentInCorpus": false,
+          "identityUnknownBecause": "the guide's digits do not survive text extraction, and no second order form for this route exists anywhere in the pinned corpus"
+        }
+      ],
+      "feeAndWaiver": {
+        "feeOnFace": "The Clerk will let you know the fee (if any) when filing.",
+        "amountStatedOnFace": null,
+        "waiverPath": [
+          {
+            "documentId": "JDF-205",
+            "role": "MOTION",
+            "onFaceInstruction": "Motion to Waive Fees",
+            "presentInCorpus": false,
+            "identityBasis": "carried from JDF-416, which names the fee-waiver pair explicitly and extracts cleanly"
+          },
+          {
+            "documentId": "JDF-206",
+            "role": "ORDER",
+            "onFaceInstruction": "Order (just do \u00a7\u00a7 A-C)",
+            "presentInCorpus": false,
+            "identityBasis": "carried from JDF-416, which names the fee-waiver pair explicitly and extracts cleanly"
+          }
+        ]
+      },
+      "copyAndService": {
+        "requirement": "Mail a copy of your motion to the Prosecuting Attorney's office.",
+        "servedParties": "the prosecuting attorney's office",
+        "note": "This differs from the non-conviction route, which serves every records-holding agency instead."
+      },
+      "hearingAndObjectionStops": [
+        "The Court may hold a hearing.",
+        "Be prepared to show why you qualify to have your case sealed.",
+        "If your request to seal records is denied you must wait one year before making another request."
+      ],
+      "postFilingSteps": [
+        "If the court approves the request, the Court sends the order to the agency addresses listed in the petition.",
+        "The agencies generally seal the records within the stated number of days of receiving the order."
+      ],
+      "eligibilityStopsOnFace": [
+        "Not all convictions can be sealed; the Motion itself carries the list of convictions that cannot be sealed.",
+        "Your case cannot be sealed if you still owe restitution.",
+        "Time starts at the end of all criminal proceedings or release from supervision, whichever happens later."
+      ],
+      "waitTimeTiersOnFace": {
+        "extractionLimitation": "The tier headings decode but their year counts are digits and do not survive extraction. The tiers are transcribed in order without their numbers rather than guessed.",
+        "tiers": [
+          {
+            "wait": "any time",
+            "offenses": [
+              "crimes by victims of human trafficking",
+              "charges for psilocybin that are no longer unlawful"
+            ]
+          },
+          {
+            "wait": "unrecovered digit",
+            "offenses": [
+              "petty offenses and petty drug offenses"
+            ]
+          },
+          {
+            "wait": "unrecovered digit",
+            "offenses": [
+              "a class of misdemeanors",
+              "any drug misdemeanors",
+              "a level of drug felonies"
+            ]
+          },
+          {
+            "wait": "unrecovered digit",
+            "offenses": [
+              "a class of misdemeanors",
+              "classes of felonies",
+              "a level and most of a level of drug felonies"
+            ]
+          }
+        ]
+      },
+      "genericInformationNoticeOnFace": "This guide only has basic information. Consult a lawyer and review the law to see what applies to your case."
+    }
+  }
+}

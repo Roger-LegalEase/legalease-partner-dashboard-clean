@@ -1,0 +1,664 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-return/v1",
+  "lane": "PF02",
+  "generatedBy": "the PF-A packet-build cohort, in one worktree, running lanes PF01, PF02 and PF03",
+  "environment": {
+    "container": "a local git worktree, not Codex Cloud: origin is present, the checkout is complete and the return is a set of commits on the worktree branch",
+    "masterLibraryMounted": true,
+    "custodiesTheCommittedIndexDeclares": [
+      "master_library",
+      "human_source_returns",
+      "d_source_packs",
+      "nationwide_recovery_pool_2026_09_02"
+    ],
+    "custodiesMountedHere": [
+      "master_library",
+      "human_source_returns"
+    ],
+    "whyThatMatters": "Two of the four custodies the corpus index names are absent from this container, and every family this cohort stopped for source reasons names its missing binary in one of them. Where the same digest is recorded in the mounted Master Library as well, the build binds it there and says so; where it is not, the family stops."
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <id> --require-rasterizer",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/16 passed at the time of the first run",
+    "checksThatFailedAndWhy": [
+      "family_sources_bind — the check resolves a family's sources through the path the queue names, and those paths are in the unmounted custodies. Each built family re-establishes the same fact by binding the digest the assignment pins to the mounted Master Library copy and re-hashing the file on disk; each source receipt records the path actually read.",
+      "corpus_matches_committed_index — one sampled entry of 24, 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', is recorded under custody master_library with a recovery-pool-shaped path that does not exist in the mounted library. That is an index-labelling defect on the dispatch base, not corpus corruption here, and it is the same defect that hides two North Carolina sources.",
+      "worktree_clean and private_is_git_ignored failed on the first run only, because private/ had been mounted as a symlink and git's 'private/' rule matches directories. Remounting private/ as a real directory of symlinked children cleared both."
+    ]
+  },
+  "whatThisReturnIsNot": "A verdict. This lane built these packets and does not verify its own work; independent verification belongs to a lane that did not build them. A built family is not approved, not sellable, and opens no commercial route.",
+  "rasterState": "Every rendered page of every built family was rastered locally through scripts/raster/pdf-page-raster.mjs against a Chromium the preflight resolved and executed. That is build-time raster evidence; it is not a RASTER_PASS, which the central acceptance workflow issues.",
+  "familiesAssigned": 5,
+  "rowsReturned": 5,
+  "familiesCompleted": [
+    "co_decriminalized_conduct_seal-set",
+    "mi_setaside_trafficking-set",
+    "nh_petition_nonconviction_pre2019-set",
+    "nh_petition_vacated-set"
+  ],
+  "familiesStopped": [
+    "nc_145_8a_youthful-set"
+  ],
+  "blockedSource": [
+    "nc_145_8a_youthful-set"
+  ],
+  "blockedLegalInput": [],
+  "overlayDirectoriesTouchedByAStoppedFamily": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "co_decriminalized_conduct_seal-set",
+      "status": "COMPLETED",
+      "jurisdiction": "CO",
+      "routeKeys": [
+        "obligation:track-only:CO:co_decriminalized_conduct_seal"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-co_decriminalized_conduct_seal-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "documentsRendered": [
+        {
+          "documentId": "JDF-2371",
+          "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+          "instrumentKind": "primary_filing",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf"
+        },
+        {
+          "documentId": "JDF-2374",
+          "sha256": "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+          "instrumentKind": "proposed_order",
+          "pathInArchive": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf"
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "961031d9a8c66aa6a3ff14db8c6ac38567e29b5d8b881e63f2d48f1cc7e5498e",
+          "byteLength": 328398,
+          "pageCount": 5
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-decriminalized-conduct-seal-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "c12ce14f9849612ec53c3c58e3800a7ebac568c06143b9e0da80f7461daafcc2",
+          "byteLength": 328706,
+          "pageCount": 5
+        }
+      ],
+      "rasterPages": 10,
+      "everyPageRastered": true,
+      "requiredBeforeFilingCount": 22,
+      "instrumentKindsThisRouteNames": [
+        "primary_filing",
+        "proposed_order"
+      ],
+      "whereEachInstrumentKindLands": [
+        {
+          "instrumentKind": "primary_filing",
+          "deliveredBy": "JDF-2371",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "proposed_order",
+          "deliveredBy": "JDF-2374",
+          "as": "a rendered official form"
+        }
+      ],
+      "determinism": {
+        "method": "two full builds from unchanged inputs, then a recursive byte comparison of the whole overlay directory including both fixture PDFs and every raster PNG",
+        "byteIdentical": true,
+        "differences": 0
+      },
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:JDF-2371",
+          "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:JDF-2374",
+          "sha256": "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "selfVerified": false,
+      "independentVerification": "OWED — this lane built these packets and issues no verdict on them"
+    },
+    {
+      "itemId": "mi_setaside_trafficking-set",
+      "status": "COMPLETED",
+      "builtBefore": "This family was already built and committed on the dispatch base. This lane did not rebuild its content: it asserted the claim, re-ran the committed builder against unchanged inputs and compared the result byte for byte.",
+      "jurisdiction": "MI",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361",
+          "byteLength": 378569,
+          "pageCount": 4
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-trafficking-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9",
+          "byteLength": 378604,
+          "pageCount": 4
+        }
+      ],
+      "determinism": {
+        "method": "the committed builder re-run against unchanged inputs and compared with the tree committed on the dispatch base",
+        "byteIdentical": true,
+        "differences": 0,
+        "note": "Every committed file matched byte for byte, both fixture PDFs included: canonical 4ec6ceac9416e2d674de0aec69f353f1233ae1bb08dc8d947fac089c916d8361 and boundary eb025c3aaeefd12ad6c452946a2be4526f469b95ab01628ded30aed10f68ddf9 are unchanged, so this family's raster receipt is undisturbed. The only difference was an empty raster/ directory the builder creates even when it is told not to raster; it holds no file, git does not track it, and it was removed."
+      },
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:MC 227b",
+          "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+          "pathTheAssignmentNames": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:Proof of Service",
+          "sha256": "1620aa798830917707112ce6fb770aeeedc24c44e69f15b05f8b0c1c20e478a6",
+          "pathTheAssignmentNames": "STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/MI/02_PACKET_FORMS/MI__FORM__MC-227B__application-by-human-trafficking-victim-to-set-aside-conviction-s__REV-2024-07__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "selfVerified": false,
+      "independentVerification": "OWED"
+    },
+    {
+      "itemId": "nc_145_8a_youthful-set",
+      "status": "STOPPED",
+      "stopClass": "BLOCKED_SOURCE",
+      "jurisdiction": "NC",
+      "routeKeys": [
+        "obligation:track-pathway:NC:nc_145_8a_youthful:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nc/nc-145-8a-youthful-set--official-pdf-fill",
+      "overlayDirectoryExists": false,
+      "overlayDirectoryTouched": false,
+      "why": "AOC-CV-226 and AOC-CR-296 bind from the Master Library, but the petition the route is named for — AOC-CR-293 — and its instructions do not. The committed corpus index records both digests under custody master_library at recovery-pool-shaped paths ('LegalEase North Carolina/AOC-CR-293_Rev-3-25.pdf'), and no such directory exists in the mounted Master Library; no file under private/ hashes to either digest. That is an index-labelling defect as well as an absent source, and it is reported rather than worked around. Nothing was rendered and the overlay directory was not created.",
+      "sourcesNamed": 5,
+      "sourcesThatBind": 3,
+      "sourcesThatDoNotBind": [
+        "official-form:AOC-CR-293",
+        "official-form:AOC-CR-293-INSTRUCTIONS"
+      ],
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:AOC-CR-293",
+          "sha256": "37308914289a01649bd5cf009a91902386d6ec9658de8d7a1f99054b31310086",
+          "pathTheAssignmentNames": "LegalEase North Carolina/AOC-CR-293_Rev-3-25.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        },
+        {
+          "sourceId": "official-form:AOC-CR-293-INSTRUCTIONS",
+          "sha256": "ae9e161bf5a190b2956662216afe5738f99be4416d5902e66a3c3bea5fe87fe3",
+          "pathTheAssignmentNames": "LegalEase North Carolina/AOC-CR-293-INSTRUCTIONS_Rev-3-25.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": null,
+          "bindsByExactSha256": false
+        },
+        {
+          "sourceId": "official-form:AOC-CV-226",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "pathTheAssignmentNames": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "source-sha256:48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+          "sha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "counters": null,
+      "allNineCountersZero": null
+    },
+    {
+      "itemId": "nh_petition_nonconviction_pre2019-set",
+      "status": "COMPLETED",
+      "jurisdiction": "NH",
+      "routeKeys": [
+        "obligation:track-only:NH:nh_petition_nonconviction_pre2019"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nh_petition_nonconviction_pre2019-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "documentsRendered": [
+        {
+          "documentId": "NHJB-2317",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "instrumentKind": "primary_filing",
+          "pathInArchive": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf"
+        },
+        {
+          "documentId": "NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "instrumentKind": "fee_waiver_motion",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf"
+        },
+        {
+          "documentId": "NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "instrumentKind": "fee_waiver_financial_statement",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf"
+        },
+        {
+          "documentId": "NHJB-2956",
+          "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "instrumentKind": "criminal_history_request",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf"
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+          "byteLength": 186224,
+          "pageCount": 9
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-nonconviction-pre2019-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f",
+          "byteLength": 186227,
+          "pageCount": 9
+        }
+      ],
+      "rasterPages": 18,
+      "everyPageRastered": true,
+      "requiredBeforeFilingCount": 87,
+      "instrumentKindsThisRouteNames": [
+        "criminal_history_request",
+        "effect_and_limits_disclosure",
+        "fee_waiver_financial_statement",
+        "fee_waiver_motion",
+        "post_filing_instructions",
+        "primary_filing"
+      ],
+      "whereEachInstrumentKindLands": [
+        {
+          "instrumentKind": "criminal_history_request",
+          "deliveredBy": "NHJB-2956",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "effect_and_limits_disclosure",
+          "deliveredBy": "participant-instructions.md",
+          "as": "the section headed \"## What annulment does, and what it does not do\""
+        },
+        {
+          "instrumentKind": "fee_waiver_financial_statement",
+          "deliveredBy": "NHJB-2328",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "fee_waiver_motion",
+          "deliveredBy": "NHJB-2311",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "post_filing_instructions",
+          "deliveredBy": "participant-instructions.md",
+          "as": "the section headed \"**What happens after you file.**\""
+        },
+        {
+          "instrumentKind": "primary_filing",
+          "deliveredBy": "NHJB-2317",
+          "as": "a rendered official form"
+        }
+      ],
+      "determinism": {
+        "method": "two full builds from unchanged inputs, then a recursive byte comparison of the whole overlay directory including both fixture PDFs and every raster PNG",
+        "byteIdentical": true,
+        "differences": 0
+      },
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:NHJB-2956",
+          "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:NHJB-2317-DSe",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "correctsAnEarlierReturn": {
+        "theEarlierReturnSaid": "STOPPED — BLOCKED_SOURCE official-form:NHJB-2317-DSe did not bind",
+        "inFile": "data/rcap-grade-a/packet-factory-24h/pf02/rows.json",
+        "whatThisReturnFound": "The digest the assignment pins for NHJB-2317-DSe, 2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c, is held in the mounted Master Library at STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf, and the file on disk hashes to exactly that. The same is true of the other three sources. The earlier lane resolved these sources through the paths the assignment names, which are in custodies neither container mounts; this one resolves from the pinned digest and re-hashes the file it reads. All four bound and the family built."
+      },
+      "selfVerified": false,
+      "independentVerification": "OWED — this lane built these packets and issues no verdict on them"
+    },
+    {
+      "itemId": "nh_petition_vacated-set",
+      "status": "COMPLETED",
+      "jurisdiction": "NH",
+      "routeKeys": [
+        "obligation:track-only:NH:nh_petition_vacated"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-nh_petition_vacated-set.mjs",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "allNineCountersZero": true,
+      "documentsRendered": [
+        {
+          "documentId": "NHJB-2317",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "instrumentKind": "primary_filing",
+          "pathInArchive": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf"
+        },
+        {
+          "documentId": "NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "instrumentKind": "fee_waiver_motion",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf"
+        },
+        {
+          "documentId": "NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "instrumentKind": "fee_waiver_financial_statement",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf"
+        },
+        {
+          "documentId": "NHJB-2956",
+          "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "instrumentKind": "criminal_history_request",
+          "pathInArchive": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf"
+        }
+      ],
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "baca3acfdda3d752ab52c95b636a1015d6eeabcc0027c94f553e79b2b06bd3ae",
+          "byteLength": 186224,
+          "pageCount": 9
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "b983b71779da56befbda8f9679aa3f3d69b0e6b19b7424d05880d09bf343781f",
+          "byteLength": 186227,
+          "pageCount": 9
+        }
+      ],
+      "rasterPages": 18,
+      "everyPageRastered": true,
+      "requiredBeforeFilingCount": 87,
+      "instrumentKindsThisRouteNames": [
+        "criminal_history_request",
+        "effect_and_limits_disclosure",
+        "fee_waiver_financial_statement",
+        "fee_waiver_motion",
+        "post_filing_instructions",
+        "primary_filing"
+      ],
+      "whereEachInstrumentKindLands": [
+        {
+          "instrumentKind": "criminal_history_request",
+          "deliveredBy": "NHJB-2956",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "effect_and_limits_disclosure",
+          "deliveredBy": "participant-instructions.md",
+          "as": "the section headed \"## What annulment does, and what it does not do\""
+        },
+        {
+          "instrumentKind": "fee_waiver_financial_statement",
+          "deliveredBy": "NHJB-2328",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "fee_waiver_motion",
+          "deliveredBy": "NHJB-2311",
+          "as": "a rendered official form"
+        },
+        {
+          "instrumentKind": "post_filing_instructions",
+          "deliveredBy": "participant-instructions.md",
+          "as": "the section headed \"**What happens after you file.**\""
+        },
+        {
+          "instrumentKind": "primary_filing",
+          "deliveredBy": "NHJB-2317",
+          "as": "a rendered official form"
+        }
+      ],
+      "determinism": {
+        "method": "two full builds from unchanged inputs, then a recursive byte comparison of the whole overlay directory including both fixture PDFs and every raster PNG",
+        "byteIdentical": true,
+        "differences": 0
+      },
+      "sourceBinding": [
+        {
+          "sourceId": "official-form:NHJB-2311",
+          "sha256": "f8b5df1366a91a9fd177612c0519f941b8d4f60e1f8f84c2a6c0c064ba7da58e",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2311__nhjb-2311-motion-for-waiver-of-filing-fee__REV-2018-01__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:NHJB-2328",
+          "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:NHJB-2956",
+          "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+          "bindsByExactSha256": true
+        },
+        {
+          "sourceId": "official-form:NHJB-2317-DSe",
+          "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+          "pathTheAssignmentNames": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "custodiesTheCommittedIndexRecordsItIn": [
+            "master_library",
+            "d_source_packs",
+            "nationwide_recovery_pool_2026_09_02"
+          ],
+          "aCustodyMountedHere": true,
+          "bytesFoundUnderPrivate": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+          "bindsByExactSha256": true
+        }
+      ],
+      "correctsAnEarlierReturn": {
+        "theEarlierReturnSaid": "STOPPED — BLOCKED_SOURCE official-form:NHJB-2317-DSe did not bind",
+        "inFile": "data/rcap-grade-a/packet-factory-24h/pf02/rows.json",
+        "whatThisReturnFound": "The same four digests bind here, from the mounted Master Library, and the family built."
+      },
+      "selfVerified": false,
+      "independentVerification": "OWED — this lane built these packets and issues no verdict on them"
+    }
+  ],
+  "relationToTheReturnAlreadyInThisDirectory": {
+    "file": "data/rcap-grade-a/packet-factory-24h/pf02/rows.json",
+    "left": "untouched",
+    "itsAssignmentId": "PF02",
+    "itsBase": "d0d516fdf94c3f964fbacbbd9910300412fb5da4",
+    "itsFamilies": 7,
+    "familiesBothReturnsCover": [
+      "nh_petition_nonconviction_pre2019-set",
+      "nh_petition_vacated-set"
+    ],
+    "whereTheyDisagree": "This cohort's grants came from the live claim ledger, not from that return. Where both cover a family and the results differ, the difference is the container: the earlier return was written where the family's sources did not resolve, and every disagreement below is evidenced in this return's sourceBinding block, digest by digest."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX112",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "branch": "claude/legalease-sprint-captain-utucnw",
+  "baseSha": "8598a3917eb74087b06dcc0ec34824bb3f557946",
+  "worktree": "/workspaces/legalease-partner-dashboard-clean",
+  "builtAnything": true,
+  "repairsMade": 1,
+  "packetsSelfVerified": 1,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "changedFiles": [
+    "scripts/build-census-v1-census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement.mjs",
+    "scripts/rcap-packet-recovery/ut-trafficking-pcra.test.mjs",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill/reports/rendered-artifacts.json"
+  ],
+  "rows": [
+    {
+      "itemId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "scope": "One bounded repair of the 36 measured source-placement defects and 12 required-content gaps in the Utah Rule 65C trafficking PCRA family.",
+      "correction": "Moved affected writes into source-measured blank or checkbox interiors, replaced docket pointers with exact record-gap handbacks or address-unknown declarations, and preserved the official 10-page source while retaining the two generated treatment pages.",
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-geometry-findings.json",
+        "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-required-content-findings.json",
+        "data/rcap-grade-a/packet-factory-24h/vf02/al-ut-current-20260911/ut-direct-placement-measurement.json",
+        "reference/utah/04_PCRA_Petition-2022-06-13.pdf"
+      ],
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/census-pending-family:ut:path-l-vacatur-human-trafficking-related-expungement--official-pdf-fill",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "authorVerdict": "SEMANTIC_PASS_RASTER_AND_INDEPENDENT_REVIEW_PENDING",
+      "pdfBytesChanged": true,
+      "sourceIdentityPreserved": true,
+      "rasterState": "BUILT_RASTER_PENDING",
+      "currentRasterManifest": "data/rcap-grade-a/packet-factory-24h/fix112/ut-pcra-raster-manifest-20260912.json",
+      "focusedTests": [
+        "node --test scripts/rcap-packet-recovery/ut-trafficking-pcra.test.mjs",
+        "node --test scripts/grade-a-packet-factory-24h/ut-pcra-declared-delivery.test.mjs"
+      ],
+      "focusedTestVerdict": "14/14 PASS",
+      "remainingGate": "Central raster acceptance, independent packet review, and Captain-owned route/profile reconciliation.",
+      "grantsNothing": "This repair does not approve, admit, deploy, enable generation or payment, or create commercial authority."
+    }
+  ]
+}

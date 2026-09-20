@@ -1,0 +1,974 @@
+{
+  "method": "Real exported production builder with fs mutation barrier installed after imports. Every mutating call throws before executing. Valid and impossible-date cases stop at the wrapper writeJson mkdir before any source receipt/PDF/render change. Negative controls refuse before the barrier.",
+  "results": [
+    {
+      "mode": "missing-certificate",
+      "input": {
+        "episodeId": "fixture-episode-ut-special-001",
+        "expectedDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+        "asOf": "2026-09-11T00:00:00.000Z"
+      },
+      "gateRefused": true,
+      "reachedFirstPostGateMutationBoundary": false,
+      "attemptedMutation": null,
+      "thrown": {
+        "name": "AssertionError",
+        "message": "ut_pet_special_certificate-set: stage two refused (SPECIAL_CERTIFICATE_REQUIRED)\n+ actual - expected\n\n+ 'REFUSE'\n- 'ALLOW_STAGE_2'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: ut_pet_special_certificate-set: stage two refused (SPECIAL_CERTIFICATE_REQUIRED)\n+ actual - expected\n\n+ 'REFUSE'\n- 'ALLOW_STAGE_2'\n\n    at buildUtahSpecialCertificate (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:185:10)\n    at file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:25:13"
+      },
+      "unchangedFamilyBytesAndMetadata": true
+    },
+    {
+      "mode": "missing-expected-hash",
+      "input": {
+        "episodeId": "fixture-episode-ut-special-001",
+        "asOf": "2026-09-11T00:00:00.000Z",
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "fixture-episode-ut-special-001",
+          "documentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+          "issuedAt": "2026-08-01T00:00:00.000Z",
+          "expiresAt": "2027-01-28T00:00:00.000Z"
+        }
+      },
+      "gateRefused": true,
+      "reachedFirstPostGateMutationBoundary": false,
+      "attemptedMutation": null,
+      "thrown": {
+        "name": "AssertionError",
+        "message": "ut_pet_special_certificate-set: stage two refused (EXPECTED_CERTIFICATE_IDENTITY_REQUIRED)\n+ actual - expected\n\n+ 'REFUSE'\n- 'ALLOW_STAGE_2'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: ut_pet_special_certificate-set: stage two refused (EXPECTED_CERTIFICATE_IDENTITY_REQUIRED)\n+ actual - expected\n\n+ 'REFUSE'\n- 'ALLOW_STAGE_2'\n\n    at buildUtahSpecialCertificate (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:185:10)\n    at file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:25:13"
+      },
+      "unchangedFamilyBytesAndMetadata": true
+    },
+    {
+      "mode": "invalid-unparseable-date",
+      "input": {
+        "episodeId": "fixture-episode-ut-special-001",
+        "expectedDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+        "asOf": "2026-09-11T00:00:00.000Z",
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "fixture-episode-ut-special-001",
+          "documentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+          "issuedAt": "not-a-date",
+          "expiresAt": "2027-01-28T00:00:00.000Z"
+        }
+      },
+      "gateRefused": true,
+      "reachedFirstPostGateMutationBoundary": false,
+      "attemptedMutation": null,
+      "thrown": {
+        "name": "AssertionError",
+        "message": "ut_pet_special_certificate-set: stage two refused (CERTIFICATE_DATES_REQUIRED)\n+ actual - expected\n\n+ 'REFUSE'\n- 'ALLOW_STAGE_2'\n",
+        "stack": "AssertionError [ERR_ASSERTION]: ut_pet_special_certificate-set: stage two refused (CERTIFICATE_DATES_REQUIRED)\n+ actual - expected\n\n+ 'REFUSE'\n- 'ALLOW_STAGE_2'\n\n    at buildUtahSpecialCertificate (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:185:10)\n    at file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:25:13"
+      },
+      "unchangedFamilyBytesAndMetadata": true
+    },
+    {
+      "mode": "valid-positive",
+      "input": {
+        "episodeId": "fixture-episode-ut-special-001",
+        "expectedDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+        "asOf": "2026-09-11T00:00:00.000Z",
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "fixture-episode-ut-special-001",
+          "documentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+          "issuedAt": "2026-08-01T00:00:00.000Z",
+          "expiresAt": "2027-01-28T00:00:00.000Z"
+        }
+      },
+      "gateRefused": false,
+      "reachedFirstPostGateMutationBoundary": true,
+      "attemptedMutation": {
+        "method": "mkdirSync",
+        "path": "/tmp/rcap-vf02-wy-final-20260911/data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill"
+      },
+      "thrown": {
+        "name": "Error",
+        "message": "VF02_WRITE_BARRIER_BEFORE_MUTATION",
+        "stack": "Error: VF02_WRITE_BARRIER_BEFORE_MUTATION\n    at fs.<computed> [as mkdirSync] (file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:24:109)\n    at writeJson (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:35:6)\n    at buildUtahSpecialCertificate (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:187:3)\n    at file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:25:13"
+      },
+      "unchangedFamilyBytesAndMetadata": true
+    },
+    {
+      "mode": "impossible-issue-date",
+      "input": {
+        "episodeId": "fixture-episode-ut-special-001",
+        "expectedDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+        "asOf": "2026-09-11",
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "fixture-episode-ut-special-001",
+          "documentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+          "issuedAt": "2026-06-31",
+          "expiresAt": "2026-12-01"
+        }
+      },
+      "gateRefused": false,
+      "reachedFirstPostGateMutationBoundary": true,
+      "attemptedMutation": {
+        "method": "mkdirSync",
+        "path": "/tmp/rcap-vf02-wy-final-20260911/data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill"
+      },
+      "thrown": {
+        "name": "Error",
+        "message": "VF02_WRITE_BARRIER_BEFORE_MUTATION",
+        "stack": "Error: VF02_WRITE_BARRIER_BEFORE_MUTATION\n    at fs.<computed> [as mkdirSync] (file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:24:109)\n    at writeJson (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:35:6)\n    at buildUtahSpecialCertificate (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:187:3)\n    at file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:25:13"
+      },
+      "unchangedFamilyBytesAndMetadata": true
+    },
+    {
+      "mode": "impossible-expiry-date",
+      "input": {
+        "episodeId": "fixture-episode-ut-special-001",
+        "expectedDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+        "asOf": "2026-09-11",
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "fixture-episode-ut-special-001",
+          "documentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+          "issuedAt": "2026-09-10",
+          "expiresAt": "2027-02-30"
+        }
+      },
+      "gateRefused": false,
+      "reachedFirstPostGateMutationBoundary": true,
+      "attemptedMutation": {
+        "method": "mkdirSync",
+        "path": "/tmp/rcap-vf02-wy-final-20260911/data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill"
+      },
+      "thrown": {
+        "name": "Error",
+        "message": "VF02_WRITE_BARRIER_BEFORE_MUTATION",
+        "stack": "Error: VF02_WRITE_BARRIER_BEFORE_MUTATION\n    at fs.<computed> [as mkdirSync] (file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:24:109)\n    at writeJson (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:35:6)\n    at buildUtahSpecialCertificate (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:187:3)\n    at file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:25:13"
+      },
+      "unchangedFamilyBytesAndMetadata": true
+    },
+    {
+      "mode": "impossible-asof-date",
+      "input": {
+        "episodeId": "fixture-episode-ut-special-001",
+        "expectedDocumentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+        "asOf": "2026-09-31",
+        "certificate": {
+          "type": "UT_BCI_SPECIAL_CERTIFICATE",
+          "familyId": "ut_pet_special_certificate-set",
+          "episodeId": "fixture-episode-ut-special-001",
+          "documentSha256": "8b9cd3b922a6601187787801835acfe55a9f68723a6050278a0d26c11bac2d89",
+          "issuedAt": "2026-08-01",
+          "expiresAt": "2027-01-28"
+        }
+      },
+      "gateRefused": false,
+      "reachedFirstPostGateMutationBoundary": true,
+      "attemptedMutation": {
+        "method": "mkdirSync",
+        "path": "/tmp/rcap-vf02-wy-final-20260911/data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill"
+      },
+      "thrown": {
+        "name": "Error",
+        "message": "VF02_WRITE_BARRIER_BEFORE_MUTATION",
+        "stack": "Error: VF02_WRITE_BARRIER_BEFORE_MUTATION\n    at fs.<computed> [as mkdirSync] (file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:24:109)\n    at writeJson (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:35:6)\n    at buildUtahSpecialCertificate (file:///tmp/rcap-vf02-wy-final-20260911/scripts/build-census-v1-ut_pet_special_certificate-set.mjs:187:3)\n    at file:///tmp/rcap-vf02-wy-final-20260911/data/rcap-grade-a/packet-factory-24h/vf02/ut-special-final-20260911/probe-builder-gate.mjs:25:13"
+      },
+      "unchangedFamilyBytesAndMetadata": true
+    }
+  ],
+  "callerTrace": {
+    "builderInputAndGate": {
+      "file": "scripts/build-census-v1-ut_pet_special_certificate-set.mjs",
+      "lines": [
+        {
+          "line": 154,
+          "text": "export async function buildUtahSpecialCertificate({ noRaster = true, check = false, stageInput } = {}) {"
+        },
+        {
+          "line": 155,
+          "text": "  assert.equal(noRaster, true, \"local raster is forbidden for this family\");"
+        },
+        {
+          "line": 156,
+          "text": "  process.chdir(ROOT);"
+        },
+        {
+          "line": 157,
+          "text": "  process.env.RCAP_NO_LOCAL_RASTER = \"1\";"
+        },
+        {
+          "line": 158,
+          "text": "  process.env.MASTER_LIBRARY_SOURCE_DIR ??= path.join(ROOT, MASTER_REL);"
+        },
+        {
+          "line": 159,
+          "text": "  const sources = resolveExactSources();"
+        },
+        {
+          "line": 160,
+          "text": "  const registry = readJson(\"data/record-clearing/legal-design-track-registry.json\");"
+        },
+        {
+          "line": 161,
+          "text": "  const track = (registry.tracks ?? []).find((row) => row.trackId === TRACK_ID);"
+        },
+        {
+          "line": 162,
+          "text": "  assert.equal(track?.packetSet?.packetSetId, FAMILY_ID);"
+        },
+        {
+          "line": 163,
+          "text": "  assert.equal(track.packetSet.components.length, 10);"
+        },
+        {
+          "line": 164,
+          "text": "  const components = track.packetSet.components.map((component) => ({ ...component,"
+        },
+        {
+          "line": 165,
+          "text": "    sourceBound: component.officialFormId ? sources.some((source) => source.formNumber === component.officialFormId) : false,"
+        },
+        {
+          "line": 166,
+          "text": "    guidanceBound: component.outputStrategy === \"process_guidance\" }));"
+        },
+        {
+          "line": 167,
+          "text": "  assert.equal(components.filter((row) => row.sourceBound).length, 9);"
+        },
+        {
+          "line": 168,
+          "text": "  assert.equal(components.filter((row) => row.guidanceBound).length, 1);"
+        },
+        {
+          "line": 169,
+          "text": "  const census = validateMeasuredCensus(sources);"
+        },
+        {
+          "line": 170,
+          "text": "  const documents = sources.map((source) => ({"
+        },
+        {
+          "line": 171,
+          "text": "    componentId: source.componentId, formNumber: source.formNumber, pathInArchive: hostPathFor(source.path),"
+        },
+        {
+          "line": 172,
+          "text": "    sourcePath: source.path, sha256: source.sha256, byteLength: source.byteLength,"
+        },
+        {
+          "line": 173,
+          "text": "    requirement: source.requirement, sourceHashesExact: true"
+        },
+        {
+          "line": 174,
+          "text": "  }));"
+        },
+        {
+          "line": 175,
+          "text": "  for (const document of documents) {"
+        },
+        {
+          "line": 176,
+          "text": "    const bytes = fs.readFileSync(path.join(process.env.MASTER_LIBRARY_SOURCE_DIR, document.pathInArchive));"
+        },
+        {
+          "line": 177,
+          "text": "    assert.equal(sha256(bytes), document.sha256, `${document.formNumber}: host path resolves to different bytes`);"
+        },
+        {
+          "line": 178,
+          "text": "  }"
+        },
+        {
+          "line": 179,
+          "text": "  if (check) {"
+        },
+        {
+          "line": 180,
+          "text": "    await runUtahCompletenessRepair(FAMILY_ID, [\"--check\"]);"
+        },
+        {
+          "line": 181,
+          "text": "    return { familyId: FAMILY_ID, sourceCount: 9, componentCount: 10,"
+        },
+        {
+          "line": 182,
+          "text": "      noLocalRaster: true, status: \"CHECKED_READ_ONLY\" };"
+        },
+        {
+          "line": 183,
+          "text": "  }"
+        },
+        {
+          "line": 184,
+          "text": "  const stageGateResult = specialCertificateStageGate(stageInput ?? {});"
+        },
+        {
+          "line": 185,
+          "text": "  assert.equal(stageGateResult.status, \"ALLOW_STAGE_2\","
+        },
+        {
+          "line": 186,
+          "text": "    `ut_pet_special_certificate-set: stage two refused (${stageGateResult.reason})`);"
+        },
+        {
+          "line": 187,
+          "text": "  writeJson(`${OUT_REL}/source-receipt.json`, {"
+        }
+      ]
+    },
+    "hostFixtureConstruction": {
+      "file": "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+      "lines": [
+        {
+          "line": 3314,
+          "text": ""
+        },
+        {
+          "line": 3315,
+          "text": "  if (check) return checkSpecialCertificateOutput(config, receipt, census, originalMap, citedAuthorities);"
+        },
+        {
+          "line": 3316,
+          "text": "  if (config.specialCertificate) {"
+        },
+        {
+          "line": 3317,
+          "text": "    assert.equal(options.specialCertificateStageGateResult?.status, \"ALLOW_STAGE_2\","
+        },
+        {
+          "line": 3318,
+          "text": "      `${familyId}: real finalizer requires a successful special-certificate stage gate`);"
+        },
+        {
+          "line": 3319,
+          "text": "  }"
+        },
+        {
+          "line": 3320,
+          "text": ""
+        },
+        {
+          "line": 3321,
+          "text": "  const canonicalConfig = config.specialCertificate"
+        },
+        {
+          "line": 3322,
+          "text": "    ? { ...config, recordedFacts: factsFor(config, \"canonical\"), routeKind: \"recorded_special_certificate_without_conviction\" }"
+        },
+        {
+          "line": 3323,
+          "text": "    : config;"
+        },
+        {
+          "line": 3324,
+          "text": "  const boundaryConfig = config.specialCertificate"
+        },
+        {
+          "line": 3325,
+          "text": "    ? { ...config, recordedFacts: factsFor(config, \"boundary\"), routeKind: \"recorded_special_certificate_with_conviction\" }"
+        },
+        {
+          "line": 3326,
+          "text": "    : config;"
+        },
+        {
+          "line": 3327,
+          "text": "  const canonicalPlans = [...textPlansFor(canonicalConfig, census, \"canonical\"),"
+        },
+        {
+          "line": 3328,
+          "text": "    ...await selectionPlansFor(canonicalConfig, originalMap, receipt)];"
+        },
+        {
+          "line": 3329,
+          "text": "  const boundaryPlans = [...textPlansFor(boundaryConfig, census, \"boundary\"),"
+        },
+        {
+          "line": 3330,
+          "text": "    ...await selectionPlansFor(boundaryConfig, originalMap, receipt)];"
+        },
+        {
+          "line": 3331,
+          "text": "  const repaired = repairFieldMap(canonicalConfig, originalMap, census, canonicalPlans, boundaryPlans, citedAuthorities);"
+        },
+        {
+          "line": 3332,
+          "text": ""
+        },
+        {
+          "line": 3333,
+          "text": "  const canonicalBase = await sourcePacket(receipt, canonicalConfig);"
+        },
+        {
+          "line": 3334,
+          "text": "  const boundaryBase = config.specialCertificate"
+        },
+        {
+          "line": 3335,
+          "text": "    ? await sourcePacket(receipt, boundaryConfig)"
+        },
+        {
+          "line": 3336,
+          "text": "    : canonicalBase;"
+        }
+      ]
+    },
+    "factsForBranchAndDates": [
+      {
+        "line": 843,
+        "text": "function factsFor(config, fixture) {"
+      },
+      {
+        "line": 844,
+        "text": "  const boundary = fixture === \"boundary\";"
+      },
+      {
+        "line": 845,
+        "text": "  const fullName = boundary"
+      },
+      {
+        "line": 846,
+        "text": "    ? \"Alexandrina Montgomery-Vandenberg\""
+      },
+      {
+        "line": 847,
+        "text": "    : \"Jordan Avery Reyes\";"
+      },
+      {
+        "line": 848,
+        "text": "  const first = boundary ? \"Alexandrina\" : \"Jordan\";"
+      },
+      {
+        "line": 849,
+        "text": "  const middle = boundary ? \"Montgomery\" : \"Avery\";"
+      },
+      {
+        "line": 850,
+        "text": "  const last = boundary ? \"Vandenberg\" : \"Reyes\";"
+      },
+      {
+        "line": 851,
+        "text": "  const facts = {"
+      },
+      {
+        "line": 852,
+        "text": "    \"participant.full_legal_name\": fullName,"
+      },
+      {
+        "line": 853,
+        "text": "    // The special-certificate fixture holds a full legal name but no separately"
+      },
+      {
+        "line": 854,
+        "text": "    // confirmed surname structure. Keep that exact structure on the BCI form;"
+      },
+      {
+        "line": 855,
+        "text": "    // a hyphenated or multi-part surname may not be split by inference."
+      },
+      {
+        "line": 856,
+        "text": "    \"participant.bci_name\": config.specialCertificate ? fullName : `${last}, ${first} ${middle}`,"
+      },
+      {
+        "line": 857,
+        "text": "    \"participant.street_address\": boundary"
+      },
+      {
+        "line": 858,
+        "text": "      ? \"12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B\""
+      },
+      {
+        "line": 859,
+        "text": "      : \"118 Maple Street\","
+      },
+      {
+        "line": 860,
+        "text": "    \"participant.city_state_zip\": boundary"
+      },
+      {
+        "line": 861,
+        "text": "      ? \"Unincorporated Township of Long Hollow Crossing, UT 01234-9999\""
+      },
+      {
+        "line": 862,
+        "text": "      : \"Springfield, UT 01234\","
+      },
+      {
+        "line": 863,
+        "text": "    \"participant.mailing_address\": boundary"
+      },
+      {
+        "line": 864,
+        "text": "      ? \"12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B, Unincorporated Township of Long Hollow Crossing, UT 01234-9999\""
+      },
+      {
+        "line": 865,
+        "text": "      : \"118 Maple Street, Springfield, UT 01234\","
+      },
+      {
+        "line": 866,
+        "text": "    \"participant.phone\": boundary ? \"555-0142 ext. 44821\" : \"555-0142\","
+      },
+      {
+        "line": 867,
+        "text": "    \"participant.email\": boundary"
+      },
+      {
+        "line": 868,
+        "text": "      ? \"alexandrina.montgomery@long-example.gov\""
+      },
+      {
+        "line": 869,
+        "text": "      : \"jordan.reyes@example.com\","
+      },
+      {
+        "line": 870,
+        "text": "    \"participant.date_of_birth\": \"1991-04-17\","
+      },
+      {
+        "line": 871,
+        "text": "    \"matter.county\": boundary ? \"Saint Bartholomew County\" : \"Example County\","
+      },
+      {
+        "line": 872,
+        "text": "    \"matter.case_number\": boundary ? \"2026-CR-900123-EXTENDED-CASE-IDENTIFIER\" : \"24-CR-001234\","
+      },
+      {
+        "line": 873,
+        "text": "    \"matter.charge\": boundary"
+      },
+      {
+        "line": 874,
+        "text": "      ? `${config.chargeLabel}; an unusually long statutory description used only to test legible fit and fail-closed overflow behavior`"
+      },
+      {
+        "line": 875,
+        "text": "      : config.chargeLabel"
+      },
+      {
+        "line": 876,
+        "text": "  };"
+      },
+      {
+        "line": 877,
+        "text": "  if (config.specialCertificate) Object.assign(facts, {"
+      },
+      {
+        "line": 878,
+        "text": "    \"matter.case_number\": boundary ? \"2026-CR-900123-EXTENDED\" : \"24-CR-001234\","
+      },
+      {
+        "line": 879,
+        "text": "    \"participant.self_represented\": true,"
+      },
+      {
+        "line": 880,
+        "text": "    \"matter.special_certificate_branch\": boundary ? \"with_conviction\" : \"without_conviction\","
+      },
+      {
+        "line": 881,
+        "text": "    \"matter.arrest_date\": boundary ? \"2021-12-31\" : \"2024-03-14\","
+      },
+      {
+        "line": 882,
+        "text": "    \"matter.arresting_entity_name\": boundary ? \"Utah Department of Public Safety, State Bureau of Investigation\" : \"Example City Police Department\","
+      },
+      {
+        "line": 883,
+        "text": "    \"matter.arrest_file_number\": boundary ? \"UT-DPS-SBI-2021-000000123456\" : \"ECPD-24-00123\","
+      },
+      {
+        "line": 884,
+        "text": "    \"matter.no_conviction_case_filed\": true,"
+      },
+      {
+        "line": 885,
+        "text": "    \"matter.no_conviction_disposition\": \"dismissed_with_prejudice\","
+      },
+      {
+        "line": 886,
+        "text": "    \"matter.special_certificate_id\": boundary ? \"UT-SPECIAL-2026-EXTENDED-000123456789\" : \"UT-SPECIAL-2026-001234\","
+      },
+      {
+        "line": 887,
+        "text": "    \"matter.filing_type_criminal_expungement\": true,"
+      },
+      {
+        "line": 888,
+        "text": "    \"matter.no_new_arrest_since_certificate\": true,"
+      },
+      {
+        "line": 889,
+        "text": "    \"matter.not_on_probation_or_parole\": true,"
+      },
+      {
+        "line": 890,
+        "text": "    \"matter.no_active_protective_or_stalking_order\": true,"
+      },
+      {
+        "line": 891,
+        "text": "    \"matter.no_disqualifying_conviction\": true,"
+      },
+      {
+        "line": 892,
+        "text": "    \"matter.no_pending_nontraffic_proceeding\": true,"
+      },
+      {
+        "line": 893,
+        "text": "    \"matter.no_pending_nontraffic_plea_in_abeyance\": true,"
+      },
+      {
+        "line": 894,
+        "text": "    \"matter.not_incarcerated_or_supervised\": true,"
+      },
+      {
+        "line": 895,
+        "text": "    \"matter.conviction_count_below_limits\": true,"
+      },
+      {
+        "line": 896,
+        "text": "    \"matter.all_obligations_paid\": true,"
+      },
+      {
+        "line": 897,
+        "text": "    \"matter.waiting_period_elapsed\": true,"
+      },
+      {
+        "line": 898,
+        "text": "    \"matter.bci_fee_waiver_requested\": boundary,"
+      },
+      {
+        "line": 899,
+        "text": "    \"matter.bci_email_delivery_consent\": boundary,"
+      },
+      {
+        "line": 900,
+        "text": "    \"matter.third_party_recipient_requested\": boundary,"
+      },
+      {
+        "line": 901,
+        "text": "    \"matter.third_party_recipient_name\": boundary ? \"Morgan Lee Chen\" : null,"
+      },
+      {
+        "line": 902,
+        "text": "    \"matter.third_party_recipient_organization\": boundary ? \"Utah Reentry Legal Services\" : null,"
+      },
+      {
+        "line": 903,
+        "text": "    \"matter.third_party_recipient_address\": boundary ? \"450 South State Street, Suite 1200, Salt Lake City, UT 84111\" : null,"
+      },
+      {
+        "line": 904,
+        "text": "    \"matter.third_party_recipient_phone\": boundary ? \"801-555-0198\" : null,"
+      },
+      {
+        "line": 905,
+        "text": "    \"matter.third_party_recipient_email\": boundary ? \"records@utahreentry.example\" : null,"
+      },
+      {
+        "line": 906,
+        "text": "    \"matter.victim_exists\": boundary,"
+      },
+      {
+        "line": 907,
+        "text": "    \"matter.prosecutor_requests_statement\": boundary,"
+      },
+      {
+        "line": 908,
+        "text": "    \"matter.victim_exists_and_prosecutor_requests_statement\": boundary,"
+      },
+      {
+        "line": 909,
+        "text": "    \"matter.victim_or_prosecutor_statement_received\": boundary,"
+      },
+      {
+        "line": 910,
+        "text": "    \"matter.statement_served_at\": boundary ? \"2026-08-25\" : null,"
+      },
+      {
+        "line": 911,
+        "text": "    \"matter.reply_elected\": boundary,"
+      },
+      {
+        "line": 912,
+        "text": "    \"matter.reply_filing_at\": boundary ? \"2026-09-05\" : null,"
+      },
+      {
+        "line": 913,
+        "text": "    \"matter.reply_elected_after_statement_received\": boundary,"
+      },
+      {
+        "line": 914,
+        "text": "    \"matter.reply_statement_challenged\": boundary"
+      },
+      {
+        "line": 915,
+        "text": "      ? \"I disagree with the statement's description of the disposition and the criminal episode.\""
+      },
+      {
+        "line": 916,
+        "text": "      : null,"
+      },
+      {
+        "line": 917,
+        "text": "    \"matter.reply_reason\": boundary"
+      },
+      {
+        "line": 918,
+        "text": "      ? \"The attached court record and special certificate identify the disposition and episode differently.\""
+      }
+    ],
+    "textPlannerAndUnknownBranch": [
+      {
+        "line": 1137,
+        "text": "  if (config.specialCertificate) {"
+      },
+      {
+        "line": 1138,
+        "text": "    assert.equal(formNumber, \"1001EX\");"
+      },
+      {
+        "line": 1139,
+        "text": "    const byId = (id) => {"
+      },
+      {
+        "line": 1140,
+        "text": "      const row = fields.find((field) => field.blankId === id);"
+      },
+      {
+        "line": 1141,
+        "text": "      assert.ok(row, `${formNumber}: missing special-certificate field ${id}`);"
+      },
+      {
+        "line": 1142,
+        "text": "      return row;"
+      },
+      {
+        "line": 1143,
+        "text": "    };"
+      },
+      {
+        "line": 1144,
+        "text": "    if (facts[\"matter.special_certificate_branch\"] === \"without_conviction\") {"
+      },
+      {
+        "line": 1145,
+        "text": "      addTextPlan(plans, formNumber, byId(\"p1-y201.60-x257.52\"), \"matter.arrest_date\", facts,"
+      },
+      {
+        "line": 1146,
+        "text": "        { field: \"Arrest date\" });"
+      },
+      {
+        "line": 1147,
+        "text": "      addTextPlan(plans, formNumber, byId(\"p1-y181.00-x162.00\"), \"matter.arresting_entity_name\", facts,"
+      },
+      {
+        "line": 1148,
+        "text": "        { field: \"Arresting organization\" });"
+      },
+      {
+        "line": 1149,
+        "text": "      addTextPlan(plans, formNumber, byId(\"p1-y139.60-x162.00\"), \"matter.arrest_file_number\", facts,"
+      },
+      {
+        "line": 1150,
+        "text": "        { field: \"Arrest file number\" });"
+      },
+      {
+        "line": 1151,
+        "text": "      if (!specialNeverFiled(facts)) {"
+      },
+      {
+        "line": 1152,
+        "text": "        addTextPlan(plans, formNumber, byId(\"p2-y652.10-x180.00\"), \"matter.case_number\", facts,"
+      },
+      {
+        "line": 1153,
+        "text": "          { field: \"Case number resulting from arrest\" });"
+      },
+      {
+        "line": 1154,
+        "text": "      }"
+      },
+      {
+        "line": 1155,
+        "text": "    } else {"
+      },
+      {
+        "line": 1156,
+        "text": "      addTextPlan(plans, formNumber, byId(\"p2-y407.50-x162.00\"), \"matter.case_number\", facts,"
+      },
+      {
+        "line": 1157,
+        "text": "        { field: \"Conviction case number\" });"
+      },
+      {
+        "line": 1158,
+        "text": "    }"
+      },
+      {
+        "line": 1159,
+        "text": "    addTextPlan(plans, formNumber, byId(\"p3-y327.10-x218.76\"), \"matter.special_certificate_id\", facts,"
+      },
+      {
+        "line": 1160,
+        "text": "      { field: \"Special certificate identification number\" });"
+      },
+      {
+        "line": 1161,
+        "text": "  }"
+      },
+      {
+        "line": 1162,
+        "text": "  const printed = matching(fields, (field) => /Printed Name/i.test(normalize(field.caption)))[0];"
+      },
+      {
+        "line": 1163,
+        "text": "  assert.ok(printed, `${formNumber}: printed-name blank was not measured`);"
+      },
+      {
+        "line": 1164,
+        "text": "  addTextPlan(plans, formNumber, printed, \"participant.full_legal_name\", facts);"
+      },
+      {
+        "line": 1165,
+        "text": "}"
+      },
+      {
+        "line": 1166,
+        "text": ""
+      },
+      {
+        "line": 1167,
+        "text": "function addOrderPlans(plans, census, formNumber, facts, config) {"
+      }
+    ],
+    "replyGate": [
+      {
+        "line": 928,
+        "text": "function specialReplyWindow(facts) {"
+      },
+      {
+        "line": 929,
+        "text": "  if (facts?.[\"matter.victim_or_prosecutor_statement_received\"] !== true"
+      },
+      {
+        "line": 930,
+        "text": "      || facts?.[\"matter.reply_elected\"] !== true"
+      },
+      {
+        "line": 931,
+        "text": "      || !hasNonemptyFact(facts, \"matter.statement_served_at\")"
+      },
+      {
+        "line": 932,
+        "text": "      || !hasNonemptyFact(facts, \"matter.reply_filing_at\")) return false;"
+      },
+      {
+        "line": 933,
+        "text": "  const parseRecordedDate = (value) => new Date(value.includes(\"T\") ? value : `${value}T00:00:00Z`);"
+      },
+      {
+        "line": 934,
+        "text": "  const served = parseRecordedDate(facts[\"matter.statement_served_at\"]);"
+      },
+      {
+        "line": 935,
+        "text": "  const filed = parseRecordedDate(facts[\"matter.reply_filing_at\"]);"
+      },
+      {
+        "line": 936,
+        "text": "  if (Number.isNaN(served.valueOf()) || Number.isNaN(filed.valueOf())) return false;"
+      },
+      {
+        "line": 937,
+        "text": "  const elapsed = (filed - served) / 86400000;"
+      },
+      {
+        "line": 938,
+        "text": "  return elapsed >= 0 && elapsed <= 14;"
+      },
+      {
+        "line": 939,
+        "text": "}"
+      },
+      {
+        "line": 940,
+        "text": ""
+      },
+      {
+        "line": 941,
+        "text": "function specialComponentIncluded(formNumber, facts) {"
+      },
+      {
+        "line": 942,
+        "text": "  if (formNumber === \"UT-BCI-THIRD-PARTY-RELEASE\") {"
+      },
+      {
+        "line": 943,
+        "text": "    return facts?.[\"matter.third_party_recipient_requested\"] === true;"
+      },
+      {
+        "line": 944,
+        "text": "  }"
+      },
+      {
+        "line": 945,
+        "text": "  if (formNumber === \"1149XX\") {"
+      },
+      {
+        "line": 946,
+        "text": "    return facts?.[\"matter.victim_exists\"] === true"
+      },
+      {
+        "line": 947,
+        "text": "      && facts?.[\"matter.prosecutor_requests_statement\"] === true"
+      },
+      {
+        "line": 948,
+        "text": "      && facts?.[\"matter.victim_exists_and_prosecutor_requests_statement\"] === true;"
+      },
+      {
+        "line": 949,
+        "text": "  }"
+      },
+      {
+        "line": 950,
+        "text": "  if (formNumber === \"1169XX\") {"
+      },
+      {
+        "line": 951,
+        "text": "    return facts?.[\"matter.reply_elected_after_statement_received\"] === true"
+      },
+      {
+        "line": 952,
+        "text": "      && specialReplyWindow(facts);"
+      },
+      {
+        "line": 953,
+        "text": "  }"
+      },
+      {
+        "line": 954,
+        "text": "  return true;"
+      }
+    ]
+  },
+  "scopeAssessment": {
+    "certificateDates": "Reachable through actual builder stageInput. No upstream rejection; source/registry/census checks do not validate these input date values. Gate accepts impossible issue/expiry/asOf values, and builder crosses its ALLOW_STAGE_2 assertion.",
+    "unknownBranchText": "Dormant helper behavior only. Actual host always constructs exact canonical/boundary branch values through factsFor; caller accepts no participant facts. Not scored as a current participant-output failure.",
+    "replyDates": "Dormant helper behavior only. Actual host supplies fixed valid served/filed fixture dates through factsFor. Not scored as a current participant-output failure.",
+    "liveAuthority": "This review does not assert any live route or participant fulfillment is open."
+  },
+  "noBuilderMutations": true,
+  "noPdfRenderOrRaster": true,
+  "unchangedAfterAll": true
+}

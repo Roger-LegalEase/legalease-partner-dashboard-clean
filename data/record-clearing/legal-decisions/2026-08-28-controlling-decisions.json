@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "recordId": "2026-08-28-controlling-decisions",
+  "createsApproval": false,
+  "note": "Controlling legal decisions supplied by the decision owner. This overlay never edits the imported hash-bound memos; it sits beside them and is projected by the generators. No signature or approver is represented here beyond what was supplied.",
+  "reviewedThrough": "2026-08-28",
+  "decisionSource": "Owner-supplied controlling decisions, recorded verbatim in recordedAuthority.",
+  "decisions": [
+    {
+      "decisionId": "CLD-2026-08-28-GA-RFO",
+      "jurisdiction": "GA",
+      "tracks": [
+        "ga-rfo"
+      ],
+      "pathways": [
+        "GA:youthful-first-offender-restriction-route"
+      ],
+      "affectedPacketFamilies": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "originalAssignmentId": "LA-IMM-01",
+      "originalQuestionText": [
+        "Whether counsel approves a distinct post-consent packet stage for the § 42-8-66 petition — that is, a custom_pleading unit that generates the petition only after the participant has obtained the prosecuting attorney's written consent. The petition itself is legally identifiable and the framework is recorded on this track. The adopted memorandum makes the stage conditional on counsel's later approval, which has not been given, so direct delivery remains disabled."
+      ],
+      "reviewedThrough": "2026-08-28",
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/GA.memo.json",
+        "sha256": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183"
+      },
+      "recordedAuthority": [
+        "A distinct participant petition under O.C.G.A. § 42-8-66 exists after written prosecutorial consent.",
+        "Consent is a prerequisite, not the final relief.",
+        "The participant files in the court of conviction.",
+        "Use a custom participant petition packet.",
+        "No consent means attorney/prosecutor handoff.",
+        "A qualifying post-July 1, 2026 order moves to restriction/sealing implementation and tracking, not a second sealing petition."
+      ],
+      "supersededInterimTreatment": "Continue serving process guidance and consent support, with no generated petition and no payment, until the stage is approved.",
+      "productDisposition": "Custom participant petition packet, gated on written prosecutorial consent. Without consent the route is an attorney or prosecutor handoff. A qualifying post-2026-07-01 order routes to restriction and sealing implementation tracking rather than a second petition.",
+      "engineeringConsequences": [
+        "Add a written-prosecutor-consent gate to the route contract; packet generation is conditional on it.",
+        "Register the custom participant petition unit and bind it to the GA family.",
+        "Venue is the court of conviction.",
+        "Add the post-2026-07-01 order branch to implementation tracking, not to a second sealing petition.",
+        "Handoff disposition when consent is absent."
+      ]
+    },
+    {
+      "decisionId": "CLD-2026-08-28-MO-311-326",
+      "jurisdiction": "MO",
+      "tracks": [
+        "mo-311-326-minor-in-possession"
+      ],
+      "pathways": [
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326"
+      ],
+      "affectedPacketFamilies": [
+        "rcap-mo-custom-pleading"
+      ],
+      "originalAssignmentId": "LA-IMM-02",
+      "originalQuestionText": [
+        "Which FI-05 case type code a § 311.326 application takes where a new case is opened. The published Case Types List names no code for the section. The code is left blank and confirmed with the clerk.",
+        "Whether a conviction under a municipal or county underage-possession ordinance, rather than under § 311.325 itself, is within § 311.326. The section names the statute and the packet applies the narrower reading, which excludes ordinance convictions; but many Missouri underage-drinking cases are charged municipally, so the narrower reading takes a substantial population out of the route. Unresolved on the face of the section."
+      ],
+      "reviewedThrough": "2026-08-28",
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+        "sha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934"
+      },
+      "recordedAuthority": [
+        "Use a custom substantive petition.",
+        "Best-supported filing model is a new miscellaneous civil matter.",
+        "XG is provisional.",
+        "X5 is prohibited.",
+        "X1 is used only when the clerk directs.",
+        "Final caption, filing code, fee, service, summons and division instructions remain behind a receiving-clerk confirmation gate.",
+        "A municipal ordinance conviction is not automatically within § 311.326.",
+        "Express local adoption may create a separate local route.",
+        "Mere equivalence routes to § 610.140 analysis or local-law review."
+      ],
+      "supersededInterimTreatment": "Restrict to § 311.325 convictions and serve ordinance convictions as guidance, with payment closed on both.",
+      "productDisposition": "Custom substantive petition filed as a new miscellaneous civil matter. Final caption, filing code, fee, service, summons and division instructions stay behind a receiving-clerk confirmation gate, which is operational configuration and not open legal research. Municipal ordinance convictions are outside § 311.326 unless the locality expressly adopted it; mere equivalence routes to § 610.140 analysis or local-law review.",
+      "engineeringConsequences": [
+        "Register the custom substantive petition unit as a new miscellaneous civil matter.",
+        "Encode the FI-05 rule: XG provisional, X5 prohibited, X1 only on clerk direction.",
+        "Add the receiving-clerk confirmation gate; no final packet is produced before it is satisfied.",
+        "Eligibility branch: state conviction in scope; express local adoption is a separate local route; mere equivalence routes to § 610.140 analysis."
+      ]
+    },
+    {
+      "decisionId": "CLD-2026-08-28-ND-NONCONV",
+      "jurisdiction": "ND",
+      "tracks": [
+        "nd-nonconviction-auto-close-verify"
+      ],
+      "pathways": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+      ],
+      "affectedPacketFamilies": [
+        "rcap-nd-guidance-implementation"
+      ],
+      "originalAssignmentId": "LA-IMM-03",
+      "originalQuestionText": [
+        "What remedy exists where the court does not close the record at day sixty-one. Neither N.D.C.C. § 12-60.1-05 nor the official instructions nor the research guide identifies one, so the packet can tell the participant to contact the clerk but cannot tell them what to do if that fails.",
+        "Whether the participant receives any notice that the record has been closed. Nothing in the statute or the official publications says so, which is why the packet builds the verification step around the public access search instead."
+      ],
+      "reviewedThrough": "2026-08-28",
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/ND.memo.json",
+        "sha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
+      },
+      "recordedAuthority": [
+        "Split at August 1, 2025.",
+        "Pre-effective-date matters use the official petition and proposed order.",
+        "Post-effective-date matters begin with automatic closure guidance.",
+        "Wait 61 complete days.",
+        "Verify on day 62 or the next business day.",
+        "First correction is a written request to the original court clerk.",
+        "Judicial escalation is a motion in the original criminal case.",
+        "Agency-history errors use the BCI/originating-agency challenge.",
+        "No individualized notice may be promised."
+      ],
+      "supersededInterimTreatment": "Serve verification guidance that tells the participant how to check the record and what to do at day sixty-one in general terms, with no generated filing and no payment.",
+      "productDisposition": "Two routes split at 2025-08-01. Before it, the official petition and proposed order. From it, automatic closure guidance with a 61 complete-day wait and verification on day 62 or the next business day. Correction escalates from a written request to the original court clerk, to a motion in the original criminal case; agency-history errors go to the BCI or originating-agency challenge. No individualized notice of closure may be promised.",
+      "engineeringConsequences": [
+        "Add the 2025-08-01 effective-date split to the route contract and to screening.",
+        "Pre-split branch selects the official petition and proposed order.",
+        "Post-split branch selects automatic-closure guidance with the day-62 verification step.",
+        "Add the clerk-request and original-case-motion escalation steps.",
+        "Separate the BCI or originating-agency challenge from court closure.",
+        "Remove any promise of individualized closure notice from participant instructions."
+      ]
+    },
+    {
+      "decisionId": "CLD-2026-08-28-SC-PTI",
+      "jurisdiction": "SC",
+      "tracks": [
+        "sc_pti_17_22_150"
+      ],
+      "pathways": [
+        "SC:diversion-or-program-completion-expungement"
+      ],
+      "affectedPacketFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "originalAssignmentId": "LA-IMM-04",
+      "originalQuestionText": [
+        "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one."
+      ],
+      "reviewedThrough": "2026-08-28",
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/SC.memo.json",
+        "sha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f"
+      },
+      "recordedAuthority": [
+        "$250 controls.",
+        "The old $150 amount was rescinded and must not appear in current materials.",
+        "Ordinary PTI treatment is solicitor-administered process guidance.",
+        "Retire the ordinary custom-pleading packet.",
+        "PTI SLED fee is $0.",
+        "Clerk fee is $35 when applicable.",
+        "Ordinary expected total is $285.",
+        "Solicitor denial or contested eligibility becomes retained-counsel handoff."
+      ],
+      "supersededInterimTreatment": "The packet already quotes the statutory figure and does not promise the lower one. Keep that until counsel decides.",
+      "productDisposition": "Ordinary PTI treatment is solicitor-administered process guidance; the ordinary custom-pleading packet is retired. Fees: $250 controls, PTI SLED fee $0, clerk fee $35 when applicable, ordinary expected total $285. The rescinded $150 amount must not appear in current materials. Solicitor denial or contested eligibility becomes a retained-counsel handoff.",
+      "engineeringConsequences": [
+        "Retire the ordinary SC custom-pleading packet and select process guidance.",
+        "Set the fee figures: $250, SLED $0, clerk $35 when applicable, total $285.",
+        "Remove every active $150 reference from current materials.",
+        "Close checkout and set sponsored credit to zero for the guidance route.",
+        "Add the retained-counsel handoff disposition for solicitor denial or contested eligibility."
+      ]
+    }
+  ]
+}

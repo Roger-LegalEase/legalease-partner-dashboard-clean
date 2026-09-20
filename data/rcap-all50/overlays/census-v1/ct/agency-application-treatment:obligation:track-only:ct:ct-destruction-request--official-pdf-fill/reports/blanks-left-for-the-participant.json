@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+  "requiredBeforeFiling": [
+    {
+      "document": "agency_preparation_guide",
+      "field": "agency_preparation_guide.case_identity",
+      "page": 1,
+      "printedContext": "Case court, location, docket number, and final-disposition date",
+      "disclosureLabel": "Case court, location, docket number, and final-disposition date",
+      "identity": "agency_preparation_guide field case_identity",
+      "why": "no participant case record is held",
+      "participantMustSupply": "the court location, docket number, and final-disposition date exactly as the case record states them; confirm it with the Superior Court clerk that handled the case"
+    },
+    {
+      "document": "agency_preparation_guide",
+      "field": "agency_preparation_guide.clerk_process",
+      "page": 1,
+      "printedContext": "Clerk-confirmed request form, method, destination, and fee",
+      "disclosureLabel": "Clerk-confirmed request form, method, destination, and fee",
+      "identity": "agency_preparation_guide field clerk_process",
+      "why": "the committed review does not establish a statewide request format or fee",
+      "participantMustSupply": "the exact way that clerk wants the request made, where it goes, required attachments, and any fee; confirm it with the Superior Court clerk's office holding the erased records"
+    },
+    {
+      "document": "agency_preparation_guide",
+      "field": "agency_preparation_guide.erasure_status",
+      "page": 1,
+      "printedContext": "Confirmation that the records were already erased under Section 54-142a",
+      "disclosureLabel": "Confirmation that the records were already erased under Section 54-142a",
+      "identity": "agency_preparation_guide field erasure_status",
+      "why": "existing erasure is a route precondition the platform cannot assume",
+      "participantMustSupply": "written or clerk-confirmed evidence that the record has already been erased; confirm it with the Superior Court clerk holding the record"
+    },
+    {
+      "document": "agency_preparation_guide",
+      "field": "agency_preparation_guide.three_year_date",
+      "page": 1,
+      "printedContext": "Date the three-year destruction bar expires",
+      "disclosureLabel": "Date the three-year destruction bar expires",
+      "identity": "agency_preparation_guide field three_year_date",
+      "why": "the platform does not hold the final-disposition date",
+      "participantMustSupply": "three years after the final-disposition date, calculated only after that date is confirmed; confirm it with the case record and the clerk"
+    }
+  ],
+  "protectedBlanks": [],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/participant-instructions.md"
+}

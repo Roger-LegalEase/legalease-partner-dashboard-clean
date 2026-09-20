@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "rcap-vf01-current-entrypoint-controls/v1",
+  "familyId": "fl-10yr-bridge-set",
+  "builderSha256": "942d373cd5b3a6f289157daa2e89377e38fc7d35f6973debb0297aed2b930c68",
+  "controls": [
+    {
+      "id": "valid-current-bytes",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": false,
+      "expectedRefusal": false,
+      "error": null
+    },
+    {
+      "id": "source-absent",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION is absent at the read-only custody mount /tmp/rcap-vf02-wy-final-20260911/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf"
+    },
+    {
+      "id": "source-length-wrong",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION length 26601 != 26602\n\n26601 !== 26602\n"
+    },
+    {
+      "id": "same-length-source-corrupt",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION SHA-256 does not match the PF17 binding\n+ actual - expected\n\n+ 'aa562226335268c4ffe0aa41ef1cbe66e7cb6b0bf02360f6319c08d6e0422611'\n- 'ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650'\n"
+    },
+    {
+      "id": "omitted-guidance-1",
+      "phrase": "ordinary declaration and signature line printed on the petition is not the required sworn affidavit",
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "participant instructions omit held requirement: ordinary declaration and signature line printed on the petition is not the required sworn affidavit"
+    },
+    {
+      "id": "omitted-guidance-2",
+      "phrase": "complete a separate sworn affidavit",
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "participant instructions omit held requirement: complete a separate sworn affidavit"
+    },
+    {
+      "id": "omitted-guidance-3",
+      "phrase": "notarized unless you swear it before a deputy clerk",
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "participant instructions omit held requirement: notarized unless you swear it before a deputy clerk"
+    },
+    {
+      "id": "omitted-guidance-4",
+      "phrase": "Obtain the currently accepted affidavit format from the circuit clerk or an attorney before filing",
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "participant instructions omit held requirement: Obtain the currently accepted affidavit format from the circuit clerk or an attorney before filing"
+    },
+    {
+      "id": "omitted-guidance-5",
+      "phrase": "clerk of the court that sealed the record for a certified copy of the sealing order",
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "participant instructions omit held requirement: clerk of the court that sealed the record for a certified copy of the sealing order"
+    },
+    {
+      "id": "omitted-guidance-6",
+      "phrase": "Compare your answer to \"On what date was the record sealed by court order?\" against that certified copy, and correct the packet if they disagree",
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "participant instructions omit held requirement: Compare your answer to \"On what date was the record sealed by court order?\" against that certified copy, and correct the packet if they disagree"
+    },
+    {
+      "id": "omitted-guidance-7",
+      "phrase": "any hearing is required or set",
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "participant instructions omit held requirement: any hearing is required or set"
+    },
+    {
+      "id": "canonical-pdf-corrupt",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "canonical PDF hash declaration is stale\n+ actual - expected\n\n+ 'ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df'\n- 'f3ae4d592ff5b74671d80571d62aa1fd4fcae835d662eb39ad849f04e6828195'\n"
+    },
+    {
+      "id": "stale-artifact-hash",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "canonical PDF hash declaration is stale\n+ actual - expected\n\n+ '0000000000000000000000000000000000000000000000000000000000000000'\n- 'ff4268b1adca4883f44d059303aa59c0ceab618e1bbf6ed02fa464dd667b73df'\n"
+    },
+    {
+      "id": "old-name-coordinate-in-map",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "production field map does not preserve the measured source placements\n+ actual - expected\n... Skipped lines\n\n  {\n    page1_first_name: {\n      page: 1,\n      sourceBlank: {\n        leftLabelBaseline: 707.939,\n...\n      x: 45,\n+     y: 686\n-     y: 696\n    },\n    page1_middle_name: {\n      page: 1,\n      sourceBlank: {\n        leftLabelBaseline: 707.939,\n"
+    },
+    {
+      "id": "stale-glyph-counter",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "canonical addedGlyphsReadFromOutputBytes is stale\n\n0 !== 249\n"
+    },
+    {
+      "id": "record-omits-hearing-stop",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": true,
+      "expectedRefusal": true,
+      "error": "Florida bridge Any hearing self-help stop is absent"
+    },
+    {
+      "id": "service-section-omitted-scope-control",
+      "phrase": null,
+      "entrypoint": "run([\"--check\"]) from current unmodified builder",
+      "refused": false,
+      "expectedRefusal": false,
+      "error": null
+    }
+  ],
+  "negativeControlsRefused": 15,
+  "repositoryInputsUnchanged": true,
+  "inMemoryOnly": true,
+  "limitation": "Current --check does not validate the service paragraph or call serviceRequirement. The service-omission scope control is accepted; this is not a negative PASS. SERVICE is independently supported by exact current paragraph, unchanged legal bindings and the prior unchanged helper controls, not by this command."
+}

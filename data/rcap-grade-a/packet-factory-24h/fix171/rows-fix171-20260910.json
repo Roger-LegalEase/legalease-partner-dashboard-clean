@@ -1,0 +1,284 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX171",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/vfa-worktree",
+  "branch": "lane-fix171-20260910",
+  "repairedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
+  "commits": [
+    {
+      "sha": "5ad91547f8b795cb03fb2b828a3aea145897be96",
+      "familyId": "ne-setaside-custodial-set",
+      "subject": "a build that refuses stops before it writes, and the glyph reading it took is the one it publishes"
+    },
+    {
+      "sha": "8d47aa40d2aa850ae26e38d6b07ff3c717c3259f",
+      "familyId": "fl-early-juvenile-set",
+      "subject": "the fee the statute lets FDLE waive, the circuits that must all approve, and a fixture that named two people"
+    }
+  ],
+  "grantSet": "82f53fb72fdadfe7. Two --assert calls in the three-token form, both CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 409a7c835684f171d3b7ec5dfd21d3f7c542c0d7). Released at return, uncommitted.",
+  "actedOnReturns": [
+    "VF42 rows-vf42-20260910.json at ca8f8909, the independent verification that failed ne-setaside-custodial-set on ARTIFACTS and PAGE_ORDER. Both findings reproduce at this base; one number and one argument of VF42's are corrected below.",
+    "The Florida independent review (CHATB20260907) at 9e22d30b, which failed fl-early-juvenile-set on six obligations. Four reproduce, one does not, and one is re-derived and re-classified.",
+    "FIX135 rows-fix135b-cone-20260910.json, whose builder repairs to Nebraska this lane left in place, re-measured, and completed. FIX135's refusal to declare plain meanings for four fields whose classification the census no longer supports was CORRECT, and this lane's measurement shows why.",
+    "FIX141 rows-fix141-20260910.json, whose BLOCKED_SOURCE finding on Florida this lane independently reproduced, and whose ordering argument this lane followed on the clipping coordinates and departed from on the two instruction repairs."
+  ],
+  "builtAnything": true,
+  "repairsMade": 5,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedManifestsTouched": "None under data/rcap-grade-a/packet-factory-24h/ other than fix171/. RASTER_QUEUE.json was NOT edited: neither family owes a raster, because no PDF byte of either moved. No product-wiring.json was edited, for the same reason and because both are generated files.",
+  "sharedModulesTouched": "scripts/build-census-v1-ne-setaside-custodial-set.mjs is a shared HOST, imported by ne-setaside-noncustodial-set, ne-trafficking-setaside-and-seal-set, wv_conv_multiple_misdemeanors-set and wv_conv_single_misdemeanor-set. The write-ordering repair is behaviour-preserving for all of them and gives the two West Virginia families, which FIX135 measured as also failing to rebuild, the same protection. scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs was measured extensively and DELIBERATELY NOT CHANGED; see theType0Measurement.",
+  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "determinismControlBeforeEditing": {
+    "ne-setaside-custodial-set": "The unmodified builder was run at the base before any edit. It does NOT reproduce the committed fixtures: it REFUSES, with AssertionError 'ne-setaside-custodial-set: 4 disclosed blank(s) carry no plain meaning ...: DC-1-15/Text44, DC-1-15/Text46, DC-1-15/Text1, DC-1-15/Text74', identical to VF42's and FIX135's to the field names. Before the throw it produced fixtures c5dee7b4076a9c346954dcae4008c50783e86c45b90abdff9a2458306a5ae92c (boundary) and b02c3b62d14579e010deef29863fee2a85e28ed1abebc6acaa0514fdc1c0b7f4 (canonical), which are neither committed digest and are exactly the two digests VF42 recorded from its own refusal probe.",
+    "ne-sideEffectsFound": "EIGHT modified files after the throw, exactly as VF42 measured: fixtures/boundary.pdf, fixtures/canonical.pdf, and raster/{boundary,canonical}/page-03.png, page-04.png, page-05.png. All eight restored with `git checkout --` on the two directories; the fixtures re-hashed to 07a9b4ab and dd1cde67 and `git status --porcelain` went empty. This side effect is now REPAIRED rather than merely reported: see rows[0].",
+    "fl-early-juvenile-set": "The unmodified builder was run at the base with --check. It writes NOTHING and refuses at its own source gate: 'BLOCKED_SOURCE: FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION is absent; required SHA-256 d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb'. `git status --porcelain` was empty afterwards.",
+    "fl-sideEffectsFound": "NONE. This builder already has the hardened shape: run() calls sourceBytes() as its first statement, so it reaches its source before it writes or deletes anything. It is the shape Captain gave build-census-v1-nj_arrest_no_conviction-set.mjs, and it did not need it applied.",
+    "whichBuilderWipesFirst": "The Nebraska host does. rasterPacket at line 3144 fs.rmSync's every page-*.png in the raster directory before regenerating them at line 3171, and before this lane's repair that happened 161 lines ahead of the assertion that stops this family. Neither of this lane's two families carries identityRefresh annotations -- grepped, zero hits in both directories -- so none was at risk here, but the window was real and is now closed."
+  },
+  "howBytesWereMeasured": {
+    "pixels": "pdftoppm -r 300 -gray -f N -l N -singlefile, writing binary P5 PGM directly; never -png. The reader asserts the magic is P5 and that maxval is 255, parses the header arithmetically and reads the raster with numpy. Ink threshold: grey < 200, with every reading repeated at grey < 128 so a finding cannot be an anti-aliasing artefact. Scope: whole delivered page at 2550 x 3300 px, and named rectangles inside it converted from PDF top-left points at 300/72 px per point.",
+    "howOverlayINKWasSEPARATEDfromPRINTEDink": "The Florida source binary is not in this container, so the pinned blank cannot be rendered. Instead each delivered fixture was opened with pdf-lib and the LAST content stream of each page removed. pdf-lib appends its drawing as a separate final stream: pages 1-3 carry /Contents arrays of four streams (2, 37218, 2, 2012 / 2, 27423, 2, 325 / 2, 24111, 2, 545 bytes) and pages 4-5 carry a single stream and no overlay at all. Dropping the last element yields a source-equivalent page. addedInk = ink in the delivered render AND NOT in the stripped render.",
+    "positiveControlBeforeEveryZero": "Every zero below was read in the same run as a positive control. Whole-page control, canonical, grey<200: pages 1, 2, 3 read 32,268 / 6,359 / 4,401 added ink px and pages 4 and 5 read 0 -- and 0 is the correct answer on 4 and 5, because those pages carry no overlay stream at all. Rectangle control on page 3: the surname's own word box read 908 added px in the same run in which a blank margin box of the same height read 0.",
+    "aLIMITofTHISDETECTORstatedRATHERthanHIDDEN": "addedInk is blind inside pixels the source already inks. Overlay ink painted exactly on top of a printed rule reads as 0 added, not because nothing was painted but because the pixel was already dark. That is why the agency finding is reported as 17 px ABOVE the rule with 0 px INSIDE the rule band: the 0 is a masked reading, not an absence.",
+    "glyphs": "For Nebraska, scripts/rcap-official-forms/rcap-output-glyph-reading.mjs, which decompresses each flattened widget Form XObject out of the produced bytes and counts the glyphs its show-text operators draw. Not the builder's write intent.",
+    "digests": "sha256sum on the files on disk, before and after every build and every experiment."
+  },
+  "everyZeroHasAPositiveControl": true,
+  "rasterPixelCounts": {
+    "note": "fl-early-juvenile-set only. 300 dpi, grey<200 unless stated, delivered fixture minus the same fixture with its overlay content stream removed, as set out above. Nebraska was not measured in pixels by this lane: no byte of it moved and its two failing obligations are not pixel obligations.",
+    "fl-early-juvenile-set": {
+      "wholePageAddedInkCanonical": { "page1": 32268, "page2": 6359, "page3": 4401, "page4": 0, "page5": 0 },
+      "wholePageAddedInkBoundary": { "page1": 46690, "page2": 10068, "page3": 8764, "page4": 0, "page5": 0 },
+      "printedSourceInkLost": "0 on all ten pages, both fixtures, at grey<200. No overlay covers printed matter to the point of erasing it.",
+      "CHATB_FL_01_page3_surnameOverThePrintedNameCaption": {
+        "box": "the printed 'Name:' word box, x 41.400..71.960, y_topleft 82.975..92.225, taken from pdftotext -bbox on the delivered page",
+        "addedInkInBoxCanonical": 169,
+        "addedInkInBoxBoundary": 128,
+        "addedInkInBoxCanonicalAt128": 154,
+        "addedInkInBoxBoundaryAt128": 118,
+        "sourceInkInBox": 1654,
+        "positiveControlSameRun": "the surname's own box x 65.000..89.089 y 81.897..89.760 read 908 added px canonical",
+        "negativeControlSameRun": "a blank margin box of the same height, x 300..330, read 0 added px and 0 source px",
+        "verdict": "REPRODUCES. Overlay glyph ink lands inside the issuer's own printed caption box on both fixtures and survives a threshold change."
+      },
+      "CHATB_FL_02_page1_valuesAgainstTheirAnswerRules": {
+        "agencyValue": {
+          "column": "x 143.000..261.099",
+          "addedInkStrictlyAboveTheRuleTopCanonical": 17,
+          "addedInkStrictlyAboveTheRuleTopBoundary": 36,
+          "atGreyUnder128": { "canonical": 13, "boundary": 24 },
+          "addedInkInsideTheRuleBand": 0,
+          "addedInkInsideTheRuleBandIsMASKEDnotABSENT": true,
+          "positiveControlSameRun": "the value's own cell, y 326.897..334.7595, read 4,090 added px canonical",
+          "verdict": "REPRODUCES. The agency value's glyph tops cross above the printed rule at both thresholds and on both fixtures."
+        },
+        "dateAndChargeRow": {
+          "columns": "x 63.000..322.340",
+          "addedInkStrictlyAboveTheRuleTop": 0,
+          "addedInkInsideTheRuleBandCanonical": 173,
+          "addedInkInsideTheRuleBandBoundary": 197,
+          "atGreyUnder128": { "canonical": 160, "boundary": 181 },
+          "positiveControlSameRun": "the values' own cell, y 367.615..374.5525, read 6,799 added px canonical",
+          "verdict": "REPRODUCES, and this lane's reading agrees with FIX141's narrowing rather than with the review's undifferentiated statement: NO date or charge ink sits above its rule at either threshold. What is measurable is 173 and 197 overlay px inside the rule's own band. The severity of the two findings differs and is reported differently."
+        }
+      },
+      "whyNoneOfThisWasREPAIRED": "This is an official_pdf_overlay drawn at absolute coordinates onto a pinned page. Every remedy is a coordinate change, every coordinate change needs a rebuild, and no rebuild is possible without the 22,449-byte source. FIX141's ordering argument also stands and this lane checked it: if CHATB-FL-06 resolves onto the June 2021 instrument, every coordinate on this family is replaced and coordinate work done now is discarded."
+    }
+  },
+  "visualDefects": null,
+  "visualDefectsWhyNull": "null because NOT MEASURED as a scored counter by this lane, never because measured as zero. Specific pixel readings are published above; a whole-family visual-defect count is not among them.",
+  "theType0Measurement": {
+    "whyThisIsHere": "VF42 established that scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs line 260 reads `subtype === \"Type0\"` where subtype stringifies a PDFName and therefore carries a leading slash, so the test is permanently false and CID widths are never read. VF42 then measured, on NE DC-1-15 alone, that repairing it changes 113 widths and 0 decoded strings, and concluded the repair 'may be width-only, which makes it a smaller job than FIX140 concluded'. This lane tested that conclusion, because it decides whether Nebraska can be rebuilt.",
+    "whatThisLaneRan": "Both module versions -- the committed one and one differing ONLY in `subtype` -> `subtypeName` on line 260 -- were imported side by side and extractTextItems was run over every page of 308 corpus PDFs, 994,533 text runs, comparing text and width run for run.",
+    "theWidthResult": "null-width runs 119,883 -> 980, a 99.2% reduction; 118,903 widths change; 244 of 308 files change at least one width. On NE DC-1-15 specifically: 249 runs, 214 null before and 0 after, 214 widths changed, 0 texts changed. VF42's 113 on page 1 plus 101 on page 2 is exactly this lane's 214, reproduced independently.",
+    "theTEXTresultTHATREFUTEStheNARROWCONCLUSION": "14,179 runs change TEXT, across 130 of the 308 files. The changes are corruption, not correction: NE CC-6-11A reads 'b', 'nt', 'er ', 'he ', 'rig' under the committed module and '\\u4500', '\\u6e34', '\\u6572 ', '\\u6865 ', '\\u7269\\u6700' under the fixed one, and AK TF-805, NV RCCD, VT 200-00130A, four RI motions, four NC AOC forms and 120 others do the same.",
+    "whyItCorrupts": "Both DC-1-15 and CC-6-11A use Identity-H, so the CMap is not the difference. The difference is that CC-6-11A's content stream splits two-byte codes ACROSS string operands, so a run can arrive with an odd number of bytes. glyphsOf with step 2 then pairs the wrong bytes. The committed module survives that by walking one byte per glyph and letting collapseUtf16BE merge pairs afterwards, which only works when the NUL falls on even indices.",
+    "theCORRECTIONtoVF42": "VF42's measurement is right and its generalisation is not, and the counter-example is INSIDE THE SAME NEBRASKA FAMILY. DC-1-15 is width-only; CC-6-11a, one of this family's own four bound documents, is not. The honest statement is the one the module's own comment makes and FIX140 made: the repair is a decoding change, not a measurement change. It needs the walker to carry a partial multi-byte code across string operands, which is real surgery on a module with 214 importers in scripts/ alone.",
+    "whatItWOULDbuy": "Measured, not guessed. With the slash change alone and nothing else, the Nebraska build's refusal goes from FOUR unnamed blanks to ONE: Text44 recovers the caption '__________________________, Judge of the ___________________', Text46 recovers '__________________ County Courthouse or Justice Center,', Text1 recovers 'I' under the region heading 'Certificate of Service', and only Text74 (',verify that on', the certificate-of-service date) remains unnamed. With that one field named the family builds to completion, with the page order corrected in the delivered bytes and every glyph reading real. That is what a lane that owns the module would unblock.",
+    "whyThisLaneDIDNOTLANDit": "A two-family repair grant is not authority to change the decoding of 214 importers, and this lane's own measurement says a naive change corrupts 130 of 308 corpus forms. The module was restored to its committed bytes; `git status` is clean of it and nothing in either commit touches it. This is dispatch material for Captain, not a fix to slip in.",
+    "reproduceIt": "The experiment is a one-character edit to line 260 and a side-by-side import; no state was left behind."
+  },
+  "rows": [
+    {
+      "itemId": "ne-setaside-custodial-set",
+      "familyId": "ne-setaside-custodial-set",
+      "jurisdiction": "NE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "commit": "5ad91547f8b795cb03fb2b828a3aea145897be96",
+      "failedObligationsFromVF42": ["ARTIFACTS", "PAGE_ORDER"],
+      "obligationsClearedInDeliveredBytes": [],
+      "headline": "Both VF42 findings reproduce on the committed bytes and neither can be cleared there, because no builder in this tree can regenerate this packet. What this lane repaired is the builder: the glyph reading it publishes is now the reading it took, and a build that refuses no longer destroys the tree on its way to refusing.",
+      "fixtureDigestsBefore": {
+        "fixtures/canonical.pdf": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+        "fixtures/boundary.pdf": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+        "participant-instructions.md": "a13a52d9156fdd69ef67cf7912a6072761e2e00b8edc8e6c1ad0d4002cc10554",
+        "reports/actual-writes.json": "86f44c5f9c496a19e0ac3f1c28a03dc20a092cde46e61945e164402b6bab687b"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "dd1cde67dd6ccef07c3f923b63c99ba4ff589296fa47375fb6a7e0bfb0a29cbb",
+        "fixtures/boundary.pdf": "07a9b4ab7f1165cb3bae77e2e2f9f5ff21c86f00a3bb6bb5051a5868067298b2",
+        "participant-instructions.md": "a13a52d9156fdd69ef67cf7912a6072761e2e00b8edc8e6c1ad0d4002cc10554",
+        "reports/actual-writes.json": "86f44c5f9c496a19e0ac3f1c28a03dc20a092cde46e61945e164402b6bab687b"
+      },
+      "whichRepairsMovedBytes": "NONE. Every file in this family directory is byte-identical to its committed state at the base, verified by re-hashing all 22 files after the last experiment was reverted.",
+      "ARTIFACTS": {
+        "reproducedAtHead": true,
+        "vf42sFinding": "of 8 artifact entries in reports/actual-writes.json, SIX publish proofSummary.addedGlyphs as null -- CC-6-11, CC-6-11.2 and DC-1-15 on both fixtures -- and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes appears nowhere in the directory.",
+        "confirmedByThisLane": "Read from the committed report at this base. Six nulls, in exactly the entries VF42 names. grep for nonWhitespaceGlyphsOutsideMeasuredWriteBoxes over the directory returns nothing.",
+        "whatVF42COULDnotSEE": "That it reproduces in a SUCCESSFUL build too. Under a harness that let this family build to completion, the rebuilt report still published addedGlyphs null on the same six entries -- while FIX135b's real reading, addedGlyphsReadFromOutputBytes, sat in the SAME object carrying 186, 99, 671, 0 canonical and 441, 133, 1147, 0 boundary. A name that reads as a reading, next to a reading, with no number in it. Fixing the blocker alone would NOT have fixed ARTIFACTS.",
+        "repair": "proofSummary.addedGlyphs now carries item.proof.addedGlyphs when the geometry-subtraction path computed one, else the output-byte reading, else null -- never 0. A sibling key addedGlyphsBasis names which of the two readings it is.",
+        "countersBeforeAndAfter": {
+          "proofSummary.addedGlyphs_canonical_CC-6-11": { "before": null, "after": 186 },
+          "proofSummary.addedGlyphs_canonical_CC-6-11.2": { "before": null, "after": 99 },
+          "proofSummary.addedGlyphs_canonical_DC-1-15": { "before": null, "after": 671 },
+          "proofSummary.addedGlyphs_canonical_CC-6-11A": { "before": 0, "after": 0, "note": "unchanged and already a reading: the geometry-subtraction path computes it for this flat sheet" },
+          "proofSummary.addedGlyphs_boundary_CC-6-11": { "before": null, "after": 441 },
+          "proofSummary.addedGlyphs_boundary_CC-6-11.2": { "before": null, "after": 133 },
+          "proofSummary.addedGlyphs_boundary_DC-1-15": { "before": null, "after": 1147 },
+          "proofSummary.addedGlyphs_boundary_CC-6-11A": { "before": 0, "after": 0 },
+          "theseAFTERvaluesLIVEinNOCOMMITTEDFILE": "They were read under a harness build and are reported as measurements, not as delivered bytes. The committed reports/actual-writes.json still carries the six nulls, because this family cannot be rebuilt."
+        },
+        "clearedInDeliveredBytes": false
+      },
+      "PAGE_ORDER": {
+        "reproducedAtHead": true,
+        "vf42sFinding": "the delivered packet runs CC-6-11 -> CC-6-11.2 -> CC-6-11A -> DC-1-15 while data/record-clearing/legal-design-packet-set-manifests.json declares DC-1-15 third and CC-6-11a fourth, and source-receipt.json agrees with the DELIVERED order, so the two committed records disagree with each other.",
+        "confirmedByThisLane": "The delivered order in the committed bytes is unchanged at this base. The BUILDER, however, already produces the manifest order: every run this lane made printed, on both fixtures, 'assembled order CC-6-11 -> CC-6-11.2 -> DC-1-15 -> CC-6-11A matches the manifest'. FIX135b's assertAssembledPagesFollowTheManifest is real, reads the saved packet bytes back, and passes.",
+        "notRepairedHereBecause": "There is nothing left to repair in the builder and nothing this lane can repair in the bytes. The defect is now purely that the delivered packet predates the builder. Clearing it needs a rebuild.",
+        "clearedInDeliveredBytes": false
+      },
+      "theWIPErepair": {
+        "defect": "fs.writeFileSync of both fixtures, and rasterPacket which fs.rmSync's every existing page-*.png before regenerating them, ran 161 lines AHEAD of assertEveryDisclosedBlankIsNamed -- the gate that actually stops this family. VF42 measured the consequence: eight modified files after a throw, and a window between the rm and the write in which the raster directory is short rather than merely stale.",
+        "repair": "The block that combines, writes and rasters now runs AFTER every gate that can refuse. It reads only byFixture, config and familyId, all final before it, and pushes nothing into findings that the census block also pushes.",
+        "behaviourControl": "Built both ways under one harness and compared all 22 output files. 21 byte-identical; the 22nd, reports/actual-writes.json, moved only because of the addedGlyphs repair made in the same commit.",
+        "endToEndProof": "With the harness removed and the family restored to its committed bytes, the unmodified-at-this-base builder still throws on the four unnamed DC-1-15 blanks -- and `git status --porcelain` is EMPTY afterwards, where VF42 measured eight modified files."
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        "assertNoOutputWrittenBeforeTheGates -- fingerprints every file under fixtures/ and raster/ at buildOfficial entry by path, size, mtime and sha256, and refuses if anything under them moved before the gates. PROOF, INCLUDING A FAILED FIRST ATTEMPT: the first draft hashed CONTENT ONLY. Moving the write block back above the gates did NOT fire it, because the bytes it rewrote were identical -- an ineffective break, credited to nothing. The fingerprint was corrected to carry size and mtime, the same break was re-run, and it refused with 'a packet or raster byte was written before this build's refusing gates ran'. Restored, and the rebuilt output re-hashed identical to the repaired run.",
+        "the addedGlyphs reading guard -- a family that declares emitOutputByteGlyphReadings may not publish proofSummary.addedGlyphs without a number. PROVED by putting the null back: it refused with 'ne-setaside-custodial-set: 6 artifact entr(ies) publish proofSummary.addedGlyphs without a reading: canonical/CC-6-11, canonical/CC-6-11.2, canonical/DC-1-15, boundary/CC-6-11, boundary/CC-6-11.2, boundary/DC-1-15' -- the same six entries VF42 named, arrived at independently. Restored, and the output re-hashed identical."
+      ],
+      "rasterState": "Nothing owed. No fixture byte moved, so whatever binds the committed canonical dd1cde67 and boundary 07a9b4ab still binds. RASTER_QUEUE.json untouched.",
+      "whatCouldNotBeRepaired": [
+        "ARTIFACTS and PAGE_ORDER in the DELIVERED BYTES. Both need a rebuild. The builder refuses on four DC-1-15 blanks whose printed captions the shared anchor-capture module can no longer measure, and the module repair is out of this lane's grant and, on this lane's own measurement, corrupts text on 130 of 308 corpus forms if done naively.",
+        "The four blanks themselves. FIX135 refused to declare plain meanings for them because their court-owned-versus-participant-owned classification is derived from captions the census no longer supports, and this lane's measurement CONFIRMS that judgement: with the captions restored, DC-1-15/Text44 is '__________________________, Judge of the ___________________' -- the judge's own signature line. Naming it as a participant task would have put the judge's signature line in the participant's to-do list. FIX135 was right and this lane did not overrule it."
+      ]
+    },
+    {
+      "itemId": "fl-early-juvenile-set",
+      "familyId": "fl-early-juvenile-set",
+      "jurisdiction": "FL",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+      "commit": "8d47aa40d2aa850ae26e38d6b07ff3c717c3259f",
+      "failedObligationsFromTheReview": ["ARTIFACTS", "CLIPPING_AND_OVERLAP", "FEE_AND_WAIVER", "KNOWN_PREFILLS", "SERVICE", "SOURCE_IDENTITY"],
+      "headline": "Of six, one no longer reproduces, two are repaired in delivered guidance, one is repaired at its cause but not on the printed page, and two cannot be repaired in this container at all. The source binary this family overlays is not here, and every remaining repair is a coordinate on a page nobody can render.",
+      "fixtureDigestsBefore": {
+        "fixtures/canonical.pdf": "a621821597bb296782a424942abbac226e7beb57b34ef869e60dc53f30ba92ae",
+        "fixtures/boundary.pdf": "9bd0ab0144742a973d38afe6b0880868581d88525eeb906c1da8499f74e58484",
+        "participant-instructions.md": "84b179c2c2af91b702bc8a5af9bf3962458dcaf2e8074a8e6c2ce6e1715809fa",
+        "filing-instructions.md": "1529f843f914482211deee23452c8273056b4496b3c3c8d1d5f768ab424f1fc7",
+        "production-field-map.json": "ba252a424a8a19b7b368507b1b462eb17b093d8930f64444a515ab428f6feb80",
+        "reports/actual-writes.json": "a0b354875d2b83218dd02d1c6c831b0eadda50277ac72fc61263936bbe42b1d5",
+        "source-receipt.json": "b144272c434b17da56884902dc3cd1c44bcd729628c607738bb0d06c8ea91cb8"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "a621821597bb296782a424942abbac226e7beb57b34ef869e60dc53f30ba92ae",
+        "fixtures/boundary.pdf": "9bd0ab0144742a973d38afe6b0880868581d88525eeb906c1da8499f74e58484",
+        "participant-instructions.md": "c06c1b9948f7c1a5a55d5ca3c18204c04f196f0f153adbdde3282e66a870c867",
+        "filing-instructions.md": "bad1a97f0a5f83b1b9b5ca9833584eacd0ee0f979005f13b76299074aff27253",
+        "production-field-map.json": "ba252a424a8a19b7b368507b1b462eb17b093d8930f64444a515ab428f6feb80",
+        "reports/actual-writes.json": "a0b354875d2b83218dd02d1c6c831b0eadda50277ac72fc61263936bbe42b1d5",
+        "source-receipt.json": "b144272c434b17da56884902dc3cd1c44bcd729628c607738bb0d06c8ea91cb8"
+      },
+      "whichRepairsMovedBytes": "The two instruction files only. No PDF byte moved, so the acceptance receipt bound to canonical a6218215 still binds and no raster is owed.",
+      "howTheMARKDOWNwasREGENERATEDwithoutABUILD": "The builder cannot run: its source gate refuses first. filingInstructions() was first extracted from an inline array literal into a named function -- a pure refactor -- and a harness built from the UNMODIFIED builder emitted both guides and reproduced their committed digests EXACTLY, 84b179c2 and 1529f843, before a single word changed. That is the faithfulness proof. The two committed files are the same harness's output from the repaired builder, so the next real rebuild writes these same bytes.",
+      "obligations": {
+        "ARTIFACTS": {
+          "reproducedAtHead": false,
+          "theReviewsFinding": "CHATB-FL-05: product-wiring blob 1e6ea52a still proposed canonical ec718a25... and acceptance run 33923497915 / artifact 9956098914, while the actual canonical was a621821... and the admitted raster 34130973793 / artifact 10022282708.",
+          "measuredAtThisBase": "The blob is now aa970eca3c3b27372d32f2da41f2f3761e503469, not 1e6ea52a. proposedRepresentation.components[0].sha256 reads a621821597bb296782a424942abbac226e7beb57b34ef869e60dc53f30ba92ae; acceptanceReceipt reads workflowRunId 34130973793, artifactId 10022282708, boundToCanonicalSha256 a621821597...  Every value the review asked for is present.",
+          "whenItWasRepaired": "Between 9e22d30b and this base, by the product-wiring regeneration in c91683ebe and a5e4658d8. Not by this lane. NOTHING WAS MANUFACTURED FOR IT.",
+          "theONEPARTthatSTILLLOOKSMISSINGandISNOT": "The review also asked for 'the boundary and both page counts'. proposedRepresentation still lists the canonical component alone. That is by design, not staleness: scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs only re-pins components already listed, and its own comment records that the central raster gate never renders boundary fixtures. Reported so the next reader does not chase it."
+        },
+        "SOURCE_IDENTITY": {
+          "reproducedAtHead": true,
+          "WHICHOFTHETWOITIS": "It is the ISSUER-EDITION kind, NOT a stale shared-record pin. Re-derived at this base, not taken from a summary.",
+          "howThatWasEstablished": "Every pin in this family directory was walked BY SHAPE -- any object carrying a repository-path key beside a sha256, in any container, not only groundingRecords. Ten were found, across source-receipt.json (mountedReadOnlySource and all four authorityRecords), reports/rendered-artifacts.json (pdfs[0..1] and artifacts[0..1]) and product-wiring.json (proposedRepresentation.components[0]). Every in-repository pin RECOMPUTES TO ITS PINNED DIGEST at HEAD: CODEX_CS2_SRC2_ACQUISITION.json 061f4c5f, FL.memo.json 9b497440, FL-florida.json ffef299b, route-obligation-candidate.json f6fc0814, and both fixtures. Byte lengths match too. The tenth is the mounted custody path, which is absent from this container and is the separate blocker below. This family also does not appear in data/rcap-grade-a/source-identity/COMMITTED_RECORD_PIN_DRIFT_2026-09-04.json, so it was not among the 34 pins Captain swept.",
+          "theRealFinding": "Read from the review's own text rather than a summary: the family binds FDLE 40-028 printed 'Revised October 2019', while the official Florida Administrative Code reference Ref-14426, used by rule 11C-7.010 effective 08/30/2023, exposes a five-page FDLE 40-028 printed 'Revised June 2021' whose parsed text adds approved fingerprint vendors on pages 3 and 5 and expressly requires physical paper rather than electronic submission on page 5. Those are substantive procedural additions absent from the 2019 edition this family renders.",
+          "notRepaired": "A build lane does not decide which edition the issuer's rule adopts, and the reviewer expressly left 'obtaining and hashing the adopted raw binary' outstanding. This container cannot obtain it: network egress to the Florida sources is blocked (flsenate.gov returned EGRESS_BLOCKED from the proxy when this lane tried to read the statute), and the 2021 blank is not in the mounted corpus, whose FL folder holds FDLE 40-021 and 40-026 only."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "reproducedAtHead": true,
+          "measurement": "see rasterPixelCounts.fl-early-juvenile-set. Both findings reproduce in pixels at 300 dpi at grey<200 and again at grey<128, on both fixtures, with a positive and a negative control read in the same run.",
+          "aNARROWINGthisLANECONFIRMS": "FIX141 narrowed the review's page-1 finding: the agency value clips against its rule, the date and charge values do not. This lane's independent pixel reading agrees -- 17 and 36 px above the rule for the agency, 0 for the date and charge at both thresholds -- and adds the part FIX141 did not have: 173 and 197 overlay px inside the date/charge rule's own band.",
+          "notRepaired": "No rebuild is possible, and FIX141's ordering argument stands: if SOURCE_IDENTITY resolves onto the June 2021 instrument, every coordinate here is replaced."
+        },
+        "KNOWN_PREFILLS": {
+          "reproducedAtHead": true,
+          "measuredOnTheDELIVEREDBYTES": "pdftotext on the committed boundary fixture: pages 1 and 3 print 'Isabel', page 2 prints 'Maria-Alejandra O'Shaughnessy-Whitfield' with no middle name. reports/actual-writes.json declares expected 'Maria-Alejandra O'Shaughnessy-Whitfield' for page2_name, so the report reproduces the incomplete expectation exactly as the review said it would.",
+          "theCAUSErepairedHERE": "The FIXTURES constant declared participant.full_name by hand beside the split parts and dropped participant.middle_name. Isabel is restored FROM THE FIXTURE'S OWN middle_name -- invented from nothing, and no participant fact fabricated.",
+          "measuredBeforeChanging": "182.59 pt at 8.5 pt Helvetica against the 257 pt page-2 rectangle, computed with the builder's own fitText arithmetic and font. It fits without shrinking, so the correction cannot silently clip.",
+          "whatIsNOTrepaired": "The DRAWN page-2 value. The review also asks for the printed 'Last, First Middle' order, which changes the string on the page and needs a rebuild and a re-measure. The committed PDFs still print the short name.",
+          "clearedInDeliveredBytes": false
+        },
+        "FEE_AND_WAIVER": {
+          "reproducedAtHead": true,
+          "measured": "Both committed guides presented the $75 as unconditional. Neither contained the words 'waive', 'waiver' or 'executive director'.",
+          "repaired": true,
+          "whatTheGUIDESSAYNOW": "The fee is paid unless the executive director of FDLE waives it; section 943.0515, Florida Statutes, provides for that waiver and gives the decision to the executive director; ask FDLE's Seal & Expunge Section for the current waiver-request instructions; until a waiver is actually granted the $75 is still owed and goes in with the packet; and this is not a court fee-waiver motion, not an indigency finding, and not the juvenile-diversion fee exception.",
+          "whatIsDELIBERATELYNOTSAID": "The statute is NOT quoted. Egress to flsenate.gov is blocked in this container, so this lane did not read section 943.0515 and does not pretend to; what is carried is the finding of the independent review that did read it, and the guide attributes the rule to the section without putting words in it. The waiver REQUEST MECHANICS are stated nowhere, because no held source in this repository carries them, and the guide says so instead of inventing a procedure.",
+          "theRECORDSOWNAMOUNT": "$75, carried unchanged on both files and asserted by the guard."
+        },
+        "SERVICE": {
+          "reproducedAtHead": true,
+          "measured": "Both committed guides said 'the appropriate State Attorney or Statewide Prosecutor', singular, and neither contained the phrase 'every affected circuit'.",
+          "repaired": true,
+          "whatTheGUIDESSAYNOW": "Where the included arrests or charges span more than one judicial circuit, section 943.0515 requires the approval of the prosecutor of EVERY affected circuit; this is a decision each office makes for itself and may refuse, not ordinary civil service; and the participant stops and gets help before sending anything if any required approval is missing or refused. Every prosecutor field, decision and signature remains blank.",
+          "notTested": "The two committed fixtures are single-arrest, single-circuit. No multi-circuit branch was executed or claimed tested."
+        }
+      },
+      "guardsAddedAndPROVEDTOFIRE": [
+        "assertFixtureNamesAreConsistent -- refuses a fixture whose participant.full_name does not contain each of its own name parts. PROVED AGAINST THE LIVE DEFECT, not a synthetic break: run before the fix it refused with 'fl-early-juvenile-set/boundary: participant.full_name \"Maria-Alejandra O'Shaughnessy-Whitfield\" does not contain participant.middle_name \"Isabel\"'. That is CHATB-FL-03 named by the builder itself.",
+        "assertFeeWaiverAndEveryCircuitAreDisclosed -- refuses either guide that drops the waiver, its decision-maker, the every-affected-circuit rule or the $75. PROVED TWICE: with the waiver sentence removed from filing-instructions it refused naming filing-instructions.md and the fee waiver; with the circuit sentence removed from the participant guide it refused naming participant-instructions.md and the every-affected-circuit approval. Restored after each, and the emitted guides re-hashed to c06c1b99 and bad1a97f.",
+        "BOTH GATES WERE PLACED ABOVE THE SOURCE GATE ON PURPOSE. run() previously called sourceBytes() as its first statement, so in a container without the binary NOTHING in this builder could be exercised at all. The pure gates now run first, `--check` reaches them, and they are provable exactly where the packet is not buildable."
+      ],
+      "rasterState": "Nothing owed. fixtures/canonical.pdf a6218215 and fixtures/boundary.pdf 9bd0ab01 are unchanged, so the acceptance receipt RASTER_PASS workflowRunId 34130973793 artifactId 10022282708 boundToCanonicalSha256 a6218215 STILL BINDS. Markdown is not rastered. RASTER_QUEUE.json untouched and product-wiring.json unedited.",
+      "theBLOCKERreproducedINDEPENDENTLY": {
+        "command": "node scripts/build-census-v1-fl-early-juvenile-set.mjs --check",
+        "result": "AssertionError: BLOCKED_SOURCE: FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION is absent; required SHA-256 d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb",
+        "searchThisLaneRan": "The declared custody root /workspaces/.legalease-source-staging does not exist in this container. `find` for a file of exactly 22,449 bytes over the whole worktree and over the mounted Master Library returned NOTHING. The corpus FL folder holds FDLE 40-021-EXPUNCTION, 40-021-SEALING, 40-026 and two circuit packets, and no 40-028. FIX141's account is exact and this lane reproduced it rather than citing it.",
+        "consequence": "This family is an official_pdf_overlay: text is drawn at absolute coordinates onto the pinned page, so there is no byte repair that does not rebuild, and no rebuild without those 22,449 bytes."
+      },
+      "whatCouldNotBeRepaired": [
+        "CLIPPING_AND_OVERLAP -- measured in pixels, four separate readings, no rebuild available.",
+        "SOURCE_IDENTITY -- an issuer-edition question a build lane does not decide, with the 2021 instrument unobtainable in this container (egress blocked, not in the corpus).",
+        "KNOWN_PREFILLS on the printed page -- the cause is repaired and guarded, the drawn page-2 value and its printed name order are not.",
+        "The two repaired guides are NOT delivered against a rebuilt packet. They describe the same 2019 instrument the committed PDFs render, and if the June 2021 edition is adopted they will need re-reading against it."
+      ]
+    }
+  ],
+  "outOfScopeOBSERVEDNOTACTEDON": [
+    "scripts/build-census-v1-fl-early-juvenile-set.mjs buildFixture computes `glyphs += expected.replace(/\\s+/g, \"\").length` -- the character count of the value the builder INTENDED to write, not a reading of the produced bytes -- and publishes it as `glyphs` in reports/rendered-artifacts.json. countCompleteness then gates invisibleWrites on `artifact.actualWrites.length > 0 && artifact.glyphs === 0`, which can therefore never fire: the sum can only be zero when there are no writes. That is a lying counter of exactly the shape this factory names, and the review's own nineCounters reports invisibleWrites 0 from it. NOT REPAIRED: the honest repair is to read the produced bytes, the module to do it exists (scripts/rcap-official-forms/rcap-output-glyph-reading.mjs), and the FL builder cannot be run in this container, so adding an unexercised reader to a blocked builder would be code nobody has watched work. Recorded precisely instead.",
+    "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs has TWO remaining silent null-x2 coercions that commit e258e47a0 fixed in one place and missed in two. Line 888 `if (run.x2 > rect.x + 1) continue;` does NOT skip a run whose x2 is null, because `null > n` is false, and line 889 then computes `gap = rect.x - run.x2`, coercing null to 0 and yielding rect.x. Line 777 `if (parts[0].x - runs[i].x2 > CELL_GAP) break;` coerces the same way. Line 906, in the same function, DOES handle it explicitly with `.filter((v) => typeof v === \"number\")`, which is what makes the other two look like oversights rather than decisions. Consequence at line 888: a widget whose rect.x is small enough can be given a caption from an unmeasurable run at a fabricated gap. NOT REPAIRED: 214 files under scripts/ import this module, and this lane holds a two-family grant.",
+    "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/product-wiring.json and source-receipt.json are byte-identical between the committed tree and a harness rebuild, which is worth knowing: carryProductBinding is working and a rebuild would not delete the Captain-maintained binding.",
+    "The Nebraska host builder's rasterPacket deletes before it renders. That is now harmless for these five families because the whole write-and-raster block runs after the gates, but the delete-before-render shape itself is unchanged and would still leave a short directory if rasterPacket ITSELF threw between its rm and its write."
+  ],
+  "whatThisLaneCouldNotDo": [
+    "Rebuild either family. Nebraska refuses on four blanks whose captions the shared module can no longer measure; Florida has no source binary in this container.",
+    "Read section 943.0515. Egress to flsenate.gov is blocked by the network proxy. No statutory text is quoted anywhere in the guides or in this row.",
+    "Obtain or hash the adopted June 2021 FDLE 40-028.",
+    "Measure the Type0 repair's effect on anything but text and width. Whether restored captions change field CLASSIFICATION across the fleet is unmeasured; this lane only measured that Nebraska's four unnamed blanks become one."
+  ],
+  "grantsNothing": [
+    "No packet here is proven, approved, promoted or made commercially deliverable.",
+    "No commercial route was opened, no checkout, sponsorship or packet credit touched.",
+    "No compiled runtime, Supabase, Stripe or production environment was touched.",
+    "A repaired builder is not a repaired packet. Every delivered PDF in both families is exactly the byte it was at the base."
+  ],
+  "independentReVerificationOwed": "Owed on BOTH families, to a lane that is neither FIX171 nor the lane that found the defect -- so neither VF42 (Nebraska) nor CHATB20260907 (Florida), and neither FIX135 nor FIX141, whose work this lane built on. Nothing in this return is self-verified. ne-setaside-custodial-set: confirm that a refusing build leaves `git status --porcelain` empty, that both guards refuse when broken, and that ARTIFACTS and PAGE_ORDER remain FAIL on the delivered bytes. fl-early-juvenile-set: re-read both guides for the fee-waiver and every-affected-circuit disclosures against the statute this lane could not reach, confirm the guides are what the builder emits, and re-measure the four clipping readings independently.",
+  "grantsReleased": "Both released at return, uncommitted: ne-setaside-custodial-set and fl-early-juvenile-set."
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "rcap-author-input-preflight/v1",
+  "familyId": "mo-610-122-arrest-expungement-set",
+  "passed": true,
+  "checks": [
+    {
+      "name": "reject false sworn basis",
+      "passed": true,
+      "message": "PARTICIPANT_ATTESTATION_REQUIRED:falseInformation"
+    },
+    {
+      "name": "reject missing fingerprint commitment",
+      "passed": true,
+      "message": "PARTICIPANT_ATTESTATION_REQUIRED:fingerprintCardWillBeProvided"
+    },
+    {
+      "name": "reject county mismatch",
+      "passed": true,
+      "message": "FILING_COUNTY_MISMATCH"
+    },
+    {
+      "name": "reject judicial signature input",
+      "passed": true,
+      "message": "PROTECTED_EXECUTION_INPUT:judgeSignature"
+    },
+    {
+      "name": "reject missing financial fact",
+      "passed": true,
+      "message": "REQUIRED_FINANCIAL_INPUT:grossSalary"
+    },
+    {
+      "name": "reject missing disposition",
+      "passed": true,
+      "message": "REQUIRED_INPUT:dispositionDate"
+    },
+    {
+      "name": "reject repeated agency overwrite",
+      "passed": true,
+      "message": "REPEATED_AGENCY_KIND_REQUIRES_SEPARATE_MAPPING"
+    },
+    {
+      "name": "accept complete false-information",
+      "passed": true
+    },
+    {
+      "name": "accept complete qualifying-traffic",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "worker": "FABLE-R5",
+  "branch": "fable/r5",
+  "baseMerge": "captain claude/legalease-sprint-captain-utucnw merged at 1338a0bcf",
+  "whatThisReturnGrants": "Nothing. Every family below must be re-verified by someone who neither built nor repaired it; no route opens, nothing promotes past state_built.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "familyId": "ar-arrest-seal-set",
+      "lane": "FIX01",
+      "claimResult": "CLAIM_OK FIX01 ar-arrest-seal-set (repair, grant set 68649c13ab76b741); RELEASED after commit",
+      "failedObligationsRepaired": ["REQUIRED_BEFORE_FILING", "FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "defectsReproduced": [
+        "participant-instructions.md did not exist in the family directory (fs listing of data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/), exactly as vf04 recorded for all five obligations."
+      ],
+      "repairsMade": [
+        "Added a deterministic participant-instructions.md emitter to scripts/build-census-v1-ar-arrest-seal-set.mjs. Every fact is read from the two pinned ACIC forms' own text (petition sha256 f77e17b6…, order 5bd4ed5b…, both re-verified against MASTER_LIBRARY_SOURCE_DIR bytes and the committed corpus index): the caption and the order's distribution paragraph carry the filing destination with the circuit clerk named as checkable authority for the court-type blank; petition paragraph 3's averment carries the A.C.A. § 16-90-1419 fee with amount and waiver delegated to the clerk of the filing court; the page 3 Certificate of Service carries who is served (prosecuting attorney or city attorney, plus the arresting agency) and how (US mail postage prepaid or hand delivery); a six-item required-before-filing list plus per-blank tables carry every participant item; a self-help stop names the Arkansas-licensed attorney and the clerk. No signature, notarization, judicial-finding, clerk or court-date field written."
+      ],
+      "bytesChanged": true,
+      "fixtureBytesChanged": false,
+      "rasterReceiptInvalidated": false,
+      "rebuildByteIdentical": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "completenessVerdict": "FAIL_COMPONENT_SET (pre-existing: the completeness reader does not read this family's writeBoxes/refused field-map schema and refuses it as unauditable with all nine counters zero — the same reading vf04 made; the five repaired obligations are measured from the instructions bytes, not by that verdict)",
+      "status": "REPAIRED",
+      "commit": "26ac68f0e0f5dd3e4d6e811a1522fb88e23c9865"
+    },
+    {
+      "familyId": "ar-misdemeanor-dwi-seal-set",
+      "lane": "FIX02",
+      "claimResult": "CLAIM_OK FIX02 ar-misdemeanor-dwi-seal-set (repair, grant set 68649c13ab76b741); RELEASED after commit",
+      "failedObligationsRepaired": ["REQUIRED_BEFORE_FILING", "FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "defectsReproduced": [
+        "participant-instructions.md did not exist in data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/, exactly as vf05 recorded for all five obligations."
+      ],
+      "repairsMade": [
+        "Added a deterministic participant-instructions.md emitter to scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs, from the pinned DWI/BWI petition (04d876b0…) and order (ae6b81f6…) bytes: venue copied from the conviction's own paperwork (the family's recorded venue gap is carried to the participant, never guessed, circuit clerk named as authority); the fee section states NEITHER form states a fee and no held source establishes one, delegating amount and waiver to the clerk; service quotes the page 4 Certificate of Service in full; the eight-item required-before-filing list includes the page 3 notarized VERIFICATION as the participant's and the notary's act with the platform writing nothing there; the self-help stop names the under-ten-years boundary of Ark. Code Ann. § 5-65-111(b)(1)/(c)(1) and every recital the participant cannot truthfully make."
+      ],
+      "bytesChanged": true,
+      "fixtureBytesChanged": false,
+      "rasterReceiptInvalidated": false,
+      "rebuildByteIdentical": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "completenessVerdict": "FAIL_COMPONENT_SET (same pre-existing unauditable-schema refusal as ar-arrest-seal-set; counters all zero)",
+      "status": "REPAIRED",
+      "commit": "b130713ff8945bfe6dde7604d8ae2b329303799d"
+    },
+    {
+      "familyId": "sd_arrest_expungement-set",
+      "lane": "FIX03",
+      "claimResult": "CLAIM_OK FIX03 sd_arrest_expungement-set (repair, grant set 68649c13ab76b741); RELEASED after commit",
+      "failedObligationsRepaired": ["FILING_DESTINATION", "FEE_AND_WAIVER", "SERVICE", "SELF_HELP_STOP"],
+      "defectsReproduced": [
+        "Committed participant-instructions.md named no court, clerk or filing address; stated no fee and no waiver route; stated service WHO but never HOW, no proof step, no deadline; and never stated where self-help ends — read directly from the committed file, matching vf15's findings.",
+        "Also found while reproducing: the committed build script could not regenerate its own committed production-field-map.json — the SD disclosure repair's nine statement-of-mailing PROTECTED_FIELD rows (dispositionBasis 'SD disclosure repair: post-mailing statement field') had no generating rule in directDisposition, so a rebuild regressed them and updateRows correctly aborted (and, per the east-host hazard, dirtied the directory before erroring; restored from HEAD)."
+      ],
+      "repairsMade": [
+        "Extended participantInstructions() in scripts/build-census-v1-sd_arrest_expungement-set.mjs, keeping every previously listed required-before-filing item verbatim and adding the four owed statements, every fact from the UJS forms' own pinned instruction sheets: Clerk of Court of the circuit court for the county where the arrest record or case is filed (UJS-391 instruction 1; case number expressly the clerk's to assign at filing); the $72 filing fee from UJS-391's own sheet, filed with Case Filing Statement UJS-232, waiver delegated to the clerk/attorney/helpline since no form states one; service end to end (mail to the State's Attorney who handled the case with partially completed UJS-391B and a self-addressed stamped envelope; proof via the returned Admission of Service and sworn Statement of Mailing UJS-391C, both filed; UJS-393 notice mailed at least 14 days before the hearing; UJS-392 and UJS-395 flows per their sheets); self-help stop in the forms' own words naming an attorney, the UJS Legal Form Helpline 1-855-784-0004 and ujssrlhelp@ujs.state.sd.us.",
+        "Restored generator/record agreement: directDisposition now states the disclosure repair's nine-row PROTECTED_FIELD rule with its committed reason and basis, and refusalRecord carries a rule-supplied basis; record files' assignment-identity strings reconcile to the committed generator's identity (SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR)."
+      ],
+      "bytesChanged": true,
+      "fixtureBytesChanged": false,
+      "rasterReceiptInvalidated": false,
+      "rebuildByteIdentical": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "completenessVerdict": "PASS_COMPLETE",
+      "status": "REPAIRED",
+      "commit": "ab25f51faa36915b7c5f5049a2b69dca03e446b4"
+    },
+    {
+      "familyId": "oh_marijuana_expungement-set",
+      "lane": "FIX01",
+      "claimResult": "CLAIM_OK FIX01 oh_marijuana_expungement-set (repair, grant set 68649c13ab76b741); RELEASED after commit",
+      "failedObligationsRepaired": ["ARTIFACTS"],
+      "defectsReproduced": [
+        "Byte evidence exactly as vf02 recorded: committed canonical.txt is 4063 bytes hashing 13a210a2… while its render-report recorded 4062/d42df8ae…; committed boundary.txt is 4717 bytes hashing 025dee08… while its report recorded 4716/0a5ef772…. Stripping exactly one trailing 0x0a from each committed file reproduces the recorded hash, so the artifacts are one final-newline apart from their records. Root cause located in the shared east host (scripts/build-census-v1-nj_arrest_no_conviction-set.mjs): the report hashed renderResult.fullText while writeText wrote fullText plus an appended newline. Both PDFs match their records (f46c9e87…, 44f8a1be…)."
+      ],
+      "repairsMade": [
+        "The east host now writes the pleading text through writeBytes and records the sha256 and byteLength of those same written bytes, so record and file cannot disagree. Rebuilt oh_marijuana_expungement-set twice through its build script; the only committed bytes that change are the two render-report.json text records, which now recompute from the committed .txt bytes. Both .txt files, both PDFs, all rasters, contact sheets and product-wiring.json are byte-identical to HEAD."
+      ],
+      "bytesChanged": true,
+      "fixtureBytesChanged": false,
+      "rasterReceiptInvalidated": false,
+      "rebuildByteIdentical": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "completenessVerdict": "FAIL_COMPONENT_SET (pre-existing: custom-pleading family has no production-field-map.json for the completeness reader; counters all zero — ARTIFACTS is shown repaired by byte evidence: every text and pdf record now recomputes from the committed bytes)",
+      "status": "REPAIRED",
+      "captainNotes": [
+        "A FULL east rebuild of this family in this container also: re-rasters every PNG differently (environment poppler drift), DELETES product-wiring.json (the current generator never writes it), and materializes the deliberately uncommitted BCI companion PDF into the tree. All three are pre-existing reproduction gaps outside the failed obligation; those outputs were restored to HEAD and not committed."
+      ],
+      "commit": "da596ed812fa09acdb42b5741bde4327da5ef260"
+    },
+    {
+      "familyId": "mi_setaside_marihuana-set",
+      "lane": "FIX02",
+      "claimResult": "CLAIM_OK FIX02 mi_setaside_marihuana-set (repair, grant set 68649c13ab76b741); RELEASED after commit",
+      "failedObligationsRepaired": ["ROUTE_IDENTITY"],
+      "defectsReproduced": [
+        "grep over every committed JSON in the family directory reproduces vf25's count exactly: four records carried familyId 'mi-setaside-marihuana-set' (product-wiring.json line 3, local-filing-variation.json, reports/shared-vocabulary-gaps.json, reports/squashed-caption-band-findings.json) while twelve carried 'mi_setaside_marihuana-set'. Route keys and worklistGroupId were already correct, as vf25 found."
+      ],
+      "repairsMade": [
+        "The records-only repair the verifier named: the four familyId keys now read 'mi_setaside_marihuana-set', and the origin — scripts/build-census-v1-mi-setaside-marihuana-set.mjs, the older hyphenated script that exclusively writes those four records — now carries the underscore FAMILY_ID so a rerun cannot reintroduce the split. Directory name keeps the hyphenated form by overlay-path convention; SERVICE was measured PASS by vf25 on current bytes and was not touched."
+      ],
+      "bytesChanged": true,
+      "fixtureBytesChanged": false,
+      "rasterReceiptInvalidated": false,
+      "rebuildByteIdentical": true,
+      "nineCounters": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": 0 },
+      "completenessVerdict": "PASS_COMPLETE",
+      "status": "REPAIRED",
+      "captainNotes": [
+        "An exploratory run of the CURRENT underscore build script (scripts/build-census-v1-mi_setaside_marihuana-set.mjs) re-renders both fixture PDFs to NEW hashes (canonical c1506f35… -> 3db619bf…, boundary ac7806c7… -> 0cd742ad…, same byte lengths) and records the moved raster module path. That drift predates this repair, is outside the failed obligation, and was restored to HEAD — but it means the committed MI fixtures no longer reproduce from the current script head. The captain should decide whether MI gets a supervised rebuild + re-raster on its own grant."
+      ],
+      "commit": "aa4d8235b889850f1b1eb6b6a6c065e7b3ab91b3"
+    }
+  ],
+  "rasterReceiptsInvalidated": [],
+  "sharedHostsTouched": [
+    "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (east host): render-report text records now hash the bytes actually written. Other east families' committed bytes are untouched by this change; their render-report text records will reconcile the same way on their own lanes' next rebuilds."
+  ],
+  "claimLedger": "asserted before reading any family artifact and released after each family's commit; the ledger change rides in this branch's diff"
+}

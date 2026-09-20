@@ -1,0 +1,274 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX16-COMPOSER-CLIPPING",
+  "assignmentId": "FIX16",
+  "assignedBase": "3a324027e29a2c25928e7ccc04e8f479d820377c",
+  "branch": "fix16-composer-clipping",
+  "laneKind": "repair",
+  "summary": "Both families failed CLIPPING_AND_OVERLAP and both are repaired, in the composer rather than by suppressing the symptom. The Nevada patch at a120d8bd5 did not transfer: it exempted a component literally named proposed_order, an id neither family has, and none of the five route-only pages here belonged to a proposed order, so applying it would have been a silent no-op.",
+  "nevadaPatchAssessment": {
+    "commit": "a120d8bd5",
+    "whatItWas": "One line in the Nevada family's composedBody: the internal route key was no longer appended for componentId === 'proposed_order', because it had wrapped onto an otherwise blank continuation page. A component-level suppression of the symptom, not a change to the renderer.",
+    "transferred": false,
+    "whyNot": [
+      "The predicate is an exact match on the component id 'proposed_order'. Nevada's components are flat ids; OK and WA use route-prefixed, index-suffixed ids such as ok_18_19_felony_conviction-proposed-order-3 and wa_del_nonconviction-primary-filing-1. The literal patch matches nothing in either family and would have changed no bytes.",
+      "None of the five route-only pages here is a proposed order. They belong to free-route-screen, primary-filing and hearing-instructions components, so even the intent of the Nevada exemption, mapped onto this family, would have left every one of them standing.",
+      "Nevada's defect was overflow alone. Here the route key is also chopped mid-token in the middle of otherwise healthy pages, which no amount of suppressing it on one component would fix.",
+      "Nevada's patch does nothing for the widowed contact block, which is participant-facing pleading text rather than an internal key, and which was the sixth failed page in each fixture."
+    ],
+    "whatDidTransfer": "The reasoning, not the code. Nevada's comment records that the route key 'is not pleading text', and that judgement is the basis for the rule adopted here: the trailer is internal metadata and may never be the sole occupant of a participant-facing page."
+  },
+  "systemicFinding": {
+    "what": "renderComposedPdf is copy-pasted, not shared. The identical function body appears in 90 build scripts and the identical splitToken in 94, so every one of them carries all three faults repaired here.",
+    "scope": "This lane holds grants for two families and changed only those two build scripts. The other 88 are untouched and still clip.",
+    "whatWillBiteAThirdFamily": "Any family whose composed text contains a token longer than the 468pt line - a route key, a long URL, a long email address - will chop it mid-token. Any family whose body ends near a page boundary will strand its route trailer on a page of its own. Any family with a wrapped labelled value at a page break will widow it, and the boundary fixture's deliberately long address makes that likely wherever the signature block sits low on a page. The three OK components that failed here are the same shapes that recur across the cohort, so the count of affected families is much larger than the count so far failed for it. The durable fix is to lift this renderer into one shared module rather than repair it 90 times."
+  },
+  "rasterOwed": "Both families' fixtures moved. Any standing raster receipt for either is void and a fresh raster is owed on the new bytes.",
+  "changedPaths": [
+    "scripts/build-census-v1-rcap-ok-custom-pleading.mjs",
+    "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/fix16/composer-clipping-ok-and-wa-return.json"
+  ],
+  "sourceReceiptNote": "Rebuilding regenerates source-receipt.json, which does not carry the identityRefresh annotations an earlier lane recorded by hand; they were restored verbatim. One pin genuinely moved: the route-obligation census was regenerated at commit 2d01b84f7 after these receipts were last written, so both carried a stale whole-file pin and the rebuild re-pinned them to the bytes actually read. Every route entry either receipt anchors - 16 for OK, 2 for WA - was recovered from the historical blob at commit ecd2bde79 and compared object-for-object against the bytes on disk; all were identical, so only the whole-file identity moved. That comparison is recorded in each receipt's identityRefresh block.",
+  "centralStateEdits": 0,
+  "claimsReleased": 2,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "routeKeys": [
+        "obligation:track-only:OK:ok_identity_theft",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
+        "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
+        "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement",
+        "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
+        "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
+        "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief"
+      ],
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationRepaired": "CLIPPING_AND_OVERLAP",
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "verdictNote": "CLIPPING_AND_OVERLAP is repaired for rcap-ok-custom-pleading. It was the only obligation in this family's failedObligationNames, and it is the only one this row claims. The nine completeness counters do not see clipping: they were nine zeros before the repair and are nine zeros after, so they are the starting condition and not the evidence. The evidence is the rendered pages, read below.",
+      "baseSha": "3a324027e29a2c25928e7ccc04e8f479d820377c",
+      "branch": "fix16-composer-clipping",
+      "claim": "CLAIM_OK FIX16 rcap-ok-custom-pleading (repair, grant set dcd0f59514b348eb)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "whatWasDone": "Repaired the shared composed-page renderer in this family's own build script. Three faults, all in renderComposedPdf. (1) splitToken chopped an unbreakable token at whatever character reached the margin, so a 100-character route key rendered as '...-expung' / 'ement'; it now breaks at the key's own separators and hard-splits only a run that has none. (2) Page breaking was row-by-row and blind to logical lines, so a wrapped value could be widowed away from its label; layout is now block-aware, a block being one source line and every row it wraps to, and the petitioner's contact lines are gathered into one block so name, address, telephone and email stay on one page. (3) The internal route trailer could become the sole occupant of a participant-facing page; the layout is now computed before any ink is committed and, where the body ends flush with a page boundary, the last content block is pulled down so the trailer is never alone. No legal text, component, route, fee, service statement, filing destination or instruction changed.",
+      "proof": {
+        "measuredOn": "delivered bytes, pdftotext -layout, every page of both fixtures",
+        "clippingFindingsBefore": {
+          "canonical": 54,
+          "boundary": 55
+        },
+        "clippingFindingsAfter": {
+          "canonical": 0,
+          "boundary": 0
+        },
+        "routeOnlyPagesBefore": [
+          12,
+          16,
+          21,
+          24,
+          33
+        ],
+        "routeOnlyPagesAfter": [],
+        "contactBlockSplitPageBefore": 28,
+        "contactBlockIntactAfter": true,
+        "emptyPagesAfter": 0,
+        "minimumLinesOnAnyPageAfter": 8,
+        "contentPreserved": "The whitespace-stripped character stream extracted from every page is byte-identical before and after, in both fixtures. Nothing was truncated, dropped or abbreviated to make the content fit; only page and line breaks moved.",
+        "pagesRead": [
+          "canonical p11 (was the route-only p12; last page of ok_18_19_deferred_dismissal-free-route-screen-1) now opens 'If the free route does not reach you, the rest of this packet is for the route named at the foot of this page: Clear an Oklahoma case after a deferred sentence was dismissed.' and carries the three-route trailer beneath it, every key breaking at a hyphen.",
+          "canonical p20 (was the route-only p21) now opens on the prosecutor-objection stop condition, three lines of it, then the trailer.",
+          "canonical p23 (was the route-only p24) now opens 'If the free route does not reach you ... Clear an Oklahoma felony conviction.' then the trailer.",
+          "canonical p32 (was the route-only p33) now opens on the prosecutor-objection stop condition, then the trailer.",
+          "canonical p11 and p23 confirm the two remaining former route-only pages (old p12 and p16 collapsed into their owning components) carry substantive text.",
+          "boundary p27 (the old p28, which opened on the bare postcode '39501-2214') now opens 'PRINTED NAME: Maria-Alejandra O'Shaughnessy-Whitfield' and carries MAILING ADDRESS with its wrapped postcode, TELEPHONE and EMAIL on the same page."
+        ]
+      },
+      "deterministicRebuild": {
+        "builds": 2,
+        "command": "node scripts/build-census-v1-rcap-ok-custom-pleading.mjs --no-raster",
+        "wholeFamilyDirectoryComparedRecursively": true,
+        "identical": true,
+        "note": "diff -r over the entire family directory reported no differences between two consecutive builds from unchanged inputs."
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "was": {
+            "sha256": "78151b1304b9445d9bc269fd0a8a6d1cc7b97bd4b0284f6af52d2176ba21d1a1",
+            "byteLength": 207273,
+            "pageCount": 83
+          },
+          "now": {
+            "sha256": "dc46fce7aea8d092fd2789ac38e4df14fbf1c754edf57df8da6a42d4ca0c3803",
+            "byteLength": 206201,
+            "pageCount": 80
+          },
+          "file": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf"
+        },
+        {
+          "fixture": "boundary",
+          "was": {
+            "sha256": "18a2adfa5d1a8d67dfb413be61952c0501da42dc0bf03a53bff744bcba5e0d18",
+            "byteLength": 209833,
+            "pageCount": 83
+          },
+          "now": {
+            "sha256": "5aaf65f8810c061a8932cd59a6cb46870956f6de8ab4af5151ecad982a4e1fd9",
+            "byteLength": 208726,
+            "pageCount": 80
+          },
+          "file": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf"
+        }
+      ],
+      "focusedEvidence": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ok-custom-pleading => PASS_COMPLETE before and after, all nine counters zero in both runs",
+        "per-page clipping audit over all pages of both fixtures => zero findings after, against the counts recorded in proof.clippingFindingsBefore",
+        "two consecutive --no-raster builds, whole family directory compared recursively with diff -r => identical"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "rasterOwed": true,
+      "rasterNote": "These fixtures moved, so any standing raster receipt is void. A fresh raster is owed on the new bytes; this lane rendered none and claims none. rasterState remains BUILT_RASTER_PENDING.",
+      "claimReleased": true,
+      "selfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "rcap-wa-custom-pleading-clean-tracks",
+      "routeKeys": [
+        "obligation:track-only:WA:wa_vac_post_probation_9_95_240",
+        "obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060"
+      ],
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationRepaired": "CLIPPING_AND_OVERLAP",
+      "failedObligationNames": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "verdictNote": "CLIPPING_AND_OVERLAP is repaired for rcap-wa-custom-pleading-clean-tracks. It was the only obligation in this family's failedObligationNames, and it is the only one this row claims. The nine completeness counters do not see clipping: they were nine zeros before the repair and are nine zeros after, so they are the starting condition and not the evidence. The evidence is the rendered pages, read below.",
+      "baseSha": "3a324027e29a2c25928e7ccc04e8f479d820377c",
+      "branch": "fix16-composer-clipping",
+      "claim": "CLAIM_OK FIX16 rcap-wa-custom-pleading-clean-tracks (repair, grant set dcd0f59514b348eb)",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "whatWasDone": "Repaired the shared composed-page renderer in this family's own build script. Three faults, all in renderComposedPdf. (1) splitToken chopped an unbreakable token at whatever character reached the margin, so a 100-character route key rendered as '...-expung' / 'ement'; it now breaks at the key's own separators and hard-splits only a run that has none. (2) Page breaking was row-by-row and blind to logical lines, so a wrapped value could be widowed away from its label; layout is now block-aware, a block being one source line and every row it wraps to, and the petitioner's contact lines are gathered into one block so name, address, telephone and email stay on one page. (3) The internal route trailer could become the sole occupant of a participant-facing page; the layout is now computed before any ink is committed and, where the body ends flush with a page boundary, the last content block is pulled down so the trailer is never alone. No legal text, component, route, fee, service statement, filing destination or instruction changed.",
+      "proof": {
+        "measuredOn": "delivered bytes, pdftotext -layout, every page of both fixtures",
+        "clippingFindingsBefore": {
+          "canonical": 4,
+          "boundary": 5
+        },
+        "clippingFindingsAfter": {
+          "canonical": 0,
+          "boundary": 0
+        },
+        "routeOnlyPagesBefore": [],
+        "routeOnlyPagesAfter": [],
+        "contactBlockSplitPageBefore": 12,
+        "contactBlockIntactAfter": true,
+        "emptyPagesAfter": 0,
+        "minimumLinesOnAnyPageAfter": 6,
+        "contentPreserved": "The whitespace-stripped character stream extracted from every page is byte-identical before and after, in both fixtures. Nothing was truncated, dropped or abbreviated to make the content fit; only page and line breaks moved.",
+        "pagesRead": [
+          "boundary p12 (the failed page) now opens 'PRINTED NAME: Maria-Alejandra O'Shaughnessy-Whitfield' with MAILING ADDRESS, its wrapped postcode '39501-2214', TELEPHONE and EMAIL all on the same page; the route key below it breaks after the hyphen in 'rcw-10-97-' rather than mid-token.",
+          "canonical p12 likewise carries the whole contact block; its former mid-token '...rcw-10-97-06' / '0' split is gone."
+        ]
+      },
+      "deterministicRebuild": {
+        "builds": 2,
+        "command": "node scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs --no-raster",
+        "wholeFamilyDirectoryComparedRecursively": true,
+        "identical": true,
+        "note": "diff -r over the entire family directory reported no differences between two consecutive builds from unchanged inputs."
+      },
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "was": {
+            "sha256": "e94f1370126b771fdf1c64a75c38e299285cc032250009b72a2711b0efd3a9c0",
+            "byteLength": 46140,
+            "pageCount": 17
+          },
+          "now": {
+            "sha256": "480ee39a4b05c3fc8440c0ca239c0b1cdda291a11572653b8eb83e2277a06dc1",
+            "byteLength": 46225,
+            "pageCount": 17
+          },
+          "file": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/canonical.pdf"
+        },
+        {
+          "fixture": "boundary",
+          "was": {
+            "sha256": "bca669c04bea2852a0a5fce26b52bad2d2cf89d6ab652ebd59daa411089e5756",
+            "byteLength": 46647,
+            "pageCount": 17
+          },
+          "now": {
+            "sha256": "dbf023bdbf496697549ab752237a237d95d79997b0b520ab48acb8560371ec8f",
+            "byteLength": 46745,
+            "pageCount": 17
+          },
+          "file": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/fixtures/boundary.pdf"
+        }
+      ],
+      "focusedEvidence": [
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks => PASS_COMPLETE before and after, all nine counters zero in both runs",
+        "per-page clipping audit over all pages of both fixtures => zero findings after, against the counts recorded in proof.clippingFindingsBefore",
+        "two consecutive --no-raster builds, whole family directory compared recursively with diff -r => identical"
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "rasterOwed": true,
+      "rasterNote": "These fixtures moved, so any standing raster receipt is void. A fresh raster is owed on the new bytes; this lane rendered none and claims none. rasterState remains BUILT_RASTER_PENDING.",
+      "claimReleased": true,
+      "selfVerified": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "rcap-mechanism-adoption/v1",
+  "title": "Which components write product-wiring.json, what each does to the six governance keys, and which still have to adopt the shared preservation",
+  "recordedBy": "PFC (receipt-preservation lane), 2026-09-10",
+  "answers": "data/rcap-grade-a/packet-factory-24h/REBUILD_ERASES_GOVERNANCE_STATE.json",
+  "grantsNothing": "This is a measurement of build components. It opens no route, approves no packet, marks nothing proven, decides no paymentEligible, and issues and withdraws no receipt on any family. Every number below was read from the committed tree at 07d7fe82537303c74210289525f432fb4b2476f9.",
+  "mechanism": {
+    "module": "scripts/rcap-packet-completeness/governance-preservation.mjs",
+    "checkAtTheWrite": "writeWiringChecked() — refuses a write that drops any of the six, naming them",
+    "checkOverTheTree": "scripts/rcap-packet-completeness/verify-governance-state-survives-rebuild.mjs — compares every product-wiring.json against HEAD",
+    "regressionTest": "scripts/rcap-packet-completeness/test-governance-state-preserved-on-rebuild.mjs",
+    "wiredInto": ["package.json scripts.test", "package.json scripts['rcap:verify-governance-preservation']"],
+    "withdrawalRule": "an acceptance receipt is carried forward only while its boundToCanonicalSha256 is one of the canonical digests the write produced; otherwise it is recorded under acceptanceReceiptWithdrawn carrying the digest it was bound to and the digest that replaced it. Never deleted, never carried as current.",
+    "whyMembershipAndNotEquality": "a family is not always one canonical PDF. rcap-oh-custom-pleading-clean-tracks renders four and pa-summary-conviction-set three. Compared against a single canonical picked by filename, four healthy Ohio and Pennsylvania families read as stale and four live receipts would be withdrawn."
+  },
+  "measuredAt": "07d7fe82537303c74210289525f432fb4b2476f9",
+  "committedRecords": {
+    "productWiringRecords": 295,
+    "carryingAllSixGovernanceKeys": 294,
+    "carryingANonNullAcceptanceReceipt": 263,
+    "carryingAWithdrawalRecord": 0,
+    "lastWrittenByTheCentralGenerator": 236
+  },
+  "perFamilyBuilders": {
+    "buildersInRepository": 309,
+    "buildersThatMentionProductWiring": 25,
+    "buildersThatWriteProductWiring": 17,
+    "classification": {
+      "regenerateWholesaleAndPreserveNothing": {
+        "count": 8,
+        "effect": "every rebuild deletes all six keys, silently, with byte-identical fixtures either side",
+        "builders": [
+          "scripts/build-census-v1-ar-felony-seal-set.mjs",
+          "scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs",
+          "scripts/build-census-v1-az_marijuana_expungement_limited_jurisdiction-set.mjs",
+          "scripts/build-census-v1-az_record_sealing_conviction-set.mjs",
+          "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs",
+          "scripts/build-census-v1-me-seal-survivor-set.mjs",
+          "scripts/build-census-v1-mi-setaside-marihuana-set.mjs",
+          "scripts/build-census-v1-mn_petition_15218-set.mjs"
+        ],
+        "crossCheck": "mn_petition_15218-set is in this list and is one of the two families the defect is independently CONFIRMED on, which is what validates the classification rather than the classification validating itself."
+      },
+      "carryTheWholeBindingForwardWithNoDigestTest": {
+        "count": 6,
+        "effect": "no erasure, and the opposite defect: an acceptance receipt is carried forward unchanged even when the canonical bytes moved, which relabels an old receipt as covering changed output",
+        "builders": [
+          "scripts/build-census-v1-ar-drug-court-set.mjs",
+          "scripts/build-census-v1-ar-pardon-seal-set.mjs",
+          "scripts/build-census-v1-ca-1203-4-set.mjs",
+          "scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs",
+          "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+          "scripts/build-census-v1-pa_pardon_expungement-set.mjs"
+        ]
+      },
+      "nullTheReceiptOnDigestMismatch": {
+        "count": 2,
+        "effect": "the five other keys survive and the receipt object is destroyed. ne-setaside-custodial-set keeps both digests in prose (whyTheAcceptanceReceiptIsNull) and still loses the receipt; az_marijuana_expungement_arrest_no_charges-set keeps nothing.",
+        "builders": [
+          "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+          "scripts/build-census-v1-ne-setaside-custodial-set.mjs"
+        ]
+      },
+      "correctToday": {
+        "count": 1,
+        "builders": ["scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs"],
+        "note": "FIX02's inline implementation: six keys carried, receipt withdrawn with both digests when the canonical moves. The shared module is that rule, plus the Delaware module's shape and the multi-canonical membership test."
+      }
+    },
+    "buildersThatDoNotWriteProductWiringAtAll": 292
+  },
+  "centralGenerator": {
+    "path": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+    "recordsItLastWrote": 236,
+    "ofThoseCarryingAReceipt": 212,
+    "whatItDid": "regenerated binding wholesale from RASTER_QUEUE.json and VERIFIER_RETURNS.json, re-authoring the five non-receipt keys and writing acceptanceReceipt: null wherever it derived no proven raster row — deleting a committed receipt with no withdrawal record and no diff a reader would notice.",
+    "whatItDoesNow": "the same derivation, with the committed governance state carried through carryForwardGovernance(): a receipt it cannot rederive is carried while it still binds a canonical the family produces, and withdrawn with both digests when it does not.",
+    "measuredEffectOfTheChange": {
+      "familiesDryRun": 295,
+      "recordsNeedingCreation": 0,
+      "recordsNeedingRefresh": 0,
+      "receiptsThatWouldBeDeletedToday": 0,
+      "receiptsWithdrawnInsteadOfDeleted": 1,
+      "theOne": "de_mandatory_expungement-set — RASTER_PASS from workflow run 34078415178 bound to canonical f08e5968263dab65..., while the family's committed canonical.pdf hashes to fe6116767ab21cd1.... The generator's own component re-pin reports the same move: 'de_mandatory_expungement-set canonical.pdf f08e5968263d -> fe6116767ab2'."
+    }
+  },
+  "aCorrectionToThisLanesOwnFirstMeasurement": {
+    "whatWasWrong": "a first pass reported 32 committed receipts as belonging to families with no raster-queue row, which would have been a 32-family deletion exposure.",
+    "whyItWasWrong": "it read only RASTER_QUEUE.json rows and not historicalRasterRows. acceptance-identity.mjs candidateRowsByFamily() reads both.",
+    "theCorrectedNumber": "0 of 263 committed receipts belong to a family absent from both row lists.",
+    "recordedBecause": "the number was nearly reported as a finding, and a measurement that is corrected quietly teaches nobody."
+  },
+  "whatIsStillOpen": [
+    "The 8 builders that regenerate wholesale have NOT been wired to the module by this lane. Nine of the 17 wiring-writing families are held by live repair lanes in the claim ledger, this lane holds no claim on any family, and a bespoke integration into a builder this lane cannot run risks writing a wrong canonical digest — which would withdraw a live receipt, a worse outcome than the erasure. Each should adopt preserveGovernanceState() as its holding lane next rebuilds it, passing the canonical digests that build measured.",
+    "Until then those 8 are caught after the fact by verify-governance-state-survives-rebuild.mjs in npm test, which names the family and the keys, rather than at the write.",
+    "The 6 builders that carry the binding forward with no digest test are the other half of the same rule and need the same call; they are not erasing, they are at risk of presenting a receipt as covering bytes it does not.",
+    "de_mandatory_expungement-set holds a RASTER_PASS receipt describing bytes the repository does not contain. Withdrawing it is a family action and belongs to the lane that holds that family; this lane recorded the measurement and touched nothing."
+  ]
+}

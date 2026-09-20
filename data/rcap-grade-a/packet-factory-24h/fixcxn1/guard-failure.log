@@ -1,0 +1,24 @@
+
+=== nj_ordinance-set: NJ-CN-10557 ===
+  source c1dd37b5e27bd76e… 1924831 bytes; 43 pages; 179 fields
+  canonical: wrote 10; refused 169; selections 0; held-but-not-printed 9
+  raster: 43/43 pages
+  boundary: wrote 10; refused 169; selections 0; held-but-not-printed 9
+  raster: 43/43 pages
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: nj_ordinance-set/NJ-CN-10557: the field map declares guilty "measured_route_selection" -- an election this build makes -- and no fixture this build produced marks it (2 fixture(s) read, marked: none). A record that says the build made an election the build withdrew is a false record, whether or not the withdrawal was right.
+    at buildOfficial (file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:5823:16)
+    at async runEastFamily (file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs:7720:10)
+    at async file:///workspaces/legalease-partner-dashboard-clean/.lane-worktrees/fixcxn1/scripts/build-census-v1-nj_ordinance-set.mjs:3:1 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.20.0

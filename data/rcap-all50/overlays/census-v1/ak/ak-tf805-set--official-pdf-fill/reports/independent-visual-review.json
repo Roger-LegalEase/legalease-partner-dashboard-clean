@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "ak-tf805-set",
+  "reviewer": "census-v1 packet-family build worker (automated agent)",
+  "reviewerIsIndependentOfTheRenderer": false,
+  "whatThisReviewIsAndIsNot": "The four pages were rasterised from the finished artifact bytes and looked at as images by the same agent that ran the build. That makes it independent of the RENDER REPORT and of the field map -- it can see a value clipped by its widget, a value on the wrong printed line, a caption overwritten, or a blank that should be empty carrying ink, none of which a report can tell you about itself. It is NOT an independent reviewer in the sense the production holds require, because the reader and the writer are the same agent. f_independent_visual_review_required is NOT discharged by this file.",
+  "pagesReviewed": 4,
+  "allPagesRastered": true,
+  "pagesInDocument": 2,
+  "fixtures": [
+    "canonical",
+    "boundary"
+  ],
+  "scale": 1.6,
+  "findings": [],
+  "verdict": "No page shows a participant value in a blank that does not belong to it, no clipped or overrunning value, and no signature, verification, notarial jurat, certificate-of-service or court-only rule carrying ink. The whole of page 2 is blank in both fixtures.",
+  "stillRequired": [
+    "Human independent visual review (f_independent_visual_review_required).",
+    "Output-level legal approval; this build only requests it."
+  ],
+  "pages": [
+    {
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/raster/tf805-canonical/page-01.png",
+      "sha256": "390bf99accf8ec42222343c26d4d3e2c44692544c00c42e6789c16dec5cf9656",
+      "observation": "Name carries 'Jordan Avery Reyes' on the Name rule; Address '118 Maple Street'; Email 'jordan.reyes@example.com' on the Email rule and not on the phone rule; Daytime Phone '555-0142' in its own column; Case No. '24-CR-001234'; Party Names 'Jordan Avery Reyes'. Case Name is EMPTY -- refused as a duplicate widget for one slot, see build-findings.json. Both Rule 40(b) and 40(c) radio boxes are UNMARKED: the ground for relief is the participant's legal election. The 'I believe that the statements above are true, because:' box is EMPTY. Under Verification, the Date and Your Signature rules are EMPTY, and the notarial jurat -- place, date, officer's signature and 'My commission expires' -- is EMPTY throughout. Every value sits on its own printed rule, inside the margins, with no overlap.",
+      "verdict": "pass"
+    },
+    {
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/raster/tf805-canonical/page-02.png",
+      "sha256": "b7485eee6ba54c42a07dcbfd1011d59d8dd325310990cf148072ecd1af07f316",
+      "observation": "The entire page is blank of participant ink. Inside the Certificate of Service box: the 'I certify on ___ at ___' date and time rules are EMPTY, all four service-method boxes (mail, hand-delivery, TrueFiling, email) are UNMARKED, 'I served these people:' is EMPTY and the Signature rule is EMPTY -- nothing certifies a service that has not happened. Below it the whole ORDER block is untouched: DENIED, both GRANTED boxes and the fourth box are unmarked, the findings rules are empty, and Presiding Judge, Date, Type or Print Name, the distribution certification and JA/Clerk are all empty.",
+      "verdict": "pass"
+    },
+    {
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/raster/tf805-boundary/page-01.png",
+      "sha256": "fcfca2b371615cbe2300b3dbe85570fc323426bcf6f6476bdf28b61bc9dc291b",
+      "observation": "The 71-character name is drawn in full on both the Name rule and the Party Names rule at reduced size, fully inside each rule with no clipping and no overrun past the right edge. The 76-character street address is likewise drawn in full inside the Address rule. The Case No. '0123-45-2026-CR-900123.00-AB-CDE/2201' is drawn at reduced size inside its box. Email is EMPTY: the 88-character address was REFUSED as unfittable at the minimum readable font (253.80pt required against a 253.72pt box) rather than clipped or shrunk below legibility, which is the intended behaviour. Daytime Phone '555-0142 ext. 44821' fits. Case Name EMPTY as in the canonical. Radios, reason box, signature, date and jurat all EMPTY.",
+      "verdict": "pass"
+    },
+    {
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/raster/tf805-boundary/page-02.png",
+      "sha256": "b7485eee6ba54c42a07dcbfd1011d59d8dd325310990cf148072ecd1af07f316",
+      "observation": "Identical to the canonical page 2 and blank of participant ink throughout: the Certificate of Service and the ORDER block are both entirely untouched. The long-value fixture reaches nothing on this page, which is the expected result since no field on page 2 is written under any fixture.",
+      "verdict": "pass"
+    }
+  ]
+}

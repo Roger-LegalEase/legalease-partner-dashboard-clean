@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "rcap-packet-factory-build-return/v1",
+  "worker": "CODEX-CS2-PF10-LA987",
+  "base": "31cf727c0cb7b31719b206900973c973e9273161",
+  "branch": "codex/cs2-pf10-la987-31cf",
+  "headAtStart": "31cf727c0cb7b31719b206900973c973e9273161",
+  "mergeBaseAtStart": "31cf727c0cb7b31719b206900973c973e9273161",
+  "worktreeCleanAtStart": true,
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 la-987-set-aside-and-dismiss-set",
+    "result": "CLAIM_OK",
+    "grantSet": "defc45360a709680",
+    "released": false
+  },
+  "familyId": "la-987-set-aside-and-dismiss-set",
+  "status": "BUILT_RASTER_PENDING",
+  "route": {
+    "routeKey": "obligation:track-only:LA:la-987-set-aside-and-dismiss",
+    "jurisdiction": "LA",
+    "trackId": "la-987-set-aside-and-dismiss",
+    "packetSetId": "la-987-set-aside-and-dismiss-set",
+    "implementationStrategy": "official_pdf_fill",
+    "legalInputStatus": "SETTLED",
+    "routeMappingStatus": "BOUND"
+  },
+  "sourceAuthorityBinding": {
+    "sourceStatus": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "authorityId": "LA-STATUTORY-FORMS",
+    "decision": "COMPOSE_FROM_AUTHORITY",
+    "authorityHeld": true,
+    "officialFormId": "LA-CCRP-ART-987",
+    "composedFromAuthority": [
+      "LA-CCRP-ART-987"
+    ],
+    "sourceBinariesRequired": 0,
+    "sourceBinarySha256": null,
+    "sourceAcquisitionPerformed": false,
+    "reviewedAsOf": "2026-08-03",
+    "effectiveFrom": "2014-08-01",
+    "effectiveTo": null,
+    "receipt": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/source-receipt.json"
+  },
+  "components": [
+    {
+      "componentId": "la-987-set-aside-and-dismiss-primary-filing-1",
+      "documentId": "LA-CCRP-ART-987",
+      "role": "primary_filing",
+      "outputStrategy": "official_pdf_fill",
+      "required": true,
+      "order": 1
+    },
+    {
+      "componentId": "la-987-set-aside-and-dismiss-instructions-2",
+      "documentId": "la-987-set-aside-and-dismiss-instructions-2",
+      "role": "instructions",
+      "outputStrategy": "process_guidance",
+      "required": true,
+      "order": 2
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "9e06893a923609beb34e285c6a1bf68044feb518f37cd8a1422a833ef8ca5450",
+      "bytes": 14642,
+      "pages": 5,
+      "componentPages": {
+        "la-987-set-aside-and-dismiss-primary-filing-1": [
+          1,
+          2,
+          3
+        ],
+        "la-987-set-aside-and-dismiss-instructions-2": [
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "a8412820377682280b6646600860ec4a1cb3316143137331791d64997b79bc02",
+      "bytes": 14980,
+      "pages": 5,
+      "componentPages": {
+        "la-987-set-aside-and-dismiss-primary-filing-1": [
+          1,
+          2,
+          3
+        ],
+        "la-987-set-aside-and-dismiss-instructions-2": [
+          4,
+          5
+        ]
+      }
+    }
+  ],
+  "determinism": {
+    "runs": 2,
+    "arguments": [
+      "--no-raster"
+    ],
+    "hashesMatch": true,
+    "byteLengthsMatch": true,
+    "pageCountsMatch": true,
+    "pageManifestsMatch": true,
+    "result": "PASS"
+  },
+  "counters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+  },
+  "allNineCountersZero": true,
+  "tests": [
+    {
+      "name": "assigned worktree invariant gate",
+      "result": "PASS",
+      "detail": "exact branch, HEAD, merge-base, and clean status established before family access"
+    },
+    {
+      "name": "claim assertion",
+      "result": "CLAIM_OK",
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert PF10 la-987-set-aside-and-dismiss-set"
+    },
+    {
+      "name": "builder syntax",
+      "result": "PASS",
+      "command": "node --check scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs"
+    },
+    {
+      "name": "builder authority and component check",
+      "result": "PASS",
+      "command": "node scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs --check"
+    },
+    {
+      "name": "deterministic no-raster build",
+      "result": "PASS",
+      "command": "node scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs --no-raster",
+      "runs": 2
+    },
+    {
+      "name": "packet completeness",
+      "result": "PASS_COMPLETE",
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-987-set-aside-and-dismiss-set",
+      "note": "This is the completeness test result only; packet status remains BUILT_RASTER_PENDING and no independent verification is claimed."
+    }
+  ],
+  "changedPaths": [
+    "scripts/build-census-v1-la-987-set-aside-and-dismiss-set.mjs",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/approval-request.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/component-page-manifest.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/filing-instructions.md",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/boundary.pdf",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/fixtures/canonical.pdf",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/packet-set-manifest.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/la/la-987-set-aside-and-dismiss-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-grade-a/packet-factory-24h/pf10/la-987-build-return.json"
+  ],
+  "changedPathCount": 17,
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "Production": false,
+  "rasterPerformed": false,
+  "rasterState": "BUILT_RASTER_PENDING"
+}

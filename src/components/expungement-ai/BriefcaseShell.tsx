@@ -115,7 +115,7 @@ export function BriefcaseShell({
                   href="/expungement-ai/check"
                   className="flex items-center gap-1.5 rounded-[9px] bg-[#FF3B00] px-4 py-2.5 text-[13px] font-semibold text-white"
                 >
-                  <Plus className="h-[15px] w-[15px]" aria-hidden="true" strokeWidth={2.4} /> <LocalizedText k="briefcase.new_check" fallback="New record check" />
+                  <Plus className="h-[15px] w-[15px]" aria-hidden="true" strokeWidth={2.4} /> <LocalizedText k="briefcase.new_check" fallback="New screening" />
                 </Link>
               ) : null}
             </div>

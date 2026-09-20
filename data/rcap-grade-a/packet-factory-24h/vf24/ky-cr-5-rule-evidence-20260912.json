@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-ky-cr-service-rule-evidence/v1",
+  "status": "EVIDENCE_ONLY_NOT_ADOPTION",
+  "producedAt": "2026-09-12T00:00:00Z",
+  "scope": "Already verified source evidence for the adopted bounded KY correction. This file proposes no universal companion and makes no packet or legal-design change.",
+  "familyId": "ky_protective_order_record_expungement-set",
+  "route": "obligation:track-only:KY:ky_protective_order_record_expungement",
+  "handoff": {
+    "path": "KY_Protective_Order_Service_Proof_Handoff_2026-09-12.md",
+    "sha256": "7ef55c1634a2e30c7c9694a48b63500b8c272f660f74413e5a90f2a71d1171ff"
+  },
+  "governingMemo": {
+    "path": "data/record-clearing/legal-design-intake/KY.memo.json",
+    "sha256": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+    "byteLength": 202583,
+    "scopedCurrentText": {
+      "serviceComponentNote": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.",
+      "serviceRule": "The movant may serve copies of the notice by first class mail per the distribution list; otherwise the clerk does.",
+      "component": "service_instructions",
+      "componentRequirement": "required"
+    },
+    "adoptedChangeBoundary": "Remove only the unconditional claim that the packet provides a certificate. Retain service_instructions, the movant service path, the clerk fallback path, and all actual service/proof/recipient/timing obligations. Do not infer no proof is required and do not have a participant certify clerk service."
+  },
+  "aoc27518": {
+    "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/275.18.pdf",
+    "sourceReceiptPath": "data/rcap-codex/source-acquisition-2026-09-04/results/primary-ledger/sources/KY-AOC-275.18/receipt.json",
+    "sourceReceiptSha256": "c57b45ab7ca0be1503635ed8f4769311d442e8673f8e0fd5e41d1279c78fc835",
+    "sourcePdfSha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+    "sourcePdfByteLength": 192243,
+    "sourcePdfPageCount": 1,
+    "verifiedLimit": "Notification-of-hearing block is clerk-completed; Copies to lists Court file, Petitioner, Respondent. The form does not itself state actual service time, manner, named recipients, or server. Keep it unchanged."
+  },
+  "cr503": {
+    "suppliedUrl": "https://govt.westlaw.com/kyrules/Document/N5CA09590A91B11DA8F5EE32367A250AE?contextData=%28sc.Default%29&originationContext=documenttoc&transitionType=CategoryPageItem&viewType=FullText",
+    "currentnessRecordedInHandoff": "Displayed through 2026-07-01",
+    "directRetrieval": "HTTP 403 in the restarted environment; no current HTML hash claimed",
+    "officialCrossCheckUrl": "https://www.kycourts.gov/Courts/Supreme-Court/Supreme%20Court%20Orders/201009.pdf",
+    "officialCrossCheckPath": "/tmp/ky-cr-201009-official.pdf",
+    "officialCrossCheckSha256": "89fc9d0011f0424fcedd54160c8ad00af41469bbdb71711cbd3365f4caa2e56b",
+    "officialCrossCheckByteLength": 3298823,
+    "officialCrossCheckPageCount": 42,
+    "officialCrossCheckOrder": "2010-09; stated effective date 2011-01-01",
+    "officialCrossCheckTextLocation": "Extracted PDF text lines 148-159",
+    "verifiedText": "Whenever a pleading or other paper is served under Rules 5.01 and 5.02, proof of the time and manner of service is filed before court or party action. Proof may be a certificate of a member of the bar, an affidavit of the person who served the papers, or other proof satisfactory to the court. The certificate or affidavit identifies by name the persons served. Electronic proof states the electronic notification address and that the document was served electronically.",
+    "limitation": "The official order confirms the rule wording but is not a 2026 codification. Recheck current rule text and any controlling local procedure before implementation/adoption is finalized."
+  },
+  "cr501": {
+    "suppliedUrl": "https://govt.westlaw.com/kyrules/Document/N5B5CA3E0A91B11DA8F5EE32367A250AE?contextData=%28sc.Default%29&originationContext=documenttoc&transitionType=CategoryPageItem&viewType=FullText",
+    "directRetrieval": "HTTP 403 in this review",
+    "useInBoundedCorrection": "Retain the obligation to prove service of papers served under CR 5.01/5.02; do not infer an extra document, recipient, deadline, or method."
+  },
+  "cr502": {
+    "suppliedUrl": "https://govt.westlaw.com/kyrules/Document/N5BF2F070A91B11DA8F5EE32367A250AE?contextData=%28sc.Default%29&originationContext=documenttoc&transitionType=CategoryPageItem&viewType=FullText",
+    "directRetrieval": "HTTP 403 in this review",
+    "officialCrossCheck": "The same 2010-09 official order states service on the attorney for a represented party unless the court orders service on the party; it describes delivery, mailing to the last known address, leaving with the clerk when no address is known, and electronic service only with written consent and an electronic notification address.",
+    "useInBoundedCorrection": "Retain applicable recipient/method controls; do not guess recipients, expose protected addresses, or import a criminal-route prosecutor certificate into this civil protective-order route."
+  },
+  "preservedHistory": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf24/ky-protective-order-service-amendment-draft-20260912.json",
+    "sha256": "6a255e958aad22d91e66ad75ccdd61bb57149e037f4de4b32c11ec314be73359",
+    "commit": "b70e12976bb252532f008bfa6748aa8b6b98be61",
+    "status": "RESEARCH_DRAFT_NOT_ADOPTED",
+    "preserve": true,
+    "instruction": "Preserve as history; do not treat its earlier removal proposal as the adopted correction."
+  },
+  "reviewDisposition": {
+    "newResearchPerformed": false,
+    "repoFilesChanged": 0,
+    "packetFilesChanged": 0,
+    "packetApproval": false,
+    "verifierPass": false,
+    "rasterPermission": false,
+    "terminalPermission": false,
+    "ownerAdoptionHandling": "Parent/Captain reports bounded owner adoption separately; this evidence file does not duplicate or alter that record."
+  }
+}

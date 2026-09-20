@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "ct-cannabis-petition-set",
+  "worklistGroupId": "ct-cannabis-petition-set",
+  "jurisdiction": "CT",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "no source bytes are bound: the MASTER_QUEUE row for this family binds zero sources (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT, boundCount 0, officialFormFamily NONE, forms []). Every composed page is grounded on the committed legal-design records named in groundingRecords, and nothing else.",
+  "routeKeys": [
+    "obligation:track-only:CT:ct-cannabis-petition"
+  ],
+  "routeSelectionId": "ct-cannabis-petition-composed-set",
+  "statutoryAuthority": "C.G.S. § 54-142v",
+  "legalName": "Petition for Erasure of Cannabis Conviction Records, C.G.S. § 54-142v",
+  "allSourcesExact": true,
+  "allSourcesExactNote": "true vacuously: this family binds zero source binaries, so there is no source that is not bound by exact SHA-256. No official form exists for this route per the legal-design record, and none was invented.",
+  "documents": [],
+  "groundingRecords": [
+    {
+      "record": "data/record-clearing/legal-design-intake/CT.memo.json",
+      "track": "ct-cannabis-petition",
+      "reviewedAsOf": "2026-07-30"
+    },
+    {
+      "record": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "packetSetId": "ct-cannabis-petition-set"
+    }
+  ],
+  "officialSourcesRecordedInIntake": [
+    {
+      "title": "C.G.S. § 54-142v, Erasure for certain cannabis convictions",
+      "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142v/",
+      "retrievedOn": "2026-07-30"
+    },
+    {
+      "title": "Petition for cannabis erasure, Clean Slate Connecticut — the authority for the no-official-form finding",
+      "url": "https://portal.ct.gov/cleanslate/petition-for-cannabis-erasure",
+      "retrievedOn": "2026-07-30"
+    },
+    {
+      "title": "C.G.S. § 54-142a, Erasure of criminal records",
+      "url": "https://codes.findlaw.com/ct/title-54-criminal-procedure/ct-gen-st-sect-54-142a/",
+      "retrievedOn": "2026-07-30"
+    }
+  ],
+  "formIdentityNote": "No official form exists for a § 54-142v petition: the Clean Slate Connecticut portal — the state's own page — states plainly that a petition must be filed and that no official form exists, while the statute specifies exactly what the petition must contain. The legal-design record calls this the cleanest custom-pleading case in the batch. The MASTER_QUEUE row agrees: officialFormFamily NONE, implementationStrategy custom_pleading, forms [], boundCount 0. Because there is no statewide form, G.A. offices may have local expectations about caption and format, and the instructions require a call to the court office before filing.",
+  "composedComponentsAuthoredByThisBuild": [
+    "primary_filing",
+    "supporting_affidavit"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "what caption and format the G.A. offices actually accept — recorded as a release-blocker question for a Connecticut practitioner",
+    "any service requirement or proposed-order practice on a § 54-142v petition — recorded as unresolved",
+    "that any output is approved for participant delivery",
+    "that any conviction falls within the three § 54-142v(a)(1) categories"
+  ]
+}

@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 2,
+  "specificationId": "va-absolute-pardon-expungement",
+  "specificationVersion": "1.0.0",
+  "routeKey": "VA:regime-1-expungement-available-now",
+  "jurisdiction": "VA",
+  "pathwayId": "regime-1-expungement-available-now",
+  "pathwayLabel": "Regime 1 — Expungement (§ 19.2-392.2), available now",
+  "packetFamily": "va_exp_absolute_pardon-set",
+  "packetFamilyLabel": "Virginia Absolute-Pardon Expungement Transmittal and Request",
+  "trackId": "va_exp_absolute_pardon",
+  "packetSetId": "va_exp_absolute_pardon-set",
+  "packetSetVersion": "1.0.0",
+  "profileId": "VA",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "legalSectionsBound": true,
+  "legalSectionsBoundBy": {
+    "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "postApprovalAuditVerdict": "COVERED_BY_EXISTING_APPROVAL",
+    "scope": "The exact existing family documents and canonical and boundary artifact hashes recorded below; no runtime, technical, payment, sponsorship, or production authority."
+  },
+  "generatedBy": "route-productization worker from existing owner-approved records; no new registry",
+  "derivedFrom": [
+    "data/record-clearing/legal-design-intake/VA.memo.json#va_exp_absolute_pardon",
+    "data/record-clearing/legal-design-packet-set-manifests.json#va_exp_absolute_pardon-set",
+    "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json",
+    "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json",
+    "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json#OWN-ADOPT-2026-09-02-BATCH-53",
+    "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json#va_exp_absolute_pardon-set"
+  ],
+  "specificationNote": "This specification binds the one Virginia runtime route to the exact three-component census-v1 family already approved at its recorded canonical and boundary hashes. It does not substitute CC-1473, which is captioned to subsection (A), and it does not grant fulfillment or commercial authority.",
+  "statutoryAuthority": {
+    "primary": "Va. Code § 19.2-392.2(I); Va. Code § 19.2-392.2(K); Va. Code § 19.2-392.2(L); Va. Code § 2.2-402",
+    "sourceUrl": "https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
+    "ruleStatement": "Upon receiving under § 2.2-402 a copy of an absolute pardon for the commission of a crime the person did not commit, the circuit court enters an order requiring expungement of the police and court records relating to the charge and conviction, and the order states that expungement is ordered under § 19.2-392.2(I). The trigger is receipt of the pardon copy, not a petition.",
+    "reliefIsMandatoryOnMotion": false,
+    "doNotImport": [
+      "Do not use CC-1473 or import the subsection (A) acquittal-or-dismissal petition procedure into this subsection (I) route.",
+      "Do not import subsection (D)'s Commonwealth notice period into this non-petition route.",
+      "Do not represent this packet as obtaining, classifying, or applying for the pardon itself."
+    ]
+  },
+  "sourceIdentities": [
+    {
+      "sourceId": "VA.memo:va_exp_absolute_pardon",
+      "kind": "legal_design_intake_track",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "note": "The approved track supplies the mechanism, destination, components, participant actions, fee and service treatment, and self-help stops."
+    },
+    {
+      "sourceId": "va_exp_absolute_pardon-set@1.0.0",
+      "kind": "owner_approved_packet_set_manifest",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "note": "The manifest supplies the exact three component ids, roles, requirements, strategies, and order."
+    },
+    {
+      "sourceId": "va_exp_absolute_pardon-set-production-field-map@census-v1",
+      "kind": "production_field_map",
+      "verification": "present_in_repository",
+      "location": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/production-field-map.json"
+    },
+    {
+      "sourceId": "va_exp_absolute_pardon-set-rendered-artifacts@census-v1",
+      "kind": "rendered_artifact_manifest",
+      "verification": "present_in_repository",
+      "location": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/reports/rendered-artifacts.json"
+    },
+    {
+      "sourceId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "kind": "owner_exact_digest_adoption",
+      "verification": "present_in_repository",
+      "location": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+      "note": "Limited family-level legal-design adoption of the exact canonical and boundary hashes; grants no runtime or commercial authority."
+    }
+  ],
+  "requiredFacts": [
+    {
+      "factId": "participant_full_legal_name",
+      "use": "requester identity on all three components",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant"
+    },
+    {
+      "factId": "date_of_birth",
+      "use": "requester identity in the primary transmittal",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The current approved field map writes this participant-held fact even though the factory-v2 required-input list does not name it separately.",
+      "ownership": "participant"
+    },
+    {
+      "factId": "mailing_address",
+      "use": "requester contact block in the primary transmittal",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the address separately.",
+      "ownership": "participant"
+    },
+    {
+      "factId": "phone_number",
+      "use": "requester contact block in the primary transmittal",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the telephone separately.",
+      "ownership": "participant"
+    },
+    {
+      "factId": "email_address",
+      "use": "requester contact block in the primary transmittal",
+      "inRegistryRequiredInputs": false,
+      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the email separately.",
+      "ownership": "participant"
+    }
+  ],
+  "finalVerificationRequirements": [
+    "The pardon document itself says both that it is an absolute pardon and that it is for a crime the participant did not commit.",
+    "Every conviction, arrest, offense, disposition, and pardon blank is copied from the certified pardon, circuit-court case file, and participant's own CCRE record rather than from memory.",
+    "The participant signs and dates the transmittal personally and attaches the certified copy of the absolute pardon.",
+    "The transmittal is directed to the clerk of the circuit court of the locality of conviction."
+  ],
+  "fieldOwnership": {
+    "participantOwnedFacts": [
+      "participant_full_legal_name",
+      "date_of_birth",
+      "mailing_address",
+      "phone_number",
+      "email_address"
+    ],
+    "serverOwnedRouteFacts": [
+      "jurisdiction",
+      "pathway_id",
+      "route_key",
+      "packet_family"
+    ],
+    "participantAtSigningFields": [
+      "primary_filing.requester_signature",
+      "primary_filing.signature_date"
+    ],
+    "participantAtServiceFields": [],
+    "prosecutorOwnedFields": [],
+    "courtOwnedFields": []
+  },
+  "documents": [
+    {
+      "documentId": "primary_filing",
+      "role": "primary_filing",
+      "title": "Transmittal and Request for Entry of the Expungement Order Required by Va. Code § 19.2-392.2(I)",
+      "order": 1,
+      "outputStrategy": "custom_pleading",
+      "presentation": "pleading",
+      "requirement": "required",
+      "manifestComponentId": "va_exp_absolute_pardon-primary-filing-1",
+      "sections": [
+        {
+          "heading": "Requester",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "participant_full_legal_name",
+            "date_of_birth",
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ]
+        },
+        {
+          "heading": "Request",
+          "kind": "static",
+          "body": "Send this request only if the pardon document says it is an absolute pardon and says it is for a crime you did not commit. Enclose the certified pardon and ask the circuit court of the locality of conviction to enter the order required by Va. Code § 19.2-392.2(I) and forward it under subsection (K). Complete every case and pardon blank from the source records, then sign and date the request personally."
+        }
+      ]
+    },
+    {
+      "documentId": "records_checklist",
+      "role": "records_checklist",
+      "title": "Records Checklist",
+      "order": 2,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "manifestComponentId": "va_exp_absolute_pardon-records-checklist-2",
+      "sections": [
+        {
+          "heading": "Records to obtain",
+          "kind": "attachments"
+        }
+      ]
+    },
+    {
+      "documentId": "filing_instructions",
+      "role": "filing_instructions",
+      "title": "Filing Instructions",
+      "order": 3,
+      "outputStrategy": "process_guidance",
+      "presentation": "guidance",
+      "requirement": "required",
+      "manifestComponentId": "va_exp_absolute_pardon-filing-instructions-3",
+      "sections": [
+        {
+          "heading": "Where to send the packet",
+          "kind": "filing_destination"
+        },
+        {
+          "heading": "Fee and waiver",
+          "kind": "fee_and_waiver"
+        },
+        {
+          "heading": "Service and notice",
+          "kind": "service_and_notice"
+        },
+        {
+          "heading": "What happens next",
+          "kind": "post_filing_timeline"
+        },
+        {
+          "heading": "When to stop and get help",
+          "kind": "hearing_and_objection_stops"
+        },
+        {
+          "heading": "Before sending",
+          "kind": "participant_checklist"
+        }
+      ]
+    }
+  ],
+  "filingDestination": {
+    "statement": "Send the transmittal and request, with the certified absolute pardon, to the clerk of the circuit court of the locality where the conviction was had.",
+    "office": "Clerk of the circuit court of the locality of conviction",
+    "newCaseOrExisting": "court_receipt_of_pardon_copy",
+    "sourceOfRule": "VA.memo.json track va_exp_absolute_pardon; Va. Code §§ 19.2-392.2(I) and 2.2-402"
+  },
+  "feeAndWaiver": {
+    "feeIdentified": false,
+    "statement": "No fee is stated in Va. Code § 19.2-392.2(I) for this transmittal and request.",
+    "waiverApplicable": false,
+    "waiverStatement": "No fee-waiver document is included because the approved route record identifies no filing fee for this request.",
+    "sourceOfRule": "VA.memo.json track va_exp_absolute_pardon, rules.fees and rules.feeWaiver"
+  },
+  "serviceAndNotice": {
+    "serviceRequired": false,
+    "statement": "Subsection (I) prescribes no service on another party. The Commonwealth's twenty-one-day window in subsection (D) belongs to a petition route and is not imported here.",
+    "certificateOfServiceIncluded": false,
+    "whyNoCertificate": "The approved packet set requires no service component for this route.",
+    "sourceOfRule": "VA.memo.json track va_exp_absolute_pardon, rules.notice and rules.service"
+  },
+  "copyRequirements": {
+    "statement": "The approved route record does not state a separate copy count for this transmittal.",
+    "originalPlusCopies": "No separate copy count is specified by the approved route record.",
+    "sourceOfRule": "VA.memo.json track va_exp_absolute_pardon and the approved packet-set manifest"
+  },
+  "postFilingTimeline": [
+    {
+      "step": "The circuit court receives the certified pardon copy and the participant's transmittal and request.",
+      "timing": "after the participant completes and sends the packet"
+    },
+    {
+      "step": "The court enters the subsection (I) expungement order when the statutory pardon condition is met.",
+      "timing": "no separate waiting period is stated in subsection (I)"
+    },
+    {
+      "step": "A copy of the order is forwarded to the Department of State Police under subsection (K), which validates record accuracy rather than eligibility.",
+      "timing": "after entry of the order"
+    }
+  ],
+  "hearingAndObjectionStops": [
+    {
+      "situation": "The pardon is not absolute or does not say the participant did not commit the crime.",
+      "whatItMeans": "This subsection (I) route does not apply; the packet does not classify or obtain a pardon.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The circuit court declines to enter the order after receiving the pardon copy.",
+      "whatItMeans": "Stop and take the packet and the court's response to a lawyer or legal-aid office.",
+      "stopAndGetHelp": true
+    },
+    {
+      "situation": "The participant is still seeking the pardon itself or has an immigration question.",
+      "whatItMeans": "Those issues are outside this packet's self-help scope.",
+      "stopAndGetHelp": true
+    }
+  ],
+  "attachments": [
+    {
+      "attachmentId": "certified-absolute-pardon",
+      "title": "Certified copy of the absolute pardon",
+      "requirement": "required",
+      "obtainedFrom": "Office of the Secretary of the Commonwealth",
+      "whyNeeded": "The court's receipt of this copy is the trigger under Va. Code § 19.2-392.2(I) and § 2.2-402.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "attachmentId": "circuit-court-case-file",
+      "title": "Circuit-court case file or the district-court record held by that locality's circuit court",
+      "requirement": "required",
+      "obtainedFrom": "Clerk of the circuit court of the locality where the case was disposed of",
+      "whyNeeded": "The participant copies the exact case, charge, arrest, offense, and disposition facts from this record.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "attachmentId": "participant-ccre-record",
+      "title": "The participant's own Virginia criminal-history record",
+      "requirement": "required",
+      "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+      "whyNeeded": "The participant checks the disposition against this record and corrects the request if the records disagree.",
+      "requiredBeforeFiling": true
+    }
+  ],
+  "participantChecklist": [
+    {
+      "id": "confirm-pardon-words",
+      "text": "Confirm from the pardon document itself that it says both absolute pardon and that the crime was one you did not commit.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "copy-case-and-pardon-facts",
+      "text": "Fill every case and pardon blank from the certified pardon, court file, and CCRE record; do not guess.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "sign-and-date",
+      "text": "Sign and date the transmittal and request personally.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "attach-certified-pardon",
+      "text": "Attach the certified copy of the absolute pardon.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "id": "send-to-circuit-court-clerk",
+      "text": "Send the packet to the clerk of the circuit court of the locality of conviction.",
+      "requiredBeforeFiling": false
+    }
+  ],
+  "artifactBinding": {
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading",
+    "unitOfDelivery": "single_route_family_assembly",
+    "obligationRouteKey": "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+    "componentBindings": [
+      {
+        "documentId": "primary_filing",
+        "manifestComponentId": "va_exp_absolute_pardon-primary-filing-1",
+        "pages": [
+          1,
+          2
+        ]
+      },
+      {
+        "documentId": "records_checklist",
+        "manifestComponentId": "va_exp_absolute_pardon-records-checklist-2",
+        "pages": [
+          3
+        ]
+      },
+      {
+        "documentId": "filing_instructions",
+        "manifestComponentId": "va_exp_absolute_pardon-filing-instructions-3",
+        "pages": [
+          4,
+          5
+        ]
+      }
+    ],
+    "fixtures": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "b56af08c1b796b78a26ebac56a3580299e5e06022976941ba0b7fd68cf810188",
+        "byteLength": 14666,
+        "pageCount": 5
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/va/va-exp-absolute-pardon-set--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "f7691bc33addbaef446ccccb09c551e673bd5369410c363044794a429fea29eb",
+        "byteLength": 14860,
+        "pageCount": 5
+      }
+    ],
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "specificationSha256": "60987aebae05a721e4d9565d35c144b55cc82a34df1ca1300d44e945b27f4849"
+}

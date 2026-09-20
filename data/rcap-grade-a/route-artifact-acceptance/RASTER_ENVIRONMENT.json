@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-route-artifact-raster-environment/v1",
+  "whatThisIs": "The precondition every route raster verdict in raster-receipts/ depends on. The central workflow makes its family matrix depend on the canary job for exactly this reason: a batch of green verdicts from a runner that cannot render is worse than a red batch.",
+  "ranWhere": "the build container for lane fable/routeaccept, not a GitHub-hosted runner",
+  "notAWorkflowRun": "This is not a run of .github/workflows/rcap-packet-raster-acceptance-batch.yml. There is no workflowRunId, no jobId and no uploaded receipt artifact. It is the same tool (scripts/rcap-raster-batch.mjs), the same canary (scripts/rcap-raster-canary.mjs), the same measurements and the same refusals, executed locally against a lane-local manifest.",
+  "howToReproduceCentrally": "dispatch the workflow with commit_sha set to this branch commit and raster_manifest_path set to data/rcap-grade-a/route-artifact-acceptance/ROUTE_ARTIFACT_RASTER_QUEUE.json; RASTER_QUEUE.json is not involved and is not modified",
+  "canary": {
+    "verdict": "CANARY_PASSED",
+    "browserExecutable": "/opt/pw-browsers/chromium-1223/chrome-linux/chrome",
+    "resolvedBy": "PLAYWRIGHT_BROWSERS_PATH",
+    "operatingSystem": "Linux 6.18.44-fc-v22 x64",
+    "nodeVersion": "v22.22.2",
+    "requestedScale": 2.5,
+    "pxPerPt": 3.3333333333333335,
+    "calibrationResidualPx": 0,
+    "croppedToThePage": true,
+    "problems": [],
+    "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/canary-receipt.json"
+  },
+  "negativeControls": {
+    "refusedCount": 6,
+    "notExercisedCount": 0,
+    "allExercisedRefused": true,
+    "failed": [],
+    "controls": [
+      "no_browser_refused",
+      "non_executable_refused",
+      "directory_refused",
+      "headless_shell_path_refused",
+      "headless_shell_render_refused",
+      "blank_page_is_detectable"
+    ],
+    "receipt": "data/rcap-grade-a/route-artifact-acceptance/raster-receipts/negative-controls.json"
+  },
+  "packetPdfsModified": 0,
+  "packetContentChanged": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-lane-g-captain-requests/v1",
+  "lane": "G",
+  "shardId": "S-G-CO",
+  "jurisdiction": "CO",
+  "baseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+  "purpose": "Patch requests for paths this lane does not own. The envelope makes a captain-only path a stop condition, so each change is described here rather than taken.",
+  "sourceVerificationRequest": {
+    "why": "The pinned corpus is internally consistent — all 23 assigned Colorado identities recomputed and agree — but it is not complete for any assigned Colorado route. The issuing court's own filing guides name filings the corpus does not contain, so no assigned route can assemble its official filing set.",
+    "corpusPin": {
+      "releaseRepository": "Roger-LegalEase/legalease-source-artifacts",
+      "releaseTag": "source-corpus-2026-08-28",
+      "archiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+      "verifiedThisSession": true
+    },
+    "missingFromCorpus": [
+      { "documentId": "JDF-419", "role": "NOTICE", "neededBy": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704", "namedBy": "JDF-416 R:July 1, 2025, Step 'File the Request'" },
+      { "documentId": "JDF-435", "role": "ORDER", "neededBy": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704", "namedBy": "JDF-416 R:July 1, 2025, Step 'File the Request'" },
+      { "documentId": "JDF-205", "role": "MOTION", "neededBy": "both petition-based sealing routes", "namedBy": "JDF-416 and JDF-611, 'Filing Fees'" },
+      { "documentId": "JDF-206", "role": "ORDER", "neededBy": "both petition-based sealing routes", "namedBy": "JDF-416 and JDF-611, 'Filing Fees'" },
+      { "documentId": null, "role": "NOTICE", "neededBy": "CO:petition-based-conviction-sealing-jdf-612-24-72-706", "namedBy": "JDF-611 R:August 2024, Step 'File the Request'", "note": "form number not recoverable: JDF-611's digits do not survive text extraction" },
+      { "documentId": null, "role": "ORDER", "neededBy": "CO:petition-based-conviction-sealing-jdf-612-24-72-706", "namedBy": "JDF-611 R:August 2024, Step 'File the Request'", "note": "form number not recoverable: JDF-611's digits do not survive text extraction" },
+      { "documentId": "JDF-302", "role": "PETITION", "neededBy": "CO:juvenile-expungement-19-1-306", "namedBy": "the compiled profile CO-colorado.json, which states the juvenile remedy has its own form JDF 302" }
+    ],
+    "askedOfCaptain": "Add the seven artifacts above to the pinned corpus, or state on the record that the Colorado routes ship without them. Until one or the other happens, no Colorado route can be taken to Grade-A candidate honestly."
+  },
+  "registryPatchRequest": {
+    "targetPath": "data/record-clearing/factory-v2-route-registry.json",
+    "ownedByThisLane": false,
+    "findings": [
+      {
+        "pathwayKey": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "currentState": "factoryV2Resolves=true, unmetBuildInputs=[], openBlockerIds=[], paymentAllowedAtTheEvaluator=true",
+        "measuredState": "two of the four filings the court's own guide requires (JDF-419, JDF-435) do not exist in the pinned corpus, and JDF-417 binds 4 of its 62 fields",
+        "requestedChange": "Set unmetBuildInputs to include exactPacketSet, and reopen a blocker for the absent JDF-419 and JDF-435. This route currently reads as fully built with payment allowed at the evaluator; it is neither.",
+        "severity": "this is the one assigned Colorado route whose gates are entirely open, so the gap is reachable by a paying participant"
+      },
+      {
+        "pathwayKey": "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "currentState": "factoryV2Resolves=true, unmetBuildInputs=[]",
+        "measuredState": "the guide requires four filings; only JDF-612 and JDF-615 exist, and JDF-612 binds 6 of its 63 fields",
+        "requestedChange": "Set unmetBuildInputs to include exactPacketSet."
+      },
+      {
+        "pathwayKey": "CO:juvenile-expungement-19-1-306",
+        "currentState": "factoryV2Resolves=false, unmetBuildInputs=[exactPacketSet, packetSpecification, sourceOrApprovedComposedDocument], officialFormIds=[]",
+        "measuredState": "agrees with measurement; JDF-302 is absent from the corpus",
+        "requestedChange": "None. This row is already truthful. Recording it so the captain can see the lane checked it rather than skipped it."
+      }
+    ]
+  },
+  "fulfillmentPatchRequest": {
+    "targetPath": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "ownedByThisLane": false,
+    "requestedChange": "Keep all three Colorado routes denied. The envelope's dependency on Lane B already denies every route today; this lane's measurement is that the denial is correct for Colorado and should not be lifted on the strength of the six rendered Colorado families, none of which completes a filing set.",
+    "doNotAdmit": [
+      "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+      "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+      "CO:juvenile-expungement-19-1-306"
+    ]
+  },
+  "rendererPatchRequest": {
+    "targetPath": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
+    "ownedByThisLane": false,
+    "finding": "Every Colorado rendered-artifacts.json names scripts/rcap-official-forms/lanes/d3a-regenerate.mjs as its renderer, and scripts/rcap-official-forms/lanes/ is an empty directory at this base. The six Colorado artifacts verify byte-for-byte against their recorded digests, so nothing is wrong with the bytes, but they cannot be regenerated from this tree.",
+    "requestedChange": "Restore the D3A renderer, or repoint the Colorado manifests at the renderer that now owns them, so deterministic regeneration is provable rather than only historically recorded."
+  }
+}

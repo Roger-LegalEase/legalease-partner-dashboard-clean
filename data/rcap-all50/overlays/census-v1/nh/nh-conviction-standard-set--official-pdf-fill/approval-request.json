@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "nh_conviction_standard-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "BUILT_RASTER_PENDING",
+  "routeKeys": [
+    "obligation:track-pathway:NH:nh_conviction_standard:conviction-annulment-under-rsa-651-5",
+    "obligation:track-pathway:NH:nh_conviction_standard:dwi-dui-annulment"
+  ],
+  "components": [
+    {
+      "kind": "primary_filing",
+      "documentId": "NHJB-2317",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "primary_filing_post_2019",
+      "documentId": "NHJB-3057",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "fee_waiver_motion",
+      "documentId": "NHJB-2311",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "fee_waiver_financial_statement",
+      "documentId": "NHJB-2328",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "criminal_history_request",
+      "documentId": "NHJB-2956",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "post_filing_instructions",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § What happens after you file"
+    },
+    {
+      "kind": "whole_record_disclosure",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § Why your whole record decides this, not just this one charge"
+    },
+    {
+      "kind": "effect_and_limits_disclosure",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § What annulment does, and what it does not do"
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "bd2a4c278778d4b61cdee81110ecccfe2ba93a3f794e04f8a929ffdafcadebe3",
+      "byteLength": 225427,
+      "pageCount": 13
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-standard-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "78908658fd0dc118ea0112c03bcec2bd0b6f7ab3a4c6b878bdaa8a1d6d91383f",
+      "byteLength": 225516,
+      "pageCount": 13
+    }
+  ],
+  "independentVerificationStatus": "PENDING",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "mattersForTheReviewersAttention": [
+    "Two petitions are delivered and the participant files one. Confirm on the paper that the Date of Conviction is blank on both and that the selection rule printed in participant-instructions.md is the manifest's own.",
+    "NHJB-3057 has no widget over its applicant signature and date rules, and none anywhere in its two court-use sections. Confirm those rules are clear on the paper.",
+    "The NHJB-2311 signature placeholder and the three NHJB-2328 zero totals are suppressed under an appearance disposition this family reuses from a sibling family's registry entry, proved to describe the same bytes by digest. See source-receipt.json appearanceDispositionProvenance and build-findings.json.",
+    "reports/caption-evidence.json — several boxes on these forms are named for the line above them, so visual review carries more weight here than usual."
+  ]
+}

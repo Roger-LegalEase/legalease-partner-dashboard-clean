@@ -1,0 +1,59 @@
+{
+ "schemaVersion": "rcap-repair-lane-checkpoints/v1",
+ "lane": "FIX132",
+ "branch": "pfa-in-20260910",
+ "base": "267486f6b",
+ "checkpoints": [
+  {
+   "checkpoint": 1,
+   "act": "Answered the question about in_conviction_felony-set without claiming it.",
+   "method": "Read component-page-manifest.json, classified all four delivered fixtures, opened the delivered bytes and compared each annotation's /Rect and /AP against the shared source form, then rendered delivered page 4 and source page 1 at 300 dpi.",
+   "result": "The six inverted rectangles are SILENT. The form is retained verbatim and unfilled, the delivered PDF carries no AcroForm and zero flattened appearances, and the two renders are byte-identical PNGs. Nothing of that family was touched."
+  },
+  {
+   "checkpoint": 2,
+   "act": "Tested the committed claim that the other 45 inverted rectangles carry no painting operator.",
+   "method": "Re-ran the scan's own painting-operator regex over the same 46 widgets in the same 13 held forms, inflating each appearance stream through decodePDFRawStream first.",
+   "result": "27 of 46 paint, not 1. The scan reads raw stored bytes and never applies /Filter, so every FlateDecode appearance tests as silent. The 27 that paint are exactly the 27 that are compressed. Recorded as a correction; the shared record was not edited."
+  },
+  {
+   "checkpoint": 3,
+   "act": "Re-measured the three dispatched obligations on the delivered bytes before changing anything.",
+   "result": "COMPONENT_SET closed on both (the insert form is bound and its four pages delivered). SELF_HELP_STOP closed on both in substance; verbatim on section1, paraphrased on arrest. CLIPPING_AND_OVERLAP closed on section1: 0 of 26 appearances exceed their clip box, and the boundary name is refused rather than clipped."
+  },
+  {
+   "checkpoint": 4,
+   "act": "Established the cause of the 84 unaccounted stroke-only appearances before removing any of it.",
+   "method": "Compared every stroke-only flattened XObject against every /AP /N substate of every widget on its own page of the pinned source, by normalised stream text, testing both identity and identity-minus-the-leading-opaque-background-fill.",
+   "result": "84 of 84 are a source /AP minus its background fill. Nothing invented, nothing removed. The court's own rule is `0 G 0 0.5 m 146.052 0.5 l s`."
+  },
+  {
+   "checkpoint": 5,
+   "act": "Found the defect the stripped fill leaves, and proved it by eye.",
+   "method": "Rendered each pinned source three ways at 300 and 600 dpi — with annotations, without annotations, and as delivered — and counted printed dark pixels inside every selection widget rectangle.",
+   "result": "31 selection widgets (16 of 16 on the insert form, 15 of 17 on the bundle) sit over a check box the page itself prints. The delivered filing showed two concentric frames at every one. A 600 dpi crop shows one box on the official form and two on the delivered page."
+  },
+  {
+   "checkpoint": 6,
+   "act": "Repaired it with the flags the shared finalizer already carries, opt-in per family.",
+   "result": "preserveUnwrittenSelectionBackgrounds and normalizeInvertedWidgetRects at both finalizeOfficialForm call sites. No shared module was edited, so no other family sharing that finalizer moves a byte."
+  },
+  {
+   "checkpoint": 7,
+   "act": "Caught a write nobody dispatched, by reading the rebuild's diff rather than its exit code.",
+   "result": "Both families wrote the petitioner's home address into the proposed order's law-enforcement-agency service list on page 14, matched on a label harvested as the control characters BEL and ACK. A control rebuild with the UNPATCHED builder reproduced it, so it is drift at head and not this lane's. Refused in both builders."
+  },
+  {
+   "checkpoint": 8,
+   "act": "Accounted the ink in both directions at a resolution sufficient for the feature.",
+   "result": "Against an annotation-free render of each pinned source: added ink outside every declared write rect and every source widget rect = 0 on every page of every artifact; removed ink not accounted to a selection widget = 0 on every page of every artifact. Negative controls: bundle pages 4, 10, 11, 15 and insert page 4 gain and lose nothing."
+  },
+  {
+   "checkpoint": 9,
+   "act": "Withdrew the acceptance receipts this repair invalidated.",
+   "result": "Both withdrawn through the shared governance-preservation module with both digests and the receipt kept under acceptanceReceiptWithdrawn, never deleted. npm run rcap:verify-governance-preservation returns GOVERNANCE_PRESERVATION_OK, 16 checks."
+  }
+ ],
+ "selfVerified": false,
+ "setsNoVerdict": "This lane built these bytes and cannot verify them. No verdict is set and no PASS is issued."
+}

@@ -1,0 +1,10 @@
+COMMAND: MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family pa_6308_underage-set --minimum-captain-sha c74fed1dc8c163ea024187901c477286e3736ea5
+EXIT_CODE=1
+PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable
+PASS family_sources_bind: 2/2 source(s) bind by exact SHA-256 (custody_reconciliation)
+PASS master_library_complete: 499 files, 329 PDFs, 51 jurisdictions
+PASS corpus_matches_committed_index: 24 sampled entries verify byte-exact
+FAIL clone_is_complete: isolated checkout is shallow
+FAIL worktree_clean: the task-provided read-only private symlink is untracked
+FAIL private_is_git_ignored: the task-provided private symlink is not ignored in this isolated checkout
+The three failures describe the isolated checkout wrapper. No source identity failed.

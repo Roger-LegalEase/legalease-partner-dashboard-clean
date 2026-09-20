@@ -1,0 +1,670 @@
+{
+  "schemaVersion": "packet-factory-24h/lane-return/v1",
+  "assignmentId": "CODEX-IMAGE-01",
+  "lane": "CXI01",
+  "status": "LOCAL_IMAGE_ACCEPTANCE_COMPLETE_PUBLICATION_REQUIRED",
+  "recordedOn": "2026-09-06T04:47:08.859Z",
+  "branch": "codex/image-01-render-worker",
+  "base": "6eda4d48515f2c370aac3762aa3010231d83d66b",
+  "selectedCaptainSha": "6eda4d48515f2c370aac3762aa3010231d83d66b",
+  "commit": "382fde36a87e3c68b2feff41c94073b9da476073",
+  "commitMeaning": "Pushed acceptance runner and evidence checkpoint. Build source is imageBuildSourceSha. This RETURN is a subsequent metadata-only commit; the final pushed RETURN commit is reported to Captain.",
+  "imageBuildSourceSha": "9a3a99bce3cc1fcb617bed3594cdcc912716906e",
+  "recovery": {
+    "previousBranch": "codex/launch-01-il-delivery",
+    "previousHead": "4bf766670d09644ad8469391c02e2a3185e2ddd4",
+    "previousWorktreeClean": true,
+    "existingImageBranchLocal": false,
+    "existingImageBranchRemote": false,
+    "newBranchCreatedFromCaptain": true,
+    "deliveryBranchPreserved": true,
+    "reset": false,
+    "rebase": false,
+    "forcePush": false
+  },
+  "captainOwnedImportedDependency": {
+    "sourceCommit": "079d7df02",
+    "workerCommit": "59fdf2281",
+    "purpose": "Include Dockerfile.dockerignore in the existing worker publication input plan. Explicitly supplied by Captain; no application bytes changed."
+  },
+  "pushedCommits": [
+    "59fdf2281053f846e217eef3178c9564a83fd662",
+    "9a3a99bce3cc1fcb617bed3594cdcc912716906e",
+    "382fde36a87e3c68b2feff41c94073b9da476073"
+  ],
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/ASSIGNMENT.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/ASSIGNMENT.md",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/RETURN.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/authority.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/build.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/commands.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/container-boundaries.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/container-diff.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/default-preflight.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/fingerprint.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/harness-excluded.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/image-identity.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/log-provenance.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/packaged-inventory.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/preflight.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/evidence.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/packet-artifacts/53211113-6403-4c6a-8020-82018c3a1e8a/0422fdcd-2dbe-47bc-84b9-1176b24151fa/2a97adb0-3280-4e09-9988-3f3b0def4d72/a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc.pdf",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/packet-artifacts/53211113-6403-4c6a-8020-82018c3a1e8a/0422fdcd-2dbe-47bc-84b9-1176b24151fa/c59bb1ef-d89f-43a0-88fa-a03b20af0b13/607ab1efef1aa7f2946b063c77d739a376e3a54a655393a2ead4c7acfb03de33.pdf",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/packet-artifacts/53211113-6403-4c6a-8020-82018c3a1e8a/199e9c1a-970e-4293-83ad-a1dc73c32ff8/a83d922a-88cc-4fcf-a401-749716a7bb83/f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508.pdf",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/packet-artifacts/consumer/24ead70e-7954-46cd-9b1e-308b58df4c71/6b777098-7ba8-4b89-be83-d71434c4d096/bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572.pdf",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/packet-artifacts/consumer/569c6c97-d0d7-4756-be55-2a80714c4ad7/47592744-5512-43d4-8935-6978bb026c8e/2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82.pdf",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/packet-artifacts/consumer/569c6c97-d0d7-4756-be55-2a80714c4ad7/e7d54170-5f75-4711-9bc9-60d5374956fe/e8b39b1f40fb1298bfb6906c8144a8e1e603de31e97dbfae7ef328581c7a7a73.pdf",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-failure-artifacts/evidence.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-failure.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/rendered-content.json",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/staging-generator.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/test-utilities-install.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/test-utility-versions.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/tested-inventory.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/tsc.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/unconfigured-entrypoint.log",
+    "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/worker-input-plan.json",
+    "deploy/rcap-render-worker/Dockerfile",
+    "deploy/rcap-render-worker/Dockerfile.dockerignore",
+    "deploy/rcap-render-worker/preflight.mjs",
+    "deploy/rcap-render-worker/runtime-data-manifest.json",
+    "deploy/rcap-render-worker/test-local-image.mjs",
+    "scripts/rcap-hosted-acceptance-worker-input-plan.mjs",
+    "scripts/rcap-worker-input-copy.test.mjs"
+  ],
+  "dockerAvailable": true,
+  "environment": {
+    "workspace": "/workspaces/legalease-partner-dashboard-clean",
+    "dockerServer": "29.3.0-1",
+    "nodeInImage": "22.23.2",
+    "testPostgreSQL": "15.19 (Debian 15.19-0+deb12u1)",
+    "testPoppler": "22.12.0",
+    "containerCpuLimit": 1
+  },
+  "filesPackaged": 67,
+  "packagedDataBytes": 10626559,
+  "manifestSha256": "48db1328ac03e9dd8866b9bf4850db3cefaa8b3b1e0db4e35dea1212e61a6331",
+  "imageTag": "rcap-render-worker:codex-image-01",
+  "imageId": "sha256:387880747874cf4cfbf22b07916f0a0578e006de04527a3ea05e7721654626dc",
+  "imageDigest": null,
+  "publishedImmutableDigest": null,
+  "imageIdentityMeaning": "imageId is the ID reported by this local Docker29 image store. Its locally generated RepoDigests entry is not proof of registry publication. No image push occurred. Published immutable digest for these inputs remains absent.",
+  "imageSizeBytes": 258310051,
+  "rootfsLayerCount": 23,
+  "rootfsLayerSetSha256": "6cd3b097e8eb7c78195316618b5121dae6c6684733c96ac41c99915733949bc5",
+  "imageBuild": {
+    "ran": true,
+    "command": "docker build --progress=plain -f deploy/rcap-render-worker/Dockerfile -t rcap-render-worker:codex-image-01 .",
+    "exitCode": 0,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/build.log",
+    "baseReference": "node:22-slim",
+    "baseRegistryDigest": "sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5",
+    "baseObtainedFrom": "Docker Hub directly; no mirror or secret required",
+    "applicationDependencies": "npm ci --omit=dev --no-audit --no-fund;138packages",
+    "imagePushed": false
+  },
+  "sourceFingerprint": "sha256:a111473c379b277ab3b217c02e00b951b8bff4a572ebef00a463e00794c7c6c4",
+  "sourceFingerprintMeaning": "sha256 of sorted path, mode, type, and Git object ID records",
+  "workerInputs": {
+    "check": "Existing createWorkerInputPlan from scripts/rcap-hosted-acceptance-worker-input-plan.mjs, including Captain COPY-closure and Dockerfile.dockerignore corrections",
+    "exitCode": 0,
+    "decision": "rebuild-required",
+    "canonicalInputRoots": [
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "scripts/rcap-render-worker.mjs",
+      "scripts/lib",
+      "src",
+      "deploy/rcap-render-worker/Dockerfile",
+      "data/rcap-all50/guidance-packets",
+      "data/rcap-all50/problematic-pdf-register.json",
+      "data/rcap-all50/review-artifacts/f2-dispositions.json",
+      "data/rcap-codex/release-readiness.json",
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "data/rcap-grade-a/maintenance/route-holds.json",
+      "data/rcap-ledger/packet-correction-required.json",
+      "data/rcap-ledger/packet-fulfillment-records.json",
+      "data/rcap-ledger/route-kind-adjudications.json",
+      "data/rcap-ledger/route-presentation-conflicts.json",
+      "data/rcap-ledger/track-pathway-crosswalk.json",
+      "data/record-clearing/factory-v2-route-registry.json",
+      "data/record-clearing/legal-decisions/route-ratification-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/packet-specifications",
+      "deploy/rcap-render-worker/Dockerfile.dockerignore",
+      "deploy/rcap-render-worker/preflight.mjs",
+      "deploy/rcap-render-worker/runtime-data-manifest.json"
+    ],
+    "changedExecutableOrImportedInputPathsRequiringPublication": [
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "data/rcap-ledger/packet-fulfillment-records.json",
+      "data/rcap-ledger/track-pathway-crosswalk.json",
+      "data/record-clearing/factory-v2-route-registry.json",
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json",
+      "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
+      "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+      "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
+      "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
+      "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+      "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+      "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+      "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
+      "data/record-clearing/packet-specifications/NV-probation-specialty-court-dismissal-set-aside-sealing.v1.json",
+      "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json",
+      "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
+      "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
+      "deploy/rcap-render-worker/Dockerfile",
+      "deploy/rcap-render-worker/Dockerfile.dockerignore",
+      "deploy/rcap-render-worker/preflight.mjs",
+      "deploy/rcap-render-worker/runtime-data-manifest.json",
+      "scripts/lib/il-prostitution-j-vacate-composition.mjs",
+      "scripts/lib/indiana-cca-section1-guide.mjs",
+      "scripts/lib/route-artifact-scope.mjs",
+      "scripts/rcap-render-worker.mjs",
+      "src/app/api/rcap/packets/[jobId]/download/route.ts",
+      "src/lib/clinic-mode/result-follow-up.ts",
+      "src/lib/expungement-ai/consumer-render-request.ts",
+      "src/lib/expungement-ai/packet-fulfillment-authority.ts",
+      "src/lib/expungement-ai/packet-generation.ts",
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "src/lib/legal-authority/authority.json",
+      "src/lib/legal-authority/routes/single-routes.json",
+      "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+      "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+      "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+      "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+      "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+      "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+      "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+      "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+      "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+      "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+      "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+      "src/lib/rcap/documents/factory-v2-registry.ts",
+      "src/lib/rcap/documents/packet-route-resolver.ts",
+      "src/lib/rcap/fulfillment/consumer-specification-binding.ts",
+      "src/lib/rcap/grade-a/composer.ts",
+      "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts",
+      "src/lib/rcap/grade-a/packet-specification.ts",
+      "src/lib/rcap/grade-a/participant-packet.ts",
+      "src/lib/rcap/grade-a/renderer.ts",
+      "src/lib/rcap/render/commercial-admission.ts",
+      "src/lib/rcap/render/job-queue.ts",
+      "src/lib/rcap/render/packet-delivery.ts",
+      "src/lib/rcap/render/personalized-packet.ts",
+      "src/lib/rcap/render/sponsored-packet.ts"
+    ],
+    "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/worker-input-plan.json",
+    "buildToEvidenceInputEquivalence": {
+      "command": "git diff --exit-code <imageBuildSourceSha> <commit> -- <all26 canonicalInputs from worker-input-plan.json>",
+      "exitCode": 0
+    }
+  },
+  "fingerprintVerifier": {
+    "command": "node scripts/verify-rcap-image-input-fingerprint.mjs",
+    "exitCode": 1,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/fingerprint.log",
+    "reason": "Committed staging fingerprint remains stale. Its default generator refuses to replace it because historical publication source b680a4e4 is not input-equivalent to the tested source."
+  },
+  "stagingGenerator": {
+    "command": "node scripts/generate-rcap-staging-action.mjs",
+    "exitCode": 1,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/staging-generator.log",
+    "outputChanged": false,
+    "reason": "Historical worker-publication-evidence.json source b680a4e4dd92e7422bc7030aa2189026929782a1 differs from9a3a99bce on real executable/imported inputs. Correct refusal retained; no manual staging JSON edit, old publication relabel, or pin change."
+  },
+  "stages": {
+    "preflight": {
+      "ran": true,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--cpus=1",
+        "--network",
+        "none",
+        "rcap-render-worker:codex-image-01",
+        "node",
+        "deploy/rcap-render-worker/preflight.mjs",
+        "--stage=preflight"
+      ],
+      "exitCode": 0,
+      "outputTail": "data manifest: 67 files declared, 0 missing, 0 mismatched\nmodule graph: loaded; 51 compiled jurisdiction profiles\nspecification directory: 19 files scannable at data/record-clearing/packet-specifications\n\nPREFLIGHT OK: packaged assets and actual worker imports verified\n",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/preflight.log"
+    },
+    "authority": {
+      "ran": true,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--cpus=1",
+        "--network",
+        "none",
+        "rcap-render-worker:codex-image-01",
+        "node",
+        "deploy/rcap-render-worker/preflight.mjs",
+        "--stage=authority"
+      ],
+      "exitCode": 0,
+      "outputTail": "module graph: loaded; 51 compiled jurisdiction profiles\n  DC:dc_actual_innocence_expungement_16_803 -> ALLOWED\n  IL:felony-prostitution-relief -> refused: IL:felony-prostitution-relief: REVOKED. Authority for IL:felony-prostitution-relief was revoked by scripts/gen\n  MS:additional-justice-court-misdemeanor-relief-9-11-15-3 -> refused: MS:additional-justice-court-misdemeanor-relief-9-11-15-3: REVOKED. Authority for MS:additional-justice-court-m\n  MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 -> refused: MS:additional-municipal-court-misdemeanor-relief-21-23-7-6: REVOKED. Authority for MS:additional-municipal-cou\n  MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal -> refused: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal: INCOMPLETE. MS:non-conviction-expunge\n  ND:deferred-imposition-dismissal-and-sealing -> refused: ND:deferred-imposition-dismissal-and-sealing: INCOMPLETE. ND:deferred-imposition-dismissal-and-sealing is miss\n  ND:dui-record-sealing-under-the-separate-dui-statute -> refused: ND:dui-record-sealing-under-the-separate-dui-statute: INCOMPLETE. ND:dui-record-sealing-under-the-separate-dui\n  ND:first-offense-possession-sealing -> refused: ND:first-offense-possession-sealing: INCOMPLETE. ND:first-offense-possession-sealing is missing 4 proof(s) req\n  ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 -> refused: ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1: INCOMPLETE. ND:general-conviction-sealing-under-n\n  ND:marijuana-specific-summary-pardon-or-sealing-relief -> refused: ND:marijuana-specific-summary-pardon-or-sealing-relief: INCOMPLETE. ND:marijuana-specific-summary-pardon-or-se\n  OR:marijuana-specific-set-aside-redesignation -> refused: OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is mi\n  OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c -> refused: OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: INCOMPLETE. OR:set-aside-of-arres\n  OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a -> refused: OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a: INCOMPLETE. OR:set-aside-of-eligible-convictions-u\n  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED\nauthority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided\n\nAUTHORITY OK: packaged registry decisions checked without test authority\n",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/authority.log"
+    },
+    "render": {
+      "ran": true,
+      "command": [
+        "docker",
+        "exec",
+        "rcap-image-test-298730",
+        "node",
+        "scripts/test-rcap-il-personalization.mjs"
+      ],
+      "exitCode": 0,
+      "outputTail": "pping\nNOTICE:  extension \"pgcrypto\" already exists, skipping\npsql:supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql:201: NOTICE:  trigger \"consumer_packet_artifact_provenance_immutable\" for relation \"public.consumer_packet_artifact_provenance\" does not exist, skipping\npsql:supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:567: NOTICE:  trigger \"consumer_render_job_verification_guard_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260901130000_consumer_private_delivery.sql:127: NOTICE:  trigger \"publish_validated_consumer_render_artifact_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260906120000_sponsored_route_render_transaction.sql:139: NOTICE:  constraint \"packet_render_jobs_sponsored_verification_hash_check\" of relation \"packet_render_jobs\" does not exist, skipping\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: consumer_auth_user_id is immutable once set\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 18 at RAISE\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement requires a new verified job\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 30 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement verification is stale\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 41 at RAISE\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: consumer_auth_user_id is immutable once set\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 18 at RAISE\nERROR:  consumer_packet_artifact_provenance: identity and history are immutable\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 15 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement requires a new verified job\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 30 at RAISE\nERROR:  consumer_packet_artifact_provenance: replacement verification is stale\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 41 at RAISE\nWorker failure: render_failed explicit failed-render boundary\nERROR:  consumer_packet_artifact_provenance: replacement artifact is not its validated job\nCONTEXT:  PL/pgSQL function public.consumer_packet_artifact_provenance_immutable() line 55 at RAISE\n",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render.log"
+    }
+  },
+  "additionalChecks": [
+    {
+      "command": "node deploy/rcap-render-worker/build-runtime-data-manifest.mjs",
+      "exitCode": 0,
+      "result": "Default generator produced current67file runtime manifest."
+    },
+    {
+      "command": "node deploy/rcap-render-worker/build-runtime-data-manifest.mjs --check",
+      "exitCode": 0,
+      "result": "67files10626559bytes current, including final recheck."
+    },
+    {
+      "command": "npx tsc --noEmit -p .",
+      "exitCode": 0,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/tsc.log"
+    },
+    {
+      "command": "node deploy/rcap-render-worker/test-local-image.mjs rcap-render-worker:codex-image-01 /tmp/codex-image-01/smoke",
+      "exitCode": 0,
+      "result": "All stages completed; disposable container removed."
+    },
+    {
+      "ran": true,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--cpus=1",
+        "--network",
+        "none",
+        "rcap-render-worker:codex-image-01",
+        "node",
+        "deploy/rcap-render-worker/preflight.mjs"
+      ],
+      "exitCode": 0,
+      "outputTail": "data manifest: 67 files declared, 0 missing, 0 mismatched\nmodule graph: loaded; 51 compiled jurisdiction profiles\n  DC:dc_actual_innocence_expungement_16_803 -> ALLOWED\n  IL:felony-prostitution-relief -> refused: IL:felony-prostitution-relief: REVOKED. Authority for IL:felony-prostitution-relief was revoked by scripts/gen\n  MS:additional-justice-court-misdemeanor-relief-9-11-15-3 -> refused: MS:additional-justice-court-misdemeanor-relief-9-11-15-3: REVOKED. Authority for MS:additional-justice-court-m\n  MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 -> refused: MS:additional-municipal-court-misdemeanor-relief-21-23-7-6: REVOKED. Authority for MS:additional-municipal-cou\n  MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal -> refused: MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal: INCOMPLETE. MS:non-conviction-expunge\n  ND:deferred-imposition-dismissal-and-sealing -> refused: ND:deferred-imposition-dismissal-and-sealing: INCOMPLETE. ND:deferred-imposition-dismissal-and-sealing is miss\n  ND:dui-record-sealing-under-the-separate-dui-statute -> refused: ND:dui-record-sealing-under-the-separate-dui-statute: INCOMPLETE. ND:dui-record-sealing-under-the-separate-dui\n  ND:first-offense-possession-sealing -> refused: ND:first-offense-possession-sealing: INCOMPLETE. ND:first-offense-possession-sealing is missing 4 proof(s) req\n  ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 -> refused: ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1: INCOMPLETE. ND:general-conviction-sealing-under-n\n  ND:marijuana-specific-summary-pardon-or-sealing-relief -> refused: ND:marijuana-specific-summary-pardon-or-sealing-relief: INCOMPLETE. ND:marijuana-specific-summary-pardon-or-se\n  OR:marijuana-specific-set-aside-redesignation -> refused: OR:marijuana-specific-set-aside-redesignation: INCOMPLETE. OR:marijuana-specific-set-aside-redesignation is mi\n  OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c -> refused: OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: INCOMPLETE. OR:set-aside-of-arres\n  OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a -> refused: OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a: INCOMPLETE. OR:set-aside-of-eligible-convictions-u\n  WY:felony-conviction-expungement-w-s-7-13-1502 -> ALLOWED\nauthority gate: 14 records, 2 allowed, 12 reasoned refusals, 0 undecided\nspecification directory: 19 files scannable at data/record-clearing/packet-specifications\n\nALL OK: packaged assets, worker imports and registry decisions verified\n",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/default-preflight.log"
+    },
+    {
+      "ran": true,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--cpus=1",
+        "--network",
+        "none",
+        "rcap-render-worker:codex-image-01",
+        "node",
+        "scripts/rcap-render-worker.mjs",
+        "--once"
+      ],
+      "exitCode": 2,
+      "outputTail": "rcap-render-worker: Supabase is not configured; the worker has no storage or queue to run against.\n",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/unconfigured-entrypoint.log"
+    },
+    {
+      "ran": true,
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--cpus=1",
+        "--network",
+        "none",
+        "rcap-render-worker:codex-image-01",
+        "node",
+        "--input-type=module",
+        "-e",
+        "import fs from 'node:fs'; const bad=fs.readdirSync('scripts/lib').filter(f=>/-test-|rcap-ephemeral-pg|rcap-onboarding-artifact-fixture/.test(f)); if(bad.length || fs.existsSync('scripts/test-rcap-il-authority-fixture.mjs')) throw new Error('test harness packaged: '+bad); console.log('No test authority, transport doubles or PostgreSQL test harness packaged');"
+      ],
+      "exitCode": 0,
+      "outputTail": "No test authority, transport doubles or PostgreSQL test harness packaged\n",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/harness-excluded.log"
+    },
+    {
+      "ran": true,
+      "command": [
+        "docker",
+        "exec",
+        "rcap-image-test-298730",
+        "node",
+        "scripts/test-rcap-il-personalization.mjs",
+        "--verify-fail-closed"
+      ],
+      "exitCode": 0,
+      "outputTail": "E:  trigger \"rcap_guard_reserved_partner_slug_trg\" for relation \"public.partner_records\" does not exist, skipping\npsql:supabase/phase-54-rcap-person-namespace-hardening.sql:206: NOTICE:  constraint \"rcap_persons_reserved_namespace_shape\" of relation \"rcap_persons\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:159: NOTICE:  constraint \"consumer_briefcase_items_payment_product_check\" of relation \"consumer_briefcase_items\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger \"packet_render_jobs_paid_matter_insert_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:552: NOTICE:  trigger \"packet_render_jobs_paid_matter_finalize_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  trigger \"consumer_payment_consumption_binding_trg\" for relation \"public.consumer_packet_payment_consumption\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint \"consumer_payment_consumption_product_check\" of relation \"consumer_packet_payment_consumption\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint \"consumer_payment_consumption_amount_check\" of relation \"consumer_packet_payment_consumption\" does not exist, skipping\npsql:supabase/phase-55-expungement-matter-payment-binding.sql:674: NOTICE:  constraint \"consumer_payment_consumption_currency_check\" of relation \"consumer_packet_payment_consumption\" does not exist, skipping\nNOTICE:  schema \"extensions\" already exists, skipping\nNOTICE:  extension \"pgcrypto\" already exists, skipping\npsql:supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql:201: NOTICE:  trigger \"consumer_packet_artifact_provenance_immutable\" for relation \"public.consumer_packet_artifact_provenance\" does not exist, skipping\npsql:supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql:567: NOTICE:  trigger \"consumer_render_job_verification_guard_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260901130000_consumer_private_delivery.sql:127: NOTICE:  trigger \"publish_validated_consumer_render_artifact_trg\" for relation \"public.packet_render_jobs\" does not exist, skipping\npsql:supabase/migrations/20260906120000_sponsored_route_render_transaction.sql:139: NOTICE:  constraint \"packet_render_jobs_sponsored_verification_hash_check\" of relation \"packet_render_jobs\" does not exist, skipping\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\nWorker failure: render_failed synthetic render failure boundary\n",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-failure.log"
+    },
+    {
+      "command": "git diff --cached --check",
+      "exitCode": 0,
+      "result": "Passed after log line endings and trailing whitespace were normalized; original capture hashes preserved in evidence/log-provenance.json. An initial log-formatting failure was corrected without changing test results."
+    }
+  ],
+  "currentRegistry": {
+    "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+    "sha256": "91f98b05987801fda324ad81119791514c9ef1f808f80b5327cbd4680f5d18b5",
+    "records": 14,
+    "allowed": 2,
+    "denied": 12,
+    "undecided": 0,
+    "allowedGateDecisions": [
+      "DC:dc_actual_innocence_expungement_16_803",
+      "WY:felony-conviction-expungement-w-s-7-13-1502"
+    ],
+    "illinois": {
+      "route": "IL:felony-prostitution-relief",
+      "track": "il-prostitution-j-vacate",
+      "family": "il-prostitution-j-vacate-set",
+      "currentVersion": 2,
+      "decision": "REVOKED / denied",
+      "testFixtureMeansApproval": false
+    },
+    "mississippiClinicDemo": "INCOMPLETE / denied; missing current worker publication binding preserved",
+    "note": "These are authority-gate decisions from packaged current data before synthetic fixtures. They neither open routes nor replace payment, ownership, sponsorship or rollout restrictions."
+  },
+  "packagedApplicationIntegrity": {
+    "fileCount": 1366,
+    "inventoryBefore": "b8e0236b831fb474d517a28daf9dd952382c3bb5765822c039298b6de1105508",
+    "inventoryAfter": "b8e0236b831fb474d517a28daf9dd952382c3bb5765822c039298b6de1105508",
+    "identical": true,
+    "scope": "All regular files under packaged src,scripts,data,deploy plus package.json/tsconfig.json; only enumerated external harness paths excluded. Docker diff separately shows no node_modules or packaged application file change.",
+    "testHarnessPackaged": false,
+    "applicationOrRegistryBindMounts": false,
+    "readOnlyExternalMounts": [
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-authority-fixture.mjs",
+        "destination": "/app/scripts/test-rcap-il-authority-fixture.mjs",
+        "readOnly": true,
+        "type": "bind"
+      },
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-delivery-loader.mjs",
+        "destination": "/app/scripts/test-rcap-il-delivery-loader.mjs",
+        "readOnly": true,
+        "type": "bind"
+      },
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-delivery-boundaries.mjs",
+        "destination": "/app/scripts/test-rcap-il-delivery-boundaries.mjs",
+        "readOnly": true,
+        "type": "bind"
+      },
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/scripts/lib/rcap-ephemeral-pg.mjs",
+        "destination": "/app/scripts/lib/rcap-ephemeral-pg.mjs",
+        "readOnly": true,
+        "type": "bind"
+      },
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/scripts/lib/consumer-payment-test-loader.mjs",
+        "destination": "/app/scripts/lib/consumer-payment-test-loader.mjs",
+        "readOnly": true,
+        "type": "bind"
+      },
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/scripts/lib/consumer-payment-test-doubles.mjs",
+        "destination": "/app/scripts/lib/consumer-payment-test-doubles.mjs",
+        "readOnly": true,
+        "type": "bind"
+      },
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/supabase",
+        "destination": "/app/supabase",
+        "readOnly": true,
+        "type": "bind"
+      },
+      {
+        "source": "/workspaces/legalease-partner-dashboard-clean/scripts/test-rcap-il-personalization.mjs",
+        "destination": "/app/scripts/test-rcap-il-personalization.mjs",
+        "readOnly": true,
+        "type": "bind"
+      }
+    ],
+    "testNetworks": {},
+    "preflightAndAuthorityNetworkMode": "none",
+    "testUtilitiesInstalled": "PostgreSQL and Poppler only in disposable writable container layer; layer never committed/published",
+    "containerRemoved": true,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/container-boundaries.json"
+  },
+  "actualPersonalization": {
+    "participants": [
+      {
+        "mode": "consumer",
+        "matterId": "569c6c97-d0d7-4756-be55-2a80714c4ad7",
+        "jobId": "47592744-5512-43d4-8935-6978bb026c8e",
+        "packetId": "7df0f305-6772-44d4-8716-d4213947b058",
+        "participant": "Alice Example",
+        "expectedAddress": "101 First Street",
+        "sha256": "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "verificationHash": "3e50b9aa28de5ece92e4d84c167ce7e16682bf3a9a544a1288ca2107bd3b0d73"
+      },
+      {
+        "mode": "consumer",
+        "matterId": "24ead70e-7954-46cd-9b1e-308b58df4c71",
+        "jobId": "6b777098-7ba8-4b89-be83-d71434c4d096",
+        "packetId": "a9bf0db0-fcfa-42ca-8e4f-49de5f0bc081",
+        "participant": "Bruno Sample",
+        "expectedAddress": "202 Second Street",
+        "sha256": "bcdcb8d14b2cb12666943fb4cd1767acca063676de6fc632c172163b49099572",
+        "verificationHash": "88be00de49a481fcce31147858ef502b46748245d5ee5d7cf55bf915eb4464aa"
+      },
+      {
+        "mode": "sponsored",
+        "matterId": "0422fdcd-2dbe-47bc-84b9-1176b24151fa",
+        "jobId": "2a97adb0-3280-4e09-9988-3f3b0def4d72",
+        "packetId": "031eb025-d2c9-4da8-87ff-6185d3b18cf0",
+        "participant": "Claire Sponsored",
+        "expectedAddress": "404 Third Street",
+        "sha256": "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "verificationHash": "e2abf0144b29c9f80651604af4fcb5689810ec708de74453cc3ae8e2ddb5116f"
+      },
+      {
+        "mode": "sponsored",
+        "matterId": "199e9c1a-970e-4293-83ad-a1dc73c32ff8",
+        "jobId": "a83d922a-88cc-4fcf-a401-749716a7bb83",
+        "packetId": "96bff089-ca50-4e36-82f9-75aa5798b3af",
+        "participant": "Diego Sponsored",
+        "expectedAddress": "505 Fourth Street",
+        "sha256": "f8bad5abdfa9c1cb19895791dbd01b5eb66c0212e07d2ee3023a600161e82508",
+        "verificationHash": "d2fcee2861146413f7bbd606111e66886a620208e1c245741cbdf9d200aa131d"
+      }
+    ],
+    "changedFact": {
+      "field": "mailing_address",
+      "before": "101 First Street",
+      "after": "303 Changed Avenue",
+      "contentChanged": true,
+      "jobId": "e7d54170-5f75-4711-9bc9-60d5374956fe",
+      "sha256": "e8b39b1f40fb1298bfb6906c8144a8e1e603de31e97dbfae7ef328581c7a7a73"
+    },
+    "sponsoredChangedFact": {
+      "field": "mailing_address",
+      "before": "404 Third Street",
+      "after": "606 Sponsor Change",
+      "sha256": "607ab1efef1aa7f2946b063c77d739a376e3a54a655393a2ead4c7acfb03de33",
+      "jobId": "c59bb1ef-d89f-43a0-88fa-a03b20af0b13"
+    },
+    "revisions": [
+      {
+        "mode": "consumer",
+        "revision": 2,
+        "historyLength": 1,
+        "priorSha256": "2e57e66746b30375af214ed81743ac927079b0087130c963707b7ce30c554c82",
+        "currentSha256": "e8b39b1f40fb1298bfb6906c8144a8e1e603de31e97dbfae7ef328581c7a7a73",
+        "repeatUnchanged": true,
+        "mutationRefusals": 5
+      },
+      {
+        "mode": "sponsored",
+        "revision": 2,
+        "historyLength": 1,
+        "priorSha256": "a860792707fa6f1a887ccf96fed0b49449e15bb581c75b5775494307a34d33dc",
+        "currentSha256": "607ab1efef1aa7f2946b063c77d739a376e3a54a655393a2ead4c7acfb03de33",
+        "repeatUnchanged": true,
+        "mutationRefusals": 5
+      }
+    ],
+    "initialAccounting": {
+      "consumerConsumptions": 2,
+      "sponsoredLedgerConsumptions": 2,
+      "clinicAllowance": 2,
+      "clinicEvents": 2
+    },
+    "failures": [],
+    "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-artifacts/evidence.json",
+    "visiblePdfFacts": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/rendered-content.json",
+    "pdfsSaved": 6,
+    "assertions": [
+      "Each of four participants appears in both court documents with their own address; no other synthetic participant name appears.",
+      "Actual exported worker adapter repeated twice per participant yields byte-identical PDFs; direct composer/render bytes and normalized fingerprints agree.",
+      "Relevant consumer and sponsored address changes appear in rendered PDF text and remove the prior address.",
+      "Current matter,job,participant,verification and exact packet family bind to artifacts and protected provenance.",
+      "Consumer accounting finalizes zero_charge after synthetic payment; sponsorship consumes one credit per original matter and never creates a consumer payment.",
+      "Duplicate requests,worker/finalization retries,repeat downloads and current-verification regeneration do not add payment or sponsored-credit consumption.",
+      "Owners can download and repeat-download; another owner,missing/wildcard/automatic track,wrong family,stale verification,wrong sponsor jurisdiction and revoked committed authority are refused.",
+      "Regeneration advances existing provenance to revision2 with history retained; previous grants and unauthorized history/owner/stale/same-verification/failed-job replacements are denied."
+    ],
+    "matchesPriorHostSyntheticPdfHashes": true,
+    "canonicalFixtureHashNotUsedAsPersonalizationExpectation": true,
+    "legalOrVisualAcceptance": false
+  },
+  "failedRenderEvidence": {
+    "participants": [],
+    "failures": [],
+    "revisions": [],
+    "result": "FAIL-CLOSED checks PASS; explicit renderer failure double, no artifact or Ready",
+    "inputs": [
+      {
+        "participant": "Alice Example",
+        "expectedAddress": "101 First Street",
+        "matterId": "eb89b8f3-62fc-41c7-a3dd-c58304a1dd06",
+        "jobId": "62cdcd01-4485-4089-9be9-14f168d1ad7f",
+        "verificationHash": "3e50b9aa28de5ece92e4d84c167ce7e16682bf3a9a544a1288ca2107bd3b0d73"
+      },
+      {
+        "participant": "Bruno Sample",
+        "expectedAddress": "202 Second Street",
+        "matterId": "b850aaae-4a50-43a4-810d-823f425d9c07",
+        "jobId": "1f32da5f-4c4a-4172-804d-ec98f20bee2a",
+        "verificationHash": "88be00de49a481fcce31147858ef502b46748245d5ee5d7cf55bf915eb4464aa"
+      },
+      {
+        "participant": "Claire Sponsored",
+        "expectedAddress": "404 Third Street",
+        "matterId": "820778ce-a77f-4563-9db9-660bc8091787",
+        "jobId": "2973a7c2-7f1b-4b7b-ad2a-576e291ee39d",
+        "verificationHash": "e2abf0144b29c9f80651604af4fcb5689810ec708de74453cc3ae8e2ddb5116f"
+      },
+      {
+        "participant": "Diego Sponsored",
+        "expectedAddress": "505 Fourth Street",
+        "matterId": "56781393-8aec-49a5-9d61-cee94243b883",
+        "jobId": "37cd6abf-882a-477f-be82-4deb439b90f5",
+        "verificationHash": "d2fcee2861146413f7bbd606111e66886a620208e1c245741cbdf9d200aa131d"
+      }
+    ],
+    "artifacts": 0,
+    "consumerConsumptions": 0,
+    "sponsoredConsumptions": 0,
+    "evidence": "data/rcap-grade-a/packet-factory-24h/codex-image-01/evidence/render-failure-artifacts/evidence.json",
+    "failedJobs": 4,
+    "duplicateRetryAddedJob": false,
+    "readyOrDownloadable": false
+  },
+  "testDoubles": [
+    {
+      "boundary": "Commercial authority",
+      "replacement": "Independent synthetic complete record and observation loaded from a temporary directory through the same production disk loader, structural/history checks and evaluator. No participant injection API, no live registry edits and no synthetic legal approval."
+    },
+    {
+      "boundary": "Supabase network/client",
+      "replacement": "Existing test client translates application RPC/table calls into actual SQL as service_role against disposable PostgreSQL; worker claim/start/fail/event transport uses direct local SQL. No hosted Supabase transport exercised."
+    },
+    {
+      "boundary": "Authentication/session",
+      "replacement": "Synthetic auth.users/roles and caller user IDs; owner-scoped Briefcase presentation reader is a test fixture. No hosted cookie, session, identity provider or auth handoff acceptance."
+    },
+    {
+      "boundary": "Source presentation and final legal verification",
+      "replacement": "Test presentation returns seeded claimed source/session identities; final screening/profile re-evaluation and review-complete model are fixtures. The current verification read and all protected enqueue/guard/finalization/grant RPCs are real. Sponsored SQL independently rederives ownership and program/event scope from seeded protected rows."
+    },
+    {
+      "boundary": "Base schema",
+      "replacement": "Minimal auth, source, document, Clinic and program prerequisite tables seeded locally; the existing job/payment/provenance/grant migrations, DEL-B and Captain regeneration migration execute for real. This is not a complete hosted schema-upgrade canary."
+    },
+    {
+      "boundary": "Payment provider",
+      "replacement": "Synthetic checkout/payment events enter real bind_consumer_checkout_verification and record_consumer_packet_payment RPCs. No Stripe network, payment collection or webhook-signature acceptance claimed by this integration."
+    },
+    {
+      "boundary": "Artifact storage",
+      "replacement": "Filesystem upload/read adapter replacing hosted private object storage. Actual PDFs are validated, stored, reread and hash-checked. No hosted Storage authorization/availability claim."
+    },
+    {
+      "boundary": "Rendering",
+      "replacement": "Successful image personalization uses packaged scripts/rcap-render-worker.mjs renderClaimPacket, composeParticipantDeliveryPacket and renderGradeAPacketPdf. Only dedicated failure cases inject a throwing renderer port. No fixed canonical-PDF adapter is used for positive image tests."
+    },
+    {
+      "boundary": "Worker provenance label and positive authority provider identity",
+      "replacement": "The unchanged external integration harness supplies sha256:local-personalization-test as the cycle containerDigest and a synthetic provider digest in isolated authority. These are test markers, neither the tested local Docker image ID nor a published immutable digest. Docker image identity and unchanged packaged byte inventories independently establish which code executed."
+    }
+  ],
+  "unitTests": {
+    "newUnitSuiteRun": false,
+    "note": "No application implementation changed in image task. Existing delivery unit and69case transaction acceptance remain in integrated RETURN-03; they are not relabeled as image tests."
+  },
+  "hostedAcceptance": {
+    "ran": false,
+    "boundariesNotTested": [
+      "Hosted authentication/cookies/identity provider",
+      "Hosted Supabase HTTP transport and full schema upgrade",
+      "Live or test Stripe network/webhook-signature acceptance",
+      "Hosted private object storage authorization/availability",
+      "Published worker registry pull and deployment",
+      "Hosted consumer and sponsored canaries"
+    ]
+  },
+  "notDone": [
+    "Publish and pull-test a worker image for the final integrated input fingerprint through the existing Captain release process, then bind its actual immutable registry digest and regenerate staging action. Historicalb680a4e4 evidence cannot prove these bytes.",
+    "Obtain applicable new Illinois approval for current canonical packet bytes; real Illinois remains revoked. Synthetic image tests confer no legal,visual or commercial approval.",
+    "Execute authorized hosted migration/application/worker rollout and consumer+sponsored canaries with owner-provided staging credentials under the existing release process. None was authorized or executed here.",
+    "Approved canonical fixture regression was not rerun as an image test. Existing Illinois approved7daaa389 pin versus currentd4cb7659 mismatch remains a separate approval dependency, unchanged."
+  ],
+  "routesOpened": 0,
+  "productionTouched": false,
+  "production": "NO",
+  "imagePushed": false,
+  "hostedWrites": false,
+  "protectedSourcePacketRegistryPinEdits": false
+}

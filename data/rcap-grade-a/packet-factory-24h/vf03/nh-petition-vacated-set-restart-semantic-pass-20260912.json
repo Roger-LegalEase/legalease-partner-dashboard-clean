@@ -1,0 +1,315 @@
+{
+  "schemaVersion": "rcap-vf03-bounded-semantic-review/v1",
+  "lane": "VF03",
+  "laneKind": "independent-verification",
+  "worker": "VF03",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "familyId": "nh_petition_vacated-set",
+  "baseSha": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "verifiedAtBase": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "dispatchSha": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "observedHead": "07c2cb2512acc9b36848be342bcb81f285c62ee0",
+  "executionState": "VERIFYING",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS",
+  "scope": "Independent bounded recheck of the seven prior NH semantic defect groups against the current FIX01 saved bytes, exact source receipts and focused saved-PDF test. No implementation, source, packet, raster, queue, manifest or ledger edits were made by this reviewer; no visual pass is claimed.",
+  "claimEvidence": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF03 nh_petition_vacated-set",
+    "result": "CLAIM_OK",
+    "assertedBeforeFamilyReads": true,
+    "source": "active VF03 claim"
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-nh-vacated-semantic-fail-20260912.json",
+    "sha256": "8c9879283b203378de8f9cdb1fb647a012e953960eba2caeec8ef1d8a499d777",
+    "byteLength": 16188,
+    "verifiedAtBase": "353bd91959e26d356c2c94f47f0947004c59eac5",
+    "findingIds": [
+      "NH-PREFLIGHT-WRONG-WAIVER-MOTION",
+      "NH-PREFLIGHT-KNOWN-FACT-OMISSIONS",
+      "NH-PREFLIGHT-DOB-FORMAT",
+      "NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE",
+      "NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH",
+      "NH-PREFLIGHT-OPTIONAL-AS-MANDATORY",
+      "NH-PREFLIGHT-INTERNAL-METADATA-COPY"
+    ]
+  },
+  "resolvedFindings": [
+    "NH-PREFLIGHT-WRONG-WAIVER-MOTION resolved: current source receipt and packet use exact NHJB-2886 rather than the prior wrong waiver motion.",
+    "NH-PREFLIGHT-KNOWN-FACT-OMISSIONS resolved: current saved bytes carry complete known neutral names, addresses, city and filer-contact facts.",
+    "NH-PREFLIGHT-DOB-FORMAT resolved: DOB output is mm/dd/yyyy and independent PDF text decoding passes.",
+    "NH-PREFLIGHT-CONFIDENTIALITY-AND-SERVICE resolved: NHJB-2328 remains confidential and NHJB-2956 service/notarization requirements are stated for the applicable branch.",
+    "NH-PREFLIGHT-RECORD-REQUEST-MAIL-BRANCH resolved: mailed requests require both sections and notarization; own-record in-person handling remains distinct.",
+    "NH-PREFLIGHT-OPTIONAL-AS-MANDATORY resolved: source-conditional optional waiver and record-request choices are represented as conditional.",
+    "NH-PREFLIGHT-INTERNAL-METADATA-COPY resolved: current participant guidance removes internal guidance identifiers and uses participant-facing language."
+  ],
+  "deltaBasis": {
+    "repairReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix01/rows-fix01-nh-vacated-restart-repair-20260912.json",
+      "sha256": "48c55b434a0f80bff0207e3d061f706d973bbbab6f312a6c9c038be331fd0097",
+      "byteLength": 3541
+    },
+    "focusedTestRechecked": true,
+    "priorSemanticFailureRecheckedAgainstCurrentBytes": true,
+    "visualEvidenceReused": false
+  },
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current source receipt, field map and wiring bind the single NH vacated-record route to NHJB-2317, NHJB-2886, NHJB-2328 and NHJB-2956 under RSA 651:5; no alternate route is invented."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "All four current source documents are exact receipt-bound identities, including the adopted NHJB-2886 fee motion; source receipt reports allSourcesExact=true."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current rendered-artifact evidence reaches all six declared components: four official forms plus post-filing and effect/limits guidance, 13 pages per fixture and 26 pages total."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The repair return and focused test verify the known neutral facts, complete addresses/contact values, Unicode/name handling and mm/dd/yyyy DOB output in the saved PDFs."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current map, guide and completeness evidence require the petition, conditional waiver materials, record request requirements and participant review facts while retaining certifications for the participant."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The current route preserves source-conditional fee-waiver and record-request choices; the mailed NHJB-2956 branch requires both sections and notarization, while the own-record in-person limitation is retained."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current packet components and repeated fact placements are complete in both canonical and boundary variants; no partial row defect remains in the repair/test evidence."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Signatures, signing dates, certifications, notarization and court-controlled fields remain blank/protected; actual-write evidence reports no blocking findings."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Both current 13-page PDFs match the current raster manifest and rendered-artifact SHA-256/byte-length bindings; no visual acceptance is inferred from this byte check."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The four source forms and two guidance components retain the current 13-page packet order in both variants."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "finding": "No current central Actions raster was independently inspected; clipping/overlap and visualDefects remain open.",
+      "visualDefects": null
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current participant guidance preserves New Hampshire court filing and post-filing process instructions without asserting a court-owned act."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The exact NHJB-2886 motion and confidential NHJB-2328 pairing are restored; waiver materials remain conditional and participant-facing."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current NHJB-2956 guidance distinguishes in-person own-record handling from mailed requests and requires both sections/notarization for the mailed branch."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current guidance preserves participant review and source-conditional stop boundaries; no signature, certification, notarization or court act is fabricated."
+    }
+  },
+  "obligationCounts": {
+    "PASS": 14,
+    "NOT_MEASURABLE_HERE": 1,
+    "FAIL": 0
+  },
+  "failedObligationNames": [],
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonVisualZero": true,
+    "allNineZero": false,
+    "measuredHere": true,
+    "visualMeasuredHere": false,
+    "verifierResult": "NOT_MEASURABLE_HERE",
+    "focusedCoverage": "36/168",
+    "knownAppearancesVerified": 76
+  },
+  "currentCandidateBindings": {
+    "reviewedHead": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+    "observedHead": "07c2cb2512acc9b36848be342bcb81f285c62ee0",
+    "packetBytesUnchangedAtObservedHead": true,
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nh-vacated-restart/raster-manifest.json",
+      "sha256": "97e2e8219951dab3f3fd4f795bcf03b8a69d1fbfd38060a1ab7d5884640ce6e7",
+      "byteLength": 2508,
+      "packetCommitShaRecorded": null,
+      "currentRasterState": "RASTER_PENDING",
+      "coverage": "two exact 13-page PDFs; four official forms and two guidance components"
+    },
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "a212eb1239c3c74fea0a9660c46d877e3875b2826b02a877950cd1a8775b5bd0",
+        "byteLength": 26149
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/production-field-map.json",
+        "sha256": "d75f69dfcc807cfdcbcb9d587ea4a5973f272f46b9b1257cfb526f180ef0e42c",
+        "byteLength": 570121
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/source-receipt.json",
+        "sha256": "1ab58d2ca0e3c2912d40694b8c367b305a8cd4be03324e5411cbe2952d88459b",
+        "byteLength": 6990
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "4c98e1de7aca90666abf4e454d930bdc608f11c79f1aac53f9749275131080df",
+        "byteLength": 55344
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "7b83b8d503aca9a4b894595fbcb635f732a9c55c8940ff9892c50ddf3247ac6c",
+        "byteLength": 13819
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/completeness-counters.json",
+        "sha256": "b28b89b52debaf0147434645dddcc150f1d071a55eb6a537be54f7abfcc4a4a7",
+        "byteLength": 1078
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/independent-visual-review.json",
+        "sha256": "d7d1f3ce6dd11fe39bc1d3e92537138eac97ee04fc454ea9aa3769e2b30e2303",
+        "byteLength": 1987
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/product-wiring.json",
+        "sha256": "b42cfcd5ba2acf8199ecaec354805fbe3815f6c01d16d56bb06629345181de70",
+        "byteLength": 7247
+      }
+    ],
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/source-receipt.json",
+      "sha256": "1ab58d2ca0e3c2912d40694b8c367b305a8cd4be03324e5411cbe2952d88459b",
+      "byteLength": 6990
+    },
+    "sourceDocuments": [
+      {
+        "form": "NHJB-2317",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+        "sha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+        "byteLength": 85115
+      },
+      {
+        "form": "NHJB-2886",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/reference/source-recovery/2026-09-12-nh2886/NH-NHJB-2886-DFPe.pdf",
+        "sha256": "270c1e7fcf8ace28756b182ee1548657ee14b0321557171645fff3dafbe36fcd",
+        "byteLength": 22386
+      },
+      {
+        "form": "NHJB-2328",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+        "sha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+        "byteLength": 66063
+      },
+      {
+        "form": "NHJB-2956",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+        "sha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+        "byteLength": 62291
+      }
+    ],
+    "fixturePdfs": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "277c0be84797512220ff62a0af7eaf6290a5f388f3a35223938284a53448c8d4",
+        "byteLength": 208229,
+        "pageCount": 13
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "219ea0df35f85495f4d14a69d4da30cbc9305a669d9a5be1b329ea5a97339c7c",
+        "byteLength": 209317,
+        "pageCount": 13
+      }
+    ],
+    "documentsDigest": "c7fb9d7ad288aac39570f3887cb80ca2d2c2c06e518392186572a10df958a6a2"
+  },
+  "evidenceRead": [
+    "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-nh-vacated-semantic-fail-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/fix01/rows-fix01-nh-vacated-restart-repair-20260912.json",
+    "data/rcap-grade-a/packet-factory-24h/warp-20260912/nh-vacated-restart/raster-manifest.json",
+    "data/rcap-grade-a/packet-factory-24h/warp-20260912/built-three-semantic-review/nh_petition_vacated-set/semantic-preflight.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/nh/nh-petition-vacated-set--official-pdf-fill/participant-instructions.md"
+  ],
+  "commandsPassed": [
+    {
+      "command": "node scripts/test-nh-vacated-restart-repair.mjs",
+      "result": "NH restart repair: PASS; 76 known appearances decoded from saved packets; independent PDF text decoding passed. Visual acceptance pending."
+    }
+  ],
+  "rasterDispatchAuthorized": true,
+  "raster": {
+    "status": "PENDING_CENTRAL_ACTIONS",
+    "newCentralRasterRequired": true,
+    "packetCommitStampRequired": true,
+    "visualDefects": null,
+    "reason": "Dispatch the exact current canonical and boundary PDF hashes above; central Actions raster and independent visual review remain required."
+  },
+  "remainingRequirements": [
+    "Central Actions raster for both exact 13-page PDF hashes/byte lengths.",
+    "Independent visual clipping/overlap review and raster-dependent counter measurement.",
+    "Captain packetCommitSha stamp on the NH raster manifest before final acceptance."
+  ],
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "runtimeAndCommercialBoundary": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false,
+    "note": "This PASS authorizes central raster dispatch only; it grants no visual, legal, runtime, payment, sponsorship, fulfillment or commercial authority."
+  },
+  "independence": {
+    "implementationEdited": false,
+    "sourceEdited": false,
+    "packetBytesEdited": false,
+    "rasterEdited": false,
+    "queueEdited": false,
+    "sharedManifestEdited": false,
+    "claimLedgerEdited": false,
+    "onlyPublication": "this lane-owned nonterminal semantic record"
+  }
+}

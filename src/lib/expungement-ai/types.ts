@@ -51,18 +51,69 @@ export type ConsumerMatterStatus =
   | "not_eligible"
   | "hard_stop";
 
+export type PacketVerificationSnapshot = {
+  schemaVersion: "expungement-ai/final-verification/v1";
+  verifiedAt: string;
+  jurisdiction: string;
+  profileVersion: string;
+  profileSourceFingerprint: string | null;
+  profileAuthorityFingerprint: string;
+  pathwayId: string | null;
+  resultCode: ExpungementAiResultCode | null;
+  paymentAllowed: boolean;
+  packetType: ExpungementAiEligibilityResult["packetType"] | null;
+  packetPlan: Record<string, unknown> | null;
+  requiredInputIds: string[];
+  packetFamilyIdentifiers: {
+    mode: string | null;
+    sourceFormIds: string[];
+  };
+  selectedTrackId: string | null;
+  treatmentClassification: ConsumerBriefcaseItem["treatmentClassification"] | null;
+  deferralComponentIds: string[];
+  screeningAnswers: Record<string, unknown>;
+  packetAnswers: Record<string, unknown>;
+  serverFacts: Record<string, unknown>;
+  prefilledAnswers: Record<string, unknown>;
+  dependencies: {
+    commercialFlowVersion: number | null;
+    entitlementSource: string | null;
+    productId: string | null;
+  };
+};
+
+export type PacketVerificationRecord = {
+  status: "unverified" | "verified" | "invalidated";
+  reason: string;
+  hash?: string;
+  snapshot?: PacketVerificationSnapshot;
+  invalidatedAt?: string;
+};
+
 export type ConsumerBriefcaseItem = {
   id: string;
   type: "eligibility_check" | "result" | "packet" | "wilma_conversation";
   title: string;
   state: string;
+  /**
+   * A stored projection of the matter's milestone, kept for query shape and the
+   * database check constraint. It is NOT the authority for what the participant
+   * is shown or allowed to do.
+   *
+   * Contract Phase 3 -- the Briefcase derives status from the matter and its
+   * verification, entitlement, render and artifact relationships.
+   * `humanMatterState()` and `matterCareState()` are that derivation, and both
+   * read the result code, the artifact, the packet draft and the payment state
+   * rather than this column. Nothing may re-route commercial or packet authority
+   * back through it; `scripts/verify-canonical-matter-authority.mjs` fails if
+   * anything tries.
+   */
   status: ConsumerMatterStatus;
   resultCode?: ExpungementAiResultCode;
   createdAt: string;
   summary: string;
   nextSteps: string[];
   paymentAllowed: boolean;
-  packetReady: boolean;
   pathwayLabel?: string;
   packetType?: ExpungementAiEligibilityResult["packetType"];
   artifactRefs?: Record<string, unknown>;

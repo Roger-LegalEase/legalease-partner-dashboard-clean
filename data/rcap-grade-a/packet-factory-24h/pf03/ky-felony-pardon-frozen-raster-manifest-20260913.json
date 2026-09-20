@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-raster-queue/v1",
+  "rows": [
+    {
+      "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+      "boundaryPdfSha256": "585a3a90aba6f8617d0589e8ba990e02004c45fb71f226c9aeb72da6d53eff5f",
+      "builderAssignment": null,
+      "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+      "canonicalPdfSha256": "5c757ed8c07c7ed75a2e55b0d1d6fd8c524c31b5c15c5325201a58305ceb501a",
+      "coverage": {
+        "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "complete": true,
+        "documents": [
+          "canonical.pdf"
+        ],
+        "notRastered": [],
+        "notRenderedByThisGate": [
+          "boundary--aoc-496-3.pdf",
+          "canonical--aoc-496-3.pdf"
+        ],
+        "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+        "rastered": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "whatCompleteMeansHere": "every canonical document is rendered, and so is every other document this row queues. The 2 fixture(s) named in notRenderedByThisGate are present in the family's fixture set and are not queued here, so they are unrendered and a defect appearing only in them is not something a RASTER_PASS has excluded."
+      },
+      "currentRasterState": "RASTER_PENDING",
+      "documents": [
+        {
+          "name": "canonical.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "5c757ed8c07c7ed75a2e55b0d1d6fd8c524c31b5c15c5325201a58305ceb501a",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/canonical.pdf",
+          "role": "canonical",
+          "sha256": "5c757ed8c07c7ed75a2e55b0d1d6fd8c524c31b5c15c5325201a58305ceb501a"
+        },
+        {
+          "name": "boundary.pdf",
+          "pageCount": 3,
+          "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+          "pageCountEvidence": {
+            "method": "pdf-lib",
+            "pageCount": 3,
+            "sourceSha256": "585a3a90aba6f8617d0589e8ba990e02004c45fb71f226c9aeb72da6d53eff5f",
+            "version": "1.17.1"
+          },
+          "path": "data/rcap-all50/overlays/census-v1/ky/ky-felony-expungement-after-pardon-set--official-pdf-fill/fixtures/boundary.pdf",
+          "role": "boundary",
+          "sha256": "585a3a90aba6f8617d0589e8ba990e02004c45fb71f226c9aeb72da6d53eff5f"
+        }
+      ],
+      "documentsDigest": "f7d1f092f4f4c511c044430a5860d11d099eeaf8d61a12f2fb88598e8262912e",
+      "expectedPages": 3,
+      "familyId": "ky_felony_expungement_after_pardon-set",
+      "fixtureSelection": {
+        "boundary": "the assembled packet, matched by exact name",
+        "canonical": "the assembled packet, matched by exact name"
+      },
+      "nextOwner": "RAS01",
+      "packetCommitSha": "72dc6d31a2a81751b0da5a065891f8639f2a08f7",
+      "requestedScale": 2.5
+    }
+  ]
+}

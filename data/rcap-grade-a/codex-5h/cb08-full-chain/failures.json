@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "cb08-failures/v1",
+  "failures": [
+    {
+      "id": "CB08-F001",
+      "command": "npm test",
+      "failingVerifier": "scripts/verify-tracked-mutation-safety.mjs",
+      "classification": "ENVIRONMENT_BLOCKED",
+      "failedChecks": [
+        "test-rcap-phase52-mutations.mjs did not pass under the guard",
+        "test-rcap-phase52-mutations.mjs did not report its mutations as red; the guard must not have weakened them"
+      ],
+      "rootCause": "scripts/verify-rcap-phase52-consumer-payment-authority.mjs exits zero with SKIPPED when ephemeral PostgreSQL is unavailable. The mutation harness treats that zero exit as green for all 12 mutations, so the outer tracked-mutation verifier correctly fails.",
+      "reproduced": true,
+      "dirtyAfter": false
+    }
+  ],
+  "preExisting": [],
+  "introducedOnCurrentHead": [],
+  "environmentBlocked": ["CB08-F001"],
+  "historicalSnapshotDrift": [],
+  "nondeterministic": []
+}

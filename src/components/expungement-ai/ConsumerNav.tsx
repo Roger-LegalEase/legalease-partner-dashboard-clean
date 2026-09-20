@@ -15,10 +15,10 @@ export type ConsumerNavVariant = "marketing" | "app";
  * The public landing page (`/expungement-ai`) renders its own handoff nav and never uses this
  * component. This header serves the inner consumer surfaces in two flavors:
  *
- * - "marketing" (default): dark nav with the full marketing menu + "Start free" CTA. Used on the
+ * - "marketing" (default): dark nav with the full marketing menu + "Check my options" CTA. Used on the
  *   marketing/info pages that are reachable from the landing menu (pricing, support, how-it-works,
  *   contact).
- * - "app": clean light app bar with NO marketing menu and NO "Start free". Used inside the actual
+ * - "app": clean light app bar with NO marketing menu and NO "Check my options". Used inside the actual
  *   product flow (screening, start, check, results, pay, packet-ready, sign-in) where a marketing
  *   CTA is wrong and would compete with the task at hand.
  *
@@ -66,7 +66,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
           </Link>
           <Link className="inline-flex min-h-10 items-center gap-2 rounded-md bg-[#FF3B00] px-4 text-sm font-bold text-white" href="/expungement-ai/start">
             <Briefcase className="h-4 w-4" aria-hidden="true" />
-            <LocalizedText k="nav.start_free" fallback="Start free" />
+            <LocalizedText k="nav.start_free" fallback="Check my options" />
           </Link>
         </div>
       </nav>

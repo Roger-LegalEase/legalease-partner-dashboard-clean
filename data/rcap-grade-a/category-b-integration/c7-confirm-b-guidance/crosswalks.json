@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-category-b-confirmed-guidance-crosswalks/v1",
+  "assignmentId": "C7_CONFIRM_B_GUIDANCE",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "rule": "Only a route with reuseDecision REUSE_AS_IS receives an existing Category A route crosswalk. SALVAGE_SPECIFIC_ASSETS retains named guidance assets and does not create a Category A route binding.",
+  "counts": {
+    "assignedRoutes": 3,
+    "reuseAsIsRoutes": 0,
+    "crosswalksConfirmed": 0
+  },
+  "crosswalks": [],
+  "routesReviewed": [
+    {
+      "routeKey": "obligation:track-only:MN:mn_pardon_auto_expungement",
+      "reuseDecision": "SALVAGE_SPECIFIC_ASSETS",
+      "crosswalkRequired": false,
+      "packetFamilyRetained": "rcap-mn-guidance-implementation",
+      "basis": "The confirmed post-pardon stage has no participant Category A branch."
+    },
+    {
+      "routeKey": "obligation:track-only:NE:ne-out-of-jurisdiction-routing",
+      "reuseDecision": "SALVAGE_SPECIFIC_ASSETS",
+      "crosswalkRequired": false,
+      "packetFamilyRetained": "rcap-ne-guidance-implementation",
+      "basis": "The confirmed Nebraska routing stage has no Nebraska participant Category A branch."
+    },
+    {
+      "routeKey": "obligation:track-only:VA:va_exp_actual_innocence",
+      "reuseDecision": "SALVAGE_SPECIFIC_ASSETS",
+      "crosswalkRequired": false,
+      "packetFamilyRetained": "rcap-va-guidance-implementation",
+      "basis": "The confirmed post-writ stage has no participant Category A branch."
+    }
+  ],
+  "evidence": [
+    "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+    "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+    "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+  ]
+}

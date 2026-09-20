@@ -1,0 +1,523 @@
+{
+ "schemaVersion": "rcap-form-number-split-proposal/v1",
+ "worker": "FABLE-SPLIT1",
+ "lane": "SPLIT1",
+ "laneKind": "source-modelling",
+ "operation": "form-number-split-proposal",
+ "branch": "fable/split1",
+ "base": "e4e505192",
+ "captainBranch": "claude/legalease-sprint-captain-utucnw",
+ "producedOn": "2026-09-02",
+ "mission": "Propose the exact route or label split for the five form numbers in data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json ambiguousFormNumbers, which each name more than one distinct document.",
+ "nothingWasEdited": "This lane edited no worklist, no census, no queue, no manifest, no ledger and no resolver. It wrote exactly one file, this one. Every edit below is a proposal for Captain, because a route change needs a task that authorizes that exact route change (AGENTS.md, 'Roger Approval Required' and 'Do not change live RCAP routes unless a task explicitly authorizes that exact route change').",
+ "theOneThingToReadFirst": {
+  "finding": "The five ambiguous form numbers are not one problem. ONE of them costs an obligation and FOUR of them cost nothing.",
+  "measured": "Simulating the reconciler's tier 1 and tier 2 against all 821 official-form obligations in the worklist: exactly four route obligations, in two families, both Montana, name a label that normalises to an ambiguous form number. No obligation anywhere reaches TX-GC-411.0727, TX-GC-411.0728, TX-GC-411.0729 or TX-GC-411.0731 at either tier. Texas already names the order and the petition under two separate descriptive labels and both already bind at tier 3 to the correct distinct bytes.",
+  "soTheProposalIs": "Split ONE label — MT-OCA-MMRTA — into two, in both Montana MMRTA families, and add the two tier-3 identity findings that make the new labels bind. Propose NO route change and NO label change for Texas: the four Texas numbers are ambiguous in the corpus index only, the refusal is uncontested, and touching them would change routes for no gain.",
+  "andACaution": "A label change alone does not resolve anything. The reconciler's tier 1 matches the census label against the CORPUS's form number, and both Montana documents carry form number MT-OCA-MMRTA in the index. 'MT-OCA-MMRTA-ORDER' fails tier 1 (normalised strings differ) and fails tier 2 (the token 'order' is not in the corpus form number's tokens). The split must be paired with either two tier-3 identity findings or a corpus re-index that carries the library's document_role. Step 2 below is not optional garnish."
+ },
+ "howEverythingHereWasVerified": {
+  "mount": "MASTER_LIBRARY_SOURCE_DIR=$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. private/ is git-ignored and absent from this lane's worktree, so the reads were done against the checkout's private tree. Reads only; nothing under private/ was written.",
+  "hashes": "All ten SHA-256 values below were recomputed in this lane with sha256sum from the mounted Master Library bytes. All ten match the candidate hashes recorded in source-custody-reconciliation.json exactly; none is copied from the census.",
+  "montanaDocx": "The two Montana documents are DOCX. Their page one was read by unzipping word/document.xml and extracting the w:t runs paragraph by paragraph. They are indexed at Captain's head e4e505192 ('The corpus index held PDFs only, so Montana did not exist'), and their corpus entries were read first-hand.",
+  "texasPdf": "The eight Texas documents were read with pdftotext -f 1 -l 1 -layout.",
+  "libraryManifests": "STATES/MT/STATE_MANIFEST.csv and STATES/TX/STATE_MANIFEST.csv were read first-hand. Both carry a document_role column and a composite workflow_key, and both already distinguish these documents by role. The corpus indexer does not carry either field; that is the root cause of all five ambiguities."
+ },
+ "rootCause": {
+  "statement": "The Master Library never gave two documents one identity. It gave them one document_id and separated them by document_role, and it publishes a composite key that already distinguishes them.",
+  "evidence": [
+   "STATES/MT/STATE_MANIFEST.csv row: asset_class source_gated, document_role ORDER, document_id MT-OCA-MMRTA, workflow_key 'MT:MT-OCA-MMRTA:ORDER:EN', sha256 2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e.",
+   "STATES/MT/STATE_MANIFEST.csv row: document_role SERVICE, document_id MT-OCA-MMRTA, workflow_key 'MT:MT-OCA-MMRTA:SERVICE:EN', sha256 d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9.",
+   "STATES/TX/STATE_MANIFEST.csv rows: document_role ORDER with workflow_key 'TX:TX-GC-411.0727:ORDER:EN', and document_role PETITION with workflow_key 'TX:TX-GC-411.0727:PETITION:EN'; the same ORDER/PETITION pair for 411.0728, 411.0729 and 411.0731."
+  ],
+  "whatTheIndexKeeps": "data/rcap-all50/local-source-corpus-index.json carries `assetClass`, which is the SECOND field of the six-field FILENAME (FORM / INSTRUCTIONS / SOURCE-GATED / SUPPORT), and `formNumber`, which is the document_id. It does not carry document_role and it does not carry workflow_key. So the library's own discriminator is dropped at index time, and both Texas siblings arrive as assetClass FORM at one form number, and both Montana siblings arrive as assetClass SOURCE-GATED at one form number.",
+  "consequence": "scripts/lib/official-form-asset-class.mjs can prefer FORM over INSTRUCTIONS and EN over other languages because the index carries assetClass and language. It cannot prefer ORDER over SERVICE or PETITION, because the index carries neither. Its own header says exactly this and refuses, which is correct."
+ },
+ "theMeasurement": {
+  "method": "Re-implemented the reconciler's normalise() and tokens() and its tier-1 and tier-2 predicates, then ran every official-form: obligation in data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json against the five ambiguous form numbers.",
+  "totalOfficialFormObligationsInWorklist": 821,
+  "tier1Casualties": [
+   "mt_mmrta_completed-set | obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition | official-form:MT-OCA-MMRTA",
+   "mt_mmrta_completed-set | obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission | official-form:MT-OCA-MMRTA",
+   "mt_mmrta_serving-set | obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-court-petition | official-form:MT-OCA-MMRTA",
+   "mt_mmrta_serving-set | obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-criss-submission | official-form:MT-OCA-MMRTA"
+  ],
+  "tier2Casualties": [],
+  "uniqueFamilyLabelObligationsRefused": 2,
+  "uniqueFamilyLabelObligationsRefusedList": [
+   "mt_mmrta_completed-set :: MT-OCA-MMRTA",
+   "mt_mmrta_serving-set :: MT-OCA-MMRTA"
+  ],
+  "correctionToTheBriefing": "The briefing says five obligations across several families are unresolved. Measured, it is two obligations across two families, both Montana, appearing on four routes because the worklist replicates one family-level requiredSourceIds union onto every route in the family. The other four ambiguous form numbers cost zero obligations. That is not a smaller version of the same problem; it is a different problem with a different fix.",
+  "customerOfTheRefusal": "Both Montana families read SOURCE_IDENTITY_UNRESOLVED with documentSourcesNamed 7 and documentSourcesResolved 6. The one unresolved source in each is official-form:MT-OCA-MMRTA, absence label_does_not_identify_a_document."
+ },
+ "perFormNumber": [
+  {
+   "formNumber": "MT-OCA-MMRTA",
+   "jurisdiction": "MT",
+   "distinctDocuments": 2,
+   "verdict": "SPLIT REQUIRED — and the answer is two labels, not a choice between two documents. Both families need BOTH documents and both are requirement 'required'.",
+   "documents": [
+    {
+     "libraryDocumentRole": "ORDER",
+     "libraryWorkflowKey": "MT:MT-OCA-MMRTA:ORDER:EN",
+     "pathInArchive": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+     "recomputedSha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 21143,
+     "assetFormat": "docx",
+     "whatItActuallyIs": "The proposed order the petitioner lodges with the MMRTA petition for the judge to sign. It is a court instrument with the judicial findings and the signature left blank.",
+     "printedTitleQuoted": "Proposed Order Granting / ☐ Expungement of Conviction / ☐ Resentencing of Conviction / ☐ Redesignation of Conviction",
+     "captionQuoted": "☐ MONTANA ____________ JUDICIAL DISTRICT COURT, ____________ COUNTY / ☐ IN THE JUSTICE COURT OF ________________ COUNTY, STATE OF MONTANA / ☐ IN THE MUNICIPAL OR CITY COURT OF ________________, MONTANA — 'In re the Expungement, Resentencing, or Redesignation of the Marijuana-Related Conviction of'",
+     "operativeLineQuoted": "IT IS THEREFORE ORDERED: / Pursuant to § 16-12-113(6), MCA, this Court GRANTS the Petition as follows: / ☐ The above-described conviction is hereby EXPUNGED.",
+     "readHow": "unzip word/document.xml from the mounted Master Library DOCX and extract the w:t runs; paragraphs 26-29 carry the title, paragraphs 50-54 the operative decree.",
+     "libraryManifestOfficialTitle": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA"
+    },
+    {
+     "libraryDocumentRole": "SERVICE",
+     "libraryWorkflowKey": "MT:MT-OCA-MMRTA:SERVICE:EN",
+     "pathInArchive": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+     "recomputedSha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 16815,
+     "assetFormat": "docx",
+     "whatItActuallyIs": "The petitioner's certificate that the petition was served on the county attorney. It is the participant's own attestation, signed after the packet is produced, and it names only the county attorney as recipient.",
+     "printedTitleQuoted": "CERTIFICATE OF SERVICE",
+     "captionQuoted": "The recipient block is labelled 'Name of County Attorney' / 'Mailing Address' / 'City  State  Zip Code' / 'Phone Number' / 'E-mail Address (optional)'.",
+     "operativeLineQuoted": "The undersigned hereby certifies that true and correct copies of the foregoing document were, this day, served upon the following individuals by U.S. Mail and/or e-mail and addressed as follows:",
+     "readHow": "unzip word/document.xml and extract the w:t runs; paragraph 1 is the title, paragraph 3 the operative certification, paragraph 27 the signature block '(your signature)'.",
+     "libraryManifestOfficialTitle": "Certificate of Service - MMRTA Petition"
+    }
+   ],
+   "whyTheyAreNotInterchangeable": "One is signed by a judge and grants relief; the other is signed by the participant and proves service on the county attorney. Binding the label to whichever the corpus walk reached last is how a family ships a certificate of service where a proposed order belongs, which is the exact failure scripts/lib/official-form-asset-class.mjs names in its header.",
+   "familiesAndRoutesNamingTheLabel": [
+    {
+     "family": "mt_mmrta_serving-set",
+     "packetSetId": "mt_mmrta_serving-set",
+     "jurisdiction": "MT",
+     "routesCarryingTheLabel": [
+      "obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-court-petition",
+      "obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-criss-submission"
+     ],
+     "whichDocumentThisFamilyNeeds": "BOTH.",
+     "proof": [
+      "The family's own requiredSourceIds already carry both content hashes: source-sha256:2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e and source-sha256:d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9.",
+      "The family names two separate components for them: component:mt_mmrta_serving-proposed-order-3 and component:mt_mmrta_serving-certificate-of-service-2.",
+      "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json: role proposed_order, officialFormId MT-OCA-MMRTA, officialFormDocumentRole ORDER, sourceBinary.sha256 2e38c3c6..., requirement 'required'.",
+      "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json: role certificate_of_service, officialFormId MT-OCA-MMRTA, officialFormDocumentRole SERVICE, sourceBinary.sha256 d9096c17..., requirement 'required'.",
+      "The route's own publicLabel names both instruments: 'MMRTA Form A petition in the sentencing court, with certificate of service and proposed order'."
+     ]
+    },
+    {
+     "family": "mt_mmrta_completed-set",
+     "packetSetId": "mt_mmrta_completed-set",
+     "jurisdiction": "MT",
+     "routesCarryingTheLabel": [
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition",
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission"
+     ],
+     "whichDocumentThisFamilyNeeds": "BOTH.",
+     "proof": [
+      "The family's own requiredSourceIds already carry both content hashes: source-sha256:2e38c3c6... and source-sha256:d9096c17...",
+      "The family names component:mt_mmrta_completed-proposed-order-3 and component:mt_mmrta_completed-certificate-of-service-2.",
+      "There is no composed-routes directory for mt_mmrta_completed — data/rcap-all50/composed-routes/montana/ carries only mt_mmrta_serving — so the controlling record for this family is data/record-clearing/legal-design-track-registry.json, packetSet mt_mmrta_completed-set, which FABLE-DISC04 read first-hand and reports carrying both components at officialFormId MT-OCA-MMRTA, requirement 'required'.",
+      "The route's own publicLabel names both instruments: 'MMRTA Form B petition in the sentencing court, with certificate of service and proposed order'."
+     ]
+    }
+   ],
+   "corroboratingLanes": {
+    "FABLE-DISC04": "data/rcap-grade-a/fable-packet-factory/returns/FABLE_DISC04_SOURCE_IDENTITY.json perItem[4] finding: 'The label does not name one document and it never did... This is NOT a pick-one ambiguity: both instruments are requirement...' and officialTitle field: 'MT-OCA-MMRTA is a constructed set identifier, not a printed title. It covers two companion instruments.' DISC04 also coined two acquisition source ids for exactly these two documents.",
+    "theQueueAlreadySplitIt": "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json already carries FOUR rows for this one label — rows[223], [224], [227], [228] — one per family per role, discriminated by a `role` field of certificate_of_service and proposed_order. The queue has already made this split, by role rather than by label. The worklist has not, and that mismatch is the whole defect."
+   },
+   "proposal": {
+    "shape": "Two labels, not a split of one. Replace one label with two in both families; every route in both families carries both.",
+    "step1_worklistLabelSplit": {
+     "file": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+     "remove": "official-form:MT-OCA-MMRTA",
+     "add": [
+      "official-form:MT-OCA-MMRTA-ORDER",
+      "official-form:MT-OCA-MMRTA-SERVICE"
+     ],
+     "labelStringsExactly": {
+      "official-form:MT-OCA-MMRTA-ORDER": "names STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx at sha256 2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+      "official-form:MT-OCA-MMRTA-SERVICE": "names STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx at sha256 d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9"
+     },
+     "whyThoseTwoSuffixes": "ORDER and SERVICE are not this lane's invention. They are the exact document_role values the Master Library manifest prints for these two rows, and the exact officialFormDocumentRole values the two composed-route dependency.json files already carry. Nothing new has to be agreed for a reader to know which is which.",
+     "alternativeIfCaptainPrefersTheLibraryKeyVerbatim": "official-form:MT:MT-OCA-MMRTA:ORDER:EN and official-form:MT:MT-OCA-MMRTA:SERVICE:EN, which are the library's published workflow_key strings. Rejected as the primary proposal only because no other label in the worklist has that shape, and because the reconciler's tokens() would reduce the jurisdiction and language segments to noise.",
+     "gainsOrReplaces": "REPLACES one entry with two, in each of the four routes. Each route's requiredSourceIds grows by exactly one: the two mt_mmrta_serving routes go 16 -> 17 entries and the two mt_mmrta_completed routes go 17 -> 18 (counted first-hand in the worklist). documentSourcesNamed on each family's reconciliation row goes 7 -> 8.",
+     "exactRouteEdits": [
+      "obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-court-petition — requiredSourceIds: drop 'official-form:MT-OCA-MMRTA', add 'official-form:MT-OCA-MMRTA-ORDER' and 'official-form:MT-OCA-MMRTA-SERVICE'.",
+      "obligation:unit:MT:mt_mmrta_serving:mt-mmrta-serving-criss-submission — identical edit.",
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-court-petition — identical edit.",
+      "obligation:unit:MT:mt_mmrta_completed:mt-mmrta-completed-criss-submission — identical edit."
+     ]
+    },
+    "step2_makeTheNewLabelsBind": {
+     "whyItIsMandatory": "Tier 1 compares the census label to the corpus's form number, and the corpus form number for BOTH documents is MT-OCA-MMRTA. normalise('MT-OCA-MMRTA-ORDER') = 'mtocammrtaorder' ≠ 'mtocammrta', so tier 1 misses. Tier 2 requires every label token to appear in the corpus form number's tokens; tokens('MT-OCA-MMRTA-ORDER') = ['oca','mmrta','order'] and tokens('MT-OCA-MMRTA') = ['oca','mmrta'], so 'order' is absent and tier 2 refuses. Without step 2 the split turns one 'label_does_not_identify_a_document' into two, and the two families stay SOURCE_IDENTITY_UNRESOLVED.",
+     "file": "data/rcap-grade-a/fable-packet-factory/SOURCE_BACKLOG_CLASSIFICATION.json",
+     "add": "One entry for familyId mt_mmrta_serving-set and one for mt_mmrta_completed-set, or one entry carrying both artifacts with servesFamilies naming both — the tier-3 loader reads artifacts, not families, unless labelIsFamilySpecific is set.",
+     "doNotSetLabelIsFamilySpecific": "Both families need the same two documents at the same two hashes, so these are global label identities, not family-scoped ones. Setting labelIsFamilySpecific would withhold the labels from the global map for no reason.",
+     "artifactOne": {
+      "jurisdiction": "MT",
+      "officialTitle": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA",
+      "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "authority": "Mont. Code Ann. § 16-12-113(6); Mont. Sup. Ct. AF 22-0129",
+      "namedInFamiliesAs": [
+       "MT-OCA-MMRTA-ORDER"
+      ],
+      "identityEvidence": "word/document.xml of the held DOCX prints the title 'Proposed Order Granting / ☐ Expungement of Conviction / ☐ Resentencing of Conviction / ☐ Redesignation of Conviction' beneath the caption 'In re the Expungement, Resentencing, or Redesignation of the Marijuana-Related Conviction of', and the decree 'IT IS THEREFORE ORDERED: Pursuant to § 16-12-113(6), MCA, this Court GRANTS the Petition as follows:'. STATES/MT/STATE_MANIFEST.csv files these bytes as document_role ORDER, workflow_key MT:MT-OCA-MMRTA:ORDER:EN.",
+      "identityConfidence": "confirmed_from_document_text",
+      "held": {
+       "custody": "MASTER_LIBRARY",
+       "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+       "pathInArchive": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__proposed-order-granting-expungement-resentencing-or-redesignation-under-mmrta__SOURCE-2022-02__EN.docx",
+       "sha256": "2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e",
+       "byteLength": 21143,
+       "structuralClassObserved": "not_a_pdf_docx"
+      },
+      "artifactId": "MT-OCA-MMRTA-ORDER",
+      "servesFamilies": [
+       "mt_mmrta_serving-set",
+       "mt_mmrta_completed-set"
+      ]
+     },
+     "artifactTwo": {
+      "jurisdiction": "MT",
+      "officialTitle": "Certificate of Service — MMRTA Petition",
+      "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "authority": "Mont. Code Ann. § 16-12-113(5)(b)",
+      "namedInFamiliesAs": [
+       "MT-OCA-MMRTA-SERVICE"
+      ],
+      "identityEvidence": "word/document.xml of the held DOCX prints the title 'CERTIFICATE OF SERVICE' and the certification 'The undersigned hereby certifies that true and correct copies of the foregoing document were, this day, served upon the following individuals by U.S. Mail and/or e-mail and addressed as follows:', over a recipient block labelled 'Name of County Attorney'. STATES/MT/STATE_MANIFEST.csv files these bytes as document_role SERVICE, workflow_key MT:MT-OCA-MMRTA:SERVICE:EN.",
+      "identityConfidence": "confirmed_from_document_text",
+      "held": {
+       "custody": "MASTER_LIBRARY",
+       "archive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+       "pathInArchive": "STATES/MT/05_SOURCE_GATED/MT__SOURCE-GATED__MT-OCA-MMRTA__certificate-of-service-mmrta-petition__SOURCE-2022-03__EN.docx",
+       "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+       "byteLength": 16815,
+       "structuralClassObserved": "not_a_pdf_docx"
+      },
+      "artifactId": "MT-OCA-MMRTA-SERVICE",
+      "servesFamilies": [
+       "mt_mmrta_serving-set",
+       "mt_mmrta_completed-set"
+      ]
+     },
+     "admissionConditionsAreMet": "All three of the reconciler's tier-3 conditions hold at Captain's head e4e505192: identityConfidence is confirmed_from_document_text; each names an exact 64-hex SHA-256; and data/rcap-all50/local-source-corpus-index.json holds each exact path at each exact hash — verified first-hand in this lane, both entries present with custody master_library, assetClass SOURCE-GATED, formNumber MT-OCA-MMRTA."
+    },
+    "expectedEffect": {
+     "before": "mt_mmrta_serving-set and mt_mmrta_completed-set: SOURCE_IDENTITY_UNRESOLVED, 6 of 7 document sources resolved.",
+     "after": "Both families: 8 of 8 document sources resolved, custodyClass SOURCE_ALREADY_HELD. The reconciliation counts move SOURCE_IDENTITY_UNRESOLVED 140 -> 138 and SOURCE_ALREADY_HELD 104 -> 106, and ambiguousFormNumbers drops MT-OCA-MMRTA only if the corpus form numbers are also role-qualified (see notForThisLane); otherwise it stays reported and harmless, because nothing names it any more."
+    }
+   },
+   "holdingsOrNaming": {
+    "verdict": "NAMING ONLY.",
+    "why": "Both families already carry source-sha256:2e38c3c6... and source-sha256:d9096c17... as separate obligations, and both already resolve at tier exact_content_hash. The bytes each family must hold are already bound and already held. What the split fixes is the false claim that one label identified one of the two required documents — the reconciliation file says this in its own words at whatAnAmbiguousFormNumberCosts.",
+    "whatWouldChangeHoldings": "Nothing in this proposal. No family gains or loses a document."
+   },
+   "staleParticipantFacingOrRecordStrings": [
+    {
+     "where": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json and .../mt_mmrta_serving-certificate-of-service-2/dependency.json",
+     "field": "acquisitionStatus",
+     "current": "binary_retained_document_id_conflict",
+     "becomesStaleBecause": "The document-id conflict is exactly what the split resolves. After it, these two components no longer match two retained assets with conflicting hashes.",
+     "notParticipantFacing": true
+    },
+    {
+     "where": "the same two dependency.json files",
+     "field": "blockingStatement / exactMissingSource",
+     "current": "'Master Library Edition 1.1 gives the OCA MMRTA Proposed Order and the OCA MMRTA Certificate of Service the same document ID... the authority gate records an authority hash conflict' and 'exactMissingSource: ... a distinct Master Library document ID separating it from the Certificate of Service, plus a field map for the binary.'",
+     "becomesStaleBecause": "The 'distinct document ID' half is delivered by the split. The 'plus a field map for the binary' half is NOT — no field map exists for either DOCX and none is proposed here. Captain should trim the first half and keep the second, not delete the statement.",
+     "notParticipantFacing": true
+    },
+    {
+     "where": "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json rows[223], [224], [227], [228]",
+     "field": "basis and heldAs",
+     "current": "basis 'PUBLISHED_AS_A_WORD_DOCUMENT_AND_THE_CORPUS_INDEXES_PDFS_ONLY', disposition ACQUIRE_FROM_EXACT_OFFICIAL_SOURCE, heldAs null",
+     "becomesStaleBecause": "Already stale at Captain's head, independently of this split. The corpus index no longer holds PDFs only — e4e505192 is 'The corpus index held PDFs only, so Montana did not exist' — and both DOCX are now indexed at the exact hashes. The stated basis for acquiring them is gone. This is a finding, not part of the proposal; this lane edited nothing.",
+     "notParticipantFacing": true
+    },
+    {
+     "where": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+     "field": "publicLabel on both court-petition routes",
+     "current": "'MMRTA Form A petition in the sentencing court, with certificate of service and proposed order' / 'MMRTA Form B petition in the sentencing court, with certificate of service and proposed order'",
+     "verdict": "NOT STALE. These are the participant-facing strings and they already name both instruments separately. The split makes the source labels agree with what the route already tells the participant it delivers. No participant-facing string needs to change anywhere in this proposal."
+    }
+   ]
+  },
+  {
+   "formNumber": "TX-GC-411.0727",
+   "jurisdiction": "TX",
+   "distinctDocuments": 2,
+   "verdict": "NO SPLIT NEEDED, NO ROUTE CHANGE PROPOSED. The worklist already names the order and the petition under two separate labels, and both already bind to the correct distinct bytes at tier 3. Nothing names TX-GC-411.0727.",
+   "documents": [
+    {
+     "libraryDocumentRole": "ORDER",
+     "libraryWorkflowKey": "TX:TX-GC-411.0727:ORDER:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+     "recomputedSha256": "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 117439,
+     "pageCount": 3,
+     "acroFieldCount": 15,
+     "whatItActuallyIs": "The court's model order granting nondisclosure after a veterans treatment court program. Judicial findings, judge's signature.",
+     "printedTitleQuoted": "Order of Nondisclosure Under Section 411.0727",
+     "operativeLineQuoted": "On ________________________________, the Court considered Petitioner’s petition for an order of nondisclosure under Government Code Section 411.0727. ... the Court FINDS that Petitioner entered the veterans treatment court program for the offense(s) of ...",
+     "page1FooterQuoted": "OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTION 411.0727, GOV’T CODE / REVISED FEBRUARY 2022"
+    },
+    {
+     "libraryDocumentRole": "PETITION",
+     "libraryWorkflowKey": "TX:TX-GC-411.0727:PETITION:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0727__petition-for-order-of-nondisclosure-under-411-0727__REV-2022-02__EN.pdf",
+     "recomputedSha256": "7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 194878,
+     "pageCount": 6,
+     "acroFieldCount": 14,
+     "whatItActuallyIs": "The petitioner's model petition asking for that order. Participant-signed, six pages, with the veterans-court completion narrative.",
+     "printedTitleQuoted": "Petition for Order of Nondisclosure Under Section 411.0727",
+     "operativeLineQuoted": "___________________________________ (5) (“Petitioner”) respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0727 for the offense detailed below. / 1. Completion of Veterans Treatment Court Program",
+     "page1FooterQuoted": "OCA MODEL PETITION FOR ORDER OF DISCLOSURE UNDER SECTION 411.0727, GOV’T CODE / REVISED FEBRUARY 2022 — the footer omits the 'NON' of NONDISCLOSURE; an OCA typesetting slip, quoted verbatim, and the caption title and body both say nondisclosure."
+    }
+   ],
+   "familiesAndRoutesNamingTheLabel": {
+    "namingTX-GC-411.0727": "NONE. No family and no route in packet-family-build-worklist.json names official-form:TX-GC-411.0727, at tier 1 or tier 2.",
+    "namingTheTwoDocumentsUnderOtherLabels": [
+     {
+      "family": "tx_nd_veterans_court-set",
+      "route": "obligation:track-only:TX:tx_nd_veterans_court",
+      "publicLabel": "Seal a record after completing veterans treatment court",
+      "labelsAlreadyCarried": [
+       "official-form:OCA Model Order of Nondisclosure under Section 411.0727",
+       "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0727"
+      ],
+      "whichDocumentEachNeeds": "BOTH — and it already names both, separately, one label per document.",
+      "howTheyResolveToday": "Both at tier exact_identity_confirmed_from_document_text, the order to 2c950020... and the petition to 7c34e5f5..., with the evidence sentences already recorded on the reconciliation row. The family is SOURCE_ALREADY_HELD, 3 of 3 document sources resolved."
+     }
+    ]
+   },
+   "proposal": {
+    "worklistEdit": "NONE. No requiredSourceIds entry is added, removed or replaced.",
+    "routeChange": "NONE. AGENTS.md forbids changing a live RCAP route without a task authorizing that exact route change, and there is no defect here to authorize one for.",
+    "whatToDoInstead": "Record TX-GC-411.0727 as an UNCONTESTED corpus-side ambiguity: two documents share a form number in the index, no obligation depends on that form number, and the resolver's refusal costs nothing. Leave it refused."
+   },
+   "holdingsOrNaming": {
+    "verdict": "NEITHER. No holding changes and no naming changes, because the naming is already correct."
+   },
+   "staleParticipantFacingOrRecordStrings": []
+  },
+  {
+   "formNumber": "TX-GC-411.0728",
+   "jurisdiction": "TX",
+   "distinctDocuments": 2,
+   "verdict": "NO SPLIT NEEDED, NO ROUTE CHANGE PROPOSED — and for a stronger reason than its three siblings: NO family or route anywhere in the census names either of these two documents, under any label.",
+   "documents": [
+    {
+     "libraryDocumentRole": "ORDER",
+     "libraryWorkflowKey": "TX:TX-GC-411.0728:ORDER:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0728__order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
+     "recomputedSha256": "9d51c5d8f6084edede37a4bb6d5ebeef64eba52081f8da43406aafe3b8aa6978",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 112821,
+     "pageCount": 3,
+     "acroFieldCount": 15,
+     "whatItActuallyIs": "The court's model order granting nondisclosure to a victim of human trafficking whose offence was committed solely as a victim.",
+     "printedTitleQuoted": "Order of Nondisclosure Under Section 411.0728 (Victims of Trafficking of Persons)",
+     "operativeLineQuoted": "On _____________________________, the Court considered Petitioner’s petition for an order of nondisclosure under Government Code Section 411.0728. ... the Court FINDS that: (1) Petitioner was convicted of or placed on deferred adjudication community supervision for committing the offense of ..., an offense that Petitioner committed solely as a victim of the offense of trafficking of persons, continuous trafficking of persons, or compelling prostitution under Penal Code Section 20A.02, 20A.03, or 43.05",
+     "page1FooterQuoted": "OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTION 411.0728, GOV’T CODE / REVISED FEBRUARY 2022"
+    },
+    {
+     "libraryDocumentRole": "PETITION",
+     "libraryWorkflowKey": "TX:TX-GC-411.0728:PETITION:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0728__petition-for-order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
+     "recomputedSha256": "e1db8112912f1d51bd1a145be72c3fd09e8a013414a6b0b218badd4af75a412e",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 200275,
+     "pageCount": 5,
+     "acroFieldCount": 17,
+     "whatItActuallyIs": "The petitioner's model petition for that order, with the four qualifying offence checkboxes (prostitution, delivery of marihuana, possession of marihuana, theft).",
+     "printedTitleQuoted": "Petition for Order of Nondisclosure Under Section 411.0728",
+     "operativeLineQuoted": "_____________________________________ (5) (“Petitioner”) respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0728 for the offense detailed below. / 1. The Underlying Order",
+     "page1FooterQuoted": "OCA MODEL PETITION FOR ORDERS OF NONDISCLOSURE UNDER SECTION 411.0728, GOV’T CODE / REVISED FEBRUARY 2022"
+    }
+   ],
+   "familiesAndRoutesNamingTheLabel": {
+    "namingTX-GC-411.0728": "NONE.",
+    "namingEitherDocumentUnderAnyOtherLabel": "NONE. The string '411.0728' appears zero times in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json and zero times in packet-family-build-worklist.json. There is no § 411.0728 trafficking-victim route in the census at all.",
+    "whatThatMeans": "These two documents are held, hash-verified and unclaimed. That is a coverage observation for Texas — a statutory nondisclosure section with official OCA forms already in custody and no route built on it — not a modelling defect, and this lane opens nothing."
+   },
+   "proposal": {
+    "worklistEdit": "NONE.",
+    "routeChange": "NONE. Building a § 411.0728 route would be a new commercial route, which no task here authorizes and which AGENTS.md reserves.",
+    "whatToDoInstead": "Record as an uncontested corpus-side ambiguity, and separately note the unclaimed § 411.0728 coverage to whoever owns Texas route scope."
+   },
+   "holdingsOrNaming": {
+    "verdict": "NEITHER. Nothing names these documents, so nothing holds or fails to hold them by name."
+   },
+   "staleParticipantFacingOrRecordStrings": []
+  },
+  {
+   "formNumber": "TX-GC-411.0729",
+   "jurisdiction": "TX",
+   "distinctDocuments": 2,
+   "verdict": "NO SPLIT NEEDED, NO ROUTE CHANGE PROPOSED. Already named as two labels and already bound to the two distinct documents.",
+   "documents": [
+    {
+     "libraryDocumentRole": "ORDER",
+     "libraryWorkflowKey": "TX:TX-GC-411.0729:ORDER:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+     "recomputedSha256": "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 104659,
+     "pageCount": 3,
+     "acroFieldCount": 11,
+     "whatItActuallyIs": "The court's model order after a veterans reemployment program under Code of Criminal Procedure ch. 42A subch. H-1.",
+     "printedTitleQuoted": "Order of Nondisclosure Under Section 411.0729",
+     "operativeLineQuoted": "On ________________________________, the Court considered Petitioner’s petition for an order of nondisclosure under Government Code Section 411.0729. ... the Court FINDS that Petitioner participated in a veterans reemployment program for the misdemeanor offense(s) of ...",
+     "page1FooterQuoted": "OCA MODEL ORDER OF NONDISCLOSURE UNDER SECTION 411.0729, GOV’T CODE / REVISED FEBRUARY 2022"
+    },
+    {
+     "libraryDocumentRole": "PETITION",
+     "libraryWorkflowKey": "TX:TX-GC-411.0729:PETITION:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+     "recomputedSha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 189120,
+     "pageCount": 3,
+     "acroFieldCount": 13,
+     "whatItActuallyIs": "The petitioner's model petition for that order.",
+     "printedTitleQuoted": "Petition for Order of Nondisclosure Under Section 411.0729",
+     "operativeLineQuoted": "_____________________________________ (5) (“Petitioner”) respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0729 for the offense detailed below. / 1. Successful Completion of Veterans Reemployment Program",
+     "page1FooterQuoted": "OCA MODEL PETITION FOR ORDERS OF DISCLOSURE UNDER SECTION 411.0729, GOV’T CODE / REVISED FEBRUARY 2022 — the footer again omits the 'NON'; quoted verbatim."
+    }
+   ],
+   "familiesAndRoutesNamingTheLabel": {
+    "namingTX-GC-411.0729": "NONE.",
+    "namingTheTwoDocumentsUnderOtherLabels": [
+     {
+      "family": "tx_nd_veterans_reemployment-set",
+      "route": "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-oca-petition",
+      "publicLabel": "OCA model petition where the court requires one or did not act",
+      "labelsAlreadyCarried": [
+       "official-form:OCA Model Order of Nondisclosure under Section 411.0729",
+       "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0729"
+      ],
+      "whichDocumentEachNeeds": "BOTH — already named separately.",
+      "howTheyResolveToday": "Both at tier exact_identity_confirmed_from_document_text; family is SOURCE_ALREADY_HELD, 3 of 3 resolved.",
+      "worthNoting": "The family's sibling route obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route ('The order the court owes without any petition') carries NO official-form obligation and is not in the acquisition worklist at all. Texas therefore already demonstrates route-level source precision, which Montana's two families do not."
+     }
+    ]
+   },
+   "proposal": {
+    "worklistEdit": "NONE.",
+    "routeChange": "NONE.",
+    "whatToDoInstead": "Record as an uncontested corpus-side ambiguity; leave it refused."
+   },
+   "holdingsOrNaming": {
+    "verdict": "NEITHER."
+   },
+   "staleParticipantFacingOrRecordStrings": []
+  },
+  {
+   "formNumber": "TX-GC-411.0731",
+   "jurisdiction": "TX",
+   "distinctDocuments": 2,
+   "verdict": "NO SPLIT NEEDED, NO ROUTE CHANGE PROPOSED. Already named as two labels and already bound to the two distinct documents.",
+   "documents": [
+    {
+     "libraryDocumentRole": "ORDER",
+     "libraryWorkflowKey": "TX:TX-GC-411.0731:ORDER:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+     "recomputedSha256": "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 107395,
+     "pageCount": 3,
+     "acroFieldCount": 14,
+     "whatItActuallyIs": "The court's model order sealing a Class B misdemeanour DWI after successful community supervision.",
+     "printedTitleQuoted": "Order of Nondisclosure Under Section 411.0731",
+     "operativeLineQuoted": "On ____________________________, the Court considered Petitioner’s petition for an order of nondisclosure under Government Code Section 411.0731. ... Petitioner was convicted and placed on community supervision for a Class B misdemeanor DWI under Penal Code Section 49.04 ... the Court FINDS that Petitioner is entitled to file the petition and issuance of the order is in the best interest of justice.",
+     "page1FooterQuoted": "OCA MODEL ORDER FOR AN ORDER OF NONDISCLOSURE UNDER SECTION 411.0731, GOV’T CODE / REVISED FEBRUARY 2022"
+    },
+    {
+     "libraryDocumentRole": "PETITION",
+     "libraryWorkflowKey": "TX:TX-GC-411.0731:PETITION:EN",
+     "pathInArchive": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+     "recomputedSha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee",
+     "sha256MatchesCensusCandidate": true,
+     "byteLength": 159564,
+     "pageCount": 5,
+     "acroFieldCount": 15,
+     "whatItActuallyIs": "The petitioner's model petition for that order.",
+     "printedTitleQuoted": "Petition for Order of Nondisclosure Under Section 411.0731",
+     "operativeLineQuoted": "____________________________________ (5) (“Petitioner”) respectfully petitions the court for an order of nondisclosure under Government Code Section 411.0731 for the offense described below. / 1. The Underlying Order and Completion of Community Supervision",
+     "page1FooterQuoted": "OCA MODEL PETITION FOR AN ORDER OF NONDISCLOSURE UNDER SECTION 411.0731, GOV’T CODE / REVISED FEBRUARY 2022"
+    }
+   ],
+   "familiesAndRoutesNamingTheLabel": {
+    "namingTX-GC-411.0731": "NONE.",
+    "namingTheTwoDocumentsUnderOtherLabels": [
+     {
+      "family": "tx_nd_dwi_probation-set",
+      "route": "obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure",
+      "publicLabel": "Seal a DWI conviction after successfully completing probation",
+      "labelsAlreadyCarried": [
+       "official-form:OCA Model Order of Nondisclosure under Section 411.0731",
+       "official-form:OCA Model Petition for an Order of Nondisclosure under Section 411.0731"
+      ],
+      "whichDocumentEachNeeds": "BOTH — already named separately.",
+      "howTheyResolveToday": "Both at tier exact_identity_confirmed_from_document_text; family is SOURCE_ALREADY_HELD, 3 of 3 resolved."
+     }
+    ]
+   },
+   "proposal": {
+    "worklistEdit": "NONE.",
+    "routeChange": "NONE.",
+    "whatToDoInstead": "Record as an uncontested corpus-side ambiguity; leave it refused."
+   },
+   "holdingsOrNaming": {
+    "verdict": "NEITHER."
+   },
+   "staleParticipantFacingOrRecordStrings": []
+  }
+ ],
+ "notForThisLane": {
+  "theDurableFix": "The five ambiguities all exist because the corpus indexer drops the Master Library's document_role. An indexer that carried it — emitting formNumber 'MT-OCA-MMRTA-ORDER'/'MT-OCA-MMRTA-SERVICE' and 'TX-GC-411.0727-ORDER'/'TX-GC-411.0727-PETITION', or carrying documentRole as its own field that preferOfficialForm can discriminate on — would make all five resolve at tier 1 and would make ambiguousFormNumbers empty.",
+  "whyItIsNotProposedAsTheEdit": [
+   "It changes data/rcap-all50/local-source-corpus-index.json, which every lane in this factory reads, and it is not the least change that fixes the measured defect.",
+   "It does NOT on its own fix Montana. The worklist would still say official-form:MT-OCA-MMRTA, which would then match NO corpus form number at all and would degrade from label_does_not_identify_a_document to named_form_number_not_in_corpus — an acquisition task for two documents already held. The worklist label split in step 1 is required either way.",
+   "It touches no Texas obligation, because no Texas obligation depends on tier 1 for these numbers."
+  ],
+  "recommendation": "Apply step 1 and step 2 for Montana now. Treat the indexer change as a separate, later, factory-wide task with its own re-run of every consumer, not as part of this split."
+ },
+ "whatICouldNotSettle": [
+  {
+   "issue": "Whether the two MMRTA labels belong on the CRISS-submission routes at all.",
+   "detail": "In both Montana families, requiredSourceIds is a single family-level union replicated verbatim onto every route — the court-petition route and the DOJ CRISS-submission route carry byte-identical lists. The proposed order and the certificate of service are components of the court-petition unit only; the CRISS route's own publicLabel is 'DOJ CRISS submission after an expungement order' and 'Conditional DOJ CRISS submission, only where the court grants expungement'. Texas shows the worklist CAN be route-precise: tx_nd_veterans_reemployment-set's no-filing route carries no official-form obligation at all.",
+   "whyIDidNotDecideIt": "That is a worklist-shape question about which route owns which obligation, not a document-identity question, and narrowing a route's obligations is a route change this task does not authorize. The proposal above therefore edits all four routes identically, preserving the existing shape exactly.",
+   "forCaptain": "If you want route-level precision, the two MMRTA labels belong on mt-mmrta-serving-court-petition and mt-mmrta-completed-court-petition only. Say so in a task that authorizes those two routes."
+  },
+  {
+   "issue": "Whether either Montana document is the CURRENT Office of the Court Administrator edition.",
+   "detail": "Both held copies carry 2022 document metadata (SOURCE-2022-02 and SOURCE-2022-03) and neither prints a form number or a revision on its face. The Master Library manifest marks both freshness_status 'source_or_currentness_gate_open' and required_follow_up 'Verify currentness'. FABLE-DISC04 says the same in whatThisDoesNotEstablish.",
+   "whyIDidNotSettleIt": "Only fetching settles it, and nothing was fetched in this lane. It is orthogonal to the split: the split says which of two held documents a label names, not whether the publisher has since reissued either."
+  },
+  {
+   "issue": "The field maps.",
+   "detail": "Neither Montana DOCX has a field map or an overlay, and both dependency.json files say so. The split removes the document-id half of their blockingStatement and leaves the field-map half untouched. Nothing here makes either component renderable.",
+   "whyItMatters": "So that no reader takes 'SOURCE_ALREADY_HELD' after step 2 as meaning the Montana families can produce anything. They cannot; source custody is not a field map."
+  },
+  {
+   "issue": "Texas § 411.0728 has official OCA forms in custody and no route.",
+   "detail": "Both the order and the petition for the trafficking-victim nondisclosure section are held and hash-verified, and no family, route or label in the census reaches them.",
+   "whyIDidNotSettleIt": "Opening a route is a commercial-scope decision reserved by AGENTS.md and by the Grade-A fulfillment-record rule. Reported as an observation only."
+  }
+ ],
+ "whatThisDoesNotEstablish": [
+  "That any route may be promoted, priced or opened. This lane opens no commercial route, changes no price and touches no production surface.",
+  "That either Montana family is deliverable. Both remain blocked on field maps and on every release gate.",
+  "That any address here was exercised. Nothing was fetched.",
+  "That the corpus index is complete. It is verified only for the ten documents named here, each read and each hashed in this lane."
+ ]
+}

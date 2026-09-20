@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-return/v1",
+  "lane": "FIX97",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "statusMeaning": "The lane ran to completion and returned. It does NOT mean a repair landed: both rows are STOPPED and no packet byte, builder or record was changed.",
+  "repairedByThisLane": false,
+  "repairedByThisLaneNote": "The assignment's return shape names repairedByThisLane true. Writing true here would be false. This lane repaired nothing: both families stop before their builder can open its source, so neither defect could be reached. Every other field is reported from the committed tree at this base, not from any command's success message.",
+  "everyRowStopped": true,
+  "worker": "FIX97 (repair lane; built, repaired, rendered and rastered nothing)",
+  "baseCommit": "383e78a4d",
+  "branch": "fix97-florida-two",
+  "worktree": "/home/user/fix97-worktree",
+  "generatedAtDateUtc": "2026-09-06",
+  "grantsConfirmed": [
+    "CLAIM_OK FIX97 fl-early-juvenile-set (repair, grant set 88e4cb60da8a6856)",
+    "CLAIM_OK FIX97 fl-10yr-bridge-set (repair, grant set 88e4cb60da8a6856)"
+  ],
+  "grantsReleased": 0,
+  "claimLedgerCommitted": false,
+  "preflight": {
+    "script": "scripts/verify-packet-build-environment.mjs --family <id>",
+    "resultBothFamilies": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/13 passed, 3 failed, 4 not applicable",
+    "family_sources_bind": "FAIL for both families. Verbatim: 'fl-early-juvenile-set names no resolved document source. An official_pdf_fill family with no bound source is not dispatchable.' and the same sentence for fl-10yr-bridge-set.",
+    "otherFailures": [
+      "private_is_git_ignored FAIL - private/ is a read-only symlink to the shared corpus mount in this container; an environment fact, not a repository defect, and no source binary was committed by this lane.",
+      "corpus_matches_committed_index FAIL - 1 absent of 24 sampled; the container mounts 2 of the 4 custodies the index names."
+    ],
+    "assignmentRule": "family_sources_bind must be ok; a source that does not bind is a STOPPED row naming the custody, never a substituted form. Both rows below are that stop."
+  },
+  "custodyFindingCommonToBothRows": {
+    "whatTheRecordSays": "MASTER_QUEUE.json records both families sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, sourceReadiness.ready true, custodyClass SOURCE_IDENTITY_UNRESOLVED, evidencePath data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json. Each family's own source-receipt.json repeats it: bindingMethod 'the exact held FDLE byte is read directly from mounted source custody; no acquisition, copy, research, or substitution', allSourcesExact true.",
+    "whatTheBytesSay": "Neither pinned digest exists in any custody. Measured here two independent ways.",
+    "measurementOne": "sha256 recomputed over all 1685 files reachable in this container (private/source-imports, private/human-source-returns and the mounted Master Library). Neither d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb (22449 bytes, FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION) nor ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650 (26602 bytes, FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION) appears.",
+    "measurementTwo": "data/rcap-all50/local-source-corpus-index.json holds 984 entries across all four custodies - master_library 350, human_source_returns 1, d_source_packs 253, nationwide_recovery_pool_2026_09_02 380. Both digests are absent from the index entirely. This is therefore NOT the ordinary unmounted-custody false negative: the bytes are absent from the two custodies this container lacks as well.",
+    "theCustodyThatHoldsThem": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/ - the ephemeral Codespaces staging root of the disc03 acquisition lane. It is not one of the four governed custodies, it is not mounted here, and it is the custodyPath both builders and both source-receipt.json files name.",
+    "theAcquisitionRecordConfirmsItWasNeverTransferred": "CODEX_CS2_SRC2_ACQUISITION.json records privateUpload.available false with exactFailure 'could not create workflow dispatch event: HTTP 403: Resource not accessible by integration', privateArtifactReceipt null on both acquired files, and repositoryEffects.sourceBodiesCommitted 0. The governed upload never ran, so the staged bytes entered no custody.",
+    "whyTheyMayNotBeReacquirableAsTheSameBytes": "The same record's fdleAcquireOnceFinding states the FDLE renderer 'writes the selected request type into the PDF and emits a per-render UUID', so two renderings of one instrument are not byte-identical. A fresh acquisition would produce a different sha256 than the digests these packets are pinned to.",
+    "theNearestHeldBytesAreNotSubstitutes": "The governed corpus does hold FDLE instruments for Florida, but none is the pinned byte and none may be substituted: FDLE40-021-EXPUNCTION at b2f5a7ba874be75f2d9f1d045862d9ab4f36f2268240879ec4beed8cdc48d100 (31782 bytes, vs the pinned 26602) and FDLE40-028 early-juvenile at 82a9600b102e7fd77cbfcd340fd74ff77e7cd49fd81b43d46299ecb353ae212a (22449 bytes, same length as the pinned byte but a different digest). Both sit under 05_SOURCE_GATED / source-gated, which Master Library governance rule 6 forbids the packet resolver from selecting. This lane substituted nothing and rebuilt nothing.",
+    "whyNoRepairCouldBeReached": "Both defects below require a rebuild to discharge. fl-early-juvenile's CLIPPING_AND_OVERLAP is write geometry and can only be proved by re-rendering both fixtures. fl-10yr-bridge's SERVICE text lives in participant-instructions.md, which its builder writes at line 625 (line 562 for the sibling family), so hand-editing the .md would commit a file the builder cannot reproduce - an unreproducible artifact and a misleading signature, which is the defect class this lane is told to detect, not create. Neither builder opens its source, so neither rebuild is possible here."
+  },
+  "ownerDecisionPackageRead": {
+    "path": "docs/rcap/grade-a/captain/OWNER_DECISION_PACKAGE_2026-09-05.md",
+    "namesEitherFloridaFamily": false,
+    "thePackagesOwnWords": "'Assembled by the Captain from committed records... It decides nothing, approves nothing, opens no route and touches no Production state.' and 'It records no answer, lifts no hold, and creates no approval. An owner answer is applied only by writing it into data/rcap-grade-a/legal-decisions/ in the existing record shape and regenerating; the Captain then dispatches the dependent repair or read.'",
+    "theNearestItemIsOperationalNotLegal": "Section D, 'Operational, not legal': 'Illinois and Alabama recovery-pool mount: builds blocked until the corpus mount is present.' The Florida stop below is the same kind of fact - a custody that is not present - and is worse in degree, because the Florida bytes are in no governed custody at all rather than in an unmounted one.",
+    "counselQuestionDecided": "none. This lane decided no counsel question and asked none."
+  },
+  "legalDesignRecordsRead": [
+    "data/record-clearing/legal-design-intake/FL.memo.json - track fl-10yr-bridge rules.service 'Certificate of service at the court stage.'; track fl-early-juvenile rules.service 'The source review does not state a service requirement.' Both tracks carry the same release_blocker unresolvedQuestion: 'Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release.'",
+    "data/record-clearing/legal-design-track-registry.json - tracks fl-10yr-bridge and fl-early-juvenile",
+    "data/record-clearing/legal-design-packet-set-manifests.json - packetSetId fl-10yr-bridge-set serve_party 'Certificate of service at the court stage.' (requirement required); packetSetId fl-early-juvenile-set serve_party 'The source review does not state a service requirement.'",
+    "AGENTS.md"
+  ],
+  "sharedBuildHost": {
+    "found": false,
+    "measured": "MASTER_QUEUE.json gives every Florida family its own exclusive builder; sharedBuildHost is null for all eight FL rows, including the two proven siblings fl-administrative-set and fl-trafficking-set. No per-family flag was needed because no builder was edited.",
+    "provenFloridaSiblingsUnmoved": {
+      "fl-administrative-set": "c24fb64e2efeb3b30ec03072da85026cfc028fd01e183d254a0ecf0e81a32499 (sha256 over the sorted per-file sha256 list of data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill)",
+      "fl-trafficking-set": "6368f733462280f47be75387c60d117af9df148babfc51acb5a9a70d3e5dab2e (same method, data/rcap-all50/overlays/census-v1/fl/fl-trafficking-set--custom-pleading)"
+    }
+  },
+  "siblingIdentity": {
+    "method": "sha256 over the sorted per-file sha256 list of every file under data/rcap-all50/overlays",
+    "digest": "d7a8301b9b7c66213bc4941efd83a23b49a20c135b4624023541e366faf40c01",
+    "unchanged": true,
+    "why": "git status --porcelain is empty. This lane wrote no file under data/rcap-all50/overlays, so every family directory in the repository - the two claimed families included - is byte-identical to the base.",
+    "everyOtherFamilyDirectoryByteIdentical": true
+  },
+  "rows": [
+    {
+      "itemId": "fl-early-juvenile-set",
+      "familyId": "fl-early-juvenile-set",
+      "jurisdiction": "FL",
+      "lane": "FIX97",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-early-juvenile-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-fl-early-juvenile-set.mjs",
+      "sharedBuildHost": null,
+      "standingVerdict": {
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf04",
+        "verifiedAtBase": "5de917b3574b6e27df362e13b86b4bfaac4915f8",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json",
+        "failedObligationNames": ["CLIPPING_AND_OVERLAP"],
+        "notMeasurableThere": ["SOURCE_IDENTITY"],
+        "continuationResult": null
+      },
+      "exactStopReason": "BLOCKED_SOURCE. The builder refuses at line 101 with its own words: 'AssertionError [ERR_ASSERTION]: BLOCKED_SOURCE: FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION is absent; required SHA-256 d9417ea382c9c1ea170153b5aa25e63230799de836b8aefca0ee80a47e23f6eb'. Its DEFAULT_SOURCE is /workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-early-juvenile-expunction-blank.pdf and its only override is the env var PF20_FL_EARLY_JUVENILE_SOURCE, which no file in this container can satisfy because the digest exists in no custody. The one repairable defect, CLIPPING_AND_OVERLAP, is write geometry and can only be discharged by re-rendering both fixtures, so it cannot be reached without that byte.",
+      "custodyNamed": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/ (disc03 CODEX-CS2-SRC2 ephemeral staging root; not a governed custody, not mounted, sourceBodiesCommitted 0, privateArtifactReceipt null)",
+      "substituteFormUsed": false,
+      "obligationsRepaired": [],
+      "obligationsThisRowDoesNotDischarge": [
+        "CLIPPING_AND_OVERLAP - the standing failed obligation. Independently reproduced here from the committed fixtures rather than accepted from the verifier: pdftotext -bbox on page 1 of fixtures/canonical.pdf puts the drawn telephone value '850-555-0142' at x 359.00-411.92, y 212.897-220.760, while the form's printed closing parenthesis of the area-code '( )' sits at x 379.89-384.21, y 213.05-225.08 - an overlap of 4.33 by 7.71 points, with the value running 27.71 points past that glyph. fixtures/boundary.pdf places '850-555-0199' at the identical box, so the defect is in the geometry and not in the value. The printed parenthetical interior is only 20.8 points wide (358.20 to 379.89), so the whole ten-character number is drawn into a box sized for a three-digit area code. The established fixes that would match this defect - fitAppearancesToRect, alignWidgetFontSizeToFit / fitTextPerWidget, or a corrected write rect - were NOT applied, because applying them without being able to re-render would change a builder the committed fixtures no longer correspond to.",
+        "SOURCE_IDENTITY - not measurable against the pinned byte anywhere in this container, and now shown absent from all four custodies in the committed index, not merely from the two mounted here.",
+        "the raster obligation - MASTER_QUEUE records rasterEnrolmentRefusal 'the current failed obligations have not been repaired'; nothing was repaired, so nothing was re-enrolled. No page was rastered by this lane because no page changed."
+      ],
+      "whatChanged": "nothing. No file in this family directory, no builder, no queue, no record.",
+      "digests": {
+        "unchanged": true,
+        "canonicalPdf": "ec718a25b1cff95cc2814a08914613e6b1b89211c020004370a16b11aa550fb7",
+        "boundaryPdf": "3d58ac3dc66a8e6f284c11488a1fe8274569117e4690ddc1d0b9285f201e840f",
+        "note": "recomputed here and equal to reports/rendered-artifacts.json and to the vf04 fixtureBinding at base 5de917b35. These are the base digests, not new ones: this lane produced no new artifact."
+      },
+      "determinism": "not established by this lane. Two byte-identical rebuilds were required and neither rebuild could start; the builder refuses before it reads any field.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-early-juvenile-set, run in this container at this base with MASTER_LIBRARY_SOURCE_DIR set. Result: PASS_COMPLETE, 28/93 written, exit 0.",
+      "countersAreNotAPass": "All nine read zero and read zero before this lane opened the family. They are the base bytes' own counters, unchanged. CLIPPING_AND_OVERLAP is invisible to them for the reason vf04 gave and this lane confirmed: for a flat overlay the builder measures its own write box, so nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 precisely because the wrong box contains the ink. Zero counters here record that no counter can see this defect, not that the packet is clean.",
+      "whatWasInspected": "The MASTER_QUEUE row and its full standing vf04 row including every obligation finding; the builder's source-resolution block (lines 35-108, 540); source-receipt.json; participant-instructions.md and filing-instructions.md; reports/rendered-artifacts.json; both fixtures rehashed; page 1 of both fixtures measured at word-box level with pdftotext -bbox; the FL memo track fl-early-juvenile; the packet-set manifest entry; the disc03 acquisition record. No page was rastered: no page changed, and rastering unchanged base bytes would prove nothing this lane is owed.",
+      "rastersWritten": 0,
+      "queuesTouched": 0,
+      "legalRecordsTouched": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no route, lifts no hold and clears no obligation. It records that the family cannot be repaired until its pinned source byte is in a governed custody."
+    },
+    {
+      "itemId": "fl-10yr-bridge-set",
+      "familyId": "fl-10yr-bridge-set",
+      "jurisdiction": "FL",
+      "lane": "FIX97",
+      "laneKind": "repair",
+      "status": "STOPPED",
+      "repairedByThisLane": false,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill",
+      "builder": "scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+      "sharedBuildHost": null,
+      "whyTheQueueHoldsItInFAIL_REPAIR_REQUIREDWithAnEmptyFailedList": "The queue row's failedObligationNames and failedObligations are both empty, but the row is not clean and the emptiness is a bookkeeping artefact, not a finding. selectedIndependentVerdict is BLOCKED_SOURCE from vf02 at base 21d53521f, and verifierSourceHold names the same lane and evidencePath. The queue's failed-obligation list is populated from FAIL_REPAIR_REQUIRED verdicts; a BLOCKED_SOURCE verdict carries its failures in failedProofObligations inside the standing row instead, where they are not empty. Read there, the standing row records TWO failed proof obligations - SOURCE_IDENTITY and SERVICE - and thirteen passes. Something is genuinely failed; this lane repaired neither, for the reasons below.",
+      "standingVerdict": {
+        "verdict": "BLOCKED_SOURCE",
+        "lane": "vf02",
+        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json",
+        "failedProofObligationsInThatRow": ["SOURCE_IDENTITY", "SERVICE"],
+        "queueFailedObligationNames": [],
+        "continuationResult": null
+      },
+      "exactStopReason": "BLOCKED_SOURCE. The builder refuses at line 112 with its own words: 'AssertionError [ERR_ASSERTION]: BLOCKED_SOURCE: FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION is absent at the read-only custody mount /workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/FDLE-certificate-expunction-blank.pdf'. Its only override is the env var PF17_FL_FDLE_SOURCE, which no file in this container can satisfy: ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650 exists in no custody in the committed index and in none of the 1685 files reachable here.",
+      "custodyNamed": "/workspaces/.legalease-source-staging/CODEX-CS2-SRC2/acquired/ (disc03 CODEX-CS2-SRC2 ephemeral staging root; not a governed custody, not mounted, sourceBodiesCommitted 0, privateArtifactReceipt null)",
+      "substituteFormUsed": false,
+      "obligationsRepaired": [],
+      "obligationsThisRowDoesNotDischarge": [
+        "SOURCE_IDENTITY - not repairable by any lane. Pages 1-6 of both delivered fixtures are bound to sha256 ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650 (26602 bytes), which this lane confirmed absent from all four custodies in local-source-corpus-index.json and from every byte reachable here. The family's own source-receipt.json asserts custodyClass SOURCE_BOUND_BY_HELD_BYTES, allSourcesExact true and bindingMethod 'the exact held FDLE byte is read directly from mounted source custody' while recording sourceBinaryCommitted false in the same file - a signature block that reads clean over a byte no custody holds. That contradiction is itself an output defect and is reported, not repaired: repairing it needs the byte, or an owner decision to re-pin the family to a byte that is held.",
+        "SERVICE - genuinely failed and genuinely repairable in principle, but not reachable here. Confirmed independently rather than taken from vf02: legal-design-packet-set-manifests.json for packetSetId fl-10yr-bridge-set carries serve_party 'Certificate of service at the court stage.' with requirement 'required', and FL.memo.json track fl-10yr-bridge repeats rules.service 'Certificate of service at the court stage.' participant-instructions.md as committed never mentions a certificate of service and names no served party and no method; its only service word is the deferral 'confirm the current filing, service, fee, hearing, and local-format requirements with the clerk in the circuit of arrest', which defers a requirement the record already holds. The file is written by the builder at line 625, so it cannot be corrected without a rebuild; hand-writing the sentence would commit an instruction file the builder does not produce and cannot reproduce.",
+        "the raster obligation - MASTER_QUEUE records rasterEnrolmentRefusal 'the current failed obligations have not been repaired'. Nothing was repaired and no page changed, so no page was rastered."
+      ],
+      "whatChanged": "nothing. No file in this family directory, no builder, no queue, no record.",
+      "digests": {
+        "unchanged": true,
+        "canonicalPdf": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+        "boundaryPdf": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511",
+        "note": "recomputed here from the committed fixtures. These are the base digests, not new ones: this lane produced no new artifact."
+      },
+      "determinism": "not established by this lane. Two byte-identical rebuilds were required and neither rebuild could start.",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set, run in this container at this base with MASTER_LIBRARY_SOURCE_DIR set. Result: PASS_COMPLETE, 44/140 written, exit 0.",
+      "countersAreNotAPass": "All nine read zero and read zero before this lane opened the family. vf02 recorded the same thing in its own words: 'all nine counters read zero for every family in this cohort; the defects recorded here are ones no counter can see.' No counter reads a source digest against a custody, and no counter reads an instruction file against a manifest's serve_party entry.",
+      "whatWasInspected": "The MASTER_QUEUE row and its full standing vf02 row including all fifteen proof-obligation findings; the builder's source-resolution block (lines 36-116, 608, 625); source-receipt.json in full; participant-instructions.md read in full and grepped for service language; production-field-map.json and reports; both fixtures rehashed; the packet-set manifest serve_party entry; FL.memo.json track fl-10yr-bridge; the disc03 acquisition record including fdleAcquireOnceFinding and privateUpload. No page was rastered: no page changed.",
+      "rastersWritten": 0,
+      "queuesTouched": 0,
+      "legalRecordsTouched": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no route, lifts no hold and clears no obligation."
+    }
+  ],
+  "whatWasNotDone": [
+    "No rebuild was run for either family; both builders refuse before reading a field.",
+    "No finalizer opt-in was added and scripts/rcap-official-forms/** was not touched. The established CLIPPING_AND_OVERLAP fixes match fl-early-juvenile's defect but were withheld: a geometry change that cannot be re-rendered cannot be proved, and would leave a builder the committed fixtures do not correspond to.",
+    "No instruction file was hand-edited. Both participant-instructions.md files are builder-generated.",
+    "No source was substituted. The held source-gated FDLE bytes were identified and deliberately not used.",
+    "No raster was produced and none deleted; /tmp/fix97 held only hash lists and two pdftotext bbox extracts, and no raster PNG was committed because neither family changed.",
+    "No grant was released and the claim ledger was not committed.",
+    "No queue row, legal record, RASTER_QUEUE row or MASTER_QUEUE state was edited."
+  ],
+  "whatWouldUnblockBothFamilies": "One of: (a) the two staged bytes are recovered from the CODEX-CS2-SRC2 staging root and committed to a governed custody at their pinned digests, after which this repair is a short lane; or (b) an owner decision re-pins both families to bytes the corpus actually holds, which is a source and legal-output question the FL memo already flags as a release blocker for both tracks and which no lane may answer for itself. Route (b) is a decision, not a repair. This lane took neither.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "subagentsCreated": 0
+}

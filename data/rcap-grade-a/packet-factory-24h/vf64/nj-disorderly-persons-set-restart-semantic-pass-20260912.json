@@ -1,0 +1,333 @@
+{
+  "schemaVersion": "rcap-vfcg1-bounded-semantic-review/v1",
+  "lane": "VF64",
+  "laneKind": "independent-verification",
+  "worker": "VF64",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "familyId": "nj_disorderly_persons-set",
+  "baseSha": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "verifiedAtBase": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "dispatchSha": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+  "executionState": "VERIFYING",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS",
+  "scope": "Independent bounded semantic recheck of the current NJ repair bytes after the prior six-class failure. No implementation, source, packet, queue, raster or shared-manifest edits were made by this reviewer; no visual pass is claimed.",
+  "claimEvidence": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF64 nj_disorderly_persons-set",
+    "result": "CLAIM_OK",
+    "grantSetId": "c98746f0511e4355",
+    "assertedBeforeFamilyReads": true
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf64/rows-vf64-nj-disorderly-persons-set-fact-derived-semantic-fail-20260912.json",
+    "sha256": "d5d7c6558aede2078261fe84514490f004e40c188474ec996ab081331c1a9869",
+    "byteLength": 46423,
+    "priorVerifiedAtBase": "88c4d9fa7e3188d15c1bc3f2f3936dee5381cf52",
+    "priorObservedHead": "5050e4fb8995b886b321a6883f1a45e4174ae375",
+    "priorFailedFindingIds": [
+      "NJ-FD-01",
+      "NJ-FD-02",
+      "NJ-FD-03",
+      "NJ-FD-04",
+      "NJ-FD-05",
+      "NJ-FD-06"
+    ]
+  },
+  "resolvedFindings": [
+    "NJ-FD-01 resolved: Form A item (d), arrest facts, statute and route family now describe the same declared matter; no controlled-substance carryover.",
+    "NJ-FD-02 resolved: conviction, sentence, custody, supervision, payment, pending-charge, prior-relief and route predicates are typed/collected and missing or contradictory facts stop packet/election.",
+    "NJ-FD-03 resolved: original arrest charge, date, statute, municipality and case identifier are collected and written from the declared matter.",
+    "NJ-FD-04 resolved: participant-later fields disclose stage, actor and recipient, including service, post-order and aliased recipient handling; court-owned fields remain protected.",
+    "NJ-FD-05 resolved: conditional arrest, dismissal, diversion, debt, juvenile and continuation rows are complete N/A only when the fixture record makes them inapplicable, with explicit conditions.",
+    "NJ-FD-06 resolved: participant guides contain participant-facing prose only; no internal field IDs, source-stage labels, registry paths, AcroForm or implementation comments."
+  ],
+  "deltaBasis": {
+    "repairReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fixnj2/rows-fixnj2-restart-repair-20260912.json",
+      "sha256": "cb2a0c911a16daba669d7a70f042b78c965cbb47d2e089641686d967fa9215af",
+      "byteLength": 6661,
+      "candidateRepairCommit": "b802d83e5"
+    },
+    "currentHeadRehashed": true,
+    "priorFailureRecheckedAgainstCurrentBytes": true,
+    "unchangedNonvisualEvidenceReusedOnlyAfterCurrentMetadataAndPDFHashesRehashed": true,
+    "visualEvidenceReused": false
+  },
+  "proofObligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current route classification binds nj_disorderly_persons-set to NJ-DISORDERLY-PERSONS-FACTS-NOT-LEGAL-ELECTION; no participant or legal election is invented."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Held CN-10557 source matches SHA-256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, 1,924,831 bytes, 43 pages, and the current source receipts."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current rendered-artifact evidence declares the complete 10-component route set; both exact 43-page fixture PDFs are enrolled."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current output checks bind the declared family offense and statute in guiltyOff1/arrest facts; no controlled-substance carryover, missing mapped write, or wrong expected value remains."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The guide and route map collect typed conviction, arrest, sentence, supervision, payment, court and eligibility facts needed before filing, while unknown or contradictory facts stop."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The 47-assertion route test passes current fact-driven branch selection, invalid/sparse/unknown input stops, and the family-specific authorized selections."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Conditional row mapping is explicit and complete: 66 route-inapplicable rows, 32 participant-later rows, and no partial conditional row reuse."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Signatures, dates, court, prosecutor, clerk, agency, notary, service and post-order fields remain protected or participant-later; current actual-write reports show no protected write."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Both current fixture PDF bytes match the current raster manifest and rendered-artifact metadata by SHA-256, byte length and 43-page count; raster visual acceptance is not claimed."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Both CN-10557 fixtures preserve the 43-page source-derived order and required component delivery sequence."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "finding": "No central Actions raster was inspected by this semantic lane; clipping/overlap and visualDefects remain open.",
+      "visualDefects": null
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current participant guidance directs filing in the Superior Court of the county of conviction and requires local clerk/court practice checks."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current guidance invents no fee, directs the participant to the clerk for the county amount/payment methods, and addresses waiver applicability."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "The 22 source-stage tests pass current participant-later service/stage/actor/recipient disclosures and reject forged or missing completion metadata."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS",
+      "finding": "Current route/output checks preserve fail-closed treatment for missing or unsupported facts and do not represent court-owned acts as participant-completed."
+    }
+  },
+  "obligationCounts": {
+    "PASS": 14,
+    "NOT_MEASURABLE_HERE": 1,
+    "FAIL": 0
+  },
+  "failedObligationNames": [],
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonVisualZero": true,
+    "allNineCountersZero": false,
+    "measuredHere": true,
+    "visualMeasuredHere": false,
+    "verifierResult": "NOT_MEASURABLE_HERE",
+    "writtenOverTotalFields": "29/180"
+  },
+  "currentCandidateBindings": {
+    "reviewedHead": "cad16eaf1897074696162b5b6edd5a53e87189c3",
+    "candidateRepairCommit": "b802d83e5",
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/nj-two-fact-derived/restart-repair-raster-manifest.json",
+      "sha256": "1fa3e9d0cae2de137d6f43bcadcb57bbeea7c67a2f0f5a4918433b2d96acf9d9",
+      "byteLength": 5580,
+      "packetCommitShaRecorded": null,
+      "currentRasterState": "RASTER_PENDING",
+      "coverage": "two exact current CN-10557 PDFs; central raster required"
+    },
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "672b30fed6f4d379505ac16c5bf63735a2f383de2bc415301a35bd0c5e9b57f4",
+        "byteLength": 12354
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/production-field-map.json",
+        "sha256": "20e8938bdebf4a792f52178d5b47116186e9fbc59746ed82e47ae949ceea64bc",
+        "byteLength": 292678
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/source-receipt.json",
+        "sha256": "895c7e56c35afa757f22237ee8b2864ffb4c13e192351f6f443e5cc1c313c390",
+        "byteLength": 1498
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "11b3a634b712d958cf4b064d0430ece630f8d115458b551262929ac4b63225e6",
+        "byteLength": 131613
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "d042310a93c2f7584a46e2c0ff10ab8e5986e724ce6bfbbecec474789b41743c",
+        "byteLength": 8267
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/reports/route-fact-classification.json",
+        "sha256": "dc6bfc88efb184db36a98a8e5a0de3bd85acc5b225670910b0a74152245591f0",
+        "byteLength": 2265
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/field-census.census-v1.json",
+        "sha256": "4bc37d1c536df904c8d5255c82b72170bd5de375cab27e30868a0b3c1073a6a7",
+        "byteLength": 186397
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/build-findings.json",
+        "sha256": "8cb7df574a14cd4cd859e5e7a86d705bb9f35f62ca42062f3649518dca0a0cb2",
+        "byteLength": 1449
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/approval-request.json",
+        "sha256": "8e7b33f52c46366bd898b11aa07346410cbe3d1b232f938fa47291abe72807e5",
+        "byteLength": 552
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/product-wiring.json",
+        "sha256": "0bfb2172e62ad8a6ec9ad18a798a9b1d76b13aaf7852b622ac8480db8092e99c",
+        "byteLength": 4364
+      }
+    ],
+    "sourceDocuments": [
+      {
+        "form": "NJ-CN-10557",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+        "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "byteLength": 1924831,
+        "pageCount": 43,
+        "acroformFieldCount": 179
+      }
+    ],
+    "fixturePdfs": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+        "sha256": "d3442178a8f90381ba8c1badb2a6266c2cd1db3a3b1a650995bcdc09b31e72d0",
+        "byteLength": 578474,
+        "pageCount": 43
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+        "sha256": "2336f7dcb006e94b1b856bca4c133cf452c2646f2fbf5b96d13bd04ae31cf78e",
+        "byteLength": 580892,
+        "pageCount": 43
+      }
+    ],
+    "documentsDigest": "367a0c7d4b61ba24b85e0853bf857f885ecec77dc1221d6aec80431b46893c35"
+  },
+  "currentPdfMeasurements": {
+    "fixtures": [
+      {
+        "role": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-canonical.pdf",
+        "sha256": "d3442178a8f90381ba8c1badb2a6266c2cd1db3a3b1a650995bcdc09b31e72d0",
+        "byteLength": 578474,
+        "pageCount": 43
+      },
+      {
+        "role": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/fixtures/cn-10557-boundary.pdf",
+        "sha256": "2336f7dcb006e94b1b856bca4c133cf452c2646f2fbf5b96d13bd04ae31cf78e",
+        "byteLength": 580892,
+        "pageCount": 43
+      }
+    ],
+    "pageCount": 43,
+    "actualWriteEntriesPerFixture": 27,
+    "renderedArtifactAddedGlyphs": {
+      "canonical": 850,
+      "boundary": 2767
+    },
+    "currentMetadataMatchesManifest": true
+  },
+  "commandsPassed": [
+    {
+      "command": "node scripts/test-nj-cn10557-conviction-route.mjs",
+      "result": "PASS assertions=47"
+    },
+    {
+      "command": "node scripts/test-nj-cn10557-conviction-output.mjs",
+      "result": "PASS assertions=251"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-nj_disorderly_persons-set.mjs --check-nonvisual",
+      "result": "PASS saved-byte/nonvisual check"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node --test scripts/rcap-packet-completeness/nj-participant-later-completion.test.mjs",
+      "result": "PASS 22/22"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+      "result": "NOT_MEASURABLE_HERE 29/180; all nonvisual counters zero; visualDefects UNMEASURED"
+    }
+  ],
+  "rasterDispatchAuthorized": true,
+  "raster": {
+    "status": "PENDING_CENTRAL_ACTIONS",
+    "newCentralRasterRequired": true,
+    "packetCommitStampRequired": true,
+    "visualDefects": null,
+    "reason": "Dispatch the exact four current PDF hashes above. Only the central Actions raster can measure visual clipping/overlap and raster-dependent counters."
+  },
+  "remainingRequirements": [
+    "Central Actions raster for both canonical and boundary PDFs bound to these exact four SHA-256/byteLength pairs.",
+    "Independent visual clipping/overlap inspection and raster-dependent counter measurement.",
+    "Captain packetCommitSha stamp on the raster manifest before final acceptance."
+  ],
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "runtimeAndCommercialBoundary": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false,
+    "note": "This PASS authorizes central raster dispatch only; it grants no visual, legal, runtime, payment, sponsorship, fulfillment or commercial authority."
+  },
+  "independence": {
+    "reviewer": "/root/review_wa",
+    "implementationEdited": false,
+    "sourceEdited": false,
+    "packetBytesEdited": false,
+    "queueEdited": false,
+    "rasterEdited": false,
+    "sharedManifestEdited": false,
+    "claimLedgerEdited": false,
+    "onlyPublication": "this lane-owned nonterminal semantic record"
+  }
+}

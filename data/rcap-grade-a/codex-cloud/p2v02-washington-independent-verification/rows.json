@@ -1,0 +1,2176 @@
+{
+  "rows": [
+    {
+      "itemId": "wa_vac_homicide_victim_prostitution-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "proofObligations": {
+        "routeIdentity": {
+          "result": "PASS",
+          "finding": "Receipt and wiring identify the same single family-specific route.",
+          "evidence": {
+            "receiptRouteKeys": [
+              "obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
+            ]
+          }
+        },
+        "sourceIdentity": {
+          "result": "PASS",
+          "finding": "Every source digest was recomputed from mounted corpus bytes.",
+          "evidence": [
+            {
+              "formNumber": "CRRLJ-09.0100",
+              "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+              "recordedSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+              "recomputedSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+              "byteLength": 161259,
+              "matched": true
+            },
+            {
+              "formNumber": "CRRLJ-09.0200",
+              "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+              "recordedSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+              "recomputedSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+              "byteLength": 160460,
+              "matched": true
+            }
+          ]
+        },
+        "componentSet": {
+          "result": "PASS",
+          "finding": "Receipt, field map, and rendered artifacts contain the same required documents.",
+          "evidence": {
+            "receiptDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "fieldMapDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "renderedDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ]
+          }
+        },
+        "knownPrefills": {
+          "result": "PASS",
+          "finding": "Final artifact reports show visible writes for each document and fixture with no refused or unfittable known prefill.",
+          "evidence": [
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "canonical",
+              "glyphsAdded": 279,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "boundary",
+              "glyphsAdded": 530,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "canonical",
+              "glyphsAdded": 194,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "boundary",
+              "glyphsAdded": 289,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            }
+          ]
+        },
+        "requiredBeforeFiling": {
+          "result": "PASS",
+          "finding": "No field is declared REQUIRED_BEFORE_FILING; therefore no such field needs naming in participant-instructions.md.",
+          "evidence": {
+            "declaredCount": 0,
+            "participantInstructionsMarkdownPresent": false
+          }
+        },
+        "routeOptions": {
+          "result": true,
+          "finding": "The exact route selects its dedicated Washington form set; no generic route election is delegated to the participant.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:track-only:WA:wa_vac_homicide_victim_prostitution"
+            ],
+            "formNumbers": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "selectionControlsMarked": false
+          }
+        },
+        "repeatingRows": {
+          "result": true,
+          "finding": "Direct comparison of mapped writable anchors, withheld fields, and actual writes found no partially written required repeating row; the focused nine-counter audit independently returned incompleteRows=0.",
+          "evidence": {
+            "documents": [
+              {
+                "writableAnchors": 16,
+                "withheld": 17
+              },
+              {
+                "writableAnchors": 12,
+                "withheld": 26
+              }
+            ]
+          }
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Protection report records no ink in signature, court-only, prosecutor-only, or protected selection fields; charge/offense facts are participant case prefills rather than protected fields.",
+          "evidence": {
+            "signatureAndCourtFieldsWritten": false,
+            "selectionControlsMarked": false,
+            "chargeOrOffenseFieldsWritten": true,
+            "documents": [
+              {
+                "formNumber": "CRRLJ-09.0100",
+                "withheldBlankCount": 17,
+                "selectionControlsObserved": 5,
+                "selectionControlsLeftUnmarked": 5,
+                "fixtureProofs": [
+                  {
+                    "fixture": "canonical",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 5,
+                    "controlsMarked": 0
+                  },
+                  {
+                    "fixture": "boundary",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 5,
+                    "controlsMarked": 0
+                  }
+                ],
+                "approvedBlankDispositions": [
+                  {
+                    "blankId": "p1-y336.60-x146.52",
+                    "page": 1,
+                    "printedCaption": "Dated",
+                    "sourcePrintedCaption": "Dated",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p1-y336.60-x324.00",
+                    "page": 1,
+                    "printedCaption": "Defendant/Defendant's Attorney, WSBA #",
+                    "sourcePrintedCaption": "Defendant/Defendant's Attorney, WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p2-y663.72-x144.00",
+                    "page": 2,
+                    "printedCaption": "committed as a result of being a victim of one of the above offen: s es",
+                    "sourcePrintedCaption": "committed as a result of being a victim of one of the above offen: s es",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y645.00-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y626.40-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y607.80-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y589.08-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y570.48-x144.00",
+                    "page": 2,
+                    "printedCaption": "[ ] I have attachedm y statement that proves by a preponderance of the evidence",
+                    "sourcePrintedCaption": "[ ] I have attachedm y statement that proves by a preponderance of the evidence",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p3-y90.36-x114.72",
+                    "page": 3,
+                    "printedCaption": "state equivalents",
+                    "sourcePrintedCaption": "state equivalents",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x72.00",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x239.04",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x385.32",
+                    "page": 3,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x72.00",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x239.04",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x385.32",
+                    "page": 4,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y478.32-x196.68",
+                    "page": 5,
+                    "printedCaption": "Signed at (city or county)",
+                    "sourcePrintedCaption": "Signed at (city or county)",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y453.60-x72.00",
+                    "page": 5,
+                    "printedCaption": "Defendant’s Signature",
+                    "sourcePrintedCaption": "Defendant’s Signature",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  }
+                ]
+              },
+              {
+                "formNumber": "CRRLJ-09.0200",
+                "withheldBlankCount": 26,
+                "selectionControlsObserved": 42,
+                "selectionControlsLeftUnmarked": 42,
+                "fixtureProofs": [
+                  {
+                    "fixture": "canonical",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 42,
+                    "controlsMarked": 0
+                  },
+                  {
+                    "fixture": "boundary",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 42,
+                    "controlsMarked": 0
+                  }
+                ],
+                "approvedBlankDispositions": [
+                  {
+                    "blankId": "p1-y461.52-x72.00",
+                    "page": 1,
+                    "printedCaption": "Clerk's action required: [ ] 8",
+                    "sourcePrintedCaption": "Clerk's action required: [ ] 8",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y716.52-x108.00",
+                    "page": 3,
+                    "printedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+                    "sourcePrintedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x72.00",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x239.04",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x385.32",
+                    "page": 3,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x72.00",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x239.04",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x385.32",
+                    "page": 4,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y279.48-x436.68",
+                    "page": 5,
+                    "printedCaption": "Court Order Recipient Designated by Clerk",
+                    "sourcePrintedCaption": "Washington State Patrol and to (local law enforcement agency)",
+                    "reason": "Court or clerk field naming an order recipient; completed by the court after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y266.88-x126.00",
+                    "page": 5,
+                    "printedCaption": "which agencies shall immediately update",
+                    "sourcePrintedCaption": "which agencies shall immediately update",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y149.00-x126.01",
+                    "page": 5,
+                    "printedCaption": "for the following reason/s",
+                    "sourcePrintedCaption": "for the following reason/s",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y136.40-x126.00",
+                    "page": 5,
+                    "printedCaption": "for the following reason/s",
+                    "sourcePrintedCaption": "for the following reason/s",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y123.70-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y111.10-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y98.50-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x72.00",
+                    "page": 5,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x239.04",
+                    "page": 5,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x385.32",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y707.64-x104.40",
+                    "page": 6,
+                    "printedCaption": "Dated",
+                    "sourcePrintedCaption": "Dated",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y707.52-x324.00",
+                    "page": 6,
+                    "printedCaption": "Judge/Commissioner",
+                    "sourcePrintedCaption": "Judge/Commissioner",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y657.72-x72.00",
+                    "page": 6,
+                    "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y657.72-x324.00",
+                    "page": 6,
+                    "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y620.40-x324.00",
+                    "page": 6,
+                    "printedCaption": "Print Name Print Name",
+                    "sourcePrintedCaption": "Print Name Print Name",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x72.00",
+                    "page": 6,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x239.04",
+                    "page": 6,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x385.32",
+                    "page": 6,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "result": "PASS",
+          "finding": "Canonical and boundary artifact hashes were recomputed from the PDF bytes.",
+          "evidence": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "recordedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+              "recomputedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+              "byteLength": 158439,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "recordedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+              "recomputedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+              "byteLength": 158615,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "recordedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+              "recomputedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+              "byteLength": 157661,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "recordedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+              "recomputedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+              "byteLength": 157759,
+              "matched": true
+            }
+          ]
+        },
+        "pageOrder": {
+          "result": "PASS",
+          "finding": "Rendered artifact order follows receipt/manifest document order, canonical then boundary.",
+          "evidence": {
+            "expectedArtifactOrder": [
+              "CRRLJ-09.0100:canonical",
+              "CRRLJ-09.0100:boundary",
+              "CRRLJ-09.0200:canonical",
+              "CRRLJ-09.0200:boundary"
+            ],
+            "artifactOrder": [
+              "CRRLJ-09.0100:canonical",
+              "CRRLJ-09.0100:boundary",
+              "CRRLJ-09.0200:canonical",
+              "CRRLJ-09.0200:boundary"
+            ]
+          }
+        },
+        "clippingAndOverlap": {
+          "result": "PASS",
+          "finding": "Glyph-diff reports place added text in measured anchors, add no vector paths, and report no refused or unfittable writes.",
+          "evidence": [
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "canonical",
+              "glyphsAdded": 279,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "boundary",
+              "glyphsAdded": 530,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "canonical",
+              "glyphsAdded": 194,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "boundary",
+              "glyphsAdded": 289,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            }
+          ]
+        },
+        "filingDestination": {
+          "result": "PASS",
+          "finding": "Instructions direct filing-requirement confirmation to the sentencing court, while the prefilled caption identifies court type and county.",
+          "evidence": {
+            "matchedText": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing."
+          }
+        },
+        "feeAndWaiver": {
+          "result": "FAIL",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        "service": {
+          "result": "FAIL",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        },
+        "selfHelpStop": {
+          "result": "PASS",
+          "finding": "The evidence-only status, legal-review flag, and directions not to make legal elections state the self-help boundary.",
+          "evidence": {
+            "status": "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+            "legalReviewStillRequired": true,
+            "instruction": "Review the selected Washington form and choose the correct court and eligibility path; this build does not make legal elections."
+          }
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/protection-report.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/fixture-manifest.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/participant-completion-instructions.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf"
+      ]
+    },
+    {
+      "itemId": "wa_vac_misdemeanor_ordinary-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "proofObligations": {
+        "routeIdentity": {
+          "result": "PASS",
+          "finding": "Receipt and wiring identify the same single family-specific route.",
+          "evidence": {
+            "receiptRouteKeys": [
+              "obligation:track-only:WA:wa_vac_misdemeanor_ordinary"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:WA:wa_vac_misdemeanor_ordinary"
+            ]
+          }
+        },
+        "sourceIdentity": {
+          "result": "PASS",
+          "finding": "Every source digest was recomputed from mounted corpus bytes.",
+          "evidence": [
+            {
+              "formNumber": "CRRLJ-09.0100",
+              "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+              "recordedSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+              "recomputedSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+              "byteLength": 161259,
+              "matched": true
+            },
+            {
+              "formNumber": "CRRLJ-09.0200",
+              "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+              "recordedSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+              "recomputedSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+              "byteLength": 160460,
+              "matched": true
+            }
+          ]
+        },
+        "componentSet": {
+          "result": "PASS",
+          "finding": "Receipt, field map, and rendered artifacts contain the same required documents.",
+          "evidence": {
+            "receiptDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "fieldMapDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "renderedDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ]
+          }
+        },
+        "knownPrefills": {
+          "result": "PASS",
+          "finding": "Final artifact reports show visible writes for each document and fixture with no refused or unfittable known prefill.",
+          "evidence": [
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "canonical",
+              "glyphsAdded": 279,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "boundary",
+              "glyphsAdded": 530,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "canonical",
+              "glyphsAdded": 194,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "boundary",
+              "glyphsAdded": 289,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            }
+          ]
+        },
+        "requiredBeforeFiling": {
+          "result": "PASS",
+          "finding": "No field is declared REQUIRED_BEFORE_FILING; therefore no such field needs naming in participant-instructions.md.",
+          "evidence": {
+            "declaredCount": 0,
+            "participantInstructionsMarkdownPresent": false
+          }
+        },
+        "routeOptions": {
+          "result": true,
+          "finding": "The exact route selects its dedicated Washington form set; no generic route election is delegated to the participant.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:track-only:WA:wa_vac_misdemeanor_ordinary"
+            ],
+            "formNumbers": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "selectionControlsMarked": false
+          }
+        },
+        "repeatingRows": {
+          "result": true,
+          "finding": "Direct comparison of mapped writable anchors, withheld fields, and actual writes found no partially written required repeating row; the focused nine-counter audit independently returned incompleteRows=0.",
+          "evidence": {
+            "documents": [
+              {
+                "writableAnchors": 16,
+                "withheld": 17
+              },
+              {
+                "writableAnchors": 12,
+                "withheld": 26
+              }
+            ]
+          }
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Protection report records no ink in signature, court-only, prosecutor-only, or protected selection fields; charge/offense facts are participant case prefills rather than protected fields.",
+          "evidence": {
+            "signatureAndCourtFieldsWritten": false,
+            "selectionControlsMarked": false,
+            "chargeOrOffenseFieldsWritten": true,
+            "documents": [
+              {
+                "formNumber": "CRRLJ-09.0100",
+                "withheldBlankCount": 17,
+                "selectionControlsObserved": 5,
+                "selectionControlsLeftUnmarked": 5,
+                "fixtureProofs": [
+                  {
+                    "fixture": "canonical",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 5,
+                    "controlsMarked": 0
+                  },
+                  {
+                    "fixture": "boundary",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 5,
+                    "controlsMarked": 0
+                  }
+                ],
+                "approvedBlankDispositions": [
+                  {
+                    "blankId": "p1-y336.60-x146.52",
+                    "page": 1,
+                    "printedCaption": "Dated",
+                    "sourcePrintedCaption": "Dated",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p1-y336.60-x324.00",
+                    "page": 1,
+                    "printedCaption": "Defendant/Defendant's Attorney, WSBA #",
+                    "sourcePrintedCaption": "Defendant/Defendant's Attorney, WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p2-y663.72-x144.00",
+                    "page": 2,
+                    "printedCaption": "committed as a result of being a victim of one of the above offen: s es",
+                    "sourcePrintedCaption": "committed as a result of being a victim of one of the above offen: s es",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y645.00-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y626.40-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y607.80-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y589.08-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y570.48-x144.00",
+                    "page": 2,
+                    "printedCaption": "[ ] I have attachedm y statement that proves by a preponderance of the evidence",
+                    "sourcePrintedCaption": "[ ] I have attachedm y statement that proves by a preponderance of the evidence",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p3-y90.36-x114.72",
+                    "page": 3,
+                    "printedCaption": "state equivalents",
+                    "sourcePrintedCaption": "state equivalents",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x72.00",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x239.04",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x385.32",
+                    "page": 3,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x72.00",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x239.04",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x385.32",
+                    "page": 4,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y478.32-x196.68",
+                    "page": 5,
+                    "printedCaption": "Signed at (city or county)",
+                    "sourcePrintedCaption": "Signed at (city or county)",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y453.60-x72.00",
+                    "page": 5,
+                    "printedCaption": "Defendant’s Signature",
+                    "sourcePrintedCaption": "Defendant’s Signature",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  }
+                ]
+              },
+              {
+                "formNumber": "CRRLJ-09.0200",
+                "withheldBlankCount": 26,
+                "selectionControlsObserved": 42,
+                "selectionControlsLeftUnmarked": 42,
+                "fixtureProofs": [
+                  {
+                    "fixture": "canonical",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 42,
+                    "controlsMarked": 0
+                  },
+                  {
+                    "fixture": "boundary",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 42,
+                    "controlsMarked": 0
+                  }
+                ],
+                "approvedBlankDispositions": [
+                  {
+                    "blankId": "p1-y461.52-x72.00",
+                    "page": 1,
+                    "printedCaption": "Clerk's action required: [ ] 8",
+                    "sourcePrintedCaption": "Clerk's action required: [ ] 8",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y716.52-x108.00",
+                    "page": 3,
+                    "printedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+                    "sourcePrintedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x72.00",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x239.04",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x385.32",
+                    "page": 3,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x72.00",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x239.04",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x385.32",
+                    "page": 4,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y279.48-x436.68",
+                    "page": 5,
+                    "printedCaption": "Court Order Recipient Designated by Clerk",
+                    "sourcePrintedCaption": "Washington State Patrol and to (local law enforcement agency)",
+                    "reason": "Court or clerk field naming an order recipient; completed by the court after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y266.88-x126.00",
+                    "page": 5,
+                    "printedCaption": "which agencies shall immediately update",
+                    "sourcePrintedCaption": "which agencies shall immediately update",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y149.00-x126.01",
+                    "page": 5,
+                    "printedCaption": "for the following reason/s",
+                    "sourcePrintedCaption": "for the following reason/s",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y136.40-x126.00",
+                    "page": 5,
+                    "printedCaption": "for the following reason/s",
+                    "sourcePrintedCaption": "for the following reason/s",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y123.70-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y111.10-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y98.50-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x72.00",
+                    "page": 5,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x239.04",
+                    "page": 5,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x385.32",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y707.64-x104.40",
+                    "page": 6,
+                    "printedCaption": "Dated",
+                    "sourcePrintedCaption": "Dated",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y707.52-x324.00",
+                    "page": 6,
+                    "printedCaption": "Judge/Commissioner",
+                    "sourcePrintedCaption": "Judge/Commissioner",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y657.72-x72.00",
+                    "page": 6,
+                    "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y657.72-x324.00",
+                    "page": 6,
+                    "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y620.40-x324.00",
+                    "page": 6,
+                    "printedCaption": "Print Name Print Name",
+                    "sourcePrintedCaption": "Print Name Print Name",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x72.00",
+                    "page": 6,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x239.04",
+                    "page": 6,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x385.32",
+                    "page": 6,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "result": "PASS",
+          "finding": "Canonical and boundary artifact hashes were recomputed from the PDF bytes.",
+          "evidence": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "recordedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+              "recomputedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+              "byteLength": 158439,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "recordedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+              "recomputedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+              "byteLength": 158615,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "recordedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+              "recomputedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+              "byteLength": 157661,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "recordedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+              "recomputedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+              "byteLength": 157759,
+              "matched": true
+            }
+          ]
+        },
+        "pageOrder": {
+          "result": "PASS",
+          "finding": "Rendered artifact order follows receipt/manifest document order, canonical then boundary.",
+          "evidence": {
+            "expectedArtifactOrder": [
+              "CRRLJ-09.0100:canonical",
+              "CRRLJ-09.0100:boundary",
+              "CRRLJ-09.0200:canonical",
+              "CRRLJ-09.0200:boundary"
+            ],
+            "artifactOrder": [
+              "CRRLJ-09.0100:canonical",
+              "CRRLJ-09.0100:boundary",
+              "CRRLJ-09.0200:canonical",
+              "CRRLJ-09.0200:boundary"
+            ]
+          }
+        },
+        "clippingAndOverlap": {
+          "result": "PASS",
+          "finding": "Glyph-diff reports place added text in measured anchors, add no vector paths, and report no refused or unfittable writes.",
+          "evidence": [
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "canonical",
+              "glyphsAdded": 279,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "boundary",
+              "glyphsAdded": 530,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "canonical",
+              "glyphsAdded": 194,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "boundary",
+              "glyphsAdded": 289,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            }
+          ]
+        },
+        "filingDestination": {
+          "result": "PASS",
+          "finding": "Instructions direct filing-requirement confirmation to the sentencing court, while the prefilled caption identifies court type and county.",
+          "evidence": {
+            "matchedText": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing."
+          }
+        },
+        "feeAndWaiver": {
+          "result": "FAIL",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        "service": {
+          "result": "FAIL",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        },
+        "selfHelpStop": {
+          "result": "PASS",
+          "finding": "The evidence-only status, legal-review flag, and directions not to make legal elections state the self-help boundary.",
+          "evidence": {
+            "status": "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+            "legalReviewStillRequired": true,
+            "instruction": "Review the selected Washington form and choose the correct court and eligibility path; this build does not make legal elections."
+          }
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/reports/protection-report.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/fixture-manifest.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/participant-completion-instructions.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf"
+      ]
+    },
+    {
+      "itemId": "wa_vac_substance_use_disorder-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "proofObligations": {
+        "routeIdentity": {
+          "result": "PASS",
+          "finding": "Receipt and wiring identify the same single family-specific route.",
+          "evidence": {
+            "receiptRouteKeys": [
+              "obligation:track-only:WA:wa_vac_substance_use_disorder"
+            ],
+            "wiringRouteKeys": [
+              "obligation:track-only:WA:wa_vac_substance_use_disorder"
+            ]
+          }
+        },
+        "sourceIdentity": {
+          "result": "PASS",
+          "finding": "Every source digest was recomputed from mounted corpus bytes.",
+          "evidence": [
+            {
+              "formNumber": "CRRLJ-09.0100",
+              "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+              "recordedSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+              "recomputedSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+              "byteLength": 161259,
+              "matched": true
+            },
+            {
+              "formNumber": "CRRLJ-09.0200",
+              "pathInArchive": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+              "recordedSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+              "recomputedSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+              "byteLength": 160460,
+              "matched": true
+            }
+          ]
+        },
+        "componentSet": {
+          "result": "PASS",
+          "finding": "Receipt, field map, and rendered artifacts contain the same required documents.",
+          "evidence": {
+            "receiptDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "fieldMapDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "renderedDocuments": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ]
+          }
+        },
+        "knownPrefills": {
+          "result": "PASS",
+          "finding": "Final artifact reports show visible writes for each document and fixture with no refused or unfittable known prefill.",
+          "evidence": [
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "canonical",
+              "glyphsAdded": 279,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "boundary",
+              "glyphsAdded": 530,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "canonical",
+              "glyphsAdded": 194,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "boundary",
+              "glyphsAdded": 289,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            }
+          ]
+        },
+        "requiredBeforeFiling": {
+          "result": "PASS",
+          "finding": "No field is declared REQUIRED_BEFORE_FILING; therefore no such field needs naming in participant-instructions.md.",
+          "evidence": {
+            "declaredCount": 0,
+            "participantInstructionsMarkdownPresent": false
+          }
+        },
+        "routeOptions": {
+          "result": true,
+          "finding": "The exact route selects its dedicated Washington form set; no generic route election is delegated to the participant.",
+          "evidence": {
+            "routeKeys": [
+              "obligation:track-only:WA:wa_vac_substance_use_disorder"
+            ],
+            "formNumbers": [
+              "CRRLJ-09.0100",
+              "CRRLJ-09.0200"
+            ],
+            "selectionControlsMarked": false
+          }
+        },
+        "repeatingRows": {
+          "result": true,
+          "finding": "Direct comparison of mapped writable anchors, withheld fields, and actual writes found no partially written required repeating row; the focused nine-counter audit independently returned incompleteRows=0.",
+          "evidence": {
+            "documents": [
+              {
+                "writableAnchors": 16,
+                "withheld": 17
+              },
+              {
+                "writableAnchors": 12,
+                "withheld": 26
+              }
+            ]
+          }
+        },
+        "protectedFields": {
+          "result": "PASS",
+          "finding": "Protection report records no ink in signature, court-only, prosecutor-only, or protected selection fields; charge/offense facts are participant case prefills rather than protected fields.",
+          "evidence": {
+            "signatureAndCourtFieldsWritten": false,
+            "selectionControlsMarked": false,
+            "chargeOrOffenseFieldsWritten": true,
+            "documents": [
+              {
+                "formNumber": "CRRLJ-09.0100",
+                "withheldBlankCount": 17,
+                "selectionControlsObserved": 5,
+                "selectionControlsLeftUnmarked": 5,
+                "fixtureProofs": [
+                  {
+                    "fixture": "canonical",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 5,
+                    "controlsMarked": 0
+                  },
+                  {
+                    "fixture": "boundary",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 5,
+                    "controlsMarked": 0
+                  }
+                ],
+                "approvedBlankDispositions": [
+                  {
+                    "blankId": "p1-y336.60-x146.52",
+                    "page": 1,
+                    "printedCaption": "Dated",
+                    "sourcePrintedCaption": "Dated",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p1-y336.60-x324.00",
+                    "page": 1,
+                    "printedCaption": "Defendant/Defendant's Attorney, WSBA #",
+                    "sourcePrintedCaption": "Defendant/Defendant's Attorney, WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p2-y663.72-x144.00",
+                    "page": 2,
+                    "printedCaption": "committed as a result of being a victim of one of the above offen: s es",
+                    "sourcePrintedCaption": "committed as a result of being a victim of one of the above offen: s es",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y645.00-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y626.40-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y607.80-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y589.08-x144.00",
+                    "page": 2,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p2-y570.48-x144.00",
+                    "page": 2,
+                    "printedCaption": "[ ] I have attachedm y statement that proves by a preponderance of the evidence",
+                    "sourcePrintedCaption": "[ ] I have attachedm y statement that proves by a preponderance of the evidence",
+                    "reason": "Participant-authored sworn narrative or supporting evidence; the platform does not invent it.",
+                    "category": "participant_sworn_narrative_or_legal_election",
+                    "approvedDisposition": "PARTICIPANT_ELECTION_GENUINE"
+                  },
+                  {
+                    "blankId": "p3-y90.36-x114.72",
+                    "page": 3,
+                    "printedCaption": "state equivalents",
+                    "sourcePrintedCaption": "state equivalents",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x72.00",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x239.04",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y66.36-x385.32",
+                    "page": 3,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x72.00",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x239.04",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y66.36-x385.32",
+                    "page": 4,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Signature or execution field; completed by the participant, attorney, or prosecutor and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y478.32-x196.68",
+                    "page": 5,
+                    "printedCaption": "Signed at (city or county)",
+                    "sourcePrintedCaption": "Signed at (city or county)",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y453.60-x72.00",
+                    "page": 5,
+                    "printedCaption": "Defendant’s Signature",
+                    "sourcePrintedCaption": "Defendant’s Signature",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  }
+                ]
+              },
+              {
+                "formNumber": "CRRLJ-09.0200",
+                "withheldBlankCount": 26,
+                "selectionControlsObserved": 42,
+                "selectionControlsLeftUnmarked": 42,
+                "fixtureProofs": [
+                  {
+                    "fixture": "canonical",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 42,
+                    "controlsMarked": 0
+                  },
+                  {
+                    "fixture": "boundary",
+                    "vectorPathsAdded": 0,
+                    "controlsProvedUnmarked": 42,
+                    "controlsMarked": 0
+                  }
+                ],
+                "approvedBlankDispositions": [
+                  {
+                    "blankId": "p1-y461.52-x72.00",
+                    "page": 1,
+                    "printedCaption": "Clerk's action required: [ ] 8",
+                    "sourcePrintedCaption": "Clerk's action required: [ ] 8",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y716.52-x108.00",
+                    "page": 3,
+                    "printedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+                    "sourcePrintedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x72.00",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x239.04",
+                    "page": 3,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p3-y73.56-x385.32",
+                    "page": 3,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x72.00",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x239.04",
+                    "page": 4,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p4-y73.56-x385.32",
+                    "page": 4,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y279.48-x436.68",
+                    "page": 5,
+                    "printedCaption": "Court Order Recipient Designated by Clerk",
+                    "sourcePrintedCaption": "Washington State Patrol and to (local law enforcement agency)",
+                    "reason": "Court or clerk field naming an order recipient; completed by the court after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y266.88-x126.00",
+                    "page": 5,
+                    "printedCaption": "which agencies shall immediately update",
+                    "sourcePrintedCaption": "which agencies shall immediately update",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y149.00-x126.01",
+                    "page": 5,
+                    "printedCaption": "for the following reason/s",
+                    "sourcePrintedCaption": "for the following reason/s",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y136.40-x126.00",
+                    "page": 5,
+                    "printedCaption": "for the following reason/s",
+                    "sourcePrintedCaption": "for the following reason/s",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y123.70-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y111.10-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y98.50-x126.00",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x72.00",
+                    "page": 5,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x239.04",
+                    "page": 5,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p5-y73.56-x385.32",
+                    "page": 5,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y707.64-x104.40",
+                    "page": 6,
+                    "printedCaption": "Dated",
+                    "sourcePrintedCaption": "Dated",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y707.52-x324.00",
+                    "page": 6,
+                    "printedCaption": "Judge/Commissioner",
+                    "sourcePrintedCaption": "Judge/Commissioner",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y657.72-x72.00",
+                    "page": 6,
+                    "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y657.72-x324.00",
+                    "page": 6,
+                    "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "sourcePrintedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+                    "reason": "Signature or execution-date field; completed by the participant or signer at execution and never prefilled.",
+                    "category": "signature_or_date_participant_completion",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y620.40-x324.00",
+                    "page": 6,
+                    "printedCaption": "Print Name Print Name",
+                    "sourcePrintedCaption": "Print Name Print Name",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x72.00",
+                    "page": 6,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x239.04",
+                    "page": 6,
+                    "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "sourcePrintedCaption": "RCW 9.96.060, .080 Order on Petition",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  },
+                  {
+                    "blankId": "p6-y73.56-x385.32",
+                    "page": 6,
+                    "printedCaption": "",
+                    "sourcePrintedCaption": "",
+                    "reason": "Court, clerk, prosecutor, or hearing field; completed by the named official after filing.",
+                    "category": "court_prosecutor_clerk_or_agency_owned",
+                    "approvedDisposition": "PROTECTED_FIELD"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "result": "PASS",
+          "finding": "Canonical and boundary artifact hashes were recomputed from the PDF bytes.",
+          "evidence": [
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+              "recordedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+              "recomputedSha256": "846360e75578ce6233dba77b03b25545a529b50cd553ad31f88d3008b429a6ad",
+              "byteLength": 158439,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+              "recordedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+              "recomputedSha256": "75fac347051d6b710015ef5bbcc10b43df0a1de59078195ede75a744f4c42b77",
+              "byteLength": 158615,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+              "recordedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+              "recomputedSha256": "3abc2475b78da8cff2445a99a78fa7aa18641d4c27f17d0c5eea3d6f07e40ce7",
+              "byteLength": 157661,
+              "matched": true
+            },
+            {
+              "file": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf",
+              "recordedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+              "recomputedSha256": "4d844aece78a8ae1c1e97407edd305f45dbdaa2c509f8e55ef51fef03bcb3a55",
+              "byteLength": 157759,
+              "matched": true
+            }
+          ]
+        },
+        "pageOrder": {
+          "result": "PASS",
+          "finding": "Rendered artifact order follows receipt/manifest document order, canonical then boundary.",
+          "evidence": {
+            "expectedArtifactOrder": [
+              "CRRLJ-09.0100:canonical",
+              "CRRLJ-09.0100:boundary",
+              "CRRLJ-09.0200:canonical",
+              "CRRLJ-09.0200:boundary"
+            ],
+            "artifactOrder": [
+              "CRRLJ-09.0100:canonical",
+              "CRRLJ-09.0100:boundary",
+              "CRRLJ-09.0200:canonical",
+              "CRRLJ-09.0200:boundary"
+            ]
+          }
+        },
+        "clippingAndOverlap": {
+          "result": "PASS",
+          "finding": "Glyph-diff reports place added text in measured anchors, add no vector paths, and report no refused or unfittable writes.",
+          "evidence": [
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "canonical",
+              "glyphsAdded": 279,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0100",
+              "fixture": "boundary",
+              "glyphsAdded": 530,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 16
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "canonical",
+              "glyphsAdded": 194,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            },
+            {
+              "document": "CRRLJ-09.0200",
+              "fixture": "boundary",
+              "glyphsAdded": 289,
+              "vectorPathsAdded": 0,
+              "refused": 0,
+              "unfittable": 0,
+              "writes": 12
+            }
+          ]
+        },
+        "filingDestination": {
+          "result": "PASS",
+          "finding": "Instructions direct filing-requirement confirmation to the sentencing court, while the prefilled caption identifies court type and county.",
+          "evidence": {
+            "matchedText": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing."
+          }
+        },
+        "feeAndWaiver": {
+          "result": "FAIL",
+          "finding": "Instructions say only to confirm local fee requirements; they state neither the fee nor an available waiver route.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "feeAmountStated": false,
+            "waiverRouteStated": false
+          }
+        },
+        "service": {
+          "result": "FAIL",
+          "finding": "Instructions say only to confirm local service requirements; they do not identify who must be served or how service must be made.",
+          "evidence": {
+            "instructionTextMatched": "Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.",
+            "recipientStated": false,
+            "methodStated": false
+          }
+        },
+        "selfHelpStop": {
+          "result": "PASS",
+          "finding": "The evidence-only status, legal-review flag, and directions not to make legal elections state the self-help boundary.",
+          "evidence": {
+            "status": "EVIDENCE_ONLY_NOT_APPROVED_FOR_DELIVERY",
+            "legalReviewStillRequired": true,
+            "instruction": "Review the selected Washington form and choose the correct court and eligibility path; this build does not make legal elections."
+          }
+        }
+      },
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/protection-report.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/fixture-manifest.json",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/participant-completion-instructions.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0200__crrlj-09-0200-crrlj-09-0200-ord-pet-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf"
+      ]
+    }
+  ]
+}

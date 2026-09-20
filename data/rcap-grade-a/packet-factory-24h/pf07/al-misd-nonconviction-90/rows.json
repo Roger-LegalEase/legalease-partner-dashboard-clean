@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "assignmentId": "PF07",
+  "scope": "Captain-directed resume of this one Alabama family; historical PF07 rows and other assigned families untouched.",
+  "workerBranch": "codex/pf07-al-misd-nonconviction",
+  "familiesAssigned": 1,
+  "rows": [
+    {
+      "itemId": "al-misd-nonconviction-90-set",
+      "status": "COMPLETED",
+      "statusMeaning": "One bounded builder return completed; no independent acceptance or commercial approval.",
+      "familyKind": "packet_family",
+      "jurisdiction": "AL",
+      "implementationStrategy": "official_pdf_fill",
+      "overlayDirectory": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill",
+      "buildScript": "scripts/build-census-v1-al-misd-nonconviction-90-set.mjs",
+      "routeKeys": [
+        "obligation:track-only:AL:al-misd-nonconviction-90"
+      ],
+      "componentSet": [
+        "primary_filing",
+        "certificate_of_service",
+        "fee_waiver",
+        "continuation"
+      ],
+      "conditionalComponents": {
+        "fee_waiver": "Included only on explicit request; payer test omits it.",
+        "continuation": "Not triggered in either fixture; complete held statements fit source continuation lines."
+      },
+      "sourcesBound": [
+        {
+          "documentId": "CR-65",
+          "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+          "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+          "byteLength": 468056,
+          "pages": 8,
+          "sourceId": "official-form:CR-65",
+          "formNumber": "CR-65",
+          "sha256Exact": true
+        },
+        {
+          "documentId": "C-10-CRIMINAL",
+          "path": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+          "sha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
+          "byteLength": 711433,
+          "pages": 3,
+          "sourceId": "official-form:C-10-CRIMINAL",
+          "formNumber": "C-10-CRIMINAL",
+          "sha256Exact": true
+        }
+      ],
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "fieldMapArithmetic": [
+        {
+          "fixture": "canonical",
+          "terminalFields": 216,
+          "written": 33,
+          "blanks": 183,
+          "blanksByDisposition": {
+            "PROTECTED_FIELD": 72,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 46,
+            "LATER_COMPLETION": 2,
+            "REQUIRED_BEFORE_FILING": 48,
+            "PARTICIPANT_ELECTION_GENUINE": 15
+          }
+        },
+        {
+          "fixture": "boundary",
+          "terminalFields": 216,
+          "written": 34,
+          "blanks": 182,
+          "blanksByDisposition": {
+            "PROTECTED_FIELD": 72,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 45,
+            "LATER_COMPLETION": 2,
+            "REQUIRED_BEFORE_FILING": 48,
+            "PARTICIPANT_ELECTION_GENUINE": 15
+          }
+        }
+      ],
+      "artifactsProduced": [
+        {
+          "fixture": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/fixtures/canonical.pdf",
+          "byteLength": 900220,
+          "sha256": "a78e750dbfab51d1c78da841c09e02e2a095f12110879cf430a21de8d0a58d86",
+          "pages": 11
+        },
+        {
+          "fixture": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/fixtures/boundary.pdf",
+          "byteLength": 900755,
+          "sha256": "92e03761acd5adb3c7b503c3373f14c36a4c09e038b6c107c940b6823059a06b",
+          "pages": 11
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/participant-instructions.md"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/approval-request.json"
+        }
+      ],
+      "checkArtifacts": [
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/source-caption-binding-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/mechanical-completeness-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/refusal-classifications-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/conditional-and-charge-fanout-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/determinism-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/final-packet-page-equivalence-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/appearance-repair-evidence.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/calibrated-raster-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/static-source-comparison-result.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/local-visual-review.json",
+        "data/rcap-grade-a/packet-factory-24h/pf07/al-misd-nonconviction-90/preflight-result.json"
+      ],
+      "rasterStatus": "RASTER_LOCAL_PENDING_CENTRAL",
+      "independentVerificationStatus": "PENDING",
+      "outputLegalReviewStatus": "PENDING",
+      "approvalStatus": "NOT_APPROVED",
+      "missingSourceDependencies": [],
+      "blockedLegalInputs": [],
+      "sourcesRecoveredInThisReturn": 0,
+      "familiesIndependentlyAcceptedInThisReturn": 0,
+      "restoredReferencesCountedAsNewPackets": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

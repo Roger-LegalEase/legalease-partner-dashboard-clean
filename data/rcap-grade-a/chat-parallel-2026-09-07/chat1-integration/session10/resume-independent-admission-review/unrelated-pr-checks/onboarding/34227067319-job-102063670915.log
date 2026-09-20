@@ -1,0 +1,1232 @@
+﻿2026-09-08T12:36:55.4178803Z Current runner version: '2.337.0'
+2026-09-08T12:36:55.4204443Z ##[group]Runner Image Provisioner
+2026-09-08T12:36:55.4205442Z Hosted Compute Agent
+2026-09-08T12:36:55.4206027Z Version: 20260828.587
+2026-09-08T12:36:55.4206758Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-08T12:36:55.4207503Z Build Date: 2026-08-28T16:44:25Z
+2026-09-08T12:36:55.4208182Z Worker ID: {e25dae25-df44-4ec9-88d5-d557a3bc9b43}
+2026-09-08T12:36:55.4208962Z Azure Region: westus
+2026-09-08T12:36:55.4209536Z ##[endgroup]
+2026-09-08T12:36:55.4211326Z ##[group]Operating System
+2026-09-08T12:36:55.4212017Z Ubuntu
+2026-09-08T12:36:55.4212558Z 24.04.4
+2026-09-08T12:36:55.4213182Z LTS
+2026-09-08T12:36:55.4213711Z ##[endgroup]
+2026-09-08T12:36:55.4214340Z ##[group]Runner Image
+2026-09-08T12:36:55.4214973Z Image: ubuntu-24.04
+2026-09-08T12:36:55.4215546Z Version: 20260831.293.1
+2026-09-08T12:36:55.4216854Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260831.293/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-08T12:36:55.4218514Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260831.293
+2026-09-08T12:36:55.4219528Z ##[endgroup]
+2026-09-08T12:36:55.4220800Z ##[group]GITHUB_TOKEN Permissions
+2026-09-08T12:36:55.4223045Z Contents: read
+2026-09-08T12:36:55.4223739Z Metadata: read
+2026-09-08T12:36:55.4224458Z Packages: read
+2026-09-08T12:36:55.4225071Z ##[endgroup]
+2026-09-08T12:36:55.4227097Z Secret source: Actions
+2026-09-08T12:36:55.4228279Z Prepare workflow directory
+2026-09-08T12:36:55.4576163Z Prepare all required actions
+2026-09-08T12:36:55.4647381Z Getting action download info
+2026-09-08T12:36:55.8295854Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-08T12:36:55.9462766Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-09-08T12:36:56.1389520Z Complete job name: Verify RCAP partner onboarding
+2026-09-08T12:36:56.2227507Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T12:36:56.2236317Z ##[group]Run actions/checkout@v4
+2026-09-08T12:36:56.2237062Z with:
+2026-09-08T12:36:56.2237675Z   repository: Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-08T12:36:56.2241937Z   token: ***
+2026-09-08T12:36:56.2242388Z   ssh-strict: true
+2026-09-08T12:36:56.2242840Z   ssh-user: git
+2026-09-08T12:36:56.2243294Z   persist-credentials: true
+2026-09-08T12:36:56.2243798Z   clean: true
+2026-09-08T12:36:56.2244262Z   sparse-checkout-cone-mode: true
+2026-09-08T12:36:56.2244796Z   fetch-depth: 1
+2026-09-08T12:36:56.2245248Z   fetch-tags: false
+2026-09-08T12:36:56.2245710Z   show-progress: true
+2026-09-08T12:36:56.2246182Z   lfs: false
+2026-09-08T12:36:56.2246645Z   submodules: false
+2026-09-08T12:36:56.2247116Z   set-safe-directory: true
+2026-09-08T12:36:56.2247636Z   allow-unsafe-pr-checkout: false
+2026-09-08T12:36:56.2248446Z ##[endgroup]
+2026-09-08T12:36:56.3273811Z Syncing repository: Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-08T12:36:56.3276783Z ##[group]Getting Git version info
+2026-09-08T12:36:56.3278528Z Working directory is '/home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean'
+2026-09-08T12:36:56.3280919Z [command]/usr/bin/git version
+2026-09-08T12:36:56.3342278Z git version 2.55.0
+2026-09-08T12:36:56.3363609Z ##[endgroup]
+2026-09-08T12:36:56.3377991Z Temporarily overriding HOME='/home/runner/work/_temp/4256b42e-4b08-4f71-99e2-40035769cc63' before making global git config changes
+2026-09-08T12:36:56.3380539Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-08T12:36:56.3383865Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean
+2026-09-08T12:36:56.3441858Z Deleting the contents of '/home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean'
+2026-09-08T12:36:56.3445587Z ##[group]Initializing the repository
+2026-09-08T12:36:56.3450629Z [command]/usr/bin/git init /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean
+2026-09-08T12:36:56.3557744Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-08T12:36:56.3559700Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-08T12:36:56.3561632Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-08T12:36:56.3563043Z hint: call:
+2026-09-08T12:36:56.3563846Z hint:
+2026-09-08T12:36:56.3564805Z hint: 	git config --global init.defaultBranch <name>
+2026-09-08T12:36:56.3565958Z hint:
+2026-09-08T12:36:56.3567079Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-08T12:36:56.3568756Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-08T12:36:56.3570339Z hint:
+2026-09-08T12:36:56.3572328Z hint: 	git branch -m <name>
+2026-09-08T12:36:56.3573386Z hint:
+2026-09-08T12:36:56.3574564Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-08T12:36:56.3576562Z Initialized empty Git repository in /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/.git/
+2026-09-08T12:36:56.3580517Z [command]/usr/bin/git remote add origin https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-08T12:36:56.3620375Z ##[endgroup]
+2026-09-08T12:36:56.3621934Z ##[group]Disabling automatic garbage collection
+2026-09-08T12:36:56.3626199Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-08T12:36:56.3658847Z ##[endgroup]
+2026-09-08T12:36:56.3660203Z ##[group]Setting up auth
+2026-09-08T12:36:56.3665744Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-08T12:36:56.3703261Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-08T12:36:56.4141548Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-08T12:36:56.4181670Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-08T12:36:56.4411534Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-08T12:36:56.4448275Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-08T12:36:56.4672246Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-08T12:36:56.4712685Z ##[endgroup]
+2026-09-08T12:36:56.4713579Z ##[group]Fetching the repository
+2026-09-08T12:36:56.4723499Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +3a811a4880d520392283c3119b91c3581dda63ec:refs/remotes/pull/224/merge
+2026-09-08T12:37:39.8730328Z From https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean
+2026-09-08T12:37:39.8732467Z  * [new ref]           3a811a4880d520392283c3119b91c3581dda63ec -> pull/224/merge
+2026-09-08T12:37:39.8736280Z ##[endgroup]
+2026-09-08T12:37:39.8737335Z ##[group]Determining the checkout info
+2026-09-08T12:37:39.8738978Z ##[endgroup]
+2026-09-08T12:37:39.8745902Z [command]/usr/bin/git sparse-checkout disable
+2026-09-08T12:37:39.8799850Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-08T12:37:39.8866828Z ##[group]Checking out the ref
+2026-09-08T12:37:39.8870653Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/224/merge
+2026-09-08T12:37:40.9219172Z Updating files:  17% (3201/18109)
+2026-09-08T12:37:40.9709946Z Updating files:  18% (3260/18109)
+2026-09-08T12:37:41.0411438Z Updating files:  19% (3441/18109)
+2026-09-08T12:37:41.1734881Z Updating files:  20% (3622/18109)
+2026-09-08T12:37:41.2653691Z Updating files:  21% (3803/18109)
+2026-09-08T12:37:41.3535371Z Updating files:  22% (3984/18109)
+2026-09-08T12:37:41.5123214Z Updating files:  23% (4166/18109)
+2026-09-08T12:37:41.5772043Z Updating files:  24% (4347/18109)
+2026-09-08T12:37:41.6081727Z Updating files:  25% (4528/18109)
+2026-09-08T12:37:41.6779544Z Updating files:  26% (4709/18109)
+2026-09-08T12:37:41.7208752Z Updating files:  27% (4890/18109)
+2026-09-08T12:37:41.7808613Z Updating files:  28% (5071/18109)
+2026-09-08T12:37:41.8634156Z Updating files:  29% (5252/18109)
+2026-09-08T12:37:41.9131005Z Updating files:  30% (5433/18109)
+2026-09-08T12:37:41.9329776Z Updating files:  30% (5559/18109)
+2026-09-08T12:37:42.0664973Z Updating files:  31% (5614/18109)
+2026-09-08T12:37:42.2083484Z Updating files:  32% (5795/18109)
+2026-09-08T12:37:42.2967294Z Updating files:  33% (5976/18109)
+2026-09-08T12:37:42.3916686Z Updating files:  34% (6158/18109)
+2026-09-08T12:37:42.4685886Z Updating files:  35% (6339/18109)
+2026-09-08T12:37:42.5029155Z Updating files:  36% (6520/18109)
+2026-09-08T12:37:42.5385566Z Updating files:  37% (6701/18109)
+2026-09-08T12:37:42.6195321Z Updating files:  38% (6882/18109)
+2026-09-08T12:37:42.6852960Z Updating files:  39% (7063/18109)
+2026-09-08T12:37:42.7157185Z Updating files:  40% (7244/18109)
+2026-09-08T12:37:42.7475180Z Updating files:  41% (7425/18109)
+2026-09-08T12:37:42.7802373Z Updating files:  42% (7606/18109)
+2026-09-08T12:37:42.8166431Z Updating files:  43% (7787/18109)
+2026-09-08T12:37:42.8933752Z Updating files:  44% (7968/18109)
+2026-09-08T12:37:42.9137719Z Updating files:  45% (8150/18109)
+2026-09-08T12:37:42.9215470Z Updating files:  45% (8265/18109)
+2026-09-08T12:37:42.9431340Z Updating files:  46% (8331/18109)
+2026-09-08T12:37:42.9720360Z Updating files:  47% (8512/18109)
+2026-09-08T12:37:42.9897918Z Updating files:  48% (8693/18109)
+2026-09-08T12:37:43.0116603Z Updating files:  49% (8874/18109)
+2026-09-08T12:37:43.0239613Z Updating files:  50% (9055/18109)
+2026-09-08T12:37:43.0366545Z Updating files:  51% (9236/18109)
+2026-09-08T12:37:43.0611436Z Updating files:  52% (9417/18109)
+2026-09-08T12:37:43.0948035Z Updating files:  53% (9598/18109)
+2026-09-08T12:37:43.1102160Z Updating files:  54% (9779/18109)
+2026-09-08T12:37:43.1246950Z Updating files:  55% (9960/18109)
+2026-09-08T12:37:43.1684440Z Updating files:  56% (10142/18109)
+2026-09-08T12:37:43.2622462Z Updating files:  57% (10323/18109)
+2026-09-08T12:37:43.2811445Z Updating files:  58% (10504/18109)
+2026-09-08T12:37:43.3068141Z Updating files:  59% (10685/18109)
+2026-09-08T12:37:43.3494867Z Updating files:  60% (10866/18109)
+2026-09-08T12:37:43.3993265Z Updating files:  61% (11047/18109)
+2026-09-08T12:37:43.4865755Z Updating files:  62% (11228/18109)
+2026-09-08T12:37:43.5370637Z Updating files:  63% (11409/18109)
+2026-09-08T12:37:43.6256389Z Updating files:  64% (11590/18109)
+2026-09-08T12:37:43.7305577Z Updating files:  65% (11771/18109)
+2026-09-08T12:37:43.7758895Z Updating files:  66% (11952/18109)
+2026-09-08T12:37:43.9307215Z Updating files:  67% (12134/18109)
+2026-09-08T12:37:43.9335528Z Updating files:  67% (12291/18109)
+2026-09-08T12:37:44.0397871Z Updating files:  68% (12315/18109)
+2026-09-08T12:37:44.0595553Z Updating files:  69% (12496/18109)
+2026-09-08T12:37:44.0717426Z Updating files:  70% (12677/18109)
+2026-09-08T12:37:44.0862212Z Updating files:  71% (12858/18109)
+2026-09-08T12:37:44.0925369Z Updating files:  72% (13039/18109)
+2026-09-08T12:37:44.1049816Z Updating files:  73% (13220/18109)
+2026-09-08T12:37:44.2059628Z Updating files:  74% (13401/18109)
+2026-09-08T12:37:44.2800896Z Updating files:  75% (13582/18109)
+2026-09-08T12:37:44.4170935Z Updating files:  76% (13763/18109)
+2026-09-08T12:37:44.4560498Z Updating files:  77% (13944/18109)
+2026-09-08T12:37:44.4905201Z Updating files:  78% (14126/18109)
+2026-09-08T12:37:44.5055844Z Updating files:  79% (14307/18109)
+2026-09-08T12:37:44.5225806Z Updating files:  80% (14488/18109)
+2026-09-08T12:37:44.5380581Z Updating files:  81% (14669/18109)
+2026-09-08T12:37:44.5542252Z Updating files:  82% (14850/18109)
+2026-09-08T12:37:44.5728587Z Updating files:  83% (15031/18109)
+2026-09-08T12:37:44.5901923Z Updating files:  84% (15212/18109)
+2026-09-08T12:37:44.6136425Z Updating files:  85% (15393/18109)
+2026-09-08T12:37:44.6328271Z Updating files:  86% (15574/18109)
+2026-09-08T12:37:44.6564334Z Updating files:  87% (15755/18109)
+2026-09-08T12:37:44.6955242Z Updating files:  88% (15936/18109)
+2026-09-08T12:37:44.7071817Z Updating files:  89% (16118/18109)
+2026-09-08T12:37:44.7161338Z Updating files:  90% (16299/18109)
+2026-09-08T12:37:44.7664595Z Updating files:  91% (16480/18109)
+2026-09-08T12:37:44.9127746Z Updating files:  92% (16661/18109)
+2026-09-08T12:37:44.9451400Z Updating files:  92% (16810/18109)
+2026-09-08T12:37:45.0128415Z Updating files:  93% (16842/18109)
+2026-09-08T12:37:45.0496313Z Updating files:  94% (17023/18109)
+2026-09-08T12:37:45.0991635Z Updating files:  95% (17204/18109)
+2026-09-08T12:37:45.1403773Z Updating files:  96% (17385/18109)
+2026-09-08T12:37:45.1867541Z Updating files:  97% (17566/18109)
+2026-09-08T12:37:45.2280981Z Updating files:  98% (17747/18109)
+2026-09-08T12:37:45.2653332Z Updating files:  99% (17928/18109)
+2026-09-08T12:37:45.2653975Z Updating files: 100% (18109/18109)
+2026-09-08T12:37:45.2654596Z Updating files: 100% (18109/18109), done.
+2026-09-08T12:37:45.2889776Z Note: switching to 'refs/remotes/pull/224/merge'.
+2026-09-08T12:37:45.2890538Z 
+2026-09-08T12:37:45.2890843Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-08T12:37:45.2891839Z changes and commit them, and you can discard any commits you make in this
+2026-09-08T12:37:45.2892427Z state without impacting any branches by switching back to a branch.
+2026-09-08T12:37:45.2892722Z 
+2026-09-08T12:37:45.2893142Z If you want to create a new branch to retain commits you create, you may
+2026-09-08T12:37:45.2893634Z do so (now or later) by using -c with the switch command. Example:
+2026-09-08T12:37:45.2893894Z 
+2026-09-08T12:37:45.2894008Z   git switch -c <new-branch-name>
+2026-09-08T12:37:45.2894178Z 
+2026-09-08T12:37:45.2894283Z Or undo this operation with:
+2026-09-08T12:37:45.2894439Z 
+2026-09-08T12:37:45.2894529Z   git switch -
+2026-09-08T12:37:45.2894656Z 
+2026-09-08T12:37:45.2894868Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-08T12:37:45.2895198Z 
+2026-09-08T12:37:45.2895545Z HEAD is now at 3a811a48 Merge 9f35db281d8de2664498a7f1d849976c31b925f1 into ee4021b473018a469fea7a9a5325b41d1abff041
+2026-09-08T12:37:45.3066220Z ##[endgroup]
+2026-09-08T12:37:45.3132163Z [command]/usr/bin/git log -1 --format=%H
+2026-09-08T12:37:45.3161621Z 3a811a4880d520392283c3119b91c3581dda63ec
+2026-09-08T12:37:45.3436727Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T12:37:45.3438402Z ##[group]Run actions/setup-node@v4
+2026-09-08T12:37:45.3438662Z with:
+2026-09-08T12:37:45.3438861Z   node-version: 22
+2026-09-08T12:37:45.3439069Z   cache: npm
+2026-09-08T12:37:45.3439261Z   always-auth: false
+2026-09-08T12:37:45.3439473Z   check-latest: false
+2026-09-08T12:37:45.3442270Z   token: ***
+2026-09-08T12:37:45.3442502Z ##[endgroup]
+2026-09-08T12:37:45.4855152Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-09-08T12:37:45.4858806Z (node:2272) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-08T12:37:45.4862177Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-08T12:37:45.4863499Z ##[group]Environment details
+2026-09-08T12:37:45.9184379Z node: v22.23.2
+2026-09-08T12:37:45.9184966Z npm: 10.9.8
+2026-09-08T12:37:45.9185828Z yarn: 1.22.22
+2026-09-08T12:37:45.9187801Z ##[endgroup]
+2026-09-08T12:37:45.9208058Z [command]/opt/hostedtoolcache/node/22.23.2/x64/bin/npm config get cache
+2026-09-08T12:37:46.0496967Z /home/runner/.npm
+2026-09-08T12:37:46.3412796Z Cache hit for: node-cache-Linux-x64-npm-835cae9bf6295605c1969b407c3b99cab5b36cc786538c37a999524b6315675e
+2026-09-08T12:37:46.3515464Z (node:2272) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-08T12:37:47.6376857Z Received 0 of 258489990 (0.0%), 0.0 MBs/sec
+2026-09-08T12:37:48.6412611Z Received 117440512 of 258489990 (45.4%), 55.9 MBs/sec
+2026-09-08T12:37:49.6407061Z Received 245907078 of 258489990 (95.1%), 78.1 MBs/sec
+2026-09-08T12:37:49.7271900Z Received 258489990 of 258489990 (100.0%), 79.8 MBs/sec
+2026-09-08T12:37:49.7273947Z Cache Size: ~247 MB (258489990 B)
+2026-09-08T12:37:49.7311619Z [command]/usr/bin/tar -xf /home/runner/work/_temp/f0ce4ad6-2f52-4787-bbf0-648375444ff5/cache.tzst -P -C /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean --use-compress-program unzstd
+2026-09-08T12:37:50.2345028Z Cache restored successfully
+2026-09-08T12:37:50.2465122Z Cache restored from key: node-cache-Linux-x64-npm-835cae9bf6295605c1969b407c3b99cab5b36cc786538c37a999524b6315675e
+2026-09-08T12:37:50.2688194Z ##[group]Run npm ci
+2026-09-08T12:37:50.2688524Z [36;1mnpm ci[0m
+2026-09-08T12:37:50.3006111Z shell: /usr/bin/bash -e {0}
+2026-09-08T12:37:50.3006534Z ##[endgroup]
+2026-09-08T12:38:08.9177336Z 
+2026-09-08T12:38:08.9184973Z added 492 packages, and audited 493 packages in 19s
+2026-09-08T12:38:08.9185399Z 
+2026-09-08T12:38:08.9185667Z 186 packages are looking for funding
+2026-09-08T12:38:08.9186102Z   run `npm fund` for details
+2026-09-08T12:38:09.1004373Z 
+2026-09-08T12:38:09.1005378Z 38 vulnerabilities (2 low, 29 moderate, 7 high)
+2026-09-08T12:38:09.1005927Z 
+2026-09-08T12:38:09.1006301Z To address issues that do not require attention, run:
+2026-09-08T12:38:09.1006855Z   npm audit fix
+2026-09-08T12:38:09.1007069Z 
+2026-09-08T12:38:09.1007266Z To address all issues, run:
+2026-09-08T12:38:09.1007693Z   npm audit fix --force
+2026-09-08T12:38:09.1007934Z 
+2026-09-08T12:38:09.1008126Z Run `npm audit` for details.
+2026-09-08T12:38:09.2236830Z ##[group]Run npm run lint
+2026-09-08T12:38:09.2237160Z [36;1mnpm run lint[0m
+2026-09-08T12:38:09.2276892Z shell: /usr/bin/bash -e {0}
+2026-09-08T12:38:09.2277184Z ##[endgroup]
+2026-09-08T12:38:09.3321323Z 
+2026-09-08T12:38:09.3322599Z > legalease-partner-dashboard-clean@0.1.0 lint
+2026-09-08T12:38:09.3323653Z > eslint
+2026-09-08T12:38:09.3323991Z 
+2026-09-08T12:39:40.0505593Z 
+2026-09-08T12:39:40.0508383Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/data/rcap-grade-a/packet-factory-24h/fix85/current-pa-20260906/verify-selection-backgrounds.mjs
+2026-09-08T12:39:40.0545510Z ##[warning]  88:272  warning  'pixels' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0552497Z 
+2026-09-08T12:39:40.0553389Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/data/rcap-grade-a/packet-factory-24h/fix87/va-four-20260906/check-source.mjs
+2026-09-08T12:39:40.0555326Z ##[warning]  2:365  warning  'recover' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0556210Z 
+2026-09-08T12:39:40.0556916Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/data/rcap-grade-a/packet-factory-24h/vf01/tools/battery.mjs
+2026-09-08T12:39:40.0558325Z ##[warning]  33:7  warning  'wiring' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0559699Z ##[warning]  37:7  warning  'blanks' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0560485Z 
+2026-09-08T12:39:40.0561434Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/data/rcap-grade-a/packet-factory-24h/vf01/tools/measure.mjs
+2026-09-08T12:39:40.0563090Z ##[warning]  496:13  warning  'docId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0563941Z 
+2026-09-08T12:39:40.0564632Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/data/rcap-grade-a/packet-factory-24h/vf01/tools/pdfink.mjs
+2026-09-08T12:39:40.0565820Z ##[warning]    6:67  warning  'StdEncodings' is defined but never used     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0567226Z ##[warning]    7:51  warning  'PDFRawStream' is defined but never used     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0568572Z ##[warning]    7:65  warning  'PDFNumber' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0569905Z ##[warning]    7:76  warning  'PDFString' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0571480Z ##[warning]    7:87  warning  'PDFHexString' is defined but never used     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0572923Z ##[warning]  197:17  warning  'scaleX' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0573734Z 
+2026-09-08T12:39:40.0574475Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/data/rcap-grade-a/wave-2/r2-already-answered-engineering/generate-r2.mjs
+2026-09-08T12:39:40.0575890Z ##[warning]  62:7  warning  'OUTCOME_MODES' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0576768Z 
+2026-09-08T12:39:40.0580681Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/docs/rcap/codex/d-track-terminalization/dispatch/build-and-verify.mjs
+2026-09-08T12:39:40.0582779Z ##[warning]  133:13  warning  'jurisdiction' is assigned a value but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0587279Z ##[warning]  828:7   warning  'laneByJurisdiction' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0590890Z 
+2026-09-08T12:39:40.0594984Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs
+2026-09-08T12:39:40.0599375Z ##[warning]  10:30  warning  'runComposedFamily' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0600343Z 
+2026-09-08T12:39:40.0603706Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-al-diversion-set.mjs
+2026-09-08T12:39:40.0607436Z ##[warning]  514:45  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0608372Z 
+2026-09-08T12:39:40.0609005Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-al-felony-dwop-set.mjs
+2026-09-08T12:39:40.0612941Z ##[warning]  278:45  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0613847Z 
+2026-09-08T12:39:40.0614635Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-al-felony-nonconviction-90-set.mjs
+2026-09-08T12:39:40.0615826Z ##[warning]  282:45  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0616645Z 
+2026-09-08T12:39:40.0617329Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-al-misd-nonconviction-90-set.mjs
+2026-09-08T12:39:40.0618527Z ##[warning]   17:33   warning  'PDFName' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0620003Z ##[warning]  262:106  warning  'bytes' is defined but never used             @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0621797Z ##[warning]  266:181  warning  'docs' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0623523Z 
+2026-09-08T12:39:40.0624584Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ar-act531-set.mjs
+2026-09-08T12:39:40.0626495Z ##[warning]  1156:44  warning  'fixtures' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0627479Z 
+2026-09-08T12:39:40.0628628Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ar-arrest-seal-set.mjs
+2026-09-08T12:39:40.0630501Z ##[warning]  549:56  warning  'facts' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0632262Z 
+2026-09-08T12:39:40.0632966Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ar-cs-possession-seal-set.mjs
+2026-09-08T12:39:40.0634669Z ##[warning]  1168:44  warning  'fixtures' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0636126Z 
+2026-09-08T12:39:40.0637214Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ar-drug-court-set.mjs
+2026-09-08T12:39:40.0638655Z ##[warning]  824:33  warning  'written' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0639945Z 
+2026-09-08T12:39:40.0641066Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ar-felony-seal-set.mjs
+2026-09-08T12:39:40.0643236Z ##[warning]  577:33  warning  'actualWrites' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0645118Z ##[warning]  577:47  warning  'selectedControls' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0647534Z ##[warning]  690:46  warning  'actualWrites' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0649727Z ##[warning]  690:60  warning  'selectedControls' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0650727Z 
+2026-09-08T12:39:40.0652153Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ar-misdemeanor-dwi-seal-set.mjs
+2026-09-08T12:39:40.0654425Z ##[warning]  113:43  warning  'CAPTION_FACTS' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0655623Z 
+2026-09-08T12:39:40.0656684Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs
+2026-09-08T12:39:40.0658867Z ##[warning]    20:53  warning  'PARTICIPANT_INK' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0661052Z ##[warning]  3329:16  warning  'buildCaStop' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0662691Z 
+2026-09-08T12:39:40.0663910Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-az_record_sealing_conviction-set.mjs
+2026-09-08T12:39:40.0665904Z ##[warning]  1864:26  warning  'result' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0666885Z 
+2026-09-08T12:39:40.0668129Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs
+2026-09-08T12:39:40.0670214Z ##[warning]  742:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0671648Z 
+2026-09-08T12:39:40.0672261Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ca-1203-4-set.mjs
+2026-09-08T12:39:40.0673979Z ##[warning]    20:53  warning  'PARTICIPANT_INK' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0676328Z ##[warning]  3411:16  warning  'buildCaStop' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0677662Z 
+2026-09-08T12:39:40.0678558Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-co_pardoned_conviction_seal-set.mjs
+2026-09-08T12:39:40.0680678Z ##[warning]  108:7  warning  'ATTORNEY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0682368Z 
+2026-09-08T12:39:40.0683721Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request.mjs
+2026-09-08T12:39:40.0686416Z ##[warning]  753:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0687878Z 
+2026-09-08T12:39:40.0689417Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs
+2026-09-08T12:39:40.0692499Z ##[warning]  736:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0693972Z 
+2026-09-08T12:39:40.0695502Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition.mjs
+2026-09-08T12:39:40.0698424Z ##[warning]  785:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0699935Z 
+2026-09-08T12:39:40.0701108Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs
+2026-09-08T12:39:40.0703854Z ##[warning]  842:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0705342Z 
+2026-09-08T12:39:40.0706559Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief.mjs
+2026-09-08T12:39:40.0709321Z ##[warning]  766:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0710788Z 
+2026-09-08T12:39:40.0712608Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4.mjs
+2026-09-08T12:39:40.0715446Z ##[warning]  844:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0716626Z 
+2026-09-08T12:39:40.0718065Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26.mjs
+2026-09-08T12:39:40.0720464Z ##[warning]  845:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0722067Z 
+2026-09-08T12:39:40.0723553Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59.mjs
+2026-09-08T12:39:40.0726200Z ##[warning]  828:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0727501Z 
+2026-09-08T12:39:40.0729031Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247.mjs
+2026-09-08T12:39:40.0731840Z ##[warning]  791:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0733321Z 
+2026-09-08T12:39:40.0734880Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs
+2026-09-08T12:39:40.0737351Z ##[warning]  1110:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0738591Z 
+2026-09-08T12:39:40.0740352Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement.mjs
+2026-09-08T12:39:40.0743322Z ##[warning]  794:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0744626Z 
+2026-09-08T12:39:40.0776692Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement.mjs
+2026-09-08T12:39:40.0778736Z ##[warning]  782:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0780312Z 
+2026-09-08T12:39:40.0782187Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement.mjs
+2026-09-08T12:39:40.0783909Z ##[warning]  782:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0785417Z 
+2026-09-08T12:39:40.0787210Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement.mjs
+2026-09-08T12:39:40.0789290Z ##[warning]  809:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0790616Z 
+2026-09-08T12:39:40.0792577Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs
+2026-09-08T12:39:40.0795039Z ##[warning]  820:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0796121Z 
+2026-09-08T12:39:40.0797322Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ct-cannabis-petition-set.mjs
+2026-09-08T12:39:40.0799364Z ##[warning]  417:10  warning  'mapCourtOwned' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0800676Z 
+2026-09-08T12:39:40.0801561Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ct-cleanslate-petition-set.mjs
+2026-09-08T12:39:40.0803524Z ##[warning]  2198:16  warning  'doc' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0804951Z 
+2026-09-08T12:39:40.0806084Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ct-decriminalized-set.mjs
+2026-09-08T12:39:40.0807417Z ##[warning]  744:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0808910Z 
+2026-09-08T12:39:40.0810255Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ct-destruction-request--agency-application.mjs
+2026-09-08T12:39:40.0812651Z ##[warning]  26:10  warning  'buildAgencyApplicationFamily' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0813781Z 
+2026-09-08T12:39:40.0814997Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ct-missed-erasure-set.mjs
+2026-09-08T12:39:40.0816962Z ##[warning]  112:7   warning  'DOTS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0819235Z ##[warning]  390:10  warning  'mapProtected' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0821808Z ##[warning]  398:10  warning  'mapCourtOwned' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0823963Z ##[warning]  406:10  warning  'mapRbf' is defined but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0824830Z 
+2026-09-08T12:39:40.0825979Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-dc_yra_set_aside-set.mjs
+2026-09-08T12:39:40.0827969Z ##[warning]  745:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0829422Z 
+2026-09-08T12:39:40.0830064Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-fl-10yr-bridge-set.mjs
+2026-09-08T12:39:40.0831390Z ##[warning]  671:33  warning  'actualWrites' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0832801Z ##[warning]  671:47  warning  'glyphs' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0834215Z 
+2026-09-08T12:39:40.0835356Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-fl-early-juvenile-set.mjs
+2026-09-08T12:39:40.0837322Z ##[warning]  685:33  warning  'actualWrites' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0838812Z ##[warning]  685:47  warning  'glyphs' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0840204Z 
+2026-09-08T12:39:40.0841470Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ga-jail-k2-set.mjs
+2026-09-08T12:39:40.0843397Z ##[warning]  452:10  warning  'mapCourtOwned' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0844297Z 
+2026-09-08T12:39:40.0845214Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-hi_dag_danc_expungement-set.mjs
+2026-09-08T12:39:40.0847185Z ##[warning]  128:413  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0848784Z 
+2026-09-08T12:39:40.0849555Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ia-7251-set.mjs
+2026-09-08T12:39:40.0851019Z ##[warning]  129:406  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0852708Z 
+2026-09-08T12:39:40.0853854Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-id_clean_slate_shield-set.mjs
+2026-09-08T12:39:40.0855500Z ##[warning]  999:44  warning  'fixtures' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0856646Z 
+2026-09-08T12:39:40.0857788Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-id_felony_reduction-set.mjs
+2026-09-08T12:39:40.0859801Z ##[warning]  721:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0860969Z 
+2026-09-08T12:39:40.0862078Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-id_isp_expungement-set.mjs
+2026-09-08T12:39:40.0864145Z ##[warning]  983:44  warning  'fixtures' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0865546Z 
+2026-09-08T12:39:40.0866464Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-id_set_aside_dismissal-set.mjs
+2026-09-08T12:39:40.0868080Z ##[warning]  745:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0869533Z 
+2026-09-08T12:39:40.0870684Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-cannabis-vacate-set.mjs
+2026-09-08T12:39:40.0872704Z ##[warning]   69:48   warning  'config' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0874990Z ##[warning]  105:33   warning  'documentId' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0877228Z ##[warning]  105:45   warning  'name' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0879086Z ##[warning]  217:294  warning  'drawnText' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0881581Z ##[warning]  217:305  warning  'fontSize' is defined but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0882948Z 
+2026-09-08T12:39:40.0883591Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-exp-nonconv-set.mjs
+2026-09-08T12:39:40.0885413Z ##[warning]  226:294  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0887691Z ##[warning]  226:305  warning  'fontSize' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0888800Z 
+2026-09-08T12:39:40.0889644Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-exp-pardon-set.mjs
+2026-09-08T12:39:40.0891763Z ##[warning]  685:248  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0893993Z ##[warning]  685:259  warning  'fontSize' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0895777Z ##[warning]  695:369  warning  'file' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0897163Z 
+2026-09-08T12:39:40.0898266Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-exp-qualprob-set.mjs
+2026-09-08T12:39:40.0899943Z ##[warning]  282:284  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0902197Z ##[warning]  282:295  warning  'fontSize' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0904682Z ##[warning]  291:377  warning  'file' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0905753Z 
+2026-09-08T12:39:40.0906727Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-exp-supervision-set.mjs
+2026-09-08T12:39:40.0908677Z ##[warning]  219:284  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0910802Z ##[warning]  219:295  warning  'fontSize' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0912943Z ##[warning]  228:377  warning  'file' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0914276Z 
+2026-09-08T12:39:40.0915413Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-seal-2yr-set.mjs
+2026-09-08T12:39:40.0916825Z ##[warning]  207:284  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0919056Z ##[warning]  207:295  warning  'fontSize' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0921503Z ##[warning]  216:377  warning  'file' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0922449Z 
+2026-09-08T12:39:40.0923595Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-seal-3yr-set.mjs
+2026-09-08T12:39:40.0925498Z ##[warning]  205:284  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0927530Z ##[warning]  205:295  warning  'fontSize' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0929991Z ##[warning]  214:377  warning  'file' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0931800Z 
+2026-09-08T12:39:40.0932730Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-il-seal-edu-set.mjs
+2026-09-08T12:39:40.0934282Z ##[warning]  361:284  warning  'drawnText' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0936627Z ##[warning]  361:295  warning  'fontSize' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0938547Z ##[warning]  370:377  warning  'file' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0939750Z 
+2026-09-08T12:39:40.0940910Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-in_arrest_no_charges-set.mjs
+2026-09-08T12:39:40.0943163Z ##[warning]   108:7   warning  'ROUTE_KEY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0945171Z ##[warning]  1475:44  warning  'fixtures' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0946602Z 
+2026-09-08T12:39:40.0947756Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-in_section1_petition-set.mjs
+2026-09-08T12:39:40.0949551Z ##[warning]   117:7   warning  'ROUTE_KEY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0951932Z ##[warning]  1485:44  warning  'fixtures' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0953365Z 
+2026-09-08T12:39:40.0954601Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ky_expungement_certification-set.mjs
+2026-09-08T12:39:40.0956085Z ##[warning]   75:48   warning  'config' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0958334Z ##[warning]   93:43   warning  'page' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0960366Z ##[warning]   97:24   warning  'name' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0962954Z ##[warning]  101:24   warning  'documentId' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0965273Z ##[warning]  101:36   warning  'name' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0967060Z ##[warning]  101:42   warning  'config' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0969328Z ##[warning]  105:33   warning  'documentId' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0971454Z ##[warning]  105:45   warning  'name' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0973697Z ##[warning]  228:294  warning  'drawnText' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0976059Z ##[warning]  228:305  warning  'fontSize' is defined but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0976907Z 
+2026-09-08T12:39:40.0978159Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ky_void_seal_controlled_substance-set.mjs
+2026-09-08T12:39:40.0980248Z ##[warning]  96:7  warning  'PROTECT' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0981828Z 
+2026-09-08T12:39:40.0982713Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-la-977-misdemeanor-conviction-set.mjs
+2026-09-08T12:39:40.0984820Z ##[warning]  931:10  warning  'markdownToPlain' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0986273Z 
+2026-09-08T12:39:40.0987186Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-la-978-felony-conviction-set.mjs
+2026-09-08T12:39:40.0988788Z ##[warning]  947:10  warning  'markdownToPlain' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0990243Z 
+2026-09-08T12:39:40.0991560Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ma-expunge-time-set.mjs
+2026-09-08T12:39:40.0993377Z ##[warning]  593:7  warning  'DOTS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0994350Z 
+2026-09-08T12:39:40.0995467Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-me-screening-set.mjs
+2026-09-08T12:39:40.0997411Z ##[warning]  411:10  warning  'mapCourtOwned' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.0998802Z 
+2026-09-08T12:39:40.0999416Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ms-misd-1st-set.mjs
+2026-09-08T12:39:40.1001399Z ##[warning]  40:30  warning  'runComposedFamily' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1002880Z 
+2026-09-08T12:39:40.1004080Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-nc_146_dismissal_petition-set.mjs
+2026-09-08T12:39:40.1005715Z ##[warning]  963:10  warning  'makeCorpusEntryResolver' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1008267Z ##[warning]  978:7   warning  'MASTER_LIBRARY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1009746Z 
+2026-09-08T12:39:40.1010482Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-nd-nonconviction-close-petition-set.mjs
+2026-09-08T12:39:40.1012838Z ##[warning]  1124:44  warning  'fixtures' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1014235Z 
+2026-09-08T12:39:40.1015344Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ne-setaside-custodial-set.mjs
+2026-09-08T12:39:40.1016915Z ##[warning]  1131:13  warning  'x1' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1019412Z ##[warning]  1132:13  warning  'y1' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1020754Z 
+2026-09-08T12:39:40.1021733Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-nh_petition_vacated-set.mjs
+2026-09-08T12:39:40.1023757Z ##[warning]   448:7   warning  'AGENCY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1026040Z ##[warning]  1333:39  warning  'fee' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1027879Z ##[warning]  1333:51  warning  'service' is defined but never used          @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1029304Z 
+2026-09-08T12:39:40.1030474Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-nj_arrest_no_conviction-set.mjs
+2026-09-08T12:39:40.1032463Z ##[warning]  370:36  warning  '_paRow1ChargeCell' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1033811Z 
+2026-09-08T12:39:40.1034922Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-nm_identity_theft-set.mjs
+2026-09-08T12:39:40.1036847Z ##[warning]  86:7  warning  'TRACK' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1037912Z 
+2026-09-08T12:39:40.1039143Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-official-form-treatment:obligation:research-decision-route:AL:al-olr.mjs
+2026-09-08T12:39:40.1041609Z ##[warning]  1196:44  warning  'fixtures' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1043215Z 
+2026-09-08T12:39:40.1043895Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-or_conviction_setaside-set.mjs
+2026-09-08T12:39:40.1045828Z ##[warning]  63:10  warning  'extractTextItems' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1048257Z ##[warning]  63:28  warning  'groupIntoLines' is defined but never used     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1050190Z ##[warning]  96:7   warning  'ELECTION' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1051885Z 
+2026-09-08T12:39:40.1053065Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-pa_pardon_expungement-set.mjs
+2026-09-08T12:39:40.1054796Z ##[warning]  523:38  warning  'resolved' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1055924Z 
+2026-09-08T12:39:40.1057159Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-ga-guidance-implementation.mjs
+2026-09-08T12:39:40.1059235Z ##[warning]  837:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1060348Z 
+2026-09-08T12:39:40.1061011Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-ks-custom-pleading.mjs
+2026-09-08T12:39:40.1063375Z ##[warning]  1538:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1064814Z 
+2026-09-08T12:39:40.1065818Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-ms-custom-pleading.mjs
+2026-09-08T12:39:40.1067017Z ##[warning]  2468:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1068401Z 
+2026-09-08T12:39:40.1069538Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-nd-custom-pleading.mjs
+2026-09-08T12:39:40.1071777Z ##[warning]  3438:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1072717Z 
+2026-09-08T12:39:40.1074060Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-nv-custom-pleading.mjs
+2026-09-08T12:39:40.1076150Z ##[warning]  4174:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1077525Z 
+2026-09-08T12:39:40.1078282Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-ok-custom-pleading.mjs
+2026-09-08T12:39:40.1080325Z ##[warning]  5332:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1081982Z 
+2026-09-08T12:39:40.1082983Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-sc-custom-pleading.mjs
+2026-09-08T12:39:40.1084648Z ##[warning]  4910:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1086111Z 
+2026-09-08T12:39:40.1087266Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-tn-custom-pleading.mjs
+2026-09-08T12:39:40.1088833Z ##[warning]  5001:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1090210Z 
+2026-09-08T12:39:40.1091549Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-tx-custom-pleading.mjs
+2026-09-08T12:39:40.1093534Z ##[warning]   268:7   warning  'DOTS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1095291Z ##[warning]  1188:75  warning  'fixtureName' is defined but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1096939Z 
+2026-09-08T12:39:40.1098237Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs
+2026-09-08T12:39:40.1099973Z ##[warning]  1638:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1101592Z 
+2026-09-08T12:39:40.1102759Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-wi-custom-pleading.mjs
+2026-09-08T12:39:40.1104813Z ##[warning]  924:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1105749Z 
+2026-09-08T12:39:40.1106826Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-rcap-wv-custom-pleading.mjs
+2026-09-08T12:39:40.1108871Z ##[warning]  1403:13  warning  'declarationIndex' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1110379Z 
+2026-09-08T12:39:40.1111040Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ri_decriminalized-set.mjs
+2026-09-08T12:39:40.1112884Z ##[warning]  320:23  warning  'form' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1114258Z 
+2026-09-08T12:39:40.1115448Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-sc_17_22_950_summary-set.mjs
+2026-09-08T12:39:40.1116956Z ##[warning]  882:7  warning  'LEGAL_FACTS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1118279Z 
+2026-09-08T12:39:40.1119429Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-sd_arrest_expungement-set.mjs
+2026-09-08T12:39:40.1121725Z ##[warning]  66:7  warning  'BEFORE_COUNTERS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1122788Z 
+2026-09-08T12:39:40.1123816Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_exp_acquittal-set.mjs
+2026-09-08T12:39:40.1125759Z ##[warning]  1340:75  warning  'fixtureName' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1127396Z 
+2026-09-08T12:39:40.1128151Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_nd_conviction_no_supervision-set.mjs
+2026-09-08T12:39:40.1130080Z ##[warning]  1487:75  warning  'fixtureName' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1131754Z 
+2026-09-08T12:39:40.1132924Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_nd_deferred_other-set.mjs
+2026-09-08T12:39:40.1134313Z ##[warning]  1769:75  warning  'fixtureName' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1135782Z 
+2026-09-08T12:39:40.1136896Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_nd_dwi_deferred-set.mjs
+2026-09-08T12:39:40.1138828Z ##[warning]  1355:75  warning  'fixtureName' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1139878Z 
+2026-09-08T12:39:40.1141015Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_nd_dwi_probation-set.mjs
+2026-09-08T12:39:40.1143145Z ##[warning]  1358:75  warning  'fixtureName' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1144443Z 
+2026-09-08T12:39:40.1145120Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_nd_probation_misdemeanor-set.mjs
+2026-09-08T12:39:40.1146263Z ##[warning]  1421:75  warning  'fixtureName' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1147681Z 
+2026-09-08T12:39:40.1148824Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_nd_veterans_court-set.mjs
+2026-09-08T12:39:40.1150755Z ##[warning]  1505:75  warning  'fixtureName' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1152098Z 
+2026-09-08T12:39:40.1152796Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-tx_nd_veterans_reemployment-set.mjs
+2026-09-08T12:39:40.1154617Z ##[warning]   341:7   warning  'DOTS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1156948Z ##[warning]  1534:75  warning  'fixtureName' is defined but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1158076Z 
+2026-09-08T12:39:40.1158710Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-ut_pet_acquittal-set.mjs
+2026-09-08T12:39:40.1160342Z ##[warning]  2397:24  warning  'item' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1161909Z 
+2026-09-08T12:39:40.1163069Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-va_exp_absolute_pardon-set.mjs
+2026-09-08T12:39:40.1164587Z ##[warning]  599:11  warning  'memoTrack' is assigned a value but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1166863Z ##[warning]  599:22  warning  'manifestSet' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1168282Z 
+2026-09-08T12:39:40.1169424Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-vt_exp_decriminalized-set.mjs
+2026-09-08T12:39:40.1170796Z ##[warning]  414:34  warning  'config' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1172466Z 
+2026-09-08T12:39:40.1173598Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-vt_seal_misdemeanor-set.mjs
+2026-09-08T12:39:40.1175451Z ##[warning]  48:10  warning  'classifyField' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1177614Z ##[warning]  91:7   warning  'FIXED_DATE' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1179238Z 
+2026-09-08T12:39:40.1180419Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-vt_seal_nonconviction-set.mjs
+2026-09-08T12:39:40.1182252Z ##[warning]  903:38  warning  'resolved' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1183756Z 
+2026-09-08T12:39:40.1185010Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-wa_blake_vacatur_and_lfo_refund-set.mjs
+2026-09-08T12:39:40.1186622Z ##[warning]  2133:9  warning  'service' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1188156Z 
+2026-09-08T12:39:40.1189230Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-wa_vac_felony-set.mjs
+2026-09-08T12:39:40.1191086Z ##[warning]  287:37  warning  'bytes' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1192690Z ##[warning]  373:29  warning  'bytes' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1193877Z 
+2026-09-08T12:39:40.1195107Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-wi_nc_doj_fingerprint_removal-set.mjs
+2026-09-08T12:39:40.1197053Z ##[warning]  821:45  warning  'census' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1198101Z 
+2026-09-08T12:39:40.1199030Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs
+2026-09-08T12:39:40.1201529Z ##[warning]  610:10  warning  'mapCourtOwned' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1203036Z 
+2026-09-08T12:39:40.1203683Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-corrections-a-closure.mjs
+2026-09-08T12:39:40.1205613Z ##[warning]  229:7  warning  'removeFromRatifiedDeployable' is assigned a value but never used     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1208540Z ##[warning]  237:7  warning  'addToCorrectedAwaitingReconfirm' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1210307Z ##[warning]  241:7  warning  'addToHeldGuidance' is assigned a value but never used                @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1211383Z 
+2026-09-08T12:39:40.1212004Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-rcap-nc-four-evidence-pack.mjs
+2026-09-08T12:39:40.1213075Z ##[warning]  172:29  warning  'bytes' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1213892Z 
+2026-09-08T12:39:40.1214503Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-rcap-pdf-final-evidence-pack.mjs
+2026-09-08T12:39:40.1215618Z ##[warning]  172:29  warning  'bytes' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1216404Z 
+2026-09-08T12:39:40.1217019Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-rcap-pdf-finish-residual-packs.mjs
+2026-09-08T12:39:40.1218082Z ##[warning]  172:29  warning  'bytes' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1218850Z 
+2026-09-08T12:39:40.1219464Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/build-rcap-pdf-finish-source-packs.mjs
+2026-09-08T12:39:40.1220566Z ##[warning]  172:29  warning  'bytes' is defined but never used             @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1222139Z ##[warning]  202:7   warning  'covered' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1223485Z ##[warning]  203:13  warning  'b' is defined but never used                 @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1224270Z 
+2026-09-08T12:39:40.1225109Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/capture-onboarding-launch-readiness-acceptance.mjs
+2026-09-08T12:39:40.1226435Z ##[warning]  933:16  warning  'assertNoPublicationControl' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1227958Z ##[warning]  947:16  warning  'plannedUserState' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1229420Z ##[warning]  992:10  warning  'partnerCard' is defined but never used                 @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1230255Z 
+2026-09-08T12:39:40.1230921Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/capture-rcap-prepared-onboarding-acceptance.mjs
+2026-09-08T12:39:40.1232532Z ##[warning]   60:7   warning  'OTHER_EMAIL' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1234829Z ##[warning]  503:17  warning  '_id' is assigned a value but never used          @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1235749Z 
+2026-09-08T12:39:40.1236455Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/external-worker-control/adjudicate-sidecar-passes.mjs
+2026-09-08T12:39:40.1237791Z ##[warning]  33:7  warning  'sha256' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1238633Z 
+2026-09-08T12:39:40.1239345Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/external-worker-control/generate-external-assignments.mjs
+2026-09-08T12:39:40.1240543Z ##[warning]  20:8  warning  'crypto' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1242358Z ##[warning]  58:7  warning  'livePromo' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1243184Z 
+2026-09-08T12:39:40.1243887Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/external-worker-control/verify-external-assignments.mjs
+2026-09-08T12:39:40.1245042Z ##[warning]  10:10  warning  'execFileSync' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1245841Z 
+2026-09-08T12:39:40.1246464Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-all51-current-legal-questions.mjs
+2026-09-08T12:39:40.1247664Z ##[warning]   31:7  warning  'reconciliation' is assigned a value but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1249208Z ##[warning]   44:7  warning  'nationalOutOfScope' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1250727Z ##[warning]  168:7  warning  'IMMEDIATE_TRACKS' is assigned a value but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1251880Z 
+2026-09-08T12:39:40.1252570Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-all51-legal-authority-finalization.mjs
+2026-09-08T12:39:40.1253757Z ##[warning]  273:37  warning  'candidates' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1254584Z 
+2026-09-08T12:39:40.1255252Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-all51-legal-authority-reconciliation.mjs
+2026-09-08T12:39:40.1256400Z ##[warning]  212:61  warning  'join' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1257203Z 
+2026-09-08T12:39:40.1258100Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-commercial-packet-integrity.mjs
+2026-09-08T12:39:40.1260288Z ##[warning]  34:31  warning  'isPacketPlanFulfillmentReady' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1261606Z 
+2026-09-08T12:39:40.1262814Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-e3-job-graph.mjs
+2026-09-08T12:39:40.1263999Z ##[warning]  29:8  warning  'crypto' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1264863Z 
+2026-09-08T12:39:40.1265503Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-flat-overlay-profiles.mjs
+2026-09-08T12:39:40.1266675Z ##[warning]  225:15  warning  'refusals' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1267506Z 
+2026-09-08T12:39:40.1268141Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-gate-b-correction-wave-2.mjs
+2026-09-08T12:39:40.1269270Z ##[warning]  48:7  warning  'shardD' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1270620Z ##[warning]  53:7  warning  'shardA' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1271892Z 
+2026-09-08T12:39:40.1272829Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-gate-b-session-dispatch.mjs
+2026-09-08T12:39:40.1274136Z ##[warning]  35:7  warning  'readJsonOrNull' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1275062Z 
+2026-09-08T12:39:40.1275700Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-nc-four-terminal-sidecars.mjs
+2026-09-08T12:39:40.1276801Z ##[warning]  281:31  warning  'sidecars' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1277602Z 
+2026-09-08T12:39:40.1278280Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-oregon-disposition-configurations.mjs
+2026-09-08T12:39:40.1279870Z ##[warning]  63:7  warning  'launchGraph' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1280829Z 
+2026-09-08T12:39:40.1282007Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-oregon-disposition-output-legal-review.mjs
+2026-09-08T12:39:40.1284172Z ##[warning]  49:7   warning  'sha256' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1285870Z ##[warning]  71:38  warning  'row' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1286687Z 
+2026-09-08T12:39:40.1287340Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-oregon-packet-specification.mjs
+2026-09-08T12:39:40.1288510Z ##[warning]  75:7  warning  'sha256File' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1289341Z 
+2026-09-08T12:39:40.1290066Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-pdf-correction-queue.mjs
+2026-09-08T12:39:40.1291816Z ##[warning]  137:7  warning  'corpusIndex' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1293765Z ##[warning]  204:9  warning  'ownerships' is assigned a value but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1295205Z 
+2026-09-08T12:39:40.1295843Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-pdf-final-sidecars.mjs
+2026-09-08T12:39:40.1296987Z ##[warning]  381:38  warning  'sidecars' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1297899Z 
+2026-09-08T12:39:40.1299064Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-pdf-inventory-closure.mjs
+2026-09-08T12:39:40.1300344Z ##[warning]   37:7   warning  'BATCH_CROSS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1302442Z ##[warning]  631:29  warning  'master' is defined but never used                @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1304079Z ##[warning]  878:10  warning  'headSha' is defined but never used               @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1305210Z 
+2026-09-08T12:39:40.1305918Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-review-manifests.mjs
+2026-09-08T12:39:40.1307183Z ##[warning]  58:11  warning  'evidence' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1308234Z 
+2026-09-08T12:39:40.1308886Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-sellable-pathway-closure.mjs
+2026-09-08T12:39:40.1310295Z ##[warning]  109:7  warning  'evaluatorSource' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1311471Z 
+2026-09-08T12:39:40.1312342Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-session-a-evidence-packet.mjs
+2026-09-08T12:39:40.1313712Z ##[warning]  66:7  warning  'git' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1314577Z 
+2026-09-08T12:39:40.1315203Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-source-packs.mjs
+2026-09-08T12:39:40.1316326Z ##[warning]  42:7  warning  'REVIEWS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1317145Z 
+2026-09-08T12:39:40.1317742Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-source-resolution.mjs
+2026-09-08T12:39:40.1318708Z   182:3  warning  Unused eslint-disable directive (no problems were reported from 'no-undef')
+2026-09-08T12:39:40.1319259Z 
+2026-09-08T12:39:40.1319913Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/generate-rcap-witness-divergence-diagnosis.mjs
+2026-09-08T12:39:40.1321064Z ##[warning]  55:7  warning  'git' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1322222Z 
+2026-09-08T12:39:40.1322952Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-active-codex-assignments.mjs
+2026-09-08T12:39:40.1324358Z ##[warning]   40:10  warning  'execFileSync' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1325811Z ##[warning]   65:7   warning  'PREFLIGHT_SHORT' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1327264Z ##[warning]  417:11  warning  'decisions' is assigned a value but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1328090Z 
+2026-09-08T12:39:40.1328795Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-c11-stop-classification.mjs
+2026-09-08T12:39:40.1329976Z ##[warning]  17:10  warning  'execFileSync' is defined but never used     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1331678Z ##[warning]  26:7   warning  'readIf' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1332547Z 
+2026-09-08T12:39:40.1333281Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-codex-cloud-continuations.mjs
+2026-09-08T12:39:40.1334561Z ##[warning]  61:7  warning  'CAPTAIN_BRANCH' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1335405Z 
+2026-09-08T12:39:40.1336118Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-completeness-repair-wave.mjs
+2026-09-08T12:39:40.1337356Z ##[warning]  27:10  warning  'execFileSync' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1338788Z ##[warning]  52:7   warning  'PREFLIGHT_SHORT' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1339795Z 
+2026-09-08T12:39:40.1340554Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-counsel-determination-delta.mjs
+2026-09-08T12:39:40.1342065Z ##[warning]  39:7  warning  'sourceQueue' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1342946Z 
+2026-09-08T12:39:40.1343681Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-mass-packet-production-150.mjs
+2026-09-08T12:39:40.1344825Z ##[warning]  797:61  warning  'k' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1345598Z 
+2026-09-08T12:39:40.1346328Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-r8-split-and-continuations.mjs
+2026-09-08T12:39:40.1347584Z ##[warning]  46:7  warning  'PREFLIGHT_SHORT' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1348445Z 
+2026-09-08T12:39:40.1349181Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-s2-shared-host-dispatch.mjs
+2026-09-08T12:39:40.1350370Z ##[warning]  22:10  warning  'execFileSync' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1351424Z 
+2026-09-08T12:39:40.1352117Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-wave-2-dispatch.mjs
+2026-09-08T12:39:40.1353308Z ##[warning]  26:10  warning  'execFileSync' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1354904Z ##[warning]  45:7   warning  'c11Stops' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1356256Z ##[warning]  46:7   warning  'counsel' is assigned a value but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1357056Z 
+2026-09-08T12:39:40.1357800Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-wave-2-integration-checkpoint.mjs
+2026-09-08T12:39:40.1358980Z ##[warning]  33:7  warning  'r6' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1359767Z 
+2026-09-08T12:39:40.1360430Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-wave-2-residual.mjs
+2026-09-08T12:39:40.1361799Z ##[warning]  26:7  warning  'r2' is assigned a value but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1363235Z ##[warning]  27:7  warning  'r2bind' is assigned a value but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1364589Z ##[warning]  31:7  warning  'r6' is assigned a value but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1365949Z ##[warning]  37:7  warning  'appliedKeys' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1366769Z 
+2026-09-08T12:39:40.1367499Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-launch-control/generate-worker-execution-contract.mjs
+2026-09-08T12:39:40.1368688Z ##[warning]  19:10  warning  'execFileSync' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1369495Z 
+2026-09-08T12:39:40.1370165Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs
+2026-09-08T12:39:40.1371737Z ##[warning]   44:7   warning  'OVERLAYS' is assigned a value but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1373230Z ##[warning]  157:7   warning  'fixtureCoverage' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1374799Z ##[warning]  417:5   warning  'carried' is assigned a value but never used          @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1376298Z ##[warning]  417:18  warning  'invalidated' is assigned a value but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1377137Z 
+2026-09-08T12:39:40.1377824Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs
+2026-09-08T12:39:40.1379016Z ##[warning]   42:7   warning  'PROMPTS' is assigned a value but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1380427Z ##[warning]  169:7   warning  'acquireText' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1382080Z ##[warning]  608:13  warning  'sourceId' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1383486Z ##[warning]  608:23  warning  'jurisdiction' is defined but never used          @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1385399Z ##[warning]  608:37  warning  'formNumber' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1387156Z ##[warning]  608:49  warning  'officialTitle' is defined but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1388945Z ##[warning]  608:64  warning  'issuingAuthority' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1390760Z ##[warning]  608:82  warning  'officialUrl' is defined but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1392901Z ##[warning]  609:13  warning  'urlKind' is defined but never used               @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1394895Z ##[warning]  609:22  warning  'expectedSha256' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1396637Z ##[warning]  609:38  warning  'host' is defined but never used                  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1398399Z ##[warning]  609:44  warning  'commitBody' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1400148Z ##[warning]  609:56  warning  'obligationKeys' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1432141Z ##[warning]  609:72  warning  'recordedIn' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1433053Z 
+2026-09-08T12:39:40.1433800Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/generate-visual-review-bundle.mjs
+2026-09-08T12:39:40.1434999Z ##[warning]  311:63  warning  'declared' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1436320Z ##[warning]  311:89  warning  'art' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1437110Z 
+2026-09-08T12:39:40.1437726Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/generate.mjs
+2026-09-08T12:39:40.1439020Z ##[warning]   165:7   warning  'PF_PREFERRED_MAX' is assigned a value but never used             @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1440607Z ##[warning]   374:7   warning  'CUSTODY_CLASSES_NEVER_READY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1442565Z ##[warning]  2540:7   warning  'familyByScript' is assigned a value but never used               @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1444166Z ##[warning]  3264:7   warning  'verifiablePool' is assigned a value but never used               @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1445699Z ##[warning]  3391:7   warning  'leverageOf' is assigned a value but never used                   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1447218Z ##[warning]  3538:7   warning  'fixSeed' is assigned a value but never used                      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1448979Z ##[warning]  4135:91  warning  'carriedReleases' is assigned a value but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1449920Z 
+2026-09-08T12:39:40.1450658Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/reconcile-proven-family-bytes.mjs
+2026-09-08T12:39:40.1452070Z ##[warning]  31:76  warning  'ACCEPTANCE' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1452895Z 
+2026-09-08T12:39:40.1453627Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/scan-synthesized-widget-borders.mjs
+2026-09-08T12:39:40.1454864Z ##[warning]  75:61  warning  'PDFRawStream' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1456274Z ##[warning]  75:75  warning  'PDFRef' is assigned a value but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1457085Z 
+2026-09-08T12:39:40.1457822Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/test-synthesized-widget-borders.mjs
+2026-09-08T12:39:40.1459243Z ##[warning]  113:23  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1460175Z 
+2026-09-08T12:39:40.1460857Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/verify-source-conveyor.mjs
+2026-09-08T12:39:40.1462247Z ##[warning]   96:9   warning  'exactAllowed' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1463706Z ##[warning]  543:13  warning  'isShared' is assigned a value but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1464710Z 
+2026-09-08T12:39:40.1465464Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/verify-source-relationship-model.mjs
+2026-09-08T12:39:40.1466722Z ##[warning]  28:7  warning  'GENERATOR' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1467560Z 
+2026-09-08T12:39:40.1468164Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-packet-factory-24h/verify.mjs
+2026-09-08T12:39:40.1469256Z ##[warning]  247:9  warning  'fix' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1470057Z 
+2026-09-08T12:39:40.1470913Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-route-obligation-census/export-category-b-medium-confidence-revalidation.mjs
+2026-09-08T12:39:40.1472570Z ##[warning]  74:7  warning  'read' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1473414Z 
+2026-09-08T12:39:40.1474238Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs
+2026-09-08T12:39:40.1475664Z ##[warning]   466:10   warning  'recursivelyCollectDecisionIds' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1477170Z ##[warning]  1722:108  warning  'artifacts' is defined but never used                      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1478644Z ##[warning]  1895:9    warning  'componentLines' is assigned a value but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1480100Z ##[warning]  1901:9    warning  'actionBy' is assigned a value but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1481702Z ##[warning]  2176:50   warning  'indexes' is defined but never used                        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1483183Z ##[warning]  2538:11   warning  'artifacts' is assigned a value but never used             @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1484024Z 
+2026-09-08T12:39:40.1484980Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-route-obligation-census/resolve-census-source-identity-batch-1.mjs
+2026-09-08T12:39:40.1486344Z ##[warning]  1602:7  warning  'RESOLVED_STATUSES' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1487228Z 
+2026-09-08T12:39:40.1487948Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/grade-a-terminal-treatments/generate-terminal-treatments.mjs
+2026-09-08T12:39:40.1489277Z ##[warning]  184:7  warning  'ratByRouteKey' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1490137Z 
+2026-09-08T12:39:40.1490746Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/implement-rcap-official-forms-d1.mjs
+2026-09-08T12:39:40.1492209Z ##[warning]   39:107  warning  'rgb' is assigned a value but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1493620Z ##[warning]   97:7    warning  'stamp' is assigned a value but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1495000Z ##[warning]  338:10   warning  'bindingFor' is defined but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1496380Z ##[warning]  442:10   warning  'resolveFact' is defined but never used          @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1497762Z ##[warning]  751:9    warning  'boundNames' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1498602Z 
+2026-09-08T12:39:40.1499196Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/lib/indiana-cca-section1-guide.mjs
+2026-09-08T12:39:40.1500565Z ##[warning]  231:9  warning  'address' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1501628Z 
+2026-09-08T12:39:40.1502266Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/provision-rcap-production-canary.mjs
+2026-09-08T12:39:40.1503478Z ##[warning]  124:7  warning  'targetsProduction' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1504351Z 
+2026-09-08T12:39:40.1504943Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-hard-form-xfa-shadow-fill.mjs
+2026-09-08T12:39:40.1506008Z ##[warning]  31:51  warning  'rgb' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1507329Z ##[warning]  31:56  warning  'StandardFonts' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1508136Z 
+2026-09-08T12:39:40.1508751Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-hosted-acceptance-preflight.mjs
+2026-09-08T12:39:40.1509902Z ##[warning]  364:3  warning  'vercelProject' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1510737Z 
+2026-09-08T12:39:40.1511544Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-hosted-resolve-preview.mjs
+2026-09-08T12:39:40.1512905Z ##[warning]  231:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1514602Z ##[warning]  233:3  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1516718Z ##[warning]  237:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1518489Z ##[warning]  239:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1520150Z ##[warning]  242:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1522219Z ##[warning]  247:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1524001Z ##[warning]  251:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1525669Z ##[warning]  254:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1527338Z ##[warning]  258:3  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1528980Z ##[warning]  267:3  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1530622Z ##[warning]  277:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1532608Z ##[warning]  285:1  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1534249Z ##[warning]  293:3  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1535917Z ##[warning]  305:3  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1537557Z ##[warning]  311:3  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1538462Z 
+2026-09-08T12:39:40.1539315Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-official-forms/rcap-official-form-finalize.mjs
+2026-09-08T12:39:40.1540581Z ##[warning]  265:3  warning  'title' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1542148Z ##[warning]  621:3  warning  'title' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1542955Z 
+2026-09-08T12:39:40.1543610Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs
+2026-09-08T12:39:40.1544731Z ##[warning]  296:10  warning  'advanceOf' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1545528Z 
+2026-09-08T12:39:40.1546237Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-official-forms/scan-appearance-bbox-rect-mismatch.mjs
+2026-09-08T12:39:40.1547366Z ##[warning]  35:8  warning  'assert' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1548140Z 
+2026-09-08T12:39:40.1548876Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-completeness/generate-completeness-repair-plan.mjs
+2026-09-08T12:39:40.1550180Z ##[warning]  17:10  warning  'execFileSync' is defined but never used        @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1551785Z ##[warning]  19:10  warning  'BLANK_DISPOSITIONS' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1552634Z 
+2026-09-08T12:39:40.1553327Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-completeness/verify-packet-completeness.mjs
+2026-09-08T12:39:40.1554535Z ##[warning]   15:10  warning  'isKyNativeCandidate' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1555921Z ##[warning]   20:10  warning  'execFileSync' is defined but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1557285Z ##[warning]   22:61  warning  'REFUSAL_CLASSES' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1558654Z ##[warning]  276:9   warning  'fieldMap' is assigned a value but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1559610Z 
+2026-09-08T12:39:40.1560361Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-completeness/verify-route-artifact-completeness.mjs
+2026-09-08T12:39:40.1561774Z ##[warning]  207:9  warning  'rendered' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1562622Z 
+2026-09-08T12:39:40.1563318Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat1/review-session08-delivery.cjs
+2026-09-08T12:39:40.1566331Z ##[error]   2:12  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1568230Z ##[error]   3:14  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1569965Z ##[error]   4:12  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1571862Z ##[error]   5:16  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1573584Z ##[error]   6:16  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1575242Z ##[error]   7:12  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1577355Z ##[error]  37:3   error  Do not assign to the variable `module`. See: https://nextjs.org/docs/messages/no-assign-module-variable  @next/next/no-assign-module-variable
+2026-09-08T12:39:40.1579203Z ##[error]  46:12  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1580153Z 
+2026-09-08T12:39:40.1580897Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat1/review-session08-nc-source-refresh.mjs
+2026-09-08T12:39:40.1582330Z ##[warning]  53:28  warning  'tracks' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1583210Z 
+2026-09-08T12:39:40.1583921Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat1/test-il-education-components.mjs
+2026-09-08T12:39:40.1585135Z ##[warning]  8:39  warning  'IL_FEE_CONDITION' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1586021Z 
+2026-09-08T12:39:40.1586712Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat1/test-ky-native-candidate.mjs
+2026-09-08T12:39:40.1587845Z ##[warning]   5:8   warning  'os' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1589225Z ##[warning]   7:9   warning  'execFileSync' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1590596Z ##[warning]  45:90  warning  'i' is defined but never used             @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1591633Z 
+2026-09-08T12:39:40.1592401Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat1/test-required-delivery-verification.cjs
+2026-09-08T12:39:40.1593890Z ##[error]   4:10  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1595622Z ##[error]   5:12  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1597471Z ##[error]   6:10  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1599248Z ##[error]   7:14  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1600995Z ##[error]   8:14  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1602929Z ##[error]   9:10  error  A `require()` style import is forbidden                                                                  @typescript-eslint/no-require-imports
+2026-09-08T12:39:40.1604856Z ##[error]  91:3   error  Do not assign to the variable `module`. See: https://nextjs.org/docs/messages/no-assign-module-variable  @next/next/no-assign-module-variable
+2026-09-08T12:39:40.1605937Z 
+2026-09-08T12:39:40.1606600Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat5/ky-nonconviction.mjs
+2026-09-08T12:39:40.1607860Z ##[warning]  54:13  warning  'i' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1608743Z 
+2026-09-08T12:39:40.1609393Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat5/md-conviction.mjs
+2026-09-08T12:39:40.1610749Z ##[warning]  170:44  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1611992Z 
+2026-09-08T12:39:40.1612684Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat5/test-ky-nonconviction.mjs
+2026-09-08T12:39:40.1613991Z ##[warning]  8:68  warning  'sha256' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1614908Z 
+2026-09-08T12:39:40.1615561Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat5/test-md-cannabis.mjs
+2026-09-08T12:39:40.1616657Z ##[warning]  9:28  warning  'ROUTE' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1617515Z 
+2026-09-08T12:39:40.1618168Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat5/test-md-conviction.mjs
+2026-09-08T12:39:40.1619271Z ##[warning]  9:25  warning  'ROUTE' is defined but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1620637Z ##[warning]  9:64  warning  'withWaiver' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1621719Z 
+2026-09-08T12:39:40.1622380Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat5/test-md-favorable.mjs
+2026-09-08T12:39:40.1623520Z ##[warning]  7:23  warning  'StandardFonts' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1624914Z ##[warning]  8:23  warning  'OUT' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1625769Z 
+2026-09-08T12:39:40.1626505Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat7/mistaken-identity-correction.test.mjs
+2026-09-08T12:39:40.1627783Z ##[warning]   6:9  warning  'FAMILY' is defined but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1629211Z ##[warning]  12:7  warning  'digest' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1630117Z 
+2026-09-08T12:39:40.1630840Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat7/mistaken-identity-reports.test.mjs
+2026-09-08T12:39:40.1632240Z ##[warning]  8:38  warning  'mapPath' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1633159Z 
+2026-09-08T12:39:40.1633995Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/chat7/mistaken-identity.test.mjs
+2026-09-08T12:39:40.1635152Z ##[warning]  8:9  warning  'FAMILY' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1636029Z 
+2026-09-08T12:39:40.1636679Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-packet-recovery/test-nv-special-routes.mjs
+2026-09-08T12:39:40.1637814Z ##[warning]  102:19  warning  'rule' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1638705Z 
+2026-09-08T12:39:40.1639501Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-route-productization/generate-proven-family-productization-census.mjs
+2026-09-08T12:39:40.1640827Z ##[warning]  911:59  warning  'name' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1641917Z 
+2026-09-08T12:39:40.1642460Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/rcap-source-monitor.mjs
+2026-09-08T12:39:40.1643745Z ##[warning]  333:26  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+2026-09-08T12:39:40.1644756Z 
+2026-09-08T12:39:40.1645357Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/test-lane-e-review-edit-ownership.mjs
+2026-09-08T12:39:40.1646494Z ##[warning]  173:11  warning  'capturedAt' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1647572Z 
+2026-09-08T12:39:40.1648229Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/test-rcap-partner-provisioning-lifecycle.mjs
+2026-09-08T12:39:40.1649393Z ##[warning]  45:7  warning  'domain' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1650275Z 
+2026-09-08T12:39:40.1650863Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-active-lane-envelopes.mjs
+2026-09-08T12:39:40.1652132Z ##[warning]  583:9  warning  'B' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1653050Z 
+2026-09-08T12:39:40.1653619Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-all51-source-engine.mjs
+2026-09-08T12:39:40.1654728Z ##[warning]  191:13  warning  'generatedAt' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1656220Z ##[warning]  191:26  warning  'sourceFiles' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1657131Z 
+2026-09-08T12:39:40.1657756Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-content-command-center-contract.mjs
+2026-09-08T12:39:40.1658851Z ##[warning]  16:8   warning  'path' is defined but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1660254Z ##[warning]  17:10  warning  'fileURLToPath' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1661349Z 
+2026-09-08T12:39:40.1661958Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-content-state-resources.mjs
+2026-09-08T12:39:40.1663244Z ##[warning]  28:3  warning  'listPublishableJurisdictions' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1664226Z 
+2026-09-08T12:39:40.1664823Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-content-workflow-and-media.mjs
+2026-09-08T12:39:40.1665916Z ##[warning]  13:8   warning  'path' is defined but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1667310Z ##[warning]  14:10  warning  'fileURLToPath' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1668327Z 
+2026-09-08T12:39:40.1668990Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-corrections-a-semantic-integration.mjs
+2026-09-08T12:39:40.1670198Z ##[warning]  22:7  warning  'evaluatorSource' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1671315Z 
+2026-09-08T12:39:40.1671958Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-exact-path-authorization-phase50.mjs
+2026-09-08T12:39:40.1673081Z ##[warning]  90:10  warning  'resetToGood' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1673973Z 
+2026-09-08T12:39:40.1674570Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-expungement-corrections-b.mjs
+2026-09-08T12:39:40.1675736Z ##[warning]  107:7  warning  'evaluatorSource' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1676661Z 
+2026-09-08T12:39:40.1677301Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-expungement-plain-language-values.mjs
+2026-09-08T12:39:40.1678531Z ##[warning]   7:3  warning  'APPROVED_DELTAS_PATH' is defined but never used            @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1680127Z ##[warning]  38:7  warning  'hashPinnedQuestionIds' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1681071Z 
+2026-09-08T12:39:40.1681899Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-expungement-track1-dedup-questions.mjs
+2026-09-08T12:39:40.1683253Z ##[warning]  64:10  warning  'questionIds' is defined but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1684779Z ##[warning]  90:19  warning  '_prompt' is assigned a value but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1686267Z ##[warning]  90:40  warning  '_helperText' is assigned a value but never used     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1687748Z ##[warning]  90:68  warning  '_optionDisplay' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1688663Z 
+2026-09-08T12:39:40.1689300Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-national-legal-decision-overlay.mjs
+2026-09-08T12:39:40.1690376Z ##[warning]  16:60  warning  'sha256' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1691441Z 
+2026-09-08T12:39:40.1692062Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-packet-family-build-status.mjs
+2026-09-08T12:39:40.1693159Z ##[warning]  99:23  warning  'why' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1694043Z 
+2026-09-08T12:39:40.1694624Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-public-profile-route.mjs
+2026-09-08T12:39:40.1695680Z ##[warning]  15:8   warning  'path' is defined but never used           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1697071Z ##[warning]  16:10  warning  'fileURLToPath' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1697954Z 
+2026-09-08T12:39:40.1698555Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-appearance-semantics.mjs
+2026-09-08T12:39:40.1699816Z ##[warning]  194:81  warning  'SUPPRESS_CONTROL_APPEARANCE' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1700781Z 
+2026-09-08T12:39:40.1701600Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-approved-release-checks.mjs
+2026-09-08T12:39:40.1702737Z ##[warning]  36:7  warning  'COVERAGE' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1703652Z 
+2026-09-08T12:39:40.1704427Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-candidate-freeze-readiness.mjs
+2026-09-08T12:39:40.1705538Z ##[warning]  33:7   warning  'run' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1706922Z ##[warning]  85:24  warning  'r' is defined but never used             @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1707777Z 
+2026-09-08T12:39:40.1708364Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-deployment-closure.mjs
+2026-09-08T12:39:40.1709409Z ##[warning]  290:10  warning  'hashPath' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1710283Z 
+2026-09-08T12:39:40.1710874Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-e2-evidence-intake.mjs
+2026-09-08T12:39:40.1712232Z ##[warning]  85:10  warning  'resolvesAtRef' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1713141Z 
+2026-09-08T12:39:40.1713759Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-e2-source-support-audit.mjs
+2026-09-08T12:39:40.1714885Z ##[warning]  537:9  warning  'by' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1715760Z 
+2026-09-08T12:39:40.1716414Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-grade-a-fulfillment-hardening.mjs
+2026-09-08T12:39:40.1717679Z ##[warning]  57:7  warning  'SYN_SRC_DIGEST_PLACEHOLDER' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1718799Z 
+2026-09-08T12:39:40.1719410Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-lane-b-exact-deferrals.mjs
+2026-09-08T12:39:40.1720557Z ##[warning]  317:13  warning  'corrupted' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1721643Z 
+2026-09-08T12:39:40.1722283Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-money-gate-delivery-binding.mjs
+2026-09-08T12:39:40.1723402Z ##[warning]  115:11  warning  'item' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1724810Z ##[warning]  197:9   warning  'item' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1725689Z 
+2026-09-08T12:39:40.1726328Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-nc-four-targeted-review-base.mjs
+2026-09-08T12:39:40.1727476Z ##[warning]  26:7  warning  'SIDECAR_DIR' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1728923Z ##[warning]  39:7  warning  'sha256' is assigned a value but never used       @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1729808Z 
+2026-09-08T12:39:40.1730414Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-non-filing-components.mjs
+2026-09-08T12:39:40.1731916Z ##[warning]  29:31  warning  'nonFilingParticipantInstruction' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1732925Z 
+2026-09-08T12:39:40.1733575Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-oregon-decision-alternatives.mjs
+2026-09-08T12:39:40.1734707Z ##[warning]  35:8  warning  'crypto' is defined but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1736088Z ##[warning]  72:7  warning  'spec' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1736965Z 
+2026-09-08T12:39:40.1737639Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-oregon-disposition-configurations.mjs
+2026-09-08T12:39:40.1739035Z ##[warning]  22:8  warning  'crypto' is defined but never used                 @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1740549Z ##[warning]  29:7  warning  'LAUNCH_GRAPH' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1741706Z 
+2026-09-08T12:39:40.1742323Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-oregon-durable-render.mjs
+2026-09-08T12:39:40.1743385Z ##[warning]  37:8  warning  'crypto' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1744245Z 
+2026-09-08T12:39:40.1744918Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-oregon-independent-visual-review.mjs
+2026-09-08T12:39:40.1746091Z ##[warning]  229:62  warning  'pageImageSha256' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1747537Z ##[warning]  229:79  warning  'meanLuma' is defined but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1748943Z ##[warning]  229:89  warning  'inkRange' is defined but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1750373Z ##[warning]  229:99  warning  'renderAttempts' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1751435Z 
+2026-09-08T12:39:40.1752072Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-packet-generation-dry-run.mjs
+2026-09-08T12:39:40.1753376Z ##[warning]   24:9  warning  'getAllJurisdictionProfiles' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1755012Z ##[warning]  159:7  warning  'BANNED_FEE' is assigned a value but never used                  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1756095Z 
+2026-09-08T12:39:40.1756694Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-packet-render-jobs.mjs
+2026-09-08T12:39:40.1757728Z ##[warning]  20:8  warning  'os' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1758568Z 
+2026-09-08T12:39:40.1759129Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-partner-mode.mjs
+2026-09-08T12:39:40.1761333Z ##[warning]  219:79  warning  'pendingClaimRoute' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1762889Z 
+2026-09-08T12:39:40.1763897Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-partner-provisioning.mjs
+2026-09-08T12:39:40.1766024Z ##[warning]  34:7  warning  'DOMAIN' is assigned a value but never used              @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1769052Z ##[warning]  36:7  warning  'FIRST_ADMIN_DOMAIN' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1770783Z 
+2026-09-08T12:39:40.1772208Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-pdf-final-visual-evidence.mjs
+2026-09-08T12:39:40.1774449Z ##[warning]   40:27  warning  'pagesRequiringRaster' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1777261Z ##[warning]   59:7   warning  'INK_MAX_GREY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1780047Z ##[warning]   93:10  warning  'evidenceInputHashes' is defined but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1781965Z ##[warning]  231:10  warning  'overlayPlacements' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1783523Z ##[warning]  231:46  warning  'writtenFields' is defined but never used          @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1785035Z ##[warning]  453:10  warning  'officialSourcePdf' is defined but never used      @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1786720Z ##[warning]  604:10  warning  'writableRunFor' is defined but never used         @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1788296Z ##[warning]  658:10  warning  'captionLinePlacement' is defined but never used   @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1789782Z ##[warning]  877:46  warning  'tmpRoot' is defined but never used                @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1790685Z 
+2026-09-08T12:39:40.1791533Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-problematic-pdf-remediation.mjs
+2026-09-08T12:39:40.1792697Z ##[warning]  25:10  warning  'execFileSync' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1793620Z 
+2026-09-08T12:39:40.1794248Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-production-schema-upgrade.mjs
+2026-09-08T12:39:40.1795465Z ##[warning]  60:7  warning  'HARDENED_RLS_TABLES' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1796402Z 
+2026-09-08T12:39:40.1797015Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-reachability-evidence.mjs
+2026-09-08T12:39:40.1798092Z ##[warning]  38:7  warning  'git' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1798963Z 
+2026-09-08T12:39:40.1799605Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-runtime-credential-boundary.mjs
+2026-09-08T12:39:40.1800694Z ##[warning]  30:8  warning  'assert' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1801715Z 
+2026-09-08T12:39:40.1802507Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-sellable-pathway-closure.mjs
+2026-09-08T12:39:40.1803680Z ##[warning]  101:9  warning  'frozenKeys' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1804607Z 
+2026-09-08T12:39:40.1805245Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-session-a-evidence-packet.mjs
+2026-09-08T12:39:40.1806337Z ##[warning]  30:7  warning  'git' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1807208Z 
+2026-09-08T12:39:40.1807782Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-terminalize-c1.mjs
+2026-09-08T12:39:40.1808908Z ##[warning]  34:9   warning  'PDFDocument' is assigned a value but never used    @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1810434Z ##[warning]  34:22  warning  'StandardFonts' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1811635Z 
+2026-09-08T12:39:40.1812229Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/scripts/verify-rcap-terminalize-c2.mjs
+2026-09-08T12:39:40.1813326Z ##[warning]  885:69  warning  'warnings' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1814212Z 
+2026-09-08T12:39:40.1814894Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/components/clinic-mode/ClinicAdminConsole.tsx
+2026-09-08T12:39:40.1817964Z ##[warning]  150:1343  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+2026-09-08T12:39:40.1819651Z 
+2026-09-08T12:39:40.1820294Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/components/expungement-ai/ConsumerSignInForm.tsx
+2026-09-08T12:39:40.1825476Z ##[warning]   9:3  warning  'CLAIM_TOKEN_PARAM' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1832452Z ##[warning]  10:3  warning  'isWellFormedClaimTokenValue' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1835698Z   42:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+2026-09-08T12:39:40.1836091Z 
+2026-09-08T12:39:40.1837086Z Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+2026-09-08T12:39:40.1838161Z * Update external systems with the latest state from React.
+2026-09-08T12:39:40.1838898Z * Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+2026-09-08T12:39:40.1839351Z 
+2026-09-08T12:39:40.1840146Z Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+2026-09-08T12:39:40.1840837Z 
+2026-09-08T12:39:40.1841678Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/components/expungement-ai/ConsumerSignInForm.tsx:42:7
+2026-09-08T12:39:40.1842400Z   40 |   useEffect(() => {
+2026-09-08T12:39:40.1842894Z   41 |     if (new URLSearchParams(window.location.search).get("claimRetry") === "1" && claimToken) {
+2026-09-08T12:39:40.1843448Z > 42 |       setPendingClaimFailed(true);
+2026-09-08T12:39:40.1843868Z      |       ^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+2026-09-08T12:39:40.1844429Z   43 |       setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
+2026-09-08T12:39:40.1844870Z   44 |     }
+2026-09-08T12:39:40.1845340Z   45 |   }, [claimToken, translate]);  react-hooks/set-state-in-effect
+2026-09-08T12:39:40.1845632Z 
+2026-09-08T12:39:40.1846145Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/lib/content/repository.ts
+2026-09-08T12:39:40.1847322Z ##[warning]  92:10  warning  'first' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1848232Z 
+2026-09-08T12:39:40.1848820Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/lib/expungement-ai/packet-generation.ts
+2026-09-08T12:39:40.1849962Z ##[warning]  1238:10  warning  'slug' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1850833Z 
+2026-09-08T12:39:40.1851618Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/lib/rcap/documents/packet-route-resolver.ts
+2026-09-08T12:39:40.1853075Z ##[warning]  208:7  warning  'LEGACY_RETIRED_JURISDICTIONS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1854101Z 
+2026-09-08T12:39:40.1854808Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/lib/rcap/state-packs/colorado/official-forms/label-evidence.ts
+2026-09-08T12:39:40.1856014Z   15:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/consistent-type-imports')
+2026-09-08T12:39:40.1856503Z 
+2026-09-08T12:39:40.1857159Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/lib/rcap/state-packs/colorado/official-forms/pipeline.ts
+2026-09-08T12:39:40.1858592Z ##[warning]  19:3  warning  'DANGLING_RENDERER_FAMILIES' is defined but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1860349Z ##[warning]  21:3  warning  'SPECIFIED_FAMILIES' is defined but never used          @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1861541Z 
+2026-09-08T12:39:40.1862225Z /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean/src/lib/reports/partner-final-impact-report-data.ts
+2026-09-08T12:39:40.1863970Z ##[warning]  245:9  warning  'reportDate' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-09-08T12:39:40.1864985Z 
+2026-09-08T12:39:40.1865446Z ✖ 432 problems (16 errors, 416 warnings)
+2026-09-08T12:39:40.1865910Z   0 errors and 2 warnings potentially fixable with the `--fix` option.
+2026-09-08T12:39:40.1866203Z 
+2026-09-08T12:39:40.5273637Z ##[error]Process completed with exit code 1.
+2026-09-08T12:39:40.5481870Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-08T12:39:40.5483173Z Post job cleanup.
+2026-09-08T12:39:40.6434581Z [command]/usr/bin/git version
+2026-09-08T12:39:40.6482912Z git version 2.55.0
+2026-09-08T12:39:40.6529091Z Temporarily overriding HOME='/home/runner/work/_temp/a9c582cd-4a13-4b9e-9429-639a12ceb30c' before making global git config changes
+2026-09-08T12:39:40.6530942Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-08T12:39:40.6536300Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/legalease-partner-dashboard-clean/legalease-partner-dashboard-clean
+2026-09-08T12:39:40.6583089Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-08T12:39:40.6623231Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-08T12:39:40.6940001Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-08T12:39:40.6968155Z http.https://github.com/.extraheader
+2026-09-08T12:39:40.6984259Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-08T12:39:40.7026107Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-08T12:39:40.7365979Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-08T12:39:40.7424954Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-08T12:39:40.7938085Z Cleaning up orphan processes
+2026-09-08T12:39:40.8254828Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

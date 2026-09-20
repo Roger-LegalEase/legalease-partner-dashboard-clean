@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-independent-current-byte-findings/v1",
+  "familyId": "az_set_aside-set",
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "packetCommit": "6b3dcb26fde432d3efdfec78306cda296cfb2590",
+  "rasterRun": "34663873573",
+  "findings": [
+    {
+      "id": "AZ-CURRENT-SENTENCE-IMPOSED",
+      "obligation": "REQUIRED_BEFORE_FILING",
+      "requiredFact": "Sentence imposed",
+      "basis": "Rule29.2(a)",
+      "currentTreatment": "No sentence-description input, required-before-filing status or completion instruction. Only compliance yes/no is modeled.",
+      "repairBoundary": "Collect the actual sentence or require the participant to supply it in the application additional-information area or identified attachment; never invent it."
+    },
+    {
+      "id": "AZ-CURRENT-OFFENSE-CLASS",
+      "obligation": "REQUIRED_BEFORE_FILING",
+      "requiredFact": "Offense class",
+      "basis": "AZ.memo.json az_set_aside participantInputs offenceAndClass (required)",
+      "currentTreatment": "Counts include offense name/statute only; no class input or explicit participant handback.",
+      "repairBoundary": "Collect or explicitly require the participant to provide the actual class for each conviction, without inferring it from offense name."
+    },
+    {
+      "id": "AZ-CURRENT-COMPLETION-DATE",
+      "obligation": "REQUIRED_BEFORE_FILING",
+      "requiredFact": "Date conditions were fulfilled and discharge status/date",
+      "basis": "AZ.memo.json az_set_aside participantInputs conditionsFulfilled (required), separate certificate timing",
+      "currentTreatment": "Judgment date is filled and compliance yes/no exists, but the distinct completion/discharge timing fact is not required or disclosed.",
+      "repairBoundary": "Collect the actual completion/discharge fact; judgment date is not its substitute."
+    },
+    {
+      "id": "AZ-CURRENT-REQUESTED-CERTIFICATE-RELIEF",
+      "obligation": "ROUTE_OPTIONS",
+      "requiredFact": "Whether the participant requests a certificate of second chance",
+      "basis": "AZ.memo.json az_set_aside participantInputs certificateRequested (required); Rule29.2(a) requested relief",
+      "currentTreatment": "The guide covers prior certificates and protects proposed-order certificate findings, but omits the participant request question and where to state it.",
+      "repairBoundary": "Ask the participant about the requested relief and record it in participant-authored application information. Do not turn the question into a judge-owned grant/deny, statutory eligibility, timing or one-certificate determination; court retains those decisions."
+    }
+  ],
+  "pdfVisualDefects": 0,
+  "sourceAcquisitionBlocker": false,
+  "currentArtifacts": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "61d79cf9576fa0245a2b854c63ad7fc69cdfba3d14863e3e60d2985ea1ad16f4",
+      "byteLength": 243378,
+      "fixture": "canonical",
+      "pages": 7
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/az/az-set-aside-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "79e3774130de798df8161eabbc9555a7d9a5c6bc4bbdeb3cb8b775783a71e114",
+      "byteLength": 244691,
+      "fixture": "boundary",
+      "pages": 8
+    }
+  ],
+  "snapshotBindings": [
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/az-set-aside-legal-design-track.json",
+      "sha256": "7286202e2865bcf25d1bb23739434166502971790def43a74fb3877304a8f6c4",
+      "byteLength": 12808
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/participant-instructions.md",
+      "sha256": "1722c61bf4d90b1c74960925b4caf2824485c514205c9d697d7256d7e1dcbd0e",
+      "byteLength": 3340
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/production-field-map.json",
+      "sha256": "d472e3e853a0f8cd57cdbf51820c4bae1b18f72905a2d8eb4a3a242d69abe338",
+      "byteLength": 33900
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/reports/actual-writes.json",
+      "sha256": "691bc6c154f4a9400ea391d693526849eb1155397bcd0dfcab5a20d249cf6411",
+      "byteLength": 29082
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/reports/blanks-left-for-the-participant.json",
+      "sha256": "1db2732c13f455e1bf56da0a14303442106c24e05a9db0200b4652ffdc1f0184",
+      "byteLength": 24961
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/initial-input-findings/reports/rendered-artifacts.json",
+      "sha256": "0423d260f9376a7ecd382f4753a12f6e7e631ee405ac5214f8a61bcdafe84fd5",
+      "byteLength": 1884
+    }
+  ],
+  "sourceRuleReading": {
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/az/review/independent-rule29-reading.json",
+    "sha256": "994fc103234a83c70247a3d5ba88e8c7d42e481542ddab9d3bcd449d1911ea32",
+    "byteLength": 1268
+  },
+  "boundaries": "Current PDF source fidelity is measured and passes. This return requires input/guidance repair, not reopening amended-form custody. Original raster remains usable only for unchanged PDF bytes."
+}

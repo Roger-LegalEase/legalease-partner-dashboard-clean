@@ -1,0 +1,145 @@
+BASE_COMMIT 40626a9ee9faf9513778dc50a4e7882f62680f33
+COMMAND node scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs
+VALID exit=0 replacementAttempted=false
+VALID stdout:
+{
+  "familyId": "mn_petition_juvenile_as_adult-set",
+  "wrote": true,
+  "directory": "data/rcap-all50/overlays/census-v1/mn/mn-petition-juvenile-as-adult-set--official-pdf-fill",
+  "canonical": {
+    "sha256": "ccd5f00fd86da007606780b15cb45462e80187731404f07694ec015775bfefa3",
+    "byteLength": 909240,
+    "pageCount": 17
+  },
+  "boundary": {
+    "sha256": "c5f2e418ad4471ffb42d73f96d01daa4ce7821e9c9f10ce511883f2a4a080cc5",
+    "byteLength": 909605,
+    "pageCount": 17
+  },
+  "documents": [
+    {
+      "formNumber": "EXP102",
+      "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+      "pageCount": 6
+    },
+    {
+      "formNumber": "EXP104",
+      "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+      "pageCount": 2
+    },
+    {
+      "formNumber": "EXP106",
+      "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+      "pageCount": 3
+    },
+    {
+      "formNumber": "FEE102",
+      "sha256": "b8415cddaa06a9c76cf2c4949aee36efe22e3b0ba98783a74063094150c72da8",
+      "pageCount": 6
+    }
+  ],
+  "inkReadBackFromOutputBytes": [
+    {
+      "fixture": "canonical",
+      "valuesReportedByFinalizer": 26,
+      "addedGlyphsReadFromOutputBytes": 344,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "selectionsMarked": [
+        "EXP102 p4-cb-y572-x90.41",
+        "FEE102 p1-cb-y350-x108"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "valuesReportedByFinalizer": 23,
+      "addedGlyphsReadFromOutputBytes": 856,
+      "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": 0,
+      "selectionsMarked": [
+        "EXP102 p4-cb-y572-x90.41",
+        "FEE102 p1-cb-y350-x108"
+      ]
+    }
+  ],
+  "boundaryOnlyRequiredBeforeFiling": [
+    {
+      "form": "EXP102",
+      "field": "p1-y655.2-x417.6",
+      "label": "Court File Number",
+      "measuredWhy": "the rule the form draws is 122.4 points wide, which leaves 106.4 points to print in once the 10-point guard that keeps the last glyph off the court's own rule and the fitter's own padding are taken off, and this value needs 118 points even at the smallest size that stays readable (6 point)"
+    },
+    {
+      "form": "EXP104",
+      "field": "p1-y677.16-x418.56",
+      "label": "Court File Number",
+      "measuredWhy": "the rule the form draws is 116.4 points wide, which leaves 100.4 points to print in once the 10-point guard that keeps the last glyph off the court's own rule and the fitter's own padding are taken off, and this value needs 118 points even at the smallest size that stays readable (6 point)"
+    },
+    {
+      "form": "EXP106",
+      "field": "p1-y682.68-x417",
+      "label": "Court File Number",
+      "measuredWhy": "the rule the form draws is 123 points wide, which leaves 107 points to print in once the 10-point guard that keeps the last glyph off the court's own rule and the fitter's own padding are taken off, and this value needs 118 points even at the smallest size that stays readable (6 point)"
+    }
+  ],
+  "canonicalTooLongToFit": [],
+  "requiredBeforeFiling": 13,
+  "laterCompletion": 4,
+  "participantElections": 36,
+  "routeSelectionsMade": 2,
+  "participantActionsFromTheControllingRecord": {
+    "declaredActions": 12,
+    "requiredBeforeFiling": 10,
+    "kinds": [
+      "obtain_document",
+      "confirm_answer",
+      "complete_field",
+      "complete_field",
+      "complete_field",
+      "complete_field",
+      "sign",
+      "notarize",
+      "pay_fee",
+      "apply_fee_waiver"
+    ],
+    "readFrom": [
+      "data/record-clearing/legal-design-packet-set-manifests.json",
+      "data/record-clearing/legal-design-track-registry.json"
+    ]
+  },
+  "unclassified": 0
+}
+
+VALID stderr:
+governance: carried   lastIndependentVerification — verbatim from the committed binding; this write authored none
+governance: carried   paymentEligible — verbatim from the committed binding; this write authored none
+governance: carried   sponsorshipEligible — verbatim from the committed binding; this write authored none
+governance: carried   whyPaymentIsClosed — verbatim from the committed binding; this write authored none
+governance: carried   maintenanceRelationship — verbatim from the committed binding; this write authored none
+governance: carried   acceptanceReceipt — still bound to a canonical this write produced (ccd5f00fd86d)
+
+original-selected-disposition-defect mutation=selected-disposition exit=1 replacementAttempted=false finalOutputInventoryPreserved=true
+stdout:
+
+stderr:
+Error: a rendered route selection lacks its completeness disposition: ["p4-cb-y572-x90.41","p1-cb-y350-x108"]
+    at fail (file:///tmp/rcap-fixcxm1-juvenile-ihwkTx/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:307:9)
+    at auditSelectionDisclosure (file:///tmp/rcap-fixcxm1-juvenile-ihwkTx/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:1652:5)
+    at build (file:///tmp/rcap-fixcxm1-juvenile-ihwkTx/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:2024:31)
+
+original-missing-ground-reason-defect mutation=missing-ground-reason exit=1 replacementAttempted=false finalOutputInventoryPreserved=true
+stdout:
+
+stderr:
+Error: a selection control is delivered empty without a printed-ground-specific reason: [{"selectionId":"p4-cb-y660-x90.4","blankId":"p4-cb-y660-x90.4","page":4,"effectiveLabel":"Item 9 qualification box not used on this route — A criminal case against you for a possession of a controlled substance under Minn","printedContext":"A criminal case against you for a possession of a controlled substance under Minn","construction":"printed_checkbox_cid_glyph","sourceCid":"0706","geometry":{"x0":91.99,"y0":660,"x1":100.85,"y1":668.81,"basis":"glyph_origin_from_the_text_matrix_plus_the_embedded_glyf_bounding_box","width":8.86,"height":8.81},"isSelectionControl":true,"marked":false,"completenessDisposition":"NOT_APPLICABLE_ON_THIS_ROUTE","routeConditionThatMakesItInapplicable":"this family is built for obligation:track-only:MN:mn_petition_juvenile_as_adult, the expungement of an adult conviction from a case the participant was certified or referenced into as a juvenile under Minn. Stat. § 260B.125. EXP102 item 9 offers one box per statutory basis and exactly one of them is checked. This printed ground routes to Order Concerning Sealing/Expunging of Record - Minn. Stat. § 609A.02, subd. 1 or 2 (court form EXP106), while this family carries EXP106 for the juvenile-certification route.","item9GroundKey":"controlled-substance-152-18","reason":null,"approvedDisposition":"NOT_APPLICABLE_ON_THIS_ROUTE"}]
+    at fail (file:///tmp/rcap-fixcxm1-juvenile-Qwj6Ok/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:307:9)
+    at auditSelectionDisclosure (file:///tmp/rcap-fixcxm1-juvenile-Qwj6Ok/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:1657:29)
+    at build (file:///tmp/rcap-fixcxm1-juvenile-Qwj6Ok/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:2024:31)
+
+original-missing-ground-guide-defect mutation=missing-guide-ground exit=1 replacementAttempted=false finalOutputInventoryPreserved=true
+stdout:
+
+stderr:
+Error: an unused item 9 ground is absent from participant instructions: [{"form":"EXP102","page":4,"blankId":"p4-cb-y660-x90.4","printedWords":"A criminal case against you for a possession of a controlled substance under Minn","reason":"This box is EXP102 item 9's first ground: a controlled-substance case dismissed and discharged under Minn. Stat. § 152.18. That is the separate § 152.18 packet family, not this juvenile-certification route under Minn. Stat. § 260B.125. This packet is not prepared to prove a § 152.18 discharge. Leave this box empty and use the § 152.18 packet if that is your ground.","item9GroundKey":"controlled-substance-152-18"}]
+    at fail (file:///tmp/rcap-fixcxm1-juvenile-coG6UR/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:307:9)
+    at auditSelectionDisclosure (file:///tmp/rcap-fixcxm1-juvenile-coG6UR/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:1662:27)
+    at build (file:///tmp/rcap-fixcxm1-juvenile-coG6UR/scripts/build-census-v1-mn_petition_juvenile_as_adult-set.mjs:2024:31)
+

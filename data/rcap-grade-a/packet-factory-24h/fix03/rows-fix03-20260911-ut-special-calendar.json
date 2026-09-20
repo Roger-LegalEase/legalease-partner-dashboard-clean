@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h/lane-rows/v1",
+  "lane": "FIX03",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "rows": [
+    {
+      "itemId": "ut_pet_special_certificate-set",
+      "familyId": "ut_pet_special_certificate-set",
+      "jurisdiction": "UT",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill",
+      "obligationsRepaired": ["ROUTE_IDENTITY"],
+      "defectIds": ["UT-VF02-CURRENT-01"],
+      "repair": "Strict calendar validation now precedes Date construction and every write in the actual exported special-certificate build wrapper.",
+      "tests": {
+        "invalidWrapperCasesRefusedBeforeFirstMutation": 11,
+        "validWrapperCasesReachedFirstMutationBarrier": 6,
+        "existingStageTest": "PASS",
+        "existingRepairTest": "PASS",
+        "existingCompletenessTest": "PASS_COMPLETE",
+        "readOnlyCheck": "PASS"
+      },
+      "artifactIdentity": [
+        { "fixture": "canonical", "sha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58", "pageCount": 13, "unchanged": true },
+        { "fixture": "boundary", "sha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba", "pageCount": 20, "unchanged": true }
+      ],
+      "rasterReuse": {
+        "runId": "34629454670",
+        "usableBecausePdfBytesUnchanged": true
+      },
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fix03/ut-special-calendar-20260911/repair-evidence.json",
+      "noLocalRaster": true,
+      "independentlyAcceptedByThisLane": false,
+      "routesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}

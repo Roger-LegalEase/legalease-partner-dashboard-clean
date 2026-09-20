@@ -1,0 +1,748 @@
+{
+  "schemaVersion": "rcap-vf04-independent-semantic-review/v1",
+  "familyId": "rcap-or-official-pdf-fill",
+  "trackId": "rcap-or-official-pdf-fill",
+  "lane": "VF04",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS_PRE_RASTER_SEMANTIC",
+  "reviewedAtBase": "7384a647957cb5472742a11a563eab00d02a4d76",
+  "packetCommitSha": "0d715dfecae224ff9dd94687d8d8e51923f32b85",
+  "repairCommitSha": "75ab7a622280a09f55562d461e3446de5b6c72a8",
+  "declarationCommitSha": "0d715dfecae224ff9dd94687d8d8e51923f32b85",
+  "scope": "Bounded independent semantic recheck of the repaired Oregon court packets and separate OSP handoffs against the eight known OR-S1..OR-S8 findings, exact current source bytes, saved PDF bytes, current delivery declaration and complete frozen eight-PDF manifest. No implementation, source, packet, queue, raster or shared-record edits were made by this reviewer; no visual pass is claimed.",
+  "claimEvidence": {
+    "assertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 rcap-or-official-pdf-fill",
+    "result": "CLAIM_OK",
+    "grantSetId": "d8dc5b45090ca226",
+    "assertedBeforeFamilyReads": true,
+    "assertedAtRepositoryHead": "fb83b18a186465d08b3e4e073a70365dce49ca05"
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-or-current-semantic-fail-20260912.json",
+    "sha256": "0721fbd3fd8fb258d5850fab7a58606ff38b7c5c03624fd035acddcb447a06bb",
+    "byteLength": 9355,
+    "priorVerifiedAtBase": "8834074d3c402bee7a0cc85e858465a39c2a7acb",
+    "priorVerdict": "FAIL_REPAIR_REQUIRED",
+    "priorFailedFindingIds": [
+      "OR-S1",
+      "OR-S2",
+      "OR-S3",
+      "OR-S4",
+      "OR-S5",
+      "OR-S6",
+      "OR-S7",
+      "OR-S8"
+    ]
+  },
+  "resolvedFindings": [
+    {
+      "findingId": "OR-S1",
+      "obligation": "COMPONENT_SET/FILING_DESTINATION/REQUIRED_BEFORE_FILING",
+      "status": "RESOLVED",
+      "details": "OSP is excluded from the court packet and separately delivered; sequence is explicitly current county/jurisdiction configured with no universal pre-filing order.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+          "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
+          "byteLength": 580144
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/rendered-artifacts.json",
+          "sha256": "81b9b28c01631f7172b8c6b4b25414ec2b7a31c085acdf2f0077c9b56f34b6f6",
+          "byteLength": 35635
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/product-wiring.json",
+          "sha256": "b1df393135b0fcb819a09781988dfbf74760e3051684fe72e069e86ade9fc0a0",
+          "byteLength": 15268
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+          "byteLength": 13204
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/filing-instructions.md",
+          "sha256": "ccc73d64656e3be9b8219c0252c5d3665a477053278cc274b1fd7fa202daba8c",
+          "byteLength": 10084
+        }
+      ]
+    },
+    {
+      "findingId": "OR-S2",
+      "obligation": "KNOWN_PREFILLS/REQUIRED_BEFORE_FILING",
+      "status": "RESOLVED",
+      "details": "Supported neutral identity/destination facts are prepared in the court and OSP artifacts; signatures, dates, participant phone, aliases and other participant-owned facts remain handback/blank.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "9e750d15e72d012e418294002dd55607f03ca36d48ed6c9493e31d877290ae79",
+          "byteLength": 57083
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/or-current-saved-byte-preflight-20260912.json",
+          "sha256": "464a03f7f8ba767b8fbf414796700dd2dd2025a0c1b27d03e56de50ecafe97e0",
+          "byteLength": 38488
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+          "byteLength": 13204
+        }
+      ]
+    },
+    {
+      "findingId": "OR-S3",
+      "obligation": "ROUTE_OPTIONS/REQUIRED_BEFORE_FILING",
+      "status": "RESOLVED",
+      "details": "OSP NO is selected for both nonconviction routes; YES, fingerprint-card completion and conviction fee controls remain unselected/participant-owned.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "9e750d15e72d012e418294002dd55607f03ca36d48ed6c9493e31d877290ae79",
+          "byteLength": 57083
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+          "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
+          "byteLength": 580144
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/or-current-saved-byte-preflight-20260912.json",
+          "sha256": "464a03f7f8ba767b8fbf414796700dd2dd2025a0c1b27d03e56de50ecafe97e0",
+          "byteLength": 38488
+        }
+      ]
+    },
+    {
+      "findingId": "OR-S4",
+      "obligation": "REPEATING_ROWS/ROUTE_OPTIONS/REQUIRED_BEFORE_FILING",
+      "status": "RESOLVED",
+      "details": "Five physical Option 3 offence rows are modeled as actual rows; border rules are not blanks; additional offences use participant continuation-page and printed-checkbox handback; SID/FPN are optional if known.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+          "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
+          "byteLength": 580144
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+          "byteLength": 13204
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/build-findings.json",
+          "sha256": "996c8d38cd48724fd4d7df5eec952546e96a9d394de9f61ad4c4cf5779d37a82",
+          "byteLength": 3398
+        }
+      ]
+    },
+    {
+      "findingId": "OR-S5",
+      "obligation": "SERVICE/REQUIRED_BEFORE_FILING",
+      "status": "RESOLVED",
+      "details": "The printed prosecuting-office recipient address is required before filing; the second address line is conditional/optional, while service date/signature remain protected.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+          "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
+          "byteLength": 580144
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+          "sha256": "d3bd58b6b8c76b271ac2bc6b73c2927af1ff29e539d69608099011e8eb825b29",
+          "byteLength": 93787
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+          "byteLength": 13204
+        }
+      ]
+    },
+    {
+      "findingId": "OR-S6",
+      "obligation": "ARTIFACTS",
+      "status": "RESOLVED_BOUNDED_NONVISUAL",
+      "details": "Current participant copy contains no internal route/source identifiers. The actual-write report truthfully defers saved-byte visibility, and the independent 108-check preflight plus current 55-check audit read current saved PDF bytes; original raster geometry remains open.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+          "byteLength": 13204
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/filing-instructions.md",
+          "sha256": "ccc73d64656e3be9b8219c0252c5d3665a477053278cc274b1fd7fa202daba8c",
+          "byteLength": 10084
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "9e750d15e72d012e418294002dd55607f03ca36d48ed6c9493e31d877290ae79",
+          "byteLength": 57083
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix112/or-current-saved-byte-preflight-20260912.json",
+          "sha256": "464a03f7f8ba767b8fbf414796700dd2dd2025a0c1b27d03e56de50ecafe97e0",
+          "byteLength": 38488
+        },
+        {
+          "path": "/tmp/or-vf04-independent-semantic-audit-20260912.json",
+          "sha256": "f6a43878c9112b23032d7c046a587edcfb18a7733bbbd3cc6e84f8d0c06f2392",
+          "byteLength": 53239
+        }
+      ]
+    },
+    {
+      "findingId": "OR-S7",
+      "obligation": "FEE_AND_WAIVER",
+      "status": "RESOLVED",
+      "details": "Current participant guidance identifies the OSP fee as conviction-only for these nonconviction routes and distinguishes any separate fingerprint-provider charge without inventing an amount.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+          "byteLength": 13204
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/filing-instructions.md",
+          "sha256": "ccc73d64656e3be9b8219c0252c5d3665a477053278cc274b1fd7fa202daba8c",
+          "byteLength": 10084
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+          "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+          "byteLength": 223499
+        }
+      ]
+    },
+    {
+      "findingId": "OR-S8",
+      "obligation": "REQUIRED_BEFORE_FILING/SELF_HELP_STOP",
+      "status": "RESOLVED",
+      "details": "Route guidance now requires declination/disposition evidence and dates and lists DUII, traffic, pending/contempt, multiple-county, federal/out-of-state, firearm-rights and immigration stops.",
+      "evidence": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+          "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
+          "byteLength": 580144
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+          "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+          "byteLength": 13204
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/filing-instructions.md",
+          "sha256": "ccc73d64656e3be9b8219c0252c5d3665a477053278cc274b1fd7fa202daba8c",
+          "byteLength": 10084
+        }
+      ]
+    }
+  ],
+  "sourceIdentity": {
+    "status": "PASS",
+    "allSourcesExact": true,
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/source-receipt.json",
+      "sha256": "a80516fba0a0f7740e6d3a32b187229b66bcd139e5ebcdbeadeaad3296c04b19",
+      "byteLength": 3325
+    },
+    "documents": [
+      {
+        "documentId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "sourceId": "official-form:OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "formNumber": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "path": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+        "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "byteLength": 256978,
+        "sha256Exact": true
+      },
+      {
+        "documentId": "OR-OSP-SET-ASIDE-CCH",
+        "sourceId": "official-form:OR-OSP-SET-ASIDE-CCH",
+        "formNumber": "OR-OSP-SET-ASIDE-CCH",
+        "path": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+        "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+        "byteLength": 229147,
+        "sha256Exact": true
+      }
+    ],
+    "legalDecision": {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "byteLength": 22372
+    }
+  },
+  "deltaBasis": {
+    "priorFailureRecheckedAgainstCurrentBytes": true,
+    "currentMetadataAndPdfIdentitiesRehashed": true,
+    "revalidatedCurrent": [
+      "ROUTE_IDENTITY",
+      "SOURCE_IDENTITY",
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "PROTECTED_FIELDS",
+      "ARTIFACTS",
+      "PAGE_ORDER",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP",
+      "PRODUCT_PATH_METADATA"
+    ],
+    "deltaRecheckedFresh": [
+      "COMPONENT_SET",
+      "KNOWN_PREFILLS",
+      "REQUIRED_BEFORE_FILING",
+      "ROUTE_OPTIONS",
+      "REPEATING_ROWS",
+      "ARTIFACTS",
+      "FILING_DESTINATION",
+      "FEE_AND_WAIVER",
+      "SERVICE",
+      "SELF_HELP_STOP",
+      "PRODUCT_PATH_METADATA"
+    ],
+    "priorNonvisualPassEvidenceReusedOnlyAfterCurrentBindings": false,
+    "visualEvidenceReused": false,
+    "reuseCondition": "No prior visual evidence is reused. Current exact source, current product declaration, current field map, current guidance, current actual-write report, current saved-byte preflight, current PDF bindings and current complete manifest were re-read and independently compared."
+  },
+  "obligations": {
+    "ROUTE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "current OR route declarations and held OJD source",
+      "finding": "The no-court route selects Option 3 and the court-case dismissal route selects Option 2; the no-court Case No. remains blank."
+    },
+    "SOURCE_IDENTITY": {
+      "measured": true,
+      "result": "PASS",
+      "basis": "exact current source receipt and held bytes",
+      "finding": "Both exact OR official sources match their current receipt SHA-256 and byte length."
+    },
+    "COMPONENT_SET": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current legal-clear delivery declaration and frozen eight-PDF manifest",
+      "finding": "The court packet consists of the motion/declaration and filing instructions; the OSP request is separately addressed as an agency handoff, with all four court and four agency PDFs frozen."
+    },
+    "KNOWN_PREFILLS": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current write map plus saved-byte preflight",
+      "finding": "Supported neutral identity, county/case and OSP destination facts are present; participant-owned fields remain handback."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current 24-item field-map ledger and guidance",
+      "finding": "The current ledger names the route evidence, recipient address, OSP contact fields, offense rows and required eligibility handbacks."
+    },
+    "ROUTE_OPTIONS": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current route selections and saved text",
+      "finding": "Option 3, Option 2 and OSP NO are the only route selections; off-route and conviction controls are refused or left unmarked by policy."
+    },
+    "REPEATING_ROWS": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current exact field map",
+      "finding": "The five physical citation/arrest offense rows are distinct; border rules are not facts and overflow is a participant continuation-page handback."
+    },
+    "PROTECTED_FIELDS": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "basis": "current field map and actual write/refusal reports",
+      "finding": "Signatures, dates, sworn declaration choices, fingerprint completion and fee payment remain protected or participant-owned; no proposed order is fabricated."
+    },
+    "ARTIFACTS": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "basis": "current saved-byte preflight and current PDF audit",
+      "finding": "All eight frozen PDFs match their manifest bytes and the delivered participant guidance contains no internal route/source identifiers."
+    },
+    "PAGE_ORDER": {
+      "measured": true,
+      "result": "PASS_NONVISUAL",
+      "basis": "current rendered-artifacts and manifest page bindings",
+      "finding": "Each court PDF is seven pages and each separate OSP PDF is two pages; all eight PDFs are covered."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "measured": false,
+      "result": "NOT_MEASURABLE_HERE",
+      "basis": "original raster not yet dispatched",
+      "finding": "No visual geometry or pixel-level zero is claimed in this pre-raster review."
+    },
+    "FILING_DESTINATION": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current separate-agency declaration and filing guidance",
+      "finding": "The court filing packet and separate OSP handoff are explicitly distinguished, with sequence delegated to current county/jurisdiction instructions."
+    },
+    "FEE_AND_WAIVER": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current OSP source text and participant guidance",
+      "finding": "The OSP $33 line is described as conviction-only; these nonconviction routes leave it unmarked and no provider charge is invented."
+    },
+    "SERVICE": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current recipient map and guidance",
+      "finding": "The prosecuting-office mailing address is required, with a conditional second line; service date and signature remain blank until performed."
+    },
+    "SELF_HELP_STOP": {
+      "measured": true,
+      "result": "PASS_BOUNDED_REPAIR",
+      "basis": "current route handbacks and stop guidance",
+      "finding": "Declination/disposition evidence and dates plus DUII, traffic, pending/contempt, multiple-county, federal/out-of-state, firearm and immigration stops are explicit."
+    }
+  },
+  "obligationCounts": {
+    "pass": 14,
+    "fail": 0,
+    "notMeasurable": 1,
+    "failedObligationNames": [],
+    "unmeasuredObligations": [
+      "CLIPPING_AND_OVERLAP"
+    ]
+  },
+  "nonvisualCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": null,
+    "allNonvisualZero": true,
+    "visualMeasuredHere": false,
+    "basis": "Current 55-check independent audit passed 55/55; current saved-byte preflight passed 108/108. Pixel geometry remains unmeasured."
+  },
+  "currentCandidateBindings": {
+    "reviewedRepositoryHead": "7384a647957cb5472742a11a563eab00d02a4d76",
+    "packetCommitSha": "0d715dfecae224ff9dd94687d8d8e51923f32b85",
+    "repairCommitSha": "75ab7a622280a09f55562d461e3446de5b6c72a8",
+    "declarationCommitSha": "0d715dfecae224ff9dd94687d8d8e51923f32b85",
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/source-receipt.json",
+      "sha256": "a80516fba0a0f7740e6d3a32b187229b66bcd139e5ebcdbeadeaad3296c04b19",
+      "byteLength": 3325
+    },
+    "metadata": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/product-wiring.json",
+        "sha256": "b1df393135b0fcb819a09781988dfbf74760e3051684fe72e069e86ade9fc0a0",
+        "byteLength": 15268
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+        "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
+        "byteLength": 580144
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "9e750d15e72d012e418294002dd55607f03ca36d48ed6c9493e31d877290ae79",
+        "byteLength": 57083
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/rendered-artifacts.json",
+        "sha256": "81b9b28c01631f7172b8c6b4b25414ec2b7a31c085acdf2f0077c9b56f34b6f6",
+        "byteLength": 35635
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/builder-completeness-counters.json",
+        "sha256": "2025aade011ba9d48cacf053f1aa2668a2696ee905a72d6ed2405b76f7542dcc",
+        "byteLength": 1045
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+        "sha256": "d3bd58b6b8c76b271ac2bc6b73c2927af1ff29e539d69608099011e8eb825b29",
+        "byteLength": 93787
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/build-findings.json",
+        "sha256": "996c8d38cd48724fd4d7df5eec952546e96a9d394de9f61ad4c4cf5779d37a82",
+        "byteLength": 3398
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/participant-instructions.md",
+        "sha256": "d0d6ef3d421b787ca7f2feff4c2d6a372d38833ad2a70592d8a9c5b83f96151e",
+        "byteLength": 13204
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/filing-instructions.md",
+        "sha256": "ccc73d64656e3be9b8219c0252c5d3665a477053278cc274b1fd7fa202daba8c",
+        "byteLength": 10084
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/source-receipt.json",
+        "sha256": "a80516fba0a0f7740e6d3a32b187229b66bcd139e5ebcdbeadeaad3296c04b19",
+        "byteLength": 3325
+      }
+    ],
+    "productWiringStatus": "DECLARED_NOT_INSTALLED",
+    "productWiringProposedComponentCount": 9,
+    "productWiringSeparateAgencyDocuments": [
+      "criminal_history_request",
+      "OR-OSP-SET-ASIDE-CCH"
+    ],
+    "renderedArtifactsTopology": {
+      "courtComponents": [
+        "motion_and_declaration",
+        "filing_instructions"
+      ],
+      "separateAgencyComponents": [
+        "criminal_history_request"
+      ],
+      "artifactCount": 4
+    },
+    "fixtures": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
+        "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+        "byteLength": 223749,
+        "name": "canonical--arrest-no-charges.pdf",
+        "role": "canonical",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "name": "canonical--arrest-no-charges--criminal-history-request.pdf",
+        "role": "canonical",
+        "pageCount": 2
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges.pdf",
+        "sha256": "2d78d560ddaca770ffe129bda74d8bb134e5d3c2e8a54b5c94099e2529a04470",
+        "byteLength": 223876,
+        "name": "boundary--arrest-no-charges.pdf",
+        "role": "boundary",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "name": "boundary--arrest-no-charges--criminal-history-request.pdf",
+        "role": "boundary",
+        "pageCount": 2
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
+        "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+        "byteLength": 223603,
+        "name": "canonical--dismissed-charge.pdf",
+        "role": "canonical",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "name": "canonical--dismissed-charge--criminal-history-request.pdf",
+        "role": "canonical",
+        "pageCount": 2
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge.pdf",
+        "sha256": "54f05131f7b7168c3808bdf9ad037e211b383dce6913ee8983129941256f2a7a",
+        "byteLength": 223734,
+        "name": "boundary--dismissed-charge.pdf",
+        "role": "boundary",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "name": "boundary--dismissed-charge--criminal-history-request.pdf",
+        "role": "boundary",
+        "pageCount": 2
+      }
+    ],
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/or-current-raster-manifest-20260912.json",
+      "sha256": "f68bf80c95631e2cb6d2986bc2fc4e5e9685383c1eb48da946979409dc187411",
+      "byteLength": 8629,
+      "packetCommitSha": "0d715dfecae224ff9dd94687d8d8e51923f32b85",
+      "documentsDigest": "15863eda25f437cc5b61c564fe5691ace769400df7f97247a711448fd03a89b0",
+      "coverageComplete": true,
+      "expectedOriginalPages": 36,
+      "requestedScale": 2.5
+    },
+    "savedBytePreflight": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/or-current-saved-byte-preflight-20260912.json",
+      "sha256": "464a03f7f8ba767b8fbf414796700dd2dd2025a0c1b27d03e56de50ecafe97e0",
+      "byteLength": 38488,
+      "passed": true,
+      "checkCount": 108
+    },
+    "independentAudit": {
+      "path": "/tmp/or-vf04-independent-semantic-audit-20260912.json",
+      "sha256": "f6a43878c9112b23032d7c046a587edcfb18a7733bbbd3cc6e84f8d0c06f2392",
+      "byteLength": 53239,
+      "passedChecks": 55,
+      "checkCount": 55
+    }
+  },
+  "independentByteProof": {
+    "status": "PASS_NONVISUAL",
+    "method": "Independent current-byte audit over source receipt, legal decision, current product declaration, current field map, current guidance, rendered topology, actual-write artifacts, saved-byte preflight and all eight exact current PDF bindings. No raster PNGs or visual zero asserted.",
+    "checkReport": {
+      "path": "/tmp/or-vf04-independent-semantic-audit-20260912.json",
+      "sha256": "f6a43878c9112b23032d7c046a587edcfb18a7733bbbd3cc6e84f8d0c06f2392",
+      "byteLength": 53239,
+      "checkCount": 55,
+      "passedChecks": 55
+    },
+    "savedBytePreflight": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/or-current-saved-byte-preflight-20260912.json",
+      "sha256": "464a03f7f8ba767b8fbf414796700dd2dd2025a0c1b27d03e56de50ecafe97e0",
+      "byteLength": 38488,
+      "checkCount": 108,
+      "passedChecks": 108
+    },
+    "exactPdfBindings": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges.pdf",
+        "sha256": "1c03ae6c71b90010c7e96ff63cf72d8d0b31f9b031d7f86612c5b853fa116046",
+        "byteLength": 223749,
+        "name": "canonical--arrest-no-charges.pdf",
+        "role": "canonical",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "name": "canonical--arrest-no-charges--criminal-history-request.pdf",
+        "role": "canonical",
+        "pageCount": 2
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges.pdf",
+        "sha256": "2d78d560ddaca770ffe129bda74d8bb134e5d3c2e8a54b5c94099e2529a04470",
+        "byteLength": 223876,
+        "name": "boundary--arrest-no-charges.pdf",
+        "role": "boundary",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--arrest-no-charges--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "name": "boundary--arrest-no-charges--criminal-history-request.pdf",
+        "role": "boundary",
+        "pageCount": 2
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge.pdf",
+        "sha256": "f030f97551f13286829de5da4cbc92206dd09dfa0f0fa75806906f6d5d83d655",
+        "byteLength": 223603,
+        "name": "canonical--dismissed-charge.pdf",
+        "role": "canonical",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/canonical--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "1dd17a194ca51d4a73b21740b074eaa60f14649266a587cef24328c328d85ae0",
+        "byteLength": 223499,
+        "name": "canonical--dismissed-charge--criminal-history-request.pdf",
+        "role": "canonical",
+        "pageCount": 2
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge.pdf",
+        "sha256": "54f05131f7b7168c3808bdf9ad037e211b383dce6913ee8983129941256f2a7a",
+        "byteLength": 223734,
+        "name": "boundary--dismissed-charge.pdf",
+        "role": "boundary",
+        "pageCount": 7
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/fixtures/boundary--dismissed-charge--criminal-history-request.pdf",
+        "sha256": "228e03086aa60b182128e4119939723d1c5bde9f8cfd9d5977f8792685eb84aa",
+        "byteLength": 223553,
+        "name": "boundary--dismissed-charge--criminal-history-request.pdf",
+        "role": "boundary",
+        "pageCount": 2
+      }
+    ],
+    "sourceCount": 2,
+    "allCurrentMetadataRehashed": true
+  },
+  "commandsActuallyPassed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 rcap-or-official-pdf-fill (CLAIM_OK; grant d8dc5b45090ca226; claim asserted before family reads)",
+    "node --check scripts/build-census-v1-rcap-or-official-pdf-fill.mjs (PASS)",
+    "python /tmp/or-vf04-independent-semantic-audit-20260912.py (PASS; 55/55 checks)",
+    "pdfinfo on all eight frozen PDFs (7/2 pages; exact hashes and lengths recorded)",
+    "pdftotext on current court and agency PDFs (route selections, agency handoff text and absence of internal identifiers checked)"
+  ],
+  "rasterDispatchAuthorized": true,
+  "rasterEvidence": {
+    "status": "PENDING_DISPATCH",
+    "manifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/or-current-raster-manifest-20260912.json",
+      "sha256": "f68bf80c95631e2cb6d2986bc2fc4e5e9685383c1eb48da946979409dc187411",
+      "byteLength": 8629,
+      "packetCommitSha": "0d715dfecae224ff9dd94687d8d8e51923f32b85",
+      "documentsDigest": "15863eda25f437cc5b61c564fe5691ace769400df7f97247a711448fd03a89b0",
+      "coverageComplete": true,
+      "expectedOriginalPages": 36,
+      "requestedScale": 2.5
+    },
+    "requestedScale": 2.5,
+    "runId": null,
+    "artifactId": null,
+    "visualPagesMeasured": 0,
+    "visualDefects": null,
+    "visualMeasuredHere": false
+  },
+  "finalAcceptance": false,
+  "terminalPromotionAuthorized": false,
+  "unfinishedGates": [
+    "central Actions raster custody for all eight current PDFs (36 original pages)",
+    "independent visual review of all 36 original PNG pages and CLIPPING_AND_OVERLAP measurement",
+    "final acceptance row and native terminal integration"
+  ],
+  "visual": {
+    "status": "UNMEASURED_IN_THIS_CURRENT_REVIEW",
+    "visualDefects": null,
+    "rasterRunId": null,
+    "visualPagesMeasured": 0
+  },
+  "runtimeAndCommercialBoundary": {
+    "productWiringStatus": "DECLARED_NOT_INSTALLED",
+    "generationAllowed": false,
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "routeOpened": false,
+    "commercialAuthorityCreated": false,
+    "note": "This semantic PASS authorizes only raster evidence collection. It does not install the product path, approve a route or create Grade-A fulfillment authority."
+  },
+  "independence": {
+    "implementationEditsByReviewer": false,
+    "sourceEditsByReviewer": false,
+    "packetEditsByReviewer": false,
+    "productWiringEditsByReviewer": false,
+    "queueEditsByReviewer": false,
+    "manifestOrLedgerEditsByReviewer": false,
+    "semanticRecordWrittenByReviewer": true,
+    "visualAcceptanceClaimed": false,
+    "disclosure": "The OR repair, current delivery declaration and frozen manifest were authored by Captain/repair lanes. This VF04 lane independently re-read the exact current source pins, legal-clear agency-step treatment, current declaration, saved PDFs, field map, guidance, write artifacts, 108-check saved-byte proof and eight-PDF manifest; it made no implementation, source, packet, product-wiring, queue, raster-manifest or claim-ledger edits."
+  }
+}

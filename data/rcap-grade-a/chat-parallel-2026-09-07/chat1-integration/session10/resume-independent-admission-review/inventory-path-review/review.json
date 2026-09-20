@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-independent-inventory-path-review/v1",
+  "reviewer": "/root/session10_admission_review",
+  "script": "scripts/rcap-packet-recovery/session10/admit-central-batch.py",
+  "scriptSha256": "744407e1b93939d93d1d03fd7438a55268d5be0da7a92f9ad4ee1871446e11be",
+  "publishedInputCommit": "3843d257fbc363f7e4c149a903cd894dbbc0413c",
+  "defaultInventory": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-required-document-inventory.json",
+  "defaultInventorySha256": "c170adcc60cd93735b47cf247a7553b9b1095ada2a5e70204374a8ae99b9f6cc",
+  "actualPacketCommit": "774e1c3e3fa7ffd8e4f2aefea384440e4b1dab90",
+  "actualRunId": 34232991361,
+  "checks": [
+    {
+      "name": "actual_default",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedSeconds": 0.41,
+      "summary": {
+        "families": 1,
+        "documents": 6,
+        "pages": 24,
+        "controls": 18,
+        "admitted": false
+      }
+    },
+    {
+      "name": "actual_explicit_default",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedSeconds": 0.29,
+      "summary": {
+        "families": 1,
+        "documents": 6,
+        "pages": 24,
+        "controls": 18,
+        "admitted": false
+      }
+    },
+    {
+      "name": "default_and_explicit_proofs_identical",
+      "passed": true
+    },
+    {
+      "name": "traversal",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "unsafe or unreviewed inventory path",
+      "elapsedSeconds": 0.005
+    },
+    {
+      "name": "absolute",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "unsafe or unreviewed inventory path",
+      "elapsedSeconds": 0.01
+    },
+    {
+      "name": "embedded_separator",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "unsafe or unreviewed inventory path",
+      "elapsedSeconds": 0.013
+    },
+    {
+      "name": "wrong_directory",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "unsafe or unreviewed inventory path",
+      "elapsedSeconds": 0.005
+    },
+    {
+      "name": "wrong_suffix",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "unsafe or unreviewed inventory path",
+      "elapsedSeconds": 0.004
+    },
+    {
+      "name": "null",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "unsafe or unreviewed inventory path",
+      "elapsedSeconds": 0.004
+    },
+    {
+      "name": "list",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "unsafe or unreviewed inventory path",
+      "elapsedSeconds": 0.005
+    },
+    {
+      "name": "uncommitted_reference",
+      "passed": true,
+      "exception": "CalledProcessError",
+      "reason": "fatal: path 'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-absent-document-inventory.json' does not exist in '774e1c3e3fa7ffd8e4f2aefea384440e4b1dab90'",
+      "elapsedSeconds": 0.009
+    },
+    {
+      "name": "leaf_symlink",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "reviewed inventory must not be a symlink",
+      "elapsedSeconds": 0.004
+    },
+    {
+      "name": "modified_current_inventory",
+      "passed": true,
+      "exception": "ValueError",
+      "reason": "reviewed inventory differs from dispatched commit",
+      "elapsedSeconds": 0.009
+    },
+    {
+      "name": "receipt_and_shared_gate_functions_unchanged",
+      "passed": true,
+      "functions": {
+        "require": true,
+        "provenance": true,
+        "validate": true,
+        "controls": true
+      }
+    }
+  ],
+  "passed": 14,
+  "total": 14,
+  "admissionPerformed": false,
+  "sharedFilesModified": false,
+  "newVisualInspection": false,
+  "scope": "Only inventory selector changed; current and immutable bytes must match before existing receipt validation. Synthetic refusal paths are mapped into this private review directory; git commit lookup remains real."
+}

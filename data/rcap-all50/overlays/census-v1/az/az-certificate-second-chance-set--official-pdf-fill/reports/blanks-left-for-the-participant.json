@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "az_certificate_second_chance-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "application",
+      "documentId": "AOCCRSA3F-103023",
+      "field": "application.count_1",
+      "page": 2,
+      "printedContext": "Count I:",
+      "disclosureLabel": "Count I:",
+      "identity": "application field count_1",
+      "why": "no held record establishes any participant's own convictions, and a count list completed in part reads as finished when it is not",
+      "participantMustSupply": "the offence you were convicted of on the first count, exactly as the court record names it"
+    },
+    {
+      "document": "application",
+      "documentId": "AOCCRSA3F-103023",
+      "field": "application.court_name",
+      "page": 1,
+      "printedContext": "____ COURT OF ARIZONA",
+      "disclosureLabel": "____ COURT OF ARIZONA",
+      "identity": "application field court_name",
+      "why": "the platform holds the county and writes it on the line below, but no committed record establishes which Arizona court entered any particular conviction",
+      "participantMustSupply": "the name of the court that convicted you - the Superior Court of your county, or the justice or municipal court"
+    },
+    {
+      "document": "application",
+      "documentId": "AOCCRSA3F-103023",
+      "field": "application.date_of_birth_line",
+      "page": 1,
+      "printedContext": "Date of Birth: _______________________",
+      "disclosureLabel": "Date of Birth: _______________________",
+      "identity": "application field date_of_birth_line",
+      "why": "the form draws this blank with typed underscore characters and not with a rule, so there is no stroke on the page for a measured write box to sit on; the platform HOLDS this fact and this build will not draw at a guessed rectangle",
+      "participantMustSupply": "your date of birth, on the line the form prints for it"
+    },
+    {
+      "document": "application",
+      "documentId": "AOCCRSA3F-103023",
+      "field": "application.judgment_day",
+      "page": 2,
+      "printedContext": "the \"on the ___ day of\" blank in \"A Judgment of Guilt was entered in this Court against the defendant on the ___ day of ____\"",
+      "disclosureLabel": "the \"on the ___ day of\" blank in \"A Judgment of Guilt was entered in this Court against the defendant on the ___ day of ____\"",
+      "identity": "application field judgment_day",
+      "why": "this blank is a 33.27pt stroke and the shared rule reader returns nothing under 40pt, so this build measures no write box for it at all and declares no cell; it is named here rather than left invisible",
+      "participantMustSupply": "the day of the month the Judgment of Guilt was entered, from the court record"
+    },
+    {
+      "document": "application",
+      "documentId": "AOCCRSA3F-103023",
+      "field": "application.judgment_month_and_year",
+      "page": 2,
+      "printedContext": "the month and year in \"A Judgment of Guilt was entered ... on the ___ day of ____\"",
+      "disclosureLabel": "the month and year in \"A Judgment of Guilt was entered ... on the ___ day of ____\"",
+      "identity": "application field judgment_month_and_year",
+      "why": "no held record establishes the date any participant's judgment of guilt was entered",
+      "participantMustSupply": "the month and year the Judgment of Guilt was entered, from the court record"
+    },
+    {
+      "document": "application",
+      "documentId": "AOCCRSA3F-103023",
+      "field": "application.prior_set_aside_date",
+      "page": 1,
+      "printedContext": "the date in \"previously received a set aside order on ____ in this case\"",
+      "disclosureLabel": "the date in \"previously received a set aside order on ____ in this case\"",
+      "identity": "application field prior_set_aside_date",
+      "why": "no held record establishes the date of any participant's set-aside order, and the blank is drawn as typed underscores within the printed sentence rather than as a rule",
+      "participantMustSupply": "the date of the set-aside order in your case, from the order itself"
+    },
+    {
+      "document": "proposed_order",
+      "documentId": "AOCCRSA4F-103023",
+      "field": "proposed_order.court_name",
+      "page": 1,
+      "printedContext": "____ COURT OF ARIZONA",
+      "disclosureLabel": "____ COURT OF ARIZONA",
+      "identity": "proposed_order field court_name",
+      "why": "the platform holds the county and writes it on the line below, but no committed record establishes which Arizona court entered any particular conviction",
+      "participantMustSupply": "the name of the court that convicted you - the Superior Court of your county, or the justice or municipal court"
+    },
+    {
+      "document": "proposed_order",
+      "documentId": "AOCCRSA4F-103023",
+      "field": "proposed_order.date_of_birth_line",
+      "page": 1,
+      "printedContext": "Date of Birth: _______________________",
+      "disclosureLabel": "Date of Birth: _______________________",
+      "identity": "proposed_order field date_of_birth_line",
+      "why": "the form draws this blank with typed underscore characters and not with a rule, so there is no stroke on the page for a measured write box to sit on; the platform HOLDS this fact and this build will not draw at a guessed rectangle",
+      "participantMustSupply": "your date of birth, on the line the form prints for it"
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "application",
+      "field": "application.representing_lawyer_for",
+      "label": "Representing [ ] Self or [ ] Lawyer for",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "whether the participant appears for themselves or by a lawyer is their own election, and the name of a represented person is written here only where a lawyer files"
+    },
+    {
+      "document": "application",
+      "field": "application.lawyers_bar_number",
+      "label": "Lawyer's Bar Number:",
+      "refusalClass": null,
+      "why": "completed only where a lawyer files for you; no representation fact is held for this participant"
+    },
+    {
+      "document": "application",
+      "field": "application.applicant_is_defendant",
+      "label": "Applicant is: [ ] Defendant",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "whether the applicant is the defendant or an attorney for the defendant is the participant's own election"
+    },
+    {
+      "document": "application",
+      "field": "application.applicant_is_attorney_for_defendant",
+      "label": "Applicant is: [ ] Attorney for Defendant",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "the other half of the same election"
+    },
+    {
+      "document": "application",
+      "field": "application.prior_set_aside_without_certificate",
+      "label": "[ ] Defendant is eligible for a Certificate of Second Chance because Defendant previously received a set aside order on ____ in this case that did not include a Certificate of Second Chance.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "whether a set-aside order was granted without a certificate, and on what date, are facts about the participant's own case; the committed track registry makes this the whole ground of the standalone route"
+    },
+    {
+      "document": "application",
+      "field": "application.no_prior_certificate_of_second_chance",
+      "label": "[ ] Defendant DID NOT previously receive a Certificate of Second Chance on the set aside of a felony conviction.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "this is the A.R.S. § 13-905(L) single-certificate bar itself, which the committed track registry records as counting multiple felonies from one act or course of conduct as one; it is the participant's own assertion about their own record and this route does not make it for them"
+    },
+    {
+      "document": "application",
+      "field": "application.count_2",
+      "label": "Count II:",
+      "refusalClass": null,
+      "why": "the form's own second count line, used only if you were convicted on more than one count"
+    },
+    {
+      "document": "application",
+      "field": "application.count_3",
+      "label": "Count III:",
+      "refusalClass": null,
+      "why": "the form's own third count line"
+    },
+    {
+      "document": "application",
+      "field": "application.count_4",
+      "label": "Count IV:",
+      "refusalClass": null,
+      "why": "the form's own fourth count line; if there are more, tick the box saying additional counts continue on a separate page and attach it"
+    },
+    {
+      "document": "application",
+      "field": "application.additional_counts_continue",
+      "label": "[ ] Additional counts continue on a separate page.",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "whether there are more counts than the form has room for is a fact about the participant's own case, and the separate page is not in this packet"
+    },
+    {
+      "document": "application",
+      "field": "application.print_defendants_name",
+      "label": "Print Defendant's Name, beneath the declaration under penalty of perjury",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the printed name that accompanies a signature is part of the signature block and is made when the declaration is signed"
+    },
+    {
+      "document": "application",
+      "field": "application.defendants_signature",
+      "label": "Defendant's Signature, beneath the declaration under penalty of perjury",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the applicant signs their own application, as the committed record states in terms; this build never signs for a participant"
+    },
+    {
+      "document": "application",
+      "field": "application.authorized_attorney_name",
+      "label": "I authorize my Attorney ____ to file this application for a Certificate of Second Chance with the Court.",
+      "refusalClass": null,
+      "why": "the name of the lawyer authorised to file, used only where a lawyer files for you"
+    },
+    {
+      "document": "application",
+      "field": "application.authorization_date",
+      "label": "Date, in the AUTHORIZATION TO PROCEED ON BEHALF OF DEFENDANT block",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the authorisation is signed would be false"
+    },
+    {
+      "document": "application",
+      "field": "application.authorization_signature",
+      "label": "Defendant's Signature, in the AUTHORIZATION TO PROCEED ON BEHALF OF DEFENDANT block",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the authorisation personally, and only where a lawyer is to file for them"
+    },
+    {
+      "document": "application",
+      "field": "application.print_attorney_name",
+      "label": "Print Attorney Name, on the attorney's declaration page",
+      "refusalClass": null,
+      "why": "the whole of page 3 is the attorney's own declaration and is used only where a lawyer files for you"
+    },
+    {
+      "document": "application",
+      "field": "application.attorney_signature",
+      "label": "Attorney Signature, on the attorney's declaration page",
+      "refusalClass": null,
+      "why": "an attorney signs their own declaration; this build never signs for anybody"
+    },
+    {
+      "document": "application",
+      "field": "application.attorney_address",
+      "label": "Attorney Address, on the attorney's declaration page",
+      "refusalClass": null,
+      "why": "part of the same attorney declaration"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.representing_lawyer_for",
+      "label": "Representing [ ] Self or [ ] Lawyer for",
+      "refusalClass": "participant_sworn_narrative_or_legal_election",
+      "why": "whether the participant appears for themselves or by a lawyer is their own election, and the name of a represented person is written here only where a lawyer files"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.lawyers_bar_number",
+      "label": "Lawyer's Bar Number:",
+      "refusalClass": null,
+      "why": "completed only where a lawyer files for you; no representation fact is held for this participant"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.court_finds_prosecutor_received_copy",
+      "label": "THE COURT FINDS: [ ] The prosecutor has received a copy of the Application for Certificate of Second Chance.",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "a finding is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.court_finds_requirements_not_met",
+      "label": "THE COURT FINDS: [ ] The defendant has not met the statutory requirements for the application.",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "a finding is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.court_finds_requirements_met",
+      "label": "THE COURT FINDS: [ ] The defendant has met the statutory requirements for the application.",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "a finding is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_denying",
+      "label": "IT IS ORDERED: [ ] DENYING the application for a Certificate of Second Chance for the following reasons:",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the order is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_denying_requirements_not_met",
+      "label": "[ ] The applicant has not met the statutory requirements for the application (as noted above):",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court states its own reason"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_denying_other_reasons",
+      "label": "[ ] Other reasons:_____________________________________________________.",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court states its own reason"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_granting",
+      "label": "IT IS ORDERED: [ ] GRANTING the application for a Certificate of Second Chance pursuant to A.R.S. § 13-905.",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the order is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.dated_day",
+      "label": "DATED this ___ day of",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court dates its own order"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.dated_month_and_year",
+      "label": "DATED this ___ day of ____ , ____",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court dates its own order"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.judicial_officer",
+      "label": "Judicial Officer",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the judicial officer signs the court's own order"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/az/az-certificate-second-chance-set--official-pdf-fill/participant-instructions.md"
+}

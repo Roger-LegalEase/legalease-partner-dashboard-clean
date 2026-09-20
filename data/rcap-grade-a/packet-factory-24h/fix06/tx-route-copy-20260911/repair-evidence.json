@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-fix06-tx-route-copy-repair-evidence/v1",
+  "assignmentId": "FIX06",
+  "assignedBase": "aed17614413c45f83b0062b1c679fdce1ff4e840",
+  "branch": "fix06-tx-route-20260911",
+  "scope": [
+    "tx_nd_deferred_other-set",
+    "tx_nd_dwi_probation-set",
+    "tx_nd_veterans_court-set",
+    "tx_nd_veterans_reemployment-set"
+  ],
+  "preflight": {
+    "worktree": "/tmp/rcap-fix06-tx-route-20260911",
+    "head": "aed17614413c45f83b0062b1c679fdce1ff4e840",
+    "initialStatus": "only untracked private symlink",
+    "grants": {
+      "grantSet": "48d34ae9e44714d4",
+      "ledgerGeneratedAtCommit": "64c679ac6218a72f6421b6d8ab203b3b4aaa6dc7",
+      "results": [
+        "CLAIM_OK FIX06 tx_nd_deferred_other-set",
+        "CLAIM_OK FIX06 tx_nd_dwi_probation-set",
+        "CLAIM_OK FIX06 tx_nd_veterans_court-set",
+        "CLAIM_OK FIX06 tx_nd_veterans_reemployment-set"
+      ]
+    }
+  },
+  "causeAndCorrection": {
+    "source": "/tmp/rcap-source-recovery-wave1-20260911/tx-route-diagnosis.json",
+    "cause": "Each local builder appended correct internal route keys to participant-visible composed pages and participant-instructions.md.",
+    "correction": "Removed only the local Route:/_Route: trailer emissions; retained ROUTE.routeKeys, ROUTE.primaryRouteKey, product wiring, field maps and source receipts.",
+    "sharedRendererChanged": false,
+    "sourceBytesChanged": false,
+    "routeMetadataChanged": false
+  },
+  "families": [
+    {
+      "familyId": "tx_nd_deferred_other-set",
+      "routeKeys": ["obligation:track-pathway:TX:tx_nd_deferred_other:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725"],
+      "primaryRouteKey": "obligation:track-pathway:TX:tx_nd_deferred_other:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
+      "routeSelectionId": "tx_nd_deferred_other-official-set",
+      "beforeLeak": {"pdfPagesPerFixture": [10, 26], "markdownLine": 240},
+      "afterLeakOccurrences": {"canonicalPdf": 0, "boundaryPdf": 0, "participantInstructionsMarkdown": 0},
+      "artifacts": [
+        {"fixture": "canonical", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/fixtures/canonical.pdf", "beforeSha256": "a9a9a4a2035194ec8e7f5db9b6328aade302b54a006bba20da52fc0c23c2a9df", "beforeByteLength": 658664, "afterSha256": "2a328629cf21e9a2972b49c5c9c76f8c34ce449918726b4e504e03697c967293", "afterByteLength": 658215, "pageCount": 26},
+        {"fixture": "boundary", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-deferred-other-set--official-pdf-fill/fixtures/boundary.pdf", "beforeSha256": "bd6a84db68585df8e14b1df4a99c75c51097727ac69031f19229a901b966b23a", "beforeByteLength": 659027, "afterSha256": "caedb5538320ec6ef004e963af3442ae87d595a7f04cfa4b9092d1c50a4c7309", "afterByteLength": 658579, "pageCount": 26}
+      ],
+      "participantInstructionsSha256": "f0b8c9aacbb242e22ce82e43fc3bb3ab9e8094f3ff364c4ccd1c44cb8eb2de97",
+      "sourceSha256": ["2eb2e9699e0803d0fa0766cbb1fad38f088a8d8b15a18b21add93da5e879ae67", "6a60f72ac40a776ca721f99fede4eb1397da83c68b07d11d3c931d4e5d4f6680", "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"],
+      "deterministicDirectoryDigest": "a21d97b4856424b2a21afb7c9f3027bb0ba0e0ef6ae95155b751e49069b1d59c",
+      "vf90Artifacts": {"verdict": "FAIL_REPAIR_REQUIRED", "strokeOnlyAppearances": 88, "matchingPinnedSourceStreams": 32, "unaccountedStreams": 56}
+    },
+    {
+      "familyId": "tx_nd_dwi_probation-set",
+      "routeKeys": ["obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure"],
+      "primaryRouteKey": "obligation:track-pathway:TX:tx_nd_dwi_probation:first-offense-dwi-nondisclosure",
+      "routeSelectionId": "tx_nd_dwi_probation-official-set",
+      "beforeLeak": {"pdfPagesPerFixture": [9, 24], "markdownLine": 222},
+      "afterLeakOccurrences": {"canonicalPdf": 0, "boundaryPdf": 0, "participantInstructionsMarkdown": 0},
+      "artifacts": [
+        {"fixture": "canonical", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/canonical.pdf", "beforeSha256": "85a0b9c4fff2ec74bc25190c98f65bcdf0e71f2bc5407d3ce458ffff2b6a5b16", "beforeByteLength": 605787, "afterSha256": "c3508357968a4b33a05b0ce5d4fe8ced413cc7927c78b646abba35598373743f", "afterByteLength": 605559, "pageCount": 24},
+        {"fixture": "boundary", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-dwi-probation-set--official-pdf-fill/fixtures/boundary.pdf", "beforeSha256": "9de0dcc57c0e608a09a106803b755c96f1d67f2783f24e48a3f9cb7d17f7a1eb", "beforeByteLength": 606154, "afterSha256": "1be46dc9868c565afd5524af7953e465b85a2b5c87580c22218827ec028d98e7", "afterByteLength": 605926, "pageCount": 24}
+      ],
+      "participantInstructionsSha256": "7b0d62f96aceae4f6e3a8081be99db416fdef91ced241db4309a15cfc4e96391",
+      "sourceSha256": ["51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee", "f085cd5c03edc67671c4aaab3210c76c33325e45fabdd6b818782e87cf413bd4", "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"],
+      "deterministicDirectoryDigest": "6aa988b670d4c92c78fa46584248b6782bdac88252f4d4cdc318fee400847c01",
+      "vf90Artifacts": {"verdict": "FAIL_REPAIR_REQUIRED", "strokeOnlyAppearances": 70, "matchingPinnedSourceStreams": 32, "unaccountedStreams": 38}
+    },
+    {
+      "familyId": "tx_nd_veterans_court-set",
+      "routeKeys": ["obligation:track-only:TX:tx_nd_veterans_court"],
+      "primaryRouteKey": "obligation:track-only:TX:tx_nd_veterans_court",
+      "routeSelectionId": "tx_nd_veterans_court-official-set",
+      "beforeLeak": {"pdfPagesPerFixture": [10, 25], "markdownLine": 226},
+      "afterLeakOccurrences": {"canonicalPdf": 0, "boundaryPdf": 0, "participantInstructionsMarkdown": 0},
+      "artifacts": [
+        {"fixture": "canonical", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/fixtures/canonical.pdf", "beforeSha256": "e0f635260e61ab9aa4c38d9e8dc9c94fdf819fd0e4e58dabb51ba881c7e4871a", "beforeByteLength": 646382, "afterSha256": "71088803b36c6b4c880b471c00ad394cd56b172c613f33740809b774c368067e", "afterByteLength": 646209, "pageCount": 25},
+        {"fixture": "boundary", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-court-set--official-pdf-fill/fixtures/boundary.pdf", "beforeSha256": "52b252d75801a39e52b6a7184edb4ab15a70044c4c02bf568bdda2ec882b5795", "beforeByteLength": 646751, "afterSha256": "e871c3bd2e4667828b6185d2ee06ce8d7d03664aef179c56e957ec3c549cbef3", "afterByteLength": 646579, "pageCount": 25}
+      ],
+      "participantInstructionsSha256": "01cc8fc2e2fa32bdff21e16c6f1efd979b55fbeeef5b334f7acb24d86e23b0d2",
+      "sourceSha256": ["7c34e5f5aeee2ce9bb7e757f3c2c9aa9899d536c8917f5329f0d4dc28f6bfa9d", "2c9500206f032b2195a6d99ea04310d520413d8ecdc6978da4ba284c2d01189f", "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"],
+      "deterministicDirectoryDigest": "e3dd017714e66de7adbaa78d390e2dafaad1e514b2d2b5c97034225afe125a0b",
+      "vf90Artifacts": {"verdict": "FAIL_REPAIR_REQUIRED", "strokeOnlyAppearances": 66, "matchingPinnedSourceStreams": 32, "unaccountedStreams": 34}
+    },
+    {
+      "familyId": "tx_nd_veterans_reemployment-set",
+      "routeKeys": ["obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route", "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-oca-petition"],
+      "primaryRouteKey": "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-oca-petition",
+      "productWiringRouteKey": "obligation:unit:TX:tx_nd_veterans_reemployment:tx-nd0729-no-filing-route",
+      "routeSelectionId": "tx_nd_veterans_reemployment-official-set",
+      "beforeLeak": {"pdfPagesPerFixture": [3, 22], "machineKeyOccurrencesPerPdf": 4, "markdownLine": 227},
+      "afterLeakOccurrences": {"canonicalPdf": 0, "boundaryPdf": 0, "participantInstructionsMarkdown": 0},
+      "artifacts": [
+        {"fixture": "canonical", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/canonical.pdf", "beforeSha256": "abaf92297ae1e6ba8cb648b12bdd8faa3bf4269e498357d6b1cff2ffe844a82f", "beforeByteLength": 656845, "afterSha256": "ad6849fceab93992b933b717aeacc4163719a9427dbbedfc1a9e90705fbbaa8e", "afterByteLength": 656525, "pageCount": 22},
+        {"fixture": "boundary", "path": "data/rcap-all50/overlays/census-v1/tx/tx-nd-veterans-reemployment-set--official-pdf-fill/fixtures/boundary.pdf", "beforeSha256": "1f918e05dbd1bc46428deeba9f19225404839e330bd4c1b8f15a699305c0b126", "beforeByteLength": 657228, "afterSha256": "7e578067d567bb647293c8f367b236cd72e026cb534800422364160fefbd424d", "afterByteLength": 656908, "pageCount": 22}
+      ],
+      "participantInstructionsSha256": "e00230682b959f8e5e3f47cc4efdd10266adbaac7a74625aa3de38fff17b973c",
+      "sourceSha256": ["5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10", "3440721f4f22e37b60539789222518b27f49dcd7a8c4b9d64536181041382ba9", "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d"],
+      "deterministicDirectoryDigest": "04dfa801afca8cfab9d4b1adce3f7a0eb8411ce176721476785cd835955c29de",
+      "vf90Artifacts": {"verdict": "FAIL_REPAIR_REQUIRED", "strokeOnlyAppearances": 54, "matchingPinnedSourceStreams": 32, "unaccountedStreams": 22}
+    }
+  ],
+  "verification": {
+    "builders": "All four node scripts/build-census-v1-<family>.mjs --no-raster invocations exited 0 with status COMPLETED, nineCountersZero true and BUILT_RASTER_PENDING.",
+    "readOnlyChecks": "All four builders invoked with --check --no-raster exited 0 with status CHECK_ONLY, all sources resolved, and no unmapped fields, stale dictionary keys or caption drift.",
+    "completeness": "All four focused verify-packet-completeness.mjs --family invocations exited 0 as PASS_COMPLETE with all nine counters zero.",
+    "participantSurfaceTest": "node --test scripts/rcap-packet-recovery/tx-route-copy.test.mjs: 4 passed, 0 failed; extracted text from all eight PDFs and all four Markdown files contains zero scoped route keys and exact metadata tuples remain present.",
+    "determinism": "A second final --no-raster rebuild left every file in each family directory byte-identical to the digest recorded above.",
+    "metadataDiff": "git diff for the four product-wiring.json, production-field-map.json and source-receipt.json files is empty.",
+    "waiverHeldBytesSha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+    "gitDiffCheck": "PASS"
+  },
+  "remainingGates": [
+    "Fresh directional raster review is required because these rebuilt reports deliberately record rasterSkipped=true.",
+    "Independent ROUTE_IDENTITY verification must reread the regenerated bytes; this repair author does not approve its own work.",
+    "VF90 ARTIFACTS provenance/accounting remains separately failed with the per-family counts recorded above; this route-copy repair does not clear or reinterpret that gate."
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

@@ -41,6 +41,34 @@ export type RenderJobRow = {
   normalizedOutputSha256: string | null;
   deliveryEligibility: DeliveryEligibility;
   accountingResult: PacketAccountingResult | null;
+  /**
+   * The consumer briefcase item this job was bound to at enqueue, and the
+   * participant the enqueue RPC canonicalised as its owner. Both are written in
+   * the same statement that creates the row, so there is no window in which the
+   * job exists unbound.
+   *
+   * They are surfaced here so the RCAP job-id download can assemble the
+   * server-side context the Grade-A authority needs -- the exact matter and the
+   * current final verification -- without a second source of truth. No new
+   * column was needed: the table has carried both since the enqueue RPC was
+   * written, and only the select was missing them.
+   */
+  consumerBriefcaseItemId: string | null;
+  consumerAuthUserId: string | null;
+  /** The clinic-sponsored participant, when the row was enqueued through the sponsored route (it then carries no consumer binding). */
+  sponsoredConsumerAuthUserId: string | null;
+  consumerVerificationHash?: string | null;
+  /**
+   * The protected sponsored binding, surfaced ONLY when the row carries one that
+   * names this job's exact route. The binding columns are written by
+   * enqueue_verified_sponsored_packet_render for an active registered route and
+   * nothing else, and the row trigger keeps them immutable, so `routeKey` is the
+   * registration the database bound the job to rather than a claim made here.
+   * A partner job without one is a partner job that never passed through the
+   * shared sponsored verification mechanism, whatever its route.
+   */
+  sponsoredBinding?: { routeKey: string; sourceSessionId: string; clinicEventId: string; briefcaseItemId: string; authUserId: string; verificationHash: string } | null;
+  personalizedBinding?: { trackId: string; packetFamilyId: string; specificationSha256: string; specificationFileSha256: string } | null;
 };
 
 function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
@@ -62,6 +90,13 @@ function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
     outputStoragePath: record.output_storage_path === null ? null : String(record.output_storage_path),
     outputSha256: record.output_sha256 === null ? null : String(record.output_sha256),
     normalizedOutputSha256: record.normalized_output_sha256 === null ? null : String(record.normalized_output_sha256),
+    consumerBriefcaseItemId: record.consumer_briefcase_item_id === null || record.consumer_briefcase_item_id === undefined
+      ? null : String(record.consumer_briefcase_item_id),
+    consumerAuthUserId: record.consumer_auth_user_id === null || record.consumer_auth_user_id === undefined
+      ? null : String(record.consumer_auth_user_id),
+    sponsoredConsumerAuthUserId: record.sponsored_consumer_auth_user_id === null || record.sponsored_consumer_auth_user_id === undefined
+      ? null : String(record.sponsored_consumer_auth_user_id),
+    consumerVerificationHash: typeof record.consumer_verification_hash === "string" ? record.consumer_verification_hash : null,
     deliveryEligibility: String(record.delivery_eligibility ?? "not_evaluated") as DeliveryEligibility,
     accountingResult: record.accounting_result === null || record.accounting_result === undefined
       ? null
@@ -100,7 +135,16 @@ export type RenderJobIdentity =
       expectedConsumerAuthUserId: string;
       personId: string;
       matterId: string;
+      /** Compared by the captain-owned enqueue RPC against protected verification. */
+      expectedVerificationHash: string;
     };
+
+export type VerifiedConsumerRenderPayload = {
+  /** Exact worker row. The RPC immutable-inserts it; it must never upsert it. */
+  renderPacket: Record<string, unknown>;
+  /** Full canonical review payload bound to spec.inputHash. */
+  renderInputPayload: Record<string, unknown>;
+};
 
 /**
  * Idempotent by (packet_id, input_hash) inside the database function: a retry
@@ -122,6 +166,8 @@ export async function enqueueRenderJob(
 
   const sponsored = identity.mode === "sponsored";
 
+  // The migration handoff adds p_expected_verification_hash to this RPC. It is
+  // intentionally not sent to the old production signature before that lands.
   const { data, error } = await supabase.rpc("enqueue_packet_render_job", {
     p_packet_id: spec.packetId,
     p_route_id: spec.routeId,
@@ -142,6 +188,110 @@ export async function enqueueRenderJob(
   if (error || !data) return null;
   const record = Array.isArray(data) ? data[0] : data;
   return record ? rowFromRecord(record as Record<string, unknown>) : null;
+}
+
+/**
+ * The only durable boundary for a verified consumer render.
+ *
+ * Captain-owned SQL must lock the protected Briefcase verification, compare
+ * p_expected_verification_hash, immutable-insert both payloads keyed by
+ * (packet_id, input_hash), and enqueue the job in that same transaction. A
+ * conflict may return the existing identical job but must never update packet
+ * bytes or input JSON for an already queued input hash.
+ */
+export async function enqueueVerifiedConsumerRender(
+  spec: RenderJobSpec,
+  identity: Extract<RenderJobIdentity, { mode: "consumer" }>,
+  payload: VerifiedConsumerRenderPayload,
+  options: { maxAttempts?: number } = {}
+): Promise<RenderJobRow | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return null;
+
+  // All existing consumer entry points converge here. The exact assigned route
+  // carries the protected snapshot and specification into the durable input;
+  // the RPC still owns atomic verification/payment comparison and insertion.
+  const { isPersonalizedDeliveryRoute, currentPersonalizedVerification, preparePersonalizedPacket } = await import("@/lib/rcap/render/personalized-packet");
+  if (isPersonalizedDeliveryRoute(spec.routeId)) {
+    const verification = await currentPersonalizedVerification(identity.expectedConsumerAuthUserId, identity.consumerBriefcaseItemId);
+    if (verification.hash !== identity.expectedVerificationHash) return null;
+    const prepared = preparePersonalizedPacket({
+      authUserId: identity.expectedConsumerAuthUserId, briefcaseItemId: identity.consumerBriefcaseItemId,
+      personId: identity.personId, matterId: identity.matterId,
+      verificationHash: verification.hash, snapshot: verification.snapshot
+    });
+    spec = prepared.spec;
+    payload = prepared.payload;
+    // The existing enqueue RPC creates a new attempt after a failed row. A
+    // failed input already belongs to the worker's retry/terminal lifecycle;
+    // participant double-clicks must not create a second job beside it.
+    const { data: retries, error: retryError } = await supabase.from("packet_render_jobs")
+      .select("*").eq("packet_id", spec.packetId).eq("input_hash", spec.inputHash)
+      .eq("consumer_auth_user_id", identity.expectedConsumerAuthUserId)
+      .eq("consumer_briefcase_item_id", identity.consumerBriefcaseItemId)
+      .eq("consumer_verification_hash", identity.expectedVerificationHash)
+      .eq("status", "failed");
+    if (retryError) return null;
+    if (retries?.length) return rowFromRecord(retries[0] as Record<string, unknown>);
+  }
+
+  const { data, error } = await supabase.rpc("enqueue_verified_consumer_packet_render", {
+    p_packet_id: spec.packetId,
+    p_route_id: spec.routeId,
+    p_renderer_kind: spec.rendererKind,
+    p_renderer_version: spec.rendererVersion,
+    p_source_sha256: spec.sourceSha256,
+    p_profile_id: spec.profileId,
+    p_profile_version: spec.profileVersion,
+    p_input_hash: spec.inputHash,
+    p_briefcase_item_id: spec.briefcaseItemId,
+    p_person_id: identity.personId,
+    p_matter_id: identity.matterId,
+    p_max_attempts: options.maxAttempts ?? 5,
+    p_consumer_briefcase_item_id: identity.consumerBriefcaseItemId,
+    p_expected_consumer_auth_user_id: identity.expectedConsumerAuthUserId,
+    p_expected_verification_hash: identity.expectedVerificationHash,
+    p_render_packet: payload.renderPacket,
+    p_render_input_payload: payload.renderInputPayload
+  });
+  if (error || !data) return null;
+  const record = Array.isArray(data) ? data[0] : data;
+  return record ? rowFromRecord(record as Record<string, unknown>) : null;
+}
+
+/** Exact verified sponsored entry into the existing durable queue. The protected
+ * transaction rechecks owner, claimed source, event, route and verification. */
+export async function enqueueVerifiedSponsoredRender(
+  spec: RenderJobSpec,
+  identity: { authUserId: string; briefcaseItemId: string; sourceSessionId: string;
+    partnerSlug: string; personId: string; matterId: string; verificationHash: string },
+  payload: VerifiedConsumerRenderPayload
+): Promise<RenderJobRow | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return null;
+  const { sponsoredRenderAuthority } = await import("@/lib/rcap/render/sponsored-packet");
+  const authority = await sponsoredRenderAuthority({ routeId: spec.routeId, ...identity });
+  if (!authority || authority.partner_slug !== identity.partnerSlug) return null;
+  const { data: retries, error: retryError } = await supabase.from("packet_render_jobs").select("*")
+    .eq("packet_id", spec.packetId).eq("input_hash", spec.inputHash)
+    .eq("sponsored_consumer_auth_user_id", identity.authUserId)
+    .eq("sponsored_consumer_briefcase_item_id", identity.briefcaseItemId)
+    .eq("sponsored_verification_hash", identity.verificationHash)
+    .eq("sponsored_session_id", identity.sourceSessionId).eq("status", "failed");
+  if (retryError) return null;
+  if (retries?.length) return rowFromRecord(retries[0] as Record<string, unknown>);
+  const { data, error } = await supabase.rpc("enqueue_verified_sponsored_packet_render", {
+    p_route_key: spec.routeId, p_session_id: identity.sourceSessionId,
+    p_packet_id: spec.packetId, p_route_id: spec.routeId, p_renderer_kind: spec.rendererKind,
+    p_renderer_version: spec.rendererVersion, p_source_sha256: spec.sourceSha256,
+    p_profile_id: spec.profileId, p_profile_version: spec.profileVersion, p_input_hash: spec.inputHash,
+    p_briefcase_item_id: identity.briefcaseItemId, p_person_id: identity.personId, p_matter_id: identity.matterId,
+    p_max_attempts: 5, p_expected_consumer_auth_user_id: identity.authUserId,
+    p_expected_verification_hash: identity.verificationHash,
+    p_render_packet: payload.renderPacket, p_render_input_payload: payload.renderInputPayload
+  });
+  const row = Array.isArray(data) ? data[0] : data;
+  return !error && row ? rowFromRecord(row as Record<string, unknown>) : null;
 }
 
 export async function claimNextRenderJob(
@@ -262,6 +412,10 @@ export async function finalizeRenderJob(input: {
   });
   if (error || !data) return null;
   const row = (Array.isArray(data) ? data[0] : data) as Record<string, unknown>;
+  if (row.delivery_eligibility === "eligible") {
+    const { finalizeSponsoredRenderArtifact } = await import("@/lib/rcap/render/sponsored-packet");
+    if (!await finalizeSponsoredRenderArtifact(input.jobId)) return null;
+  }
   return {
     accountingResult: String(row.accounting_result) as PacketAccountingResult,
     deliveryEligibility: String(row.delivery_eligibility) as DeliveryEligibility,
@@ -313,10 +467,50 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
   const { data, error } = await supabase
     .from("packet_render_jobs")
     .select(
-      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result"
+      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result, consumer_briefcase_item_id, consumer_auth_user_id, consumer_verification_hash, sponsored_consumer_auth_user_id"
     )
     .eq("id", jobId)
     .maybeSingle();
   if (error || !data) return null;
-  return rowFromRecord(data as Record<string, unknown>);
+  const job = rowFromRecord(data as Record<string, unknown>);
+  // Every partner job is asked the same question: did the shared sponsored
+  // transaction bind it? The answer is the row's own sponsored columns, which
+  // only enqueue_verified_sponsored_packet_render writes and only for a route
+  // registered in sponsored_packet_render_routes. The route id alone decides
+  // nothing here: an unregistered route can never carry a binding, and a
+  // registered one carries it only for the job that transaction created.
+  if (job.partnerId) {
+    const { data: sponsored, error: scopeError } = await supabase.from("packet_render_jobs")
+      .select("sponsored_route_key, sponsored_session_id, sponsored_clinic_event_id, sponsored_consumer_briefcase_item_id, sponsored_consumer_auth_user_id, sponsored_verification_hash")
+      .eq("id", jobId).maybeSingle();
+    if (!scopeError && sponsored?.sponsored_route_key && sponsored.sponsored_route_key === job.routeId
+      && sponsored.sponsored_session_id) {
+      job.sponsoredBinding = { routeKey: sponsored.sponsored_route_key, sourceSessionId: sponsored.sponsored_session_id,
+        clinicEventId: sponsored.sponsored_clinic_event_id, briefcaseItemId: sponsored.sponsored_consumer_briefcase_item_id,
+        authUserId: sponsored.sponsored_consumer_auth_user_id, verificationHash: sponsored.sponsored_verification_hash };
+    }
+  }
+  if (job.routeId === "IL:felony-prostitution-relief") {
+    const { data: input } = await supabase.from("rcap_document_packet_inputs")
+      .select("input_payload").eq("document_packet_id", job.packetId).maybeSingle();
+    const payload = input?.input_payload;
+    if (payload?.schemaVersion === "rcap-personalized-render/v1") {
+      job.personalizedBinding = { trackId: payload.trackId, packetFamilyId: payload.packetFamilyId,
+        specificationSha256: payload.specificationSha256, specificationFileSha256: payload.specificationFileSha256 };
+    }
+  }
+  return job;
+}
+
+/** A previously finalized, owner-bound input makes a later verified request a
+ * redispatch of this matter's existing entitlement, rather than a new purchase. */
+export async function hasFinalizedPersonalizedRender(authUserId: string, briefcaseItemId: string, sponsored: boolean) {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return false;
+  const { data, error } = await supabase.from("packet_render_jobs").select("id")
+    .eq(sponsored ? "sponsored_consumer_auth_user_id" : "consumer_auth_user_id", authUserId)
+    .eq(sponsored ? "sponsored_consumer_briefcase_item_id" : "consumer_briefcase_item_id", briefcaseItemId)
+    .eq("route_id", "IL:felony-prostitution-relief").eq("delivery_eligibility", "eligible")
+    .in("status", ["artifact_validated", "delivered"]);
+  return !error && Boolean(data?.length);
 }

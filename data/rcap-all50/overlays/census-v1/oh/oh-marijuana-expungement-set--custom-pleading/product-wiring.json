@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "oh_marijuana_expungement-set",
+  "routeKeys": [
+    "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321"
+  ],
+  "implementationStrategy": "custom_pleading_artifact_only_with_official_post_order_companion",
+  "fieldMap": null,
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "intendedOverlayDestination": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/product-wiring.json",
+  "integrationStatus": "INSTALLED_BY_CAPTAIN",
+  "note": "Integration-ready repair payload only. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "installedFrom": "data/rcap-grade-a/wave-2/r7-packet-repair/product-wiring/oh_marijuana_expungement-set/product-wiring.json",
+  "installedBy": "WAVE_2_INTEGRATION_CHECKPOINT",
+  "binding": {
+    "family": "oh_marijuana_expungement-set",
+    "jurisdiction": "OH",
+    "routeKeys": [
+      "obligation:track-pathway:OH:oh_marijuana_expungement:marijuana-hashish-possession-expungement-under-2953-321"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Ohio R.C. 2953.321 Marijuana or Hashish Possession Expungement Application"
+    ],
+    "packetComponents": [
+      "component:oh_marijuana_expungement-bci-transmission-5"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:OH-BCI-SEALING-EXPUNGEMENT-REQUEST",
+        "sha256": "9234ec763403b1ccfbed796dfcf86f29bf7887390d1770460d0bcc9da31fc8cb",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34537560088",
+      "jobId": "103073435650",
+      "artifactId": "10176170334",
+      "boundToCanonicalSha256": "0e8b4d917ea9e370164e47a445eb17e8dbaf2f4b8d3700164b28750b115d9409",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf62",
+      "verifiedAtBase": "63a28b5fdd25bdce621ec8cfa69dbac08a7d4894"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-oh_marijuana_expungement-set.mjs",
+      "sharedBuildHost": "build-census-v1-nj_arrest_no_conviction-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+        "replacedByCanonicalSha256": "0e8b4d917ea9e370164e47a445eb17e8dbaf2f4b8d3700164b28750b115d9409",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33598433649",
+          "jobId": "100147213562",
+          "artifactId": "9834357918",
+          "boundToCanonicalSha256": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+          "coversTheWholeFamily": true,
+          "stillBinds": false,
+          "wholeFamilyReRasterRequired": true,
+          "brokenBy": {
+            "lane": "FIX167",
+            "branch": "lane-fix167-20260910",
+            "obligationRepaired": "KNOWN_PREFILLS",
+            "foundBy": "VF58, data/rcap-grade-a/packet-factory-24h/vf58/rows-vf58-20260910.json, verified at ee90b3c3a9296f41ccddda26b04f2992884b2518",
+            "what": "Paragraphs 5, 7 and 8 of the delivered pleading printed a pointer to a record, or this build's own disclaimer about itself, UNMARKED, in the grammatical slot where the charge, the disposition and the statutory eligibility basis belong -- inside a document the applicant signs under a verification block. On the boundary fixture, paragraph 8 printed the words 'Boundary fixture only' inside a numbered eligibility allegation. The repair applies the bracketed untransferable marking this same builder already applied on every other Ohio track, by gating fixtureForOhioTrack on OH_ROUTE_RULES_FOR_INSTRUCTIONS instead of OH_CLEAN_TRACK_ROUTE_RULES.",
+            "whyTheReceiptNoLongerBinds": "acceptanceReceipt.boundToCanonicalSha256 names the pre-repair canonical, which is no longer the delivered canonical.",
+            "canonicalPdf": {
+              "before": "ddf3d4840f5ef8fa46d0f80992c927c8ce9bbb24194604c317f97188908d027a",
+              "after": "0e8b4d917ea9e370164e47a445eb17e8dbaf2f4b8d3700164b28750b115d9409",
+              "byteLengthBefore": 8279,
+              "byteLengthAfter": 8368,
+              "pageCount": 3
+            },
+            "boundaryPdf": {
+              "before": "330138cf065ddac35a13d93d49ad1f2636479f71c02e63f4a60a5f9ac7b846a8",
+              "after": "7bb4156324366da3ab667862ad8e8afdee5939c6f25d37cea19820623f22ad76",
+              "byteLengthBefore": 8999,
+              "byteLengthAfter": 9286,
+              "pageCount": 3
+            },
+            "allSixPageRastersAndBothContactSheetsAlsoMoved": true,
+            "rasterQueueNotEditedByThisLane": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json was NOT edited. It is outside this lane's boundary; Captain dispatches the debt.",
+            "independentVerificationOwed": "This repair is NOT self-verified. Independent verification is owed to a lane that is neither FIX167 (which made it) nor VF58 (which found the defect)."
+          }
+        }
+      }
+    ]
+  }
+}

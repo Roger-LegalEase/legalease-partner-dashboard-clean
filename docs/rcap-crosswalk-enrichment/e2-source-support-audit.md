@@ -21,26 +21,26 @@ One row per evidence citation submitted by the eight E2 lanes, answering one que
 |---|---|
 | exact_verbatim | 653 |
 | faithful_paraphrase | 218 |
-| interpretive_conclusion | 62 |
+| interpretive_conclusion | 58 |
 | pointer_invalid | 1 |
-| unsupported_by_cited_source | 1 |
+| unsupported_by_cited_source | 5 |
 
 | Support verdict | Count |
 |---|---|
-| derivable | 248 |
-| no | 2 |
-| requires_reread | 32 |
+| derivable | 249 |
+| no | 6 |
+| requires_reread | 27 |
 | textual | 653 |
 
 | Severity | Count |
 |---|---|
-| high | 2 |
+| high | 6 |
 | low | 865 |
-| medium | 68 |
+| medium | 64 |
 
 | Flag | Count |
 |---|---|
-| false_absence | 1 |
+| false_absence | 5 |
 | mapping_without_subsection_granularity | 319 |
 | official_claim_no_official_source_in_repo | 67 |
 | pointer_ids_absent | 1 |
@@ -51,8 +51,8 @@ One row per evidence citation submitted by the eight E2 lanes, answering one que
 
 | Lane | Entries | exact_verbatim | faithful_paraphrase | interpretive_conclusion | unsupported | source_missing | pointer_invalid | high sev | flagged |
 |---|---|---|---|---|---|---|---|---|---|
-| E2-A1 | 156 | 134 | 4 | 18 | 0 | 0 | 0 | 0 | 128 |
-| E2-A2 | 114 | 65 | 34 | 13 | 1 | 0 | 1 | 2 | 88 |
+| E2-A1 | 156 | 134 | 4 | 17 | 1 | 0 | 0 | 1 | 129 |
+| E2-A2 | 114 | 65 | 34 | 10 | 4 | 0 | 1 | 5 | 91 |
 | E2-A3 | 97 | 97 | 0 | 0 | 0 | 0 | 0 | 0 | 84 |
 | E2-B1 | 153 | 68 | 72 | 13 | 0 | 0 | 0 | 0 | 137 |
 | E2-B2 | 157 | 53 | 91 | 13 | 0 | 0 | 0 | 0 | 134 |

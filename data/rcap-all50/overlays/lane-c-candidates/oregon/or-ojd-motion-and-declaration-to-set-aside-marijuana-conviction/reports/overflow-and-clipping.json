@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "rcap-overflow-report/v3",
+  "boundaryFixtureApplied": true,
+  "policy": "measured against the real widget rectangle and the embedding font's own metrics; a value that cannot be drawn at 6pt or larger is refused and the field left blank",
+  "shrunk": [
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "fontSize": 9.5,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "Name (typed or printed)",
+      "factId": "participant.full_legal_name",
+      "fontSize": 8.46,
+      "outcome": "shrunk"
+    }
+  ],
+  "wrapped": [],
+  "refusedUnfittable": [
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "18244 Northwest Meadowbrook Terrace Extension Apartment 2201B",
+      "rect": {
+        "x": 74,
+        "y": 581.2,
+        "width": 138,
+        "height": 11.46
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 182.7
+    },
+    {
+      "anchor": "Phone Number",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "1-413-555-0199 ext. 44021",
+      "rect": {
+        "x": 469.97,
+        "y": 581.2,
+        "width": 53.73,
+        "height": 11.46
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 71.8
+    }
+  ],
+  "clippedValues": []
+}

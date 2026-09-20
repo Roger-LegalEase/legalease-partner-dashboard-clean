@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "rcap-codex-cloud-worker-return/v1",
+  "worker": "CODEX-CS1-FIX08-DE1017A",
+  "lane": "FIX08",
+  "laneKind": "repair",
+  "baseSha": "b714a8b5a9b03ab366cb6e8e566747847e192ab8",
+  "vf02FailureBaseSha": "588f9e74af2fa65a8dcd17e07258302b3588af61",
+  "branch": "codex/cs1-fix08-de1017a-b714",
+  "commit": "aae23078f81aefb3d9455aa971b233e9619066c1",
+  "commitKind": "focused repair-evidence commit; this RETURN.json is committed as a follow-up so it can name the already-pushed repair commit exactly",
+  "pushed": "YES",
+  "family": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+  "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+  "routeKey": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+  "status": "COMPLETED",
+  "buildReturn": "BUILT_RASTER_PENDING",
+  "repairedByThisLane": true,
+  "repairPresentAtAssignedBase": true,
+  "repairPresentAtAssignedBaseNote": "The assigned b714 base already carries the exact focused source-pin, markdown-sanitization and complete SBI conditional/fee-guidance repairs. This worker reproduced the 588f9e7 failure, proved exact-node continuity, completed two clean deterministic builds and recorded the required repair evidence without introducing redundant family-byte changes.",
+  "obligationsRepaired": [
+    "SOURCE_IDENTITY",
+    "CLIPPING_AND_OVERLAP",
+    "FEE_AND_WAIVER"
+  ],
+  "sourceIdentity": {
+    "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+    "acquisitionCommissioned": false,
+    "documentsAcquiredOrSubstituted": 0,
+    "publicInitiatingBinaryAsserted": false,
+    "receiptCensusPinAtSelectedFailure": {
+      "sha256": "0936833332542f8eeac4528bde376a93e30adbdc4b9b78ff1898f11d07b3063f",
+      "byteLength": 2599752
+    },
+    "currentRouteObligationCensus": {
+      "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+      "byteLength": 2607149
+    },
+    "exactDeCensusRouteUnchanged": true,
+    "exactDeCensusRouteCanonicalSha256": "bf67e9c3641832c28c1d07f05498d01ed9995b0fbf1609e8393b312a8a064f30",
+    "exactDeRouteContractUnchanged": true,
+    "exactDeRouteContractCanonicalSha256": "6ccc8485855902f4ffdfa8d06f7634723a4f13639d5501e2f483a71dbba29d76",
+    "exactDeCompiledPathwayUnchanged": true,
+    "exactDeCompiledPathwayCanonicalSha256": "9e712c2d48789608a2d4cb7bac1f5c6417a8cbec78af1300e15850d155868152"
+  },
+  "artifactsBefore": {
+    "canonical": {
+      "sha256": "beff0335614104209bfb84cdc639e5c1e5d8d7306f362d866447d5b2e62b0161",
+      "byteLength": 11872,
+      "pageCount": 4
+    },
+    "boundary": {
+      "sha256": "571b757a63de7aaa36e9e9c473fca00ffa9c61de3c5a5ee439a7b843781113a6",
+      "byteLength": 12050,
+      "pageCount": 4
+    }
+  },
+  "artifactsAfter": {
+    "canonical": {
+      "sha256": "beff0335614104209bfb84cdc639e5c1e5d8d7306f362d866447d5b2e62b0161",
+      "byteLength": 11872,
+      "pageCount": 4
+    },
+    "boundary": {
+      "sha256": "571b757a63de7aaa36e9e9c473fca00ffa9c61de3c5a5ee439a7b843781113a6",
+      "byteLength": 12050,
+      "pageCount": 4
+    }
+  },
+  "artifactBytesChanged": false,
+  "deterministic": true,
+  "cleanBuilds": 2,
+  "hashesLengthsAndPageCountsIdenticalAcrossBuilds": true,
+  "allVisibleWritesInspected": true,
+  "visibleWriteAppearancesInspected": 12,
+  "allPagesInspected": true,
+  "pagesInspected": 8,
+  "literalMarkdownTokensInPdfText": 0,
+  "truncatedSbiConditionalObserved": false,
+  "completeSbiConditionalObserved": true,
+  "unsupportedFeeAmountAdded": false,
+  "clippingOrOverlapObserved": false,
+  "completeness": {
+    "verdict": "PASS_COMPLETE",
+    "written": 6,
+    "terminalFields": 12,
+    "allNineCountersZero": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    }
+  },
+  "tests": [
+    {
+      "name": "claim assertion",
+      "result": "CLAIM_OK FIX08; grant set 0689f13d0bd12b19"
+    },
+    {
+      "name": "builder check",
+      "result": "CHECK_ONLY; 3 records bound; 8 anchors verified; 2 components; 6 writes; 6 blanks"
+    },
+    {
+      "name": "two clean no-raster builds",
+      "result": "COMPLETED / BUILT_RASTER_PENDING twice; complete generated-file SHA-256 manifests identical"
+    },
+    {
+      "name": "focused packet completeness",
+      "result": "PASS_COMPLETE; 6/12 written; all nine counters zero"
+    },
+    {
+      "name": "focused route-artifact completeness",
+      "result": "NOT_APPLICABLE; no separate route-artifact row exists for this assembled-fixture family, and the verifier refused the empty match rather than reporting a pass"
+    },
+    {
+      "name": "PDF text extraction",
+      "result": "PASS for canonical and boundary; no literal markdown, no truncated conditional, complete SBI conditional and supported no-amount fee guidance present"
+    },
+    {
+      "name": "visible-write readback",
+      "result": "PASS; all 12 fixture write appearances readable from output bytes"
+    },
+    {
+      "name": "page inspection",
+      "result": "PASS; all 8 canonical and boundary pages inspected with no clipping, overlap, blank page or obscured write"
+    },
+    {
+      "name": "JSON and diff checks",
+      "result": "PASS; repair-row contract, JSON parse and git diff --check"
+    }
+  ],
+  "paths": {
+    "familyDirectory": "data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading",
+    "builder": "scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs",
+    "repairRows": "data/rcap-grade-a/packet-factory-24h/fix08/rows.json",
+    "repairAssignments": "data/rcap-grade-a/packet-factory-24h/fix08/repair-assignments.json",
+    "return": "data/rcap-grade-a/codex-cloud/cs1-fix08-de1017a-b714/RETURN.json"
+  },
+  "changedPaths": [
+    "data/rcap-grade-a/packet-factory-24h/fix08/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/fix08/repair-assignments.json",
+    "data/rcap-grade-a/codex-cloud/cs1-fix08-de1017a-b714/RETURN.json"
+  ],
+  "centralEdits": 0,
+  "centralStateEdits": 0,
+  "claimsReleased": 0,
+  "selfVerificationPerformed": 0,
+  "routesOpened": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "Production": "NO"
+}

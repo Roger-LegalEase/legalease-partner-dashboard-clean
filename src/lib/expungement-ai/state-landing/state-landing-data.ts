@@ -72,7 +72,7 @@ export const STATE_LANDING_CHROME = {
     "Service or mailing steps, and a hearing, if the court requires them."
   ],
   howItWorks: [
-    "Start a free guided check.",
+    "Start a free screening.",
     "Confirm the state where the arrest, charge, or conviction happened, or change it if needed.",
     "Answer plain-English questions about what happened.",
     "See which record-clearing options may be available, based on what you shared.",
@@ -121,7 +121,7 @@ function buildFaq(content: GeneratedStateContent, termLabel: string, pathwayHigh
   return [
     {
       q: `Is this expungement, sealing, or another kind of record clearing in ${name}?`,
-      a: `${name} handles record clearing as ${termLabel}. Common options here include: ${optionList}. The free guided check uses your answers to show what may be available.`
+      a: `${name} handles record clearing as ${termLabel}. Common options here include: ${optionList}. The free screening uses your answers to show what may be available.`
     },
     {
       q: `Can Expungement.ai prepare the ${name} paperwork for me?`,
@@ -141,11 +141,11 @@ function buildFaq(content: GeneratedStateContent, termLabel: string, pathwayHigh
     },
     {
       q: "What if my case is very recent or still open?",
-      a: `Some ${name} options have waiting periods, and open cases usually have to close first. If the timing is not right yet, the guided check explains what may change and when an option may be available later.`
+      a: `Some ${name} options have waiting periods, and open cases usually have to close first. If the timing is not right yet, the screening explains what may change and when an option may be available later.`
     },
     {
       q: "What if I have more than one case, or a case in another state?",
-      a: `You can check as many cases as you need. Each case is saved separately, and you can start another free guided check for a different state from your Briefcase. Starting here never locks you into ${name}.`
+      a: `You can check as many cases as you need. Each case is saved separately, and you can start another free screening for a different state from your Briefcase. Starting here never locks you into ${name}.`
     }
   ];
 }
@@ -220,7 +220,7 @@ function buildStateLandingData(content: GeneratedStateContent): StateLandingData
       eyebrow: `${name} record clearing`,
       headline,
       sub,
-      ctaPrimaryLabel: "Start free",
+      ctaPrimaryLabel: "Check my options",
       ctaPrimaryHref: screeningHrefForCode(code),
       ctaSecondaryLabel: "See how it works",
       ctaSecondaryHref: HOW_IT_WORKS_HREF,
@@ -237,10 +237,10 @@ function buildStateLandingData(content: GeneratedStateContent): StateLandingData
     faq: buildFaq(content, termLabel, publicPathwayHighlights),
     seo: {
       title: `${name} Record Clearing (${termLabel}) | Free Guided Check`,
-      description: `Explore record-clearing options in ${name}. Start a free guided check. A supported self-help packet costs $50 for one case. Not a law firm. The court or agency decides.`,
+      description: `Explore record-clearing options in ${name}. Start a free screening. A supported self-help packet costs $50 for one case. Not a law firm. The court or agency decides.`,
       canonical,
       ogTitle: `${name} Record Clearing | Start Free`,
-      ogDescription: `${name} record clearing as ${termLabel}. Start a free guided check. Supported self-help packets cost $50 for one case, and court filing fees are separate.`
+      ogDescription: `${name} record clearing as ${termLabel}. Start a free screening. Supported self-help packets cost $50 for one case, and court filing fees are separate.`
     }
   };
 }

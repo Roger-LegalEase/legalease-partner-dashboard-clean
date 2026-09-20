@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-rows/v1",
+  "assignmentId": "FIX03",
+  "rows": [
+    {
+      "itemId": "nm_conviction-set",
+      "startingState": "FAIL_REPAIR_REQUIRED",
+      "status": "COMPLETED",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "SELF_HELP_STOP"
+      ],
+      "actualDefect": "The historical held-fact and self-help-stop defects were already repaired by FIX95, but the packet still bound the rejected district-local fee-waiver binary. Rebuilding against the statewide flat source also exposed the route-known Petitioner role and seven household-support controls, which are now modeled explicitly.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "b943cf5b16d95882e1a096504438d792fdbdddcc82acab09e58076421978658a",
+          "byteLength": 718220,
+          "pageCount": 24
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "8eb9f0f13fd2afc3077e7d99d50c9dad65ef36b2b53f9e6abf95c505b723a9f7",
+          "byteLength": 718383,
+          "pageCount": 24
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/nm/rows-fix03-20260911-nm-statewide.json"
+    },
+    {
+      "itemId": "nm_identity_theft-set",
+      "startingState": "FAIL_REPAIR_REQUIRED",
+      "status": "COMPLETED",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS"
+      ],
+      "actualDefect": "The historical held-address defect was already repaired by FIX95, but the packet still bound the rejected district-local fee-waiver binary. The current build uses the statewide blank caption and preserves the held-address repair.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "a280669cf6f10b161e65c6ac4243b4d535b36c6677841c2c23fe03ad797621df",
+          "byteLength": 228955,
+          "pageCount": 15
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "5360c3b3aa98ce68b206d848b7ced0fdf57e12ec784995c6491d20bd51deac01",
+          "byteLength": 228882,
+          "pageCount": 15
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/nm/rows-fix03-20260911-nm-statewide.json"
+    },
+    {
+      "itemId": "nm_release_without_conviction-set",
+      "startingState": "FAIL_REPAIR_REQUIRED",
+      "status": "COMPLETED",
+      "factoryState": "BUILT_RASTER_PENDING",
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "actualDefect": "The prior packet's Form 4-222 component printed a fixed Sixth Judicial District caption, so its county/court treatment could not be valid statewide. The new source supplies measured blank caption lines and removes the conflicting page content.",
+      "artifacts": [
+        {
+          "fixture": "canonical",
+          "sha256": "1a6b59ac0a327692222cac1a67072061441b2cccb843c5ba8ae85478462fba65",
+          "byteLength": 382248,
+          "pageCount": 19
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "63d24f596803e636ef177dea7a14e43c532dae62627744bb1832c7f270d2bcfb",
+          "byteLength": 382078,
+          "pageCount": 19
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/nm/rows-fix03-20260911-nm-statewide.json"
+    }
+  ],
+  "packetsSelfVerified": 0
+}

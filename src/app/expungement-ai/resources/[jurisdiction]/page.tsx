@@ -122,7 +122,7 @@ export default async function StateResourcePage({
           {/* EDITORIAL intro, with a copy-safe fallback that promises nothing. */}
           <p className={`mx-auto mt-5 max-w-2xl ${brand.cls.body}`}>
             {editorial.intro?.trim() ||
-              `Here is how record clearing works in ${locked.name}, in plain language. A record-clearing path may be available in some situations and not in others. The free guided check walks you through what ${locked.name} looks at.`}
+              `Here is how record clearing works in ${locked.name}, in plain language. A record-clearing path may be available in some situations and not in others. The free screening walks you through what ${locked.name} looks at.`}
           </p>
 
           <div className="mx-auto mt-7 flex max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
@@ -131,7 +131,7 @@ export default async function StateResourcePage({
               data-cta-id="state_resource_start_free_check"
               className={brand.cls.ctaPrimary}
             >
-              Start free
+              Check my options
               <ArrowRight className="h-5 w-5" aria-hidden="true" />
             </Link>
             <Link
@@ -294,7 +294,7 @@ export default async function StateResourcePage({
         <section className={brand.cls.ctaPanel} aria-label="Next step">
           <h2 className={brand.cls.ctaPanelHeading}>See what may be available in {locked.name}.</h2>
           <p className={brand.cls.ctaPanelBody}>
-            No account or payment is required to begin. The free guided check walks through what {locked.name}{" "}
+            No account or payment is required to begin. The free screening walks through what {locked.name}{" "}
             looks at and shows whether a supported self-help packet may be available.
           </p>
 
@@ -304,7 +304,7 @@ export default async function StateResourcePage({
               data-cta-id="state_resource_final_cta"
               className={brand.cls.ctaPrimary}
             >
-              Start free
+              Check my options
               <ArrowRight className="h-5 w-5" aria-hidden="true" />
             </Link>
             <Link

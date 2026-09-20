@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "familyId": "ri_first_offender_felony-set",
+  "result": "PASS",
+  "checks": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-ri-first-offender-felony-current-repair.mjs",
+      "result": "PASS",
+      "assertions": 70,
+      "negativeControls": 3,
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/focused-test.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ri_first_offender_felony-set",
+      "result": "PASS_COMPLETE",
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/completeness.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ri_first_offender_felony-set.mjs --check --no-raster",
+      "result": "PASS",
+      "sourcePages": 4,
+      "sourceFields": 74,
+      "sourceSha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/build.log"
+    }
+  ],
+  "packetDocuments": [
+    {
+      "role": "canonical",
+      "name": "canonical.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "246c0c07c6798ca7205d161a36fa6886c48a7d300c479cd0ccd48b21ddafd958",
+      "byteLength": 306350,
+      "pageCount": 13,
+      "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 13,
+        "sourceSha256": "246c0c07c6798ca7205d161a36fa6886c48a7d300c479cd0ccd48b21ddafd958"
+      }
+    },
+    {
+      "role": "boundary",
+      "name": "boundary.pdf",
+      "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "0fc269fff8d0c6ba6a8ee358ebadf77c1e3c526964ed07fbd85a8762eb3b7e4a",
+      "byteLength": 306529,
+      "pageCount": 13,
+      "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+      "pageCountEvidence": {
+        "method": "pdf-lib 1.17.1",
+        "pageCount": 13,
+        "sourceSha256": "0fc269fff8d0c6ba6a8ee358ebadf77c1e3c526964ed07fbd85a8762eb3b7e4a"
+      }
+    }
+  ],
+  "independentReview": "PENDING",
+  "raster": "PENDING"
+}

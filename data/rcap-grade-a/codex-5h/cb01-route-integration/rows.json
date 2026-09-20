@@ -1,0 +1,2761 @@
+{
+  "schemaVersion": "cb01-rows/v1",
+  "assignment": "CB01_ROUTE_AND_BRANCH_INTEGRATION_FACTORY",
+  "baseSha": "110c028aaeccad30d5d673d46110d5fc3859db4e",
+  "generatedAt": "2026-09-01T00:00:00Z",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "derivation": {
+    "captainRows": 33,
+    "checkpointNoFamilyBlockers": 48,
+    "wave2R2Rows": 37,
+    "wave2R3Rows": 43,
+    "categoryBRows": 55,
+    "totalRows": 216
+  },
+  "counts": {
+    "IMPLEMENTED": 0,
+    "ALREADY_SATISFIED": 98,
+    "RETIRED": 0,
+    "STOPPED": 118
+  },
+  "rows": [
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "CA",
+      "reason": "The runtime asserts a four-year petition-based felony sealing route under Penal Code § 1203.49, but the registry evidence identifies § 1203.49 as trafficking relief and places the relevant SB 731 dismissal authority at § 1203.41.",
+      "resolution": {
+        "status": "STOPPED_RUNTIME_IDENTITY_INVALID",
+        "mappedRegistryTrackIds": [],
+        "candidateTrackAfterRuntimeRewrite": [
+          "ca-1203-41"
+        ],
+        "requiredAction": "Rewrite the runtime to the actual § 1203.41 route or retire the invalid identity before binding; do not bind the pathway as written."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief",
+      "status": "STOPPED",
+      "jurisdiction": "CA",
+      "reason": "The candidate inherits the ca-prop64 CR-400 packet treatment onto Tool 5 even though Tool 5 is the automatic, no-filing, guidance-only umbrella; the packet belongs to the two participant § 11361.8 pathways.",
+      "resolution": {
+        "trackRelation": "compiled_variant_of_registry_track",
+        "trackId": "ca-prop64",
+        "runtimePathwayId": "tool-5-proposition-64-marijuana-relief",
+        "stageRole": "automatic_guidance_umbrella",
+        "participantCanInitiate": false,
+        "outputStrategy": "process_guidance",
+        "packetSetId": null,
+        "participantPacketPathways": [
+          "prop-64-currently-serving-petition-11361-8",
+          "prop-64-completed-sentence-application-11361-8"
+        ]
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:CO:juvenile-expungement-19-1-306",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:CO:juvenile-expungement-19-1-306",
+      "status": "STOPPED",
+      "jurisdiction": "CO",
+      "reason": "C.R.S. § 19-1-306 juvenile expungement, including JDF 302, has no Colorado census stage; existing Colorado stages concern adult sealing and Clean Slate mechanisms.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "C.R.S. § 19-1-306",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+      "status": "STOPPED",
+      "jurisdiction": "CO",
+      "reason": "One obligation conflates the automatic § 13-3-117 stage with the participant JDF-2363 objection or hearing-response branch; the runtime is automatic/no-filing while the track-derived treatment is participant official-PDF filing.",
+      "resolution": {
+        "status": "STOPPED_DENOMINATOR_AND_MISSING_BRANCH_RUNTIME",
+        "existingRuntimeTarget": {
+          "runtimePathwayId": "automatic-clean-slate-sealing-13-3-117",
+          "stageRole": "automatic_B_stage",
+          "outputStrategy": "process_guidance",
+          "packetSetId": null
+        },
+        "requiredButAbsent": "A distinct census A-stage identity and runtime pathway for the JDF-2363 response branch."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:DC:dc_juvenile_sealing_16_2335",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:DC:dc_juvenile_sealing_16_2335",
+      "status": "STOPPED",
+      "jurisdiction": "DC",
+      "reason": "D.C. Code § 16-2335 Family Court juvenile sealing has no census stage; the existing District of Columbia stages are adult or YRA mechanisms.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "D.C. Code § 16-2335",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "ID",
+      "reason": "The distinct Idaho Code § 67-3014 mechanism has no census stage.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Idaho Code § 67-3014",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:ID:juvenile-expungement",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:ID:juvenile-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "ID",
+      "reason": "Idaho Code § 20-525A juvenile expungement is a distinct mechanism with no census stage.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Idaho Code § 20-525A",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch",
+      "status": "STOPPED",
+      "jurisdiction": "ID",
+      "reason": "The candidate treats this review guardrail as a standalone paid-packet/custom-pleading obligation, while the licensed crosswalk and runtime define routeType=review, needs_review, and paymentAllowed=false.",
+      "resolution": {
+        "status": "NO_STAGE_BY_DESIGN_STOPPED_FOR_CENSUS_CHANGE",
+        "mappedRegistryTrackIds": [],
+        "requiredAction": "Retain this as a routing/review guardrail, not a relief-stage binding or coverage obligation; make the census correction only through its generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "IL",
+      "reason": "The terminal crosswalk record is a registry-gap conclusion, not a binding; no Illinois census stage carries 20 ILCS 2630/5.2(h).",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "20 ILCS 2630/5.2(h)",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "IL",
+      "reason": "The 705 ILCS 405/5-915 juvenile mechanism has no census stage; existing Illinois stages are adult 20 ILCS 2630/5.2 routes.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "705 ILCS 405/5-915",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1",
+      "status": "STOPPED",
+      "jurisdiction": "IN",
+      "reason": "A pre-filing court-status check with explicitly no filing was treated as unresolved solely because it has no packet identity.",
+      "resolution": {
+        "stageRole": "pre_filing_court_status_verification_guidance",
+        "outputStrategy": "process_guidance",
+        "ownsPacket": false,
+        "runtimePathwayId": null,
+        "participantBranch": "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-2",
+        "participantBranchPacketSetId": "in_infraction_nondisclosure-set"
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:MD:juvenile-expungement",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:MD:juvenile-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "MD",
+      "reason": "The terminal crosswalk record proves a registry gap: Maryland's existing stages are adult Title 10 mechanisms, while juvenile expungement is a distinct process.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Md. Cts. & Jud. Proc. § 3-8A-27.1; Md. Rule 11-506",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:ME:pardon-route",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:ME:pardon-route",
+      "status": "STOPPED",
+      "jurisdiction": "ME",
+      "reason": "No Maine pardon or clemency census stage exists.",
+      "resolution": {
+        "status": "STOPPED_UNRESOLVED_EVIDENCE_AND_NEW_STAGE",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Maine executive pardon mechanism",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+      "status": "STOPPED",
+      "jurisdiction": "MN",
+      "reason": "Identity is one-to-one, but output treatment is unresolved: the approved track says custom_pleading while LD-MN-01 says agency_application and names a § 299C.11 demand; the candidate falls back to non_filing_guidance with no packet identity.",
+      "resolution": {
+        "status": "STOPPED_UNRESOLVED_CONTRADICTION",
+        "mappedRegistryTrackIds": [
+          "mn_299c11_arrest_demand"
+        ],
+        "candidateMappingsNotChosen": [
+          "Treat custom_pleading as document format and agency_application as destination/outcome, reusing rcap-mn-custom-pleading.",
+          "Create a distinct exact agency-demand family named by LD-MN-01."
+        ],
+        "requiredAction": "Obtain the deciding route-output record before choosing; a new packet family, if required, must move only through the census generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "status": "STOPPED",
+      "jurisdiction": "MN",
+      "reason": "The composite runtime is mapped only to mn_auto_cannabis_nonfelony while mn_ceb_felony_cannabis remains track-only, even though the evidence requires distinct automatic and Board-review mechanisms; runtime product metadata also misclassifies the route as a participant court petition.",
+      "resolution": {
+        "status": "STOPPED_COMPOSITE_PATHWAY",
+        "requiredSplit": [
+          {
+            "trackId": "mn_auto_cannabis_nonfelony",
+            "mechanism": "§ 609A.055 automatic",
+            "outputStrategy": "process_guidance",
+            "participantCanInitiate": false
+          },
+          {
+            "trackId": "mn_ceb_felony_cannabis",
+            "mechanism": "§ 609A.06 Cannabis Expungement Board review",
+            "outputStrategy": "referral_process_guidance",
+            "participantCanInitiate": false
+          }
+        ],
+        "exactRuntimePathwayIds": null,
+        "requiredAction": "Create distinct runtime identities through the generator; do not assign the composite pathway to either one stage."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "MN",
+      "reason": "One parent runtime is inherited by four units; this unit says no-filing/process-guidance while LD-MN-01 says participant_packet, and the worklist assigns the packet only to request-stage and written-request units.",
+      "resolution": {
+        "status": "STOPPED_PENDING_ROUTE_KIND_AND_MULTI_STAGE_CLAIM",
+        "likelyRoleNotAdopted": "downstream court outcome and guidance stage without standalone packet",
+        "requiredAction": "Resolve the pending route-kind adjudication and sibling runtime duplication before assigning this unit."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "status": "STOPPED",
+      "jurisdiction": "ND",
+      "reason": "The broad runtime pathway combines misdemeanor, felony, and pardoned-conviction stages and also includes nonconviction material served by another pathway.",
+      "resolution": {
+        "status": "STOPPED_SPLIT_RUNTIME_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "stageCandidates": [
+          "nd-seal-misdemeanor-conviction",
+          "nd-seal-felony-conviction",
+          "nd-seal-pardoned-conviction"
+        ],
+        "requiredAction": "Split the runtime identity into stage-specific pathways and remove the separately represented nonconviction branch; do not select one claimant."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance",
+      "status": "STOPPED",
+      "jurisdiction": "NH",
+      "reason": "This out-of-scope jurisdictional referral is counted as a standalone obligation despite routeType=out_of_scope, filingRequired=false, and result=not_covered_yet.",
+      "resolution": {
+        "status": "NO_STAGE_BY_DESIGN_STOPPED_FOR_CENSUS_CHANGE",
+        "mappedRegistryTrackIds": [],
+        "requiredAction": "Retain this as a runtime guardrail and exclude it from relief-stage coverage through the census generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+      "status": "STOPPED",
+      "jurisdiction": "NV",
+      "reason": "NRS 453.3365 sealing is absent from the Nevada census stages, which cover chapters 179, 179A, 176, and 176A rather than chapter 453.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "NRS 453.3365",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
+      "status": "STOPPED",
+      "jurisdiction": "NY",
+      "reason": "No New York census stage carries CPL 160.58; existing stages cover CPL 160.50, 160.57, 160.59, and MRTA.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "N.Y. Crim. Proc. Law § 160.58",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:OH:juvenile-sealing-and-expungement",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:OH:juvenile-sealing-and-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "OH",
+      "reason": "Ohio Rev. Code § 2151.356 juvenile relief has no census stage; existing Ohio stages are adult chapter 2953 routes.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Ohio Rev. Code § 2151.356",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+      "status": "STOPPED",
+      "jurisdiction": "RI",
+      "reason": "Stage 3 is marked process_guidance but carries filing, sworn-affidavit, hearing, and certified-order duties already partly owned by the stage-2 DC-33/DC-33-ORDER packet; all three units inherit one runtime pathway.",
+      "resolution": {
+        "status": "STOPPED_MIXED_STAGE_CONTRADICTION",
+        "candidateMappingsNotChosen": [
+          "Move filing, affidavit, and proposed-order duties to stage 2 and retain stage 3 only as notice/hearing/certified-copy guidance.",
+          "Keep stage 3 participant-facing with its own distinct runtime identity."
+        ],
+        "requiredAction": "Obtain a deciding unit-boundary record and make any denominator change only through the generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:SC:human-trafficking-survivor-expungement",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:SC:human-trafficking-survivor-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "SC",
+      "reason": "Hash-pinned official evidence establishes the mechanism, but no South Carolina census stage registers it and procedural review remains.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_AND_PROCEDURAL_REVIEW_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "S.C. Code § 16-3-2020(F)",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:SD:controlled-substance-deferred-disposition-route",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:SD:controlled-substance-deferred-disposition-route",
+      "status": "STOPPED",
+      "jurisdiction": "SD",
+      "reason": "SDCL § 23A-27-53 is a distinct mechanism with no census stage.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "SDCL § 23A-27-53",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:SD:juvenile-delinquency-sealing",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:SD:juvenile-delinquency-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "SD",
+      "reason": "No South Dakota census stage carries Title 26 juvenile authority.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "SDCL §§ 26-7A-115 to 26-7A-116",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry",
+      "status": "STOPPED",
+      "jurisdiction": "SD",
+      "reason": "Parent expansion left stage 3 as guidance/no-filing even though its packet identity is known, while the same parent runtime is claimed by stages 1, 2, and 3 without a unit assignment.",
+      "resolution": {
+        "status": "STOPPED_PARENT_RUNTIME_MULTI_STAGE_CLAIM",
+        "parentRuntimePathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+        "censusClaimantRouteKeys": [
+          "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-1-record-gathering",
+          "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+          "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry"
+        ],
+        "stage3PacketEvidence": {
+          "packetSetId": "sd_arrest_expungement-set",
+          "components": [
+            "component:sd_arrest_expungement-hearing-waiver-4",
+            "component:sd_arrest_expungement-notice-of-hearing-5",
+            "component:sd_arrest_expungement-notice-of-entry-6"
+          ],
+          "forms": [
+            "UJS-392",
+            "UJS-393",
+            "UJS-395"
+          ]
+        },
+        "requiredAction": "Resolve the parent runtime to exact unit assignments or distinct runtime identities; do not select a claimant in this reconciliation."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:VT:juvenile-sealing",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:VT:juvenile-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "VT",
+      "reason": "Juvenile-delinquency sealing has no census stage; vt_seal_under_25 is the distinct subsection (g) offense-before-25 route and is bound elsewhere.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "33 V.S.A. § 5119 juvenile-delinquency branch",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:WI:executive-pardon-guidance",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:WI:executive-pardon-guidance",
+      "status": "STOPPED",
+      "jurisdiction": "WI",
+      "reason": "No Wisconsin pardon or rights-restoration routing stage exists.",
+      "resolution": {
+        "status": "STOPPED_UNRESOLVED_EVIDENCE_AND_NEW_STAGE",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Wisconsin Governor pardon / DOJ rights-restoration process",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "status": "STOPPED",
+      "jurisdiction": "WI",
+      "reason": "No Wisconsin census stage carries chapter 938 juvenile authority or JD-1780.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Wis. Stat. § 938.355(4m)",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:WV:juvenile-record-relief",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:WV:juvenile-record-relief",
+      "status": "STOPPED",
+      "jurisdiction": "WV",
+      "reason": "No West Virginia census stage carries chapter 49 juvenile authority; existing stages are adult conviction, nonconviction, drug, DUI, and pardon routes.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "W. Va. Code § 49-5-104",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+      "status": "STOPPED",
+      "jurisdiction": "WY",
+      "reason": "The named wy_nc_1401 relation explicitly scopes juvenile records outside that adult track, and no juvenile census stage exists.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Wyo. Stat. §§ 14-6-241 and 14-6-440",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:WY:wy_misd_1501:misdemeanor-conviction-expungement-w-s-7-13-1501",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:track-pathway:WY:wy_misd_1501:misdemeanor-conviction-expungement-w-s-7-13-1501",
+      "status": "STOPPED",
+      "jurisdiction": "WY",
+      "reason": "Runtime booleans say automatic/no-filing/guidance although the runtime's own rule requires a verified petition, service, and court adjudication and the approved track is custom pleading.",
+      "resolution": {
+        "trackRelation": "direct_runtime_representation",
+        "trackId": "wy_misd_1501",
+        "runtimePathwayId": "misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "routeType": "court_filing",
+        "participantCanInitiate": true,
+        "automatic": false,
+        "outputStrategy": "custom_pleading",
+        "packetSetId": "wy_misd_1501-set"
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "CAPTAIN_ROUTE_MAPPING:obligation:track-pathway:WY:wy_nc_1401:adult-non-conviction-expungement-w-s-7-13-1401",
+      "source": "CAPTAIN_ROUTE_MAPPING",
+      "id": "obligation:track-pathway:WY:wy_nc_1401:adult-non-conviction-expungement-w-s-7-13-1401",
+      "status": "STOPPED",
+      "jurisdiction": "WY",
+      "reason": "Runtime booleans say automatic/no-filing/guidance although the runtime text requires a verified petition and prosecutor service; the registry track already supplies the exact custom-pleading identity.",
+      "resolution": {
+        "trackRelation": "direct_runtime_representation",
+        "trackId": "wy_nc_1401",
+        "runtimePathwayId": "adult-non-conviction-expungement-w-s-7-13-1401",
+        "routeType": "court_filing",
+        "participantCanInitiate": true,
+        "automatic": false,
+        "outputStrategy": "custom_pleading",
+        "packetSetId": "wy_nc_1401-set"
+      },
+      "evidenceSource": "data/rcap-grade-a/captain-route-mapping/reconciled.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:nc_146_dismissal_petition",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:nc_146_dismissal_petition",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:nd-nonconviction-auto-close-verify",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:sc_17_22_950_summary",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:sc_17_22_950_summary",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:composed-treatment:sd_sis_sealing",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "composed-treatment:sd_sis_sealing",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-ga-guidance-implementation",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-ga-guidance-implementation",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-hi-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-hi-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-in-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-in-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-ks-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-ks-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-mo-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-mo-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-ms-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-ms-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-nd-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-nd-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-nv-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-nv-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-ok-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-ok-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-or-official-pdf-fill",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-or-official-pdf-fill",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-sc-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-sc-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-tn-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-tn-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-tx-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-tx-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-wa-custom-pleading-clean-tracks",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-wa-custom-pleading-clean-tracks",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-wi-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-wi-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "LIVE_CHECKPOINT_NO_FAMILY:rcap-wv-custom-pleading",
+      "source": "LIVE_CHECKPOINT_NO_FAMILY",
+      "id": "rcap-wv-custom-pleading",
+      "status": "STOPPED",
+      "reason": "no census route binds this id to a packet family",
+      "nextAction": "Captain route/family binding",
+      "evidenceSource": "data/rcap-grade-a/packet-factory-24h/CHECKPOINT.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:AK:ak-sej",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:AK:ak-sej",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "AK",
+      "reason": "Bound track ak-sej to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry present.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:AK:ak-juvenile:juvenile-record-sealing-as-47-12-300",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:AK:ak-juvenile:juvenile-record-sealing-as-47-12-300",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "AK",
+      "reason": "Bound track ak-juvenile to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as AK:juvenile-record-sealing-as-47-12-300. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:AK:ak-pardon:executive-pardon-backstop",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:AK:ak-pardon:executive-pardon-backstop",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "AK",
+      "reason": "Bound track ak-pardon to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as AK:executive-pardon-backstop. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:AR:ar-preadjudication-probation",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:AR:ar-preadjudication-probation",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "AR",
+      "reason": "Bound track ar-preadjudication-probation to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded a required counsel handoff (requires_negotiation), and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:CA:ca-851-8:tool-4-arrest-record-sealing",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:CA:ca-851-8:tool-4-arrest-record-sealing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CA",
+      "reason": "Bound track ca-851-8 to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded a required counsel handoff (contested_evidentiary_showing, individualized_advocacy), and settled the participant A branch question as CA:tool-4-arrest-record-sealing. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:CT:ct-cannabis-auto:cannabis-conviction-erasure",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:CT:ct-cannabis-auto:cannabis-conviction-erasure",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CT",
+      "reason": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory",
+      "source": "WAVE_2_R2",
+      "id": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "DE",
+      "reason": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, juvenile-court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:DE:de_attorney_general_expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:DE:de_attorney_general_expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "DE",
+      "reason": "Bound track de_attorney_general_expungement to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:GA:ga-fo-sentencing-post2026",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:GA:ga-fo-sentencing-post2026",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "GA",
+      "reason": "Bound track ga-fo-sentencing-post2026 to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:GA:ga-time-expired",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:GA:ga-time-expired",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "GA",
+      "reason": "Bound track ga-time-expired to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "KY",
+      "reason": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, juvenile-court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-petition-610330",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-petition-610330",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "KY",
+      "reason": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, juvenile-court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:LA:la-999-expedited-expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:LA:la-999-expedited-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "LA",
+      "reason": "Bound track la-999-expedited-expungement to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "LA",
+      "reason": "Decomposed the record's output treatment \"PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL\" into 2 governed branch configurations (participant-packet=participant_packet/single_stage, contested-timing-to-counsel=referral/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MD",
+      "reason": "Decomposed the record's output treatment \"AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE\" into 2 governed branch configurations (agency-request=agency_application/single_stage, automatic-status-correction-guidance=automatic_relief/automatic), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MT",
+      "reason": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR AGENCY REQUEST\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, agency-request=agency_application/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
+      "source": "WAVE_2_R2",
+      "id": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "ND",
+      "reason": "Decomposed the record's output treatment \"AUTOMATIC CLOSURE GUIDANCE + CLERK AND ORIGINAL-CASE CORRECTION\" into 2 governed branch configurations (automatic-closure-guidance=automatic_relief/automatic, clerk-and-original-case-correction=automatic_relief/enforcement), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:ND:nd-juvenile-records-routing",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:ND:nd-juvenile-records-routing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "ND",
+      "reason": "Bound track nd-juvenile-records-routing to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:NE:ne-pardon-routing",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:NE:ne-pardon-routing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "reason": "Bound track ne-pardon-routing to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded a required counsel handoff (requires_negotiation), and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "reason": "Bound track ne-juvenile-sealing-routing to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as NE:juvenile-petition-backstop. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:NH:nh_auto_nonconviction:annulment-after-dismissal-acquittal-or-nonprosecution",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:NH:nh_auto_nonconviction:annulment-after-dismissal-acquittal-or-nonprosecution",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NH",
+      "reason": "Bound track nh_auto_nonconviction to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as NH:annulment-after-dismissal-acquittal-or-nonprosecution. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:NM:nm_cannabis:cannabis-expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:NM:nm_cannabis:cannabis-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NM",
+      "reason": "Bound track nm_cannabis to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as NM:cannabis-expungement. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NV",
+      "reason": "Decomposed the record's output treatment \"COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET\" into 2 governed branch configurations (court-sealing-packet=participant_packet/single_stage, trafficking-vacatur-sealing-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "status": "STOPPED",
+      "jurisdiction": "OR",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:PA:pa_acquittal_auto:path-b-complete-acquittal-not-guilty-expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:PA:pa_acquittal_auto:path-b-complete-acquittal-not-guilty-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "PA",
+      "reason": "Bound PA:path-b-complete-acquittal-not-guilty-expungement to a single governed branch product-scope-exclusion=unsupported/single_stage with packetFamily null, implementing the signed reclassification PA-2026-08-25-APPROVED-GUIDANCE-B (paid_packet_intended -> product_scope_exclusion, reason product_scope_decision). unsupported is a no-participant-filing outcome, so the runtime's own derivation closes the checkout this pathway previously intended.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "PA",
+      "reason": "Decomposed the record's output treatment \"ROUTE-SPECIFIC COURT EXPUNGEMENT OR VACATUR PACKET\" into 2 governed branch configurations (route-specific-court-expungement-packet=participant_packet/single_stage, route-specific-vacatur-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:RI:ri_filed_complaints:path-e-filed-complaint-relief-under-12-10-12",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:RI:ri_filed_complaints:path-e-filed-complaint-relief-under-12-10-12",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "RI",
+      "reason": "Decomposed the record's output treatment \"STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION\" into 2 governed branch configurations (status-correction-guidance=guidance_status/single_stage, limited-court-application=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:runtime-only:SC:juvenile-expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:runtime-only:SC:juvenile-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "SC",
+      "reason": "Decomposed the record's output treatment \"OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY\" into 3 governed branch configurations (offense-specific-packet=participant_packet/single_stage, nonconviction-juvenile-packet=participant_packet/single_stage, pardon-guidance-only=guidance_status/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions",
+      "source": "WAVE_2_R2",
+      "id": "obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "SC",
+      "reason": "Decomposed the record's output treatment \"OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY\" into 3 governed branch configurations (offense-specific-packet=participant_packet/single_stage, nonconviction-juvenile-packet=participant_packet/single_stage, pardon-guidance-only=guidance_status/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "SC",
+      "reason": "Decomposed the record's output treatment \"SOLICITOR-ADMINISTERED PROCESS GUIDANCE + RETAINED-COUNSEL HANDOFF ON DENIAL\" into 2 governed branch configurations (solicitor-administered-process-guidance=guidance_status/single_stage, retained-counsel-handoff-on-denial=referral/enforcement), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:SD:sd_23a_3_34_auto:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:SD:sd_23a_3_34_auto:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "SD",
+      "reason": "Bound track sd_23a_3_34_auto to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:SD:sd_diversion:diversion-expungement",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:SD:sd_diversion:diversion-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "SD",
+      "reason": "Bound track sd_diversion to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as SD:diversion-expungement. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:TN:tn_acquittal_immediate:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:TN:tn_acquittal_immediate:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "TN",
+      "reason": "Bound track tn_acquittal_immediate to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+      "source": "WAVE_2_R2",
+      "id": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "UT",
+      "reason": "Decomposed the record's output treatment \"SPECIAL COURT PETITION, PARDON STATUS GUIDANCE, OR JUVENILE PETITION\" into 3 governed branch configurations (special-court-petition=participant_packet/single_stage, pardon-status-guidance=guidance_status/single_stage, juvenile-petition=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:UT:ut_auto_clean_slate:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:UT:ut_auto_clean_slate:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "UT",
+      "reason": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-only:WI:wi_def_961_47",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-only:WI:wi_def_961_47",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "WI",
+      "reason": "Bound track wi_def_961_47 to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R2:obligation:track-pathway:WI:wi_exp_942_08_mandatory:adult-conviction-expungement-under-wis-stat-973-015",
+      "source": "WAVE_2_R2",
+      "id": "obligation:track-pathway:WI:wi_exp_942_08_mandatory:adult-conviction-expungement-under-wis-stat-973-015",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "WI",
+      "reason": "Bound track wi_exp_942_08_mandatory to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as WI:adult-conviction-expungement-under-wis-stat-973-015. Observed state: guidance packet absent, registry entry absent.",
+      "evidenceSource": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "CA",
+      "reason": "The runtime asserts a four-year petition-based felony sealing route under Penal Code § 1203.49, but the registry evidence identifies § 1203.49 as trafficking relief and places the relevant SB 731 dismissal authority at § 1203.41.",
+      "resolution": {
+        "status": "STOPPED_RUNTIME_IDENTITY_INVALID",
+        "mappedRegistryTrackIds": [],
+        "candidateTrackAfterRuntimeRewrite": [
+          "ca-1203-41"
+        ],
+        "requiredAction": "Rewrite the runtime to the actual § 1203.41 route or retire the invalid identity before binding; do not bind the pathway as written."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:CO:juvenile-expungement-19-1-306",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:CO:juvenile-expungement-19-1-306",
+      "status": "STOPPED",
+      "jurisdiction": "CO",
+      "reason": "C.R.S. § 19-1-306 juvenile expungement, including JDF 302, has no Colorado census stage; existing Colorado stages concern adult sealing and Clean Slate mechanisms.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "C.R.S. § 19-1-306",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+      "source": "WAVE_2_R3",
+      "id": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+      "status": "STOPPED",
+      "jurisdiction": "CO",
+      "reason": "One obligation conflates the automatic § 13-3-117 stage with the participant JDF-2363 objection or hearing-response branch; the runtime is automatic/no-filing while the track-derived treatment is participant official-PDF filing.",
+      "resolution": {
+        "status": "STOPPED_DENOMINATOR_AND_MISSING_BRANCH_RUNTIME",
+        "existingRuntimeTarget": {
+          "runtimePathwayId": "automatic-clean-slate-sealing-13-3-117",
+          "stageRole": "automatic_B_stage",
+          "outputStrategy": "process_guidance",
+          "packetSetId": null
+        },
+        "requiredButAbsent": "A distinct census A-stage identity and runtime pathway for the JDF-2363 response branch."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:DC:dc_juvenile_sealing_16_2335",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:DC:dc_juvenile_sealing_16_2335",
+      "status": "STOPPED",
+      "jurisdiction": "DC",
+      "reason": "D.C. Code § 16-2335 Family Court juvenile sealing has no census stage; the existing District of Columbia stages are adult or YRA mechanisms.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "D.C. Code § 16-2335",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "ID",
+      "reason": "The distinct Idaho Code § 67-3014 mechanism has no census stage.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Idaho Code § 67-3014",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:ID:juvenile-expungement",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:ID:juvenile-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "ID",
+      "reason": "Idaho Code § 20-525A juvenile expungement is a distinct mechanism with no census stage.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Idaho Code § 20-525A",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch",
+      "status": "STOPPED",
+      "jurisdiction": "ID",
+      "reason": "The candidate treats this review guardrail as a standalone paid-packet/custom-pleading obligation, while the licensed crosswalk and runtime define routeType=review, needs_review, and paymentAllowed=false.",
+      "resolution": {
+        "status": "NO_STAGE_BY_DESIGN_STOPPED_FOR_CENSUS_CHANGE",
+        "mappedRegistryTrackIds": [],
+        "requiredAction": "Retain this as a routing/review guardrail, not a relief-stage binding or coverage obligation; make the census correction only through its generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "IL",
+      "reason": "The terminal crosswalk record is a registry-gap conclusion, not a binding; no Illinois census stage carries 20 ILCS 2630/5.2(h).",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "20 ILCS 2630/5.2(h)",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "IL",
+      "reason": "The 705 ILCS 405/5-915 juvenile mechanism has no census stage; existing Illinois stages are adult 20 ILCS 2630/5.2 routes.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "705 ILCS 405/5-915",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:MD:juvenile-expungement",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:MD:juvenile-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "MD",
+      "reason": "The terminal crosswalk record proves a registry gap: Maryland's existing stages are adult Title 10 mechanisms, while juvenile expungement is a distinct process.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Md. Cts. & Jud. Proc. § 3-8A-27.1; Md. Rule 11-506",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:ME:pardon-route",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:ME:pardon-route",
+      "status": "STOPPED",
+      "jurisdiction": "ME",
+      "reason": "No Maine pardon or clemency census stage exists.",
+      "resolution": {
+        "status": "STOPPED_UNRESOLVED_EVIDENCE_AND_NEW_STAGE",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Maine executive pardon mechanism",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+      "source": "WAVE_2_R3",
+      "id": "obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+      "status": "STOPPED",
+      "jurisdiction": "MN",
+      "reason": "Identity is one-to-one, but output treatment is unresolved: the approved track says custom_pleading while LD-MN-01 says agency_application and names a § 299C.11 demand; the candidate falls back to non_filing_guidance with no packet identity.",
+      "resolution": {
+        "status": "STOPPED_UNRESOLVED_CONTRADICTION",
+        "mappedRegistryTrackIds": [
+          "mn_299c11_arrest_demand"
+        ],
+        "candidateMappingsNotChosen": [
+          "Treat custom_pleading as document format and agency_application as destination/outcome, reusing rcap-mn-custom-pleading.",
+          "Create a distinct exact agency-demand family named by LD-MN-01."
+        ],
+        "requiredAction": "Obtain the deciding route-output record before choosing; a new packet family, if required, must move only through the census generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "source": "WAVE_2_R3",
+      "id": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "status": "STOPPED",
+      "jurisdiction": "MN",
+      "reason": "The composite runtime is mapped only to mn_auto_cannabis_nonfelony while mn_ceb_felony_cannabis remains track-only, even though the evidence requires distinct automatic and Board-review mechanisms; runtime product metadata also misclassifies the route as a participant court petition.",
+      "resolution": {
+        "status": "STOPPED_COMPOSITE_PATHWAY",
+        "requiredSplit": [
+          {
+            "trackId": "mn_auto_cannabis_nonfelony",
+            "mechanism": "§ 609A.055 automatic",
+            "outputStrategy": "process_guidance",
+            "participantCanInitiate": false
+          },
+          {
+            "trackId": "mn_ceb_felony_cannabis",
+            "mechanism": "§ 609A.06 Cannabis Expungement Board review",
+            "outputStrategy": "referral_process_guidance",
+            "participantCanInitiate": false
+          }
+        ],
+        "exactRuntimePathwayIds": null,
+        "requiredAction": "Create distinct runtime identities through the generator; do not assign the composite pathway to either one stage."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+      "source": "WAVE_2_R3",
+      "id": "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "MN",
+      "reason": "One parent runtime is inherited by four units; this unit says no-filing/process-guidance while LD-MN-01 says participant_packet, and the worklist assigns the packet only to request-stage and written-request units.",
+      "resolution": {
+        "status": "STOPPED_PENDING_ROUTE_KIND_AND_MULTI_STAGE_CLAIM",
+        "likelyRoleNotAdopted": "downstream court outcome and guidance stage without standalone packet",
+        "requiredAction": "Resolve the pending route-kind adjudication and sibling runtime duplication before assigning this unit."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "status": "STOPPED",
+      "jurisdiction": "ND",
+      "reason": "The broad runtime pathway combines misdemeanor, felony, and pardoned-conviction stages and also includes nonconviction material served by another pathway.",
+      "resolution": {
+        "status": "STOPPED_SPLIT_RUNTIME_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "stageCandidates": [
+          "nd-seal-misdemeanor-conviction",
+          "nd-seal-felony-conviction",
+          "nd-seal-pardoned-conviction"
+        ],
+        "requiredAction": "Split the runtime identity into stage-specific pathways and remove the separately represented nonconviction branch; do not select one claimant."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance",
+      "status": "STOPPED",
+      "jurisdiction": "NH",
+      "reason": "This out-of-scope jurisdictional referral is counted as a standalone obligation despite routeType=out_of_scope, filingRequired=false, and result=not_covered_yet.",
+      "resolution": {
+        "status": "NO_STAGE_BY_DESIGN_STOPPED_FOR_CENSUS_CHANGE",
+        "mappedRegistryTrackIds": [],
+        "requiredAction": "Retain this as a runtime guardrail and exclude it from relief-stage coverage through the census generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+      "status": "STOPPED",
+      "jurisdiction": "NV",
+      "reason": "NRS 453.3365 sealing is absent from the Nevada census stages, which cover chapters 179, 179A, 176, and 176A rather than chapter 453.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "NRS 453.3365",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
+      "status": "STOPPED",
+      "jurisdiction": "NY",
+      "reason": "No New York census stage carries CPL 160.58; existing stages cover CPL 160.50, 160.57, 160.59, and MRTA.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "N.Y. Crim. Proc. Law § 160.58",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:OH:juvenile-sealing-and-expungement",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:OH:juvenile-sealing-and-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "OH",
+      "reason": "Ohio Rev. Code § 2151.356 juvenile relief has no census stage; existing Ohio stages are adult chapter 2953 routes.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Ohio Rev. Code § 2151.356",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+      "source": "WAVE_2_R3",
+      "id": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+      "status": "STOPPED",
+      "jurisdiction": "RI",
+      "reason": "Stage 3 is marked process_guidance but carries filing, sworn-affidavit, hearing, and certified-order duties already partly owned by the stage-2 DC-33/DC-33-ORDER packet; all three units inherit one runtime pathway.",
+      "resolution": {
+        "status": "STOPPED_MIXED_STAGE_CONTRADICTION",
+        "candidateMappingsNotChosen": [
+          "Move filing, affidavit, and proposed-order duties to stage 2 and retain stage 3 only as notice/hearing/certified-copy guidance.",
+          "Keep stage 3 participant-facing with its own distinct runtime identity."
+        ],
+        "requiredAction": "Obtain a deciding unit-boundary record and make any denominator change only through the generator."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:SC:human-trafficking-survivor-expungement",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:SC:human-trafficking-survivor-expungement",
+      "status": "STOPPED",
+      "jurisdiction": "SC",
+      "reason": "Hash-pinned official evidence establishes the mechanism, but no South Carolina census stage registers it and procedural review remains.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_AND_PROCEDURAL_REVIEW_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "S.C. Code § 16-3-2020(F)",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:SD:controlled-substance-deferred-disposition-route",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:SD:controlled-substance-deferred-disposition-route",
+      "status": "STOPPED",
+      "jurisdiction": "SD",
+      "reason": "SDCL § 23A-27-53 is a distinct mechanism with no census stage.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "SDCL § 23A-27-53",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:SD:juvenile-delinquency-sealing",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:SD:juvenile-delinquency-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "SD",
+      "reason": "No South Dakota census stage carries Title 26 juvenile authority.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "SDCL §§ 26-7A-115 to 26-7A-116",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry",
+      "source": "WAVE_2_R3",
+      "id": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry",
+      "status": "STOPPED",
+      "jurisdiction": "SD",
+      "reason": "Parent expansion left stage 3 as guidance/no-filing even though its packet identity is known, while the same parent runtime is claimed by stages 1, 2, and 3 without a unit assignment.",
+      "resolution": {
+        "status": "STOPPED_PARENT_RUNTIME_MULTI_STAGE_CLAIM",
+        "parentRuntimePathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+        "censusClaimantRouteKeys": [
+          "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-1-record-gathering",
+          "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-2-ujs-motion-packet",
+          "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry"
+        ],
+        "stage3PacketEvidence": {
+          "packetSetId": "sd_arrest_expungement-set",
+          "components": [
+            "component:sd_arrest_expungement-hearing-waiver-4",
+            "component:sd_arrest_expungement-notice-of-hearing-5",
+            "component:sd_arrest_expungement-notice-of-entry-6"
+          ],
+          "forms": [
+            "UJS-392",
+            "UJS-393",
+            "UJS-395"
+          ]
+        },
+        "requiredAction": "Resolve the parent runtime to exact unit assignments or distinct runtime identities; do not select a claimant in this reconciliation."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:VT:juvenile-sealing",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:VT:juvenile-sealing",
+      "status": "STOPPED",
+      "jurisdiction": "VT",
+      "reason": "Juvenile-delinquency sealing has no census stage; vt_seal_under_25 is the distinct subsection (g) offense-before-25 route and is bound elsewhere.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "33 V.S.A. § 5119 juvenile-delinquency branch",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:WI:executive-pardon-guidance",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:WI:executive-pardon-guidance",
+      "status": "STOPPED",
+      "jurisdiction": "WI",
+      "reason": "No Wisconsin pardon or rights-restoration routing stage exists.",
+      "resolution": {
+        "status": "STOPPED_UNRESOLVED_EVIDENCE_AND_NEW_STAGE",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Wisconsin Governor pardon / DOJ rights-restoration process",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "status": "STOPPED",
+      "jurisdiction": "WI",
+      "reason": "No Wisconsin census stage carries chapter 938 juvenile authority or JD-1780.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Wis. Stat. § 938.355(4m)",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:WV:juvenile-record-relief",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:WV:juvenile-record-relief",
+      "status": "STOPPED",
+      "jurisdiction": "WV",
+      "reason": "No West Virginia census stage carries chapter 49 juvenile authority; existing stages are adult conviction, nonconviction, drug, DUI, and pardon routes.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "W. Va. Code § 49-5-104",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+      "source": "WAVE_2_R3",
+      "id": "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+      "status": "STOPPED",
+      "jurisdiction": "WY",
+      "reason": "The named wy_nc_1401 relation explicitly scopes juvenile records outside that adult track, and no juvenile census stage exists.",
+      "resolution": {
+        "status": "STOPPED_NEW_STAGE_REQUIRED",
+        "mappedRegistryTrackIds": [],
+        "requiredStageAuthority": "Wyo. Stat. §§ 14-6-241 and 14-6-440",
+        "requiredAction": "Create or adjudicate the missing census stage through the national census generator before binding this runtime pathway."
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:12",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:12",
+      "status": "STOPPED",
+      "jurisdiction": "IL",
+      "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-pathway:IL:il-cannabis-auto:cannabis-specific-automatic-or-petition-expungement",
+        "bStageRuntimeBinding": {
+          "status": "DUPLICATE_CENSUS_STAGE_CLAIM",
+          "runtimePathwayId": "cannabis-specific-automatic-or-petition-expungement",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:IL:il-cannabis-auto:cannabis-specific-automatic-or-petition-expungement",
+            "obligation:track-pathway:IL:il-cannabis-vacate:cannabis-specific-automatic-or-petition-expungement"
+          ]
+        },
+        "aBranchRouteKey": "obligation:track-pathway:IL:il-cannabis-auto:cannabis-specific-automatic-or-petition-expungement::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [],
+        "disposition": "STOPPED_AND_REPORTED"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:13",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:13",
+      "status": "STOPPED",
+      "jurisdiction": "IL",
+      "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief",
+        "bStageRuntimeBinding": {
+          "status": "DUPLICATE_CENSUS_STAGE_CLAIM",
+          "runtimePathwayId": "felony-prostitution-relief",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief",
+            "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief"
+          ]
+        },
+        "aBranchRouteKey": "obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [],
+        "disposition": "STOPPED_AND_REPORTED"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:14",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:14",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "IN",
+      "reason": "No unresolved conflict remains: the stage binding and explicit absence of a participant-branch runtime pathway are recorded separately.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:IN:in_auto_expungement",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-only:IN:in_auto_expungement::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [
+          "obligation:track-only:IN:in_auto_expungement::participant-branch"
+        ],
+        "disposition": "BOUND_OR_EXPLICIT_NONE"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:19",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:19",
+      "status": "STOPPED",
+      "jurisdiction": "MD",
+      "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:MD:md_10112_dpscs_cannabis",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "aBranchRuntimeBinding": {
+          "status": "DUPLICATE_CENSUS_STAGE_CLAIM",
+          "runtimePathwayId": "adult-non-conviction-expungement-under-crim-proc-10-105",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105",
+            "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"
+          ]
+        },
+        "participantBranchRouteKeysSettled": [],
+        "disposition": "STOPPED_AND_REPORTED"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:20",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:20",
+      "status": "STOPPED",
+      "jurisdiction": "MD",
+      "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1",
+        "bStageRuntimeBinding": {
+          "status": "BOUND_TO_CENSUS_RUNTIME_PATHWAY",
+          "runtimePathwayId": "automatic-expungement-under-crim-proc-10-105-1",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1"
+          ]
+        },
+        "aBranchRouteKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "aBranchRuntimeBinding": {
+          "status": "DUPLICATE_CENSUS_STAGE_CLAIM",
+          "runtimePathwayId": "adult-non-conviction-expungement-under-crim-proc-10-105",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105",
+            "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"
+          ]
+        },
+        "participantBranchRouteKeysSettled": [],
+        "disposition": "STOPPED_AND_REPORTED"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:21",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:21",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "ME",
+      "reason": "No unresolved conflict remains: the stage binding and explicit absence of a participant-branch runtime pathway are recorded separately.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:ME:me-deferred",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-only:ME:me-deferred::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [
+          "obligation:track-only:ME:me-deferred::participant-branch"
+        ],
+        "disposition": "BOUND_OR_EXPLICIT_NONE"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:25",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:25",
+      "status": "STOPPED",
+      "jurisdiction": "MI",
+      "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:MI:mi_auto_misd93",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621",
+        "aBranchRuntimeBinding": {
+          "status": "AMBIGUOUS_CANONICAL_BRANCH_CANDIDATES_DO_NOT_BIND",
+          "runtimePathwayId": "set-aside-by-application-under-mcl-780-621",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ]
+        },
+        "participantBranchRouteKeysSettled": [],
+        "disposition": "STOPPED_AND_REPORTED"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:26",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:26",
+      "status": "STOPPED",
+      "jurisdiction": "MI",
+      "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:MI:mi_deferral_status",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621",
+        "aBranchRuntimeBinding": {
+          "status": "AMBIGUOUS_CANONICAL_BRANCH_CANDIDATES_DO_NOT_BIND",
+          "runtimePathwayId": "set-aside-by-application-under-mcl-780-621",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ]
+        },
+        "participantBranchRouteKeysSettled": [],
+        "disposition": "STOPPED_AND_REPORTED"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:27",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:27",
+      "status": "STOPPED",
+      "jurisdiction": "MI",
+      "reason": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+        "bStageRuntimeBinding": {
+          "status": "BOUND_TO_CENSUS_RUNTIME_PATHWAY",
+          "runtimePathwayId": "automatic-clean-slate-set-aside-under-mcl-780-621g",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g"
+          ]
+        },
+        "aBranchRouteKey": "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621",
+        "aBranchRuntimeBinding": {
+          "status": "AMBIGUOUS_CANONICAL_BRANCH_CANDIDATES_DO_NOT_BIND",
+          "runtimePathwayId": "set-aside-by-application-under-mcl-780-621",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ]
+        },
+        "participantBranchRouteKeysSettled": [],
+        "disposition": "STOPPED_AND_REPORTED"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:28",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:28",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MN",
+      "reason": "No unresolved conflict remains: the stage binding and explicit absence of a participant-branch runtime pathway are recorded separately.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:MN:mn_ceb_felony_cannabis",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-only:MN:mn_ceb_felony_cannabis::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [
+          "obligation:track-only:MN:mn_ceb_felony_cannabis::participant-branch"
+        ],
+        "disposition": "BOUND_OR_EXPLICIT_NONE"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:33",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:33",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "reason": "No unresolved conflict remains: the stage binding and explicit absence of a participant-branch runtime pathway are recorded separately.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing",
+        "bStageRuntimeBinding": {
+          "status": "BOUND_TO_CENSUS_RUNTIME_PATHWAY",
+          "runtimePathwayId": "juvenile-automatic-sealing",
+          "censusClaimantRouteKeys": [
+            "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing"
+          ]
+        },
+        "aBranchRouteKey": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [
+          "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing::participant-branch"
+        ],
+        "disposition": "BOUND_OR_EXPLICIT_NONE"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:36",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:36",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NJ",
+      "reason": "No unresolved conflict remains: the stage binding and explicit absence of a participant-branch runtime pathway are recorded separately.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:NJ:nj_automated_clean_slate",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-only:NJ:nj_automated_clean_slate::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [
+          "obligation:track-only:NJ:nj_automated_clean_slate::participant-branch"
+        ],
+        "disposition": "BOUND_OR_EXPLICIT_NONE"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:stage-branch-pair:42",
+      "source": "WAVE_2_R3",
+      "id": "stage-branch-pair:42",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VA",
+      "reason": "No unresolved conflict remains: the stage binding and explicit absence of a participant-branch runtime pathway are recorded separately.",
+      "resolution": {
+        "bStageRouteKey": "obligation:track-only:VA:va_auto_seal_clean_record",
+        "bStageRuntimeBinding": {
+          "status": "NO_COMPILED_RUNTIME_PATHWAY",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "aBranchRouteKey": "obligation:track-only:VA:va_auto_seal_clean_record::participant-branch",
+        "aBranchRuntimeBinding": {
+          "status": "NONE_YET",
+          "runtimePathwayId": null,
+          "censusClaimantRouteKeys": []
+        },
+        "participantBranchRouteKeysSettled": [
+          "obligation:track-only:VA:va_auto_seal_clean_record::participant-branch"
+        ],
+        "disposition": "BOUND_OR_EXPLICIT_NONE"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "WAVE_2_R3:ne-setaside-noncustodial-set",
+      "source": "WAVE_2_R3",
+      "id": "ne-setaside-noncustodial-set",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "reason": "The worklist assigns custom_pleading even though controlling Nebraska legal-design evidence resolves the route to the official CC-6-11 packet and does not authorize a composed pleading.",
+      "resolution": {
+        "routeKey": "obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service",
+        "packetFamilyId": "ne-setaside-noncustodial-set",
+        "implementationStrategy": "official_pdf_fill",
+        "officialPacket": [
+          "CC-6-11",
+          "CC-6-11.2",
+          "CC-6-11A",
+          "DC-1-15"
+        ],
+        "participantBranchRouteKeysSettled": [
+          "obligation:track-pathway:NE:ne-setaside-noncustodial:set-aside-probation-fine-community-service"
+        ],
+        "customPleadingAuthorized": false,
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialState": "CLOSED_PENDING_REBUILD_AND_REVIEW"
+      },
+      "evidenceSource": "data/rcap-grade-a/wave-2/r3-route-mapping-remainder/rows.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:AK:ak-nonconviction-confidential",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:AK:ak-nonconviction-confidential",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "AK",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:CA:ca-auto-conviction",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:CA:ca-auto-conviction",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CA",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:CA:ca-auto-arrest:tool-2-automatic-relief",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:CA:ca-auto-arrest:tool-2-automatic-relief",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CA",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:CO:co_auto_seal_arrest",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:CO:co_auto_seal_arrest",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CO",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:CO:co_auto_seal_nonconviction",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:CO:co_auto_seal_nonconviction",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CO",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:CT:ct-nonconviction-auto",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:CT:ct-nonconviction-auto",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "CT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:DC:dc_auto_expungement:dc_auto_expungement_16_802",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:DC:dc_auto_expungement:dc_auto_expungement_16_802",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "DC",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:DC:dc_auto_sealing:dc_auto_sealing_16_805",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:DC:dc_auto_sealing:dc_auto_sealing_16_805",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "DC",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:DE:de_auto_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:DE:de_auto_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "DE",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:IL:il-cannabis-auto:cannabis-specific-automatic-or-petition-expungement",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:IL:il-cannabis-auto:cannabis-specific-automatic-or-petition-expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "IL",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "IL",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:IN:in_auto_expungement",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:IN:in_auto_expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "IN",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:KY:ky_automatic_nonconviction_expungement_verification",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:KY:ky_automatic_nonconviction_expungement_verification",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "KY",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:KY:ky_diversion_disposition_routing",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:KY:ky_diversion_disposition_routing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "KY",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MD:md_10103_1_automatic",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MD:md_10103_1_automatic",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MD",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MD:md_10104_pre_service",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MD:md_10104_pre_service",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MD",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MD:md_10112_dpscs_cannabis",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MD:md_10112_dpscs_cannabis",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MD",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MD",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:ME:me-deferred",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:ME:me-deferred",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "ME",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MI:mi_arrest_acquittal_dismissal",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MI:mi_arrest_acquittal_dismissal",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MI",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MI:mi_arrest_no_charge",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MI:mi_arrest_no_charge",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MI",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MI:mi_auto_misd92",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MI:mi_auto_misd92",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MI",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MI:mi_auto_misd93",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MI:mi_auto_misd93",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MI",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MI:mi_deferral_status",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MI:mi_deferral_status",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MI",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MI",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MN:mn_ceb_felony_cannabis",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MN:mn_ceb_felony_cannabis",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MN",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MN:mn_mistaken_identity_iddata",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MN:mn_mistaken_identity_iddata",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MN",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MN:mn_pardon_auto_expungement",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MN:mn_pardon_auto_expungement",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MN",
+      "decision": "CONFIRM_B",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:MO:mo-610-141-automatic-drug:state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:MO:mo-610-141-automatic-drug:state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MO",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:MT:mt_auto_nonconviction",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:MT:mt_auto_nonconviction",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "MT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:NC:nc_auto_146_a4",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:NC:nc_auto_146_a4",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NC",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:NE:ne-firearm-restoration-routing",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:NE:ne-firearm-restoration-routing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "decision": "CONVERT_ALL_TO_A",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:NE:ne-out-of-jurisdiction-routing",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:NE:ne-out-of-jurisdiction-routing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "decision": "CONFIRM_B",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NE",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:NH:nh_auto_vacated:annulment-of-a-vacated-conviction",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:NH:nh_auto_vacated:annulment-of-a-vacated-conviction",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NH",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:NJ:nj_automated_clean_slate",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:NJ:nj_automated_clean_slate",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NJ",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:NY:ny_clean_slate_dwai",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:NY:ny_clean_slate_dwai",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NY",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "NY",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:PA:pa_9122_2_clean_slate:path-j-clean-slate-automatic-limited-access",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:PA:pa_9122_2_clean_slate:path-j-clean-slate-automatic-limited-access",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "PA",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:UT:ut_auto_nonconviction:path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:UT:ut_auto_nonconviction:path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "UT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:UT:ut_auto_traffic:path-i-traffic-offense-expungement-or-deletion",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:UT:ut_auto_traffic:path-i-traffic-offense-expungement-or-deletion",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "UT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:VA:va_auto_seal_clean_record",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:VA:va_auto_seal_clean_record",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VA",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:VA:va_auto_seal_nonconvictions",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:VA:va_auto_seal_nonconvictions",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VA",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:VA:va_auto_seal_without_order",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:VA:va_auto_seal_without_order",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VA",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:VA:va_exp_actual_innocence",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:VA:va_exp_actual_innocence",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VA",
+      "decision": "CONFIRM_B",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:VA:va_auto_seal_convictions:automatic-sealing-no-filing",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:VA:va_auto_seal_convictions:automatic-sealing-no-filing",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VA",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:VT:vt_diversion_post_charge",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:VT:vt_diversion_post_charge",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:VT:vt_diversion_pre_charge",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:VT:vt_diversion_pre_charge",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "VT",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:WI:wi_exp_certificate_of_discharge",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:WI:wi_exp_certificate_of_discharge",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "WI",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:WV:wv_common_nc_procedure",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:WV:wv_common_nc_procedure",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "WV",
+      "decision": "CONVERT_ALL_TO_A",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-only:WV:wv_dui_test_and_lock_dismissal",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-only:WV:wv_dui_test_and_lock_dismissal",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "WV",
+      "decision": "SPLIT_B_STAGE_AND_A_BRANCH",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    },
+    {
+      "rowId": "CATEGORY_B_REVALIDATION:obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "source": "CATEGORY_B_REVALIDATION",
+      "id": "obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "status": "ALREADY_SATISFIED",
+      "jurisdiction": "WV",
+      "decision": "CONVERT_ALL_TO_A",
+      "reason": "Committed C1-C7 return records preserve the stage/branch decision; CB01 grants no commercial authority.",
+      "evidenceSource": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json"
+    }
+  ]
+}

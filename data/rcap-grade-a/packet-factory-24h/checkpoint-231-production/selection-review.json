@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-production-selection-review/v1",
+  "requestedBase": "bd15731bf",
+  "scope": "Bounded read-only ranking of checkpoint-231 generated NONTERMINAL_QUEUE.json; no source acquisition, rendering, rebuild, dispatch, manifest edit, or route approval.",
+  "counting": {
+    "checkpointFile": "data/rcap-grade-a/packet-factory-24h/checkpoint-231-production/NONTERMINAL_QUEUE.json",
+    "reportedNonterminal": 115,
+    "rankedFailureRows": 41,
+    "basis": "FAIL_REPAIR_REQUIRED rows only; terminal/legal-blocked and already-complete rows excluded."
+  },
+  "selection": {
+    "status": "NO_IMMEDIATELY_CONVERTIBLE_MULTI_FAMILY_BATCH",
+    "largestCoherentCandidate": {
+      "families": [
+        "tx_nd_deferred_other-set",
+        "tx_nd_dwi_probation-set",
+        "tx_nd_veterans_court-set",
+        "tx_nd_veterans_reemployment-set"
+      ],
+      "coherence": "One FIX06 repair assignment covers the four Texas nondisclosure route-identity failures; VF08 evidence is data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260910-tx.json, and the builders are the four scripts/build-census-v1-tx_nd_*.mjs files.",
+      "currentFailures": "ROUTE_IDENTITY only for all four; ARTIFACTS passed in the same VF08 cohort.",
+      "blockingRequirement": "All four require the exact shared Statement of Inability PDF (sha256 bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d). The bounded --check evidence in checkpoint-231-production/*-source-check.log stopped each family BLOCKED_SOURCE because private/human-source-returns is not mounted and the PDF is absent from the locally searchable corpus. No source acquisition is authorized here.",
+      "conversionSequenceIfSourceIsMounted": "Repair route identity through FIX06, rerun each builder/check, obtain a fresh central raster because bytes change, independently re-read actual jobs/verdicts, then admit only genuine RASTER_PASS. This review grants none of those steps."
+    },
+    "nextLocalCandidate": {
+      "family": "ri_decriminalized-set",
+      "state": "FAIL_REPAIR_REQUIRED",
+      "sourceReady": true,
+      "failure": "ARTIFACTS",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/vf90/rows-vf90-border-byte-accounting-20260910.json",
+      "blockers": [
+        "The checkpoint row has no executable repair action or active shared-host repair grant.",
+        "Its shared RI siblings are not a clean convertible cohort: ri_first_offender_felony-set is LEGAL_BLOCKED, and the source-identity findings record order/template authority residuals for the RI routes. See data/rcap-grade-a/packet-factory-24h/SOURCE_IDENTITY_FINDINGS.json.",
+        "The source-appearance finding requires a controlled builder repair preserving source-authored /Off paint, then byte movement, raster, and independent re-read; local source binding alone does not establish repair readiness."
+      ]
+    }
+  },
+  "rankedCompetitors": [
+    {
+      "group": "RI shared-host cohort",
+      "families": ["ri_decriminalized-set", "ri_first_offender_felony-set", "ri_deferred_sentence-set", "ri_first_offender_misdemeanor-set", "ri_multiple_misdemeanors-set"],
+      "assessment": "Not coherent in the current 115-row queue: only ri_decriminalized-set is a current nonterminal ARTIFACTS failure; other members are absent, legal-blocked, or have separate treatment. Source identity/order authority residuals remain recorded."
+    },
+    {
+      "group": "Other TX failures",
+      "families": ["tx_exp_acquittal-set", "tx_nd_conviction_no_supervision-set", "tx_nd_dwi_deferred-set", "tx_nd_probation_misdemeanor-set"],
+      "assessment": "Not a same-repair batch: latest VF08 evidence assigns multiple semantic obligations (known prefills, required-before-filing, self-help, clipping/overlap), and the same missing fee-waiver source affects the TX host."
+    },
+    {
+      "family": "in_infraction_nondisclosure-set",
+      "assessment": "Not in the checkpoint-231 nonterminal queue; its VF-C source-receipt drift finding is retained only as historical context. Do not re-add or redispatch it from this selection."
+    }
+  ],
+  "reviewConclusion": "The four-family TX group is the largest coherent repair shape, but it is not eligible for immediate conversion because the exact third source byte is unavailable locally. No smaller coherent group met all source, repair-grant, and current-verdict conditions in this bounded review. This record is a production selection review, not semantic packet approval or route admission."
+}

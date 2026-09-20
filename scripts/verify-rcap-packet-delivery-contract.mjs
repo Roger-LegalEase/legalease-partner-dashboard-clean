@@ -1,3 +1,4 @@
+await import("./verify-rcap-il-delivery-binding.mjs");
 // In-process contract regression for the unified delivery layer (phase 49 +
 // phase 50): typed claim rejection, output validation on real bytes, unit-hash
 // derivation, and the SQL invariants of the hardening migration.
@@ -138,17 +139,18 @@ assert(computeInputHash(base) !== computeInputHash({ ...base, rendererVersion: "
 assert(/^[0-9a-f]{64}$/.test(computeInputHash(base)), "The input hash must be a sha256 hex digest.");
 
 // 5) Job building fails closed on a route that cannot render.
+const retired = buildRenderJobSpec({ packetId: "retired-packet", state: "MS", pathway: "misdemeanor_conviction", packetFields: {} });
+assert(retired.spec === null, "The retired Mississippi route must not authorize a new job.");
 const supported = buildRenderJobSpec({
   packetId: "packet-1",
-  state: "MS",
-  pathway: "misdemeanor_conviction",
-  profileId: "MS",
-  profileVersion: "1.3.0",
+  state: "IL",
+  pathway: "felony-prostitution-relief",
+  trackId: "il-prostitution-j-vacate",
   packetFields: { charge: "x" }
 });
 assert(supported.spec !== null, "A supported jurisdiction must produce a job spec.");
 assert(supported.spec.rendererKind === "packet_document_v1", "The spec must name the renderer.");
-assert(supported.spec.routeId === "MS:misdemeanor_conviction", `Unexpected routeId ${supported.spec?.routeId}.`);
+assert(supported.spec.routeId === "IL:felony-prostitution-relief", `Unexpected routeId ${supported.spec?.routeId}.`);
 
 for (const state of ["CA", "WY", "ZZ", ""]) {
   const built = buildRenderJobSpec({

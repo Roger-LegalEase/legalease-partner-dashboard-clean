@@ -1,0 +1,356 @@
+{
+  "schemaVersion": "cb00-integration-order/v1",
+  "baseSha": "110c028aaeccad30d5d673d46110d5fc3859db4e",
+  "order": [
+    {
+      "order": 1,
+      "jobId": "CB00",
+      "pullRequest": 172,
+      "branch": "codex/execute-cb00_codex_captain_b-task",
+      "prerequisite": null,
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb00-captain-b/codex-shift.json",
+        "data/rcap-grade-a/codex-5h/cb00-captain-b/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb00-captain-b/integration-order.json",
+        "data/rcap-grade-a/codex-5h/cb00-captain-b/progress.md",
+        "data/rcap-grade-a/codex-5h/cb00-captain-b/state.json",
+        "data/rcap-grade-a/codex-5h/cb00-captain-b/unowned-work.json",
+        "docs/rcap/grade-a/codex-5h/CODEX_5H_SHIFT.md"
+      ],
+      "changedFileCount": 7,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 2,
+      "jobId": "CB01",
+      "pullRequest": 173,
+      "branch": "codex/execute-cb01_route_and_branch_integration_factory",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb01-route-integration/branch-identities.json",
+        "data/rcap-grade-a/codex-5h/cb01-route-integration/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb01-route-integration/crosswalk-delta.json",
+        "data/rcap-grade-a/codex-5h/cb01-route-integration/progress.md",
+        "data/rcap-grade-a/codex-5h/cb01-route-integration/rows.json",
+        "data/rcap-grade-a/codex-5h/cb01-route-integration/state.json",
+        "data/rcap-grade-a/codex-5h/cb01-route-integration/stopped.json"
+      ],
+      "changedFileCount": 7,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 3,
+      "jobId": "CB03",
+      "pullRequest": 174,
+      "branch": "codex/execute-cb03-official-pdf-candidates",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb03-official-pdf-candidates/candidates.json",
+        "data/rcap-grade-a/codex-5h/cb03-official-pdf-candidates/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb03-official-pdf-candidates/progress.md",
+        "data/rcap-grade-a/codex-5h/cb03-official-pdf-candidates/source-bindings.json",
+        "data/rcap-grade-a/codex-5h/cb03-official-pdf-candidates/state.json",
+        "data/rcap-grade-a/codex-5h/cb03-official-pdf-candidates/stopped.json",
+        "scripts/codex-5h/cb03-official-pdf-candidates/generate.mjs",
+        "scripts/codex-5h/cb03-official-pdf-candidates/verify.mjs"
+      ],
+      "changedFileCount": 8,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [
+        "scripts/codex-5h/cb03-official-pdf-candidates/generate.mjs",
+        "scripts/codex-5h/cb03-official-pdf-candidates/verify.mjs"
+      ],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 4,
+      "jobId": "CB04",
+      "pullRequest": 175,
+      "branch": "codex/execute-generator-drift-and-live-control-repair",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb04-generator-drift/classification.json",
+        "data/rcap-grade-a/codex-5h/cb04-generator-drift/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb04-generator-drift/generator-inventory.json",
+        "data/rcap-grade-a/codex-5h/cb04-generator-drift/live-fixes.json",
+        "data/rcap-grade-a/codex-5h/cb04-generator-drift/progress.md",
+        "data/rcap-grade-a/codex-5h/cb04-generator-drift/state.json",
+        "data/rcap-grade-a/codex-5h/cb04-generator-drift/stopped.json"
+      ],
+      "changedFileCount": 7,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 5,
+      "jobId": "CB05",
+      "pullRequest": 176,
+      "branch": "codex/execute-cb05-fleet-proof-index",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb05-fleet-index/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb05-fleet-index/families.json",
+        "data/rcap-grade-a/codex-5h/cb05-fleet-index/future-assignment-buckets.json",
+        "data/rcap-grade-a/codex-5h/cb05-fleet-index/next-100.json",
+        "data/rcap-grade-a/codex-5h/cb05-fleet-index/progress.md",
+        "data/rcap-grade-a/codex-5h/cb05-fleet-index/state-contradictions.json",
+        "data/rcap-grade-a/codex-5h/cb05-fleet-index/state.json",
+        "docs/rcap/grade-a/codex-5h/CB05_FLEET_NEXT_WAVE.md"
+      ],
+      "changedFileCount": 8,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 6,
+      "jobId": "CB06",
+      "pullRequest": 177,
+      "branch": "codex/execute-source-coverage-audit",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb06-source-coverage/ambiguous-held-artifacts.json",
+        "data/rcap-grade-a/codex-5h/cb06-source-coverage/claim-coverage.json",
+        "data/rcap-grade-a/codex-5h/cb06-source-coverage/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb06-source-coverage/misrouted-obligations.json",
+        "data/rcap-grade-a/codex-5h/cb06-source-coverage/progress.md",
+        "data/rcap-grade-a/codex-5h/cb06-source-coverage/relationship-gaps.json",
+        "data/rcap-grade-a/codex-5h/cb06-source-coverage/state.json",
+        "docs/rcap/grade-a/codex-5h/CB06_SOURCE_COVERAGE.md"
+      ],
+      "changedFileCount": 8,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 7,
+      "jobId": "CB07",
+      "pullRequest": 180,
+      "branch": "codex/audit-raster-queue-and-artifacts",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb07-raster-audit/canary-manifest.json",
+        "data/rcap-grade-a/codex-5h/cb07-raster-audit/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb07-raster-audit/missing-queue-entries.json",
+        "data/rcap-grade-a/codex-5h/cb07-raster-audit/progress.md",
+        "data/rcap-grade-a/codex-5h/cb07-raster-audit/queue-audit.json",
+        "data/rcap-grade-a/codex-5h/cb07-raster-audit/stale-queue-entries.json",
+        "data/rcap-grade-a/codex-5h/cb07-raster-audit/state.json",
+        "docs/rcap/grade-a/codex-5h/CB07_RASTER_AUDIT.md"
+      ],
+      "changedFileCount": 8,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 8,
+      "jobId": "CB08",
+      "pullRequest": 178,
+      "branch": "codex/execute-full-chain-failure-triage",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb08-full-chain/baseline-comparison.json",
+        "data/rcap-grade-a/codex-5h/cb08-full-chain/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb08-full-chain/commands.json",
+        "data/rcap-grade-a/codex-5h/cb08-full-chain/failures.json",
+        "data/rcap-grade-a/codex-5h/cb08-full-chain/progress.md",
+        "data/rcap-grade-a/codex-5h/cb08-full-chain/repair-proposals.json",
+        "data/rcap-grade-a/codex-5h/cb08-full-chain/state.json",
+        "docs/rcap/grade-a/codex-5h/CB08_FULL_CHAIN_FAILURES.md"
+      ],
+      "changedFileCount": 8,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 9,
+      "jobId": "CB09",
+      "pullRequest": 179,
+      "branch": "codex/execute-cb09-commercial-audit",
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [
+        "data/rcap-grade-a/codex-5h/cb09-commercial-audit/collision-guard.json",
+        "data/rcap-grade-a/codex-5h/cb09-commercial-audit/family-authority.json",
+        "data/rcap-grade-a/codex-5h/cb09-commercial-audit/mutation-plan.json",
+        "data/rcap-grade-a/codex-5h/cb09-commercial-audit/progress.md",
+        "data/rcap-grade-a/codex-5h/cb09-commercial-audit/state.json",
+        "data/rcap-grade-a/codex-5h/cb09-commercial-audit/violations.json",
+        "docs/rcap/grade-a/codex-5h/CB09_COMMERCIAL_FAIL_CLOSED.md"
+      ],
+      "changedFileCount": 7,
+      "pathsOutsideSidecarDirectories": [],
+      "scriptsPathsExplicitlyReviewed": [],
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "accept sidecar evidence only; grants no packet, route, commercial or promotion authority"
+    },
+    {
+      "order": 10,
+      "jobId": "CB02",
+      "pullRequest": null,
+      "branch": null,
+      "prerequisite": "CB00 accepted",
+      "changedPathAcceptance": [],
+      "changedFileCount": 0,
+      "state": "NOT_YET_PUBLISHED",
+      "doNotFabricate": "CB02 has no published pull request. Its acceptance paths are unknown and must not be guessed, reserved or inferred from the other jobs. This row exists to record its absence, not to pre-authorize it.",
+      "rejectIf": [
+        "any changed path is outside changedPathAcceptance",
+        "any placeholder or reservation path (cbNN-reserved/**) reappears",
+        "claim-ledger or active-assignment mutation",
+        "packet overlay, canonical packet or source-body mutation",
+        "production or commercial authority mutation",
+        "JSON output fails parse"
+      ],
+      "requiredChecks": [
+        "JSON parse for JSON outputs",
+        "git diff --check",
+        "changed-path audit against this manifest",
+        "zero-overlap check against the live Claude shift"
+      ],
+      "integrationAction": "hold until the actual PR branch exists, then regenerate this manifest from its real changed-file list"
+    }
+  ],
+  "zeroParallelPathOverlap": {
+    "verifiedAgainst": "every path the live Claude 9-hour shift changed from the shift base c6d7ffe7cfdf45629f873e1a0e58ae4b174d45c6 to the Captain head at integration",
+    "collisions": 0,
+    "distinctSidecarPaths": 68,
+    "method": "set intersection of the two changed-path lists, not a prefix assumption"
+  },
+  "baseShaNote": "This is the true branch point the published PRs share, computed with git merge-base rather than read from the PR base field. The sidecar jobs measured against snapshot 110c028aaeccad30d5d673d46110d5fc3859db4e and their counts are recorded as of that snapshot; they are not restated as current-head counts. The PR base field said 390917cee, which is not an ancestor of any of these branches -- trusting it attributed 93 of the Captain's own files to every sidecar job.",
+  "regeneratedBy": "CAPTAIN-9H, from the actual changed-file lists of the published pull requests",
+  "regeneratedAt": "2026-09-01T08:24:04Z",
+  "supersedes": "the placeholder manifest, which reserved cb01-reserved/** through cb09-reserved/**. Not one of those paths exists. The completed jobs write cb01-route-integration, cb03-official-pdf-candidates, cb04-generator-drift, cb05-fleet-index, cb06-source-coverage, cb07-raster-audit, cb08-full-chain and cb09-commercial-audit, so the manifest would have rejected every real path it was meant to accept while accepting eight directories nobody wrote."
+}

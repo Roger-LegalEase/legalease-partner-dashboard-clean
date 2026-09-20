@@ -1,0 +1,80 @@
+{
+  "recordedAt": "2026-09-13T02:32:15.132497+00:00",
+  "status": "DISK_CAPACITY_BLOCKED",
+  "filesystem": {
+    "workspaceSource": "/dev/loop4",
+    "sizeBytes": 33636024320,
+    "tmpSource": "/dev/sda1",
+    "tmpIsSeparate": true
+  },
+  "availableBeforeBytes": 219074560,
+  "availableAfterBytes": 213200896,
+  "netAvailableChangeBytes": -5873664,
+  "targetRecoveryBytes": 5368709120,
+  "cleanupGroups": [
+    {
+      "scope": "/home/codespace/.npm/_cacache",
+      "command": "npm cache clean --force",
+      "reasonDisposable": "npm package-download cache; actual npm configured cache and realpath inspected; no npm/pip/apt/conda installer process observed",
+      "beforeAvailableBytes": 214892544,
+      "afterAvailableBytes": 217059328,
+      "measuredAvailableChangeBytes": 2166784
+    },
+    {
+      "removedPaths": [
+        "/usr/local/share/nvm/.cache/bin/node-v22.23.2-linux-x64/node-v22.23.2-linux-x64.tar.xz",
+        "/usr/local/share/nvm/.cache/bin/node-v24.20.0-linux-x64/node-v24.20.0-linux-x64.tar.xz"
+      ],
+      "reasonDisposable": "NVM cached Node distribution downloads, not installed version directories; realpaths resolved, no installer observed; versions and archive names retained here",
+      "retrievalReferences": [
+        "https://nodejs.org/dist/v22.23.2/node-v22.23.2-linux-x64.tar.xz",
+        "https://nodejs.org/dist/v24.20.0/node-v24.20.0-linux-x64.tar.xz"
+      ],
+      "beforeAvailableBytes": 215900160,
+      "afterAvailableBytes": 215883776,
+      "measuredAvailableChangeBytes": -16384,
+      "interpretation": "No backing-storage reclamation observed; apparent archive sizes are not counted as recovered space."
+    }
+  ],
+  "measurementLimit": "Other live writers changed availability during inventory; total recovered is measured net df change, not sum of apparent directory sizes. Root overlay and /workspaces report the same backing block capacity/availability; /tmp is independent and untouched.",
+  "deletedButOpenCheck": {
+    "command": "sudo -n lsof -nP +L1",
+    "exitCode": 0,
+    "outputEntries": 0,
+    "errorsSuppressed": false,
+    "performedOnce": true
+  },
+  "largestProtectedWorkspaceConsumers": [
+    {
+      "path": ".git",
+      "measuredAllocatedGiBApprox": 2.7
+    },
+    {
+      "path": "private/worker-worktrees",
+      "measuredAllocatedGiBApprox": 2.8
+    },
+    {
+      "path": "data",
+      "measuredAllocatedGiBApprox": 2.4
+    },
+    {
+      "path": "private/source-imports",
+      "measuredAllocatedMiBApprox": 327
+    }
+  ],
+  "otherMeasuredConsumers": {
+    "usrGiBApprox": 7.5,
+    "optGiBApprox": 1.7,
+    "homeGiBApprox": 2.0,
+    "condaExtractedPackageCacheMiBApprox": 859,
+    "condaDownloadArchivesFound": 0
+  },
+  "untouched": "No tracked files, Git objects/metadata, node_modules, source custody, packet PDFs, required evidence, worker/session history, SQLite/WAL files, credentials, or checkpoint were deleted or relocated. No process was killed.",
+  "safeOptions": [
+    "Increase the Codespace storage capacity.",
+    "No additional measured disposable cache can recover 5 GiB; protected worktree/source/evidence removal is outside this authorization."
+  ],
+  "captainHeadAtReceipt": "d72e2883820ba4a7ac7345d1b3ba90e3cc097011",
+  "resumeNote": "CAPTAIN_RESTART.md",
+  "nextSprintGate": "When adequate working space is restored, consume completed Act346 run34732930032 only after all required jobs pass, retain original artifacts persistently, obtain independent final acceptance, then integrate. Current live reviews may finish read-only; new disk-heavy builds/downloads paused."
+}

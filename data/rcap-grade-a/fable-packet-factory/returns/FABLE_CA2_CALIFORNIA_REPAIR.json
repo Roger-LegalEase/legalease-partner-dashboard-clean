@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "fable-packet-factory-return/v1",
+  "worker": "FABLE-CA2",
+  "lane": "california-shared-host-repair",
+  "branch": "fable/ca2-work",
+  "base": "3dd4b149251ca3abb3dc848f3e3a789721e912e5",
+  "briefBase": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+  "returnedAt": "2026-09-02T07:55:00Z",
+  "mission": "Repair seven California families that share one build host: unlock six encrypted components blocking the visual gate, reproduce and fix a pushbutton caption relaid off the left page edge, and drive the nonvisual completeness counters to zero.",
+
+  "headline": {
+    "verdict": "BLOCKED_BEFORE_CLAIM on all seven families.",
+    "reason": "The claim ledger holds no live grant for any of the seven, in any lane kind, under any lane name. Every --assert returns non-zero. Under the brief's claim rule a non-zero exit is a full stop for that family: its artifacts are not to be opened, and no transfer or reissue is to be attempted.",
+    "hostRule": "Because the ledger refuses every family whose bytes the shared host would change, the brief's binding condition forbids changing the host. The host was not changed.",
+    "familiesRepaired": 0,
+    "buildsPerformed": 0,
+    "fixturesGenerated": 0,
+    "derivedSourcesProduced": 0,
+    "hostLinesWritten": 0,
+    "packetOrOverlayFilesModified": 0,
+    "ledgerMutations": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "filesWrittenByThisLane": [
+      "data/rcap-grade-a/fable-packet-factory/returns/FABLE_CA2_CALIFORNIA_REPAIR.json"
+    ]
+  },
+
+  "claimGate": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert <LANE> <familyId>",
+    "ledger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+    "ledgerGeneratedAtCommit": "7edb05f621e6209c3660c66fd60e4f4b283faf1f",
+    "totalClaimsInLedger": 753,
+    "assertInvocations": 74,
+    "assertsReturningZero": 0,
+    "note": "claim.mjs locate() filters candidate grants by lane KIND, so a NOT_GRANTED under one kind does not rule out another. Every family was therefore asserted under all three packet lane kinds (packet-build via PF01, independent-verification via VF01, repair via FIX01), under the lane the dispatch names for it, and under this lane's own name. The matrix was run twice: once at the brief base 7edb05f6 in the main checkout, and again at base 3dd4b149 in this worktree. Both runs agree exactly.",
+    "results": [
+      {
+        "familyId": "ca-1203-41-set",
+        "queueState": "FAIL_REPAIR_REQUIRED",
+        "dispatchLane": "FIX01",
+        "outcome": "BLOCKED_BEFORE_CLAIM",
+        "exits": {
+          "FIX01": "exit 9 ALREADY_RELEASED at 2026-09-01T23:56:32.720Z",
+          "PF01": "exit 6 NOT_GRANTED: no packet-build lane holds it",
+          "VF01": "exit 6 NOT_GRANTED: no independent-verification lane holds it",
+          "FABLE-CA2": "exit 4 UNKNOWN_LANE"
+        }
+      },
+      {
+        "familyId": "ca-1203-42-set",
+        "queueState": "FAIL_REPAIR_REQUIRED",
+        "dispatchLane": "FIX02",
+        "outcome": "BLOCKED_BEFORE_CLAIM",
+        "exits": {
+          "FIX02": "exit 9 ALREADY_RELEASED at 2026-09-01T23:57:38.089Z",
+          "VF17": "exit 9 ALREADY_RELEASED at 2026-09-01T09:38:20.743Z",
+          "PF01": "exit 6 NOT_GRANTED",
+          "VF01": "exit 8 GRANTED_ELSEWHERE (VF17)",
+          "FIX01": "exit 8 GRANTED_ELSEWHERE (FIX02)",
+          "FABLE-CA2": "exit 4 UNKNOWN_LANE"
+        }
+      },
+      {
+        "familyId": "ca-1203-4a-set",
+        "queueState": "FAIL_REPAIR_REQUIRED",
+        "dispatchLane": "FIX03",
+        "outcome": "BLOCKED_BEFORE_CLAIM",
+        "alsoProhibitedPath": "data/rcap-all50/overlays/census-v1/**/ca-1203-4a-set*",
+        "exits": {
+          "FIX03": "exit 9 ALREADY_RELEASED at 2026-09-01T23:58:22.837Z",
+          "PF01": "exit 6 NOT_GRANTED",
+          "VF01": "exit 6 NOT_GRANTED",
+          "FIX01": "exit 8 GRANTED_ELSEWHERE (FIX03)",
+          "FABLE-CA2": "exit 4 UNKNOWN_LANE"
+        }
+      },
+      {
+        "familyId": "ca-1203-43-set",
+        "queueState": "BUILD_IN_PROGRESS",
+        "dispatchLane": "none — the dispatch names this family ONLY under prohibitedPaths",
+        "outcome": "BLOCKED_BEFORE_CLAIM",
+        "exits": {
+          "PF01": "exit 6 NOT_GRANTED: no packet-build lane holds it",
+          "VF01": "exit 6 NOT_GRANTED: no independent-verification lane holds it",
+          "FIX01": "exit 6 NOT_GRANTED: no repair lane holds it",
+          "FABLE-CA2": "exit 4 UNKNOWN_LANE"
+        },
+        "ledgerRows": 0
+      },
+      {
+        "familyId": "ca-17b-reduction-set",
+        "queueState": "BUILD_IN_PROGRESS",
+        "dispatchLane": "none — the dispatch names this family ONLY under prohibitedPaths",
+        "outcome": "BLOCKED_BEFORE_CLAIM",
+        "exits": {
+          "PF01": "exit 6 NOT_GRANTED",
+          "VF01": "exit 6 NOT_GRANTED",
+          "FIX01": "exit 6 NOT_GRANTED",
+          "FABLE-CA2": "exit 4 UNKNOWN_LANE"
+        },
+        "ledgerRows": 0
+      },
+      {
+        "familyId": "ca-851-91-set",
+        "queueState": "VERIFY_PENDING",
+        "dispatchLane": "VF06",
+        "outcome": "BLOCKED_BEFORE_CLAIM",
+        "exits": {
+          "VF06": "exit 9 ALREADY_RELEASED at 2026-09-02T06:49:27.422Z",
+          "FIX06": "exit 9 ALREADY_RELEASED at 2026-09-02T05:44:41.258Z",
+          "PF01": "exit 6 NOT_GRANTED",
+          "VF01": "exit 8 GRANTED_ELSEWHERE (VF06)",
+          "FIX01": "exit 8 GRANTED_ELSEWHERE (FIX06)",
+          "FABLE-CA2": "exit 4 UNKNOWN_LANE"
+        }
+      },
+      {
+        "familyId": "ca-prop64-set",
+        "queueState": "VERIFY_PENDING",
+        "dispatchLane": "VF07",
+        "outcome": "BLOCKED_BEFORE_CLAIM",
+        "exits": {
+          "VF07": "exit 9 ALREADY_RELEASED at 2026-09-02T06:30:32.000Z",
+          "FIX06": "exit 9 ALREADY_RELEASED at 2026-09-02T05:44:41.356Z",
+          "PF01": "exit 6 NOT_GRANTED",
+          "VF01": "exit 8 GRANTED_ELSEWHERE (VF07)",
+          "FIX01": "exit 8 GRANTED_ELSEWHERE (FIX06)",
+          "FABLE-CA2": "exit 4 UNKNOWN_LANE"
+        }
+      }
+    ],
+    "releasesPerformed": "None. No grant was asserted, so none was released, and claim-ledger.json is unmodified by this lane.",
+    "transfersOrReissues": "None attempted. The brief forbids both, and a released grant is not this lane's to re-open."
+  },
+
+  "whyTheHostWasNotTouched": {
+    "rule": "The brief: 'If the ledger refuses a family whose bytes the shared host would change, you may not change the host.' The ledger refuses all seven.",
+    "host": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+    "hostSha256AtBothBases": "167f9ab5a22b7420b965c5231e4b4c08563b43af78af436f4f667b9cf85c876a",
+    "blastRadiusIsNineFamiliesNotSeven": [
+      "az_marijuana_expungement_arrest_no_charges-set",
+      "az_marijuana_expungement_superior_court-set",
+      "ca-1203-41-set",
+      "ca-1203-42-set",
+      "ca-1203-43-set",
+      "ca-1203-4a-set",
+      "ca-17b-reduction-set",
+      "ca-851-91-set",
+      "ca-prop64-set"
+    ],
+    "howEstablished": "The host's CONFIGS map carries entries for exactly these nine familyIds. The two Arizona families are outside this lane's roster entirely; az_marijuana_expungement_superior_court-set has no grant row in the ledger at all, and az_marijuana_expungement_arrest_no_charges-set is released (VF27, FIX09).",
+    "prohibitedPathsMakeThisStricterStill": {
+      "finding": "ACTIVE_ASSIGNMENTS.json lists, in the prohibitedPaths of ALL 48 assignments, the build scripts and overlay directories of three of the nine host-served families: ca-1203-43-set, ca-17b-reduction-set and az_marijuana_expungement_superior_court-set, plus the overlay glob for ca-1203-4a-set. Dedicated repair assignments r8b, r8c and r8d are named alongside them.",
+      "whyItMatters": "scripts/build-census-v1-ca-1203-43-set.mjs, scripts/build-census-v1-ca-17b-reduction-set.mjs and scripts/build-census-v1-az_marijuana_expungement_superior_court-set.mjs are four-line shims that contain no logic — each only imports runWestFamilyCli from the host and calls it with its familyId. Every byte those prohibited scripts emit is decided by the host. Editing the host is therefore a write to three explicitly prohibited paths by proxy, indistinguishable in effect from editing them directly.",
+      "conclusion": "Two independent gates forbid the host edit: the ledger refuses the families, and the dispatch prohibits the paths. Either alone would be sufficient."
+    }
+  },
+
+  "defect1_encryptedComponents": {
+    "status": "ROOT-CAUSED, NOT REPAIRED — the repair is a host edit this lane may not make.",
+    "whatWasNotDone": "No derived source was produced. No PDF was unlocked, opened, hashed or compared. No original/derived SHA-256 pair is reported, and no pdftotext -layout comparison was run, because producing one requires writing into a refused family's derived-sources directory and reading its artifacts. Reporting a comparison this lane did not run would be worse than reporting none.",
+    "rootCause": {
+      "file": "scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "function": "caBridgeRequest",
+      "approximateLine": 1113,
+      "code": "derivedPath: source.formNumber === config.primaryForm ? abs(`${out}/derived-sources/${source.formNumber.toLowerCase()}-pikepdf-unlocked.pdf`) : null,",
+      "explanation": "Only the family's PRIMARY form is given a derivedPath. Every companion form resolves to derivedPath: null, and the embedded Python skips the unlock entirely for a null derivedPath ('if not derived_path: continue'). For all five CA families whose primaryForm is CR-180, the companions CR-181, CR-106 and MC-031 are therefore never unlocked, and the raster batch meets the still-encrypted official bytes.",
+      "corroboration": "This predicts exactly the state Captain measured independently: ca-1203-41-set--official-pdf-fill/derived-sources/ contains exactly ONE unlocked artifact, cr-180-pikepdf-unlocked.pdf, and CR-180 is that family's configured primaryForm. It also predicts the exact refusal count in RASTER_QUEUE.json — 6 of 8, being CR-106, CR-181 and MC-031 across a canonical and a boundary copy. No third explanation is needed."
+    },
+    "themachineryAlreadyExists": {
+      "finding": "The unlock discipline the brief asks for is ALREADY implemented on this host, generically and per-target. It does not need to be designed or invented; it needs its target predicate widened.",
+      "alreadyImplemented": [
+        "the pinned source SHA-256 is re-verified before the read, and the build aborts on 'pinned source mismatch before pikepdf read'",
+        "the unlock is exactly pikepdf.open(exact_source).save(derived_path, deterministic_id=True) — the recorded reason for deterministic_id being that without it every save mints a fresh random trailer /ID, so two builds disagree on derivedSha256 and the family can never rebuild byte-identically",
+        "the source is re-hashed after the read and sourceUnchanged asserts before == after == pinned",
+        "derivedSha256 and derivedByteLength are recorded",
+        "an independent comparison is computed and stored: pageCount, pageGeometry, fieldsOnlyInOfficial, fieldsOnlyInDerivative, fieldDifferences, contentStreamChangedPages, plus a semantic descriptor sha and xfaIdentical, all folded into a single 'equivalent' boolean",
+        "derivedEncrypted and derivedHadXfa are read back from the derived file itself"
+      ],
+      "consequence": "The owner determination's preference for a byte-faithful pikepdf unlock over a CRC 1.44 raster duplicate is already the host's implemented behaviour for the primary form. Extending it to the companions is a one-predicate change, not new machinery, and it would carry the full comparison record automatically."
+    },
+    "recommendedRepairForTheLaneThatHoldsTheGrant": "Change the derivedPath predicate in caBridgeRequest so that every resolved target gets a derived path — or, more conservatively, every target the census reports as encrypted. Then rebuild all nine host-served families and diff every fixture hash, because the primary form's own derived bytes must not move and the companions' must appear for the first time.",
+    "whatThisLaneCouldNotDetermine": "Whether pikepdf opens CR-181 and MC-031 with an empty user password as it does CR-106. Captain measured CR-106 specifically. The other two are asserted by the queue to be equally refused by pdf-lib, but this lane did not open them and does not claim they unlock cleanly. If either is XFA-bearing or opens only with a password, it falls to the CRC 1.44 duplicate branch of the determination and that is a materially larger job."
+  },
+
+  "defect2_pushbuttonCaption": {
+    "status": "NOT REPRODUCED — and deliberately not declared absent either.",
+    "whatWasNotDone": "The defect was not reproduced, because reproducing it requires building a refused family and reading its flattened widget appearances. This lane did not build and did not open those artifacts.",
+    "whatWasEstablishedWithoutBuilding": "The host does carry the machinery such a defect would live in: it imports drawnAt and flattenedWidgets from scripts/rcap-official-forms/pdf-flattened-widgets.mjs, classifies a field as 'pushbutton' on field.flags including 'pushButton', and asserts after the flat overlay build that flattenedWidgets(output).length === 0. So a pushbutton whose /MK /CA caption survived flattening would be a live contradiction of an assertion the host already makes, which is consistent with the prior lane's report being real rather than spurious.",
+    "honestPosition": "The brief said: if it is not reproducible at this base, say that plainly and do not 'fix' it. This lane cannot say either way. It did not run the reproduction, so it reports neither a reproduction nor an absence. A -3.442 x-coordinate is not something this lane observed."
+  },
+
+  "defect3_completenessCounters": {
+    "status": "NOT MEASURED.",
+    "whatWasNotDone": "verify-packet-completeness.mjs was not run for any of the seven families. It reads the family's packet artifacts, which the claim rule forbids for a refused family. No before/after counter table is reported for any family, because no counter was read even once.",
+    "whyNoCounterTableIsOffered": "The brief asks for nine counters per family before and after. Publishing a 'before' column reconstructed from the queue's prose rather than from a run of the verifier would be presenting a quotation as a measurement. The queue's own text is reproduced below as a quotation and nothing more.",
+    "queueTextAsQuoted": {
+      "ca-1203-43-set and ca-17b-reduction-set": "nonvisual completeness counters not zero: knownRequiredFieldsMissing, unclassifiedBlanks, requiredOptionsMissing, requiredComponentsMissing",
+      "ca-1203-41-set": "additionally held by requiredOptionsMissing"
+    },
+    "additionalConstraint": "Even with a grant, the two families this defect principally names — ca-1203-43-set and ca-17b-reduction-set — have their build scripts and overlay directories in the prohibitedPaths of every assignment in the dispatch. Driving their counters would require writing exactly those paths."
+  },
+
+  "determinism": {
+    "status": "NOT DEMONSTRATED.",
+    "reason": "The brief requires each family be built twice from a clean tree with every fixture proved byte-identical. No family was built even once, so there is no determinism proof and no fixture SHA-256 to pin for the raster batch. The correct number of fixture hashes to report is zero and that is what is reported.",
+    "observationOffered": "The host's deterministic_id=True comment records that the determinism hazard for derived sources was already found and fixed on this host by an earlier lane. That is an existing property of the host, not a result this lane produced."
+  },
+
+  "hostDefectsFoundAndNotFixed": [
+    {
+      "id": "CA2-H1",
+      "severity": "the direct cause of the visual-gate refusal for three families",
+      "defect": "caBridgeRequest gives a derivedPath only to config.primaryForm, so encrypted companion forms are never unlocked and reach the rasterizer as encrypted official bytes.",
+      "whyNotFixed": "It is a shared-host edit, and the ledger grants this lane none of the nine families the host builds. Three of those nine additionally sit on the dispatch's prohibitedPaths through shims that hold no logic of their own."
+    },
+    {
+      "id": "CA2-H2",
+      "severity": "observation, unverified",
+      "defect": "The host asserts flattenedWidgets(output).length === 0 after the flat overlay build. If the prior lane's surviving /MK /CA caption is real, that assertion is not catching it — a caption relaid into page content at x = -3.442 would no longer be a widget and would pass a widget-count check while still printing off the page edge.",
+      "whyNotFixed": "Unverified at this base, and unreachable without building a refused family. Recorded so the lane that does hold the grant knows the existing assertion may be the wrong detector for this defect rather than a passing one."
+    }
+  ],
+
+  "worktreeIncident": {
+    "what": "This lane initially created branch fable/ca2 with `git checkout -b` inside the shared main checkout at /home/user/legalease-partner-dashboard-clean, which moved that shared checkout's HEAD while Captain was committing to it. The coordinator flagged this; Captain's process had already switched the checkout back to claude/legalease-sprint-captain-utucnw.",
+    "filesWrittenByThisLaneInTheMainWorktree": "NONE. Every command this lane ran there was read-only: claim.mjs --assert (which only reads), grep, sed, ls, sha256sum, git status/diff/rev-parse, and node -e JSON reads. No file was created, edited or deleted, so there was nothing to copy across.",
+    "theOnlyStateChangeMade": "The HEAD move from `git checkout -b fable/ca2` at 7edb05f621e6209c3660c66fd60e4f4b283faf1f, plus the now-unused local branch ref fable/ca2 pointing at that same commit. The branch was left in place rather than deleted, so Captain can inspect it; it holds no commits of this lane's.",
+    "remediation": "All subsequent work was done in an isolated worktree at .claude/worktrees/ca2 on branch fable/ca2-work, created from 3dd4b149251ca3abb3dc848f3e3a789721e912e5 as instructed. The full claim matrix was re-run there and agrees exactly with the run at the brief base.",
+    "notRun": "No git checkout, switch, branch -f, reset, stash, merge or rebase was run in the main worktree after the coordinator's message."
+  },
+
+  "captainMustDecide": [
+    "Which lane is to carry the host repair. It cannot be a lane holding fewer than all nine host-served families, because one edit to caBridgeRequest moves all nine. Today no lane holds any of them: all seven CA families and the AZ arrest family are released, and az_marijuana_expungement_superior_court-set has no grant row at all.",
+    "Whether the r8b / r8c / r8d repair assignments that prohibitedPaths reserves for ca-17b-reduction-set, ca-1203-43-set and az_marijuana_expungement_superior_court-set are still live. Their directories under data/rcap-grade-a/codex-cloud/ do not exist at this base, so the paths are reserved to lanes that have produced nothing, while the families sit BUILD_IN_PROGRESS and every other lane is forbidden to touch them.",
+    "Whether FABLE lane names should be admitted to the ledger's closed lane vocabulary. LANE_KIND in claim.mjs recognises PF, VF, WARV, P2V, VS, FIX, WAR, DISC, SRC, ACQ and PROMO prefixes; a lane dispatched as FABLE-CA2 cannot assert any subject under its own name and exits 4 UNKNOWN_LANE every time. FABLE-CA1 hit the same wall on fifteen families.",
+    "That CA2-H1 is, on the evidence here, a complete explanation of the RASTER_QUEUE refusal of three families. If Captain agrees, the visual gate for ca-1203-41-set, ca-1203-42-set and ca-1203-4a-set is one predicate away from unblocking, and the comparison record the determination requires is generated automatically by machinery already on the host."
+  ],
+
+  "grantsNothing": "This return builds nothing, repairs nothing, renders nothing, promotes nothing and approves nothing. It records that seven families were refused at the claim gate before any artifact was opened, that the shared host was therefore left byte-identical, and one root cause established by reading only the host and the dispatch — both of which this lane is permitted to read."
+}

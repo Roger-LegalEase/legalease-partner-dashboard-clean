@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "rcap-codex-cloud-repair-return/v1",
+  "workerId": "CODEX-CS2-FIX06-AK-WIRING",
+  "lane": "FIX06",
+  "familyId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+  "routeKey": "obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+  "exactBase": "1882e708e3c1ce18b7ea3201df9c2b66403cba48",
+  "branch": "codex/cs2-fix06-ak-wiring-1293",
+  "commit": "c506e409b71a5b7daa7670f7be1b783d466f05ef",
+  "pushed": "NO",
+  "pushAttempt": {
+    "remote": "origin",
+    "branch": "codex/cs2-fix06-ak-wiring-1293",
+    "result": "BLOCKED_ENVIRONMENT_CREDENTIAL_UNAVAILABLE",
+    "error": "fatal: could not read Username for 'https://github.com': No such device or address",
+    "credentialHelperReturnedCredential": false,
+    "sshIdentityAvailable": false
+  },
+  "status": "READY_FOR_INDEPENDENT_VERIFICATION",
+  "claim": {
+    "assertion": "CLAIM_OK FIX06 composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 (repair, grant set 4fa9f3db9a71c3fe)",
+    "released": false
+  },
+  "sourceGate": {
+    "familySourcesBind": "PASS — zero-source composition (CUSTOM_PLEADING_FROM_CODIFIED_TEXT)",
+    "knownUnavailableGlobalChecks": [
+      "master_library_mounted",
+      "master_library_complete",
+      "corpus_matches_committed_index"
+    ],
+    "sourceGateWeakened": false
+  },
+  "repair": {
+    "obligation": "ARTIFACTS",
+    "generator": "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+    "result": "Family-scoped generation and non-writing check mode prevent cross-family edits; proposal component identity follows exact file bytes; only complete-coverage raster receipts whose canonical and boundary pins still match disk are retained from current or historical queue rows.",
+    "otherAffectedFamiliesModified": 0
+  },
+  "wiringShaReferences": {
+    "proposalComponentSha256": {
+      "oldFailedVerifierReference": "9f00da8f072069098dce0b465bbc242d5713730f5472a6f9d6a104699bd1428a",
+      "newCurrentReference": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad"
+    },
+    "productWiringFileSha256": {
+      "before": "4ea5a449ba30b9b9c08ffc4ce87c0a3c298142e4ac0bdfe73089b7bbd899b7f9",
+      "after": "4ea5a449ba30b9b9c08ffc4ce87c0a3c298142e4ac0bdfe73089b7bbd899b7f9",
+      "byteChanged": false,
+      "note": "The exact base already carried the current component pin; scoped regeneration converged to identical bytes. The failed FIX06 evidence remains the old pre-repair SHA reference, and the focused regression proves the generator refresh behavior."
+    }
+  },
+  "unchangedArtifactHashes": {
+    "canonicalPdfSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "boundaryPdfSha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+    "packetBytesChanged": false
+  },
+  "rasterReceipt": {
+    "verdict": "RASTER_PASS",
+    "workflowRunId": "33596784162",
+    "boundToCanonicalSha256": "2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad",
+    "boundToBoundarySha256": "d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7",
+    "coversTheWholeFamily": true
+  },
+  "tests": [
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs",
+      "result": "PASS product wiring refreshes artifact identity when exact bytes move"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-product-wiring-v2-packets.mjs",
+      "result": "PASS product wiring accepts rendered-artifacts/v2 packets"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --check --family <exact-family-id>",
+      "result": "PASS — 0 need creation, 0 need refresh, 1 unchanged"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <exact-family-id>",
+      "result": "PASS_COMPLETE — 10/32 written; all nine counters zero"
+    },
+    {
+      "command": "sha256sum <canonical.pdf> <boundary.pdf>",
+      "result": "PASS — both exact RASTER_PASS hashes unchanged"
+    }
+  ],
+  "changedPaths": [
+    "scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs",
+    "scripts/grade-a-packet-factory-24h/test-product-wiring-refreshes-artifact-identity.mjs",
+    "data/rcap-grade-a/packet-factory-24h/fix06/rows.json",
+    "data/rcap-grade-a/codex-cloud/cs2-fix06-ak-wiring-1293/RETURN.json"
+  ],
+  "regeneratedButByteIdenticalPaths": [
+    "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/product-wiring.json"
+  ],
+  "centralEdits": 0,
+  "claimsReleased": 0,
+  "selfVerification": 0,
+  "routesOpened": 0,
+  "productionTouched": "NO"
+}

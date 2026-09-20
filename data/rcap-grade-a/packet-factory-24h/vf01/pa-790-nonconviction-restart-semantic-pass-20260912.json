@@ -1,0 +1,263 @@
+{
+  "schemaVersion": "rcap-vf01-bounded-semantic-review/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/review_wa",
+  "sessionIdentity": "/root/review_wa",
+  "familyId": "pa_790_nonconviction-set",
+  "reviewedAt": "2026-09-12",
+  "reviewedHead": "9462f4254b0b85ad9d6a5c8c76642ec7d34eb580",
+  "verifiedAtBase": "9462f4254b0b85ad9d6a5c8c76642ec7d34eb580",
+  "packetCommitSha": "4a6e02fef425e7b773f33615355f743bceb07e00",
+  "packetCommitExists": true,
+  "executionState": "VERIFYING",
+  "reviewPhase": "INDEPENDENT_CURRENT_BYTE_NONVISUAL_SEMANTIC_RECHECK",
+  "status": "PASS_PRE_RASTER_SEMANTIC",
+  "verdict": "PASS",
+  "scope": "Bounded independent semantic recheck of the exact committed PA790 declaration repair, current component bytes, held source receipts, guide, field map, conditional branch record and raster manifest. No implementation, source, packet, raster, queue, shared-manifest or ledger edits were made by this reviewer; no visual pass is claimed.",
+  "claimEvidence": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 pa_790_nonconviction-set",
+    "result": "CLAIM_OK VF01 pa_790_nonconviction-set (independent-verification)",
+    "assertedBeforeFamilyReads": true
+  },
+  "historicalFailure": {
+    "path": "data/rcap-grade-a/packet-factory-24h/vf01/pa-790-nonconviction-restart-semantic-fail-20260912.json",
+    "sha256": "ba0abd1d6fbb8ba59513b1268663ceb276459083badbf1aa23dab3eea1a7f11b",
+    "byteLength": 38864,
+    "priorVerifiedAtBase": "06c39b220e6352ed976c731d77b098ce5e0577b8",
+    "priorPacketCommitSha": "b9e13b264bed1668273e236dae7f16e4c155d8ec",
+    "priorFailedFindingIds": [
+      "PA-VF01-COMPLETE-01",
+      "PA-VF01-COMPLETE-02"
+    ]
+  },
+  "resolvedFindings": [
+    {
+      "findingId": "PA-VF01-COMPLETE-01",
+      "resolvedDeclarationFacts": [
+        "Commonwealth recipient name",
+        "Commonwealth recipient address",
+        "Commonwealth recipient telephone"
+      ],
+      "resolution": "The current production map, guide and both certificate fixture PDFs identify the name, service address and telephone of the Commonwealth recipient served. The certificate retains the explicit attorney-for-the-Commonwealth service requirement, Rule 576 court-administrator service, manner/date and signature handoff. These are participant-entered performed-service facts and remain blank until the actual event."
+    },
+    {
+      "findingId": "PA-VF01-COMPLETE-02",
+      "resolvedDeclarationFacts": [
+        "CPCMS 2046 field PA"
+      ],
+      "resolution": "The captionless source field identity PA is retained and the guide/map now expose the readable effective label CPCMS 2046 field PA (captionless source field), so the required-before-filing disclosure is discoverable without changing the source field meaning."
+    }
+  ],
+  "deltaBasis": {
+    "repairReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/rows-fix112-pa790-declarations-20260912.json",
+      "sha256": "28e5c3527eab27bf320fdc852a6dd72792bd632cb3754aa10a1d3e653be834b8",
+      "byteLength": 2773,
+      "candidateRepairCommit": "4a6e02fef425e7b773f33615355f743bceb07e00"
+    },
+    "currentHeadRehashed": true,
+    "currentPacketCommitBoundByManifest": true,
+    "priorFailureRecheckedAgainstCurrentBytes": true,
+    "changedComponentPdfs": [
+      "certificate-of-service-canonical.pdf",
+      "certificate-of-service-boundary.pdf"
+    ],
+    "unchangedComponentPdfCount": 6,
+    "allEightReferenceBranchesRegeneratedBecauseEachIncludesTheCorrectedCertificate": true,
+    "unchangedNonvisualEvidenceReusedOnlyAfterCurrentMetadataAndPdfHashesRehashed": true,
+    "visualEvidenceReused": false
+  },
+  "proofObligations": {
+    "ROUTE_IDENTITY": { "measured": true, "result": "PASS", "finding": "Rule 790 non-conviction remains bound to the PA legal-design track." },
+    "SOURCE_IDENTITY": { "measured": true, "result": "PASS", "finding": "The three held PA source PDFs match their receipts by SHA-256, byte length and page count." },
+    "COMPONENT_SET": { "measured": true, "result": "PASS", "finding": "Petition and certificate are mandatory; optional Rule 790 order and conditional CPCMS 2046 IFP components are represented, with all eight component fixtures enrolled." },
+    "KNOWN_PREFILLS": { "measured": true, "result": "PASS", "finding": "Current saved writes retain only accepted identity, case, agency, date and address overlays; no held fact is silently substituted." },
+    "REQUIRED_BEFORE_FILING": { "measured": true, "result": "PASS", "finding": "The four prior declaration defects are resolved: the three service-recipient handoffs are explicit and the captionless PA field is named readably while preserving source identity." },
+    "ROUTE_OPTIONS": { "measured": true, "result": "PASS", "finding": "Optional proposed order and participant-selected IFP branch are explicit; no route election is fabricated." },
+    "REPEATING_ROWS": { "measured": true, "result": "PASS", "finding": "Text15 remains withheld as a whole charge-plus-disposition composite; no partial charge-only row is printed." },
+    "PROTECTED_FIELDS": { "measured": true, "result": "PASS", "finding": "Court findings, signatures, service execution and other court-owned fields remain blank or participant-later." },
+    "ARTIFACTS": { "measured": true, "result": "PASS_NONVISUAL", "finding": "The eight current component PDFs pass saved-byte and metadata checks and are bound to the refreshed manifest; central raster review remains open." },
+    "PAGE_ORDER": { "measured": true, "result": "PASS", "finding": "All eight deterministic reference branches preserve petition, certificate, optional order and conditional IFP component order." },
+    "CLIPPING_AND_OVERLAP": { "measured": false, "result": "NOT_MEASURABLE_HERE", "finding": "No central Actions raster was visually inspected by this semantic lane." },
+    "FILING_DESTINATION": { "measured": true, "result": "PASS", "finding": "The guide preserves the clerk/judicial-district filing destination and local-procedure handoff." },
+    "FEE_AND_WAIVER": { "measured": true, "result": "PASS", "finding": "The current legal resolution is LEGAL_CLEAR; no county fee is invented and the conditional statewide IFP form is exposed." },
+    "SERVICE": { "measured": true, "result": "PASS", "finding": "The guide names attorney-for-the-Commonwealth and court-administrator service and requires completion of recipient, manner and date facts after actual service." },
+    "SELF_HELP_STOP": { "measured": true, "result": "PASS", "finding": "Mixed-conviction, objection, unpaid-cost, limited-access, immigration and federal/military/tribal/out-of-state stops remain explicit." }
+  },
+  "obligationCounts": {
+    "PASS": 14,
+    "NOT_MEASURABLE_HERE": 1,
+    "FAIL": 0
+  },
+  "failedObligationNames": [],
+  "unmeasuredObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "protectedWrites": 0,
+    "invisibleWrites": null,
+    "visualDefects": null,
+    "allMeasuredSemanticCountersZero": true,
+    "allNonVisualZero": true,
+    "allNineCountersZero": false,
+    "measuredHere": true,
+    "visualMeasuredHere": false,
+    "verifierResult": "PASS_NONVISUAL; conditional-family completeness is NOT_MEASURABLE_HERE for this aggregate, with all measured semantic counters zero"
+  },
+  "commandsPassed": [
+    {
+      "command": "env MASTER_LIBRARY_SOURCE_DIR=\"$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1\" node scripts/build-census-v1-pa_790_nonconviction-set.mjs --check-nonvisual",
+      "result": "PASS: 8 PDFs; saved-byte proof checked; no raster replay or visual acceptance"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/test-recovery.mjs",
+      "result": "PASS 40/40"
+    },
+    {
+      "command": "node scripts/rcap-packet-recovery/chat1/test-pa-790-optional-order.mjs",
+      "result": "PASS: 1 positive validation and 11 rejection cases"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family pa_790_nonconviction-set",
+      "result": "NOT_MEASURABLE_HERE for this conditional family; all measured semantic counters zero, visual and invisible-write measurements unmeasured"
+    }
+  ],
+  "currentCandidateBindings": {
+    "reviewedHead": "9462f4254b0b85ad9d6a5c8c76642ec7d34eb580",
+    "packetCommit": "4a6e02fef425e7b773f33615355f743bceb07e00",
+    "recoveryModule": {
+      "path": "scripts/rcap-packet-recovery/pa-790-recovery.mjs",
+      "sha256": "fcf872c842bc3a91bf225f397871d4339c1afb8196c61b3331a6c34f8eafa0a7",
+      "byteLength": 17678
+    },
+    "builder": {
+      "path": "scripts/build-census-v1-pa_790_nonconviction-set.mjs",
+      "sha256": "6f7d2abdc38920f0be0b1b3403f96e24f1d34ec52ade010983c4f3895487fef2",
+      "byteLength": 152
+    },
+    "rasterManifest": {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix112/pa790-raster-manifest-20260912.json",
+      "sha256": "84f8af81d221fabbed0a3f2737a5d9abf28434ef73108dbea2a55cdc9b3744b9",
+      "byteLength": 8145,
+      "familyBatch": "pa_790_nonconviction-set",
+      "documentsDigest": "b892fe8330e38d3faa25d0e89a6c18c2d90c9ec0aa5c18a1fb711ccbb4c64d50",
+      "currentRasterState": "RASTER_PENDING",
+      "coverage": { "complete": true, "pdfCount": 8, "pageCount": 12 }
+    },
+    "sourceReceipt": {
+      "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/source-receipt.json",
+      "sha256": "70f6762e043ba42a3d0a7c41f2f793830c13e95e0bf0fc9ed12bbaf64a9c2c14",
+      "byteLength": 3484
+    },
+    "sourceDocuments": [
+      {
+        "form": "PA-RCRIM-P-790-PETITION",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+        "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+        "byteLength": 87647,
+        "pageCount": 1
+      },
+      {
+        "form": "PA-RCRIM-P-790-ORDER",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+        "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+        "byteLength": 151853,
+        "pageCount": 2
+      },
+      {
+        "form": "PA-IFP-CCP",
+        "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/PA/04_SUPPORTING_PROCESS/PA__SUPPORT__PA-IFP-CCP__court-of-common-pleas-motion-to-proceed-in-forma-pauperis__REV-UNKNOWN__EN.pdf",
+        "sha256": "b1255ef0503f9c9ff0565e884083e37fe4072e4e9999bec159712d467d420fca",
+        "byteLength": 760989,
+        "pageCount": 2
+      }
+    ],
+    "metadata": [
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/source-receipt.json", "sha256": "70f6762e043ba42a3d0a7c41f2f793830c13e95e0bf0fc9ed12bbaf64a9c2c14", "byteLength": 3484 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/production-field-map.json", "sha256": "1fc8ad3535dc7ff5c6e199feaa7733ada934b5667106bf5349ab3b7991759b13", "byteLength": 163424 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/participant-instructions.md", "sha256": "2980075daac4ab0ef109ee9015a85821a39a1388fdf8be99d45f7e8ffeb4d19b", "byteLength": 29111 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/conditional-components.json", "sha256": "afedbe8f0abf84a17fa8458bf7072a4fbd5f2889f0c6af14f09fa5fe93cc1e57", "byteLength": 34316 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/reports/actual-writes.json", "sha256": "72a11ca63f25f5d7cfd60a07a815f47554d83eb4b50fb3572a49c11a9c067d13", "byteLength": 105697 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json", "sha256": "69ae0ac1033e3f8158428fef1e9be0de811dac4cd47b10cb179b2117e22d7f79", "byteLength": 8913 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/build-findings.json", "sha256": "c46def57b818797e40f2ef8b50f7f96e138a5ffb56efab6d3fd490c04ceb5c7f", "byteLength": 2053 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/product-wiring.json", "sha256": "ef50ac2a772df2bdc36b586b115112e9e88730e10baf05d974c0df84c16394ab", "byteLength": 4397 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/field-census.census-v1.json", "sha256": "81795c5e995076d5a30c31952123d921282bc6422dc6481d773a7fb2c3f05563", "byteLength": 141064 },
+      { "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/approval-request.json", "sha256": "6d3b268ced4259507e7c11913de3f765fb10a1d38c2b3ad7e973aa9feaeab77e", "byteLength": 534 },
+      { "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json", "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2", "byteLength": 22372 }
+    ],
+    "fixturePdfs": [
+      { "name": "certificate-of-service-canonical.pdf", "role": "canonical", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf", "sha256": "e2caf3829fb616babd002b862d6278c0ee0709ea73e1b406417049d20534a567", "byteLength": 3224, "pageCount": 1 },
+      { "name": "ifp-ccp-canonical.pdf", "role": "canonical", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/ifp-ccp-canonical.pdf", "sha256": "95a9b7a3dda88efbe07503fdc65b97f5687846dbd21cf84aef7b844429f5443b", "byteLength": 784936, "pageCount": 2 },
+      { "name": "rule-790-order-canonical.pdf", "role": "canonical", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-canonical.pdf", "sha256": "14fa38d851f55e56045dd3f9742a42ac6717b9fca43fb7a2dfc761a1b00c0ece", "byteLength": 196481, "pageCount": 2 },
+      { "name": "rule-790-petition-canonical.pdf", "role": "canonical", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-canonical.pdf", "sha256": "c297f8dd00174742a00693fdbba12d3e720261926dfd4bbc1e1b31c1922f2470", "byteLength": 121077, "pageCount": 1 },
+      { "name": "certificate-of-service-boundary.pdf", "role": "boundary", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf", "sha256": "5ff081caa15623b828fb7d6ea00c9cfca5e40db6fd80fc8b2bfb1159dae04ae2", "byteLength": 3290, "pageCount": 1 },
+      { "name": "ifp-ccp-boundary.pdf", "role": "boundary", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/ifp-ccp-boundary.pdf", "sha256": "f337425b4ff076d8acef9e519c0e9d8c0425b29b3a0aa911ee37176a294fc54a", "byteLength": 783924, "pageCount": 2 },
+      { "name": "rule-790-order-boundary.pdf", "role": "boundary", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-order-boundary.pdf", "sha256": "83761180e489e5e03454a2b15bde69beaadc238b01290c783b5caaefc660125b", "byteLength": 195814, "pageCount": 2 },
+      { "name": "rule-790-petition-boundary.pdf", "role": "boundary", "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/fixtures/rule-790-petition-boundary.pdf", "sha256": "d9b5a76cf574430ed1d4d286a4fedaa355c3c20bb438fe916609ffa86d40e7cc", "byteLength": 120415, "pageCount": 1 }
+    ],
+    "documentsDigest": "b892fe8330e38d3faa25d0e89a6c18c2d90c9ec0aa5c18a1fb711ccbb4c64d50"
+  },
+  "branchCoverage": {
+    "sourceRecord": {
+      "path": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/conditional-components.json",
+      "sha256": "afedbe8f0abf84a17fa8458bf7072a4fbd5f2889f0c6af14f09fa5fe93cc1e57",
+      "byteLength": 34316,
+      "schemaVersion": "rcap-pa790-conditional-components/v1"
+    },
+    "branchesEnumerated": 8,
+    "distinctElectionCombos": 4,
+    "componentFixturesEnumerated": 8,
+    "componentPages": 12,
+    "assembledBranchPagesWithDuplication": 32,
+    "mandatoryComponents": ["rule-790-petition", "certificate-of-service"],
+    "conditionalComponents": ["rule-790-order (optional)", "ifp-ccp (requestFeeWaiver=true)"],
+    "referenceFixturesOnly": true,
+    "allBranchesUseOnlyListedComponentHashes": true,
+    "coverageFinding": "The central raster manifest enrolls every current component fixture. The eight assembled branches are deterministic reference fixtures only and reuse the listed petition, certificate, optional-order and conditional-IFP component bytes; no additional participant-delivery raster enrollment is required unless that runtime scope changes."
+  },
+  "rasterDispatchAuthorized": true,
+  "raster": {
+    "status": "RASTER_PENDING",
+    "newCentralRasterRequired": true,
+    "manifestPath": "data/rcap-grade-a/packet-factory-24h/fix112/pa790-raster-manifest-20260912.json",
+    "manifestSha256": "84f8af81d221fabbed0a3f2737a5d9abf28434ef73108dbea2a55cdc9b3744b9",
+    "manifestByteLength": 8145,
+    "runId": null,
+    "artifactId": null,
+    "documents": 8,
+    "pages": 12,
+    "visualDefects": null,
+    "visualStatus": "UNMEASURED_CENTRAL_RASTER_PENDING"
+  },
+  "visual": null,
+  "finalAcceptance": false,
+  "unfinishedGates": [
+    "central Actions raster acceptance for the exact eight PDFs and twelve pages",
+    "independent visual review of original raster evidence",
+    "final acceptance and terminal integration"
+  ],
+  "terminalPromotionAuthorized": false,
+  "runtimeAndCommercialBoundary": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialAuthorityGranted": false,
+    "fulfillmentRecordCreated": false
+  },
+  "independence": {
+    "implementationEdited": false,
+    "sourceEdited": false,
+    "packetBytesEdited": false,
+    "rasterEdited": false,
+    "queueEdited": false,
+    "sharedManifestEdited": false,
+    "claimLedgerEdited": false,
+    "onlyPublication": "this lane-owned nonterminal semantic PASS record"
+  }
+}

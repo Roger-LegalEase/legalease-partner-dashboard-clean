@@ -1,0 +1,986 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ak-tf805-set",
+  "routeKeys": [
+    "track:AK:ak-tf805"
+  ],
+  "routeSelectionId": "ak-tf805-set-tf-805-primary-filing",
+  "renderStrategy": "acroform_fill",
+  "captionBasis": "every printed caption in this map was read from the official form's own content stream at the widget's coordinates; captionReadAt records where, and the build refuses if a caption is no longer there",
+  "dispositionVocabulary": [
+    "signature_or_date_participant_completion",
+    "court_prosecutor_clerk_or_agency_owned",
+    "participant_sworn_narrative_or_legal_election"
+  ],
+  "routeDeterminedSelections": [],
+  "routeSelectionNote": "Administrative Rule 40 is one rule and TF-805 is its form. The choice between the 40(b) ground and the 40(c) ground is a fact about the requester's own case rather than a consequence of the route, so this packet states the route it was built for and leaves that election, and the certificate-of-service method, to the participant.",
+  "requiredBeforeFilingCount": 3,
+  "requiredBeforeFiling": [
+    {
+      "document": "TF-805",
+      "field": "caseName",
+      "page": 1,
+      "printedContext": "Case Name: Case No.:",
+      "disclosureLabel": "Case Name",
+      "identity": "TF-805 field caseName",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+      "participantMustSupply": "the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name"
+    },
+    {
+      "document": "TF-805",
+      "field": "partyNames",
+      "page": 1,
+      "printedContext": "Party Names:",
+      "disclosureLabel": "Party Names",
+      "identity": "TF-805 field partyNames",
+      "why": "the platform holds no value for this and the participant supplies it before filing: the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'",
+      "participantMustSupply": "the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'"
+    },
+    {
+      "document": "TF-805",
+      "field": "reason",
+      "page": 1,
+      "printedContext": "f believe that the statements above are true, becaus:e",
+      "disclosureLabel": "Why you believe the statements above are true",
+      "identity": "TF-805 field reason",
+      "why": "the platform holds no value for this and the participant supplies it before filing: your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you",
+      "participantMustSupply": "your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you"
+    }
+  ],
+  "maps": [
+    {
+      "formNumber": "TF-805",
+      "documentId": "TF-805",
+      "documentRole": "primary_filing",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true,
+        "routeKey": "track:AK:ak-tf805"
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {
+        "name": "participant.full_legal_name",
+        "address": "participant.street_address",
+        "email": "participant.email",
+        "dayPhone": "participant.phone",
+        "caseNo@1": "matter.case_number"
+      },
+      "roleRefusals": [],
+      "selectionControls": [
+        {
+          "field": "why",
+          "acroFieldName": "why",
+          "page": 1,
+          "rect": {
+            "x": 72.75,
+            "y": 415,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "(CourtView) to “Not ,”P buecbaulsei: shed",
+          "printedLine": "(CourtView) to “Not ,”P buecbaulsei: shed",
+          "regionHeading": "Ground for removal — Administrative Rule 40(b) or 40(c) (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Ground for removal — Administrative Rule 40(b) or 40(c) (selection)",
+          "captionReadAt": {
+            "page": 1,
+            "y": 432
+          },
+          "captionNote": "TF-805's own text stream interleaves its glyph runs on this line, so the caption recorded at the widget's coordinate reads \"(CourtView) to “Not ,”P buecbaulsei: shed\" rather than \"(CourtView) to ‘Not Published,’ because:\". The dictionary records what is actually in the stream, because a cleaned-up caption would make the drift check unfalsifiable. The label carries the readable wording.",
+          "selectionId": "why",
+          "kind": "selection_control",
+          "type": "radiogroup",
+          "document": "TF-805",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 72.75,
+                "y": 415,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 72.75,
+                "y": 358.71,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "Administrative Rule 40 gives two grounds and this packet is built for the rule, not for one of them. Rule 40(b) is for issues of a sensitive and highly personal nature; Rule 40(c) is for a likelihood of substantial physical harm to members of your household, and the form notes that a 40(c) removal lasts five years and must then be renewed. Which fits your case is yours to say",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "mail",
+          "acroFieldName": "mail",
+          "page": 2,
+          "rect": {
+            "x": 198.65,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "printedLine": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "regionHeading": "Certificate of Service — by mail (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — by mail (selection)",
+          "captionReadAt": {
+            "page": 2,
+            "y": 558
+          },
+          "selectionId": "mail",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-805",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 198.65,
+                "y": 557.29,
+                "width": 11.53,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "you tick the method you actually used, at the time you serve the other parties",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "hd",
+          "acroFieldName": "hd",
+          "page": 2,
+          "rect": {
+            "x": 245.4,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "printedLine": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "regionHeading": "Certificate of Service — by hand-delivery (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — by hand-delivery (selection)",
+          "captionReadAt": {
+            "page": 2,
+            "y": 558
+          },
+          "selectionId": "hd",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-805",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 245.4,
+                "y": 557.29,
+                "width": 11.53,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "you tick the method you actually used, at the time you serve the other parties",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "tf",
+          "acroFieldName": "tf",
+          "page": 2,
+          "rect": {
+            "x": 334.74,
+            "y": 557.29,
+            "width": 11.53,
+            "height": 11.44
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "printedLine": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "regionHeading": "Certificate of Service — by TrueFiling (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — by TrueFiling (selection)",
+          "captionReadAt": {
+            "page": 2,
+            "y": 558
+          },
+          "selectionId": "tf",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-805",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 334.74,
+                "y": 557.29,
+                "width": 11.53,
+                "height": 11.44
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "you tick the method you actually used, at the time you serve the other parties",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        },
+        {
+          "field": "emailCB",
+          "acroFieldName": "emailCB",
+          "page": 2,
+          "rect": {
+            "x": 405.69,
+            "y": 557.29,
+            "width": 11.52,
+            "height": 11.52
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "printedLine": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+          "regionHeading": "Certificate of Service — by e-mail (selection)",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — by e-mail (selection)",
+          "captionReadAt": {
+            "page": 2,
+            "y": 558
+          },
+          "selectionId": "emailCB",
+          "kind": "selection_control",
+          "type": "checkbox",
+          "document": "TF-805",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 405.69,
+                "y": 557.29,
+                "width": 11.52,
+                "height": 11.52
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "you tick the method you actually used, and only if that party gave the court an e-mail address",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false
+        }
+      ],
+      "canonicalWrites": [
+        {
+          "field": "name",
+          "acroFieldName": "name",
+          "page": 1,
+          "rect": {
+            "x": 106.52,
+            "y": 559.53,
+            "width": 433.91,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Name:",
+          "printedLine": "Name:",
+          "regionHeading": "Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 563
+          },
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "address",
+          "acroFieldName": "address",
+          "page": 1,
+          "rect": {
+            "x": 115.42,
+            "y": 544.97,
+            "width": 425.01,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Address:",
+          "printedLine": "Address:",
+          "regionHeading": "Address",
+          "sectionHeading": null,
+          "effectiveLabel": "Address",
+          "captionReadAt": {
+            "page": 1,
+            "y": 548
+          },
+          "factId": "participant.street_address",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "email",
+          "acroFieldName": "email",
+          "page": 1,
+          "rect": {
+            "x": 106.13,
+            "y": 530.4,
+            "width": 253.72,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Email*: Daytime Phone:",
+          "printedLine": "Email*: Daytime Phone:",
+          "regionHeading": "Email",
+          "sectionHeading": null,
+          "effectiveLabel": "Email",
+          "captionReadAt": {
+            "page": 1,
+            "y": 533
+          },
+          "factId": "participant.email",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "dayPhone",
+          "acroFieldName": "dayPhone",
+          "page": 1,
+          "rect": {
+            "x": 442.96,
+            "y": 530.4,
+            "width": 97.48,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Email*: Daytime Phone:",
+          "printedLine": "Email*: Daytime Phone:",
+          "regionHeading": "Daytime Phone",
+          "sectionHeading": null,
+          "effectiveLabel": "Daytime Phone",
+          "captionReadAt": {
+            "page": 1,
+            "y": 533
+          },
+          "factId": "participant.phone",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "caseNo@1",
+          "acroFieldName": "caseNo",
+          "page": 1,
+          "rect": {
+            "x": 413.33,
+            "y": 489.26,
+            "width": 127.11,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case No.:",
+          "printedLine": "Case Name: Case No.:",
+          "regionHeading": "Case No.",
+          "sectionHeading": null,
+          "effectiveLabel": "Case No.",
+          "captionReadAt": {
+            "page": 1,
+            "y": 494
+          },
+          "factId": "matter.case_number",
+          "kind": "text",
+          "document": "TF-805"
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "caseName",
+          "acroFieldName": "caseName",
+          "page": 1,
+          "rect": {
+            "x": 133.72,
+            "y": 490.26,
+            "width": 226.59,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case No.:",
+          "printedLine": "Case Name: Case No.:",
+          "regionHeading": "Case Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 494
+          },
+          "document": "TF-805",
+          "reason": "the participant supplies this before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-805 field caseName",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "participantMustSupply": "the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name"
+        },
+        {
+          "field": "partyNames",
+          "acroFieldName": "partyNames",
+          "page": 1,
+          "rect": {
+            "x": 139.84,
+            "y": 476.26,
+            "width": 400.6,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Party Names:",
+          "printedLine": "Party Names:",
+          "regionHeading": "Party Names",
+          "sectionHeading": null,
+          "effectiveLabel": "Party Names",
+          "captionReadAt": {
+            "page": 1,
+            "y": 479
+          },
+          "document": "TF-805",
+          "reason": "the participant supplies this before filing: the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-805 field partyNames",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'",
+          "participantMustSupply": "the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'"
+        },
+        {
+          "field": "reason",
+          "acroFieldName": "reason",
+          "page": 1,
+          "rect": {
+            "x": 71.85,
+            "y": 213.56,
+            "width": 469.73,
+            "height": 79.87
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "f believe that the statements above are true, becaus:e",
+          "printedLine": "f believe that the statements above are true, becaus:e",
+          "regionHeading": "Why you believe the statements above are true",
+          "sectionHeading": null,
+          "effectiveLabel": "Why you believe the statements above are true",
+          "captionReadAt": {
+            "page": 1,
+            "y": 291
+          },
+          "captionNote": "Same interleaving: the printed line is \"I believe that the statements above are true, because:\" and the stream returns \"f believe that the statements above are true, becaus:e\".",
+          "document": "TF-805",
+          "reason": "the participant supplies this before filing: your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-805 field reason",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you",
+          "participantMustSupply": "your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you"
+        },
+        {
+          "field": "certDate",
+          "acroFieldName": "certDate",
+          "page": 2,
+          "rect": {
+            "x": 127.43,
+            "y": 568.33,
+            "width": 89.2,
+            "height": 13.97
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "I certify on at [date/time] I gave a copy of this document",
+          "printedLine": "I certify on at [date/time] I gave a copy of this document",
+          "regionHeading": "Certificate of Service — date of service, written when you sign the certificate",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — date of service, written when you sign the certificate",
+          "captionReadAt": {
+            "page": 2,
+            "y": 572
+          },
+          "document": "TF-805",
+          "reason": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+        },
+        {
+          "field": "time2",
+          "acroFieldName": "time2",
+          "page": 2,
+          "rect": {
+            "x": 232.11,
+            "y": 568.33,
+            "width": 92.48,
+            "height": 13.97
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "I certify on at [date/time] I gave a copy of this document",
+          "printedLine": "I certify on at [date/time] I gave a copy of this document",
+          "regionHeading": "Certificate of Service — time of service, written when you sign the certificate",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — time of service, written when you sign the certificate",
+          "captionReadAt": {
+            "page": 2,
+            "y": 572
+          },
+          "document": "TF-805",
+          "reason": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+        },
+        {
+          "field": "needText1",
+          "acroFieldName": "needText1",
+          "page": 2,
+          "rect": {
+            "x": 183.38,
+            "y": 529.57,
+            "width": 347.41,
+            "height": 16
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "I served these people:",
+          "printedLine": "I served these people:",
+          "regionHeading": "Certificate of Service — who you served, written when you sign the certificate",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — who you served, written when you sign the certificate",
+          "captionReadAt": {
+            "page": 2,
+            "y": 532
+          },
+          "document": "TF-805",
+          "reason": "the certificate records who you actually served and is completed at the time of service, not in advance",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records who you actually served and is completed at the time of service, not in advance"
+        },
+        {
+          "field": "signature0",
+          "acroFieldName": "signature0",
+          "page": 2,
+          "rect": {
+            "x": 123.97,
+            "y": 509.74,
+            "width": 164.79,
+            "height": 16
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Signature:",
+          "printedLine": "Signature:",
+          "regionHeading": "Certificate of Service — Signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — Signature",
+          "captionReadAt": {
+            "page": 2,
+            "y": 512
+          },
+          "document": "TF-805",
+          "reason": "you sign the certificate of service yourself, after you have served the other parties",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign the certificate of service yourself, after you have served the other parties"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "name",
+          "acroFieldName": "name",
+          "page": 1,
+          "rect": {
+            "x": 106.52,
+            "y": 559.53,
+            "width": 433.91,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Name:",
+          "printedLine": "Name:",
+          "regionHeading": "Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 563
+          },
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "address",
+          "acroFieldName": "address",
+          "page": 1,
+          "rect": {
+            "x": 115.42,
+            "y": 544.97,
+            "width": 425.01,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Address:",
+          "printedLine": "Address:",
+          "regionHeading": "Address",
+          "sectionHeading": null,
+          "effectiveLabel": "Address",
+          "captionReadAt": {
+            "page": 1,
+            "y": 548
+          },
+          "factId": "participant.street_address",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "email",
+          "acroFieldName": "email",
+          "page": 1,
+          "rect": {
+            "x": 106.13,
+            "y": 530.4,
+            "width": 253.72,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Email*: Daytime Phone:",
+          "printedLine": "Email*: Daytime Phone:",
+          "regionHeading": "Email",
+          "sectionHeading": null,
+          "effectiveLabel": "Email",
+          "captionReadAt": {
+            "page": 1,
+            "y": 533
+          },
+          "factId": "participant.email",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "dayPhone",
+          "acroFieldName": "dayPhone",
+          "page": 1,
+          "rect": {
+            "x": 442.96,
+            "y": 530.4,
+            "width": 97.48,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Email*: Daytime Phone:",
+          "printedLine": "Email*: Daytime Phone:",
+          "regionHeading": "Daytime Phone",
+          "sectionHeading": null,
+          "effectiveLabel": "Daytime Phone",
+          "captionReadAt": {
+            "page": 1,
+            "y": 533
+          },
+          "factId": "participant.phone",
+          "kind": "text",
+          "document": "TF-805"
+        },
+        {
+          "field": "caseNo@1",
+          "acroFieldName": "caseNo",
+          "page": 1,
+          "rect": {
+            "x": 413.33,
+            "y": 489.26,
+            "width": 127.11,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case No.:",
+          "printedLine": "Case Name: Case No.:",
+          "regionHeading": "Case No.",
+          "sectionHeading": null,
+          "effectiveLabel": "Case No.",
+          "captionReadAt": {
+            "page": 1,
+            "y": 494
+          },
+          "factId": "matter.case_number",
+          "kind": "text",
+          "document": "TF-805"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "caseName",
+          "acroFieldName": "caseName",
+          "page": 1,
+          "rect": {
+            "x": 133.72,
+            "y": 490.26,
+            "width": 226.59,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Case Name: Case No.:",
+          "printedLine": "Case Name: Case No.:",
+          "regionHeading": "Case Name",
+          "sectionHeading": null,
+          "effectiveLabel": "Case Name",
+          "captionReadAt": {
+            "page": 1,
+            "y": 494
+          },
+          "document": "TF-805",
+          "reason": "the participant supplies this before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-805 field caseName",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name",
+          "participantMustSupply": "the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name"
+        },
+        {
+          "field": "partyNames",
+          "acroFieldName": "partyNames",
+          "page": 1,
+          "rect": {
+            "x": 139.84,
+            "y": 476.26,
+            "width": 400.6,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Party Names:",
+          "printedLine": "Party Names:",
+          "regionHeading": "Party Names",
+          "sectionHeading": null,
+          "effectiveLabel": "Party Names",
+          "captionReadAt": {
+            "page": 1,
+            "y": 479
+          },
+          "document": "TF-805",
+          "reason": "the participant supplies this before filing: the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-805 field partyNames",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'",
+          "participantMustSupply": "the names of every party in the case, as they appear on the case caption — the platform holds your own name and not the other parties'"
+        },
+        {
+          "field": "reason",
+          "acroFieldName": "reason",
+          "page": 1,
+          "rect": {
+            "x": 71.85,
+            "y": 213.56,
+            "width": 469.73,
+            "height": 79.87
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "f believe that the statements above are true, becaus:e",
+          "printedLine": "f believe that the statements above are true, becaus:e",
+          "regionHeading": "Why you believe the statements above are true",
+          "sectionHeading": null,
+          "effectiveLabel": "Why you believe the statements above are true",
+          "captionReadAt": {
+            "page": 1,
+            "y": 291
+          },
+          "captionNote": "Same interleaving: the printed line is \"I believe that the statements above are true, because:\" and the stream returns \"f believe that the statements above are true, becaus:e\".",
+          "document": "TF-805",
+          "reason": "the participant supplies this before filing: your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you",
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "completenessDisposition": "REQUIRED_BEFORE_FILING",
+          "requiredBeforeFiling": true,
+          "identity": "TF-805 field reason",
+          "factId": null,
+          "routeDetermined": false,
+          "why": "the platform holds no value for this and the participant supplies it before filing: your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you",
+          "participantMustSupply": "your own answer: why the ground you ticked is true of your case. The form asks the judge to weigh protection of your name against the public's interest in disclosure, so say what is particular about yours. This is yours to write and the platform never writes it for you"
+        },
+        {
+          "field": "certDate",
+          "acroFieldName": "certDate",
+          "page": 2,
+          "rect": {
+            "x": 127.43,
+            "y": 568.33,
+            "width": 89.2,
+            "height": 13.97
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "I certify on at [date/time] I gave a copy of this document",
+          "printedLine": "I certify on at [date/time] I gave a copy of this document",
+          "regionHeading": "Certificate of Service — date of service, written when you sign the certificate",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — date of service, written when you sign the certificate",
+          "captionReadAt": {
+            "page": 2,
+            "y": 572
+          },
+          "document": "TF-805",
+          "reason": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+        },
+        {
+          "field": "time2",
+          "acroFieldName": "time2",
+          "page": 2,
+          "rect": {
+            "x": 232.11,
+            "y": 568.33,
+            "width": 92.48,
+            "height": 13.97
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "I certify on at [date/time] I gave a copy of this document",
+          "printedLine": "I certify on at [date/time] I gave a copy of this document",
+          "regionHeading": "Certificate of Service — time of service, written when you sign the certificate",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — time of service, written when you sign the certificate",
+          "captionReadAt": {
+            "page": 2,
+            "y": 572
+          },
+          "document": "TF-805",
+          "reason": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "service has not happened when the packet is prepared, and a certificate dated before the act it certifies would be false"
+        },
+        {
+          "field": "needText1",
+          "acroFieldName": "needText1",
+          "page": 2,
+          "rect": {
+            "x": 183.38,
+            "y": 529.57,
+            "width": 347.41,
+            "height": 16
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "I served these people:",
+          "printedLine": "I served these people:",
+          "regionHeading": "Certificate of Service — who you served, written when you sign the certificate",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — who you served, written when you sign the certificate",
+          "captionReadAt": {
+            "page": 2,
+            "y": 532
+          },
+          "document": "TF-805",
+          "reason": "the certificate records who you actually served and is completed at the time of service, not in advance",
+          "category": "participant_sworn_narrative_or_legal_election",
+          "completenessClass": "participant_sworn_narrative_or_legal_election",
+          "class": "participant_sworn_narrative_or_legal_election",
+          "requiredBeforeFiling": false,
+          "why": "the certificate records who you actually served and is completed at the time of service, not in advance"
+        },
+        {
+          "field": "signature0",
+          "acroFieldName": "signature0",
+          "page": 2,
+          "rect": {
+            "x": 123.97,
+            "y": 509.74,
+            "width": 164.79,
+            "height": 16
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "printedLabel": "Signature:",
+          "printedLine": "Signature:",
+          "regionHeading": "Certificate of Service — Signature",
+          "sectionHeading": null,
+          "effectiveLabel": "Certificate of Service — Signature",
+          "captionReadAt": {
+            "page": 2,
+            "y": 512
+          },
+          "document": "TF-805",
+          "reason": "you sign the certificate of service yourself, after you have served the other parties",
+          "category": "signature_or_date_participant_completion",
+          "completenessClass": "signature_or_date_participant_completion",
+          "class": "signature_or_date_participant_completion",
+          "requiredBeforeFiling": false,
+          "why": "you sign the certificate of service yourself, after you have served the other parties"
+        }
+      ]
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

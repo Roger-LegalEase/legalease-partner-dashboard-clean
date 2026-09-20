@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "recordedOn": "2026-09-11",
+  "scope": [
+    "co_motion_seal_conviction-set",
+    "co_motion_seal_nonconviction-set"
+  ],
+  "packetImplementationCommits": [
+    "dd9c56c41",
+    "547bf24f5",
+    "2da233d46"
+  ],
+  "checks": [
+    {
+      "command": "node scripts/build-census-v1-co_motion_seal_conviction-set.mjs --check --no-raster",
+      "result": "PASS",
+      "assertions": 6,
+      "basis": "Six required source documents resolved by exact SHA-256 and every AcroForm widget received a governed disposition. This was check-only and did not rebuild packet bytes."
+    },
+    {
+      "command": "node scripts/build-census-v1-co_motion_seal_nonconviction-set.mjs --check --no-raster",
+      "result": "PASS",
+      "assertions": 4,
+      "basis": "Four required source documents resolved by exact SHA-256 and every AcroForm widget received a governed disposition. This was check-only and did not rebuild packet bytes."
+    },
+    {
+      "command": "node scripts/rcap-official-forms/test-printed-date-orders.mjs",
+      "result": "PASS",
+      "assertions": 5,
+      "basis": "Both governed printed date orders passed, including invalid-input and unknown-order refusal controls."
+    },
+    {
+      "command": "node scripts/rcap-official-forms/test-full-mailing-address-semantics.mjs",
+      "result": "PASS",
+      "assertions": 11,
+      "basis": "The explicit combined-address caption and mapping passed while generic, split, contact and court-owned negative controls remained refused or separately classified."
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_conviction-set",
+      "result": "PASS_COMPLETE",
+      "assertions": 9,
+      "writtenFields": 29,
+      "totalFields": 232,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family co_motion_seal_nonconviction-set",
+      "result": "PASS_COMPLETE",
+      "assertions": 9,
+      "writtenFields": 16,
+      "totalFields": 101,
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      }
+    },
+    {
+      "command": "repository-local actual-writes byte-proof aggregation",
+      "result": "PASS",
+      "assertions": 99,
+      "fixtureDocuments": 20,
+      "matchesExpected": 99,
+      "mismatches": 0,
+      "basis": "Every declared write was read back from the flattened current packet bytes at its measured widget rectangle."
+    },
+    {
+      "command": "repository-local exact source-receipt and actual-writes source binding assertions",
+      "result": "PASS",
+      "assertions": 10,
+      "convictionForms": 6,
+      "nonconvictionForms": 4,
+      "currentJdf615Sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+      "olderUploadedJdf615Used": false
+    },
+    {
+      "command": "native raster-manifest byte preflight",
+      "result": "PASS",
+      "assertions": 4,
+      "basis": "All four canonical/boundary PDFs matched the exact queued SHA-256, byte length and page-count payloads."
+    },
+    {
+      "command": "git diff --check over the owned Colorado implementation and evidence paths",
+      "result": "PASS",
+      "assertions": 1
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 <familyId>",
+      "result": "PASS_BEFORE_CLAIM_RELEASE",
+      "assertions": 2,
+      "basis": "Both Colorado family repair claims were valid when the implementation writes occurred; Captain released them after integration."
+    }
+  ],
+  "totals": {
+    "focusedCommandsPassed": 11,
+    "focusedCommandsFailed": 0,
+    "enumeratedAssertionsPassed": 160,
+    "enumeratedAssertionsFailed": 0
+  },
+  "preExistingLimitation": {
+    "command": "node scripts/rcap-official-forms/test-name-date-component-semantics-mutations.mjs",
+    "result": "NOT_COUNTED_AS_A_COLORADO_FAILURE_BASELINE_ALREADY_RED",
+    "problems": 2,
+    "details": [
+      "The committed comparison record covers 243 of the current 292 census files and 10829 of the current 13864 fields.",
+      "The current projection contains unrelated AL, AR and SD changes outside that record's expected-change set."
+    ],
+    "impact": "The mutation suite refuses to run mutations against a red baseline. The two narrow semantics introduced for this repair are covered by their own passing positive and negative controls above."
+  },
+  "promotionEffect": "These focused checks are implementation evidence. Current-byte raster receipt and independent review remain separately required before historical FAIL evidence may be superseded."
+}

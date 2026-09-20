@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "result": "PASS",
+  "commands": [
+    {
+      "command": "node scripts/test-ks-birth-year-followup.mjs",
+      "result": "PASS",
+      "assertions": 199,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/birth-year-focused-test.log"
+    },
+    {
+      "command": "node --test scripts/test-kansas-shared-packets.mjs",
+      "result": "PASS",
+      "tests": 23,
+      "failed": 0,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/kansas-shared-tests.log"
+    },
+    {
+      "command": "node scripts/test-ks-specialty-pagination-repair.mjs",
+      "result": "PASS",
+      "assertions": 22,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/specialty-pagination-test.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-conviction-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/completeness-ks-21-6614-conviction-set.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-diversion-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/completeness-ks-21-6614-diversion-set.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/completeness-ks-21-6614-prostitution-coercion-set.log"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-specialty-court-set",
+      "result": "PASS_COMPLETE",
+      "countersZero": 9,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/completeness-ks-21-6614-specialty-court-set.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ks-21-6614-conviction-set.mjs --check",
+      "result": "CHECK_ONLY",
+      "sourceHashesBound": 6,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/source-binding-conviction.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ks-21-6614-diversion-set.mjs --check",
+      "result": "CHECK_ONLY",
+      "sourceHashesBound": 6,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/source-binding-diversion.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs --check",
+      "result": "CHECK_ONLY",
+      "sourceHashesBound": 6,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/source-binding-prostitution-coercion.log"
+    },
+    {
+      "command": "node scripts/build-census-v1-ks-21-6614-specialty-court-set.mjs --check",
+      "result": "CHECK_ONLY",
+      "sourceHashesBound": 6,
+      "evidence": "data/rcap-grade-a/packet-factory-24h/pf20/kansas-four-closeout-20260912/birth-year-followup/source-binding-specialty-court.log"
+    }
+  ],
+  "totals": {
+    "focusedAssertions": 221,
+    "nodeTests": 23,
+    "nodeTestsFailed": 0,
+    "familyCompletenessPasses": 4,
+    "completenessCountersChecked": 36,
+    "sourceBindingChecks": 4,
+    "sourceBindingsVerified": 24
+  },
+  "rasterNotRun": true,
+  "independentReviewNotClaimed": true
+}

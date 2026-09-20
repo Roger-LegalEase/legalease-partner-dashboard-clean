@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-pf04-worker-provision/v1",
+  "familyId": "ar-veterans-court-set",
+  "recordedAt": "2026-09-13",
+  "execution": {
+    "captainCodespace": "fictional-bassoon-p7jj9gq67jpgfr9r7",
+    "workerCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "workerMachine": "standardLinux32gb",
+    "workerRoot": "/workspaces/legalease-partner-dashboard-clean",
+    "worktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf04-ar-veterans-adopted-20260913",
+    "branch": "pf04-ar-veterans-adopted-20260913",
+    "baseCommit": "66dd2568921473cdecc8e033264a326b565ee7ef",
+    "baseCommitMessage": "Adopt bounded Arkansas veterans owner product direction",
+    "provisionedWith": "scripts/grade-a-packet-factory-24h/provision-lane-worktree.mjs --from /workspaces/legalease-partner-dashboard-clean",
+    "captainOwnedPaths": [
+      "data/rcap-grade-a/legal-decisions/AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json",
+      "data/rcap-grade-a/packet-factory-24h/pf04/ar-veterans-worker-provision-20260913.json"
+    ],
+    "workerOwnedPaths": [
+      "scripts/build-census-v1-ar-veterans-court-set.mjs",
+      "data/rcap-all50/overlays/census-v1/ar/ar-veterans-court-set--official-pdf-fill/**"
+    ],
+    "captainAuthoritativeWritesExcluded": [
+      "data/rcap-grade-a/legal-decisions/**",
+      "data/rcap-all50/MASTER_QUEUE.json",
+      "data/rcap-grade-a/packet-factory-24h/CLAIM_LEDGER.json",
+      "data/rcap-grade-a/packet-factory-24h/REPAIR_SUPPLY_QUEUE.json"
+    ]
+  },
+  "capacityMeasurement": {
+    "measuredBeforeWorktreeBytesAvailable": 10435387392,
+    "measuredAfterCheckoutAndProvisionBytesAvailable": 7437287424,
+    "measurementCommand": "df -B1 --output=avail /workspaces/legalease-partner-dashboard-clean",
+    "checkoutAndProvisionConsumedBytes": 2998109968,
+    "workingReserveRequired": "Keep the worker's remaining capacity available for the bounded PF04 build and PF05's separate saved repair; do not begin another build slot without a new measured budget."
+  },
+  "sourceBindings": [
+    {
+      "role": "petition",
+      "sourceId": "official-form:ACIC-PETITION-VETERANS-COURT",
+      "captainPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+      "workerPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+      "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+      "byteLength": 131167,
+      "captainVerified": true,
+      "workerVerified": true,
+      "transfer": "direct stream from Captain; target was absent before transfer"
+    },
+    {
+      "role": "order",
+      "sourceId": "official-form:ACIC-ORDER-VETERANS-COURT",
+      "captainPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-VETERANS-COURT-SET__ACIC-ORDER-VETERANS-COURT__dd73dfdee29c.pdf",
+      "workerPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__AR-VETERANS-COURT-SET__ACIC-ORDER-VETERANS-COURT__dd73dfdee29c.pdf",
+      "sha256": "dd73dfdee29c12977a360413311a973fd3366e5a7dc606d385666bfa3b38ccf5",
+      "byteLength": 116034,
+      "captainVerified": true,
+      "workerVerified": true,
+      "transfer": "already present in the tracked reference custody"
+    }
+  ],
+  "runtimeBinding": {
+    "privateSymlink": "/workspaces/legalease-partner-dashboard-clean/private",
+    "nodeModulesSymlink": "/workspaces/legalease-partner-dashboard-clean/node_modules",
+    "pdfLib": "1.17.1",
+    "sharp": "0.34.5",
+    "libvips": "8.17.3",
+    "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+    "captainRuntimeResolutionVerified": true,
+    "workerRuntimeResolutionVerified": true,
+    "workerResolutionCommand": "cd /workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf04-ar-veterans-adopted-20260913 && node -p require.resolve('pdf-lib/package.json') && node -p require.resolve('sharp/package.json')"
+  },
+  "legalBinding": {
+    "adoptionRecord": "data/rcap-grade-a/legal-decisions/AR_VETERANS_OWNER_PRODUCT_ADOPTION_2026-09-13.json",
+    "adoptionRecordCommit": "66dd2568921473cdecc8e033264a326b565ee7ef",
+    "adoptionDecisionId": "AR-VETERANS-OWNER-PRODUCT-ADOPTION-20260913",
+    "disposition": "LEGAL_CLEAR",
+    "scope": "bounded pre-adjudication held-form implementation and conditional supported handoffs",
+    "counselApproval": false,
+    "packetPass": false,
+    "rasterPass": false,
+    "terminalPromotion": false,
+    "productionAuthorization": false,
+    "staleAuthorityPdf": {
+      "path": "/tmp/ar-veterans-authority/Act691-2025.pdf",
+      "presentOnWorker": false,
+      "expectedSha256": "3129da9190cd7aebb606351e8c8e479efff6f84af0b98cbc3fcb80a37bd83e4a",
+      "expectedByteLength": 309709,
+      "status": "not_required_for_source-binding; use adopted record and existing source-review authority metadata; do not invent a substitute"
+    }
+  },
+  "protectedConcurrentWork": {
+    "pf05Worktree": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf05-ut-cannabis-resume-20260913",
+    "pf05Branch": "pf05-ut-cannabis-resume-20260913",
+    "instruction": "PF04 must not modify PF05 paths, branch, sources, dependencies, or reviewer assignment."
+  },
+  "nextGate": "Build the complete pre-adjudication ACIC petition/order candidate plus Stage 1 program-evidence guidance and conditional same-level cross-court/post-adjudication handoff; run author-side saved-byte, component, branch, protected-field, and completeness checks, then freeze and return for independent VF44 semantic review."
+}

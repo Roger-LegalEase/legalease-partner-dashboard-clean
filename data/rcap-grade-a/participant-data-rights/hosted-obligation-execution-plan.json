@@ -1,0 +1,499 @@
+{
+  "schemaVersion": "rcap-hosted-obligation-execution-plan/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-hosted-obligation-plan.mjs",
+  "catalogCount": 35,
+  "hostedAcceptanceGranted": false,
+  "productionAuthorityGranted": false,
+  "workflow": {
+    "path": ".github/workflows/rcap-hosted-acceptance-staging.yml",
+    "sha256": "2d5045c9e767d0e8bbf4f9c7f4bbcf47ce5e0fbb05292a3c289e87f6611723fd",
+    "hostedFullIncludesPrivacyJourneys": false,
+    "separatePhases": [
+      "browser",
+      "clinic_preview"
+    ],
+    "note": "hosted_full does not run these separate phases or a hosted privacy runner; no inference of full contract coverage."
+  },
+  "privacyRunner": {
+    "path": "scripts/rcap-hosted-participant-privacy.mjs",
+    "localIntegrationCommand": "node scripts/verify-participant-data-rights.mjs --privacy-journeys",
+    "hostedExecuted": false,
+    "complete15GateCoverage": false
+  },
+  "requiredJourneys": [
+    "participant_export",
+    "single_matter_deletion",
+    "account_deletion"
+  ],
+  "exportRequirements": [
+    "authenticated owner only",
+    "cross-user and cross-tenant denial",
+    "complete participant-owned export without credentials or foreign records",
+    "idempotent request and private delivery"
+  ],
+  "prerequisites": [
+    "New exact candidate worker publication and image verification",
+    "Reviewed candidate/digest/Preview binding",
+    "Explicit authorization for hosted writes",
+    "Current data-rights migration and privacy configuration readback",
+    "Trusted independent reviewer and original receipt custody"
+  ],
+  "gates": [
+    {
+      "id": "anonymous_boundary",
+      "label": "Anonymous boundary",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-shared-claim-boundary-app.mjs",
+        "scripts/security/test-clinic-anonymous-and-tenant-denials.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Anonymous screening produces no participant matter; authentication and atomic claim are required.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "claim_continuity",
+      "label": "Claim continuity",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-shared-claim-boundary-db.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Screen anonymously, sign in, claim once, and retain the same result and participant ownership.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "exact_redirect",
+      "label": "Exact redirect",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-shared-claim-boundary-app.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Claim redirects to the exact newly owned matter; foreign and external return destinations are denied.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "idempotency",
+      "label": "Idempotency",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-shared-claim-boundary-db.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Retry claim, checkout and render requests; prove a single owned matter, consumption and packet.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "ownership",
+      "label": "Ownership",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-participant-ownership-denials.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Inspect owner-scoped matter, uploads and artifacts after an assisted journey.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "cross_user_security",
+      "label": "Cross-user security",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-participant-ownership-denials.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "User B tries every user A matter/export/download/delete endpoint and gains no access.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "cross_tenant_security",
+      "label": "Cross-tenant security",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-anonymous-and-tenant-denials.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Tenant B staff tries tenant A assistance, sessions and reporting with no row or object leakage.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "staff_consent",
+      "label": "Staff consent",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-participant-ownership-denials.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Staff assistance without explicit current consent is denied; permitted assistance grants no ownership.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "participant_authority",
+      "label": "Participant authority",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-participant-ownership-denials.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Staff attribution and sponsorship cannot replace participant claim, attestation or deletion authority.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "stale_verification",
+      "label": "Stale verification",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-screening-verification-ux.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Changed screening inputs invalidate previous verification and block downstream fulfillment.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "payment_integrity",
+      "label": "Payment integrity",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-expungement-consumer-payment-http.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Use Stripe Sandbox; correlate one server-confirmed payment to one exact participant matter.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "sponsorship_integrity",
+      "label": "Sponsorship integrity",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-atomic-sponsored-packet-finalization.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Exercise scoped sponsorship and insufficient/exhausted credits without double consumption.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "private_delivery",
+      "label": "Private delivery",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Owner-only packet downloads succeed; anonymous, foreign and deleted-object URLs fail.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "clinic_reset",
+      "label": "Clinic reset",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-shared-device-reset.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Reset shared device and prove the next participant sees no previous credentials or data.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "telemetry",
+      "label": "Telemetry",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-telemetry-redaction.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Inspect emitted synthetic journey logs and telemetry for raw sensitive fields and cross-tenant attribution.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "recovery",
+      "label": "Recovery",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Interrupt claim/render/deletion, retry, and prove durable recovery without duplicate work.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "accessibility",
+      "label": "Accessibility",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-mobile-accessibility.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Exercise keyboard, focus, labels, errors and automated accessibility on the actual hosted candidate.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "mobile",
+      "label": "Mobile",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/security/test-clinic-mobile-accessibility.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Exercise screening, claim, Briefcase and privacy actions at supported phone viewports.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "processing_integrity",
+      "label": "Processing integrity",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-atomic-sponsored-packet-finalization.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Observe immutable worker identity, job ownership, accounting and atomic finalization together.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "auditability",
+      "label": "Auditability",
+      "section": "15",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Correlate safe event IDs to the exact candidate, worker, synthetic subjects and resulting artifacts.",
+      "workflowCoverage": "PARTIAL_OR_SEPARATE_PHASE_REQUIRES_GATE_LEVEL_EVIDENCE",
+      "nextAction": "Execute the relevant pinned hosted journey and bind original gate evidence with independent review; workflow success alone is insufficient."
+    },
+    {
+      "id": "privacy_cross_user_denial",
+      "label": "User A cannot request deletion for user B",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: User A cannot request deletion for user B.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_partner_staff_denial",
+      "label": "Partner staff cannot delete a participant",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Partner staff cannot delete a participant.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_briefcase_access_removed",
+      "label": "Deletion removes all active Briefcase access",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Deletion removes all active Briefcase access.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_private_urls_dead",
+      "label": "Private packet URLs stop working",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Private packet URLs stop working.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_objects_removed",
+      "label": "Uploads and generated objects are removed",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Uploads and generated objects are removed.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_reminders_stopped",
+      "label": "Reminders stop",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Reminders stop.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_assisted_access_ended",
+      "label": "Clinic and partner access ends",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Clinic and partner access ends.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_accounting_preserved",
+      "label": "Payment and sponsorship accounting remain accurate",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Payment and sponsorship accounting remain accurate.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_retention_minimized",
+      "label": "Retained records are pseudonymised and access-restricted",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Retained records are pseudonymised and access-restricted.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_sessions_revoked",
+      "label": "Auth sessions are revoked",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Auth sessions are revoked.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_signin_denied",
+      "label": "The deleted account cannot sign in",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: The deleted account cannot sign in.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_idempotency",
+      "label": "Repeated requests do not duplicate work",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Repeated requests do not duplicate work.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_resume",
+      "label": "A failed step resumes safely",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: A failed step resumes safely.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_backup_tombstone",
+      "label": "Backup restoration does not reactivate the account",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: Backup restoration does not reactivate the account.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    },
+    {
+      "id": "privacy_accurate_receipt",
+      "label": "The participant receives an accurate completion receipt",
+      "section": "12A",
+      "hostedStatus": "NOT_EXECUTED",
+      "localCoverageSources": [
+        "scripts/verify-participant-data-rights.mjs"
+      ],
+      "localCoverageMeaning": "Related local checks; not proof that the entire hosted obligation passed.",
+      "hostedScenario": "Run synthetic matter/account deletion and independently verify: The participant receives an accurate completion receipt.",
+      "workflowCoverage": "CORE_PRIVACY_RUNNER_IMPLEMENTED_ADDITIONAL_GATE_PROOFS_REQUIRED",
+      "nextAction": "Execute the pinned synthetic privacy runner after separate write approval; extend its core journey evidence with all 15 storage, processor, session, retention and recovery postconditions, then bind original evidence with independent review."
+    }
+  ]
+}

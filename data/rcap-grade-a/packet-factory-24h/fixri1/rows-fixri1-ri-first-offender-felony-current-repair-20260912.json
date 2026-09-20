@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-native-verifier-returns/v1",
+  "preparedOn": "2026-09-12",
+  "laneId": "FIXRI1",
+  "rows": [
+    {
+      "itemId": "ri_first_offender_felony-set",
+      "familyId": "ri_first_offender_felony-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "claim": {
+        "workerId": "FIXRI1",
+        "grantSetId": "f3b3c7661e08e165"
+      },
+      "obligationsRepaired": [
+        "ARTIFACTS",
+        "REQUIRED_BEFORE_FILING",
+        "REPEATING_ROWS",
+        "ROUTE_OPTIONS",
+        "SELF_HELP_STOP"
+      ],
+      "historicalVerdict": {
+        "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-ri-first-offender-felony-current-semantic-fail-20260912.json",
+        "sha256": "df02b6732e2e0d31f91882d785349e3419d6c140ebed9c7067db899bff356241",
+        "preserved": true
+      },
+      "actualDefect": "The participant packet still carried the superseded universal Part Two hold, contradictory five-year language, internal route/component/provenance copy, and unconditional requirements for every printed charge and order row.",
+      "correction": "The exact current Part Two decision is hash-bound for this family. The packet preserves the official misdemeanor wording and leaves every sworn statement unselected, applies the ten-year route treatment, removes implementation copy from participant artifacts, requires one complete charge/order row, and makes rows two through four conditional on the participant's actual docket count.",
+      "packetBytesChanged": true,
+      "packetByteChangeScope": {
+        "changed": [
+          "canonical.pdf",
+          "boundary.pdf"
+        ],
+        "unchanged": []
+      },
+      "artifacts": {
+        "documents": [
+          {
+            "role": "canonical",
+            "name": "canonical.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/canonical.pdf",
+            "sha256": "246c0c07c6798ca7205d161a36fa6886c48a7d300c479cd0ccd48b21ddafd958",
+            "byteLength": 306350,
+            "pageCount": 13,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 13,
+              "sourceSha256": "246c0c07c6798ca7205d161a36fa6886c48a7d300c479cd0ccd48b21ddafd958"
+            }
+          },
+          {
+            "role": "boundary",
+            "name": "boundary.pdf",
+            "path": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-felony-set--official-pdf-fill/fixtures/boundary.pdf",
+            "sha256": "0fc269fff8d0c6ba6a8ee358ebadf77c1e3c526964ed07fbd85a8762eb3b7e4a",
+            "byteLength": 306529,
+            "pageCount": 13,
+            "pageCountBasis": "parsed from exact candidate PDF bytes with pdf-lib 1.17.1",
+            "pageCountEvidence": {
+              "method": "pdf-lib 1.17.1",
+              "pageCount": 13,
+              "sourceSha256": "0fc269fff8d0c6ba6a8ee358ebadf77c1e3c526964ed07fbd85a8762eb3b7e4a"
+            }
+          }
+        ],
+        "documentsDigest": "ddf00bc394f227a580cb67facdf76b1e53703864f1fa6387f0d76bf33d6aa83d"
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "countersAfterBasis": "Focused semantic tests pass 70 assertions and 3 negative controls; current completeness reports PASS_COMPLETE with all nine counters zero. visualDefects is null until independent current-byte review and raster.",
+      "rasterState": "RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/raster-manifest.json",
+      "currentRepairEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/current-byte-proof.json",
+      "focusedTestEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/focused-check-results.json",
+      "sourceBindingEvidence": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ri-first-offender-felony/repair-current/source-binding-preflight.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_INDEPENDENT_PRE_RASTER_SEMANTIC_REVIEW",
+      "grantsNothing": "This implementation return preserves the historical FAIL and opens no route; current-byte independent review and raster remain separate gates."
+    }
+  ]
+}

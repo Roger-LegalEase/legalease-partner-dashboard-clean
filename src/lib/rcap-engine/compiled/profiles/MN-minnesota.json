@@ -1,6 +1,19 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "MN",
     "name": "Minnesota",
@@ -739,21 +752,7 @@
       "routeType": "administrative",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the person was arrested but no charges were filed, there may be no court case to expunge. The person may instead request destruction of arrest identification data such as fingerprints, photographs, and identification records under Minn. Stat. 299C.11, if they meet the statutory conditions. This generally applies when the prosecutor declined charges, charges were dismissed before a probable-cause determination, and the person has no felony or gross misdemeanor conviction in the preceding 10 years. (\"https://www.revisor.mn.gov/statutes/cite/299C.11\")",
-        "Diversion or stay of adjudication Some nonfelony cases qualify after successful completion and at least 1 year without new charge/conviction, except petty misdemeanors.",
-        "Petty misdemeanor or misdemeanor convictions Some qualify after 2 years from discharge.",
-        "Gross misdemeanor convictions Some qualify after 3 years from discharge.",
-        "Certain felony convictions Some qualify after 4 or 5 years depending on offense type.",
-        "A person may petition after successful completion of diversion or a stay of adjudication if they were not charged with a new crime for at least 1 year after completion. (",
-        "Case Type Automatic Waiting Period",
-        "Petty misdemeanor 2 years after discharge",
-        "Misdemeanor 2 years after discharge",
-        "Gross misdemeanor 3 years after discharge",
-        "Felony fifth-degree controlled substance under 152.025 4 years after discharge",
-        "Other qualifying felony 5 years after discharge",
-        "These are automatic Clean Slate waiting periods under 609A.015. The person must also have no disqualifying new conviction and must not be charged at the time eligibility is reviewed. (",
-        "Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months",
-        "Issue Wilma Rule Expungement meaning Sealing, not destruction Automatic law 609A.015 Clean Slate Main petition statute 609A.03 Main eligibility statute 609A.02 Arrest only / no charge Check 299C.11 Mistaken identity 609A.017 Cannabis automatic 609A.055 Cannabis Board 609A.06 Prosecutor agreement 609A.025 Pardon extraordinary 609A.035 Forms EXP101-EXP107 Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months Agency issue DHS/DCYF/Health/PELSB may need special attention Driving records DVS records are separate Felonies Only listed felonies; verify statute Registration offenses Registration-required convictions are barred This Minnesota reference is ready to train Wilma for intake, eligibility triage, packet preparation, and escalation."
+        "available on the qualifying no-charge or early-dismissal disposition and a demand to the agency; the statute's ten-year language is a disqualifying lookback for a felony or gross-misdemeanor conviction, not a ten-year wait from arrest"
       ],
       "exclusionRules": [
         "Minnesota has automatic expungement under 609A.015 for certain records. The BCA identifies potentially eligible cases, notifies the Judicial Branch, and qualifying records are sealed without the person filing a petition unless a court order prohibits sealing or the record is later determined ineligible. (\"https://www.revisor.mn.gov/statutes/cite/609A.015\")",
@@ -777,6 +776,50 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "mechanism": "Arrest identification-data destruction where no charges were filed",
+        "statute": "Minn. Stat. § 299C.11",
+        "stage": "single_stage",
+        "outcomeMode": "agency_application",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "lookback",
+          "value": 10,
+          "unit": "years",
+          "anchorFactId": "last_conviction_date",
+          "anchorText": "available on the qualifying no-charge or early-dismissal disposition and a demand to the agency; the statute's ten-year language is a disqualifying lookback for a felony or gross-misdemeanor conviction, not a ten-year wait from arrest"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/disposition?",
+          "Charge filing?",
+          "Conviction lookback?",
+          "Offense class?",
+          "Diversion/stay?",
+          "Discharge date?",
+          "Prosecutor agreement?",
+          "Cannabis statute/amount?",
+          "Automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "last_conviction_date"
+        ],
+        "exclusions": [
+          "Exact Minnesota statute and process",
+          "Offense level and statutory category",
+          "No-charge lookback",
+          "Discharge and clean-record conditions"
+        ],
+        "packetFamily": "Minnesota § 299C.11 Demand to the Agency",
+        "packetComponents": [
+          "Written demand to the agency",
+          "Disposition record"
+        ],
+        "notes": "The ten-year condition must be labelled explicitly as a prior-conviction lookback, never as a clock from arrest."
       }
     },
     {
@@ -845,21 +888,7 @@
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "If the person was arrested but no charges were filed, there may be no court case to expunge. The person may instead request destruction of arrest identification data such as fingerprints, photographs, and identification records under Minn. Stat. 299C.11, if they meet the statutory conditions. This generally applies when the prosecutor declined charges, charges were dismissed before a probable-cause determination, and the person has no felony or gross misdemeanor conviction in the preceding 10 years. (\"https://www.revisor.mn.gov/statutes/cite/299C.11\")",
-        "Diversion or stay of adjudication Some nonfelony cases qualify after successful completion and at least 1 year without new charge/conviction, except petty misdemeanors.",
-        "Petty misdemeanor or misdemeanor convictions Some qualify after 2 years from discharge.",
-        "Gross misdemeanor convictions Some qualify after 3 years from discharge.",
-        "Certain felony convictions Some qualify after 4 or 5 years depending on offense type.",
-        "A person may petition after successful completion of diversion or a stay of adjudication if they were not charged with a new crime for at least 1 year after completion. (",
-        "Case Type Automatic Waiting Period",
-        "Petty misdemeanor 2 years after discharge",
-        "Misdemeanor 2 years after discharge",
-        "Gross misdemeanor 3 years after discharge",
-        "Felony fifth-degree controlled substance under 152.025 4 years after discharge",
-        "Other qualifying felony 5 years after discharge",
-        "These are automatic Clean Slate waiting periods under 609A.015. The person must also have no disqualifying new conviction and must not be charged at the time eligibility is reviewed. (",
-        "Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months",
-        "Issue Wilma Rule Expungement meaning Sealing, not destruction Automatic law 609A.015 Clean Slate Main petition statute 609A.03 Main eligibility statute 609A.02 Arrest only / no charge Check 299C.11 Mistaken identity 609A.017 Cannabis automatic 609A.055 Cannabis Board 609A.06 Prosecutor agreement 609A.025 Pardon extraordinary 609A.035 Forms EXP101-EXP107 Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months Agency issue DHS/DCYF/Health/PELSB may need special attention Driving records DVS records are separate Felonies Only listed felonies; verify statute Registration offenses Registration-required convictions are barred This Minnesota reference is ready to train Wilma for intake, eligibility triage, packet preparation, and escalation."
+        "automatic and corrective; not an elapsed-wait route"
       ],
       "exclusionRules": [
         "Minnesota has automatic expungement under 609A.015 for certain records. The BCA identifies potentially eligible cases, notifies the Judicial Branch, and qualifying records are sealed without the person filing a petition unless a court order prohibits sealing or the record is later determined ineligible. (\"https://www.revisor.mn.gov/statutes/cite/609A.015\")",
@@ -883,6 +912,42 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "mechanism": "Automatic mistaken-identity expungement",
+        "statute": "Minn. Stat. § 609A.017",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "automatic and corrective; not an elapsed-wait route"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/disposition?",
+          "Charge filing?",
+          "Conviction lookback?",
+          "Offense class?",
+          "Diversion/stay?",
+          "Discharge date?",
+          "Prosecutor agreement?",
+          "Cannabis statute/amount?",
+          "Automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Minnesota statute and process",
+          "Offense level and statutory category",
+          "No-charge lookback",
+          "Discharge and clean-record conditions"
+        ],
+        "packetFamily": null,
+        "notes": "Correction guidance only; no elapsed wait and no checkout."
       }
     },
     {
@@ -956,21 +1021,7 @@
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "If the person was arrested but no charges were filed, there may be no court case to expunge. The person may instead request destruction of arrest identification data such as fingerprints, photographs, and identification records under Minn. Stat. 299C.11, if they meet the statutory conditions. This generally applies when the prosecutor declined charges, charges were dismissed before a probable-cause determination, and the person has no felony or gross misdemeanor conviction in the preceding 10 years. (\"https://www.revisor.mn.gov/statutes/cite/299C.11\")",
-        "Diversion or stay of adjudication Some nonfelony cases qualify after successful completion and at least 1 year without new charge/conviction, except petty misdemeanors.",
-        "Petty misdemeanor or misdemeanor convictions Some qualify after 2 years from discharge.",
-        "Gross misdemeanor convictions Some qualify after 3 years from discharge.",
-        "Certain felony convictions Some qualify after 4 or 5 years depending on offense type.",
-        "Case Type Automatic Waiting Period",
-        "Petty misdemeanor 2 years after discharge",
-        "Misdemeanor 2 years after discharge",
-        "Gross misdemeanor 3 years after discharge",
-        "Felony fifth-degree controlled substance under 152.025 4 years after discharge",
-        "Other qualifying felony 5 years after discharge",
-        "These are automatic Clean Slate waiting periods under 609A.015. The person must also have no disqualifying new conviction and must not be charged at the time eligibility is reviewed. (",
-        "A person may petition after successful completion of diversion or a stay of adjudication if they were not charged with a new crime for at least 1 year after completion. (",
-        "Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months",
-        "Issue Wilma Rule Expungement meaning Sealing, not destruction Automatic law 609A.015 Clean Slate Main petition statute 609A.03 Main eligibility statute 609A.02 Arrest only / no charge Check 299C.11 Mistaken identity 609A.017 Cannabis automatic 609A.055 Cannabis Board 609A.06 Prosecutor agreement 609A.025 Pardon extraordinary 609A.035 Forms EXP101-EXP107 Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months Agency issue DHS/DCYF/Health/PELSB may need special attention Driving records DVS records are separate Felonies Only listed felonies; verify statute Registration offenses Registration-required convictions are barred This Minnesota reference is ready to train Wilma for intake, eligibility triage, packet preparation, and escalation."
+        "category-specific statutory triggers: favorable outcomes are event-driven, diversion and stay branches use the specified one-year period, and conviction categories use the applicable two-, three-, four-, or five-year period from discharge"
       ],
       "exclusionRules": [
         "Minnesota has automatic expungement under 609A.015 for certain records. The BCA identifies potentially eligible cases, notifies the Judicial Branch, and qualifying records are sealed without the person filing a petition unless a court order prohibits sealing or the record is later determined ineligible. (\"https://www.revisor.mn.gov/statutes/cite/609A.015\")",
@@ -994,6 +1045,44 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "mechanism": "Automatic Clean Slate expungement",
+        "statute": "Minn. Stat. § 609A.015",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "category-specific statutory triggers: favorable outcomes are event-driven, diversion and stay branches use the specified one-year period, and conviction categories use the applicable two-, three-, four-, or five-year period from discharge"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/disposition?",
+          "Charge filing?",
+          "Conviction lookback?",
+          "Offense class?",
+          "Diversion/stay?",
+          "Discharge date?",
+          "Prosecutor agreement?",
+          "Cannabis statute/amount?",
+          "Automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Exact Minnesota statute and process",
+          "Offense level and statutory category",
+          "No-charge lookback",
+          "Discharge and clean-record conditions"
+        ],
+        "packetFamily": null,
+        "notes": "Automatic relief; the participant files nothing and checkout stays closed. The category-specific periods govern when the automatic system acts, and the intake must capture the exact category rather than a generic value."
       }
     },
     {
@@ -1061,25 +1150,11 @@
         "convicted_other"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "review",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the person was arrested but no charges were filed, there may be no court case to expunge. The person may instead request destruction of arrest identification data such as fingerprints, photographs, and identification records under Minn. Stat. 299C.11, if they meet the statutory conditions. This generally applies when the prosecutor declined charges, charges were dismissed before a probable-cause determination, and the person has no felony or gross misdemeanor conviction in the preceding 10 years. (\"https://www.revisor.mn.gov/statutes/cite/299C.11\")",
-        "Diversion or stay of adjudication Some nonfelony cases qualify after successful completion and at least 1 year without new charge/conviction, except petty misdemeanors.",
-        "Petty misdemeanor or misdemeanor convictions Some qualify after 2 years from discharge.",
-        "Gross misdemeanor convictions Some qualify after 3 years from discharge.",
-        "Certain felony convictions Some qualify after 4 or 5 years depending on offense type.",
-        "A person may petition after successful completion of diversion or a stay of adjudication if they were not charged with a new crime for at least 1 year after completion. (",
-        "Case Type Automatic Waiting Period",
-        "Petty misdemeanor 2 years after discharge",
-        "Misdemeanor 2 years after discharge",
-        "Gross misdemeanor 3 years after discharge",
-        "Felony fifth-degree controlled substance under 152.025 4 years after discharge",
-        "Other qualifying felony 5 years after discharge",
-        "These are automatic Clean Slate waiting periods under 609A.015. The person must also have no disqualifying new conviction and must not be charged at the time eligibility is reviewed. (",
-        "Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months",
-        "Issue Wilma Rule Expungement meaning Sealing, not destruction Automatic law 609A.015 Clean Slate Main petition statute 609A.03 Main eligibility statute 609A.02 Arrest only / no charge Check 299C.11 Mistaken identity 609A.017 Cannabis automatic 609A.055 Cannabis Board 609A.06 Prosecutor agreement 609A.025 Pardon extraordinary 609A.035 Forms EXP101-EXP107 Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months Agency issue DHS/DCYF/Health/PELSB may need special attention Driving records DVS records are separate Felonies Only listed felonies; verify statute Registration offenses Registration-required convictions are barred This Minnesota reference is ready to train Wilma for intake, eligibility triage, packet preparation, and escalation."
+        "eligibility is determined by the Cannabis Expungement Board rather than by an elapsed participant wait"
       ],
       "exclusionRules": [
         "Minnesota has automatic expungement under 609A.015 for certain records. The BCA identifies potentially eligible cases, notifies the Judicial Branch, and qualifying records are sealed without the person filing a petition unless a court order prohibits sealing or the record is later determined ineligible. (\"https://www.revisor.mn.gov/statutes/cite/609A.015\")",
@@ -1103,6 +1178,43 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "mechanism": "Cannabis expungement — Cannabis Expungement Board review category",
+        "statute": "Minn. Stat. §§ 609A.055-.06",
+        "stage": "single_stage",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "eligibility is determined by the Cannabis Expungement Board rather than by an elapsed participant wait"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/disposition?",
+          "Charge filing?",
+          "Conviction lookback?",
+          "Offense class?",
+          "Diversion/stay?",
+          "Discharge date?",
+          "Prosecutor agreement?",
+          "Cannabis statute/amount?",
+          "Automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Minnesota statute and process",
+          "Offense level and statutory category",
+          "No-charge lookback",
+          "Discharge and clean-record conditions"
+        ],
+        "packetFamily": null,
+        "notes": "The automatic cannabis category and the Board-review category are separate; neither is a participant-filed petition, so checkout stays closed on both."
       }
     },
     {
@@ -1168,21 +1280,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the person was arrested but no charges were filed, there may be no court case to expunge. The person may instead request destruction of arrest identification data such as fingerprints, photographs, and identification records under Minn. Stat. 299C.11, if they meet the statutory conditions. This generally applies when the prosecutor declined charges, charges were dismissed before a probable-cause determination, and the person has no felony or gross misdemeanor conviction in the preceding 10 years. (\"https://www.revisor.mn.gov/statutes/cite/299C.11\")",
-        "Diversion or stay of adjudication Some nonfelony cases qualify after successful completion and at least 1 year without new charge/conviction, except petty misdemeanors.",
-        "Petty misdemeanor or misdemeanor convictions Some qualify after 2 years from discharge.",
-        "Gross misdemeanor convictions Some qualify after 3 years from discharge.",
-        "Certain felony convictions Some qualify after 4 or 5 years depending on offense type.",
-        "A person may petition after successful completion of diversion or a stay of adjudication if they were not charged with a new crime for at least 1 year after completion. (",
-        "Case Type Automatic Waiting Period",
-        "Petty misdemeanor 2 years after discharge",
-        "Misdemeanor 2 years after discharge",
-        "Gross misdemeanor 3 years after discharge",
-        "Felony fifth-degree controlled substance under 152.025 4 years after discharge",
-        "Other qualifying felony 5 years after discharge",
-        "These are automatic Clean Slate waiting periods under 609A.015. The person must also have no disqualifying new conviction and must not be charged at the time eligibility is reviewed. (",
-        "Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months",
-        "Issue Wilma Rule Expungement meaning Sealing, not destruction Automatic law 609A.015 Clean Slate Main petition statute 609A.03 Main eligibility statute 609A.02 Arrest only / no charge Check 299C.11 Mistaken identity 609A.017 Cannabis automatic 609A.055 Cannabis Board 609A.06 Prosecutor agreement 609A.025 Pardon extraordinary 609A.035 Forms EXP101-EXP107 Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months Agency issue DHS/DCYF/Health/PELSB may need special attention Driving records DVS records are separate Felonies Only listed felonies; verify statute Registration offenses Registration-required convictions are barred This Minnesota reference is ready to train Wilma for intake, eligibility triage, packet preparation, and escalation."
+        "unlocks upon the required prosecutor agreement"
       ],
       "exclusionRules": [
         "Minnesota has automatic expungement under 609A.015 for certain records. The BCA identifies potentially eligible cases, notifies the Judicial Branch, and qualifying records are sealed without the person filing a petition unless a court order prohibits sealing or the record is later determined ineligible. (\"https://www.revisor.mn.gov/statutes/cite/609A.015\")",
@@ -1206,6 +1304,46 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "mechanism": "Prosecutor-agreed sealing without a full petition",
+        "statute": "Minn. Stat. § 609A.025",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "unlocks upon the required prosecutor agreement"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/disposition?",
+          "Charge filing?",
+          "Conviction lookback?",
+          "Offense class?",
+          "Diversion/stay?",
+          "Discharge date?",
+          "Prosecutor agreement?",
+          "Cannabis statute/amount?",
+          "Automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Minnesota statute and process",
+          "Offense level and statutory category",
+          "No-charge lookback",
+          "Discharge and clean-record conditions"
+        ],
+        "packetFamily": "Minnesota Prosecutor-Agreed Sealing Packet under § 609A.025",
+        "packetComponents": [
+          "Agreement documentation",
+          "Proposed order"
+        ],
+        "notes": "Must not force the full petition process."
       }
     },
     {
@@ -1279,21 +1417,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the person was arrested but no charges were filed, there may be no court case to expunge. The person may instead request destruction of arrest identification data such as fingerprints, photographs, and identification records under Minn. Stat. 299C.11, if they meet the statutory conditions. This generally applies when the prosecutor declined charges, charges were dismissed before a probable-cause determination, and the person has no felony or gross misdemeanor conviction in the preceding 10 years. (\"https://www.revisor.mn.gov/statutes/cite/299C.11\")",
-        "Diversion or stay of adjudication Some nonfelony cases qualify after successful completion and at least 1 year without new charge/conviction, except petty misdemeanors.",
-        "Petty misdemeanor or misdemeanor convictions Some qualify after 2 years from discharge.",
-        "Gross misdemeanor convictions Some qualify after 3 years from discharge.",
-        "Certain felony convictions Some qualify after 4 or 5 years depending on offense type.",
-        "A person may petition after successful completion of diversion or a stay of adjudication if they were not charged with a new crime for at least 1 year after completion. (",
-        "Case Type Automatic Waiting Period",
-        "Petty misdemeanor 2 years after discharge",
-        "Misdemeanor 2 years after discharge",
-        "Gross misdemeanor 3 years after discharge",
-        "Felony fifth-degree controlled substance under 152.025 4 years after discharge",
-        "Other qualifying felony 5 years after discharge",
-        "These are automatic Clean Slate waiting periods under 609A.015. The person must also have no disqualifying new conviction and must not be charged at the time eligibility is reviewed. (",
-        "Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months",
-        "Issue Wilma Rule Expungement meaning Sealing, not destruction Automatic law 609A.015 Clean Slate Main petition statute 609A.03 Main eligibility statute 609A.02 Arrest only / no charge Check 299C.11 Mistaken identity 609A.017 Cannabis automatic 609A.055 Cannabis Board 609A.06 Prosecutor agreement 609A.025 Pardon extraordinary 609A.035 Forms EXP101-EXP107 Petition hearing timing At least 60 days after service; court guidance says process usually 4-6 months Agency issue DHS/DCYF/Health/PELSB may need special attention Driving records DVS records are separate Felonies Only listed felonies; verify statute Registration offenses Registration-required convictions are barred This Minnesota reference is ready to train Wilma for intake, eligibility triage, packet preparation, and escalation."
+        "the statutory category period measured from discharge; the two-, three-, four-, and five-year categories are assigned by offense category and must be collected, not assumed"
       ],
       "exclusionRules": [
         "Minnesota has automatic expungement under 609A.015 for certain records. The BCA identifies potentially eligible cases, notifies the Judicial Branch, and qualifying records are sealed without the person filing a petition unless a court order prohibits sealing or the record is later determined ineligible. (\"https://www.revisor.mn.gov/statutes/cite/609A.015\")",
@@ -1323,7 +1447,55 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Minn. Stat. §§ 609A.02-609A.03",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "mechanism": "Petition-based expungement",
+        "statute": "Minn. Stat. §§ 609A.02-.03",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 2,
+          "unit": "years",
+          "anchorFactId": "discharge_date",
+          "anchorText": "the statutory category period measured from discharge; the two-, three-, four-, and five-year categories are assigned by offense category and must be collected, not assumed"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/disposition?",
+          "Charge filing?",
+          "Conviction lookback?",
+          "Offense class?",
+          "Diversion/stay?",
+          "Discharge date?",
+          "Prosecutor agreement?",
+          "Cannabis statute/amount?",
+          "Automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "eligible_conviction_class",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Exact Minnesota statute and process",
+          "Offense level and statutory category",
+          "No-charge lookback",
+          "Discharge and clean-record conditions"
+        ],
+        "packetFamily": "Minnesota Expungement Petition under §§ 609A.02-.03",
+        "packetComponents": [
+          "Petition and proposed order",
+          "Discharge proof",
+          "Service on the required agencies"
+        ],
+        "notes": "The value stored here is the lowest statutory category; the exact category is a mandatory intake fact."
       }
     }
   ],
@@ -1805,8 +1977,8 @@
         "sourceConditionText": "Cannabis felony or Cannabis Expungement Board issue."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "referral_triggers:284-325",
       "candidatePathwayIds": [
@@ -1938,20 +2110,10 @@
       "when": {
         "backendPathwayId": "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -1961,7 +2123,8 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Arrest-identification-data destruction when no charges were filed (Minn. Stat. § 299C.11)"
+        "sourceConditionText": "available on the qualifying no-charge or early-dismissal disposition and a demand to the agency; the statute's ten-year language is a disqualifying lookback for a felony or gross-misdemeanor conviction, not a ten-year wait from arrest",
+        "timingAnchorFactId": "last_conviction_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1971,7 +2134,13 @@
       "sourceRef": "section:15-62; section:243-283; section:382-401; corpus-unit:17; corpus-unit:14; decision_tree:243-283; corpus-unit:113; corpus-unit:141",
       "candidatePathwayIds": [
         "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "statute": "Minn. Stat. § 299C.11",
+        "mechanism": "Arrest identification-data destruction where no charges were filed"
+      }
     },
     {
       "id": "route-automatic-mistaken-identity-expungement-under-609a-017",
@@ -1980,20 +2149,10 @@
       "when": {
         "backendPathwayId": "automatic-mistaken-identity-expungement-under-609a-017",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2003,7 +2162,7 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Automatic mistaken-identity expungement under § 609A.017"
+        "sourceConditionText": "automatic and corrective; not an elapsed-wait route"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2013,7 +2172,13 @@
       "sourceRef": "section:15-62; corpus-unit:19; section:243-283; section:382-401; decision_tree:243-283; corpus-unit:115; corpus-unit:141; corpus-unit:21",
       "candidatePathwayIds": [
         "automatic-mistaken-identity-expungement-under-609a-017"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "statute": "Minn. Stat. § 609A.017",
+        "mechanism": "Automatic mistaken-identity expungement"
+      }
     },
     {
       "id": "route-automatic-clean-slate-expungement-under-609a-015",
@@ -2023,19 +2188,11 @@
         "backendPathwayId": "automatic-clean-slate-expungement-under-609a-015",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "offense_level"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2045,7 +2202,7 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Automatic Clean Slate expungement under § 609A.015"
+        "sourceConditionText": "category-specific statutory triggers: favorable outcomes are event-driven, diversion and stay branches use the specified one-year period, and conviction categories use the applicable two-, three-, four-, or five-year period from discharge"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2055,7 +2212,13 @@
       "sourceRef": "section:15-62; section:102-123; corpus-unit:22; section:382-401; summary:382-401; corpus-unit:55; corpus-unit:56; corpus-unit:141",
       "candidatePathwayIds": [
         "automatic-clean-slate-expungement-under-609a-015"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "statute": "Minn. Stat. § 609A.015",
+        "mechanism": "Automatic Clean Slate expungement"
+      }
     },
     {
       "id": "route-cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
@@ -2065,19 +2228,11 @@
         "backendPathwayId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "offense_level"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2087,17 +2242,23 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Cannabis automatic or board-reviewed expungement under §§ 609A.055–.06"
+        "sourceConditionText": "eligibility is determined by the Cannabis Expungement Board rather than by an elapsed participant wait"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:15-62; section:243-283; section:382-401; decision_tree:243-283; corpus-unit:117; corpus-unit:141; corpus-unit:34; corpus-unit:35",
       "candidatePathwayIds": [
         "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "statute": "Minn. Stat. §§ 609A.055-.06",
+        "mechanism": "Cannabis expungement — Cannabis Expungement Board review category"
+      }
     },
     {
       "id": "route-prosecutor-agreed-sealing-without-a-full-petition-under-609a-025",
@@ -2106,20 +2267,10 @@
       "when": {
         "backendPathwayId": "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2129,7 +2280,7 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Prosecutor-agreed sealing without a full petition under § 609A.025"
+        "sourceConditionText": "unlocks upon the required prosecutor agreement"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2139,7 +2290,13 @@
       "sourceRef": "section:15-62; corpus-unit:36; section:382-401; corpus-unit:38; corpus-unit:141",
       "candidatePathwayIds": [
         "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "statute": "Minn. Stat. § 609A.025",
+        "mechanism": "Prosecutor-agreed sealing without a full petition"
+      }
     },
     {
       "id": "route-petition-based-expungement-under-609a-02-03",
@@ -2149,19 +2306,11 @@
         "backendPathwayId": "petition-based-expungement-under-609a-02-03",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "criminal_history",
-          "identity_error"
+          "offense_level"
         ],
         "caseOutcomes": [
           "diversion_or_deferred",
@@ -2171,7 +2320,13 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Petition-based expungement under §§ 609A.02–.03"
+        "sourceConditionText": "the statutory category period measured from discharge; the two-, three-, four-, and five-year categories are assigned by offense category and must be collected, not assumed",
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2181,7 +2336,13 @@
       "sourceRef": "section:15-62; section:180-194; corpus-unit:39; section:142-179; section:195-206; section:382-401; corpus-unit:63; corpus-unit:74",
       "candidatePathwayIds": [
         "petition-based-expungement-under-609a-02-03"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MN-01",
+        "ruleId": "MN-299C.11-609A-SIX-MECHANISM-MAP",
+        "statute": "Minn. Stat. §§ 609A.02-.03",
+        "mechanism": "Petition-based expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2412,6 +2573,22 @@
         "charge",
         "pardon_status",
         "identity_error"
+      ]
+    },
+    {
+      "id": "authority-petition-based-expungement-under-609a-02-03",
+      "ruleText": "Minn. Stat. §§ 609A.02-.03 — the statutory category period measured from discharge; the two-, three-, four-, and five-year categories are assigned by offense category and must be collected, not assumed",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "discharge_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "eligible_conviction_class",
+        "discharge_date"
       ]
     }
   ],
@@ -2670,7 +2847,7 @@
       {
         "pathwayId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
         "pathwayLabel": "Cannabis automatic or board-reviewed expungement under §§ 609A.055–.06",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

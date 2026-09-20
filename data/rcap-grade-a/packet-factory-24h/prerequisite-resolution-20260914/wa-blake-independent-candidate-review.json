@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-independent-candidate-review/v1",
+  "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+  "reviewer": "/root/prerequisite",
+  "reviewedAt": "2026-09-14T03:30:23.638933+00:00",
+  "candidateCommit": "2c2d70ad18",
+  "result": "FAIL_REPAIR_REQUIRED",
+  "scope": "Independent saved-byte hashes, component topology, source-word geometry and measurement provenance; no local raster and no final original-page acceptance.",
+  "packets": [
+    {
+      "fixture": "canonical",
+      "sha256": "fe9a48f9c54bc2ec6d86209e60062523e7a6b3eec55d1cf062604e8750582650",
+      "pageCount": 13,
+      "componentIds": [
+        "BLAKE-002",
+        "conviction-payment-schedule",
+        "BLAKE-005",
+        "BLAKE-004",
+        "participant-guide"
+      ]
+    },
+    {
+      "fixture": "boundary",
+      "sha256": "16eb1be7d6e83c3e3f14596066ae735d26e90e86098371c98fedf7942e8d8452",
+      "pageCount": 17,
+      "componentIds": [
+        "BLAKE-001",
+        "conviction-payment-schedule",
+        "BLAKE-008",
+        "BLAKE-003",
+        "BLAKE-004",
+        "participant-guide"
+      ]
+    },
+    {
+      "fixture": "municipal-partial",
+      "sha256": "1f36fcd192996efc4d41197864eb95c2d40f67431a5ae5c2de478df42506aed7",
+      "pageCount": 16,
+      "componentIds": [
+        "BLAKE-002",
+        "conviction-payment-schedule",
+        "BLAKE-006",
+        "BLAKE-003",
+        "BLAKE-004",
+        "participant-guide"
+      ]
+    },
+    {
+      "fixture": "superior-full",
+      "sha256": "a23590e68013a73c2db142dda205b47c932cfbc2cf41ccc072763b283556922d",
+      "pageCount": 15,
+      "componentIds": [
+        "BLAKE-001",
+        "conviction-payment-schedule",
+        "BLAKE-007",
+        "BLAKE-003",
+        "BLAKE-004",
+        "participant-guide"
+      ]
+    }
+  ],
+  "independentChecks": {
+    "allEightSourcesPreviouslyHashVerified": true,
+    "savedComponentHashesAndContiguousPageTopology": 23,
+    "conditionalFourOrderCoverage": "005 CLJ/full,006 CLJ/partial,007 Superior/full,008 Superior/partial",
+    "nativeCheckSavedFamily": "PASS",
+    "nativeMechanicalCountersNotAdoptedAsIndependentMeasurement": true
+  },
+  "defects": [
+    {
+      "id": "WA-CLJ-CONTINUATION-SOURCE-LABEL-OVERPRINT",
+      "affectedFixtures": [
+        "canonical",
+        "municipal-partial"
+      ],
+      "component": "BLAKE-002",
+      "page": 3,
+      "evidence": "Independent pdftotext -bbox reads added See at x127..143.011/y205.538..213.863 over source Additional at x126.02..174.32/y203.2688..215.5784; added conviction also overlaps source information.",
+      "cause": "put continuation reference top201 writes on source label instead of blank line.",
+      "repair": "Move only CLJ continuation write into measured blank-line area and verify against saved output. Preserve every source page."
+    },
+    {
+      "id": "WA-OUTPUT-MEASUREMENT-PROVENANCE",
+      "evidence": "Builder rendered-artifacts sets flattenedWidgetAppearancesReadFromOutputBytes to mapped-write array length although official() uses drawText/drawLine and no flatten/byte measurement; addedGlyphsReadFromOutputBytes counts all source+added text; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes0 and refusedFieldsWithInk[] are constants. actual-writes marks derivedFromArtifactBytes true while copying planned map.",
+      "repair": "Measure actual saved PDF content or publish unmeasured fields as null with scope. Do not use planned writes as byte-derived measurements or claim unmeasured zeros."
+    }
+  ],
+  "geometryScan": "165planned writes compared to source word rectangles; other hits were wider field rectangles/underline areas, not confirmed text overlap. Municipal003/004 city should receive central visual inspection.",
+  "countersAfter": null,
+  "centralRaster": "PENDING",
+  "terminalClosureGranted": false,
+  "commercialAuthorityGranted": false,
+  "candidateModifiedByReviewer": false
+}

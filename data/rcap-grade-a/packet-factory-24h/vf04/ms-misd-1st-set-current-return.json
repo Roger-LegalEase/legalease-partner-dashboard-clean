@@ -1,0 +1,269 @@
+{
+ "schemaVersion": "rcap-packet-factory-current-independent-return/v1",
+ "recordKind": "vf04-current-byte-independent-return",
+ "familyId": "ms-misd-1st-set",
+ "jurisdiction": "MS",
+ "worker": "CLAUDE-VF04-MS-MISD-1ST-CURRENT",
+ "base": "d7e293f81",
+ "branch": "vf04-vf05-wave-three",
+ "reviewedAt": "2026-09-05T11:16:28Z",
+ "whatThisIsNot": "This is a current-byte read, not a factory verdict. It is recorded in no rows.json, it supersedes no lane row, and it changes no build or review status.",
+ "preflight": {
+  "command": "node scripts/verify-packet-build-environment.mjs --family nm_conviction-set --codex-cloud --minimum-captain-sha d7e293f81",
+  "runOnce": true,
+  "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable",
+  "theOneFailure": "corpus_matches_committed_index - 1 absent, 0 mismatched of 24 sampled. The absent entry is the committed index row 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', sha256 874e738a83c3577413a29a92eb0b999e8c9aab36ddf83589191e33d3c63ac327; I hashed all 501 files in both mounted custodies and that digest is carried by none of them. It is an Alabama form and this family binds no corpus bytes at all.",
+  "observedBranch": "vf04-vf05-wave-three",
+  "observedHeadBeforeReview": "d7e293f81e69f9124076d2c8509014f2d8024572",
+  "cleanBeforeReview": true,
+  "masterLibraryMounted": true,
+  "humanSourceReturnsMounted": true
+ },
+ "claim": {
+  "assertedBeforeFamilyContent": true,
+  "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF04 ms-misd-1st-set",
+  "result": "GRANTED_ELSEWHERE_BUT_RELEASED: ms-misd-1st-set is recorded on VF02, not VF04, and VF02 RELEASED it at 2026-09-01T23:59:37.663Z. No lane is executing it.",
+  "thereIsNoLivePacketGrantForThisFamily": true,
+  "grantMinted": false,
+  "grantTransferred": false,
+  "grantTaken": false,
+  "whyNothingWasMinted": "The assert reported the released grant and told me that choosing a released grant's destination is a dispatch act. I did not transfer it to myself and I did not mint one. This read was performed under that plain statement rather than under a grant, which is why it is a current-byte read and not a factory verdict.",
+  "claimLedgerModified": false
+ },
+ "independence": {
+  "builtOrAuthoredThisFamily": false,
+  "repairedThisFamily": false,
+  "performedProductization": false,
+  "packetBytesEdited": false,
+  "overlayDirectoriesModified": 0,
+  "buildScriptsModified": 0,
+  "sharedRecordsModified": 0
+ },
+ "route": {
+  "obligationRouteKey": "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+  "trackId": "ms-misd-1st",
+  "packetSetId": "ms-misd-1st-set",
+  "packetFamily": "ms-misd-1st-set",
+  "deliveryType": "custom_pleading",
+  "statutoryAuthority": [
+   "Miss. Code Ann. s 99-19-71(1)",
+   "Miss. Code Ann. s 99-19-71(3)",
+   "Miss. Code Ann. s 99-19-72"
+  ],
+  "routeKeyStillCarriedByTheCensus": true,
+  "whereTheCensusCarriesIt": [
+   "data/rcap-grade-a/route-obligation-census-v1/category-a-implementation-waves.json",
+   "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/resolved.json"
+  ],
+  "productWiringStatus": "DECLARED_NOT_INSTALLED",
+  "serviceDisposition": "missing_from_compiled_runtime",
+  "registered": false,
+  "composable": false,
+  "sellable": false,
+  "creditEligible": false,
+  "paymentEligible": false,
+  "sponsorshipEligible": false
+ },
+ "verdict": "VERIFIED_FAIL",
+ "verdictBasis": "Fourteen of the fifteen obligations measure PASS on the current bytes, all nine counters are zero on my own read-only run, and both fixtures re-hash to the digests the owner pinned. One obligation fails on appearance. Five of the eight delivered pages - the sworn petition (page 2), the proposed order (page 4), the certificate of service (page 5), the exhibit checklist (page 6) and the filing instructions (page 8) - print an internal machine route key, and it is hard-split mid-token so the page reads '...conviction-expungemen' then 't-99-19-71-1'. On page 4 that broken identifier sits directly beneath the judicial-officer signature line and the prosecuting authority's approval-as-to-form block of an order the court is asked to sign. A defect visible on a delivered page fails CLIPPING_AND_OVERLAP even when the counters are green, and a hard-split token is named in that class. Nothing else about this family is wrong: the legal substance, the refusals, the protected blanks and the honesty about the s 99-19-72 fee question are the strongest in the set I read today.",
+ "relationshipToTheStandingVerdict": "The standing vf02 row for this family is PASS_COMPLETE_INDEPENDENT and declares no base. It is not withdrawn by this document and I have not touched it. This read differs from it on one point only: the appearance-level inspection of the delivered pages, applied on the current bytes under the method this assignment names. The bytes themselves are unchanged from the ones vf02 read - both fixtures re-hash to the owner-pinned digests - so the difference is what was looked at, not what was delivered. The Captain decides which reading governs.",
+ "obligationsMeasured": 15,
+ "failedObligations": [
+  "CLIPPING_AND_OVERLAP"
+ ],
+ "unmeasuredObligations": [],
+ "results": {
+  "ROUTE_IDENTITY": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "One route key, obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1, identical in the source receipt, the field map and product-wiring, and still carried by the census. The packet is built for s 99-19-71(1), the first-offender nontraffic misdemeanour conviction route, and its own pages say so - including the point that the offence must not be a traffic violation and must not be a DUI, which has a separate route."
+  },
+  "SOURCE_IDENTITY": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT: Mississippi publishes no statewide expungement form, the worklist row binds no corpus bytes, and no official-form digest is claimed, so there is none to rehash. The two grounding records the receipt pins re-hash byte-exact from disk: data/record-clearing/legal-design-intake/MS.memo.json 6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2 and data/record-clearing/legal-design-packet-set-manifests.json 6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec. The receipt's identityRefresh block explains the second pin's move (was 80d88d69) as the shared file being rewritten around a byte-identical anchor, and the post-approval audit reaches the same conclusion independently."
+  },
+  "COMPONENT_SET": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "requiredComponentsMissing 0; five composed components over 8 pages in both fixtures - petition (1-2), proposed order (3-4), certificate of service (5), exhibit checklist (6), filing instructions (7-8) - contiguous and in filing order."
+  },
+  "KNOWN_PREFILLS": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "knownRequiredFieldsMissing 0, requiredFactsNotCollected 0 and invisibleWrites 0 on my own run. I read all nine declared writes back out of the extracted text of the delivered canonical bytes myself rather than trusting the report: 'Marcus Deshawn Whitfield' appears 9 times, the date of birth, the mailing address, the telephone number and the email once each, and every value lands on the component page its field names."
+  },
+  "REQUIRED_BEFORE_FILING": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "19 declared items; I matched every disclosureLabel verbatim against participant-instructions.md and found 0 undisclosed. unclassifiedBlanks 0. The petition even declines to initial the two first-offender statements for the participant and says so on its face: 'nothing is initialled for the petitioner'."
+  },
+  "ROUTE_OPTIONS": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "requiredOptionsMissing 0. The one selection control on a delivered page is the manner of delivery on the certificate of service - by United States mail or by hand delivery - which is a fact about what the participant did, not an election the route determines. Nothing is pre-marked."
+  },
+  "REPEATING_ROWS": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "incompleteRows 0; there is no repeating row group and no partly populated row. The order's agency lines are carried whole to the participant rather than partly filled."
+  },
+  "PROTECTED_FIELDS": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "protectedWrites 0. I cross-checked all 9 protected blanks against every write in both fixtures: none is written. The petition's signature and date lines, the proposed order's ENTERED date, its JUDICIAL OFFICER OF THE COURT line and its APPROVED AS TO FORM block, and the certificate of service's delivery date and signature are all blank in the delivered bytes, each with a printed sentence saying why. The order's findings are framed as proposals - 'the Court, having considered the petition, would find' - so nothing on it asserts a finding for the court."
+  },
+  "ARTIFACTS": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "Both fixtures re-hash from disk to exactly the digests the owner pinned and the raster receipt bound: canonical e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897, 21939 bytes, 8 pages; boundary 90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5, 22118 bytes, 8 pages."
+  },
+  "PAGE_ORDER": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "8 pages in the bytes, 8 declared, 8 manifest entries, packetPage strictly 1..8, every component contiguous, both fixtures."
+  },
+  "CLIPPING_AND_OVERLAP": {
+   "measured": true,
+   "result": "FAIL",
+   "finding": "A hard-split internal route key printed on five of the eight delivered pages. Pages 2, 4, 5, 6 and 8 each end with a block reading 'Route:' then 'obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungemen' then 't-99-19-71-1' - the identifier is broken mid-token across the line break, with no hyphen, so the printed page shows the fragment 'expungemen'. Page 2 is the sworn petition, page 4 the proposed order the court is asked to sign, page 5 the certificate of service. On page 4 the broken identifier sits immediately below the JUDICIAL OFFICER OF THE COURT signature line and the prosecuting authority's approval-as-to-form block. I confirmed it by rendering page 4 at 110 dpi and reading the image, not only from the text layer. Everything else in this class is clean: 0 words fall outside the MediaBox on any of the 16 pages across both fixtures, there is no text render mode 3 or 7, no zero-size font, no white-on-white write, no orphaned signature page, no route-key-only or fragment page, no source-shipped ink (there is no source binary), no catch-all field match and no clipped or overrun value; my overlapping-word scan returned zero pairs on both fixtures."
+  },
+  "FILING_DESTINATION": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "'File the petition, with the proposed order and the certificate of service, with the court in which the conviction was had' - and the packet leads with the reason that is hard: Mississippi has four trial court levels that all handle expungements and people routinely misidentify which one heard their case, so step one is to have the records office confirm it. The caption prints the instruction to write the court and its county, or for a municipal court its city, rather than guessing one."
+  },
+  "FEE_AND_WAIVER": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "Answered with its uncertainty stated rather than papered over: no amount is published, because s 99-19-72 levies a fee on petitions to expunge under s 99-19-71 but 'its reach and its collection in lower courts are recorded open questions'. The participant is told to confirm the amount and any pauper's-affidavit route with the court's records office before filing, and the same open question is repeated in the 'What this packet does not tell you' section."
+  },
+  "SERVICE": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "Deliver a copy of the petition and the proposed order to the prosecuting authority - for a circuit court case the district attorney for the circuit district, for a county, justice or municipal court case the county or municipal prosecuting attorney, and for a municipal court case the city prosecutor rather than the district attorney - by United States mail or hand delivery, with the certificate of service completed only when the copy actually goes out. No prosecutor name or address is invented."
+  },
+  "SELF_HELP_STOP": {
+   "measured": true,
+   "result": "PASS",
+   "finding": "A named six-condition stop list on the delivered page: uncertain first-offender status or any prior conviction anywhere, any prior expunged case, an offence that may be a traffic violation, a DUI, a municipal-court conviction alongside justice-court convictions, and non-citizenship. The exhibit checklist adds its own refusal - do not attach an indictment on this track unless the case was actually indicted, because pleading one that does not exist would be false."
+  }
+ },
+ "artifacts": {
+  "canonical": {
+   "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures/canonical.pdf",
+   "sha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+   "byteLength": 21939,
+   "pageCount": 8,
+   "writesReadBack": "9/9",
+   "pagesTextExtracted": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "pagesRasterInspected": [
+    4
+   ],
+   "wordsOutsidePageBounds": 0,
+   "overlapPairs": 0,
+   "acroFormPresent": false,
+   "flattenedWidgetAppearances": 0
+  },
+  "boundary": {
+   "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-1st-set--custom-pleading/fixtures/boundary.pdf",
+   "sha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+   "byteLength": 22118,
+   "pageCount": 8,
+   "writesReadBack": "9/9",
+   "pagesTextExtracted": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "wordsOutsidePageBounds": 0,
+   "overlapPairs": 0
+  }
+ },
+ "nineCounters": {
+  "knownRequiredFieldsMissing": 0,
+  "requiredFactsNotCollected": 0,
+  "unclassifiedBlanks": 0,
+  "incompleteRows": 0,
+  "requiredOptionsMissing": 0,
+  "requiredComponentsMissing": 0,
+  "invisibleWrites": 0,
+  "protectedWrites": 0,
+  "visualDefects": 0,
+  "allZero": true,
+  "measuredHere": true,
+  "focusedVerifierResult": "PASS_COMPLETE 9/37 written",
+  "measuredWith": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-misd-1st-set (read-only)",
+  "whyTheCountersAreGreenAndTheVerdictIsNot": "None of the nine counters can see a machine identifier the composer prints in its own body text. The counters measure blanks, writes and write boxes; the route footer is neither a blank nor a write on a measured box, so it is invisible to every one of them. That is the case for reading the delivered page."
+ },
+ "rasterEvidence": {
+  "verdict": "RASTER_PASS",
+  "workflowRunId": "33547709781",
+  "jobId": "99990088798",
+  "artifactId": "9816392798",
+  "artifactZipSha256": "sha256:e48d1363f98897e2206704e6acf029f44e7d34176b3be86f2b76485478b356c0",
+  "renderedCommitSha": "9401de4f2aea6c99f0661458c525ab6e6a9d522b",
+  "boundToCanonicalSha256": "e9483733fabca9e031a024a30444a37b49f3d14c0fd84e6d579bd3f2209be897",
+  "boundToBoundarySha256": "90608c6244d1999dece4f87dc22632e7dda36f0302de22d3996437aebd7458b5",
+  "coversTheWholeFamily": true,
+  "documentsCovered": [
+   "canonical.pdf"
+  ],
+  "whatItDoesNotCover": "The queue row records that only canonical.pdf is rendered by that gate; boundary.pdf is bound by hash but not rastered there. I rendered page 4 of the canonical locally into /tmp and read the image, and extracted the text layer of all sixteen pages across both fixtures.",
+  "receiptArtifactNotDownloadedHere": true
+ },
+ "approval": {
+  "ownerDecisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+  "ownerDecisionRecordPath": "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
+  "ownerPinnedFixturesMatchTheBytesOnDisk": true,
+  "postApprovalAuditVerdict": "COVERED_BY_EXISTING_APPROVAL",
+  "postApprovalAuditRecord": "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json",
+  "exactArtifactPinsMatch": true,
+  "approvalCreatedOrAlteredHere": false,
+  "scopeCreatesNoRuntimeOrCommercialAuthority": true,
+  "whatTheFailMeansForTheApproval": "The owner's adoption is pinned to these exact digests and the digests have not moved, so nothing here is a post-approval change. The appearance defect was present in the approved bytes; finding it now is a reading, not a change, and remedying it would produce new digests that require re-review."
+ },
+ "currentRecordHashes": {
+  "sourceReceipt": "0f2ce34a14dc50179e15b931055a54d9366928e027c4ad02480ab6a02a58e5ef",
+  "participantAndFilingInstructions": "52dbdb6394744fd5f73ae598fe96bea468c41b4c1b051a0f3f337cbd5a45edb4",
+  "productionFieldMap": "92a25a2b904e632821f3af531858426dac0166c1cf863c993a877fc0ef09e766",
+  "productWiring": "95b0ad467f3292aa4878673109982dad518cdd915b623ee0573b7295a21d95d4",
+  "buildStatus": "db8d55b5bcc5ddcf038a686868248657ece54673b4336a0d27ff8830f736bb66",
+  "buildFindings": "e86fba2568a69c8b8a20d878f3639b927b478c521bd1357737cfca2698a7024d",
+  "approvalRequest": "34f3642c530343b238ef7d0a1a7f91b2e3cdd4f79ffc196ab3f748523c3b2a6b",
+  "actualWrites": "6362bf04681583db736e1f22fcf04e6396cbb0d6a2e6487c87c4266534053a0d",
+  "blanks": "e62c0ffbcb182a9da0b246878fcab7d0d78bac0a3afb4e7c97d8ff9cb2b6d912",
+  "completenessCounters": "b406c9dcd72a9914c9cbf74788bf0713a82b6a622b25ac2684be935eff713166",
+  "renderedArtifacts": "968e575e3e3354395b4496e64de99e0deb4f190d6d49e9c234af0a4f6d20c067",
+  "familyBuilder": "896a5dafae2e30b436a3402d19200c402d2572e43142da2469cb0e08ff7907d2",
+  "legalDesignIntakeMemo": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+  "legalDesignPacketSetManifests": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+  "ownerAdoption": "32321a977941bf1724f0d6f993a7df2477f6b42a9a9d39b2a6d2e27d918e0eb3",
+  "postApprovalAudit": "c6e0d65fcaf732e179df1971e31cce6321113e33d89738c66b2cf224729ccc15",
+  "rasterQueue": "6647032f87ed8e72194cb3e3ced803a41bad5fa9b52eb8399b45075fed799f9a"
+ },
+ "repairActionIfTheCaptainAcceptsThisReading": "Stop printing the internal route-key block in the composed body of participant- and court-facing pages, or, if a provenance stamp is wanted, print one that cannot break a token across a line. The same composer prints the same block on the two Rhode Island first-offender families I read in this session, where it also produces route-key-only pages, so the repair is one composer change rather than three packet edits. Any such repair changes both fixture digests and therefore requires owner re-review under the qualification in OWN-ADOPT-2026-09-02-BATCH-53.",
+ "changedPaths": [
+  "data/rcap-grade-a/packet-factory-24h/vf04/ms-misd-1st-set-current-return.json"
+ ],
+ "packetEdits": 0,
+ "centralEdits": 0,
+ "claimsReleased": 0,
+ "routesOpened": 0,
+ "Production": false,
+ "productionTouched": false
+}

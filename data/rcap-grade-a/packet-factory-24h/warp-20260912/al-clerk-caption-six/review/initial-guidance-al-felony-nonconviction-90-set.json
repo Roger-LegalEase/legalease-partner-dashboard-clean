@@ -1,0 +1,106 @@
+{
+  "familyId": "al-felony-nonconviction-90-set",
+  "trackId": "al-felony-nonconviction-90",
+  "sourceMemoSha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+  "selfHelpStops": [
+    {
+      "condition": "The prosecutor or a victim files an objection.",
+      "literalPresent": true
+    },
+    {
+      "condition": "The court sets a hearing.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Whether a dismissal was with or without prejudice cannot be determined.",
+      "literalPresent": true
+    },
+    {
+      "condition": "Immigration, licensing or firearm consequences are in play.",
+      "literalPresent": true
+    }
+  ],
+  "requiredParticipantInputQuestions": [
+    {
+      "key": "howMatterEnded",
+      "question": "How did the matter end \u2014 dismissed with prejudice, no billed, found not guilty, nolle prossed, or indictment quashed?",
+      "requirement": "required"
+    },
+    {
+      "key": "dismissalWithPrejudice",
+      "question": "Was the dismissal with prejudice or without prejudice?",
+      "requirement": "conditional",
+      "conditionDescription": "Asked on the dismissal basis."
+    },
+    {
+      "key": "dispositionDate",
+      "question": "On what date did the matter end? More than 90 days must have passed.",
+      "requirement": "required"
+    },
+    {
+      "key": "refiled",
+      "question": "Have the charges been refiled?",
+      "requirement": "required"
+    },
+    {
+      "key": "countyOfFiling",
+      "question": "In which county were the charges filed?",
+      "requirement": "required"
+    },
+    {
+      "key": "courtOrderedAmounts",
+      "question": "Have you paid everything the court ordered in the case?",
+      "requirement": "required"
+    }
+  ],
+  "supportingDocuments": [
+    {
+      "name": "Certified local record \u2014 arrest record, disposition, or case action summary",
+      "obtainedFrom": "The clerk of the court where the charges were filed",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for a certified copy of the arrest record, disposition, or case action summary.",
+      "confirms": "howMatterEnded"
+    },
+    {
+      "name": "Certified ALEA criminal record",
+      "obtainedFrom": "Alabama Law Enforcement Agency",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request a certified criminal record from ALEA."
+    }
+  ],
+  "destination": {
+    "kind": "court",
+    "name": "Criminal division of the circuit court, county where the charges were filed",
+    "detail": "Court-controlled with a prosecutor and victim objection window."
+  },
+  "components": [
+    {
+      "role": "primary_filing",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65",
+      "notes": "CR-65 pages 1 through 6."
+    },
+    {
+      "role": "certificate_of_service",
+      "requirement": "required",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "CR-65"
+    },
+    {
+      "role": "fee_waiver",
+      "requirement": "conditional",
+      "conditionDescription": "Where indigency is claimed.",
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "C-10-CRIMINAL"
+    }
+  ],
+  "manualCompletionItems": [
+    [
+      "Signature and date",
+      "The petitioner signs their own petition."
+    ]
+  ]
+}

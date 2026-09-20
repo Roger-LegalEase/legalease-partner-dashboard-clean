@@ -2,18 +2,42 @@ import "server-only";
 
 import type Stripe from "stripe";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
-import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
+import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError, stripeSecretKeyIsLiveMode } from "@/lib/stripe/server";
+import { resolveDeploymentEnvironment } from "@/lib/server-runtime-environment";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
+import { assertPacketFulfillmentProven } from "@/lib/expungement-ai/packet-fulfillment-authority";
+import {
+  commercialRouteIdentity,
+  finalVerificationSnapshotFrom,
+  fulfillmentRequestContext,
+  governCommercialAdmission,
+  isOperationallySellable
+} from "@/lib/rcap/render/commercial-admission";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
-import { packetInformationModelFor, packetInformationReviewSafety, reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
+import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import {
+  ConsumerCheckoutRenderPreflightError,
+  readyToPurchase
+} from "@/lib/expungement-ai/render-preflight";
 import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding
 } from "@/lib/expungement-ai/consumer-payment-authority";
-import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
+import { reconcileConsumerOrder } from "@/lib/expungement-ai/consumer-order-reconciliation";
+import {
+  confirmCatalogProduct,
+  expectedCatalogProductId,
+  isConsumerPacketCatalogError,
+  lineItemProductId
+} from "@/lib/expungement-ai/consumer-packet-catalog";
+import type {
+  ConsumerBriefcaseItem,
+  ExpungementAiEligibilityResult,
+  PacketVerificationSnapshot
+} from "@/lib/expungement-ai/types";
 
 export const consumerPacketPriceCents = 5000;
 export const consumerPacketCurrency = "usd" as const;
@@ -34,12 +58,24 @@ export type ConsumerCheckoutResult = {
   mode: "stripe" | "dry_run";
   checkoutSessionId: string;
   checkoutUrl: string;
-  amountCents: 5000;
+  /**
+   * The regular price of the packet. A promotion code is entered on Stripe's
+   * page after this result is produced, so the amount finally due is read back
+   * from the Session and is not this number.
+   */
+  amountCents: number;
   currency: typeof consumerPacketCurrency;
   outcome: ConsumerCheckoutOutcome;
   briefcaseItemId: string;
   alreadyPaid?: boolean;
   paymentPending?: boolean;
+  /**
+   * Present only when a Checkout Session id stored on this matter could not be
+   * resolved and the order was allowed to continue anyway. It carries the
+   * provider's own classification of that lookup and its request id, so a
+   * recovery is auditable rather than silent.
+   */
+  storedSessionRecovery?: ConsumerCheckoutProviderFailure | null;
 };
 
 export function consumerPacketReadyUrl(briefcaseItemId: string): string {
@@ -52,19 +88,25 @@ type ConsumerCheckoutBinding = {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
-  reviewedInputHash: string;
+  pathwayId: string;
+  verificationHash: string;
 };
 
 export type ConsumerCheckoutStatus = {
+  /** Settled: paid, or completed at no cost because a discount cleared it. */
   paid: boolean;
   mode: "stripe" | "dry_run";
   checkoutSessionId: string;
   paymentIntentId?: string;
   receiptUrl?: string;
-  amountCents: 5000;
+  /** What was actually collected. Zero on a fully discounted order. */
+  amountCents: number;
 };
 
-export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilityResult): ConsumerPaymentIntent {
+export function createConsumerPaymentPlaceholder(
+  result: ExpungementAiEligibilityResult,
+  pathwayId: string | null
+): ConsumerPaymentIntent {
   // The placeholder is the first surface a participant sees. A component
   // deferral shows no amount at all, independently of the result booleans.
   const deferred = result.treatmentClassification === "component_deferral"
@@ -73,7 +115,7 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
     || Boolean(componentDeferralForTrack(result.selectedTrackId ?? null))
     || Boolean(exactDeferralForTrack(result.selectedTrackId ?? null))
     || Boolean(terminalTreatmentForTrack(result.selectedTrackId ?? null))
-    || Boolean(exactDeferralForPathway(result.state, result.pathwayLabel ?? null));
+    || Boolean(exactDeferralForPathway(result.state, pathwayId));
   // A price we cannot honour is not shown. The evaluator's payment gate and the
   // packet route resolver were independent of each other, so a participant on a
   // ratified route in a jurisdiction with no certified renderer saw a $50 offer
@@ -81,10 +123,46 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
   // sold, and neither is a packet we cannot produce.
   const canDeliver = packetRouteCanRender(resolvePacketRoute({
     state: result.state,
-    pathway: result.pathwayLabel ?? null,
+    pathway: pathwayId,
     trackId: result.selectedTrackId ?? null
   }));
-  const enabled = !deferred && canDeliver && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
+  // Consumer payment authority. A price is not shown for a packet we cannot
+  // prove we deliver, which is a stronger statement than the renderer check
+  // beside it: that one asks whether the state can render, this one asks
+  // whether this route produces the filing it promises.
+  let fulfillmentProven = true;
+  try {
+    assertPacketFulfillmentProven(result.state, pathwayId, "consumer payment authority", { trackId: result.selectedTrackId });
+  } catch {
+    fulfillmentProven = false;
+  }
+  // Grade-A commercial authority, asked about the route with nobody in front of
+  // it — which is exactly what a price placeholder is.
+  //
+  // Every check above this line is a proxy, and the proxies did not agree with
+  // the authority. `canDeliver` asks whether the route's STATE can render, so it
+  // is true for all five ADR-0004 `legacy_retired` generators and for every
+  // shadow-only `factory_v2` route. `fulfillmentProven` reads
+  // data/rcap-ledger/packet-fulfillment-records.json, which is not a Grade-A
+  // fulfillment record: one row there — no admission point, no packet-family
+  // binding the authority checks — put a live $50 direct-consumer price back on
+  // `MS:eligible-felony-conviction-expungement-99-19-71` and on
+  // `AL:human-trafficking-victim-expungement`, both of which resolve
+  // `sellable: false`. Nothing on the current head consulted the authority that
+  // ADR-0004 made the sole source of commercial permission, so the price was
+  // held off those routes by an empty ledger rather than by a decision.
+  //
+  // This is not a second commercial rule. `isOperationallySellable` is the
+  // exported reader over `launch_graph_commercial_status`, admission point 10 of
+  // 10, whose single governed call site already lives inside
+  // `commercial-admission.ts`; the lane-F acceptance verifier still finds one
+  // call site for it. A route with no Grade-A record is refused here for the
+  // same reason it is refused at Checkout: an absent record is a refusal.
+  const routeSellable = isOperationallySellable(
+    commercialRouteIdentity({ jurisdiction: result.state, pathwayId }).routeId
+  );
+  const enabled = !deferred && canDeliver && fulfillmentProven && routeSellable
+    && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
     enabled,
@@ -104,10 +182,9 @@ export async function createConsumerPacketCheckout({
   successUrl?: string;
   cancelUrl?: string;
 }): Promise<ConsumerCheckoutResult> {
-  assertCheckoutAllowed(item);
-
   // P0 double-charge guard: an already-paid Briefcase item must never mint a new
-  // Stripe Checkout Session or reset payment state. Send the user to their packet.
+  // Stripe Checkout Session or demand a retroactive verification. Payment
+  // columns are protected server evidence; this does not grant artifact access.
   if (item.paymentStatus === "paid") {
     return {
       mode: item.paymentProvider === "dry_run" ? "dry_run" : "stripe",
@@ -121,7 +198,140 @@ export async function createConsumerPacketCheckout({
     };
   }
 
-  assertConsumerCheckoutReviewReady(item);
+  // A completed provider Session is immutable payment evidence even while the
+  // webhook is still recording protected payment columns. Recover that state
+  // before asking for a current verification or resolving new-commerce
+  // identity, so an invalidated verification can never open a replacement
+  // Checkout Session for money Stripe already collected.
+  let stripe: Stripe | null = null;
+  let existing: Stripe.Checkout.Session | null = null;
+  let existingLookupCompleted = false;
+  // Preserved when a stored session could not be resolved and the order was
+  // nevertheless allowed to continue. A recovery that leaves no trace is a
+  // recovery nobody can audit: this carries the provider's classification and
+  // its request id onto the successful response, so the decision is observable
+  // from the outside instead of inferred from the absence of an error.
+  let storedSessionRecovery: ConsumerCheckoutProviderFailure | null = null;
+  if (item.checkoutSessionId?.startsWith("cs_")) {
+    try {
+      stripe = getStripeServerClient();
+      existing = await providerCall("recover_completed_session", () =>
+        (stripe as Stripe).checkout.sessions.retrieve(item.checkoutSessionId as string, {
+          expand: ["line_items.data.price.product", "discounts.promotion_code"]
+        }));
+      existingLookupCompleted = true;
+      if (existing.status === "complete") {
+        return {
+          mode: "stripe",
+          checkoutSessionId: existing.id,
+          checkoutUrl: consumerPacketReadyUrl(item.id),
+          amountCents: consumerPacketPriceCents,
+          currency: consumerPacketCurrency,
+          outcome: "payment_pending",
+          briefcaseItemId: item.id,
+          paymentPending: true
+        };
+      }
+    } catch (error) {
+      if (isStripeConfigurationError(error)) {
+        stripe = null;
+      } else if (storedSessionIsAbsentFromTheVerifiedAccount(error, await stripeAccountIdentity(stripe))) {
+        // The stored id names no Session in an account and mode this deployment
+        // has POSITIVELY IDENTIFIED as the one it sells through. Both halves are
+        // required. `resource_missing` on its own says only "not here", and
+        // "here" is decided by whichever key the deployment is holding — so
+        // without the identity check a rotated or mis-set key would turn a real,
+        // unsettled order in the old account into a second checkout in the new
+        // one. With the identity confirmed, the id can only ever have been
+        // minted in this same account, so there is no order behind it.
+        existing = null;
+        existingLookupCompleted = true;
+        storedSessionRecovery = error instanceof ConsumerCheckoutTemporarilyUnavailableError
+          ? error.providerFailure
+          : null;
+      } else {
+        // Any other refusal leaves the question open: this id may name a
+        // COMPLETED Session whose webhook has not landed yet, and minting a
+        // replacement over money already collected is the one outcome this
+        // block exists to prevent. It refuses, with the provider's own
+        // classification, rather than guessing.
+        throw error;
+      }
+    }
+  }
+
+  let verification;
+  try {
+    verification = await requireCurrentPacketVerification(userId, item);
+  } catch {
+    throw new ConsumerCheckoutReviewRequiredError();
+  }
+  const verifiedSnapshot = verification.snapshot;
+  assertCheckoutAllowed(verifiedSnapshot);
+
+  /**
+   * Grade-A commercial admission, point 1 of 10 — `consumer_checkout`.
+   *
+   * Placed here because this is the last statement before a Stripe Checkout
+   * Session can be created, and a session URL is a price the participant has
+   * seen. Everything above it either returns money already collected (the
+   * already-paid and completed-session recoveries, which mint no session) or
+   * establishes the verification this admission is required to carry.
+   *
+   * `assertCheckoutAllowed` above stays exactly as it is. It refuses deferrals
+   * and terminal treatments on their own terms; this refuses a route whose
+   * packet was never proven. Neither subsumes the other, and this one never
+   * opens a door the other closed.
+   */
+  const checkoutMatterId = consumerMatterIdForItem(item.id);
+  const checkoutIdentity = commercialRouteIdentity({
+    jurisdiction: verifiedSnapshot.jurisdiction,
+    pathwayId: verifiedSnapshot.pathwayId
+  });
+  governCommercialAdmission("consumer_checkout", checkoutIdentity, fulfillmentRequestContext({
+    participantUserId: userId,
+    matterId: checkoutMatterId,
+    matterOwnerUserId: userId,
+    finalVerification: finalVerificationSnapshotFrom({
+      snapshot: verifiedSnapshot,
+      verificationHash: verification.hash,
+      matterId: checkoutMatterId,
+      ownerUserId: userId,
+      packetFamilyId: checkoutIdentity.packetFamilyId
+    })
+  }));
+
+  /**
+   * READY_TO_PURCHASE.
+   *
+   * Checkout does not open because packet information reached 100%. It opens
+   * because this exact matter can actually be bought: the owner and the matter
+   * are confirmed above, the route still verifies, the Grade-A fulfillment
+   * admission has passed, and now the packet the money is for is proven
+   * renderable from the facts the verification is bound to.
+   *
+   * The preflight composes nothing that anyone can reach. It persists nothing,
+   * creates no entitlement, consumes no credit and produces no artifact; it
+   * runs the real composer over the real verified facts and discards the
+   * result. What it leaves behind is a hash of the canonical render input, so
+   * the thing the participant pays against is nameable and comparable later.
+   *
+   * Refusing here costs a participant a wait. Not refusing here costs them $50
+   * for a packet this route cannot produce.
+   */
+  const purchaseReadiness = readyToPurchase({
+    snapshot: verifiedSnapshot,
+    verificationHash: verification.hash,
+    facts: {
+      ...verifiedSnapshot.screeningAnswers,
+      ...verifiedSnapshot.prefilledAnswers,
+      ...verifiedSnapshot.packetAnswers,
+      ...verifiedSnapshot.serverFacts
+    }
+  });
+  if (!purchaseReadiness.ready) {
+    throw new ConsumerCheckoutRenderPreflightError(purchaseReadiness.reason, purchaseReadiness.missingFactIds);
+  }
 
   const person = await resolveConsumerPersonId(userId);
   if (!person.ok) throw new ConsumerCheckoutTemporarilyUnavailableError();
@@ -131,23 +341,58 @@ export async function createConsumerPacketCheckout({
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId: person.personId,
     matterId: consumerMatterIdForItem(item.id),
-    reviewedInputHash: reviewedPacketInputHash(item) ?? ""
+    pathwayId: verifiedSnapshot.pathwayId,
+    verificationHash: verification.hash
   };
-  if (!binding.reviewedInputHash) throw new ConsumerCheckoutReviewRequiredError();
+  // Evidence, not authority. The render-input hash is derived from the verified
+  // snapshot, so the render path recomputes it rather than trusting a stored
+  // copy; carrying it on the Session records which exact input the money was
+  // taken against.
+  const renderInputHashAtCheckout = purchaseReadiness.renderInputHash;
 
   const defaultSuccessUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?payment=return&session_id={CHECKOUT_SESSION_ID}`);
   const defaultCancelUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?checkout=canceled`);
 
   try {
-    const stripe = getStripeServerClient();
-    const existing = item.checkoutSessionId?.startsWith("cs_")
-      ? await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
-        expand: ["line_items.data.price.product"]
-      })
-      : null;
+    stripe ??= getStripeServerClient();
+    // Which catalog Product this deployment sells, and the Price on it. Both are
+    // resolved before any Session is inspected or created, because the answer
+    // decides whether an existing open Session is still the right order and what
+    // a new one is built from.
+    const catalogProductId = expectedCatalogProductId();
+    if (catalogProductId) {
+      await providerCall("confirm_catalog_product", () =>
+        confirmCatalogProduct(stripe as Stripe, catalogProductId, consumerPacketPriceCents, consumerPacketCurrency));
+    }
+    existing = !existingLookupCompleted && item.checkoutSessionId?.startsWith("cs_")
+      ? await providerCall("retrieve_existing_session", () =>
+        (stripe as Stripe).checkout.sessions.retrieve(item.checkoutSessionId as string, {
+          expand: ["line_items.data.price.product", "discounts.promotion_code"]
+        }))
+      : existing;
 
-    if (existing && existing.status !== "expired" && existing.metadata?.reviewed_input_hash !== binding.reviewedInputHash) {
-      if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
+    // An open Session created before promotion codes were enabled offers no
+    // field to enter one, so reusing it would look to the customer like their
+    // code being refused. It is expired and replaced, which is the same thing
+    // this branch already does for a stale verification. Only an OPEN session
+    // is replaced: a completed order is money that changed hands and is never
+    // disowned over a capability flag, and expiring nothing leaves it intact.
+    const openWithoutPromotionCodes = existing?.status === "open" && existing.allow_promotion_codes !== true;
+    // The same reasoning, for the same reason one step deeper. An open Session
+    // built from an ad-hoc Product sells something the catalog does not contain,
+    // so a coupon restricted to the catalog Product can only be refused on it —
+    // and the customer would read that refusal as their code being rejected.
+    // Replacing it is the supported path; a completed order is again untouched.
+    const openOnTheWrongProduct = existing?.status === "open"
+      && catalogProductId !== null
+      && lineItemProductId(existing.line_items?.data?.[0]) !== catalogProductId;
+    if (existing && existing.status !== "expired"
+      && (existing.metadata?.verification_hash !== binding.verificationHash
+        || openWithoutPromotionCodes
+        || openOnTheWrongProduct)) {
+      if (existing.status === "open") {
+        await providerCall("expire_replaced_session", () => (stripe as Stripe).checkout.sessions.expire(existing!.id));
+      }
     } else if (existing && existing.status !== "expired") {
       const reusable = await reconcileReusableCheckoutSession({
         stripe,
@@ -156,8 +401,17 @@ export async function createConsumerPacketCheckout({
         expectedSuccessUrl: successUrl ?? defaultSuccessUrl,
         expectedCancelUrl: cancelUrl ?? defaultCancelUrl
       });
-      if (!reusable) throw new ConsumerCheckoutTemporarilyUnavailableError();
-      if (!(await persistCheckoutBinding(binding, reusable.id, "stripe"))) {
+      if (!reusable) {
+        if (existing.status === "open") {
+          await providerCall("expire_unreusable_session", () => (stripe as Stripe).checkout.sessions.expire(existing!.id));
+        }
+        throw new ConsumerCheckoutTemporarilyUnavailableError();
+      }
+      const bindingResult = await persistCheckoutBinding(binding, reusable.id, "stripe");
+      if (bindingResult.outcome !== "bound") {
+        if (bindingResult.outcome === "refused" && reusable.status === "open") {
+          await providerCall("expire_unbindable_session", () => (stripe as Stripe).checkout.sessions.expire(reusable.id));
+        }
         throw new ConsumerCheckoutTemporarilyUnavailableError();
       }
       if (reusable.status === "open" && reusable.url) {
@@ -168,7 +422,8 @@ export async function createConsumerPacketCheckout({
           amountCents: consumerPacketPriceCents,
           currency: consumerPacketCurrency,
           outcome: "checkout_reused",
-          briefcaseItemId: item.id
+          briefcaseItemId: item.id,
+          storedSessionRecovery
         };
       }
       if (reusable.status === "complete") {
@@ -186,31 +441,80 @@ export async function createConsumerPacketCheckout({
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
-    const metadata = checkoutMetadata(binding, item);
-    const session = await stripe.checkout.sessions.create({
+    const metadata = {
+      ...checkoutMetadata(binding, item),
+      // Which exact render input this order was taken against. Evidence for
+      // reconciliation and support; the render path recomputes the hash from
+      // the verified snapshot rather than trusting this copy.
+      render_input_hash: renderInputHashAtCheckout
+    };
+    const session = await providerCall("create_session", () => (stripe as Stripe).checkout.sessions.create({
       mode: "payment",
       success_url: successUrl ?? defaultSuccessUrl,
       cancel_url: cancelUrl ?? defaultCancelUrl,
       client_reference_id: item.id,
       metadata,
+      // Customers may redeem Stripe promotion codes on the hosted page. The
+      // codes, their coupons and every restriction on them — eligible product,
+      // customer, expiry, redemption limit — live in Stripe and are enforced by
+      // Stripe. This application deliberately owns none of that: it reads the
+      // discount the provider actually applied and reconciles the order against
+      // it. A discount changes the amount due and nothing else, so eligibility,
+      // ownership, verification and document access are unaffected below.
+      allow_promotion_codes: true,
+      // The line item names the catalog Product, so a coupon restricted to that
+      // Product actually matches it. The amount stays server-set: the price
+      // this application will charge is not delegated to the catalog, and the
+      // reconciliation below still requires it to be the regular price exactly.
+      //
+      // `product_data` is what created the defect — Stripe makes a fresh ad-hoc
+      // Product for every Session given one, so no Session ever sold the
+      // catalog Product. It survives only outside production, where the
+      // test-mode account is a different account and a live Product id names
+      // nothing in it.
       line_items: [
         {
           quantity: 1,
-          price_data: {
-            currency: consumerPacketCurrency,
-            unit_amount: consumerPacketPriceCents,
-            product_data: {
-              name: "Expungement.ai self-help packet",
-              metadata: { product_id: CONSUMER_PACKET_PRODUCT_ID }
+          price_data: catalogProductId
+            ? {
+              currency: consumerPacketCurrency,
+              unit_amount: consumerPacketPriceCents,
+              product: catalogProductId
             }
-          }
+            : {
+              currency: consumerPacketCurrency,
+              unit_amount: consumerPacketPriceCents,
+              product_data: {
+                name: "Expungement.ai self-help packet",
+                metadata: { product_id: CONSUMER_PACKET_PRODUCT_ID }
+              }
+            }
         }
       ]
     }, {
-      idempotencyKey: checkoutIdempotencyKey(item.id, item.checkoutSessionId)
-    });
+      // The catalog identity is part of the key: a Session created against a
+      // different Product is a different order, and replaying the old key would
+      // hand back the Session this release exists to stop using.
+      idempotencyKey: checkoutIdempotencyKey(
+        item.id,
+        binding.verificationHash,
+        verification.revision,
+        item.checkoutSessionId,
+        catalogProductId
+      )
+    }));
 
-    if (!(await persistCheckoutBinding(binding, session.id, "stripe"))) {
+    if (session.status !== "open" || !session.url) {
+      if (session.status === "open") {
+        await providerCall("expire_unusable_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
+      }
+      throw new ConsumerCheckoutTemporarilyUnavailableError();
+    }
+    const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe");
+    if (bindingResult.outcome !== "bound") {
+      if (bindingResult.outcome === "refused" && session.status === "open") {
+        await providerCall("expire_unbound_new_session", () => (stripe as Stripe).checkout.sessions.expire(session.id));
+      }
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
@@ -221,16 +525,22 @@ export async function createConsumerPacketCheckout({
       amountCents: consumerPacketPriceCents,
       currency: consumerPacketCurrency,
       outcome: "checkout_created",
-      briefcaseItemId: item.id
+      briefcaseItemId: item.id,
+      storedSessionRecovery
     };
   } catch (error) {
+    // A catalog this application cannot read unambiguously is an unavailable
+    // checkout, never a Session built on a guess. It is not a dry-run trigger
+    // either: the dry run exists for a missing Stripe configuration, and here
+    // Stripe is configured and answering.
+    if (isConsumerPacketCatalogError(error)) throw new ConsumerCheckoutTemporarilyUnavailableError();
     if (!isStripeConfigurationError(error)) throw error;
     if (!isConsumerCheckoutDryRunEnabled()) {
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
     const dryRunSessionId = dryRunCheckoutSessionId(item.id);
-    if (!(await persistCheckoutBinding(binding, dryRunSessionId, "dry_run"))) {
+    if ((await persistCheckoutBinding(binding, dryRunSessionId, "dry_run")).outcome !== "bound") {
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
@@ -258,8 +568,8 @@ function checkoutMetadata(binding: ConsumerCheckoutBinding, item: ConsumerBriefc
     source_session_id: item.sourceSessionId ?? "",
     jurisdiction: item.state,
     packet_type: item.packetType ?? "",
-    pathway_label: item.pathwayLabel ?? "",
-    reviewed_input_hash: binding.reviewedInputHash
+    pathway_id: binding.pathwayId,
+    verification_hash: binding.verificationHash,
   };
 }
 
@@ -275,7 +585,8 @@ async function persistCheckoutBinding(
     paymentProvider,
     productId: binding.productId,
     personId: binding.personId,
-    matterId: binding.matterId
+    matterId: binding.matterId,
+    expectedVerificationHash: binding.verificationHash
   });
 }
 
@@ -299,7 +610,8 @@ async function reconcileReusableCheckoutSession({
     product_id: binding.productId,
     person_id: binding.personId,
     matter_id: binding.matterId,
-    reviewed_input_hash: binding.reviewedInputHash
+    pathway_id: binding.pathwayId,
+    verification_hash: binding.verificationHash
   };
   for (const [key, value] of Object.entries(desired)) {
     const existing = session.metadata?.[key];
@@ -310,35 +622,36 @@ async function reconcileReusableCheckoutSession({
     Object.entries(desired).filter(([key]) => !session.metadata?.[key])
   );
   if (Object.keys(missing).length > 0) {
-    return stripe.checkout.sessions.update(session.id, {
+    return providerCall("update_reusable_session_metadata", () => stripe.checkout.sessions.update(session.id, {
       metadata: missing
-    });
+    }));
   }
   return session;
 }
 
+/**
+ * Whether an existing Session is still the order this application would create.
+ *
+ * The pricing half is the shared reconciliation: our product, quantity one, USD,
+ * the regular price, and a total that is the regular price less whatever
+ * discount Stripe applied. `expectSettled` is false because a reusable session
+ * is normally still open, and an open session is not expected to be paid.
+ *
+ * Whether the session offers a promotion-code field is decided separately, by
+ * the caller, because it is a reason to replace an *open* session and never a
+ * reason to disown a completed one.
+ */
 function checkoutSessionBaseBindingMatches(
   session: Stripe.Checkout.Session,
   binding: ConsumerCheckoutBinding
 ): boolean {
-  const lineItems = session.line_items?.data ?? [];
-  const line = lineItems[0];
-  const product = line?.price?.product;
-  const productName = product && typeof product !== "string" && !("deleted" in product)
-    ? product.name
-    : null;
-  return session.mode === "payment"
-    && session.client_reference_id === binding.briefcaseItemId
-    && session.metadata?.channel === "expungement_ai_consumer"
-    && session.metadata?.user_id === binding.userId
-    && session.metadata?.briefcase_item_id === binding.briefcaseItemId
-    && session.metadata?.reviewed_input_hash === binding.reviewedInputHash
-    && session.amount_total === consumerPacketPriceCents
-    && (session.currency ?? "").toLowerCase() === "usd"
-    && lineItems.length === 1
-    && line?.quantity === 1
-    && line.amount_total === consumerPacketPriceCents
-    && productName === "Expungement.ai self-help packet";
+  const reconciliation = reconcileConsumerOrder(
+    session,
+    session.line_items?.data ?? [],
+    binding,
+    { expectSettled: false }
+  );
+  return reconciliation.ok;
 }
 
 function sameOrigin(actual: string | null, expected: string): boolean {
@@ -350,8 +663,20 @@ function sameOrigin(actual: string | null, expected: string): boolean {
   }
 }
 
-function checkoutIdempotencyKey(itemId: string, previousSessionId?: string) {
-  return `${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${previousSessionId ?? "initial"}`;
+function checkoutIdempotencyKey(
+  itemId: string,
+  verificationHash: string,
+  verificationRevision: number,
+  previousSessionId?: string,
+  catalogProductId?: string | null
+) {
+  // Concurrent requests for one protected authority converge on one Stripe
+  // Session. A refused stale CAS forces a protected reload/rederivation; the
+  // changed hash/revision then advances the key instead of returning the
+  // expired stale-authority Session. The catalog product is part of the key for
+  // the same reason: a Session on a different Product is a different order.
+  return `${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${verificationHash}:${verificationRevision}`
+    + `:${previousSessionId ?? "initial"}:${catalogProductId ?? "inline"}`;
 }
 
 export async function getConsumerCheckoutStatus({
@@ -396,13 +721,22 @@ export async function getConsumerCheckoutStatus({
     session.metadata?.channel === "expungement_ai_consumer" &&
     (!item.checkoutSessionId || item.checkoutSessionId === session.id);
 
+  // A no-cost order is settled too. Stripe reports `no_payment_required` and
+  // completes the session without collecting, so a customer who redeemed a
+  // 100%-off code would otherwise be told on return that they had not paid,
+  // forever. The entitlement itself is still decided by the server-recorded
+  // payment row, not by this reader.
+  const noCost = session.payment_status === "no_payment_required";
+  const settled = session.payment_status === "paid" || (noCost && session.status === "complete");
+
   return {
-    paid: sessionBoundToItem && session.payment_status === "paid",
+    paid: sessionBoundToItem && settled,
     mode: "stripe",
     checkoutSessionId: session.id,
     paymentIntentId: paymentIntent?.id,
     receiptUrl: paymentIntent?.latest_charge && typeof paymentIntent.latest_charge !== "string" ? paymentIntent.latest_charge.receipt_url ?? undefined : undefined,
-    amountCents: consumerPacketPriceCents
+    // What Stripe collected, which is nothing on a fully discounted order.
+    amountCents: noCost ? 0 : session.amount_total ?? consumerPacketPriceCents
   };
 }
 
@@ -454,21 +788,19 @@ export async function recordConsumerPaymentConfirmation({
  * corrupted item claiming packet_ready with paymentAllowed=true on a deferred
  * route still gets nothing.
  */
-function assertNotExactDeferral(item: ConsumerBriefcaseItem) {
-  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
-  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
-  const deferred = classification === "exact_supported_deferral"
-    || Boolean(exactDeferralForTrack(trackId))
-    || Boolean(exactDeferralForPathway(item.state, item.pathwayLabel ?? null));
+function assertNotExactDeferral(snapshot: PacketVerificationSnapshot) {
+  const deferred = snapshot.treatmentClassification === "exact_supported_deferral"
+    || Boolean(exactDeferralForTrack(snapshot.selectedTrackId))
+    || Boolean(exactDeferralForPathway(snapshot.jurisdiction, snapshot.pathwayId));
   if (deferred) {
     throw new ConsumerCheckoutNotAllowedError("exact_supported_deferral");
   }
 }
 
-function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
-  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
-  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
-  if (classification === "component_deferral" || componentDeferralForTrack(trackId)) {
+function assertNotComponentDeferral(snapshot: PacketVerificationSnapshot) {
+  if (snapshot.treatmentClassification === "component_deferral"
+    || snapshot.deferralComponentIds.length > 0
+    || componentDeferralForTrack(snapshot.selectedTrackId)) {
     throw new ConsumerCheckoutNotAllowedError("component_deferral");
   }
 }
@@ -478,10 +810,9 @@ function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
  * A candidate is not a weaker suppression than an accepted deferral — it is the
  * same suppression, with the review still open.
  */
-function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
-  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
-  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
-  if (classification === "terminal_treatment_candidate" || terminalTreatmentForTrack(trackId)) {
+function assertNotTerminalTreatment(snapshot: PacketVerificationSnapshot) {
+  if (snapshot.treatmentClassification === "terminal_treatment_candidate"
+    || terminalTreatmentForTrack(snapshot.selectedTrackId)) {
     throw new ConsumerCheckoutNotAllowedError("terminal_treatment_candidate");
   }
 }
@@ -501,46 +832,56 @@ function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
  * blocker in data/rcap-ledger/sellable-pathway-closure.json; what changes is
  * only that we stop taking money for a packet we cannot hand over.
  */
-export function assertPacketRouteCanDeliver(item: ConsumerBriefcaseItem) {
+export function assertPacketRouteCanDeliver(
+  snapshot: PacketVerificationSnapshot
+): asserts snapshot is PacketVerificationSnapshot & { pathwayId: string } {
+  if (!snapshot.pathwayId?.trim()) throw new ConsumerPacketNotDeliverableError("missing_verified_pathway");
+  // Participant delivery. The route resolver below answers "can this state
+  // render at all"; this answers "does this route deliver the packet it
+  // promises", which is the question the resolver cannot reach.
+  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "participant delivery", { trackId: snapshot.selectedTrackId });
   const route = resolvePacketRoute({
-    state: item.state,
-    pathway: item.pathwayLabel ?? null,
-    trackId: item.selectedTrackId ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null)
+    state: snapshot.jurisdiction,
+    pathway: snapshot.pathwayId,
+    trackId: snapshot.selectedTrackId
   });
   if (!packetRouteCanRender(route)) {
     throw new ConsumerPacketNotDeliverableError(route.routeKind);
   }
 }
 
-export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
-  assertNotExactDeferral(item);
-  assertNotComponentDeferral(item);
-  assertNotTerminalTreatment(item);
-  assertPacketRouteCanDeliver(item);
-  const packetProduct = item.packetType === "custom_pleading"
-    || item.packetType === "official_pdf_overlay"
-    || item.packetType === "legacy_packet";
+export function assertCheckoutAllowed(
+  snapshot: PacketVerificationSnapshot
+): asserts snapshot is PacketVerificationSnapshot & { pathwayId: string } {
+  // Checkout creation. The order is most-specific-refusal first, backstop last.
+  //
+  // Every one of these runs unconditionally, so the order changes which reason
+  // a refusal carries and never whether it happens. The deferral and terminal
+  // treatments know exactly why a particular route is closed and say so; the
+  // fulfillment gate only knows that nothing proved this route delivers. Naming
+  // the specific reason where one exists is better for the participant, better
+  // in the logs, and it keeps each lane's own safeguard observable at this
+  // boundary instead of being masked by a check standing in front of it — a
+  // second door silently covering for a missing first one is exactly the
+  // failure those lane suites were written to catch.
+  //
+  // The fulfillment gate goes last precisely because it is the backstop: it
+  // refuses everything the specific safeguards let through, so reaching it means
+  // a route survived every other test and still cannot prove it ships a packet.
+  assertNotExactDeferral(snapshot);
+  assertNotComponentDeferral(snapshot);
+  assertNotTerminalTreatment(snapshot);
+  assertPacketRouteCanDeliver(snapshot);
+  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "checkout creation", { trackId: snapshot.selectedTrackId });
+  const packetProduct = snapshot.packetType === "custom_pleading"
+    || snapshot.packetType === "official_pdf_overlay"
+    || snapshot.packetType === "legacy_packet";
   if (!packetProduct
-    || item.status !== "packet_ready"
-    || !item.state?.trim()
-    || !item.pathwayLabel?.trim()
-    || !item.paymentAllowed
-    || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
-    throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");
+    || !snapshot.jurisdiction?.trim()
+    || !snapshot.paymentAllowed
+    || !isConsumerPaymentAllowed(snapshot.resultCode ?? "guidance_only", snapshot.paymentAllowed)) {
+    throw new ConsumerCheckoutNotAllowedError(snapshot.resultCode ?? "missing_result_code");
   }
-}
-
-export function assertConsumerCheckoutReviewReady(item: ConsumerBriefcaseItem) {
-  const packetInformation = packetInformationModelFor(item);
-  if (packetInformation
-    && packetInformation.stage === "ready_to_generate"
-    && packetInformation.missingInputIds.length === 0
-    && packetInformation.reviewedAt
-    && packetInformationReviewSafety(item).safe) {
-    return;
-  }
-
-  throw new ConsumerCheckoutReviewRequiredError();
 }
 
 export function isConsumerCheckoutDryRunEnabled(): boolean {
@@ -561,8 +902,141 @@ export class ConsumerPacketNotDeliverableError extends Error {
   }
 }
 
+/**
+ * What a provider call refused with, reduced to the provider's own public
+ * classification.
+ *
+ * Stripe's type, code and param name a configuration fault exactly — a missing
+ * resource, an unusable parameter, the account it was asked of. None of them is
+ * a credential. The free-text message is deliberately left out so nothing
+ * incidental travels with it, and `phase` says which call refused, because
+ * "checkout failed" without that is the state this field exists to end.
+ */
+export type ConsumerCheckoutProviderFailure = {
+  phase: string;
+  type: string;
+  code: string | null;
+  param: string | null;
+  statusCode: number | null;
+  /**
+   * The provider's own identifier for the failed request. It names the entry in
+   * Stripe's request log, which is where the full request and response live, so
+   * a refusal observed from the outside can be tied to the exact call that
+   * produced it. It is an opaque handle, not a credential and not customer data.
+   */
+  requestId: string | null;
+};
+
+function providerFailureOf(error: unknown, phase: string): ConsumerCheckoutProviderFailure | null {
+  if (!error || typeof error !== "object") return null;
+  const candidate = error as {
+    type?: unknown; rawType?: unknown; code?: unknown; param?: unknown; statusCode?: unknown; requestId?: unknown;
+  };
+  const type = typeof candidate.type === "string"
+    ? candidate.type
+    : (typeof candidate.rawType === "string" ? candidate.rawType : null);
+  if (!type) return null;
+  return {
+    phase,
+    type,
+    code: typeof candidate.code === "string" ? candidate.code : null,
+    param: typeof candidate.param === "string" ? candidate.param : null,
+    statusCode: typeof candidate.statusCode === "number" ? candidate.statusCode : null,
+    requestId: typeof candidate.requestId === "string" ? candidate.requestId : null
+  };
+}
+
+/**
+ * The account and mode this deployment is actually talking to, read from the
+ * provider rather than assumed from configuration.
+ *
+ * `null` when it cannot be established. A question that could not be answered
+ * must never read as an answer, so every caller treats null as "not verified".
+ */
+export type StripeAccountIdentity = { accountId: string; livemode: boolean };
+
+async function stripeAccountIdentity(stripe: Stripe | null): Promise<StripeAccountIdentity | null> {
+  if (!stripe) return null;
+  const livemode = stripeSecretKeyIsLiveMode();
+  if (livemode === null) return null;
+  try {
+    // `GET /v1/accounts` with no id returns the account the key belongs to.
+    // stripe-node supports it at runtime but its types only declare the
+    // retrieve-by-id overload, so the no-argument form is spelled out here
+    // rather than passing an id we do not have and are trying to learn.
+    const account = await (stripe.accounts as unknown as {
+      retrieve: () => Promise<Stripe.Account>;
+    }).retrieve();
+    if (typeof account.id !== "string" || !account.id.startsWith("acct_")) return null;
+    return { accountId: account.id, livemode };
+  } catch {
+    // An identity that could not be read is not an identity. The caller refuses.
+    return null;
+  }
+}
+
+/**
+ * One provider call, with the call named.
+ *
+ * A Stripe error thrown out of any of these used to leave the route as an
+ * unhandled 500 with an empty body: no sentence for the participant, and
+ * nothing an operator could act on. Every provider call in this path now
+ * refuses through this, so the refusal is classified and says which step it
+ * came from. Errors this module already classifies pass through untouched.
+ */
+/**
+ * Whether the provider's refusal means "this id names nothing here".
+ *
+ * Stripe answers `resource_missing` for an id that does not exist in the
+ * account and mode the request was made with. That is the one refusal a stored
+ * Checkout Session id can earn that carries no risk of overwriting a real
+ * order, because there is no order behind it to overwrite.
+ */
+export function storedSessionIsAbsentFromTheVerifiedAccount(
+  error: unknown,
+  identity: StripeAccountIdentity | null
+): boolean {
+  // No verified identity, no conclusion. This is the half the first version of
+  // this predicate was missing: `resource_missing` alone only says the id is
+  // not in whichever account and mode this deployment happens to be holding a
+  // key for, which is exactly the thing in question.
+  if (!identity) return false;
+  if (identity.accountId !== expectedStripeAccountId()) return false;
+  if (identity.livemode !== (resolveDeploymentEnvironment() === "production")) return false;
+  if (!(error instanceof ConsumerCheckoutTemporarilyUnavailableError)) return false;
+  return error.providerFailure?.code === "resource_missing";
+}
+
+/**
+ * The Stripe account this deployment is expected to sell through.
+ *
+ * A Stripe account id names a merchant; it is not a credential, and it appears
+ * on every object the account owns. `STRIPE_ACCOUNT_ID` overrides it where a
+ * deployment sells through a different account; null means no expectation is
+ * configured, and an unconfigured expectation can verify nothing.
+ */
+function expectedStripeAccountId(): string | null {
+  const configured = process.env.STRIPE_ACCOUNT_ID?.trim();
+  if (configured) return configured.startsWith("acct_") ? configured : null;
+  return resolveDeploymentEnvironment() === "production" ? PRODUCTION_STRIPE_ACCOUNT_ID : null;
+}
+
+/** The live merchant account expungement.ai sells through. */
+const PRODUCTION_STRIPE_ACCOUNT_ID = "acct_1L62OmDLtltioGNK";
+
+async function providerCall<T>(phase: string, run: () => Promise<T>): Promise<T> {
+  try {
+    return await run();
+  } catch (error) {
+    if (isStripeConfigurationError(error) || isConsumerPacketCatalogError(error)) throw error;
+    const failure = providerFailureOf(error, phase);
+    if (!failure) throw error;
+    throw new ConsumerCheckoutTemporarilyUnavailableError(failure);
+  }
+}
+
 export class ConsumerCheckoutTemporarilyUnavailableError extends Error {
-  constructor() {
+  constructor(readonly providerFailure: ConsumerCheckoutProviderFailure | null = null) {
     super("Consumer checkout is temporarily unavailable.");
     this.name = "ConsumerCheckoutTemporarilyUnavailableError";
   }
@@ -570,7 +1044,7 @@ export class ConsumerCheckoutTemporarilyUnavailableError extends Error {
 
 export class ConsumerCheckoutReviewRequiredError extends Error {
   constructor() {
-    super("Complete the packet accuracy review before starting Checkout.");
+    super("Complete the current final verification before starting Checkout.");
     this.name = "ConsumerCheckoutReviewRequiredError";
   }
 }

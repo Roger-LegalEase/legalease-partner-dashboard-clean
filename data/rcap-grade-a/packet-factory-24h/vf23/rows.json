@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF23",
+  "laneKind": "independent-verification",
+  "worker": "VERIFIER-1",
+  "baseSha": "321650b5a71d16ce6b59e78147c8d39cd94c9d80",
+  "grantSet": "a9956c8db0b9c13d",
+  "measuredBy": "the fifteen proof obligations measured in this container from the committed bytes and records; the nine counters produced by running scripts/rcap-packet-completeness/verify-packet-completeness.mjs here; every artifact SHA-256 recomputed from the committed bytes; every flattened widget appearance decoded from the fixture PDF bytes with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, including one raw appearance-stream dump; the boundSource SHA-256s recomputed from the corpus files under MASTER_LIBRARY_SOURCE_DIR; one AcroForm value read first-hand from the pinned source binary",
+  "independence": "VERIFIER-1 built and repaired nothing in this factory and inherited no verdict. The prior read (vf06, FAIL_REPAIR_REQUIRED on FEE_AND_WAIVER) is the claim under test: its failed obligation was re-measured here from the same committed instructions text, and this lane's different outcome is reasoned in the row rather than asserted.",
+  "sourceIdentityNote": "Unlike the vf06 read, the Master Library corpus IS mounted in this container, so SOURCE_IDENTITY is measured from the source bytes themselves.",
+  "verdictSummary": {
+    "PASS_COMPLETE_INDEPENDENT": 1,
+    "FAIL_REPAIR_REQUIRED": 0,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "overlayDirectoriesModified": 0,
+  "packetsBuiltOrRepairedHere": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "co_motion_seal_nonconviction-set",
+      "lane": "VF23",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill",
+      "composedFamily": false,
+      "tracks": [
+        "obligation:track-only:CO:co_motion_seal_nonconviction"
+      ],
+      "builderDeclaredStatus": {
+        "buildStatus": "state_built",
+        "reviewStatus": "qa_review_pending",
+        "generationAllowed": false,
+        "runtimeSelectable": false,
+        "commercialRoutesOpened": 0
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId 'co_motion_seal_nonconviction-set' agrees across all 12 records in the directory that carry one (grep over every committed JSON returned a single spelling). The worklist names exactly one route for the group ('obligation:track-only:CO:co_motion_seal_nonconviction'); source-receipt.json and production-field-map.json carry its route-key form 'track:CO:co_motion_seal_nonconviction', and production-field-map.json carries routeSelectionId 'co-motion-seal-nonconviction-set-jdf-477-jdf-478'. No product-wiring.json exists in this family, so no record contradicts."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "recomputed from the corpus bytes in this container: sha256(STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf) = b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643 at 605652 bytes and sha256(CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf) = 8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159 at 576543 bytes, both equal to the boundSources in source-receipt.json and to every pageManifest sourceSha256 in reports/rendered-artifacts.json. The vf06 read could not measure this; this lane did."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "the route names two components — primary_filing JDF-477 and proposed_order JDF-478 — and both fixtures render both: pages 1-3 are JDF-477 and pages 4-5 are JDF-478, read from the bytes; requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "decoded from the flattened widget appearance streams of both fixtures (86 appearances each). Canonical: all 7 mapped JDF-477 facts (county, case number, name in both its widgets, DoB, address, phone, email) and all 8 mapped JDF-478 facts (county, case number, name×2, DoB, street address, city, state, zip) are drawn at their exact mapped rects. Boundary: the same writes are drawn EXCEPT JDF-477/Address — its appearance stream draws an empty string (`<> Tj`, dumped raw in this lane) because the 84-character boundary address needs 244.4pt at the 6pt minimum font and the box is 242.67pt; the finalizer refused rather than clipped, and recorded the refusal in reports/actual-writes.json under 'unfittable' with reason value_exceeds_widget_width_at_minimum_font, while honestly reporting valuesReportedByFinalizer 6 for that document. The same boundary address IS drawn on JDF-478 page 4 at 7.74pt (hex string decoded byte for byte). Under the factory's own precedent (pf07 MD, pf12, and the vf14 ct-cleanslate read) a RECORDED boundary unfittable refusal is the boundary fixture doing its job; the silent-loss shape vf11/vf12 failed on is not present here. FINDING for the production path: participant-instructions.md line 'The platform filled in what it holds about you ... on both forms' overstates the boundary case — a sufficiently long address is refused on JDF-477 and lands only on JDF-478."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "production-field-map.json declares 23 REQUIRED_BEFORE_FILING items and participant-instructions.md names all 23 — thirteen JDF-477 rows and ten JDF-478 rows, each with the form, the section and the printed words beside the blank, matched one for one against the declarations in this lane. The decoded bytes confirm every one of those blanks carries no ink."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "requiredOptionsMissing=0 measured here. routeDeterminedSelections is deliberately empty with a recorded reason: C.R.S. § 24-72-705 is one simplified process covering all five grounds JDF 477 lists, so which ground applies is a fact about the case, not the route. The packet states its own election (routeSelectionId 'co-motion-seal-nonconviction-set-jdf-477-jdf-478', the instructions' title and footer naming the route and statute) and disloses every genuine participant election in 'The choices that are yours' — ground, court type, agency list, service method, and the officer designation on the order."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "incompleteRows=0 measured by the completeness verifier here; the agency lists that repeat on both forms are declared REQUIRED_BEFORE_FILING and disclosed row by row rather than half-filled."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "proven from the decoded appearance streams of both fixtures: every appearance on packet page 3 (JDF-477 section 9 certificate of service and section 10 verification under penalty of perjury) and packet page 5 (JDF-478 sections 4-5, the court's orders and the judge's or magistrate's signature) is empty, as are the Division/Courtroom boxes. The single mark at a refused rect — the tick in checkbox 8C.0 (CBI, page 2) — is the pinned source's own authored value: this lane opened the corpus JDF-477 AcroForm first-hand and read 8C.0 = CHECKED in the unmodified official form, so flattening materialised the form's default and the platform added no selection ink. protectedWrites=0 and invisibleWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "every declared artifact recomputed from the committed bytes and equal to its record: canonical.pdf 6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7 at 325622 bytes, boundary.pdf 1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4 at 325832 bytes, and all ten raster PNGs match reports/rendered-artifacts.json hash for hash. No *-unchanged-official.pdf component is declared; the uncommitted source binaries were verified against the corpus bytes directly (SOURCE_IDENTITY above)."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "5 pages read from the bytes of each fixture, equal to the raster queue's expectedPages and the pageManifest: JDF-477 source pages 1-3 as packet pages 1-3, JDF-478 source pages 1-2 as packet pages 4-5; the decoded appearance positions confirm the motion content on pages 1-2 and the order content on page 4."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "visualDefects=0 measured by the completeness verifier here; every decoded write lands at its mapped rect exactly, boundary long values are size-fitted inside their boxes (the JDF-478 address draws at 7.74pt within its 319.58pt box, read from the raw stream), and the one value that could not fit anywhere above the 6pt floor was refused rather than clipped."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "participant-instructions.md 'Where you file this': file both forms with the clerk of the Colorado court that handled the case — the District Court or the County Court named in section 1 of the motion, in the county already filled in for you. That is the destination the route records ('motion in the court that handled the underlying case'). The packet declines to invent a street address, says why (no court directory is held; the Colorado Judicial Department publishes each courthouse's address), and the Court Address blank is a disclosed REQUIRED_BEFORE_FILING item."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "re-measured from the committed instructions against the house standard (delegation to a named checkable authority passes; a catch-all naming 'fees' does not). The packet carries a DEDICATED fee instruction, not a catch-all: '**Ask the clerk what fee applies, if any.** C.R.S. § 24-72-705 is the simplified process and the fee position for it is not established in any source this packet holds, so it is not stated here.' — and 'the clerk' is the named checkable authority of the sentence directly above it: 'the clerk of the Colorado court that handled the case — the District Court or the County Court named in section 1 of the motion, in the county already filled in for you.' This lane records its divergence from the vf06 read openly: vf06 called this line 'a catch-all line that names it among other items without answering it or naming who to ask', but the line names only the fee, and it does name who to ask. Under the settled standard the delegation passes; no fee figure is invented and the reason is stated in the packet's own words."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "WHO: 'Serve a copy on the prosecuting attorney' (pre-filing step 3), matching the route's district-attorney response opportunity. HOW: the service method is the participant's certificate election, disclosed in 'The choices that are yours' ('Certificate of Service — how you sent it (selection): you tick the method you actually used, at the time you serve the prosecuting attorney'). PROOF: 'then complete the certificate of service in section 9 of JDF 477 — the date, the method, and who you sent it to.' TIMING: 'Do it after you have served, not before.' The certificate is a component of the rendered packet and its fields are proven ink-free until service."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "stated in 'What this packet is not': not legal advice, not filed for you, and it does not decide eligibility — and the stop is drawn field by field: the section 7 affirmations must be read before swearing ('Read them before you swear to them'), the section 10 verification is signed only at the moment of declaring, the counsel signature block is left to an attorney, and sections 4-5 of the order belong to the court."
+        }
+      },
+      "failedProofObligations": [],
+      "notMeasurableHere": [],
+      "openLegalInputs": [],
+      "recordedDeviations": [
+        "boundary JDF-477/Address is an unfittable refusal, byte-proven in this lane (empty `<> Tj` appearance at rect 297.64,374.69) and recorded by the family in reports/actual-writes.json (value_exceeds_widget_width_at_minimum_font, 244.4pt needed vs 242.67pt at the 6pt floor). Recorded refusal, not silent loss; but production-field-map.json's boundaryWrites still lists the field as a plan row, and the instructions' 'on both forms' sentence overstates the long-address case — both worth tightening at the next rebuild.",
+        "build-findings.json says the boundary name's typographic apostrophe 'is carried without it' in the finalized bytes, but the decoded appearance streams in this lane DO carry byte 0x92 — the WinAnsi encoding of U+2019 — in all four name draws, so the apostrophe is drawn on this family; the advisory overstates in the safe direction and the raster gate rendered the true glyphs.",
+        "this lane's FEE_AND_WAIVER outcome diverges from the vf06 read on identical committed text; the reasoning and the full quotes are in the obligation detail so the difference is legible rather than silent."
+      ],
+      "rasterCeiling": {
+        "currentRasterState": "RASTER_PASS",
+        "workflowRunId": "33495068504",
+        "jobId": "99815920035",
+        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+        "pinnedCanonicalBindsToDiskHere": true,
+        "pinnedBoundaryBindsToDiskHere": true,
+        "pinnedDocument": "canonical.pdf",
+        "artifactsTheFamilyRenders": 2,
+        "artifactsTheGatePinned": 2,
+        "pagesTheFamilyRenders": 10,
+        "pagesTheGateRendered": 10,
+        "coverage": "COMPLETE",
+        "bindingProof": "canonical 6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7 and boundary 1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4 recomputed from disk in this container and equal to the receipt's pinned hashes"
+      },
+      "artifactProof": [
+        {
+          "document": "JDF-477+JDF-478",
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "recordedSha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
+          "recomputedSha256": "6c3d8f4482dc4de44cb817f486cc2ad982aaf79b3d6f79cc75696d22facb07d7",
+          "bindsFromDisk": true,
+          "recordedByteLength": 325622,
+          "observedByteLength": 325622
+        },
+        {
+          "document": "JDF-477+JDF-478",
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "recordedSha256": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
+          "recomputedSha256": "1fb4e7b9faeb8ee7f06837b94993c071629b47abb59138ceaa7efa1c2d43a6f4",
+          "bindsFromDisk": true,
+          "recordedByteLength": 325832,
+          "observedByteLength": 325832
+        }
+      ],
+      "sourceProof": [
+        {
+          "sourceId": "official-form:JDF-477",
+          "corpusPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "recordedSha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+          "recomputedFromCorpusBytes": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+          "recordedByteLength": 605652,
+          "observedByteLength": 605652,
+          "bindsFromCorpus": true
+        },
+        {
+          "sourceId": "official-form:JDF-478",
+          "corpusPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "recordedSha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+          "recomputedFromCorpusBytes": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+          "recordedByteLength": 576543,
+          "observedByteLength": 576543,
+          "bindsFromCorpus": true
+        }
+      ],
+      "evidenceRead": [
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/build-status.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/reports/completeness-counters.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/co/co-motion-seal-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/vf06/rows.json",
+        "data/rcap-grade-a/packet-factory-24h/VERMONT_REPAIR.json",
+        "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+        "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf"
+      ]
+    }
+  ]
+}

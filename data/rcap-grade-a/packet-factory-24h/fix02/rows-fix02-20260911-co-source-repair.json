@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX02",
+  "laneKind": "repair",
+  "rows": [
+    {
+      "itemId": "co_motion_seal_conviction-set",
+      "familyId": "co_motion_seal_conviction-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["COMPONENT_SET", "FEE_AND_WAIVER"],
+      "historicalVerdict": { "path": "data/rcap-grade-a/packet-factory-24h/vf07/rows.json", "verifiedAtBase": "453ecee9c6496bbc662b313e0a0169423a9add96", "verdict": "FAIL_REPAIR_REQUIRED" },
+      "actualDefect": "The packet delivered only JDF 612/JDF 615 and denied the fee-waiver treatment already stated by JDF 611.",
+      "correction": "Bound JDF 613, JDF 614, JDF 205 and JDF 206 by exact current SHA-256; retained the newer held JDF 615; assembled the complete four-form filing set and conditional fee-waiver pair; filled only participant/caption fields and preserved every court finding, hearing detail, fee ruling and signature.",
+      "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": null },
+      "artifacts": { "canonicalSha256": "f8eaffc976b0b73ba6cf76b3332d9ff950d38a8089279a3a5b364db49153b4b9", "boundarySha256": "bb1d9b45bb801ad176ef1a05cd028fa8b42d34c6a7b46b670b5289f78a2444b4", "pageCountEach": 15 },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/co/raster-manifest.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_REVIEW",
+      "grantsNothing": "This repair row is not a verdict and opens no commercial route."
+    },
+    {
+      "itemId": "co_motion_seal_nonconviction-set",
+      "familyId": "co_motion_seal_nonconviction-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "obligationsRepaired": ["COMPONENT_SET", "KNOWN_PREFILLS", "REQUIRED_BEFORE_FILING"],
+      "historicalVerdict": { "path": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json", "verifiedAtBase": "8db74d6e5b5427548e30c2eed11a21b2bb1d9383", "verdict": "FAIL_REPAIR_REQUIRED" },
+      "actualDefect": "The packet omitted JDF 492/JDF 493, repeated a combined address inside JDF 478 split fields, used a non-abbreviated state value, and failed to carry four governed before-filing items into participant copy.",
+      "correction": "Bound exact JDF 492/JDF 493 sources, assembled all four JDF 491 filing components, derived JDF 477's full postal line from structured address facts, restricted JDF 492/JDF 493/JDF 478 to A–C caption fill, preserved all numbered court bodies, and generated complete participant action guidance.",
+      "countersAfter": { "knownRequiredFieldsMissing": 0, "requiredFactsNotCollected": 0, "unclassifiedBlanks": 0, "incompleteRows": 0, "requiredOptionsMissing": 0, "requiredComponentsMissing": 0, "invisibleWrites": 0, "protectedWrites": 0, "visualDefects": null },
+      "artifacts": { "canonicalSha256": "cbd731d4c78fac6cf5c01d2fb06774faf317bcff04cef4bb1e9c29bdbeedae02", "boundarySha256": "7f6c83e22ae24418a09334e03db673aa474bde9442ff0992055a7886dc147496", "pageCountEach": 7 },
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/seven-cleared-20260911/co/raster-manifest.json",
+      "independentVerification": "PENDING_CURRENT_BYTE_REVIEW",
+      "grantsNothing": "This repair row is not a verdict and opens no commercial route."
+    }
+  ]
+}

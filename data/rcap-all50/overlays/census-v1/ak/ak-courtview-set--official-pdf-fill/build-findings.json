@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ak-courtview-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "TF-810 is a correction request rather than a petition. The form states that the ten grounds on it are removals the court system performs automatically, and that this form is for a requester who believes the court made an error.",
+      "consequence": "There is no verification, no certificate of service and no proposed order on this form, and the packet does not invent any. The clerk's response block at the foot of the page carries no widget and is left alone."
+    },
+    {
+      "finding": "The ten printed grounds are statements about how a particular case ended.",
+      "consequence": "Every one is a participant election. This packet is built for Administrative Rule 40(a) and AS 22.35.030, and ticking a ground would assert a disposition the platform does not hold."
+    },
+    {
+      "finding": "Grounds 4 and 9 each require an attachment the platform does not hold — proof of a suspended imposition of sentence, and a copy of a Rule 37.6 order.",
+      "consequence": "Both are named in the instructions in the form's own terms, beside the elections they belong to."
+    },
+    {
+      "finding": "The widget named `partyNames` is the CASE NAME box, and the ninth and tenth grounds are marked by widgets named `Check Box8.1` and `Check Box8.2`.",
+      "consequence": "The field names on this form are not a reliable channel. Every caption is read off the page at the widget's own coordinate and re-checked on each build, and the two mismatches are recorded in the field census."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the bytes read back carry the name without it.",
+      "consequence": "Recorded for visual review. The behaviour is in the shared finalizer's font encoding and reproduces in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewer": "/root/resolver_review",
+  "reviewedAt": "2026-09-13T16:53:16.206284+00:00",
+  "verdict": "PASS",
+  "scope": "Raster queue current dispatch identity selection and opt-in emitter hook; no generated artifacts written.",
+  "reviewedBindings": [
+    {
+      "path": "scripts/lib/generator-emit.mjs",
+      "sha256": "1e82d71fcf0bcfe49a559cb5337151b2b51de86eebe30a79f7e802a23ef7335b",
+      "byteLength": 8545
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/raster-dispatch-identity.mjs",
+      "sha256": "2f26b09666b1336cc3fdfab6b1e447b5612f57c60a38495eb2a5aa7005cb90af",
+      "byteLength": 3926
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/raster-dispatch-identity.test.mjs",
+      "sha256": "42253726cb8a23acd53fe54aeb3e3a5ddcaed0be6f6c6ebc3ecef2b2a4640163",
+      "byteLength": 6617
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs",
+      "sha256": "86da913ebb3efbd327d69b813a0f14d8b21956b8aa0bc82c530d73185955cd51",
+      "byteLength": 69181
+    }
+  ],
+  "findings": [],
+  "tests": {
+    "command": "node --test scripts/grade-a-packet-factory-24h/raster-dispatch-identity.test.mjs",
+    "passed": 21,
+    "failed": 0,
+    "exitCode": 0,
+    "freshIndependentRun": true
+  },
+  "actualQueueCheck": {
+    "path": "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+    "sha256": "5696ae14c9f98b6c3700ae5afe300e87e6e267520881232958515b0b754d1273",
+    "rows": 326,
+    "currentPinOccurrences": 327,
+    "distinctCurrentPins": [
+      "d5105155564431c3202b1ddf6f8941628e38a601"
+    ],
+    "currentPinExists": true,
+    "currentPinAncestorOfHead": true,
+    "allOtherParsedDataUnchanged": true,
+    "normalizedSha256": "802590a0af6711b71790af967aff6f2c5301bf462eb44189262293efb3af629b"
+  },
+  "assessment": [
+    "Selector only applies at exact native RASTER_QUEUE path and known schema. Root and each active row require the same valid current pin.",
+    "Token-span replacement preserves all other original text, whitespace, escaped string data, historical commit identities, historical timestamps and SHA256 hashes.",
+    "Duplicate object keys including escaped equivalents, duplicate active families, malformed/missing/current-row-mismatched pins and unknown schema refuse.",
+    "Existing committed current-pin Git object existence and ancestor checks remain in emitter; unknown and unrelated commits refuse in isolated Git tests.",
+    "Emitter validates both generated and current selected content; historical receipt/current PDF modifications cause convergence divergence instead of normalization masking.",
+    "Other files and generators retain existing behavior. Hook adds only import and selector option; no raster admission, receipt, source, packet or terminal predicates changed."
+  ],
+  "limits": [
+    "No saved generated/current pair existed. Actual full generator convergence must still be run by Captain on reviewed code; this code review does not claim that run passed."
+  ],
+  "authoritativeOutputsModified": false,
+  "packetBytesModified": false,
+  "rasterPerformed": false
+}

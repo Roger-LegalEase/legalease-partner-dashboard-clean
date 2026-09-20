@@ -96,7 +96,7 @@ export function ExpungementHomeV3() {
           />
         </section>
 
-        <section id="guided-check" className={`${styles.section} ${styles.guidedSection}`} aria-labelledby="guided-title">
+        <section id="screening" className={`${styles.section} ${styles.guidedSection}`} aria-labelledby="guided-title">
           <div className={styles.contentGrid}>
             <div className={styles.sectionCopy}>
               <SectionIndex number="03" label={copy.elig_eye} labelKey="elig_eye" />

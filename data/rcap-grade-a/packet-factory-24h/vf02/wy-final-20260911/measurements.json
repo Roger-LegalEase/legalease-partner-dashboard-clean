@@ -1,0 +1,1131 @@
+{
+  "schemaVersion": "rcap-independent-current-byte-measurement/v1",
+  "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+  "verifiedAtBase": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
+  "worktree": "/tmp/rcap-vf02-wy-final-20260911",
+  "branch": "vf02-wy-final-20260911",
+  "initialStatus": "?? data/rcap-grade-a/packet-factory-24h/vf02/wy-final-20260911/\n?? private\n",
+  "privateCorpusMounted": false,
+  "inputBindings": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "7e0ab084273e2ecf8565b3a8ede3470e06f2d193bbe0a0bd73a1a7de6195cf89",
+      "bytes": 6956
+    },
+    {
+      "path": "docs/PRODUCT_CONTRACT.md",
+      "sha256": "6791882d3b0e0e4033f2768a7cb9f860e6cc3c636e839d76066e078556216276",
+      "bytes": 64438
+    },
+    {
+      "path": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
+      "sha256": "7332f4ce9a0d84909543b50d8d159dea20df924d58f547cf9e704a29f496de18",
+      "bytes": 66037
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/test-wy-trafficking-current-rule.mjs",
+      "sha256": "0960cdfc055a26e0bed7d42deb732f75ad1d7092cd7b21b03a32c0c157499179",
+      "bytes": 7715
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix114/wy-current-rule-20260911/repair-evidence.json",
+      "sha256": "a01f54e7a5818c097370e625d3f8460a6dd36a808badb77a654a3b2a3ebdf3e4",
+      "bytes": 2365
+    },
+    {
+      "path": "data/rcap-grade-a/packet-factory-24h/fix114/rows-fix114-20260911-wy-current-rule.json",
+      "sha256": "aacff47e5e219b24cba539df11066f58a362613d27393b8871db9dc2abbd0f44",
+      "bytes": 4465
+    }
+  ],
+  "commands": [
+    {
+      "name": "grant-can-assert",
+      "argv": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--can-assert",
+        "VF02",
+        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "exit": 0,
+      "logNormalization": "trailing whitespace only"
+    },
+    {
+      "name": "grant-assert",
+      "argv": [
+        "node",
+        "scripts/grade-a-packet-factory-24h/claim.mjs",
+        "--assert",
+        "VF02",
+        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "exit": 0,
+      "logNormalization": "trailing whitespace only"
+    },
+    {
+      "name": "production-check",
+      "argv": [
+        "node",
+        "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
+        "--check"
+      ],
+      "exit": 0,
+      "logNormalization": "trailing whitespace only"
+    },
+    {
+      "name": "completeness",
+      "argv": [
+        "node",
+        "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+        "--family",
+        "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708"
+      ],
+      "exit": 0,
+      "logNormalization": "trailing whitespace only"
+    }
+  ],
+  "readOnly": true,
+  "sourceBindings": [
+    {
+      "path": "src/lib/legal-authority/routes/single-routes.json",
+      "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+      "bytes": 100125,
+      "recordId": "route-contract:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "matchesReceipt": true,
+      "anchors": 17
+    },
+    {
+      "path": "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+      "sha256": "335463128603a3c980661a61f8740db103898a8aafe02d7b7220dcbaab4c6dea",
+      "bytes": 120012,
+      "recordId": "compiled-profile:WY-wyoming#human-trafficking-victim-vacatur-w-s-6-2-708",
+      "matchesReceipt": true,
+      "anchors": 6
+    },
+    {
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "bytes": 2629290,
+      "recordId": "route-obligation-census:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "matchesReceipt": true,
+      "anchors": 2
+    },
+    {
+      "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+      "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+      "bytes": 22372,
+      "recordId": "legal-decision:WY-TRAFFICKING-VACATUR-6-2-708C",
+      "matchesReceipt": true,
+      "anchors": 5
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "e659cde906f0918f7f752a76fb330d9fd2f6a3e6eae1606c8048dc50d080da7a",
+      "bytes": 11000,
+      "pages": 5,
+      "matchesManifest": true,
+      "matchesQueueAndVerdict": true,
+      "identicalAtPinnedRasterCommit": true
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf",
+      "sha256": "cab0c1fd8d4c254ea3c87331891e97696d6c1608e7e9062069aba41f750e86d1",
+      "bytes": 11140,
+      "pages": 5,
+      "matchesManifest": true,
+      "matchesQueueAndVerdict": true,
+      "identicalAtPinnedRasterCommit": true
+    }
+  ],
+  "currentComponents": [
+    "wy-6-2-708-vacatur-primary-filing-1",
+    "wy-6-2-708-vacatur-participant-declaration-2",
+    "wy-6-2-708-vacatur-filing-instructions-3"
+  ],
+  "blankCounts": {
+    "canonical": {
+      "writes": 11,
+      "requiredBeforeFiling": 7,
+      "protectedActs": 4
+    },
+    "boundary": {
+      "writes": 7,
+      "requiredBeforeFiling": 11,
+      "protectedActs": 4
+    }
+  },
+  "writes": [
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.movant_name",
+      "factId": "participant.full_legal_name",
+      "expected": "Jordan Avery Reyes",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.date_of_birth",
+      "factId": "participant.date_of_birth",
+      "expected": "1991-04-17",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.original_criminal_court",
+      "factId": "matter.original_criminal_court",
+      "expected": "Example County District Court",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.original_case_number",
+      "factId": "matter.original_case_number",
+      "expected": "CR-EXAMPLE-2020-001",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.mailing_address",
+      "factId": "participant.street_address",
+      "expected": "42 Magnolia Street, Springfield 62704",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.telephone",
+      "factId": "participant.phone",
+      "expected": "555-0142",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.email",
+      "factId": "participant.email",
+      "expected": "jordan.reyes@example.org",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-participant-declaration-2.declarant_name",
+      "factId": "participant.full_legal_name",
+      "expected": "Jordan Avery Reyes",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-participant-declaration-2.original_criminal_court",
+      "factId": "matter.original_criminal_court",
+      "expected": "Example County District Court",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-participant-declaration-2.original_case_number",
+      "factId": "matter.original_case_number",
+      "expected": "CR-EXAMPLE-2020-001",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "canonical",
+      "field": "wy-6-2-708-vacatur-filing-instructions-3.participant_name",
+      "factId": "participant.full_legal_name",
+      "expected": "Jordan Avery Reyes",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "boundary",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.movant_name",
+      "factId": "participant.full_legal_name",
+      "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "boundary",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.date_of_birth",
+      "factId": "participant.date_of_birth",
+      "expected": "1968-12-31",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "boundary",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.mailing_address",
+      "factId": "participant.street_address",
+      "expected": "1188 Upper Tallahatchie Crossing Road, Apartment 14B, Fort Saint Clairsville 39501-2214",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "boundary",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.telephone",
+      "factId": "participant.phone",
+      "expected": "(228) 555-0199 ext. 4417",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "boundary",
+      "field": "wy-6-2-708-vacatur-primary-filing-1.email",
+      "factId": "participant.email",
+      "expected": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "boundary",
+      "field": "wy-6-2-708-vacatur-participant-declaration-2.declarant_name",
+      "factId": "participant.full_legal_name",
+      "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "foundInOwnComponent": true
+    },
+    {
+      "fixture": "boundary",
+      "field": "wy-6-2-708-vacatur-filing-instructions-3.participant_name",
+      "factId": "participant.full_legal_name",
+      "expected": "Maria-Alejandra O'Shaughnessy-Whitfield",
+      "foundInOwnComponent": true
+    }
+  ],
+  "pages": [
+    {
+      "fixture": "canonical",
+      "page": 1,
+      "component": "wy-6-2-708-vacatur-primary-filing-1",
+      "wordCount": 183,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "canonical",
+      "page": 2,
+      "component": "wy-6-2-708-vacatur-primary-filing-1",
+      "wordCount": 86,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "canonical",
+      "page": 3,
+      "component": "wy-6-2-708-vacatur-participant-declaration-2",
+      "wordCount": 175,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "canonical",
+      "page": 4,
+      "component": "wy-6-2-708-vacatur-filing-instructions-3",
+      "wordCount": 306,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "canonical",
+      "page": 5,
+      "component": "wy-6-2-708-vacatur-filing-instructions-3",
+      "wordCount": 16,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "boundary",
+      "page": 1,
+      "component": "wy-6-2-708-vacatur-primary-filing-1",
+      "wordCount": 178,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "boundary",
+      "page": 2,
+      "component": "wy-6-2-708-vacatur-primary-filing-1",
+      "wordCount": 94,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "boundary",
+      "page": 3,
+      "component": "wy-6-2-708-vacatur-participant-declaration-2",
+      "wordCount": 170,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "boundary",
+      "page": 4,
+      "component": "wy-6-2-708-vacatur-filing-instructions-3",
+      "wordCount": 305,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    },
+    {
+      "fixture": "boundary",
+      "page": 5,
+      "component": "wy-6-2-708-vacatur-filing-instructions-3",
+      "wordCount": 16,
+      "clippedWords": [],
+      "sameBaselineOverlaps": []
+    }
+  ],
+  "raster": {
+    "workflowRunId": "34628970364",
+    "artifactId": "10275842350",
+    "pinnedCommit": "ffa39d9bd9ddfb42b3c4e8318a5c63abf92fb0b8",
+    "documentsDigest": "bc194222b35a7be3b030b3a3d9629b5cdd5b540d0a3a3b6233c807d3ce1487c0",
+    "archiveSha256": "b795e542d3d15a3000d566b7837c492b0e451b34a7c49dce0dee0475a3750e9e",
+    "originalPNGs": [
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-001.png",
+        "bytes": 277682,
+        "sha256": "162816ce71367231df7c548e5fb1f49eb7a3d35588d3891538a1697296339f49",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-002.png",
+        "bytes": 162628,
+        "sha256": "684d3a95d58161f83b7354e03b10529d865abffbc78545f30def0ec291464d1c",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-003.png",
+        "bytes": 259361,
+        "sha256": "d204824a555d2ea2b517fa3744ed04edd6befbce216254f0c850be2071e3f7db",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-004.png",
+        "bytes": 361479,
+        "sha256": "c653a5922812e4611f5134dac04593f13b4e5b9ee86753b6d79b78253f6bc24c",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-005.png",
+        "bytes": 45697,
+        "sha256": "eaccc00279c932a77e5de379e0a94513d070cec50d82f700a9922e04a6e1d72e",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-001.png",
+        "bytes": 275427,
+        "sha256": "3b93dfc5a9f408ded6d42e2fac2a5832f4b0f4830015cd76849d1f7bb0d54658",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-002.png",
+        "bytes": 183300,
+        "sha256": "6398b00a0fcac79b809c2db7e56468f530ba970206df043448346bb5a996b0e4",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-003.png",
+        "bytes": 253689,
+        "sha256": "ffb94dd6e168ccb756ea3e8867a13f92333eb6e3ba7dc8640099bbcaeface680",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-004.png",
+        "bytes": 366116,
+        "sha256": "76f770b1d0f39d48dacd63d6cd833c830365d726df161d60d662ed85f863284f",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      },
+      {
+        "runId": "34628970364",
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "member": "composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-005.png",
+        "bytes": 45697,
+        "sha256": "eaccc00279c932a77e5de379e0a94513d070cec50d82f700a9922e04a6e1d72e",
+        "pngWidth": 2040,
+        "pngHeight": 2640,
+        "matchesDurablePin": true,
+        "matchesOriginalZipMember": true
+      }
+    ],
+    "canary": {
+      "verdict": "CANARY_PASSED",
+      "calibrationResidualPx": 0,
+      "negativeControlsExercisedRefused": 5,
+      "notExercised": [
+        "headless_shell_render_refused"
+      ],
+      "noClaimOnUnexercisedControl": true
+    }
+  },
+  "originalFocusedTestNotRun": {
+    "path": "scripts/rcap-packet-recovery/test-wy-trafficking-current-rule.mjs",
+    "reason": "Invokes the mutating production builder with --no-raster before testing. Rendering and family writes are excluded. This audit directly checks saved current artifacts/maps and executes actual --check without modifying production code."
+  },
+  "focusedChecks": [
+    {
+      "name": "Actual base",
+      "result": "PASS",
+      "detail": "08d1157068ab93d7f5e2a3ecbecef548950a60c7"
+    },
+    {
+      "name": "grant-can-assert exit",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "grant-assert exit",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "production-check exit",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "completeness exit",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Actual --check is read-only including file times",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Focused completeness is read-only including file times",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Actual entrypoint checks current three components",
+      "result": "PASS",
+      "detail": {
+        "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "status": "CHECK_ONLY",
+        "recordsBound": 4,
+        "anchorsVerified": 30,
+        "components": [
+          "wy-6-2-708-vacatur-primary-filing-1",
+          "wy-6-2-708-vacatur-participant-declaration-2",
+          "wy-6-2-708-vacatur-filing-instructions-3"
+        ],
+        "writes": 11,
+        "blanks": 11
+      }
+    },
+    {
+      "name": "Focused completeness current family passes",
+      "result": "PASS",
+      "detail": "  ok   composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708 PASS_COMPLETE                11/22 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0\n"
+    },
+    {
+      "name": "Source route-contract:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "result": "PASS",
+      "detail": {
+        "path": "src/lib/legal-authority/routes/single-routes.json",
+        "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+        "bytes": 100125,
+        "recordId": "route-contract:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "matchesReceipt": true,
+        "anchors": 17
+      }
+    },
+    {
+      "name": "Source compiled-profile:WY-wyoming#human-trafficking-victim-vacatur-w-s-6-2-708",
+      "result": "PASS",
+      "detail": {
+        "path": "src/lib/rcap-engine/compiled/profiles/WY-wyoming.json",
+        "sha256": "335463128603a3c980661a61f8740db103898a8aafe02d7b7220dcbaab4c6dea",
+        "bytes": 120012,
+        "recordId": "compiled-profile:WY-wyoming#human-trafficking-victim-vacatur-w-s-6-2-708",
+        "matchesReceipt": true,
+        "anchors": 6
+      }
+    },
+    {
+      "name": "Source route-obligation-census:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "result": "PASS",
+      "detail": {
+        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+        "bytes": 2629290,
+        "recordId": "route-obligation-census:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "matchesReceipt": true,
+        "anchors": 2
+      }
+    },
+    {
+      "name": "Source legal-decision:WY-TRAFFICKING-VACATUR-6-2-708C",
+      "result": "PASS",
+      "detail": {
+        "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
+        "sha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+        "bytes": 22372,
+        "recordId": "legal-decision:WY-TRAFFICKING-VACATUR-6-2-708C",
+        "matchesReceipt": true,
+        "anchors": 5
+      }
+    },
+    {
+      "name": "Exact route agreement",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Exact adopted component agreement",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Approval pending and authority closed",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical artifact binding",
+      "result": "PASS",
+      "detail": {
+        "fixture": "canonical",
+        "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf",
+        "sha256": "e659cde906f0918f7f752a76fb330d9fd2f6a3e6eae1606c8048dc50d080da7a",
+        "bytes": 11000,
+        "pages": 5,
+        "matchesManifest": true,
+        "matchesQueueAndVerdict": true,
+        "identicalAtPinnedRasterCommit": true
+      }
+    },
+    {
+      "name": "canonical actual page order",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-primary-filing-1.movant_name",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-primary-filing-1.date_of_birth",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-primary-filing-1.original_criminal_court",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-primary-filing-1.original_case_number",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-primary-filing-1.mailing_address",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-primary-filing-1.telephone",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-primary-filing-1.email",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-participant-declaration-2.declarant_name",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-participant-declaration-2.original_criminal_court",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-participant-declaration-2.original_case_number",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical visible wy-6-2-708-vacatur-filing-instructions-3.participant_name",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical page 1 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical page 2 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical page 3 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical page 4 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical page 5 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical blank signing acts wy-6-2-708-vacatur-primary-filing-1",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical blank signing acts wy-6-2-708-vacatur-participant-declaration-2",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical bounded declaration facts",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical official documentation optional",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical conditional court relief",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical State service under Rule 49",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical sensitive-filing steps",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical no invented deadline or formal affidavit requirement",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical no former petition/new-case label",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical no source IDs/route keys/markup",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary artifact binding",
+      "result": "PASS",
+      "detail": {
+        "fixture": "boundary",
+        "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf",
+        "sha256": "cab0c1fd8d4c254ea3c87331891e97696d6c1608e7e9062069aba41f750e86d1",
+        "bytes": 11140,
+        "pages": 5,
+        "matchesManifest": true,
+        "matchesQueueAndVerdict": true,
+        "identicalAtPinnedRasterCommit": true
+      }
+    },
+    {
+      "name": "boundary actual page order",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary visible wy-6-2-708-vacatur-primary-filing-1.movant_name",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary visible wy-6-2-708-vacatur-primary-filing-1.date_of_birth",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary visible wy-6-2-708-vacatur-primary-filing-1.mailing_address",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary visible wy-6-2-708-vacatur-primary-filing-1.telephone",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary visible wy-6-2-708-vacatur-primary-filing-1.email",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary visible wy-6-2-708-vacatur-participant-declaration-2.declarant_name",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary visible wy-6-2-708-vacatur-filing-instructions-3.participant_name",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary page 1 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary page 2 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary page 3 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary page 4 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary page 5 geometry",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary blank signing acts wy-6-2-708-vacatur-primary-filing-1",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary blank signing acts wy-6-2-708-vacatur-participant-declaration-2",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary bounded declaration facts",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary official documentation optional",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary conditional court relief",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary State service under Rule 49",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary sensitive-filing steps",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary no invented deadline or formal affidavit requirement",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary no former petition/new-case label",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary no source IDs/route keys/markup",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Canonical known original court and number reach motion/declaration",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Boundary does not borrow canonical court/case",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q1",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q2",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q7",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q8",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical disclosed wy-6-2-708-vacatur-participant-declaration-2.trafficking_victim_status",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical disclosed wy-6-2-708-vacatur-participant-declaration-2.causal_connection",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical disclosed wy-6-2-708-vacatur-participant-declaration-2.supporting_evidence",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q1",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q2",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q7",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-primary-filing-1.fact_q8",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-primary-filing-1.original_criminal_court",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-primary-filing-1.original_case_number",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-participant-declaration-2.trafficking_victim_status",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-participant-declaration-2.causal_connection",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-participant-declaration-2.supporting_evidence",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-participant-declaration-2.original_criminal_court",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boundary disclosed wy-6-2-708-vacatur-participant-declaration-2.original_case_number",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Boundary original fact classification wy-6-2-708-vacatur-primary-filing-1.original_criminal_court",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Boundary original fact classification wy-6-2-708-vacatur-primary-filing-1.original_case_number",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Boundary original fact classification wy-6-2-708-vacatur-participant-declaration-2.original_criminal_court",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Boundary original fact classification wy-6-2-708-vacatur-participant-declaration-2.original_case_number",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Boundary known/unknown fields measured separately",
+      "result": "PASS",
+      "detail": {
+        "canonical": {
+          "writes": 11,
+          "requiredBeforeFiling": 7,
+          "protectedActs": 4
+        },
+        "boundary": {
+          "writes": 7,
+          "requiredBeforeFiling": 11,
+          "protectedActs": 4
+        }
+      }
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-001.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-002.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-003.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-004.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/canonical/page-005.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-001.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-002.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-003.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-004.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Original PNG composed-treatment_obligation_runtime-only_WY_human-trafficking-victim-vacatur-w-s-6-2-708/boundary/page-005.png",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Durable verdict is original ZIP verdict",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Archive matches accepted digest",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "All 10 pages bound to current raster",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Document digest agreement",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Wiring canonical assembled PDF current",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Canary original/durable canary-receipt.json",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Canary original/durable negative-controls.json",
+      "result": "PASS",
+      "detail": null
+    },
+    {
+      "name": "Canary and exercised controls passed",
+      "result": "PASS",
+      "detail": null
+    }
+  ],
+  "failedFocusedChecks": []
+}

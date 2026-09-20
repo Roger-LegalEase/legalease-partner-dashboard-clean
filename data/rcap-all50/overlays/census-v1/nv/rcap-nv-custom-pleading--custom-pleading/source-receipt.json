@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "rcap-nv-custom-pleading",
+  "worklistGroupId": "rcap-nv-custom-pleading",
+  "jurisdiction": "NV",
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "CUSTOM_PLEADING_FROM_CODIFIED_TEXT",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time, with every relied-on statement re-read from the committed bytes as an anchor before composing",
+  "routeKeys": [
+    "obligation:track-only:NV:nv_seal_decrim",
+    "obligation:track-only:NV:nv_seal_multi",
+    "obligation:track-only:NV:nv_seal_pardon",
+    "obligation:track-pathway:NV:nv_seal_conviction:general-conviction-record-sealing-under-nrs-179-245",
+    "obligation:track-pathway:NV:nv_seal_nonconviction:non-conviction-record-sealing",
+    "obligation:track-pathway:NV:nv_seal_reentry:reentry-program-sealing-under-nrs-179-259"
+  ],
+  "statutoryAuthority": [
+    "NRS 179.271",
+    "NRS 179.285",
+    "NRS 179.2595",
+    "NRS 179.245",
+    "NRS 179.255",
+    "NRS 179.273",
+    "NRS 213",
+    "NRS 179.2405",
+    "NRS 179.2445",
+    "NRS 179.265",
+    "NRS 179.275",
+    "NRS 179.295",
+    "NRS 179.301",
+    "NRS 176A.850",
+    "NRS 179.255(1)",
+    "NRS 179.255(3)",
+    "NRS 179.255(4)",
+    "NRS 179.255(9)",
+    "NRS 179.259"
+  ],
+  "legalName": "Nevada Record-Sealing Petitions — NRS 179.245, 179.255, 179.259 and the decriminalized-conduct and pardon routes",
+  "allSourcesExact": true,
+  "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-track-registry.json"
+      ],
+      "recordId": "legal-design-track-registry:nv_seal_decrim+nv_seal_multi+nv_seal_pardon+nv_seal_conviction+nv_seal_nonconviction+nv_seal_reentry",
+      "pathInRepository": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "byteLength": 16781025,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed legal-design track registry: this route's legal name, its statutory mechanism, its venue and destination, its recorded fee, notice and service rules, its required generation inputs, its packet instructions and its self-help stop conditions",
+      "anchorStatementsVerified": 79,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "555e5700c049608b0766cc7f5f65adfa748bbd32fae790d2220652bf08b958dc",
+          "byteLength": 16778727
+        },
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 7 were identical.",
+        "anchorsCompared": 7,
+        "anchorDetail": [
+          "registryGlobalMetadata: identical",
+          "track:nv_seal_conviction: identical",
+          "track:nv_seal_decrim: identical",
+          "track:nv_seal_multi: identical",
+          "track:nv_seal_nonconviction: identical",
+          "track:nv_seal_pardon: identical",
+          "track:nv_seal_reentry: identical"
+        ],
+        "anchorsIdentical": 7,
+        "identicalAnchorSha256": {
+          "registryGlobalMetadata": "ca593e033b8c6b54aed3472f44e4303015296fdbafb2a3e875f11ef68e563661",
+          "track:nv_seal_conviction": "15fdfe7252400f33bea92d4da1a77c696f9ba484ef97849be6e1d6854cb711f5",
+          "track:nv_seal_decrim": "d5193abbbff8fdd4807fb75d721dd588c47e1c4ba98c8ec1460f6d5804791f0f",
+          "track:nv_seal_multi": "efda934d0c5e14e65944056db29191921aabb799e20acfaa238400b936392aa2",
+          "track:nv_seal_nonconviction": "d55e51d4b7eb18be4e327463c0b652f9361ef70e2ff835839de596485cfb2a8c",
+          "track:nv_seal_pardon": "94f6d914fefff374cac4e1d75f7cd97a6c8fdab254e3993e755c870a98edeaf8",
+          "track:nv_seal_reentry": "cc69800475e9e1039cf201ab3819058926d648fb24ca55eeb27ecf8efce2f738"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nv_seal_conviction",
+            "nv_seal_decrim",
+            "nv_seal_multi",
+            "nv_seal_nonconviction",
+            "nv_seal_pardon",
+            "nv_seal_reentry"
+          ],
+          "derivation": {
+            "fromPinRecordId": [
+              "nv_seal_decrim",
+              "nv_seal_multi",
+              "nv_seal_pardon",
+              "nv_seal_conviction",
+              "nv_seal_nonconviction",
+              "nv_seal_reentry"
+            ],
+            "fromReceiptRouteKeys": [
+              "nv_seal_decrim",
+              "nv_seal_multi",
+              "nv_seal_pardon",
+              "nv_seal_conviction",
+              "nv_seal_nonconviction",
+              "nv_seal_reentry"
+            ],
+            "routeKeysNamingNoTrackDirectly": [],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "6c02c7b6fdbd4a5e40870fef07d96e5d7e0c2d34",
+          "commit": "d4984cbc58923c10b3bfa71b684611980b5ae7d7",
+          "commitsWithThisPath": 99,
+          "distinctBlobs": 82,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-09",
+          "was": {
+            "sha256": "6aafbf81547931949a1b98364726aabc694ff2005625db0a5ee2f15f5b8997fe",
+            "byteLength": 16775681
+          },
+          "why": "The record was rewritten around this receipt's anchors. 2 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (ri_first_offender_misdemeanor, ri_multiple_misdemeanors), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+          "anchorsCompared": 6,
+          "anchorDetail": [
+            "nv_seal_decrim: identical",
+            "nv_seal_multi: identical",
+            "nv_seal_pardon: identical",
+            "nv_seal_conviction: identical",
+            "nv_seal_nonconviction: identical",
+            "nv_seal_reentry: identical"
+          ],
+          "anchorsIdentical": 6,
+          "entriesThatMovedInThisRecord": [
+            "ri_first_offender_misdemeanor",
+            "ri_multiple_misdemeanors"
+          ],
+          "previousPinLastSeenAtCommit": "94445c6a4",
+          "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-design-specifications.json"
+      ],
+      "recordId": "legal-design-specifications:nv_seal_decrim+nv_seal_multi+nv_seal_pardon+nv_seal_conviction+nv_seal_nonconviction+nv_seal_reentry",
+      "pathInRepository": "data/record-clearing/legal-design-specifications.json",
+      "sha256": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+      "byteLength": 16830109,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed custom-pleading specifications: the component set this packet must contain, and the participant actions the record requires before filing",
+      "anchorStatementsVerified": 24,
+      "identityRefresh": {
+        "refreshedOn": "2026-09-09",
+        "was": {
+          "sha256": "f66ce335d73a879352e4d3cd2b0d906229b686c9e260ba7d4ca396f16cc0445e",
+          "byteLength": 16829391
+        },
+        "why": "The record was rewritten around this receipt's anchors. 0 named entr(ies) moved between the blob carrying the previous pin and the bytes on disk (none), and this receipt anchors none of them: every entry it binds was recovered from that blob and compared object-for-object against disk, and all were identical.",
+        "anchorsCompared": 6,
+        "anchorDetail": [
+          "nv_seal_decrim: identical",
+          "nv_seal_multi: identical",
+          "nv_seal_pardon: identical",
+          "nv_seal_conviction: identical",
+          "nv_seal_nonconviction: identical",
+          "nv_seal_reentry: identical"
+        ],
+        "anchorsIdentical": 6,
+        "entriesThatMovedInThisRecord": [],
+        "previousPinLastSeenAtCommit": "HEAD~1",
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, obligations or verdict. It restores an identity binding that lapsed on an unrelated edit."
+      }
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+      ],
+      "recordId": "route-obligation-census:6-route(s)",
+      "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "byteLength": 2629290,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the committed route-obligation census: the exact route keys this family serves, their statutory authority and their recorded destinations",
+      "anchorStatementsVerified": 6
+    },
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json"
+      ],
+      "recordId": "NV-SPECIAL-ROUTE-PROCEDURE-2026-09-07",
+      "pathInRepository": "data/record-clearing/legal-decisions/2026-09-07-nv-special-route-procedure.json",
+      "sha256": "7dcc809cca812fe308aecac03a94e1b2d4f9c9afc49b42231e1c8f03db025566",
+      "byteLength": 2354,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "Current primary-authority correction controlling only NRS 179.271 and 179.273 where the older shared records conflict. No commercial or counsel approval.",
+      "anchorStatementsVerified": 5
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "nv_seal_decrim-primary-filing-2",
+    "nv_seal_decrim-proposed-order-3",
+    "nv_seal_decrim-declaration-and-verification-4",
+    "nv_seal_decrim-filing-instructions-6",
+    "nv_seal_multi-primary-filing-2",
+    "nv_seal_multi-proposed-order-3",
+    "nv_seal_multi-declaration-and-verification-4",
+    "nv_seal_multi-stipulation-5",
+    "nv_seal_multi-filing-instructions-6",
+    "nv_seal_pardon-primary-filing-2",
+    "nv_seal_pardon-proposed-order-3",
+    "nv_seal_pardon-declaration-and-verification-4",
+    "nv_seal_pardon-filing-instructions-6",
+    "nv_seal_conviction-primary-filing-2",
+    "nv_seal_conviction-proposed-order-3",
+    "nv_seal_conviction-declaration-and-verification-4",
+    "nv_seal_conviction-stipulation-5",
+    "nv_seal_conviction-filing-instructions-6",
+    "nv_seal_nonconviction-primary-filing-2",
+    "nv_seal_nonconviction-proposed-order-3",
+    "nv_seal_nonconviction-declaration-and-verification-4",
+    "nv_seal_nonconviction-stipulation-5",
+    "nv_seal_nonconviction-filing-instructions-6",
+    "nv_seal_reentry-primary-filing-2",
+    "nv_seal_reentry-proposed-order-3",
+    "nv_seal_reentry-declaration-and-verification-4",
+    "nv_seal_reentry-stipulation-5",
+    "nv_seal_reentry-filing-instructions-6"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family composes for",
+    "that any particular record meets this route's recorded conditions",
+    "that any prosecuting attorney will stipulate, which the committed record makes a step before filing rather than a consequence of it"
+  ]
+}

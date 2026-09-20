@@ -1,0 +1,205 @@
+{
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "generatedAtBase": "0cb08c3617e4d54223f581a9f3a8a17894d3f93e",
+  "assignedFamiliesWorkedInThisReturn": [
+    "la-985-expungement-by-redaction-set"
+  ],
+  "familiesGrantedButNotWorkedHere": [
+    "fl-10yr-bridge-set",
+    "ia-12347-set",
+    "nc_146_dismissal_petition-set"
+  ],
+  "grantsNothing": "This is a repair return. It sets no verdict on its own work, opens no commercial route and approves nothing. This family in particular cannot reach a terminal PASS on repair alone: two obligations are blocked on open legal inputs that no build repair discharges.",
+  "rows": [
+    {
+      "itemId": "la-985-expungement-by-redaction-set",
+      "status": "COMPLETED",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "repairedByThisLane": true,
+      "laneKind": "repair",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationCoverage": "This row answers both obligations VF03 failed on this family — KNOWN_PREFILLS and REQUIRED_BEFORE_FILING — and nothing else. It does NOT answer SOURCE_IDENTITY or COMPONENT_SET, which VF03 scored BLOCKED_LEGAL_INPUT on two release blockers the controlling record itself carries; those are named below and are untouched by this repair.",
+      "obligationsThisRowDoesNotDischarge": [
+        "SOURCE_IDENTITY — BLOCKED_LEGAL_INPUT. LA.memo.json, track la-985-expungement-by-redaction, unresolvedQuestions[0], impact release_blocker, affectedElement correct_form: the Article 986 mandatory forms for Articles 987, 988, 989, 991, 992 and 994 are retained by no Master Library Edition 1.1 asset, and the record asks that the canonical source form for each be confirmed and adopted in a successor edition before any Louisiana packet is released. The three instruments this packet renders are composed, no held bytes exist for any of them, and no build repair changes that. This lane did not attempt it and does not claim it.",
+        "COMPONENT_SET — BLOCKED_LEGAL_INPUT. LA.memo.json unresolvedQuestions[3], impact release_blocker, affectedElement packet_components: whether the Article 989 motion requires any distinct pleading or election to request redaction relief under Article 985 rather than full expungement, given that the redaction paragraph appears in the Article 992 order rather than in the motion. That question is about whether this component set is the right one. It is open on the record, the build carries it verbatim into the guide and into approval-request.json for counsel, and this lane answers none of it.",
+        "RASTER_PASS — this repair CHANGED THE DELIVERED BYTES. Both fixtures moved from 16 pages to 17 and their digests changed, so the admitted raster receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/la-985-expungement-by-redaction-set/ no longer covers the current bytes and this family must be re-rastered centrally against the new digests recorded below. No raster receipt is produced by this lane; no page image was rendered here, and a local render would not be a receipt if it had been.",
+        "Independent verification — the family must be re-verified by a lane that neither built nor repaired it. This lane sets no verdict on its own work.",
+        "The eleven obligations VF03 passed on this family (ROUTE_IDENTITY, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE, SELF_HELP_STOP) were not re-derived here. PAGE_ORDER, ARTIFACTS and CLIPPING_AND_OVERLAP in particular were measured on bytes this repair has replaced, so they are stale rather than re-asserted, and the re-verification must measure them again."
+      ],
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "Both readings are measured by node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-expungement-by-redaction-set, run without --write. Before: PASS_COMPLETE, 37/66 written, nine zeros, measured on the pre-repair tree with the repair stashed. After: PASS_COMPLETE, 27/67 written, nine zeros. The written count falls by ten because six required participant inputs stopped being written as values across two documents; the blank count rises correspondingly. VF03 measured requiredFactsNotCollected as 6 by its own reading and said plainly why the repository verifier reads 0 for the same bytes: it scores a cell as collected when text is present in it, not when the text is a fact. That is why this row does not rest on the counters — the control below is what measures the defect. visualDefects 0 here is the repository verifier's own reading and is not a claim that anyone has looked at a page; rasterState carries that, and the pages have changed.",
+      "visualDefects": [],
+      "whatWasWrong": {
+        "KNOWN_PREFILLS": "Six REQUIRED participantInputs on the controlling memo — originalArrestCharges, dispositionType, underlyingEntitlement, otherIndividualsNamed, othersEntitled and recordLocations — were classified as written cells and carried, as their values, restatements of their own printed questions or descriptions of the build fixture. Five of them printed a second time onto the Article 992 proposed Order of Expungement, the document a judge signs. Because they were classified written, none reached the guide's supply table, so the participant was never told to supply them, while the guide's lead-in framed them as prefilled facts to check. The build-harness word 'fixture' printed on the face of a motion and an order.",
+        "REQUIRED_BEFORE_FILING": "Item 5 of the record's 18-item required-before-filing list, and the matching obtain_document action, both state 'The packet gives you the Article 988 form with your own fields filled in.' This packet does not contain the Article 988 form; the guide says so 22 lines earlier and the two statements were never reconciled. The stake is the Article 983(A) five-hundred-and-fifty-dollar cap, non-refundable even on denial, because the same item says filing without the exemption means paying the fee."
+      },
+      "whatWasDone": {
+        "KNOWN_PREFILLS": "The six values were removed from both fixture fact tables and the six cells were reclassified from written to REQUIRED_BEFORE_FILING on every document that carries them — all six on the Article 989 motion and the five the Article 992 order prints. Each now renders as an empty dot leader, exactly as race, gender, the SSN last four, the arrest or booking number, the SID number, the agency item number and the driver's licence number already did, and each now appears as a row of the guide's 'What you must supply before filing' table with what to write. The original arrest charge carries the memo's own warning with it: the ORIGINAL charge and statute for EVERY count as the state rap sheet writes them, not the amended charge, not the charge finally convicted of, and not leaving a count out.",
+        "noValueWasInvented": "No participant fact was fabricated to fill these cells. VF03 offered two repairs — supply real answers or reclassify — and only reclassification is available to a build that holds none of these answers. They are the mover's own sworn averments about a criminal record on a motion and on a proposed order, and inventing plausible-looking ones would have been a graver defect than the one being repaired.",
+        "harnessWordRemoved": "The word 'fixture' no longer appears on any delivered page of either fixture. Five of its occurrences went with the six reclassified cells; the sixth was a sentence beneath the attorney block on motion page 2, 'The fixture records no representation', now 'This packet holds no record that the mover is represented by counsel'. The same wording was corrected in the two field-map strings that described the same fact.",
+        "REQUIRED_BEFORE_FILING": "The record's item is still printed verbatim and whole — the record's words are the record's — and a correction is now generated beneath it and beneath the matching obtain_document action: 'This packet does not give you the Article 988 form', naming the component, quoting the condition the record states, saying the condition is not met so the component is not generated, and telling the participant that where the condition applies to them they should ask the clerk of court or the district attorney's office for the form and take or send it to the district attorney before the motion is filed, with the non-refundable fee consequence repeated. This is the treatment the build already gave the other not-generated component, the Article 993 supplemental sheet.",
+        "itIsGeneratedRatherThanTyped": "The correction is produced by matching the record's own 'the packet gives you the Article N form' claim against the components this build actually renders, so the next component that stops being generated is reconciled by the same code rather than by the next verifier.",
+        "nothingShrunk": "No stop condition, fee, waiver or required document was removed or shortened to make an obligation pass. The record's 18 required-before-filing items, 20 registry actions, 6 self-help stop conditions, 3 exclusions and 4 unresolved questions are all still carried with their counts printed beside them."
+      },
+      "assertionsDeletedBecauseTheyPinnedADefect": [],
+      "assertionsNote": "No builder assertion pinned any of these defects in place, so none was deleted. The build's own readback assertion — that every declared write is readable from the finalized bytes — still holds and now covers 27 writes instead of 37.",
+      "controlReadings": {
+        "control": "data/rcap-grade-a/packet-factory-24h/fix01/control-la-985-prompts-are-not-answers.mjs",
+        "whatItMeasures": "It reads the DELIVERED PDFs page by page, the committed field map and the delivered guide. For KNOWN_PREFILLS it requires that no build-harness word prints on any page of either fixture, that none of the six required participantInputs is a written cell on any document, that each is classified REQUIRED_BEFORE_FILING, and that each reaches the guide's supply table by its printed label. For REQUIRED_BEFORE_FILING it requires every 'the packet gives you the Article N form' claim in the guide to be either true of a rendered component or reconciled in the guide by name. It refuses to pass vacuously: if the memo stops making one of the six a required input, that check fails rather than disappearing.",
+        "beforeRepair": {
+          "reading": "CONTROL_FAIL",
+          "exitCode": 1,
+          "checksRun": 31,
+          "checksPassed": 8,
+          "checksFailed": 23,
+          "artifactsRead": [
+            "fixtures/canonical.pdf@735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529",
+            "fixtures/boundary.pdf@519d4aba86f99142e174da572db769229b2e1aa412dcb264f7ffe79f24574764",
+            "production-field-map.json@4887f82b653c6beb46a6cecb11c066aecb6e281e8263ec71af11c2cfea4d5364",
+            "participant-instructions.md@736361e7931ba063602f8e7f05adbf2cf0d4b6d6a7859b9b9b9e1d40a5c25096",
+            "reports/actual-writes.json@1801c74c703ba6227bb0404300a19bf7442c5036349333bf66d655acba289e04"
+          ],
+          "note": "Run on the committed pre-repair bytes, whose digests equal the ones VF03 recorded in evidenceRead. It independently reproduced VF03's finding from the bytes: 'fixture' printing on canonical and boundary pages 1, 2 and 5; all six inputs written and none classified REQUIRED_BEFORE_FILING or present in the supply table; and the unreconciled Article 988 claim."
+        },
+        "afterRepair": {
+          "reading": "CONTROL_PASS",
+          "exitCode": 0,
+          "checksRun": 31,
+          "checksPassed": 31,
+          "checksFailed": 0,
+          "artifactsRead": [
+            "fixtures/canonical.pdf@b1d880af0c6539383329e73491b0bb6d293f3fba4ea3509d32abcd894926ef8c",
+            "fixtures/boundary.pdf@378c0dab12934eaf89e71f37ecf5489e53a7e3f6fe015ce387a63b85e9c87fc1",
+            "production-field-map.json@ff5886c3013af9370949b06f7a5e4b6e0a75a232b193855628c77ac4ddeccd9f",
+            "participant-instructions.md@b1fd2468c00b47d524cf8a06cb6a04768739481c78a923bebdb2981d94d0bfd2",
+            "reports/actual-writes.json@5593b9cc44dd7f562ec4d3ac295b888e609b0bb081ff2fb35b98c1bbcfce3017"
+          ]
+        },
+        "recordBoundByDigest": "data/record-clearing/legal-design-intake/LA.memo.json@bbd6497c15755f5e103173ed7ddafb7c26f3a6fec3bf32c445926e178ddc699a"
+      },
+      "determinism": {
+        "atBaseBeforeAnyEdit": "The builder was run twice on the untouched base tree, with --no-raster because no browser resolves in this container. Both runs reproduced every committed file byte for byte, including both fixture PDFs, with one exception noted below, and the second run changed nothing the first had not, so the base build is deterministic and byte movement afterwards is attributable to this lane's change.",
+        "preExistingBaseDrift": "Two committed files re-pin themselves on any rebuild at this base, before and independently of this repair: reports/record-bindings.json and source-receipt.json each record a whole-file and per-entry digest of data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json, and the queue has been updated centrally since these artifacts were last built (5f8ba97b -> f6ca0f72, 2209462 -> 2228692 bytes; this family's entry 53c3b0ba -> ded011a7). The rebuild records the queue as it now stands. This lane did not write MASTER_QUEUE.json and the re-pin is stable across rebuilds.",
+        "afterRepair": "The repaired builder was run twice more; every file in the family directory holds an identical digest after each run."
+      },
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "b1d880af0c6539383329e73491b0bb6d293f3fba4ea3509d32abcd894926ef8c",
+          "bytes": 53734,
+          "pages": 17,
+          "changedByThisLane": true,
+          "previousSha256": "735bae79d55d99db7877e3ce634667858bcad256643c43bee1398d2f4b832529",
+          "previousPages": 16
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "378c0dab12934eaf89e71f37ecf5489e53a7e3f6fe015ce387a63b85e9c87fc1",
+          "bytes": 54050,
+          "pages": 17,
+          "changedByThisLane": true,
+          "previousSha256": "519d4aba86f99142e174da572db769229b2e1aa412dcb264f7ffe79f24574764",
+          "previousPages": 16
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/participant-instructions.md",
+          "sha256": "b1fd2468c00b47d524cf8a06cb6a04768739481c78a923bebdb2981d94d0bfd2",
+          "changedByThisLane": true,
+          "previousSha256": "736361e7931ba063602f8e7f05adbf2cf0d4b6d6a7859b9b9b9e1d40a5c25096"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/production-field-map.json",
+          "sha256": "ff5886c3013af9370949b06f7a5e4b6e0a75a232b193855628c77ac4ddeccd9f",
+          "changedByThisLane": true,
+          "previousSha256": "4887f82b653c6beb46a6cecb11c066aecb6e281e8263ec71af11c2cfea4d5364"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/actual-writes.json",
+          "sha256": "5593b9cc44dd7f562ec4d3ac295b888e609b0bb081ff2fb35b98c1bbcfce3017",
+          "changedByThisLane": true,
+          "previousSha256": "1801c74c703ba6227bb0404300a19bf7442c5036349333bf66d655acba289e04"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/blanks-left-for-the-participant.json",
+          "sha256": "a62190bd0ea5a30eb021ec5c200eba9ac0479d4f8a9969df3e3fca9bd1c3a147",
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/completeness-counters.json",
+          "sha256": "d1a2a4ff581dcf0b31144771c2cac280c415058dca05989f7239375e69dcc8dc",
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/rendered-artifacts.json",
+          "sha256": "2cfebdb3ea8d88226d3b467dbc110b0afc8c2abbe697e946948e48d1071a53bf",
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/component-page-manifest.json",
+          "sha256": "0326dbada0f353b92096f22e41a147a1cb203f317b23e8459aa740590cd40507",
+          "changedByThisLane": true,
+          "whatChanged": "page numbers only; the component order is unchanged and the packet is one page longer"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/reports/record-bindings.json",
+          "sha256": "fbc3f7c48b010415a5731a6bff4ea0323d03ab7ca8a6089cb115b8bef385bf36",
+          "changedByThisLane": true,
+          "whatChanged": "the MASTER_QUEUE.json pin only, which re-pins on any rebuild at this base — see preExistingBaseDrift"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/la/la-985-expungement-by-redaction-set--custom-pleading/source-receipt.json",
+          "sha256": "b15f1da4107c92e6c86e7072ab4116cc5d2c467f04582331ee00c62facc881fb",
+          "changedByThisLane": true,
+          "whatChanged": "the MASTER_QUEUE.json pin only; the two bound source binaries and their digests are untouched"
+        },
+        {
+          "path": "scripts/build-census-v1-la-985-expungement-by-redaction-set.mjs",
+          "sha256": "e919c16de7f094c272d5c73f3b422e46fb75a588f0a68a0b82cc8c72b01e09a7",
+          "changedByThisLane": true
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/fix01/control-la-985-prompts-are-not-answers.mjs",
+          "sha256": "afcb5ccf231af6ebf9492d7c16a3b7e1651177c895804eec0ab068867cad58c7",
+          "changedByThisLane": true,
+          "whatItIs": "the control for this repair, added by this lane"
+        }
+      ],
+      "unchangedByThisLane": [
+        "packet-set-manifest.json",
+        "filing-instructions.md",
+        "build-findings.json",
+        "build-status.json",
+        "approval-request.json",
+        "product-wiring.json"
+      ],
+      "focusedTest": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-expungement-by-redaction-set (no --write) — PASS_COMPLETE with all nine counters zero, before (37/66 written) and after (27/67 written).",
+      "sharedArtifactsTouched": "none — MASTER_QUEUE.json, RASTER_QUEUE.json, VERIFIER_RETURNS.json, ACTIVE_ASSIGNMENTS.json, claim-ledger.json, the completeness matrix and raster-enrolment-baseline.json are all untouched, and scan-synthesized-widget-borders.mjs was not run. The family's own receipt files record the queue's current digest; that is a read of the queue, not a write to it.",
+      "claimReleased": false
+    }
+  ]
+}

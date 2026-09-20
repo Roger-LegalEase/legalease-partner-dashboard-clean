@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "rcap-packet-component-specification/v1",
+  "familyId": "pa_6308_underage-set",
+  "routeKeys": [
+    "obligation:track-pathway:PA:pa_6308_underage:path-g-underage-drinking-conviction-expungement"
+  ],
+  "status": "ROUTE_VEHICLE_MAPPED_REQUIRED_COMPONENTS_BUILT",
+  "courtStatusMetadata": {
+    "factId": "matter.court_level",
+    "requiredRecordSource": "court docket or clerk-certified disposition",
+    "selectors": [
+      {
+        "value": "magisterial_district_judge",
+        "officialVehicle": [
+          "PA-RCRIM-P-490-PETITION",
+          "PA-RCRIM-P-490-ORDER"
+        ]
+      },
+      {
+        "value": "court_of_common_pleas",
+        "officialVehicle": [
+          "PA-RCRIM-P-790-PETITION",
+          "PA-RCRIM-P-790-ORDER"
+        ]
+      }
+    ],
+    "noInferenceRule": "Do not select from the charge label, packet directory name, or user recollection. Stop without producing a participant artifact when the court record does not establish the court level."
+  },
+  "serviceCertificate": {
+    "componentId": "pa_6308_underage-certificate-of-service-3",
+    "status": "GENERATED_WITH_LOCAL_METHOD_AND_PERFORMED_SERVICE_FACTS_BLANK",
+    "recipient": "attorney for the Commonwealth",
+    "timing": "concurrently with filing",
+    "generatedArtifacts": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-canonical.pdf",
+        "sha256": "25ef4ba175037ab521617567dd1a1bd7293e96f1a4ee47fd25604f6d999bbfad"
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/fixtures/certificate-of-service-boundary.pdf",
+        "sha256": "256d896fba6bf63c61838c7a736d4eeb8c3a62c074df559dd98ddf671c2692f8"
+      }
+    ],
+    "noGuessRule": "Do not invent a locally accepted service method or service facts. The participant completes the certificate only after service actually occurs."
+  },
+  "sourceBindings": [
+    "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/route-vehicle-map.json",
+    "data/record-clearing/legal-design-track-registry.json"
+  ],
+  "participantRequirements": {
+    "carriedWithoutSubstitutionIn": [
+      "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/participant-instructions.md",
+      "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/route-vehicle-map.json"
+    ],
+    "generationRequirementCount": 6,
+    "filingRequirementCount": 2,
+    "selfHelpStopCount": 3
+  },
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

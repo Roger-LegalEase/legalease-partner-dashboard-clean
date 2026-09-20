@@ -3,6 +3,7 @@ import path from "node:path";
 import type { PartnerLandingPageTemplateProps } from "@/components/partners/PartnerLandingPageTemplate";
 import { partnerIntake } from "./routes";
 import type { PartnerRecord } from "./types";
+import { MVLP_PARTNER_SLUG } from "./mvlp-routing";
 
 const mississippiCounties = [
   "Adams County",
@@ -55,6 +56,9 @@ const mississippiCounties = [
 ];
 
 export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLandingPageTemplateProps {
+  if (partner.partnerSlug === MVLP_PARTNER_SLUG) {
+    return buildMvlpLandingPageData(partner);
+  }
   const isWeMustVote = partner.partnerSlug === "we-must-vote";
   const state = isWeMustVote ? "Mississippi" : fullStateName(partner.targetState ?? partner.state);
   const counties = countyOptionsForPartner(partner, state);
@@ -237,4 +241,81 @@ function assetPath(partnerSlug: string, filename: string) {
   const publicPath = `/assets/partners/${partnerSlug}/${filename}`;
   const filePath = path.join(process.cwd(), "public", publicPath);
   return existsSync(filePath) ? publicPath : undefined;
+}
+
+// MVLP: an explicit, scoped configuration for the dynamic route (Vercel
+// previews and any host other than the production partner domain, which
+// serves the generated static page). Same template, MVLP theme and copy;
+// nothing here changes We Must Vote or the generic fallback. The purple is
+// measured from the supplied wordmark; the light accent is derived from it.
+const MVLP_BRAND_COLOR = "#6D378F";
+const MVLP_ACCENT_COLOR = "#B48CD3";
+
+function buildMvlpLandingPageData(partner: PartnerRecord): PartnerLandingPageTemplateProps {
+  const organizationName = "Mississippi Volunteer Lawyers Project";
+  const register = `/p/${partner.partnerSlug}/clinics`;
+  const illustration = (filename: string) => assetPath("wemustvote", `assets/wemustvote/${filename}`);
+  return {
+    partnerSlug: partner.partnerSlug,
+    partnerName: "MVLP",
+    organizationName,
+    partnerLogoUrl: partner.logoUrl ?? "/assets/partners/mvlp/mvlp-logo.png",
+    legaleaseLogoUrl: assetPath("legalease", "legalease-logo-2025-ob-cropped.png"),
+    state: "Mississippi",
+    counties: ["Mississippi"],
+    serviceArea: "Mississippi",
+    programName: "Self-Representation Expungement Clinics",
+    programDescription: "Register for an MVLP expungement clinic, complete your application, and work with the MVLP team on your next steps.",
+    eyebrow: "MVLP \u00d7 LegalEase",
+    landingPageHeadline: "Get help taking the next step with your record.",
+    landingPageSubheadline: "Register for an MVLP expungement clinic, complete your intake, and work with the MVLP team on your next steps.",
+    primaryCtaLabel: "Register for a clinic",
+    primaryCtaHref: register,
+    secondaryCtaLabel: "Continue my application",
+    secondaryCtaHref: `/p/${partner.partnerSlug}/continue`,
+    trustLine: "Free to register. Your application stays private. Registering is not a promise of legal help: MVLP reviews every application.",
+    trustChips: ["Mississippi clinics", "Free to register", "Save and return anytime"],
+    heroImageUrl: illustration("hero-record-clearing-path.png"),
+    helpItems: [
+      { title: "Old arrest", body: "You have an old arrest and want to know whether it may still matter.", imageUrl: illustration("icon-old-arrest.png") },
+      { title: "Charged, not convicted", body: "You were charged, but the case did not end in a conviction.", imageUrl: illustration("icon-charged-not-convicted.png") },
+      { title: "Past conviction", body: "You have a conviction and want to understand whether there may be a path forward.", imageUrl: illustration("icon-past-conviction.png") },
+      { title: "Not sure what shows up", body: "You want to know what an employer, landlord, school, or licensing agency may see.", imageUrl: illustration("icon-not-sure-what-shows-up.png") }
+    ],
+    promiseItems: [
+      { title: "Free to register", body: "Choose a clinic and tell us how to reach you. You do not need every answer before you start.", imageUrl: illustration("promise-free-to-start.png") },
+      { title: "Plain-English steps", body: "Your application asks simple questions, saves your progress, and shows what is still needed.", imageUrl: illustration("promise-plain-language-guidance.png") },
+      { title: "Real people review your application", body: "MVLP staff and volunteer attorneys review your application and tell you what comes next.", imageUrl: illustration("promise-right-next-step.png") }
+    ],
+    quoteText: "Many people wait because the process feels confusing, expensive, or out of reach. MVLP clinics give Mississippians a trusted place to start, with volunteer attorneys and a clear plan for what happens next.",
+    quoteAttribution: `${organizationName} \u00b7 Self-Representation Expungement Clinics`,
+    comparisonColumns: [
+      { title: "MVLP + LegalEase", body: "Free registration, one private application, review by MVLP staff and volunteer attorneys, and clear instructions for signing, notarizing, and filing.", imageUrl: illustration("comparison/comparison-wemustvote-legalease.png") },
+      { title: "Figuring it out alone", body: "Confusing court language, missing paperwork, and no clear place to start.", imageUrl: illustration("comparison/comparison-figure-it-out-alone.png") },
+      { title: "Waiting or guessing", body: "Opportunities may be delayed and it can be hard to know what to do next.", imageUrl: illustration("comparison/comparison-waiting-or-guessing.png") }
+    ],
+    howItWorksSteps: [
+      { title: "Register for a clinic", body: "Choose a clinic date and tell us how to reach you.", imageUrl: illustration("task_checklist_and_assistant_illustration.png") },
+      { title: "Complete your application", body: "Answer the MVLP intake questions about your case, household, and income. Save and return anytime.", imageUrl: illustration("friendly_consultation_with_a_roadmap_of_guidance.png") },
+      { title: "MVLP review, documents, and next steps", body: "MVLP staff review your application and a volunteer attorney reviews your case. If MVLP can help, you receive documents to review and sign, notary instructions where required, and clear next steps for filing.", imageUrl: illustration("following_the_path_to_success.png") }
+    ],
+    whatYouNeedItems: [
+      "Your full legal name and date of birth",
+      "A phone number or email where MVLP can reach you",
+      "Case information: the county, the charge, and how the case ended, if you know it",
+      "Household and income information",
+      "Any court paperwork you already have"
+    ],
+    faqItems: [
+      { question: "Is it free?", answer: "Registration and the application are free. MVLP tells you about any court, record, or notary costs that apply to your case." },
+      { question: "Will an attorney help me?", answer: "At the clinic, volunteer attorneys give legal advice, review your documents, and explain how to file. You file your own case; the clinic does not include courtroom representation." },
+      { question: "Will registering clear my record?", answer: "No. Registering saves your place and starts your application. MVLP reviews every application and decides whether it can help. A court makes the final decision on your record." },
+      { question: "Is LegalEase a law firm?", answer: "No. LegalEase provides the software MVLP uses to organize registrations, applications, documents, and follow-up. LegalEase does not provide legal advice." }
+    ],
+    finalCtaHeadline: "Ready to take the next step?",
+    finalCtaBody: "Register for an MVLP clinic and start your application today. Registration does not guarantee assistance, eligibility, or any court outcome.",
+    finalCtaImageUrl: illustration("following_the_path_to_success.png"),
+    brandColor: MVLP_BRAND_COLOR,
+    accentColor: MVLP_ACCENT_COLOR
+  };
 }

@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "rcap-verifier-lane-return/v1",
+  "lane": "VF64",
+  "laneKind": "independent-verification",
+  "reviewer": "/root/hi_route_review",
+  "sessionIdentity": "/root/hi_route_review",
+  "familyId": "ne-setaside-custodial-set",
+  "baseSha": "3b8740972dde964f2dac21ea3c32507b4f1ce28d",
+  "verifiedAtBase": "3b8740972dde964f2dac21ea3c32507b4f1ce28d",
+  "packetCommit": "3b8740972dde964f2dac21ea3c32507b4f1ce28d",
+  "verifiedAt": "2026-09-11T06:49:15Z",
+  "verdict": "PASS_COMPLETE_INDEPENDENT",
+  "rows": [
+    {
+      "itemId": "ne-setaside-custodial-set",
+      "familyId": "ne-setaside-custodial-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Family ne-setaside-custodial-set, NE custodial set-aside route, and packet manifest agree; current tree head is bound to the full 40-character commit."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Source receipt lists CC-6-11, CC-6-11.2, DC-1-15 and CC-6-11A; independently reread pinned source SHA-256 values and current custody bytes."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The three official forms plus CC-6-11A instructions are present in the family source receipt and both packet variants."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All ten original PNGs were inspected; canonical fitting values are visible in their intended fields, while boundary overlong case/name/contact values remain blank where the field map refuses them."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Direct field-map and participant-instructions reread measured the 30 declared required-before-filing rows and their disclosure text."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Court/county controls, participant completion controls, and custodial set-aside route wording were inspected; no unsupported route choice was rendered."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "CC-6-11 has the single conviction fact row; DC-1-15 recipient/hearing lines remain coherent and no partially written repeated row was observed."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Signature, date, court/judge and service-completion fields remain blank in every inspected original page; no protected ink observed."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Current canonical and boundary PDFs match central pinned hashes and source-bound artifact receipts."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "All ten original PNG members were inspected in the expected five-page canonical/boundary sequence."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Visual inspection of every original PNG found no clipping, overlap, truncation, stray ink, or malformed page boundary."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "CC-6-11 and instructions identify the Nebraska district court/county filing destination; participant completion remains disclosed."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Instructions and source text were reread for filing/record-check fee language; no unsupported waiver or zero-fee claim was added."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "DC-1-15 certificate of service remains uncompleted and its recipient/service fields are disclosed for participant completion."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Instructions visibly and textually preserve stop points for missing conviction facts, court completion, signature, and service."
+        }
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "methods": [
+          "verify-packet-completeness.mjs --family ne-setaside-custodial-set",
+          "direct reread of production-field-map.json, source-receipt.json, actual-writes.json and participant-instructions.md",
+          "direct inspection of ten extracted original PNGs"
+        ]
+      },
+      "rasterReceipt": {
+        "workflowRunId": 34571064798,
+        "conclusion": "success",
+        "jobId": 103173830707,
+        "artifactId": 10187951033,
+        "verdict": "RASTER_PASS",
+        "pagesMeasured": 10,
+        "originalArchive": "data/rcap-grade-a/packet-factory-24h/raster-runs/34571064798/ne-setaside-custodial-set.zip",
+        "archiveSha256": "3ef4cb5a4fcc801e0e7342d36e5106899562e1075b99141265efcc74b0831456",
+        "jobLogSha256": "e860da0d569f67b9c243797544ac22d816159eb3bc733ae226fe88588dcf595a",
+        "originalPngsInspected": 10,
+        "pageObservations": [
+          {
+            "kind": "canonical",
+            "page": 1,
+            "member": "ne-setaside-custodial-set/canonical/page-001.png",
+            "sha256": "24dc6e4f83c1ce3afb826ef2f801f948784da71bc2753fa1a212e37c231a6832",
+            "bytes": 441271,
+            "observation": "canonical page 1: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.04287804515745692"
+          },
+          {
+            "kind": "canonical",
+            "page": 2,
+            "member": "ne-setaside-custodial-set/canonical/page-002.png",
+            "sha256": "27bcf11efa83bca961db4a26db438ff1583b048da741281f30490c24bc284875",
+            "bytes": 292593,
+            "observation": "canonical page 2: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.02683322192513369"
+          },
+          {
+            "kind": "canonical",
+            "page": 3,
+            "member": "ne-setaside-custodial-set/canonical/page-003.png",
+            "sha256": "0626eba6d90a6e27ea2572f9dea768ae622285b2a7d7ad01bdc964f5c846d731",
+            "bytes": 299449,
+            "observation": "canonical page 3: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.02819722964943553"
+          },
+          {
+            "kind": "canonical",
+            "page": 4,
+            "member": "ne-setaside-custodial-set/canonical/page-004.png",
+            "sha256": "43b09e9ae1925bf55cea906130569f0ac462270a0e22035fa49d51d2016e941b",
+            "bytes": 189072,
+            "observation": "canonical page 4: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.01588940879382056"
+          },
+          {
+            "kind": "canonical",
+            "page": 5,
+            "member": "ne-setaside-custodial-set/canonical/page-005.png",
+            "sha256": "f7a8d00ccc8429e6c51710922b8bb7c03f169eb0e43ae45e67f2f80e34b29c02",
+            "bytes": 700059,
+            "observation": "canonical page 5: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.09602421271538919"
+          },
+          {
+            "kind": "boundary",
+            "page": 1,
+            "member": "ne-setaside-custodial-set/boundary/page-001.png",
+            "sha256": "2a1d49a6d0ae11ba5be0e67cfb23cb7bd3d241878066f05566baee980c2773b7",
+            "bytes": 458840,
+            "observation": "boundary page 1: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.04624944295900178"
+          },
+          {
+            "kind": "boundary",
+            "page": 2,
+            "member": "ne-setaside-custodial-set/boundary/page-002.png",
+            "sha256": "151b8ed66340ffd9ed1425d816029b5894797042e3652b11758ef7a544f63697",
+            "bytes": 288631,
+            "observation": "boundary page 2: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.026726641414141415"
+          },
+          {
+            "kind": "boundary",
+            "page": 3,
+            "member": "ne-setaside-custodial-set/boundary/page-003.png",
+            "sha256": "ca05a3f8092877a6e6d105d26b1e428229a661462573970e1eba6d9002c3c8d9",
+            "bytes": 316218,
+            "observation": "boundary page 3: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.03160520647653001"
+          },
+          {
+            "kind": "boundary",
+            "page": 4,
+            "member": "ne-setaside-custodial-set/boundary/page-004.png",
+            "sha256": "a8be3034179fa99817375323f94fb34814347c69d510bde3ca794bd3b6354612",
+            "bytes": 210681,
+            "observation": "boundary page 4: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.01944314468211527"
+          },
+          {
+            "kind": "boundary",
+            "page": 5,
+            "member": "ne-setaside-custodial-set/boundary/page-005.png",
+            "sha256": "f7a8d00ccc8429e6c51710922b8bb7c03f169eb0e43ae45e67f2f80e34b29c02",
+            "bytes": 700059,
+            "observation": "boundary page 5: nonblank, cropped to page, calibrated residual 0px, ink inside paper 0.09602421271538919"
+          }
+        ]
+      },
+      "evidence": [
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34571064798/ORIGINAL_EVIDENCE_VERIFIED.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34571064798/ne-setaside-custodial-set.verdict.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34571064798/ne-setaside-custodial-set.PAGE_IMAGES_SHA256.json",
+        "data/rcap-grade-a/packet-factory-24h/raster-runs/34571064798/jobs.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/participant-instructions.md"
+      ],
+      "remainingRequirements": [],
+      "sharedWrites": {
+        "queue": false,
+        "manifests": false,
+        "familyArtifacts": false,
+        "commits": false,
+        "dispatch": false
+      }
+    }
+  ]
+}

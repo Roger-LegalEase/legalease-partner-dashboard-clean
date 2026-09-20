@@ -1,0 +1,225 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "va_seal_petition_felony-set",
+  "worklistGroupId": "va_seal_petition_felony-set",
+  "jurisdiction": "VA",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "corpusRootFromEnvironment": "MASTER_LIBRARY_SOURCE_DIR",
+  "bindingMethod": "exact path + corpus-index SHA-256 + on-disk SHA-256 + byte length",
+  "routeSelectionId": "va-seal-petition-felony-cc-1201-complete-set",
+  "allSourcesExact": true,
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:CC-1201"
+      ],
+      "formNumber": "CC-1201",
+      "revision": "2026-07",
+      "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+      "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "byteLength": 282919
+    }
+  ],
+  "committedRecordsBound": [
+    {
+      "recordId": "fee-and-waiver:data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "b5716364a5c4243fe6489fe1f67cfdab0201a9b38cb8c5856db625493679164a",
+      "byteLength": 2629290,
+      "field": "routes[routeKey=obligation:track-only:VA:va_seal_petition_felony].destination.detail",
+      "role": "the committed route-obligation census: this route's canonical key and the destination detail the packet quotes"
+    },
+    {
+      "recordId": "fee-and-waiver:data/record-clearing/legal-design-intake/VA.memo.json",
+      "path": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "sha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+      "byteLength": 300158,
+      "field": "tracks[va_seal_petition_felony].rules.fees and .rules.feeWaiver",
+      "role": "the controlling legal-design memo: the fee statement the packet quotes, with its two sections"
+    },
+    {
+      "recordId": "fee-and-waiver:data/record-clearing/legal-design-packet-set-manifests.json",
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+      "byteLength": 3708050,
+      "field": "packetSets[va_seal_petition_felony-set].participantActionRequired pay_fee and apply_fee_waiver",
+      "role": "the committed packet-set manifest: the same two statements, required here to agree word for word",
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "byteLength": 3683419
+        },
+        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for va_seal_petition_felony-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "recordGlobalMetadata: identical",
+          "packetSet:va_seal_petition_felony-set: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+          "packetSet:va_seal_petition_felony-set": "b0a625d5b0926b2b6e528e1665bce528c553a4cdcb9cd176a5787783d003ba6d"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+      }
+    },
+    {
+      "recordId": "self-help-stop:data/record-clearing/legal-design-track-registry.json",
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+      "byteLength": 16586150,
+      "field": "tracks[va_seal_petition_felony].selfHelpStopConditions",
+      "role": "the committed track registry: the authority for where self-help ends, quoted verbatim on the filing-instructions page and in participant-instructions.md"
+    },
+    {
+      "recordId": "self-help-stop:data/record-clearing/legal-design-intake/VA.memo.json",
+      "path": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "sha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+      "byteLength": 300158,
+      "field": "tracks[va_seal_petition_felony].selfHelpStopConditions",
+      "role": "the controlling legal-design memo: required here to hold the identical list"
+    },
+    {
+      "recordId": "record-obtain-confirm:data/record-clearing/legal-design-track-registry.json",
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+      "byteLength": 16586150,
+      "field": "tracks[va_seal_petition_felony].packetSet.participantActionRequired (obtain_document and confirm_answer)",
+      "role": "route-specific record obtain/confirm requirements, including each condition, required to agree word for word"
+    },
+    {
+      "recordId": "record-obtain-confirm:data/record-clearing/legal-design-packet-set-manifests.json",
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+      "byteLength": 3708050,
+      "field": "packetSets[va_seal_petition_felony-set].participantActionRequired (obtain_document and confirm_answer)",
+      "role": "route-specific record obtain/confirm requirements, including each condition, required to agree word for word",
+      "identityRefresh": {
+        "refreshedOn": "2026-09-10",
+        "was": {
+          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+          "byteLength": 3683419
+        },
+        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for va_seal_petition_felony-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "recordGlobalMetadata: identical",
+          "packetSet:va_seal_petition_felony-set: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+          "packetSet:va_seal_petition_felony-set": "b0a625d5b0926b2b6e528e1665bce528c553a4cdcb9cd176a5787783d003ba6d"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+      }
+    },
+    {
+      "recordId": "page-order:data/record-clearing/legal-design-track-registry.json",
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "232466b66958cea78b6595cbbe4824f08216de42516d4afcef17f698140719ee",
+      "byteLength": 16586150,
+      "field": "tracks[va_seal_petition_felony].packetSet.components[].order",
+      "role": "the authoritative packet set: the order the delivered pages are assembled in",
+      "order": [
+        "primary_filing",
+        "ccre_forwarding_request",
+        "commonwealth_service_and_stipulation_request",
+        "records_checklist",
+        "filing_instructions"
+      ]
+    }
+  ],
+  "feeAndWaiverAsDelivered": {
+    "routeKey": "obligation:track-only:VA:va_seal_petition_felony",
+    "anchorStatementVerified": "no court fees or costs",
+    "destinationName": "Clerk of the circuit court of the locality where the case was disposed of",
+    "destinationDetail": "File the petition with no court fees or costs, serve the attorney for the Commonwealth of that locality, and separately request that the CCRE electronically forward the Virginia and national criminal history record to the court. Multiple charges may go on one petition only if they all arose from the same transaction or occurrence and all are eligible.",
+    "feeStatement": "none. Sections 19.2-392.12(B) and 19.2-392.12:1(C) provide that no court fees or costs are charged for a sealing petition, and the 2025 acts repealed the Sealing Fee Fund. The CCRE charges its own fee for the participant's own copy of their criminal history record, which is a separate cost.",
+    "feeWaiverStatement": "none — no court fee is charged, so there is nothing to waive.",
+    "citedAs": "Va. Code § 19.2-392.12(B) and § 19.2-392.12:1(C)"
+  },
+  "selfHelpStopConditionsAsDelivered": [
+    "The attorney for the Commonwealth files an objection or an answer, or the court sets a hearing.",
+    "Any offence that may fall within the nineteen subdivisions of the § 19.2-392.12(L) exclusion list.",
+    "Any victim who may be a family or household member as defined in § 16.1-228, which subdivision L.19 excludes and which is far broader than assault of a family member.",
+    "Any firearm involvement in the transaction, which subdivision L.4 excludes for a non-violent felony unless firearm rights have been restored under § 18.2-308.2.",
+    "Any question about the felony-history bars, which turn on the national criminal history record.",
+    "Any petitioner who has previously obtained sealing under § 19.2-392.12.",
+    "Any alcohol or drug involvement requiring a rehabilitation showing.",
+    "Immigration consequences.",
+    "Any attack on the underlying conviction."
+  ],
+  "recordObtainAndConfirmActionsAsDelivered": [
+    {
+      "kind": "obtain_document",
+      "description": "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+      "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "obtain_document",
+      "description": "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+      "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "obtain_document",
+      "description": "Obtain FBI Identity History Summary. Request your Identity History Summary from the FBI. Virginia relief reaches Virginia records only, but the felony-history bars and the clean-period test look at convictions anywhere, so this is how you check them.",
+      "obtainedFrom": "Federal Bureau of Investigation",
+      "requirement": "conditional",
+      "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+      "requiredBeforeFiling": false
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"Have you been convicted of anything since, anywhere? Virginia traffic infractions under Title 46.2 do not count.\" against FBI Identity History Summary, and correct the packet if they disagree.",
+      "requirement": "conditional",
+      "conditionDescription": "Where the participant may have out-of-state or federal convictions bearing on the felony-history bars or the clean-period test.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "obtain_document",
+      "description": "Obtain Proof that court-ordered restitution is paid in full. Ask the clerk or the collecting agency for a payoff or zero-balance statement. Section 19.2-392.12(F)(4) makes full payment a criterion, so an outstanding balance defeats the petition.",
+      "obtainedFrom": "Clerk of the court that ordered it, or the collecting agency",
+      "requirement": "conditional",
+      "conditionDescription": "Only where restitution was ordered on any charge, conviction or ancillary matter in the petition; § 19.2-392.12(F)(4) requires it to be paid in full.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"Was court-ordered restitution ordered on any charge, conviction or ancillary matter you want sealed, and is it paid in full?\" against Proof that court-ordered restitution is paid in full, and correct the packet if they disagree.",
+      "requirement": "conditional",
+      "conditionDescription": "Only where restitution was ordered on any charge, conviction or ancillary matter in the petition; § 19.2-392.12(F)(4) requires it to be paid in full.",
+      "requiredBeforeFiling": true
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "ccre_forwarding_request",
+    "commonwealth_service_and_stipulation_request",
+    "records_checklist",
+    "filing_instructions"
+  ],
+  "commercialRoutesOpened": 0
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "fl-expunction-set",
+  "jurisdiction": "FL",
+  "implementationStrategy": "official_pdf_fill",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "the exact held FDLE byte is read directly from governed repository custody; no acquisition, copy, research, or substitution",
+  "allSourcesExact": true,
+  "routeKeys": [
+    "obligation:track-only:FL:fl-expunction"
+  ],
+  "sourceBinaryCommitted": true,
+  "mountedReadOnlySource": {
+    "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "custodyPath": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
+    "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+    "byteLength": 26602
+  },
+  "documents": [
+    {
+      "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "formNumber": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "kind": "held_official_pdf",
+      "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+      "byteLength": 26602
+    },
+    {
+      "documentId": "FL-RULE-3.989-PETITION",
+      "formNumber": "FL-RULE-3.989-PETITION",
+      "kind": "composed_from_authority",
+      "ownerDetermination": "FL-RULE-3989"
+    },
+    {
+      "documentId": "FL-RULE-3.989-SWORN-STATEMENT",
+      "formNumber": "FL-RULE-3.989-SWORN-STATEMENT",
+      "kind": "composed_from_authority",
+      "ownerDetermination": "FL-RULE-3989"
+    },
+    {
+      "documentId": "FL-RULE-3.989-ORDER",
+      "formNumber": "FL-RULE-3.989-ORDER",
+      "kind": "composed_from_authority",
+      "ownerDetermination": "FL-RULE-3989"
+    },
+    {
+      "documentId": "fl-expunction-certificate-of-service-5",
+      "formNumber": "fl-expunction-certificate-of-service-5",
+      "kind": "composed_from_packet_set",
+      "packetSetId": "fl-expunction-set"
+    }
+  ],
+  "compositionAuthority": {
+    "determination": "FL-RULE-3989",
+    "records": [
+      {
+        "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+        "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+        "byteLength": 11095
+      },
+      {
+        "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+        "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+        "byteLength": 121810
+      },
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "byteLength": 16781025
+      },
+      {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+        "byteLength": 3711575
+      }
+    ]
+  },
+  "formIdentityNote": "The held official component is the expunction rendering of FDLE40-021. The Rule 3.989 petition, sworn statement, and order are composed from the governing rule record; the certificate of service is the required custom pleading component. No Rule 3.989 standalone PDF bytes were invented.",
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "participant eligibility",
+    "source freshness beyond the exact held-byte binding",
+    "independent verification",
+    "visual acceptance",
+    "approval for fulfillment"
+  ]
+}

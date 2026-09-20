@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-independent-code-review/v1",
+  "reviewer": "/root",
+  "status": "PASS",
+  "verdict": "PASS",
+  "familyId": "nc_auto_146_a4_agency_followup-set",
+  "reviewedAt": "2026-09-13T15:16:16.533958+00:00",
+  "baseSha": "12ba4b1526bb79f7918f509cf2a65fbadf43d81e",
+  "candidateCodeBindings": [
+    {
+      "path": "scripts/verify-packet-build-environment.mjs",
+      "sha256": "aedb177caecd93e17553b7c26cc32e158bedef7c57a2ac667d414db0ed5f701d",
+      "bytes": 123134
+    },
+    {
+      "path": "scripts/verify-family-source-resolution.test.mjs",
+      "sha256": "6732c68819b4d948b6b9b7a2cbc7c0398fa30f97d5f96b36d2de1bbf3e909342",
+      "bytes": 31791
+    }
+  ],
+  "workerCodeHashesMatchedLocally": true,
+  "transport": "Reconstructed from captured author mutations after stored GitHub authentication became unavailable; both code byte hashes exactly match the previously captured worker hashes.",
+  "authorReturn": {
+    "path": "data/rcap-grade-a/packet-factory-24h/pf20/nc-governed-resolver-author-return-20260913.json",
+    "sha256": "79811d62a44d47d786cea92de51612342205cd59e822be4091b58871c524bcc1",
+    "workerHashIndependentlyCaptured": false
+  },
+  "scope": [
+    "Add only already-governed NC AOC-G-260 expectation",
+    "Canonicalize only exact historical indexed NC custody corroborated by admission restoration, index custody/root/path/hash/length/form identity and actual recovered body",
+    "Preserve existing governed-source refusal paths and unrelated family behavior"
+  ],
+  "independentChecks": {
+    "authorNcTestsRerunOnCaptain": {
+      "command": "node --test --test-name-pattern='NC governed' scripts/verify-family-source-resolution.test.mjs",
+      "passed": 3,
+      "failed": 0
+    },
+    "additionalReviewerProbes": {
+      "reviewer": "/root",
+      "results": [
+        {
+          "name": "historical original",
+          "expectedBind": true,
+          "observedBind": true
+        },
+        {
+          "name": "historical identical duplicate",
+          "expectedBind": true,
+          "observedBind": true
+        },
+        {
+          "name": "duplicate index custody",
+          "expectedBind": false,
+          "observedBind": false
+        },
+        {
+          "name": "wrong index custody namespace",
+          "expectedBind": false,
+          "observedBind": false
+        },
+        {
+          "name": "wrong index form identity",
+          "expectedBind": false,
+          "observedBind": false
+        },
+        {
+          "name": "wrong entry custody",
+          "expectedBind": false,
+          "observedBind": false
+        },
+        {
+          "name": "explicit contradictory source length",
+          "expectedBind": false,
+          "observedBind": false
+        },
+        {
+          "name": "historical source alias",
+          "expectedBind": false,
+          "observedBind": false
+        },
+        {
+          "name": "additional restoration claim",
+          "expectedBind": false,
+          "observedBind": false
+        }
+      ],
+      "packetBuilds": 0,
+      "sourceRecordsModified": false
+    },
+    "actualCurrentSourceGate": {
+      "id": "family_sources_bind",
+      "title": "Every source this family names is present and hashes to its pinned digest",
+      "because": "Family-level is the level that matters. A corpus can be complete in aggregate and still not carry the two binaries this worker was dispatched to measure.",
+      "ok": true,
+      "family": "nc_auto_146_a4_agency_followup-set",
+      "tier": "custody_reconciliation",
+      "custodyClass": "SOURCE_ALREADY_HELD",
+      "commissionAcquisition": false,
+      "sources": [
+        {
+          "sourceId": "official-form:AOC-G-260",
+          "present": true,
+          "bound": true,
+          "pinned": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+          "observed": "cf998cecefea090e4b3fce260b330b6f3896d66ae65ab9f9e7a698e6586a1817",
+          "resolvedBy": "declared repository-relative path",
+          "pathRoot": "repositoryRoot"
+        }
+      ],
+      "boundByContentHashRatherThanDeclaredPath": 0,
+      "detail": "1/1 source(s) bind by exact SHA-256 (custody_reconciliation)"
+    },
+    "syntax": "PASS",
+    "diffCheck": "PASS"
+  },
+  "limits": {
+    "fullEnvironmentPreflightClaimed": false,
+    "packetBuilt": false,
+    "claimTransferred": false,
+    "rasterExecuted": false,
+    "terminalPromoted": false,
+    "sourceRecordsModified": false,
+    "productionTouched": false
+  },
+  "nextGate": "Existing paused NC build ownership must be honored; resume only on existing worker once stored-auth access is available. This review proves source resolution, not a complete packet."
+}

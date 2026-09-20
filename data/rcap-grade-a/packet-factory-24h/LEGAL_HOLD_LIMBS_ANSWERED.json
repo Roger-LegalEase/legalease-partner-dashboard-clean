@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-legal-hold-limbs-answered/v1",
+  "what": "Limbs of a standing legal hold that a later measurement has answered, so the hold narrows to what is genuinely still unresolved.",
+  "whyThisExists": "A legal hold must name ONE exact unresolved decision. Some holds were recorded naming two or three things at once, and the repository has since answered one of them by measurement rather than by anybody's judgement. Leaving the answered limb standing sends a reviewer to decide a question the bytes already settle, and it hides the real question behind it.",
+  "whatItIsNot": "It is not a way to lift a hold. A hold with any limb still open stays LEGAL_BLOCKED, the family stays fail-closed, and no route opens. Nothing here decides a legal question; every entry records a MEASUREMENT that removed a factual premise, and every entry must be reproducible from committed records.",
+  "admissionRule": "An entry is admitted only when it names the exact premise it answers, the exact measurement that answers it, and how to reproduce that measurement from this repository. A limb answered by reasoning rather than by measurement does not belong here — that is a determination, and determinations are the owner's.",
+  "entries": [
+    {
+      "familyId": "ne-trafficking-setaside-and-seal-set",
+      "holdRecordedBy": "PF07 (PR #151)",
+      "theHoldAsRecorded": "The assigned family has unresolved source-identity and duplicate-vehicle legal-design inputs: the worklist assigns custom_pleading and official_pdf_fill vehicles, while held form CC-6-12 is an instruction document.",
+      "limbAnswered": "held form CC-6-12 is an instruction document",
+      "answer": "CC-6-12 is held as BOTH a form and an instruction sheet, and `official-form:CC-6-12` now resolves to the form. The Master Library and the D source packs each carry NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf (2 pages, assetClass FORM) and NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf (2 pages, assetClass INSTRUCTIONS). Both carry formNumber CC-6-12, because the library files an instruction sheet under the number of the form it explains.",
+      "whyTheLaneSawAnInstructionSheet": "Every form-number resolver built its map by last-write-wins, and the index lists FORM before INSTRUCTIONS, so INSTRUCTIONS was always the survivor. The lane asked for CC-6-12, was handed the two-page sheet about the motion, and reported exactly what it was given. The lane was not wrong; the resolver was.",
+      "measurement": "scripts/lib/official-form-asset-class.mjs now makes an `official-form:` label see only FORM entries where a form number has any. ne-trafficking-setaside-and-seal-set's queue row binds official-form:CC-6-12 to NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf at tier exact_form_number.",
+      "reproduceIt": "node scripts/grade-a-packet-factory-24h/generate.mjs && node -e \"const q=require('./data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json');console.log(q.families.find(f=>f.familyId==='ne-trafficking-setaside-and-seal-set').sourceReadiness.boundSources)\"",
+      "whatStillStandsAndIsTheWholeHoldNow": "The vehicle conflict. The worklist assigns this family BOTH custom_pleading and official_pdf_fill, and that is a legal-design decision about which instrument this route actually files — not something any measurement of the corpus can settle.",
+      "familyStaysLegalBlocked": true,
+      "paymentStaysClosed": true
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

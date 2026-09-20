@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "rcap-pf05-ia-raster-reader-independent-code-review/v1",
+  "assignmentId": "PF05_IA_RASTER_READER_NEW_CAPTAIN_REREVIEW_20260913",
+  "lane": "PF05",
+  "laneKind": "independent-code-review",
+  "reviewer": "/root/ia_reader_review",
+  "sessionIdentity": "/root/ia_reader_review",
+  "reviewedAt": "2026-09-13T14:51:24.109647+00:00",
+  "reviewedAtBase": "3e4199508c7907c25b9a24cb59d875a4d7a00d2c",
+  "supersedes": "data/rcap-grade-a/packet-factory-24h/pf05/ia-raster-reader-code-review-20260913.json",
+  "status": "PASS",
+  "verdict": "PASS",
+  "familyIds": [
+    "ia-12346-set",
+    "ia-901c3-set"
+  ],
+  "scope": {
+    "purpose": "Independent bounded re-review of the corrected two-file Iowa whole-packet raster reader. This closes the prior two code findings only.",
+    "implementationAuthor": "/root",
+    "implementationEditedByReviewer": false,
+    "workerCodespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+    "workerRoot": "/workspaces/legalease-partner-dashboard-clean",
+    "corpusEnvironment": "/home/codespace/.legalease-corpus-env",
+    "execution": "All runtime controls executed on the existing worker; local Captain used only for code reads, diff inspection, hashes and this artifact."
+  },
+  "reviewTargets": [
+    {
+      "path": "scripts/grade-a-packet-factory-24h/conditional-raster-documents.mjs",
+      "bytes": 13902,
+      "sha256": "a680ebb38bbc3501deee09e162324c48e5d21a8b926734b346deade6b121066e",
+      "workerSha256Matches": true
+    },
+    {
+      "path": "scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs",
+      "bytes": 10965,
+      "sha256": "a3c5c568b15168537904623a47e5164d97a66e9661ef5d82b3a545afc048112f",
+      "workerSha256Matches": true
+    }
+  ],
+  "closedFindings": [
+    {
+      "id": "PF05-IA-RAS-CODE-001",
+      "verdict": "RESOLVED",
+      "evidence": "Reader compares raw packet.path to the exact repository-relative fixture path before resolution. Both families reject absolute exact targets, raw parent/dot segments and doubled separators. Existing exact fixture-relative path check is retained."
+    },
+    {
+      "id": "PF05-IA-RAS-CODE-002",
+      "verdict": "RESOLVED",
+      "evidence": "Every flat fixture directory entry must be a regular file with an exact builder-declared PDF or JSON name. Symlinks, nested or empty directories, unknown files and extra outputs are refused. Exact PDF inventory equality remains required."
+    }
+  ],
+  "findings": [],
+  "findingsCount": 0,
+  "checks": {
+    "focused": {
+      "result": "PASS",
+      "command": "source /home/codespace/.legalease-corpus-env && node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs",
+      "selectablePackets": 8,
+      "selectablePages": 44,
+      "diagnosticPages": 16,
+      "allPages": 60,
+      "admissionNegativeControlsCaught": 12,
+      "iaMeasurements": [
+        {
+          "family": "ia-12346-set",
+          "fixtures": 6,
+          "pages": 24,
+          "reportControls": 11,
+          "unsafeInventoryControls": 4,
+          "missingFixtureRefused": true,
+          "changedFixtureRefused": true
+        },
+        {
+          "family": "ia-901c3-set",
+          "fixtures": 8,
+          "pages": 49,
+          "reportControls": 11,
+          "unsafeInventoryControls": 4,
+          "missingFixtureRefused": true,
+          "changedFixtureRefused": true
+        }
+      ],
+      "unsafeInventoryControls": [
+        "extra regular PDF",
+        "extra symlink PDF",
+        "nested directory with PDF",
+        "replacement symlink with identical bytes"
+      ],
+      "allMutationsInTemporaryCopies": true,
+      "generatedCoverageChecked": false
+    },
+    "existingNative": {
+      "result": "PASS",
+      "command": "source /home/codespace/.legalease-corpus-env && node scripts/grade-a-packet-factory-24h/test-native-selectable-raster-documents.mjs",
+      "measurements": [
+        {
+          "family": "ky/ky-nonconviction-expungement-set",
+          "completePdfs": 13,
+          "completePages": 90,
+          "selectablePdfs": 11,
+          "refusalControls": 13
+        },
+        {
+          "family": "md/md-10105-favorable-set",
+          "completePdfs": 15,
+          "completePages": 60,
+          "selectablePdfs": 13,
+          "refusalControls": 13
+        }
+      ]
+    },
+    "existingGa": {
+      "result": "PASS",
+      "command": "source /home/codespace/.legalease-corpus-env && node scripts/grade-a-packet-factory-24h/test-ga-raster-documents.mjs",
+      "documents": 15,
+      "pages": 108,
+      "diagnosticDocuments": 3,
+      "conditionalExamples": 12,
+      "negativeControlsCaught": 8,
+      "filingReady": false
+    },
+    "independentProbes": {
+      "result": "PASS",
+      "execution": "Reviewer-authored Node ESM via gh codespace ssh bash stdin after sourcing corpus environment; each family copied to a fresh os.tmpdir() scratch root; report mutations in memory. Scratch roots removed in finally blocks.",
+      "refusedPerFamily": [
+        "exact absolute path",
+        "raw parent segment",
+        "raw dot segment",
+        "doubled separator",
+        "duplicate report entry",
+        "unknown.json",
+        "extra.PDF",
+        "extra.txt",
+        "empty directory",
+        "dangling symlink",
+        "missing fixture without extra entry"
+      ],
+      "controlsPerFamily": 11,
+      "restoredSelectionEqualsBaseline": true,
+      "fixtureReportSnapshot": {
+        "files": 57,
+        "scope": "Regular immediate files in both IA fixtures and reports directories, sorted path/SHA-256 pairs serialized to JSON",
+        "beforeSha256": "11577915afd758804afe3d6d1265b36e95cd5b5de2f7e20e28be1306ec5f87f5",
+        "afterSha256": "11577915afd758804afe3d6d1265b36e95cd5b5de2f7e20e28be1306ec5f87f5",
+        "unchanged": true
+      }
+    },
+    "diffInspection": {
+      "result": "PASS",
+      "existingNonIaReaderBranchesUnchanged": true,
+      "existingConditionalAndNativeTestAssertionsRetained": true,
+      "gitDiffCheck": "PASS",
+      "iaCurrentByteSha256LengthAndActualPdfPageCountChecked": true
+    }
+  },
+  "preservation": {
+    "implementationFilesEditedByReviewer": false,
+    "sourceBytesModified": false,
+    "reportBytesModified": false,
+    "fixturePdfBytesModified": false,
+    "sharedManifestFilesModified": false,
+    "queueRegenerated": false,
+    "rasterExecuted": false,
+    "packetRebuilt": false,
+    "commitCreated": false,
+    "pushPerformed": false,
+    "terminalPromotions": 0,
+    "productionTouched": false
+  },
+  "grants": {
+    "boundedCodeReviewPass": true,
+    "implementationAcceptance": true,
+    "integrationAuthorized": true,
+    "iaRasterDispatchAuthorized": false,
+    "packetAuthority": false,
+    "rasterPass": false,
+    "terminalPromotion": false,
+    "productionAuthority": false
+  },
+  "nextGate": "Captain may integrate these exact two reviewed code hashes. Freeze and verify exact current-byte IA12346 six-fixture/24-page coverage against its existing semantic PASS before raster dispatch; IA901C3 still requires its independent semantic gate. This code review grants no packet, raster, terminal or live approval."
+}

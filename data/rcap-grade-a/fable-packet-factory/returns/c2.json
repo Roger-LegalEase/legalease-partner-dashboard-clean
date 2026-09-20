@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "rcap-fable-treatment-return/v1",
+  "worker": "FABLE-C2",
+  "cohort": "c2-agency-and-nodoc (9 families: 5 participant_agency_application, 4 naming no document-shaped source)",
+  "branch": "fable/c2",
+  "baseSha": "f215cb01286817b96b914f8a0e3dea10dfc65dfb",
+  "returnedAt": "2026-09-02",
+  "headline": "Nine of nine refused at the claim gate: no packet-family grant exists for any of them. I built nothing. I did read-only determination work anyway and it overturns the cohort's own premise: all four no-document families are participant petitions or motions, not automatic, agency, court-initiated or guidance routes, and all four belong in a packet or pleading lane.",
+
+  "claimDiscipline": {
+    "mechanism": "node scripts/grade-a-packet-factory-24h/claim.mjs --status, then --assert per family before touching anything.",
+    "laneNameProblem": "The brief names me FABLE-C2. claim.mjs resolves lane kind by prefix (PF/FIX/VF/DISC/SRC/ACQ/PROMO) and refuses any other prefix before the ledger is consulted: 'UNKNOWN_LANE: FABLE-C2'. This is recorded in FACTORY_MEMORY.md. I therefore asserted under a packet-build prefix, which is the operation this task is.",
+    "outcome": "NOT_GRANTED on all nine. The refusal is not lane-specific: locate() dies NOT_GRANTED when NO packet-build lane holds the subject, so no choice of PF lane name would have changed it.",
+    "verifiedDirectlyInTheLedger": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json holds 691 claims (295 packet-family, 396 source-obligation). Zero packet-family claims exist for any of the nine familyIds. Confirmed by exact-match lookup on every id, not by grep.",
+    "whatISawInstead": "Each family's SOURCE OBLIGATION is granted, to a discovery or reconciliation lane, under a different subjectId. Those are live work by other lanes and I did not touch them.",
+    "sourceObligationGrantsObserved": [
+      "DISC05 agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information — RELEASED",
+      "DISC06 fl-administrative-set::official-form:FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION — LIVE",
+      "DISC06 fl-juvenile-diversion-set::official-form:FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION — LIVE",
+      "DISC06 fl-self-defense-set::official-form:FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION — LIVE",
+      "SRC04 hi_nonconviction_expungement-set::official-form:HCJDC-159B — LIVE",
+      "DISC01 census-pending-family:ME:juvenile-sealing::NO_DOCUMENT_SOURCE_NAMED — LIVE",
+      "DISC06 census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement::NO_DOCUMENT_SOURCE_NAMED — RELEASED",
+      "DISC06 census-pending-family:UT:path-m-juvenile-expungement::NO_DOCUMENT_SOURCE_NAMED — RELEASED",
+      "DISC03 census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::NO_DOCUMENT_SOURCE_NAMED — RELEASED"
+    ],
+    "collisionRisk": "Five of the nine (FL x3, HI, ME) have a LIVE source-discovery or reconciliation grant right now. Building those families without a grant would have collided with running lanes, not merely skipped a formality.",
+    "reissueOrTransferUsed": false,
+    "released": [],
+    "ledgerUnchanged": "git status is empty apart from this return file. --assert is read-only and I ran nothing else against the ledger.",
+    "precedent": "DET-FEE-AND-WAIVER-001 amendment A3 records FABLE-R16 doing exactly this — refusing all six assigned families at the claim gate because none was granted, then doing read-only work and raising the finding rather than deciding it. I followed that pattern."
+  },
+
+  "legalStandardRead": "DET-FEE-AND-WAIVER-001 read in full including A1 (ask the repository first; a named checkable authority stands in only where the record is empty), A2 (the repository is every committed record the family binds plus every record the route census names as a requiredSourceId), A3 (holding is per FACT, not per document; a record answers only the route it addresses), and A4 (the ask-first test extends to REQUIRED_BEFORE_FILING, FILING_DESTINATION and SERVICE where the failure is withholding or denying something the repository establishes, and a packet may never tell a participant it does not state something it does state). No fee, service or destination sentence was written to any participant, because nothing was built.",
+
+  "families": [
+    {
+      "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "jurisdiction": "AK",
+      "routeKey": "obligation:unattached-decision-route:AK:ak-correct-record",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built.",
+      "determinedTreatment": "participant agency application — a record-correction request to the agency holding the disputed data. NOT a court filing, and correctly classified as it was.",
+      "heldAuthority": [
+        "route obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json): processActor=participant, participantCanInitiate=true, currentOutputStrategy=participant_agency_application, participantFacingInstrument='Request to Correct Criminal Justice Information form and evidence checklist', statuteOrAuthority='Alaska Stat. § 12.62.170'",
+        "legal decision: data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json#ak-correct-record",
+        "unattached decision: data/rcap-ledger/batch-b-unattached-decisions.json#ak-correct-record",
+        "current-decision-product-disposition-sha256:bb12860f42c71d3eb78c47871189c10064826e535c75b4a8c012649f4f729030"
+      ],
+      "isActuallyAPacketOrPleading": false,
+      "participantDeliverableIfBuilt": "Not built. What it would have to say: this is a request to an agency to correct its own record, not a petition to a judge; no court rules on it; the participant must identify the exact disputed entry and supply the evidence that contradicts it.",
+      "exactDestination": "NOT ESTABLISHED TO THE REQUIRED STANDARD. The census records only 'Alaska DPS or the agency responsible for the disputed data'. That is a department, not a reachable office — no unit, address, phone or submission channel. Under A1 as widened by A2 a builder must either find the held record that names the office or say plainly that no held source names it and name the office to ask. I did not verify one and will not invent one.",
+      "runtimeReality": "approved-registry-track=false and compiled-runtime-pathway=false. There is no runtime route here at all; the census calls it an unattached decision route. A participant cannot reach this today by any path.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "fl-administrative-set",
+      "jurisdiction": "FL",
+      "routeKey": "obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built. A LIVE DISC06 source-discovery grant covers its form.",
+      "determinedTreatment": "participant agency application to a state agency. Correctly classified.",
+      "heldAuthority": [
+        "compiled profile src/lib/rcap-engine/compiled/profiles/FL-florida.json#administrative-expunction-mistaken-or-unlawful-arrest: outcomeMode=agency_application, mechanism='Administrative expunction for a mistaken or unlawful arrest', statute='Fla. Stat. § 943.0581', packetFamily='FDLE Administrative Expunction Application under § 943.0581'",
+        "route contract: src/lib/legal-authority/routes/route-splits.json#FL:administrative-expunction-mistaken-or-unlawful-arrest — LD-FL-01 — agency_application",
+        "census destination object: {kind: agency, name: 'Florida Department of Law Enforcement', detail: 'The participant applies; agency-head or prosecutor support is a required certification obtained separately.'}",
+        "source-url: https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0581.html"
+      ],
+      "isActuallyAPacketOrPleading": false,
+      "participantDeliverableIfBuilt": "Not built. What it would have to say: the participant applies to FDLE, not to a court. Before FDLE will act, the participant must separately obtain the endorsement of the arresting agency head, the State Attorney, or the court — that endorsement is the trigger, and there is no elapsed waiting period. FDLE's own processing time after submission is not a pre-filing wait (LD-FL-01 effective-note says so in terms).",
+      "exactDestination": "Florida Department of Law Enforcement. Held and named in the census destination object. The street unit within FDLE is not recorded in what I read, so a builder must state FDLE and either bind the held submission address or name FDLE as the office to ask.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "fl-juvenile-diversion-set",
+      "jurisdiction": "FL",
+      "routeKey": "obligation:track-pathway:FL:fl-juvenile-diversion:juvenile-diversion-expunction-943-0582",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built. A LIVE DISC06 source-discovery grant covers its form.",
+      "determinedTreatment": "participant agency application to a state agency. Correctly classified — and this is the one juvenile family in the cohort that genuinely is NOT a petition.",
+      "heldAuthority": [
+        "compiled profile FL-florida.json#juvenile-diversion-expunction-943-0582: outcomeMode=agency_application, mechanism='Juvenile diversion expunction', statute='Fla. Stat. § 943.0582', packetComponents=['FDLE application','Diversion completion proof','State Attorney certification']",
+        "route contract route-splits.json#FL:juvenile-diversion-expunction-943-0582 — LD-FL-01 — agency_application",
+        "census: statuteOrAuthority notes § 943.0582(2)(b) reenacted by Chapter 2026-114",
+        "census destination object: {kind: agency, name: 'Florida Department of Law Enforcement', detail: 'FDLE juvenile-diversion application. Certification, completion proof, and fingerprints are later submission items.'}"
+      ],
+      "isActuallyAPacketOrPleading": false,
+      "participantDeliverableIfBuilt": "Not built. What it would have to say: this is an application to FDLE, not a juvenile-court motion. The participant must have completed the diversion programme and must separately obtain the State Attorney's certification; fingerprints and completion proof accompany the application rather than preceding it. Prosecutor and FDLE processing periods are not pre-filing waits.",
+      "exactDestination": "Florida Department of Law Enforcement. Held and named in the census destination object.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "fl-self-defense-set",
+      "jurisdiction": "FL",
+      "routeKey": "obligation:track-pathway:FL:fl-self-defense:lawful-self-defense-expunction-943-0578",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built. A LIVE DISC06 source-discovery grant covers its form.",
+      "determinedTreatment": "participant agency application to a state agency. Correctly classified.",
+      "heldAuthority": [
+        "compiled profile FL-florida.json#lawful-self-defense-expunction-943-0578: outcomeMode=agency_application, statute='Fla. Stat. § 943.0578', packetComponents=['FDLE application','State Attorney or court certification'], notes='Certification is the trigger; there is no elapsed wait.'",
+        "route contract route-splits.json#FL:lawful-self-defense-expunction-943-0578 — LD-FL-01 — agency_application",
+        "census: § 943.0585(5) and (6) apply to an expunction ordered under it, per § 943.0578(4) as reenacted by Chapter 2026-114",
+        "census destination object: {kind: agency, name: 'Florida Department of Law Enforcement', detail: 'Dedicated FDLE application. The prosecutor certification is obtained separately by the participant.'}"
+      ],
+      "isActuallyAPacketOrPleading": false,
+      "participantDeliverableIfBuilt": "Not built. What it would have to say: the State Attorney's or the court's certification that the arrest was for an act of lawful self-defence is the trigger for the whole route, and the participant obtains it separately before FDLE can act. There is no elapsed waiting period at all.",
+      "exactDestination": "Florida Department of Law Enforcement. Held and named in the census destination object.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "hi_nonconviction_expungement-set",
+      "jurisdiction": "HI",
+      "routeKey": "obligation:track-pathway:HI:hi_nonconviction_expungement:nonconviction-arrest-expungement",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built. A LIVE SRC04 reconciliation grant covers form HCJDC-159B.",
+      "determinedTreatment": "participant agency application to a single statewide office. Correctly classified, and the best-specified destination in the cohort.",
+      "heldAuthority": [
+        "compiled profile src/lib/rcap-engine/compiled/profiles/HI-hawaii.json#nonconviction-arrest-expungement: outcomeMode=agency_application, mechanism='Nonconviction arrest expungement through the Attorney General', statute='Haw. Rev. Stat. § 831-3.2', packetFamily='Hawaii Attorney General Expungement Application under § 831-3.2'",
+        "route contract: src/lib/legal-authority/routes/p0.json#HI:nonconviction-arrest-expungement — LD-HI-01 — agency_application, legal-design:legal_design_approved",
+        "census: statuteOrAuthority='HRS § 831-3.2; Act 3, Session Laws of Hawaii 2025'",
+        "census destination object: {kind: agency, name: 'Hawaii Criminal Justice Data Center', detail: 'Single statewide office. Orders issued before July 1, 2025 still require the person to contact the Judiciary directly.'}",
+        "source-url held in requiredSourceIds: https://ag.hawaii.gov/hcjdc/"
+      ],
+      "isActuallyAPacketOrPleading": false,
+      "participantDeliverableIfBuilt": "Not built. What it would have to say: since July 1, 2025 this is a one-step application to a single statewide office on form HCJDC-159B — no court appearance and no separate judiciary step. The one live exception the record establishes: a person holding an expungement order issued BEFORE July 1, 2025 must still contact the Judiciary directly, and must not be told the one-step procedure covers them. Agency processing time is not a wait the participant must serve before applying (LD-HI-01 effective-note).",
+      "exactDestination": "Hawaii Criminal Justice Data Center, Department of the Attorney General — https://ag.hawaii.gov/hcjdc/. Held, named and reachable.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "jurisdiction": "ME",
+      "routeKey": "obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built. A LIVE DISC01 grant covers its NO_DOCUMENT_SOURCE_NAMED obligation.",
+      "determinedTreatment": "PARTICIPANT PACKET — a petition the participant files. STOPPED per instruction 2. This is not an agency, automatic, court-initiated or guidance route.",
+      "heldAuthority": [
+        "compiled profile src/lib/rcap-engine/compiled/profiles/ME-maine.json#juvenile-sealing: outcomeMode=participant_packet, mechanism='Juvenile sealing — petition branch for serious and OUI matters', statute='15 M.R.S. § 3308-C', packetFamily='Maine Juvenile Sealing Petition under 15 M.R.S. § 3308-C', packetComponents=['Petition under § 3308-C','Final discharge proof'], LD-ME-03",
+        "census: processActor=participant, participantCanInitiate=true, participantFacingInstrument='petition under § 3308-C for murder, Class A, B or C juvenile crimes, or OUI matters', possibleCategory=A_MUST_FULFILL, classificationConfidence=high",
+        "census cohort note: 'Qualifying Class D, Class E and civil-type juvenile matters enter the automatic branch with no separate participant filing wait. The three-year petition branch is limited to murder, Class A, B or C juvenile crimes and OUI matters.'"
+      ],
+      "isActuallyAPacketOrPleading": true,
+      "reassignmentReason": "The statute IS partly automatic, and the repository already knows it: the automatic half is a SEPARATE route key, obligation:runtime-contract-cohort:ME:juvenile-sealing:class_d_e_civil_automatic, processActor=court, participantCanInitiate=false, currentOutputStrategy=process_guidance. That sibling is not in my cohort. The key I was given is the residual participant-filed branch, and it needs a pleading lane.",
+      "participantDeliverableIfBuilt": "Nothing written. Writing a no-filing-needed or agency-application deliverable here would have told a participant with a Class A, B or C juvenile adjudication or an OUI matter that the court would seal it on its own. The record says the opposite: for those matters the participant petitions, three years after final discharge.",
+      "exactDestination": "NOT ESTABLISHED. Census destination is literally 'not recorded'.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "jurisdiction": "UT",
+      "routeKey": "obligation:runtime-only:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built.",
+      "determinedTreatment": "PARTICIPANT PACKET — a petition to vacate and expunge. STOPPED per instruction 2.",
+      "heldAuthority": [
+        "compiled profile src/lib/rcap-engine/compiled/profiles/UT-utah.json#path-l-vacatur-human-trafficking-related-expungement: outcomeMode=participant_packet, mechanism='Human-trafficking-related vacatur and expungement', statute='Utah Code Title 77, Chapter 40a trafficking provisions', packetFamily='Utah Trafficking Vacatur and Expungement Petition', packetComponents=['Petition to vacate or expunge','Trafficking nexus evidence'], LD-UT-07",
+        "the profile's own note on this route: 'The current guidance-only treatment must be removed: the statute expressly authorises a participant-filed petition.'",
+        "census runtime-authority-decision effective-note: 'Remove the current contradictory guidance-only treatment from any special route that expressly authorizes a participant-filed petition.'",
+        "census: processActor=participant, participantCanInitiate=true, participantFacingInstrument='Utah Trafficking Vacatur and Expungement Petition', possibleCategory=A_MUST_FULFILL, classificationConfidence=high"
+      ],
+      "isActuallyAPacketOrPleading": true,
+      "reassignmentReason": "The held record does not merely permit a petition treatment; it directs in two places that the guidance-only treatment be REMOVED because the statute expressly authorises a participant-filed petition. Building a guidance-only deliverable here would have re-committed the exact defect the record names.",
+      "participantDeliverableIfBuilt": "Nothing written. There is no elapsed waiting period on this route — relief is available on proof that the covered offence resulted from trafficking — so a wait-and-see deliverable would also have been wrong on timing.",
+      "exactDestination": "NOT ESTABLISHED. Census destination is 'not recorded'.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "jurisdiction": "UT",
+      "routeKey": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:ordinary_petition_branch",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built.",
+      "determinedTreatment": "PARTICIPANT PACKET — the ordinary juvenile expungement petition. STOPPED per instruction 2.",
+      "heldAuthority": [
+        "compiled profile UT-utah.json#path-m-juvenile-expungement: outcomeMode=participant_packet, mechanism='Juvenile expungement — ordinary petition branch', packetFamily='Utah Juvenile Expungement Petition', packetComponents=['Petition','Jurisdiction termination or release proof'], LD-UT-07",
+        "the profile's own note: 'Separate automatic and favourable-outcome branches exist and are not subject to this age-and-time rule.'",
+        "census: processActor=participant, participantCanInitiate=true, participantFacingInstrument='Utah Juvenile Expungement Petition', possibleCategory=A_MUST_FULFILL, classificationConfidence=high",
+        "timing held: at least eighteen and generally one year beyond termination of juvenile-court jurisdiction or release, subject to the statutory waiver"
+      ],
+      "isActuallyAPacketOrPleading": true,
+      "reassignmentReason": "Utah's Clean Slate automatic process is real and the profile describes it at length — but the census has already carved it off as obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:automatic_branch (processActor='court or agency', participantCanInitiate=false, process_guidance), alongside a favorable_outcome_branch. Neither is in my cohort. The key I was given is expressly the ordinary petition branch.",
+      "participantDeliverableIfBuilt": "Nothing written.",
+      "exactDestination": "PARTIALLY ESTABLISHED AND NOT SUFFICIENT. Census records 'court identified in exact route contract; exact filing destination not recorded'.",
+      "checkoutDisabled": true
+    },
+    {
+      "familyId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+      "jurisdiction": "WA",
+      "routeKey": "obligation:runtime-contract-cohort:WA:juvenile-record-sealing-under-rcw-13-50-260:participant_motion_branch",
+      "claimOutcome": "NOT_GRANTED — no packet-build lane holds this family. Not built.",
+      "determinedTreatment": "PARTICIPANT PACKET — a motion to seal. STOPPED per instruction 2. This is the least ambiguous of the four: it carries no pending route-kind adjudication.",
+      "heldAuthority": [
+        "compiled profile src/lib/rcap-engine/compiled/profiles/WA-washington.json#juvenile-record-sealing-under-rcw-13-50-260: outcomeMode=participant_packet, mechanism='Juvenile record sealing — participant motion branch', statute='RCW 13.50.260', packetFamily='Washington Juvenile Sealing Motion under RCW 13.50.260', packetComponents=['Motion to seal','Release or completion proof','Restitution proof'], LD-WA-02",
+        "census: processActor=participant, participantCanInitiate=true, participantFacingInstrument='Washington Juvenile Sealing Motion under RCW 13.50.260', possibleCategory=A_MUST_FULFILL, classificationConfidence=high",
+        "held motion-branch conditions: Class A requires 5 consecutive crime-free years, no pending juvenile/criminal proceeding, no pending diversion, no current sex-offender registration duty, no rape 1 / rape 2 / forcible-compulsion indecent liberties, and restitution paid to the individual victim; Class B/C, gross misdemeanour, misdemeanour and diversion records generally require 2 consecutive years"
+      ],
+      "isActuallyAPacketOrPleading": true,
+      "reassignmentReason": "RCW 13.50.260 is exactly the statute the brief was right to be careful about — it is largely automatic. It has both an immediate mandatory seal on acquittal or dismissal with prejudice and a court-scheduled administrative sealing hearing. The census has BOTH already, as separate keys: acquittal_or_dismissal_immediate_automatic and scheduled_administrative_hearing_automatic, each processActor=court, participantCanInitiate=false, currentOutputStrategy=process_guidance. Neither is mine. Mine is the residual branch for people the automatic process does not reach or has denied, and for them the statute requires a motion.",
+      "participantDeliverableIfBuilt": "Nothing written. The specific harm avoided: telling a person whose adjudication was a most serious offence, a chapter 9A.44 sex offence, or a drug offence under RCW 9.94A.030 that the court would seal it automatically. The statute says the court does NOT schedule administrative sealing for exactly those, which is why the motion branch exists.",
+      "exactDestination": "NOT ESTABLISHED. Census destination is 'not recorded'.",
+      "checkoutDisabled": true
+    }
+  ],
+
+  "checkoutPosture": {
+    "verdict": "Packet checkout is disabled for all nine routes, and I changed nothing that bears on it.",
+    "howEstablished": "data/rcap-ledger/packet-fulfillment-records.json holds exactly one fulfillment record and none of the nine routes appears in it. src/lib/expungement-ai/packet-fulfillment-authority.ts is fail-closed by design: 'commercial authority is granted only by an exact Grade-A fulfillment record, and the absence of a record is a refusal rather than a gap.' Checkout creation, consumer payment authority, sponsored entitlement and packet-credit consumption all pass through assertPacketFulfillmentProven.",
+    "corroborating": "The census independently records NO_GRADE_A_FULFILLMENT_RECORD for the three FL routes and AK, and launch-graph:operationallySellable=false / LAUNCH_GRAPH_CLOSED for HI, ME, both UT routes and WA.",
+    "oneThingTheCaptainShouldSeeAnyway": "Every one of the nine compiled-profile routes carries paymentAuthority:'packet_checkout' and frontendBranch.paymentAllowed:true — including the five that are agency applications and not packets at all. That flag does NOT open checkout: packet-fulfillment-authority.ts names it explicitly among the proxies it refuses ('paymentAllowed copied from a profile is a stored opinion, and the thing that must be true is a present fact about an artifact'). So this is not a live exposure. It is a stored opinion that contradicts the route's own outcomeMode on five routes, and it will mislead the next reader who trusts it. Worth correcting at the profile level rather than per family."
+  },
+
+  "hazardsForWhoeverPicksTheseUp": {
+    "a3TrapWashington": "WA-washington.json has no per-route filingDestinationRules or feeRules. It has PROFILE-LEVEL packetGenerator.filingDestinationRules, and every line in them addresses ADULT vacation under RCW 9.96.060 — CrRLJ 09.0100 / CR 08.0900, sentencing court, Certificate of Discharge, serve the prosecutor. That is a different statute and a different remedy from a 13.50.260 juvenile sealing motion. Under A3 it does NOT establish this route's filing destination. packetGenerator.feeRules is an empty array. This is the same shape as the California 1203.4 trap A3 was written for.",
+    "a3TrapMaine": "ME-maine.json packetGenerator.feeRules names a $60 post-judgment motion fee under Maine Rules of Civil Procedure 55(b)(2), 59, 60(b), 62 and 66 and tells the reader to confirm the exact CR-218/CR-289 fee with the clerk. CR-218 and CR-289 are the adult non-conviction and prostitution sealing instruments, not the § 3308-C juvenile petition. Under A3 that line does not answer this route's fee question. Separately, ME's packetGenerator.filingDestinationRules is not a filing destination at all — it is State Bureau of Identification records-ACCESS content ($31 online search, $41 notarized check). Do not publish either as this route's answer.",
+    "destinationsAreEmpty": "Census destination is 'not recorded' for ME, WA and UT path-L, and 'exact filing destination not recorded' for UT path-M. Whoever builds these will have to establish the court from the route contract or say honestly that no held source names it and name the office to ask, per A1 as widened by A2.",
+    "pendingRouteKindAdjudications": "ME juvenile-sealing, UT path-L and UT path-M each carry route-kind-adjudication:pending. The route contract says participant_packet; the evaluator evidence says 'not a user-filed court petition' (UT pair conclusive=true with prior=guidance_only; ME conclusive=false with prior=needs_more_info). The same census rows carry runtime-authority-decision effective-notes directing that the contradictory guidance-only treatment be removed where the statute expressly authorises a participant-filed petition, and the census resolves currentOutputStrategy to the petition. So the record points one way, but the adjudication is formally open and a Captain should close it before a packet lane finishes those three. WA carries no such pending adjudication."
+  },
+
+  "captainMustDecide": [
+    "Grant or decline packet-family claims for these nine. Nothing can proceed on any of them until the ledger holds a packet-build grant; the ledger is the ground truth for dispatch ownership and it currently says nobody owns them.",
+    "Reassign ME:juvenile-sealing, UT:path-l-vacatur, UT:path-m-juvenile-expungement and WA:juvenile-record-sealing-under-rcw-13-50-260 to a packet or custom-pleading lane. They were placed in a non-packet cohort on the strength of naming no official PDF; the held record says all four are participant-filed petitions or motions and their automatic siblings already exist as separate guidance routes.",
+    "Close the route-kind adjudication on ME:juvenile-sealing, UT:path-l and UT:path-m before those three are built.",
+    "Decide whether the five agency-application families should wait on their LIVE source-discovery grants (FL x3 on DISC06, HI on SRC04) before a packet-build grant is issued, since a build lane and a discovery lane would otherwise work the same families at once.",
+    "Consider correcting paymentAuthority:'packet_checkout' and paymentAllowed:true on the five compiled-profile routes whose own outcomeMode is agency_application. It opens nothing today, but it is a stored opinion that contradicts the route."
+  ],
+
+  "commercialRoutesOpened": 0,
+  "familiesPromoted": 0,
+  "productionTouched": false,
+  "generatorsRun": 0,
+  "filesWritten": ["data/rcap-grade-a/fable-packet-factory/returns/c2.json"],
+  "grantsNothing": "This return records determinations and refusals. It promotes no family, opens no route, and overrides no legal decision."
+}

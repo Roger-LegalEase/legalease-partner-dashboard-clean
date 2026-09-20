@@ -1,0 +1,456 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF24",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+  "preflight": "Claim asserted before any family artifact was opened: CLAIM_OK VF24 ky_protective_order_record_expungement-set (independent-verification, grant set 72df49332e34b061). MASTER_LIBRARY_SOURCE_DIR set; the pinned source was rehashed from the bytes held in the private custody mount.",
+  "overlayDirectoriesModified": 0,
+  "buildScriptsModified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "grantsNothing": "An independent read proves a packet against its own controlling records and nothing more. It approves no output, promotes no route, opens no commercial path and issues no raster receipt. A FAIL here is a verdict and a repair assignment, never an edit: this lane wrote into no overlay directory, no build script and no central artifact.",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "PROTECTED_FIELDS",
+    "CLIPPING_AND_OVERLAP",
+    "SELF_HELP_STOP",
+    "FILING_DESTINATION",
+    "SERVICE",
+    "REQUIRED_BEFORE_FILING",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "FEE_AND_WAIVER"
+  ],
+  "rows": [
+    {
+      "itemId": "ky_protective_order_record_expungement-set",
+      "lane": "VF24",
+      "laneKind": "independent-verification",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "7d072beb5f4a6cdddbd204a1d9cf410edca7b494",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill",
+      "implementationStrategy": "official_pdf_fill",
+      "rasterState": "BUILT_RASTER_PENDING",
+
+      "independence": "This lane neither built nor repaired this family. PF08 built it; FIX06 repaired it on 2026-09-10. Every claim in FIX06's return was re-derived here from the records and the bytes rather than accepted, including the five record readings, the caption geometry and the zero-ink finding on the PETITIONER block.",
+
+      "postRepairReread": {
+        "repairLane": "FIX06",
+        "repairRow": "data/rcap-grade-a/packet-factory-24h/fix06/rows-fix06-20260910-ky.json",
+        "priorVerdictAnswered": {
+          "lane": "VF04",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+          "failedObligationNames": ["ROUTE_IDENTITY", "KNOWN_PREFILLS", "SELF_HELP_STOP"]
+        },
+        "allThreeRepairedObligationsRePass": true,
+        "howThatWasEstablished": "VF04's three obligations were re-measured from scratch, not compared to FIX06's account of them. ROUTE_IDENTITY: data/record-clearing/legal-design-intake/KY.memo.json was read directly and does establish the participant as the RESPONDENT in the five nodes named; the false sentence 'Nothing in the committed record for this route establishes which of the two blocks the participant occupies' appears nowhere in the family directory now. KNOWN_PREFILLS: the three respondent-name widgets carry participant ink in both fixtures and the PETITIONER block carries none, measured on the bytes. SELF_HELP_STOP: the 2 packet_instruction limitations, the 1 self_help_boundary and the 4 selfHelpStopConditions all reach participant-instructions.md byte-for-byte. Those three are answered. This FAIL rests on three different defects, none of which VF04 named and none of which FIX06 was dispatched to repair.",
+        "repairAuthorDidNotSelfApprove": true
+      },
+
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 1,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+
+      "countersHowMeasured": {
+        "knownRequiredFieldsMissing": "0. The field map declares 6 writable anchors. In canonical all 6 produced extracted ink attributable to their own widget rectangle. In boundary 5 did; the sixth, 'Case  No', produced no ink and is disclosed in reports/blanks.json under valuesTooLongForTheWidgetTheFormDraws with a measured widget width of 111.16pt and a stated reason. A disclosed refusal is not a silently missing field, so it is not counted here; it is named in full under CLIPPING_AND_OVERLAP. The 5 fields carrying approvedDisposition REQUIRED_BEFORE_FILING are facts the platform does not hold and are correctly not counted as missing.",
+        "requiredFactsNotCollected": "0. The record's track carries 8 participantInputs marked required. Each is accounted for on the page or in the guide: poCounty, poCaseNumber and poRespondentName are written; poPetitionerName is deliberately withheld as a third party's fact with a disclosed reason; poMovantAddress has no widget on this form and is disclosed as a printed line the participant completes; poDismissalDate, poNoFullOrder and poNoRecentOrder feed the three numbered sworn allegations, which the packet correctly refuses to answer for the participant and discloses individually in reports/blanks.json and participant-instructions.md. None is silently dropped.",
+        "unclassifiedBlanks": "0. The pinned source carries 16 AcroForm fields, read with pdf-lib from the custody bytes. production-field-map.json accounts for all 16: 6 writableAnchors, 8 withheld with an approvedDisposition each, 2 suppressedControls (the Print and Reset push buttons). A set difference between my own 16-name field inventory and the map's names left nothing on either side. The 4 printed lines the form draws with no widget behind them are separately enumerated in reports/blanks.json.printedLinesWithNoWidgetBehindThem and in the guide.",
+        "incompleteRows": "0. Measured, not assumed: the form is a single page carrying 16 discrete AcroForm fields with no indexed family, no charge or count table and no repeating row structure of any kind. There is no row to leave incomplete.",
+        "requiredOptionsMissing": "0. The only option-bearing field on the form is Case.County. Its /Opt array was read from the source bytes: 121 entries, each a two-element [exportValue, displayValue] pair. The delivered county in canonical is 'Franklin', which is the display value of option index 37; in boundary it is 'Breckinridge', the display value of option index 14. Both delivered values are members of the widget's own option list. The three checkboxes are participant elections with no required option.",
+        "requiredComponentsMissing": "1. The controlling record declares three components for this track. components[0] primary_filing, requirement 'required', officialFormId AOC-275.18 — delivered. components[1] court_order, requirement 'conditional', reference only — correctly not delivered. components[2] service_instructions, requirement 'required', whose own note reads 'The packet tells the movant how to serve and provides the certificate.' The packet tells the movant how to serve, in filing-instructions.md. It provides no certificate: the string 'certificate' does not occur anywhere in the family directory, in any file. That is the one counted here.",
+        "invisibleWrites": "0. Two independent tests on both fixtures. First, every declared write produced glyphs that pdftotext extracts at a measured position inside its own widget rectangle. Second, the text-bearing content streams were decompressed and scanned: no Tr operator appears anywhere in either file, so every text-showing operation runs at the default render mode 0 (fill), and no white fill ('1 g' or '1 1 1 rg') precedes any Tj or TJ in any of the 16 text-bearing streams in either file.",
+        "protectedWrites": "0. Nothing was written into a region this form reserves to the court or the clerk. 'Division' and 'Court' are withheld with approvedDisposition REQUIRED_BEFORE_FILING and carry no ink. The whole NOTIFICATION OF EXPUNGEMENT HEARING block, which the record says the clerk completes, has no AcroForm widget at all, and my per-token attribution found zero added ink anywhere below y=545.86 in either fixture. The Print and Reset push-button captions appear in neither delivered file.",
+        "visualDefects": "null, deliberately, and not 0. This lane read the delivered PDFs as bytes — text layer, glyph bounding boxes, content-stream operators and AcroForm geometry. It did not rasterize them, and no current RASTER_PASS covers these bytes (see rasterCoverage below). A defect that appears only under rendering is outside what was measured here, so the honest value is null."
+      },
+
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The participant is the RESPONDENT and the packet says so on the strength of the record, which this lane read itself. data/record-clearing/legal-design-intake/KY.memo.json, track ky_protective_order_record_expungement, establishes it in exactly the five nodes claimed, all confirmed by direct read: participantInputs.poRespondentName asks 'What is your full name as it appears on the case?'; participantInputs.poPetitionerName asks 'What is the name of the person who petitioned against you?'; controllingAuthority.summary says 'The respondent moves six months after dismissal'; exclusions carries 'Any respondent who has been bound by, or had issued against them, an order of protection...'; destination.detail says the clerk 'requests an updated criminal and protective-order history for the respondent'. VF04's quoted sentence is therefore false as a statement about the record, and it no longer appears anywhere in the family directory. The builder now genuinely reaches that file: scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs line 233 pins the path, loadControllingRecord() reads and parses the bytes at lines 241-242, and it is invoked unconditionally at module scope on line 306. The route key, the memo trackId and the statutory citations agree across source-receipt.json, product-wiring.json, production-field-map.json and approval-request.json.",
+          "evidence": {
+            "recordPath": "data/record-clearing/legal-design-intake/KY.memo.json",
+            "recordSha256RecomputedHere": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+            "recordSha256AsQuotedInTheGuide": "157d7de303a0d14bb7232575c34856e1f15ee7a3ffa9cf267cd65b79e4ccd8c2",
+            "hashAgrees": true,
+            "whyTheHashMatters": "The guide quotes the record's digest. This lane recomputed that digest with sha256sum over the same file and it agrees, which is evidence the quoted sentences came from the file rather than from a literal typed to resemble it. All five quotes are additionally byte-identical to the live nodes.",
+            "routeKey": "obligation:track-only:KY:ky_protective_order_record_expungement",
+            "statutoryAuthority": ["KRS 403.745", "KRS 456.070"],
+            "fiveReadingsIndependentlyConfirmed": 5,
+            "captionGeometryReMeasuredHere": {
+              "method": "widget rectangles read from the pinned source with pdf-lib; printed label positions read with pdftotext -bbox-layout and converted to PDF user space as pageHeight minus yMax, pageHeight 792",
+              "printedPETITIONER": "glyph box y 633.49 to 649.46, x 469.50",
+              "printedRESPONDENT": "glyph box y 586.24 to 602.21, x 469.50",
+              "petitionerWidgetBand": "first/middle/last pet, y 630.43 to 651.94",
+              "respondentWidgetBand": "first/middle/last res, y 585.43 to 606.94",
+              "subLabelRows": "the printed 'First Middle Last' annotation rows sit at y 618.40-630.38 and y 574.40-586.38, one immediately beneath each name row",
+              "conclusion": "The printed RESPONDENT caption overlaps the res widget band and does not overlap the pet band; the printed PETITIONER caption overlaps the pet band and not the res band. The three widgets carrying participant ink are unambiguously under the printed RESPONDENT caption. The AcroForm field names happen to agree with the geometry, but the geometry was measured first and independently.",
+              "fix06FiguresChecked": "FIX06 reported PETITIONER at y=637.40 and RESPONDENT at y=590.10 with sub-labels at y=621.30 and y=577.30. Each falls inside the corresponding glyph box measured here and each sits in the band FIX06 assigned it. Its figures reproduce."
+            }
+          }
+        },
+
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One source, bound by content digest and rehashed here from the custody bytes rather than trusted from the receipt. The declared digest resolves exactly, and every record that names it agrees.",
+          "evidence": {
+            "sourceId": "official-form:AOC-275.18",
+            "pathInCustody": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+            "sha256RecomputedHere": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+            "declaredSha256": "b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51",
+            "agrees": true,
+            "byteLength": 192243,
+            "pageCount": 1,
+            "acroFieldCount": 16,
+            "acroFieldCountDeclaredInReceipt": 16,
+            "structuralClassObserved": "acroform",
+            "formIdentityOnItsOwnFace": "AOC-275.18, Rev. 1-16, Doc. Code EXPG, 'MOTION FOR EXPUNGEMENT OF EMERGENCY/TEMPORARY ORDER OF PROTECTION', citing KRS 403.745; 456.070, read from the source's own text layer",
+            "agreementAcrossRecords": "source-receipt.json, product-wiring.json binding.sourceVersion, production-field-map.json documents[0].sourceSha256, reports/rendered-artifacts.json pageManifest and reports/caption-evidence.json all carry the same digest."
+          }
+        },
+
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The controlling record declares a required component this packet does not deliver, and no artifact in the family discloses the gap. KY.memo.json track ky_protective_order_record_expungement carries three components. components[0], role primary_filing, requirement 'required', AOC-275.18 — delivered, one page, correct. components[1], role court_order, requirement 'conditional', conditionDescription 'Reference only. The court enters the order.' — correctly not delivered. components[2], role service_instructions, requirement 'required', outputStrategy process_guidance, whose note reads in full: 'The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.' The packet performs the first half — filing-instructions.md has a Service section that states the rule accurately. It does not perform the second: there is no certificate of service in this family. A case-insensitive search for the string 'certificate' across every file in the family directory returns nothing. The record's manualCompletionItems[1] compounds it by locating a manual step 'whereInPacket: Notice distribution list', a component the packet does not contain under that or any other name. Meanwhile product-wiring.json binding.instrumentKinds and MASTER_QUEUE.json both advertise instrumentKinds ['court_order','primary_filing','service_instructions'] while packetComponents lists only the primary filing and build-status.json records builtDocuments 1. build-findings.json reports blocking [] and findingCount 0 and does not mention the absent certificate at all, so a reader of the build artifacts has no way to learn of it. FIX06 recorded 'No certificate of service was authored' under what it deliberately did not do, which records the repair lane's scope but is not a disclosure inside the packet and does not reach the participant or the reviewer.",
+          "evidence": {
+            "recordComponentsDeclared": 3,
+            "requiredComponentsDeclared": 2,
+            "requiredComponentsDelivered": 1,
+            "missingComponentRole": "service_instructions",
+            "missingComponentRequirement": "required",
+            "recordNoteVerbatim": "The Clerks' Manual directs that if the movant has not already served copies of the notice per the distribution list by first class mail, the clerk does. The packet tells the movant how to serve and provides the certificate.",
+            "searchPerformed": "grep -rin 'certificate' over the whole family directory — zero hits in any file",
+            "advertisedInstrumentKinds": ["court_order", "primary_filing", "service_instructions"],
+            "deliveredDocuments": 1,
+            "buildFindingsDisclosure": "none; blocking [] and findingCount 0"
+          }
+        },
+
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "The respondent-name repair is sound, and that part re-passes: the three respondent widgets carry the participant's decomposed name in both fixtures, at their own rectangles, left to right in first/middle/last order by x-position, and the PETITIONER block carries zero participant ink in both. The failure is elsewhere and is on the delivered boundary page. The boundary fixture writes the 'movant' anchor from participant.full_legal_name with the value 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran', while the same page's caption names the respondent 'Alexandrina-Katharine | Montgomery-Vandenberg-Oyelaran | Fitzwilliam III'. On this form the movant and the respondent are the same person — the form's own sentence is 'The movant, ____, seeks expungement of the records of this case' directly above that caption — and the delivered page names that person two different ways, dropping the surname and generational suffix from the operative sentence. Read at the source: BOUNDARY sets participant.last_name to 'Fitzwilliam III' but sets participant.full_legal_name to a string that omits it, so the composed identity contradicts its own parts. The canonical fixture does not have this problem: 'Jordan Avery Reyes' is exactly first plus middle plus last. This is a source-authored default that reaches the page, and it survives every counter: the map declares the anchor, the finalizer wrote what the map's fact held, the ink lands inside the write box, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes stays 0. It has a second consequence recorded under CLIPPING_AND_OVERLAP: because the shortened value fits, the movant field's overflow behaviour was never exercised at the width the fixture's own persona implies.",
+          "evidence": {
+            "boundaryMovantInkReadFromBytes": "Alexandrina-Katharine (x 101.06-209.88) Montgomery-Vandenberg-Oyelaran (x 212.94-385.95), y 546.96-557.13; no third token on that line",
+            "boundaryCaptionInkReadFromBytes": "Alexandrina-Katharine (x 39.30-148.12) | Montgomery-Vandenberg-Oyelaran (x 204.38-338.06) | Fitzwilliam (x 346.25-396.96) III (x 400.02-409.20)",
+            "fixtureSource": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs, the BOUNDARY object: participant.last_name 'Fitzwilliam III' alongside participant.full_legal_name 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran'",
+            "canonicalIsConsistent": "participant.full_legal_name 'Jordan Avery Reyes' equals first 'Jordan' + middle 'Avery' + last 'Reyes'",
+            "disclosedAnywhere": false,
+            "whyNoCounterSeesIt": "The value written matches the fact the map names, the ink is inside the declared write box, and reports/blanks.json lists only 'Case  No' under valuesTooLongForTheWidgetTheFormDraws. Nothing in the artifact set compares full_legal_name against its own name parts.",
+            "petitionerBlockZeroInkConfirmed": {
+              "method": "every added word token in each fixture was diffed against the pinned source and attributed to a source widget rectangle with a 2pt tolerance",
+              "canonical": "8 added non-whitespace tokens, 54 glyph characters; 0 attributable to first pet, middle pet or last pet",
+              "boundary": "7 added non-whitespace tokens, 128 glyph characters; 0 attributable to first pet, middle pet or last pet",
+              "bandCheck": "Reading the PETITIONER band y 630.43-651.94 directly in both delivered files returns only the source's own printed 'PETITIONER' label and a whitespace-only tab run that is present in the source too. No participant ink.",
+              "whyThisMattered": "Writing the participant's own name into a field about the other party is the North Dakota victim-column defect mirrored, and it is catalogued as a-participant-fact-written-into-a-field-about-someone-else. The packet does not do it."
+            }
+          }
+        },
+
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Nothing was written into a field or region this form reserves to the court or the clerk. 'Court' and 'Division' are withheld with approvedDisposition REQUIRED_BEFORE_FILING and carry no ink in either fixture. The NOTIFICATION OF EXPUNGEMENT HEARING block — the hearing date, the hour, the a.m./p.m. election, the District/Circuit election and the clerk's dated signature — carries no AcroForm widget at all on this form, and per-token attribution over both delivered files found no added ink anywhere below y=545.86. The three numbered checkboxes are sworn allegations sitting directly above the movant's signature and are correctly left unchecked, each with its own disclosed reason. The Print and Reset push buttons were suppressed before the flatten and neither caption appears in either delivered file.",
+          "evidence": {
+            "protectedWritesMeasured": 0,
+            "lowestAddedInkY": 546.96,
+            "clerkBlockStartsBelowY": 545.86,
+            "checkboxesWritten": 0,
+            "buttonCaptionsStamped": 0,
+            "printResetPresentInDeliveredText": false
+          }
+        },
+
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Measured on the delivered bytes rather than on intent, and clean. Every added word token in both fixtures fits wholly inside exactly one source widget rectangle at a 2pt tolerance; none matched two rectangles and none matched none. The tightest case is boundary 'middle res', where 'Montgomery-Vandenberg-Oyelaran' ends at x 338.06 inside a rectangle whose right edge is 344.72, with the neighbouring 'last res' rectangle beginning at 345.25 — no collision. The builder shrinks to fit rather than clipping: that token renders 7.86pt tall against canonical's 10.17pt. Where a value cannot be made to fit it is refused rather than clipped, and the refusal is recorded with the measured widget width: boundary's 36-character case number is refused against a 111.16pt widget and reports/blanks.json states why. That is the right behaviour for a filing. Recorded against this obligation without changing its result: the boundary fixture does not actually exercise the 'movant' anchor at its own persona's full width, because its participant.full_legal_name omits the surname the same persona carries (see KNOWN_PREFILLS). The full composed name would run roughly 380pt against a 315.36pt widget and would therefore have hit the refusal path, leaving the form's operative sentence 'The movant, ____, seeks expungement' blank on a filing. Whether that path is the right one for this field is untested here because the fixture never reaches it.",
+          "evidence": {
+            "canonicalTokensFittingNoWidget": 0,
+            "boundaryTokensFittingNoWidget": 0,
+            "tokensMatchingMoreThanOneWidget": 0,
+            "adjacentWidgetCollisions": 0,
+            "refusalsRatherThanClips": [
+              {"fixture": "boundary", "field": "Case  No", "measuredWidgetWidth": 111.16, "disclosedIn": "reports/blanks.json"}
+            ],
+            "boundaryCoverageGap": "the movant anchor at true persona width"
+          }
+        },
+
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Counted, not accepted. The record's legalDesignDecision.limitations holds 4 entries: 2 classified packet_instruction, 1 classified participant_question and 1 classified self_help_boundary. Its selfHelpStopConditions holds 4. Every one of the 2 packet_instruction limitations, the 1 self_help_boundary and the 4 selfHelpStopConditions — 7 statements — reaches participant-instructions.md by exact string containment, tested programmatically against the live record nodes, and each is labelled there as the record's own words. That includes the one that matters most on this route: 'This clears the civil protective-order case record only. It does not touch any criminal record arising from the same events.' The fourth limitation is classified participant_question rather than an instruction or a boundary and is not claimed to reach the guide; its substance — that the two gates must be asked — surfaces as the three disclosed sworn allegations. None of the record's prose is printed onto the filing itself; all 54 and 128 added glyphs are persona facts, so the internal-record-text-printed-on-a-filing defect is absent.",
+          "evidence": {
+            "packetInstructionLimitations": 2,
+            "selfHelpBoundaries": 1,
+            "selfHelpStopConditions": 4,
+            "statementsTestedForVerbatimReachIntoTheGuide": 7,
+            "statementsAbsent": 0,
+            "method": "literal string containment of each live record node against the delivered participant-instructions.md",
+            "recordProsePrintedOntoTheFiling": 0
+          }
+        },
+
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The record's destination node gives kind 'clerk', name 'Office of the Circuit Court Clerk' and a detail describing what the clerk does. filing-instructions.md sends the movant to the Office of the Circuit Court Clerk for the court that heard the petition, filed in the protective-order case itself, and recites the clerk's duties in terms that match destination.detail. participant-instructions.md quotes destination.detail verbatim. Nothing about the destination is invented and no clerk practice beyond the record's own is asserted.",
+          "evidence": {
+            "recordDestinationKind": "clerk",
+            "recordDestinationName": "Office of the Circuit Court Clerk",
+            "destinationDetailQuotedVerbatimInGuide": true,
+            "fabricatedClerkPractice": 0
+          }
+        },
+
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The service rule the packet states is accurate to the record. rules.service reads 'The movant may serve copies of the notice by first class mail per the distribution list; otherwise the clerk does', and filing-instructions.md states exactly that. The copies list it gives — the court file, the petitioner and the respondent — matches the form's own printed footer, which this lane read in the source's text layer. No service deadline is asserted, and the record states none. Two things are recorded here without changing the result. First, the sentence is a hardcoded literal, not a read of rules.service, which is the residual condition described under crossChecks. Second, the missing certificate of service is a service-related defect but it is a missing component and is scored once, under COMPONENT_SET, rather than counted twice; a repair lane should read the two together.",
+          "evidence": {
+            "recordServiceRule": "The movant may serve copies of the notice by first class mail per the distribution list; otherwise the clerk does.",
+            "packetStatementAccurate": true,
+            "distributionListMatchesFormFooter": true,
+            "fabricatedServiceRuleOrDeadline": 0,
+            "certificateGapScoredUnder": "COMPONENT_SET"
+          }
+        },
+
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Everything the participant or the clerk must complete is enumerated, in the right place, with a reason. Five AcroForm fields carry approvedDisposition REQUIRED_BEFORE_FILING — Division, Court, and the three petitioner-name fields — each with a whatToSupply string, and all five reappear in participant-instructions.md under 'You must supply these before you file'. The three numbered checkboxes are classified PARTICIPANT_ELECTION_GENUINE and each carries a reason explaining that it is a sworn allegation above the participant's signature; the guide states plainly that the packet checks none of them. The four printed lines with no widget behind them — Date, Signature, Address and Telephone Number of Movant, and the NOTIFICATION OF EXPUNGEMENT HEARING block — are enumerated with the party responsible for each. The petitioner-name entries no longer rest on a claimed silence: they explain that the record places the participant in the respondent block and that the petitioner block names a third person the platform does not hold.",
+          "evidence": {
+            "requiredBeforeFilingFields": 5,
+            "participantElections": 3,
+            "printedLinesWithNoWidget": 4,
+            "allReachTheGuide": true,
+            "eachCarriesAReason": true
+          }
+        },
+
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "The artifact set is complete and bound to the right bytes. Both fixture digests were recomputed twice here, with sha256sum and with node crypto, and agree with reports/rendered-artifacts.json and with the digests carried in product-wiring.json. Byte lengths and page counts agree. The two output-byte glyph readings are present on both artifacts and both reproduce independently: 54 added non-whitespace glyph characters in canonical and 128 in boundary, matching my own diff of the delivered text against the pinned source exactly. This family does not join the twenty-five overlay directories that emit neither. One inaccuracy is recorded without failing the obligation, because it does not change the page and the headline figures are right: in reports/actual-writes.json the per-write field textReadFromFinalPdfBytes reports 'JordanA' (7 glyphs) for 'first res' and 'AveryR' (6) for 'middle res' in canonical, and 'Alexandrina-KatharineM' (22) and 'Montgomery-Vandenberg-OyelaranF' (31) in boundary. The delivered files contain no such strings. The cause is the ±2pt horizontal tolerance in the per-write readback: 'first res' ends at x 203.00 and 'middle res' begins at x 203.38, so the neighbour's first glyph falls inside the tolerance. The report's own per-write counts consequently sum to 56 against a stated document total of 54. This matters more than a typo because that same tolerance is the machinery that would have to distinguish a name landing in an adjacent caption block, which is the defect class this family was repaired for.",
+          "evidence": {
+            "canonicalSha256RecomputedHere": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+            "boundarySha256RecomputedHere": "a225cbe6a35b8a07325142e1839f0bddb3be2ac150f2f123a99c50ebcdf0d29a",
+            "recomputedWith": ["sha256sum", "node crypto.createHash"],
+            "matchesRenderedArtifactsJson": true,
+            "matchesProductWiringJson": true,
+            "canonicalByteLength": 163791,
+            "boundaryByteLength": 163875,
+            "addedGlyphsReadFromOutputBytes": {"canonical": 54, "boundary": 128},
+            "addedGlyphsIndependentlyReproduced": {"canonical": 54, "boundary": 128},
+            "nonWhitespaceGlyphsOutsideMeasuredWriteBoxes": {"canonical": 0, "boundary": 0},
+            "thatZeroIndependentlyConfirmed": "Confirmed on the bytes, and confirmed to be a weak test. insideAnyWidget in the builder accepts a glyph landing in ANY census widget rectangle, so a participant name written into the petitioner block would leave this counter reading 0. The zero is true here; it is not what proves the packet correct. The per-band ink measurement under KNOWN_PREFILLS is.",
+            "readbackBleedFields": ["first res", "middle res"],
+            "perWriteGlyphSumVsStatedTotal": {"perWriteSum": 56, "statedTotal": 54}
+          }
+        },
+
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "One document, one page, one possible order, and it is the right one. Both delivered fixtures parse to pageCount 1 with pdf-lib at 612x792, matching the pinned source's single page. reports/rendered-artifacts.json carries a pageManifest mapping packetPage 1 to sourcePage 1 of AOC-275.18 at the bound source digest, for both fixtures. The delivered page's printed furniture reads in the source's own order — form number and case block, caption, the movant sentence, the three numbered statements, the WHEREFORE clause, the signature block, then the NOTIFICATION OF EXPUNGEMENT HEARING block and the copies list — with nothing reordered, inserted or dropped.",
+          "evidence": {
+            "canonicalPageCount": 1,
+            "boundaryPageCount": 1,
+            "sourcePageCount": 1,
+            "pageManifestPresent": true,
+            "packetPageToSourcePage": "1 -> 1",
+            "removedFromSource": "only the Print and Reset push-button captions, by design"
+          }
+        },
+
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Measured against the widget's own option list, read from the source bytes, which is the cross-check this obligation exists for. Case.County is the form's only option-bearing field; its /Opt array holds 121 entries, each a two-element [exportValue, displayValue] pair. The delivered canonical county 'Franklin' is the display value at index 37 and the delivered boundary county 'Breckinridge' is the display value at index 14, so both delivered values are members of the widget's own list and neither is invented. No option the route requires is absent. Recorded without changing the result: the builder's own evidence for this is empty rather than affirmative. reports/actual-writes.json publishes deliveredChoiceValues [] and choiceValuesOutsideTheirOwnOptions [] for both fixtures, but that check runs against the DELIVERED bytes after flattening, where no AcroForm and no dropdown survive, so the loop never executes and both arrays are empty by construction rather than by measurement. Read as a test for choice state surviving the flatten it is meaningful and correctly empty; read as evidence that the delivered county is on its own option list — which is how FIX06's cross-check note uses it — it carries nothing. This obligation passes on the measurement recorded here, not on that zero.",
+          "evidence": {
+            "optionBearingFields": 1,
+            "optionCount": 121,
+            "canonicalDeliveredCounty": "Franklin",
+            "canonicalOptionIndex": 37,
+            "boundaryDeliveredCounty": "Breckinridge",
+            "boundaryOptionIndex": 14,
+            "deliveredValuesOutsideTheirOwnOptionList": 0,
+            "builderEvidenceIsVacuous": true
+          }
+        },
+
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "finding": "Measured and does not arise, which is a measurement rather than an absence. AOC-275.18 is a one-page motion carrying 16 discrete AcroForm fields, enumerated here from the source bytes: two push buttons, a case number, a county chooser, a court and a division, six caption name fields in two fixed rows of three, a movant line and three checkboxes. There is no charge table, no count table, no indexed row family and no repeating structure of any kind, so no row can be incomplete and no AcroForm index can disagree with a printed row number. The related trap was nevertheless tested where it could bite: the two three-field caption rows were resolved by geometry against the form's printed captions rather than by their field names, and the left-to-right order within the written row was confirmed by x-position — first res at x 38.30, middle res at 203.38, last res at 345.25 — against the record's first/middle/last facts.",
+          "evidence": {
+            "repeatingTables": 0,
+            "indexedRowFamilies": 0,
+            "totalAcroFormFields": 16,
+            "rowsMeasured": 0,
+            "incompleteRows": 0,
+            "geometryResolvedRows": 2,
+            "columnOrderConfirmedByXPosition": true
+          }
+        },
+
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "FAIL",
+          "finding": "filing-instructions.md tells the participant, under 'The filing fee': 'The committed record says the Clerks' Manual records no filing fee for this motion. It does not record a fee-waiver treatment, and this packet states no fee amount. Ask the clerk.' The first clause is accurate — rules.fees reads 'none identified. The Clerks' Manual records no filing fee for this motion.' The second is false. The record does record a fee-waiver treatment: rules.feeWaiver exists and reads 'not applicable; no fee is identified.' And the builder never opens it. loadControllingRecord() captures fees, service, notarization and participantSignature from the rules node and does not capture feeWaiver, so nothing in the build reaches that field. This is the same defect the family was just repaired for, surviving in the sibling document: a negative claim about what a record does not say, unfalsifiable from inside the packet, asserted by a builder that does not read the node it is describing, and wrong. It is worse than a stale paraphrase because it cannot go stale loudly — no assertion guards it. The wider condition is that filing-instructions.md is built entirely from hardcoded string literals: every one of its 'The committed record says...' sentences is a lines.push() literal, and RECORD.fees, RECORD.service, RECORD.notarization, RECORD.participantSignature and RECORD.clerkDuties are all loaded by the repaired loader and none of them is used to build this document. FIX06 recorded that it left filing-instructions.md alone and that its prose 'is still a paraphrase rather than a read'; on the fee-waiver sentence that paraphrase is not merely unread, it contradicts the record. Recorded alongside, and part of the same literal block: 'The record does not state a service deadline or a filing deadline, so this packet states none.' No deadline node exists under rules, so as to deadlines that is true, but the record does carry a timing rule at waitingPeriods — condition 'Dismissal of the protective-order petition without a full order having issued', duration 'six months from the dismissal' — which is the whole gate of this route and which the builder also never reads.",
+          "evidence": {
+            "packetSentence": "It does not record a fee-waiver treatment, and this packet states no fee amount. Ask the clerk.",
+            "recordNodePath": "tracks[ky_protective_order_record_expungement].rules.feeWaiver",
+            "recordNodeExists": true,
+            "recordNodeValue": "not applicable; no fee is identified.",
+            "builderReadsThatNode": false,
+            "whereTheBuilderReadsRules": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs loadControllingRecord() returns fees, service, notarization and participantSignature; feeWaiver is not among them and the string 'feeWaiver' does not occur in the builder",
+            "howTheSentenceIsProduced": "a literal at lines 809-810 of the builder, pushed into the filing-instructions line buffer",
+            "filingInstructionsIsFullyLiteral": true,
+            "recordFieldsLoadedButUnusedByThatDocument": ["fees", "service", "notarization", "participantSignature", "clerkDuties"],
+            "secondNegativeClaim": "The record does not state a service deadline or a filing deadline, so this packet states none.",
+            "unreadTimingNode": {"path": "waitingPeriods", "condition": "Dismissal of the protective-order petition without a full order having issued", "duration": "six months from the dismissal"},
+            "noFeeAmountFabricated": true,
+            "noWaiverProcedureFabricated": true
+          }
+        }
+      },
+
+      "failedObligationNames": ["COMPONENT_SET", "KNOWN_PREFILLS", "FEE_AND_WAIVER"],
+      "notMeasurableHere": [],
+      "obligationsMeasured": 15,
+      "obligationsScoredPass": 12,
+      "obligationsScoredFail": 3,
+
+      "visualDefects": {
+        "count": null,
+        "why": "Not measurable in this lane. These bytes were read as bytes — text layer, glyph bounding boxes, content-stream operators, AcroForm geometry — and were not rasterized. Rasterization is central and no current RASTER_PASS covers these digests. The page-level defects found here are content defects, not rendering defects, and are scored under their own obligations rather than folded into this counter.",
+        "pageLevelDefectsFoundByReadingTheBytes": [
+          "boundary.pdf names the movant 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran' in the form's operative sentence while the caption immediately below names the same person 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran Fitzwilliam III' (KNOWN_PREFILLS)",
+          "filing-instructions.md misstates the controlling record on fee-waiver treatment (FEE_AND_WAIVER)"
+        ]
+      },
+
+      "rasterCoverage": {
+        "state": "BUILT_RASTER_PENDING",
+        "currentRasterPassCoveringTheseBytes": false,
+        "statedPlainly": "No current RASTER_PASS covers canonical dd797c6d... or boundary a225cbe6.... That is an owed raster, not a defect of the repair, and it is not scored against any obligation here.",
+        "withdrawnReceiptHandling": {
+          "checked": "product-wiring.json",
+          "acceptanceReceipt": null,
+          "carriedForwardAsCurrent": false,
+          "deleted": false,
+          "recordedUnder": "acceptanceReceiptWithdrawn",
+          "boundToCanonicalSha256": "30dc6109d9ec4f0c54aca8aebb4bc77725b7f0c8918f34c7ccd47d19114130d1",
+          "replacedByCanonicalSha256": "dd797c6d4783f58979d964d0d483a9270261a1832177fe9b0a0150e2ef04d63e",
+          "withdrawnWorkflowRunId": "34413372916",
+          "finding": "Handled correctly. The receipt from run 34413372916 is withdrawn rather than deleted and rather than carried forward, both digests are named, and acceptanceReceipt is null. The admitted verdict file at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ky_protective_order_record_expungement-set/ is unedited and remains accurate about what it rendered, which was canonical 30dc6109... and boundary af5fc32bcbae8116472e7e1db20459a61aaf1ce83c4b3c97748ef6511476b1a7 — both superseded."
+        },
+        "noRasterHasEverCoveredTheBoundaryFixture": "RASTER_QUEUE.json historicalRasterRows[34] records coverage.notRenderedByThisGate ['boundary.pdf'] and states in its own words that a defect appearing only in the boundary fixture is not something a RASTER_PASS has excluded. Both defects found on the page here are in or about that fixture and its sibling document."
+      },
+
+      "crossChecks": {
+        "DEFECTS_NO_COUNTER_CAN_SEE": {
+          "checkedAllNine": true,
+          "map-honest-writes-not": "CLEAN. production-field-map.json declares 6 writable anchors with writeBoxes equal to the source's own widget /Rects. Every added token in both fixtures attributes to one of those 6 boxes and to no other. No value appears at a field the map does not name, and none of the 8 withheld fields carries ink. The 'legal name onto an aliases line' pattern does not arise: the caption fields are first/middle/last and carry the decomposed name, and no field on this form asks for aliases.",
+          "a-participant-fact-written-into-a-field-about-someone-else": "CLEAN, and this was the live risk. Zero participant ink in the PETITIONER band in both fixtures, measured on the bytes rather than inferred from the refusal list.",
+          "acroform-index-is-not-the-printed-row": "CLEAN, re-resolved independently by geometry. The printed RESPONDENT caption overlaps the res widget band and not the pet band; PETITIONER the reverse; the sub-label rows sit immediately beneath each name row. The field names agree with the geometry. Recorded: the committed builder still maps the blocks by a hardcoded field-name table (CAPTION_BLOCKS, keyed off the derived role), and its comment says that table was 'Read off the form's own printed captions' although no code reads a printed caption and no committed artifact carries the label geometry. FIX06 measured it by hand and recorded the figures in its own row; they reproduce. The consequence is narrow but real — a future source revision that renamed or reordered the widgets would be caught by nothing in the build.",
+          "extracted-line-order-is-not-column-order": "CLEAN. Headings and values were read by x-position, not by extracted line order: first res x 38.30, middle res x 203.38, last res x 345.25, and the delivered row reads Jordan | Avery | Reyes left to right. The county was cross-checked against the widget's own /Opt list.",
+          "internal-record-text-printed-on-a-filing": "CLEAN. All 54 and 128 added glyphs are persona facts. No sentence from KY.memo.json is drawn onto the PDF; the record's prose lives only in the guide.",
+          "a-published-zero-where-a-measurement-existed": "PRESENT, in the mild form. reports/actual-writes.json publishes deliveredChoiceValues [] and choiceValuesOutsideTheirOwnOptions [] for both fixtures. Those are empty by construction — the check reads the flattened output, where no dropdown survives — not by measurement. The real option-list check was performed here instead and passes. Recorded under ROUTE_OPTIONS; it does not fail the obligation.",
+          "a-geometry-counter-with-no-teeth": "PRESENT. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in both fixtures and is true, but insideAnyWidget accepts a glyph landing in ANY census widget rectangle, so it would still read 0 with the participant's name written into the petitioner block — precisely this family's defect class. FIX06's answer to this entry says the counter 'has teeth for the classes at issue' partly on the strength of the choiceValuesOutsideTheirOwnOptions assertion, which is itself empty by construction. The correct proof of the petitioner block is the per-band ink measurement recorded under KNOWN_PREFILLS, not this counter.",
+          "two-families-one-filing": "CLEAN. All seven Kentucky families under data/rcap-all50/overlays/census-v1/ky/ were hashed here and carry seven distinct canonical digests. The family does not appear in CLONED_FAMILY_PACKETS.json.",
+          "an-inverted-widget-rectangle-places-the-appearance-a-box-away": "CLEAN. Every /Rect in the source was read raw and checked for inversion: 0 inverted rectangles across all 16 fields."
+        },
+        "CLONED_FAMILY_PACKETS": "The family is not listed. Independently, the seven Kentucky canonical digests are all distinct.",
+        "countyDefaultNotScored": "Per dispatch this was not treated as a defect, and independent measurement supports that. The source's Case.County /Opt array holds 121 [exportValue, displayValue] pairs; entry 0 is [(000) ( )], and the widget's own /AP normal appearance stream decompresses to a text block drawing '( ) Tj' — a single space. So '000' is the export value of the form's own first option, whose display is blank, and it was never going to print. Both delivered files are flattened: no /AcroForm, no /Opt, no /Widget survives, and the delivered pages show Franklin and Breckinridge. FIX06's claim that it touched no stored value, no /AP and no guide sentence holds. Recorded but not scored: build-findings.json describes '000' as 'not one of its own 121 options' and 'not the list's first option'. Both are true of pdf-lib's getOptions(), which returns display values only, and neither is true of the form's /Opt array, where '000' is the export value at index 0. The underlying asymmetry is that pdf-lib's getSelected() returns export values while getOptions() returns display values, so isOneOfItsOwnOptions would read false for any dropdown using export/display pairs. Naming it here because the reasoning is load-bearing for a shared-module gap the build reports to the Captain.",
+        "committedRecordsThatContradictEachOther": [
+          {
+            "what": "The family's own source custody",
+            "recordA": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json rows[24]: verdict NOT_MEASURABLE_HERE, custodyClass SOURCE_GENUINELY_MISSING, documentSourcesResolved 0, commissionAcquisition true, and per-source kind 'not_present_in_a_custody_mounted_here' with the note 'No file under any mounted root hashes to this digest.'",
+            "recordB": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json families[163]: sourceStatus SOURCE_BOUND_BY_HELD_BYTES, sourceBound true, sourceReadiness.ready true, boundCount 1, sourceReconciliation.disposition SOURCE_READY — while the same row's sourceReadiness.custodyClass reads SOURCE_GENUINELY_MISSING, so this record also contradicts itself.",
+            "whatIMeasuredAgainst": "The bytes. The file is present in the mounted custody at private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf, is 192,243 bytes, and hashes to b3d8278a85a56c5ac81ed9fedaf9081f5e6f5141d0f561ed6aa6ff4103d2cb51 — exactly the declared digest. The source is in custody and this build is genuinely bound to it. The buildability row is reporting a resolver that did not look in private/, which is gitignored and is not a git path; it is a fact about that resolver, not about custody.",
+            "alsoStaleInTheSameRow": "buildability rows[24] carries buildScriptExists false, while scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs exists and is 1279 lines.",
+            "notReconciledHere": "Neither central record was edited. They have one writer and it is not this lane."
+          },
+          {
+            "what": "The family's live verification state",
+            "recordA": "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json rows[438] still carries VF04's FAIL with superseded false, and each of its three failedObligations entries has finding, findingReadFrom and evidence all null — an unactionable failure record.",
+            "recordB": "product-wiring.json binding.lastIndependentVerification also still names VF04's FAIL at base 7d6453f51, which is correct as history but predates the repair.",
+            "whatIMeasuredAgainst": "The delivered bytes at base 7d072beb5f4a6cdddbd204a1d9cf410edca7b494. VF04's three obligations re-pass; this row fails on three different obligations. Neither central record was edited.",
+            "alsoStale": "RASTER_QUEUE.json notEligible[63] lists the family as ineligible because 'the current failed obligations have not been repaired'. Those three were repaired; three others now stand, so the row's conclusion survives its reason."
+          }
+        ]
+      },
+
+      "evidenceRead": {
+        "deliveredBytes": [
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+          "data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/boundary.pdf"
+        ],
+        "pinnedSource": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kentucky/source-acquisition-2026-09-04/275.18.pdf",
+        "controllingRecord": "data/record-clearing/legal-design-intake/KY.memo.json",
+        "familyArtifacts": [
+          "build-status.json", "build-findings.json", "source-receipt.json", "product-wiring.json",
+          "production-field-map.json", "approval-request.json", "field-census.census-v1.json",
+          "participant-instructions.md", "filing-instructions.md",
+          "reports/actual-writes.json", "reports/blanks.json", "reports/caption-evidence.json",
+          "reports/rendered-artifacts.json"
+        ],
+        "builder": "scripts/build-census-v1-ky_protective_order_record_expungement-set.mjs",
+        "sharedModulesInspected": [
+          "scripts/rcap-official-forms/rcap-field-semantics.mjs (isChooserPrompt)",
+          "scripts/rcap-official-forms/rcap-official-form-finalize.mjs"
+        ],
+        "priorLaneReturns": [
+          "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20260909.json",
+          "data/rcap-grade-a/packet-factory-24h/fix06/rows-fix06-20260910-ky.json",
+          "data/rcap-grade-a/packet-factory-24h/fix06/checkpoints-fix06-20260910-ky.json"
+        ],
+        "centralRecords": [
+          "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+          "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+          "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+          "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json",
+          "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+          "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+          "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/ky_protective_order_record_expungement-set/ky_protective_order_record_expungement-set.verdict.json"
+        ],
+        "toolsUsed": [
+          "sha256sum and node crypto.createHash for every digest recorded here",
+          "pdf-lib 1.17.1 for AcroForm fields, widget /Rects, /Opt arrays, /AP streams and page counts",
+          "pdftotext -layout and -bbox-layout for delivered and source text with per-word bounding boxes",
+          "zlib inflate over PDF streams for appearance streams and content-stream operator scans"
+        ],
+        "digestsNeverTranscribed": "Every SHA-256 in this row was produced by a tool run in this container. None was copied from another record without being recomputed."
+      },
+
+      "reproduction": [
+        "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF24 'ky_protective_order_record_expungement-set'",
+        "sha256sum data/rcap-all50/overlays/census-v1/ky/ky-protective-order-record-expungement-set--official-pdf-fill/fixtures/{canonical,boundary}.pdf",
+        "pdftotext -bbox-layout on each fixture and on the pinned source, then diff the word sets by (text,xMin,xMax,yMin,yMax) and attribute each added token to a source widget /Rect",
+        "node -e over data/record-clearing/legal-design-intake/KY.memo.json, track ky_protective_order_record_expungement: read participantInputs, controllingAuthority.summary, exclusions, destination.detail, rules, waitingPeriods, components, selfHelpStopConditions and legalDesignDecision.limitations"
+      ],
+
+      "grantsNothing": "This row is a measurement. It approves no output, promotes no route, opens no commercial path, creates no fulfillment record and issues no raster receipt. It is a FAIL and therefore a repair assignment, and this lane made no repair: no overlay directory, build script or central artifact was modified."
+    }
+  ]
+}

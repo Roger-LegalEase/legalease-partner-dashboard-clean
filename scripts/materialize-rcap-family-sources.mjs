@@ -18,6 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { makeCorpusEntryResolver, MASTER_LIBRARY_CUSTODY } from "./lib/corpus-index-paths.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
@@ -32,6 +33,13 @@ const readJson = (p, fallback = null) => {
 
 const corpus = readJson(CORPUS_INDEX, { entries: [] });
 const bySha = new Map((corpus.entries ?? []).map((e) => [e.sha256, e]));
+// The index describes several custodies and each writes its paths in its own
+// namespace, so an entry's location comes from its declared custody rather than
+// from joining the Master Library root onto everything.
+const corpusPaths = makeCorpusEntryResolver(corpus, { repoRoot: rootDir, masterLibraryRoot: CORPUS_ROOT });
+const archiveOf = (entry) => (corpusPaths.custodyOf(entry) === MASTER_LIBRARY_CUSTODY
+  ? "Expungement_AI_RCAP_Master_Library_Edition_1"
+  : corpusPaths.custodyOf(entry));
 
 const written = [];
 const unmatched = [];
@@ -51,7 +59,7 @@ for (const state of fs.readdirSync(OVERLAY_DIR).sort()) {
       continue;
     }
 
-    const absolute = path.join(CORPUS_ROOT, entry.path);
+    const absolute = corpusPaths.resolve(entry);
     const bytes = fs.readFileSync(absolute);
     const observed = crypto.createHash("sha256").update(bytes).digest("hex");
     // Re-hashed here rather than trusted from the index: the index is a record
@@ -70,7 +78,7 @@ for (const state of fs.readdirSync(OVERLAY_DIR).sort()) {
       revision: record.revision ?? entry.revision ?? null,
       sha256: observed,
       byteLength: bytes.length,
-      sourceArchive: "Expungement_AI_RCAP_Master_Library_Edition_1",
+      sourceArchive: archiveOf(entry),
       pathInArchive: entry.path,
       // Where the bytes actually are on this machine. Not committed, and
       // reconstructible from the archive above.

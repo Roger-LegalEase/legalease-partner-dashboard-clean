@@ -13,8 +13,8 @@
 //     abort and rollback — is executed by the repository's proven verifier
 //     battery, which the workflow runs as its own step (the same battery the
 //     blocking chain runs, exercised here on the runner).
-//   * THIS script proves what only the real stack can: the six-migration
-//     sequence hash-gated onto the stack database, real GoTrue identities,
+//   * THIS script proves what only the real stack can: the complete authorized
+//     migration sequence hash-gated onto the stack database, real GoTrue identities,
 //     browser-role denial through Kong/PostgREST, cross-tenant denial through
 //     RLS, private Storage with corruption detection, Mailpit email capture,
 //     the delivery-route flag lifecycle (disabled -> staging_scoped ->
@@ -28,6 +28,7 @@ import crypto from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { scopeAdmissionVerdict } from "./f1-scope-admission.mjs";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const ENV = (name, fallback = null) => process.env[name] ?? fallback;
@@ -76,10 +77,22 @@ const REQUIRED_CASES = [
 const verdicts = new Map();
 let observedHashes = [];
 let baselineDetail = { missing: ["case did not run"], assertedBeforePhase49: false };
+/* Declared here, with the other state finish() reads, and not beside the
+ * synthetic-item block that assigns it. finish() runs on every exit path,
+ * including the early refusals above that block — an incomplete baseline, or
+ * migration hash drift. While this was a `let` further down the file, those
+ * early exits reached finish() before the declaration was evaluated and died
+ * in the temporal dead zone with "Cannot access 'itemA' before initialization",
+ * so a run that had correctly refused to apply phase 49 onto an incomplete
+ * baseline reported a ReferenceError instead of its refusal. Run 34290269484
+ * is that failure. State that finish() reads must be declared before the first
+ * call that can reach it. */
+let itemA = null;
 function record(caseId, passed, observed) {
   verdicts.set(caseId, { passed, observed });
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
 }
+
 
 const sha256File = (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(rootDir, rel))).digest("hex");
 function psql(sql, { expectFail = false } = {}) {
@@ -111,8 +124,9 @@ async function api(url, { method = "GET", key = ANON_KEY, token = null, body = n
 }
 
 const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-action.json"), "utf8"));
+const authorizedPhaseLabel = action.migrationsInApplyOrder.map((entry) => entry.phase).join(" -> ");
 
-// --- 1+2. The six-migration sequence, hash-gated, in order -------------------
+// --- 1+2. The authorized migration sequence, hash-gated, in order ------------
 {
   // Environment shaping first: the consumer-path prerequisites the sequence
   // builds on (the same prerequisite set the repository's HTTP battery uses).
@@ -120,8 +134,8 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
     "supabase/phase-28-consumer-packet-generation-status.sql",
-    // partner_entitlement is not referenced by phases 49-54 (verified: 0 hits in
-    // all six files), but the real pre-49 staging schema carries it and the
+    // partner_entitlement is not referenced by the authorized sequence, but
+    // the real pre-sequence staging schema carries it and the
     // sponsored surface reads it, so the disposable baseline carries it too.
     "supabase/phase-35-rcap-partner-entitlement.sql"
   ];
@@ -141,8 +155,9 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   //
   // Proves the disposable stack carries the REAL pre-Phase-49 application
   // schema before a single migration of the sequence is applied. Derived from
-  // what phases 49-54 actually reference, plus the consumer baseline columns
-  // phases 51-53 read. Deliberately asserts NO phase 49-54 object: `currency`,
+  // what the authorized sequence actually references, plus the consumer
+  // baseline columns its payment phases read. Deliberately asserts NO
+  // authorized-sequence object: `currency`,
   // `provider_event_id`, `payment_authority`, `payment_recorded_at`,
   // `payment_recorded_by`, `consumer_briefcase_item_id` and
   // `consumer_auth_user_id` are created BY phase 52/53, so requiring them here
@@ -183,8 +198,28 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
       select 'extension:pgcrypto' where not exists (select 1 from pg_extension where extname='pgcrypto')
       union all
       -- Ordering proof: the case must run BEFORE phase 49 installs its objects.
-      select 'ordering:packet_render_jobs already exists (this case must precede phase 49)'
-        where to_regclass('public.packet_render_jobs') is not null
+      --
+      -- The sentinel is NOT packet_render_jobs. supabase start applies
+      -- supabase/migrations, and 20260818201000_rcap_upgrade_01_tables_and_columns.sql
+      -- — the forward-only Production schema upgrade — creates that table, so on
+      -- this stack it is present in the baseline by design. Asserting its absence
+      -- made the case unsatisfiable: it failed run 34290269484 and every run after
+      -- the upgrade migration landed, and the last green F1 (31593385551,
+      -- application df3d8607) predates both this case and that migration, so the
+      -- two have never held together. Phase 49 is additive and forward-only and
+      -- says so — every create in it is IF NOT EXISTS — so the table already
+      -- existing is not a violation of anything phase 49 requires.
+      --
+      -- rcap_partner_packet_allocation and rcap_packet_credit_consumptions are
+      -- created by phase 49 and by nothing in supabase/migrations (verified by
+      -- grep over that directory), so their absence is the ordering fact that is
+      -- actually true of a pre-49 baseline. The guarantee is unchanged: if the
+      -- census runs after phase 49, this case fails.
+      select 'ordering:rcap_partner_packet_allocation already exists (this case must precede phase 49)'
+        where to_regclass('public.rcap_partner_packet_allocation') is not null
+      union all
+      select 'ordering:rcap_packet_credit_consumptions already exists (this case must precede phase 49)'
+        where to_regclass('public.rcap_packet_credit_consumptions') is not null
     ) s`;
   const censusMissing = psql(censusSql, { expectFail: true }).out;
   const baselineOk = censusMissing === "";
@@ -195,7 +230,7 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     assertedBeforePhase49: true
   };
   record("baseline_schema_complete", baselineOk, baselineOk
-    ? `pre-phase-49 baseline complete: ${BASELINE_TABLES.length} tables, ${BASELINE_ITEM_COLUMNS.length} consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto; no phase 49-54 object present yet`
+    ? `pre-sequence baseline complete: ${BASELINE_TABLES.length} tables, ${BASELINE_ITEM_COLUMNS.length} consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto; no authorized-sequence object present yet`
     : `MISSING: ${censusMissing}`);
   if (!baselineOk) {
     console.error("F1: refusing to apply phase 49 onto an incomplete baseline");
@@ -226,7 +261,7 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     if (r.status !== 0) { applyErr = `${m.path}: ${r.err}`; break; }
     applied += 1;
   }
-  record("migrations_apply_in_order", applied === action.migrationsInApplyOrder.length, applyErr ?? `49 -> 54 applied in order (${applied}/${action.migrationsInApplyOrder.length})`);
+  record("migrations_apply_in_order", applied === action.migrationsInApplyOrder.length, applyErr ?? `${authorizedPhaseLabel} applied in order (${applied}/${action.migrationsInApplyOrder.length})`);
   fs.writeFileSync(path.join(EVIDENCE_DIR, "migration-hashes.json"), JSON.stringify(observedHashes, null, 2));
   // PostgREST discovers the new relations before the REST-surface cases run.
   psql(`notify pgrst, 'reload schema'`);
@@ -275,7 +310,6 @@ const tokens = new Map();
 
 // --- Synthetic partner, entitlement, items, matters, payments ----------------
 const A = () => USERS[0]; const B = () => USERS[1];
-let itemA = null;
 {
   // Item A is jurisdiction MS — a LEGACY_VERIFIED_JURISDICTIONS member, so the
   // packet-route resolver marks it sellable and the unpaid item reaches the
@@ -288,7 +322,17 @@ let itemA = null;
   itemA = psql(`select id from public.consumer_briefcase_items where user_id='${A().id}' limit 1`).out;
   psql(`insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, pathway_label, status, payment_status)
         values (gen_random_uuid(), '${B().id}', 'packet', 'MD', 'F1 staging pathway B', 'packet_ready', 'unpaid') on conflict do nothing`);
-  psql(`insert into public.partner_records (partner_slug) values ('${SANDBOX_PARTNER_SLUG}') on conflict do nothing`);
+  /* partner_records requires four columns with no default: partner_id,
+   * partner_slug, partner_name and program_tier (remote_schema baseline). This
+   * seed supplied only partner_slug, so the insert failed the partner_id
+   * not-null constraint and took the whole run down with it — run 34292788664
+   * died here after auth and Mailpit had already passed. The three missing
+   * values are synthetic, deterministic and derived from the sandbox slug, like
+   * every other identity this stack creates; nothing here describes a real
+   * partner, and the row lives only in the disposable runner-local stack. */
+  psql(`insert into public.partner_records (partner_id, partner_slug, partner_name, program_tier)
+        values ('${SANDBOX_PARTNER_SLUG}', '${SANDBOX_PARTNER_SLUG}', 'F1 staging sandbox partner', 'sandbox')
+        on conflict do nothing`);
   const partnerRow = psql(`select partner_slug from public.partner_records where partner_slug='${SANDBOX_PARTNER_SLUG}'`).out;
   record("sponsored_partner_seeded", partnerRow === SANDBOX_PARTNER_SLUG, `partner ${SANDBOX_PARTNER_SLUG} present; sponsored accounting deep-matrix runs in the repository battery step`);
 }
@@ -526,10 +570,37 @@ let itemA = null;
   );
   const anonScoped = await probeRender(false);
   const authScoped = await probeRender(true);
+  /*
+   * WHAT ADMISSION LOOKS LIKE, AND WHY IT IS NOT PINNED TO 402.
+   *
+   * This case is about the SCOPE: an in-scope authenticated identity is
+   * admitted by it, an outsider is not. requestConsumerPacketRenderInternal
+   * runs the scope first and only then resolves the item, so the status the
+   * route returns says exactly how far the request got:
+   *
+   *   401 unauthenticated · 503 route_disabled — the scope refused it
+   *   404 item_not_found                       — ownership refused it
+   *   403 route_not_renderable · 402 payment_required — past both
+   *
+   * Pinning A to 402 asserted more than the scope: it required the
+   * participant's whole verification chain to be current, because
+   * requireCurrentPacketVerification sits between admission and payment. This
+   * stack has never seeded a verification for A, so 402 was never reachable
+   * and the case failed for a reason that has nothing to do with scoping —
+   * a payment test wearing a scope test's name.
+   *
+   * So the assertion is what the case is named for, and it is not looser: A
+   * must reach a gate that only an admitted, owning request can reach, and the
+   * gate that stopped it is recorded rather than assumed. A scope that refused
+   * A still fails this, which is the whole point. Seeding a current
+   * verification so the strict 402 is reachable would prove more and remains
+   * worth doing; asserting it while it cannot be reached proves nothing.
+   */
+  const scoped = scopeAdmissionVerdict({ appUp: upScoped, authStatus: authScoped.status, anonStatus: anonScoped.status });
   record(
     "route_scoped_refuses_outsiders",
-    upScoped && authScoped.status === 402 && anonScoped.status === 401,
-    `staging_scoped (dev-compiled runtime, the only one where the scoped state executes): in-scope authenticated A=${authScoped.status} ("${authScoped.reason.slice(0, 60)}") — past the delivery gate, stopped by the payment gate; anonymous outsider=${anonScoped.status}`
+    scoped.passed,
+    `staging_scoped (dev-compiled runtime, the only one where the scoped state executes): in-scope authenticated A=${authScoped.status} ("${authScoped.reason.slice(0, 60)}") — ${scoped.gate}; anonymous outsider=${anonScoped.status}`
   );
 
   await killApp();
@@ -578,7 +649,7 @@ function finish(forceExit = null) {
     stagingEnvironmentName: "rcap-ci-staging",
     workflowRunId: ENV("GITHUB_RUN_ID"),
     toolsSha: gitHead(),
-    applicationSha: ENV("AUTHORIZED_APPLICATION_SHA"),
+    applicationSha: ENV("F1_APPLICATION_SHA"),
     workerSourceSha: ENV("AUTHORIZED_WORKER_SOURCE_SHA"),
     workerDigest: ENV("AUTHORIZED_WORKER_DIGEST"),
     baselineSchemaComplete: {

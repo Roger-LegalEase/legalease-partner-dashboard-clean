@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "rcap-route-artifact-independent-verifier-return/v1",
+  "familyId": "nv_seal_probation_family-set",
+  "jurisdiction": "NV",
+  "reviewedAtBase": "759046bd918b13a6050a6d671813a016aa41e33a",
+  "verifier": {
+    "id": "CODEX-CS2-VF02-NV",
+    "independent": true,
+    "notWorker": "CODEX-CS2-PRODUCT-NV-02",
+    "builtOrAuthoredThisFamily": false,
+    "repairedThisFamily": false,
+    "specifiedThisFamily": false,
+    "approvedThisFamily": false,
+    "method": "Fresh exact-base read of every current family component, field map, byte-derived report, source receipt, participant instructions, product wiring, route specification, runtime/canonical route records, legal decision/audit and governed raster record. Both PDFs were rehashed and parsed, every one of their twenty pages was freshly rastered and inspected at original resolution, and text bounding boxes were independently measured. Workflow success and previous verdicts were not treated as a visual verdict."
+  },
+  "claim": {
+    "command": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF02 nv_seal_probation_family-set",
+    "assertedBeforeFamilyContent": true,
+    "exitCode": 0,
+    "result": "CLAIM_OK VF02 nv_seal_probation_family-set (independent-verification, grant set 583585e604944a55)",
+    "released": false
+  },
+  "route": {
+    "routeKey": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+    "customerRouteId": "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+    "trackId": "nv_seal_probation_family",
+    "packetSetId": "nv_seal_probation_family-set",
+    "packetSpecification": "data/record-clearing/packet-specifications/NV-probation-specialty-court-dismissal-set-aside-sealing.v1.json",
+    "packetSpecificationSha256": "7509e6f9d8b34f81050c741a02dbce838759d9963f13f5308fe45fdcde733c75",
+    "packetSpecificationByteLength": 25726,
+    "runtimeResolution": {
+      "routeKind": "factory_v2",
+      "renderer": "packet_document_v1",
+      "sellable": false,
+      "creditEligible": false,
+      "availability": "UNFINISHED",
+      "familyMatch": true,
+      "trackMatch": true,
+      "componentCount": 8
+    },
+    "acceptanceState": "VERIFY_PENDING",
+    "acceptanceRowCreatedHere": false,
+    "routeCompletenessPassClaimed": false,
+    "routeCompletenessNote": "The current route-artifact verifier refuses this still-pending family until COMPLETE_PACKET_PROVEN. The exact single-route alias test passes, but this return does not fabricate an acceptance pass from the absent Captain-generated row."
+  },
+  "verdict": "FAIL_REPAIR_REQUIRED",
+  "obligationsScored": 15,
+  "failedObligations": [
+    "CLIPPING_AND_OVERLAP"
+  ],
+  "unmeasuredObligations": [],
+  "results": {
+    "ROUTE_IDENTITY": {
+      "result": "PASS",
+      "finding": "The exact obligation key and NV runtime identity resolve one-to-one to nv_seal_probation_family and nv_seal_probation_family-set. Source receipt, all eight field-map component routes, product wiring, packet specification, Factory V2 registry, canonical route universe and rendered component footers agree. Runtime remains fail-closed and noncommercial."
+    },
+    "SOURCE_IDENTITY": {
+      "result": "PASS",
+      "finding": "This is a CUSTOM_PLEADING_FROM_CODIFIED_TEXT family with no source binary and no substituted form. It is bound to the committed NV intake track and packet-set manifest. Current official NRS 176A.245, 176A.265 and 176A.295 text confirms the two branches, seven-year limitation, qualifying charges and barred-charge exclusions; current Nevada State Police RCCD inventory supplies no special subsection-2 form."
+    },
+    "COMPONENT_SET": {
+      "result": "PASS",
+      "finding": "Exactly eight components are specified, mapped and rendered in both fixtures: detection_and_routing, branch_screen, discharge_type_screen, primary_filing, proposed_order, declaration_and_verification, filing_and_service_instructions and referral_instructions. Subsection-1 is automatic guidance, not a participant filing. The petition/order/declaration/filing materials are conditional on subsection 2, a qualifying charge, conditional dismissal or set-aside, and seven elapsed years."
+    },
+    "KNOWN_PREFILLS": {
+      "result": "PASS",
+      "finding": "All 12 declared writes per fixture were read from their exact component page bytes and found visible: repeated participant name plus date of birth, address, telephone and email. The proposed-order name appears in the expected uppercase form. No write is invisible or outside its measured write box."
+    },
+    "REQUIRED_BEFORE_FILING": {
+      "result": "PASS",
+      "finding": "All 11 required facts are disclosed and blank: petition court, case, programme, qualifying charge, resolution kind/date; order court, case and all agencies/officers; declaration programme and resolution/date. Participant labels distinguish petitioner/declarant work from court-owned work."
+    },
+    "ROUTE_OPTIONS": {
+      "result": "PASS",
+      "finding": "The packet accurately separates the automatic no-filing branch from the conditional petition branch and does not make the participant choose a route-determined legal branch. It stops on barred NRS 200.508/200.5099 charges, nonqualifying charges, absent qualifying resolution, fewer than seven years and unclear or disputed records."
+    },
+    "REPEATING_ROWS": {
+      "result": "PASS",
+      "finding": "The proposed-order agency/officer list is the sole repeating structure. All four rows remain blank, no row is partial, and the participant is told to name every applicable record custodian."
+    },
+    "PROTECTED_FIELDS": {
+      "result": "PASS",
+      "finding": "Petitioner signature/date, order date/judge signature and declarant signature/date remain blank in both fixtures. No court, notary or signature field is prefilled, and refusedFieldsWithInk/protectedWrites are zero."
+    },
+    "ARTIFACTS": {
+      "result": "PASS",
+      "finding": "Both current artifacts and the packet specification rehash exactly to their governed pins. Canonical is 26441 bytes and 10 pages; boundary is 26936 bytes and 10 pages. Both PDFs use a 612 x 792 point MediaBox and are unencrypted."
+    },
+    "PAGE_ORDER": {
+      "result": "PASS",
+      "finding": "Both fixtures have the same contiguous component order: routing page 1, branch 2, discharge screen 3, petition 4-5, proposed order 6-7, declaration 8, filing/service 9 and referrals 10. The page-7 footer overflow is classified as the visual-quality failure below, not a component reorder."
+    },
+    "CLIPPING_AND_OVERLAP": {
+      "result": "FAIL",
+      "finding": "Both exact PDFs give the proposed order an otherwise blank second page containing only internal route-footer text. Canonical page 6 ends with 'Route:' and page 7 contains only the 109-character obligation key wrapped across two lines. Boundary page 7 contains only 'Route:' and that wrapped key. Independent bbox measurement found zero out-of-page words and zero word overlaps; the failure is an orphaned pagination overflow missed by the governed RASTER_PASS and repository visualDefects counter.",
+      "evidence": {
+        "component": "proposed_order",
+        "affectedPacketPage": 7,
+        "canonicalOnlyText": "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+        "boundaryOnlyText": "Route: obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+        "canonicalBbox": "2581 words total; 0 outside page bounds; 0 overlap pairs",
+        "boundaryBbox": "2577 words total; 0 outside page bounds; 0 overlap pairs"
+      }
+    },
+    "FILING_DESTINATION": {
+      "result": "PASS",
+      "finding": "Nothing is filed on the automatic branch. On the petition branch the participant files the petition, proposed order and declaration in the district, justice or municipal court that handled the case, confirming the exact court and county from the record or clerk."
+    },
+    "FEE_AND_WAIVER": {
+      "result": "PASS",
+      "finding": "No local amount or waiver is invented. The packet directs the participant to ask the handling court clerk about local fees and does not import the ordinary chapter 179 waiver provision into these chapter 176A sections."
+    },
+    "SERVICE": {
+      "result": "PASS",
+      "finding": "The bound sections prescribe no participant service step. The packet invents no recipient, method or certificate and directs the participant to the handling court clerk for any local Division/prosecutor notice practice."
+    },
+    "SELF_HELP_STOP": {
+      "result": "PASS",
+      "finding": "The packet carries stops for barred or nonqualifying charges, unclear programme/disposition, fewer than seven years, mixed/disputed records, opposition or hearing, clerk rejection, unnamed custodians, rights/firearm questions, immigration consequences and other high-risk collateral issues."
+    }
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256Recomputed": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+      "byteLength": 26441,
+      "pageCountParsed": 10,
+      "expectedWrites": 12,
+      "valuesReadBack": 12,
+      "bboxWordsMeasured": 2581,
+      "wordsOutsidePageBounds": 0,
+      "overlapPairs": 0,
+      "visuallyInspectedPages": 10,
+      "defectivePage": 7
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nv/nv-seal-probation-family-set--custom-pleading/fixtures/boundary.pdf",
+      "sha256Recomputed": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+      "byteLength": 26936,
+      "pageCountParsed": 10,
+      "expectedWrites": 12,
+      "valuesReadBack": 12,
+      "bboxWordsMeasured": 2577,
+      "wordsOutsidePageBounds": 0,
+      "overlapPairs": 0,
+      "visuallyInspectedPages": 10,
+      "defectivePage": 7
+    }
+  ],
+  "pageEvidenceInspected": {
+    "canonical": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "boundary": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "inspectionMethod": "Fresh 144-dpi per-page PNGs from the current tracked PDFs; every image inspected at original resolution, with pages 6-7 compared to extracted text and the current manifest."
+  },
+  "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 1,
+    "scope": "The focused verifier returned all repository counters zero; independent full-page inspection overrides visualDefects to one because both fixtures contain the same route-footer-only page."
+  },
+  "rasterEvidence": {
+    "currentState": "RASTER_PASS",
+    "workflowRunId": "33574304514",
+    "renderedCommitSha": "5cc411e675842a85e357e97102e6a55f01a7d77d",
+    "jobId": "100075268130",
+    "jobConclusion": "success",
+    "artifactId": "9826229362",
+    "artifactName": "rcap-raster-nv_seal_probation_family-set-33574304514",
+    "artifactZipSha256": "sha256:c8605a05d35a9ea0896cec8009700a0c2591ecfdd849de21c320ea6509150f5d",
+    "boundToCanonicalSha256": "533cf8ec8ac3447f89374639d0d8fbf33b5c453c1248bf33b263da56d99b88a7",
+    "boundToBoundarySha256": "d8ca462e258723fed6ecc268ec332a2d4bcc1d4c5f2c83cc025f7bcd8a35e1ca",
+    "coversTheWholeFamily": true,
+    "independentVerdict": "The receipt proves current exact-byte coverage. It does not cure the footer-only page found by direct inspection."
+  },
+  "legalDesign": {
+    "decisionId": "OWN-ADOPT-2026-09-02-BATCH-53",
+    "postApprovalAudit": "COVERED_BY_EXISTING_APPROVAL",
+    "exactArtifactPinsMatch": true,
+    "approvalCreatedOrAltered": false,
+    "scopeLimitObserved": true
+  },
+  "operationalEligibility": {
+    "result": "FAIL_CLOSED",
+    "mayEnterFirstRouteCohort": false,
+    "mayCreateFulfillmentAuthority": false,
+    "mayEnableCheckout": false,
+    "mayEnableSponsorship": false,
+    "blockers": [
+      {
+        "id": "PROPOSED_ORDER_FOOTER_ONLY_PAGE",
+        "basis": "CLIPPING_AND_OVERLAP fails on page 7 of canonical and boundary."
+      },
+      {
+        "id": "ROUTE_ACCEPTANCE_PENDING",
+        "basis": "The family remains VERIFY_PENDING and has no Captain-generated acceptance row."
+      },
+      {
+        "id": "WIRING_DECLARED_NOT_INSTALLED",
+        "basis": "Product wiring keeps generation, payment and sponsorship disabled."
+      }
+    ]
+  },
+  "smallestExactRepair": [
+    "Adjust proposed-order pagination so the complete route footer stays with meaningful page-6 content and no page contains only route metadata.",
+    "Preserve the exact legal text, branch conditions, participant facts, four agency/officer rows, protected fields and all filing/fee/service/stop guidance.",
+    "Rebuild canonical and boundary deterministically, bind a fresh whole-family raster receipt to the new hashes, and have a different independent worker inspect every page and rerun all fifteen obligations."
+  ],
+  "visualAdvisoriesNotUsedAsVerdictFailures": [],
+  "packetPdfsModified": 0,
+  "centralStateModified": 0,
+  "claimsReleased": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

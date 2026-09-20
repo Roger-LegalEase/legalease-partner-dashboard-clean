@@ -1,6 +1,19 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "KS",
     "name": "Kansas",
@@ -449,7 +462,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -475,7 +489,8 @@
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years."
+        "available immediately upon successful completion of the qualifying specialty-court program; no additional elapsed period applies",
+        "Supersedes 3 years: the ordinary three-year conviction period, which § 21-6614 expressly permits this branch to bypass."
       ],
       "exclusionRules": [],
       "routeType": "court_filing",
@@ -495,7 +510,48 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "K.S.A. 21-6614 specialty-court completion route",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-KS-02",
+        "ruleId": "KS-21-6614-SPECIALTY-COURT-COMPLETION-ACCELERATED",
+        "mechanism": "Specialty-court accelerated expungement",
+        "statute": "Kan. Stat. Ann. § 21-6614",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorText": "available immediately upon successful completion of the qualifying specialty-court program; no additional elapsed period applies"
+        },
+        "requiredFacts": [
+          "Program name and court?",
+          "Completion order/date?",
+          "Exact conviction?",
+          "Sentence/financial completion?",
+          "Statutory exclusions?",
+          "Judicial approval facts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Participant successfully completed a qualifying specialty court and the conviction is otherwise within the statutory expungement scope"
+        ],
+        "packetFamily": "Kansas Specialty-Court Expungement Petition under § 21-6614",
+        "packetComponents": [
+          "Petition under § 21-6614",
+          "Specialty-court completion proof"
+        ],
+        "supersedes": {
+          "value": 3,
+          "unit": "years",
+          "note": "the ordinary three-year conviction period, which § 21-6614 expressly permits this branch to bypass"
+        },
+        "notes": "The ordinary three-year clock must not be applied here, and must still apply to every non-specialty-court branch."
       }
     },
     {
@@ -538,7 +594,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -571,6 +628,233 @@
       "sourceEvidenceRefs": [
         "manual_source_conversion:KS"
       ]
+    },
+    {
+      "id": "municipal-conviction-or-diversion-expungement-under-12-4516",
+      "label": "Municipal conviction or diversion expungement",
+      "summary": "Municipal conviction or diversion expungement under Kan. Stat. Ann. § 12-4516. three or more years have elapsed since the petitioner satisfied the sentence imposed or was discharged from probation, parole or a suspended sentence, K.S.A. 12-4516(a)(1), or since the terms of the diversion agreement were fulfilled, K.S.A. 12-4516(a)(2); five years apply to the ordinance violations listed in K.S.A. 12-4516(d) and to a first violation equivalent to K.S.A. 8-1567 under K.S.A. 12-4516(e)(1), ten years apply to a second or subsequent such violation under K.S.A. 12-4516(e)(2), one year applies under K.S.A. 12-4516(c) to a prostitution-equivalent ordinance violation where coercion caused by the act of another is proven, and no elapsed period applies under K.S.A. 12-4516(b) to an ordinance violation prohibited by K.S.A. 12-16,134(a) or (b) and adopted before July 1, 2014.",
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-02-KS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LEGAL-DESIGN-2026-08-02-KS-01",
+        "statute:Kan. Stat. Ann. § 12-4516"
+      ],
+      "ruleClauses": [
+        "three or more years have elapsed since the petitioner satisfied the sentence imposed or was discharged from probation, parole or a suspended sentence, K.S.A. 12-4516(a)(1), or since the terms of the diversion agreement were fulfilled, K.S.A. 12-4516(a)(2); five years apply to the ordinance violations listed in K.S.A. 12-4516(d) and to a first violation equivalent to K.S.A. 8-1567 under K.S.A. 12-4516(e)(1), ten years apply to a second or subsequent such violation under K.S.A. 12-4516(e)(2), one year applies under K.S.A. 12-4516(c) to a prostitution-equivalent ordinance violation where coercion caused by the act of another is proven, and no elapsed period applies under K.S.A. 12-4516(b) to an ordinance violation prohibited by K.S.A. 12-16,134(a) or (b) and adopted before July 1, 2014"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "three or more years have elapsed since the petitioner satisfied the sentence imposed or was discharged from probation, parole or a suspended sentence, K.S.A. 12-4516(a)(1), or since the terms of the diversion agreement were fulfilled, K.S.A. 12-4516(a)(2); five years apply to the ordinance violations listed in K.S.A. 12-4516(d) and to a first violation equivalent to K.S.A. 8-1567 under K.S.A. 12-4516(e)(1), ten years apply to a second or subsequent such violation under K.S.A. 12-4516(e)(2), one year applies under K.S.A. 12-4516(c) to a prostitution-equivalent ordinance violation where coercion caused by the act of another is proven, and no elapsed period applies under K.S.A. 12-4516(b) to an ordinance violation prohibited by K.S.A. 12-16,134(a) or (b) and adopted before July 1, 2014",
+        "This rule governs filings on or after 2015-07-01."
+      ],
+      "exclusionRules": [
+        "A conviction or diversion for a city ordinance violation that would also constitute a violation of K.S.A. 8-2,144, commercial driving under the influence, K.S.A. 12-4516(f).",
+        "A district court conviction or diversion, which runs under K.S.A. 21-6614.",
+        "An arrest with no municipal conviction and no municipal diversion, which runs under K.S.A. 12-4516a.",
+        "A petitioner convicted of a felony within the past two years, or against whom such a proceeding is pending or being instituted, K.S.A. 12-4516(h)(1)."
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-02-KS-01",
+        "ruleId": "KS-12-4516-MUNICIPAL-CONVICTION-OR-DIVERSION-EXPUNGEMENT",
+        "mechanism": "Municipal conviction or diversion expungement",
+        "statute": "Kan. Stat. Ann. § 12-4516",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 3,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorAlternates": [
+            "discharge_date",
+            "court_requirements_completed"
+          ],
+          "anchorText": "three or more years have elapsed since the petitioner satisfied the sentence imposed or was discharged from probation, parole or a suspended sentence, K.S.A. 12-4516(a)(1), or since the terms of the diversion agreement were fulfilled, K.S.A. 12-4516(a)(2); five years apply to the ordinance violations listed in K.S.A. 12-4516(d) and to a first violation equivalent to K.S.A. 8-1567 under K.S.A. 12-4516(e)(1), ten years apply to a second or subsequent such violation under K.S.A. 12-4516(e)(2), one year applies under K.S.A. 12-4516(c) to a prostitution-equivalent ordinance violation where coercion caused by the act of another is proven, and no elapsed period applies under K.S.A. 12-4516(b) to an ordinance violation prohibited by K.S.A. 12-16,134(a) or (b) and adopted before July 1, 2014"
+        },
+        "requiredFacts": [
+          "The defendant's full name, and the full name used at the time of arrest, conviction or diversion if different?",
+          "Sex, race and date of birth?",
+          "The crime for which the defendant was arrested, convicted or diverted?",
+          "The date of the arrest, conviction or diversion?",
+          "The identity of the convicting court, the arresting law enforcement agency or the diverting authority?",
+          "Was this a conviction of a city ordinance violation, or a fulfilled diversion agreement based on one?",
+          "Would the ordinance violation also have constituted an offence listed in K.S.A. 12-4516(c), (d) or (e)?",
+          "The date the sentence was satisfied, the date of discharge from probation, parole or a suspended sentence, or the date the diversion terms were fulfilled?",
+          "Has the petitioner been convicted of a felony in the past two years, or is any such proceeding pending or being instituted?",
+          "Does the convicting municipal court publish its own expungement instrument, or govern expungement by charter ordinance?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations"
+        ],
+        "exclusions": [
+          "A conviction or diversion for a city ordinance violation that would also constitute a violation of K.S.A. 8-2,144, commercial driving under the influence, K.S.A. 12-4516(f).",
+          "A district court conviction or diversion, which runs under K.S.A. 21-6614.",
+          "An arrest with no municipal conviction and no municipal diversion, which runs under K.S.A. 12-4516a.",
+          "A petitioner convicted of a felony within the past two years, or against whom such a proceeding is pending or being instituted, K.S.A. 12-4516(h)(1)."
+        ],
+        "packetFamily": "Kansas Municipal Conviction or Diversion Expungement Petition under § 12-4516",
+        "packetComponents": [
+          "Petition for expungement of a municipal conviction or diversion, pleading the six items K.S.A. 12-4516(g)(1) requires",
+          "Proposed order of expungement, with the findings language and the judge's signature left for the court",
+          "Participant instructions covering the local form question, the fee charged as costs, how the hearing is set and the copy count"
+        ],
+        "effectiveFrom": "2015-07-01",
+        "deliveryGates": [
+          {
+            "id": "ks_12_4516_local_municipal_instrument",
+            "kind": "local_filing_configuration",
+            "items": [
+              "whether the convicting municipal court publishes its own expungement petition and order, in which case that instrument governs and the statewide controlled pleading is not used",
+              "the fee the court prescribes as costs under K.S.A. 12-4516(g)(2), for which there is no statewide figure",
+              "how the court sets the hearing and how many copies it requires",
+              "the charter-ordinance courts, including Wichita under Charter Ordinance No. 224 §§ 12 and 13, whose own Motion and Order govern instead"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no per-municipal-court filing configuration record exists yet",
+            "note": "The adopted memorandum resolves this route to a custom pleading only where no current local form exists, and to deference where one is published. Until the per-court configuration is recorded, the product cannot know which of the two applies to a given participant's court."
+          },
+          {
+            "id": "ks_12_4516_artifact_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "a rendered candidate scoped to this route alone, reviewed and hashed",
+              "confirmation that the packet states the three K.S.A. 12-4516(h) findings and not the district-court four",
+              "confirmation that the packet carries the K.S.A. 12-4516(i) disclosure carve-outs"
+            ],
+            "owner": "Completed-output legal review",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: the Kansas family currently emits one assembled artifact covering both municipal routes",
+            "note": "Recorded, not repaired here. The per-route artifact scope defect is classified separately in data/rcap-grade-a/FIRST_COHORT_PACKET_SCOPE_DEFECT.json and is owned by another lane."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Runtime representation only. The 2026-08-19 owner approval on this track is recorded in the census as legal-only, with no technical, runtime or commercial authority, and nothing here grants any."
+        },
+        "notes": "Municipal court only. K.S.A. 21-6614 reaches a municipal case only where it was appealed to the district court; 12-4516 exists for the rest, so this route must never be served by, or map onto, any district-court 21-6614 pathway. Conviction and diversion are branches inside one mechanism, not two mechanisms: the statute gives one destination, one petition structure with six prescribed contents, one notice rule and one set of three findings."
+      }
+    },
+    {
+      "id": "municipal-arrest-record-expungement-under-12-4516a",
+      "label": "Municipal arrest record expungement",
+      "summary": "Municipal arrest record expungement under Kan. Stat. Ann. § 12-4516a. available on any one of the five grounds stated in K.S.A. 12-4516a(c) — arrest by mistaken identity, no probable cause found by a court, a finding of not guilty, dismissal of the charges or no charges filed and none likely to be filed, an arrest on an ordinance prohibited by K.S.A. 12-16,134, or that expungement is in the best interests of justice — and K.S.A. 12-4516a states no elapsed waiting period of any kind.",
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-02-KS-02",
+      "sourceEvidenceRefs": [
+        "legal-authority:LEGAL-DESIGN-2026-08-02-KS-02",
+        "statute:Kan. Stat. Ann. § 12-4516a"
+      ],
+      "ruleClauses": [
+        "available on any one of the five grounds stated in K.S.A. 12-4516a(c) — arrest by mistaken identity, no probable cause found by a court, a finding of not guilty, dismissal of the charges or no charges filed and none likely to be filed, an arrest on an ordinance prohibited by K.S.A. 12-16,134, or that expungement is in the best interests of justice — and K.S.A. 12-4516a states no elapsed waiting period of any kind"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "available on any one of the five grounds stated in K.S.A. 12-4516a(c) — arrest by mistaken identity, no probable cause found by a court, a finding of not guilty, dismissal of the charges or no charges filed and none likely to be filed, an arrest on an ordinance prohibited by K.S.A. 12-16,134, or that expungement is in the best interests of justice — and K.S.A. 12-4516a states no elapsed waiting period of any kind",
+        "This rule governs filings on or after 2015-07-01."
+      ],
+      "exclusionRules": [
+        "A municipal conviction or a fulfilled municipal diversion, which runs under K.S.A. 12-4516.",
+        "An arrest on a state law violation, which runs under K.S.A. 22-2410 in the district court."
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-02-KS-02",
+        "ruleId": "KS-12-4516A-MUNICIPAL-ARREST-RECORD-EXPUNGEMENT",
+        "mechanism": "Municipal arrest record expungement",
+        "statute": "Kan. Stat. Ann. § 12-4516a",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available on any one of the five grounds stated in K.S.A. 12-4516a(c) — arrest by mistaken identity, no probable cause found by a court, a finding of not guilty, dismissal of the charges or no charges filed and none likely to be filed, an arrest on an ordinance prohibited by K.S.A. 12-16,134, or that expungement is in the best interests of justice — and K.S.A. 12-4516a states no elapsed waiting period of any kind"
+        },
+        "requiredFacts": [
+          "The petitioner's full name, and the full name used at the time of arrest if different?",
+          "Sex, race and date of birth?",
+          "The crime for which the petitioner was arrested?",
+          "The date of the arrest?",
+          "The identity of the arresting law enforcement agency?",
+          "Which of the statutory grounds under K.S.A. 12-4516a(c) is relied on?",
+          "Was the arrest made on a city ordinance charge rather than a state law violation?",
+          "Was the petitioner arrested as a result of being a victim of identity theft under K.S.A. 21-6107 or former K.S.A. 21-4018?",
+          "Does the municipal court where the ordinance charge was brought publish its own expungement instrument?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "A municipal conviction or a fulfilled municipal diversion, which runs under K.S.A. 12-4516.",
+          "An arrest on a state law violation, which runs under K.S.A. 22-2410 in the district court."
+        ],
+        "packetFamily": "Kansas Municipal Arrest Record Expungement Petition under § 12-4516a",
+        "packetComponents": [
+          "Petition for expungement of a city ordinance arrest record, pleading the six items K.S.A. 12-4516a(b) requires together with the statutory ground relied on",
+          "Proposed order reciting the petition contents and stating the ground under K.S.A. 12-4516a(c), with the findings language and the judge's signature left for the court",
+          "Participant instructions covering the local form and fee position, the identity-theft fee exemption, the effect of filing on access to the official court file, and how the hearing is set"
+        ],
+        "effectiveFrom": "2015-07-01",
+        "deliveryGates": [
+          {
+            "id": "ks_12_4516a_local_municipal_instrument",
+            "kind": "local_filing_configuration",
+            "items": [
+              "whether the municipal court where the ordinance charge was brought publishes its own expungement instrument, in which case that instrument governs",
+              "the fee the court prescribes as costs under K.S.A. 12-4516a(b), and how that court applies the K.S.A. 21-6107 identity-theft exemption",
+              "how the court sets the hearing and how many copies it requires"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no per-municipal-court filing configuration record exists yet",
+            "note": "The same local-form override the adopted memorandum records for K.S.A. 12-4516 applies to this section: no municipal conviction form is mapped to this arrest-only mechanism, and no district court form is used."
+          },
+          {
+            "id": "ks_12_4516a_artifact_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "a rendered candidate scoped to this route alone, reviewed and hashed",
+              "confirmation that the packet states the K.S.A. 12-4516a(b) separation of the official court file on filing",
+              "confirmation that the packet states the K.S.A. 12-4516a(e) eight-purpose determination where the best-interests ground is used"
+            ],
+            "owner": "Completed-output legal review",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: the Kansas family currently emits one assembled artifact covering both municipal routes",
+            "note": "Recorded, not repaired here. The per-route artifact scope defect is classified separately in data/rcap-grade-a/FIRST_COHORT_PACKET_SCOPE_DEFECT.json and is owned by another lane."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "Runtime representation only. The 2026-08-19 owner approval on this track is recorded in the census as legal-only, with no technical, runtime or commercial authority, and nothing here grants any."
+        },
+        "notes": "Municipal court only, and arrest-record only. K.S.A. 22-2410 governs state law arrests in the district court and no district-court 21-6614 pathway may serve this route. The choice among the five statutory grounds is the participant's own; a disputed factual showing or a contested hearing is a post-generation handoff rather than a generation blocker."
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -936,21 +1220,16 @@
       "when": {
         "backendPathwayId": "specialty-court-accelerated",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Specialty-court completion route"
+        "sourceConditionText": "available immediately upon successful completion of the qualifying specialty-court program; no additional elapsed period applies",
+        "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -960,7 +1239,13 @@
       "sourceRef": "manual_source_conversion:KS",
       "candidatePathwayIds": [
         "specialty-court-accelerated"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-KS-02",
+        "ruleId": "KS-21-6614-SPECIALTY-COURT-COMPLETION-ACCELERATED",
+        "statute": "Kan. Stat. Ann. § 21-6614",
+        "mechanism": "Specialty-court accelerated expungement"
+      }
     },
     {
       "id": "route-prostitution-coercion",
@@ -1034,6 +1319,80 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-municipal-conviction-or-diversion-expungement-under-12-4516",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations"
+        ],
+        "sourceConditionText": "three or more years have elapsed since the petitioner satisfied the sentence imposed or was discharged from probation, parole or a suspended sentence, K.S.A. 12-4516(a)(1), or since the terms of the diversion agreement were fulfilled, K.S.A. 12-4516(a)(2); five years apply to the ordinance violations listed in K.S.A. 12-4516(d) and to a first violation equivalent to K.S.A. 8-1567 under K.S.A. 12-4516(e)(1), ten years apply to a second or subsequent such violation under K.S.A. 12-4516(e)(2), one year applies under K.S.A. 12-4516(c) to a prostitution-equivalent ordinance violation where coercion caused by the act of another is proven, and no elapsed period applies under K.S.A. 12-4516(b) to an ordinance violation prohibited by K.S.A. 12-16,134(a) or (b) and adopted before July 1, 2014",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations"
+        ],
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date",
+          "court_requirements_completed"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-02-KS-01",
+      "candidatePathwayIds": [
+        "municipal-conviction-or-diversion-expungement-under-12-4516"
+      ],
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-02-KS-01",
+        "ruleId": "KS-12-4516-MUNICIPAL-CONVICTION-OR-DIVERSION-EXPUNGEMENT",
+        "statute": "Kan. Stat. Ann. § 12-4516",
+        "mechanism": "Municipal conviction or diversion expungement"
+      }
+    },
+    {
+      "id": "route-municipal-arrest-record-expungement-under-12-4516a",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "available on any one of the five grounds stated in K.S.A. 12-4516a(c) — arrest by mistaken identity, no probable cause found by a court, a finding of not guilty, dismissal of the charges or no charges filed and none likely to be filed, an arrest on an ordinance prohibited by K.S.A. 12-16,134, or that expungement is in the best interests of justice — and K.S.A. 12-4516a states no elapsed waiting period of any kind",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LEGAL-DESIGN-2026-08-02-KS-02",
+      "candidatePathwayIds": [
+        "municipal-arrest-record-expungement-under-12-4516a"
+      ],
+      "legalAuthority": {
+        "decisionId": "LEGAL-DESIGN-2026-08-02-KS-02",
+        "ruleId": "KS-12-4516A-MUNICIPAL-ARREST-RECORD-EXPUNGEMENT",
+        "statute": "Kan. Stat. Ann. § 12-4516a",
+        "mechanism": "Municipal arrest record expungement"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -1073,6 +1432,21 @@
       "fieldsReferenced": [
         "case_outcome",
         "court"
+      ]
+    },
+    {
+      "id": "authority-municipal-conviction-or-diversion-expungement-under-12-4516",
+      "ruleText": "Kan. Stat. Ann. § 12-4516 — three or more years have elapsed since the petitioner satisfied the sentence imposed or was discharged from probation, parole or a suspended sentence, K.S.A. 12-4516(a)(1), or since the terms of the diversion agreement were fulfilled, K.S.A. 12-4516(a)(2); five years apply to the ordinance violations listed in K.S.A. 12-4516(d) and to a first violation equivalent to K.S.A. 8-1567 under K.S.A. 12-4516(e)(1), ten years apply to a second or subsequent such violation under K.S.A. 12-4516(e)(2), one year applies under K.S.A. 12-4516(c) to a prostitution-equivalent ordinance violation where coercion caused by the act of another is proven, and no elapsed period applies under K.S.A. 12-4516(b) to an ordinance violation prohibited by K.S.A. 12-16,134(a) or (b) and adopted before July 1, 2014",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations"
       ]
     }
   ],
@@ -1235,6 +1609,58 @@
         "formMappingStatus": "not_required",
         "sourceRuleRefs": [
           "manual_source_conversion:KS"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "municipal-conviction-or-diversion-expungement-under-12-4516",
+        "pathwayLabel": "Municipal conviction or diversion expungement",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LEGAL-DESIGN-2026-08-02-KS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
+        "pathwayLabel": "Municipal arrest record expungement",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LEGAL-DESIGN-2026-08-02-KS-02"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

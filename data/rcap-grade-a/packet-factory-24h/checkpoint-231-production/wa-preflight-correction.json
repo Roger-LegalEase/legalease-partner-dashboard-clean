@@ -1,0 +1,75 @@
+{
+  "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+  "corrects": "source-ready-preflight.json: potentially executable assessment",
+  "sourceEvidence": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-vehicle-stop.json",
+  "sourceEvidenceSha256": "553c2d270a6a71012fabe31b38aa07b029a9109e21358a33a3a5077bbf39bcc1",
+  "actualStop": {
+    "schemaVersion": "rcap-source-vehicle-stop/v1",
+    "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+    "status": "STOPPED",
+    "stopClass": "SOURCE_VEHICLE_ROLE_MISMATCH",
+    "requiredVehicleRelationship": "lfo_refund_claim: Blake-002",
+    "heldSourceClaimedForThatRelationship": {
+      "formNumber": "BLAKE-002",
+      "sha256": "f3c516804c01f2d8950a7ec5b594e73be94a93504312ec26771152b729c2fd5d",
+      "observedTitleLines": [
+        "Blake Motion to Vacate Drug Possession",
+        "Conviction and Refund Paid LFOs Amounts",
+        "Blake Motion to Vacate Drug Possession Conviction and",
+        "Refund Paid LFO Amounts",
+        "Defendant\u2019s motion",
+        "State\u2019s motion",
+        "Motion of the Court, in the interest of justice",
+        "2. Motion and Relief Requested",
+        "The movant requests the court vacate unconstitutionally void Blake conviction/s and",
+        "order a refund of legal financial obligations (LFOs) paid on the unconstitutional",
+        "resulting solely from the void convictions. This motion is based on State v. Blake, 197",
+        "(04/2026) CLJ Blake Motion"
+      ]
+    },
+    "finding": "The worklist assigns BLAKE-002 as a separate lfo_refund_claim, but first-hand inspection of the pinned BLAKE-002 bytes identifies it as the courts-of-limited-jurisdiction Blake Motion to Vacate Drug Possession Conviction and Refund Paid LFO Amounts. It is an alternate-jurisdiction motion, not a separate refund-claim vehicle. Treating it as both would misstate the packet topology.",
+    "whyBuildStopped": "C11 requires a stop when source identity or output vehicle is unresolved. No replacement form, role, or inferred component was invented.",
+    "additionalMeasuredFindings": [
+      {
+        "findingClass": "PROPOSED_ORDER_COURT_OF_ISSUE_MISMATCH",
+        "worklistRelationship": "proposed_order: Blake-005",
+        "measuredFrom": "the court-of-issue tag each pinned source prints in its own first-page footer",
+        "observed": {
+          "BLAKE-001": [
+            "(04/2026) Superior Court Blake Motion (MT)"
+          ],
+          "BLAKE-002": [
+            "(04/2026) CLJ Blake Motion"
+          ],
+          "BLAKE-005": [
+            "(05/2025) Blake Full Vacat e Order CLJ"
+          ]
+        },
+        "finding": "BLAKE-001 prints a Superior Court motion footer and BLAKE-005 prints a courts-of-limited-jurisdiction full-vacate order footer. The only held order matches the CLJ motion, not the Superior Court motion the worklist names as the primary filing. No Superior Court Blake vacate order is bound to this family, so the primary filing has no matching proposed order in custody.",
+        "whyThisIsNotResolvedHere": "Pairing a Superior Court motion with a CLJ order, or writing a Superior Court order that is not held, would invent packet topology. Neither was done."
+      },
+      {
+        "findingClass": "DUPLICATE_CUSTODY_BINDING_OF_ONE_DOCUMENT",
+        "measuredFrom": "the committed custody row and corpus index, compared by SHA-256",
+        "observed": [
+          {
+            "sourceId": "source-sha256:a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f",
+            "pathInArchive": "private/source-imports/rcap-d-source-packs-2026-08-12/D2/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-001__blake-001-record-vacatur-form__REV-2026-04__EN.pdf",
+            "sha256": "a4d2098f63907b6f0fe1e2c400c0dd960a9d313c5968407d80c88d9ecae05b0f"
+          }
+        ],
+        "finding": "The custody row binds BLAKE-001 twice \u2014 once by form label at its Master Library path and once by content hash at the import-pack path. Both bindings carry the same SHA-256, so they are one document. The build previously read this as a fourth document and failed before producing any measured result.",
+        "whyThisIsNotResolvedHere": "Recorded here and handled in the loader by digest. The custody record itself is a central manifest this lane does not own and was not edited."
+      }
+    ],
+    "neededToResume": [
+      "Correct the worklist relationship if BLAKE-002 is intended as the CLJ alternative to BLAKE-001, or",
+      "identify and bind the actual separate LFO-refund claim source if one is required.",
+      "Bind a Superior Court Blake vacate order, or reassign the primary filing to the CLJ motion the held order matches."
+    ],
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "commercialRoutesOpened": 0
+  },
+  "decision": "SKIPPED: exact bytes exist, but current source/component court-of-issue contract is unresolved. No packet build or permission inferred."
+}

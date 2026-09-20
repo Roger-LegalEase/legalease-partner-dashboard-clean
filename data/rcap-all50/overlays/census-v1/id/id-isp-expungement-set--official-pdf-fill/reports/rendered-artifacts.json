@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "id_isp_expungement-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them.",
+  "rasterisation": {
+    "performedHere": false,
+    "why": "This container resolves no browser, so no page raster is produced at build time. The render happens centrally in .github/workflows/rcap-packet-raster-acceptance-batch.yml against the exact bytes the hashes below pin. This family is BUILT_RASTER_PENDING and no visual obligation is waived by it.",
+    "rasters": []
+  },
+  "packets": [
+    {
+      "packetId": "id_isp_expungement-set",
+      "documents": [
+        "ISP-BCI-EXPUNGEMENT-APPLICATION (canonical)",
+        "ISP-BCI-EXPUNGEMENT-APPLICATION (boundary)"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-canonical-filled.pdf",
+      "sha256": "c68600571515ebf2132b7879ceea6f61ea18c30e0edecb9ee8405c36ec723da6",
+      "byteLength": 153714,
+      "fieldsWritten": 13,
+      "fieldsRefused": 4,
+      "unfittable": [],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    },
+    {
+      "document": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/id/id-isp-expungement-set--official-pdf-fill/fixtures/application-boundary-filled.pdf",
+      "sha256": "48d435eaf962cf4020b4858038c7e5d45175a63534b31664d2afc002c8db57d9",
+      "byteLength": 153448,
+      "fieldsWritten": 11,
+      "fieldsRefused": 6,
+      "unfittable": [
+        {
+          "field": "I was charged for the crime of",
+          "factId": "matter.charge",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line",
+          "rect": {
+            "x": 223.68,
+            "y": 424.56,
+            "width": 304.8,
+            "height": 15.72
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 367.8
+        },
+        {
+          "field": "Charges applicant seeks to have expunged",
+          "factId": "matter.charge",
+          "outcome": "refused",
+          "reason": "value_exceeds_widget_width_at_minimum_font",
+          "value": "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line",
+          "rect": {
+            "x": 291.48,
+            "y": 357.24,
+            "width": 245.04,
+            "height": 15.72
+          },
+          "minFontSize": 6,
+          "requiredWidthAtMin": 367.8
+        }
+      ],
+      "refusedForExceedingFormDeclaredMaxLength": []
+    }
+  ]
+}

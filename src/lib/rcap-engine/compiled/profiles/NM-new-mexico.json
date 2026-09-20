@@ -1,6 +1,22 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "arrest_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "NM",
     "name": "New Mexico",
@@ -591,7 +607,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "N.M. Criminal Record Expungement Act non-conviction route",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -758,7 +775,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "New Mexico cannabis sentence dismissal provisions",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -792,11 +810,11 @@
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
-        "The person must provide a written request and certified documentation, such as a certified copy of the dismissal/nolle prosequi/diversion/conditional discharge/misdemeanor conviction/acquittal, or a sworn affidavit that no felony charges were filed within one year. If DNA records are expunged from the state DNA identification system, the administrative center must ensure expungement from CODIS. DNA expungement is not available if the person has a prior felony conviction or pending felony charge for which DNA collection is authorized. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")"
+        "available on the qualifying reversal, dismissal, nolle prosequi, successful diversion or conditional discharge, acquittal or other listed disposition, with the required documentation and no filing wait; the separate arrest-with-no-felony-charge affidavit branch requires a showing that no felony charge was filed during the year after arrest",
+        "Agency 30- or 45-day processing periods — processing after the request; never shown as prefiling waits."
       ],
       "exclusionRules": [],
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "frontendBranch": {
         "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
         "missingFactsResult": "needs_more_info",
@@ -813,7 +831,52 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NM-02",
+        "ruleId": "NM-29-16-10-DNA-DISPOSITION-VS-ONE-YEAR-NO-CHARGE-BRANCH",
+        "mechanism": "DNA sample and profile expungement",
+        "statute": "N.M. Stat. § 29-16-10",
+        "stage": "single_stage",
+        "outcomeMode": "agency_application",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "available on the qualifying reversal, dismissal, nolle prosequi, successful diversion or conditional discharge, acquittal or other listed disposition, with the required documentation and no filing wait; the separate arrest-with-no-felony-charge affidavit branch requires a showing that no felony charge was filed during the year after arrest"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Agency 30- or 45-day processing periods",
+            "note": "processing after the request; never shown as prefiling waits"
+          }
+        ],
+        "requiredFacts": [
+          "DNA collection and agency?",
+          "Arrest date?",
+          "Charge history during following year?",
+          "Final disposition?",
+          "Reversal/dismissal order?",
+          "Diversion/conditional discharge?",
+          "Acquittal?",
+          "Prior/pending felony?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "DNA sample/profile is in the covered database",
+          "Applicant satisfies a listed statutory disposition and has no statutory prior/pending-felony disqualifier"
+        ],
+        "packetFamily": "New Mexico DNA Expungement Request under § 29-16-10",
+        "packetComponents": [
+          "Request to the administrative centre",
+          "Disposition documentation",
+          "Affidavit where the no-charge branch applies"
+        ],
+        "notes": "The one-year condition is a substantive lookback for the arrest-with-no-felony-charge branch, not a universal waiting period."
       }
     }
   ],
@@ -1490,16 +1553,10 @@
       "when": {
         "backendPathwayId": "dna-sample-profile-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1509,7 +1566,8 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "DNA sample/profile expungement"
+        "sourceConditionText": "available on the qualifying reversal, dismissal, nolle prosequi, successful diversion or conditional discharge, acquittal or other listed disposition, with the required documentation and no filing wait; the separate arrest-with-no-felony-charge affidavit branch requires a showing that no felony charge was filed during the year after arrest",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1519,7 +1577,13 @@
       "sourceRef": "section:151-161",
       "candidatePathwayIds": [
         "dna-sample-profile-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NM-02",
+        "ruleId": "NM-29-16-10-DNA-DISPOSITION-VS-ONE-YEAR-NO-CHARGE-BRANCH",
+        "statute": "N.M. Stat. § 29-16-10",
+        "mechanism": "DNA sample and profile expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",

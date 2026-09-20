@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "rcap-nc-bounded-source-identity-refresh/v1",
+  "familyId": "nc_146_dismissal_petition-set",
+  "reviewer": "release_scope independent original-candidate reviewer; source-only refresh author",
+  "recordedAt": "2026-09-08T11:33:37.215Z",
+  "status": "PASS",
+  "applied": true,
+  "changedReceipt": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/source-receipt.json",
+  "receiptBefore": {
+    "sha256": "33741b9513c11ef455c56f2fe43d1ce2b4c0fd92dfa036a79a7133bd787969a9",
+    "gitBlob": "c85eab80274ae2dbd6cccffc5bc45568908785f8"
+  },
+  "receiptAfter": {
+    "sha256": "24bc71658a5329605df67dd3456a47370f83bff0e761a545d069e4f7864b9c36",
+    "gitBlob": "6805c66f8bb1d24cd9541e6fe8e523addad4fd80"
+  },
+  "equivalenceEvidence": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/nc-source-registry-equivalence.json",
+  "tests": [
+    {
+      "name": "Recovered old/current registry bytes match both immutable commits and the bound full NC object",
+      "passed": true
+    },
+    {
+      "name": "Only the exact NC registry pin digest, length and source-only annotation change",
+      "passed": true
+    },
+    {
+      "name": "Refuses wrong family",
+      "passed": true
+    },
+    {
+      "name": "Refuses wrong route",
+      "passed": true
+    },
+    {
+      "name": "Refuses wrong historical digest",
+      "passed": true
+    },
+    {
+      "name": "Refuses wrong historical length",
+      "passed": true
+    },
+    {
+      "name": "Refuses wrong exact-object anchor",
+      "passed": true
+    },
+    {
+      "name": "Refuses wrong bound track",
+      "passed": true
+    },
+    {
+      "name": "Refuses duplicate registry pin",
+      "passed": true
+    },
+    {
+      "name": "Refuses missing registry pin",
+      "passed": true
+    },
+    {
+      "name": "Refuses changed NC self-help treatment despite an otherwise unchanged registry",
+      "passed": true
+    },
+    {
+      "name": "Refuses a missing NC track",
+      "passed": true
+    },
+    {
+      "name": "Refuses a duplicate NC track",
+      "passed": true
+    },
+    {
+      "name": "Refuses changed global metadata even when the NC object matches",
+      "passed": true
+    },
+    {
+      "name": "Existing preservation mechanism carries the complete valid source annotation verbatim",
+      "passed": true
+    },
+    {
+      "name": "Existing preservation mechanism refuses annotation when source changes again",
+      "passed": true
+    },
+    {
+      "name": "Existing preservation mechanism refuses annotation when source reverts",
+      "passed": true
+    },
+    {
+      "name": "Existing preservation mechanism refuses artifact approval hidden in the source note",
+      "passed": true
+    },
+    {
+      "name": "All ten reviewed PDFs and four retained original forms remain byte-identical",
+      "passed": true
+    }
+  ],
+  "passed": 19,
+  "failed": 0,
+  "preservedArtifactAndSourceIdentities": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "3c4fbfc4260ee871340643b6ddcbb8351559785428fd9ff34c207893ad1fd039"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "5e6e479a3dad1f85957fb16cca060c009aaee7151f70d177e2af7a44ae325717"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-no_fee.pdf",
+      "sha256": "b0eb631bb5ec212352ef841f6df5668593fa923b1a8cd3452f57ed052b410aa7"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-no_fee.pdf",
+      "sha256": "1ed90492e01f527cbf4dee117629dbe8e510700bc9b3a3520558210aadbf2762"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-fee_paid.pdf",
+      "sha256": "3512077fa889867167feaab293245fea9d2fbe5488110613aecbcf088d732d7a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-fee_paid.pdf",
+      "sha256": "72246e0eb69dfb7a4b1a96fe0104b7b796fde2bfce2f225054e250df4c7e6028"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-indigency_requested.pdf",
+      "sha256": "739bad827110e4040c9f80d98691e750d40f66694016d0e3dd9d956fa92625f3"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-indigency_requested.pdf",
+      "sha256": "cbfaa98d08dcf27ea869a28f370e5616c48b6f9d64490e7d33587a1092cc4cf2"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/canonical-requested_financial_supplement.pdf",
+      "sha256": "3888f73d61335835dd00597f7a0b894ccb1f746987f0966d06ac9df7f6df1ac5"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/nc/nc-146-dismissal-petition-set--official-pdf-fill/fixtures/branches/boundary-requested_financial_supplement.pdf",
+      "sha256": "34b533fbec138a6fce309b49cd4cbd29bbdf92d2cdec0bfc2f204619c8efc292"
+    },
+    {
+      "path": "reference/north-carolina/AOC-G-106-2024-11.pdf",
+      "sha256": "0fe2360719b3b7c05554c686189026ef9a3a99c347d22e653aa1c8c3255a83fd"
+    },
+    {
+      "path": "reference/north-carolina/AOC-CR-287-2025-12.pdf",
+      "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed"
+    },
+    {
+      "path": "reference/north-carolina/AOC-CR-287-instructions-2025-12.pdf",
+      "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7"
+    },
+    {
+      "path": "reference/north-carolina/AOC-CV-226-2023-04.pdf",
+      "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+    }
+  ],
+  "builderPreservationHook": {
+    "path": "scripts/build-census-v1-nc_146_dismissal_petition-set.mjs",
+    "measuredSha256": "00a908f5d66caa7d65a6b0d850324da64a0314e1d4258d4ac8f244158e43cc90",
+    "installed": false,
+    "hostModifiedByThisTask": false,
+    "boundary": "Missing hook reported to Captain before this source-only refresh; unchanged-source regeneration would erase the note until separately repaired."
+  },
+  "existingMechanism": "scripts/rcap-packet-completeness/identity-refresh.mjs",
+  "bulkRefreshNotInvoked": "The older bulk refresher is restricted to previously terminal families. This exact-object source-only comparison does not fabricate that prior state or weaken the shared restriction.",
+  "packetRendererRuns": 0,
+  "newRasterRuns": 0,
+  "reviewVerdictsEdited": false,
+  "terminalPromotionClaimed": false,
+  "productionTouched": false
+}

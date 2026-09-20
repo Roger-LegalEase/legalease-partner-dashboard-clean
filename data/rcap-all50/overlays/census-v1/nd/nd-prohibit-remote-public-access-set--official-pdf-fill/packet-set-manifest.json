@@ -1,0 +1,159 @@
+{
+  "jurisdiction": "ND",
+  "trackId": "nd-prohibit-remote-public-access",
+  "packetSetId": "nd-prohibit-remote-public-access-set",
+  "version": "1.0.0",
+  "components": [
+    {
+      "componentId": "nd-prohibit-remote-public-access-primary-filing-1",
+      "role": "primary_filing",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+      "officialSourceUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "order": 1
+    },
+    {
+      "componentId": "nd-prohibit-remote-public-access-supporting-brief-and-declaration-2",
+      "role": "supporting_brief_and_declaration",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+      "officialSourceUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "order": 2
+    },
+    {
+      "componentId": "nd-prohibit-remote-public-access-proposed-findings-3",
+      "role": "proposed_findings",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+      "officialSourceUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "order": 3
+    },
+    {
+      "componentId": "nd-prohibit-remote-public-access-proof-of-service-4",
+      "role": "proof_of_service",
+      "requirement": "required",
+      "conditionDescription": null,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "ND-DECLARATION-OF-SERVICE",
+      "officialSourceUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+      "order": 4
+    }
+  ],
+  "participantActionRequired": [
+    {
+      "kind": "obtain_document",
+      "description": "Obtain Dismissal or acquittal order. Ask the clerk of court, or search the case at ndcourts.gov public access.",
+      "obtainedFrom": "Clerk of court",
+      "requirement": "required",
+      "requiredBeforeFiling": false
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"Were the charges dismissed, or were you acquitted?\" against Dismissal or acquittal order, and correct the packet if they disagree.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "complete_field",
+      "description": "The grounds narrative in the brief and declaration — Brief in Support and Declaration in Support.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "complete_field",
+      "description": "The judge's or judicial referee's signature on the proposed findings — Proposed Findings of Fact and Conclusions of Law.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "sign",
+      "description": "The participant signs the motion, the declaration and the service declaration.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "notarize",
+      "description": "none required; the packet uses declarations rather than affidavits.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "pay_fee",
+      "description": "none identified.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "apply_fee_waiver",
+      "description": "not applicable; no fee is identified.",
+      "requirement": "conditional",
+      "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "serve_party",
+      "description": "On the prosecutor, evidenced by a Declaration of Service by Mail or Declaration of Office Service.",
+      "requirement": "required",
+      "requiredBeforeFiling": false
+    },
+    {
+      "kind": "file",
+      "description": "Serve the prosecutor, then file the motion set with the clerk of the district court holding the criminal case.",
+      "requirement": "required",
+      "requiredBeforeFiling": false
+    }
+  ],
+  "requiredBeforeFiling": [
+    "Check your answer to \"Were the charges dismissed, or were you acquitted?\" against Dismissal or acquittal order, and correct the packet if they disagree.",
+    "The grounds narrative in the brief and declaration — Brief in Support and Declaration in Support.",
+    "The judge's or judicial referee's signature on the proposed findings — Proposed Findings of Fact and Conclusions of Law.",
+    "The participant signs the motion, the declaration and the service declaration.",
+    "none required; the packet uses declarations rather than affidavits.",
+    "none identified.",
+    "not applicable; no fee is identified."
+  ],
+  "familyId": "nd-prohibit-remote-public-access-set",
+  "implementationStrategy": "official_pdf_fill",
+  "sourceReceipt": "data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill/source-receipt.json",
+  "supportingSourceDocuments": [
+    "ND-REMOTE-ACCESS-PACKET-INSTRUCTIONS",
+    "ND-NOTICE-MOTION-REMOTE-ACCESS",
+    "ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+    "ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+    "ND-DECLARATION-SUPPORT-REMOTE-ACCESS",
+    "ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+    "ND-CONFIDENTIAL-INFORMATION-CRIMINAL",
+    "ND-DECLARATION-OF-SERVICE",
+    "ND-DECLARATION-OFFICE-SERVICE-REMOTE-ACCESS"
+  ],
+  "additionalRequiredOriginalComponents": [
+    "ND-NOTICE-MOTION-REMOTE-ACCESS",
+    "ND-DECLARATION-SUPPORT-REMOTE-ACCESS"
+  ],
+  "deliveryPolicy": {
+    "artifactPurpose": "CONFIDENTIAL_DIAGNOSTIC_REVIEW_ONLY",
+    "confidentialInformation": "Separate confidential filing; never include in service copy",
+    "serviceAlternatives": "Choose only actual mail or office method; diagnostic contains both unexecuted templates",
+    "conditionalFeeWaiver": "If charged and unaffordable, obtain current applicable waiver before filing",
+    "conditionalOmissions": [
+      {
+        "fixture": "canonical",
+        "component": "fee_waiver",
+        "triggered": false,
+        "reason": "Synthetic fixture declares no charged unaffordable fee; triggered branch refuses until waiver inputs exist"
+      },
+      {
+        "fixture": "boundary",
+        "component": "fee_waiver",
+        "triggered": false,
+        "reason": "Synthetic fixture declares no charged unaffordable fee; triggered branch refuses until waiver inputs exist"
+      }
+    ]
+  }
+}

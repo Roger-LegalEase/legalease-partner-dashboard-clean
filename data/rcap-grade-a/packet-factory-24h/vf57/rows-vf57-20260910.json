@@ -1,0 +1,530 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF57",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "worktree": "/home/user/vfa-worktree",
+  "branch": "lane-vf57-20260910",
+  "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+  "generatedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+  "grantSet": "0fc7bc025343619a. Three --assert calls in the three-token form, all CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 981a2b664470bb2bf74ce6b366eedb0cc4d74162). Released at return.",
+  "aboutThisLane": "An earlier VF57 was lost to a container restart before committing. This lane started fresh, read nothing from that lane, and committed each row as it was scored.",
+  "actedOnReturns": [
+    "VF03 rows-vf03-20260909b.json, the recorded SELF_HELP_STOP FAIL on ia-12347-set at 159c0b5cf.",
+    "VF08 rows.json, the recorded SOURCE_IDENTITY FAIL on in_infraction_nondisclosure-set at 9e7582a9d.",
+    "VF06 rows.json, the recorded SOURCE_IDENTITY FAIL on ar-felony-seal-set at 5de917b35.",
+    "FIX153 rows-fix153-20260910.json, which found ia-12347-set already repaired by FIX145 and could not assert a PASS.",
+    "FIX156 rows-fix156-20260910.json, which found ar-felony-seal-set and in_infraction_nondisclosure-set already repaired by FIX145 and could not assert a PASS."
+  ],
+  "builtAnything": false,
+  "repairsMade": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedManifestsTouched": "None. This lane wrote only data/rcap-grade-a/packet-factory-24h/vf57/. The claim ledger was written by --assert and --release only, through scripts/grade-a-packet-factory-24h/claim.mjs. git status --porcelain was EMPTY before every measurement and after every one: this lane repaired nothing and moved no byte of any packet.",
+  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "whatWasRead": "The delivered fixture bytes, guides, field maps, reports, receipts and product wiring of all three families at this base; the pinned source binaries; the controlling records (legal-design-track-registry.json, legal-design-packet-set-manifests.json, IN.memo.json, the Indiana stage-2 dependency record, the compiled AR profile); the admitted raster run for Iowa; the git blobs of the shared manifest at every commit that touched it. Every number below was produced by a tool written or run in this lane. Nothing was transcribed from FIX145's, FIX153's, FIX156's, VF03's, VF06's or VF08's report: each disputed figure was re-derived before being accepted or rejected.",
+  "howBytesWereMeasured": {
+    "digests": "sha256sum, and `git show <commit>:<path> | sha256sum` for historical blobs.",
+    "pdfStructure": "A reader written for this lane loading each delivered fixture with pdf-lib 1.17.1 from this worktree's node_modules, walking the page tree, counting /Widget annotations per page, reading the AcroForm /Fields array size, and inflating every page /Contents stream with node:zlib. Not imported from any builder.",
+    "textAndPosition": "pdftotext -bbox on the pinned source and on each delivered fixture. A word counts as ADDED only when the triple (text, xMin rounded to 0.1pt, yMin rounded to 0.1pt) is absent from the mapped source page, and LOST only when present in the source and absent from the delivered page. Top-left coordinates were converted to PDF space as pageHeight - yMax.",
+    "pixels": "pdftoppm -r 300 -gray writing binary P5 PGM directly (never -gray -png, which emits an RGB PNG a naive grayscale reader misreads silently), read by a numpy PGM reader written for this lane. Annotations ARE drawn: poppler's default, no suppression flag. Ink threshold: grey value < 200 is ink. Scope: every page of every delivered fixture, differenced against the mapped page of its pinned source at identical raster dimensions. Every raster was read and deleted in the same working directory before this lane returned; none was retained, published or looked at by a person.",
+    "insideOrOutsideADeclaredRect": "Declared write rects were converted from PDF points to raster pixels at 300 dpi with a 1 px pad, and separately with a 3 pt allowance below the rect for glyph descenders. Both figures are published below, because the difference between them is the whole of the residue.",
+    "verbatimDisclosure": "A record string counts as disclosed only when, after whitespace collapse, it appears as an exact substring of the delivered markdown. Absence was additionally checked by grepping for the distinguishing token of the string."
+  },
+  "everyZeroHasAPositiveControl": "Yes, in this lane's own bytes. An opaque white rectangle painted at x 100-500, y 300-320 pt on page 1 of a scratch copy of ia-12347-set canonical.pdf, with the string CONTROL-INK-XYZ drawn inside it, was rendered and differenced by the same tool that reports the zeros below: it reported 7,196 px of printed source ink LOST in raster rows 1967-2014 -- the rows that rectangle occupies -- and 4,331 px ADDED in raster rows 1994-2029 where the control string was drawn, both correctly located and both outside every declared rect. The scratch PDF and its raster were deleted in the same call. A detector that reports 7,196 lost on a page where ink was erased and 0 lost on all six delivered pages is reading ink, not asserting it.",
+  "rasterPixelCounts": "Published per family below as counts only. This lane retained no raster image and published none.",
+  "theSHAREDMANIFESTPINISALIVEQUESTIONONTWOOFTHESETHREE": {
+    "theFACT": "data/record-clearing/legal-design-packet-set-manifests.json is b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c / 3,708,050 bytes in the working tree at this base, hashed by this lane with sha256sum. FIX157 moved it at commit b3f6fbc7a; the previous value was 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688 bytes, last carried at 1784eec3d. This lane recovered the value at every commit that has ever touched the record by piping each blob through sha256sum.",
+    "whatTHEREANCHORACTUALLYCOVERED": "Commit 8f5ec7184 re-anchored NINE families. Its own file list, read by this lane with git show --name-only, is: al-felony-dwop-set and al-trafficking-set and co-motion-seal-nonconviction-set and ma-expunge-k-set and the WV vacatur family (product-wiring only), and the source receipts of ar-nonconviction-seal-set, az-certificate-second-chance-set, me-seal-gen-set, mn-petition-609a02-subd3-set, nc-145-5-felony-set, nc-145-5-misdemeanor-set, nc-146-acquittal-petition-set, nc-146-dismissal-petition-set and wv-conv-nonviolent-felony-set. The Arkansas family in that list is ar-nonconviction-seal-set. It is NOT ar-felony-seal-set. No Indiana family appears at all.",
+    "consequence": "ar-felony-seal-set and in_infraction_nondisclosure-set both still declare 80b5e071... / 3,694,688 for that record. Neither recomputes. Both were withdrawn by the same Colorado edit that withdrew the nine, and neither was among the nine that were put back. This is a live SOURCE_IDENTITY failure at this base on both families, and it is not the failure VF06 and VF08 recorded -- theirs was the earlier drift, which FIX145 did answer.",
+    "andITWASNOTREADOFFTHERECEIPT": "Both receipts still publish allSourcesExact true. This lane recomputed instead, which is the only reason the failure is visible."
+  },
+  "rows": [
+    {
+      "familyId": "ia-12347-set",
+      "itemId": "ia-12347-set",
+      "jurisdiction": "IA",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ia/ia-12347-set--official-pdf-fill",
+      "theRECORDEDFAILUREDOESNOTSTAND": "VF03's SELF_HELP_STOP FAIL at 159c0b5cf is answered and this lane's own measurement clears it. FIX145 repaired it at 1b5ab0230, FIX153 re-measured it at this base and could not assert a PASS because it held a repair grant on the family; this lane holds the verification grant and asserts it. 2 of 2 registry stop conditions are present verbatim.",
+      "theFAILURESAREELSEWHEREANDARENEW": "VF03 measured SEVEN of the fifteen obligations: ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, PROTECTED_FIELDS, CLIPPING_AND_OVERLAP and SELF_HELP_STOP. It did not measure ROUTE_OPTIONS, REQUIRED_BEFORE_FILING, REPEATING_ROWS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, FEE_AND_WAIVER or SERVICE. This is the first fifteen-obligation read this family has had, and all three failures it finds are inside the eight nobody measured.",
+      "deliveredDigestsHashedByThisLane": {
+        "fixtures/canonical.pdf": "d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81",
+        "fixtures/canonical.pdf byteLength": 302843,
+        "fixtures/boundary.pdf": "33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262",
+        "fixtures/boundary.pdf byteLength": 302931,
+        "bothUnmovedFromVF03ANDFIX153": true
+      },
+      "sourceDigestsHashedByThisLane": {
+        "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-4__application-to-expunge-possession-of-alcohol-under-the-legal-age-court-records-under-iowa__REV-2024-08__EN.pdf": "279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45",
+        "byteLength": 288751,
+        "pageCount": 2,
+        "widgetAnnotationsInSource": 0,
+        "acroFormFieldsInSource": 0,
+        "resolvedUnder": "MASTER_LIBRARY_SOURCE_DIR",
+        "matchesTheRECEIPTBYDIGESTANDBYTELENGTH": true
+      },
+      "rasterState": "DOES NOT OWE A FRESH RASTER. raster-runs/admitted/ia-12347-set/ia-12347-set.verdict.json is RASTER_PASS at packetCommit 4bf305425, run 34352802308, and binds both digests now on disk by name: canonical d8bf1526... and boundary 33564a9874.... This lane grepped both delivered digests across the whole of data/rcap-grade-a/ rather than reading the claim off a report, and the admitted verdict is where they appear. FIX145's repair moved no PDF byte, so that binding still covers the delivered bytes. BUT that admission is a byte-binding record and not visual approval: its own admission-proof.json records independentSemanticApproval false, viewportDimensionsCheckedAgainstASecondSource false on all four pages, and imageBytesReadBy stating this admission 'read the published inventory, not the PNG bytes'. No person has looked at a pixel of this family. visualDefects stays null.",
+      "areTheseTheBytesTheCentralRasterCarries": true,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "FAIL"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS"
+        },
+        "ARTIFACTS": {
+          "result": "PASS"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL"
+        },
+        "SERVICE": {
+          "result": "PASS"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS"
+        }
+      },
+      "obligationFindings": {
+        "ROUTE_IDENTITY": "PASS. One route key, obligation:track-pathway:IA:ia-12347:underage-alcohol-12347, identical in product-wiring.json (routeKey and routeKeys and binding.routeKeys), production-field-map.json and approval-request.json. It agrees with the registry: jurisdiction IA, trackId ia-12347, packetSetId ia-12347-set, outputStrategy official_pdf_fill, and the same packetSetId and trackId in the shared packet-set manifest. Delivered page 1 states the application is made 'pursuant to Iowa Code section 123.47(9)', which is the registry's first named authority. Neither delivered markdown prints a route key anywhere. status DECLARED_NOT_INSTALLED, commercialRoutesOpened 0, paymentEligible false, sponsorshipEligible false.",
+        "SOURCE_IDENTITY": "PASS, fully measured and recomputed. The one pinned binary was opened at its recorded archive path under MASTER_LIBRARY_SOURCE_DIR and re-hashed by this lane: 279eefe8c5f6b51ec73eb943c9a479757ff3d2c439177bfbf3044e7e71f66c45, 288,751 bytes, 2 pages, 0 /Widget annotations, 0 AcroForm fields -- matching source-receipt.json by digest and byte length and matching build-findings.json's claim that the binary carries no AcroForm. Both declared official-form identities resolve to that one binary and the receipt records two source rows against one file rather than implying a second file; this lane confirmed from the source's own page 2 that it prints the section heading 'Certification of Service by Mailing or Delivery'. NOTE, AND IT IS THE RIGHT DESIGN: this family pins NO whole-file digest on legal-design-track-registry.json or legal-design-packet-set-manifests.json. build-findings.json states the reason expressly -- both are shared records that unrelated route work rewrites, and a whole-file pin on either goes stale within days without saying whether the bound sentences moved -- and the build asserts the bound sentences verbatim at build time instead. That decision is why this family is not carrying the stale-pin failure that the other two families in this lane are.",
+        "COMPONENT_SET": "PASS. The shared packet-set manifest declares two components: ia-12347-primary-filing-1, role primary_filing, requirement required; and ia-12347-certificate-of-service-2, role certificate_of_service, requirement conditional, conditionDescription 'Only when filing on paper.' Both fixtures deliver exactly 2 pages of 612x792 and the page manifest maps packet page 1 to primary_filing (source page 1) and packet page 2 to certificate_of_service (source page 2). Nothing declared is absent and no page belongs to an undeclared component. requiredComponentsMissing 0. The conditional component IS delivered unconditionally, which this lane checked against the Alabama pattern VF55 raised and it is NOT the same defect: the certificate of service is physically the lower half of source page 2, whose upper half carries the self-represented and attorney blocks that every filer needs, so the page cannot be dropped; every field of the certificate is left blank; and the condition is disclosed to the participant in terms -- filing-instructions.md step 5 says an eFiler 'does not need the certification of service' and step 6 tells a paper filer to complete it only after the copy is actually delivered. Nothing sworn is pre-made.",
+        "KNOWN_PREFILLS": "PASS, measured on the delivered pixels and on the delivered text, not on the write report. The field map declares 16 writes. pdftotext -bbox against the pinned source finds 25 added words in canonical and 26 in boundary and 0 lost words in either; the added words assemble to exactly the 16 declared values. Every one of the 51 added words lies inside a declared write rect. Every one of the 16 declared writes produces measurable added ink in BOTH fixtures at 300 dpi -- the smallest is the two statutory-element marks at 241 px each and the largest is the boundary email at 9,077 px -- so no write is declared and invisible. invisibleWrites 0, measured.",
+        "REQUIRED_BEFORE_FILING": "FAIL. Both controlling records carry a requiredBeforeFiling list of five entries for this packet set -- legal-design-track-registry.json track ia-12347 at packetSet.requiredBeforeFiling and packetSet.participantActionRequired, and the same five, byte-identical, in the packetSets entry of data/record-clearing/legal-design-packet-set-manifests.json. The second entry is: 'Confirmation that the conviction is under § 123.47(3) — Form 4, item 1.' kind complete_field, requirement required, requiredBeforeFiling true. It reaches the participant nowhere. The strings '123.47(3)' and 'subsection' each occur ZERO times in participant-instructions.md and ZERO times in filing-instructions.md; the only occurrences of '123.47' at all are three, and all three are the general or the (9) citation. The other four entries are disclosed in substance: the A/B election and the signature under penalty of perjury both appear, the fee position appears, and the fee-waiver position is stated as not applicable. This is not a wording quibble. The record explains in its own words why the confirmation exists: manualCompletionItems records item 'Confirmation that the conviction is under § 123.47(3)', whereInPacket 'Form 4, item 1', why 'The form cites § 123.47 generally where the statutory ground is subsection 3, so the participant confirms the subsection.' The printed item 1 is broader than the eligible ground, so a participant convicted under a different part of § 123.47 reads a statement that is true of them, is told to check it against their court record, and is never told that the part that matters is subsection 3. WHAT WOULD SATISFY IT: the guide states, in the participant's own reading, that the form's item 1 cites § 123.47 generally, that this route is available only for a conviction under § 123.47(3), and that the participant must confirm their conviction is under subsection 3 before signing -- which is the record's own participantQuestions sentence.",
+        "ROUTE_OPTIONS": "FAIL, and it is the same defect class VF55 measured on al-trafficking-set. Page 1 of Rule 2.86 Form 4 prints 'Read, complete, and check each item if you agree.' above two numbered sworn statements, under a preamble reading 'Defendant acknowledges that the following statements are true and correct to the best of Defendant's knowledge'. The packet checks BOTH. The field map records them as eligible_conviction_selected (item 1, factId route.ia_123_47_conviction, disposition selected_by_route, routeDetermined true) and no_later_disqualifying_conviction_selected (item 2, factId route.no_later_disqualifying_conviction, same). This lane measured both marks in the delivered pixels rather than in the report: at 300 dpi, grey<200, each mark adds 241 px over the pinned source at its declared rect, identically in canonical and boundary. On ITEM 2 this lane does not fail the family: the record collects interveningConvictions as a required generation requirement and item 2 restates that fact exactly, so the platform plausibly holds what it asserts. ITEM 1 IS DIFFERENT AND THE RECORD DRAWS THE LINE ITSELF. Item 1 is the ONE field in this packet that both controlling records name as a participant manual completion required before filing -- manualCompletionItems whereInPacket 'Form 4, item 1', participantActionRequired kind complete_field requiredBeforeFiling true, and packetSet.requiredBeforeFiling entry two -- for the stated reason that the printed statement is broader than the eligible ground. Marking routeDetermined true on the one election the record reserves to the participant is a claim the route determines it, and the record it would have to cite says the opposite. That the guide discloses the mark ('Two statements on page 1 are already marked for you') does not cure it: accurate disclosure of an unauthorised election is not authority to make it, and the disclosure repeats the form's general § 123.47 wording rather than the subsection the confirmation is about. WHAT WOULD SATISFY IT: either reclassify eligible_conviction_selected to routeDetermined false, stop marking it, and carry the record's participant confirmation into the guide; or an owner determination, recorded as one, that a manualCompletionItem may be pre-answered by the build -- which would have to be applied to every route whose record reserves an election to the participant. This lane's view is that the first is right.",
+        "REPEATING_ROWS": "PASS. The obligation does not arise and that is a measurement, not an omission. Rule 2.86 Form 4 carries no repeating row structure of any kind: this lane walked both pages of the pinned source and of both fixtures and found no table, no numbered charge or case rows, and no repeated field group -- the form's only enumerated items are the two fixed statutory statements. There is therefore no row that could be left partly inked. incompleteRows 0.",
+        "PROTECTED_FIELDS": "PASS, measured page-wide rather than box-wise, which is the stronger reading. At 300 dpi with annotations drawn, EVERY added-ink pixel on all four delivered pages lies inside one of the 16 declared write rects once a 3 pt allowance is made below each rect for glyph descenders; with no allowance the residue is 68, 182, 283 and 489 px and this lane located all of it -- every pixel of it sits at most 5 raster px (1.2 pt) below a declared rect bottom and none of it is more than 40 px from a declared rect. So no ink whatever is written anywhere the field map does not declare, which covers the protected fields regardless of whether they carry coordinates. Directly: the self-represented signature and its date, the attorney signature and its date, the certifier's printed name and the mailing date, and every field of the attorney block are blank on the delivered pages; the three selection controls the field map refuses (both Read Before Signing boxes and the A/B election) read 503 px of ink in the pinned source and 503 px in canonical and 503 px in boundary -- unchanged, unmarked. protectedWrites 0. OBSERVED, NOT SCORED: 20 of the 23 refusal rows in the field map carry no rect or box at all, so the field map alone cannot prove those areas are blank; only the page-wide measurement can. That is a weakness in the field map's evidentiary shape, not a defect in these bytes.",
+        "ARTIFACTS": "PASS. Both fixtures re-hashed by this lane with sha256sum: canonical d8bf1526ba61e136748639eed035e90691c1eb712b45a21fb344a64f5e0c9b81 at 302,843 bytes and boundary 33564a9874b7c2a7eba8dc9e3f4142f7ceda63c4b0673f273011a53819d63262 at 302,931 bytes. Both digests and both byte lengths match reports/rendered-artifacts.json exactly, and both match product-wiring.json's proposedRepresentation and its acceptanceReceipt boundToCanonicalSha256. Page count 2 in both, read from the page tree with pdf-lib, matching the declared pageCount. 0 residual /Widget annotations and 0 AcroForm fields in both fixtures (the source has none either, so nothing was flattened and nothing is left live). The only annotation on any page is one /Link inherited from the source.",
+        "PAGE_ORDER": "PASS, established by byte evidence rather than by reading the manifest. Delivered page 1 was differenced against source page 1 and delivered page 2 against source page 2: 0 lost words and 0 lost ink pixels on each, in both fixtures. A page in the wrong order would have produced a large lost-word count against the page it was compared to. The order is primary_filing then certificate_of_service, which is the manifest's declared component order 1 then 2, and it is also the source binary's own page order, so the packet does not reorder the court's form.",
+        "CLIPPING_AND_OVERLAP": "PASS, explicitly measured at 300 dpi on all four delivered pages, not inferred. NOTHING IS CLIPPED: the longest boundary values print whole and inside their declared rects -- 'Alexandria Catherine Montgomery-Washington' spans x 74.0-271.5 pt inside a 225 pt rect on page 1 and x 122.0-314.3 pt inside a 195 pt rect on page 2, '1188 Long Meadow Boulevard, Apartment 1407' spans x 110.0-311.7 inside a 425 pt rect, and 'alexandria.montgomery.washington@example.org' spans x 308.0-519.9 inside a 228 pt rect ending at 536. No ellipsis and no shortened value appears in either fixture. NOTHING IS OVERPRINTED: lost source ink is 0 px on every page of both fixtures -- canonical p1 0, canonical p2 0, boundary p1 0, boundary p2 0 -- against a positive control on the same tool that reported 7,196 px lost when this lane deliberately painted a white box over printed ink. Seven added words per fixture have printed source ink inside their glyph bounding box; this lane profiled every one of them by raster row and in every case the printed ink is a horizontal fill-in rule occupying only the bottom 2 to 4 rows of the box (for example the page 1 county slot: 78 px on rows 474-476 of a box spanning rows 442-480), which is the printed line the value is supposed to sit on.",
+        "FILING_DESTINATION": "PASS. The registry's destination is kind clerk, 'Clerk of the Iowa District Court for the county of the case', detail 'File in the case where expungement is sought.'; venue is 'Iowa District Court for the county of the case. Rule 2.82(5) requires filing in the case where expungement is sought.'; rules.filing is 'eFile through the Iowa Judicial Branch eFile System where the case is available there, otherwise file on paper at the county clerk of court office...' filing-instructions.md carries all three: 'File the application in the Iowa District Court for the county shown in the caption on page 1 - the county where the criminal case was handled - under the case number shown beside it', then step 5 eFile and step 6 'file on paper at the clerk of court's office for that county'. Filing in the existing case rather than opening a new one is carried by 'under the case number shown beside it'. No competing or invented destination appears anywhere in either markdown.",
+        "FEE_AND_WAIVER": "FAIL, on an omission the record explicitly instructs be surfaced. What IS carried is carried honestly: rules.fees ('No filing fee for the application itself was identified in the review') and rules.feeWaiver ('Not applicable while no fee is identified') are reflected by filing-instructions.md 'The held source establishes no filing fee for this application... Nothing in this packet states an amount', which attributes the finding to the held source rather than asserting there is no fee. What is MISSING is the third and only actionable part of this track's fee answer. The registry carries, as packetInstructions and again as a legalDesignLimitations entry classified packet_instruction with counsel-memo provenance: 'Court debt is not a precondition on this track. Rule 2.83(3) states that payment of court debt or other financial obligations is not required for expungement under this section. Surface it: this is the opposite of Tracks A and B and matters most to participants least able to pay.' The phrases 'court debt', '2.83' and 'financial obligation' occur ZERO times in participant-instructions.md and ZERO times in filing-instructions.md. A participant with outstanding court debt reads this packet, is told nothing, and has every reason to believe the barrier that applies on most tracks applies here -- which is the one class of participant the record says this matters most to. Secondarily, rules.fees says 'Treat the amount as unconfirmed until verified at build time', the family's releaseBlockers still carry the open question 'Whether there is any filing fee for a Rule 2.86 application in any Iowa county', and the guide does not tell the participant the amount is unconfirmed. WHAT WOULD SATISFY IT: the guide states Rule 2.83(3) in the participant's own reading -- that unpaid court debt or other financial obligations do not have to be paid first on this route -- and states that no fee has been confirmed either way. MAPPING NOTE FOR THE CAPTAIN: this lane scores the court-debt omission under FEE_AND_WAIVER because it is a statement about whether money is a precondition to the relief. If the Captain maps a packet_instruction omission elsewhere, the measurement is unchanged and the family is FAIL_REPAIR_REQUIRED regardless, on ROUTE_OPTIONS and REQUIRED_BEFORE_FILING.",
+        "SERVICE": "PASS. rules.service is 'eFiling serves the county attorney automatically. Paper filers complete the certification of service and mail or hand deliver a copy to the county attorney.' and rules.notice is 'The county attorney is the notice recipient and may file a confidential response within 20 days after service unless the court orders otherwise. The court may conduct a hearing but none is required.' Both halves of the service rule are carried in filing-instructions.md steps 5 and 6 in the record's own terms, and the notice rule is carried verbatim in BOTH delivered documents. The recipient's identity and address are correctly left to the participant with an explanation of each of the five fields, and the certificate is left wholly blank with the reason stated -- 'a certificate that says a copy was mailed on a date when it had not been mailed would be false'. This lane confirmed in the pixels that every field of the certification of service is unwritten in both fixtures.",
+        "SELF_HELP_STOP": "PASS, and this is the obligation VF03 failed. Track ia-12347 declares exactly two selfHelpStopConditions and both are present verbatim in participant-instructions.md under a '## Stop and get help' heading: 'The county attorney opposes the application.' and 'A disputed intervening conviction inside the two-year window.' 2 of 2, matched as exact substrings after whitespace collapse against the registry read at this base. Each is then carried in terms as well as verbatim -- 'If the county attorney opposes the application, this packet stops being enough', with the 20-day confidential-response window and the court's discretion to hold a hearing -- and filing-instructions.md carries the same stop under 'After filing': 'A response is where this packet's help ends.' That is precisely the sentence VF03 said reached nobody. The repair is builder-durable, not a hand edit: it is in scripts/build-census-v1-ia-12347-set.mjs, and build-findings.json records the sentences are asserted verbatim against both records at build time."
+      },
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "declaredWritesProducingZeroAddedInkInEitherFixture": 0,
+        "addedWordsCanonical": 25,
+        "addedWordsBoundary": 26,
+        "addedWordsOutsideEveryDeclaredRect": 0,
+        "lostWordsAnyPage": 0,
+        "lostInkPxAnyPage": 0,
+        "addedInkPxCanonicalP1": 9497,
+        "addedInkPxCanonicalP2": 20048,
+        "addedInkPxBoundaryP1": 18451,
+        "addedInkPxBoundaryP2": 32554,
+        "addedInkPxOutsideDeclaredRectsWith3ptDescenderAllowance": 0,
+        "residualWidgetAnnotationsInDeliveredBytes": 0,
+        "acroFormFieldsInDeliveredBytes": 0,
+        "selfHelpStopConditionsDeclared": 2,
+        "selfHelpStopConditionsCarriedVerbatim": 2,
+        "recordRequiredBeforeFilingItemsDeclared": 5,
+        "recordRequiredBeforeFilingItemsDisclosedToTheParticipant": 4,
+        "packetInstructionsDeclaredInTheRecord": 4,
+        "packetInstructionsCarriedInDeliveredGuidance": 1,
+        "pdfFilesWhoseBytesMoved": 0
+      },
+      "countersThisLaneDidNotMeasure": {
+        "note": "null because NOT MEASURED in this lane, never because measured as zero.",
+        "visualDefects": null
+      },
+      "visualDefectsWhyNull": "No person has seen a page of this family. The RASTER_PASS that binds these bytes records independentSemanticApproval false and states its own page images were never read. This lane retained no raster and claims none.",
+      "outOfScopeOBSERVEDNOTSCORED": {
+        "twoMOREPACKETINSTRUCTIONSARENOTCARRIED": "Beyond the court-debt instruction scored under FEE_AND_WAIVER, two of the record's four packetInstructions are also absent from the delivered guidance and this lane could not fit either to one of the fifteen names, so neither is scored. (1) 'Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.' The prohibition half IS honoured -- 'erased', 'destroyed' and 'removed from your record' occur zero times -- but the two affirmative halves are absent: '22.7' occurs zero times and 'felony' occurs zero times in both delivered documents, so the packet never tells the participant what expungement on this track actually does to the record or that Iowa has no felony expungement. (2) 'Surface the enhancement benefit: an expunged conviction is not a prior offence for enhancement under § 123.47(4) or a local ordinance, unless the new violation occurred before entry of the expungement order.' Absent: 'enhance' occurs zero times. The record's own provenance calls this 'a concrete, immediate benefit and should be in the consumer copy'. Recorded for the Captain to route to whichever obligation owns participant outcome copy; this lane repaired nothing and asserts only the absence, which it measured by grep against both delivered markdown files.",
+        "theFOURTHPACKETINSTRUCTIONISHONOURED": "'Do not add a proposed order to any Iowa Rule 2.86 packet.' No proposed order is delivered -- the packet is 2 pages, both of them the court's own form -- and filing-instructions.md states it: 'nothing here asks the court to sign an order drafted by this packet.'"
+      },
+      "whatThisRowGrantsNothing": "This is a verification return. It admits no packet, opens no commercial route, promotes no status, admits no raster and clears no release blocker. ia-12347-set returns FAIL_REPAIR_REQUIRED on three obligations and may not reach approved_for_live until they are repaired by a lane that did not verify them."
+    },
+    {
+      "familyId": "in_infraction_nondisclosure-set",
+      "itemId": "in_infraction_nondisclosure-set",
+      "jurisdiction": "IN",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/in/in-infraction-nondisclosure-set--custom-pleading",
+      "theRECORDEDFAILURESTANDS_BUTNOTFORTHEREASONRECORDED": "VF08's SOURCE_IDENTITY FAIL at 9e7582a9d named the drift from 563147bf/6076f734, and FIX145 answered that one at 662de750d. FIX156 re-measured it and was right: at ITS base the pin bound exact. It does not bind at THIS base. FIX157 moved the shared record again at b3f6fbc7a, and the re-anchor at 8f5ec7184 covered nine families of which this is not one and no Indiana family is. So the obligation fails again, on the third drift of the same record, and this lane is scoring the current failure rather than re-scoring VF08's.",
+      "deliveredDigestsHashedByThisLane": {
+        "fixtures/canonical.pdf": "f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7",
+        "fixtures/canonical.pdf byteLength": 13299,
+        "fixtures/boundary.pdf": "bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf",
+        "fixtures/boundary.pdf byteLength": 13363,
+        "pageCountBothFixtures": 4,
+        "bothUnmovedFromVF08ANDFIX156": true
+      },
+      "groundingRecordsRecomputedByThisLane": [
+        {
+          "path": "data/record-clearing/legal-design-intake/IN.memo.json",
+          "declared": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+          "recomputed": "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb",
+          "byteLength": 176778,
+          "bindsExact": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "declared": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+          "declaredByteLength": 3694688,
+          "recomputed": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "recomputedByteLength": 3708050,
+          "bindsExact": false
+        },
+        {
+          "path": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+          "declared": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c",
+          "recomputed": "d511a5e3d7d98089ab6a5e25a160b887be6493f42d36d71018a678ff0a3c6b5c",
+          "byteLength": 8069,
+          "bindsExact": true
+        }
+      ],
+      "rasterState": "OWES A FRESH CENTRAL RASTER. Neither delivered digest appears in ANY file under data/rcap-grade-a/packet-factory-24h/raster-runs/, admitted or otherwise, and there is no admitted/ directory for this family. This lane grepped both digests and the family id across the whole of raster-runs/ rather than reading the claim off a report. THIS FAMILY CANNOT BE TERMINAL ON THIS LANE'S READ, and this lane claims no raster for it. FIX156's freshRasterOwed:false is correct only in its own narrow sense -- no byte moved in FIX156, so FIX156 created no new raster debt -- but the family has never had a raster at all.",
+      "areTheseTheBytesTheCentralRasterCarries": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "FAIL"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS"
+        },
+        "ARTIFACTS": {
+          "result": "PASS"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS"
+        },
+        "SERVICE": {
+          "result": "PASS"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS"
+        }
+      },
+      "obligationFindings": {
+        "ROUTE_IDENTITY": "FAIL, on where the route keys are printed rather than on what they are. THE IDENTITY ITSELF IS CLEAN: two route keys, obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1 and -stage-2, identical in product-wiring.json, source-receipt.json and production-field-map.json, agreeing with the registry track in_infraction_nondisclosure (compositionMode sequential, two units in that order) and with the shared manifest's two components. THE DEFECT: both internal route keys are PRINTED IN THE DELIVERED PDF, on page 2 and again on page 4 of both fixtures, and once more as the last line of participant-instructions.md. This lane read page 4 to establish what it is, which is the thing the Captain's own record says was not established for this family: page 4 is the last page of the verified petition. It carries paragraph 6 NO FEE, paragraph 7 SERVICE ON THE PROSECUTING ATTORNEY, the WHEREFORE clause, 'VERIFICATION. I affirm under the penalties for perjury that the foregoing representations are true.', SIGNATURE OF PETITIONER, DATE, PRINTED NAME, and the 'FOR THE COURT ONLY' judge block. That is unambiguously a page the participant signs under penalty of perjury and hands to a clerk, and 'Routes: obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1 ; obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-2' is printed on it. THIS IS NOT A NEW DISCOVERY AND THIS LANE DOES NOT CLAIM IT AS ONE: data/rcap-grade-a/packet-factory-24h/PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS.json, generated at e6511c2cd which is an ancestor of this base, already lists this exact directory with pagesCarryingARouteKey [2,4] and onLastPage true, and already says the defect is dispatched deliberately. What this lane adds is the determination that record expressly leaves open -- 'Which of the 123 print it on a page that is FILED, as against a cover, guidance or checklist page bound into the same PDF' -- and for this family the answer is that it is the filed page. Recording it as a PASS on this family would put a verifier's signature under an internal identifier printed on a sworn pleading. WHAT WOULD SATISFY IT: the route keys come off the delivered PDF pages. That moves bytes and therefore costs a fresh central raster, which this family owes in any case because it has never had one.",
+        "SOURCE_IDENTITY": "FAIL, on two independent grounds, and the second is the one no counter can see. GROUND ONE, THE STALE PIN. The receipt's groundingRecords declare data/record-clearing/legal-design-packet-set-manifests.json at 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688 bytes. This lane recomputed it: b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c / 3,708,050 bytes. It does not bind. The other two grounding records DO bind exact -- IN.memo.json eea7b693... / 176,778 and the stage-2 dependency.json d511a5e3... / 8,069 -- both recomputed here. THE REFRESH QUESTION, ASKED HONESTLY AND ANSWERED: this lane recovered the blob carrying the declared pin (git show 1784eec3d:..., which hashes to exactly 80b5e071...) and compared it to the working tree entry by entry over a key-sorted canonical serialisation. 497 entries in both; none added, none removed; no top-level field changed (schemaVersion and factoryV2RouteMigrations both identical); and EXACTLY TWO entries moved -- co_motion_seal_conviction-set and co_motion_seal_nonconviction-set, FIX157's two Colorado families. This family's own entry hashes 2c6b198999afbdbb01061fdcf9a70e04ef1b25477023aa1a5ed001bee8fba785 on BOTH sides. All three of the builder's declared manifest anchors are still present in it verbatim, and so are all eleven memo anchors and all five dependency anchors -- nineteen of nineteen, checked here. SO THE BOUND CONTENT DID NOT MOVE AND A REFRESH WOULD BE HONEST. It has not been made: commit 8f5ec7184 re-anchored nine families and this is not one of them, and no Indiana family is. The pin is stale and the receipt still publishes allSourcesExact true, so nothing in the family's own artifacts says so. GROUND TWO, A NONEXISTENCE CLAIM THE RECEIPT REFUSES. source-receipt.json records officialFormExistenceStatus 'NOT_CONFIRMED_CURRENT' and lists, under whatThisReceiptDoesNotEstablish, 'whether a current statewide form exists for the stage-2 petition; official forms index live confirmation remains outstanding after the recorded refused fetch'. The delivered PDF honours that on both pages that raise it -- 'No applicable statewide form is held in this packet's governed source corpus; live confirmation at the official forms index remains outstanding after a refused fetch... not a claim that no form exists.' But participant-instructions.md, in its closing paragraph, says: 'It is not an official Indiana form - none exists for this petition - it is not legal advice...' That is the nonexistence claim, made flatly, in the same delivered file that four paragraphs earlier says 'this packet does not claim that no form exists.' The document contradicts itself and lands on the side its own receipt refuses. WHAT WOULD SATISFY IT: (a) re-anchor the manifest pin through the mechanism the contract requires, recording anchorsCompared and anchorsIdentical and the entry comparison above -- scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs is that mechanism; and (b) the closing paragraph says what the rest of the packet says, that no applicable form is held in the governed corpus and existence is unconfirmed.",
+        "COMPONENT_SET": "PASS. The shared manifest declares two components -- in_infraction_nondisclosure-process-guidance-1 (role process_guidance, required, order 1) and in_infraction_nondisclosure-primary-filing-2 (role primary_filing, conditional, order 2). Both are delivered, in that order, in both fixtures: pages 1-2 are the stage-1 check and pages 3-4 the verified petition, established by reading the pages. No third component was added and none declared is absent. requiredComponentsMissing 0. OBSERVED WITHIN THE PASS, NOT SCORED AGAINST IT: the stage-2 component's declared condition is 'once the form and MC case-type gates close', and by the family's own registry record neither gate has closed -- units[1].available is still false with unavailableReason 'No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed', and scopeRestrictions still reads 'Stage 2 stays unavailable until the form and MC case-type questions close.' The component is nonetheless built, under owner correction Q7 of 2026-09-02 in data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json, which this lane read in full: 'THE REQUIRED COMPONENT MUST BE BUILT. The reduced packet is not approved while a component the family's own record declares required is absent. The alternative is a new legal-design decision expressly removing or changing that requirement.' That decision is the authority for building it and this lane does not second-guess an owner determination. The build then discloses both open gates on the delivered page rather than closing them by assertion, and leaves the MC caption line blank rather than guessing -- which is the right handling. What is worth the Captain's attention is only that the registry has not been reconciled to the owner's decision, so the record still says unavailable while the packet ships.",
+        "KNOWN_PREFILLS": "PASS, measured from the delivered bytes. Exactly two writes are declared, both the same fact: participant.full_legal_name into each component. Both were read back out of the extracted text of both fixtures by this lane. Nothing else is written: the canonical-to-boundary raster differential at 300 dpi differs on pages 1, 3 and 4 and is BYTE-IDENTICAL on page 2 (0 added, 0 lost px), and every differing region is where the name prints -- p1 rows 448-490 ('Prepared for:'), p3 rows 689-1396 (the IN RE caption, the opening petition sentence and paragraph 1 IDENTITY, which reflow because the boundary name is longer), p4 rows 1475-1517 ('PRINTED NAME:'). The reflow loses nothing: canonical/boundary word counts are 372/371 on p1, 285/285 on p2, 384/381 on p3 and 376/375 on p4, and each delta is exactly the word-count difference of the name ('Jordan Avery Reyes', 3 words, against 'Maria-Alejandra O'Shaughnessy-Whitfield', 2) multiplied by the number of times it prints on that page. invisibleWrites 0, measured at the operator level and not inferred: this lane inflated every page content stream of both fixtures and found ZERO text-rendering-mode operators of any kind, zero white fill operators and zero non-black fill operators across all eight pages, so no show-text operator paints anything a reader cannot see.",
+        "REQUIRED_BEFORE_FILING": "PASS. Two lists were checked and both are satisfied. (1) The field map and the blank ledger declare 13 required-before-filing blanks -- 5 on the stage-1 worksheet and 8 on the petition -- and all 13 appear in participant-instructions.md, each in a two-column table giving the printed blank and what to write, with the reason where there is one. This lane counted the dotted blanks on the delivered pages independently and found exactly 13 participant blanks plus 4 protected ones, 17 in all, which is the ledger's own total. (2) The shared manifest's own requiredBeforeFiling list has four entries and each reaches the participant in substance: the clerk-answer check ('Write down the answer', and again 'if it was, do not file this petition'), the verification and signature ('sign the verification yourself, on the day you file... affirmed under the penalties for perjury, so it is signed when it is true and not before'), the petition being verified and signed by the petitioner (same sentence), and the fee position ('There is no fee'). OBSERVED, NOT SCORED: the family's two own reports split the same 17 blanks differently -- reports/completeness-counters.json publishes REQUIRED_BEFORE_FILING 10 / PROTECTED_FIELD 6 / NOT_APPLICABLE_ON_THIS_ROUTE 1, while reports/blanks-left-for-the-participant.json publishes 13 required and 4 protected. Both total 17 and the delivered pages carry 17. The disagreement is in the classification, not in the pages, so it fails nothing here; it does mean the counter report and the ledger cannot both be describing the same taxonomy.",
+        "ROUTE_OPTIONS": "PASS, and the obligation genuinely arises here rather than being waved through. The field map's routeSelectionsMade is 0 and this lane confirmed it against the delivered pages: the packet makes NO election on the participant's behalf anywhere. The route has a real branch -- the automatic non-disclosure situations against the deferral and satisfied-judgment branch -- and the record's rule for it ('The automatic branch does not apply where prosecution was deferred. Those participants use the five-year deferral branch instead.') is carried in substance on the delivered guidance page ('ONE EXCLUSION BEFORE ANYTHING ELSE. The automatic rule does not apply where prosecution was DEFERRED') and in participant-instructions.md. Which branch applies is left as a worksheet blank answered from the participant's own papers, which is right, because only their papers hold it. The petition's paragraph 5 likewise states the answer must be supplied rather than asserting it. Nothing sworn is pre-elected on either document.",
+        "REPEATING_ROWS": "PASS. The obligation does not arise and that is a measurement. Both composed documents were read end to end: the stage-1 worksheet is five labelled single blanks, the petition is seven numbered paragraphs each with one blank, and neither carries a table, a charge or case list, or any repeated field group. There is no row that could be left partly completed. incompleteRows 0.",
+        "PROTECTED_FIELDS": "PASS, read off the delivered pages. Four protected blanks are declared and all four are empty in both fixtures: SIGNATURE OF PETITIONER and the DATE beside it (refusal class signature_or_date_participant_completion), and the Court's ORDERS line and the JUDGE signature and date (refusal class court_prosecutor_clerk_or_agency_owned), the last two under a printed 'FOR THE COURT ONLY - do not write below this line.' The participant's name IS printed at PRINTED NAME, which is correct and is not a signature. protectedWrites 0. The verification wording is honest about what the signature means -- 'I affirm under the penalties for perjury that the foregoing representations are true' -- and the instructions tell the participant to sign it on the day of filing and not before.",
+        "ARTIFACTS": "PASS. Both fixtures re-hashed by this lane with sha256sum: canonical f4a0abb08d6f636e8ab5271376fc6034ce0857421b2ed156d77ae6c820c6c2e7 at 13,299 bytes and boundary bcd0160894c9eb7a445e2a9961fe82abc2dfca54ba804531febc78a04c04e9cf at 13,363 bytes, both matching reports/rendered-artifacts.json by digest and by byte length. Page count 4 in both, read from the page tree with pdf-lib, matching the declared pageCount. Every page is 612x792. 0 AcroForm (no /AcroForm dictionary at all), 0 /Widget annotations, 0 annotations of any kind on any page -- correct for a composed pleading with no form controls. Both digests are unmoved from what VF08 and FIX156 recorded.",
+        "PAGE_ORDER": "PASS, established by reading the pages rather than the manifest. Delivered order is: page 1 the stage-1 check opening 'CHECKING WHETHER THE COURT ALREADY ORDERED NON-DISCLOSURE OF YOUR INFRACTION (I.C. 34-28-5-15)'; page 2 its continuation, the worksheet's closing guidance and its stop list; page 3 the petition caption, IN RE, title 'VERIFIED PETITION FOR AN ORDER OF NON-DISCLOSURE OF INFRACTION INFORMATION (I.C. 34-28-5-15)' and paragraphs 1 to 5; page 4 paragraphs 6 and 7, the WHEREFORE, the verification, the signature block and the court's order block. That is the manifest's declared component order (process_guidance order 1, primary_filing order 2) and it is also the order the packet's own text tells the participant to use them in -- 'It is two documents, in the order you use them' -- with the check first because 'where it did there is nothing to file'. A packet that put the petition first would invite filing before the check.",
+        "CLIPPING_AND_OVERLAP": "PASS, explicitly measured on all eight delivered pages, not inferred. NOTHING IS OFF THE PAGE: word bounding boxes from pdftotext -bbox give a text extent of x 72.0 to 542.2 on a 612 pt page and y 64.5 to 712.4 on a 792 pt page across all eight pages, and the count of words whose box falls outside the media box is 0 on every page. NOTHING OVERLAPS: this lane compared every pair of word boxes on every page whose baselines differ and found 0 cross-baseline box intersections in either fixture. NOTHING IS TRUNCATED BY THE LONG VALUE: the boundary name 'Maria-Alejandra O'Shaughnessy-Whitfield' prints whole in all four of its occurrences, reflowing the paragraphs it sits in without pushing any text off page 3 or page 4 -- both fixtures end their last text line at the same y, 697.9 pt -- and the word-count deltas account for the reflow exactly. Ink is present on every page of both fixtures at 300 dpi (290,289 to 427,871 px per page), so no page is blank.",
+        "FILING_DESTINATION": "PASS. rules.filing is 'Stage 1 has no filing. Stage 2 is filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held.' Both halves are carried on the delivered guidance page verbatim in substance -- 'it is filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held' -- and the stage-1 half is carried harder than the record states it: 'the first step is never to file anything' and 'where it was, there is nothing to file.' The registry's destination (kind court, 'The court where the infraction was handled') is where the packet sends the clerk enquiry. The MC case-type line is left blank with the county clerk named as the authority and the reason given, rather than guessed -- which is what the record directs and what the memo's unconfirmed-practice note requires.",
+        "FEE_AND_WAIVER": "PASS. rules.fees is 'None.' and rules.feeWaiver is 'Not applicable. There is no fee.' Both are carried and neither is overstated: the delivered petition states it as a numbered paragraph the court reads -- '6. NO FEE. No filing fee is charged for this petition.' -- the delivered guidance page states 'there is no fee', and participant-instructions.md step 4 states 'There is no fee.' No amount is stated anywhere, no waiver instrument is included (correctly, since there is no fee to waive), and no fee-waiver election is pre-made.",
+        "SERVICE": "PASS. rules.service is 'Service on the prosecuting attorney. Confirm local practice on the MC case-type assignment.' and rules.notice is 'Service on the prosecuting attorney, who has thirty days to file a notice in opposition...' Both are carried in both delivered documents: the guidance page states 'it is served on the prosecuting attorney, who has thirty days to file a notice in opposition'; the petition's paragraph 7 states it as a paragraph of the pleading with the thirty days spelled out, and leaves the served party and address blank; and participant-instructions.md step 7 tells the participant to write who was served and the address used 'after service has actually happened' -- the same discipline the Iowa family applies to its certificate, and the right one. The MC-practice half of the service rule is carried as an instruction to call the clerk. OBSERVED, NOT SCORED: one clause of rules.notice reaches neither document -- 'The court may summarily grant, set a hearing, or summarily deny. A hearing is required if opposition is filed and the court does not rule summarily.' The participant is told opposition and a hearing are each a stop condition, which is the part that governs their conduct, so the omission does not fail the obligation; it does mean the packet never tells them the court may simply grant it without a hearing.",
+        "SELF_HELP_STOP": "PASS, measured. The registry track declares four selfHelpStopConditions and all four reach the participant in THREE places: participant-instructions.md under '## When to stop and get help instead', the delivered guidance page under 'WHEN TO STOP AND GET HELP INSTEAD:', and the delivered petition's last page under 'STOP AND GET HELP INSTEAD IF:'. 4 of 4 in all three. The exact form of the match, stated so nobody reads more into it than this lane measured: the conditions are carried as a bulleted list, so each appears with a lower-case initial letter and a semicolon rather than the record's capitalised sentence and full stop -- 'the prosecuting attorney files a notice in opposition;' for 'The prosecuting attorney files a notice in opposition.' Every other character is the record's. Matched case-insensitively and ignoring terminal punctuation, all four are exact substrings of all three documents. Putting the stop list on the filed page itself, not only in the guidance, is better than the obligation requires."
+      },
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "declaredWrites": 2,
+        "declaredWritesReadBackFromDeliveredBytes": 2,
+        "participantBlanksOnDeliveredPages": 13,
+        "protectedBlanksOnDeliveredPages": 4,
+        "textRenderingModeOperatorsAcrossAllEightPages": 0,
+        "whiteOrNonBlackFillOperatorsAcrossAllEightPages": 0,
+        "wordsOutsideTheMediaBoxAnyPage": 0,
+        "crossBaselineWordBoxCollisionsAnyPage": 0,
+        "annotationsOfAnyKindInDeliveredBytes": 0,
+        "acroFormFieldsInDeliveredBytes": 0,
+        "selfHelpStopConditionsDeclared": 4,
+        "selfHelpStopConditionsCarriedOnTheDELIVEREDPETITIONPAGE": 4,
+        "groundingRecordsDeclared": 3,
+        "groundingRecordsThatRecomputeExact": 2,
+        "manifestEntriesThatMovedAcrossTheDRIFT": 2,
+        "manifestEntriesTotal": 497,
+        "thisFAMILYSOWNENTRYMOVED": false,
+        "builderRecordAnchorsStillPresent": 19,
+        "builderRecordAnchorsDeclared": 19,
+        "deliveredPDFPagesPrintingAnInternalRouteKey": 2,
+        "pdfFilesWhoseBytesMoved": 0
+      },
+      "countersThisLaneDidNotMeasure": {
+        "note": "null because NOT MEASURED in this lane, never because measured as zero.",
+        "visualDefects": null
+      },
+      "visualDefectsWhyNull": "No raster of any kind exists for this family and no person has seen a page. This lane rendered pages to measure ink and deleted every raster; it retained none, published none and claims none.",
+      "whyTHISLANEDIDNOTRUNTHEBUILDER": "Deliberately, and it matters. scripts/build-census-v1-in_infraction_nondisclosure-set.mjs groundRecords() RECOMPUTES each grounding record's sha256 from the bytes on disk and writes the result into the receipt; it asserts only that named anchor STRINGS are still present, never that the pin matches. At this base a run would therefore rewrite the pin from 80b5e071 to b28edfb9 with no comparison of whether the family's own entry moved -- and scripts/rcap-packet-completeness/identity-refresh.mjs, correctly and by its own stated rule, DROPS the existing identityRefresh annotation when the rebuild computes a different sha256, because that annotation describes a transition that no longer ends where the bytes are. The net effect of a rebuild today would be a receipt pinning the current digest with the comparison evidence removed: a stale pin turned into a fresh-looking one by a process that proved nothing. That is a repair, and a bad one, and this lane may make no repair at all. FIX156's determinism control was run at a base where the pin still matched, so it is not evidence about this base.",
+      "whatThisRowGrantsNothing": "This is a verification return. It admits no packet, opens no commercial route, promotes no status, admits no raster and clears no release blocker. in_infraction_nondisclosure-set returns FAIL_REPAIR_REQUIRED on two obligations, has never been rastered, and may not reach approved_for_live until both are repaired by a lane that did not verify them and a central raster covers these bytes."
+    },
+    {
+      "familyId": "ar-felony-seal-set",
+      "itemId": "ar-felony-seal-set",
+      "jurisdiction": "AR",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "6483ce2468dbbfa98525859abf80bc3c96de5433",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ar/ar-felony-seal-set--official-pdf-fill",
+      "theDISPATCHTOFIX156WASWRONGABOUTTHISFAMILYANDSOWASMINE": "This lane was told, and FIX156 was told, that vf06's SOURCE_IDENTITY failure was a conflict with a compiled profile. There is no conflict. src/lib/rcap-engine/compiled/profiles/AR-arkansas.json recomputes to exactly its declared 640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470 at 121,627 bytes, and both pinned ACIC binaries recompute exact. FIX156 established that and this lane re-established it independently. The failing pin was, and still is, the shared packet-set manifest.",
+      "theRECORDEDFAILURESTANDS_BUTNOTFORTHEREASONRECORDED": "vf06's finding at 5de917b35 named the earlier drift, which FIX145 answered at 662de750d. FIX156 was right that the pin bound exact at ITS base. It does not bind at THIS base: FIX157 moved the record again at b3f6fbc7a, and the nine-family re-anchor at 8f5ec7184 covered ar-nonconviction-seal-set, not this family. The Arkansas family in that commit is a different one.",
+      "deliveredDigestsHashedByThisLane": {
+        "fixtures/canonical.pdf": "483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a",
+        "fixtures/canonical.pdf byteLength": 415348,
+        "fixtures/boundary.pdf": "daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb",
+        "fixtures/boundary.pdf byteLength": 415570,
+        "pageCountBothFixtures": 7,
+        "bothUnmovedFromVF06ANDFIX156": true
+      },
+      "pinsRecomputedByThisLane": [
+        {
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+          "declared": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+          "recomputed": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+          "byteLength": 178947,
+          "pagesReadByThisLane": 4,
+          "widgetAnnotationsReadByThisLane": 53,
+          "bindsExact": true
+        },
+        {
+          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+          "declared": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+          "recomputed": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+          "byteLength": 240203,
+          "pagesReadByThisLane": 3,
+          "widgetAnnotationsReadByThisLane": 43,
+          "bindsExact": true
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+          "declared": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+          "recomputed": "640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470",
+          "byteLength": 121627,
+          "bindsExact": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "declared": "80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7",
+          "declaredByteLength": 3694688,
+          "recomputed": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "recomputedByteLength": 3708050,
+          "bindsExact": false
+        }
+      ],
+      "rasterState": "OWES A FRESH CENTRAL RASTER. Neither delivered digest appears in ANY file under data/rcap-grade-a/packet-factory-24h/raster-runs/, admitted or otherwise, and there is no admitted/ directory for this family. The family's own reports/independent-visual-review.json says the same in its own words: required true, granted false, reviewedBy null, rasterState BUILT_RASTER_PENDING. THIS FAMILY CANNOT BE TERMINAL ON THIS LANE'S READ, and this lane claims no raster for it.",
+      "areTheseTheBytesTheCentralRasterCarries": false,
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS"
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL"
+        },
+        "COMPONENT_SET": {
+          "result": "PASS"
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS"
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS"
+        },
+        "ROUTE_OPTIONS": {
+          "result": "FAIL"
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS"
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS"
+        },
+        "ARTIFACTS": {
+          "result": "PASS"
+        },
+        "PAGE_ORDER": {
+          "result": "PASS"
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS"
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS"
+        },
+        "SERVICE": {
+          "result": "PASS"
+        },
+        "SELF_HELP_STOP": {
+          "result": "FAIL"
+        }
+      },
+      "obligationFindings": {
+        "ROUTE_IDENTITY": "PASS. One route key, obligation:track-pathway:AR:ar-felony-seal:situation-c-felony-convictions, identical in product-wiring.json, source-receipt.json, production-field-map.json and the opening line of participant-instructions.md, and agreeing with the registry track ar-felony-seal and the shared manifest's packetSetId ar-felony-seal-set. This lane also confirmed it is NOT printed on any delivered page: the literal 'obligation:' occurs ZERO times in the extracted text of both fixtures, and this family is correctly absent from the corpus-wide PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS.json list. OBSERVED, NOT SCORED: participant-instructions.md opens by printing the route key to the participant, and the same file addresses the participant with raw internal identifiers -- 'ar-felony-seal-primary-filing-1 field Arrest Tracking Number (page 3)' and, worse, 'ar-felony-seal-proposed-order-2 field undefined_3 (page 3)', where undefined_3 is a raw AcroForm field name that means nothing to a person. That is the GUIDANCE_OPENING_LEAKS_INTERNAL_VOCABULARY class and it is markdown-only, so it disturbs no raster; prior lanes have passed ROUTE_IDENTITY on a markdown-only route key and this lane holds that line.",
+        "SOURCE_IDENTITY": "FAIL, on one pin, and this lane is deliberate about which. WHAT BINDS: both official ACIC binaries were opened at their recorded read-only pack paths and re-hashed here -- the petition 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b at 178,947 bytes, 4 pages, 53 /Widget annotations across pages [19,17,14,3]; the order dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc at 240,203 bytes, 3 pages, 43 /Widget annotations across [23,11,9] -- and the compiled profile src/lib/rcap-engine/compiled/profiles/AR-arkansas.json 640152c67534efe30d7bd935ad86c54e2266d8483e97e320ff1d76f05fb67470 at 121,627 bytes. All three bind exact. THERE IS NO COMPILED-PROFILE CONFLICT and there never was one; this lane says so having recomputed it rather than having read FIX156 saying so. WHAT DOES NOT BIND: data/record-clearing/legal-design-packet-set-manifests.json, declared 80b5e071055469b6f1aa84e80accd9e8bcc15e00ed3b7b778ba48a0ff85d8bd7 / 3,694,688, recomputed b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c / 3,708,050. THE REFRESH QUESTION, ASKED HONESTLY AND ANSWERED: this lane recovered the blob carrying the declared pin (git show 1784eec3d:..., which hashes to exactly 80b5e071...) and compared it to the working tree entry by entry over a key-sorted canonical serialisation. 497 entries both sides, none added, none removed, no top-level field changed, and EXACTLY TWO entries moved -- co_motion_seal_conviction-set and co_motion_seal_nonconviction-set, FIX157's two Colorado families. This family's entry hashes f404469aae8b758f31e4b26e7891cfd7cc3abbc2b49b61fa3152774733cf777c on both sides, and the sibling ar-drug-court-set that the receipt's anchorStatements also reach hashes 5419c3a04d2e5bee2bc12e28bd645cc8c9f5dd2a088968a40dd2be2362b6d491 on both sides. So the bound content did not move and a refresh would be honest. It has not been made, the receipt still publishes allSourcesExact true, and nothing in the family's own artifacts says the pin is stale. WHAT WOULD SATISFY IT: re-anchor that one pin through the mechanism the contract requires, recording anchorsCompared and anchorsIdentical and the entry comparison above; scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs is that mechanism. Nothing else about this family's sources needs touching.",
+        "COMPONENT_SET": "PASS. The shared manifest and the registry both declare two components, both required: ar-felony-seal-primary-filing-1 (primary_filing, ACIC-UNIFORM-PETITION-TO-SEAL, order 1) and ar-felony-seal-proposed-order-2 (proposed_order, ACIC-UNIFORM-ORDER-TO-SEAL, order 2). Both fixtures deliver 7 pages of 612x792: packet pages 1-4 are the petition's own 4 pages and 5-7 the order's own 3, established by byte comparison against each source page rather than by reading the manifest. Nothing declared is absent, no page belongs to an undeclared component, and no third document was added. requiredComponentsMissing 0. The proposed order is correctly a separate instrument rather than being merged into the petition, and its findings are left to the court.",
+        "KNOWN_PREFILLS": "PASS, measured on the delivered pixels and the delivered text. 35 writes are declared across the two documents (25 on the petition, 10 on the order). EVERY ONE produces measurable added ink in BOTH fixtures at 300 dpi -- the smallest is the petition's 'Sex' field at +205 px and the largest the boundary name at +7,497 px -- so no declared write is invisible. invisibleWrites 0. Text-side: 58 added words in canonical and 67 in boundary against the pinned sources, and 0 lost words on any of the 14 delivered pages. Every added word lies inside a declared widget rect: 56 of 58 and 65 of 67 inside a declared WRITE rect, and the remaining two in each fixture are the paragraph 8 and paragraph 9 'X' marks, both inside their declared SELECTION-CONTROL rects. The order's caption and identification facts are prefilled consistently with the petition -- county, case number, name, race, sex and date of birth match across the two documents in both fixtures -- which is what the guidance says they are for.",
+        "REQUIRED_BEFORE_FILING": "PASS. The registry's participantActionRequired carries eight requiredBeforeFiling items and each reaches the participant: the fingerprint card ('Obtain a fingerprint card from a law-enforcement agency or authorised fingerprint vendor'), the ACIC criminal history and the confirm-against-it step ('compare the court, county, case number, offense, class, statute section, disposition, sentence completion, costs, and restitution against the Judgment and Commitment Order and docket. Stop if they disagree'), the signature and date and the signing itself ('Leave every participant signature and signature date blank until the participant signs'), the notarization ('Complete the verification with the notary; the notary completes the jurat county, jurat date, notary signature, and commission-expiration fields'), the fee ('The committed Arkansas profile records a $0 Act 1460 sealing-petition filing fee. Confirm any local copy, records, or counter-practice charges with the filing clerk'), and service. The field map's own four requiredBeforeFiling items -- the Arrest Tracking Number and SID number on each of the two documents -- are all four disclosed with the source to copy them from, and the FBI number is correctly explained as staying blank because each form labels it 'if known'. OBSERVED, NOT SCORED: those four are disclosed under raw internal identifiers rather than participant-readable labels, one of which reads 'field undefined_3'. The actionable half of each bullet is there, so the item IS disclosed; the label is noise a participant cannot use.",
+        "ROUTE_OPTIONS": "FAIL, and this is the substantive finding on this family. The ACIC petition is SWORN: page 3 is captioned VERIFICATION and reads 'Comes the Petitioner, <name>, under oath and states that the foregoing Petition is true and correct to the best of my knowledge and belief', over a notary jurat reading 'Subscribed and sworn to before me'. Every numbered paragraph of the petition is therefore a statement the participant swears to before a notary. THE PACKET MAKES FIVE OF THOSE ELECTIONS ITSELF, and this lane measured all five in the delivered pixels rather than in the report -- added ink at 300 dpi over the pinned source, inside each control's own declared rect: paragraph 1 'felony' +1,927 px; paragraph 2 'felony_2' +2,100 px; paragraph 8 first eligibility statement +107 px; paragraph 9 'no pending felony charges' +97 px; paragraph 10 'IS NOT required to register as a sex offender' +1,600 px. Every unselected complement reads +0 px in both fixtures, which is this measurement's own positive control: a detector that reads 1,927 at one box of an either/or and 0 at the other is reading ink. Note that paragraph 10's mark is invisible to text extraction -- pdftotext shows no X there -- so a lane that measured only text would have recorded that election as not made. TWO OF THE FIVE ARE NOT AUTHORISED BY ANYTHING. The registry's generationRequirements for this track are six questions: convictionDetails, convictionDate, sentenceComplete, violenceQuestion, sameEpisodeCount, interestsOfJusticeFacts. NONE of them asks whether the participant has pending felony charges in any state or federal court, and NONE asks whether they are required to register as a sex offender. So the platform does not hold either fact. The field map agrees that the route does not supply them: every one of the five marked controls carries routeDetermined FALSE, factId null and factAvailable null, and the map's routeSelectionsMade names the basis for these two as 'fixture pending-cases fact' and 'fixture registration fact'. THE FIELD MAP ALSO CONTRADICTS ITSELF ON THE SAME ELECTION. For each either/or, the UNSELECTED half is classified PARTICIPANT_ELECTION_GENUINE with the reason 'a sworn assertion or legal election the route does not determine', while the SELECTED half of that same either/or is classified selected_by_route_and_fixture_facts and ticked. Both branches of one election cannot have different natures: either the route determines it, in which case the complement is not a participant election, or it does not, in which case ticking it is unauthorised. WHY PARAGRAPHS 1, 2 AND 8 ARE NOT FAILED HERE: paragraphs 1 and 2 are the charged and convicted offence level, and the route binds the FELONY form family by its own key situation-c-felony-convictions, so the form selection settles them; paragraph 8's first statement is the Act 1460 nonviolent Class C or D ground with the sentence complete, sentenceComplete IS a collected generation requirement, and the record's packetInstructions say in terms 'Fill paragraph 8 per the approved convention.' No record says anything of the kind about paragraphs 9 and 10. DISCLOSURE IS NOT A CURE, AND HERE IT IS ALSO UNACTIONABLE: participant-instructions.md does disclose the marks -- 'It selects felony for both offense-level choices, the first paragraph 8 eligibility statement, no pending felony matters, and IS NOT required to register under paragraph 10. Those selections come from the route and the fixture's settled facts; a participant must use only selections that match the actual court and ACIC records.' But the delivered PDF is flattened, so there is no way for a participant to un-tick a box; and the sentence attributes the selections to 'the route' where the family's own field map records routeDetermined false on all five. WHAT WOULD SATISFY IT: either (a) reclassify the paragraph 9 and paragraph 10 controls as participant elections, stop marking them, and disclose both printed statements verbatim with the consequence of each branch -- the byte-moving option, which costs the fresh central raster this family owes anyway; or (b) an owner determination, recorded as one, that a sworn petition MAY carry pre-made elections on facts the route does not determine and the record does not collect, which would then have to be applied to every route with a sworn instrument. This lane's view is that (a) is right and (b) should be refused.",
+        "REPEATING_ROWS": "PASS, measured. The petition does carry a repeating group: paragraphs 1 and 2 each hold an offence row of the same shape -- offence description, COUNT number, class, felony/misdemeanor election, statute section -- and the proposed order carries the same two groups again on page 5. All four groups are internally consistent in both fixtures. On the petition both are fully populated: canonical 'THEFT OF PROPERTY / COUNT 1 / A Class D / felony / 5-36-103' twice, boundary 'FRAUDULENT USE OF A CREDIT OR DEBIT CARD / COUNT 1 / A Class D / felony / 5-37-207' twice, with every cell of both rows written. On the proposed order both groups are UNIFORMLY blank -- all 17 of the order's offence-group fields measured 0 added ink in both fixtures -- because the order's findings belong to the court, which the guidance states. No row anywhere is partly inked. incompleteRows 0.",
+        "PROTECTED_FIELDS": "PASS, and measured harder than the field map itself supports. The map declares 50 refusals but gives NONE of them a rect, so it cannot prove on its own that any of them is blank. This lane resolved all 50 by name against the source AcroForm -- reading each widget's /Rect out of the pinned petition and order binaries with pdf-lib, walking the /Parent chain to build the qualified field name -- and resolved 50 of 50 with none unmatched. Measured at those rects at 300 dpi: ZERO added ink in either fixture, on all 50. That covers the Defendant's signature and date, the verification's Petitioner signature line, the notary's jurat county, jurat date, notary signature and commission-expiration fields, the Arrest Tracking Number, SID and FBI numbers on both documents, the certificate of service and its signature and date, the judge's signature and date on the order, the order's HAS / HAS NOT been rehabilitated finding, and every unselected election complement. The whole-page measurement says the same thing independently: 0 added ink anywhere outside the 81 declared write and selection rects, on all 14 delivered pages. protectedWrites 0.",
+        "ARTIFACTS": "PASS. Both fixtures re-hashed with sha256sum: canonical 483fe0c25c9b13fedc13befffab96ac19dd535a0dbe134601619b40200ac0d9a at 415,348 bytes and boundary daec3853fd6b99aa0c91cf330eb7ea2bd20f40efe453b0d83b2a8c0c3bc90ceb at 415,570 bytes, both matching reports/rendered-artifacts.json and reports/independent-visual-review.json by digest and byte length. 7 pages each, read from the page tree. THE FLATTENING IS CLEAN AND THIS LANE COUNTED IT RATHER THAN TRUSTING IT: 0 residual /Widget annotations, 0 annotations of any kind, and no /AcroForm dictionary at all in either fixture, against 53 and 43 live widgets in the two sources. Flattened appearance placements are 96 in each fixture, distributed per page as [19,17,14,3,23,11,9] -- the exact concatenation of the petition's own widget counts [19,17,14,3] and the order's [23,11,9], one placement per source widget on its own page. There is no doubling: 96 placements against 96 source widgets. 0 placements name an XObject the page does not declare. 53 distinct FlatWidget names carry 96 distinct appearance objects, and 43 names bind more than one object -- the per-document name-seed collision VF55 recorded on Alabama, harmless here for the same reason, because PDF resource dictionaries are page-scoped and every collision resolves to a different object on its own page.",
+        "PAGE_ORDER": "PASS, established by byte evidence. Delivered pages 1-4 were differenced against petition source pages 1-4 and delivered pages 5-7 against order source pages 1-3: 0 lost words and 0 lost ink pixels on every one of the fourteen comparisons, and delivered pages 4 and 6 are ink-identical to their source pages (0 added, 0 lost) because nothing is written on them. A page in the wrong position would have produced a large lost-word count against the page it was compared to. The order is petition then proposed order, which is the manifest's declared component order and the order the filing instructions direct: 'File the completed ACIC petition and the matching proposed order together.'",
+        "CLIPPING_AND_OVERLAP": "PASS, explicitly measured at 300 dpi on all fourteen delivered pages. NOTHING IS OVERPRINTED: lost source ink is 0 px on every page of both fixtures -- including the flattening itself, which removed no printed rule, caption or widget border anywhere -- against a positive control on this lane's own tool that reported 7,196 px lost when a white box was deliberately painted over printed ink. NOTHING IS WRITTEN OUTSIDE A DECLARED RECT: added ink outside the 81 declared write and selection rects is 0 px on every page of both fixtures. NOTHING IS CLIPPED OR TRUNCATED: the boundary fixture's long values print whole and inside their rects in every occurrence -- 'Alexandrina-Katharine Montgomery-Vandenberg' five times across pages 1, 2, 3, 5 and 7; 'FRAUDULENT USE OF A CREDIT OR DEBIT CARD' twice; '12345 SOUTHWEST GRANDVIEW BOULEVARD', 'BUILDING 7, APARTMENT 4321-B', 'UNINCORPORATED LONG HOLLOW', 'AR 72001-9999' and case number '47BCR-2026-000123'. No ellipsis and no shortened value appears in either fixture.",
+        "FILING_DESTINATION": "PASS. rules.filing is 'File the ACIC uniform petition and order pair in the circuit court in the county where the offense was committed and the person was convicted', and the registry destination is the same court. filing-instructions.md item 1 carries it almost word for word and adds the one thing the record implies but does not say: 'File separately for records in different courts.' The delivered petition's own caption states the court, the county and the division, all prefilled and consistent with the proposed order's caption in both fixtures. No competing destination appears anywhere.",
+        "FEE_AND_WAIVER": "PASS, and the packet is careful in exactly the place it needed to be. The registry is conservative -- rules.fees 'The source review does not state a filing fee for this petition' and rules.feeWaiver 'The source review does not address a fee waiver' -- while the compiled profile the family also binds records the specific answer, which this lane read out of AR-arkansas.json: 'Sealing petition filing fee $0 -- Filing fees eliminated by the 2019 amendments', with the accompanying note that what remains is paying off court debt and restitution, 'which is a prerequisite to eligibility rather than a fee'. filing-instructions.md item 2 states the $0 and NAMES the record it rests on -- 'The committed Arkansas profile records a $0 Act 1460 sealing-petition filing fee' -- then hedges the parts the record does not settle: 'Confirm any local copy, records, or counter-practice charges with the filing clerk; an ACIC history or certified court record may have its own cost.' No waiver instrument is included and none is needed. The completion requirement that costs and restitution be paid is disclosed on the delivered petition itself as paragraphs 4 and 5 and in the guidance's comparison list.",
+        "SERVICE": "PASS. rules.service is 'Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.' filing-instructions.md item 3 carries the three-day rule and names the record it comes from, adds that the official certificate of service also names the arresting agency -- which this lane confirmed on delivered page 4, whose printed text names 'the Prosecuting Attorney for the County in which the Petition has been filed and the arresting agency' -- and directs that the certificate be completed and signed 'only after service occurs'. Item 4 carries the 30-day objection window. The whole certificate of service is left blank in both fixtures, measured: its certifier name, signature and date all read 0 added ink.",
+        "SELF_HELP_STOP": "FAIL, and it is the largest gap this lane found in the three families. The registry track declares SIX selfHelpStopConditions. NONE is carried verbatim in any delivered document, and there is no stop-and-get-help section of any kind in either markdown or on any delivered page. Measured by matching each condition against the concatenated delivered guidance, case-insensitively and ignoring terminal punctuation: 0 of 6. In substance, 2 of 6 reach the participant, both through one sentence in filing-instructions.md item 4 -- 'A contested filing or hearing requires attorney handoff; this build does not resolve opposition' -- which covers 'The prosecuting attorney objects within the 30-day window.' and 'The court sets a contested hearing.' THE OTHER FOUR REACH NOBODY, and this lane checked each by its own distinguishing token across both delivered markdown files and both delivered PDFs: 'Immigration, licensing or firearm consequences are in play.' -- 'immigration' 0 occurrences, 'licensing' 0, 'firearm' 0; 'The violence determination is unclear.' -- 'violence' 0 occurrences in the guidance; 'The same-episode count is unclear.' -- 'same-episode' and 'same episode' 0 occurrences; 'The interests-of-justice showing needs individualized argument.' -- 'interests of justice' 0 occurrences. The word 'lawyer' occurs 0 times in either delivered document. Two of these are not abstract. The same-episode count and the violence determination are two of the six facts the route's own generationRequirements collect (sameEpisodeCount, violenceQuestion) and they are what decide eligibility under A.C.A. 16-90-1406; a participant who is unsure of either is told nothing. And the interests-of-justice condition is the one the packet most obviously runs into: delivered petition paragraph 11 reads 'Defendant requests the Court enter a finding that he or she has been rehabilitated', the record's own packetInstruction is 'Do not generate argument on the interests-of-justice standard' -- which the build correctly obeys, writing no argument -- but the participant is never told that the showing the petition asks for may need individualized argument and a lawyer. Obeying the instruction not to argue, without carrying the stop condition that explains why, leaves the participant with a request in their own sworn petition that nothing in the packet helps them support. WHAT WOULD SATISFY IT: a stop-and-get-help section in participant-instructions.md carrying all six conditions in the record's own words, with the immigration, licensing and firearm consequences stated plainly, and the same discipline VF03's Iowa repair produced -- the stop named as the point where this packet's help ends rather than as a thing that may happen."
+      },
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "declaredWrites": 35,
+        "declaredWritesProducingZeroAddedInkInEitherFixture": 0,
+        "refusalsDeclared": 50,
+        "refusalsResolvedToASourceWidgetRectAndMeasured": 50,
+        "refusalsWithAnyAddedInk": 0,
+        "selectionControlsDeclared": 11,
+        "selectionControlsTHEPACKETELECTS": 5,
+        "electedControlsTheRECORDDOESNOTAUTHORISE": 2,
+        "unselectedComplementsWithAddedInk": 0,
+        "addedWordsCanonical": 58,
+        "addedWordsBoundary": 67,
+        "addedWordsOutsideEveryDeclaredRect": 0,
+        "lostWordsAnyPage": 0,
+        "lostInkPxAnyPageEitherFixture": 0,
+        "addedInkPxCanonicalWholePacket": 65444,
+        "addedInkPxBoundaryWholePacket": 112134,
+        "addedInkPxOutsideDeclaredRectsAnyPage": 0,
+        "flattenedAppearancePlacementsReadFromDeliveredBytes": 96,
+        "flattenedAppearanceXObjectsDeclaredInPageResources": 96,
+        "placementsWhoseNameThePageDoesNotDeclare": 0,
+        "widgetAnnotationsInTheTwoPinnedSourcesCombined": 96,
+        "residualWidgetAnnotationsInDeliveredBytes": 0,
+        "acroFormFieldsInDeliveredBytes": 0,
+        "selfHelpStopConditionsDeclared": 6,
+        "selfHelpStopConditionsCarriedVerbatim": 0,
+        "selfHelpStopConditionsCarriedInSubstance": 2,
+        "pinsDeclared": 4,
+        "pinsThatRecomputeExact": 3,
+        "pdfFilesWhoseBytesMoved": 0
+      },
+      "countersThisLaneDidNotMeasure": {
+        "note": "null because NOT MEASURED in this lane, never because measured as zero.",
+        "visualDefects": null
+      },
+      "visualDefectsWhyNull": "No raster exists for this family and no person has seen a page; the family's own reports/independent-visual-review.json records granted false and reviewedBy null. This lane rendered pages to measure ink and deleted every raster; it retained none, published none and claims none.",
+      "whyTHISLANEDIDNOTRUNTHEBUILDER": "Same reason as Indiana. The builder recomputes its record pins from the bytes on disk, so a run at this base would re-anchor the stale manifest pin without the comparison the contract requires, and scripts/rcap-packet-completeness/identity-refresh.mjs would correctly drop the existing identityRefresh annotation because the recomputed digest no longer matches the one it was written against -- leaving a fresh-looking pin with the evidence removed. That is a repair, and this lane may make none. FIX156's determinism control on this family was run at a base where the pin still matched.",
+      "whatThisRowGrantsNothing": "This is a verification return. It admits no packet, opens no commercial route, promotes no status, admits no raster and clears no release blocker. ar-felony-seal-set returns FAIL_REPAIR_REQUIRED on three obligations, has never been rastered, and may not reach approved_for_live until all three are repaired by a lane that did not verify them and a central raster covers these bytes."
+    }
+  ],
+  "grantsReleased": [
+    "ia-12347-set",
+    "in_infraction_nondisclosure-set",
+    "ar-felony-seal-set"
+  ],
+  "grantsNothing": "This is a verification return. It admits no packet, opens no commercial route, promotes no status, admits no raster and clears no release blocker. All three families return FAIL_REPAIR_REQUIRED. None may reach approved_for_live until its failures are repaired by a lane that did not verify them; two of the three have never had a central raster at all and cannot be terminal on any read.",
+  "whatThisLaneCouldNotDo": [
+    {
+      "item": "Repair anything",
+      "reason": "This is an independent-verification lane. It repairs nothing by rule. Every failure is recorded with the exact measurement that fails and what would satisfy it.",
+      "owedTo": "a repair lane that is neither VF57 nor, for its own family, FIX145, FIX153 or FIX156"
+    },
+    {
+      "item": "Re-anchor the two stale shared-manifest pins",
+      "reason": "An identity refresh is a repair. This lane made the comparison that would justify one and recorded it in full -- 497 entries, 2 moved, neither family's own -- so the repair lane does not have to re-derive it, but the lane that writes the pin must not be this one.",
+      "owedTo": "a repair lane, through scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs"
+    },
+    {
+      "item": "A central raster for ar-felony-seal-set or in_infraction_nondisclosure-set",
+      "reason": "Neither family's delivered digests appear anywhere under raster-runs/, and this lane retained and published no raster. It claims none.",
+      "owedTo": "the central raster workflow, before either family can be terminal or reach approved_for_live"
+    },
+    {
+      "item": "Visual approval for any of the three families",
+      "reason": "No raster was retained and no person saw a page. ia-12347-set holds a RASTER_PASS bound to its exact current digests, but that admission's own proof records independentSemanticApproval false, viewportDimensionsCheckedAgainstASecondSource false on all four pages, and states it read the published inventory rather than the PNG bytes. visualDefects is null on all three.",
+      "owedTo": "a named human visual review"
+    },
+    {
+      "item": "Superseding the VF03, VF06 and VF08 rows in VERIFIER_RETURNS.json",
+      "reason": "This lane may not edit shared manifests under data/rcap-grade-a/packet-factory-24h/ outside its own vf57/ directory.",
+      "owedTo": "the Captain, as sole integrator"
+    }
+  ],
+  "theCOMPLETENESSVERIFIERWASRUNANDITSPASSISNOTEVIDENCE": {
+    "whyThisIsHere": "The dispatch warned this lane not to trust scripts/rcap-packet-completeness/verify-packet-completeness.mjs. It was run once per family and this lane's own findings are the demonstration of why its PASS proves nothing.",
+    "runs": [
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ia-12347-set -> exit 0, 'ok ia-12347-set PASS_COMPLETE 16/39 written', nine counters all zero.",
+      "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_infraction_nondisclosure-set -> exit 0, 'ok in_infraction_nondisclosure-set PASS_COMPLETE 2/19 written', nine counters all zero.",
+      "ar-felony-seal-set was NOT run through it. This lane's Arkansas findings do not rest on it and running it would have added nothing but another green line; FIX156 already recorded its exit 0 / PASS_COMPLETE / 40/96 on this family at a base where the pin still bound."
+    ],
+    "whatThatIsWorth": "Nothing on any failure this lane found. It returned PASS_COMPLETE with nine zeros on in_infraction_nondisclosure-set while that family's manifest pin does not recompute, because it reads allSourcesExact off the receipt and never recomputes -- and the receipt still says true. It returned PASS_COMPLETE with nine zeros on ia-12347-set, whose record-designated requiredBeforeFiling confirmation reaches the participant nowhere and whose packet marks the one election the record reserves to the participant. Neither defect is in its scope: it carries no ROUTE_OPTIONS obligation, no SELF_HELP_STOP obligation, and it reads no record.",
+    "andITPUBLISHESVISUALDEFECTSZEROONFAMILIESNOBODYHASRASTERED": "It printed 'visualDefects 0' for both families it was run on. Neither has had a person look at a page, and in_infraction_nondisclosure-set has no raster of any kind. That is the null-is-not-zero rule broken by the tool meant to enforce it, and it makes the nine-zero line read as visual clearance. VF55 recorded the same defect on the same tool; this lane makes it two."
+  }
+}

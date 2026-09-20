@@ -1,0 +1,560 @@
+{
+  "schemaVersion": "rcap-terminal-treatments-wrong-delivery-type/v1",
+  "generatedBy": "PF01 /root/mt_serving_build",
+  "generatedOn": "2026-09-14",
+  "createsApproval": false,
+  "opensNoRoute": true,
+  "restoresNoPacket": true,
+  "deletesNoPacket": true,
+  "grantsNoCommercialAuthority": true,
+  "candidateOnly": true,
+  "families": [
+    {
+      "familyId": "rcap-sc-custom-pleading",
+      "jurisdiction": "SC",
+      "terminalTreatment": "GUIDANCE_READY",
+      "runtimeExpression": {
+        "runtimeOutcomeMode": "guidance_status",
+        "runtimeVocabularySource": "src/lib/legal-authority/types.ts RouteOutcomeMode",
+        "runtimeDefinition": "Nothing is filed by the participant on this stage; status/correction guidance only.",
+        "paymentAuthority": "closed"
+      },
+      "ownerDecision": {
+        "decisionId": "OWN-DT-2026-09-02-SC-223A1",
+        "decidedOn": "2026-09-02",
+        "decisionOwner": "Roger Roman",
+        "familyId": "rcap-sc-custom-pleading",
+        "refused": true,
+        "decision": "LegalEase may not replace the mandatory SCCA 223A1 GS order form with its custom pleading.",
+        "classification": "WRONG_DELIVERY_TYPE",
+        "whatWasMeasuredBeforeTheDecision": [
+          "the string 223A1 appears in no file in the family directory and nowhere in the rendered canonical fixture; the only form the packet names is SCCA 223C, on one route",
+          "the rendered componentSet carries no official_form_reference, no records_checklist and no fee_instrument_schedule on any route, while production-field-map.json declares each of them nine times",
+          "eleven of the twelve tracks in the SC legal design memo carry destination.kind prosecutor, and the rendered packet is captioned IN THE ......... COURT and asks this court for relief",
+          "the memo states for every route that the composed package is not a substitute for the official order form, and that section 17-22-930 makes the solicitor's blank form mandatory and to the exclusion of all other expungement forms"
+        ],
+        "consequences": [
+          "removed from the first Grade A route cohort",
+          "COMPLETE_PACKET_PROVEN invalidated; the family is WRONG_DELIVERY_TYPE",
+          "every affected route removed from custom-pleading commercial eligibility",
+          "checkout stays disabled"
+        ],
+        "theSplitTreatmentOrdered": {
+          "A": "Where the mandatory official form is available and participant-filed: use the official form, include every required supporting component, the official-form reference, the records checklist and the fee-instrument schedule, give accurate solicitor-destination instructions, then build and independently verify.",
+          "B": "Where the solicitor supplies, controls or initiates the mandatory form: HANDOFF_READY or GUIDANCE_READY, naming the correct solicitor's office and what the participant must bring or request, stating plainly that LegalEase does not replace the solicitor's mandatory form, with packet checkout disabled.",
+          "C": "Only routes genuinely filed as court petitions may use a court-captioned pleading seeking relief from the court."
+        },
+        "whatMayNotBeDone": [
+          "preserving the current custom pleading because it already has fixtures and visual bundles",
+          "a cosmetic repair on a wrong delivery type"
+        ],
+        "visualReviewInstruction": "Neither South Carolina bundle is to be reviewed. Both were published before this decision and are superseded by it.",
+        "quotedFrom": {
+          "path": "data/rcap-grade-a/legal-decisions/OWNER_DELIVERY_TYPE_DECISIONS.json",
+          "sha256": "a870ad05b73aa608d7c9c4c9cafed646fcf5d3ffa868a7f26de1f0b3b9f47335",
+          "byteLength": 31306
+        }
+      },
+      "authorizingRecord": {
+        "path": "data/rcap-grade-a/legal-decisions/OWNER_DELIVERY_TYPE_DECISIONS.json",
+        "sha256": "a870ad05b73aa608d7c9c4c9cafed646fcf5d3ffa868a7f26de1f0b3b9f47335",
+        "byteLength": 31306,
+        "field": "decisions[decisionId=OWN-DT-2026-09-02-SC-223A1], branch B"
+      },
+      "treatmentReadNotChosen": "Existing owner branch B permits GUIDANCE_READY where the solicitor controls the mandatory application; all ten current track destinations are the circuit solicitor.",
+      "routes": [
+        {
+          "obligationRouteKey": "obligation:track-only:SC:sc_aep",
+          "trackId": "sc_aep",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_aep"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-only:SC:sc_conditional_discharge_44_53_450",
+          "trackId": "sc_conditional_discharge_44_53_450",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_conditional_discharge_44_53_450"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-only:SC:sc_tep",
+          "trackId": "sc_tep",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_tep"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-pathway:SC:sc_17_1_40_general_sessions:general-sessions-non-conviction-expungement",
+          "trackId": "sc_17_1_40_general_sessions",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_17_1_40_general_sessions"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-pathway:SC:sc_17_1_65_handgun:eligible-conviction-expungement",
+          "trackId": "sc_17_1_65_handgun",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_17_1_65_handgun"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-pathway:SC:sc_22_5_910:eligible-conviction-expungement",
+          "trackId": "sc_22_5_910",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_22_5_910"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-pathway:SC:sc_22_5_920_yoa:eligible-conviction-expungement",
+          "trackId": "sc_22_5_920_yoa",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_22_5_920_yoa"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-pathway:SC:sc_22_5_930_drug:eligible-conviction-expungement",
+          "trackId": "sc_22_5_930_drug",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_22_5_930_drug"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-pathway:SC:sc_34_11_90e_check:eligible-conviction-expungement",
+          "trackId": "sc_34_11_90e_check",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_34_11_90e_check"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        },
+        {
+          "obligationRouteKey": "obligation:track-pathway:SC:sc_56_5_750f:eligible-conviction-expungement",
+          "trackId": "sc_56_5_750f",
+          "registeredTreatment": {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071,
+            "trackId": "sc_56_5_750f"
+          },
+          "boundBy": null,
+          "bindingState": "pending_captain_scoped_admission_after_independent_review"
+        }
+      ],
+      "destination": {
+        "quotedFrom": {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025
+        },
+        "perRoute": [
+          {
+            "trackId": "sc_aep",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. The alcohol education program director must attest by signature under § 17-22-940(D) before the solicitor and then a circuit court judge sign. No SLED verification fee is charged."
+            }
+          },
+          {
+            "trackId": "sc_conditional_discharge_44_53_450",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. Where the matter was in summary court the summary court judge must attest by signature under § 17-22-940(D) before the solicitor and then a circuit court judge sign. No SLED verification is required and no SLED fee is charged."
+            }
+          },
+          {
+            "trackId": "sc_tep",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. The traffic education program director must attest by signature under § 17-22-940(D) before the solicitor and then a circuit court judge sign. No SLED verification fee is charged."
+            }
+          },
+          {
+            "trackId": "sc_17_1_40_general_sessions",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office, which supplies the mandatory blank order form, assists in completing it, obtains the signatures, files the completed order with the clerk of court and distributes certified copies. No SLED verification is required on this route and no SLED fee is charged."
+            }
+          },
+          {
+            "trackId": "sc_17_1_65_handgun",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office, which supplies the mandatory blank SCCA 223C order form, obtains the signatures, files the completed order and distributes certified copies. SLED verifies statutory eligibility and the $25 verification fee applies, § 17-1-65 not being on the § 17-22-940(E)(1) exemption list."
+            }
+          },
+          {
+            "trackId": "sc_22_5_910",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. The summary court judge must attest by signature under § 17-22-940(D). SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies."
+            }
+          },
+          {
+            "trackId": "sc_22_5_920_yoa",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies."
+            }
+          },
+          {
+            "trackId": "sc_22_5_930_drug",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies."
+            }
+          },
+          {
+            "trackId": "sc_34_11_90e_check",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies on this route."
+            }
+          },
+          {
+            "trackId": "sc_56_5_750f",
+            "quote": {
+              "kind": "prosecutor",
+              "name": "Solicitor's Office in the judicial circuit where the offence was committed",
+              "detail": "The applicant applies to the solicitor's office. SLED verifies and documents statutory eligibility before the solicitor or his designee and then a circuit court judge sign, and the $25 SLED verification fee applies. Both SLED and the Department of Motor Vehicles retain a nonpublic record after the order."
+            }
+          }
+        ]
+      },
+      "participantNextStep": {
+        "guidanceArtifact": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+          "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+          "byteLength": 156071
+        },
+        "savedNativeBundles": {
+          "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/saved-native-bundles.json",
+          "sha256": "e27c5824ffc371f6e8a8dfdab2f34abe469d731b56d5f2fdc5db7469f6d41276",
+          "byteLength": 120173
+        }
+      },
+      "selfHelpStop": {
+        "quotedFrom": {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025
+        },
+        "perRoute": [
+          {
+            "trackId": "sc_aep",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The participant was terminated from the programme or the offence was reinstated.",
+              "The offence may be a DUI-type offence under § 56-5-2930 or § 56-5-2933, which the programme excludes.",
+              "The Alcohol Education Program Director will not attest."
+            ]
+          },
+          {
+            "trackId": "sc_conditional_discharge_44_53_450",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "Any prior drug conviction, which defeats the route entirely.",
+              "The terms and conditions were not fulfilled, or an adjudication of guilt was entered.",
+              "The § 44-53-450(C) fee is unpaid.",
+              "The Summary Court Judge will not attest."
+            ]
+          },
+          {
+            "trackId": "sc_tep",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The participant was terminated from the programme or the offence was reinstated.",
+              "A subsequent traffic violation was received within six months of the ticket.",
+              "The incident caused death or serious bodily injury.",
+              "The Traffic Education Program Director will not attest."
+            ]
+          },
+          {
+            "trackId": "sc_17_1_40_general_sessions",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The dismissal was, or may have been, part of a plea arrangement under which the participant pled guilty to other charges. This changes the fee and complicates the application.",
+              "Several charges were brought and only some were dismissed."
+            ]
+          },
+          {
+            "trackId": "sc_17_1_65_handgun",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The conviction date is on or after 7 March 2024, or cannot be established from the record.",
+              "The conviction may not have been under § 16-23-20.",
+              "The participant has more than one handgun possession conviction, since the section reaches one.",
+              "The participant has applied under § 17-1-65 before.",
+              "The 7 March 2029 deadline is close enough that a delay would forfeit the route; the participant should be told plainly and referred if the solicitor's office cannot process it in time.",
+              "Any firearm rights question, which this route does not answer."
+            ]
+          },
+          {
+            "trackId": "sc_22_5_910",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "Any motor vehicle offence.",
+              "Any domestic violence matter.",
+              "The statutory penalty ceiling for the offence cannot be established from the record.",
+              "The participant does not think of themselves as convicted because they forfeited bail, which § 22-5-910(E) treats as a conviction.",
+              "The participant has already used § 22-5-910 once."
+            ]
+          },
+          {
+            "trackId": "sc_22_5_920_yoa",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The sentencing paperwork does not clearly record a Youthful Offender Act sentence.",
+              "Any motor vehicle offence, any § 16-1-60 violent crime, any Chapter 25 domestic violence offence, or any registration offence.",
+              "Any conviction during the service of the sentence or the five years following it, other than driving under suspension or a pre-May-2018 disturbing schools conviction.",
+              "The participant has already used § 22-5-920 once."
+            ]
+          },
+          {
+            "trackId": "sc_22_5_930_drug",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The offence is not clearly within one of the two branches of § 22-5-930.",
+              "Any prior conditional discharge, because the five-year and ten-year lookback bars turn on it and are measured from the date of arrest.",
+              "A possession-with-intent conviction, which carries a twenty-year clock and belongs with counsel.",
+              "The participant has already used § 22-5-930 once."
+            ]
+          },
+          {
+            "trackId": "sc_34_11_90e_check",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The cheque exceeded five thousand dollars, which makes the conviction a felony and closes the route.",
+              "Any conviction of any kind during the year following the conviction.",
+              "The participant has already used § 34-11-90(e) once.",
+              "More than one cheque was involved, since each instrument is a separate offence and each needs its own order and its own fees."
+            ]
+          },
+          {
+            "trackId": "sc_56_5_750f",
+            "quotes": [
+              "SLED verification has not yet occurred. Section 17-22-940(E) requires SLED to verify and document statutory eligibility before anyone signs, and LegalEase must never tell a participant they are eligible before that.",
+              "The solicitor or his designee declines to consent to the expungement.",
+              "Any felony; any violent crime under § 16-1-60; any domestic violence matter; any sex offender registration offence.",
+              "Any pending charge, unless it has been pending more than five years and the tolling rule is clearly satisfied.",
+              "Any drug conviction beyond a clean § 44-53-450(b) conditional discharge.",
+              "Trafficking facts, juvenile matters, or any immigration question.",
+              "Federal, out-of-state, military or tribal records.",
+              "The conviction may be a felony or may be under a subsection other than (B)(1).",
+              "The incident involved injury, death or a high-speed pursuit.",
+              "The completion date of every term and condition cannot be established from the record.",
+              "The participant has already used § 56-5-750(F) once."
+            ]
+          }
+        ]
+      },
+      "checkout": {
+        "packetCheckout": "closed",
+        "packetCreditConsumption": "none",
+        "partnerCreditConsumption": "none",
+        "renderJobAllowed": false
+      },
+      "retiredPacket": {
+        "disposition": "internal_review_fixture",
+        "participantDelivery": "removed_by_existing_owner_decision",
+        "bytesMoved": false,
+        "bindings": [
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/approval-request.json",
+            "sha256": "ed60e2beeecadc9a612590641d32845e6e00683b6d239db45c5f371eebb4b0d2",
+            "byteLength": 1312
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/build-findings.json",
+            "sha256": "a46f1e886c2d9bffc3c8d4d5edfe45d680637c59ea99fcf2fd42da68c3e6f7b6",
+            "byteLength": 1612
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/build-status.json",
+            "sha256": "f9efcaa4f24ae6c1c74b846cabdec139b418bc44d71fd3d8511806cf39a91422",
+            "byteLength": 702
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "b808c99ade96a876097f1086585818b63824cd79b20f0407cc8169fe6ce1f6a5",
+            "byteLength": 181846
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "be6c8dd75e58feaff3d5049c3c4986b99fd39286bfd150855f2cd54eb9551f9b",
+            "byteLength": 178808
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/participant-instructions.md",
+            "sha256": "d5049f48890bb2715a47d05bf3d952a6a24b3fba1aabb81a6a2efdb8e0f583f6",
+            "byteLength": 97081
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/product-wiring.json",
+            "sha256": "1f02269510d92ac6cdc9726135cdbedf8d7334296a3bac638ea866271edfe3b2",
+            "byteLength": 5675
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/production-field-map.json",
+            "sha256": "95b5570f0ccdd138f1b3ccbae17de17039b8661ad8bc1f6149878755e3b99675",
+            "byteLength": 863191
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/reports/actual-writes.json",
+            "sha256": "9665146b6c63c6bfd2e3aacf694949b25a3c6cd28b3cb98aa70f61b0d553372c",
+            "byteLength": 67453
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+            "sha256": "2df6b1fc56b090304dfc4ffa72ee9f601ce043a5f560e0ae9e8e7e7e93ca7e5c",
+            "byteLength": 115076
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/reports/completeness-counters.json",
+            "sha256": "a830f39ad4ca5188543118c957d8605b2427f17122ff5ac45bcb19289ae97912",
+            "byteLength": 909
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+            "sha256": "722d7f3ed49c500eb5b83a06515310f38e1969b2f8321faf9c2ee4e34e30d86d",
+            "byteLength": 40188
+          },
+          {
+            "path": "data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/source-receipt.json",
+            "sha256": "205140838f5640147c0918445aaf3f9d1b75820d00800a2702b7c56106c449ad",
+            "byteLength": 10258
+          }
+        ]
+      },
+      "independentVerification": {
+        "state": "pending_independent_verification_of_the_treatment",
+        "authoredBy": "/root/mt_serving_build",
+        "verifyTheTreatmentNotThePacket": true,
+        "mustRead": [
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/guidance.json",
+            "sha256": "d34b3f6d9ac32b92cc586758329964fa7f7032d992a6db2b021d0172513190fe",
+            "byteLength": 156071
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/saved-native-bundles.json",
+            "sha256": "e27c5824ffc371f6e8a8dfdab2f34abe469d731b56d5f2fdc5db7469f6d41276",
+            "byteLength": 120173
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/pf01/sc-guidance-repair-20260914/saved-byte-checks.json",
+            "sha256": "eb2f93fcb38da23080bce8154695e25b3e59e786331006bb28e04a78193fdb97",
+            "byteLength": 6993
+          }
+        ]
+      }
+    }
+  ],
+  "scope": "SC-only additive candidate; shared original registry bytes immutable; native admission waits for distinct independent acceptance."
+}

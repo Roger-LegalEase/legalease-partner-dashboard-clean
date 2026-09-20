@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-bounded-prerequisite-resolution/v1",
+  "familyId": "wv_nc_diversion_deferred-set",
+  "status": "EXACT_SUPPORTING_INPUT_TYPE_RESOLVED_BUILD_RELEASED",
+  "verifiedAt": "2026-09-14T03:22:55.031832+00:00",
+  "authority": {
+    "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+    "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+    "registerQuestionId": "Q-055",
+    "reportQuestionId": "Q-048",
+    "holding": "Custom current-law civil petition preferred; artifact review required."
+  },
+  "requiredInputs": [
+    {
+      "role": "final_disposition",
+      "document": "Certified order dismissing the original charges after full successful program completion",
+      "custodian": "Clerk of circuit or magistrate court entering dismissal",
+      "confirms": [
+        "underlying case identity",
+        "dismissal date",
+        "60-day computation"
+      ]
+    },
+    {
+      "role": "supporting_prior_order_or_agreement",
+      "document": "Signed prosecutorial pretrial diversion agreement OR entered deferred-adjudication order",
+      "custodian": "Prosecuting attorney office for agreement; entering court clerk for order",
+      "confirms": [
+        "programType",
+        "applicable statutory branch"
+      ]
+    },
+    {
+      "role": "completion_record",
+      "document": "Court record establishing full and successful program completion",
+      "custodian": "Court clerk",
+      "confirms": [
+        "successful completion",
+        "dismissal basis"
+      ]
+    }
+  ],
+  "sourceSemantics": "Adopted registry participantFilingRequirements expressly classify these as participant-obtained required-before-filing exhibits, not official template companions. Actual personal records are not a prerequisite to explicitly synthetic build fixtures. Synthetic diagnostics must never be represented as entered or certified court records.",
+  "buildSlotReleased": true,
+  "nextAction": "Build adopted custom civil petition using explicitly synthetic facts. Enforce receipt and attachment of actual certified dismissal, program agreement/order, and successful-completion record before real filing. Preserve artifact review gate.",
+  "sharedInputsChanged": false,
+  "packetAcceptanceGranted": false,
+  "captainClarification": "Captain /root confirmed identified participant-provided input type resolves this prerequisite; do not seek real participant personal records for synthetic build."
+}

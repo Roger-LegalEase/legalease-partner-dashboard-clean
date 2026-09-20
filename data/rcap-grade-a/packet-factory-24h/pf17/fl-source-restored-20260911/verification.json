@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "rcap-pf17-source-restored-build-evidence/v1",
+  "assignmentId": "PF17",
+  "familyId": "fl-10yr-bridge-set",
+  "assignedBase": "8a9560b091c0f05f41d6598bd426cc98f10073b8",
+  "branch": "pf17-fl-bridge-source-restored-20260911",
+  "preflight": {
+    "worktree": "/tmp/rcap-fix06-tx-route-20260911",
+    "priorBranchPreserved": "fix06-tx-route-20260911 at 44e0792db3b5ea7113d01598e7a8972019c30fe9",
+    "initialStatus": "only the expected untracked private symlink",
+    "grant": "CLAIM_OK PF17 fl-10yr-bridge-set (packet-build, grant set 76014beed969bfa2)"
+  },
+  "source": {
+    "path": "reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-10YR-BRIDGE-SET__FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION__ced5d88f7305.pdf",
+    "environmentVariable": "PF17_FL_FDLE_SOURCE",
+    "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+    "byteLength": 26602,
+    "builderPinUnchanged": true,
+    "readOnlyBeforeAndAfterBuild": true
+  },
+  "compositionAuthority": {
+    "determination": "FL-RULE-3989",
+    "decision": "COMPOSE_FROM_AUTHORITY",
+    "composedComponents": [
+      "FL-RULE-3.989-PETITION",
+      "FL-RULE-3.989-ORDER"
+    ],
+    "officialComponentStillHeld": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+    "builderCodeChanged": false
+  },
+  "build": {
+    "command": "RCAP_NO_LOCAL_RASTER=1 PF17_FL_FDLE_SOURCE=<absolute recovered path> node scripts/build-census-v1-fl-10yr-bridge-set.mjs",
+    "exitCode": 0,
+    "status": "COMPLETED",
+    "writes": 44,
+    "requiredBeforeFiling": 4,
+    "nineCountersZero": true,
+    "rasterState": "BUILT_RASTER_PENDING",
+    "packetsSelfVerified": 0,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  },
+  "readOnlyCheck": {
+    "command": "RCAP_NO_LOCAL_RASTER=1 PF17_FL_FDLE_SOURCE=<absolute recovered path> node scripts/build-census-v1-fl-10yr-bridge-set.mjs --check",
+    "exitCode": 0,
+    "status": "CHECK_ONLY",
+    "sourceSha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+    "sourceByteLength": 26602,
+    "writes": 44,
+    "blanks": 96,
+    "directoryDigestBefore": "18332a45d63d2457542eb0d905bdbeefd0261be454238eed01b8529723960961",
+    "directoryDigestAfter": "18332a45d63d2457542eb0d905bdbeefd0261be454238eed01b8529723960961",
+    "mutations": 0
+  },
+  "serviceVerification": {
+    "resolvedRequirement": "Certificate of service at the court stage.",
+    "recordsAgree": [
+      "data/record-clearing/legal-design-intake/FL.memo.json track fl-10yr-bridge rules.service",
+      "data/record-clearing/legal-design-track-registry.json track fl-10yr-bridge rules.service",
+      "data/record-clearing/legal-design-packet-set-manifests.json packet fl-10yr-bridge-set required serve_party description"
+    ],
+    "deliveredArtifact": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/participant-instructions.md",
+    "sectionLine": 23,
+    "quotedRequirementLine": 27,
+    "assertions": [
+      "the exact resolved requirement is quoted",
+      "the guidance says a certificate of service is required",
+      "the guidance says the packet contains no certificate-of-service component",
+      "the guidance does not invent a recipient or method",
+      "the guidance directs the participant to ask the clerk in the circuit of arrest who must be served and in what form"
+    ],
+    "focusedJqVerdict": "PASS"
+  },
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "705c4d23dbcef3ec16e4730387bf533f2cae7c022d0d4768ef77271f45f17f43",
+      "byteLength": 36014,
+      "pageCount": 8,
+      "officialSourcePages": "1-6",
+      "officialSourceSha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650"
+    },
+    {
+      "fixture": "boundary",
+      "path": "data/rcap-all50/overlays/census-v1/fl/fl-10yr-bridge-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "23821507cc98d2a708b0cf83e2f609edcf385841b68dceb69774d651194ca511",
+      "byteLength": 36249,
+      "pageCount": 8,
+      "officialSourcePages": "1-6",
+      "officialSourceSha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650"
+    }
+  ],
+  "generatedFilesChanged": {
+    "participantInstructions": {
+      "beforeSha256": "1129ff0e0fc46066dc366e25087fd9e036657dd0ab38666deed97842f562ad70",
+      "afterSha256": "3ad84cc50b75a014ca8b6566a6bf6c0af377b112dddaf351796cdb16037ec695",
+      "afterByteLength": 3546,
+      "reason": "current builder materializes the repaired service section"
+    },
+    "sourceReceipt": {
+      "beforeSha256": "f9f7b6620bfc257bd2b28f84e854e6ddcd348244af01b24c80c7eeb74e6feb42",
+      "afterSha256": "9ddfd09031970057498eca80e1060e440e4765d38d547e1c3cd5b48b615123eb",
+      "afterByteLength": 4648,
+      "reason": "records the restored read-only source path and current whole-file composition-record hash; the exact FDLE source pin is unchanged"
+    },
+    "pdfBytesChanged": false
+  },
+  "determinism": {
+    "repeatBuild": "PASS",
+    "directoryDigestBefore": "18332a45d63d2457542eb0d905bdbeefd0261be454238eed01b8529723960961",
+    "directoryDigestAfter": "18332a45d63d2457542eb0d905bdbeefd0261be454238eed01b8529723960961"
+  },
+  "completeness": {
+    "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-10yr-bridge-set",
+    "exitCode": 0,
+    "verdict": "PASS_COMPLETE",
+    "written": "44/140",
+    "allNineCountersZero": true
+  },
+  "remainingGates": [
+    "fresh raster review",
+    "independent verification of the rebuilt participant guidance and restored source binding",
+    "source-freshness and counsel review already requested by the family artifact"
+  ],
+  "terminalClaim": false
+}

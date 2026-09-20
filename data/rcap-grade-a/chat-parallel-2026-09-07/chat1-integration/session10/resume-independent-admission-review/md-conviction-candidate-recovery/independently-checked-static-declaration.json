@@ -1,0 +1,4861 @@
+{
+  "family": "md_10110_conviction-set",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "routeKeys": [
+    "obligation:track-pathway:MD:md_10110_conviction:eligible-conviction-expungement-under-crim-proc-10-110"
+  ],
+  "currentState": {
+    "generationAllowed": false,
+    "runtimeSelectable": false
+  },
+  "binding": {
+    "routeKeys": [
+      "obligation:track-pathway:MD:md_10110_conviction:eligible-conviction-expungement-under-crim-proc-10-110"
+    ],
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "runtimeInstalled": false,
+    "generationAllowed": false,
+    "filingPermitted": false,
+    "packetComponents": [
+      "CC-DC-CR-072B",
+      "CC-DC-089",
+      "MDJ-008",
+      "participant-instructions"
+    ],
+    "componentConditions": {
+      "CC-DC-089": "options.feeTreatment === 'waiver'",
+      "MDJ-008": "options.feeTreatment === 'waiver' (financial CC-DC-089 only)"
+    },
+    "acceptanceReceipt": null,
+    "conditionalDelivery": {
+      "selectionContract": "scripts/rcap-packet-recovery/chat5/md-conviction.mjs#validateMdConviction",
+      "fixtureSelectionContract": "scripts/grade-a-packet-factory-24h/md-conditional-declared-delivery.mjs#selectDeclaredMdConditionalFixture",
+      "explicitSelectionRequired": true,
+      "defaultBranch": null,
+      "runtimeInstalled": false,
+      "diagnosticArtifactsExcluded": true,
+      "reviewInputBinding": {
+        "file": "scripts/rcap-packet-completeness/md-conditional-reviewed-inputs.json",
+        "sha256": "39e93766154350cb030d06447e1052ee91604313e50dbb6f0a31842544e4b02d",
+        "filesMeasured": 199
+      },
+      "outputInventory": {
+        "documents": 25,
+        "pages": 170,
+        "preparedDocuments": 23,
+        "diagnosticDocuments": 2
+      },
+      "fixtureBindings": [
+        {
+          "fixture": "canonical",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571",
+          "byteLength": 773371,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/canonical.facts.json",
+            "sha256": "cfb44b817df43848c96735533dd879557c155e0bb7f4a6bf3d5a696b0e7c012a"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/canonical.md",
+            "sha256": "41962c7a7b0fab9af77a8000e68ca0b083a06d43182826db077672660a8854ae"
+          },
+          "selection": {
+            "basis": "misdemeanor",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/misdemeanor-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-paid.pdf",
+          "sha256": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571",
+          "byteLength": 773371,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-paid.facts.json",
+            "sha256": "cfb44b817df43848c96735533dd879557c155e0bb7f4a6bf3d5a696b0e7c012a"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/misdemeanor-paid.md",
+            "sha256": "41962c7a7b0fab9af77a8000e68ca0b083a06d43182826db077672660a8854ae"
+          },
+          "selection": {
+            "basis": "misdemeanor",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/misdemeanor-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-waiver.pdf",
+          "sha256": "3aaf79a491d4706077d1d4a411d18dbca9f6059eb5a3acdad08ccf38400cd2d6",
+          "byteLength": 1404834,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "0dc0da29b7df3a562c39e94a39dc88bf4e3a3faae9cf5e15efae283b49b9d004"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "0dc0da29b7df3a562c39e94a39dc88bf4e3a3faae9cf5e15efae283b49b9d004"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "0dc0da29b7df3a562c39e94a39dc88bf4e3a3faae9cf5e15efae283b49b9d004"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "eb9447eecced084a361ac38beec37b9d29d220ee7e3a6b102a57603beb312850"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-waiver.facts.json",
+            "sha256": "c2e1ebb1b397223d50e6554faff94b5a6e2ba0355ae888f228cfba9e7124b9a1"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/misdemeanor-waiver.md",
+            "sha256": "541a40c0b238fadbee85163208e9a0662c3b9e7a285621707f1af646eb34474d"
+          },
+          "selection": {
+            "basis": "misdemeanor",
+            "feeTreatment": "waiver",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 65,
+            "blank": 137
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/assault_battery-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-paid.pdf",
+          "sha256": "7751d0937b63b19d2889a215bb47490a29c1d1414e6dda35109ff4a32d5101ac",
+          "byteLength": 773439,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "ec0aec85d66cc80ad9ba460d8c964047bc9816e99178d6be7b90d693af2dfef1"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-paid.facts.json",
+            "sha256": "a55a08ddfd6e2db5cc45f01a6f3d652acf3487061b886be80c71e7f2265187fd"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/assault_battery-paid.md",
+            "sha256": "74c6d26ac2a8f4964116fa4b4160e0e4f43d6f42bdec2ab4a10799355854c04e"
+          },
+          "selection": {
+            "basis": "assault_battery",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/assault_battery-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-waiver.pdf",
+          "sha256": "736df87366e1ed234a4d349b5eea67a467b3d571283d3935253dffb2b9b23cb4",
+          "byteLength": 1404906,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "ec0aec85d66cc80ad9ba460d8c964047bc9816e99178d6be7b90d693af2dfef1"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-waiver.facts.json",
+            "sha256": "6258759dd070997aff26effcb3a34dbab592abfccad387b2677c4003b4b639a9"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/assault_battery-waiver.md",
+            "sha256": "30ad0d31ab259ca43f18f3869cd897eb768182cadb70bf2ad75d7ed35409253f"
+          },
+          "selection": {
+            "basis": "assault_battery",
+            "feeTreatment": "waiver",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 65,
+            "blank": 137
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/felony-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-paid.pdf",
+          "sha256": "36c7009c427bf1b7a00ed98259ba55ef74ca7db7e1e4212bf9216b7932ed366b",
+          "byteLength": 773380,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "1f950b8a5c4cc3fb80a6c6c0f69d385679e5e5b55332a5b92f997b9c47f43762"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-paid.facts.json",
+            "sha256": "396b7f8525ef6dd862eeec85631c4af8d29090b298b3321b2b4a19044431ebb0"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/felony-paid.md",
+            "sha256": "fd53e50f025967ba3cb766d77b7c426797485052d5666aed5b8f27e27070bde1"
+          },
+          "selection": {
+            "basis": "felony",
+            "feeTreatment": "paid",
+            "courtLevel": "circuit",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/felony-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-waiver.pdf",
+          "sha256": "90e59092b537d90e8917ac7718ff90340410afc706752ed4e2801c0585bbf5ef",
+          "byteLength": 1404843,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "1f950b8a5c4cc3fb80a6c6c0f69d385679e5e5b55332a5b92f997b9c47f43762"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "40332e3033b22fed74668d0b4f3557c3e7e57b201fe43e5d463bec268a8bc7dc"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-waiver.facts.json",
+            "sha256": "caf959ab73f29b7d12e3e273119cfdaab12f921825f5d20ce659eed10a7033b8"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/felony-waiver.md",
+            "sha256": "71edda644087cbd086237d520680659819f3c22555e77c4a367e30d89ac1cdc3"
+          },
+          "selection": {
+            "basis": "felony",
+            "feeTreatment": "waiver",
+            "courtLevel": "circuit",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 65,
+            "blank": 137
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/burglary_theft-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-paid.pdf",
+          "sha256": "c9eb9ded6e052fe4462c16071a124708e650e7aa8aa83950df60af96039a47e0",
+          "byteLength": 773441,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "d03706c6fcb3ef707f1c9c159870731261132803ee54a28305de61d49aab222c"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-paid.facts.json",
+            "sha256": "0b46e6fc37fa051d240605323dfb7c0529649f67695a3dd521d72a314f09d4e3"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/burglary_theft-paid.md",
+            "sha256": "fc60b1ba6987c7330a219aab94e138315cf0d24f9f32b97a0397f01b70876dcf"
+          },
+          "selection": {
+            "basis": "burglary_theft",
+            "feeTreatment": "paid",
+            "courtLevel": "circuit",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/burglary_theft-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-waiver.pdf",
+          "sha256": "37a502d6d4957c6d2a4e13f3b0929d7ff6b1aa534de95a7e9d545680e00bd197",
+          "byteLength": 1404909,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "d03706c6fcb3ef707f1c9c159870731261132803ee54a28305de61d49aab222c"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "40332e3033b22fed74668d0b4f3557c3e7e57b201fe43e5d463bec268a8bc7dc"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-waiver.facts.json",
+            "sha256": "a1f32b23a729c2cd9c9e0430c21615dacfd545612ddd4680bc3d313fc4e94d9f"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/burglary_theft-waiver.md",
+            "sha256": "9544e125403aefc77814b3f5d773d53a5bb16daef1eaad6b420170920eefebc4"
+          },
+          "selection": {
+            "basis": "burglary_theft",
+            "feeTreatment": "waiver",
+            "courtLevel": "circuit",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 65,
+            "blank": 137
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/domestic-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-paid.pdf",
+          "sha256": "c5539768fb698953e781df6f07dc6df90712c5cc52cb7fcbde820c9d4debeba6",
+          "byteLength": 773408,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "10f175ba6d7b275d92d7c67b44001803dbbe85a8be168c968a138db7729f18ec"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-paid.facts.json",
+            "sha256": "987e59aed56ff2fe76bf27521dbb8fbdc53b9d9284b15c362b01e0c666324309"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/domestic-paid.md",
+            "sha256": "50d8db333aa36ebc0f3d59e0f412cfa785ffab9a4f36affe471e8ff904cb38bd"
+          },
+          "selection": {
+            "basis": "domestic",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/domestic-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-waiver.pdf",
+          "sha256": "4413e0b1fde0cdbad66583a4e12ebcad9457225e85329945716f5a3c991c4808",
+          "byteLength": 1404870,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "10f175ba6d7b275d92d7c67b44001803dbbe85a8be168c968a138db7729f18ec"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-waiver.facts.json",
+            "sha256": "25a354839c5d68d999df07d17492d1058fbf8373e1c65dba0cd644634c68e91b"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/domestic-waiver.md",
+            "sha256": "e238be6ca2704b7fb39578116dbfa939d4c3135f65c99c0bcc7390da4a167c61"
+          },
+          "selection": {
+            "basis": "domestic",
+            "feeTreatment": "waiver",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 65,
+            "blank": 137
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/nuisance-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-paid.pdf",
+          "sha256": "e2595fe40a773adb90b2cb739a677441d8c13e3118529a21118b15b25fdf3ff7",
+          "byteLength": 773337,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "7eb259663d69dceb0f3138de979f5f705add888984e90dad497afeca59b3b07b"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-paid.facts.json",
+            "sha256": "ff4920538204a5346fb7171871687946fc98556beda4593a08ee5ae068b36d0a"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/nuisance-paid.md",
+            "sha256": "634b74b260a7d3a2eab240a27663115a47fe3e4cd26945512260f447dd29deb4"
+          },
+          "selection": {
+            "basis": "nuisance",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/nuisance-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-waiver.pdf",
+          "sha256": "58749aa919cde32a295317dde88e7183a2d23ba5fc162259bb0b421a7b917d10",
+          "byteLength": 1404800,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "7eb259663d69dceb0f3138de979f5f705add888984e90dad497afeca59b3b07b"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-waiver.facts.json",
+            "sha256": "79461b1cf438851fdda8d01e70706c6f48729f83ca524ffc69f9f8d418c816e9"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/nuisance-waiver.md",
+            "sha256": "8865fa35b2983fece909fa4b2880250769cdad20430d769d11554c4a20af07fb"
+          },
+          "selection": {
+            "basis": "nuisance",
+            "feeTreatment": "waiver",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 65,
+            "blank": 137
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/repealed_sexual-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-paid.pdf",
+          "sha256": "282346f3622365b9a19e42debdfc32103f3005b8c296b60b7b63dc53c87f973b",
+          "byteLength": 773459,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-paid.facts.json",
+            "sha256": "ad0a47ca8505c63b77f56a2d1e20db9bf2316be43725d840fb3919d6c2036dc5"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/repealed_sexual-paid.md",
+            "sha256": "2ba7ddcb182cd9484bb5d8920d7b48acfc183792738fb46dd56e0c520fb58854"
+          },
+          "selection": {
+            "basis": "repealed_sexual",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 23,
+            "blank": 24
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/repealed_sexual-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-waiver.pdf",
+          "sha256": "e2638875226b4c949f8bc6e33a16f9758882a5fef3ff552dc0a5d2425b2e3c50",
+          "byteLength": 1404923,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-waiver.facts.json",
+            "sha256": "4790e61c28b01e13cd95ab57582d50584f62768849e954a26324c3111292549c"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/repealed_sexual-waiver.md",
+            "sha256": "286ab13057c7040a1f5f81230e1d5d18b679bbcdb50a083367671dff8d724ce5"
+          },
+          "selection": {
+            "basis": "repealed_sexual",
+            "feeTreatment": "waiver",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 66,
+            "blank": 136
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/no_longer_crime-paid",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-paid.pdf",
+          "sha256": "993480e5346ea1928a4b0229d6d9d8326e1af8747e2054483535c3df6f93850b",
+          "byteLength": 773404,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-paid.facts.json",
+            "sha256": "61fad0b9637bb12b8d206d15ac0531ab58cff26fba6c2940b3029744f339b346"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/no_longer_crime-paid.md",
+            "sha256": "fe5377a59dbdbf829ff0a7fbc24504c9056ff85263ec750fd92a0f7f6343c6ef"
+          },
+          "selection": {
+            "basis": "no_longer_crime",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 23,
+            "blank": 24
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/no_longer_crime-waiver",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-waiver.pdf",
+          "sha256": "ecc4a7896fc7bb01fc76fd36cc05fedfbda35cb4f9e9b3ee0c2675674356cb12",
+          "byteLength": 1404867,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-waiver.facts.json",
+            "sha256": "a20c3200041faaa30a6b55c7ef774f9fab32c93b3ea79a411034bd4f9fd6b1f4"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/no_longer_crime-waiver.md",
+            "sha256": "b5466bb1e33d6ae75e768c4ba91ac62a0ecb63be31b648f0c51185bc1a58f251"
+          },
+          "selection": {
+            "basis": "no_longer_crime",
+            "feeTreatment": "waiver",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 66,
+            "blank": 136
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "boundary",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "cda8eebad0799ed6924cb10846b1723a734f3929594eec0fc2d440c659f82297",
+          "byteLength": 1405190,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "8bc48975316892679e2230787533bd94a25d2fe59dad195dd4b5b64f65b96813"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "5437e8ac1584ae6968b871f30bc457870866ce3058591ee1aa58300af8d7b16b"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "5437e8ac1584ae6968b871f30bc457870866ce3058591ee1aa58300af8d7b16b"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "5437e8ac1584ae6968b871f30bc457870866ce3058591ee1aa58300af8d7b16b"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "6ccd933a3ef680e8f30a1d5d26f03c105729d733557cd65d5628be56613a8d02"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.facts.json",
+            "sha256": "3cf1bf57c9eb87c2a379b31d567e5fd609ab6dd58013446e0faeca5ef89789c3"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/boundary.md",
+            "sha256": "a534953dc80e1260b042e50dde1d828e7b0b471457700db93b7fc7ac2c5b0e4e"
+          },
+          "selection": {
+            "basis": "burglary_theft",
+            "feeTreatment": "waiver",
+            "courtLevel": "circuit",
+            "transfer": "none",
+            "appealed": false,
+            "event": "summons",
+            "finalOpenCostsRequested": true
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 65,
+            "blank": 137
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/waiver-zero-explicit",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/waiver-zero-explicit.pdf",
+          "sha256": "db7ba14441f6172da5e56dde489acb161dfc1c63f670bfc180417e07e49da7c8",
+          "byteLength": 1404697,
+          "pageCount": 9,
+          "components": [
+            "CC-DC-CR-072B",
+            "CC-DC-089",
+            "MDJ-008",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "CC-DC-089",
+              "sourcePage": 1,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "863bca8945a31db17f762297c43a573bfcdf10752d019d42eb7f8f061c94e917"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "CC-DC-089",
+              "sourcePage": 2,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "863bca8945a31db17f762297c43a573bfcdf10752d019d42eb7f8f061c94e917"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "CC-DC-089",
+              "sourcePage": 3,
+              "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+              "componentSha256": "863bca8945a31db17f762297c43a573bfcdf10752d019d42eb7f8f061c94e917"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "MDJ-008",
+              "sourcePage": 1,
+              "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+              "componentSha256": "eb9447eecced084a361ac38beec37b9d29d220ee7e3a6b102a57603beb312850"
+            },
+            {
+              "packetPage": 6,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 7,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 8,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 9,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/waiver-zero-explicit.facts.json",
+            "sha256": "d9c4a648890346f1d9f0c8c8023b05b2bed8f066f97375c5ae30f98f954137d1"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/waiver-zero-explicit.md",
+            "sha256": "541a40c0b238fadbee85163208e9a0662c3b9e7a285621707f1af646eb34474d"
+          },
+          "selection": {
+            "basis": "misdemeanor",
+            "feeTreatment": "waiver",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 202,
+            "written": 59,
+            "blank": 143
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/restitution-inability",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/restitution-inability.pdf",
+          "sha256": "81dd3b4432e84a4cf5821ed5e3cce1c48fda812beefe376844de611408859e3d",
+          "byteLength": 773381,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/restitution-inability.facts.json",
+            "sha256": "943954c6adca8c252608dbac674d2e634fc8436e706a21a51473db0cf9ba493f"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/restitution-inability.md",
+            "sha256": "cf34c029e1d8c4ded6ef9071887920451852371854dedb576b976ec510bb9b27"
+          },
+          "selection": {
+            "basis": "misdemeanor",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/adult-transfer",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/adult-transfer.pdf",
+          "sha256": "cecfa14f61357c2a8bb9cadd9c0a97f9f552ab0e38a9c16d778b25b27f87ac48",
+          "byteLength": 773424,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "0958ef1a8c829eec878decdf0351750a911974a355e603ed7944aacbee5ea632"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/adult-transfer.facts.json",
+            "sha256": "bbd62dd2cc66e9f15fd5ee8af5e77138cd0da09a566ae1660a3de403197a7340"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/adult-transfer.md",
+            "sha256": "fd53e50f025967ba3cb766d77b7c426797485052d5666aed5b8f27e27070bde1"
+          },
+          "selection": {
+            "basis": "felony",
+            "feeTreatment": "paid",
+            "courtLevel": "circuit",
+            "transfer": "adult",
+            "appealed": false,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 23,
+            "blank": 24
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/circuit-appellate",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/circuit-appellate.pdf",
+          "sha256": "5550c9d1819fd1d278e880611f767d22b238f488bf1ddfb7ef91653b2f2a0e92",
+          "byteLength": 773480,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "5c965c0047eac46a047a52df0db9c71b5ae555586ef085bddfca75869bad9365"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/circuit-appellate.facts.json",
+            "sha256": "397bfa360245dc1519aff48318c743cb4ffd3d390f4adfa2d61dea44dbda82a9"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/circuit-appellate.md",
+            "sha256": "fc34bdc68c00a036c991172a1aadfb10c03b2a09553c800d028804d9d414b6b3"
+          },
+          "selection": {
+            "basis": "assault_battery",
+            "feeTreatment": "paid",
+            "courtLevel": "circuit",
+            "transfer": "none",
+            "appealed": true,
+            "event": "arrest",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 23,
+            "blank": 24
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        },
+        {
+          "fixture": "selectable/citation",
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/citation.pdf",
+          "sha256": "5cad97e427922241dd7a1970926788761402c446be8f4cd00fc07ccb66c62af7",
+          "byteLength": 773371,
+          "pageCount": 5,
+          "components": [
+            "CC-DC-CR-072B",
+            "participant-instructions"
+          ],
+          "pageManifest": [
+            {
+              "packetPage": 1,
+              "documentId": "CC-DC-CR-072B",
+              "sourcePage": 1,
+              "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+              "componentSha256": "57d8a902930cec5ac5909f6e110d9710a1ba9e31d2e3d32b6f52c5b37ed76c7d"
+            },
+            {
+              "packetPage": 2,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 3,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 4,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            },
+            {
+              "packetPage": 5,
+              "documentId": "participant-instructions",
+              "role": "not_filed"
+            }
+          ],
+          "input": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/citation.facts.json",
+            "sha256": "3614d5d211cf938eaedfe5f7ceb261e750b38eeeebac560e5552a38dd79328b4"
+          },
+          "instructions": {
+            "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/citation.md",
+            "sha256": "41962c7a7b0fab9af77a8000e68ca0b083a06d43182826db077672660a8854ae"
+          },
+          "selection": {
+            "basis": "misdemeanor",
+            "feeTreatment": "paid",
+            "courtLevel": "district",
+            "transfer": "none",
+            "appealed": false,
+            "event": "citation",
+            "finalOpenCostsRequested": false
+          },
+          "sourceFieldAccounting": {
+            "total": 47,
+            "written": 22,
+            "blank": 25
+          },
+          "nativePreparationReady": true,
+          "missingInformation": [],
+          "syntheticFixture": true,
+          "participantExecutionCompleted": false,
+          "judicialDecisionSupplied": false,
+          "filingPermitted": false,
+          "grantsDeliveryAuthority": false
+        }
+      ],
+      "note": "Exact synthetic reviewed evidence only. Real participant output requires current route/source/fact verification, a new matter-bound render, entitlement and private delivery. Signatures and judicial decisions are not supplied. Diagnostic missing data cannot be bypassed by a static PASS."
+    }
+  },
+  "proposedRepresentation": {
+    "note": "Exact synthetic reviewed evidence only. Real participant output requires current route/source/fact verification, a new matter-bound render, entitlement and private delivery. Signatures and judicial decisions are not supplied. Diagnostic missing data cannot be bypassed by a static PASS.",
+    "runtimeSelectable": false,
+    "generationAllowed": false,
+    "defaultComponentId": null,
+    "fixtureBindings": [
+      {
+        "fixture": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571",
+        "byteLength": 773371,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/canonical.facts.json",
+          "sha256": "cfb44b817df43848c96735533dd879557c155e0bb7f4a6bf3d5a696b0e7c012a"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/canonical.md",
+          "sha256": "41962c7a7b0fab9af77a8000e68ca0b083a06d43182826db077672660a8854ae"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/misdemeanor-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-paid.pdf",
+        "sha256": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571",
+        "byteLength": 773371,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-paid.facts.json",
+          "sha256": "cfb44b817df43848c96735533dd879557c155e0bb7f4a6bf3d5a696b0e7c012a"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/misdemeanor-paid.md",
+          "sha256": "41962c7a7b0fab9af77a8000e68ca0b083a06d43182826db077672660a8854ae"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/misdemeanor-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-waiver.pdf",
+        "sha256": "3aaf79a491d4706077d1d4a411d18dbca9f6059eb5a3acdad08ccf38400cd2d6",
+        "byteLength": 1404834,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "0dc0da29b7df3a562c39e94a39dc88bf4e3a3faae9cf5e15efae283b49b9d004"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "0dc0da29b7df3a562c39e94a39dc88bf4e3a3faae9cf5e15efae283b49b9d004"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "0dc0da29b7df3a562c39e94a39dc88bf4e3a3faae9cf5e15efae283b49b9d004"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "eb9447eecced084a361ac38beec37b9d29d220ee7e3a6b102a57603beb312850"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-waiver.facts.json",
+          "sha256": "c2e1ebb1b397223d50e6554faff94b5a6e2ba0355ae888f228cfba9e7124b9a1"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/misdemeanor-waiver.md",
+          "sha256": "541a40c0b238fadbee85163208e9a0662c3b9e7a285621707f1af646eb34474d"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 65,
+          "blank": 137
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/assault_battery-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-paid.pdf",
+        "sha256": "7751d0937b63b19d2889a215bb47490a29c1d1414e6dda35109ff4a32d5101ac",
+        "byteLength": 773439,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "ec0aec85d66cc80ad9ba460d8c964047bc9816e99178d6be7b90d693af2dfef1"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-paid.facts.json",
+          "sha256": "a55a08ddfd6e2db5cc45f01a6f3d652acf3487061b886be80c71e7f2265187fd"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/assault_battery-paid.md",
+          "sha256": "74c6d26ac2a8f4964116fa4b4160e0e4f43d6f42bdec2ab4a10799355854c04e"
+        },
+        "selection": {
+          "basis": "assault_battery",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/assault_battery-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-waiver.pdf",
+        "sha256": "736df87366e1ed234a4d349b5eea67a467b3d571283d3935253dffb2b9b23cb4",
+        "byteLength": 1404906,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "ec0aec85d66cc80ad9ba460d8c964047bc9816e99178d6be7b90d693af2dfef1"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-waiver.facts.json",
+          "sha256": "6258759dd070997aff26effcb3a34dbab592abfccad387b2677c4003b4b639a9"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/assault_battery-waiver.md",
+          "sha256": "30ad0d31ab259ca43f18f3869cd897eb768182cadb70bf2ad75d7ed35409253f"
+        },
+        "selection": {
+          "basis": "assault_battery",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 65,
+          "blank": 137
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/felony-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-paid.pdf",
+        "sha256": "36c7009c427bf1b7a00ed98259ba55ef74ca7db7e1e4212bf9216b7932ed366b",
+        "byteLength": 773380,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "1f950b8a5c4cc3fb80a6c6c0f69d385679e5e5b55332a5b92f997b9c47f43762"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-paid.facts.json",
+          "sha256": "396b7f8525ef6dd862eeec85631c4af8d29090b298b3321b2b4a19044431ebb0"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/felony-paid.md",
+          "sha256": "fd53e50f025967ba3cb766d77b7c426797485052d5666aed5b8f27e27070bde1"
+        },
+        "selection": {
+          "basis": "felony",
+          "feeTreatment": "paid",
+          "courtLevel": "circuit",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/felony-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-waiver.pdf",
+        "sha256": "90e59092b537d90e8917ac7718ff90340410afc706752ed4e2801c0585bbf5ef",
+        "byteLength": 1404843,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "1f950b8a5c4cc3fb80a6c6c0f69d385679e5e5b55332a5b92f997b9c47f43762"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "40332e3033b22fed74668d0b4f3557c3e7e57b201fe43e5d463bec268a8bc7dc"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-waiver.facts.json",
+          "sha256": "caf959ab73f29b7d12e3e273119cfdaab12f921825f5d20ce659eed10a7033b8"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/felony-waiver.md",
+          "sha256": "71edda644087cbd086237d520680659819f3c22555e77c4a367e30d89ac1cdc3"
+        },
+        "selection": {
+          "basis": "felony",
+          "feeTreatment": "waiver",
+          "courtLevel": "circuit",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 65,
+          "blank": 137
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/burglary_theft-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-paid.pdf",
+        "sha256": "c9eb9ded6e052fe4462c16071a124708e650e7aa8aa83950df60af96039a47e0",
+        "byteLength": 773441,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "d03706c6fcb3ef707f1c9c159870731261132803ee54a28305de61d49aab222c"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-paid.facts.json",
+          "sha256": "0b46e6fc37fa051d240605323dfb7c0529649f67695a3dd521d72a314f09d4e3"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/burglary_theft-paid.md",
+          "sha256": "fc60b1ba6987c7330a219aab94e138315cf0d24f9f32b97a0397f01b70876dcf"
+        },
+        "selection": {
+          "basis": "burglary_theft",
+          "feeTreatment": "paid",
+          "courtLevel": "circuit",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/burglary_theft-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-waiver.pdf",
+        "sha256": "37a502d6d4957c6d2a4e13f3b0929d7ff6b1aa534de95a7e9d545680e00bd197",
+        "byteLength": 1404909,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "d03706c6fcb3ef707f1c9c159870731261132803ee54a28305de61d49aab222c"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "dad55d08e0ae2f955bff072363c42c8054bcd9c0c2b435c28ea2f14998ec724c"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "40332e3033b22fed74668d0b4f3557c3e7e57b201fe43e5d463bec268a8bc7dc"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-waiver.facts.json",
+          "sha256": "a1f32b23a729c2cd9c9e0430c21615dacfd545612ddd4680bc3d313fc4e94d9f"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/burglary_theft-waiver.md",
+          "sha256": "9544e125403aefc77814b3f5d773d53a5bb16daef1eaad6b420170920eefebc4"
+        },
+        "selection": {
+          "basis": "burglary_theft",
+          "feeTreatment": "waiver",
+          "courtLevel": "circuit",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 65,
+          "blank": 137
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/domestic-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-paid.pdf",
+        "sha256": "c5539768fb698953e781df6f07dc6df90712c5cc52cb7fcbde820c9d4debeba6",
+        "byteLength": 773408,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "10f175ba6d7b275d92d7c67b44001803dbbe85a8be168c968a138db7729f18ec"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-paid.facts.json",
+          "sha256": "987e59aed56ff2fe76bf27521dbb8fbdc53b9d9284b15c362b01e0c666324309"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/domestic-paid.md",
+          "sha256": "50d8db333aa36ebc0f3d59e0f412cfa785ffab9a4f36affe471e8ff904cb38bd"
+        },
+        "selection": {
+          "basis": "domestic",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/domestic-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-waiver.pdf",
+        "sha256": "4413e0b1fde0cdbad66583a4e12ebcad9457225e85329945716f5a3c991c4808",
+        "byteLength": 1404870,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "10f175ba6d7b275d92d7c67b44001803dbbe85a8be168c968a138db7729f18ec"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-waiver.facts.json",
+          "sha256": "25a354839c5d68d999df07d17492d1058fbf8373e1c65dba0cd644634c68e91b"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/domestic-waiver.md",
+          "sha256": "e238be6ca2704b7fb39578116dbfa939d4c3135f65c99c0bcc7390da4a167c61"
+        },
+        "selection": {
+          "basis": "domestic",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 65,
+          "blank": 137
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/nuisance-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-paid.pdf",
+        "sha256": "e2595fe40a773adb90b2cb739a677441d8c13e3118529a21118b15b25fdf3ff7",
+        "byteLength": 773337,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "7eb259663d69dceb0f3138de979f5f705add888984e90dad497afeca59b3b07b"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-paid.facts.json",
+          "sha256": "ff4920538204a5346fb7171871687946fc98556beda4593a08ee5ae068b36d0a"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/nuisance-paid.md",
+          "sha256": "634b74b260a7d3a2eab240a27663115a47fe3e4cd26945512260f447dd29deb4"
+        },
+        "selection": {
+          "basis": "nuisance",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/nuisance-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-waiver.pdf",
+        "sha256": "58749aa919cde32a295317dde88e7183a2d23ba5fc162259bb0b421a7b917d10",
+        "byteLength": 1404800,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "7eb259663d69dceb0f3138de979f5f705add888984e90dad497afeca59b3b07b"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-waiver.facts.json",
+          "sha256": "79461b1cf438851fdda8d01e70706c6f48729f83ca524ffc69f9f8d418c816e9"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/nuisance-waiver.md",
+          "sha256": "8865fa35b2983fece909fa4b2880250769cdad20430d769d11554c4a20af07fb"
+        },
+        "selection": {
+          "basis": "nuisance",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 65,
+          "blank": 137
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/repealed_sexual-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-paid.pdf",
+        "sha256": "282346f3622365b9a19e42debdfc32103f3005b8c296b60b7b63dc53c87f973b",
+        "byteLength": 773459,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-paid.facts.json",
+          "sha256": "ad0a47ca8505c63b77f56a2d1e20db9bf2316be43725d840fb3919d6c2036dc5"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/repealed_sexual-paid.md",
+          "sha256": "2ba7ddcb182cd9484bb5d8920d7b48acfc183792738fb46dd56e0c520fb58854"
+        },
+        "selection": {
+          "basis": "repealed_sexual",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 23,
+          "blank": 24
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/repealed_sexual-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-waiver.pdf",
+        "sha256": "e2638875226b4c949f8bc6e33a16f9758882a5fef3ff552dc0a5d2425b2e3c50",
+        "byteLength": 1404923,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-waiver.facts.json",
+          "sha256": "4790e61c28b01e13cd95ab57582d50584f62768849e954a26324c3111292549c"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/repealed_sexual-waiver.md",
+          "sha256": "286ab13057c7040a1f5f81230e1d5d18b679bbcdb50a083367671dff8d724ce5"
+        },
+        "selection": {
+          "basis": "repealed_sexual",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 66,
+          "blank": 136
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/no_longer_crime-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-paid.pdf",
+        "sha256": "993480e5346ea1928a4b0229d6d9d8326e1af8747e2054483535c3df6f93850b",
+        "byteLength": 773404,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-paid.facts.json",
+          "sha256": "61fad0b9637bb12b8d206d15ac0531ab58cff26fba6c2940b3029744f339b346"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/no_longer_crime-paid.md",
+          "sha256": "fe5377a59dbdbf829ff0a7fbc24504c9056ff85263ec750fd92a0f7f6343c6ef"
+        },
+        "selection": {
+          "basis": "no_longer_crime",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 23,
+          "blank": 24
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/no_longer_crime-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-waiver.pdf",
+        "sha256": "ecc4a7896fc7bb01fc76fd36cc05fedfbda35cb4f9e9b3ee0c2675674356cb12",
+        "byteLength": 1404867,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "68919bc15bb4c3cbc6ac7a24591d4e2a692e5024280231d859e80cf413591f0f"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "28f7f98f49252bc4ae74b665b351eb86a3e5c03cce9bf019fef6f7af6adc455b"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "0d74f22d5006fd42ead811481929f3a19ac4a8fbe830602c40d72ba09f5d9c85"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-waiver.facts.json",
+          "sha256": "a20c3200041faaa30a6b55c7ef774f9fab32c93b3ea79a411034bd4f9fd6b1f4"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/no_longer_crime-waiver.md",
+          "sha256": "b5466bb1e33d6ae75e768c4ba91ac62a0ecb63be31b648f0c51185bc1a58f251"
+        },
+        "selection": {
+          "basis": "no_longer_crime",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 66,
+          "blank": 136
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "cda8eebad0799ed6924cb10846b1723a734f3929594eec0fc2d440c659f82297",
+        "byteLength": 1405190,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "8bc48975316892679e2230787533bd94a25d2fe59dad195dd4b5b64f65b96813"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "5437e8ac1584ae6968b871f30bc457870866ce3058591ee1aa58300af8d7b16b"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "5437e8ac1584ae6968b871f30bc457870866ce3058591ee1aa58300af8d7b16b"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "5437e8ac1584ae6968b871f30bc457870866ce3058591ee1aa58300af8d7b16b"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "6ccd933a3ef680e8f30a1d5d26f03c105729d733557cd65d5628be56613a8d02"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.facts.json",
+          "sha256": "3cf1bf57c9eb87c2a379b31d567e5fd609ab6dd58013446e0faeca5ef89789c3"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/boundary.md",
+          "sha256": "a534953dc80e1260b042e50dde1d828e7b0b471457700db93b7fc7ac2c5b0e4e"
+        },
+        "selection": {
+          "basis": "burglary_theft",
+          "feeTreatment": "waiver",
+          "courtLevel": "circuit",
+          "transfer": "none",
+          "appealed": false,
+          "event": "summons",
+          "finalOpenCostsRequested": true
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 65,
+          "blank": 137
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/waiver-zero-explicit",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/waiver-zero-explicit.pdf",
+        "sha256": "db7ba14441f6172da5e56dde489acb161dfc1c63f670bfc180417e07e49da7c8",
+        "byteLength": 1404697,
+        "pageCount": 9,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "863bca8945a31db17f762297c43a573bfcdf10752d019d42eb7f8f061c94e917"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "863bca8945a31db17f762297c43a573bfcdf10752d019d42eb7f8f061c94e917"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "863bca8945a31db17f762297c43a573bfcdf10752d019d42eb7f8f061c94e917"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "eb9447eecced084a361ac38beec37b9d29d220ee7e3a6b102a57603beb312850"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/waiver-zero-explicit.facts.json",
+          "sha256": "d9c4a648890346f1d9f0c8c8023b05b2bed8f066f97375c5ae30f98f954137d1"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/waiver-zero-explicit.md",
+          "sha256": "541a40c0b238fadbee85163208e9a0662c3b9e7a285621707f1af646eb34474d"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 59,
+          "blank": 143
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/restitution-inability",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/restitution-inability.pdf",
+        "sha256": "81dd3b4432e84a4cf5821ed5e3cce1c48fda812beefe376844de611408859e3d",
+        "byteLength": 773381,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/restitution-inability.facts.json",
+          "sha256": "943954c6adca8c252608dbac674d2e634fc8436e706a21a51473db0cf9ba493f"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/restitution-inability.md",
+          "sha256": "cf34c029e1d8c4ded6ef9071887920451852371854dedb576b976ec510bb9b27"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/adult-transfer",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/adult-transfer.pdf",
+        "sha256": "cecfa14f61357c2a8bb9cadd9c0a97f9f552ab0e38a9c16d778b25b27f87ac48",
+        "byteLength": 773424,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "0958ef1a8c829eec878decdf0351750a911974a355e603ed7944aacbee5ea632"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/adult-transfer.facts.json",
+          "sha256": "bbd62dd2cc66e9f15fd5ee8af5e77138cd0da09a566ae1660a3de403197a7340"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/adult-transfer.md",
+          "sha256": "fd53e50f025967ba3cb766d77b7c426797485052d5666aed5b8f27e27070bde1"
+        },
+        "selection": {
+          "basis": "felony",
+          "feeTreatment": "paid",
+          "courtLevel": "circuit",
+          "transfer": "adult",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 23,
+          "blank": 24
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/circuit-appellate",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/circuit-appellate.pdf",
+        "sha256": "5550c9d1819fd1d278e880611f767d22b238f488bf1ddfb7ef91653b2f2a0e92",
+        "byteLength": 773480,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "5c965c0047eac46a047a52df0db9c71b5ae555586ef085bddfca75869bad9365"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/circuit-appellate.facts.json",
+          "sha256": "397bfa360245dc1519aff48318c743cb4ffd3d390f4adfa2d61dea44dbda82a9"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/circuit-appellate.md",
+          "sha256": "fc34bdc68c00a036c991172a1aadfb10c03b2a09553c800d028804d9d414b6b3"
+        },
+        "selection": {
+          "basis": "assault_battery",
+          "feeTreatment": "paid",
+          "courtLevel": "circuit",
+          "transfer": "none",
+          "appealed": true,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 23,
+          "blank": 24
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "fixture": "selectable/citation",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/citation.pdf",
+        "sha256": "5cad97e427922241dd7a1970926788761402c446be8f4cd00fc07ccb66c62af7",
+        "byteLength": 773371,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "57d8a902930cec5ac5909f6e110d9710a1ba9e31d2e3d32b6f52c5b37ed76c7d"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/citation.facts.json",
+          "sha256": "3614d5d211cf938eaedfe5f7ceb261e750b38eeeebac560e5552a38dd79328b4"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/selectable/citation.md",
+          "sha256": "41962c7a7b0fab9af77a8000e68ca0b083a06d43182826db077672660a8854ae"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "citation",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 22,
+          "blank": 25
+        },
+        "nativePreparationReady": true,
+        "missingInformation": [],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false
+      }
+    ],
+    "diagnosticArtifacts": [
+      {
+        "fixture": "diagnostic/waiver-missing-financial",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/diagnostic/waiver-missing-financial.pdf",
+        "sha256": "628f2eae5d856cb650db88cb7529db4c7f4186b8745f801f0db4752764f785b7",
+        "byteLength": 1407181,
+        "pageCount": 10,
+        "components": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "de9afaa6f8c9b609f8507f631d1deaa1504df921bd373761e0f2623a6588127a"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "CC-DC-089",
+            "sourcePage": 1,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "91421e93262c386df6ef58a9256a1a85181d7cdee2bcb268c506077b42766b98"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "CC-DC-089",
+            "sourcePage": 2,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "91421e93262c386df6ef58a9256a1a85181d7cdee2bcb268c506077b42766b98"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "CC-DC-089",
+            "sourcePage": 3,
+            "sourceSha256": "eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384",
+            "componentSha256": "91421e93262c386df6ef58a9256a1a85181d7cdee2bcb268c506077b42766b98"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "MDJ-008",
+            "sourcePage": 1,
+            "sourceSha256": "42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369",
+            "componentSha256": "eb9447eecced084a361ac38beec37b9d29d220ee7e3a6b102a57603beb312850"
+          },
+          {
+            "packetPage": 6,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 7,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 8,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 9,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 10,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/diagnostic/waiver-missing-financial.facts.json",
+          "sha256": "8b9b1d885c41860d7e1bdf3420dd4c08f133479684e7650bc7114b187a13e0ca"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/diagnostic/waiver-missing-financial.md",
+          "sha256": "8d605db01fd5258ceda6adb9ec5cb7c8af44f30f76a40a1e017399b897b2fdbc"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "waiver",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 202,
+          "written": 51,
+          "blank": 151
+        },
+        "nativePreparationReady": false,
+        "missingInformation": [
+          {
+            "documentId": "CC-DC-089",
+            "field": "Total Number of Family Members",
+            "factId": "financial.householdSize",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 188.465,
+                  "y": 457.67,
+                  "width": 61.583,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply this actual fact; the filing blank was not invented.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Total Gross Household Income",
+            "factId": "financial.totalCents",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 377.189,
+                  "y": 429.065,
+                  "width": 193.959,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply this actual fact; the filing blank was not invented.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Total Gross per Month",
+            "factId": "financial.period",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 454.662,
+                  "y": 412.451,
+                  "width": 7.920000000000016,
+                  "height": 7.919999999999959
+                }
+              }
+            ],
+            "why": "Select the actual income reporting period.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Wages Amount",
+            "factId": "financial.income.wages",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.269,
+                  "y": 362.753,
+                  "width": 86.41099999999994,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Commissions Amount",
+            "factId": "financial.income.commissions",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 345.52,
+                  "width": 86.51999999999992,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Social Security/SSI Amount",
+            "factId": "financial.income.ssi",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 326.836,
+                  "width": 86.51999999999992,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Retirement Income",
+            "factId": "financial.income.retirement",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 308.713,
+                  "width": 86.51999999999992,
+                  "height": 12.239999999999952
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Unemployment Insurance Amount",
+            "factId": "financial.income.unemployment",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 290.058,
+                  "width": 86.51999999999992,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Temporary Cash Assistance Amount",
+            "factId": "financial.income.cashAssistance",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 272.385,
+                  "width": 86.51999999999992,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Alimony/Spousal Support Amount",
+            "factId": "financial.income.alimony",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 254.255,
+                  "width": 86.51999999999992,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Rent From Tenants Amount",
+            "factId": "financial.income.rent",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 235.731,
+                  "width": 86.51999999999992,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Other Amount",
+            "factId": "financial.income.other",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.16,
+                  "y": 218.135,
+                  "width": 86.51999999999992,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the amount or explicitly confirm this source is absent. SNAP is excluded.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Value of real estate other than princical home",
+            "factId": "financial.property.realEstate",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.24,
+                  "y": 158.909,
+                  "width": 86.51999999999998,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Value of other vehicles",
+            "factId": "financial.property.vehicles",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.24,
+                  "y": 140.727,
+                  "width": 86.51999999999998,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Balance of Accounts",
+            "factId": "financial.property.bank",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.24,
+                  "y": 123.575,
+                  "width": 86.51999999999998,
+                  "height": 12.239999999999995
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Value of stocks",
+            "factId": "financial.property.stocks",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.24,
+                  "y": 104.81,
+                  "width": 86.51999999999998,
+                  "height": 12.239999999999995
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Value of Other Property",
+            "factId": "financial.property.other",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 486.24,
+                  "y": 86.5673,
+                  "width": 86.51999999999998,
+                  "height": 12.239999999999995
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Credit Card Amount Owed",
+            "factId": "financial.debts.creditCard",
+            "page": 2,
+            "widgets": [
+              {
+                "page": 2,
+                "rect": {
+                  "x": 368.644,
+                  "y": 647.575,
+                  "width": 54.120000000000005,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Car Loan Amount Owed",
+            "factId": "financial.debts.carLoan",
+            "page": 2,
+            "widgets": [
+              {
+                "page": 2,
+                "rect": {
+                  "x": 368.644,
+                  "y": 624.058,
+                  "width": 54.120000000000005,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-089",
+            "field": "Debt Amount Owed",
+            "factId": "financial.debts.other",
+            "page": 2,
+            "widgets": [
+              {
+                "page": 2,
+                "rect": {
+                  "x": 368.644,
+                  "y": 601.898,
+                  "width": 54.120000000000005,
+                  "height": 12.240000000000009
+                }
+              }
+            ],
+            "why": "Supply the actual amount or explicitly confirm this item is absent. No financial zero or NONE selection was inferred.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true
+          }
+        ],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false,
+        "deliverable": false,
+        "selectionPermitted": false,
+        "role": "diagnostic_only",
+        "expectedRawResult": "FAIL_MISSING_PREFILLS"
+      },
+      {
+        "fixture": "diagnostic/missing-completion",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/diagnostic/missing-completion.pdf",
+        "sha256": "a11158d9f084dbfa0a44a98034892687566ecbf5043125eac2132072354acb4d",
+        "byteLength": 773710,
+        "pageCount": 5,
+        "components": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "pageManifest": [
+          {
+            "packetPage": 1,
+            "documentId": "CC-DC-CR-072B",
+            "sourcePage": 1,
+            "sourceSha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "componentSha256": "18d956ce6992dfaa3b4e26af88e27392104db8f9be8de2cda3adc1fc05d47449"
+          },
+          {
+            "packetPage": 2,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 3,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 4,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          },
+          {
+            "packetPage": 5,
+            "documentId": "participant-instructions",
+            "role": "not_filed"
+          }
+        ],
+        "input": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/diagnostic/missing-completion.facts.json",
+          "sha256": "123cb0361bf40a375b136ad3b8455e6d27e99c0354f33e1b71aa8687719bfea3"
+        },
+        "instructions": {
+          "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/instructions/diagnostic/missing-completion.md",
+          "sha256": "6f88efef662d5332e02cf4b609a3c8f3f7b68fcaf7b0f9e304f7bccc2a176621"
+        },
+        "selection": {
+          "basis": "misdemeanor",
+          "feeTreatment": "paid",
+          "courtLevel": "district",
+          "transfer": "none",
+          "appealed": false,
+          "event": "arrest",
+          "finalOpenCostsRequested": false
+        },
+        "sourceFieldAccounting": {
+          "total": 47,
+          "written": 21,
+          "blank": 26
+        },
+        "nativePreparationReady": false,
+        "missingInformation": [
+          {
+            "factId": "case.completionDate",
+            "label": "Sentence completion date",
+            "why": "Supply actual completion of all sentences, including probation, parole and supervision. A predicted date is not completion.",
+            "requiredBeforeFiling": true
+          },
+          {
+            "documentId": "CC-DC-CR-072B",
+            "field": "a misdemeanor crime specified in Criminal Procedure Article  10110 Ten years have passed since the satisfactory completion of",
+            "factId": "case.basis",
+            "page": 1,
+            "widgets": [
+              {
+                "page": 1,
+                "rect": {
+                  "x": 37.6136,
+                  "y": 387.102,
+                  "width": 7.920000000000002,
+                  "height": 7.920000000000016
+                }
+              }
+            ],
+            "why": "Left unmarked while required case predicates or dates are missing.",
+            "value": null,
+            "completenessClass": "required_before_filing",
+            "requiredBeforeFiling": true,
+            "displayLabel": "Disposition selection - Eligible misdemeanor: five years"
+          }
+        ],
+        "syntheticFixture": true,
+        "participantExecutionCompleted": false,
+        "judicialDecisionSupplied": false,
+        "filingPermitted": false,
+        "grantsDeliveryAuthority": false,
+        "deliverable": false,
+        "selectionPermitted": false,
+        "role": "diagnostic_only",
+        "expectedRawResult": "FAIL_MISSING_REQUIRED_FACTS"
+      }
+    ],
+    "components": [
+      {
+        "componentId": "md_10110_conviction-set-canonical",
+        "role": "conditional_assembled_packet",
+        "order": 1,
+        "documentId": "canonical",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571",
+        "requirement": "conditional",
+        "selectedBy": "canonical",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-misdemeanor-paid",
+        "role": "conditional_assembled_packet",
+        "order": 2,
+        "documentId": "selectable/misdemeanor-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-paid.pdf",
+        "sha256": "5456086653a6f033d2708d534e89593d1065ed6b0e58950664cdcd8418d0b571",
+        "requirement": "conditional",
+        "selectedBy": "selectable/misdemeanor-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-misdemeanor-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 3,
+        "documentId": "selectable/misdemeanor-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-waiver.pdf",
+        "sha256": "3aaf79a491d4706077d1d4a411d18dbca9f6059eb5a3acdad08ccf38400cd2d6",
+        "requirement": "conditional",
+        "selectedBy": "selectable/misdemeanor-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-assault_battery-paid",
+        "role": "conditional_assembled_packet",
+        "order": 4,
+        "documentId": "selectable/assault_battery-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-paid.pdf",
+        "sha256": "7751d0937b63b19d2889a215bb47490a29c1d1414e6dda35109ff4a32d5101ac",
+        "requirement": "conditional",
+        "selectedBy": "selectable/assault_battery-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-assault_battery-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 5,
+        "documentId": "selectable/assault_battery-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-waiver.pdf",
+        "sha256": "736df87366e1ed234a4d349b5eea67a467b3d571283d3935253dffb2b9b23cb4",
+        "requirement": "conditional",
+        "selectedBy": "selectable/assault_battery-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-felony-paid",
+        "role": "conditional_assembled_packet",
+        "order": 6,
+        "documentId": "selectable/felony-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-paid.pdf",
+        "sha256": "36c7009c427bf1b7a00ed98259ba55ef74ca7db7e1e4212bf9216b7932ed366b",
+        "requirement": "conditional",
+        "selectedBy": "selectable/felony-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-felony-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 7,
+        "documentId": "selectable/felony-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-waiver.pdf",
+        "sha256": "90e59092b537d90e8917ac7718ff90340410afc706752ed4e2801c0585bbf5ef",
+        "requirement": "conditional",
+        "selectedBy": "selectable/felony-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-burglary_theft-paid",
+        "role": "conditional_assembled_packet",
+        "order": 8,
+        "documentId": "selectable/burglary_theft-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-paid.pdf",
+        "sha256": "c9eb9ded6e052fe4462c16071a124708e650e7aa8aa83950df60af96039a47e0",
+        "requirement": "conditional",
+        "selectedBy": "selectable/burglary_theft-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-burglary_theft-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 9,
+        "documentId": "selectable/burglary_theft-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-waiver.pdf",
+        "sha256": "37a502d6d4957c6d2a4e13f3b0929d7ff6b1aa534de95a7e9d545680e00bd197",
+        "requirement": "conditional",
+        "selectedBy": "selectable/burglary_theft-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-domestic-paid",
+        "role": "conditional_assembled_packet",
+        "order": 10,
+        "documentId": "selectable/domestic-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-paid.pdf",
+        "sha256": "c5539768fb698953e781df6f07dc6df90712c5cc52cb7fcbde820c9d4debeba6",
+        "requirement": "conditional",
+        "selectedBy": "selectable/domestic-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-domestic-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 11,
+        "documentId": "selectable/domestic-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-waiver.pdf",
+        "sha256": "4413e0b1fde0cdbad66583a4e12ebcad9457225e85329945716f5a3c991c4808",
+        "requirement": "conditional",
+        "selectedBy": "selectable/domestic-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-nuisance-paid",
+        "role": "conditional_assembled_packet",
+        "order": 12,
+        "documentId": "selectable/nuisance-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-paid.pdf",
+        "sha256": "e2595fe40a773adb90b2cb739a677441d8c13e3118529a21118b15b25fdf3ff7",
+        "requirement": "conditional",
+        "selectedBy": "selectable/nuisance-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-nuisance-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 13,
+        "documentId": "selectable/nuisance-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-waiver.pdf",
+        "sha256": "58749aa919cde32a295317dde88e7183a2d23ba5fc162259bb0b421a7b917d10",
+        "requirement": "conditional",
+        "selectedBy": "selectable/nuisance-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-repealed_sexual-paid",
+        "role": "conditional_assembled_packet",
+        "order": 14,
+        "documentId": "selectable/repealed_sexual-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-paid.pdf",
+        "sha256": "282346f3622365b9a19e42debdfc32103f3005b8c296b60b7b63dc53c87f973b",
+        "requirement": "conditional",
+        "selectedBy": "selectable/repealed_sexual-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-repealed_sexual-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 15,
+        "documentId": "selectable/repealed_sexual-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-waiver.pdf",
+        "sha256": "e2638875226b4c949f8bc6e33a16f9758882a5fef3ff552dc0a5d2425b2e3c50",
+        "requirement": "conditional",
+        "selectedBy": "selectable/repealed_sexual-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-no_longer_crime-paid",
+        "role": "conditional_assembled_packet",
+        "order": 16,
+        "documentId": "selectable/no_longer_crime-paid",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-paid.pdf",
+        "sha256": "993480e5346ea1928a4b0229d6d9d8326e1af8747e2054483535c3df6f93850b",
+        "requirement": "conditional",
+        "selectedBy": "selectable/no_longer_crime-paid",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-no_longer_crime-waiver",
+        "role": "conditional_assembled_packet",
+        "order": 17,
+        "documentId": "selectable/no_longer_crime-waiver",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-waiver.pdf",
+        "sha256": "ecc4a7896fc7bb01fc76fd36cc05fedfbda35cb4f9e9b3ee0c2675674356cb12",
+        "requirement": "conditional",
+        "selectedBy": "selectable/no_longer_crime-waiver",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-boundary",
+        "role": "conditional_assembled_packet",
+        "order": 18,
+        "documentId": "boundary",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "sha256": "cda8eebad0799ed6924cb10846b1723a734f3929594eec0fc2d440c659f82297",
+        "requirement": "conditional",
+        "selectedBy": "boundary",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-waiver-zero-explicit",
+        "role": "conditional_assembled_packet",
+        "order": 19,
+        "documentId": "selectable/waiver-zero-explicit",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/waiver-zero-explicit.pdf",
+        "sha256": "db7ba14441f6172da5e56dde489acb161dfc1c63f670bfc180417e07e49da7c8",
+        "requirement": "conditional",
+        "selectedBy": "selectable/waiver-zero-explicit",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "CC-DC-089",
+          "MDJ-008",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-restitution-inability",
+        "role": "conditional_assembled_packet",
+        "order": 20,
+        "documentId": "selectable/restitution-inability",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/restitution-inability.pdf",
+        "sha256": "81dd3b4432e84a4cf5821ed5e3cce1c48fda812beefe376844de611408859e3d",
+        "requirement": "conditional",
+        "selectedBy": "selectable/restitution-inability",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-adult-transfer",
+        "role": "conditional_assembled_packet",
+        "order": 21,
+        "documentId": "selectable/adult-transfer",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/adult-transfer.pdf",
+        "sha256": "cecfa14f61357c2a8bb9cadd9c0a97f9f552ab0e38a9c16d778b25b27f87ac48",
+        "requirement": "conditional",
+        "selectedBy": "selectable/adult-transfer",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-circuit-appellate",
+        "role": "conditional_assembled_packet",
+        "order": 22,
+        "documentId": "selectable/circuit-appellate",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/circuit-appellate.pdf",
+        "sha256": "5550c9d1819fd1d278e880611f767d22b238f488bf1ddfb7ef91653b2f2a0e92",
+        "requirement": "conditional",
+        "selectedBy": "selectable/circuit-appellate",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      },
+      {
+        "componentId": "md_10110_conviction-set-selectable-citation",
+        "role": "conditional_assembled_packet",
+        "order": 23,
+        "documentId": "selectable/citation",
+        "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/citation.pdf",
+        "sha256": "5cad97e427922241dd7a1970926788761402c446be8f4cd00fc07ccb66c62af7",
+        "requirement": "conditional",
+        "selectedBy": "selectable/citation",
+        "componentsIncluded": [
+          "CC-DC-CR-072B",
+          "participant-instructions"
+        ],
+        "syntheticFixture": true,
+        "grantsDeliveryAuthority": false
+      }
+    ]
+  },
+  "runtimeInstalled": false
+}

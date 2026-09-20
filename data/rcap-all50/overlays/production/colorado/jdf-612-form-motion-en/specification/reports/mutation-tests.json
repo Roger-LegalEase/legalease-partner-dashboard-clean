@@ -1,0 +1,59 @@
+{
+  "allCaught": true,
+  "family": "jdf-612-form-motion-en",
+  "mutations": [
+    {
+      "by": "specification_writes_a_field_that_re_derives_as_protected",
+      "caught": true,
+      "mutation": "reclassify Sig1_Signature from protected to participant"
+    },
+    {
+      "by": "specification_writes_a_field_that_re_derives_as_protected",
+      "caught": true,
+      "mutation": "reclassify Sig1_Date from protected to participant"
+    },
+    {
+      "by": "specification_writes_a_field_that_re_derives_as_protected",
+      "caught": true,
+      "mutation": "reclassify Sig_LawyerSignature from protected to participant"
+    },
+    {
+      "by": "specification_writes_a_field_that_re_derives_as_protected",
+      "caught": true,
+      "mutation": "reclassify Sig_Esq from protected to participant"
+    },
+    {
+      "by": "specification_writes_a_field_that_re_derives_as_protected",
+      "caught": true,
+      "mutation": "reclassify Sig_Bar from protected to participant"
+    },
+    {
+      "by": "value_not_an_offered_option",
+      "caught": true,
+      "mutation": "set matter.court_type to a value Group_CourtType does not offer"
+    },
+    {
+      "by": "condition_not_met",
+      "caught": true,
+      "mutation": "supply matter.case_number while service.court_records_included is not yes"
+    },
+    {
+      "by": "document_field_not_in_specification",
+      "caught": true,
+      "mutation": "a re-issued form adds a field the specification does not name"
+    },
+    {
+      "by": "field_absent_from_document",
+      "caught": true,
+      "mutation": "a re-issued form drops Group_CourtType"
+    },
+    {
+      "by": "DerivedFactOverrideError",
+      "caught": true,
+      "mutation": "a caller supplies derived.cbi_required to un-tick a box the form marks required"
+    }
+  ],
+  "schemaVersion": "rcap-colorado-mutation-tests/v1",
+  "specSha256": "bbaaaca47c287eb1fcf410ac5d8ce784fd7840f4c51a4fea135038afdce1ece7",
+  "specVersion": "co-jdf-612-binding/2026-08-29.1"
+}

@@ -1,0 +1,107 @@
+{
+  "command": "node data/rcap-grade-a/packet-factory-24h/vf68/az-arrest-closed-proof-final-evidence-20260911/verify-return-extraction.mjs",
+  "extractor": "scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs",
+  "extractorUnmodified": true,
+  "outputCapturedWithoutSharedWrite": true,
+  "sharedOutputBytesUnchanged": true,
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "selectedVerdict": {
+    "familyId": "az_record_sealing_arrest_no_charges-set",
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "lane": "vf68",
+    "isIndependentVerification": true,
+    "verifiedAtBase": "ec913f1b613da6bc4918b149efa03f54b95974c6",
+    "failedObligations": [],
+    "failedObligationNames": [],
+    "unmeasuredObligations": [],
+    "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-closed-proof-final.json",
+    "repairAssignmentsPath": null,
+    "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
+    "superseded": false
+  },
+  "familyHistory": [
+    {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf68",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "ec913f1b613da6bc4918b149efa03f54b95974c6",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-closed-proof-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
+      "superseded": false
+    },
+    {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf68",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a676b40494d562ae1c080ac35cfb19ea7a44618e",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "Seven petition fields are unconditionally REQUIRED_BEFORE_FILING and listed in participant instructions despite source route inapplicability: Defendant, EnteredOn, EnteredOn1, Check Box10, Check Box11, Check Box12, Check Box13. Page 1 uses the alternative In Re caption; selected no-charge page-3 option expressly skips Section II. The charged-result dates and skipped sentence controls cannot be mandatory on this route.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf68/az-arrest-final-evidence-20260911/required-before-filing-defect.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
+      "superseded": true
+    },
+    {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "verdict": "STOPPED",
+      "lane": "vf68",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "f352179fb39bf817e56f2274908c28bd12e98358",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-preraster.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
+      "superseded": true
+    },
+    {
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf68",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "6dc2b67cae9d466ad9244ccff7b937b5319cd36f",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The seven original no-charge route defects are repaired. One residual remains among all eight currently mandatory entries: petition CourtCaseNum remains unconditional REQUIRED_BEFORE_FILING and appears in the regenerated mandatory list, although AOCCRSL1F p2 Section I.2.c explicitly says “Court case number if charge(s) were filed:”. This no-charge route does not satisfy that condition. Generic petition/order Case captions are separate fields; no off-route inference was made for them.",
+          "findingReadFrom": "finding",
+          "evidence": [
+            "data/rcap-grade-a/packet-factory-24h/vf68/az-arrest-requirements-final-evidence-20260911/finite-required-entry-review.json",
+            "data/rcap-grade-a/packet-factory-24h/vf68/az-arrest-requirements-final-evidence-20260911/repair-byte-and-metadata-review.json"
+          ]
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-requirements-final.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family az_record_sealing_arrest_no_charges-set",
+      "superseded": true
+    }
+  ],
+  "familyListedForRepair": false,
+  "status": "PASS"
+}

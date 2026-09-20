@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "rcap-grade-a-packet-factory-24h-independent-verification-return/v1",
+  "assignmentId": "VF07",
+  "worker": "FABLE-VA8",
+  "branch": "fable/va8",
+  "laneKind": "independent-verification",
+  "baseSha": "8b8699c2a",
+  "baseShaMeans": "Captain HEAD on claude/legalease-sprint-captain-utucnw, recorded as verifiedAtBase on every row. It is load-bearing: Captain orders a verdict against later repairs by it, and a row without it is dated from the ledger's release log instead, which is coarser.",
+  "preflight": "PACKET_BUILD_ENVIRONMENT_READY: 12/12 passed, 0 failed, 5 not applicable",
+  "environment": {
+    "masterLibrary": "MASTER_LIBRARY_SOURCE_DIR mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 — 499 files, 329 PDFs, 51 jurisdictions, 24 sampled index entries byte-exact",
+    "dSourcePacks": "private/source-imports/rcap-d-source-packs-2026-08-12 present as a second custody and checked as a fallback root for every source path in every receipt. None of these six families resolved through it; all official sources resolved under the Master Library. Had it not been mounted this lane would still not have written a false BLOCKED_SOURCE row, because every source in fact resolved, but the fallback was wired before any source was declared absent.",
+    "nationwide": "private/Nationwide Record Clearing is NOT carried by this release and cannot be mounted. No path beginning \"LegalEase <State>/\" was read and none was needed: none of these six receipts names one.",
+    "tools": "node 22.22.2, pdf-lib 1.17.1, poppler 24.02.0 (pdftotext, pdfinfo, pdftoppm), Pillow 12.3.0",
+    "worktree": ".claude/worktrees/va8 created with git worktree add -b fable/va8 8b8699c2a. The main worktree was never checked out, switched or branched from. private/ and node_modules were reached by symlink from the main checkout, with private/ kept git-ignored so the environment check's private_is_git_ignored control still passes."
+  },
+  "subjectsAndHowTheyWereDerived": {
+    "rule": "THE LEDGER GOVERNS. The roster was derived from data/rcap-grade-a/packet-factory-24h/claim-ledger.json by filtering released !== true, laneKind \"independent-verification\" and lane \"VF07\" — not from any list, including the dispatching brief.",
+    "matched": 6,
+    "agreedWithTheBriefsList": true,
+    "claimAssertions": "All six asserted CLAIM_OK against grant set 089c702ca5ed8d25. No claim refused: no exit 8 GRANTED_ELSEWHERE and no exit 9 ALREADY_RELEASED. Because nothing refused, no reissue was contemplated and data/rcap-grade-a/external-worker-control/EXTERNAL_ASSIGNMENTS.json did not need to be consulted for check E2.",
+    "ledgerHandling": "The ledger was read and changed only through scripts/grade-a-packet-factory-24h/claim.mjs. It was never hand-edited."
+  },
+  "verdictTable": [
+    {
+      "familyId": "ca-prop64-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "CLIPPING_AND_OVERLAP",
+        "SELF_HELP_STOP"
+      ],
+      "passed": 11,
+      "notMeasurableHere": 0,
+      "rasterState": "NOT_ELIGIBLE_FOR_THE_CENTRAL_QUEUE (recorded refusal, not a missing gate)",
+      "pixelsInspectedByMe": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failed": [],
+      "passed": 15,
+      "notMeasurableHere": 0,
+      "rasterState": "RASTER_PASS",
+      "pixelsInspectedByMe": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "failed": [],
+      "passed": 15,
+      "notMeasurableHere": 0,
+      "rasterState": "RASTER_PASS",
+      "pixelsInspectedByMe": false
+    },
+    {
+      "familyId": "nc_146_dismissal_petition-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "SELF_HELP_STOP"
+      ],
+      "passed": 14,
+      "notMeasurableHere": 0,
+      "rasterState": "RASTER_PASS",
+      "pixelsInspectedByMe": false
+    },
+    {
+      "familyId": "pa_pardon_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ARTIFACTS",
+        "SELF_HELP_STOP"
+      ],
+      "passed": 11,
+      "notMeasurableHere": 0,
+      "rasterState": "RASTER_PASS",
+      "pixelsInspectedByMe": false
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failed": [
+        "COMPONENT_SET"
+      ],
+      "passed": 14,
+      "notMeasurableHere": 0,
+      "rasterState": "RASTER_PASS",
+      "pixelsInspectedByMe": false
+    }
+  ],
+  "totals": {
+    "families": 6,
+    "PASS_COMPLETE_INDEPENDENT": 2,
+    "FAIL_REPAIR_REQUIRED": 4,
+    "BLOCKED_SOURCE": 0,
+    "BLOCKED_LEGAL_INPUT": 0,
+    "STOPPED": 0,
+    "obligationResultsWritten": 90,
+    "unmeasured": 0,
+    "resultsOutsideTheClosedVocabulary": 0
+  },
+  "closedVocabularyDiscipline": "Every one of the 90 obligation results is exactly \"PASS\", \"FAIL\" or \"NOT_MEASURABLE_HERE\". No \"UNMEASURED\" and no other token outside the closed set was written anywhere in these rows. Every family verdict is one of the five permitted values. PASS_COMPLETE_INDEPENDENT was written only where all fifteen obligations were measured.",
+  "whatWasMeasuredFromBytes": {
+    "sha256Recomputed": "Every delivered PDF of all six families — 12 for ca-prop64-set, 2 each for the other five, 22 in total — plus the CR-400 pikepdf derivative and every official source in the Master Library that any receipt pins. All rehashed to the recorded value with matching byte length; not one discrepancy in either direction.",
+    "pageCountsWithPdfLib": "Loaded with pdf-lib and differenced against each pageManifest and recorded pageCount. Agreement on every artifact. pdf-lib refuses the eight CA companion PDFs (Judicial Council Designer 6.5 XFA binaries) with \"Expected instance of PDFDict, but got instance of undefined\"; poppler pdfinfo opens all eight and its counts match the records. That refusal independently reproduces the RASTER_QUEUE notEligible reason recorded for ca-prop64-set.",
+    "wordGeometry": "pdftotext -bbox-layout over all 22 delivered PDFs and over the official baselines they derive from. Roughly 21,000 words measured. Every same-baseline overlapping pair was CLASSIFIED, not counted: a value overlapping the underscore rule that receives it and an X inside the bracket it marks were treated as intended rendering. My first pass used a 0.05 pt vertical-overlap gate and produced 2,551 false collisions on the NC packet from adjacent text lines whose ascender boxes graze; the gate is now that vertical overlap must be at least half the shorter box's height, which reproduces FABLE-FIX06's CR-409 figures exactly and reduces NC to seven pairs, all of which I then traced into the unmodified official source.",
+    "contentStreams": "Inflated the page content streams of the CA fixtures directly, because a stroked selection mark has no extractable text and no text instrument can see it. That is how the two X marks on CR-400 were proven rather than believed.",
+    "fontMetrics": "pdf-lib Helvetica metrics against the widget rectangles in the field maps, to test whether a missing value on pa_pardon_expungement-set's boundary petition is a legitimate refusal at the 6 pt readable floor. It is.",
+    "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs run by me, once over all 180 auditable families and once per family. All six of mine return PASS_COMPLETE with all nine counters at zero.",
+    "anchorStatements": "Every statement any of the six packets attributes to a committed record was re-read from that record's CURRENT bytes at this base and matched verbatim: 7 for NC, 5 for WV, 3 for DE, 2 for PA path-k, the CA fee line, and the PA quarterly-cycle statements."
+  },
+  "whatWasNotMeasured": {
+    "rasterInk": "Text geometry cannot see raster ink, vector rules, field borders, images or glyphs without extractable text. This is stated on every row.",
+    "ciArtifacts": "No CI raster artifact was downloaded and no pixel of one was inspected. Artifact downloads redirect to blob storage this environment's egress proxy refuses at CONNECT with 403. Five families' RASTER_PASS receipts are cited by run id, job id, artifact id and zip digest, and for each I independently confirmed that the canonical and boundary SHA-256 the receipt binds to still equal the bytes on disk at 8b8699c2a — so each receipt describes today's artifact rather than an older one. That is evidence of WHICH bytes were rendered, not of what they look like.",
+    "pixelsThatWereInspected": "One family's pixels were seen, and only because it commits its own rasters: ca-prop64-set's raster/hs-11361-8-completed-sentence-application-canonical/cr-400/page-01.png (sha256 048c6de02bdcd46939f351662838f1fc452e912b2c0e102472230d05a2b08910, 612x792 at 72 dpi). I cropped and enlarged its footer band and compared it against a 72 dpi render of the family's own official baseline made in scratch space. That is how the three stamped coloured viewer buttons and the doubly-clipped caption were confirmed as ink rather than inferred from geometry.",
+    "buildScriptsWereNotRun": "No build script was executed. On pa_pardon_expungement-set that means I did not observe the finalizer emit the two width refusals; the arithmetic reconstructing them is my own, from the recorded widget rectangles and Helvetica metrics, and it is consistent with the bytes rather than proven from a build log.",
+    "caProp64RasterQueueState": "ca-prop64-set is recorded notEligible for the central raster queue because 8 of its 12 documents will not open in the page parser. That is a recorded refusal, not a missing gate, and I reproduced the refusal myself before accepting it."
+  },
+  "contradictionsWithRecordsAlreadyInTheRepository": [
+    {
+      "id": "VA8-C1",
+      "severity": "high",
+      "subject": "ca-prop64-set",
+      "theRecord": "participant-instructions.md, numbered step 2: \"Mark every election yourself. The platform never marks a box on a sworn filing.\"",
+      "whatIMeasured": "The delivered CR-400 content stream draws two diagonal X marks into two checkboxes in every one of the four fixtures. Operators \"213.28 509.06 m ... 213.28 514.06 m\" and \"72.64 277.86 m ... 72.64 282.86 m\", matching statutorySelectionProof's recorded segments for the § 11361.8(f) title election and the \"completed the sentence\" item. The currently-serving variant marks the mirror pair.",
+      "whichIsWrong": "The statement. Marking the statutory election may be the right design; telling the participant it never happens is not."
+    },
+    {
+      "id": "VA8-C2",
+      "severity": "high",
+      "subject": "ca-prop64-set",
+      "theRecord": "production-field-map.json, fifteen refusals with the reason \"...the participant instructions name it and the participant marks it before signing.\"",
+      "whatIMeasured": "participant-instructions.md names none of the fifteen. Zero occurrences of 11357, 11358, 11359, 11360, 11362.1, \"waives the right\", \"gives up that right\", \"sentencing judge\", \"Personal service\", \"Mail:\" and \"A.M.\". Two of the fifteen are waivers of rights and five are the offence-section boxes that decide what the petition is about.",
+      "whichIsWrong": "The refusal reason describes a disclosure the packet does not make."
+    },
+    {
+      "id": "VA8-C3",
+      "severity": "high",
+      "subject": "pa_pardon_expungement-set",
+      "theRecord": "The delivered guidance page, packet pages 4-5 of both fixtures: \"This page states no timetable and no criterion for that, because neither is established by the two forms this packet is built from, and an unsourced criterion in a filing instruction is worse than none.\"",
+      "whatIMeasured": "The timetable is established for this exact route in four places I read at this base: the track registry's packetInstructions (\"the Board transmits eligible records to the AOPC quarterly\"), its manualCompletionItems (\"Quarterly verification date — Guidance, verification schedule\", required before filing), the petition component's own condition (\"after the quarterly cycle\"), and src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json. The same packet states it on participant-instructions.md paragraph 4, in bold.",
+      "whichIsWrong": "The guidance page. This is the DET-FEE-AND-WAIVER-001 A4 shape exactly, aggravated by A2: the page narrows its own source universe to \"the two forms this packet is built from\", when the repository's committed records are held sources."
+    },
+    {
+      "id": "VA8-C4",
+      "severity": "high",
+      "subject": "rcap-wv-custom-pleading",
+      "theRecord": "The committed track registry declares wv_drug_conditional_discharge-records-checklist-4 (role records_checklist, requirement required, order 4) and wv_drug_conditional_discharge-filing-instructions-5 (order 5).",
+      "whatIMeasured": "The packet ships four components and the records checklist is not among them. The shipped filing-instructions component carries the id ...-filing-instructions-4, the missing component's ordinal, so the four shipped ids form an unbroken 1-2-3-4 run. Nothing in build-findings.json, approval-request.json or product-wiring.json mentions a records checklist.",
+      "whichIsWrong": "The packet. And the renumbering means no reader of the family's own records could have noticed."
+    },
+    {
+      "id": "VA8-C5",
+      "severity": "medium",
+      "subject": "the completeness verifier, not any one family",
+      "theRecord": "requiredComponentsMissing is 0 for every family in the 180-family matrix, including rcap-wv-custom-pleading.",
+      "whatIMeasured": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs raises requiredComponentsMissing only when a document the family's OWN production-field-map.json or source-receipt.json names is absent from a rendered artifact (lines 337-344). It never opens data/record-clearing/legal-design-track-registry.json. A component the committed registry requires and the family never declares is invisible to the counter by construction.",
+      "whichIsWrong": "Neither is false; the counter simply does not measure registry conformance. The consequence is that no family's zero on requiredComponentsMissing is evidence about the packet-set the registry declares. Worth its own assignment against the verifier.",
+      "howManyFamiliesThisCouldAffect": "Unknown to this lane. I checked the registry packetSet against the delivered componentSet only for my own six; two of the six diverged (WV materially, NC as a delivery-shape question)."
+    },
+    {
+      "id": "VA8-C6",
+      "severity": "medium",
+      "subject": "repository-wide record drift, affecting three of my six receipts and 36 receipts in total",
+      "theRecord": "36 family source receipts across data/rcap-all50/overlays/census-v1 pin data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json at sha256 e615283930c6a9aab3be570ca5dd74a8990deb71dc2817733a3d262e48af6816 with byteLength 2596466; 33 pin data/record-clearing/legal-design-packet-set-manifests.json at 80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa with byteLength 3674510.",
+      "whatIMeasured": "At 8b8699c2a the census file hashes to e881e8493e694cfcc99f714cbdcfc0424cab8c4a7d22b3e3a9913daab6816ab2 and the manifest file to 563147bf8431e5d3bcfc2b75e07307ae706b2d086d4f302e66fee9300b89588d. Not one receipt in the overlay tree pins either current hash. The records were legitimately extended after the receipts were written (git log shows the census last moved at 7613a4b50 and the manifests at 77f24687c).",
+      "whichIsWrong": "Neither, exactly — the receipts say \"bound by exact SHA-256 AT BUILD TIME\" and that was true then. But the binding no longer verifies, so the guard those receipts describe no longer guards. I closed the gap for my six by re-reading every relied-on statement from the CURRENT bytes; all were verbatim, so nothing any of these packets says has been invalidated. A lane that trusted the pin instead of re-reading would have concluded the opposite in either direction.",
+      "scoredAgainstAnyFamily": false
+    },
+    {
+      "id": "VA8-C7",
+      "severity": "low",
+      "subject": "ca-prop64-set",
+      "theRecord": "The track registry's rules.fees for ca-prop64: \"The source review does not state a filing fee for the CR-400 series.\"",
+      "whatIMeasured": "src/lib/rcap-engine/compiled/profiles/CA-california.json prices the route in terms: \"Prop 64 marijuana relief $0 Largely automatic\", present verbatim. The packet cites the profile and states $0.",
+      "whichIsWrong": "The registry's fees field, or at least it is superseded. The packet made the right choice and said which record it chose, so this is scored against the registry rather than the family."
+    },
+    {
+      "id": "VA8-C8",
+      "severity": "low",
+      "subject": "nc_146_dismissal_petition-set",
+      "theRecord": "The track registry lists \"Incapable-to-proceed and plea-agreement certifications — AOC-CR-287, findings and certification entries\" as a required-before-filing complete_field for the participant.",
+      "whatIMeasured": "The packet classifies the whole of Side Two of AOC-CR-287 — FINDINGS OF FACT, ORDER and CERTIFICATION BY CLERK — as court and clerk property and writes nothing there, telling the participant \"Side One of AOC-CR-287 is yours. Side Two is not.\"",
+      "whichIsWrong": "Probably the registry: the form's own face reserves those entries to the court and the clerk, and the packet's reading is safer for the participant. Recorded so a reader can disagree rather than discover it."
+    },
+    {
+      "id": "VA8-C9",
+      "severity": "low",
+      "subject": "pa_pardon_expungement-set",
+      "theRecord": "source-receipt.json has committedRecords: [] — it binds the two official PDFs and no committed repository record.",
+      "whatIMeasured": "participant-instructions.md states a participant-facing fee range of roughly $132 to $215 which traces to data/record-clearing/legal-design-intake/PA.memo.json (\"The legal review reports a range of roughly $132 to $215 across counties, with expungement petitions generally costing more than limited access petitions. No confirmed statewide schedule exists.\"). The figure is genuinely held and correctly used; the receipt does not bind the record it comes from.",
+      "whichIsWrong": "The receipt is incomplete rather than wrong. Folded into the pa_pardon repair assignment."
+    },
+    {
+      "id": "VA8-C10",
+      "severity": "informational",
+      "subject": "FABLE-FIX06's prediction about ca-prop64-set",
+      "theRecord": "FABLE_FIX06_REPAIR.json, defectFoundAndNotFixedBecauseItIsNotMine: ca-prop64-set (CR-400) carries 1 word outside the page box and 4 word-box overlaps on its delivered primary filing.",
+      "whatIMeasured": "Confirmed exactly, at this base, on all four delivered cr-400-filled.pdf: one word, \"otection\" at [-3.485, 765.9785, 24.531, 773.3785], and four overlap pairs, Print/printed 95.06, form/form. 91.71, this/the 53.09, printed/this 14.03. The official baseline measures 0 and 0, so all five are the build's. This is a record CONFIRMED rather than contradicted, and it is listed here because a prediction another lane made and could not act on is worth marking as having held.",
+      "whichIsWrong": "Neither. FIX06 was right, and correctly declined to touch a family it did not hold."
+    }
+  ],
+  "whatThisLaneDidNotDo": {
+    "packetPdfsModified": 0,
+    "fixturesModified": 0,
+    "overlayDirectoriesModified": 0,
+    "buildScriptsModified": 0,
+    "queuesModified": 0,
+    "routesChanged": 0,
+    "pricesChanged": 0,
+    "productionTouched": false,
+    "otherLaneWorktreesTouched": 0,
+    "ledgerHandEdits": 0,
+    "mainWorktreeCheckoutsSwitchesOrBranches": 0,
+    "forcePushes": 0,
+    "hardResets": 0,
+    "gitAddAllInvocations": 0,
+    "statement": "FABLE-VA8 built none of these six families and holds no repair grant on any of them. Four defects were found and none was edited: each is a verdict and a repair assignment. The only files this lane wrote are its three return artifacts, and the two it appended to were appended to — git diff against HEAD shows insertions only, 0 deletions, on both."
+  },
+  "claimsReleased": {
+    "released": [
+      "ca-prop64-set",
+      "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "nc_146_dismissal_petition-set",
+      "pa_pardon_expungement-set",
+      "rcap-wv-custom-pleading"
+    ],
+    "leftLive": [],
+    "why": "All six were completed: fifteen obligations scored on each from the bytes, with no obligation left unmeasured and no family left partly read. Nothing was left live because nothing was left unfinished. A FAIL is a completed verification, not an incomplete one."
+  },
+  "grantsNothing": "An independent PASS proves a packet complete against these fifteen obligations at one commit. It approves no output for participant delivery, promotes no route, creates no fulfillment record and opens nothing commercial. The four FAILs are repair assignments and not permission to edit; the two PASSes are not permission to ship. Neither reaches counsel review, visual review or source-freshness review, all of which remain blockers for approved_for_live and live."
+}

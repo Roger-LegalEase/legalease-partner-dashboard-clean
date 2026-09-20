@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-raster-negative-controls/v2",
+  "results": [
+    {
+      "id": "no_browser_refused",
+      "refused": true,
+      "detail": "an environment with no browser must resolve nothing"
+    },
+    {
+      "id": "non_executable_refused",
+      "refused": true,
+      "detail": "a non-executable file must not resolve as a browser"
+    },
+    {
+      "id": "directory_refused",
+      "refused": true,
+      "detail": "a directory must not resolve as a browser"
+    },
+    {
+      "id": "headless_shell_path_refused",
+      "refused": true,
+      "detail": "an executable at a headless_shell path must not resolve as a browser"
+    },
+    {
+      "id": "headless_shell_render_refused",
+      "refused": null,
+      "detail": "not exercised: no real headless_shell on this runner. The resolver-level refusal is proven by headless_shell_path_refused.",
+      "exercised": false
+    },
+    {
+      "id": "blank_page_is_detectable",
+      "refused": true,
+      "detail": "paper found, ink fraction 0.00e+0"
+    }
+  ],
+  "refusedCount": 5,
+  "notExercisedCount": 1,
+  "allExercisedRefused": true,
+  "failed": [],
+  "notExercised": [
+    "headless_shell_render_refused"
+  ]
+}

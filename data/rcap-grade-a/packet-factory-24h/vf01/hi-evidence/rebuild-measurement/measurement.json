@@ -1,0 +1,1057 @@
+{
+  "schemaVersion": "rcap-vf01-hi-cold-rebuild-measurement/v1",
+  "lane": "VF01",
+  "familyId": "rcap-hi-custom-pleading",
+  "verifiedAtBase": "3ce50a3e65e7bcc9567d3c1a522f0d52476ae7a8",
+  "grantSet": "d574625041d13e40",
+  "grantAssertCommand": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert VF01 rcap-hi-custom-pleading",
+  "scope": "Two cold --no-raster builder processes in independent /tmp stages; measurement only. No checkout restoration, git clean/reset, raster, candidate/central writes, repair, or 15-obligation verdict.",
+  "toolIdentity": {
+    "node": "v24.20.0",
+    "pdfLib": "1.17.1",
+    "platform": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.39",
+    "kernel": "6.8.0-1064-azure",
+    "gitBaseResolved": "3ce50a3e65e7bcc9567d3c1a522f0d52476ae7a8",
+    "builderPath": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
+    "builderSha256": "545dc3a1cd5418bccb855278286c90c83041d2b476d1b33e5a185982f0745567"
+  },
+  "sourceAndRecords": {
+    "sourceMounts": [
+      "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02",
+      "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+    ],
+    "masterLibrarySourceDir": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "source": {
+      "path": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+      "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+      "bytes": 181711
+    },
+    "controllingRecord": {
+      "path": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+      "bytes": 16781025
+    },
+    "stagedInputs": [
+      {
+        "path": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
+        "bytes": 132396,
+        "sha256": "545dc3a1cd5418bccb855278286c90c83041d2b476d1b33e5a185982f0745567"
+      },
+      {
+        "path": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+        "bytes": 44595,
+        "sha256": "dd81b4b7f206101002b5cb279cf7304dcf35c1d7a55667ad77da2b3a96ecbe9b"
+      },
+      {
+        "path": "scripts/rcap-official-forms/rcap-standard-14-metrics.mjs",
+        "bytes": 10693,
+        "sha256": "6e03f3bd17110424041d9fe2816156a33229eb2d547c948b7f15e0f637a2dbeb"
+      },
+      {
+        "path": "scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs",
+        "bytes": 1563,
+        "sha256": "7703b8d4d1b18af1f39acf161b4de13593fc1d6df9bcb1436d831c35ca89360b"
+      },
+      {
+        "path": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "bytes": 35627,
+        "sha256": "338b3b03512a8b2225e0dc0937a07fdb49d1e4d93fe4188aa1821266c8789738"
+      },
+      {
+        "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
+        "bytes": 10039,
+        "sha256": "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27"
+      },
+      {
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "bytes": 16781025,
+        "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0"
+      }
+    ],
+    "stageInputHashFiles": {
+      "pass1": [
+        "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0  data/record-clearing/legal-design-track-registry.json",
+        "545dc3a1cd5418bccb855278286c90c83041d2b476d1b33e5a185982f0745567  scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
+        "7703b8d4d1b18af1f39acf161b4de13593fc1d6df9bcb1436d831c35ca89360b  scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs",
+        "dd81b4b7f206101002b5cb279cf7304dcf35c1d7a55667ad77da2b3a96ecbe9b  scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+        "6e03f3bd17110424041d9fe2816156a33229eb2d547c948b7f15e0f637a2dbeb  scripts/rcap-official-forms/rcap-standard-14-metrics.mjs",
+        "338b3b03512a8b2225e0dc0937a07fdb49d1e4d93fe4188aa1821266c8789738  scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27  scripts/rcap-packet-completeness/identity-refresh.mjs"
+      ],
+      "pass2": [
+        "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0  data/record-clearing/legal-design-track-registry.json",
+        "545dc3a1cd5418bccb855278286c90c83041d2b476d1b33e5a185982f0745567  scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
+        "7703b8d4d1b18af1f39acf161b4de13593fc1d6df9bcb1436d831c35ca89360b  scripts/rcap-official-forms/rcap-deterministic-pdf-date.mjs",
+        "dd81b4b7f206101002b5cb279cf7304dcf35c1d7a55667ad77da2b3a96ecbe9b  scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+        "6e03f3bd17110424041d9fe2816156a33229eb2d547c948b7f15e0f637a2dbeb  scripts/rcap-official-forms/rcap-standard-14-metrics.mjs",
+        "338b3b03512a8b2225e0dc0937a07fdb49d1e4d93fe4188aa1821266c8789738  scripts/rcap-packet-completeness/completeness-contract.mjs",
+        "f40c673d07bb0da268515b97bd3ae75df0bd611f870860a39bf1079572905f27  scripts/rcap-packet-completeness/identity-refresh.mjs"
+      ]
+    }
+  },
+  "method": {
+    "stageRoot": "/tmp/rcap-hi-rebuild-vf01-20260910",
+    "stage1": "pass1; fresh directory with no fixture PDFs before process; shared node_modules symlink; RCAP_SOURCE_MOUNTS recovery pool then Master Library; builder --no-raster",
+    "stage2": "pass2; separate fresh directory with no fixture PDFs before process; same staged input hashes, source mounts and builder command",
+    "command": "RCAP_SOURCE_MOUNTS=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02:/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/build-census-v1-rcap-hi-custom-pleading.mjs --no-raster",
+    "committedRead": "git show 3ce50a3e65e7bcc9567d3c1a522f0d52476ae7a8:path; no candidate PDF was copied or seeded into either stage",
+    "pdfCountBeforeEachProcess": 0,
+    "initialMisconfiguredAttempt": "pass1 initial run with only Master Library mount exited 0 and stopped BLOCKED_SOURCE; preserved as initial-misconfigured-source.* and excluded from the two valid passes."
+  },
+  "processes": {
+    "pass1": {
+      "exitCode": 0,
+      "stdout": "data/rcap-grade-a/packet-factory-24h/vf01/hi-evidence/rebuild-measurement/pass1.stdout.log",
+      "stderr": "data/rcap-grade-a/packet-factory-24h/vf01/hi-evidence/rebuild-measurement/pass1.stderr.log",
+      "builderResult": {
+        "familyId": "rcap-hi-custom-pleading",
+        "status": "COMPLETED",
+        "nineCountersZero": true,
+        "rasterPages": 0,
+        "rasterState": "BUILT_RASTER_PENDING",
+        "sourcesBound": [
+          {
+            "sourceId": "official-form:HCJDC-159B",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "resolvedAt": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf"
+          }
+        ],
+        "recordsBound": [
+          {
+            "recordId": "legal-design-track-registry:hi-five-conviction-expungement-tracks",
+            "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0"
+          }
+        ],
+        "artifactHashes": 2,
+        "routeArtifactHashes": 10,
+        "artifactInventory": [
+          {
+            "fixture": "canonical",
+            "packetSha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
+            "byteLength": 945081,
+            "pages": 20
+          },
+          {
+            "fixture": "boundary",
+            "packetSha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28",
+            "byteLength": 945443,
+            "pages": 20
+          }
+        ],
+        "routeArtifactInventory": [
+          {
+            "fixture": "canonical",
+            "route": "hi-first-time-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_first_time_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "First-time drug offender expungement - HRS 706-622.5(4)",
+            "packetSha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-marijuana-three-grams",
+            "routeKey": "obligation:track-only:HI:hi_marijuana_three_grams_expungement",
+            "routeLabel": "Marijuana three grams or less expungement - HRS 706-622.5(5)",
+            "packetSha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-pre-2004-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_pre_2004_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "Pre-July-2004 first-time drug offender expungement - HRS 706-622.8",
+            "packetSha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-first-time-property-offender",
+            "routeKey": "obligation:track-only:HI:hi_first_time_property_offender_expungement",
+            "routeLabel": "First-time property offender expungement - HRS 706-622.9",
+            "packetSha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-under-21-dui",
+            "routeKey": "obligation:track-pathway:HI:hi_under_21_dui_expungement:dui-under-21-conviction",
+            "routeLabel": "DUI under 21 expungement - HRS 291E-64(e)",
+            "packetSha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-first-time-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_first_time_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "First-time drug offender expungement - HRS 706-622.5(4)",
+            "packetSha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-marijuana-three-grams",
+            "routeKey": "obligation:track-only:HI:hi_marijuana_three_grams_expungement",
+            "routeLabel": "Marijuana three grams or less expungement - HRS 706-622.5(5)",
+            "packetSha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-pre-2004-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_pre_2004_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "Pre-July-2004 first-time drug offender expungement - HRS 706-622.8",
+            "packetSha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-first-time-property-offender",
+            "routeKey": "obligation:track-only:HI:hi_first_time_property_offender_expungement",
+            "routeLabel": "First-time property offender expungement - HRS 706-622.9",
+            "packetSha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-under-21-dui",
+            "routeKey": "obligation:track-pathway:HI:hi_under_21_dui_expungement:dui-under-21-conviction",
+            "routeLabel": "DUI under 21 expungement - HRS 291E-64(e)",
+            "packetSha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a",
+            "pages": 4
+          }
+        ]
+      }
+    },
+    "pass2": {
+      "exitCode": 0,
+      "stdout": "data/rcap-grade-a/packet-factory-24h/vf01/hi-evidence/rebuild-measurement/pass2.stdout.log",
+      "stderr": "data/rcap-grade-a/packet-factory-24h/vf01/hi-evidence/rebuild-measurement/pass2.stderr.log",
+      "builderResult": {
+        "familyId": "rcap-hi-custom-pleading",
+        "status": "COMPLETED",
+        "nineCountersZero": true,
+        "rasterPages": 0,
+        "rasterState": "BUILT_RASTER_PENDING",
+        "sourcesBound": [
+          {
+            "sourceId": "official-form:HCJDC-159B",
+            "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+            "resolvedAt": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf"
+          }
+        ],
+        "recordsBound": [
+          {
+            "recordId": "legal-design-track-registry:hi-five-conviction-expungement-tracks",
+            "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0"
+          }
+        ],
+        "artifactHashes": 2,
+        "routeArtifactHashes": 10,
+        "artifactInventory": [
+          {
+            "fixture": "canonical",
+            "packetSha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
+            "byteLength": 945081,
+            "pages": 20
+          },
+          {
+            "fixture": "boundary",
+            "packetSha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28",
+            "byteLength": 945443,
+            "pages": 20
+          }
+        ],
+        "routeArtifactInventory": [
+          {
+            "fixture": "canonical",
+            "route": "hi-first-time-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_first_time_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "First-time drug offender expungement - HRS 706-622.5(4)",
+            "packetSha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-marijuana-three-grams",
+            "routeKey": "obligation:track-only:HI:hi_marijuana_three_grams_expungement",
+            "routeLabel": "Marijuana three grams or less expungement - HRS 706-622.5(5)",
+            "packetSha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-pre-2004-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_pre_2004_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "Pre-July-2004 first-time drug offender expungement - HRS 706-622.8",
+            "packetSha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-first-time-property-offender",
+            "routeKey": "obligation:track-only:HI:hi_first_time_property_offender_expungement",
+            "routeLabel": "First-time property offender expungement - HRS 706-622.9",
+            "packetSha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427",
+            "pages": 4
+          },
+          {
+            "fixture": "canonical",
+            "route": "hi-under-21-dui",
+            "routeKey": "obligation:track-pathway:HI:hi_under_21_dui_expungement:dui-under-21-conviction",
+            "routeLabel": "DUI under 21 expungement - HRS 291E-64(e)",
+            "packetSha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-first-time-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_first_time_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "First-time drug offender expungement - HRS 706-622.5(4)",
+            "packetSha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-marijuana-three-grams",
+            "routeKey": "obligation:track-only:HI:hi_marijuana_three_grams_expungement",
+            "routeLabel": "Marijuana three grams or less expungement - HRS 706-622.5(5)",
+            "packetSha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-pre-2004-drug-offender",
+            "routeKey": "obligation:track-pathway:HI:hi_pre_2004_drug_offender_expungement:first-time-drug-conviction",
+            "routeLabel": "Pre-July-2004 first-time drug offender expungement - HRS 706-622.8",
+            "packetSha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-first-time-property-offender",
+            "routeKey": "obligation:track-only:HI:hi_first_time_property_offender_expungement",
+            "routeLabel": "First-time property offender expungement - HRS 706-622.9",
+            "packetSha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718",
+            "pages": 4
+          },
+          {
+            "fixture": "boundary",
+            "route": "hi-under-21-dui",
+            "routeKey": "obligation:track-pathway:HI:hi_under_21_dui_expungement:dui-under-21-conviction",
+            "routeLabel": "DUI under 21 expungement - HRS 291E-64(e)",
+            "packetSha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a",
+            "pages": 4
+          }
+        ]
+      }
+    }
+  },
+  "committedPdfInventory": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+      "bytes": 945443,
+      "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "bytes": 945081,
+      "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+      "bytes": 189793,
+      "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+      "bytes": 189723,
+      "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+      "bytes": 189805,
+      "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+      "bytes": 189735,
+      "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+      "bytes": 189823,
+      "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+      "bytes": 189750,
+      "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+      "bytes": 189949,
+      "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+      "bytes": 189885,
+      "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+      "bytes": 189808,
+      "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+      "bytes": 189739,
+      "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+    }
+  ],
+  "pass1PdfInventory": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+      "bytes": 945443,
+      "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "bytes": 945081,
+      "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+      "bytes": 189793,
+      "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+      "bytes": 189723,
+      "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+      "bytes": 189805,
+      "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+      "bytes": 189735,
+      "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+      "bytes": 189823,
+      "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+      "bytes": 189750,
+      "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+      "bytes": 189949,
+      "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+      "bytes": 189885,
+      "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+      "bytes": 189808,
+      "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+      "bytes": 189739,
+      "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+    }
+  ],
+  "pass2PdfInventory": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+      "bytes": 945443,
+      "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "bytes": 945081,
+      "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+      "bytes": 189793,
+      "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+      "bytes": 189723,
+      "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+      "bytes": 189805,
+      "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+      "bytes": 189735,
+      "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+      "bytes": 189823,
+      "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+      "bytes": 189750,
+      "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+      "bytes": 189949,
+      "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+      "bytes": 189885,
+      "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+      "bytes": 189808,
+      "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+      "bytes": 189739,
+      "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+    }
+  ],
+  "comparison": [
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "bytes": 945443,
+        "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "bytes": 945443,
+        "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "bytes": 945443,
+        "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "bytes": 945081,
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "bytes": 945081,
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "bytes": 945081,
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+        "bytes": 189793,
+        "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+        "bytes": 189793,
+        "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+        "bytes": 189793,
+        "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+        "bytes": 189723,
+        "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+        "bytes": 189723,
+        "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+        "bytes": 189723,
+        "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+        "bytes": 189805,
+        "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+        "bytes": 189805,
+        "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+        "bytes": 189805,
+        "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+        "bytes": 189735,
+        "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+        "bytes": 189735,
+        "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+        "bytes": 189735,
+        "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+        "bytes": 189823,
+        "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+        "bytes": 189823,
+        "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+        "bytes": 189823,
+        "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+        "bytes": 189750,
+        "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+        "bytes": 189750,
+        "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+        "bytes": 189750,
+        "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+        "bytes": 189949,
+        "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+        "bytes": 189949,
+        "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+        "bytes": 189949,
+        "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+        "bytes": 189885,
+        "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+        "bytes": 189885,
+        "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+        "bytes": 189885,
+        "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+        "bytes": 189808,
+        "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+        "bytes": 189808,
+        "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+        "bytes": 189808,
+        "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+      "committed": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+        "bytes": 189739,
+        "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+      },
+      "pass1": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+        "bytes": 189739,
+        "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+      },
+      "pass2": {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+        "bytes": 189739,
+        "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+      },
+      "pass1MatchesCommitted": true,
+      "pass2MatchesCommitted": true,
+      "pass1MatchesPass2": true
+    }
+  ],
+  "counts": {
+    "committedPdfs": 12,
+    "pass1Pdfs": 12,
+    "pass2Pdfs": 12,
+    "pass1MatchesCommitted": 12,
+    "pass2MatchesCommitted": 12,
+    "pass1MatchesPass2": 12
+  },
+  "outputFileInventory": {
+    "pass1": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/approval-request.json",
+        "bytes": 1801,
+        "sha256": "16f001f80818eb71a45c8afad16f202176a76f32ce224b55475d563164480c30"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/build-findings.json",
+        "bytes": 2839,
+        "sha256": "93b3390fe8cc229deecea7ea3bb23bbf4a4d2ce374103807eb6ee0ee67780e9b"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/build-status.json",
+        "bytes": 702,
+        "sha256": "b8f8ed3cdcf699b7f740a8997a552cdeb291eb749a41e7d995b56f975ef60400"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/field-census.census-v1.json",
+        "bytes": 380888,
+        "sha256": "022cdb73e82605b54d253eee18e05116642e3d094b40d77de01ac1de21e409e7"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/filing-instructions.md",
+        "bytes": 5682,
+        "sha256": "7d3c70c2072e22d8fdee721dbc501c37aff6e59c26fd946d2e542586a1105687"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "bytes": 945443,
+        "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "bytes": 945081,
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+        "bytes": 189793,
+        "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+        "bytes": 189723,
+        "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+        "bytes": 189805,
+        "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+        "bytes": 189735,
+        "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+        "bytes": 189823,
+        "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+        "bytes": 189750,
+        "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+        "bytes": 189949,
+        "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+        "bytes": 189885,
+        "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+        "bytes": 189808,
+        "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+        "bytes": 189739,
+        "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/participant-instructions.md",
+        "bytes": 37969,
+        "sha256": "ccddea8c116ba5126b6a1a4d0e3927fb8299647de55116d87fb4b183b1701c2e"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/production-field-map.json",
+        "bytes": 810732,
+        "sha256": "bb79ca239a726eba776574bc6c501afab9e7eae30768a724febebe2b72242ce6"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/actual-writes.json",
+        "bytes": 65264,
+        "sha256": "92a5d7eb8ba41b77164c428768b417457f917636e74009dbbcfa808df6dd252e"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "bytes": 107695,
+        "sha256": "c900410ba67ecf6622ff05d217be276dc33d7d7110d68e19c992128d74ea178b"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/caption-evidence.json",
+        "bytes": 45325,
+        "sha256": "763a485677bd1215a4c1cae98529a481d1b6f31b1e69ab04b6c9b32c70d76f00"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/completeness-counters.json",
+        "bytes": 2101,
+        "sha256": "d96f5ac9646102194b2a897ceb3cadbcaf44960c0556e9b20603151171f9328c"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+        "bytes": 48816,
+        "sha256": "92c16dba86dfe02902241f2ac12f33ef813d436ef799772db17ffca0e72fd9e4"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/source-receipt.json",
+        "bytes": 6708,
+        "sha256": "d999b2f336560cad58cc9a99885f7f16babd53f8b4ead426205cf2ff20a908e0"
+      }
+    ],
+    "pass2": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/approval-request.json",
+        "bytes": 1801,
+        "sha256": "16f001f80818eb71a45c8afad16f202176a76f32ce224b55475d563164480c30"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/build-findings.json",
+        "bytes": 2839,
+        "sha256": "93b3390fe8cc229deecea7ea3bb23bbf4a4d2ce374103807eb6ee0ee67780e9b"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/build-status.json",
+        "bytes": 702,
+        "sha256": "b8f8ed3cdcf699b7f740a8997a552cdeb291eb749a41e7d995b56f975ef60400"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/field-census.census-v1.json",
+        "bytes": 380888,
+        "sha256": "022cdb73e82605b54d253eee18e05116642e3d094b40d77de01ac1de21e409e7"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/filing-instructions.md",
+        "bytes": 5682,
+        "sha256": "7d3c70c2072e22d8fdee721dbc501c37aff6e59c26fd946d2e542586a1105687"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+        "bytes": 945443,
+        "sha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+        "bytes": 945081,
+        "sha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/boundary.pdf",
+        "bytes": 189793,
+        "sha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-drug-offender/canonical.pdf",
+        "bytes": 189723,
+        "sha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/boundary.pdf",
+        "bytes": 189805,
+        "sha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-first-time-property-offender/canonical.pdf",
+        "bytes": 189735,
+        "sha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/boundary.pdf",
+        "bytes": 189823,
+        "sha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-marijuana-three-grams/canonical.pdf",
+        "bytes": 189750,
+        "sha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/boundary.pdf",
+        "bytes": 189949,
+        "sha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-pre-2004-drug-offender/canonical.pdf",
+        "bytes": 189885,
+        "sha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/boundary.pdf",
+        "bytes": 189808,
+        "sha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/fixtures/routes/hi-under-21-dui/canonical.pdf",
+        "bytes": 189739,
+        "sha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/participant-instructions.md",
+        "bytes": 37969,
+        "sha256": "ccddea8c116ba5126b6a1a4d0e3927fb8299647de55116d87fb4b183b1701c2e"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/production-field-map.json",
+        "bytes": 810732,
+        "sha256": "bb79ca239a726eba776574bc6c501afab9e7eae30768a724febebe2b72242ce6"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/actual-writes.json",
+        "bytes": 65264,
+        "sha256": "92a5d7eb8ba41b77164c428768b417457f917636e74009dbbcfa808df6dd252e"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/blanks-left-for-the-participant.json",
+        "bytes": 107695,
+        "sha256": "c900410ba67ecf6622ff05d217be276dc33d7d7110d68e19c992128d74ea178b"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/caption-evidence.json",
+        "bytes": 45325,
+        "sha256": "763a485677bd1215a4c1cae98529a481d1b6f31b1e69ab04b6c9b32c70d76f00"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/completeness-counters.json",
+        "bytes": 2101,
+        "sha256": "d96f5ac9646102194b2a897ceb3cadbcaf44960c0556e9b20603151171f9328c"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
+        "bytes": 48816,
+        "sha256": "92c16dba86dfe02902241f2ac12f33ef813d436ef799772db17ffca0e72fd9e4"
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading/source-receipt.json",
+        "bytes": 6708,
+        "sha256": "d999b2f336560cad58cc9a99885f7f16babd53f8b4ead426205cf2ff20a908e0"
+      }
+    ]
+  },
+  "result": "MEASURED_ALL_12_REPRODUCE",
+  "interpretation": "Both valid cold processes produced all twelve PDFs. Every pass1 and pass2 PDF matches the exact committed base digest/byte length, and every pair matches each other. Builder self-result was COMPLETED with nineCountersZero=true and BUILT_RASTER_PENDING; this is measurement evidence only and is not a terminal predicate.",
+  "unsafeExcluded": "measure-route-artifact-determinism.mjs was not run because it restores with git checkout/git clean; no output deletion or checkout restoration was performed.",
+  "grantsNothing": "No approval, route terminal claim, raster acceptance, commercial authority, candidate/central state write, or 15-obligation verdict."
+}

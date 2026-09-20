@@ -1,0 +1,389 @@
+{
+  "familyId": "pa_pardon_expungement-set",
+  "transition": {
+    "from": "VERIFY_PENDING",
+    "to": "COMPLETE_PACKET_PROVEN"
+  },
+  "terminalAfter": 240,
+  "denominator": 346,
+  "currentFamilyRow": {
+    "familyId": "pa_pardon_expungement-set",
+    "treatmentReconciliation": null,
+    "reviewedTreatmentGuidance": null,
+    "worklistGroupId": "pa_pardon_expungement-set",
+    "jurisdiction": "PA",
+    "routeKeys": [
+      "obligation:unit:PA:pa_pardon_expungement:pa_pardon_automatic_route",
+      "obligation:unit:PA:pa_pardon_expungement:pa_pardon_fallback_petition"
+    ],
+    "routeCount": 2,
+    "implementationStrategy": "official_pdf_fill",
+    "packetComponents": [
+      "component:pa_pardon_expungement-primary-filing-2",
+      "component:pa_pardon_expungement-proposed-order-3"
+    ],
+    "instrumentKinds": [
+      "Rule 790 petition where the automatic route has not cleared the record (official_pdf_fill)",
+      "no filing \u2014 process guidance"
+    ],
+    "officialFormFamily": "PA-RCRIM-P-790-ORDER+PA-RCRIM-P-790-PETITION",
+    "forms": [
+      "PA-RCRIM-P-790-ORDER",
+      "PA-RCRIM-P-790-PETITION"
+    ],
+    "sourceIds": [
+      "official-form:PA-RCRIM-P-790-ORDER",
+      "official-form:PA-RCRIM-P-790-PETITION"
+    ],
+    "sourceHashes": [
+      {
+        "sourceId": "official-form:PA-RCRIM-P-790-ORDER",
+        "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+        "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
+        "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+        "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+        "tier": "exact_form_number"
+      }
+    ],
+    "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+    "sourceBound": true,
+    "sourceReadiness": {
+      "ready": true,
+      "reasons": [],
+      "boundSources": [
+        {
+          "sourceId": "official-form:PA-RCRIM-P-790-ORDER",
+          "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-ORDER__pa-r-crim-p-790-blank-expungement-order__REV-2021-07__EN.pdf",
+          "sha256": "4d312ebde4aed7c1941e1ae9d734c90ba7183db273778839b15a84be8e611c95",
+          "tier": "exact_form_number",
+          "resolvedBy": "census_form_number_against_committed_index"
+        },
+        {
+          "sourceId": "official-form:PA-RCRIM-P-790-PETITION",
+          "path": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+          "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+          "tier": "exact_form_number",
+          "resolvedBy": "census_form_number_against_committed_index"
+        }
+      ],
+      "boundGuidanceAuthorityRecords": [],
+      "boundAuthorities": [],
+      "boundAuthorityCount": 0,
+      "supersededSourceIds": [],
+      "namedOfficialForms": 2,
+      "effectiveOfficialSourceIds": [
+        "official-form:PA-RCRIM-P-790-ORDER",
+        "official-form:PA-RCRIM-P-790-PETITION"
+      ],
+      "boundCount": 2,
+      "custodyClass": "NO_ACQUISITION_TASK_NAMED",
+      "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
+      "directAttachment": true
+    },
+    "sourceReconciliation": null,
+    "verifierSourceHold": null,
+    "selectedIndependentVerdict": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf08",
+      "verifiedAtBase": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-pa-pardon-preraster.json"
+    },
+    "rasterEnrolmentRefusal": null,
+    "legalInputStatus": "SETTLED",
+    "ownerDeliveryTypeRefusal": null,
+    "verificationLapsedBecause": null,
+    "terminalTreatment": null,
+    "legalInputBasis": null,
+    "wave2LegalBlock": null,
+    "ownerCorrectionRequired": null,
+    "legalHoldReclassification": null,
+    "laneReturnLegalHold": null,
+    "executionReclassification": null,
+    "executionOwner": null,
+    "nextExecutableAction": null,
+    "routeMappingStatus": "BOUND",
+    "artifactStatus": "RENDERED",
+    "completenessStatus": "PASS_COMPLETE",
+    "allNineCountersZero": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 0,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "failingCounters": [],
+    "failedObligationNames": [],
+    "failedObligations": [],
+    "continuationResult": null,
+    "c11Stopped": false,
+    "state": "COMPLETE_PACKET_PROVEN",
+    "activeOwner": null,
+    "activeOwnerLane": null,
+    "buildScript": "scripts/build-census-v1-pa_pardon_expungement-set.mjs",
+    "buildScriptExists": true,
+    "sharedBuildHost": null,
+    "directory": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill",
+    "ownedPaths": [
+      "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/**",
+      "scripts/build-census-v1-pa_pardon_expungement-set.mjs"
+    ],
+    "prohibitedPaths": [],
+    "importedBy": [],
+    "exclusiveScript": true
+  },
+  "rasterRow": {
+    "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+    "boundaryPdfSha256": "614c6faeb0988b74333bfaae744b4c0c82388187800c7f16f6fb4a462a82a23b",
+    "builderAssignment": null,
+    "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+    "canonicalPdfSha256": "772b55cb8d62821f1349e42b0242ad7edbca88a666a04cbe6473ab410cf5f69a",
+    "coverage": {
+      "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "complete": true,
+      "documents": [
+        "canonical.pdf"
+      ],
+      "notRastered": [],
+      "notRenderedByThisGate": [
+        "boundary--PA-RCRIM-P-790-ORDER.pdf",
+        "boundary--PA-RCRIM-P-790-PETITION.pdf",
+        "canonical--PA-RCRIM-P-790-ORDER.pdf",
+        "canonical--PA-RCRIM-P-790-PETITION.pdf"
+      ],
+      "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+      "rastered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "whatCompleteMeansHere": "every canonical document is rendered, and so is every other document this row queues. The 4 fixture(s) named in notRenderedByThisGate are present in the family's fixture set and are not queued here, so they are unrendered and a defect appearing only in them is not something a RASTER_PASS has excluded."
+    },
+    "currentRasterState": "RASTER_PASS",
+    "documents": [
+      {
+        "name": "canonical.pdf",
+        "pageCount": 5,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 5,
+          "sourceSha256": "772b55cb8d62821f1349e42b0242ad7edbca88a666a04cbe6473ab410cf5f69a",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
+        "role": "canonical",
+        "sha256": "772b55cb8d62821f1349e42b0242ad7edbca88a666a04cbe6473ab410cf5f69a"
+      },
+      {
+        "name": "boundary.pdf",
+        "pageCount": 5,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 5,
+          "sourceSha256": "614c6faeb0988b74333bfaae744b4c0c82388187800c7f16f6fb4a462a82a23b",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/pa/pa-pardon-expungement-set--official-pdf-fill/fixtures/boundary.pdf",
+        "role": "boundary",
+        "sha256": "614c6faeb0988b74333bfaae744b4c0c82388187800c7f16f6fb4a462a82a23b"
+      }
+    ],
+    "documentsDigest": "4ad0ab8c3ddb636284552de83e9a4beb6708cd06aab716c3f034d4035befef41",
+    "expectedPages": 5,
+    "familyId": "pa_pardon_expungement-set",
+    "fixtureSelection": {
+      "boundary": "the assembled packet, matched by exact name",
+      "canonical": "the assembled packet, matched by exact name"
+    },
+    "nextOwner": "RAS04",
+    "packetCommitSha": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
+    "rasterReceipt": {
+      "boundToBoundarySha256": "614c6faeb0988b74333bfaae744b4c0c82388187800c7f16f6fb4a462a82a23b",
+      "boundToCanonicalSha256": "772b55cb8d62821f1349e42b0242ad7edbca88a666a04cbe6473ab410cf5f69a",
+      "browserExecutable": "/home/runner/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+      "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+      "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "coversTheWholeFamily": true,
+      "documentsCovered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "documentsDigest": "4ad0ab8c3ddb636284552de83e9a4beb6708cd06aab716c3f034d4035befef41",
+      "documentsMeasured": 2,
+      "documentsNotCovered": [],
+      "documentsRendered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "environmentProblems": [],
+      "everyCanonicalDocumentRendered": true,
+      "howThisReceiptWasRead": "The artifact blob store answers 403 at this environment's egress proxy, so the verdict was read from the job log server-side and parsed programmatically. Every digest, run id, job id and artifact id here comes from that payload or from the Actions API; none was transcribed by hand. This ingest refused to write unless the payload's canonical, boundary and documents digests each equalled the queued row's.",
+      "ingestedBy": "scripts/grade-a-packet-factory-24h/ingest-raster-receipt.mjs",
+      "jobConclusion": "success",
+      "jobId": "103202163188",
+      "packetCommitSha": "129e9b04968d8d261c43bf02aa501b755f1c79e6",
+      "packetCommitShaIsAGenerationStampNotAByteBinding": "This records which commit the render ran at. What the receipt BINDS is the canonical and boundary digests below, and only those.",
+      "pagesMeasured": 10,
+      "problems": [],
+      "receiptArtifact": {
+        "digest": "sha256:a53922b96bd55bfcb713b75b72776b53325091ed626235ba03f7a77b89e4228b",
+        "expiresAt": "2026-09-25T08:44:15Z",
+        "id": "10191444964",
+        "name": "rcap-raster-pa_pardon_expungement-set-34579817725"
+      },
+      "requestedScale": 2.5,
+      "verdict": "RASTER_PASS",
+      "whatCompleteMeansHere": "every canonical document is rendered, and so is every other document this row queues. The 4 fixture(s) named in notRenderedByThisGate are present in the family's fixture set and are not queued here, so they are unrendered and a defect appearing only in them is not something a RASTER_PASS has excluded.",
+      "whatThisDoesNotDecide": "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
+      "whatThisGateDidNotRender": [
+        "boundary--PA-RCRIM-P-790-ORDER.pdf",
+        "boundary--PA-RCRIM-P-790-PETITION.pdf",
+        "canonical--PA-RCRIM-P-790-ORDER.pdf",
+        "canonical--PA-RCRIM-P-790-PETITION.pdf"
+      ],
+      "workflowRunId": "34579817725"
+    },
+    "requestedScale": 2.5,
+    "supersededReceipts": [
+      {
+        "boundToBoundarySha256": "bdc27af98952ba01e1e0ce67ae528b63aad7b73111e7780071cdd5b30e84c5f2",
+        "boundToCanonicalSha256": "888d476669d2dcfa9db325c08eef46bb749c825f1fd745afc863c59e6dd64f74",
+        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsNotCovered": [],
+        "jobConclusion": "success",
+        "jobId": "100147213599",
+        "receiptArtifact": {
+          "expiresAt": "2026-09-16T06:26:47Z",
+          "id": "9834379861",
+          "name": "rcap-raster-pa_pardon_expungement-set-33598433649",
+          "zipSha256": "sha256:9993edebef0908ae39b46432040134e1c8a3d6f4deab8a7d0a43514e97bedef3"
+        },
+        "renderedCommitSha": "c48412dc91d12e613526e9881021d92ee39a6069",
+        "supersededAt": "2026-09-04T06:18:30Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "verdict": "RASTER_PASS",
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "33598433649"
+      },
+      {
+        "admittedBy": "Captain, by fail-closed receipt ingestion that rejects stale bytes, failed jobs, and incomplete coverage",
+        "boundToBoundarySha256": "ecfe22d00d9ac729853cd03edbaf7556a91e2d025a27cd231c33e4600039ee75",
+        "boundToCanonicalSha256": "fc67ec72e845dd92f3c1c9529de86e725fe811c52f810f0e46abb11b2647c2b5",
+        "canaryPrecondition": "The synthetic canary and live negative controls passed before every family job in run 33844904078; canary artifact 9926218460 has ZIP SHA-256 sha256:1d447ad27ea12e4e4931a268a3ad66f40a5e31c778072b8057ea8d07ea597e84.",
+        "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "coverageReconciledFromTheRow": {
+          "wasClaimed": {
+            "coversTheWholeFamily": true,
+            "documentsCovered": [
+              "canonical.pdf"
+            ],
+            "documentsNotCovered": [
+              "boundary.pdf"
+            ],
+            "whatThisGateDidNotRender": [
+              "boundary.pdf"
+            ]
+          },
+          "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+        },
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsMeasured": 2,
+        "documentsNotCovered": [],
+        "everyCanonicalDocumentRendered": true,
+        "jobConclusion": "success",
+        "jobId": "100935414166",
+        "pagesMeasured": 10,
+        "pinVerification": "The workflow guard proved checkout commit 8ea3f334de0b75e164a6e2a7fee1e5641a7789b2; Captain rehashed every declared PDF from the current worktree and matched every queue and receipt pin.",
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "expiresAt": "2026-09-18T06:41:39Z",
+          "id": "9926325950",
+          "name": "rcap-raster-pa_pardon_expungement-set-33844904078",
+          "sizeInBytes": 3138362,
+          "zipSha256": "sha256:98a48d1c39fb97a15391799b383493f599a8a93e72b04c148a232e77717d7f0b"
+        },
+        "receiptArtifactInspection": "Captain downloaded the artifact, matched its ZIP SHA-256 to the Actions API digest, extracted its exact verdict JSON, and validated run, commit, complete document coverage, page count, document-set digest, and every queued/local PDF hash before admission.",
+        "renderedCommitSha": "8ea3f334de0b75e164a6e2a7fee1e5641a7789b2",
+        "supersededAt": "2026-09-09T13:22:40Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+        "verdict": "RASTER_PASS",
+        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+        "whatThisGateDidNotRender": [
+          "boundary.pdf"
+        ],
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "33844904078"
+      },
+      {
+        "admittedBy": "Chat A: current-byte raster evidence only, no independent semantic approval.",
+        "boundToBoundarySha256": "aeefc64429488991c8dd5b7bbf04d74fc6b93a032d778857c6ead0dad4741dff",
+        "boundToCanonicalSha256": "bca67f48a63bc882b2a6c9017620c7379085d207a25a39e15b084f0d1f850d15",
+        "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+        "coverageReconciledFromTheRow": {
+          "wasClaimed": {
+            "coversTheWholeFamily": true,
+            "documentsCovered": [
+              "canonical.pdf",
+              "boundary.pdf"
+            ],
+            "documentsNotCovered": [],
+            "whatThisGateDidNotRender": null
+          },
+          "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
+        },
+        "coversTheWholeFamily": true,
+        "documentsCovered": [
+          "canonical.pdf"
+        ],
+        "documentsDigest": "8976f9b7cd3a2f025aba5080f0b18c144b1762728774f1cd0733bba1c1e96805",
+        "documentsMeasured": 2,
+        "documentsNotCovered": [],
+        "everyCanonicalDocumentRendered": true,
+        "jobConclusion": "success",
+        "jobId": "102641250744",
+        "pagesMeasured": 10,
+        "problemsFound": 0,
+        "receiptArtifact": {
+          "id": "10124554845",
+          "name": "rcap-raster-pa_pardon_expungement-set-34403364607",
+          "zipSha256": "sha256:75adb22051514d39982e321e86a16ac02772c74f7aa43cbf2092739684641f9e"
+        },
+        "receiptArtifactInspection": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/pa_pardon_expungement-set/admission-proof.json",
+        "renderedCommitSha": "b311ef0660e4f2dbb406ce8b5d19e0f7354d7169",
+        "supersededAt": "2026-09-11T08:31:33Z",
+        "supersededBecause": "the row now renders a different set of documents",
+        "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+        "verdict": "RASTER_PASS",
+        "verdictPath": "data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/pa_pardon_expungement-set/pa_pardon_expungement-set.verdict.json",
+        "whatCompleteMeansHere": "every canonical document is rendered. Boundary and route-level fixtures are declared and bound by hash but are not rendered by this gate, and a defect that appears only in them is not something a RASTER_PASS has excluded.",
+        "whatThisGateDidNotRender": [
+          "boundary.pdf"
+        ],
+        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+        "workflowRunId": "34403364607"
+      }
+    ]
+  },
+  "evidenceSha256": {
+    "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20260911-pa-pardon-preraster.json": "36c473a09e9c481374a7095a911a78742fb302c4413b2df69c25f44a3f900ef1",
+    "data/rcap-grade-a/packet-factory-24h/raster-runs/34579817725/ORIGINAL_EVIDENCE_VERIFIED.json": "769401dd679aa547ab670960986816c1ad1598f5dc8fb4d399d6bf163495d895",
+    "data/rcap-grade-a/packet-factory-24h/checkpoint-232-to-250/pa-pardon-final-admission-integration.log": "95919cdf083911b2f8f996ab39ad7a7657a108d9db765a7ec94cf974d8025867"
+  }
+}

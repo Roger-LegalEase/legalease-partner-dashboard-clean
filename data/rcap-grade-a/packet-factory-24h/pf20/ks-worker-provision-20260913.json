@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "rcap-pf20-ks-worker-provision/v1",
+  "recordedAt": "2026-09-13T05:45:00Z",
+  "purpose": "Provision the preserved Kansas PF20 worker after Codespace restart for two bounded native family builds.",
+  "codespace": "rcap-finish-worker-77jr7gx76jq3rg65",
+  "repositoryRoot": "/workspaces/legalease-partner-dashboard-clean",
+  "workerBranch": "pf20-ks-22-2410-arrest-20260912b",
+  "preservedBranchCommit": "84aa0003d1d06e2c7f58d4ac94945f63d56b96fc",
+  "captainRefFetched": "refs/remotes/origin/claude/legalease-sprint-captain-utucnw",
+  "captainRefCommit": "a42d4549b6789c7a6f5530091f4cee153a7a5786",
+  "fastForward": {
+    "result": "PASS",
+    "from": "84aa0003d1d06e2c7f58d4ac94945f63d56b96fc",
+    "to": "a42d4549b6789c7a6f5530091f4cee153a7a5786",
+    "mode": "git merge --ff-only refs/remotes/origin/claude/legalease-sprint-captain-utucnw"
+  },
+  "worktree": {
+    "path": "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf20-ks-arrest-registration-resume-20260913",
+    "head": "a42d4549b6789c7a6f5530091f4cee153a7a5786",
+    "statusAtReceipt": "clean before receipt commit",
+    "created": true,
+    "priorWorktreesPreserved": [
+      "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf04-ar-veterans-adopted-20260913",
+      "/workspaces/legalease-partner-dashboard-clean/private/worker-worktrees/pf05-ut-cannabis-resume-20260913"
+    ]
+  },
+  "provisionConvention": {
+    "script": "scripts/grade-a-packet-factory-24h/provision-lane-worktree.mjs",
+    "from": "/workspaces/legalease-partner-dashboard-clean",
+    "private": {
+      "kind": "symlink",
+      "target": "/workspaces/legalease-partner-dashboard-clean/private"
+    },
+    "node_modules": {
+      "kind": "symlink",
+      "target": "/workspaces/legalease-partner-dashboard-clean/node_modules"
+    },
+    "corpusCopied": false,
+    "dependenciesReinstalled": false
+  },
+  "disk": {
+    "freeBytesBeforeWorktree": 7435063296,
+    "freeBytesAfterWorktreeProvision": 4430684160,
+    "freeBytesAfterSourceStream": 4429565952,
+    "reserveRequiredBytes": 1073741824,
+    "reserveSatisfied": true
+  },
+  "sourceStream": {
+    "scope": "Exactly six required source objects from the committed Kansas handoff; no full corpus transfer.",
+    "archivePathCount": 6,
+    "destinationRoot": "/workspaces/legalease-partner-dashboard-clean/private",
+    "overwriteProtection": "tar --keep-old-files; all six destinations were absent before stream",
+    "initialCommandIncident": "The first verification shell exited 2 because its awk hash parser was over-escaped after extraction. It did not overwrite or remove any object; the corrected verifier and native resolver check passed all six objects.",
+    "allSixTransferredAndVerified": true,
+    "objects": [
+      {
+        "sourceId": "official-form:KS-CRIMINAL-COVER-SHEET-10-14-2025",
+        "custody": "nationwide_recovery_pool_2026_09_02",
+        "indexPath": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+        "destinationPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+        "expectedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+        "expectedByteLength": 126589,
+        "observedSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+        "observedByteLength": 126589,
+        "nativeIndexEntryExact": true,
+        "nativeResolverPass": true
+      },
+      {
+        "sourceId": "official-form:KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+        "custody": "nationwide_recovery_pool_2026_09_02",
+        "indexPath": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "destinationPath": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+        "expectedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+        "expectedByteLength": 234581,
+        "observedSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+        "observedByteLength": 234581,
+        "nativeIndexEntryExact": true,
+        "nativeResolverPass": true
+      },
+      {
+        "sourceId": "official-form:KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+        "custody": "ks_historical_recovery_20260913",
+        "indexPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+        "destinationPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+        "expectedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+        "expectedByteLength": 55112,
+        "observedSha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+        "observedByteLength": 55112,
+        "nativeIndexEntryExact": true,
+        "nativeResolverPass": true
+      },
+      {
+        "sourceId": "official-form:KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+        "custody": "ks_historical_recovery_20260913",
+        "indexPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+        "destinationPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+        "expectedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+        "expectedByteLength": 51084,
+        "observedSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+        "observedByteLength": 51084,
+        "nativeIndexEntryExact": true,
+        "nativeResolverPass": true
+      },
+      {
+        "sourceId": "official-form:KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+        "custody": "ks_historical_recovery_20260913",
+        "indexPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+        "destinationPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+        "expectedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+        "expectedByteLength": 217564,
+        "observedSha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+        "observedByteLength": 217564,
+        "nativeIndexEntryExact": true,
+        "nativeResolverPass": true
+      },
+      {
+        "sourceId": "official-form:KSJC-PETITION-RELIEF-FROM-OFFENDER-REGISTRATION-06-2022",
+        "custody": "ks_historical_recovery_20260913",
+        "indexPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+        "destinationPath": "private/Nationwide Record Clearing/LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+        "expectedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+        "expectedByteLength": 401878,
+        "observedSha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+        "observedByteLength": 401878,
+        "nativeIndexEntryExact": true,
+        "nativeResolverPass": true
+      }
+    ]
+  },
+  "sourceIndex": {
+    "path": "data/rcap-all50/local-source-corpus-index.json",
+    "sha256AtWorker": "512a489ab79705c4b607bd09c5197e9e8beb2a22180ee0848e4673ab5fe3aca0",
+    "historicalKansasCustody": "ks_historical_recovery_20260913",
+    "historicalKansasCustodyCompleteOperationalCorpus": false,
+    "masterLibrarySubstitution": false,
+    "operationalNationwideCompletenessClaim": false
+  },
+  "familyScope": {
+    "first": "ks-22-2410-arrest-set",
+    "second": "ks-22-4908-registration-relief-set",
+    "buildScripts": [
+      "scripts/build-census-v1-ks-22-2410-arrest-set.mjs",
+      "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs"
+    ],
+    "outputs": [
+      "data/rcap-all50/overlays/census-v1/ks/ks-22-2410-arrest-set--official-pdf-fill/**",
+      "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/**"
+    ],
+    "noExistingCandidate": true,
+    "rasterDispatch": false,
+    "independentReviewer": "VFAR1 or VFUT1; distinct from implementer"
+  },
+  "controls": {
+    "sharedQueueChanged": false,
+    "sharedClaimLedgerChanged": false,
+    "sharedLegalRecordsChanged": false,
+    "sourceCustodyManifestChanged": false,
+    "fullCorpusCopied": false,
+    "dependenciesReinstalled": false,
+    "oldBranchDeleted": false,
+    "priorWorktreesChanged": false
+  },
+  "nextAction": "Implement and complete ks-22-2410-arrest-set first, then ks-22-4908-registration-relief-set, using the existing Kansas native builder/shared policy/byte-measurement helpers; run each native pre-raster build only after authoring complete source-grounded component, facts, conditional, protected-field, service/fee and overflow evidence, then return each frozen candidate for independent review."
+}

@@ -238,15 +238,47 @@ function routeDataByState(routeInventory) {
   return grouped;
 }
 
-function routeLabelsUsingQuestion(question, profile, paidRoutes) {
-  const id = question.id;
-  if (["ownership_scope", "jurisdiction_scope", "case_outcome", "offense_level", "possible_pathway_context"].includes(id)) {
-    return paidRoutes.map((r) => r.pathwayId);
-  }
-  const packetRoutes = (profile.packetGenerator?.pathways ?? [])
-    .filter((plan) => (plan.requiredInputIds ?? profile.packetGenerator?.requiredInputs ?? []).includes(id))
-    .map((plan) => plan.pathwayId);
-  return [...new Set(packetRoutes)];
+function screeningContexts(profile) {
+  return [
+    { contextId: "empty", pathwayId: null, answers: {} },
+    ...(profile.pathways ?? []).map((pathway) => ({
+      contextId: pathway.id,
+      pathwayId: pathway.id,
+      answers: { possible_pathway_context: pathway.label }
+    }))
+  ];
+}
+
+function isCourtOrCaseIdentifier(question) {
+  const text = textOf(question);
+  return /docket|case[ _-]?(?:identifier|number)|cause number|arrest number/.test(text);
+}
+
+function selectedScreeningContexts(profile, publicProfile, selectScreeningQuestionIds) {
+  const questionsById = new Map((publicProfile.questions ?? []).map((question) => [question.id, question]));
+  return screeningContexts(profile).map((context) => {
+    const questionIds = selectScreeningQuestionIds(profile, publicProfile, context.answers);
+    const duplicateQuestionIds = questionIds.filter((id, index) => questionIds.indexOf(id) !== index);
+    const questions = questionIds.map((id) => questionsById.get(id)).filter(Boolean);
+    const exactDateQuestionIds = questions.filter((question) => question.type === "date_or_unknown").map((question) => question.id);
+    const courtOrCaseIdentifierQuestionIds = questions.filter(isCourtOrCaseIdentifier).map((question) => question.id);
+    const exactPacketFactQuestionIds = questionIds.filter((id) => profile.questionLifecycle?.exactPacketFactIds.includes(id));
+    const crossRouteQuestionIds = questionIds.filter((id) => {
+      const consumers = profile.questionLifecycle?.routeConsumers[id] ?? [];
+      return consumers.length > 0 && !(context.pathwayId && consumers.includes(context.pathwayId));
+    });
+    return {
+      contextId: context.contextId,
+      pathwayId: context.pathwayId,
+      questionCount: questionIds.length,
+      questionIds,
+      duplicateQuestionIds: [...new Set(duplicateQuestionIds)],
+      exactDateQuestionIds,
+      courtOrCaseIdentifierQuestionIds,
+      exactPacketFactQuestionIds,
+      crossRouteQuestionIds
+    };
+  });
 }
 
 function riskLevel(currentCount, moveCount, legalReview) {
@@ -280,6 +312,7 @@ async function buildReport() {
   const legacyPublicProfiles = publicProfilesWithWilmaFacts();
   const publicProfiles = await projectedPublicProfiles();
   const engineProfiles = loadEngineProfiles();
+  const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
   const routeInventory = maybeReadJson(ROUTE_INVENTORY_PATH, { routes: [], totals: {} });
   const routesByState = routeDataByState(routeInventory);
 
@@ -300,17 +333,31 @@ async function buildReport() {
     const legacyPrepayCount = legacyPublicQuestions.filter((question) => currentPhase(question, legacyStageOrder, legacyCheckoutOrder) === "pre-payment").length;
     const paidRoutes = (routesByState.get(code) ?? []).filter((r) => r.bucket === "paid_now");
     const guidanceRoutes = (routesByState.get(code) ?? []).filter((r) => r.bucket === "permanent_guidance_not_a_paid_product" || r.bucket === "not_currently_operational" || r.bucket === "discard_or_duplicate");
+    const selectedContexts = selectedScreeningContexts(engineProfile, profile, selectScreeningQuestionIds);
+    const selectedContextIdsByQuestion = new Map();
+    for (const context of selectedContexts) {
+      for (const questionId of context.questionIds) {
+        if (!selectedContextIdsByQuestion.has(questionId)) selectedContextIdsByQuestion.set(questionId, []);
+        selectedContextIdsByQuestion.get(questionId).push(context.contextId);
+      }
+    }
+    const maximumSelectedQuestionCount = Math.max(0, ...selectedContexts.map((context) => context.questionCount));
+    const emptyContextQuestionCount = selectedContexts.find((context) => context.contextId === "empty")?.questionCount ?? 0;
 
     const questionRows = publicQuestions.map((question) => {
       const classification = classifyQuestion(question, code);
-      const phase = currentPhase(question, stageOrder, checkoutOrder);
+      const lifecycleClassifiedPhase = currentPhase(question, stageOrder, checkoutOrder);
+      const selectedContextIds = selectedContextIdsByQuestion.get(question.id) ?? [];
+      const phase = selectedContextIds.length > 0 ? "pre-payment" : "post-payment";
       const row = {
         questionId: question.id,
         text: question.prompt,
         label: question.prompt,
         state: code,
-        routesUsingIt: routeLabelsUsingQuestion(question, engineProfile, paidRoutes),
+        routesUsingIt: selectedContexts.filter((context) => context.pathwayId && context.questionIds.includes(question.id)).map((context) => context.pathwayId),
         currentPhase: phase,
+        lifecycleClassifiedPhase,
+        selectedScreeningContexts: selectedContextIds,
         recommendedPhase: classification.recommendedPhase,
         category: classification.category,
         reason: classification.reason,
@@ -331,16 +378,19 @@ async function buildReport() {
     const recommendedPrepay = currentPrepay.filter((q) => q.recommendedPhase === "pre-payment");
     const recommendedPostpay = currentPrepay.filter((q) => q.recommendedPhase === "post-payment" || q.recommendedPhase === "optional" || q.recommendedPhase === "remove");
     const legalReviewNeeded = recommendedPrepay.some((q) => q.legalSafetyImpact === "high" && q.addedByPublicProjection) || code === "PA";
-    const minimumSafeCount = targetForState(code, recommendedPrepay.length, currentPrepay.length);
-    const targetCount = targetForState(code, recommendedPrepay.length, currentPrepay.length);
+    const minimumSafeCount = targetForState(code, recommendedPrepay.length, maximumSelectedQuestionCount);
+    const targetCount = targetForState(code, recommendedPrepay.length, maximumSelectedQuestionCount);
 
     byState[code] = {
       jurisdictionCode: code,
       jurisdictionName: profile.jurisdiction?.name ?? code,
       totalPublicQuestions: publicQuestions.length,
       estimatedPrepaymentQuestionsBeforeProjectionFix: legacyPrepayCount,
-      estimatedPrepaymentQuestionsCurrentlyAsked: currentPrepay.length,
-      estimatedPrepaymentQuestionsAfterProjectionFix: currentPrepay.length,
+      estimatedPrepaymentQuestionsCurrentlyAsked: maximumSelectedQuestionCount,
+      estimatedPrepaymentQuestionsAfterProjectionFix: maximumSelectedQuestionCount,
+      emptyContextPrepaymentQuestionCount: emptyContextQuestionCount,
+      selectedFreeScreeningQuestionUnionCount: currentPrepay.length,
+      screeningContexts: selectedContexts,
       estimatedPostPaymentPacketCompletionQuestions: publicQuestions.length - currentPrepay.length + recommendedPostpay.length,
       paidRoutesCount: paidRoutes.length,
       guidanceOnlyRoutesCount: guidanceRoutes.length,
@@ -348,9 +398,9 @@ async function buildReport() {
       minimumSafePrepaymentQuestionCount: minimumSafeCount,
       recommendedTargetPrepaymentCount: targetCount,
       questionsThatCanMoveAfterPayment: recommendedPostpay.length,
-      riskLevel: riskLevel(currentPrepay.length, recommendedPostpay.length, legalReviewNeeded),
-      exceeds12QuestionTarget: currentPrepay.length > TARGET,
-      exceeds15QuestionHardCap: currentPrepay.length > HARD_CAP,
+      riskLevel: riskLevel(maximumSelectedQuestionCount, recommendedPostpay.length, legalReviewNeeded),
+      exceeds12QuestionTarget: maximumSelectedQuestionCount > TARGET,
+      exceeds15QuestionHardCap: maximumSelectedQuestionCount > HARD_CAP,
       needsLegalReviewBeforeMovingQuestions: legalReviewNeeded,
       biggestFrictionSource: biggestFrictionSource(questionRows),
       recommendedNextAction: recommendedPostpay.length
@@ -361,6 +411,12 @@ async function buildReport() {
   }
 
   const stateRows = Object.values(byState);
+  const safetyFindings = (field) => stateRows.flatMap((row) => row.screeningContexts.flatMap((context) => context[field].map((questionId) => ({
+    jurisdictionCode: row.jurisdictionCode,
+    contextId: context.contextId,
+    pathwayId: context.pathwayId,
+    questionId
+  }))));
   const top15 = [...stateRows]
     .sort((a, b) => b.estimatedPrepaymentQuestionsBeforeProjectionFix - a.estimatedPrepaymentQuestionsBeforeProjectionFix || a.jurisdictionCode.localeCompare(b.jurisdictionCode))
     .slice(0, 15)
@@ -380,7 +436,7 @@ async function buildReport() {
   const deepDives = Object.fromEntries(DEEP_DIVE_STATES.map((code) => {
     const row = byState[code];
     const questions = row.questions;
-    const gates = questions.filter((q) => q.recommendedPhase === "pre-payment");
+    const gates = questions.filter((q) => q.currentPhase === "pre-payment" && q.recommendedPhase === "pre-payment");
     const postpay = questions.filter((q) => q.recommendedPhase === "post-payment" || q.recommendedPhase === "optional" || q.recommendedPhase === "remove");
     return [code, {
       currentPrepaymentFlowSummary: `${row.estimatedPrepaymentQuestionsCurrentlyAsked} public before-checkout questions; ${row.questionsThatCanMoveAfterPayment} are recommended for post-payment, optional handling, or removal from checkout.`,
@@ -403,8 +459,8 @@ async function buildReport() {
 
   const pa = byState.PA;
   const paQuestions = pa.questions;
-  const paPrepayKeep = paQuestions.filter((q) => q.recommendedPhase === "pre-payment");
-  const paMove = paQuestions.filter((q) => q.recommendedPhase !== "pre-payment");
+  const paPrepayKeep = paQuestions.filter((q) => q.currentPhase === "pre-payment" && q.recommendedPhase === "pre-payment");
+  const paMove = paQuestions.filter((q) => q.currentPhase === "pre-payment" && q.recommendedPhase !== "pre-payment");
   const report = {
     generatedAt: new Date().toISOString(),
     branch: gitBranchName(),
@@ -420,15 +476,24 @@ async function buildReport() {
     productLegalRule: "External documents, fees, fingerprints, certified dispositions, prosecutor review/stipulation, and filing attachments are post-payment filing-readiness or packet-completion items, not checkout blockers.",
     paidJurisdictions: routeInventory.totals?.paidNowJurisdictions ?? new Set((routeInventory.routes ?? []).filter((r) => r.bucket === "paid_now").map((r) => r.jurisdictionCode)).size,
     paidRoutes: routeInventory.totals?.paidNowRoutes ?? ((routeInventory.routes ?? []).filter((r) => r.bucket === "paid_now").length || PAID_ROUTES_EXPECTED),
+    freeScreeningSafety: {
+      contextsAudited: stateRows.reduce((sum, row) => sum + row.screeningContexts.length, 0),
+      exactDatePrompts: safetyFindings("exactDateQuestionIds"),
+      courtOrCaseIdentifierPrompts: safetyFindings("courtOrCaseIdentifierQuestionIds"),
+      exactPacketFacts: safetyFindings("exactPacketFactQuestionIds"),
+      crossRouteQuestions: safetyFindings("crossRouteQuestionIds"),
+      duplicateSelectedQuestionIds: safetyFindings("duplicateQuestionIds")
+    },
     totals: {
       jurisdictions: stateRows.length,
       totalPublicQuestionsAcrossAllStates: stateRows.reduce((sum, row) => sum + row.totalPublicQuestions, 0),
       totalEstimatedPrepaymentQuestionsBeforeProjectionFix: stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsBeforeProjectionFix, 0),
       totalEstimatedPrepaymentQuestionsCurrentlyAsked: stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsCurrentlyAsked, 0),
       totalEstimatedPrepaymentQuestionsAfterProjectionFix: stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsAfterProjectionFix, 0),
+      totalSelectedFreeScreeningQuestionUnion: stateRows.reduce((sum, row) => sum + row.selectedFreeScreeningQuestionUnionCount, 0),
       totalRecommendedToMovePostPaymentOrRemove: stateRows.reduce((sum, row) => sum + Math.max(0, row.estimatedPrepaymentQuestionsBeforeProjectionFix - row.estimatedPrepaymentQuestionsAfterProjectionFix), 0),
       totalMovedPostPaymentByProjectionFix: stateRows.reduce((sum, row) => sum + Math.max(0, row.estimatedPrepaymentQuestionsBeforeProjectionFix - row.estimatedPrepaymentQuestionsAfterProjectionFix), 0),
-      totalMustRemainPrepayment: stateRows.reduce((sum, row) => sum + row.questions.filter((q) => q.recommendedPhase === "pre-payment").length, 0),
+      totalMustRemainPrepayment: stateRows.reduce((sum, row) => sum + row.questions.filter((q) => q.currentPhase === "pre-payment" && q.recommendedPhase === "pre-payment").length, 0),
       averageEstimatedPrepaymentQuestionsBeforeProjectionFix: Number((stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsBeforeProjectionFix, 0) / stateRows.length).toFixed(2)),
       averageEstimatedPrepaymentQuestionsPerState: Number((stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsCurrentlyAsked, 0) / stateRows.length).toFixed(2)),
       averageEstimatedPrepaymentQuestionsAfterProjectionFix: Number((stateRows.reduce((sum, row) => sum + row.estimatedPrepaymentQuestionsAfterProjectionFix, 0) / stateRows.length).toFixed(2)),
@@ -541,7 +606,7 @@ This is audit-only. It does not move questions, alter eligibility logic, alter p
 - Commit: \`${report.commit}\`
 - Paid jurisdictions: ${report.paidJurisdictions}
 - Paid routes: ${report.paidRoutes}
-- Source model: public designer profiles plus current public projection Wilma fact questions; raw \`source_question_*\` engine rows are not treated as public checkout facts.
+- Source model: the runtime \`selectScreeningQuestionIds\` result for empty context and every exact pathway; raw \`source_question_*\` engine rows are not treated as public checkout facts.
 
 ## Summary
 
@@ -553,6 +618,23 @@ This is audit-only. It does not move questions, alter eligibility logic, alter p
 - States over 12-question target: ${report.statesOver12QuestionTarget.length}
 - States over 15-question hard cap: ${report.statesOver15QuestionHardCap.length}
 - States needing legal review before moving questions: ${report.statesNeedingLegalReviewBeforeMovingQuestions.length}
+
+## Free-Screening Selector Safety
+
+- Selector contexts audited: ${report.freeScreeningSafety.contextsAudited}
+- Exact-date prompts: ${report.freeScreeningSafety.exactDatePrompts.length}
+- Court/case/docket identifier prompts: ${report.freeScreeningSafety.courtOrCaseIdentifierPrompts.length}
+- Exact packet facts: ${report.freeScreeningSafety.exactPacketFacts.length}
+- Cross-route questions: ${report.freeScreeningSafety.crossRouteQuestions.length}
+- Duplicate selected question IDs: ${report.freeScreeningSafety.duplicateSelectedQuestionIds.length}
+
+Exact-date diagnostics:
+
+${mdList(report.freeScreeningSafety.exactDatePrompts.map((finding) => `${finding.jurisdictionCode}/${finding.contextId}: \`${finding.questionId}\``))}
+
+Court/case/docket identifier diagnostics:
+
+${mdList(report.freeScreeningSafety.courtOrCaseIdentifierPrompts.map((finding) => `${finding.jurisdictionCode}/${finding.contextId}: \`${finding.questionId}\``))}
 
 ## Top 15 Highest-Friction States Before Payment
 

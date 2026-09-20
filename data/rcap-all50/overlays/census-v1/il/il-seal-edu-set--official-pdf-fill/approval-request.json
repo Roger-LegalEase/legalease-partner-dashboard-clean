@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-packet-approval-request/v2",
+  "familyId": "il-seal-edu-set",
+  "status": "BUILT_RASTER_PENDING",
+  "implementationStrategy": "official_pdf_fill",
+  "routeKeys": [
+    "obligation:track-only:IL:il-seal-edu"
+  ],
+  "components": [
+    {
+      "kind": "primary_filing",
+      "documentId": "EXP-AD Request",
+      "requirement": "required",
+      "conditionDescription": null
+    },
+    {
+      "kind": "attachment",
+      "documentId": "EXP-AD Case List",
+      "requirement": "required",
+      "conditionDescription": null
+    },
+    {
+      "kind": "proposed_order",
+      "documentId": "EXP-AD Order Granting",
+      "requirement": "required",
+      "conditionDescription": null
+    },
+    {
+      "kind": "proposed_order",
+      "documentId": "EXP-AD Order Denying",
+      "requirement": "required",
+      "conditionDescription": null
+    },
+    {
+      "kind": "fee_waiver",
+      "documentId": "FW-CIV-APPLICATION",
+      "requirement": "conditional",
+      "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data."
+    },
+    {
+      "kind": "proposed_order",
+      "documentId": "FW-CIV-ORDER",
+      "requirement": "conditional",
+      "conditionDescription": "Only when the participant actually requests a fee waiver and includes FW-CIV-APPLICATION; never infer that request from sponsorship, a missing email address or absent financial data."
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "27b895defb18c09f85c66c17a3cf8636a2b1b4e91d25203659f160bd0cf21072",
+      "byteLength": 2319237,
+      "pageCount": 17
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/il/il-seal-edu-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "6470dd271861c33ccf42e8eac7c0ad2e63e2d0824751d1c4ce532cc3c7c9679d",
+      "byteLength": 2320175,
+      "pageCount": 17
+    }
+  ],
+  "independentVerificationStatus": "PENDING",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

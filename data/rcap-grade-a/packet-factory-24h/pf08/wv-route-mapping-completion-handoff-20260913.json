@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "rcap-wv-route-mapping-completion-handoff/v1",
+  "status": "IMPLEMENTATION_COMPLETE_AWAITING_INDEPENDENT_REVIEW",
+  "recordedAt": "2026-09-13T07:23:22.000Z",
+  "workspaceHeadAtReturn": "31e8c327f56f3bc23625c37c5cc985a4347f8c0a",
+  "lane": "PF08",
+  "familyId": "wv_nc_acquittal_dismissal-set",
+  "purpose": "Record the exact implementation evidence for the adopted WV two-branch route mapping and identify the existing owner-correction transition required to clear PRODUCT_PATH_PENDING. This handoff does not grant packet, raster, terminal, commercial or production authority.",
+  "nativeCondition": {
+    "generator": {
+      "path": "scripts/grade-a-packet-factory-24h/generate.mjs",
+      "sha256": "fc8ae1e7feeb91b1c8f9e77effd73628a125de3a3e299cf14d027beabc29538f",
+      "routeMappingOpen": "executionReclassification?.stateOverride === PRODUCT_PATH_PENDING || notAFamily",
+      "stateSelection": "else if (executionReclassification?.stateOverride) state = executionReclassification.stateOverride",
+      "statusSelection": "routeMappingStatus is OWNER_DIRECTED_MAPPING_PENDING when routeMappingOpen and an execution reclassification exists"
+    },
+    "ownerCorrections": {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
+      "sha256": "fbb775ef09986af8a8b543a8a8c916464c94403b672753e0f69f41968e1f6c2a",
+      "byteLength": 39527,
+      "row": {
+        "familyId": "wv_nc_acquittal_dismissal-set",
+        "stateOverride": "PRODUCT_PATH_PENDING",
+        "executionOwner": "CAPTAIN",
+        "nextExecutableAction": "Map the exact disposition fact to the correct SCA-C903 ground, refuse unclear records, and release the official-form build.",
+        "ownerDecision": "This is route and field-election mapping."
+      },
+      "observedEffect": {
+        "state": "PRODUCT_PATH_PENDING",
+        "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+        "legalInputStatus": "SETTLED after the complete legal-resolution loader fix",
+        "currentLegalResolution": "LEGAL_CLEAR / WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913"
+      }
+    },
+    "historicalHold": {
+      "path": "data/rcap-grade-a/packet-factory-24h/STALE_LANE_RETURNS.json",
+      "sha256": "24a03c572c5aa4c7a0911f3f9c1c6c40e3d93d6551785282e91fc91b1f906b5a",
+      "byteLength": 40426,
+      "lane": "PF13",
+      "pullRequest": 145,
+      "familyId": "wv_nc_acquittal_dismissal-set",
+      "why": "SCA-C903: approved route-election mapping among acquittal, dismissal, diversion, and deferred-adjudication grounds",
+      "meaning": "Historical lane evidence only. The remaining live PRODUCT_PATH_PENDING state is the owner execution reclassification above; the stale lane return is not itself a second legal decision."
+    }
+  },
+  "adoptedDecision": {
+    "path": "data/rcap-grade-a/legal-decisions/WV_ACQUITTAL_DISMISSAL_OWNER_ADOPTION_2026-09-13.json",
+    "sha256": "3b8c097d46900756e43527a96fb57e52b07e08f26909820ce4912a6c67c02a63",
+    "byteLength": 8946,
+    "decisionId": "WV-ACQUITTAL-DISMISSAL-TWO-BRANCH-OWNER-ADOPTION-20260913",
+    "disposition": "LEGAL_CLEAR",
+    "ownerAdoption": true,
+    "scope": "wv_nc_acquittal_dismissal-set: disposition-specific two-branch implementation under existing §61-11-25; no coverage reduction",
+    "controls": {
+      "counselApproval": false,
+      "packetPass": false,
+      "rasterPass": false,
+      "terminalPromotion": false,
+      "commercialAuthority": false,
+      "productionAuthorization": false
+    },
+    "adoptedBranches": {
+      "DISMISSED_STRAIGHT": "Use SCA-C903 only for an actual outright dismissal, with certified disposition facts and the printed dismissal ground.",
+      "ACQUITTED_OR_FOUND_NOT_GUILTY": "Use the separate LegalEase §61-11-25 civil petition; never write an acquittal into SCA-C903 dismissal fields.",
+      "unclearOrMixed": "Stop and refuse unsupported or conflicting records.",
+      "diversionOrDeferred": "Remain in the separate wv_nc_diversion_deferred-set family."
+    }
+  },
+  "implementationEvidence": {
+    "buildReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-pf08-wv-nc-acquittal-dismissal-build-20260913.json",
+      "sha256": "1dd0d86cfd762d2268bc464d52bcfcb6e27fd6d387be784a20ad4a2d7f3c464a",
+      "byteLength": 5958,
+      "status": "COMPLETED",
+      "buildCommit": "ba6b3058fd7b08e067e3f21634d22754f1ee0233",
+      "implementer": "sd_caption",
+      "nativeCompletenessResult": "PASS_COMPLETE",
+      "branchFixtures": [
+        {
+          "branchId": "DISMISSED_STRAIGHT",
+          "canonical": {
+            "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/dismissal-canonical.pdf",
+            "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+            "byteLength": 23275,
+            "pageCount": 3
+          },
+          "boundary": {
+            "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/dismissal-boundary.pdf",
+            "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+            "byteLength": 23275,
+            "pageCount": 3
+          },
+          "sourcePreservedByteIdentically": true
+        },
+        {
+          "branchId": "ACQUITTED_OR_FOUND_NOT_GUILTY",
+          "canonical": {
+            "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/acquittal-canonical.pdf",
+            "sha256": "247de4231f6d6aa0c654ef60a6e6e5725d71fff254a1c39f3ee356d44287ba70",
+            "byteLength": 8801,
+            "pageCount": 3
+          },
+          "boundary": {
+            "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/fixtures/acquittal-boundary.pdf",
+            "sha256": "e6bf76a7a50c6e38af1b00f70d8ff0178b4c01390d1bba4323cd472833bc1086",
+            "byteLength": 8919,
+            "pageCount": 3
+          },
+          "sourcePreservedByteIdentically": false
+        }
+      ],
+      "sharedControls": {
+        "sourceBytesCommitted": false,
+        "rasterDispatched": false,
+        "commercialRoutesOpened": 0,
+        "productionTouched": false
+      }
+    },
+    "independentSemanticReturn": {
+      "path": "data/rcap-grade-a/packet-factory-24h/pf08/rows-wv-two-branch-independent-semantic-20260913.json",
+      "sha256": "7d84bffb905e6d734be39556b8f54d1a0fbd723353b7ca4d5bd8c043334122e0",
+      "byteLength": 60581,
+      "recordCommit": "1f76fdc2d75d4de81251912c5115d0e0500bfc50",
+      "reviewer": "/root/pf04_ar_veterans_build",
+      "verifiedAtBase": "71568ed47bb79b66af3418bc17326ae0a43bf128",
+      "status": "PASS_PRE_RASTER_SEMANTIC",
+      "verdict": "PASS",
+      "routeIdentity": "PASS",
+      "routeOptions": "PASS",
+      "finalAcceptance": false,
+      "visualMeasured": false,
+      "reviewerDistinctFromImplementer": true
+    },
+    "sourceBinding": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/source-receipt.json",
+      "sha256": "91bd83f6ebdcb8b91ad5ce40f1526e52f7b1449ce2480142d73c0e70642893cf",
+      "sourceId": "official-form:SCA-C903",
+      "selectedSha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+      "selectedByteLength": 23275,
+      "custody": "master_library",
+      "comparisonOnlySha256": "242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035"
+    },
+    "routeWiringReviewedBySemanticReturn": {
+      "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/product-wiring.json",
+      "reviewedSha256": "236980ef8551cbf760fca556ff0cd2f076f329e56ba3a6cc4e1419d7844247ab",
+      "reviewedByteLength": 665,
+      "currentWorkingSha256": "e8fe1f2afbf2edcc69b34f0a1e386f51c3701e9ec313ca5d5378089ba700ae6d",
+      "currentWorkingByteLength": 2781,
+      "dependencyComparison": "The current working file contains an uncommitted binding-metadata addition after the semantic review. This handoff does not approve that later metadata change; the independent reviewer must compare it or review a frozen candidate before the transition is admitted."
+    },
+    "otherReviewedBindings": [
+      {
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/production-field-map.json",
+        "sha256": "259e74988d3f3be1b36692d41e9cb6c213ec7ff86a27d0932706dd6751c9d6eb",
+        "byteLength": 218124
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/participant-instructions.md",
+        "sha256": "3a29a2624f554170d7005f3622876658f5944207bd93fe620173f2bdd8b6a9c1",
+        "byteLength": 13055
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/actual-writes.json",
+        "sha256": "2f69db091e49e96f2823ee35258af3b7b265d647bc8dc8b66d8db13db205d3ec",
+        "byteLength": 5678
+      },
+      {
+        "path": "data/rcap-all50/overlays/census-v1/wv/wv-nc-acquittal-dismissal-set--official-pdf-fill/reports/branch-fixture-coverage.json",
+        "sha256": "decdd42e448f21ede3f777826a54ad95af8732060c519498f19a1ff8caa4f7ad",
+        "byteLength": 5554
+      }
+    ]
+  },
+  "preservedScope": {
+    "separateSibling": {
+      "familyId": "wv_nc_diversion_deferred-set",
+      "adoptedByThisDecision": false,
+      "mappingStatus": "BOUND",
+      "noChanges": true
+    },
+    "historicalRecords": [
+      "data/rcap-grade-a/packet-factory-24h/pf08/wv-nonconviction-route-mapping-handoff-20260913.json",
+      "data/rcap-grade-a/packet-factory-24h/pf08/wv-legal-resolution-generator-reconciliation-20260913.json",
+      "docs/rcap/grade-a/owner-decisions/WV_SCA_C903_HAS_NO_ACQUITTAL_GROUND.md"
+    ],
+    "noPacketOrPdfMutation": true,
+    "noQueueMutation": true
+  },
+  "requiredExistingTransition": {
+    "authority": "Existing OWNER_CORRECTIONS_REQUIRED execution-reclassification convention used by OR, KY, NE, PA and WI completions",
+    "before": {
+      "stateOverride": "PRODUCT_PATH_PENDING",
+      "routeMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING"
+    },
+    "afterIndependentReview": {
+      "stateOverride": null,
+      "completedStateOverride": "PRODUCT_PATH_PENDING",
+      "completionEvidence": {
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/pf08/wv-route-mapping-completion-handoff-20260913.json",
+        "scope": "Two-branch disposition mapping is implemented and independently semantically reviewed; this transition clears only the owner-directed mapping hold and preserves every packet, current-byte, raster, original-page, terminal and commercial gate.",
+        "remainingGates": "Current candidate metadata must be frozen and independently compared; central current-byte raster for all four branch fixtures, independent original-page review and Captain integration remain required. No packet PASS, terminal promotion, route release, commercial authority or production authorization is granted."
+      }
+    },
+    "whyNotAppliedHere": "The owner-correction row is an authoritative shared gate. This implementation handoff is frozen for independent review first; it does not silently clear the live state or claim that an independent reviewer approved the later uncommitted product-wiring metadata."
+  },
+  "focusedChecks": {
+    "command": "source private/source-corpus-environment.txt && node --check scripts/grade-a-packet-factory-24h/generate.mjs && node --check scripts/grade-a-packet-factory-24h/legal-block-resolution.mjs && node --check scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs && node scripts/grade-a-packet-factory-24h/test-legal-block-resolution.mjs",
+    "result": "PASS",
+    "additionalGateProbe": "WV_ROUTE_MAPPING_GATE_CHECK_OK",
+    "findings": [
+      "Complete loader projects the adopted WV record as LEGAL_CLEAR and does not include the separate diversion/deferred family.",
+      "The live owner execution row, rather than the stale PF13 lane return, is the direct source of PRODUCT_PATH_PENDING and OWNER_DIRECTED_MAPPING_PENDING.",
+      "PF08 native completeness is PASS_COMPLETE and VF44 route identity/options are PASS_PRE_RASTER_SEMANTIC.",
+      "The product wiring keeps generationAllowed and runtimeSelectable false."
+    ]
+  },
+  "reviewBoundary": {
+    "independentReviewer": "/root/resume_vfar1",
+    "requiredReview": [
+      "Verify the exact adopted decision, PF08 build return, semantic return and branch artifact hashes.",
+      "Compare the reviewed product-wiring hash with the frozen candidate/current metadata before admitting the transition.",
+      "Confirm the proposed owner-row transition changes only stateOverride, preserves the completedStateOverride and historical hold, and leaves the diversion sibling outside scope.",
+      "Confirm no packet, raster, terminal, commercial or production authority is inferred."
+    ],
+    "currentStatus": "Awaiting distinct independent review; live routeMappingStatus remains OWNER_DIRECTED_MAPPING_PENDING until that review and the existing owner-correction transition are completed."
+  },
+  "result": {
+    "implementationMappingEvidence": "COMPLETE",
+    "ownerCorrectionTransitionApplied": false,
+    "currentState": "PRODUCT_PATH_PENDING",
+    "currentRouteMappingStatus": "OWNER_DIRECTED_MAPPING_PENDING",
+    "routeOpened": false,
+    "packetAcceptance": false,
+    "terminalAcceptance": false,
+    "rasterDispatchAuthorized": false,
+    "commercialAuthority": false,
+    "exactRemainingWork": "Distinct independent review of this handoff and the current candidate metadata; then apply the existing execution-reclassification completion pattern and run the supported integration. Central current-byte raster and original-page review remain downstream gates."
+  }
+}

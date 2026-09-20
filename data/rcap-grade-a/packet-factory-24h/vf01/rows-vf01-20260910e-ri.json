@@ -1,0 +1,1039 @@
+{
+ "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+ "lane": "VF01",
+ "laneKind": "independent_verification",
+ "dispatch": "VF01 - independent re-read of three Rhode Island families after the FIX134b repair (ROUTE_IDENTITY on the composed proposed order of two of them, and the source-authored selection paint on the third).",
+ "verifiedAtBase": "85846c48db56a9916d68372becf3967dc2c9d02b",
+ "worktree": "/home/user/pf23-worktree",
+ "branch": "vf01-ri2-20260910",
+ "howTheSourceWasRendered": "poppler pdftoppm, `pdftoppm -r 600 -f N -l N -gray -png -singlefile`, annotations DRAWN on both sides (-hide-annotations never passed for a measurement render). Dark pixel = 8-bit grey <= threshold. Resolution 600 dpi, page raster 5100x6600 for US Letter.",
+ "negativeControlThatProvesTheRenderIsNotBlind": {
+  "whyItIsHere": "A directional zero is worthless if the source render never draws the ink whose absence it is meant to detect. This control proves the render is not blind BEFORE any zero below is trusted.",
+  "method": "the same source page rendered twice - once with annotations drawn, once with -hide-annotations - and differenced in both directions at 600 dpi.",
+  "Superior-55": {
+   "pages 1,2,3": "0 lost and 0 revealed at every threshold - those pages carry no widget whose /AP /N paints visible ink, so the control is correctly silent there",
+   "page 4": {
+    "t=96": "lost 3474, revealed 2763",
+    "t=104": "lost 3474, revealed 2763",
+    "t=112": "lost 3474, revealed 2763",
+    "t=120": "lost 3469, revealed 2830",
+    "t=128": "lost 4938, revealed 2345"
+   }
+  },
+  "DC-33": {
+   "pages 1,2,3": "0 lost and 0 revealed at every threshold",
+   "page 4": {
+    "t=96": "lost 4146, revealed 3472",
+    "t=104": "lost 4146, revealed 3472",
+    "t=112": "lost 4146, revealed 3472",
+    "t=120": "lost 4065, revealed 3535",
+    "t=128": "lost 5078, revealed 2500"
+   }
+  },
+  "conclusion": "The control is non-zero exactly on the page that carries ink-bearing selection widgets and zero everywhere else. The annotated render therefore DOES draw the /AP /N streams, and every removed=0 reported below is a measurement rather than a blind spot.",
+  "theThresholdDisagreementIsSettledAndBothLanesWereRight": "FIX134 reported 4938/2345 on Superior-55 p4 and 5078/2500 on DC-33 p4; both reproduce EXACTLY at t=128. VF01's earlier 3469/2830 and 4065/3535 reproduce EXACTLY at t=120 - so VF01's earlier figures were a threshold-120 cut, which neither lane had stated. The stable plateau is t=96..112, where the readings are 3474/2763 and 4146/3472. Neither lane was wrong about the page; the two cuts differ by method, and the plateau is the honest place to read it."
+ },
+ "packetsBuiltByThisLane": 0,
+ "packetsRepairedByThisLane": 0,
+ "commercialRoutesOpened": 0,
+ "productionTouched": false,
+ "grantsNothing": "An independent PASS proves a packet complete against its own controlling records. It approves no output, promotes no route, opens no commercial path, and is not a RASTER_PASS.",
+ "rows": [
+  {
+   "itemId": "ri_deferred_sentence-set",
+   "familyId": "ri_deferred_sentence-set",
+   "lane": "VF01",
+   "laneKind": "independent_verification",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verifiedAtBase": "85846c48db56a9916d68372becf3967dc2c9d02b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "claim": "CLAIM_OK VF01 ri_deferred_sentence-set (independent-verification, grant set efe991352bff7732)",
+   "postRepairReread": {
+    "whatThisLaneFailedItOnBefore": "ROUTE_IDENTITY - three machine route trailer lines printed on packet page 5, which is page 1 of the composed proposed order, immediately below the 'Composed by LegalEase' disclaimer.",
+    "isItFixedOnTheDELIVEREDBYTES": "YES. pdftotext -layout over the committed canonical.pdf and boundary.pdf at this base: ZERO occurrences of 'Route:', 'obligation:unit:', any repository path, any '.mjs', any component identifier or any other factory vocabulary on packet pages 1-6 - the four official Superior-55 pages plus BOTH pages of the composed proposed order.",
+    "whatRemainsAndWhyItIsCorrect": "Exactly three 'obligation:unit:' occurrences survive, on packet pages 8, 13 and 14. Each sits under the explicit heading 'INTERNAL RECORD REFERENCE, not part of any filing and nothing a court or a clerk needs. It records which LegalEase route record this packet was built from'. Each of those pages carries, on its own face, 'This page is guidance. It is not a filing and there is nothing here to hand to a clerk.' One trailer prints at the foot of each of the three composed GUIDANCE components; the composed PROPOSED ORDER now carries none, which is the whole of the repair.",
+    "fix134sPageClaimReproduces": "FIX134 said pages 8, 13 and 14. Measured by per-page pdftotext: pages 8, 13 and 14. Exact.",
+    "theOrderPageDiffFix134Claimed": "Confirmed. Packet page 6 opens with the ORDER_COURT_BLOCK_NOTICE text 'EVERYTHING BELOW THIS LINE IS THE COURT'S...' at yTop 64.487 (pdftotext -bbox-layout), and the Court's findings, the GRANTED/DENIED line, the relief marks, 'Justice / Judge', 'Date of entry' and the Clerk's certification line are all present, all blank, and character-identical to the repaired siblings' page 6."
+   },
+   "digestsIReHashedMyself": {
+    "method": "sha256sum, first-hand, over the committed fixture bytes at this base. Not transcribed from FIX134's rows.",
+    "canonical": {
+     "sha256": "0960782f51292843e37f6b7bec43844c3e128b3ef1cc1f1c1cb08cbb1eccc063",
+     "byteLength": 309219,
+     "pages": 14,
+     "matchesFix134Row": true
+    },
+    "boundary": {
+     "sha256": "b56a0747459a835eb6f8e396c12d9d11ae69b19cf5aa341cd5a9a21edfd58e3a",
+     "byteLength": 309405,
+     "pages": 14,
+     "matchesFix134Row": true
+    }
+   },
+   "pinnedSourceVerifiedFirstHand": {
+    "sourceId": "official-form:Superior-55",
+    "declaredSha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+    "measuredSha256": "e5805c5482e61ef39a88d8b50ea5a3556b5ffc40d3abb2200973016af4a9afca",
+    "byteLength": 301833,
+    "pages": 4,
+    "resolvedAt": "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__superior-court-motion-affidavit-and-instructions-to-expunge-or-seal-record-felony__REV-2025-02__EN.pdf",
+    "agreesWithSourceReceipt": true
+   },
+   "directionalRasterAgainstThePinnedSource": {
+    "thresholdAndResolutionArePublishedWithEveryCount": true,
+    "resolution": "600 dpi, 5100x6600 raster, 8-bit grey",
+    "scope": "packet pages 1-4, the official Superior-55 slice. Packet pages 5-14 are composed and have no source page to difference against.",
+    "canonical": [
+     {
+      "page": 1,
+      "t=96": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     },
+     {
+      "page": 2,
+      "t=96": {
+       "removed": 0,
+       "added": 17417
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 17918
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 18176
+      }
+     },
+     {
+      "page": 3,
+      "t=96": {
+       "removed": 0,
+       "added": 15135
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 15600
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 15858
+      }
+     },
+     {
+      "page": 4,
+      "t=96": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     }
+    ],
+    "boundary": [
+     {
+      "page": 1,
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     },
+     {
+      "page": 2,
+      "t=128": {
+       "removed": 0,
+       "added": 30799
+      }
+     },
+     {
+      "page": 3,
+      "t=128": {
+       "removed": 0,
+       "added": 28481
+      }
+     },
+     {
+      "page": 4,
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     }
+    ],
+    "removedIsZeroOnEveryPageOfBothFixturesAtEveryThreshold": true,
+    "andThatZeroIsAMeasurement": "because the negative control in this file's header is NON-ZERO on Superior-55 page 4 and zero on pages 1-3, which proves the annotated source render draws the /AP /N appearance streams whose erasure this difference exists to detect.",
+    "page4CarriesNoAddedInkAtAll": "0 added and 0 removed at every threshold. Packet page 4 is the affidavit's second page - Part Four and the notarial certificate - and the delivered page is pixel-identical to the court's own published page there."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": "pdftotext -layout, whole packet and per page, canonical and boundary, for 'Route:', 'obligation:unit:', repository paths, '.mjs', 'census-v1', component identifiers and factory vocabulary; plus pdftotext -bbox-layout on the first line of packet page 6.",
+     "result": "PASS",
+     "detail": "Zero machine route identity on all six filing pages (1-4 official form, 5-6 composed proposed order) of both fixtures. Three occurrences survive on guidance pages 8, 13 and 14, each explicitly labelled INTERNAL RECORD REFERENCE and each on a page that declares itself not a filing. The defect this lane failed the family on is gone from the delivered bytes."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": "sha256sum over the file at the declared path under MASTER_LIBRARY_SOURCE_DIR, compared to the pin in this family's own source-receipt.json.",
+     "result": "PASS",
+     "detail": "Superior-55 resolves at e5805c5482e61ef3..., 301833 bytes, 4 pages - exactly the declared pin. custodyClass SOURCE_ALREADY_HELD, allSourcesExact true, and the receipt's binding method is by content digest rather than by filename."
+    },
+    "COMPONENT_SET": {
+     "measured": "the five declared components resolved to delivered packet pages by reading each page's own heading.",
+     "result": "PASS",
+     "detail": "All five present and page-resolved: primary-filing-1 (pages 1-4, Superior-55 as published), proposed-order-2 (5-6), notice-package-3 (7-8), filing-instructions-4 (9-13), certified-copy-delivery-checklist-5 (14). requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": "every write in reports/actual-writes.json checked against the extracted text and the flattened widget appearances of the delivered bytes.",
+     "result": "PASS",
+     "detail": "Exactly four writes land on the official binary: full legal name and date of birth in the caption of the motion (page 2) and of the affidavit (page 3). Both values are the participant's own and both appear in the delivered text. No alias line, no address history, no invented case fact. The shared name channel's trap on this form - the defendant-name blank is named 'State of Rhode Island v Defendant', which the descriptor channel would resolve to participant.state - is refused by the build, and the delivered defendant line carries 'Jordan Avery Reyes' and not a state name."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": "delivered text of every page that carries a court-, clerk-, prosecutor- or notary-owned blank, plus the 600 dpi directional raster of packet page 4.",
+     "result": "PASS",
+     "detail": "Nothing is written into any protected blank. Packet page 4 - which carries the notarial certificate and the defendant's signature line - has 0 added dark pixels against the source at t=96/112/128, so nothing whatever was drawn there. On the motion the case number, BCI number, hearing date, courtroom, the certification-of-notice date, the charging police department name, the signature, the bar number and the date are all blank. Both pages of the court's own order block on packet page 6 are blank. protectedWrites 0."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": "600 dpi directional raster of every official page of both fixtures at three thresholds, plus a per-box crop at each drawn selection mark.",
+     "result": "PASS",
+     "detail": "removed = 0 on every page of both fixtures at t=96, 112 and 128, against an annotation-drawn source render proven non-blind by the negative control. Nothing of the court's own ink is clipped, masked or erased. Each of the two drawn ticks adds 1150-1168 dark pixels inside its own declared box at t=128 without reducing the box's own outline ink, so no mark overlaps or redraws the court's printed control."
+    },
+    "SELF_HELP_STOP": {
+     "measured": "read the composed filing-instructions component on packet pages 9-13.",
+     "result": "PASS",
+     "detail": "An explicit section - 'The committed track registry records these as the points where self-help ends, in its own words' - enumerates the stops: crime of violence, incomplete deferral terms, unpaid or unclear financial obligations, pending proceedings, the good-moral-character and rehabilitation findings which it says are the court's and not facts LegalEase can supply, immigration exposure, disclosure-surviving occupations, and out-of-reach federal, out-of-state, military and tribal records. It also tells the participant to stop before swearing if a statement in their Part is not true."
+    },
+    "FILING_DESTINATION": {
+     "measured": "read the 'WHERE IT GOES' section on the delivered page.",
+     "result": "PASS",
+     "detail": "Names the clerk of the court where the conviction occurred, states that Rhode Island has no county layer for this purpose and that the forms are court-specific, and says the clerk fills in the hearing date. It discloses that the Superior Court form lists four judicial complexes and that the platform has not seen the participant's docket and does not know which is theirs, so none is marked. No venue is invented."
+    },
+    "SERVICE": {
+     "measured": "read the composed notice component on packet pages 7-8 against the motion's own certification line.",
+     "result": "PASS",
+     "detail": "Names the Office of the Attorney General and the police department that originally brought the charge, at least ten days before the hearing, under G.L. 1956 Sec. 12-1-12.1(b)(1) or Sec. 12-1.3-3(a). It sets out the order of events - file, clerk sets the date, give notice, only then complete the certification - and states that a certification signed before notice was actually given is a false statement to a court. It prints NO service address and says so in terms, because the platform holds none and does not guess one."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": "reports/blanks-left-for-the-participant.json enumerated item by item and checked against the delivered pages and participant-instructions.md.",
+     "result": "PASS",
+     "detail": "25 required-before-filing blanks, each carrying its document, field, page, the printed context beside it, a disclosure label, why the platform cannot supply it and what the participant must supply. everyRequiredBeforeFilingItemIsDisclosed is true and the disclosure resolves to this family's own participant-instructions.md. knownRequiredFieldsMissing 0."
+    },
+    "ARTIFACTS": {
+     "measured": "sha256sum and pdfinfo over both committed fixtures.",
+     "result": "PASS",
+     "detail": "canonical.pdf 309219 bytes / 14 pages / 0960782f5129..., boundary.pdf 309405 bytes / 14 pages / b56a0747459a.... Both re-hashed first-hand and both match this family's FIX134 row exactly. Both carry addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes (126/0 canonical, 258/0 boundary), so this family is not one of the twenty-five directories that emit neither."
+    },
+    "PAGE_ORDER": {
+     "measured": "per-page pdftotext heading of all 14 delivered pages.",
+     "result": "PASS",
+     "detail": "Official Superior-55 slice first and in the court's own order (instructions, motion, affidavit page 1, affidavit page 2), then the proposed order the court's instruction 7 tells the participant to bring, then notice, then filing instructions, then the post-grant certified-copy checklist. Nothing filed sits behind guidance and the two order pages are adjacent and in order."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": "reports/actual-writes.json routeSelectionsDrawn checked against a 600 dpi per-box crop of the delivered page and the source page.",
+     "result": "PASS",
+     "detail": "Exactly two controls are marked, both route-determined: 'expunged' rather than 'sealed', and the second relief bullet - Chapter 12-1.3 expungement under Sec. 12-1.3-3(c) or (e) - rather than the first, which is the Sec. 12-1-12 destruction-of-identification-records branch. Both marks verified as real ink (+1150 and +1168 dark pixels at t=128 inside their own boxes). Not one selection control on the affidavit is marked, because each is a statement sworn under oath. The packet names Part Three: Deferred Sentence as the Part that is this route's, and declares the other Parts' boxes outside the route. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "measured": "the four-row Count / Charge / Disposition table on the motion, and the four numbered count lines on the proposed order, read on the delivered bytes.",
+     "result": "PASS",
+     "detail": "The obligation arises on this form and is satisfied by measurement rather than by absence: the table has four rows and every cell of all four is left blank, on the motion and on the order alike, with the reason printed on the order itself - 'Copy them from the motion; they are not filled in here because the platform has not seen the court record they come from.' No row is partially filled, so no charge can land on another charge's line. incompleteRows 0."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": "read every money figure in the delivered text and traced each to its stated authority.",
+     "result": "PASS",
+     "detail": "Two figures appear and neither is fabricated. The Superior Court's own published FAQ answer that it charges no expungement filing fee is carried with its source named, and this family IS a Superior Court route so the answer is on point. The $5 is the Attorney General's own charge for the BCI record check, attributed to riag.ri.gov and expressly distinguished from any court fee and from the fines, costs, restitution and assessments ordered in the case. The packet states that court-imposed obligations may be waived or reduced by court order and that a waiver or reduction satisfies the eligibility condition. No dollar figure is invented and none is presented as a court's when it is not."
+    }
+   },
+   "failedObligationNames": [],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "Enumerated the 25 requiredBeforeFiling entries in reports/blanks-left-for-the-participant.json and confirmed each is disclosed in participant-instructions.md and left blank on the delivered page. None missing: 0.",
+    "requiredFactsNotCollected": "The route needs two participant facts to caption the filings - full legal name and date of birth - and both are present in the delivered bytes on packet pages 2, 3 and 5. Every other fact is a court-record fact the packet deliberately declines to supply and discloses as the participant's to fill: 0.",
+    "unclassifiedBlanks": "Summed the four disposition buckets in blanks-left-for-the-participant.json: 25 required + 11 elections + 29 protected + 20 outside-route = 85, which reconciles exactly with the 85 in completeness-counters.json. Every blank carries a disposition: 0.",
+    "incompleteRows": "Read all four rows of the Count/Charge/Disposition table on the delivered motion and all four count lines on the delivered order. Every cell of every row is blank; no row is partly filled: 0.",
+    "requiredOptionsMissing": "The route determines two controls and both are drawn and verified as ink by a 600 dpi per-box crop. Every other control is a sworn statement or an out-of-route branch and is correctly unmarked: 0.",
+    "requiredComponentsMissing": "All five declared components resolved to delivered pages by reading each page's heading: 0.",
+    "invisibleWrites": "Every one of the nine entries in reports/actual-writes.json checked against the delivered bytes - the four official-form writes read back in the extracted text of pages 2 and 3, the five composed-page writes read back in the extracted text of pages 5, 7, 9 and 14, and the two drawn ticks measured as +1150 and +1168 dark pixels at t=128 in their own boxes at 600 dpi. Nothing declared is absent from the page: 0.",
+    "protectedWrites": "Packet page 4, which carries the notarial certificate and the signature line, has 0 added dark pixels against the source at t=96/112/128 - nothing was drawn there at all. The motion's certification date, police-department name, signature, bar number, date, case number, BCI number, hearing date and courtroom read blank in the delivered text, and both pages of the court's own order block are blank: 0.",
+    "visualDefects": "600 dpi directional raster of every official page of both fixtures at three thresholds: removed = 0 everywhere, against a source render proven non-blind by the negative control. No clipped glyph, no mark outside its box, no blank or duplicated page across 14 pages read individually: 0."
+   },
+   "crossChecks": {
+    "againstDEFECTS_NO_COUNTER_CAN_SEE": {
+     "checkedAllEleven": true,
+     "map-honest-writes-not": "Not present. Only two facts are written and both are the participant's own; there is no alias line and no address line on this form and nothing was written onto one.",
+     "a-participant-fact-written-into-a-field-about-someone-else": "The exposure EXISTS on this form and the build refuses it. The defendant-name blank is named 'State of Rhode Island v Defendant', which the shared descriptor channel resolves to participant.state; the build records that it classifies every field on the binary unwritable by role and writes the two captions explicitly instead. Verified on the delivered bytes: the defendant line carries 'Jordan Avery Reyes', not 'Rhode Island'.",
+     "acroform-index-is-not-the-printed-row": "Cannot bite here: no row of the four-row charge table is written at all.",
+     "extracted-line-order-is-not-column-order": "Checked the affidavit Part headings by x-position with pdftotext -bbox-layout rather than by extracted line order; the Part labels sit in their own left column and the sworn statements to their right, as the form prints them.",
+     "internal-record-text-printed-on-a-filing": "This is the class this lane failed the family on and it is now clear on the filings. See the observation below about guidance pages, which is a milder and different thing.",
+     "a-published-zero-where-a-measurement-existed": "Not present. addedGlyphsReadFromOutputBytes is 126 on canonical and 258 on boundary - real, non-zero and differing between fixtures, which a hardcoded literal would not do.",
+     "a-geometry-counter-with-no-teeth": "Not relied on. This lane did not take nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0 as evidence of anything; the reading with teeth here is the directional raster, and it is reported per page with its threshold.",
+     "two-families-one-filing": "Measured directly rather than trusted - see clonedFamilyCheck below.",
+     "an-inverted-widget-rectangle-places-the-appearance-a-box-away": "Would show as added ink a box away from a control. Page 4 carries 0 added pixels and pages 1-4 carry 0 removed, so no appearance is stamped off its control.",
+     "annotation-free-source-render-zeroes-the-only-check-for-erased-court-ink": "This is the trap this row is most exposed to and it is disarmed by the negative control recorded in this file's header before any zero was trusted.",
+     "a-caption-read-from-the-neighbouring-row-on-a-sworn-affidavit": "Checked the 25 disclosure labels against the printed captions beside them on the delivered page; each names the blank it actually sits beside."
+    },
+    "clonedFamilyCheck": {
+     "againstTheRegister": "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json contains NO Rhode Island entry of any kind - not in clonedDeliverables, not in nearClones, not in sharedDocuments. It read 943 fixtures and reports 13 cloned groups, 30 shared-document groups and 5 near-clone groups, none of them RI.",
+     "soIMeasuredItMyself": "Whitespace-normalised pdftotext per page, SHA-256 per page, across all three families this lane holds; then the decompressed page content streams, the `re` path operators and the `m`/`l` path operators, hashed per page.",
+     "whatDistinguishesTHISPacket": "ri_deferred_sentence-set is the only one of the three built on Superior-55 and the only Superior Court route. Its page 1-4 content streams differ from both District Court families on every page, and its /Title is its own. It is not a clone or a near-clone of either sibling.",
+     "theRealFindingIsOnTheOtherTwo": "ri_first_offender_misdemeanor-set and ri_multiple_misdemeanors-set deliver BYTE-IDENTICAL decompressed content streams on packet pages 1, 2, 3, 4, 6 and 7 - including the motion and both pages of the sworn affidavit. Recorded in full on those two rows."
+    },
+    "committedRecordsThatDisagree": {
+     "blankPartitionDisagreement": {
+      "whatDisagrees": "reports/blanks-left-for-the-participant.json and reports/completeness-counters.json, both committed in this family's own overlay directory.",
+      "blanksReport": "required 25, participantElections 11, protectedBlanks 29, blanksOutsideThisRoute 20 - total 85.",
+      "countersFile": "REQUIRED_BEFORE_FILING 25, PARTICIPANT_ELECTION_GENUINE 31, PROTECTED_FIELD 28, NOT_APPLICABLE_ON_THIS_ROUTE 1 - total 85.",
+      "theDisagreement": "The totals reconcile and REQUIRED_BEFORE_FILING agrees, but the partition does not. The counters file folds the 20 blanks the per-item report classifies as OUTSIDE THIS ROUTE into PARTICIPANT_ELECTION_GENUINE (11 + 20 = 31) and then reports NOT_APPLICABLE_ON_THIS_ROUTE as 1 rather than 20, and its PROTECTED_FIELD is one lower than the per-item protectedBlanks.",
+      "whyItMatters": "A genuine participant election is a box the participant may properly choose. A blank outside the route is one they should leave alone. Calling twenty of the second kind the first kind understates that difference to any reader who takes the summary rather than the enumeration.",
+      "whichIMeasuredAgainst": "the per-item blanks-left-for-the-participant.json, because it is enumerable and each entry names its own field, page and printed context. I did not reconcile the two records and I did not edit either.",
+      "doesItChangeTheCounter": "No. unclassifiedBlanks is 0 under either partition, because every blank falls in some bucket in both."
+     },
+     "masterQueueState": {
+      "whatItSays": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json records this family as state FAIL_REPAIR_REQUIRED at this base.",
+      "whatIMeasured": "That was this lane's own earlier verdict, on the ROUTE_IDENTITY defect FIX134 has since repaired. The queue has not caught up with the repair. The verify brief describes families in this lane's hands as VERIFY_PENDING, which is a third description again.",
+      "whatIDidAboutIt": "Nothing. MASTER_QUEUE.json has one writer and it is not this lane. Recorded here so the Captain sees both."
+     },
+     "sourceReadyBuildability": {
+      "whatItSays": "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json carries 73 rows and none of them is a Rhode Island family.",
+      "whatIDidInstead": "Resolved the pin first-hand with sha256sum under MASTER_LIBRARY_SOURCE_DIR, which is a stronger check than the dispatch aid would have given. Absence from that record is not a source finding here."
+     }
+    },
+    "fix134ClaimsTestedNotAccepted": {
+     "three trailer lines gone from packet page 5": "REPRODUCES. Zero route hits on pages 5 and 6 of both fixtures.",
+     "three labelled INTERNAL RECORD REFERENCE occurrences remain on pages 8, 13 and 14": "REPRODUCES exactly, and all three pages declare themselves guidance.",
+     "page 5-6 diff shows findings, GRANTED/DENIED, relief marks, Justice/Judge, date of entry and clerk's certification character-identical": "REPRODUCES. Page 6 is byte-identical in its content stream across all three families this lane holds, and every one of those elements is present and blank.",
+     "the host defines five families and ri_nonconviction_sealing is not on it": "REPRODUCES. The FAMILIES table in scripts/build-census-v1-ri_decriminalized-set.mjs has exactly five keys, and `grep -l` finds exactly five scripts importing the host. scripts/build-census-v1-ri_nonconviction_sealing-set.mjs is three lines and imports runEastFamily from the New Jersey host.",
+     "the two siblings it must not move were not moved": "REPRODUCES. Neither ri-decriminalized-set nor ri-first-offender-felony-set had a fixture touched by any FIX134 commit; their last fixture changes are at 8315b2314 and 1784eec3d respectively.",
+     "the pixel figures it corrected VF01 on": "REPRODUCES, and the disagreement is now fully resolved. See negativeControlThatProvesTheRenderIsNotBlind in this file's header: FIX134's 4938/2345 is exact at t=128, VF01's earlier 3469/2830 is exact at t=120, and the plateau at t=96..112 is 3474/2763. Both lanes read the same page correctly at different unstated cuts."
+    },
+    "observationsThatDoNotFailAnObligation": {
+     "componentIdentifiersOnAGuidancePage": "Packet page 9, under the heading 'WHAT IS IN THIS PACKET', prints this factory's five machine component identifiers - ri_deferred_sentence-primary-filing-1 and the other four - as the bullet labels of the packet's own contents list, each followed by a plain-English description. These are machine keys shown to a participant. They are NOT on any filing: pages 1-6 are clean of them, which I checked explicitly. This is the same leak CLASS that cost three Indiana families terminal status today, one page short of the boundary that matters, and it is raised for the Captain rather than scored - the obligation as this lane failed it was machine route identity ON A FILING, and that is repaired.",
+     "repositoryPathsAndContainerVocabularyOnGuidancePages": "Three passages on pages 10, 12 and 13 name an internal artifact path (data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json) and state that riag.ri.gov and webserver.rilegislature.gov 'are refused by this container's egress proxy'. In substance these are honest provenance disclosures that warn the participant a figure was not re-fetched and may have changed, and they tell the participant to check it themselves. The vocabulary is nonetheless the factory's rather than the reader's. Observation only; on guidance pages, not filings."
+    }
+   },
+   "rasterStateHonesty": {
+    "question": "Is this family's current raster state honest on my reading?",
+    "answer": "YES, and it claims nothing it cannot support.",
+    "measured": "build-status.json reads rasterState BUILT_RASTER_PENDING, rasterPages 0, popplerUsed false, rasterEngine 'not rendered in this run'; reports/rendered-artifacts.json reads everyPageRastered false, rasterPages [], rasterSkipped true, rasterEngine null, and contains zero .png references.",
+    "andTherefore": "No RASTER_PASS is asserted over the current bytes and none exists for them. Dispatching one is the Captain's, not this lane's. This row is an independent read and is not a raster receipt."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/canonical.pdf (all 14 pages, per-page pdftotext -layout and -bbox-layout)",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/fixtures/boundary.pdf (all 14 pages)",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__SUPERIOR-55__...__REV-2025-02__EN.pdf (pinned source, rendered with annotations at 600 dpi)",
+    "data/rcap-grade-a/packet-factory-24h/fix134/rows-fix134b-ri-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json (all eleven)",
+    "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (this family's row)",
+    "data/rcap-grade-a/source-wave-integration/SOURCE_READY_BUILDABILITY.json",
+    "scripts/build-census-v1-ri_decriminalized-set.mjs (FAMILIES table only)",
+    "scripts/build-census-v1-ri_nonconviction_sealing-set.mjs"
+   ],
+   "visualDefects": [],
+   "grantsNothing": "This independent PASS proves the packet complete against its own controlling records at the base named. It approves no output, promotes no route, opens no commercial path, consumes no packet credit, and is not a RASTER_PASS."
+  },
+  {
+   "itemId": "ri_first_offender_misdemeanor-set",
+   "familyId": "ri_first_offender_misdemeanor-set",
+   "lane": "VF01",
+   "laneKind": "independent_verification",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verifiedAtBase": "85846c48db56a9916d68372becf3967dc2c9d02b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "claim": "CLAIM_OK VF01 ri_first_offender_misdemeanor-set (independent-verification, grant set efe991352bff7732)",
+   "postRepairReread": {
+    "whatThisLaneFailedItOnBefore": "ROUTE_IDENTITY, and this was the worst instance of the three: the machine route trailer was the FIRST TEXT ON THE ORDER'S SECOND PAGE - above the Court's findings, above the GRANTED/DENIED line, above the relief the Court marks, above the Justice/Judge signature and above the Clerk's certification.",
+    "iVerifiedTheDEFECTITSELFAndNotOnlyTheFix": "I extracted the pre-repair canonical.pdf from git (the commit immediately before the trailer removal, sha256 32492ff6417e6f6412f7a7315444c72a744bb5ea8e24358f5f504ac18c7fe995) and read its page 6. It opens with the literal word 'Route:' at yTop 64.487, x 72.0, followed by five lines of obligation keys, then a rule, and only then 'EVERYTHING BELOW THIS LINE IS THE COURT'S'. Six trailer lines in total. FIX134's account of what was wrong is exact, including the count.",
+    "isItFixedOnTheDELIVEREDBYTES": "YES. The repaired page 6 opens with the ORDER_COURT_BLOCK_NOTICE text at yTop 64.487 - the IDENTICAL coordinate the word 'Route:' occupied - and carries zero route hits. Across both fixtures there are zero occurrences of 'Route:', 'obligation:unit:', any repository path, any '.mjs' and any component identifier on packet pages 1-6.",
+    "fix134sSiblingClaimReproduces": "FIX134 said page 6 now opens with ORDER_COURT_BLOCK_NOTICE at yTop 64.5, 'the same first line the repaired sibling delivers'. Measured: yTop 64.487 on this family AND on both siblings, and the page 6 content stream is byte-identical across all three families this lane holds.",
+    "whatRemains": "Three 'obligation:unit:' occurrences on packet pages 8, 13 and 15, each under the heading 'INTERNAL RECORD REFERENCE, not part of any filing and nothing a court or a clerk needs', each on a page that declares itself guidance. One per composed guidance component; the composed proposed order carries none.",
+    "nothingElseChanged": "Confirmed by measurement rather than by report: the directional raster of pages 1-4 against the pinned DC-33 is identical to the sibling's on every page at every threshold, and page 6 is byte-identical across all three families."
+   },
+   "digestsIReHashedMyself": {
+    "method": "sha256sum, first-hand, over the committed fixture bytes at this base. Not transcribed from FIX134's rows.",
+    "canonical": {
+     "sha256": "f810a12d5177386100389ed7f9d712327fcd8d0eed97c3e33c961416900b40a1",
+     "byteLength": 311606,
+     "pages": 15,
+     "matchesFix134Row": true
+    },
+    "boundary": {
+     "sha256": "a0b99d006e508676ae4e6e8d6e704c7dade9df6f1f682acf3c9738ca525c5d3c",
+     "byteLength": 311782,
+     "pages": 15,
+     "matchesFix134Row": true
+    }
+   },
+   "pinnedSourceVerifiedFirstHand": {
+    "sourceId": "official-form:DC-33",
+    "declaredSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+    "measuredSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+    "byteLength": 307164,
+    "pages": 4,
+    "resolvedAt": "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+    "agreesWithSourceReceipt": true
+   },
+   "directionalRasterAgainstThePinnedSource": {
+    "thresholdAndResolutionArePublishedWithEveryCount": true,
+    "resolution": "600 dpi, 5100x6600 raster, 8-bit grey",
+    "scope": "packet pages 1-4, the official DC-33 slice. Packet pages 5-15 are composed and have no source page to difference against.",
+    "canonical": [
+     {
+      "page": 1,
+      "t=96": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     },
+     {
+      "page": 2,
+      "t=96": {
+       "removed": 0,
+       "added": 17435
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 17940
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 18198
+      }
+     },
+     {
+      "page": 3,
+      "t=96": {
+       "removed": 0,
+       "added": 15135
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 15600
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 15858
+      }
+     },
+     {
+      "page": 4,
+      "t=96": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     }
+    ],
+    "boundary": [
+     {
+      "page": 1,
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     },
+     {
+      "page": 2,
+      "t=128": {
+       "removed": 0,
+       "added": 30821
+      }
+     },
+     {
+      "page": 3,
+      "t=128": {
+       "removed": 0,
+       "added": 28481
+      }
+     },
+     {
+      "page": 4,
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     }
+    ],
+    "removedIsZeroOnEveryPageOfBothFixturesAtEveryThreshold": true,
+    "andThatZeroIsAMeasurement": "because the negative control in this file's header is NON-ZERO on DC-33 page 4 (lost 5078 / revealed 2500 at t=128) and zero on pages 1-3, which proves the annotated source render draws the /AP /N appearance streams whose erasure this difference exists to detect.",
+    "page4CarriesNoAddedInkAtAll": "0 added and 0 removed at every threshold. Packet page 4 carries Part Three B and the whole notarial certificate, and the delivered page is pixel-identical to the court's own published page."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": "pdftotext -layout whole-packet and per-page over both fixtures for 'Route:', 'obligation:unit:', repository paths, '.mjs', 'census-v1' and component identifiers; pdftotext -bbox-layout on the first line of page 6; and the same reading over the PRE-REPAIR canonical.pdf recovered from git.",
+     "result": "PASS",
+     "detail": "Zero machine route identity on all six filing pages of both fixtures. The pre-repair bytes put the word 'Route:' at yTop 64.487 as the first text on the order's second page, above the Court's findings and the GRANTED/DENIED line; the repaired bytes put the ORDER_COURT_BLOCK_NOTICE there at the same coordinate. Three occurrences survive on guidance pages 8, 13 and 15, each explicitly labelled INTERNAL RECORD REFERENCE on a page that declares itself not a filing."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": "sha256sum over the file at the declared path under MASTER_LIBRARY_SOURCE_DIR, compared to the pin in this family's own source-receipt.json.",
+     "result": "PASS",
+     "detail": "DC-33 resolves at 342337451d61e363..., 307164 bytes, 4 pages - exactly the declared pin. custodyClass SOURCE_ALREADY_HELD, allSourcesExact true, bound by content digest rather than by filename."
+    },
+    "COMPONENT_SET": {
+     "measured": "the five declared components resolved to delivered packet pages by reading each page's own heading.",
+     "result": "PASS",
+     "detail": "All five present and page-resolved: primary-filing-1 (1-4, DC-33 as published), proposed-order-2 (5-6), notice-package-3 (7-8), filing-instructions-4 (9-13), certified-copy-delivery-checklist-5 (14-15). requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": "every write in reports/actual-writes.json checked against the extracted text and flattened widget appearances of the delivered bytes.",
+     "result": "PASS",
+     "detail": "Exactly four writes land on the official binary - full legal name and date of birth in the caption of the motion (page 2) and of the affidavit (page 3). No alias line, no address history, no invented case fact. The shared name-channel trap on this form is refused: the defendant-name blank is named 'State of Rhode Island v Defendant', which the descriptor channel resolves to participant.state, and the delivered defendant line carries 'Jordan Avery Reyes' rather than a state name."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": "delivered text of every page carrying a court-, clerk-, prosecutor- or notary-owned blank, plus the 600 dpi directional raster of packet page 4.",
+     "result": "PASS",
+     "detail": "Nothing is written into any protected blank. Packet page 4 - the notarial certificate and the defendant's signature line - has 0 added dark pixels against the source at t=96/112/128, so nothing was drawn there at all. On the motion the case number, BCI number, hearing date, courtroom, certification-of-notice date, charging police department name, signature, bar number and date are all blank. Both pages of the court's own order block are blank. protectedWrites 0."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": "600 dpi directional raster of every official page of both fixtures at three thresholds, plus a per-box crop at each drawn selection mark.",
+     "result": "PASS",
+     "detail": "removed = 0 on every page of both fixtures at t=96, 112 and 128, against an annotation-drawn source render proven non-blind. Each drawn tick adds 1172 and 1168 dark pixels at t=128 strictly inside its own declared box without reducing the box outline's own ink, so no mark overlaps, clips or redraws the court's printed control."
+    },
+    "SELF_HELP_STOP": {
+     "measured": "read the composed filing-instructions component on the delivered pages.",
+     "result": "PASS",
+     "detail": "An explicit enumeration of where self-help ends: crime of violence, any prior felony or misdemeanor conviction or probation (which is the defining condition of this route), any felony or misdemeanor arrest or conviction during the five-year lookback with an arrest alone stated to defeat eligibility, pending proceedings, unpaid or unwaived financial obligations, the good-moral-character and rehabilitation findings which it attributes to the court, immigration exposure, disclosure-surviving occupations, and federal, out-of-state, military and tribal records. It also tells the participant to stop before swearing if a statement in their Part is not true."
+    },
+    "FILING_DESTINATION": {
+     "measured": "read the 'WHERE IT GOES' section on the delivered page.",
+     "result": "PASS",
+     "detail": "Names the clerk of the court where the conviction occurred, states Rhode Island has no county layer for this purpose, and says the clerk fills in the hearing date. It discloses that the District Court form lists four judicial complexes and that the platform has not seen the docket and does not know which is the participant's, so none is marked. No venue invented."
+    },
+    "SERVICE": {
+     "measured": "read the composed notice component against the motion's own certification line.",
+     "result": "PASS",
+     "detail": "Names the Office of the Attorney General and the police department that originally brought the charge, at least ten days before the hearing, under G.L. 1956 Sec. 12-1-12.1(b)(1) or Sec. 12-1.3-3(a). Sets out the order of events and states that a certification signed before notice was actually given is a false statement to a court. Prints no service address and says so in terms, because the platform holds none."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": "reports/blanks-left-for-the-participant.json enumerated item by item against the delivered pages and participant-instructions.md.",
+     "result": "PASS",
+     "detail": "25 required-before-filing blanks, each with document, field, page, the printed context beside it, a disclosure label, why the platform cannot supply it and what the participant must supply. everyRequiredBeforeFilingItemIsDisclosed true, resolving to this family's own participant-instructions.md. knownRequiredFieldsMissing 0."
+    },
+    "ARTIFACTS": {
+     "measured": "sha256sum and pdfinfo over both committed fixtures.",
+     "result": "PASS",
+     "detail": "canonical.pdf 311606 bytes / 15 pages / f810a12d5177..., boundary.pdf 311782 bytes / 15 pages / a0b99d006e50.... Both re-hashed first-hand and matching FIX134's row exactly. Both carry addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes (126/0 and 258/0)."
+    },
+    "PAGE_ORDER": {
+     "measured": "per-page pdftotext heading of all 15 delivered pages.",
+     "result": "PASS",
+     "detail": "Official DC-33 slice first and in the court's own order, then the proposed order instruction 7 tells the participant to bring, then notice, then filing instructions, then the post-grant certified-copy checklist. Nothing filed sits behind guidance; the two order pages are adjacent and in order."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": "routeSelectionsDrawn in reports/actual-writes.json checked against a 600 dpi per-box crop of the delivered and source pages, and the Part named in the delivered order and guidance checked against the affidavit's printed Parts.",
+     "result": "PASS",
+     "detail": "Exactly two controls are marked, both route-determined and both verified as real ink: 'expunged' rather than 'sealed' (+1172 px at t=128) and the Chapter 12-1.3 expungement relief bullet rather than the Sec. 12-1-12 destruction branch (+1168 px). Not one of the affidavit's selection controls is marked, because each is sworn. The packet names Part Three A: Single Conviction as this route's Part - which is the correct one of the four printed Parts - declares the other Parts' boxes outside the route, and states the five-year waiting period and five-year lookback that belong to Part Three A rather than the ten-year figures printed in Part Three B on the same form. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "measured": "the four-row Count / Charge / Disposition table on the delivered motion and the four numbered count lines on the delivered proposed order.",
+     "result": "PASS",
+     "detail": "The obligation arises on this form and is satisfied by measurement: all four rows are blank in every cell, on the motion and on the order alike, with the reason printed on the order - the platform has not seen the court record the counts come from. No row is partially filled, so no charge can land on another charge's line. incompleteRows 0."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": "read every money figure in the delivered text and traced each to its stated authority.",
+     "result": "PASS",
+     "detail": "No fee is fabricated, and the packet is careful about a real trap. This case is in the DISTRICT COURT while the only no-fee answer the repository holds is the SUPERIOR COURT's published FAQ; the delivered page says so in terms - the Superior Court answer does not establish what the District Court charges, no District Court figure is printed because none is held, and the participant is told to ask the clerk of the division where they file. It also expressly refuses to revive a $100 charge that older material describes and that the current text of Sec. 12-1.3-3(c) does not carry, and refuses to apply the civil filing-fee schedule. The $5 is the Attorney General's own BCI record-check charge, attributed to riag.ri.gov and distinguished from any court fee. Waiver is stated as the record states it: court-imposed obligations may be waived or reduced by court order and a waiver satisfies the eligibility condition."
+    }
+   },
+   "failedObligationNames": [],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "Enumerated the 25 requiredBeforeFiling entries and confirmed each is disclosed in participant-instructions.md and left blank on the delivered page: 0.",
+    "requiredFactsNotCollected": "The route needs full legal name and date of birth to caption the filings; both are present in the delivered bytes on pages 2, 3 and 5. Every other fact is a court-record fact the packet declines to supply and discloses as the participant's: 0.",
+    "unclassifiedBlanks": "Summed the four buckets in blanks-left-for-the-participant.json: 25 required + 13 elections + 28 protected + 22 outside-route = 88, reconciling exactly with the 88 in completeness-counters.json. Every blank carries a disposition: 0.",
+    "incompleteRows": "Read all four rows of the Count/Charge/Disposition table on the delivered motion and all four count lines on the delivered order; every cell blank, no row partly filled: 0.",
+    "requiredOptionsMissing": "Two route-determined controls, both drawn and both verified as ink by a 600 dpi per-box crop (+1172 and +1168 px at t=128). Every other control is a sworn statement or an out-of-route branch and is correctly unmarked. The correct Part - Three A - is named: 0.",
+    "requiredComponentsMissing": "All five declared components resolved to delivered pages by heading: 0.",
+    "invisibleWrites": "All nine entries in reports/actual-writes.json checked against the delivered bytes - four official-form writes read back in the extracted text of pages 2 and 3, five composed-page writes read back on pages 5, 7, 9 and 14, and both drawn ticks measured as added dark pixels in their own boxes at 600 dpi. Nothing declared is absent from the page: 0.",
+    "protectedWrites": "Packet page 4, carrying the notarial certificate and the signature line, has 0 added dark pixels against the source at t=96/112/128 - nothing drawn there at all. The motion's certification date, police-department name, signature, bar number, date, case number, BCI number, hearing date and courtroom read blank; both pages of the court's own order block are blank: 0.",
+    "visualDefects": "600 dpi directional raster of every official page of both fixtures at three thresholds: removed = 0 everywhere against a source render proven non-blind. No clipped glyph, no mark outside its box, no blank or duplicated page across 15 pages read individually: 0."
+   },
+   "crossChecks": {
+    "againstDEFECTS_NO_COUNTER_CAN_SEE": {
+     "checkedAllEleven": true,
+     "map-honest-writes-not": "Not present. Two facts written, both the participant's own; no alias or address line exists on this form.",
+     "a-participant-fact-written-into-a-field-about-someone-else": "The exposure EXISTS on this form and the build refuses it - see KNOWN_PREFILLS. Verified on the delivered bytes.",
+     "acroform-index-is-not-the-printed-row": "Cannot bite: no row of the charge table is written.",
+     "extracted-line-order-is-not-column-order": "Read the affidavit Part headings by x-position with -bbox-layout rather than by extracted line order.",
+     "internal-record-text-printed-on-a-filing": "This is the class the family failed on and it is now clear on all six filing pages, verified against the pre-repair bytes as well as the repaired ones.",
+     "a-published-zero-where-a-measurement-existed": "Not present. addedGlyphsReadFromOutputBytes is 126 canonical / 258 boundary - real, non-zero and differing between fixtures.",
+     "a-geometry-counter-with-no-teeth": "Not relied on. The reading with teeth here is the directional raster, reported per page with its threshold.",
+     "two-families-one-filing": "MEASURED, and it produced this row's principal finding - see nearCloneFinding below.",
+     "an-inverted-widget-rectangle-places-the-appearance-a-box-away": "Would show as added ink a box away from a control; page 4 carries 0 added and pages 1-4 carry 0 removed.",
+     "annotation-free-source-render-zeroes-the-only-check-for-erased-court-ink": "Disarmed by the negative control before any zero was trusted.",
+     "a-caption-read-from-the-neighbouring-row-on-a-sworn-affidavit": "Checked the 25 disclosure labels against the printed captions beside them; each names the blank it actually sits beside."
+    },
+    "nearCloneFinding": {
+     "finding": "ri_first_offender_misdemeanor-set and ri_multiple_misdemeanors-set deliver BYTE-IDENTICAL decompressed page content streams on packet pages 1, 2, 3, 4, 6 and 7, and identical whitespace-normalised extracted text on pages 1, 2, 3, 4, 7, 10 and 11.",
+     "whatThatMeansConcretely": "Pages 1-4 are the whole official DC-33 slice - the court's filing instructions, the MOTION, and both pages of the SWORN AFFIDAVIT. Page 6 is the second page of the composed proposed order. Both fixtures are fully flattened (0 AcroForm fields, 0 annotations on every page), so those pages are defined ENTIRELY by their content streams and there is nothing else that could differ. The two families deliver the same motion and the same affidavit, byte for byte, and the same two route-determined ticks in the same two boxes.",
+     "measuredHow": "pdftotext -layout per page, whitespace-normalised, SHA-256 per page; then the decompressed content stream per page via pdf-lib + zlib, SHA-256 per page, plus the ordered list of `re` and `m`/`l` path-placing operators hashed separately. Both readings agree.",
+     "whatACTUALLYDistinguishesTheTwoDeliveredPACKETS": "Packet page 5 - page 1 of the composed proposed order - differs on exactly two lines, and nothing else on any filed page differs at all. This family's order recites 'under R.I. Gen. Laws Sec. 12-1.3-2, Sec. 12-1.3-1 and Sec. 12-1.3-3, and on the Affidavit in Support of that Motion, Part Three A: Single Conviction.' The sibling's recites 'under R.I. Gen. Laws Sec. 12-1.3-2, Sec. 12-1.3-1, chapter 12-29, Sec. 31-27-2 and Sec. 31-27-2.1, and on the Affidavit in Support of that Motion, Part Three B: Multiple Convictions.' Beyond that the packets diverge only on composed guidance pages 8, 9, 12, 13, 14, 15 and in the /Title string.",
+     "isItADEFECT": "NO, on the evidence, and I looked for a reason to call it one. DC-33 is ONE instrument that carries every statutory branch as a numbered Part of one affidavit, so a single-conviction route and a multiple-conviction route file the same published form. The Part that separates them - Three A, five-year lookback, single misdemeanor; Three B, ten-year lookback, more than one but fewer than six - is a column of SWORN check boxes, and the build marks NONE of them in either family, deliberately, because each is a statement under oath about the participant's own record. The two ticks that ARE drawn are on the motion's relief election, and both routes seek the same relief - expunged rather than sealed, and the Chapter 12-1.3 expungement bullet rather than the Sec. 12-1-12 destruction branch - so identical ticks are the correct outcome and not a copied one. Each family names its own Part on its own proposed order and in its own guidance, and each states its own lookback: this family says five years, the sibling says ten.",
+     "whatISTHEFINDING": "CLONED_FAMILY_PACKETS.json carries NO Rhode Island entry of any kind. It read 943 fixtures and reports 13 cloned deliverable groups, 30 sharedDocument groups and 5 nearClone groups, and Rhode Island appears in none of the three. On its own published definitions this pair is at least a sharedDocuments group and arguably a nearClone, and it is recorded as neither. The gate that exists to catch two families delivering one filing is silent on a pair that delivers one filing on six of its fifteen pages. That is a gap in a committed record, not a defect in this packet, and it is the Captain's to close.",
+     "whatThisDoesNotDecide": "Whether either family OWED a different filing. It says only that the two deliver the same official instrument, that the instrument legitimately serves both, and that no committed record notices."
+    },
+    "committedRecordsThatDisagree": {
+     "blankPartitionDisagreement": {
+      "whatDisagrees": "reports/blanks-left-for-the-participant.json and reports/completeness-counters.json, both committed in this family's own overlay directory.",
+      "blanksReport": "required 25, participantElections 13, protectedBlanks 28, blanksOutsideThisRoute 22 - total 88.",
+      "countersFile": "REQUIRED_BEFORE_FILING 25, PARTICIPANT_ELECTION_GENUINE 35, PROTECTED_FIELD 27, NOT_APPLICABLE_ON_THIS_ROUTE 1 - total 88.",
+      "theDisagreement": "Totals reconcile and REQUIRED_BEFORE_FILING agrees; the partition does not. The counters file folds the 22 blanks the per-item report classifies as OUTSIDE THIS ROUTE into PARTICIPANT_ELECTION_GENUINE (13 + 22 = 35) and reports NOT_APPLICABLE_ON_THIS_ROUTE as 1 rather than 22, with PROTECTED_FIELD one lower than the per-item count. The same one-off pattern appears on all three families this lane holds, so it is a property of the summariser and not of this family.",
+      "whyItMatters": "On THIS form the out-of-route blanks are the check boxes of Part One, Part Two and Part Three B - the other statutory branches of the same affidavit. Those are boxes the participant must LEAVE ALONE, and marking one would be swearing to a different statutory branch. Calling twenty-two of them PARTICIPANT_ELECTION_GENUINE tells a summary reader the opposite of what the per-item record says.",
+      "whichIMeasuredAgainst": "the per-item blanks-left-for-the-participant.json, because it is enumerable and each entry names its field, page and printed context. I did not reconcile the two and did not edit either.",
+      "doesItChangeTheCounter": "No. unclassifiedBlanks is 0 under either partition. And it does not reach the delivered page: every out-of-route box is in fact UNMARKED in the delivered bytes, which I verified by raster."
+     },
+     "masterQueueState": {
+      "whatItSays": "MASTER_QUEUE.json records this family as state FAIL_REPAIR_REQUIRED at this base.",
+      "whatIMeasured": "That was this lane's own earlier verdict on the ROUTE_IDENTITY defect FIX134 has since repaired; the queue has not caught up. The verify brief describes families in this lane's hands as VERIFY_PENDING, a third description again.",
+      "whatIDidAboutIt": "Nothing. MASTER_QUEUE.json has one writer and it is not this lane."
+     },
+     "sourceReadyBuildability": {
+      "whatItSays": "SOURCE_READY_BUILDABILITY.json carries 73 rows and none is a Rhode Island family.",
+      "whatIDidInstead": "Resolved the pin first-hand with sha256sum under MASTER_LIBRARY_SOURCE_DIR. Absence from that dispatch aid is not a source finding here."
+     }
+    },
+    "fix134ClaimsTestedNotAccepted": {
+     "page 6 now opens with ORDER_COURT_BLOCK_NOTICE at yTop 64.5": "REPRODUCES exactly - measured 64.487, and the pre-repair bytes put 'Route:' at the identical 64.487.",
+     "the same first line the repaired sibling delivers": "REPRODUCES. Page 6's content stream is byte-identical across all three families this lane holds.",
+     "six trailer lines removed": "REPRODUCES exactly. The pre-repair page 6 carries 'Route:' plus five wrapped obligation-key lines - six lines - before the rule and the Court's block.",
+     "nothing else changed": "REPRODUCES on measurement rather than on report: the pages 1-4 directional raster against the pinned DC-33 is identical to the sibling's at every threshold, and every other page's content stream is accounted for."
+    },
+    "observationsThatDoNotFailAnObligation": {
+     "componentIdentifiersOnAGuidancePage": "Packet page 9, under 'WHAT IS IN THIS PACKET', prints this factory's five machine component identifiers as the bullet labels of the packet's contents list. They are NOT on any filing - pages 1-6 are clean of them, which I checked explicitly. Same leak CLASS that cost three Indiana families terminal status today, one page short of the boundary that matters. Raised for the Captain rather than scored, because the obligation as this lane failed it was machine route identity ON A FILING and that is repaired.",
+     "repositoryPathsAndContainerVocabularyOnGuidancePages": "Two passages name an internal artifact path (data/rcap-grade-a/chat-parallel-2026-09-07/review/ri-independent-findings.json) and state that riag.ri.gov 'is refused by this container's egress proxy'. In substance honest provenance disclosure that warns the participant a figure was not re-fetched and tells them to check it; the vocabulary is nonetheless the factory's rather than the reader's. Observation only, on guidance pages, not filings."
+    }
+   },
+   "rasterStateHonesty": {
+    "question": "Is this family's current raster state honest on my reading?",
+    "answer": "YES.",
+    "measured": "build-status.json reads rasterState BUILT_RASTER_PENDING, rasterPages 0, popplerUsed false, rasterEngine 'not rendered in this run'; reports/rendered-artifacts.json reads everyPageRastered false, rasterPages [], rasterSkipped true, rasterEngine null, zero .png references.",
+    "andTherefore": "No RASTER_PASS is asserted over the current bytes and none exists for them. Dispatching one is the Captain's. This row is an independent read, not a raster receipt."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf (all 15 pages, per-page pdftotext -layout and -bbox-layout)",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf (all 15 pages)",
+    "the PRE-REPAIR canonical.pdf recovered from git at cf086ff031826486277df207e7d5e8a13001f732, page 6, to verify the defect itself",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__...__REV-2025-02__EN.pdf (pinned source, rendered with annotations at 600 dpi)",
+    "the sibling ri_multiple_misdemeanors-set fixtures, for the clone comparison only",
+    "data/rcap-grade-a/packet-factory-24h/fix134/rows-fix134b-ri-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json (all eleven)",
+    "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (this family's row)"
+   ],
+   "visualDefects": [],
+   "grantsNothing": "This independent PASS proves the packet complete against its own controlling records at the base named. It approves no output, promotes no route, opens no commercial path, consumes no packet credit, and is not a RASTER_PASS."
+  },
+  {
+   "itemId": "ri_multiple_misdemeanors-set",
+   "familyId": "ri_multiple_misdemeanors-set",
+   "lane": "VF01",
+   "laneKind": "independent_verification",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "verifiedAtBase": "85846c48db56a9916d68372becf3967dc2c9d02b",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill",
+   "implementationStrategy": "official_pdf_fill",
+   "claim": "CLAIM_OK VF01 ri_multiple_misdemeanors-set (independent-verification, grant set efe991352bff7732)",
+   "postRepairReread": {
+    "routeIdentity": "SETTLED here before FIX134 touched it, and still settled. Zero occurrences of 'Route:', 'obligation:unit:', any repository path, any '.mjs' and any component identifier on packet pages 1-6 of both fixtures. Three occurrences survive on guidance pages 8, 14 and 15, each under the heading 'INTERNAL RECORD REFERENCE, not part of any filing and nothing a court or a clerk needs', each on a page that declares itself guidance. Page 6 opens with the ORDER_COURT_BLOCK_NOTICE text at yTop 64.487, the same first line the two repaired siblings deliver.",
+    "whatFIX134ActuallyRepairedHere": "Not the trailer. It restored the source-authored opaque selection mask on the notary's own radio group Group2, INSIDE the notarial certificate of a sworn affidavit, on packet page 4.",
+    "the1026PixelClaimResolved": "FIX134 said it 'cleared 1,026 added pixels on page 4, every one outside a declared box'. That figure is a PRE-REPAIR reading and it is recorded as such in its own row under canonicalBefore. On the repaired bytes I measure 0 added and 0 removed on page 4 at t=96, t=112 and t=128, which is exactly its canonicalAfter. Its page 2 (18198) and page 3 (15858) figures at t=128, and its boundary figures 30821 and 28481, all reproduce for me EXACTLY.",
+    "soTheDefectIsGone": "Packet page 4 is now pixel-identical to the court's own published DC-33 page 4 at 600 dpi: 0 added, 0 removed, at every threshold I tried."
+   },
+   "theSynthesisNoteIsRefutedAndIVerifiedItMyself": {
+    "whatThisLaneUsedToSay": "An earlier note of this lane's read the extra marks on page 4 as 'synthesis rather than misplacement' - marks matching no /AP /N stream DC-33 ships - and left the defect open pending a reader who could name the shared step that generated the stream.",
+    "itIsWrongAndTheBytesSayWhy": "Nothing was ever synthesized. I extracted the Form XObjects of the DELIVERED page 4 and the widget /AP /N appearance streams of the PINNED SOURCE page 4 independently, decompressed both, and hashed them.",
+    "measuredFirstHand": {
+     "deliveredCanonicalPage4": "/FlatWidget-2015858073 is 219 bytes, sha256 a79c3a7b25a532ca..., /BBox [0 0 12.2227 9.9118]; /FlatWidget-7845598753 is 216 bytes, sha256 a2d80ac0efea6b86..., /BBox [0 0 11.4524 9.52667]",
+     "deliveredBoundaryPage4": "identical: the same two lengths, the same two digests, the same two /BBox values",
+     "pinnedSourceDC33Page4": "the Group2 widgets' own AP/N//Off streams are 216 bytes sha256 a2d80ac0efea6b86... and 219 bytes sha256 a79c3a7b25a532ca..., at those identical /BBox values",
+     "conclusion": "The delivered streams are BYTE-IDENTICAL to the streams the court's own PDF ships, in both fixtures. The court's appearance is delivered whole, not reconstructed. The 'synthesis' reading was wrong and FIX134's byte account of it is correct."
+    },
+    "whySuppressSynthesizedWidgetBordersWasInert": "Confirmed on the code as well as the bytes. In the walker in scripts/rcap-official-forms/rcap-active-content.mjs that flag does one thing on a widget that already has an appearance - it clears the /MK border characteristics a viewer consults ONLY when it must construct an appearance for itself. These Group2 widgets ship an /AP /N, so there is nothing to construct and nothing for the flag to prevent. It never reaches the code that stripped the leading fill, which is precisely why it changed nothing cluster for cluster.",
+    "andTheRepairRestoresRatherThanRemoves": "The remedy adds the source's own opaque leading fill back rather than deleting the stroke that sat on top of it. Deleting the stroke would have erased the court's own bevel and outline - over-suppression - and my directional raster confirms the opposite happened: removed = 0 on page 4 at every threshold."
+   },
+   "digestsIReHashedMyself": {
+    "method": "sha256sum, first-hand, over the committed fixture bytes at this base. Not transcribed from FIX134's rows.",
+    "canonical": {
+     "sha256": "4b77e151246ef516a546a3d4d562f1edba76cd9f6a5b4fac4f5ab67231a24c4a",
+     "byteLength": 312804,
+     "pages": 15,
+     "matchesFix134Row": true
+    },
+    "boundary": {
+     "sha256": "637ca130cf69d3a547e7e3f20155e1558e9748c5ff23213bedbe45be7bb452db",
+     "byteLength": 312980,
+     "pages": 15,
+     "matchesFix134Row": true
+    }
+   },
+   "pinnedSourceVerifiedFirstHand": {
+    "sourceId": "official-form:DC-33",
+    "declaredSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+    "measuredSha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908",
+    "byteLength": 307164,
+    "pages": 4,
+    "resolvedAt": "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__district-court-motion-affidavit-and-instructions-to-expunge-or-seal-record__REV-2025-02__EN.pdf",
+    "agreesWithSourceReceipt": true
+   },
+   "directionalRasterAgainstThePinnedSource": {
+    "thresholdAndResolutionArePublishedWithEveryCount": true,
+    "resolution": "600 dpi, 5100x6600 raster, 8-bit grey",
+    "scope": "packet pages 1-4, the official DC-33 slice. Packet pages 5-15 are composed and have no source page to difference against.",
+    "canonical": [
+     {
+      "page": 1,
+      "t=96": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     },
+     {
+      "page": 2,
+      "t=96": {
+       "removed": 0,
+       "added": 17435
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 17940
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 18198
+      }
+     },
+     {
+      "page": 3,
+      "t=96": {
+       "removed": 0,
+       "added": 15135
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 15600
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 15858
+      }
+     },
+     {
+      "page": 4,
+      "t=96": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=112": {
+       "removed": 0,
+       "added": 0
+      },
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     }
+    ],
+    "boundary": [
+     {
+      "page": 1,
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     },
+     {
+      "page": 2,
+      "t=128": {
+       "removed": 0,
+       "added": 30821
+      }
+     },
+     {
+      "page": 3,
+      "t=128": {
+       "removed": 0,
+       "added": 28481
+      }
+     },
+     {
+      "page": 4,
+      "t=128": {
+       "removed": 0,
+       "added": 0
+      }
+     }
+    ],
+    "removedIsZeroOnEveryPageOfBothFixturesAtEveryThreshold": true,
+    "andThatZeroIsAMeasurement": "because the negative control in this file's header is NON-ZERO on DC-33 page 4 (lost 5078 / revealed 2500 at t=128; plateau 4146 / 3472 at t=96..112) and zero on pages 1-3. The annotated render draws the /AP /N streams whose erasure this difference exists to detect - and on THIS family that matters more than on the other two, because the defect that was repaired here lives in exactly those streams."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "measured": "pdftotext -layout whole-packet and per-page over both fixtures for 'Route:', 'obligation:unit:', repository paths, '.mjs', 'census-v1' and component identifiers; pdftotext -bbox-layout on the first line of page 6.",
+     "result": "PASS",
+     "detail": "Zero machine route identity on all six filing pages of both fixtures - and this family never carried it on a filing, which I confirmed rather than assumed. Three occurrences survive on guidance pages 8, 14 and 15, each labelled INTERNAL RECORD REFERENCE on a page that declares itself not a filing. Page 6 opens with the ORDER_COURT_BLOCK_NOTICE text at yTop 64.487."
+    },
+    "SOURCE_IDENTITY": {
+     "measured": "sha256sum over the file at the declared path under MASTER_LIBRARY_SOURCE_DIR, compared to the pin in this family's own source-receipt.json; and the source's page-4 widget appearance streams extracted and hashed independently.",
+     "result": "PASS",
+     "detail": "DC-33 resolves at 342337451d61e363..., 307164 bytes, 4 pages - exactly the declared pin. Beyond the whole-file digest I verified source identity at the STREAM level on the page that was repaired: the delivered page-4 appearance streams are byte-identical to the source's own, 219 and 216 bytes at digests a79c3a7b25a532ca... and a2d80ac0efea6b86..., in both fixtures."
+    },
+    "COMPONENT_SET": {
+     "measured": "the five declared components resolved to delivered packet pages by reading each page's own heading.",
+     "result": "PASS",
+     "detail": "All five present and page-resolved: primary-filing-1 (1-4, DC-33 as published), proposed-order-2 (5-6), notice-package-3 (7-8), filing-instructions-4 (9-14), certified-copy-delivery-checklist-5 (15). requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "measured": "every write in reports/actual-writes.json checked against the extracted text and flattened widget appearances of the delivered bytes.",
+     "result": "PASS",
+     "detail": "Exactly four writes land on the official binary - full legal name and date of birth in the caption of the motion (page 2) and of the affidavit (page 3). No alias line, no address history, no invented case fact, and in particular no misdemeanour count is written anywhere, which matters on a route defined by how many convictions the participant has. The shared name-channel trap is refused: the defendant-name blank is named 'State of Rhode Island v Defendant' and the delivered defendant line carries 'Jordan Avery Reyes', not a state name."
+    },
+    "PROTECTED_FIELDS": {
+     "measured": "delivered text of every page carrying a court-, clerk-, prosecutor- or notary-owned blank, plus the 600 dpi directional raster and the Form XObject inventory of packet page 4.",
+     "result": "PASS",
+     "detail": "Nothing is written into any protected blank, and this is the family where that question was live. Packet page 4 carries the notarial certificate, and the marks that were wrong there before were the NOTARY'S OWN radio group. On the repaired bytes page 4 has 0 added and 0 removed dark pixels against the source at t=96/112/128, and its two Group2 appearance streams are byte-identical to the court's. Nothing of the platform's is on that page. On the motion the case number, BCI number, hearing date, courtroom, certification-of-notice date, charging police department name, signature, bar number and date are blank; both pages of the court's own order block are blank. protectedWrites 0."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "measured": "600 dpi directional raster of every official page of both fixtures at three thresholds, per-box crops at each drawn selection mark, and a byte comparison of the page-4 appearance streams against the source.",
+     "result": "PASS",
+     "detail": "removed = 0 on every page of both fixtures at t=96, 112 and 128 against a source render proven non-blind. The repair here restored an opaque mask rather than deleting a stroke, so the risk it created was over-suppression of the court's own bevel and outline; the directional raster shows none - page 4 is pixel-identical to the source. Each drawn tick on page 2 adds 1172 and 1168 dark pixels at t=128 strictly inside its own declared box without reducing the box outline's ink."
+    },
+    "SELF_HELP_STOP": {
+     "measured": "read the composed filing-instructions component on the delivered pages.",
+     "result": "PASS",
+     "detail": "An explicit enumeration of where self-help ends, and one entry is unusually careful: it distinguishes the additional MISDEMEANOR convictions this route exists to clear, which are NOT a stop, from a felony conviction, which takes the route away entirely. It also names crime of violence, arrest during the ten-year lookback, unpaid or unclear obligations, pending proceedings, the good-moral-character and rehabilitation findings attributed to the court, immigration exposure, disclosure-surviving occupations, out-of-reach federal/out-of-state/military/tribal records, and a misdemeanour count the participant cannot establish from the record - telling them to settle it before swearing rather than treating it as arithmetic."
+    },
+    "FILING_DESTINATION": {
+     "measured": "read the 'WHERE IT GOES' section on the delivered page.",
+     "result": "PASS",
+     "detail": "Names the clerk of the court where the conviction occurred, states Rhode Island has no county layer for this purpose, says the clerk fills in the hearing date, and discloses that the District Court form lists four judicial complexes and the platform does not know which is the participant's, so none is marked. No venue invented."
+    },
+    "SERVICE": {
+     "measured": "read the composed notice component against the motion's own certification line.",
+     "result": "PASS",
+     "detail": "Names the Office of the Attorney General and the police department that originally brought the charge, at least ten days before the hearing, under G.L. 1956 Sec. 12-1-12.1(b)(1) or Sec. 12-1.3-3(a). Sets out the order of events and states that a certification signed before notice was actually given is a false statement to a court. Prints no service address and says so, because the platform holds none."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "measured": "reports/blanks-left-for-the-participant.json enumerated item by item against the delivered pages and participant-instructions.md.",
+     "result": "PASS",
+     "detail": "25 required-before-filing blanks, each with document, field, page, the printed context beside it, a disclosure label, why the platform cannot supply it and what the participant must supply. everyRequiredBeforeFilingItemIsDisclosed true, resolving to this family's own participant-instructions.md. knownRequiredFieldsMissing 0."
+    },
+    "ARTIFACTS": {
+     "measured": "sha256sum and pdfinfo over both committed fixtures.",
+     "result": "PASS",
+     "detail": "canonical.pdf 312804 bytes / 15 pages / 4b77e151246e..., boundary.pdf 312980 bytes / 15 pages / 637ca130cf69.... Both re-hashed first-hand and matching FIX134's row exactly. Both carry addedGlyphsReadFromOutputBytes and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes (126/0 and 258/0)."
+    },
+    "PAGE_ORDER": {
+     "measured": "per-page pdftotext heading of all 15 delivered pages.",
+     "result": "PASS",
+     "detail": "Official DC-33 slice first and in the court's own order, then the proposed order, then notice, then filing instructions, then the post-grant certified-copy checklist last. Nothing filed sits behind guidance; the two order pages are adjacent and in order."
+    },
+    "ROUTE_OPTIONS": {
+     "measured": "routeSelectionsDrawn checked against 600 dpi per-box crops of the delivered and source pages, and the Part named in the delivered order and guidance checked against the affidavit's four printed Parts.",
+     "result": "PASS",
+     "detail": "Exactly two controls are marked, both route-determined and both verified as real ink: 'expunged' rather than 'sealed' (+1172 px at t=128) and the Chapter 12-1.3 expungement relief bullet rather than the Sec. 12-1-12 destruction branch (+1168 px). Not one of the affidavit's selection controls is marked, because each is sworn. The packet names Part Three B: Multiple Convictions - the correct one of the four printed Parts and the one that differs from its District Court sibling - declares the other Parts' boxes outside the route, and states the ten-year waiting period and ten-year lookback that belong to Part Three B rather than the five-year figures printed in Part Three A on the same form. It also flags, correctly, that the sixth box of Part Three B is worded 'not more than six (6) misdemeanors' while the route is two to five, and states that the box's wording does not enlarge the route. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "measured": "the four-row Count / Charge / Disposition table on the delivered motion and the four numbered count lines on the delivered proposed order.",
+     "result": "PASS",
+     "detail": "The obligation arises on this form and is satisfied by measurement: all four rows are blank in every cell, on the motion and on the order alike, with the reason printed on the order. It matters more here than on the siblings, because this is the multi-conviction route and a charge landing on another charge's line is precisely the catalogued failure - it cannot occur when no cell is written. incompleteRows 0."
+    },
+    "FEE_AND_WAIVER": {
+     "measured": "read every money figure in the delivered text and traced each to its stated authority.",
+     "result": "PASS",
+     "detail": "No fee is fabricated. The case is in the DISTRICT COURT while the only no-fee answer the repository holds is the SUPERIOR COURT's published FAQ, and the delivered page says so in terms - the Superior answer does not establish what the District Court charges, no District Court figure is printed because none is held, and the participant is told to ask the clerk of their division. It expressly refuses to revive a $100 charge that older material describes and the current text of Sec. 12-1.3-3(c) does not carry, and refuses to apply the civil filing-fee schedule. The $5 is the Attorney General's own BCI record-check charge, attributed to riag.ri.gov and distinguished from any court fee. Waiver is stated as the record states it."
+    }
+   },
+   "failedObligationNames": [],
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0
+   },
+   "countersHowMeasured": {
+    "knownRequiredFieldsMissing": "Enumerated the 25 requiredBeforeFiling entries and confirmed each is disclosed in participant-instructions.md and left blank on the delivered page: 0.",
+    "requiredFactsNotCollected": "The route needs full legal name and date of birth to caption the filings; both present in the delivered bytes on pages 2, 3 and 5. Every other fact - including the misdemeanour count this route turns on - is a court-record fact the packet declines to supply and discloses as the participant's: 0.",
+    "unclassifiedBlanks": "Summed the four buckets in blanks-left-for-the-participant.json: 25 required + 14 elections + 28 protected + 21 outside-route = 88, reconciling exactly with the 88 in completeness-counters.json. Every blank carries a disposition: 0.",
+    "incompleteRows": "Read all four rows of the Count/Charge/Disposition table on the delivered motion and all four count lines on the delivered order; every cell blank, no row partly filled: 0.",
+    "requiredOptionsMissing": "Two route-determined controls, both drawn and verified as ink by 600 dpi per-box crops (+1172 and +1168 px at t=128). Every other control is sworn or out-of-route and correctly unmarked. The correct Part - Three B - is named: 0.",
+    "requiredComponentsMissing": "All five declared components resolved to delivered pages by heading: 0.",
+    "invisibleWrites": "All nine entries in reports/actual-writes.json checked against the delivered bytes - four official-form writes read back in the extracted text of pages 2 and 3, five composed-page writes read back on pages 5, 7, 9 and 15, and both drawn ticks measured as added dark pixels in their own boxes at 600 dpi. Nothing declared is absent from the page: 0.",
+    "protectedWrites": "Packet page 4, carrying the notarial certificate, has 0 added and 0 removed dark pixels against the source at t=96/112/128, and its two notary-group appearance streams are byte-identical to the court's own. This is the counter the pre-repair bytes would have failed - 1,026 added pixels inside the notarial certificate, every one outside a declared box - and it now reads 0 on measurement rather than on report.",
+    "visualDefects": "600 dpi directional raster of every official page of both fixtures at three thresholds: removed = 0 everywhere against a source render proven non-blind, and added = 0 on the page whose selection paint was repaired. No clipped glyph, no mark outside its box, no blank or duplicated page across 15 pages read individually: 0."
+   },
+   "crossChecks": {
+    "againstDEFECTS_NO_COUNTER_CAN_SEE": {
+     "checkedAllEleven": true,
+     "map-honest-writes-not": "Not present. Two facts written, both the participant's own.",
+     "a-participant-fact-written-into-a-field-about-someone-else": "The exposure EXISTS on this form and the build refuses it; verified on the delivered bytes.",
+     "acroform-index-is-not-the-printed-row": "Cannot bite: no row of the charge table is written. Named here because this is the multi-conviction route, where it would have been the likeliest of the eleven to occur.",
+     "extracted-line-order-is-not-column-order": "Read the affidavit Part headings by x-position with -bbox-layout rather than by extracted line order.",
+     "internal-record-text-printed-on-a-filing": "Clear on all six filing pages; the three surviving occurrences are labelled and on guidance.",
+     "a-published-zero-where-a-measurement-existed": "Not present. addedGlyphsReadFromOutputBytes is 126 canonical / 258 boundary - real, non-zero, differing between fixtures.",
+     "a-geometry-counter-with-no-teeth": "DIRECTLY RELEVANT and not relied on. This is the family whose 1,026 stray pixels fell OUTSIDE every declared box while nonWhitespaceGlyphsOutsideMeasuredWriteBoxes read 0 - because they were path marks and not glyphs. I took the directional raster as the reading with teeth, not that counter.",
+     "two-families-one-filing": "MEASURED - see nearCloneFinding below.",
+     "an-inverted-widget-rectangle-places-the-appearance-a-box-away": "Checked specifically, because this family's defect lived in widget appearance geometry. The delivered /BBox values on page 4 are identical to the source's, and page 4 carries 0 added and 0 removed, so no appearance is stamped off its control.",
+     "annotation-free-source-render-zeroes-the-only-check-for-erased-court-ink": "The most important of the eleven for this row, because the repair here ADDS an opaque fill and the failure mode it risks is erasure. Disarmed by the negative control before any zero was trusted.",
+     "a-caption-read-from-the-neighbouring-row-on-a-sworn-affidavit": "Checked the 25 disclosure labels against the printed captions beside them; each names the blank it actually sits beside."
+    },
+    "nearCloneFinding": {
+     "finding": "This family and ri_first_offender_misdemeanor-set deliver BYTE-IDENTICAL decompressed page content streams on packet pages 1, 2, 3, 4, 6 and 7 - the whole official DC-33 slice including the motion and both pages of the sworn affidavit - and identical extracted text on pages 1, 2, 3, 4, 7, 10 and 11. Both fixtures are fully flattened (0 AcroForm fields, 0 annotations), so those pages are defined entirely by those streams.",
+     "whatDistinguishesTheTwoDeliveredPACKETS": "Packet page 5 differs on exactly two lines and nothing else on any filed page differs at all. This family's proposed order recites 'under R.I. Gen. Laws Sec. 12-1.3-2, Sec. 12-1.3-1, chapter 12-29, Sec. 31-27-2 and Sec. 31-27-2.1, and on the Affidavit in Support of that Motion, Part Three B: Multiple Convictions'; the sibling's recites Sec. 12-1.3-2, Sec. 12-1.3-1 and Sec. 12-1.3-3 and Part Three A: Single Conviction. Beyond that they diverge only on guidance pages 8, 9, 12, 13, 14, 15 and in /Title - where this family states a ten-year waiting period and ten-year lookback against the sibling's five and five.",
+     "isItADefect": "No. DC-33 carries every statutory branch as a numbered Part of one affidavit, so both routes file the same published form; the Part that separates them is a column of SWORN check boxes and neither family marks any of them, deliberately. The two ticks that are drawn are the motion's relief election, and both routes seek the same relief, so identical ticks are correct.",
+     "whatISTheFinding": "CLONED_FAMILY_PACKETS.json carries no Rhode Island entry in any of its three categories - clonedDeliverables, nearClones or sharedDocuments - across 943 fixtures read. On its own published definitions this pair is at least a sharedDocuments group. The gate that exists to catch two families delivering one filing is silent on a pair that delivers one filing on six of its fifteen pages. A gap in a committed record, not a defect in this packet, and the Captain's to close.",
+     "thirdFamilyForCompleteness": "ri_deferred_sentence-set is built on Superior-55 and is neither a clone nor a near-clone of either: its pages 1-4 streams differ from both on every page. Page 3's ADDED ink, however, is identical across all three families at every threshold (15135 / 15600 / 15858), because Superior-55 and DC-33 are the same instrument issued for two courts and the affidavit-caption write set is the same on both. Page 2's added ink differs slightly between the Superior and District forms (17417 vs 17435 at t=96)."
+    },
+    "theRecordFIX134DisturbedDeliberately": {
+     "whatItWas": "At commit 640dae299 this family's reports/rendered-artifacts.json asserted everyPageRastered: true with 30 byte-derived local page hashes, and build-status.json read rasterEngine 'chromium_calibrated', rasterPages 30, rasterState RASTER_LOCAL_PENDING_CENTRAL.",
+     "whatIVerifiedAboutIt": "The 30 hashes referenced paths of the form <familyDir>/raster/canonical/page-NN/page.png. I checked whether those files were ever in the repository: `git ls-tree -r` at that very commit returns ZERO tracked files under that raster/ prefix, `git ls-tree -r HEAD` returns zero, and no raster/ directory exists on disk. So the family carried 30 committed page hashes for files that are not in the repository and were not in it when the hashes were written - and they were bound to bytes this repair has since replaced.",
+     "whatItIsNow": "build-status.json reads rasterEngine 'not rendered in this run', rasterPages 0, popplerUsed false, rasterState BUILT_RASTER_PENDING; rendered-artifacts.json reads everyPageRastered false, rasterPages [], rasterSkipped true, rasterEngine null, and contains zero .png references.",
+     "isTheCurrentStateHonestOnMyReading": "YES. It asserts no raster over bytes it cannot support, which is the honest position: the bytes changed, the old hashes could not have described them, and no RASTER_PASS exists over the current bytes for any of the three families this lane holds. Dropping the stale hashes rather than silently overwriting them was the right disposal, and FIX134 writing it up rather than quietly losing it is why I could check it.",
+     "whatIDidNotDo": "I did not dispatch a raster, and none of the three families carries a RASTER_PASS over its current bytes. That dispatch is the Captain's."
+    },
+    "committedRecordsThatDisagree": {
+     "blankPartitionDisagreement": {
+      "whatDisagrees": "reports/blanks-left-for-the-participant.json and reports/completeness-counters.json, both committed in this family's own overlay directory.",
+      "blanksReport": "required 25, participantElections 14, protectedBlanks 28, blanksOutsideThisRoute 21 - total 88.",
+      "countersFile": "REQUIRED_BEFORE_FILING 25, PARTICIPANT_ELECTION_GENUINE 35, PROTECTED_FIELD 27, NOT_APPLICABLE_ON_THIS_ROUTE 1 - total 88.",
+      "theDisagreement": "Totals reconcile and REQUIRED_BEFORE_FILING agrees; the partition does not. The counters file folds the 21 blanks the per-item report classifies as OUTSIDE THIS ROUTE into PARTICIPANT_ELECTION_GENUINE (14 + 21 = 35) and reports NOT_APPLICABLE_ON_THIS_ROUTE as 1 rather than 21, with PROTECTED_FIELD one lower than the per-item count. The identical one-off pattern appears on all three families this lane holds - a property of the summariser, not of any one family.",
+      "whyItMatters": "On this form the out-of-route blanks include the check boxes of Part Three A, the SINGLE-conviction branch of the same affidavit. Those are boxes this participant must leave alone; marking one would be swearing to a different statutory branch with a different lookback. Calling twenty-one of them PARTICIPANT_ELECTION_GENUINE tells a summary reader the opposite of what the per-item record says.",
+      "whichIMeasuredAgainst": "the per-item blanks-left-for-the-participant.json, because it is enumerable and each entry names its field, page and printed context. I did not reconcile the two and did not edit either.",
+      "doesItChangeTheCounter": "No. unclassifiedBlanks is 0 under either partition, and it does not reach the delivered page: every out-of-route box is in fact unmarked in the delivered bytes, verified by raster."
+     },
+     "masterQueueState": {
+      "whatItSays": "MASTER_QUEUE.json records this family as state FAIL_REPAIR_REQUIRED at this base.",
+      "whatIMeasured": "The defect that state refers to - the notary-group selection paint - is repaired and I verified it on the delivered bytes and at stream level. The queue has not caught up. The verify brief describes families in this lane's hands as VERIFY_PENDING, a third description again.",
+      "whatIDidAboutIt": "Nothing. MASTER_QUEUE.json has one writer and it is not this lane."
+     },
+     "sourceReadyBuildability": {
+      "whatItSays": "SOURCE_READY_BUILDABILITY.json carries 73 rows and none is a Rhode Island family.",
+      "whatIDidInstead": "Resolved the pin first-hand with sha256sum, and additionally verified source identity at stream level on the repaired page. Absence from that dispatch aid is not a source finding here."
+     }
+    },
+    "fix134ClaimsTestedNotAccepted": {
+     "it verified rather than assumed that the trailer was already settled here": "REPRODUCES. Zero route hits on packet pages 5 and 6 of both fixtures, and three labelled guidance occurrences on pages 8, 14 and 15 - the page numbers it named.",
+     "it cleared 1,026 added pixels on page 4, every one outside a declared box": "REPRODUCES as a PRE-REPAIR figure, which is how its own row records it. On the repaired bytes I measure 0 added and 0 removed at t=96/112/128.",
+     "the delivered appearances are byte-identical to the source streams after repair": "REPRODUCES, verified first-hand in both directions: delivered 219 B / a79c3a7b25a532ca and 216 B / a2d80ac0efea6b86 in BOTH fixtures, against the source's own AP/N//Off streams at the same lengths, digests and /BBox values.",
+     "nothing was ever synthesized": "CONFIRMED, and it refutes this lane's own earlier note. The streams DO match ones DC-33 ships.",
+     "suppressSynthesizedWidgetBorders was inert because these widgets ship an /AP /N": "CONFIRMED on the code path as well as the bytes.",
+     "the host defines five families, not six": "REPRODUCES. The FAMILIES table has exactly five keys and exactly five scripts import the host; ri_nonconviction_sealing-set is three lines importing runEastFamily from the New Jersey host and never reaches this file.",
+     "the two siblings it must not move were not moved": "REPRODUCES. Neither ri-decriminalized-set nor ri-first-offender-felony-set had a fixture touched by any FIX134 commit."
+    },
+    "observationsThatDoNotFailAnObligation": {
+     "componentIdentifiersOnAGuidancePage": "Packet page 9, under 'WHAT IS IN THIS PACKET', prints this factory's five machine component identifiers as the bullet labels of the packet's contents list. NOT on any filing - pages 1-6 are clean, checked explicitly. Same leak class that cost three Indiana families terminal status today, one page short of the boundary that matters. Raised for the Captain rather than scored.",
+     "repositoryPathsAndContainerVocabularyOnGuidancePages": "Two passages name an internal artifact path and state that riag.ri.gov 'is refused by this container's egress proxy'. Honest provenance disclosure in substance - it warns the participant a figure was not re-fetched and tells them to check it - but the vocabulary is the factory's rather than the reader's. Observation only, on guidance pages, not filings."
+    }
+   },
+   "rasterStateHonesty": {
+    "question": "Is this family's current raster state honest on my reading?",
+    "answer": "YES - and this is the family the question was asked about.",
+    "measured": "See theRecordFIX134DisturbedDeliberately above. The stale 30 local page hashes are gone, they described files never tracked in this repository, and nothing has replaced them with a claim the bytes cannot support.",
+    "andTherefore": "No RASTER_PASS exists over the current bytes of any of the three families this lane holds, and none is asserted. Dispatching one is the Captain's, not this lane's."
+   },
+   "evidenceRead": [
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/canonical.pdf (all 15 pages, per-page pdftotext -layout and -bbox-layout; page-4 Form XObjects extracted and hashed)",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/fixtures/boundary.pdf (all 15 pages; page-4 Form XObjects extracted and hashed)",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/source-receipt.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/build-status.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/build-findings.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/product-wiring.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/participant-instructions.md",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/actual-writes.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/blanks-left-for-the-participant.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/completeness-counters.json",
+    "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "the same family's build-status.json and rendered-artifacts.json at commit 640dae299, for the dropped raster hashes",
+    "MASTER_LIBRARY_SOURCE_DIR/STATES/RI/02_PACKET_FORMS/RI__FORM__DC-33__...__REV-2025-02__EN.pdf (pinned source; rendered with annotations at 600 dpi, and its page-4 widget /AP /N streams extracted and hashed)",
+    "the sibling ri_first_offender_misdemeanor-set fixtures, for the clone comparison only",
+    "scripts/rcap-official-forms/rcap-active-content.mjs (read only, for the suppressSynthesizedWidgetBorders code path)",
+    "scripts/build-census-v1-ri_decriminalized-set.mjs (FAMILIES table only)",
+    "data/rcap-grade-a/packet-factory-24h/fix134/rows-fix134b-ri-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/DEFECTS_NO_COUNTER_CAN_SEE.json (all eleven)",
+    "data/rcap-grade-a/packet-factory-24h/CLONED_FAMILY_PACKETS.json",
+    "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json (this family's row)"
+   ],
+   "visualDefects": [],
+   "grantsNothing": "This independent PASS proves the packet complete against its own controlling records at the base named. It approves no output, promotes no route, opens no commercial path, consumes no packet credit, and is not a RASTER_PASS."
+  }
+ ]
+}

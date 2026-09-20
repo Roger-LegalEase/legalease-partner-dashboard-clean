@@ -1,0 +1,135 @@
+{
+  "familyId": "ut_pet_special_certificate-set",
+  "base": "64c679ac6218a72f6421b6d8ab203b3b4aaa6dc7",
+  "pinnedPacketCommitSha": "4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15",
+  "documents": [
+    {
+      "fixture": "canonical",
+      "currentPdf": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+      "bytes": 2617228,
+      "pages": 13,
+      "matchesPinnedGitBlob": true,
+      "matchesCurrentRasterQueue": true
+    },
+    {
+      "fixture": "boundary",
+      "currentPdf": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+      "bytes": 3079393,
+      "pages": 20,
+      "matchesPinnedGitBlob": true,
+      "matchesCurrentRasterQueue": true
+    }
+  ],
+  "rasterQueueRow": {
+    "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
+    "boundaryPdfSha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+    "builderAssignment": "VF02",
+    "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
+    "canonicalPdfSha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+    "coverage": {
+      "basis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "complete": true,
+      "documents": [
+        "canonical.pdf"
+      ],
+      "notRastered": [],
+      "notRenderedByThisGate": [],
+      "notRenderedByThisGateBasis": "every PDF present in the family's fixture discovery that this row does not queue. The gate renders every document a row queues, whatever its role, so a queued boundary fixture is rendered and is not named here.",
+      "rastered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
+    },
+    "currentRasterState": "RASTER_PASS",
+    "documents": [
+      {
+        "name": "canonical.pdf",
+        "pageCount": 13,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 13,
+          "sourceSha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/canonical.pdf",
+        "role": "canonical",
+        "sha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58"
+      },
+      {
+        "name": "boundary.pdf",
+        "pageCount": 20,
+        "pageCountBasis": "parsed from the queued PDF bytes with pdf-lib",
+        "pageCountEvidence": {
+          "method": "pdf-lib",
+          "pageCount": 20,
+          "sourceSha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+          "version": "1.17.1"
+        },
+        "path": "data/rcap-all50/overlays/census-v1/ut/ut-pet-special-certificate-set--official-pdf-fill/fixtures/boundary.pdf",
+        "role": "boundary",
+        "sha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba"
+      }
+    ],
+    "documentsDigest": "430326665c2b4a32a712b088b1e98c46b6fca4f8ff4c69fb1151a88410ca46c1",
+    "expectedPages": 13,
+    "familyId": "ut_pet_special_certificate-set",
+    "fixtureSelection": {
+      "boundary": "the assembled packet, matched by exact name",
+      "canonical": "the assembled packet, matched by exact name"
+    },
+    "nextOwner": "RAS02",
+    "packetCommitSha": "08d1157068ab93d7f5e2a3ecbecef548950a60c7",
+    "rasterReceipt": {
+      "boundToBoundarySha256": "3b1425d7636cbebdb055d4a8f863251fb0970d8e0b35b3354278630d16d601ba",
+      "boundToCanonicalSha256": "c6a058ff36f009423b82f53f9269815023d1d1624c2e42a8cdc57b7463b28f58",
+      "browserExecutable": "/home/runner/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+      "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+      "coverageBasis": "the family ships one assembled packet, so rendering it covers every canonical page of the family",
+      "coversTheWholeFamily": true,
+      "documentsCovered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "documentsDigest": "430326665c2b4a32a712b088b1e98c46b6fca4f8ff4c69fb1151a88410ca46c1",
+      "documentsMeasured": 2,
+      "documentsNotCovered": [],
+      "documentsRendered": [
+        "canonical.pdf",
+        "boundary.pdf"
+      ],
+      "environmentProblems": [],
+      "everyCanonicalDocumentRendered": true,
+      "howThisReceiptWasRead": "Original GitHub artifact ZIP downloaded and checked against API digest; exact verdict parsed programmatically. Both PDFs and all33originalPNGhashes/lengths match. Pinned immutable checkout4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15 is proved; historical manifest generation stamp is not used as a substitute byte binding. See raster-runs/34629454670/ut_pet_special_certificate-set.ORIGINAL_EVIDENCE_VERIFIED.json.",
+      "ingestedBy": "scripts/grade-a-packet-factory-24h/ingest-raster-receipt.mjs",
+      "jobConclusion": "success",
+      "jobId": "103363362819",
+      "packetCommitSha": "4abaf4f7dc9e7c9be6d9b0e1c053da401942cf15",
+      "packetCommitShaIsAGenerationStampNotAByteBinding": "This records which commit the render ran at. What the receipt BINDS is the canonical and boundary digests below, and only those.",
+      "pagesMeasured": 33,
+      "problems": [],
+      "receiptArtifact": {
+        "digest": "sha256:da4c3389bd922d59191b36a53138627b37852cc996a687beee8846d9d76eaedf",
+        "expiresAt": "2026-09-25T17:56:30Z",
+        "id": "10275673600",
+        "name": "rcap-raster-ut_pet_special_certificate-set-34629454670"
+      },
+      "requestedScale": 2.5,
+      "verdict": "RASTER_PASS",
+      "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on.",
+      "whatThisDoesNotDecide": "This is one gate. RASTER_PASS does not make a family PASS_COMPLETE, promotes nothing, and opens no commercial route.",
+      "whatThisGateDidNotRender": [],
+      "workflowRunId": "34629454670"
+    },
+    "requestedScale": 2.5
+  },
+  "originalReceipt": {
+    "path": "data/rcap-grade-a/packet-factory-24h/raster-runs/34629454670/ut_pet_special_certificate-set.ORIGINAL_EVIDENCE_VERIFIED.json",
+    "sha256": "b5a8917180f3cbe2fcab752a3e3e7e12a8d3a132cb76826da5cb7b3efe2610b3",
+    "bytes": 42604
+  },
+  "caveat": "Historical manifest/queue generation stamps are not used as byte identity. Direct immutable git blob hashes and current queue PDF digests agree."
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF34",
+  "generatedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+  "repairAssignments": [
+    {
+      "assignmentId": "VF34-SD-SOURCE-CURRENCY-2026-09-03",
+      "itemId": "sd_arrest_expungement-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+      "failedProofObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "decisiveDefect": "The family does not bind the current official six-form set. Four direct UJS downloads exactly match the receipt, but UJS-232 and UJS-394 do not. UJS-232 changed from 308ed5e4386a9e223d510a1dfa6f49cb15b1c349a27db63e32dcf0164d6d7737/166791 bytes to c76ac268d736a525fa2af7da552fd60ed08802a00ce4bdbbf08f8bd4829548f7/177827 bytes without changing its visible 12/2020 revision label; its layout/content changed. UJS-394 changed from d6f2dab3ca32ca7fedd348635871d036dc90170c240ac416b4c9b770a7c7de3f/92135 bytes, Rev. 08/2024, to 5cbdcdf213532a92fa2a740d64e24bc607f9c14f53af848b77ac4993275dc448/188446 bytes, Rev. 07/2026. Packet pages 1 and 11 remain derived from the older pins.",
+      "repairInstruction": "Acquire and pin the current individual UJS-232 and UJS-394 PDFs from the links on the official South Dakota UJS Expungement Forms page. Update the source custody/index and family source receipt, remap the changed layouts, rebuild canonical and boundary packets without changing the selected legal route, and rerun completeness plus whole-family raster acceptance. Do not merely relabel the old files: the UJS-232 visible revision did not change even though its bytes and fields did.",
+      "howToProve": "On a fresh retrieval, rehash all six individual form links. UJS-232 must bind c76ac268d736a525fa2af7da552fd60ed08802a00ce4bdbbf08f8bd4829548f7 at 177827 bytes and UJS-394 must bind 5cbdcdf213532a92fa2a740d64e24bc607f9c14f53af848b77ac4993275dc448 at 188446 bytes unless UJS publishes newer bytes before repair. Reconcile any later change rather than copying these pins blindly. Then prove both regenerated PDFs' page manifests point to those acquired source hashes, every mapped write remains visible/protected fields remain blank, and a new raster receipt binds both regenerated fixture hashes and the resulting documents digest.",
+      "obligationsAlreadyPassing": [
+        "ROUTE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "doNotRegress": "Preserve the current explicit selected-route disclosure, documentary/docket/DCI pre-filing checks, indigency-waiver guidance, service timing and recipients, ten self-help stops, and protected-field refusals. The existing raster receipt remains valid evidence only for the old packet hashes and cannot be reused after rebuilding.",
+      "grantsNothing": "This assignment authorizes source refresh and consequent packet regeneration only. It opens no route, approves no output, changes no price, and grants no production or commercial authority."
+    }
+  ]
+}

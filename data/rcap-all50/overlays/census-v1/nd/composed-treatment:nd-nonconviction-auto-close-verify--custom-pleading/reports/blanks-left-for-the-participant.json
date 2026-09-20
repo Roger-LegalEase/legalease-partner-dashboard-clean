@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "requiredBeforeFiling": [],
+  "protectedBlanks": [
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.request_signature",
+      "label": "Signature on the request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs the request personally"
+    },
+    {
+      "document": "clerk_correction_request",
+      "field": "clerk_correction_request.request_signature_date",
+      "label": "Date beside the signature on the request",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the request is signed would be false"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_signature",
+      "label": "Signature of the defendant on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the defendant signs the motion personally"
+    },
+    {
+      "document": "enforcement_motion",
+      "field": "enforcement_motion.motion_signature_date",
+      "label": "Date beside the defendant's signature on the motion",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the motion is signed would be false"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_decision",
+      "label": "The decision line of the proposed order, decided by the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "every decision on the proposed order is the court's"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_signature",
+      "label": "Signature line of the proposed order, for the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court signs the order if, and only if, it grants the motion"
+    },
+    {
+      "document": "proposed_order",
+      "field": "proposed_order.order_date",
+      "label": "Date line of the proposed order, for the court",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "the court dates the order when it decides"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/nd/composed-treatment:nd-nonconviction-auto-close-verify--custom-pleading/participant-instructions.md"
+}

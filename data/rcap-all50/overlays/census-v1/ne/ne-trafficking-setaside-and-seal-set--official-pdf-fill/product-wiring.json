@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ne-trafficking-setaside-and-seal-set",
+  "routeKeys": [
+    "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion",
+    "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion"
+  ],
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "binding": {
+    "family": "ne-trafficking-setaside-and-seal-set",
+    "jurisdiction": "NE",
+    "routeKeys": [
+      "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion",
+      "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion"
+    ],
+    "deliveryType": "custom_pleading",
+    "instrumentKinds": [
+      "Motion to seal the record once the conviction has been set aside (official_pdf_fill)",
+      "Motion to set aside the conviction or adjudication as a victim of sex trafficking (custom_pleading)"
+    ],
+    "packetComponents": [
+      "component:ne-trafficking-setaside-and-seal-sealing-motion-2"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CC-6-12",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34805276590",
+      "jobId": "103856603078",
+      "artifactId": "10333245525",
+      "boundToCanonicalSha256": "45300a2bcea7795b6d66e8698ef4416fdaa17011c30cf591ef718adbf240809e",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vfne1",
+      "verifiedAtBase": "ff5c337b411a9747331d42752161208998e87e81"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ne-trafficking-setaside-and-seal-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

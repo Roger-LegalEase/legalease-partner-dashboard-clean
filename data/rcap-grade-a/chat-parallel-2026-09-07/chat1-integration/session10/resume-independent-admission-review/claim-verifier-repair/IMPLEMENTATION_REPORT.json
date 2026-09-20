@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-session10-claim-verifier-repair/v1",
+  "author": "/root/release_path_review",
+  "independentReview": "PENDING Captain review; author execution is not independent approval",
+  "createdAtUtc": "2026-09-08T16:37:27.531466+00:00",
+  "observedHead": "bde57859af96454e229c75e19506a7d0a791ba4d",
+  "changedImplementationPaths": [
+    "scripts/verify-shared-claim-boundary-app.mjs"
+  ],
+  "verifierSha256": "10671c7d06ba6a8e169e8351b9e1eff3782de3d4e4560d52c574bab692369eb5",
+  "problem": "Two stale literal comparisons rejected intended behavior already installed: retryable claim failures preserve the token and callback scrubbing uses the shared continuation parser/query.",
+  "change": "Replace only those two literal assertions with actual checked-in helper execution using synthetic browser and network ports. All other assertion groups remain. The auth callback helper is selected from its TypeScript AST and evaluated with the real continuation parser/query and safe redirect helper.",
+  "checks": {
+    "applicationAssertionsPassed": 92,
+    "claimLifecycleCases": 17,
+    "callbackCases": 4,
+    "scopedLint": "PASS",
+    "negativeControls": 11,
+    "relocatedVerifierBaseline": "PASS",
+    "mutationHarnessLint": "PASS"
+  },
+  "unchangedApplicationSources": [
+    {
+      "path": "src/lib/expungement-ai/claim/claim-handoff.ts",
+      "sha256": "67cec6441bd7a7534584ced4f0e3b3ae472457d92f83b62859222ff35d93f445"
+    },
+    {
+      "path": "src/app/auth/set-password/page.tsx",
+      "sha256": "1503c48bf033c146548d06e03b099b1c41a6d9b323a6c54c9ed2ccd7b187708d"
+    }
+  ],
+  "existingMutationSuite": {
+    "path": "scripts/test-shared-claim-boundary-mutations.mjs",
+    "inspected": true,
+    "executed": false,
+    "reason": "Its 9 controls modify SQL/schema/payment-information sources and invoke database or ownership verifiers. Those are unrelated to these two browser URL assertions; no DB/auth source mutation was authorized for this task. The new 11 controls are isolated to verifier read strings and preserve actual files."
+  },
+  "boundaries": [
+    "No auth service, Supabase, RLS, session, payment, participant data, workflow or release criterion changed.",
+    "No network request, browser installation, packet generation or database execution.",
+    "Temporary relocated verifier file removed after each process; no duplicate repository or dependency tree created.",
+    "Passed author checks await independent Captain review and committed-state publication."
+  ],
+  "validation": [
+    {
+      "name": "scoped-lint",
+      "command": [
+        "./node_modules/.bin/eslint",
+        "scripts/verify-shared-claim-boundary-app.mjs",
+        "--quiet"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.622
+    },
+    {
+      "name": "application-proof",
+      "command": [
+        "node",
+        "scripts/verify-shared-claim-boundary-app.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.17
+    },
+    {
+      "name": "mutation-harness-lint",
+      "command": [
+        "./node_modules/.bin/eslint",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/claim-verifier-repair/test-application-proof-mutations.mjs",
+        "--quiet"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 2.804
+    },
+    {
+      "name": "negative-controls",
+      "command": [
+        "node",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/resume-independent-admission-review/claim-verifier-repair/test-application-proof-mutations.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 19.86
+    }
+  ]
+}

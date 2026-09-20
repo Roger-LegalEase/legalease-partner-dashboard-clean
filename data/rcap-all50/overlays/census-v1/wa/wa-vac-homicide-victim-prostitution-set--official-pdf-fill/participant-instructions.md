@@ -1,0 +1,38 @@
+FAMILY MEMBER FILING INSTRUCTIONS
+
+This packet is for the living family member applying in the sentencing court on behalf of a deceased homicide victim whose conviction was for prostitution under RCW 9A.88.030. The defendant caption identifies the deceased person; the applicant signs only in the applicant's own capacity. Court qualification leads to mandatory vacation under RCW 9.96.060(7); a generated packet does not decide qualification.
+
+Before using this custom vehicle, confirm with the sentencing court that it accepts the custom petition/declaration, proposed order, hearing notice and service proof for this route. Use any mandatory local vehicle instead. Kitsap District Court publishes its own 950780 petition and 950790 notice, and its instructions say the judge prepares the order. Do not require this proposed order where the court prepares it. Do not pass a Kitsap local form off as a statewide form. If the court's required vehicle is not available, stop for clerk or legal help before filing.
+
+WHERE TO FILE
+File in Seattle Municipal Court, the court that entered the convictions in 2010-CR-001234. Confirm the original plaintiff, deceased defendant's name, exact count/offense/statute and conviction date against the original judgment or docket. These fixture facts are synthetic; do not file these review PDFs. The custom vehicle requires confirmed acceptance by the actual sentencing court.
+
+WHAT TO COMPLETE
+Obtain the conviction docket or judgment, evidence supporting homicide status, and evidence supporting your family relationship. A death certificate is often useful; a court or police record may establish homicide status. Subsection (7) does not universally prescribe one particular certificate. Follow actual court requirements and the product safeguard of supporting evidence. Do not file graphic narrative or unnecessary private information. Ask the clerk about redaction and restricted filing before attaching sensitive records. If identity or relationship is disputed or records do not establish the required facts, stop for legal help.
+
+In the declaration, identify the record source showing homicide status, record source supporting family relationship, conviction docket or judgment source, basis of personal knowledge and record identification, and exhibit identifiers and descriptions. Do not manufacture a declaration from a route choice. Read, complete and personally sign the declaration only when its contents are true. Supply actual signing city/state and date. The petition signature is also yours. Do not sign as the deceased defendant. No notary block is required by this adopted declaration vehicle; confirm the court's accepted execution practice.
+
+THE PROPOSED ORDER
+The order is caption-filled only apart from identifying the requested convictions. Leave qualification findings, grant/deny choices, hearing date, extra directions, judicial signature/date and judicial name for the court. Never obtain a judge's signature before filing as though it were a participant prerequisite. If the court grants relief, obtain the entered order and ask the clerk about transmission to the Washington State Patrol and relevant local law-enforcement agencies under RCW 9.96.060(8). Vacatur is not a guarantee that every private database disappears.
+
+HEARING AND SERVICE
+Contact the sentencing court's clerk before filing for scheduling, accepted notice form, service requirements and hearing attendance. Complete a notice only from the actual court schedule. The held Washington vacatur instructions use copies of the petition and scheduling notice for the prosecuting office on the same day as filing; confirm those mechanics for this family-member vehicle. Make copies for the prosecutor and yourself. Serve the prosecuting attorney's office for the original case by a method the court permits, and file proof of actual service. If there is opposition or uncertainty, obtain legal help. The certificate's recipient, documents, method, destination, service date and server name stay blank until service actually happens; only the actual server signs and dates it.
+
+FEE, TIMING AND LIMITS
+No filing fee or waiver amount is established by the held route materials. Ask the sentencing-court clerk whether a fee applies, its amount, and the ordinary fee-waiver process if you cannot pay. Subsection (7) states no waiting period. Do not import ordinary three-year, new-crime or sentence-completion conditions; do not require trafficking proof or an estate appointment. The underlying offense must be the exact RCW 9A.88.030 offense, not an ordinance conviction silently treated as equivalent.
+
+STOP CONDITIONS
+The applicant is not a family member of the person who died.
+The conviction may not be a RCW 9A.88.030 prostitution conviction.
+The person whose record is at issue is living, in which case the survivor routes apply.
+The applicant is distressed and needs a person rather than a packet. Ask only what is needed to route.
+Also stop if homicide status is unsupported, the relationship is disputed, the sentencing court or custom vehicle is unconfirmed, or a required local form is unavailable.
+
+This is a custom drafting vehicle under the adopted WA-HOMICIDE-VICTIM-FAMILY-MEMBER-96060-7 decision, not an issuer form. It remains internal evidence pending independent semantic and original-page review. No commercial route is opened.
+
+Required-before-filing blank inventory:
+Exhibit identifiers and descriptions: Identify the actual attached evidence; follow local redaction/restricted-filing requirements.
+Basis of personal knowledge and record identification: Supply only facts you can truthfully declare and identify the supporting records.
+Conviction docket or judgment source: Identify the sentencing-court docket or judgment for each listed conviction.
+Record source showing homicide status: Identify the death certificate or court/police record supporting homicide status; death alone does not establish homicide.
+Record source supporting family relationship: Identify evidence supporting the relationship. Do not supply graphic details.

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-worker-checkpoints/v1",
+  "assignmentId": "FIX119",
+  "laneRole": "flattener-geometry",
+  "laneKind": "repair",
+  "workerBranch": "pfd-inv-20260910",
+  "returnFilename": "checkpoints-fix119-20260910-pfd.json",
+  "writtenAlongsideRatherThanOver": "fix119/rows-fix119-20260909b.json survives byte-for-byte. This lane wrote rows-fix119-20260910-pfd.json alongside it and overwrote nothing.",
+  "note": "Three families were assigned. One, al-felony-dwop-set, refused its claim with exit 8 and was a full stop: no artifact of it was read or rebuilt, and the assignment's proposed proof was moved onto al-pardoned-felony-set, which this lane holds and which binds the same CR-65 and carries the same defect at the same widget. The other two were claimed, repaired for the flattener geometry defect, and returned. Neither eligibility ground could be honestly elected and both refusals are recorded with the record that blocks them.",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "closedAt": "2026-09-10T00:00:00.000Z",
+      "familiesInThisCheckpoint": [
+        "al-felony-dwop-set",
+        "al-pardoned-felony-set",
+        "al-felony-nonconviction-90-set"
+      ],
+      "familiesCompleted": 2,
+      "familiesStopped": 1,
+      "stoppedFamilies": [
+        "al-felony-dwop-set"
+      ],
+      "baseSha": "2b45ac2be",
+      "verdictsSet": 0,
+      "passesIssued": 0,
+      "rasterReceiptsIssued": 0,
+      "claimsReleased": 0,
+      "routesOpened": 0,
+      "productionTouched": false,
+      "what": "Fixed at cause a flattener geometry defect: pdf-lib places a flattened widget appearance from the raw first corner of /Rect, so a rectangle stored with its corners inverted -- which ISO 32000-1 7.9.5 permits and requires a consumer to normalise -- stamps its appearance one box away from the control the form draws. On Alabama CR-65 that painted the widget's own white /Off fill 14.358pt high, across the word \"expired\" in a statutory eligibility ground. Established by measurement, before editing, that the existing appearance-placement module is NOT the site: run over CR-65 it corrects four appearances and this widget is not one of them. Added normalizeInvertedWidgetRectangles to the shared sanitizer, threaded an opt-in flag through the finalizer and both Alabama builders, and set it on the two families this lane holds. Proved it in both directions at 300 dpi against a render of the pinned source: 198 pixels of the form's own text restored, 0 ink lost page-wide, 20 of 22 page images pixel-identical, and exactly 1 of 216 flattened placements moved. Measured the population across held custody by content digest: 46 inverted-rect widgets in 13 forms out of 13,023 widgets in 245, of which exactly one paints today. Replaced a hardcoded literal 0 for addedGlyphsReadFromOutputBytes with a real reading. Refused both eligibility-ground elections and said which record blocks each.",
+      "whatWasNotDone": "No verdict was set and no PASS was issued. No claim was released or transferred. No route was opened. No other lane's worktree, rows file or record was edited. The identical-page-images defect between the two families is NOT repaired and is returned as a legal block."
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "schemaVersion": "rcap-source-stage-reader-evidence/v1",
+  "lane": "FIX03",
+  "familyId": "nj_ordinance-set",
+  "baseSha": "4c9f176482b9bc8ba96430b9d946014be4535485",
+  "scope": "Introduce one closed, opt-in PARTICIPANT_LATER_COMPLETION disposition and independently verify the exact NJ-CN-10557 participant source stage for 18 fields. No NJ host or overlay adoption is included.",
+  "newDisposition": {
+    "name": "PARTICIPANT_LATER_COMPLETION",
+    "actorMeaning": "The participant completes the field after the initial filing from a court-returned document, an applicable service-recipient step, or an actual mailing/proof event.",
+    "distinctFrom": {
+      "LATER_COMPLETION": "An act completed by the court or clerk at or after filing.",
+      "REQUIRED_BEFORE_FILING": "A participant fact that must exist before the initial filing."
+    },
+    "optInOnly": true,
+    "unoptedNormalizedShapePreserved": true
+  },
+  "requiredHostAdoptionSchema": {
+    "appliesToEachClosedRegistryField": true,
+    "set": {
+      "refusalClass": null,
+      "blankTreatment": "PARTICIPANT_LATER_COMPLETION",
+      "completenessDisposition": "PARTICIPANT_LATER_COMPLETION",
+      "requiredBeforeFiling": false,
+      "routeDetermined": false,
+      "participantOwnedCompletion": true,
+      "completionStage": "MUST_EQUAL sourceStage.trigger",
+      "completesAfterService": "MUST_EQUAL the closed field registry",
+      "sourceStage": {
+        "kind": "participant_later_completion",
+        "familyId": "nj_ordinance-set",
+        "documentId": "NJ-CN-10557",
+        "sourceSha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+        "field": "EXACT PDF FIELD NAME",
+        "actor": "participant",
+        "trigger": "EXACT CLOSED-REGISTRY TRIGGER",
+        "instructionPages": "EXACT CLOSED-REGISTRY PAGE ARRAY"
+      }
+    },
+    "guideRequirement": "One line must contain the exact trigger and literal source field: `<field>` identity for each field.",
+    "removeContradictions": [
+      "Do not retain requiredBeforeFiling=true.",
+      "Do not retain a court/prosecutor/clerk/agency-owned refusalClass.",
+      "Do not describe these fields as court-completed; court-assigned values copied by the participant retain participant copy ownership."
+    ]
+  },
+  "closedRegistry": [
+    {
+      "trigger": "AFTER_COURT_ASSIGNMENT_COPY_TO_LATER_FORMS",
+      "fields": ["ExpungeDocketNum"],
+      "instructionPages": [36, 41],
+      "completesAfterService": false
+    },
+    {
+      "trigger": "AFTER_INITIAL_FILING_FROM_ORDER_FOR_HEARING",
+      "fields": ["CoverLtrEHearDt", "CoverLtrEHearTime"],
+      "instructionPages": [36],
+      "completesAfterService": false
+    },
+    {
+      "trigger": "AFTER_NOTICE_SERVICE_PROOF",
+      "fields": ["expungDocketNum"],
+      "instructionPages": [39],
+      "completesAfterService": true
+    },
+    {
+      "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "fields": ["SheriffLoc", "SheriffAddrStr", "SheriffAddr2"],
+      "instructionPages": [36],
+      "completesAfterService": false
+    },
+    {
+      "trigger": "AFTER_INITIAL_FILING_FOR_APPLICABLE_SERVICE_RECIPIENT",
+      "fields": ["ProsCntyName", "ProsAddrStr", "PoliceAddrStr", "PoliceAddr2", "SuperintendentAddrStr", "SuperintendentAddr2", "WardenAddrStr", "WardenAddr2"],
+      "instructionPages": [36, 41],
+      "completesAfterService": false
+    },
+    {
+      "trigger": "NOTICE_OF_HEARING_MAILING",
+      "fields": ["CoverLtrEDt"],
+      "instructionPages": [36],
+      "completesAfterService": true
+    },
+    {
+      "trigger": "AFTER_NOTICE_SERVICE_PROOF",
+      "fields": ["mailPetition"],
+      "instructionPages": [39],
+      "completesAfterService": true
+    },
+    {
+      "trigger": "POST_ORDER_SERVICE",
+      "fields": ["CoverLtrGDt"],
+      "instructionPages": [41],
+      "completesAfterService": true
+    }
+  ],
+  "coverage": {
+    "distinctFields": 18,
+    "courtAssignedFactsCopiedByParticipant": 4,
+    "laterParticipantRecipientFields": 11,
+    "laterParticipantMailingOrProofFields": 3
+  },
+  "independentProof": {
+    "source": {
+      "pathRoot": "/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "pathInArchive": "STATES/NJ/02_PACKET_FORMS/NJ__FORM__CN-10557__cn-10557-new-jersey-expungement-kit__REV-2020-06__EN.pdf",
+      "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+      "byteLength": 1924831,
+      "pageCount": 43
+    },
+    "checks": [
+      "Family, document, source SHA, field, participant actor, trigger and instruction-page array equal the closed registry.",
+      "Current source-receipt and first-hand census identify NJ-CN-10557 with the exact SHA, byte length and 43 pages.",
+      "Every map widget equals the exact field's measured census widget geometry.",
+      "Current source bytes hash and size match; pdftotext reads every required instruction phrase from its exact page.",
+      "Participant instructions disclose the exact source-field identity and trigger on the same line.",
+      "Only an in-memory proof object created by the reader is accepted; serialized verified=true is rejected."
+    ]
+  },
+  "mutationEvidence": [
+    {"case": "correct 18-field source-bound adoption", "result": "ACCEPTED", "observed": "PASS_COMPLETE; 18 PARTICIPANT_LATER_COMPLETION rows and 18 sourceStageMeasurements"},
+    {"case": "caller verified=true plus wrong source SHA", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "wrong field identity", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "wrong trigger", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "wrong actor", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "unknown family opt-in", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "source receipt mismatch", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "census source mismatch", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "map/census widget mismatch", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "missing exact field/stage disclosure", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "requiredBeforeFiling=true contradiction", "result": "DETECTED", "counter": "unclassifiedBlanks"},
+    {"case": "available fact hidden as later completion", "result": "DETECTED", "counter": "knownRequiredFieldsMissing"},
+    {"case": "route-determined election hidden as later completion", "result": "DETECTED", "counter": "requiredOptionsMissing"},
+    {"case": "selection control hidden as later completion", "result": "DETECTED", "counter": "requiredOptionsMissing"},
+    {"case": "protected judge signature and court order date with hostile sourceStage metadata", "result": "PRESERVED_PROTECTED"},
+    {"case": "serialized verified=true passed directly to contract", "result": "DETECTED", "disposition": "UNCLASSIFIED_BLANK"},
+    {"case": "real CLI over transient adopted NJ map", "result": "ACCEPTED_AND_RESTORED", "observed": "PASS_COMPLETE 18/179; map and guide restored byte-for-byte"},
+    {"case": "unopted CA family full audit object", "result": "UNCHANGED", "sha256": "49e81a90d4be20873d7eaa7ae0e8d8ef670a628a0f00a2b1a373748df0809b96"}
+  ],
+  "validation": [
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node --test scripts/rcap-packet-completeness/nj-participant-later-completion.test.mjs",
+      "exit": 0,
+      "result": "21 tests passed, 0 failed; includes real CLI transient adoption and byte-for-byte restoration"
+    },
+    {
+      "command": "node --test scripts/rcap-packet-completeness/anchors-and-withheld-selection-controls.test.mjs scripts/rcap-packet-completeness/verify-absent-is-not-zero.test.mjs scripts/rcap-packet-completeness/verify-gate-coverage-matches-its-verdicts.test.mjs scripts/rcap-packet-completeness/verify-route-election-is-made.test.mjs",
+      "exit": 0,
+      "result": "27 existing reader tests passed, 0 failed"
+    },
+    {
+      "command": "MASTER_LIBRARY_SOURCE_DIR=/workspaces/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_ordinance-set",
+      "exit": 0,
+      "result": "Current unadopted artifact remains PASS_COMPLETE 18/179; all nine counters zero"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-4a-set",
+      "exit": 0,
+      "result": "Existing non-NJ result preserved: NOT_MEASURABLE_HERE 8/204; substantive counters zero and visual measurements absent"
+    },
+    {
+      "command": "git diff --check",
+      "exit": 0,
+      "result": "No whitespace errors"
+    }
+  ],
+  "unchanged": {
+    "sharedNjHost": true,
+    "njOverlayArtifacts": true,
+    "sourcePdf": true,
+    "fixturePdfs": true,
+    "rasters": true,
+    "claimLedgerExcludedFromCommit": true
+  },
+  "limitations": [
+    "This commit supplies the source-stage vocabulary and reader only. It does not adopt the schema in the NJ host or committed map because PF26 owns that shared host.",
+    "The current NJ artifact therefore remains on its pre-adoption semantics until Captain assigns the guarded host update.",
+    "MD compatibility and any proof renewal are Captain-owned; no MD files were modified.",
+    "No full repository suite, local raster, source refresh, legal review, visual review, admission or route promotion was performed."
+  ],
+  "terminalEarned": false,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "remainingBlocker": "The exact 18-field schema and guide disclosure must be adopted by the NJ host after PF26 returns, then the three VF62 failed obligations must be independently rechecked.",
+  "grantsNothing": "This reader implementation grants no whole-family repair verdict, independent approval, admission, route promotion, runtime selection, payment authority, sponsorship authority or commercial fulfillment authority."
+}

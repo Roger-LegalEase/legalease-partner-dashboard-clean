@@ -1,0 +1,591 @@
+#!/usr/bin/env node
+/**
+ * The New Mexico conviction expungement family — `nm_conviction-set`.
+ *
+ *   node scripts/build-census-v1-nm_conviction-set.mjs [--check] [--no-raster]
+ *
+ * Seven official documents across two filing stages, in a New Mexico district
+ * court, under NMSA 1978, Section 29-3A-5 and Rule 1-077.1 NMRA:
+ *
+ *   STAGE ONE, filed together and then served
+ *     4-953 NMRA                 Petition to expunge; upon conviction
+ *     4-956 NMRA                 Certificate of service
+ *     4-222 NMRA                 Application for free process   — conditional
+ *
+ *   STAGE TWO, at least sixty-three days later
+ *     4-960 NMRA                 Notice of completion of briefing
+ *     4-960.3 NMRA               Affirmation in support of expungement
+ *
+ *   FOR THE HEARING, which happens in every case on this track
+ *     4-960.1 NMRA               Notice of hearing
+ *     NM-LOCAL-CONVICTION-ORDER  Order on petition to expunge   — conditional
+ *
+ * WHAT DIFFERS FROM THE IDENTITY-THEFT FAMILY, AND WHY IT MATTERS HERE
+ *
+ * SERVICE IS REQUIRED ON THIS TRACK. The petition and every attachment go by
+ * first-class United States mail to the district attorney for the county where
+ * the conviction was entered, to the New Mexico Department of Public Safety,
+ * and to the law enforcement agency that made the arrest, and Form 4-956 is
+ * filed to certify it. That single fact changes the disposition of twenty
+ * blanks: Form 4-960.1's four page-2 service blocks are the petitioner's to
+ * complete for any party that filed and served an objection under Rule
+ * 1-077.1(G)(1) NMRA -- required before filing -- where on the identity-theft
+ * track, which serves nobody, the same twenty blanks are on a branch of the
+ * form the route does not reach. `serviceBlocksOf` in
+ * scripts/rcap-nm-flat-forms/nm-form-4-960-1.mjs takes the route's service
+ * posture as a parameter for exactly this reason, and this family passes the
+ * other answer.
+ *
+ * A HEARING HAPPENS IN EVERY CASE, so the packet-set manifest marks the notice
+ * of hearing REQUIRED here rather than conditional.
+ *
+ * THE PACKET IS FILED IN TWO STAGES SIXTY-THREE DAYS APART, and Forms 4-960 and
+ * 4-960.3 describe what happened in between: whether each responding party
+ * objected, whether anything is pending, whether there has been a conviction.
+ * None of that is knowable when the packet is prepared, so every one of those
+ * controls and lines belongs to the participant, and the instructions are
+ * organised around the sequence rather than around the forms.
+ *
+ * Rasterization goes through scripts/raster/pdf-page-raster.mjs. Never Poppler.
+ */
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import { runNmFamily, selfHelpStopConditions, selfHelpStopSection, heldNotWrittenSection, PARTICIPANT_ELECTION }
+  from "./rcap-nm-flat-forms/nm-packet-host.mjs";
+import { FORM_4_960_1, dictionary4960_1 } from "./rcap-nm-flat-forms/nm-form-4-960-1.mjs";
+import { FORM_4_222, DICTIONARY_4_222, STATEWIDE_CAPTION_FINDING }
+  from "./rcap-nm-flat-forms/nm-form-4-222.mjs";
+import {
+  FORM_4_953, DICTIONARY_4_953, FORM_4_956, DICTIONARY_4_956,
+  FORM_4_960, DICTIONARY_4_960, FORM_4_960_3, DICTIONARY_4_960_3,
+  NM_LOCAL_CONVICTION_ORDER, DICTIONARY_CONVICTION_ORDER
+} from "./rcap-nm-flat-forms/nm-conviction-documents.mjs";
+
+const thisFile = fileURLToPath(import.meta.url);
+const FAMILY_ID = "nm_conviction-set";
+const OUT = "data/rcap-all50/overlays/census-v1/nm/nm-conviction-set--official-pdf-fill";
+const BUILD_SCRIPT = "scripts/build-census-v1-nm_conviction-set.mjs";
+
+const ROUTE = Object.freeze({
+  jurisdiction: "NM",
+  routeKey: "obligation:track-pathway:NM:nm_conviction:conviction",
+  routeSelectionId: "nm-conviction-set-4-953-4-956-4-960-4-960.1-4-960.3-local-order-4-222",
+  publicLabel: "Expunge the records of a New Mexico conviction",
+  authority:
+    "NMSA 1978, Section 29-3A-5; Rule 1-077.1 NMRA; Forms 4-953, 4-956, 4-960, 4-960.1 and 4-960.3 NMRA. Rule and forms "
+    + "approved by Supreme Court Order No. S-1-RCR-2024-00099, effective for all cases filed on or after December 31, 2025."
+});
+
+const SERVICE_ON_THIS_TRACK =
+  "by first-class United States mail on the district attorney for the county in which the conviction was entered, the "
+  + "New Mexico Department of Public Safety, and the law enforcement agency that arrested the petitioner";
+
+/* ------------------------------------------------------------------ */
+
+/*
+ * The composed facts, and why the one-line mailing address is one of them.
+ *
+ * The platform holds the street, the city, the state and the ZIP as four
+ * separate facts and every one of these forms prints at least one blank asking
+ * for all four on a single line. Composing them here is the same thing the
+ * packet already did for city_state_zip; not composing them is what left the
+ * address the court writes to blank on three of this family's documents while
+ * the row said the platform held nothing.
+ */
+const compose = (f) => ({
+  ...f,
+  "matter.fee_waiver_court_caption": `${f["matter.court"]} Judicial District`,
+  "participant.city_state_zip": `${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`,
+  "participant.full_mailing_address":
+    `${f["participant.street_address"]}, ${f["participant.city"]}, ${f["participant.state"]} ${f["participant.zip"]}`
+});
+
+const FIXTURES = {
+  canonical: compose({
+    "participant.full_legal_name": "Dana Marie Sandoval",
+    "participant.date_of_birth": "1985-09-02",
+    "participant.street_address": "2210 Camino de Salud NE",
+    "participant.city": "Albuquerque",
+    "participant.state": "NM",
+    "participant.zip": "87106",
+    "matter.county": "Bernalillo",
+    "matter.court": "Second",
+    "matter.case_number": "D-202-CR-2016-02885"
+  }),
+  boundary: compose({
+    "participant.full_legal_name": "Maria-Alejandra O'Shaughnessy-Whitfield",
+    "participant.date_of_birth": "1961-12-31",
+    "participant.street_address": "1188 Upper Notch Crossing Rd Apt 14B",
+    "participant.city": "Truth or Consequences",
+    "participant.state": "NM",
+    "participant.zip": "87901",
+    "matter.county": "Sierra",
+    "matter.court": "Seventh",
+    "matter.case_number": "D-721-CR-2011-00094"
+  })
+};
+
+/* ------------------------------------------------------------------ *
+ * The track's own stop conditions, read from the record on every build and
+ * printed verbatim. See selfHelpStopSection in the shared host.
+ * ------------------------------------------------------------------ */
+const STOP_CONDITIONS = selfHelpStopConditions("NM", "nm_conviction");
+
+/* ------------------------------------------------------------------ */
+
+export function participantControlsByDocument(controls) {
+  const byDocument = new Map();
+  for (const control of controls.filter((row) => row.refusalClass === PARTICIPANT_ELECTION)) {
+    byDocument.set(control.document, [...(byDocument.get(control.document) ?? []), control]);
+  }
+  return byDocument;
+}
+
+export function participantInstructions({ rbf, controls, inapplicable, heldNotWritten }) {
+  const byDoc = new Map();
+  for (const i of rbf) byDoc.set(i.document, [...(byDoc.get(i.document) ?? []), i]);
+  const controlsByDoc = participantControlsByDocument(controls);
+
+  const out = [];
+  out.push(`# Filing instructions — ${ROUTE.publicLabel}`, "");
+  out.push(
+    "This packet is seven official New Mexico forms for a petition to expunge the records of a conviction, under NMSA "
+    + "1978, Section 29-3A-5 and Rule 1-077.1 NMRA. **You do not file them all at once.** They go in two stages, at "
+    + "least sixty-three days apart, and there is a hearing in every case on this track.", ""
+  );
+
+  out.push(...selfHelpStopSection(STOP_CONDITIONS));
+
+  out.push("## How to gather your records first", "");
+  out.push(
+    "Do this before you fill anything in. The petition has to have your records attached to it, and two of them take "
+    + "time to arrive:", "",
+    "1. **Your DPS Record of Arrest and Prosecution (RAP) sheet.** The New Mexico Department of Public Safety charges "
+    + "**$15.00** per record check. The DPS Authorization for Release of Information must carry your **original "
+    + "signature and be notarized**. **None of the court filings needs a notary** — only this authorisation does, and the "
+    + "notarial certificate on pages 4–5 of Form 4-222 if you file that.",
+    "2. **Your FBI Identity History Summary.** The FBI charges its own fee and takes longer than DPS.",
+    "3. **Both RAP sheets must be dated no more than ninety (90) days before you file**, so do not order them and then "
+    + "wait months to file.",
+    "4. **Your sentence, fines, fees and restitution paperwork** — documents showing you completed the sentence for "
+    + "each conviction you are asking to expunge, completed the sentence for any other conviction, paid the fines and "
+    + "fees, and completed any victim restitution.",
+    "5. **Your court records**, so you can state the case numbers, the offence names and statute numbers, and the dates "
+    + "exactly as the record has them.", ""
+  );
+
+  out.push("## Stage one: file, then mail", "");
+  out.push(
+    "1. **Fill in and sign Form 4-953**, the petition, and attach the RAP sheets and the sentence, fines, fees and "
+    + "restitution documentation.",
+    "2. **File it with the clerk of the New Mexico district court for the county where the conviction was entered.** "
+    + "The filing fee is **$132.00**, and most courts want a money order or cashier's check rather than a card or a "
+    + "personal check. If you cannot pay it, file Form 4-222 instead.",
+    "3. **Then mail an endorsed (file-stamped) copy of the petition and everything attached to it** " + SERVICE_ON_THIS_TRACK
+    + ". The Department of Public Safety's address is printed on the forms for you: P.O. Box 1628, Santa Fe, New Mexico "
+    + "87504-1628.",
+    "4. **Then fill in Form 4-956, the certificate of service, and file it with the court.** Only after you have "
+    + "actually posted the copies — it is a statement under penalty of perjury about something you did.", "",
+    "**This petition is not filed under seal.** If you combine it with a release-without-conviction request the whole "
+    + "filing is treated as a conviction petition and loses the seal that a non-conviction petition would have had. "
+    + "Keep them separate.", ""
+  );
+
+  out.push("## The sixty-three day wait", "");
+  out.push(
+    "The three parties you served have **sixty days from service** to file a specific objection on Form 4-957 NMRA or a "
+    + "notice of non-objection on Form 4-958 NMRA. Rule 1-077.1(G) NMRA controls, not the thirty days written in the "
+    + "statute, and Rule 1-006(C) adds three days because you served by mail — **sixty-three days in total**. If your "
+    + "affirmation later discloses new arrests, charges or convictions, a further twenty days runs.", ""
+  );
+
+  out.push("## Stage two: tell the court briefing is complete", "");
+  out.push(
+    "Once the sixty-three days have passed:", "",
+    "1. **Fill in Form 4-960**, the notice of completion of briefing, saying what each of the three parties did — "
+    + "filed a non-objection, filed an objection, or did nothing.",
+    "2. **Fill in Form 4-960.3**, the affirmation, which states under penalty of perjury that nothing is pending "
+    + "against you and what your most recent conviction was. **It describes your situation on the day you sign it**, "
+    + "not the day this packet was prepared.",
+    "3. **Attach the affirmation to the notice, file both, and serve them on any party that objected.**", ""
+  );
+
+  out.push("## The hearing", "");
+  out.push(
+    "**A hearing follows in every case on this track.** The court sets the date and completes Form 4-960.1, the notice "
+    + "of hearing — you give it to the court with the caption and your own contact details filled in and leave the "
+    + "hearing details blank.", "",
+    "**Form 4-960.1 page 2 is for parties entitled to notice of the hearing.** On this track that is you and any party "
+    + "that filed and served an objection to your petition. If nobody objected, leave page 2 empty. If someone did, put "
+    + "their name, agency, address, telephone number and e-mail in one of the four blocks.", "",
+    "At the hearing you may be asked about the petition and about any objection. The court decides whether justice will "
+    + "be served by expungement, weighing the nature and gravity of the offence, your age, your criminal history and "
+    + "your employment history, how long it has been since the offence and since you completed the sentence, and what "
+    + "happens to you if the petition is refused. **That is what paragraph 12 of the petition is for.** Only you hold "
+    + "the facts it is built from — but writing that argument is on the stop list at the top of these instructions, and "
+    + "so are an objection and a contested hearing. **Get a lawyer's advice about paragraph 12, and about the hearing, "
+    + "before you file.**", ""
+  );
+
+  out.push("## Which district's order form you need", "");
+  out.push(
+    "There is **no statewide Supreme Court order form** in the mandatory 4-951 to 4-960.3 set. Each judicial district "
+    + "publishes its own _Order on Petition to Expunge_ in its expungement packet, and the order in this packet is one "
+    + "district's copy. **Before your hearing, check the expungement packet published by the judicial district you filed "
+    + "in and use that district's order form if it has one.** Either way, **complete only the caption** — your county, "
+    + "your judicial district and your name — and leave the rest blank, because the court fills in its findings and what "
+    + "it is ordering.", ""
+  );
+
+  out.push("## The fee-waiver form caption", "");
+  out.push(
+    "The Form 4-222 in this packet is the statewide blank-caption form. Its county line and full judicial-district "
+    + "line are filled from the same held court facts used by the petition. Check that caption before filing, as you "
+    + "should check every caption in the packet.", ""
+  );
+
+  out.push("## Boxes you tick with a pen", "");
+  out.push(
+    "The packet has already marked **Petitioner** on Form 4-222 because Rule 1-077.1 fixes your role on this route. "
+    + "The controls below are participant choices that remain unmarked. Mark only the ones that are true for you "
+    + "**on the day you sign that form**:", ""
+  );
+  for (const [doc, items] of controlsByDoc) {
+    out.push(`### ${doc}`, "");
+    for (const c of items) out.push(`- **Page ${c.page}, ${c.section}** — ${c.label}.`);
+    out.push("");
+  }
+  out.push(
+    "The findings, grant or denial choices, and agency and clerk directions in the proposed order are court-owned. "
+    + "They are intentionally omitted from this participant list; leave every one of them blank.", ""
+  );
+
+  out.push("## What you must do before you file", "");
+  out.push("1. **Gather your records first.** See the section above; the RAP sheets take the longest and expire in ninety days.");
+  out.push("2. **Fill in every item in the tables below**, for the stage you are at. Each names the form, the section and the blank.");
+  out.push("3. **Tick every box under _Boxes you tick with a pen_ that applies to you.**");
+  out.push("4. **Sign and date Form 4-953 and Form 4-960.3 yourself.** Both are affirmed under penalty of perjury; the dates are the dates you sign, and they are different dates.");
+  out.push("5. **Do not fill in Form 4-956 until you have actually posted the copies.** It certifies something you did.");
+  out.push("6. **Leave the hearing date, time and place on Form 4-960.1 blank.** The court fills those in.");
+  out.push("7. **Leave everything below the caption of the order blank.** The court fills that in.");
+  out.push("");
+
+  for (const [doc, items] of byDoc) {
+    out.push(`## ${doc} — the items you must supply`, "");
+    out.push("| Section | The blank on the form | What to write |", "| --- | --- | --- |");
+    for (const i of items) out.push(`| ${i.section} | ${i.disclosureLabel} | ${i.participantMustSupply} |`);
+    out.push("");
+  }
+
+  out.push(...heldNotWrittenSection(heldNotWritten));
+
+  out.push("## What the platform deliberately left blank", "");
+  out.push("- **Every signature and every signature date.** Forms 4-953 and 4-960.3 are affirmed under penalty of perjury.");
+  out.push("- **Everything below the caption of Form 4-956.** The certificate of service states, under penalty of perjury, when you posted the petition and to whom. Service has not happened when this packet is prepared and the platform knows nothing about it.");
+  out.push("- **Everything Form 4-960 and Form 4-960.3 assert about the sixty-three day period** — whether each party objected, whether anything is pending against you, what your most recent conviction was. None of it is knowable now.");
+  out.push("- **Every agency, sheriff, police and district-attorney line.** Naming the agencies is yours to do — the packet does not do it for you, because a list of agencies on a court form is more often the court's than yours, and getting it wrong is the kind of mistake that is hard to undo. Your answers are the source; copy them onto the lines the tables below name.");
+  out.push("- **The hearing details, the judge's name and the court's signature block on Form 4-960.1.**");
+  out.push("- **Everything below the caption of the order.**");
+  out.push("- **Every attorney block, and the whole attorney certificate on page 5 of Form 4-222.** This packet is prepared for someone filing without a lawyer.");
+  out.push("- **The notarial certificate on pages 4–5 of Form 4-222, and every financial answer on it.** That form is sworn under oath and the platform holds none of your financial facts.");
+  out.push("");
+
+  if (inapplicable.length > 0) {
+    out.push("## Blanks that do not apply on this route", "");
+    out.push("| Form | Page | The blank | Why it does not apply |", "| --- | --- | --- | --- |");
+    for (const i of inapplicable) out.push(`| ${i.document} | ${i.page} | ${i.label} | ${i.why} |`);
+    out.push("");
+  }
+
+  out.push("## After the order is signed", "");
+  out.push(
+    "Any expungement order must **allow at least sixty days** for the expungement to be carried out, and the court **may "
+    + "not expunge court records earlier than thirty days** from the day the order is entered. An order granting the "
+    + "petition must also require that **this expungement case itself be expunged**.", ""
+  );
+
+  out.push("## What this packet is not", "");
+  out.push(
+    "This is a prepared set of official New Mexico forms. It is not legal advice, it is not filed for you, and it does "
+    + "not decide whether your records will be expunged. **Get a lawyer's help** if any charge or proceeding is pending "
+    + "against you anywhere, if any party objects, if any of the records are federal, tribal, military or from outside "
+    + "New Mexico, or if you are not a United States citizen. Section 29-3A-5 does not reach a conviction for an offence "
+    + "committed against a child, an offence causing great bodily harm or death, a sex offence under Section 29-11A-3, "
+    + "embezzlement under Section 30-16-8, or driving under the influence. Expungement does not destroy records, and it "
+    + "does not remove the disclosure obligations that FINRA and the SEC impose on people who work in securities."
+  );
+  out.push("");
+  out.push(`_Route: ${ROUTE.routeKey} — ${ROUTE.authority}_`);
+  return `${out.join("\n")}\n`;
+}
+
+/* ------------------------------------------------------------------ */
+
+const FAMILY = {
+  familyId: FAMILY_ID,
+  out: OUT,
+  buildScript: BUILD_SCRIPT,
+  route: ROUTE,
+  fixtures: FIXTURES,
+  participantInstructions,
+  documents: [
+    { ...FORM_4_953, dictionary: DICTIONARY_4_953 },
+    { ...FORM_4_956, dictionary: DICTIONARY_4_956 },
+    { ...FORM_4_960, dictionary: DICTIONARY_4_960 },
+    { ...FORM_4_960_3, dictionary: DICTIONARY_4_960_3 },
+    {
+      ...FORM_4_960_1, instrumentKind: "notice_of_hearing",
+      dictionary: dictionary4960_1({ service: SERVICE_ON_THIS_TRACK, trackName: "conviction" })
+    },
+    { ...NM_LOCAL_CONVICTION_ORDER, dictionary: DICTIONARY_CONVICTION_ORDER },
+    {
+      ...FORM_4_222, instrumentKind: "fee_waiver_application",
+      dictionary: DICTIONARY_4_222
+    }
+  ],
+  componentDelivery: {
+    "nm_conviction-primary-filing-1": { deliveredAs: "official_pdf_fill", deliveredBy: "NM-4-953, the first five pages of both fixtures" },
+    "nm_conviction-certificate-of-service-2": { deliveredAs: "official_pdf_fill", deliveredBy: "NM-4-956, two pages" },
+    "nm_conviction-second-stage-notice-3": { deliveredAs: "official_pdf_fill", deliveredBy: "NM-4-960, three pages" },
+    "nm_conviction-second-stage-affirmation-4": { deliveredAs: "official_pdf_fill", deliveredBy: "NM-4-960.3, two pages" },
+    "nm_conviction-notice-of-hearing-5": { deliveredAs: "official_pdf_fill", deliveredBy: "NM-4-960.1, three pages", note: "the manifest marks this REQUIRED on the conviction track, not conditional, because a hearing follows in every case." },
+    "nm_conviction-proposed-order-6": {
+      deliveredAs: "official_pdf_fill", deliveredBy: "NM-LOCAL-CONVICTION-ORDER, four pages",
+      note: "the manifest marks this conditional on the participant filing in the judicial district that published the retained order. The instructions tell every other district's participant to obtain their own district's order form."
+    },
+    "nm_conviction-local-order-form-instructions-7": {
+      deliveredAs: "process_guidance", deliveredBy: "participant-instructions.md",
+      section: "## Which district's order form you need",
+      note: "required by the manifest and by the track's own record, because no statewide Supreme Court order form exists in the mandatory 4-951 to 4-960.3 set."
+    },
+    "nm_conviction-fee-waiver-application-8": {
+      deliveredAs: "official_pdf_fill", deliveredBy: "the governed statewide NM-4-222, five pages",
+      note: "conditional on the participant being unable to pay the $132.00 district court filing fee; the blank county and judicial-district caption lines are filled from held matter facts."
+    },
+    "nm_conviction-record-gathering-instructions-9": {
+      deliveredAs: "process_guidance", deliveredBy: "participant-instructions.md",
+      section: "## How to gather your records first",
+      note: "the FBI and DPS RAP sheets, the ninety-day currency rule, the $15.00 DPS fee, the notarised DPS authorisation, and the sentence, fines, fees and restitution documentation."
+    },
+    "nm_conviction-hearing-expectation-instructions-10": {
+      deliveredAs: "process_guidance", deliveredBy: "participant-instructions.md",
+      section: "## The hearing",
+      note: "that a hearing follows in every case on this track, who is entitled to notice of it, and what the court weighs."
+    }
+  },
+  routeSelectionNote:
+    "Nothing in this packet is a route election. Section 29-3A-5 is one section and Rule 1-077.1 is one procedure. The "
+    + "waiting period in paragraph 9 of Form 4-953 looks like an election and is not one the ROUTE makes: it is set by "
+    + "the degree of the most serious conviction the participant is asking to expunge, which is a fact about their case "
+    + "and a legal characterisation of a code section, and the packet asks them to mark the period that matches rather "
+    + "than asserting one. Everything the second-stage forms state is a fact about the sixty-three days after the "
+    + "petition is served, which have not happened when the packet is prepared.",
+  whatToLookAt: [
+    "Form 4-953 page 1, the caption and paragraph 1: county, judicial district and name in the caption; date of birth, "
+      + "mailing address, city, state and ZIP on their own rules; all three phone boxes and all three alias lines empty.",
+    "Form 4-953 page 1, paragraph 2: the judicial district written on ONE line only -- the \"has no pending "
+      + "expungement cases in the ____ Judicial District\" line -- with the two blanks on the pending-cases branch "
+      + "EMPTY and both printed boxes unmarked.",
+    "Form 4-953 page 2, paragraph 4: the district court case number written and the other three record lines empty.",
+    "Form 4-953 page 2, paragraph 6 and paragraph 9: every conviction detail empty and every one of the five waiting-"
+      + "period boxes unmarked. Nothing in this packet asserts a waiting period.",
+    "Form 4-953 page 3, paragraph 12: five empty lines. This is the part of the petition that decides it and the "
+      + "platform writes none of it.",
+    "Form 4-953 page 3, paragraph 13: the judicial district written on the District Court line and on the "
+      + "originating-court line, and every sheriff, district-attorney and agency line empty.",
+    "Form 4-953 page 4, the SIGNATURE SECTION: the printed name written, the date beside it empty, the signature line "
+      + "empty, the one-line mailing address written on the rule captioned \"Mailing Address\" below it -- and NOT on "
+      + "the signature rule above it -- and nothing written on the full-width divider above the heading. On the "
+      + "boundary fixture that address line is EMPTY and says why: sixty-nine characters need 202.3pt at the shared "
+      + "six-point readable floor and the printed rule gives 196pt.",
+    "Form 4-956: the caption written and EVERYTHING ELSE EMPTY. This is a certificate of service and service has not "
+      + "happened.",
+    "Form 4-960 pages 1 and 2: the caption written, the printed name written, and every one of the eighteen response "
+      + "boxes unmarked. The certificate of service at the foot of page 2 and on page 3 entirely empty.",
+    "Form 4-960.3 page 2, the signature block, and read the captions BELOW each rule rather than above: "
+      + "\"(Petitioner Signature)\" is the LEFT blank of the first pair and must be empty, \"(Print Name)\" is the "
+      + "RIGHT blank of that pair and carries the name, the full-width rule below them is captioned \"Street Address "
+      + "City State Zip Code\" and carries the whole one-line address, and the short rule under it is "
+      + "\"(Telephone)\" and must be empty. The previous build had all four one line out and printed the name above "
+      + "\"(Petitioner Signature)\". Form 4-960.2 on the non-conviction track has the identical block; the two "
+      + "should be read side by side. Every pending-charge and conviction line empty.",
+    "Form 4-960.1 page 1: county, district and name in the caption, the petitioner's name and the one-line mailing "
+      + "address in the notice block; the telephone and e-mail lines, items 1 to 5, the judge's name and the TCAA "
+      + "signature block empty. On the boundary fixture that address is set at 6.5pt, which is above the shared "
+      + "six-point floor and is the size a reviewer should look at.",
+    "Form 4-960.1 page 2: EMPTY, but for a DIFFERENT reason than on the identity-theft family. Here the four service "
+      + "blocks are the petitioner's to complete for any party that objected; they are required-before-filing rather "
+      + "than not-applicable, and they are listed in the instructions.",
+    "The Order on Petition to Expunge: the caption written on page 1 and NOTHING ELSE on the four pages.",
+    "Form 4-222 page 1: confirm the statewide blank caption carries the participant's county and judicial district, "
+      + "the petitioner's name is written, and all court-assigned case-number blanks remain empty. No district name "
+      + "is printed in the source binary.",
+    "Form 4-222 page 3, section F: \"I live at ____\" now carries the whole one-line mailing address, which is the "
+      + "same four parts written separately on page 4 of the same form. Read the two against each other."
+  ],
+  blockingFindings: [],
+  selfHelpStops: STOP_CONDITIONS,
+  findings: [
+    STATEWIDE_CAPTION_FINDING,
+    {
+      finding:
+        "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at "
+        + "least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it "
+        + "writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on "
+        + "the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the "
+        + "shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it "
+        + "were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an "
+        + "unavailable one.",
+      consequence:
+        "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of "
+        + "those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- "
+        + "participant.street_address, the registry's one participant address descriptor -- with the binding, and what "
+        + "the printed caption resolves to on its own, recorded on the field-map row. Nothing in "
+        + "scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short "
+        + "to show the value at the shared six-point readable floor, the host measures that with the same fitter the "
+        + "finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value "
+        + "needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. "
+        + "Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      finding:
+        "THE PACKET OMITTED SIX OF THE TRACK'S TEN SELF-HELP STOP CONDITIONS, AND CALLED ONE OF THEM ENCOURAGEMENT. "
+        + "VF03 measured the delivered instructions against the registry's own selfHelpStopConditions for nm_conviction "
+        + "and found the felony, Crimes Against Household Members Act, unpaid-or-unclear financial obligation, "
+        + "intervening-conviction, multiple-district and justice-narrative stops missing, while paragraph 12 of Form "
+        + "4-953 -- which condition 8 makes a stop -- was described to the participant as the part only they can write.",
+      consequence:
+        "The stop list is no longer written by hand. selfHelpStopConditions in the shared host reads the track's "
+        + "conditions from data/record-clearing/legal-design-track-registry.json on every build, asserts they are word "
+        + "for word what data/record-clearing/legal-design-intake/NM.memo.json carries for the same track, and stops "
+        + "the build if the two records disagree. participant-instructions.md prints all of them verbatim and in the "
+        + "registry's order, before anything else, under a heading that says to stop and get a lawyer's advice. Who to "
+        + "ask is named from the record and nowhere else: no record under data/record-clearing/ names an organisation, "
+        + "clinic or telephone number for New Mexico, so the packet names none and says so. Both records' paths and "
+        + "digests are in this file under selfHelpStopConditionsAsPrinted. The second half of the VF03 finding is "
+        + "repaired too, and it is a separate thing from the omission: printing condition 8 while the hearing section "
+        + "still called the justice-will-be-served narrative \"the part only you can write\", and the paragraph-12 "
+        + "disclosure still called it the part \"only you can write\", would have left one delivered document telling "
+        + "the participant to stop and to press on in the same breath. Both sentences now say what is true of a stop "
+        + "condition -- only the participant holds the facts, and the argument is a lawyer's advice -- and the hearing "
+        + "section names the objection and contested-hearing stop beside it."
+    },
+    {
+      finding:
+        "FORM 4-960.3'S SIGNATURE BLOCK WAS MAPPED AS FORM 4-953'S, AND ALL FOUR OF ITS BLANKS WERE ONE LINE OUT. Every "
+        + "caption in that block is printed BELOW the rule it names: \"(Petitioner Signature)\" and \"(Print Name)\" "
+        + "under the first pair, \"Street Address City State Zip Code\" under the full-width rule, \"(Telephone)\" "
+        + "under the short rule. The rows had been copied from Form 4-953, whose block runs printed name and date, "
+        + "signature, mailing address, telephone -- a different order on a different form. The delivered page put the "
+        + "participant's PRINTED NAME on the line captioned \"(Petitioner Signature)\", declared the Street Address / "
+        + "City / State / Zip Code rule a signature and protected it, and called the telephone rule the mailing "
+        + "address. Read from the delivered page at 300 dpi, not from the report. Not named in the VF03 verdict; found "
+        + "while repairing the address blanks and repaired with them rather than left standing.",
+      consequence:
+        "The four rows now agree with the printed captions and with Form 4-960.2 on the non-conviction track, which "
+        + "carries the identical block and was mapped correctly there. The signature rule is PROTECTED and empty, the "
+        + "name is on \"(Print Name)\", the whole one-line address is on the Street Address rule -- 464pt wide, so it "
+        + "fits on both fixtures -- and the telephone rule is the participant's. The same four measured blanks at the "
+        + "same four keys; only which blank each one is has changed."
+    },
+    {
+      finding:
+        "SERVICE IS REQUIRED ON THIS TRACK, and that changes the disposition of twenty blanks relative to the "
+        + "identity-theft family. Form 4-960.1's four page-2 service blocks are for parties entitled to notice of the "
+        + "hearing, which the form's own USE NOTES limit to the petitioner and any party that filed and served an "
+        + "objection under Rule 1-077.1(G)(1) NMRA within sixty-three days of the date of service.",
+      consequence:
+        "On the identity-theft track, where Rule 1-077.1(E) NMRA entitles no responding party to notice, those twenty "
+        + "blanks are NOT_APPLICABLE_ON_THIS_ROUTE. Here the petition is served on three parties, an objection can be "
+        + "filed, and the same twenty blanks are REQUIRED_BEFORE_FILING and named in participant-instructions.md. The "
+        + "shared dictionary takes the route's service posture as a parameter so the two answers cannot be confused, and "
+        + "neither was copied from the other."
+    },
+    {
+      finding:
+        "Form 4-956 is a certificate of service from end to end, and Form 4-960 carries one at its foot.",
+      consequence:
+        "The caption of Form 4-956 is written and nothing else on it is. Everything below that caption is the petitioner "
+        + "certifying under penalty of perjury when they posted the petition and to whom; service has not happened when "
+        + "this packet is prepared and the platform has no knowledge of it. The shared field semantics protect a service "
+        + "block for the same reason, and this build agrees with that rather than working round it."
+    },
+    {
+      finding:
+        "Forms 4-960 and 4-960.3 are the SECOND STAGE, filed sixty-three days or more after the petition is served. "
+        + "Form 4-960 states whether each of the three responding parties filed a non-objection, filed an objection, or "
+        + "did nothing; Form 4-960.3 affirms under penalty of perjury that nothing is pending and what the most recent "
+        + "conviction was.",
+      consequence:
+        "Every one of those eighteen response controls and every pending-charge line is the participant's. Nothing about "
+        + "the sixty-three day period is knowable when the packet is prepared, and the instructions are organised around "
+        + "the sequence -- gather, file, mail, wait, then the second stage -- rather than around the forms."
+    },
+    {
+      finding:
+        "The waiting period in paragraph 9 of Form 4-953 offers five boxes: two, four, six, eight or ten or more years. "
+        + "Which applies is set by the degree of the most serious conviction being expunged.",
+      consequence:
+        "The packet asserts none of them. Choosing one is a legal characterisation of a code section, and the platform "
+        + "holds no charge degree for this route's intake; the instructions set out which period goes with which class "
+        + "of offence and the participant marks the box. Writing a period the record does not establish onto a petition "
+        + "sworn under penalty of perjury is the defect this refuses."
+    },
+    {
+      finding:
+        "The shared fact registry has no descriptor for other names or aliases, and Form 4-953 asks for them on three "
+        + "lines. The only name descriptor whose pattern reaches such a line is participant.full_legal_name.",
+      consequence:
+        "The alias lines are left to the participant and named in the instructions. Binding them to full_legal_name "
+        + "would put the petitioner's own legal name on the alias line of a petition sworn under penalty of perjury, and "
+        + "adding a descriptor is a change to machinery forty-odd builders share, which a packet-build lane does not make "
+        + "mid-cohort. The gap is reported for the owner of the registry."
+    },
+    {
+      finding:
+        "The shared fact registry has no one-line mailing-address fact. Its only address descriptor is the street line, "
+        + "and four blanks in this packet -- Form 4-953 page 4, Form 4-960 page 2, Form 4-960.3 page 2 and Form 4-960.1 "
+        + "page 1 -- give a single line for a whole mailing address.",
+      consequence:
+        "Those four are left to the participant with the reason stated. A street with no city, on the line the court "
+        + "writes to, is worse than a line the participant completes. Reported for the owner of the registry alongside "
+        + "the alias gap."
+    },
+    {
+      finding:
+        "The adopted statewide Form 4-222 is a five-page flat PDF with 147 measured underscore blanks and no AcroForm fields.",
+      consequence:
+        "Every measured blank has an explicit dictionary disposition. Held caption and identity facts are written only "
+        + "inside measured blank rectangles; financial assertions, elections, signatures, notarization and court-use "
+        + "fields remain empty for the responsible actor."
+    }
+  ],
+  mattersForTheReviewersAttention: [
+    "Form 4-222 now comes from the adopted statewide five-page source. Confirm its blank caption carries the fixture's "
+      + "county and judicial district without any Sixth Judicial District text from the superseded source.",
+    "Item 2 of Form 4-953 is an either/or about OTHER pending expungement cases. The two blanks on the branch that "
+      + "asserts such cases exist used to carry the district this petition is filed in; the platform holds no "
+      + "pending-expungement fact and they are now empty and the participant's, with both printed boxes unmarked as "
+      + "before.",
+    "Twenty blanks on Form 4-960.1 page 2 are REQUIRED_BEFORE_FILING here and NOT_APPLICABLE_ON_THIS_ROUTE on "
+      + "nm_identity_theft-set. The difference is that this track serves three parties and that one serves nobody. The "
+      + "two dispositions should be read together, and the shared dictionary that produces both is "
+      + "scripts/rcap-nm-flat-forms/nm-form-4-960-1.mjs.",
+    "Form 4-956 is written in its caption only. Counsel should confirm that a caption is not a certification.",
+    "Paragraph 9 of Form 4-953 asks the participant to characterise the degree of their own conviction in order to pick "
+      + "a waiting period. The packet explains the mapping and asserts nothing. Counsel should confirm the explanation.",
+    "The retained Order on Petition to Expunge is one district's form and the packet-set manifest already makes it "
+      + "conditional."
+  ]
+};
+
+export async function runFamily(argv = process.argv.slice(2)) {
+  return runNmFamily(FAMILY, argv);
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(thisFile)) {
+  runFamily()
+    .then((r) => { console.log(JSON.stringify(r, null, 2)); })
+    .catch((e) => { console.error(e); process.exit(1); });
+}

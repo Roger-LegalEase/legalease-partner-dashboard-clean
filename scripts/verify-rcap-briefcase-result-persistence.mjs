@@ -78,15 +78,20 @@ const sources = {
   pendingCreate: read("src/app/api/expungement-ai/screening/pending/route.ts"),
   pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts"),
   briefcase: read("src/lib/expungement-ai/briefcase.ts"),
-  packetGeneration: read("src/lib/expungement-ai/packet-generation.ts"),
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   documents: read("src/components/expungement-ai/BriefcaseViews.tsx"),
   matterPage: read("src/app/briefcase/[packetId]/page.tsx"),
-  generateRoute: read("src/app/api/rcap/documents/[packetId]/generate/route.ts"),
-  msForm: read("src/app/documents/[partnerSlug]/form/MississippiPetitionInformationForm.tsx"),
+  packetInformationPage: read("src/app/briefcase/[packetId]/packet-information/page.tsx"),
+  reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
+  verificationAction: read("src/components/expungement-ai/PacketVerificationAction.tsx"),
+  presentationAuthority: read("src/lib/expungement-ai/briefcase-presentation-authority.ts"),
+  packetInformationRoute: read("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts"),
+  verificationCas: read("src/lib/expungement-ai/verification-cas.ts"),
   flow: read("src/components/expungement-ai/screening/ScreeningFlow.tsx"),
   briefcasePage: read("src/app/briefcase/page.tsx"),
-  saveIntent: read("src/components/expungement-ai/BriefcaseSaveIntent.tsx")
+  saveIntent: read("src/components/expungement-ai/BriefcaseSaveIntent.tsx"),
+  claimService: read("src/lib/expungement-ai/claim/claim-service.ts"),
+  claimHandoff: read("src/lib/expungement-ai/claim/claim-handoff.ts")
 };
 
 for (const failure of persistenceWiringViolations(sources)) failures.push(failure);
@@ -104,7 +109,7 @@ assert(
 
 const nonAuthoritativeClaim = {
   ...sources,
-  pendingClaim: sources.pendingClaim.replaceAll("saveAuthoritativeScreeningResultToBriefcase", "saveScreeningResultToBriefcase")
+  claimService: sources.claimService.replaceAll('supabase.rpc("claim_pending_screening_result"', 'supabase.from("consumer_briefcase_items").insert(')
 };
 assert(
   persistenceWiringViolations(nonAuthoritativeClaim).some((failure) => failure.includes("server-authoritative writer")),
@@ -113,11 +118,30 @@ assert(
 
 const bypassedPendingClaim = {
   ...sources,
-  flow: sources.flow.replace('"/api/expungement-ai/screening/pending/claim"', '"/api/expungement-ai/screening/save-result"')
+  claimHandoff: sources.claimHandoff.replace('"/api/expungement-ai/screening/pending/claim"', '"/api/expungement-ai/screening/save-result"')
 };
 assert(
-  persistenceWiringViolations(bypassedPendingClaim).some((failure) => failure.includes("claim the stored inputs")),
+  persistenceWiringViolations(bypassedPendingClaim).some((failure) => failure.includes("server-verified claim boundary")),
   "Negative control failed: bypassing the server-verified pending claim was not detected."
+);
+
+const rawPresentationFallback = {
+  ...sources,
+  documents: `${sources.documents}\npacketCompletionActionFor(item)`,
+  matterPage: `${sources.matterPage}\npacketInformationModelFor(storedItem)`
+};
+assert(
+  persistenceWiringViolations(rawPresentationFallback).some((failure) => failure.includes("raw writable Briefcase fields")),
+  "Negative control failed: raw packet presentation helpers were not rejected."
+);
+
+const directCheckoutReview = {
+  ...sources,
+  reviewPage: sources.reviewPage.replace("<PacketVerificationAction", "<ConsumerCheckoutButton")
+};
+assert(
+  persistenceWiringViolations(directCheckoutReview).some((failure) => failure.includes("delegate post-verification")),
+  "Negative control failed: direct Checkout on review was not rejected."
 );
 
 if (failures.length) {
@@ -126,7 +150,7 @@ if (failures.length) {
   process.exit(1);
 }
 console.log("verify-rcap-briefcase-result-persistence: OK (server-authoritative claim persists; dedup; guidance_saved; partner packet has no Stripe; DTC $50 preserved)");
-console.log("Negative controls detected restoration of browser-result persistence, loss of the authoritative writer, and bypass of the verified claim.");
+console.log("Negative controls detected restoration of browser-result persistence, loss of the authoritative writer, bypass of the verified claim, raw presentation fallback, and direct Checkout on review.");
 
 function persistenceWiringViolations(input) {
   const issues = [];
@@ -144,15 +168,20 @@ function persistenceWiringViolations(input) {
 
   require(input.pendingCreate.includes("evaluateAuthoritativeScreeningResult"), "Pending-result creation must evaluate submitted screening inputs server-side.");
   require(input.pendingCreate.includes("consumer_pending_screening_results") && input.pendingCreate.includes("screening_answers: body.answers"), "Pending-result creation must store the verified inputs for authenticated re-evaluation.");
-  require(input.pendingCreate.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Unknown pending-result product input must default to DTC.");
+  // The browser no longer declares the product. The server reads sponsorship
+  // from its own record of the anonymous session, so a browser cannot elect
+  // itself into a partner posture it was never granted.
+  require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result product must be derived from server-resolved attribution.");
+  require(!input.pendingCreate.includes("body.product"), "The browser must not declare the pending-result product.");
 
   require(input.pendingClaim.includes("getRcapBriefcaseAuthState") && input.pendingClaim.includes('error: "auth_required"') && input.pendingClaim.includes("status: 401"), "Pending claims must require the authenticated consumer session.");
-  require(input.pendingClaim.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs before persistence.");
-  require(input.pendingClaim.includes("saveAuthoritativeScreeningResultToBriefcase"), "Pending claims must use the server-authoritative writer.");
-  require(input.pendingClaim.includes('data.product === "rcap_partner"') && input.pendingClaim.includes("isRcapPartnerScreeningSession"), "Only a server-validated partner session may receive sponsored persistence posture.");
-  require(input.pendingClaim.includes("buildSaveInput") && input.pendingClaim.includes("{ isPartnerSession }"), "The verified partner posture must clamp payment during save-input construction.");
-  require(input.pendingClaim.includes('stage: "not_started"') && input.pendingClaim.includes("requiredInputIds"), "Packet-ready saves must attach the prepayment packet-information model.");
-  require(input.pendingClaim.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must return the exact saved Briefcase matter.");
+  require(input.claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs before persistence.");
+  require(input.claimService.includes('supabase.rpc("claim_pending_screening_result"'), "Pending claims must use the server-authoritative writer.");
+  require(input.claimService.includes("clampAuthoritativeMatterInput"), "Pending claims must apply the server-authoritative matter clamps.");
+  require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Only a server-validated partner session may receive sponsored persistence posture.");
+  require(input.claimService.includes("buildSaveInput") && input.claimService.includes("{ isPartnerSession }"), "The verified partner posture must clamp payment during save-input construction.");
+  require(input.claimService.includes('stage: "not_started"') && input.claimService.includes("requiredInputIds"), "Packet-ready saves must attach the prepayment packet-information model.");
+  require(input.claimService.includes("exactMatterPath(matterId)"), "Pending claims must return the exact saved Briefcase matter.");
   require(!input.pendingClaim.includes("createConsumerPacketCheckout") && !input.pendingClaim.includes("stripe"), "Pending claims must not create Checkout or call Stripe.");
 
   require(input.briefcase.includes("export async function saveAuthoritativeScreeningResultToBriefcase"), "Persistence must expose the server-authoritative writer.");
@@ -162,28 +191,53 @@ function persistenceWiringViolations(input) {
   require(input.briefcase.includes('packet_status: clamped.packetStatus ?? "not_started"'), "New authoritative matters must default packet_status to not_started before generation.");
   require(input.briefcase.includes("export async function isRcapPartnerScreeningSession"), "Persistence must expose server-side partner-session validation.");
 
-  require(input.packetGeneration.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Partner-sponsored packet generation must not require payment.");
-  require(input.packetGeneration.includes('resultCode === "packet_ready" || resultCode === "packet_ready_with_caution"'), "Only packet-ready result codes may generate packets.");
-  require(input.packetGeneration.includes('item.packetStatus === "ready" && existing'), "Duplicate generation must return an existing ready artifact instead of regenerating.");
-  require(input.packetGeneration.includes("attachPacketToBriefcaseItem") && input.packetGeneration.includes('packetStatus: "ready"'), "Packet generation must attach artifact refs and mark packet_status ready.");
-  require(input.packetGeneration.includes("mississippi_petition_information_required"), "Mississippi partner saves must retain the completion action when packet fields are missing.");
-  require(input.packetGeneration.includes("attachMississippiLegacyPacketArtifact") && input.packetGeneration.includes("mississippi_legacy_petition_packet"), "Generated Mississippi legacy PDFs must attach as distinguishable consumer artifacts.");
-
   require(input.checkoutRoute.includes("isPartnerSponsoredPacketItem") && input.checkoutRoute.includes("Checkout is not used for partner-sponsored RCAP sessions."), "Partner-sponsored matters must not enter checkout.");
-  require(input.documents.includes("packetCompletionActionFor") && input.documents.includes("Complete packet information"), "Briefcase views must expose packet information before generation.");
-  require(input.documents.includes("Download") && input.documents.includes("artifact.downloadPath"), "Briefcase documents must expose generated packet downloads.");
-  require(input.matterPage.includes("packetInformationModelFor") && input.matterPage.includes("Complete packet information") && input.matterPage.includes("Review for accuracy"), "Exact matters must expose packet information and accuracy review before consumer payment.");
-  require(input.generateRoute.includes("consumerBriefcaseItemId") && input.generateRoute.includes("attachMississippiLegacyPacketArtifact"), "Shared document generation must bridge generated Mississippi PDFs back to the consumer Briefcase.");
-  require(input.msForm.includes("consumerBriefcaseItemId") && input.msForm.includes("generate"), "Mississippi information form must carry the consumer matter id through generation.");
+  require(input.presentationAuthority.includes("export async function decorateBriefcaseItemForPresentation")
+    && input.presentationAuthority.includes("packetProgress")
+    && input.presentationAuthority.includes("packetDraft")
+    && input.presentationAuthority.includes("readProtectedPacketVerification")
+    && input.presentationAuthority.includes("readProtectedPacketArtifact"), "Briefcase presentation must be decorated from protected server authority.");
+  require(input.documents.includes("BriefcasePresentationItem")
+    && input.documents.includes('item.artifact.status === "ready"')
+    && input.documents.includes("item.artifact.canDownload")
+    && input.documents.includes("artifact.documents"), "Briefcase documents must use the protected presentation artifact and downloads.");
+  require(input.matterPage.includes("decorateBriefcaseItemForPresentation")
+    && input.matterPage.includes(".packetDraft.status")
+    && input.matterPage.includes(".packetProgress"), "Exact matters must use protected packet draft/progress presentation.");
+  require(input.packetInformationPage.includes("decorateBriefcaseItemForPresentation")
+    && input.packetInformationPage.includes(".packetDraft.status"), "Packet information must use the protected presentation draft.");
+  require(input.reviewPage.includes("decorateBriefcaseItemForPresentation")
+    && input.reviewPage.includes("<PacketVerificationAction")
+    && !input.reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate post-verification payment and generation from protected presentation state.");
+  require(input.verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+    && input.verificationAction.includes("requestPacketVerification")
+    && input.verificationAction.includes("{nextActions.checkout ? (")
+    && input.verificationAction.includes("{nextActions.generation?.mode"), "PacketVerificationAction must keep generation and Checkout behind explicit current verification.");
+  require(!input.documents.includes("packetCompletionActionFor")
+    && !input.documents.includes("packetInformationModelFor")
+    && !input.matterPage.includes("packetCompletionActionFor")
+    && !input.matterPage.includes("packetInformationModelFor")
+    && !input.packetInformationPage.includes("packetInformationModelFor")
+    && !input.reviewPage.includes("packetInformationModelFor"), "Participant presentation must never fall back to raw writable Briefcase fields or legacy packet models.");
+  require(input.packetInformationRoute.includes("readProtectedPacketVerification")
+    && input.packetInformationRoute.includes("protectedPacketInformationModelFor")
+    && input.packetInformationRoute.includes("persistProtectedPacketVerification"), "Packet information saves and verification must cross the protected CAS boundary.");
+  require(input.verificationCas.includes('rpcName: "persist_consumer_packet_verification"')
+    && input.verificationCas.includes("expectedPriorHash")
+    && input.verificationCas.includes("expectedPriorRevision"), "Protected packet updates must retain hash/revision compare-and-swap handoff.");
 
   require(resultAction.includes('"/api/expungement-ai/screening/pending"'), "The completed result action must create a server-side pending result.");
-  require(resultAction.includes('"/api/expungement-ai/screening/pending/claim"'), "The completed result action must claim the stored inputs through the server-verified boundary.");
-  require(resultAction.includes("answers: toScreeningAnswers(answers)"), "The pending handoff must send screening inputs for authoritative evaluation.");
-  require(resultAction.includes('body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })'), "The result action must enter the free Briefcase before payment.");
+  // The result action reaches the claim through the shared handoff rather than
+  // assembling its own request, so the URL, the token shape and the
+  // exact-matter redirect check live in one place.
+  require(resultAction.includes("submitClaim("), "The completed result action must claim the stored inputs through the server-verified boundary.");
+  require(resultAction.includes("answers: toScreeningAnswers(evaluatedAnswers ?? answers)"), "The pending handoff must send the evaluated screening inputs for authoritative evaluation.");
+  require(resultAction.includes("submitClaim(pending.claimToken)"), "The result action must present the single-use claim token, not a pending identifier.");
   require(!resultAction.includes("/expungement-ai/pay") && !resultAction.includes("checkout"), "The result action must not bypass packet information and final review.");
 
   require(input.briefcasePage.includes("<BriefcaseSaveIntent"), "Briefcase home must retain the after-login pending-claim retry.");
-  require(input.saveIntent.includes('"/api/expungement-ai/screening/pending/claim"') && input.saveIntent.includes("pendingId"), "Save-intent component must replay only the stored pending claim after login.");
+  require(input.saveIntent.includes("submitClaim") && input.saveIntent.includes("readClaimTokenFromUrl"), "Save-intent component must replay only a presented claim token after login.");
+  require(input.claimHandoff.includes('"/api/expungement-ai/screening/pending/claim"'), "The claim handoff must post to the server-verified claim boundary.");
   require(!input.saveIntent.includes("pending-briefcase-save") && !input.saveIntent.includes('"/api/expungement-ai/screening/save-result"'), "Save-intent component must not replay browser-stashed result identity.");
 
   return issues;

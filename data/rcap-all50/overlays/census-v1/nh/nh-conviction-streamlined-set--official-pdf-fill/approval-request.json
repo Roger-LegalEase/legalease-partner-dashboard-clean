@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-family-approval-request/v1",
+  "familyId": "nh_conviction_streamlined-set",
+  "requested": "independent completeness verification, visual review and counsel review",
+  "buildStatus": "state_built",
+  "status": "BUILT_RASTER_PENDING",
+  "routeKeys": [
+    "obligation:track-only:NH:nh_conviction_streamlined"
+  ],
+  "components": [
+    {
+      "kind": "primary_filing",
+      "documentId": "NHJB-3057",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "fee_waiver_motion",
+      "documentId": "NHJB-2311",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "fee_waiver_financial_statement",
+      "documentId": "NHJB-2328",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "criminal_history_request",
+      "documentId": "NHJB-2956",
+      "outputStrategy": "official_pdf_fill"
+    },
+    {
+      "kind": "sentence_completion_proof",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § Proof that your sentence is complete"
+    },
+    {
+      "kind": "post_filing_instructions",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § What happens after you file"
+    },
+    {
+      "kind": "effect_and_limits_disclosure",
+      "documentId": null,
+      "outputStrategy": "process_guidance",
+      "deliveredAs": "participant-instructions.md § What annulment does, and what it does not do"
+    }
+  ],
+  "artifacts": [
+    {
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "6297fd7cb870159f1f92550cfe8f97ad61e8f6f7b7993e33107c37c98e31dc89",
+      "byteLength": 184531,
+      "pageCount": 10
+    },
+    {
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/nh/nh-conviction-streamlined-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "aa896ec4e6da8a331747716ad8f5508ab3736a9b8b5d28e544c0ab60da9c742f",
+      "byteLength": 184603,
+      "pageCount": 10
+    }
+  ],
+  "independentVerificationStatus": "PENDING",
+  "approvedForLive": false,
+  "live": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "mattersForTheReviewersAttention": [
+    "NHJB-3057-DSe is the single required primary petition. Confirm the post-2019 streamlined route and one-petition-per-charge instruction are clear.",
+    "Confirm the printed NHJB-3057 signature/date rules and FOR COURT USE ONLY sections remain blank for the participant and court.",
+    "Confirm the conditional NHJB-2311 and NHJB-2328 forms remain covered but are withheld until the disposing clerk confirms court/channel compatibility, and that their source court controls remain unselected.",
+    "Confirm the NHJB-2311 signature placeholder and the three NHJB-2328 zero totals are removed under the digest-proved appearance dispositions recorded in source-receipt.json.",
+    "Review reports/caption-evidence.json and the named-fact mappings for NHJB-3057 City/Town and NHJB-2956 split-name and one-line-address fields.",
+    "Review reports/adopted-rule-focused-test.json and the thirteen self-help stop conditions. Confirm the owner-adopted no-DOC, State Police fee, receipt/finality, whole-record/manual-review and waiver-compatibility branches are handled without claiming legal, packet or production acceptance."
+  ]
+}

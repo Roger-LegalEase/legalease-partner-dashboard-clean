@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "nm_identity_theft-set",
+  "blocking": [],
+  "findings": [
+    {
+      "severity": "resolved_by_governed_source_replacement",
+      "finding": "The governed Form 4-222 source prints STATE OF NEW MEXICO, a blank COUNTY OF line, and a blank court line. The county and full judicial-district designation can therefore be written from held matter facts without district-local page content beneath them.",
+      "measuredFrom": "the pinned statewide binary at ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de",
+      "supersedes": "The historical 809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a source printed SIXTH JUDICIAL DISTRICT COURT."
+    },
+    {
+      "finding": "THE ONE-LINE MAILING ADDRESS WAS HELD IN FOUR PARTS AND WRITTEN IN NONE. Every form in this packet prints at least one blank asking for street, city, state and ZIP together, and the platform holds all four -- it writes them separately elsewhere in the same packet. Those blanks were declared REQUIRED_BEFORE_FILING on the ground that \"the shared fact registry has no one-line mailing-address fact\". That is true of the shared DESCRIPTOR LIST and says nothing about what the platform holds, and stating the first as though it were the second is the defect VF03 named: a held fact left off a filing under a reason that reads like an unavailable one.",
+      "consequence": "The fixtures compose participant.full_mailing_address from the four parts they already hold, and each of those blanks is now a WRITE bound under the caption the shared registry does resolve for it -- participant.street_address, the registry's one participant address descriptor -- with the binding, and what the printed caption resolves to on its own, recorded on the field-map row. Nothing in scripts/rcap-official-forms/rcap-field-semantics.mjs is changed. Where a court's printed line is too short to show the value at the shared six-point readable floor, the host measures that with the same fitter the finalizer uses and the row becomes KNOWN_FACT_NOT_WRITTEN carrying the measurement -- the width the value needs at the floor against the width the form printed -- rather than claiming the platform holds nothing. Nothing is truncated and nothing is drawn outside a measured blank."
+    },
+    {
+      "finding": "All four documents are FLAT PDFs with no AcroForm field: Form 4-951, Form 4-960.1, the retained local order. Their blanks are underscore GLYPH RUNS far more often than stroked rules -- the existing stroke reader finds 15 rules on Form 4-951 where the form has 71 blanks -- so the shared measureRuledBlank path finds almost none of them.",
+      "consequence": "They are measured by scripts/rcap-nm-flat-forms/nm-flat-blank-measurer.mjs, which reads underscore runs from the per-glyph x and advance the shared anchor-capture walker reports, joins runs that abut across two text-showing operators at 1.2pt, and locates printed \"[ ]\" pairs and symbol-font tick glyphs. Every measured blank must carry a dictionary row and every dictionary row must match a measured blank, checked on every build in both directions, so a blank that moves stops the build rather than moving a write box with it."
+    },
+    {
+      "finding": "New Mexico rule forms mark amended text by UNDERLINING and BRACKETING it, and the 2025 amendments left both marks all over these forms. Eleven strokes on Form 4-951 and four on the local order carry printed words on them; three bracket pairs on Form 4-951 page 2 are the renumbered old paragraph numbers \"[5.]\", \"[6.]\" and \"[7.]\" rather than tick boxes.",
+      "consequence": "The measurer tells an underline from a blank by whether printed glyphs sit on the stroke and overlap its span by more than two points, and tells a control from a citation by whether the bracket pair is EMPTY. Both tests were written against a first measurement that got them wrong: a width threshold generous enough for \"[ ]\" also admitted \"[5.]\", and a bare overlap test made the colon of \"District Court case number:\" into an amendment mark and deleted a real blank from the map."
+    },
+    {
+      "finding": "The retained order is one judicial district's form. The Master Library holds it under 05_SOURCE_GATED with its official_title recorded as \"Petitioner.\" -- the harvest could not read a title off it -- and no statewide Supreme Court order form exists in the mandatory 4-951 to 4-960.3 set.",
+      "consequence": "The packet-set manifest already makes the component conditional on the district that published it, and the record requires a local_order_form_instructions component telling everyone else to obtain their own district's form. participant-instructions.md carries that instruction under a heading of its own, before the field tables. A build that shipped the retained order unconditionally would assert one district's practice as statewide."
+    },
+    {
+      "finding": "The adopted statewide Form 4-222 is a five-page flat PDF with 147 measured underscore blanks and no AcroForm fields.",
+      "consequence": "Every measured blank has an explicit dictionary disposition. Held caption and identity facts are written only inside measured blank rectangles; financial assertions, elections, signatures, notarization and court-use fields remain empty for the responsible actor."
+    },
+    {
+      "finding": "The intake this track's legal-design record defines collects the participant's name, other names, date of birth, mailing location, county, case identifiers and the agencies holding the records. It collects NO telephone number and NO e-mail address, and the forms ask for a telephone number six times and an e-mail three times.",
+      "consequence": "Every one of those blanks is declared required-before-filing and named in participant-instructions.md rather than filled from a value the platform does not hold. Form 4-951's three separate boxes -- Home Phone, Work Phone and Cell -- would in any case be three different facts, and writing one held number into any of them would assert on a petition sworn under penalty of perjury which kind of number it is."
+    },
+    {
+      "finding": "The judicial district is written seven times on Form 4-951 alone, and the platform holds it: the New Mexico state pack's required-field set for the identity_theft pathway names judicialDistrict as a required intake field.",
+      "consequence": "It is written on every one of them, including on the two paragraph-2 lines whose boxes the participant has yet to tick. The district is the same on either branch, so the value is correct whichever box they mark."
+    },
+    {
+      "finding": "Only Form 4-222's route-determined Petitioner identity control is marked; no financial or other participant election is marked.",
+      "consequence": "On the three flat forms there is nothing measured to mark: the controls are printed \"[ ]\" characters or symbol-font glyphs, checkboxCandidates finds no stroked box, and a mark drawn from a derived coordinate is a mark nobody measured. On Form 4-222 the overlay writes text values only -- and every box on it is a sworn assertion about the applicant's own finances. All of them are listed in reports/blanks-left-for-the-participant.json and named in participant-instructions.md with what to mark."
+    }
+  ],
+  "selfHelpStopConditionsAsPrinted": {
+    "trackId": "nm_identity_theft",
+    "conditions": [
+      "Any dispute about whether the participant is in fact the subject of the record.",
+      "Any suggestion, from the participant or anyone else, that LegalEase name the true offender anywhere in the packet or the proposed order.",
+      "Any charge or proceeding pending against the participant anywhere.",
+      "An objection filed by any party.",
+      "A contested hearing on whether the participant is a victim of identity theft.",
+      "Records held outside New Mexico, or federal, tribal or military records.",
+      "Any non-citizen participant, because the Judiciary's own packet directs non-citizens to seek legal advice about the consequences of expungement."
+    ],
+    "registry": "data/record-clearing/legal-design-track-registry.json",
+    "registrySha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+    "memo": "data/record-clearing/legal-design-intake/NM.memo.json",
+    "memoSha256": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25",
+    "quotedVerbatim": true
+  }
+}

@@ -1,0 +1,741 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX67",
+  "laneKind": "repair",
+  "generatedBy": "lane FIX67, /home/user/fix67-worktree on branch fix67-vt-fit-rect",
+  "baseSha": "5b2e25812",
+  "summary": "Five Vermont sealing families opted into FIX61's shared BBox-to-Rect appearance fit through the one finalizeOfficialForm call at their shared host. One option, one call site, five families. 600-00228 field 15's outside-rect ink falls from 672 dark pixels at 300 dpi to the pinned form's own count in both fixtures of all five; VF02's placement sweep goes from 160/161 to 161/161 per fixture; every other page is pixel-identical and the text is character-identical. Raster on the new bytes and independent verification are still owed.",
+  "rows": [
+    {
+      "itemId": "vt_seal_18_to_21-set",
+      "familyId": "vt_seal_18_to_21-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host all five families import runFamilyById from; the four sibling builders are naming shims)",
+      "sharedStepRepairUsed": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten -> fitAppearanceStreamsToRect), added by FIX61 and default-off; opted into here through scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+      "grantConfirmed": "CLAIM_OK FIX67 vt_seal_18_to_21-set (repair, grant set 5080f6c0ec1163e1), exit 0",
+      "baseSha": "5b2e25812",
+      "branch": "fix67-vt-fit-rect",
+      "worktree": "/home/user/fix67-worktree, cut from /home/user/captain-worktree at 5b2e25812 on claude/legalease-sprint-captain-utucnw. No other worktree, the Captain branch and main were not touched; nothing was force-pushed; no subagent was created.",
+      "verdictRepaired": {
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "88c1bd403",
+        "blockedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "howVF04PutIt": "packet page 5, 600-00228 field 15, '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18] against a 14.4pt /Rect; 672 dark pixels at 300 dpi outside the /Rect where the pinned form paints a handful; identical in both fixtures and identical in all five families. Not this family's ink -- a zero-write baseline paints the same 672 with FIX58's option on and off.",
+        "whereTheRepairBelongs": "the shared official-form flattening step, not this family and not any Vermont route, and no route or family may be whitelisted for it. Obeyed: the repair is FIX61's shared code, unchanged; this lane only turned the shared option on at the host's one call site."
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none is claimed. The rasters recorded above are this lane's own poppler measurements under /tmp, taken to read the pages and deleted after measuring. Both fixture digests moved, so the RASTER_PASS acceptance receipt already sitting in this family's product-wiring.json -- workflow run 33983515494, bound to canonical b17bdb16... -- no longer binds the delivered bytes and a fresh central raster is owed. product-wiring.json was not opened for writing and RASTER_QUEUE.json was not opened at all.",
+        "INDEPENDENT VERIFICATION. This lane rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, no obligation is scored here, and VF04's FAIL_REPAIR_REQUIRED stands until an independent reader re-reads the new bytes.",
+        "EVERY OTHER OBLIGATION VF04 SCORED. ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP were not re-read, re-scored or discharged by this lane; whatever VF04 recorded for them still stands as it stood.",
+        "THE FIVE FAMILIES' SHARED-DIGEST QUESTION. All five still deliver one identical pair of fixtures. VF04 examined that as ROUTE_IDENTITY; this lane only reports that the identity survived the repair and settles nothing about it.",
+        "THE REST OF THE COHORT. FIX61 measured 46 families across 12 jurisdictions exposed to the same shared behaviour. Beyond these five and the sibling vt_seal_nonconviction-set, none was opted in, rebuilt or touched, and the shared option stays default-off."
+      ],
+      "whatChanged": {
+        "theOneEdit": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, at its single finalizeOfficialForm call in renderDocument(): fitAppearancesToRect: true added beside the suppressSynthesizedAppearances: true that was already there, exactly as scripts/build-census-v1-vt_seal_nonconviction-set.mjs does it, plus the comment explaining why. Nothing else in the repository was edited. The four sibling builders are 16-line naming shims that import runFamilyById from this host, so one option at this one call site reaches all five families -- the same shared-host property FIX58 used.",
+        "theDefect": "ISO 32000-1 12.5.5 places a widget appearance by transforming its /BBox by its /Matrix and mapping the result onto the annotation's /Rect. pdf-lib's PDFForm.flatten emits a translation only. 600-00228 field 15 ships BBox [0 0 18 18] with /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s' against a /Rect of 14.400 x 14.400, so the required 0.8 scale was never applied and a 17pt stroked square was stamped where the Judiciary's form draws a 13.6pt one.",
+        "theRepairIsShared": "The repair itself is FIX61's, already in the shared step (rcap-active-content.mjs, fitAppearanceStreamsToRect) and default-off. This lane wrote no shared-module code, added no whitelist, and read no family, form number, field name, caption, jurisdiction or route anywhere. It only opted this host in.",
+        "afterTheFix": "The appearance's /Matrix becomes [0.8000000000000003 0 0 0.7999999999999987 0 0] in both fixtures; the placement operator, the XObject name, the /BBox and the content stream bytes are unchanged. 0.8 x [0 18] = [0 14.4], exactly the /Rect. No value is written into any field by this repair.",
+        "sharedDigests": "All five families deliver byte-identical fixtures before the fix (canonical b17bdb16..., boundary 3fb60ef0...) and byte-identical fixtures after it (canonical 6d13376c..., boundary 22ae0bc5...). VF04 recorded the same identity and treated it as a ROUTE_IDENTITY question rather than an error; this lane reports it and settles nothing about it."
+      },
+      "pixelMeasurements": {
+        "method": "poppler pdftoppm, greyscale, from the committed fixture bytes: the base bytes recovered from git at 5b2e25812 and the rebuilt bytes on disk. Rasters written under /tmp/fix67 and deleted after measuring.",
+        "field15Window": "Field 15's /Rect is x[131.309,145.709] y[438.449,452.849] (14.400 x 14.400). The oversize appearance's BBox clip is the 18pt footprint x[131.309,149.309] y[438.449,456.449]. 'Outside-rect' below is the annulus: inside the clip, outside the /Rect, at 300 dpi.",
+        "outsideRectDarkPixels": {
+          "beforeCanonical": 672,
+          "beforeBoundary": 672,
+          "afterCanonical": 2,
+          "afterBoundary": 2,
+          "pinnedFormItself": 2,
+          "note": "672 before reproduces VF04's measured 672 exactly, in both fixtures. After the fix the delivered count equals the pinned 600-00228's own count, count for count. VF04 reported the pinned form's own count as 6; measured here with this lane's own window and threshold (greyscale < 128, rect rounded to the pixel grid) the pinned form paints 2, and the delivered bytes now paint that same 2. The claim is the equality with the form's own ink, and that holds on either count."
+        },
+        "stampInsideTheRect": "Yes. Painted ink extent in the padded window falls from y[432.48,456.48] to y[432.48,452.88], and 452.88 is the pinned form's own extent -- the appearance no longer paints above the /Rect's top edge at 452.849. Its stroke centreline is 0.8 x [0.5,17.5] = [0.4,14.0], 13.6pt across, wholly inside the 14.4pt box.",
+        "page5Difference": "1072 differing pixels at 300 dpi in EACH fixture, 743 dark lost and 327 dark gained. Every differing pixel lies inside x[131.28,149.28] y[438.48,456.48] -- the exact 18pt footprint at field 15's rect origin. Zero differing pixels anywhere else on page 5.",
+        "everyOtherPage": "PIXEL-IDENTICAL. Pages 1, 2, 3, 4 and 6 of both fixtures compare at zero differing pixels at 150 dpi, and were re-checked at 300 dpi with the same result. Only page 5 differs, and page 5 is the only page carrying 600-00228 page 1; page 6 carries its page 2 and is identical.",
+        "text": "pdftotext -layout over all six pages of both fixtures is character-identical before and after. Page count 6 -> 6.",
+        "committedRasterPngs": "The family directories' own raster/*/page-NN/page.png are rendered by the build's Chromium pipeline (scripts/raster/pdf-page-raster.mjs, playwright), not by pdftoppm. Pages 01, 02, 03 and 05 of those PNGs differ from the committed base PNGs. Page 05 is the repair. Pages 01-03 are NOT a content change: re-rendering the BASE fixture bytes through this same in-container pipeline reproduces the new PNGs pixel-for-pixel (0 differing pixels on pages 1, 2 and 3), so that churn is this container's renderer differing from the one that produced the committed base PNGs. The delivered PDF bytes for those pages are pixel-identical under poppler, as recorded above."
+      },
+      "sweep": {
+        "method": "VF02's placement sweep, re-implemented from its description: for every flattened widget placement in the packet, compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, transform the BBox by the /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require cmScale x requiredScale to equal 1 -- judged as |transformedSize x cmScale - rectSize| <= 0.05pt in both axes.",
+        "before": "161 placements per fixture: 160 pass, 1 FAIL, 0 unmatched, in EACH fixture. The failure is packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm', BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] against a /Rect of 14.400 x 14.400, product 0.8000 in both axes. This reproduces VF02's and VF04's counts exactly.",
+        "after": "161 placements per fixture: 161 pass, 0 fail, 0 unmatched, in EACH fixture.",
+        "sweptOver": "canonical.pdf and boundary.pdf, before and after, against the three pinned source binaries resolved from the mounted Master Library by exact SHA-256.",
+        "note": "The sweep script is a measurement tool run from /tmp; it is not committed. The committed proof of the same transform is scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs, which FIX61 added and which passes here."
+      },
+      "digests": {
+        "canonical": {
+          "before": "b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094",
+          "beforeBytes": 851940,
+          "beforePages": 6,
+          "after": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+          "afterBytes": 851974,
+          "afterPages": 6
+        },
+        "boundary": {
+          "before": "3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a",
+          "beforeBytes": 852432,
+          "beforePages": 6,
+          "after": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+          "afterBytes": 852466,
+          "afterPages": 6
+        },
+        "identicalAcrossAllFive": "These four digests are the same for every one of the five families, before and after. Confirmed by hashing all ten fixture files before any edit and all ten again after the rebuild.",
+        "digestsConfirmedFirst": "Before the edit was made, all ten committed fixture files were hashed and every one matched VF04's canonical b17bdb16... and boundary 3fb60ef0... as this dispatch named them.",
+        "whyThirtyFourBytesLarger": "The appearance's /Matrix goes from the identity to a scaled matrix whose numbers are longer; the content stream bytes are untouched.",
+        "determinism": "Rebuilt twice with the option on. `diff -r` over each of the five family directories finds no difference between the two rebuilds -- byte-identical, fixtures, committed raster PNGs and reports alike. A hash manifest of all 5438 files under data/rcap-all50/overlays/census-v1 is identical after rebuild 1 and after rebuild 2."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set -> PASS_COMPLETE, 24/165 written, exit 0. Run on the committed base bytes before any edit and again on the rebuilt bytes. Nine zeros both times; nine zeros is not by itself a pass, which is why the pixel and sweep measurements above are the evidence this row rests on.",
+      "verifiers": {
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>": "PASS_COMPLETE, 24/165 written, exit 0, for each of the five, before the edit and again on the rebuilt bytes.",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD, 53 carrying an identityRefresh. exit 0.",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED (26 by appearance-registry, 3 by clearSourceCarriedTextValues). exit 0.",
+        "node scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "PASS, exit 0 -- FIX61's committed controls for the transform this row relies on, including its negative control.",
+        "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "PASS, exit 0 -- FIX50/FIX58's controls are unaffected.",
+        "node scripts/rcap-official-forms/test-widget-appearance-placement.mjs": "PASS, exit 0."
+      },
+      "participantWrites": {
+        "unchanged": true,
+        "evidence": "The only files in each family directory that changed are fixtures/canonical.pdf, fixtures/boundary.pdf, four raster page PNGs and reports/rendered-artifacts.json. reports/actual-writes.json, production-field-map.json, product-wiring.json, build-status.json, build-findings.json, source-receipt.json, approval-request.json and participant-instructions.md are byte-identical. 24 of 165 fields written, the same 24. The repair writes no value into any field; it scales one appearance stream that is the source's own."
+      },
+      "otherFamiliesUntouched": {
+        "method": "Every file under data/rcap-all50/overlays/census-v1 hashed before the first edit and again after each rebuild: 5438 files across 249 family directories.",
+        "result": "Exactly 55 files differ, all of them inside the five family directories named here -- 11 per family. Every one of the other 244 family directories is byte-identical, file for file. Nothing outside data/rcap-all50/overlays/census-v1 was written except this rows.json and the claim ledger's own release entries.",
+        "theFiveShareDigests": "Yes, and it is worth saying plainly: the five families again produce identical bytes as each other, canonical 6d13376c... and boundary 22ae0bc5..., exactly as they did before the repair.",
+        "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, every legal-decision record, every verdict file, and every other family's builder and directory."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family vt_seal_misdemeanor-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, exit 1. Both failures are conditions of this container, not of these families, and neither touches the bytes this lane read or wrote.",
+        "failure_private_is_git_ignored": "Reported NOT git-ignored because this dispatch mounts private/ as a SYMLINK to /home/user/legalease-partner-dashboard-clean/private and `git check-ignore -q private/` answers 'fatal: pathspec is beyond a symbolic link' rather than an exit code. Checked directly: private/ is ignored and `git ls-files private/` lists nothing. No source binary is tracked and none was committed. FIX61 hit and explained the identical condition.",
+        "failure_corpus_matches_committed_index": "1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', an Alabama asset this Master Library mount does not carry. No Vermont entry is absent or mismatched. VF04 and FIX61 both recorded the same absence.",
+        "family_sources_bind": "ok -- 3/3 sources bind by exact SHA-256: 200-00130 ff914f49..., 200-00132 08811624..., 600-00228 263d4e19.... Those are the three binaries every measurement here was taken against.",
+        "environment": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext, MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1, node_modules symlinked from /home/user/captain-worktree, sparse checkout disabled with 0 skip-worktree entries."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster on the new bytes. Both fixture digests moved, so the existing RASTER_PASS receipt (run 33983515494, bound to canonical b17bdb16...) stops binding and a fresh central raster is owed. RASTER_QUEUE.json and product-wiring.json were not opened for writing.",
+        "No independent verification. This lane built what it would be verifying, so it verifies nothing; no verdict was written or replaced and VF04's FAIL stands until someone else re-reads the new bytes.",
+        "No change to the shared step's code or to its default-off behaviour, and no whitelist by family, form, field or route anywhere.",
+        "No route promotion, no build-status change, no commercial authority claimed, and nothing touched in Production, Stripe, Supabase or credentials.",
+        "No PR. The branch is pushed and nothing else."
+      ]
+    },
+    {
+      "itemId": "vt_seal_dui-set",
+      "familyId": "vt_seal_dui-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host all five families import runFamilyById from; the four sibling builders are naming shims)",
+      "sharedStepRepairUsed": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten -> fitAppearanceStreamsToRect), added by FIX61 and default-off; opted into here through scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+      "grantConfirmed": "CLAIM_OK FIX67 vt_seal_dui-set (repair, grant set 5080f6c0ec1163e1), exit 0",
+      "baseSha": "5b2e25812",
+      "branch": "fix67-vt-fit-rect",
+      "worktree": "/home/user/fix67-worktree, cut from /home/user/captain-worktree at 5b2e25812 on claude/legalease-sprint-captain-utucnw. No other worktree, the Captain branch and main were not touched; nothing was force-pushed; no subagent was created.",
+      "verdictRepaired": {
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "88c1bd403",
+        "blockedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "howVF04PutIt": "packet page 5, 600-00228 field 15, '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18] against a 14.4pt /Rect; 672 dark pixels at 300 dpi outside the /Rect where the pinned form paints a handful; identical in both fixtures and identical in all five families. Not this family's ink -- a zero-write baseline paints the same 672 with FIX58's option on and off.",
+        "whereTheRepairBelongs": "the shared official-form flattening step, not this family and not any Vermont route, and no route or family may be whitelisted for it. Obeyed: the repair is FIX61's shared code, unchanged; this lane only turned the shared option on at the host's one call site."
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none is claimed. The rasters recorded above are this lane's own poppler measurements under /tmp, taken to read the pages and deleted after measuring. Both fixture digests moved, so the RASTER_PASS acceptance receipt already sitting in this family's product-wiring.json -- workflow run 33983515494, bound to canonical b17bdb16... -- no longer binds the delivered bytes and a fresh central raster is owed. product-wiring.json was not opened for writing and RASTER_QUEUE.json was not opened at all.",
+        "INDEPENDENT VERIFICATION. This lane rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, no obligation is scored here, and VF04's FAIL_REPAIR_REQUIRED stands until an independent reader re-reads the new bytes.",
+        "FEE_AND_WAIVER. Open counsel item, untouched. VF04 recorded BLOCKED_LEGAL_INPUT on this route: how the 32 V.S.A. section 1431(e) $90 fee applies after Act 60 is unsettled in the record itself (the provision still cross-references 13 V.S.A. section 7602(a)(1)(C), which Act 60 eliminated). This lane changed no packet text, no registry entry and no fee note, and a geometry repair cannot answer a legal question.",
+        "EVERY OTHER OBLIGATION VF04 SCORED. ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP were not re-read, re-scored or discharged by this lane; whatever VF04 recorded for them still stands as it stood.",
+        "THE FIVE FAMILIES' SHARED-DIGEST QUESTION. All five still deliver one identical pair of fixtures. VF04 examined that as ROUTE_IDENTITY; this lane only reports that the identity survived the repair and settles nothing about it.",
+        "THE REST OF THE COHORT. FIX61 measured 46 families across 12 jurisdictions exposed to the same shared behaviour. Beyond these five and the sibling vt_seal_nonconviction-set, none was opted in, rebuilt or touched, and the shared option stays default-off."
+      ],
+      "whatChanged": {
+        "theOneEdit": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, at its single finalizeOfficialForm call in renderDocument(): fitAppearancesToRect: true added beside the suppressSynthesizedAppearances: true that was already there, exactly as scripts/build-census-v1-vt_seal_nonconviction-set.mjs does it, plus the comment explaining why. Nothing else in the repository was edited. The four sibling builders are 16-line naming shims that import runFamilyById from this host, so one option at this one call site reaches all five families -- the same shared-host property FIX58 used.",
+        "theDefect": "ISO 32000-1 12.5.5 places a widget appearance by transforming its /BBox by its /Matrix and mapping the result onto the annotation's /Rect. pdf-lib's PDFForm.flatten emits a translation only. 600-00228 field 15 ships BBox [0 0 18 18] with /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s' against a /Rect of 14.400 x 14.400, so the required 0.8 scale was never applied and a 17pt stroked square was stamped where the Judiciary's form draws a 13.6pt one.",
+        "theRepairIsShared": "The repair itself is FIX61's, already in the shared step (rcap-active-content.mjs, fitAppearanceStreamsToRect) and default-off. This lane wrote no shared-module code, added no whitelist, and read no family, form number, field name, caption, jurisdiction or route anywhere. It only opted this host in.",
+        "afterTheFix": "The appearance's /Matrix becomes [0.8000000000000003 0 0 0.7999999999999987 0 0] in both fixtures; the placement operator, the XObject name, the /BBox and the content stream bytes are unchanged. 0.8 x [0 18] = [0 14.4], exactly the /Rect. No value is written into any field by this repair.",
+        "sharedDigests": "All five families deliver byte-identical fixtures before the fix (canonical b17bdb16..., boundary 3fb60ef0...) and byte-identical fixtures after it (canonical 6d13376c..., boundary 22ae0bc5...). VF04 recorded the same identity and treated it as a ROUTE_IDENTITY question rather than an error; this lane reports it and settles nothing about it."
+      },
+      "pixelMeasurements": {
+        "method": "poppler pdftoppm, greyscale, from the committed fixture bytes: the base bytes recovered from git at 5b2e25812 and the rebuilt bytes on disk. Rasters written under /tmp/fix67 and deleted after measuring.",
+        "field15Window": "Field 15's /Rect is x[131.309,145.709] y[438.449,452.849] (14.400 x 14.400). The oversize appearance's BBox clip is the 18pt footprint x[131.309,149.309] y[438.449,456.449]. 'Outside-rect' below is the annulus: inside the clip, outside the /Rect, at 300 dpi.",
+        "outsideRectDarkPixels": {
+          "beforeCanonical": 672,
+          "beforeBoundary": 672,
+          "afterCanonical": 2,
+          "afterBoundary": 2,
+          "pinnedFormItself": 2,
+          "note": "672 before reproduces VF04's measured 672 exactly, in both fixtures. After the fix the delivered count equals the pinned 600-00228's own count, count for count. VF04 reported the pinned form's own count as 6; measured here with this lane's own window and threshold (greyscale < 128, rect rounded to the pixel grid) the pinned form paints 2, and the delivered bytes now paint that same 2. The claim is the equality with the form's own ink, and that holds on either count."
+        },
+        "stampInsideTheRect": "Yes. Painted ink extent in the padded window falls from y[432.48,456.48] to y[432.48,452.88], and 452.88 is the pinned form's own extent -- the appearance no longer paints above the /Rect's top edge at 452.849. Its stroke centreline is 0.8 x [0.5,17.5] = [0.4,14.0], 13.6pt across, wholly inside the 14.4pt box.",
+        "page5Difference": "1072 differing pixels at 300 dpi in EACH fixture, 743 dark lost and 327 dark gained. Every differing pixel lies inside x[131.28,149.28] y[438.48,456.48] -- the exact 18pt footprint at field 15's rect origin. Zero differing pixels anywhere else on page 5.",
+        "everyOtherPage": "PIXEL-IDENTICAL. Pages 1, 2, 3, 4 and 6 of both fixtures compare at zero differing pixels at 150 dpi, and were re-checked at 300 dpi with the same result. Only page 5 differs, and page 5 is the only page carrying 600-00228 page 1; page 6 carries its page 2 and is identical.",
+        "text": "pdftotext -layout over all six pages of both fixtures is character-identical before and after. Page count 6 -> 6.",
+        "committedRasterPngs": "The family directories' own raster/*/page-NN/page.png are rendered by the build's Chromium pipeline (scripts/raster/pdf-page-raster.mjs, playwright), not by pdftoppm. Pages 01, 02, 03 and 05 of those PNGs differ from the committed base PNGs. Page 05 is the repair. Pages 01-03 are NOT a content change: re-rendering the BASE fixture bytes through this same in-container pipeline reproduces the new PNGs pixel-for-pixel (0 differing pixels on pages 1, 2 and 3), so that churn is this container's renderer differing from the one that produced the committed base PNGs. The delivered PDF bytes for those pages are pixel-identical under poppler, as recorded above."
+      },
+      "sweep": {
+        "method": "VF02's placement sweep, re-implemented from its description: for every flattened widget placement in the packet, compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, transform the BBox by the /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require cmScale x requiredScale to equal 1 -- judged as |transformedSize x cmScale - rectSize| <= 0.05pt in both axes.",
+        "before": "161 placements per fixture: 160 pass, 1 FAIL, 0 unmatched, in EACH fixture. The failure is packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm', BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] against a /Rect of 14.400 x 14.400, product 0.8000 in both axes. This reproduces VF02's and VF04's counts exactly.",
+        "after": "161 placements per fixture: 161 pass, 0 fail, 0 unmatched, in EACH fixture.",
+        "sweptOver": "canonical.pdf and boundary.pdf, before and after, against the three pinned source binaries resolved from the mounted Master Library by exact SHA-256.",
+        "note": "The sweep script is a measurement tool run from /tmp; it is not committed. The committed proof of the same transform is scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs, which FIX61 added and which passes here."
+      },
+      "digests": {
+        "canonical": {
+          "before": "b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094",
+          "beforeBytes": 851940,
+          "beforePages": 6,
+          "after": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+          "afterBytes": 851974,
+          "afterPages": 6
+        },
+        "boundary": {
+          "before": "3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a",
+          "beforeBytes": 852432,
+          "beforePages": 6,
+          "after": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+          "afterBytes": 852466,
+          "afterPages": 6
+        },
+        "identicalAcrossAllFive": "These four digests are the same for every one of the five families, before and after. Confirmed by hashing all ten fixture files before any edit and all ten again after the rebuild.",
+        "digestsConfirmedFirst": "Before the edit was made, all ten committed fixture files were hashed and every one matched VF04's canonical b17bdb16... and boundary 3fb60ef0... as this dispatch named them.",
+        "whyThirtyFourBytesLarger": "The appearance's /Matrix goes from the identity to a scaled matrix whose numbers are longer; the content stream bytes are untouched.",
+        "determinism": "Rebuilt twice with the option on. `diff -r` over each of the five family directories finds no difference between the two rebuilds -- byte-identical, fixtures, committed raster PNGs and reports alike. A hash manifest of all 5438 files under data/rcap-all50/overlays/census-v1 is identical after rebuild 1 and after rebuild 2."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set -> PASS_COMPLETE, 24/165 written, exit 0. Run on the committed base bytes before any edit and again on the rebuilt bytes. Nine zeros both times; nine zeros is not by itself a pass, which is why the pixel and sweep measurements above are the evidence this row rests on.",
+      "verifiers": {
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>": "PASS_COMPLETE, 24/165 written, exit 0, for each of the five, before the edit and again on the rebuilt bytes.",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD, 53 carrying an identityRefresh. exit 0.",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED (26 by appearance-registry, 3 by clearSourceCarriedTextValues). exit 0.",
+        "node scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "PASS, exit 0 -- FIX61's committed controls for the transform this row relies on, including its negative control.",
+        "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "PASS, exit 0 -- FIX50/FIX58's controls are unaffected.",
+        "node scripts/rcap-official-forms/test-widget-appearance-placement.mjs": "PASS, exit 0."
+      },
+      "participantWrites": {
+        "unchanged": true,
+        "evidence": "The only files in each family directory that changed are fixtures/canonical.pdf, fixtures/boundary.pdf, four raster page PNGs and reports/rendered-artifacts.json. reports/actual-writes.json, production-field-map.json, product-wiring.json, build-status.json, build-findings.json, source-receipt.json, approval-request.json and participant-instructions.md are byte-identical. 24 of 165 fields written, the same 24. The repair writes no value into any field; it scales one appearance stream that is the source's own."
+      },
+      "otherFamiliesUntouched": {
+        "method": "Every file under data/rcap-all50/overlays/census-v1 hashed before the first edit and again after each rebuild: 5438 files across 249 family directories.",
+        "result": "Exactly 55 files differ, all of them inside the five family directories named here -- 11 per family. Every one of the other 244 family directories is byte-identical, file for file. Nothing outside data/rcap-all50/overlays/census-v1 was written except this rows.json and the claim ledger's own release entries.",
+        "theFiveShareDigests": "Yes, and it is worth saying plainly: the five families again produce identical bytes as each other, canonical 6d13376c... and boundary 22ae0bc5..., exactly as they did before the repair.",
+        "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, every legal-decision record, every verdict file, and every other family's builder and directory."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family vt_seal_misdemeanor-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, exit 1. Both failures are conditions of this container, not of these families, and neither touches the bytes this lane read or wrote.",
+        "failure_private_is_git_ignored": "Reported NOT git-ignored because this dispatch mounts private/ as a SYMLINK to /home/user/legalease-partner-dashboard-clean/private and `git check-ignore -q private/` answers 'fatal: pathspec is beyond a symbolic link' rather than an exit code. Checked directly: private/ is ignored and `git ls-files private/` lists nothing. No source binary is tracked and none was committed. FIX61 hit and explained the identical condition.",
+        "failure_corpus_matches_committed_index": "1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', an Alabama asset this Master Library mount does not carry. No Vermont entry is absent or mismatched. VF04 and FIX61 both recorded the same absence.",
+        "family_sources_bind": "ok -- 3/3 sources bind by exact SHA-256: 200-00130 ff914f49..., 200-00132 08811624..., 600-00228 263d4e19.... Those are the three binaries every measurement here was taken against.",
+        "environment": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext, MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1, node_modules symlinked from /home/user/captain-worktree, sparse checkout disabled with 0 skip-worktree entries."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster on the new bytes. Both fixture digests moved, so the existing RASTER_PASS receipt (run 33983515494, bound to canonical b17bdb16...) stops binding and a fresh central raster is owed. RASTER_QUEUE.json and product-wiring.json were not opened for writing.",
+        "No independent verification. This lane built what it would be verifying, so it verifies nothing; no verdict was written or replaced and VF04's FAIL stands until someone else re-reads the new bytes.",
+        "No change to the shared step's code or to its default-off behaviour, and no whitelist by family, form, field or route anywhere.",
+        "No route promotion, no build-status change, no commercial authority claimed, and nothing touched in Production, Stripe, Supabase or credentials.",
+        "No PR. The branch is pushed and nothing else."
+      ]
+    },
+    {
+      "itemId": "vt_seal_felony-set",
+      "familyId": "vt_seal_felony-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-felony-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host all five families import runFamilyById from; the four sibling builders are naming shims)",
+      "sharedStepRepairUsed": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten -> fitAppearanceStreamsToRect), added by FIX61 and default-off; opted into here through scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+      "grantConfirmed": "CLAIM_OK FIX67 vt_seal_felony-set (repair, grant set 5080f6c0ec1163e1), exit 0",
+      "baseSha": "5b2e25812",
+      "branch": "fix67-vt-fit-rect",
+      "worktree": "/home/user/fix67-worktree, cut from /home/user/captain-worktree at 5b2e25812 on claude/legalease-sprint-captain-utucnw. No other worktree, the Captain branch and main were not touched; nothing was force-pushed; no subagent was created.",
+      "verdictRepaired": {
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "88c1bd403",
+        "blockedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "howVF04PutIt": "packet page 5, 600-00228 field 15, '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18] against a 14.4pt /Rect; 672 dark pixels at 300 dpi outside the /Rect where the pinned form paints a handful; identical in both fixtures and identical in all five families. Not this family's ink -- a zero-write baseline paints the same 672 with FIX58's option on and off.",
+        "whereTheRepairBelongs": "the shared official-form flattening step, not this family and not any Vermont route, and no route or family may be whitelisted for it. Obeyed: the repair is FIX61's shared code, unchanged; this lane only turned the shared option on at the host's one call site."
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none is claimed. The rasters recorded above are this lane's own poppler measurements under /tmp, taken to read the pages and deleted after measuring. Both fixture digests moved, so the RASTER_PASS acceptance receipt already sitting in this family's product-wiring.json -- workflow run 33983515494, bound to canonical b17bdb16... -- no longer binds the delivered bytes and a fresh central raster is owed. product-wiring.json was not opened for writing and RASTER_QUEUE.json was not opened at all.",
+        "INDEPENDENT VERIFICATION. This lane rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, no obligation is scored here, and VF04's FAIL_REPAIR_REQUIRED stands until an independent reader re-reads the new bytes.",
+        "EVERY OTHER OBLIGATION VF04 SCORED. ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP were not re-read, re-scored or discharged by this lane; whatever VF04 recorded for them still stands as it stood.",
+        "THE FIVE FAMILIES' SHARED-DIGEST QUESTION. All five still deliver one identical pair of fixtures. VF04 examined that as ROUTE_IDENTITY; this lane only reports that the identity survived the repair and settles nothing about it.",
+        "THE REST OF THE COHORT. FIX61 measured 46 families across 12 jurisdictions exposed to the same shared behaviour. Beyond these five and the sibling vt_seal_nonconviction-set, none was opted in, rebuilt or touched, and the shared option stays default-off."
+      ],
+      "whatChanged": {
+        "theOneEdit": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, at its single finalizeOfficialForm call in renderDocument(): fitAppearancesToRect: true added beside the suppressSynthesizedAppearances: true that was already there, exactly as scripts/build-census-v1-vt_seal_nonconviction-set.mjs does it, plus the comment explaining why. Nothing else in the repository was edited. The four sibling builders are 16-line naming shims that import runFamilyById from this host, so one option at this one call site reaches all five families -- the same shared-host property FIX58 used.",
+        "theDefect": "ISO 32000-1 12.5.5 places a widget appearance by transforming its /BBox by its /Matrix and mapping the result onto the annotation's /Rect. pdf-lib's PDFForm.flatten emits a translation only. 600-00228 field 15 ships BBox [0 0 18 18] with /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s' against a /Rect of 14.400 x 14.400, so the required 0.8 scale was never applied and a 17pt stroked square was stamped where the Judiciary's form draws a 13.6pt one.",
+        "theRepairIsShared": "The repair itself is FIX61's, already in the shared step (rcap-active-content.mjs, fitAppearanceStreamsToRect) and default-off. This lane wrote no shared-module code, added no whitelist, and read no family, form number, field name, caption, jurisdiction or route anywhere. It only opted this host in.",
+        "afterTheFix": "The appearance's /Matrix becomes [0.8000000000000003 0 0 0.7999999999999987 0 0] in both fixtures; the placement operator, the XObject name, the /BBox and the content stream bytes are unchanged. 0.8 x [0 18] = [0 14.4], exactly the /Rect. No value is written into any field by this repair.",
+        "sharedDigests": "All five families deliver byte-identical fixtures before the fix (canonical b17bdb16..., boundary 3fb60ef0...) and byte-identical fixtures after it (canonical 6d13376c..., boundary 22ae0bc5...). VF04 recorded the same identity and treated it as a ROUTE_IDENTITY question rather than an error; this lane reports it and settles nothing about it."
+      },
+      "pixelMeasurements": {
+        "method": "poppler pdftoppm, greyscale, from the committed fixture bytes: the base bytes recovered from git at 5b2e25812 and the rebuilt bytes on disk. Rasters written under /tmp/fix67 and deleted after measuring.",
+        "field15Window": "Field 15's /Rect is x[131.309,145.709] y[438.449,452.849] (14.400 x 14.400). The oversize appearance's BBox clip is the 18pt footprint x[131.309,149.309] y[438.449,456.449]. 'Outside-rect' below is the annulus: inside the clip, outside the /Rect, at 300 dpi.",
+        "outsideRectDarkPixels": {
+          "beforeCanonical": 672,
+          "beforeBoundary": 672,
+          "afterCanonical": 2,
+          "afterBoundary": 2,
+          "pinnedFormItself": 2,
+          "note": "672 before reproduces VF04's measured 672 exactly, in both fixtures. After the fix the delivered count equals the pinned 600-00228's own count, count for count. VF04 reported the pinned form's own count as 6; measured here with this lane's own window and threshold (greyscale < 128, rect rounded to the pixel grid) the pinned form paints 2, and the delivered bytes now paint that same 2. The claim is the equality with the form's own ink, and that holds on either count."
+        },
+        "stampInsideTheRect": "Yes. Painted ink extent in the padded window falls from y[432.48,456.48] to y[432.48,452.88], and 452.88 is the pinned form's own extent -- the appearance no longer paints above the /Rect's top edge at 452.849. Its stroke centreline is 0.8 x [0.5,17.5] = [0.4,14.0], 13.6pt across, wholly inside the 14.4pt box.",
+        "page5Difference": "1072 differing pixels at 300 dpi in EACH fixture, 743 dark lost and 327 dark gained. Every differing pixel lies inside x[131.28,149.28] y[438.48,456.48] -- the exact 18pt footprint at field 15's rect origin. Zero differing pixels anywhere else on page 5.",
+        "everyOtherPage": "PIXEL-IDENTICAL. Pages 1, 2, 3, 4 and 6 of both fixtures compare at zero differing pixels at 150 dpi, and were re-checked at 300 dpi with the same result. Only page 5 differs, and page 5 is the only page carrying 600-00228 page 1; page 6 carries its page 2 and is identical.",
+        "text": "pdftotext -layout over all six pages of both fixtures is character-identical before and after. Page count 6 -> 6.",
+        "committedRasterPngs": "The family directories' own raster/*/page-NN/page.png are rendered by the build's Chromium pipeline (scripts/raster/pdf-page-raster.mjs, playwright), not by pdftoppm. Pages 01, 02, 03 and 05 of those PNGs differ from the committed base PNGs. Page 05 is the repair. Pages 01-03 are NOT a content change: re-rendering the BASE fixture bytes through this same in-container pipeline reproduces the new PNGs pixel-for-pixel (0 differing pixels on pages 1, 2 and 3), so that churn is this container's renderer differing from the one that produced the committed base PNGs. The delivered PDF bytes for those pages are pixel-identical under poppler, as recorded above."
+      },
+      "sweep": {
+        "method": "VF02's placement sweep, re-implemented from its description: for every flattened widget placement in the packet, compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, transform the BBox by the /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require cmScale x requiredScale to equal 1 -- judged as |transformedSize x cmScale - rectSize| <= 0.05pt in both axes.",
+        "before": "161 placements per fixture: 160 pass, 1 FAIL, 0 unmatched, in EACH fixture. The failure is packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm', BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] against a /Rect of 14.400 x 14.400, product 0.8000 in both axes. This reproduces VF02's and VF04's counts exactly.",
+        "after": "161 placements per fixture: 161 pass, 0 fail, 0 unmatched, in EACH fixture.",
+        "sweptOver": "canonical.pdf and boundary.pdf, before and after, against the three pinned source binaries resolved from the mounted Master Library by exact SHA-256.",
+        "note": "The sweep script is a measurement tool run from /tmp; it is not committed. The committed proof of the same transform is scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs, which FIX61 added and which passes here."
+      },
+      "digests": {
+        "canonical": {
+          "before": "b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094",
+          "beforeBytes": 851940,
+          "beforePages": 6,
+          "after": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+          "afterBytes": 851974,
+          "afterPages": 6
+        },
+        "boundary": {
+          "before": "3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a",
+          "beforeBytes": 852432,
+          "beforePages": 6,
+          "after": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+          "afterBytes": 852466,
+          "afterPages": 6
+        },
+        "identicalAcrossAllFive": "These four digests are the same for every one of the five families, before and after. Confirmed by hashing all ten fixture files before any edit and all ten again after the rebuild.",
+        "digestsConfirmedFirst": "Before the edit was made, all ten committed fixture files were hashed and every one matched VF04's canonical b17bdb16... and boundary 3fb60ef0... as this dispatch named them.",
+        "whyThirtyFourBytesLarger": "The appearance's /Matrix goes from the identity to a scaled matrix whose numbers are longer; the content stream bytes are untouched.",
+        "determinism": "Rebuilt twice with the option on. `diff -r` over each of the five family directories finds no difference between the two rebuilds -- byte-identical, fixtures, committed raster PNGs and reports alike. A hash manifest of all 5438 files under data/rcap-all50/overlays/census-v1 is identical after rebuild 1 and after rebuild 2."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_felony-set -> PASS_COMPLETE, 24/165 written, exit 0. Run on the committed base bytes before any edit and again on the rebuilt bytes. Nine zeros both times; nine zeros is not by itself a pass, which is why the pixel and sweep measurements above are the evidence this row rests on.",
+      "verifiers": {
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>": "PASS_COMPLETE, 24/165 written, exit 0, for each of the five, before the edit and again on the rebuilt bytes.",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD, 53 carrying an identityRefresh. exit 0.",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED (26 by appearance-registry, 3 by clearSourceCarriedTextValues). exit 0.",
+        "node scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "PASS, exit 0 -- FIX61's committed controls for the transform this row relies on, including its negative control.",
+        "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "PASS, exit 0 -- FIX50/FIX58's controls are unaffected.",
+        "node scripts/rcap-official-forms/test-widget-appearance-placement.mjs": "PASS, exit 0."
+      },
+      "participantWrites": {
+        "unchanged": true,
+        "evidence": "The only files in each family directory that changed are fixtures/canonical.pdf, fixtures/boundary.pdf, four raster page PNGs and reports/rendered-artifacts.json. reports/actual-writes.json, production-field-map.json, product-wiring.json, build-status.json, build-findings.json, source-receipt.json, approval-request.json and participant-instructions.md are byte-identical. 24 of 165 fields written, the same 24. The repair writes no value into any field; it scales one appearance stream that is the source's own."
+      },
+      "otherFamiliesUntouched": {
+        "method": "Every file under data/rcap-all50/overlays/census-v1 hashed before the first edit and again after each rebuild: 5438 files across 249 family directories.",
+        "result": "Exactly 55 files differ, all of them inside the five family directories named here -- 11 per family. Every one of the other 244 family directories is byte-identical, file for file. Nothing outside data/rcap-all50/overlays/census-v1 was written except this rows.json and the claim ledger's own release entries.",
+        "theFiveShareDigests": "Yes, and it is worth saying plainly: the five families again produce identical bytes as each other, canonical 6d13376c... and boundary 22ae0bc5..., exactly as they did before the repair.",
+        "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, every legal-decision record, every verdict file, and every other family's builder and directory."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family vt_seal_misdemeanor-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, exit 1. Both failures are conditions of this container, not of these families, and neither touches the bytes this lane read or wrote.",
+        "failure_private_is_git_ignored": "Reported NOT git-ignored because this dispatch mounts private/ as a SYMLINK to /home/user/legalease-partner-dashboard-clean/private and `git check-ignore -q private/` answers 'fatal: pathspec is beyond a symbolic link' rather than an exit code. Checked directly: private/ is ignored and `git ls-files private/` lists nothing. No source binary is tracked and none was committed. FIX61 hit and explained the identical condition.",
+        "failure_corpus_matches_committed_index": "1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', an Alabama asset this Master Library mount does not carry. No Vermont entry is absent or mismatched. VF04 and FIX61 both recorded the same absence.",
+        "family_sources_bind": "ok -- 3/3 sources bind by exact SHA-256: 200-00130 ff914f49..., 200-00132 08811624..., 600-00228 263d4e19.... Those are the three binaries every measurement here was taken against.",
+        "environment": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext, MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1, node_modules symlinked from /home/user/captain-worktree, sparse checkout disabled with 0 skip-worktree entries."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster on the new bytes. Both fixture digests moved, so the existing RASTER_PASS receipt (run 33983515494, bound to canonical b17bdb16...) stops binding and a fresh central raster is owed. RASTER_QUEUE.json and product-wiring.json were not opened for writing.",
+        "No independent verification. This lane built what it would be verifying, so it verifies nothing; no verdict was written or replaced and VF04's FAIL stands until someone else re-reads the new bytes.",
+        "No change to the shared step's code or to its default-off behaviour, and no whitelist by family, form, field or route anywhere.",
+        "No route promotion, no build-status change, no commercial authority claimed, and nothing touched in Production, Stripe, Supabase or credentials.",
+        "No PR. The branch is pushed and nothing else."
+      ]
+    },
+    {
+      "itemId": "vt_seal_misdemeanor-set",
+      "familyId": "vt_seal_misdemeanor-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host all five families import runFamilyById from; the four sibling builders are naming shims)",
+      "sharedStepRepairUsed": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten -> fitAppearanceStreamsToRect), added by FIX61 and default-off; opted into here through scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+      "grantConfirmed": "CLAIM_OK FIX67 vt_seal_misdemeanor-set (repair, grant set 5080f6c0ec1163e1), exit 0",
+      "baseSha": "5b2e25812",
+      "branch": "fix67-vt-fit-rect",
+      "worktree": "/home/user/fix67-worktree, cut from /home/user/captain-worktree at 5b2e25812 on claude/legalease-sprint-captain-utucnw. No other worktree, the Captain branch and main were not touched; nothing was force-pushed; no subagent was created.",
+      "verdictRepaired": {
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "88c1bd403",
+        "blockedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "howVF04PutIt": "packet page 5, 600-00228 field 15, '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18] against a 14.4pt /Rect; 672 dark pixels at 300 dpi outside the /Rect where the pinned form paints a handful; identical in both fixtures and identical in all five families. Not this family's ink -- a zero-write baseline paints the same 672 with FIX58's option on and off.",
+        "whereTheRepairBelongs": "the shared official-form flattening step, not this family and not any Vermont route, and no route or family may be whitelisted for it. Obeyed: the repair is FIX61's shared code, unchanged; this lane only turned the shared option on at the host's one call site."
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none is claimed. The rasters recorded above are this lane's own poppler measurements under /tmp, taken to read the pages and deleted after measuring. Both fixture digests moved, so the RASTER_PASS acceptance receipt already sitting in this family's product-wiring.json -- workflow run 33983515494, bound to canonical b17bdb16... -- no longer binds the delivered bytes and a fresh central raster is owed. product-wiring.json was not opened for writing and RASTER_QUEUE.json was not opened at all.",
+        "INDEPENDENT VERIFICATION. This lane rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, no obligation is scored here, and VF04's FAIL_REPAIR_REQUIRED stands until an independent reader re-reads the new bytes.",
+        "EVERY OTHER OBLIGATION VF04 SCORED. ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP were not re-read, re-scored or discharged by this lane; whatever VF04 recorded for them still stands as it stood.",
+        "THE FIVE FAMILIES' SHARED-DIGEST QUESTION. All five still deliver one identical pair of fixtures. VF04 examined that as ROUTE_IDENTITY; this lane only reports that the identity survived the repair and settles nothing about it.",
+        "THE REST OF THE COHORT. FIX61 measured 46 families across 12 jurisdictions exposed to the same shared behaviour. Beyond these five and the sibling vt_seal_nonconviction-set, none was opted in, rebuilt or touched, and the shared option stays default-off."
+      ],
+      "whatChanged": {
+        "theOneEdit": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, at its single finalizeOfficialForm call in renderDocument(): fitAppearancesToRect: true added beside the suppressSynthesizedAppearances: true that was already there, exactly as scripts/build-census-v1-vt_seal_nonconviction-set.mjs does it, plus the comment explaining why. Nothing else in the repository was edited. The four sibling builders are 16-line naming shims that import runFamilyById from this host, so one option at this one call site reaches all five families -- the same shared-host property FIX58 used.",
+        "theDefect": "ISO 32000-1 12.5.5 places a widget appearance by transforming its /BBox by its /Matrix and mapping the result onto the annotation's /Rect. pdf-lib's PDFForm.flatten emits a translation only. 600-00228 field 15 ships BBox [0 0 18 18] with /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s' against a /Rect of 14.400 x 14.400, so the required 0.8 scale was never applied and a 17pt stroked square was stamped where the Judiciary's form draws a 13.6pt one.",
+        "theRepairIsShared": "The repair itself is FIX61's, already in the shared step (rcap-active-content.mjs, fitAppearanceStreamsToRect) and default-off. This lane wrote no shared-module code, added no whitelist, and read no family, form number, field name, caption, jurisdiction or route anywhere. It only opted this host in.",
+        "afterTheFix": "The appearance's /Matrix becomes [0.8000000000000003 0 0 0.7999999999999987 0 0] in both fixtures; the placement operator, the XObject name, the /BBox and the content stream bytes are unchanged. 0.8 x [0 18] = [0 14.4], exactly the /Rect. No value is written into any field by this repair.",
+        "sharedDigests": "All five families deliver byte-identical fixtures before the fix (canonical b17bdb16..., boundary 3fb60ef0...) and byte-identical fixtures after it (canonical 6d13376c..., boundary 22ae0bc5...). VF04 recorded the same identity and treated it as a ROUTE_IDENTITY question rather than an error; this lane reports it and settles nothing about it."
+      },
+      "pixelMeasurements": {
+        "method": "poppler pdftoppm, greyscale, from the committed fixture bytes: the base bytes recovered from git at 5b2e25812 and the rebuilt bytes on disk. Rasters written under /tmp/fix67 and deleted after measuring.",
+        "field15Window": "Field 15's /Rect is x[131.309,145.709] y[438.449,452.849] (14.400 x 14.400). The oversize appearance's BBox clip is the 18pt footprint x[131.309,149.309] y[438.449,456.449]. 'Outside-rect' below is the annulus: inside the clip, outside the /Rect, at 300 dpi.",
+        "outsideRectDarkPixels": {
+          "beforeCanonical": 672,
+          "beforeBoundary": 672,
+          "afterCanonical": 2,
+          "afterBoundary": 2,
+          "pinnedFormItself": 2,
+          "note": "672 before reproduces VF04's measured 672 exactly, in both fixtures. After the fix the delivered count equals the pinned 600-00228's own count, count for count. VF04 reported the pinned form's own count as 6; measured here with this lane's own window and threshold (greyscale < 128, rect rounded to the pixel grid) the pinned form paints 2, and the delivered bytes now paint that same 2. The claim is the equality with the form's own ink, and that holds on either count."
+        },
+        "stampInsideTheRect": "Yes. Painted ink extent in the padded window falls from y[432.48,456.48] to y[432.48,452.88], and 452.88 is the pinned form's own extent -- the appearance no longer paints above the /Rect's top edge at 452.849. Its stroke centreline is 0.8 x [0.5,17.5] = [0.4,14.0], 13.6pt across, wholly inside the 14.4pt box.",
+        "page5Difference": "1072 differing pixels at 300 dpi in EACH fixture, 743 dark lost and 327 dark gained. Every differing pixel lies inside x[131.28,149.28] y[438.48,456.48] -- the exact 18pt footprint at field 15's rect origin. Zero differing pixels anywhere else on page 5.",
+        "everyOtherPage": "PIXEL-IDENTICAL. Pages 1, 2, 3, 4 and 6 of both fixtures compare at zero differing pixels at 150 dpi, and were re-checked at 300 dpi with the same result. Only page 5 differs, and page 5 is the only page carrying 600-00228 page 1; page 6 carries its page 2 and is identical.",
+        "text": "pdftotext -layout over all six pages of both fixtures is character-identical before and after. Page count 6 -> 6.",
+        "committedRasterPngs": "The family directories' own raster/*/page-NN/page.png are rendered by the build's Chromium pipeline (scripts/raster/pdf-page-raster.mjs, playwright), not by pdftoppm. Pages 01, 02, 03 and 05 of those PNGs differ from the committed base PNGs. Page 05 is the repair. Pages 01-03 are NOT a content change: re-rendering the BASE fixture bytes through this same in-container pipeline reproduces the new PNGs pixel-for-pixel (0 differing pixels on pages 1, 2 and 3), so that churn is this container's renderer differing from the one that produced the committed base PNGs. The delivered PDF bytes for those pages are pixel-identical under poppler, as recorded above."
+      },
+      "sweep": {
+        "method": "VF02's placement sweep, re-implemented from its description: for every flattened widget placement in the packet, compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, transform the BBox by the /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require cmScale x requiredScale to equal 1 -- judged as |transformedSize x cmScale - rectSize| <= 0.05pt in both axes.",
+        "before": "161 placements per fixture: 160 pass, 1 FAIL, 0 unmatched, in EACH fixture. The failure is packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm', BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] against a /Rect of 14.400 x 14.400, product 0.8000 in both axes. This reproduces VF02's and VF04's counts exactly.",
+        "after": "161 placements per fixture: 161 pass, 0 fail, 0 unmatched, in EACH fixture.",
+        "sweptOver": "canonical.pdf and boundary.pdf, before and after, against the three pinned source binaries resolved from the mounted Master Library by exact SHA-256.",
+        "note": "The sweep script is a measurement tool run from /tmp; it is not committed. The committed proof of the same transform is scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs, which FIX61 added and which passes here."
+      },
+      "digests": {
+        "canonical": {
+          "before": "b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094",
+          "beforeBytes": 851940,
+          "beforePages": 6,
+          "after": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+          "afterBytes": 851974,
+          "afterPages": 6
+        },
+        "boundary": {
+          "before": "3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a",
+          "beforeBytes": 852432,
+          "beforePages": 6,
+          "after": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+          "afterBytes": 852466,
+          "afterPages": 6
+        },
+        "identicalAcrossAllFive": "These four digests are the same for every one of the five families, before and after. Confirmed by hashing all ten fixture files before any edit and all ten again after the rebuild.",
+        "digestsConfirmedFirst": "Before the edit was made, all ten committed fixture files were hashed and every one matched VF04's canonical b17bdb16... and boundary 3fb60ef0... as this dispatch named them.",
+        "whyThirtyFourBytesLarger": "The appearance's /Matrix goes from the identity to a scaled matrix whose numbers are longer; the content stream bytes are untouched.",
+        "determinism": "Rebuilt twice with the option on. `diff -r` over each of the five family directories finds no difference between the two rebuilds -- byte-identical, fixtures, committed raster PNGs and reports alike. A hash manifest of all 5438 files under data/rcap-all50/overlays/census-v1 is identical after rebuild 1 and after rebuild 2."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set -> PASS_COMPLETE, 24/165 written, exit 0. Run on the committed base bytes before any edit and again on the rebuilt bytes. Nine zeros both times; nine zeros is not by itself a pass, which is why the pixel and sweep measurements above are the evidence this row rests on.",
+      "verifiers": {
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>": "PASS_COMPLETE, 24/165 written, exit 0, for each of the five, before the edit and again on the rebuilt bytes.",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD, 53 carrying an identityRefresh. exit 0.",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED (26 by appearance-registry, 3 by clearSourceCarriedTextValues). exit 0.",
+        "node scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "PASS, exit 0 -- FIX61's committed controls for the transform this row relies on, including its negative control.",
+        "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "PASS, exit 0 -- FIX50/FIX58's controls are unaffected.",
+        "node scripts/rcap-official-forms/test-widget-appearance-placement.mjs": "PASS, exit 0."
+      },
+      "participantWrites": {
+        "unchanged": true,
+        "evidence": "The only files in each family directory that changed are fixtures/canonical.pdf, fixtures/boundary.pdf, four raster page PNGs and reports/rendered-artifacts.json. reports/actual-writes.json, production-field-map.json, product-wiring.json, build-status.json, build-findings.json, source-receipt.json, approval-request.json and participant-instructions.md are byte-identical. 24 of 165 fields written, the same 24. The repair writes no value into any field; it scales one appearance stream that is the source's own."
+      },
+      "otherFamiliesUntouched": {
+        "method": "Every file under data/rcap-all50/overlays/census-v1 hashed before the first edit and again after each rebuild: 5438 files across 249 family directories.",
+        "result": "Exactly 55 files differ, all of them inside the five family directories named here -- 11 per family. Every one of the other 244 family directories is byte-identical, file for file. Nothing outside data/rcap-all50/overlays/census-v1 was written except this rows.json and the claim ledger's own release entries.",
+        "theFiveShareDigests": "Yes, and it is worth saying plainly: the five families again produce identical bytes as each other, canonical 6d13376c... and boundary 22ae0bc5..., exactly as they did before the repair.",
+        "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, every legal-decision record, every verdict file, and every other family's builder and directory."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family vt_seal_misdemeanor-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, exit 1. Both failures are conditions of this container, not of these families, and neither touches the bytes this lane read or wrote.",
+        "failure_private_is_git_ignored": "Reported NOT git-ignored because this dispatch mounts private/ as a SYMLINK to /home/user/legalease-partner-dashboard-clean/private and `git check-ignore -q private/` answers 'fatal: pathspec is beyond a symbolic link' rather than an exit code. Checked directly: private/ is ignored and `git ls-files private/` lists nothing. No source binary is tracked and none was committed. FIX61 hit and explained the identical condition.",
+        "failure_corpus_matches_committed_index": "1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', an Alabama asset this Master Library mount does not carry. No Vermont entry is absent or mismatched. VF04 and FIX61 both recorded the same absence.",
+        "family_sources_bind": "ok -- 3/3 sources bind by exact SHA-256: 200-00130 ff914f49..., 200-00132 08811624..., 600-00228 263d4e19.... Those are the three binaries every measurement here was taken against.",
+        "environment": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext, MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1, node_modules symlinked from /home/user/captain-worktree, sparse checkout disabled with 0 skip-worktree entries."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster on the new bytes. Both fixture digests moved, so the existing RASTER_PASS receipt (run 33983515494, bound to canonical b17bdb16...) stops binding and a fresh central raster is owed. RASTER_QUEUE.json and product-wiring.json were not opened for writing.",
+        "No independent verification. This lane built what it would be verifying, so it verifies nothing; no verdict was written or replaced and VF04's FAIL stands until someone else re-reads the new bytes.",
+        "No change to the shared step's code or to its default-off behaviour, and no whitelist by family, form, field or route anywhere.",
+        "No route promotion, no build-status change, no commercial authority claimed, and nothing touched in Production, Stripe, Supabase or credentials.",
+        "No PR. The branch is pushed and nothing else."
+      ]
+    },
+    {
+      "itemId": "vt_seal_pardon-set",
+      "familyId": "vt_seal_pardon-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-pardon-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs (the shared host all five families import runFamilyById from; the four sibling builders are naming shims)",
+      "sharedStepRepairUsed": "scripts/rcap-official-forms/rcap-active-content.mjs (sanitizeAndFlatten -> fitAppearanceStreamsToRect), added by FIX61 and default-off; opted into here through scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeOfficialForm)",
+      "grantConfirmed": "CLAIM_OK FIX67 vt_seal_pardon-set (repair, grant set 5080f6c0ec1163e1), exit 0",
+      "baseSha": "5b2e25812",
+      "branch": "fix67-vt-fit-rect",
+      "worktree": "/home/user/fix67-worktree, cut from /home/user/captain-worktree at 5b2e25812 on claude/legalease-sprint-captain-utucnw. No other worktree, the Captain branch and main were not touched; nothing was force-pushed; no subagent was created.",
+      "verdictRepaired": {
+        "lane": "VF04",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "88c1bd403",
+        "blockedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ],
+        "howVF04PutIt": "packet page 5, 600-00228 field 15, '1 0 0 1 131.309 438.449 cm' with BBox [0 0 18 18] against a 14.4pt /Rect; 672 dark pixels at 300 dpi outside the /Rect where the pinned form paints a handful; identical in both fixtures and identical in all five families. Not this family's ink -- a zero-write baseline paints the same 672 with FIX58's option on and off.",
+        "whereTheRepairBelongs": "the shared official-form flattening step, not this family and not any Vermont route, and no route or family may be whitelisted for it. Obeyed: the repair is FIX61's shared code, unchanged; this lane only turned the shared option on at the host's one call site."
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none is claimed. The rasters recorded above are this lane's own poppler measurements under /tmp, taken to read the pages and deleted after measuring. Both fixture digests moved, so the RASTER_PASS acceptance receipt already sitting in this family's product-wiring.json -- workflow run 33983515494, bound to canonical b17bdb16... -- no longer binds the delivered bytes and a fresh central raster is owed. product-wiring.json was not opened for writing and RASTER_QUEUE.json was not opened at all.",
+        "INDEPENDENT VERIFICATION. This lane rebuilt these bytes, so it verifies none of them. No verdict was written or replaced, no obligation is scored here, and VF04's FAIL_REPAIR_REQUIRED stands until an independent reader re-reads the new bytes.",
+        "EVERY OTHER OBLIGATION VF04 SCORED. ROUTE_IDENTITY, SOURCE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, FILING_DESTINATION, SERVICE and SELF_HELP_STOP were not re-read, re-scored or discharged by this lane; whatever VF04 recorded for them still stands as it stood.",
+        "THE FIVE FAMILIES' SHARED-DIGEST QUESTION. All five still deliver one identical pair of fixtures. VF04 examined that as ROUTE_IDENTITY; this lane only reports that the identity survived the repair and settles nothing about it.",
+        "THE REST OF THE COHORT. FIX61 measured 46 families across 12 jurisdictions exposed to the same shared behaviour. Beyond these five and the sibling vt_seal_nonconviction-set, none was opted in, rebuilt or touched, and the shared option stays default-off."
+      ],
+      "whatChanged": {
+        "theOneEdit": "scripts/build-census-v1-vt_seal_misdemeanor-set.mjs, at its single finalizeOfficialForm call in renderDocument(): fitAppearancesToRect: true added beside the suppressSynthesizedAppearances: true that was already there, exactly as scripts/build-census-v1-vt_seal_nonconviction-set.mjs does it, plus the comment explaining why. Nothing else in the repository was edited. The four sibling builders are 16-line naming shims that import runFamilyById from this host, so one option at this one call site reaches all five families -- the same shared-host property FIX58 used.",
+        "theDefect": "ISO 32000-1 12.5.5 places a widget appearance by transforming its /BBox by its /Matrix and mapping the result onto the annotation's /Rect. pdf-lib's PDFForm.flatten emits a translation only. 600-00228 field 15 ships BBox [0 0 18 18] with /Matrix [1 0 0 1 0 0] and content '0.5 0.5 17 17 re s' against a /Rect of 14.400 x 14.400, so the required 0.8 scale was never applied and a 17pt stroked square was stamped where the Judiciary's form draws a 13.6pt one.",
+        "theRepairIsShared": "The repair itself is FIX61's, already in the shared step (rcap-active-content.mjs, fitAppearanceStreamsToRect) and default-off. This lane wrote no shared-module code, added no whitelist, and read no family, form number, field name, caption, jurisdiction or route anywhere. It only opted this host in.",
+        "afterTheFix": "The appearance's /Matrix becomes [0.8000000000000003 0 0 0.7999999999999987 0 0] in both fixtures; the placement operator, the XObject name, the /BBox and the content stream bytes are unchanged. 0.8 x [0 18] = [0 14.4], exactly the /Rect. No value is written into any field by this repair.",
+        "sharedDigests": "All five families deliver byte-identical fixtures before the fix (canonical b17bdb16..., boundary 3fb60ef0...) and byte-identical fixtures after it (canonical 6d13376c..., boundary 22ae0bc5...). VF04 recorded the same identity and treated it as a ROUTE_IDENTITY question rather than an error; this lane reports it and settles nothing about it."
+      },
+      "pixelMeasurements": {
+        "method": "poppler pdftoppm, greyscale, from the committed fixture bytes: the base bytes recovered from git at 5b2e25812 and the rebuilt bytes on disk. Rasters written under /tmp/fix67 and deleted after measuring.",
+        "field15Window": "Field 15's /Rect is x[131.309,145.709] y[438.449,452.849] (14.400 x 14.400). The oversize appearance's BBox clip is the 18pt footprint x[131.309,149.309] y[438.449,456.449]. 'Outside-rect' below is the annulus: inside the clip, outside the /Rect, at 300 dpi.",
+        "outsideRectDarkPixels": {
+          "beforeCanonical": 672,
+          "beforeBoundary": 672,
+          "afterCanonical": 2,
+          "afterBoundary": 2,
+          "pinnedFormItself": 2,
+          "note": "672 before reproduces VF04's measured 672 exactly, in both fixtures. After the fix the delivered count equals the pinned 600-00228's own count, count for count. VF04 reported the pinned form's own count as 6; measured here with this lane's own window and threshold (greyscale < 128, rect rounded to the pixel grid) the pinned form paints 2, and the delivered bytes now paint that same 2. The claim is the equality with the form's own ink, and that holds on either count."
+        },
+        "stampInsideTheRect": "Yes. Painted ink extent in the padded window falls from y[432.48,456.48] to y[432.48,452.88], and 452.88 is the pinned form's own extent -- the appearance no longer paints above the /Rect's top edge at 452.849. Its stroke centreline is 0.8 x [0.5,17.5] = [0.4,14.0], 13.6pt across, wholly inside the 14.4pt box.",
+        "page5Difference": "1072 differing pixels at 300 dpi in EACH fixture, 743 dark lost and 327 dark gained. Every differing pixel lies inside x[131.28,149.28] y[438.48,456.48] -- the exact 18pt footprint at field 15's rect origin. Zero differing pixels anywhere else on page 5.",
+        "everyOtherPage": "PIXEL-IDENTICAL. Pages 1, 2, 3, 4 and 6 of both fixtures compare at zero differing pixels at 150 dpi, and were re-checked at 300 dpi with the same result. Only page 5 differs, and page 5 is the only page carrying 600-00228 page 1; page 6 carries its page 2 and is identical.",
+        "text": "pdftotext -layout over all six pages of both fixtures is character-identical before and after. Page count 6 -> 6.",
+        "committedRasterPngs": "The family directories' own raster/*/page-NN/page.png are rendered by the build's Chromium pipeline (scripts/raster/pdf-page-raster.mjs, playwright), not by pdftoppm. Pages 01, 02, 03 and 05 of those PNGs differ from the committed base PNGs. Page 05 is the repair. Pages 01-03 are NOT a content change: re-rendering the BASE fixture bytes through this same in-container pipeline reproduces the new PNGs pixel-for-pixel (0 differing pixels on pages 1, 2 and 3), so that churn is this container's renderer differing from the one that produced the committed base PNGs. The delivered PDF bytes for those pages are pixel-identical under poppler, as recorded above."
+      },
+      "sweep": {
+        "method": "VF02's placement sweep, re-implemented from its description: for every flattened widget placement in the packet, compose the page-content cm operators, read the placed XObject's /BBox and /Matrix, transform the BBox by the /Matrix, match the placement to the source widget whose /Rect origin it translates to, and require cmScale x requiredScale to equal 1 -- judged as |transformedSize x cmScale - rectSize| <= 0.05pt in both axes.",
+        "before": "161 placements per fixture: 160 pass, 1 FAIL, 0 unmatched, in EACH fixture. The failure is packet page 5, 600-00228 field 15, placed '1 0 0 1 131.309 438.449 cm', BBox [0 0 18 18], /Matrix [1 0 0 1 0 0] against a /Rect of 14.400 x 14.400, product 0.8000 in both axes. This reproduces VF02's and VF04's counts exactly.",
+        "after": "161 placements per fixture: 161 pass, 0 fail, 0 unmatched, in EACH fixture.",
+        "sweptOver": "canonical.pdf and boundary.pdf, before and after, against the three pinned source binaries resolved from the mounted Master Library by exact SHA-256.",
+        "note": "The sweep script is a measurement tool run from /tmp; it is not committed. The committed proof of the same transform is scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs, which FIX61 added and which passes here."
+      },
+      "digests": {
+        "canonical": {
+          "before": "b17bdb16d59ccb8b8afcc8ebbdfeb7e672d200e2c629d998e091c6eb3da9e094",
+          "beforeBytes": 851940,
+          "beforePages": 6,
+          "after": "6d13376cbc55851836e4f4ed8b3804e3dbf21c370b824dfd96fdaff8854aedd7",
+          "afterBytes": 851974,
+          "afterPages": 6
+        },
+        "boundary": {
+          "before": "3fb60ef007d39945ba056b8ae3512caa8dee0305b4bd983f6a96eca71e519e3a",
+          "beforeBytes": 852432,
+          "beforePages": 6,
+          "after": "22ae0bc5c18d1e7d6bf68728dd39dad625c6607c224810756aab21c71fd77c8e",
+          "afterBytes": 852466,
+          "afterPages": 6
+        },
+        "identicalAcrossAllFive": "These four digests are the same for every one of the five families, before and after. Confirmed by hashing all ten fixture files before any edit and all ten again after the rebuild.",
+        "digestsConfirmedFirst": "Before the edit was made, all ten committed fixture files were hashed and every one matched VF04's canonical b17bdb16... and boundary 3fb60ef0... as this dispatch named them.",
+        "whyThirtyFourBytesLarger": "The appearance's /Matrix goes from the identity to a scaled matrix whose numbers are longer; the content stream bytes are untouched.",
+        "determinism": "Rebuilt twice with the option on. `diff -r` over each of the five family directories finds no difference between the two rebuilds -- byte-identical, fixtures, committed raster PNGs and reports alike. A hash manifest of all 5438 files under data/rcap-all50/overlays/census-v1 is identical after rebuild 1 and after rebuild 2."
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersMeasuredBy": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_pardon-set -> PASS_COMPLETE, 24/165 written, exit 0. Run on the committed base bytes before any edit and again on the rebuilt bytes. Nine zeros both times; nine zeros is not by itself a pass, which is why the pixel and sweep measurements above are the evidence this row rests on.",
+      "verifiers": {
+        "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id>": "PASS_COMPLETE, 24/165 written, exit 0, for each of the five, before the edit and again on the rebuilt bytes.",
+        "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs": "EVERY_IDENTITY_REFRESH_SURVIVED -- 249 receipts compared against HEAD, 53 carrying an identityRefresh. exit 0.",
+        "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED (26 by appearance-registry, 3 by clearSourceCarriedTextValues). exit 0.",
+        "node scripts/rcap-official-forms/test-appearance-fit-to-rect.mjs": "PASS, exit 0 -- FIX61's committed controls for the transform this row relies on, including its negative control.",
+        "node scripts/rcap-official-forms/test-synthesized-off-appearances.mjs": "PASS, exit 0 -- FIX50/FIX58's controls are unaffected.",
+        "node scripts/rcap-official-forms/test-widget-appearance-placement.mjs": "PASS, exit 0."
+      },
+      "participantWrites": {
+        "unchanged": true,
+        "evidence": "The only files in each family directory that changed are fixtures/canonical.pdf, fixtures/boundary.pdf, four raster page PNGs and reports/rendered-artifacts.json. reports/actual-writes.json, production-field-map.json, product-wiring.json, build-status.json, build-findings.json, source-receipt.json, approval-request.json and participant-instructions.md are byte-identical. 24 of 165 fields written, the same 24. The repair writes no value into any field; it scales one appearance stream that is the source's own."
+      },
+      "otherFamiliesUntouched": {
+        "method": "Every file under data/rcap-all50/overlays/census-v1 hashed before the first edit and again after each rebuild: 5438 files across 249 family directories.",
+        "result": "Exactly 55 files differ, all of them inside the five family directories named here -- 11 per family. Every one of the other 244 family directories is byte-identical, file for file. Nothing outside data/rcap-all50/overlays/census-v1 was written except this rows.json and the claim ledger's own release entries.",
+        "theFiveShareDigests": "Yes, and it is worth saying plainly: the five families again produce identical bytes as each other, canonical 6d13376c... and boundary 22ae0bc5..., exactly as they did before the repair.",
+        "prohibitedFilesNotOpenedForWriting": "MASTER_QUEUE.json, RASTER_QUEUE.json, every legal-decision record, every verdict file, and every other family's builder and directory."
+      },
+      "preflight": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/verify-packet-build-environment.mjs --family vt_seal_misdemeanor-set",
+        "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, exit 1. Both failures are conditions of this container, not of these families, and neither touches the bytes this lane read or wrote.",
+        "failure_private_is_git_ignored": "Reported NOT git-ignored because this dispatch mounts private/ as a SYMLINK to /home/user/legalease-partner-dashboard-clean/private and `git check-ignore -q private/` answers 'fatal: pathspec is beyond a symbolic link' rather than an exit code. Checked directly: private/ is ignored and `git ls-files private/` lists nothing. No source binary is tracked and none was committed. FIX61 hit and explained the identical condition.",
+        "failure_corpus_matches_committed_index": "1 absent, 0 mismatched of 24 sampled. The absent entry is 'LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf', an Alabama asset this Master Library mount does not carry. No Vermont entry is absent or mismatched. VF04 and FIX61 both recorded the same absence.",
+        "family_sources_bind": "ok -- 3/3 sources bind by exact SHA-256: 200-00130 ff914f49..., 200-00132 08811624..., 600-00228 263d4e19.... Those are the three binaries every measurement here was taken against.",
+        "environment": "node 22.22.2, pdf-lib 1.17.1, poppler pdftoppm/pdftotext, MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1, node_modules symlinked from /home/user/captain-worktree, sparse checkout disabled with 0 skip-worktree entries."
+      },
+      "acceptanceReceipt": null,
+      "whatWasNotDone": [
+        "No central raster on the new bytes. Both fixture digests moved, so the existing RASTER_PASS receipt (run 33983515494, bound to canonical b17bdb16...) stops binding and a fresh central raster is owed. RASTER_QUEUE.json and product-wiring.json were not opened for writing.",
+        "No independent verification. This lane built what it would be verifying, so it verifies nothing; no verdict was written or replaced and VF04's FAIL stands until someone else re-reads the new bytes.",
+        "No change to the shared step's code or to its default-off behaviour, and no whitelist by family, form, field or route anywhere.",
+        "No route promotion, no build-status change, no commercial authority claimed, and nothing touched in Production, Stripe, Supabase or credentials.",
+        "No PR. The branch is pushed and nothing else."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "familyId": "ut_pet_special_certificate-set",
+  "result": "FAIL_REPAIR_REQUIRED",
+  "actualCommands": [
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ut_pet_special_certificate-set",
+      "exitCode": 0,
+      "reportedResult": "PASS_COMPLETE 42/448 written; nine zeros",
+      "independentMeaning": "Generic author/map coverage did not detect independently established semantic and visual defects.",
+      "log": "completeness.log"
+    },
+    {
+      "command": "node scripts/lib/ut-special-certificate-stage-gate.test.mjs",
+      "exitCode": 0,
+      "independentMeaning": "Existing tests pass; their successful case omits episode/expected-byte binding, illustrating the gap.",
+      "log": "author-stage-test.log"
+    },
+    {
+      "command": "node data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/measure-current.mjs",
+      "exitCode": 0,
+      "result": "9 source matches; 2 PDF matches; 40 original PNG matches; 101/101 write reads; all459 native terminals reconciled; 3/16 stage contract failures"
+    },
+    {
+      "command": "node data/rcap-grade-a/packet-factory-24h/vf62/ut-special-final-20260911/probe-source-elections.mjs",
+      "exitCode": 0,
+      "result": "16/16 negative/alternate source-election probes expose failure:14 assertion tests plus2 alternatives"
+    }
+  ],
+  "skippedCommand": {
+    "command": "node scripts/build-census-v1-ut_pet_special_certificate-set.mjs --check",
+    "reason": "Mutates authoritative overlay/PDFs, forbidden for this independent assignment; exact production wrapper/host paths recorded in OBS-01. No local raster performed."
+  },
+  "reviewerProbeNotes": [
+    "Initial local evidence script syntax error corrected before successful execution.",
+    "Python image helper modules were unavailable; read-only original-pixel comparison used installed sharp instead. No dependencies installed.",
+    "Negative-selector probe initially followed two garbled self-representation metadata labels; corrected to actual source-control identity and excluded those false counterexamples. Final16 cases use actual source semantics."
+  ],
+  "finalObligationSummary": {
+    "PASS": 8,
+    "FAIL": 7,
+    "NOT_MEASURABLE_HERE": 0,
+    "BLOCKED_LEGAL_INPUT": 0
+  },
+  "noAuthorApprovalAdopted": true,
+  "noSourceOrCandidateMutation": true,
+  "noCentralMutation": true
+}

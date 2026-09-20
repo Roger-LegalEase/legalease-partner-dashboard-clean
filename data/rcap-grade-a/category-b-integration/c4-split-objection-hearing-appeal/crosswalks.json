@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "rcap-category-b-reuse-crosswalks/v1",
+  "assignmentId": "C4_SPLIT_OBJECTION_HEARING_APPEAL",
+  "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "crosswalkCount": 1,
+  "crosswalks": [
+    {
+      "originalRouteKey": "obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "reuseDecision": "REUSE_AS_IS",
+      "participantABranchRouteKey": "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "binding": {
+        "matchedForm": "CR-202",
+        "canonicalFormId": "official-form:JD-CR-202",
+        "participantFacingInstrument": "primary_filing: JD-CR-202",
+        "packetSetId": "ct-cleanslate-petition-set",
+        "outputStrategy": "official_pdf_fill",
+        "jurisdiction": "CT",
+        "scope": "Reuse the existing participant-initiated Clean Slate route for the JD-CR-202 petition and its committed missed-automatic-erasure review workflow; do not create a second Category A route."
+      },
+      "evidence": [
+        {
+          "record": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+          "location": "rows[originalRouteKey=the C4 CT route].existingCanonicalMatch",
+          "fact": "The canonical match is true and names the existing Category A route, matched form CR-202, and packet set ct-cleanslate-petition-set."
+        },
+        {
+          "record": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+          "location": "rows[originalRouteKey=the C4 CT route].reuseDecision",
+          "fact": "The committed decision is REUSE_AS_IS because an existing Category A route already requires the named instrument."
+        },
+        {
+          "record": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+          "location": "pairs[bStageRouteKey=the C4 CT route]",
+          "fact": "The stage/branch control record binds the automatic B route to the existing JD-CR-202 A route and marks the A branch as already existing."
+        },
+        {
+          "record": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "location": "routes[routeKey=the JD-CR-202 participant A route]",
+          "fact": "The canonical Category A record is participant-initiated, names primary_filing: JD-CR-202, uses official_pdf_fill, carries packet set ct-cleanslate-petition-set, and requires official-form:JD-CR-202."
+        },
+        {
+          "record": "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+          "location": "families[worklistGroupId=ct-cleanslate-petition-set]",
+          "fact": "The existing official-PDF work is present in the captain tree and marked REUSE_AS_IS and not free to dispatch for rebuilding."
+        },
+        {
+          "record": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "location": "petitioned Clean Slate pathway and committed forms/filing guidance",
+          "fact": "The profile identifies JD-CR-202 for the pre-2000 cohort and as the basis for review of a missed automatic erasure; an SPBI report supports the hearing request."
+        }
+      ],
+      "confirmation": {
+        "confirmed": true,
+        "identityOnly": true,
+        "newRouteCreated": false,
+        "packetFamilyCreated": false,
+        "commercialAuthorityGranted": false,
+        "note": "The crosswalk confirms canonical route identity and reuse. It does not prove a packet, approve an output, or open the route commercially."
+      }
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "schemaVersion": "rcap-lane-rows/v1",
+  "lane": "FIX142",
+  "laneKind": "repair",
+  "worktree": "/home/user/v5c-worktree",
+  "branch": "lane-fix142-20260910",
+  "generatedAtBase": "80fd3eb51208da7455df654b4550afd0725f9117",
+  "grantSet": "1f2b0e4afb74b5f2, asserted for all four families with scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX142 <familyId>, exit 0 on each. Not released by this lane.",
+  "verdictSet": "none. This lane built repairs and measured them. It issues no PASS, sets no verdict, opens no route and does not verify its own candidates. Two of its four families are returned as STALE_ROW findings rather than repairs, with the proof recorded per row.",
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "dispatchSaid": "The dispatch said all four families fail exactly one obligation, KNOWN_PREFILLS. That was true of three. The Captain corrected it mid-run: the New Jersey KNOWN_PREFILLS row was selected by taking the LAST row for the family rather than the row with superseded !== true, and the live row is VF11's ROUTE_OPTIONS. This lane had already derived the same correction from VERIFIER_RETURNS.json's own supersessionRule before the message arrived and had changed no New Jersey byte on the superseded premise, so no work was spent against it.",
+  "howBytesWereMeasured": "sha256sum over the file on disk in this worktree; page counts from pdfinfo; delivered text from pdftotext -layout; pixel measurements from pdftoppm -r 300 -gray -png with an ink threshold of gray<200, scope and counts stated per measurement in the row.",
+  "rows": [
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/la/la-985-1-interim-expungement-set--custom-pleading",
+      "jurisdiction": "LA",
+      "status": "REPAIRED_AWAITING_INDEPENDENT_READ",
+      "supersededVerdict": {
+        "lane": "VF06",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "7d6453f51dacd9064f9a2b2d4d16618d0669add8",
+        "failedObligations": [
+          "KNOWN_PREFILLS"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20260909.json"
+      },
+      "whatWasWrong": "The values were right; the two FILED documents carried internal record and build vocabulary. Ten instances, all read off the delivered pages here before any edit: three literal component-identity strings (motion page 1 line 3, motion page 3 under SIGNATURE BLOCKS, order page 4 line 3), and seven record-voice recitals - 'composed from the committed LA-STATUTORY-FORMS authority'; 'composed from the Article 995 statutory text this packet is bound to by content digest, as Article 986(A) requires'; 'The committed record directs that the ORIGINAL arrest charge be captured'; 'the committed record makes it a condition on which self-help stops when it is unclear'; 'the committed record makes that a condition on which self-help stops'; 'This block is left entirely blank on this packet. This packet holds no record that the mover is represented by counsel'; and on the order 'and this packet writes none of them'. An eleventh of the same class that VF06 did not name was also on motion page 1: 'The committed manual-completion record classifies both on Articles 989 and 994 as manual completion items pending a data-protection review'. All eleven were on pages a clerk stamps or a judge signs. The Article 995 order is a mandatory statutory form whose own committed note requires it to reproduce the Legislature's words, and this commentary was interleaved between them.",
+      "whatWasChanged": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs only. The componentId line was removed from captionBlock, which is used by the motion and the order and by nothing else; the guide keeps its own separate identity header. The signature-block line now prints the statutory form number LA-CCRP-ART-994 alone. The nine record-voice sentences were rewritten into statute-citation or plain participant voice, keeping every piece of substance: both self-help stops still reach the participant on the face of the motion, now as 'stop and get a lawyer's advice before filing anything'; the original-arrest-charge instruction still states the rule and now gives its statutory reason (Article 985.1(A)) instead of quoting the record. Nothing was deleted from the packet: a new guide section, 'Internal record text: what the record says, and why it is here rather than on the filing', carries all of it - the three component identities, the LA-STATUTORY-FORMS provenance, the Article 995 content digest, the manual-completion classification, the record's direction on the original arrest charge, both self-help stop conditions and the attorney-block and charge-identifier reasons - labelled as internal record text, which is the fix the Captain's own record states.",
+      "noValueChanged": "The 19 declared writes are unchanged. addedGlyphsReadFromOutputBytes is 320 canonical and 561 boundary before and after, and nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in both. No court, division, cause number, docket, date, fee, prosecutor or clerk assignment was added, removed or altered.",
+      "secondDefectFoundWhileRepairing": "The composed-page renderer wrapped against MAX_WIDTH using font.widthOfTextAtSize, which is a sum of AFM ADVANCE widths and not the extent of the ink a renderer lays down. Measured here at 300 dpi: five of the eighteen delivered canonical pages already had rendered ink past the declared 552pt right edge of the text box, worst 552.96pt. One of this lane's rewritten motion-page-1 lines measured 491.867pt against a 492pt box - 0.13pt of headroom - and drew ink to 554.88pt, 2.88pt outside it. Inside the paper and inside every clipping margin, but the build was asserting a box it was not holding. A WRAP_SAFETY of 8pt now separates the wrap width from the asserted width, so the two cannot drift apart silently. After the change, zero pages on either fixture carry rendered ink past 552pt and the smallest right gutter on any page is 64.80pt, against 57.1pt before.",
+      "buildScript": "scripts/build-census-v1-la-985-1-interim-expungement-set.mjs --no-raster",
+      "supersededCanonicalSha256": "34cb3e8ea4b3f96a8b20106117dd2293b62e540e009e82526ab67c16f6bacbf5",
+      "supersededBoundarySha256": "a8552e8addb999d1279b7fcb13396653d7ec0621ec3201b82105e56e1550084c",
+      "canonicalSha256": "bc8ac10385277dd5f8fb8d39c7e50a3d87084812efed77b796a5562ae5e3211c",
+      "boundarySha256": "c1180002d64c1959cd4e428af473fe311c6ad313893176b9e5e7fdf84bb10c9e",
+      "canonicalPageCount": 19,
+      "boundaryPageCount": 19,
+      "pageCountChanged": "18 to 19 on both fixtures. The extra page is guidance: the new internal-record-text section plus the tighter wrap. Filed pages are unchanged in extent and position - motion 1 to 3, order 4 to 5 - and the component page manifest agrees.",
+      "measuredAfterRepair": {
+        "filedPageInternalVocabularyHits": 0,
+        "filedPageScanScope": "delivered pages 1-5 of both fixtures, pdftotext -layout, eleven patterns covering component identity, 'committed record', 'committed memo', 'committed manual-completion', 'committed LA-STATUTORY-FORMS', 'content digest', 'this packet holds no record', 'this packet writes none' and the two component-id substrings",
+        "selfHelpStopsCarriedVerbatimOntoDeliveredPages": "5 of 5, by normalised containment against participant-instructions.md; 'Stop 5 of 5' still printed",
+        "renderedInkPastTheDeclaredTextBox": {
+          "pagesCanonical": 0,
+          "pagesBoundary": 0,
+          "method": "pdftoppm -r 300 -gray -png, ink threshold gray<200, per page rightmost ink column against the 552pt declared right edge"
+        },
+        "leftGutterOnEveryPage": "60.0pt on every page of both fixtures, equal to the declared margin",
+        "buildIsDeterministic": "two consecutive runs produced identical canonical sha256"
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family la-985-1-interim-expungement-set, run here on the repaired bytes, PASS_COMPLETE, exit 0, 19/51 written. These nine zeros are the builder-side contract counters. They are NOT offered as evidence that KNOWN_PREFILLS is repaired: they read zero on the defective bytes too, which is why VF06 found the defect by reading the pages.",
+      "rasterState": "OWED. build-status.json reads BUILT_RASTER_PENDING with rasterPages 0, which is now the correct reading. The RASTER_QUEUE row for this family still binds canonicalPdfSha256 34cb3e8e... and boundaryPdfSha256 a8552e8a... with expectedPages 18; those bytes no longer exist on disk, so the admitted RASTER_PASS over them is spent. RASTER_QUEUE.json is generated centrally and was not modified by this lane.",
+      "governance": "repair only; no verdict, no route, no self-verification"
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/hi/rcap-hi-custom-pleading--custom-pleading",
+      "jurisdiction": "HI",
+      "status": "REPAIRED_AWAITING_INDEPENDENT_READ",
+      "supersededVerdict": {
+        "lane": "VF07",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
+        "failedObligations": [
+          "KNOWN_PREFILLS"
+        ],
+        "unmeasuredObligations": [
+          "REPEATING_ROWS"
+        ],
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20260909d.json"
+      },
+      "whatWasWrong": "The packet wrote the participant's name onto the HCJDC 159(b) application in the wrong order, on all five routes and both fixtures, and told the participant nothing about it. The Data Center's printed caption is 'Current Legal Name (Last, First, Middle):' - surname first. The delivered ink was 'Jordan Avery Reyes' on canonical and 'Kahealani Mahealani Kealohilani-Nakamura' on boundary, given name first, so the application told the Data Center the applicant's surname was Jordan, or Kahealani, on the form it uses to find the record in the statewide repository. No counter could see it: the field map held the true caption twice, as printedTextAtCoordinate and printedCaptionOnTheOfficialForm, but printedLabel, effectiveLabel and regionHeading were all reduced to 'Current legal name' with the format instruction stripped, and classifyField and classifyBlank read the reduced label.",
+      "whyItWasNotFixedByReorderingTheName": "The platform holds the name only as the single string participant.full_legal_name. There is no surname or given-name split anywhere in the builder. Deriving 'Reyes, Jordan Avery' from 'Jordan Avery Reyes' is a guess about which token is the surname, and on the boundary fixture - Kahealani Mahealani Kealohilani-Nakamura - the guess is exactly the kind that would put the wrong surname on a repository search. A value may be prefilled only if the packet actually knows it. This packet does not know it, so the line is now a labelled blank with an instruction.",
+      "whatWasChanged": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs only. current_legal_name moved from SPEC.formWrites to SPEC.formBlanks as kind 'rbf', with an entry added to FORM_BLANK_ANCHORS so its region is still measured from the pinned source bytes rather than declared. The label is no longer reduced: it is now the form's own caption, 'Current Legal Name (Last, First, Middle)', so printedLabel, effectiveLabel and regionHeading all carry the format instruction that was being stripped. The participantMustSupply text names the order explicitly and says why it matters. The attached-form component description was corrected from six held facts to five and now states why the name line is not one of them.",
+      "measuredAfterRepair": {
+        "nameLineOnDeliveredPages": "blank on every route and both fixtures; the printed caption and its rule are untouched",
+        "perPixelProof": "pdftoppm -r 300 -gray -png of delivered canonical page 4 (the HCJDC 159(b) page of the first route block), before bytes be5092838b... and after bytes fee2da6417..., ink threshold gray<200, raster 2550x3300. Ink pixels inside the current_legal_name rect (x213.8 y401.9 w354.3 h11.0 pt): 2861 before, 0 after. Every other write rect is bit-identical in count - date_of_birth 1604/1604, home_address 5292/5292, mailing_address 5299/5299, phone 2213/2213, email 4018/4018. Whole-page changed pixels (|delta|>10): 3310, all inside x 213.8 to 294.2 pt, which is inside the name rect. The measurement is proved live rather than assumed: the caption-anchored election and checklist boxes on the same page read 19898, 11592, 6334, 5529, 5176, 3189, 2284 and 1883 ink pixels, so a zero on this page is a real zero and not a failed read.",
+        "otherNamesStillBlank": "'Other Names Used' carries 0 ink pixels before and after and remains REQUIRED_BEFORE_FILING",
+        "captionNamesUnaffected": "the composed motion and proposed order still print the participant's name in natural order in their own captions, on delivered pages 1, 3, 5, 7, 9, 11, 13, 15, 17 and 19 of both fixtures. A pleading caption is not a Last, First, Middle field and was not changed.",
+        "instructionReachesTheParticipant": "participant-instructions.md carries the supply instruction for all five routes, in the required-before-filing table. This family delivers no guidance component in the PDF - its 20 pages are five route blocks of motion, order and the attached form - so participant-instructions.md is the guidance channel, and it is the channel VF07 measured.",
+        "buildIsDeterministic": "two consecutive runs produced identical canonical sha256"
+      },
+      "buildScript": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs --no-raster",
+      "supersededCanonicalSha256": "be5092838b9ac89887af4ef48ba1af5d04a8ec71a00421860ef83c53a04c6f69",
+      "supersededBoundarySha256": "25a94c99e835a898aae79d4111a6da2ecbcb4342cd7b78530587e783dcc8a9ff",
+      "canonicalSha256": "fee2da64179ff2d2d9dcaa084febbbb33c86e91264a83d8602ba6f2bc94a7136",
+      "boundarySha256": "66fb5be12513ca388c083a89e19a19434aaf06891d5adaa8f1620703e13afb28",
+      "canonicalPageCount": 20,
+      "boundaryPageCount": 20,
+      "routeFixturesAfter": {
+        "hi-first-time-drug-offender": {
+          "canonicalSha256": "da91374bd13b3dc786e53b9f0ee99fffb3e051178d5b293dc626b3b40b0ff413",
+          "boundarySha256": "de47ff637c0a692b2fee770dc56a99ab2773c37993e0c087950e2ee600815f52",
+          "canonicalPages": 4,
+          "boundaryPages": 4
+        },
+        "hi-first-time-property-offender": {
+          "canonicalSha256": "5cd8f1dc2fe1552f1822817144360fc29fbae86544cb2f16d835850ccdf38427",
+          "boundarySha256": "9a16c496616f1ad4af2bbfe073fbdc55370681c0ab925755aa93aefbb3d8b718",
+          "canonicalPages": 4,
+          "boundaryPages": 4
+        },
+        "hi-marijuana-three-grams": {
+          "canonicalSha256": "4d45ae1ee783b6746a364474fd80966ef5fc894170c8bfb8967037e8d181ce5a",
+          "boundarySha256": "251520a44f0353f17eab9d2c75f41590762e2ed1a718272adddd4eaa671759de",
+          "canonicalPages": 4,
+          "boundaryPages": 4
+        },
+        "hi-pre-2004-drug-offender": {
+          "canonicalSha256": "3ff758aa8461d962c46ac918d538667f1c795cb9fc0193f07b2c0f9c4b42b3f0",
+          "boundarySha256": "93b67f7cfc477c167a48443d5b64fcf31a7d088c81ed9ac980ac5fefb7b61cdc",
+          "canonicalPages": 4,
+          "boundaryPages": 4
+        },
+        "hi-under-21-dui": {
+          "canonicalSha256": "c53fa4d424ca37e9ac7296a13b9780c00edc022ff1a17003af776d0d333195ea",
+          "boundarySha256": "62b92bb71189db9ae1121072a7600d45c3c2248efb105dd92cc49e7f97fad86a",
+          "canonicalPages": 4,
+          "boundaryPages": 4
+        }
+      },
+      "routeFixturesBefore": {
+        "hi-first-time-drug-offender": {
+          "canonicalSha256": "a16d7254e3831879d58b8518dc38c6ec8dfa9e55f82ec51696b689c722485729",
+          "boundarySha256": "4da23feedb6f6ca54f0a7593ba011d12a49178cc334a1cf01efb140207404a05"
+        },
+        "hi-first-time-property-offender": {
+          "canonicalSha256": "2558e04f8e8f96b6a2db43c501580ed392bed7e993e4ff26aa816b16acb6da3b",
+          "boundarySha256": "31382412907355b65d357b186487ab8bf53689ead3a5f981a34f21bb6de5fc32"
+        },
+        "hi-marijuana-three-grams": {
+          "canonicalSha256": "a247f5319f7b87f9c0d0570ba9e192e43f9abe02be98e453c63a274227916d8a",
+          "boundarySha256": "1beed4d84f358227385c130151aca094e466c9777bcad30ab5b8590eac0d5623"
+        },
+        "hi-pre-2004-drug-offender": {
+          "canonicalSha256": "ced7696c1597021b581aa1a0632fb5dc363f21cda02fb310e3830c1fe435889f",
+          "boundarySha256": "b79abc52ea0953238ce4314aa3e48e2d590bd9eb990258e586d4fcb55a6bd0a8"
+        },
+        "hi-under-21-dui": {
+          "canonicalSha256": "ed03198e7146c7e3be49a09bf1b5e4a384e5b0e8b0176f239d13fa48f3e6b846",
+          "boundarySha256": "5718f24a6a330ad7282a355302600c919da5cfb8383f7eb84398f342b19aefab"
+        }
+      },
+      "counters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersHowMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading, run here on the repaired bytes, PASS_COMPLETE, exit 0, 35/220 written (40/220 before; the five removed writes are the name line on the five routes). These nine zeros read zero on the defective bytes too and are not offered as evidence that the defect is gone.",
+      "rasterState": "OWED for all twelve artifacts. The admitted receipt at data/rcap-grade-a/packet-factory-24h/raster-runs/admitted/rcap-hi-custom-pleading/ (run 34407406641, packetCommit 686a2f65ee5b06d41a6634676b22ca13e7419490) measured canonical be5092838b... and boundary 25a94c99e8..., both of which have moved. VF07 already recorded that the receipt declared coversTheWholeFamily true while rendering only those two of the family's twelve delivered PDFs; the ten per-route fixtures have now moved as well and none of them has ever been rastered. RASTER_QUEUE.json and the admitted receipts are central records and were not modified by this lane.",
+      "governance": "repair only; no verdict, no route, no self-verification"
+    },
+    {
+      "familyId": "nm_release_without_conviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nm/nm-release-without-conviction-set--official-pdf-fill",
+      "jurisdiction": "NM",
+      "status": "LIVE_ROW_READ_AGAINST_BYTES_THAT_HAVE_SINCE_MOVED_NO_REPAIR_MADE",
+      "rowRelieduponByTheDispatch": {
+        "lane": "VF03",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "4ba07161461133738dd86bb37acc60ae1abe8da3",
+        "failedObligations": [
+          "KNOWN_PREFILLS"
+        ],
+        "finding": "64 declared writes read back at their reported page locations from actual PDF text. Nevertheless, held required fields remain blank: minimum canonical 6, boundary 7."
+      },
+      "whatThisLaneDidNotDo": "Nothing was rebuilt and no byte of this family moved. canonicalSha256 and boundarySha256 on disk are identical to this lane's base commit. This lane does not issue a PASS on it; the family needs a fresh independent read at a current base, not a repair.",
+      "canonicalSha256": "cdfa5e4bc924ed0371c1f458f4087617d08535c5738c1b7cb0cffab6312df58b",
+      "boundarySha256": "d97bbd463af5089ed64afab8b349fdd8d07945e3540a3eddf4fee85b7c8b40d9",
+      "canonicalPageCount": 21,
+      "boundaryPageCount": 21,
+      "rasterState": "not measured by this lane; no byte moved, so nothing new is owed on this family's account",
+      "governance": "no repair, no verdict, no route",
+      "rowIsNotSupersededByAnotherRow": "VF03 at base 4ba071614 is the live row for this family and this lane does not dispute it. The Captain's corrected derivation keeps it, and so does this lane. What is stale is not the row's standing but the bytes it read.",
+      "whatWouldCloseIt": "A fresh independent read of canonical cdfa5e4bc924ed0371c1f458f4087617d08535c5738c1b7cb0cffab6312df58b and boundary d97bbd463af5089ed64afab8b349fdd8d07945e3540a3eddf4fee85b7c8b40d9 at a current base. This lane read the delivered pages and found the seven named fields answered, but a repair lane's read of a family it did not repair is still not an independent acceptance, and it is offered here as a reason to re-read rather than as a verdict.",
+      "proofTheReadBytesAreGone": [
+        "The row declares the bytes it read: canonicalSha256 8033e3305e3bb01b34142b2d6df4fce4bb891afe27604122350a6b3aeb1db29e and boundarySha256 632aa0277b907ab74a0eb511c4a8c11cdaa22f4ef3852b510afb6dc01a53a802. Recomputed here from git at that same base 4ba0716: both match exactly, so the row is honest about what it read.",
+        "Those bytes are gone. On disk now: canonical cdfa5e4bc924ed0371c1f458f4087617d08535c5738c1b7cb0cffab6312df58b, boundary d97bbd463af5089ed64afab8b349fdd8d07945e3540a3eddf4fee85b7c8b40d9.",
+        "The commit that moved them is 040e869a94aac9eb8f17af94cbe7e706a380dd1c, 'FIX95: rebuild the three New Mexico families on the repaired host', 2026-09-09. git merge-base --is-ancestor confirms 4ba0716 is an ancestor of 040e869a9 and 040e869a9 is an ancestor of this lane's base 80fd3eb5, so FIX95 is strictly later than the read and is in the tree this lane was given.",
+        "All seven fields the row's known-missing-fields.json names are answered on the current bytes, read here from the delivered PDFs and not from any report. Five mailing-address compositions: NM-4-952 page 4, NM-4-959 page 2, NM-4-960.2 page 1, NM-4-960.1 page 1 and NM-4-222 'I live at' now carry '745 Silver Avenue SW, Albuquerque, NM 87102' on canonical. The misnamed petitioner-caption widget on NM-4-222 page 6, the one the form's author named after the line printed above it, now carries 'Elena Marisol Trujillo'. The boundary-only KNOWN_FACT_NOT_WRITTEN, the magistrate case number M-51-MR-2019-00417 on NM-4-952 page 2, is now written on the Metropolitan/Magistrate/Municipal line while the district line stays correctly blank.",
+        "Two of the five address lines remain blank on the BOUNDARY fixture only - NM-4-952 page 4 and NM-4-959 page 2 - and that is a disclosed refusal, not a silent drop. The host measures the value against the printed rule at build time and, where it cannot fit above the shared readable floor, sets policy held_not_written, records the measured widths and the reason, and prints it to the participant in a section headed 'One or two lines that may be blank on your copy' with both rows named by form and page. The boundary participant's address is 62 characters. Nothing is truncated and nothing is written outside the printed blank."
+      ]
+    },
+    {
+      "familyId": "nj_indictable_conviction-set",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "jurisdiction": "NJ",
+      "status": "STALE_ROW_AND_A_DIFFERENT_LIVE_DEFECT_BLOCKED_ON_A_LEGAL_INPUT",
+      "proofTheKnownPrefillsRowIsStale": [
+        "The KNOWN_PREFILLS failure for this family is VF17's, and VF17 declares no base at all - verifiedAtBase null, finding 'knownRequiredFieldsMissing=9 (measured by running the completeness verifier in this container)'. VERIFIER_RETURNS.json already marks it superseded.",
+        "The current row is VF11 at base df524f2fdbf4d8b6f93eff5e6180e0f3cd54508f, and under the supersession rule a row that declares a commit-shaped base outranks one that declares none. VF11 measured KNOWN_PREFILLS BY HAND against the delivered bytes and passed it: every held fact is either printed or withheld under the row-integrity rule and disclosed to the participant by field name, fact id, reason and fixture, with matter.conviction_date, matter.charge and matter.court named in the guide's held-but-not-printed table against both fixtures.",
+        "A third row, VF28's PASS_COMPLETE_INDEPENDENT at base edf5ff14b9bb418dfafc57b75e4a7acc6ece1666, is correctly marked superseded: git merge-base --is-ancestor shows edf5ff14b is an ancestor of df524f2fd, so VF11 is the later read.",
+        "VF11's read is still current on the bytes. The delivered canonical is 03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f and the boundary is 23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494, both identical to the blobs at df524f2fd, and git log shows no commit touching this family's fixtures between that base and this lane's base."
+      ],
+      "theLiveDefectIsADifferentObligation": {
+        "obligation": "ROUTE_OPTIONS",
+        "vf11Finding": "The field map declares exactly one route selection, `guilty`, as decision 'measured_route_selection' - the packet's own record that this election is determined by the route and made by the build. It is unmarked on both fixtures, selections is empty in actual-writes.json for both, and the widget rect carries +0 added ink against the pinned blank form. Nothing on the delivered petition states which statutory route it is.",
+        "confirmedHereIndependently": "pdftotext -layout of the delivered canonical, page 19: item (d) - 'On (date) ... I pled/was found guilty/adjudicated delinquent of the charges of (name of offense(s)) ... in violation of N.J.S.A. (statute(s)) ... and sentenced to (final sentence) ... by the (name of Court) Court' - is entirely blank, every cell, and the election box beside 'd.' is unmarked.",
+        "worseThanVf11Recorded": "Byte comparison across all five New Jersey families in this worktree: the delivered canonical 03f6169d04... is shared by nj_indictable_conviction-set, nj_disorderly_persons-set and nj_ordinance-set, and the delivered BOUNDARY 23a571af72... is shared by those three AND by nj_arrest_no_conviction-set. VF11 distinguished nj_arrest_no_conviction-set on the ground that its canonical still states its route, which is true - its canonical is 922b89598d0b7b57d0fd40623d404a7d9cf24ba507a9eba82472815d9b74ee7d - but its boundary is byte-identical to the three route-silent ones. So four of the five NJ families ship an identical route-silent boundary fixture."
+      },
+      "whyThisLaneStopped": "Repairing ROUTE_OPTIONS here means choosing between two rules of the completeness contract on a sworn petition, and this lane holds neither the determination nor the facts to choose. FIX105 withdrew the `guilty` election deliberately, under the row-integrity rule that an election is a member of the row it states: NJ_PETITION_CONVICTION_ROW declares nine cells and six of them - guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt - have no mapped fact and are REQUIRED_BEFORE_FILING, so the row is withheld whole and its election with it. Marking the box while the paragraph it belongs to is blank would put a pre-ticked assertion of a guilty plea on a document sworn by the participant. Supplying the six cells instead needs fact descriptors the platform does not hold. Either route is a legal determination plus a product change, not a KNOWN_PREFILLS repair, and VF11 expressly declined to propose the remedy. Nothing was changed.",
+      "exactlyWhatIsMissing": [
+        "A determination, from counsel or from the owner of the completeness contract, on whether a route-determined election box may be marked on Form A item (d) while the cells of that paragraph are left as REQUIRED_BEFORE_FILING blanks - that is, whether ROUTE_OPTIONS or the repeating-row integrity rule governs when they conflict on a sworn petition.",
+        "If the answer is that the row must be complete before the box is marked: held fact descriptors for the six unmapped cells of Form A item (d) - the statute of conviction, the final sentence, the type of incarceration, the date incarceration was completed, the date probation was completed and the date the fines were paid. The platform holds none of them today."
+      ],
+      "canonicalSha256": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+      "boundarySha256": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+      "canonicalPageCount": 43,
+      "boundaryPageCount": 43,
+      "rasterState": "not measured by this lane; no byte moved",
+      "governance": "no repair, no verdict, no route",
+      "captainCorrectionAgrees": "The Captain's mid-run correction names the same live row this lane derived: VF11 at df524f2fd, ROUTE_OPTIONS, not KNOWN_PREFILLS. No New Jersey byte was changed at any point, on either premise.",
+      "isItWithinABuildLanesReach": "No. It is not a question of which routes the packet is entitled to offer - this family has exactly one route and the field map declares exactly one election for it. It is a collision between two rules of the completeness contract on a sworn petition, and resolving it needs either a determination on which rule governs or six fact descriptors the platform does not hold. Both are owner questions."
+    }
+  ],
+  "familiesOwingAFreshCentralRaster": [
+    {
+      "familyId": "la-985-1-interim-expungement-set",
+      "artifacts": 2,
+      "reason": "both fixtures moved; the RASTER_QUEUE row binds the superseded digests and expectedPages 18, and the packet is now 19 pages"
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
+      "artifacts": 12,
+      "reason": "all twelve delivered PDFs moved; the admitted receipt covers only two of them and binds superseded digests, and the ten per-route fixtures have never been rastered at all"
+    }
+  ],
+  "familiesNotOwingAFreshRaster": [
+    "nm_release_without_conviction-set",
+    "nj_indictable_conviction-set"
+  ],
+  "centralArtifactsEdited": "none. RASTER_QUEUE.json, MASTER_QUEUE.json, VERIFIER_RETURNS.json and claim-ledger.json were read and not modified. No grant was released.",
+  "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route and is not a verdict. This lane built these repairs and must not be the one that accepts them.",
+  "twoDifferentKindsOfStaleRow": "These are not the same thing and the return keeps them apart. New Jersey's KNOWN_PREFILLS row is SUPERSEDED BY ANOTHER ROW: VF17 declares no base, VF11 declares one, and VERIFIER_RETURNS.json already marks VF17 superseded. New Mexico's row is the LIVE row - VF03 at 4ba071614, superseded false, and this lane does not dispute that - but it is a read of BYTES THAT HAVE SINCE BEEN REBUILT. FIX95 replaced them the day after the read and answered every field the row names. A live row over dead bytes is not a repair instruction; it is a read that needs re-taking. Only a fresh independent read at a current base can close it, and this lane must not be that read."
+}

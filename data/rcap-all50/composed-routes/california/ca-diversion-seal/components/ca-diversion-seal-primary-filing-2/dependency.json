@@ -8,7 +8,7 @@
   "requiredOutput": "official_form_dependency",
   "outputStrategy": "official_pdf_fill",
   "requirement": "conditional",
-  "conditionDescription": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+  "conditionDescription": "San Diego County only. This component is the San Diego branch of the Cal. Penal Code § 851.90 route and its form is SDSC CRM-307, a Superior Court of California, County of San Diego local criminal form. Every other county is a separate branch, ca-diversion-seal-primary-filing-4, which carries no official form. No county's local set is collected and approved yet, in either branch.",
   "drafted": false,
   "draftingProhibited": {
     "prohibited": true,
@@ -26,7 +26,8 @@
       "sha256Note": "No SHA-256 recorded for this source, so staleness cannot be detected (counsel flag cf-09).",
       "status": "named_but_not_collected_or_approved",
       "presentInStatePackInventory": false,
-      "inventoryNote": "Not present in the CA state pack officialFormInventory or resourcePacketInventory. The only inventoried CA PDF is California-Expungement-RecordRelief-Agent-Reference.pdf; the inventoried HTML references are ca-dismissal-sealing-forms.html, CR-180.html, CR-181.html and find-forms.html, none of which is this form."
+      "inventoryNote": "Not present in the CA state pack officialFormInventory or resourcePacketInventory. The only inventoried CA PDF is California-Expungement-RecordRelief-Agent-Reference.pdf; the inventoried HTML references are ca-dismissal-sealing-forms.html, CR-180.html, CR-181.html and find-forms.html, none of which is this form.",
+      "branch": "ca-diversion-seal-primary-filing-2 (San Diego)"
     },
     {
       "officialFormId": null,
@@ -38,7 +39,8 @@
       "sha256": null,
       "status": "named_but_not_identified_collected_or_approved",
       "presentInStatePackInventory": false,
-      "inventoryNote": "The registry records that Kern County publishes its own local petition but gives it no form number and no URL. Nothing further may be stated about it."
+      "inventoryNote": "The registry records that Kern County publishes its own local petition but gives it no form number and no URL. Nothing further may be stated about it.",
+      "branch": "ca-diversion-seal-primary-filing-4 (all counties other than San Diego)"
     }
   ],
   "owningLane": {
@@ -71,11 +73,29 @@
   },
   "unresolvedForThisUnit": [
     "Whether any statewide form exists that was missed (counsel flag cf-02).",
-    "Whether SDSC CRM-307 is the current San Diego form and whether it covers § 851.90 diversion/DEJ sealing (counsel flag cf-03).",
+    "Whether the held SDSC CRM-307 revision is the current one (counsel flag cf-03, still open; no SHA-256 is recorded for this source, so staleness cannot be detected). That CRM-307 is a San Diego Superior Court local form for a Cal. Penal Code § 851.90 sealing is settled by DET-DT-CA-CRM307-001 and is no longer open.",
     "The Kern County form number (counsel flag cf-03).",
     "Filing fee, if any (counsel flag cf-04).",
     "Notarization requirement, if any (counsel flag cf-05).",
     "Manner, recipients, and deadline of the notice to all parties (counsel flag cf-06).",
     "Court name, address, and department (counsel flag cf-07)."
-  ]
+  ],
+  "countyScope": "SAN_DIEGO_ONLY",
+  "statutorySection": "Cal. Penal Code § 851.90",
+  "ownerDetermination": {
+    "determinationId": "DET-DT-CA-CRM307-001",
+    "decided": "CRM-307 is a San Diego Superior Court local form for Penal Code § 851.90 and must not bind to a statewide California route. This component is scoped to San Diego.",
+    "prohibitions": [
+      "Do not use CRM-307 outside San Diego County.",
+      "Do not silently convert a § 851.90 matter into a § 851.91 matter. § 851.91 is the separate statewide route to seal an arrest that did not result in a conviction; it has its own Judicial Council forms CR-409 and CR-410 and its own packet family ca-851-91-set, and under DET-FEE-AND-WAIVER-001 amendment A3 neither route's answers may be read across to the other."
+    ],
+    "siblingBranch": {
+      "componentId": "ca-diversion-seal-primary-filing-4",
+      "scope": "ALL_COUNTIES_OTHER_THAN_SAN_DIEGO",
+      "instrument": "the applicable county local petition and order set where one has been collected and approved, or a participant-created pleading where that is authorised for the route, with court-specific guidance.",
+      "recordedIn": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "builtHere": false,
+      "whyNotBuiltHere": "The branch is a route-scope fact, and recording it is what this determination requires. Composing its participant-facing output is a packet build on a family this lane holds no build grant for, and no county set is approved to build against in any event."
+    }
+  }
 }

@@ -33,12 +33,14 @@ ok(/name:\s*"Expungement\.ai self-help packet"/.test(payment), "Stripe line item
 for (const bad of BANNED) ok(!bad.test(lineItemRegion) && !bad.test(payment.slice(0, payment.indexOf("createConsumerPacketCheckout") + 2000)), `Checkout copy must not label the $50 as ${bad}.`);
 
 // --- gate: checkout only when payment is allowed ---
-ok(/assertCheckoutAllowed\(item\)/.test(payment), "createConsumerPacketCheckout must call assertCheckoutAllowed(item) before creating a session.");
-ok(/isConsumerPaymentAllowed\(item\.resultCode/.test(payment), "assertCheckoutAllowed must reuse the isConsumerPaymentAllowed clamp.");
+ok(/verifiedSnapshot\s*=\s*verification\.snapshot/.test(payment)
+  && /assertCheckoutAllowed\(verifiedSnapshot\)/.test(payment),
+"createConsumerPacketCheckout must gate delivery on protected machine pathway and track ids.");
+ok(/isConsumerPaymentAllowed\(snapshot\.resultCode/.test(payment), "assertCheckoutAllowed must reuse the protected isConsumerPaymentAllowed clamp.");
 
 // --- success connects to packet generation; cancel does not ---
-ok(/defaultSuccessUrl\s*=\s*absoluteExpungementAiUrl\(`\/packet-ready/.test(payment) && /success_url:\s*successUrl\s*\?\?\s*defaultSuccessUrl/.test(payment), "Success path must route to /packet-ready (packet + Briefcase generation).");
-ok(/defaultCancelUrl\s*=\s*absoluteExpungementAiUrl\(`\/pay/.test(payment) && /cancel_url:\s*cancelUrl\s*\?\?\s*defaultCancelUrl/.test(payment), "Cancel path must route to /pay and not generate a paid packet.");
+ok(/defaultSuccessUrl\s*=\s*absoluteExpungementAiUrl\(`\/briefcase\/\$\{encodeURIComponent\(item\.id\)\}\?payment=return/.test(payment) && /success_url:\s*successUrl\s*\?\?\s*defaultSuccessUrl/.test(payment), "Success path must return to the exact Briefcase matter for protected reconciliation.");
+ok(/defaultCancelUrl\s*=\s*absoluteExpungementAiUrl\(`\/briefcase\/\$\{encodeURIComponent\(item\.id\)\}\?checkout=canceled/.test(payment) && /cancel_url:\s*cancelUrl\s*\?\?\s*defaultCancelUrl/.test(payment), "Cancel path must return to the exact Briefcase matter without generating a packet.");
 
 // --- webhook secret required (test-mode wiring present) ---
 ok(/STRIPE_WEBHOOK_SECRET/.test(stripeServer), "Stripe webhook secret handling must exist for the confirm path.");
@@ -65,7 +67,7 @@ console.log("verify-expungement-stripe-test-readiness (TEST mode only — never 
 console.log("=".repeat(66));
 console.log("Line item        : 'Expungement.ai self-help packet' @ $50 (5000c) — clean copy");
 console.log("Checkout gate    : assertCheckoutAllowed -> isConsumerPaymentAllowed clamp");
-console.log("Success / cancel : /packet-ready (generate) / /pay (no packet)");
+console.log("Success / cancel : exact Briefcase matter (reconcile) / exact Briefcase matter (no packet)");
 console.log("Partner-sponsored: paymentAllowed forced false -> no consumer checkout session");
 console.log("Non-payment codes: no checkout session");
 console.log("-".repeat(66));

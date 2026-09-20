@@ -2,34 +2,28 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { readClaimTokenFromUrl, submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
 
 /**
- * Completes a server-verified pending-result claim after sign-in. Browser-
- * stashed result payloads are intentionally not replayed: current persistence
- * always re-evaluates stored screening inputs before writing route identity.
+ * Completes a claim that arrived here rather than at the sign-in form -- an
+ * email verification opened on a second device, an OAuth callback, or a
+ * bookmarked handoff link followed while already signed in.
+ *
+ * Contract §15: landing on an empty Briefcase is a release-blocking failure, so
+ * a token that reaches this page is claimed and the participant is moved to the
+ * exact matter. Browser-stashed result payloads are never replayed: the server
+ * re-evaluates the stored answers before any matter exists.
  */
 export function BriefcaseSaveIntent() {
   const router = useRouter();
 
   useEffect(() => {
-    const pendingId = new URLSearchParams(window.location.search).get("pending");
-    if (!pendingId) return;
+    const claimToken = readClaimTokenFromUrl();
+    if (!claimToken) return;
     let cancelled = false;
     (async () => {
-      try {
-        const response = await fetch("/api/expungement-ai/screening/pending/claim", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pendingId, next: "/briefcase" })
-        });
-        const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-        if (!cancelled && response.ok && payload?.redirectTo) {
-          router.replace(payload.redirectTo);
-        }
-      } catch {
-        // Best effort for old pending query links. The primary sign-in handoff
-        // keeps failures visible and retryable before navigating here.
-      }
+      const claimed = await submitClaim(claimToken);
+      if (!cancelled && claimed.ok) router.replace(claimed.redirectTo);
     })();
     return () => {
       cancelled = true;

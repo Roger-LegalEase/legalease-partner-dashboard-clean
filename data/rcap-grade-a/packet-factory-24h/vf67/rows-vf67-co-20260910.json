@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "VF67",
+  "laneKind": "independent-verification",
+  "isIndependentVerification": true,
+  "worktree": "/workspaces/legalease-partner-dashboard-clean/.lane-worktrees/vf67",
+  "branch": "lane-vf67-co-review-20260910",
+  "verifiedAtBase": "df7371634115fce772fad285986dd4a99967bf67",
+  "grantSet": "e75adbae2c1ce3c5. One --assert call returned CLAIM_OK; grant was not released by this worker.",
+  "whyThisLaneExists": "VF67 independently closes the FIXCXC1 SERVICE delta and applicable FEE_AND_WAIVER guidance defect while reusing unchanged VF22 direct coverage.",
+  "actedOnReturns": [
+    "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/vf40/rows.json",
+    "data/rcap-grade-a/packet-factory-24h/fixcxc1/rows-fixcxc1-co-20260910.json",
+    "data/rcap-grade-a/packet-factory-24h/fixcxc1/co-evidence/plain-entrypoint-proof.json"
+  ],
+  "builtAnything": false,
+  "repairsMade": 0,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedRecordsAndManifestsTouched": "None. Only vf67/rows-vf67-co-20260910.json and vf67/co-evidence/** were written.",
+  "howTHEPRIORVERDICTSWERETREATED": "VF22 direct measurements were reused after exact unchanged identity checks. VF40 and FIXCXC1 were read for the affected guidance delta; no builder guard was treated as independent acceptance.",
+  "whatWasRead": [
+    "AGENTS.md",
+    "docs/PRODUCT_CONTRACT.md",
+    "docs/RCAP_ALL50_AGENT_RUNBOOK.md",
+    "the current JDF-683 and JDF-686 source binaries",
+    "current family guides, source receipt, maps, PDFs and reports via exact-base git reads",
+    "VF22, VF40 and FIXCXC1 returns/evidence"
+  ],
+  "narrative": "VF67 independently confirmed the repaired SERVICE guidance and applicable FEE_AND_WAIVER guidance, and verified that VF22’s direct evidence remains applicable because current PDFs, field map and reports are unchanged. All fifteen obligations PASS; unresolved Colorado fee/eligibility law remains explicitly attributed and unconfirmed. No route approval or grant release.",
+  "rows": [
+    {
+      "familyId": "co_municipal_conviction_seal-set",
+      "itemId": "co_municipal_conviction_seal-set",
+      "jurisdiction": "CO",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verdictScope": "Complete independent fifteen-obligation delta review at exact base df7371634115fce772fad285986dd4a99967bf67. VF22 direct source/pixel and saved-artifact coverage is reused only after exact PDF/map/report identity comparison; current SERVICE and FEE_AND_WAIVER guidance were independently read and assessed. No build or raster was run.",
+      "verifiedAtBase": "df7371634115fce772fad285986dd4a99967bf67",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/co-municipal-conviction-seal-set--official-pdf-fill",
+      "priorVerdicts": {
+        "vf22": "FAIL_REPAIR_REQUIRED at 8db74d6e5b5427548e30c2eed11a21b2bb1d9383 (FEE_AND_WAIVER copy defect)",
+        "vf40": "FAIL_REPAIR_REQUIRED at 80fd3eb51208da7455df654b4550afd0725f9117 (SERVICE guidance defect)",
+        "fixcxc1": "COMPLETED repair at 4b0c86373decb82a9046d84a7510cfd04523ec2a; SERVICE guidance only"
+      },
+      "deliveredDigestsHashedByThisLane": [
+        {
+          "fixture": "canonical",
+          "sha256": "676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022",
+          "byteLength": 144207,
+          "pageCount": 5
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5",
+          "byteLength": 144266,
+          "pageCount": 5
+        }
+      ],
+      "sourceDigestsHashedByThisLane": [
+        {
+          "documentId": "JDF-683",
+          "sha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+          "byteLength": 82760
+        },
+        {
+          "documentId": "JDF-686",
+          "sha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+          "byteLength": 63657
+        }
+      ],
+      "sourceDigestsMatchReceipt": true,
+      "deliveredArtifactsAndSourceIdentityEvidence": "data/rcap-grade-a/packet-factory-24h/vf67/co-evidence/delta-review-vf67-co-20260910.json",
+      "reusedIndependentEvidence": "data/rcap-grade-a/packet-factory-24h/vf22/rows-vf22-20260910.json at 8db74d6e5b5427548e30c2eed11a21b2bb1d9383; current PDFs, field map and reports are byte-identical to that review base.",
+      "theBUILDERISDETERMINISTICINTHISCONTAINER": "Not rerun. This delta review did not build; candidate output, map and reports are unchanged from VF22 base.",
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "familyId 'co_municipal_conviction_seal-set' agrees across product-wiring.json, source-receipt.json, production-field-map.json, field-census.census-v1.json, build-findings.json, reports/rendered-artifacts.json, reports/actual-writes.json, reports/completeness-counters.json and reports/blanks-left-for-the-participant.json. One routeKey, 'obligation:track-only:CO:co_municipal_conviction_seal', carried identically in product-wiring.json and in the MASTER_QUEUE entry, and the committed track registry carries trackId co_municipal_conviction_seal with jurisdiction CO. The delivered pages print 'Petition to Seal Municipal Conviction Records' and 'Order to Seal Municipal Conviction Records' and cite C.R.S. § 24-72-708, which is the authority both guides name. The route is specifically municipal and the packet holds that distinction on the page: the caption city or town is refused by role on both forms with the recorded reason that the platform holds the county of the matter and a county is not a municipality, which is the correct refusal for a municipal court."
+        },
+        "SOURCE_IDENTITY": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both sources resolve exactly, recomputed here with sha256sum. official-form:JDF-683 = 6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e and official-form:JDF-686 = abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200, both under MASTER_LIBRARY_SOURCE_DIR at STATES/CO/02_PACKET_FORMS. Page counts are 3 and 2, matching the 5-page delivered page manifest. Beyond the source bytes, this family pins five controlling records by whole-file digest AND by per-family entry digest, and this lane recomputed all ten with the builder's own stable serializer: every one of the five ENTRY pins matches exactly at this base. Two whole-file pins have moved — the track registry, edited by FIX03 for a Colorado sibling, and MASTER_QUEUE — and in both cases the entry pin proves the edit did not touch this family, which is exactly what the receipt's own 'whyBothPinsExist' note says the two pins are for. This is the strongest source and record binding this lane has read today."
+        },
+        "COMPONENT_SET": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "The packet-set manifest declares two components and only two: co_municipal_conviction_seal-primary-filing-1 (JDF-683, primary_filing, required, order 1) and co_municipal_conviction_seal-proposed-order-2 (JDF-686, proposed_order, required, order 2). product-wiring.json binding.packetComponents declares the same two identifiers, the MASTER_QUEUE entry declares the same two, and reports/rendered-artifacts.json carries both in componentSet and assigns every one of the five delivered pages to one of them. Both are delivered. Unlike this family's sibling there is no fourth or third form named anywhere and no gap to record. One observation, recorded and not scored as a missing component: product-wiring.json's generated proposedRepresentation gives component 2 the role 'companion_document' where the manifest says 'proposed_order', and points both components at the same canonical.pdf path and digest because the family ships one assembled packet. The binding block above it is correct; it is the generated specification that is loose."
+        },
+        "KNOWN_PREFILLS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "This is the obligation FIX04 repaired and it now holds on the bytes. The State line: the canonical fixture prints CO on the JDF 686 section-1 State rule and the boundary fixture leaves it empty, measured as 196 added pixels at that rect on canonical and 0 on boundary. production-field-map.json carries defendant-state under canonicalWrites and under boundaryRefusals with its unfittable record; reports/blanks-left-for-the-participant.json states in terms that 'the canonical fixture writes CO there, and the boundary fixture's spelled-out Colorado is refused as unfittable and left for the participant'; participant-instructions.md no longer lists the line under what the platform left blank and instead describes the check; filing-instructions.md makes no claim about it either way. Bytes, field map, near-miss record and both guides now say the same thing. The direction is the one the build's own rule supports: a value the platform holds is written onto the form's own measured printed rule wherever it fits, which is why the city and the ZIP either side of that same line are written too, and a value that does not fit is refused rather than shrunk below 6 pt or clipped. Placement was verified independently for all 16 writes by reading the delivered pages with pdftotext -layout and -bbox and matching each value to the printed label beside it — Defendant, Filed by Name, Case Number, Filed by Mailing Address, Filed by Phone, Filed by Email and item 2 Date of Birth on JDF-683; Case Number, Defendant, Defendant's Full Name, Date of Birth, Mailing Address, City, State, Zip Code and the section-3 Municipal Court case number on JDF-686 — and every drawnText equals its expected value on both fixtures. The dates are written in ISO-8601 (1988-04-17, 1961-12-31); neither Colorado form prints a date format anywhere, checked on both source binaries, so unlike this lane's Maine family there is no printed instruction being contradicted and this is recorded as an observation rather than a deviation."
+        },
+        "PROTECTED_FIELDS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Nothing the court, the prosecutor or the participant owns carries a mark this build made. Structurally, all four files — both delivered fixtures and both pinned sources — carry no /AcroForm, no /Widget and no /Btn, confirmed with pikepdf, so the synthesized-border failure mode has no widget to attach to and is impossible here rather than merely absent. Geometrically, a 150 dpi difference against the pinned sources over every protected rect gives 0 added pixels on both fixtures: the Division and Courtroom boxes on both forms, over which the form prints 'This box is for court use only'; the judge or magistrate signature and the order date on JDF-686 page 2; the petitioner's signature and date; and the item 14 certificate of service, which states that service has happened. Packet page 5, the page the judge signs, and packet pages 2 and 3 are pixel-identical to their source pages in both directions."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Every value sits on its own printed rule and nothing sits anywhere else. Against the pinned sources at 150 dpi, added ink is 14652 px on canonical and 24340 px on boundary, and at a 2 pt tolerance 100 percent of it falls inside the declared write rects with 0 px outside on both fixtures; at 1 pt, 26 and 17 pixels respectively fall outside, and every one is within 2 pt of the bottom or side edge of an adjacent write rect, which is glyph descender and antialiasing on a 12 pt box. Removed ink is 0 px on every page of both fixtures, so no printed rule, caption or box was erased. Nothing is clipped: the boundary fixture's long values render complete — a 39-character hyphenated apostrophised name, a 45-character street address and a 25-character supplemental case number — and where a value genuinely could not fit at the 6 pt minimum the build refuses it rather than shrinking or truncating it, which is why the boundary email and the boundary State line carry exactly 0 pixels rather than an unreadable or cut-off value. On the narrowest rule on the sheet the write box is the form's own drawn rule read out of the page content stream, not a hand-entered coordinate."
+        },
+        "SELF_HELP_STOP": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 4 selfHelpStopConditions and the 1 scopeRestriction in the committed track record reach the delivered guides as exact substrings, tested here by literal substring match, 4/4 and 1/1. participant-instructions.md carries them under 'When this is not a do-it-yourself matter' and filing-instructions.md under 'Hand off to counsel when' and 'Scope restriction the record states'. The scope restriction that municipal courts are not on the state e-filing system and that the route must not be presented as statewide is carried in both guides and is also worked into the venue and filing sentences. The guide additionally opens by telling the reader that the record it is built from says C.R.S. § 24-72-708 was not read in full and that therefore nothing in the packet tells them they are eligible, which is the strongest self-help boundary on the family and is the record's own sentence."
+        },
+        "FILING_DESTINATION": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Both guides send the filing to the municipal court that heard the case and say that municipal courts are not part of the state e-filing system so local intake practice varies. Both sentences are the track record's own venue and destination strings, checked against tracks[co_municipal_conviction_seal].venue. No court name, address, division, e-filing portal or clerk's hours is asserted, and the guide records why: the platform holds no municipal court directory, so the Court Mailing Address rule on both forms is refused and carried to the participant rather than filled from something the record does not contain. The caption city or town is refused for the same reason on both forms, with the recorded finding that writing the county there would name the wrong venue on the face of both documents — which on a municipal route is the correct and non-obvious call."
+        },
+        "SERVICE": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "PASS. Current participant-instructions.md and filing-instructions.md give concrete action: provide the petition to the prosecuting attorney, complete JDF 683 item 14 with the actual service date and method after service, and ask the municipal clerk how and when to serve. The guides also direct the filer to ask whether item 15 must be witnessed or notarized, without inventing a deadline or universal rule. FIXCXC1 plain-entrypoint-proof records corrected guidance accepted and original guidance refused. Evidence: co-evidence/delta-review-vf67-co-20260910.json guideChecks and fix evidence."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "All 7 requiredBeforeFiling items in the packet-set manifest reach the delivered guides. Four survive a literal substring test; the other three are carried in substance and largely in the record's own words but split across a reformat, and this lane read each one to confirm rather than scoring the substring test — the CBI criminal-history report as a 'What the participant must obtain' entry in filing-instructions.md keeping the record's sentence 'Request a criminal-history report from CBI and attach it if the form requires it', the same item again in participant-instructions.md as 'Attach a current verified copy of your criminal history record, or file it within 10 days of filing the petition, as item 6 of the form says', and the signature and date item as a 'Manual completion items the record names' table row and again under what the platform deliberately left blank. Beyond the manifest list, all 28 unwritten measured rules and all 26 printed controls and underscore blanks are disclosed to the participant by page, section, printed label and what writing there says. The participant-facing sections are addressed to the participant throughout; the one place where operator vocabulary reaches the reader is the fee sentence, which is scored under FEE_AND_WAIVER because that is the obligation it belongs to and not because it is unimportant."
+        },
+        "ARTIFACTS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Recomputed here with sha256sum: canonical.pdf = 676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022 at 144207 bytes and boundary.pdf = 1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5 at 144266 bytes, both agreeing with reports/rendered-artifacts.json, with product-wiring.json, with the RASTER_QUEUE row and with the digest table printed at the foot of filing-instructions.md — five records naming the same two digests and all five right. Both files parse as 5 pages and every page differences cleanly against the source page its manifest claims. Both output-byte glyph readings exist and both reconcile against a recount of the non-whitespace characters actually drawn: canonical 107 + 96 and boundary 171 + 200, each equal to the recorded addedGlyphsReadFromOutputBytes for that document, with nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 confirmed independently by the raster reading rather than accepted as a published zero. Recorded as an observation and not scored as a failure: those two readings are carried per source document in reports/actual-writes.json and are NOT carried per artifact in reports/rendered-artifacts.json, which also carries no rasterState field — so the file that product-wiring.json declares itself derived from is the one record here that omits them."
+        },
+        "PAGE_ORDER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Five pages in the order the manifest's component order requires: packet pages 1-3 are JDF-683 pages 1-3 (component order 1, the petition) and packet pages 4-5 are JDF-686 pages 1-2 (component order 2, the proposed order). Verified from the bytes and not from the manifest: each delivered page was differenced at 150 dpi against the source page its manifest claims and all five matched with 0 removed pixels, and the three pages the packet writes nothing on came back with 0 added pixels as well. The petition precedes the order it proposes, and within JDF-686 the signature page follows the ordering page."
+        },
+        "ROUTE_OPTIONS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "Neither form draws a selection control this build could mark: all 22 printed controls across the two documents are the glyph U+2751 in the text stream rather than a stroked path or a widget, confirmed by the build's checkboxCandidates finding zero on all five pages and by this lane's own reading that the files carry no /Btn at all. The packet marks none of them, and participant-instructions.md says so under a heading that states it plainly — 'The tick boxes are yours, all of them, and you mark them by hand' — followed by per-document tables giving every control's page, section, the exact words printed beside it and what ticking it says, including the four mutually exclusive item 1 Petitioner options and the Municipal-or-District court election. The controlling record establishes no option the packet must pre-select, and on a route where the petitioner may be the defendant, a representative, a parent or an appointed representative, selecting one would assert a fact the platform does not hold. Nothing required is missing and nothing is asserted."
+        },
+        "REPEATING_ROWS": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "A repeating structure does exist here, so this was measured rather than dismissed. JDF-683 item 3, 'Agencies with custody of the records', repeats a name, case number and mailing address across Municipal Courts, the Colorado Bureau of Investigation, the Sheriff's Department, the District Attorney, the City Attorney, Law Enforcement and Other, and it runs from page 1 onto page 2. The packet writes into none of it: no declared write rect falls within item 3, and the 150 dpi difference gives 0 added pixels on packet pages 2 and 3. Every cell of every row is instead disclosed to the participant in the guide's must-supply table, row by row, with the CBI row noted as the one the form marks Required and prints the address for. Because no row is part-written, no row is incomplete, and the AcroForm-index-versus-printed-row failure catalogued in DEFECTS_NO_COUNTER_CAN_SEE cannot arise on a form with no AcroForm and no cell the build fills."
+        },
+        "FEE_AND_WAIVER": {
+          "measured": true,
+          "result": "PASS",
+          "detail": "PASS. Current participant-instructions.md and filing-instructions.md no longer expose the stale filer-facing “fee must be confirmed before building” instruction. They state that the committed record does not confirm an amount or waiver procedure and direct the filer to ask the municipal clerk about filing cost and inability to pay. The unresolved legal input remains attributed; no fee or waiver eligibility is invented. Evidence: co-evidence/delta-review-vf67-co-20260910.json guideChecks and feeFinding."
+        }
+      },
+      "obligationFindings": {
+        "ROUTE_IDENTITY": "familyId 'co_municipal_conviction_seal-set' agrees across product-wiring.json, source-receipt.json, production-field-map.json, field-census.census-v1.json, build-findings.json, reports/rendered-artifacts.json, reports/actual-writes.json, reports/completeness-counters.json and reports/blanks-left-for-the-participant.json. One routeKey, 'obligation:track-only:CO:co_municipal_conviction_seal', carried identically in product-wiring.json and in the MASTER_QUEUE entry, and the committed track registry carries trackId co_municipal_conviction_seal with jurisdiction CO. The delivered pages print 'Petition to Seal Municipal Conviction Records' and 'Order to Seal Municipal Conviction Records' and cite C.R.S. § 24-72-708, which is the authority both guides name. The route is specifically municipal and the packet holds that distinction on the page: the caption city or town is refused by role on both forms with the recorded reason that the platform holds the county of the matter and a county is not a municipality, which is the correct refusal for a municipal court.",
+        "SOURCE_IDENTITY": "Both sources resolve exactly, recomputed here with sha256sum. official-form:JDF-683 = 6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e and official-form:JDF-686 = abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200, both under MASTER_LIBRARY_SOURCE_DIR at STATES/CO/02_PACKET_FORMS. Page counts are 3 and 2, matching the 5-page delivered page manifest. Beyond the source bytes, this family pins five controlling records by whole-file digest AND by per-family entry digest, and this lane recomputed all ten with the builder's own stable serializer: every one of the five ENTRY pins matches exactly at this base. Two whole-file pins have moved — the track registry, edited by FIX03 for a Colorado sibling, and MASTER_QUEUE — and in both cases the entry pin proves the edit did not touch this family, which is exactly what the receipt's own 'whyBothPinsExist' note says the two pins are for. This is the strongest source and record binding this lane has read today.",
+        "COMPONENT_SET": "The packet-set manifest declares two components and only two: co_municipal_conviction_seal-primary-filing-1 (JDF-683, primary_filing, required, order 1) and co_municipal_conviction_seal-proposed-order-2 (JDF-686, proposed_order, required, order 2). product-wiring.json binding.packetComponents declares the same two identifiers, the MASTER_QUEUE entry declares the same two, and reports/rendered-artifacts.json carries both in componentSet and assigns every one of the five delivered pages to one of them. Both are delivered. Unlike this family's sibling there is no fourth or third form named anywhere and no gap to record. One observation, recorded and not scored as a missing component: product-wiring.json's generated proposedRepresentation gives component 2 the role 'companion_document' where the manifest says 'proposed_order', and points both components at the same canonical.pdf path and digest because the family ships one assembled packet. The binding block above it is correct; it is the generated specification that is loose.",
+        "KNOWN_PREFILLS": "This is the obligation FIX04 repaired and it now holds on the bytes. The State line: the canonical fixture prints CO on the JDF 686 section-1 State rule and the boundary fixture leaves it empty, measured as 196 added pixels at that rect on canonical and 0 on boundary. production-field-map.json carries defendant-state under canonicalWrites and under boundaryRefusals with its unfittable record; reports/blanks-left-for-the-participant.json states in terms that 'the canonical fixture writes CO there, and the boundary fixture's spelled-out Colorado is refused as unfittable and left for the participant'; participant-instructions.md no longer lists the line under what the platform left blank and instead describes the check; filing-instructions.md makes no claim about it either way. Bytes, field map, near-miss record and both guides now say the same thing. The direction is the one the build's own rule supports: a value the platform holds is written onto the form's own measured printed rule wherever it fits, which is why the city and the ZIP either side of that same line are written too, and a value that does not fit is refused rather than shrunk below 6 pt or clipped. Placement was verified independently for all 16 writes by reading the delivered pages with pdftotext -layout and -bbox and matching each value to the printed label beside it — Defendant, Filed by Name, Case Number, Filed by Mailing Address, Filed by Phone, Filed by Email and item 2 Date of Birth on JDF-683; Case Number, Defendant, Defendant's Full Name, Date of Birth, Mailing Address, City, State, Zip Code and the section-3 Municipal Court case number on JDF-686 — and every drawnText equals its expected value on both fixtures. The dates are written in ISO-8601 (1988-04-17, 1961-12-31); neither Colorado form prints a date format anywhere, checked on both source binaries, so unlike this lane's Maine family there is no printed instruction being contradicted and this is recorded as an observation rather than a deviation.",
+        "PROTECTED_FIELDS": "Nothing the court, the prosecutor or the participant owns carries a mark this build made. Structurally, all four files — both delivered fixtures and both pinned sources — carry no /AcroForm, no /Widget and no /Btn, confirmed with pikepdf, so the synthesized-border failure mode has no widget to attach to and is impossible here rather than merely absent. Geometrically, a 150 dpi difference against the pinned sources over every protected rect gives 0 added pixels on both fixtures: the Division and Courtroom boxes on both forms, over which the form prints 'This box is for court use only'; the judge or magistrate signature and the order date on JDF-686 page 2; the petitioner's signature and date; and the item 14 certificate of service, which states that service has happened. Packet page 5, the page the judge signs, and packet pages 2 and 3 are pixel-identical to their source pages in both directions.",
+        "CLIPPING_AND_OVERLAP": "Every value sits on its own printed rule and nothing sits anywhere else. Against the pinned sources at 150 dpi, added ink is 14652 px on canonical and 24340 px on boundary, and at a 2 pt tolerance 100 percent of it falls inside the declared write rects with 0 px outside on both fixtures; at 1 pt, 26 and 17 pixels respectively fall outside, and every one is within 2 pt of the bottom or side edge of an adjacent write rect, which is glyph descender and antialiasing on a 12 pt box. Removed ink is 0 px on every page of both fixtures, so no printed rule, caption or box was erased. Nothing is clipped: the boundary fixture's long values render complete — a 39-character hyphenated apostrophised name, a 45-character street address and a 25-character supplemental case number — and where a value genuinely could not fit at the 6 pt minimum the build refuses it rather than shrinking or truncating it, which is why the boundary email and the boundary State line carry exactly 0 pixels rather than an unreadable or cut-off value. On the narrowest rule on the sheet the write box is the form's own drawn rule read out of the page content stream, not a hand-entered coordinate.",
+        "SELF_HELP_STOP": "All 4 selfHelpStopConditions and the 1 scopeRestriction in the committed track record reach the delivered guides as exact substrings, tested here by literal substring match, 4/4 and 1/1. participant-instructions.md carries them under 'When this is not a do-it-yourself matter' and filing-instructions.md under 'Hand off to counsel when' and 'Scope restriction the record states'. The scope restriction that municipal courts are not on the state e-filing system and that the route must not be presented as statewide is carried in both guides and is also worked into the venue and filing sentences. The guide additionally opens by telling the reader that the record it is built from says C.R.S. § 24-72-708 was not read in full and that therefore nothing in the packet tells them they are eligible, which is the strongest self-help boundary on the family and is the record's own sentence.",
+        "FILING_DESTINATION": "Both guides send the filing to the municipal court that heard the case and say that municipal courts are not part of the state e-filing system so local intake practice varies. Both sentences are the track record's own venue and destination strings, checked against tracks[co_municipal_conviction_seal].venue. No court name, address, division, e-filing portal or clerk's hours is asserted, and the guide records why: the platform holds no municipal court directory, so the Court Mailing Address rule on both forms is refused and carried to the participant rather than filled from something the record does not contain. The caption city or town is refused for the same reason on both forms, with the recorded finding that writing the county there would name the wrong venue on the face of both documents — which on a municipal route is the correct and non-obvious call.",
+        "SERVICE": "PASS. Current participant-instructions.md and filing-instructions.md give concrete action: provide the petition to the prosecuting attorney, complete JDF 683 item 14 with the actual service date and method after service, and ask the municipal clerk how and when to serve. The guides also direct the filer to ask whether item 15 must be witnessed or notarized, without inventing a deadline or universal rule. FIXCXC1 plain-entrypoint-proof records corrected guidance accepted and original guidance refused. Evidence: co-evidence/delta-review-vf67-co-20260910.json guideChecks and fix evidence.",
+        "REQUIRED_BEFORE_FILING": "All 7 requiredBeforeFiling items in the packet-set manifest reach the delivered guides. Four survive a literal substring test; the other three are carried in substance and largely in the record's own words but split across a reformat, and this lane read each one to confirm rather than scoring the substring test — the CBI criminal-history report as a 'What the participant must obtain' entry in filing-instructions.md keeping the record's sentence 'Request a criminal-history report from CBI and attach it if the form requires it', the same item again in participant-instructions.md as 'Attach a current verified copy of your criminal history record, or file it within 10 days of filing the petition, as item 6 of the form says', and the signature and date item as a 'Manual completion items the record names' table row and again under what the platform deliberately left blank. Beyond the manifest list, all 28 unwritten measured rules and all 26 printed controls and underscore blanks are disclosed to the participant by page, section, printed label and what writing there says. The participant-facing sections are addressed to the participant throughout; the one place where operator vocabulary reaches the reader is the fee sentence, which is scored under FEE_AND_WAIVER because that is the obligation it belongs to and not because it is unimportant.",
+        "ARTIFACTS": "Recomputed here with sha256sum: canonical.pdf = 676d922f062ce75605d4aa1bd57cf16d6fe917ef408cfc82c49ae4863d3cb022 at 144207 bytes and boundary.pdf = 1c483f89703a4547c4a4ae1689ff3efa1b0be92c1aca12b17454138994a9e2b5 at 144266 bytes, both agreeing with reports/rendered-artifacts.json, with product-wiring.json, with the RASTER_QUEUE row and with the digest table printed at the foot of filing-instructions.md — five records naming the same two digests and all five right. Both files parse as 5 pages and every page differences cleanly against the source page its manifest claims. Both output-byte glyph readings exist and both reconcile against a recount of the non-whitespace characters actually drawn: canonical 107 + 96 and boundary 171 + 200, each equal to the recorded addedGlyphsReadFromOutputBytes for that document, with nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 confirmed independently by the raster reading rather than accepted as a published zero. Recorded as an observation and not scored as a failure: those two readings are carried per source document in reports/actual-writes.json and are NOT carried per artifact in reports/rendered-artifacts.json, which also carries no rasterState field — so the file that product-wiring.json declares itself derived from is the one record here that omits them.",
+        "PAGE_ORDER": "Five pages in the order the manifest's component order requires: packet pages 1-3 are JDF-683 pages 1-3 (component order 1, the petition) and packet pages 4-5 are JDF-686 pages 1-2 (component order 2, the proposed order). Verified from the bytes and not from the manifest: each delivered page was differenced at 150 dpi against the source page its manifest claims and all five matched with 0 removed pixels, and the three pages the packet writes nothing on came back with 0 added pixels as well. The petition precedes the order it proposes, and within JDF-686 the signature page follows the ordering page.",
+        "ROUTE_OPTIONS": "Neither form draws a selection control this build could mark: all 22 printed controls across the two documents are the glyph U+2751 in the text stream rather than a stroked path or a widget, confirmed by the build's checkboxCandidates finding zero on all five pages and by this lane's own reading that the files carry no /Btn at all. The packet marks none of them, and participant-instructions.md says so under a heading that states it plainly — 'The tick boxes are yours, all of them, and you mark them by hand' — followed by per-document tables giving every control's page, section, the exact words printed beside it and what ticking it says, including the four mutually exclusive item 1 Petitioner options and the Municipal-or-District court election. The controlling record establishes no option the packet must pre-select, and on a route where the petitioner may be the defendant, a representative, a parent or an appointed representative, selecting one would assert a fact the platform does not hold. Nothing required is missing and nothing is asserted.",
+        "REPEATING_ROWS": "A repeating structure does exist here, so this was measured rather than dismissed. JDF-683 item 3, 'Agencies with custody of the records', repeats a name, case number and mailing address across Municipal Courts, the Colorado Bureau of Investigation, the Sheriff's Department, the District Attorney, the City Attorney, Law Enforcement and Other, and it runs from page 1 onto page 2. The packet writes into none of it: no declared write rect falls within item 3, and the 150 dpi difference gives 0 added pixels on packet pages 2 and 3. Every cell of every row is instead disclosed to the participant in the guide's must-supply table, row by row, with the CBI row noted as the one the form marks Required and prints the address for. Because no row is part-written, no row is incomplete, and the AcroForm-index-versus-printed-row failure catalogued in DEFECTS_NO_COUNTER_CAN_SEE cannot arise on a form with no AcroForm and no cell the build fills.",
+        "FEE_AND_WAIVER": "PASS. Current participant-instructions.md and filing-instructions.md no longer expose the stale filer-facing “fee must be confirmed before building” instruction. They state that the committed record does not confirm an amount or waiver procedure and direct the filer to ask the municipal clerk about filing cost and inability to pay. The unresolved legal input remains attributed; no fee or waiver eligibility is invented. Evidence: co-evidence/delta-review-vf67-co-20260910.json guideChecks and feeFinding."
+      },
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersThisLaneMeasured": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersThisLaneDidNotMeasure": {
+        "knownRequiredFieldsMissing": null,
+        "visualDefects": null,
+        "protectedWrites": null,
+        "notes": "No new candidate build. Existing VF22 direct evidence reused only where unchanged; no additional counters were required for this guidance-only delta."
+      },
+      "visualDefects": {
+        "count": 0,
+        "detail": "No visual defect on either fixture. Removed ink against both pinned sources is 0 px on all five pages of both fixtures; added ink is entirely inside the declared write rects at a 2 pt tolerance, with the 26 and 17 pixels visible at 1 pt all lying within 2 pt of a write rect edge as descender and antialiasing spill; the three pages the packet does not write on are pixel-identical to their source pages; and both refused values leave exactly 0 pixels rather than a clipped or shrunken one. The border defect this cohort is being swept for is structurally impossible here: there is no /AcroForm, no /Widget and no /Btn in either delivered file or either source. The obligation that fails on this family is a sentence of prose and is not something a geometry counter can see."
+      },
+      "rasterState": "No new raster. VF22 direct pixel evidence remains applicable to unchanged PDFs; central admitted raster ceiling and boundary-gate caveat remain recorded in reused evidence.",
+      "repairAssignments": [],
+      "selfVerified": false,
+      "builtThisFamily": false,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsReleased": [],
+      "grantsNothing": "No route approval, owner decision or commercial authority granted."
+    }
+  ],
+  "stopped": true,
+  "measurementEvidence": "data/rcap-grade-a/packet-factory-24h/vf67/co-evidence/delta-review-vf67-co-20260910.json"
+}

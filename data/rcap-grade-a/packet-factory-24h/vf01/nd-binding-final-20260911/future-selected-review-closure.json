@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "rcap-isolated-future-review-probe/v1",
+  "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+  "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+  "suite": "scripts/grade-a-packet-factory-24h/test-nd-declared-binding.mjs",
+  "suiteSha256": "c5fe5e9c1ef17cea66cce2e49d61a163a08706b7027076c1e43e9b3098a1a345",
+  "hypotheticalSelectedTuple": {
+    "verdict": "PASS_COMPLETE_INDEPENDENT",
+    "lane": "vf01",
+    "verifiedAtBase": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "changesConfinedToTemporaryCopies": [
+    "MASTER_QUEUE exact family selectedIndependentVerdict",
+    "product-wiring binding.lastIndependentVerification"
+  ],
+  "expectedExitCode": 0,
+  "actualExitCode": 0,
+  "stdout": "✔ binds the measured four-component ND packet and preserves the selected current verdict (6.308475ms)\n✔ demotes only the exact stale VF09 tuple (0.923716ms)\n✔ preserves future selected failures and passes, and accepts an explicit empty selection (2.520479ms)\n✔ leaves every unopted family byte-for-byte unchanged (0.178373ms)\n✔ refuses mismatched route, component, byte, raster, governance, and current-verdict facts (29.706787ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 164.966279",
+  "stderr": "",
+  "probeDoesNotCreateActualApproval": true,
+  "sourceOrPdfChanges": false,
+  "repositoryInputsUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

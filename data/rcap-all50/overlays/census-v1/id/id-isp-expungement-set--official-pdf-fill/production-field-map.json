@@ -1,0 +1,554 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "id_isp_expungement-set",
+  "routeKeys": [
+    "obligation:track-pathway:ID:id_isp_expungement:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "ISP-BCI-EXPUNGEMENT-APPLICATION",
+      "documentRole": "AGENCY_APPLICATION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {
+        "Charges applicant seeks to have expunged": "matter.charge",
+        "I was charged for the crime of": "matter.charge",
+        "I was arrested on": "matter.arrest_date"
+      },
+      "printedLabelCorrections": {
+        "MI": {
+          "printedLabel": "middle initial",
+          "readFrom": "page 1, printed sub-caption at y=508.0: \"(last name) (first name) (middle initial)\", under the \"Applicant Name:\" rule at y=522.6",
+          "measuredEvidence": "the three name widgets sit left to right on that rule at x 156.00-313.16, 317.78-461.31 and 464.66-532.91; this is the third, under \"(middle initial)\"",
+          "why": "The widget's own name is \"MI\", which the shared binder read as a surname: it would have printed the applicant's LAST name in the middle-initial box, beside the last name already written in the box to its left."
+        },
+        "Applicants Date of Acquittal or Dismissal": {
+          "printedLabel": "Applicant's Date of Acquittal or Dismissal",
+          "readFrom": "page 1, printed line at y=115.7: \"Applicant's Date of Acquittal or Dismissal: _________________________________\"",
+          "measuredEvidence": "the widget occupies x 283.68-480.84 at y=114.36, on that line and to the right of the printed caption",
+          "why": "Recorded so the field-map row says what the blank is. It does NOT change the binding — the shared binder matched \"Applicant\" in the field's own NAME and selected participant.full_legal_name before the label channel was consulted — which is why the blank is also refused by role below."
+        },
+        "County of Court Case Number 2": {
+          "printedLabel": "Charge(s) applicant seeks to have expunged — second printed rule",
+          "readFrom": "page 1: the caption \"Charge(s) applicant seeks to have expunged:\" is printed at y=358.2 and its list continues on the unlabelled rule at y=341.6",
+          "measuredEvidence": "this widget occupies x 72.00-532.32 at y=340.32, the full-width rule below the charges caption; the COUNTY blank is the widget above it at y=374.04, named \"County of Court Case Number 1\", on the printed line \"County of Court Case Number:\" at y=374.8",
+          "why": "Its own name says county and its position says charges. Left alone the shared binder writes matter.county onto the second line of the offence list."
+        },
+        "I was arrested on": {
+          "printedLabel": "I was arrested on — arrest date",
+          "readFrom": "page 1, printed line at y=408.1: \"I was arrested on: _________________________________________________ for this crime.\"",
+          "measuredEvidence": "the widget occupies x 161.88-454.80 at y=407.76, between the printed \"I was arrested on:\" and the printed \"for this crime.\"",
+          "why": "The field's own name reaches no descriptor at all, so the arrest date the platform holds had no channel to the form. The correction names the fact the printed sentence asks for, and the explicit mapping below authorises it."
+        },
+        "I was charged for the crime of": {
+          "printedLabel": "I was charged for the crime of — charge",
+          "readFrom": "page 1, printed line at y=424.8: \"I was charged for the crime of: ___________________________________________________\"",
+          "measuredEvidence": "the widget occupies x 223.68-528.48 at y=424.56, to the right of that printed caption",
+          "why": "The field's own name reaches no descriptor, so the offence the platform holds had no channel to this blank. The correction names the fact the printed sentence asks for, and the explicit mapping below authorises it."
+        }
+      },
+      "partialFills": [],
+      "partialFillNote": "A blank this packet fills only partly. Each entry names what the blank asks for, what was written, what was not, and where the participant is told to complete it. Declared here rather than left to be discovered on the paper.",
+      "printedLabelCorrectionNote": "Each entry replaced the harvested caption for one named widget with the printed text this build read at that widget's own measured position, because the widget's name says nothing or says the wrong thing. The harvested value each replaced is kept on the field-census row as harvestedLabel, and the evidence for each correction is in the entry itself.",
+      "roleRefusals": [
+        {
+          "field": "Applicants Date of Acquittal or Dismissal",
+          "class": "acquittal_or_dismissal_date_not_held",
+          "why": "The date of acquittal or dismissal. Two separate reasons. First, the shared binder matched \"Applicant\" in the field's own name and would have printed the applicant's full legal name here. Second, the platform holds matter.disposition_date as a generic disposition date and does not establish that it is a date of ACQUITTAL or DISMISSAL — on this non-conviction route that is the whole question, and writing a disposition date under that caption would assert an acquittal the platform has not established."
+        },
+        {
+          "field": "County of Court Case Number 2",
+          "class": "offence_list_continuation_rule",
+          "why": "The second printed rule of \"Charge(s) applicant seeks to have expunged\". Its own name says county; the shared binder would have written matter.county onto the offence list."
+        },
+        {
+          "field": "Date",
+          "class": "participant_signature_date",
+          "why": "The date beside \"Signature of Requestor\" on page 2. Dating a signature that has not been made asserts the application was signed on a day it was not."
+        },
+        {
+          "field": "MI",
+          "class": "middle_initial_not_held",
+          "why": "The \"(middle initial)\" box of the Applicant Name rule. Two reasons, and either alone is enough. The shared binder reads the field's own NAME first and \"MI\" matches its surname descriptor, so left alone it writes the applicant's LAST name into the middle box beside the last name already written to its left. And the platform holds a middle NAME, not an initial: this build writes held facts verbatim and does not derive a new fact from one it holds. With the printed caption corrected, the shared protect rules also refuse the blank, reading \"initial\" as an initialling field."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Applicant Date of Birth",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 189.12,
+            "y": 492,
+            "width": 161.52,
+            "height": 13.56
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "(last n"
+        },
+        {
+          "field": "Current Address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 157.2,
+            "y": 475.2,
+            "width": 382.56,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Current Address"
+        },
+        {
+          "field": "City",
+          "factId": "participant.city",
+          "page": 1,
+          "rect": {
+            "x": 96.6,
+            "y": 458.28,
+            "width": 257.04,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "City"
+        },
+        {
+          "field": "State",
+          "factId": "participant.state",
+          "page": 1,
+          "rect": {
+            "x": 384.84,
+            "y": 458.28,
+            "width": 59.64,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "City: ___________________________________________ State"
+        },
+        {
+          "field": "ZIP",
+          "factId": "participant.zip",
+          "page": 1,
+          "rect": {
+            "x": 465.36,
+            "y": 458.28,
+            "width": 65.76,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "City: ___________________________________________ State:____"
+        },
+        {
+          "field": "Telephone Number",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 172.56,
+            "y": 441.48,
+            "width": 185.28,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Telephone Number"
+        },
+        {
+          "field": "I was charged for the crime of",
+          "factId": "matter.charge",
+          "page": 1,
+          "rect": {
+            "x": 223.68,
+            "y": 424.56,
+            "width": 304.8,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "I was charged for the crime of — charge"
+        },
+        {
+          "field": "Charges applicant seeks to have expunged",
+          "factId": "matter.charge",
+          "page": 1,
+          "rect": {
+            "x": 291.48,
+            "y": 357.24,
+            "width": 245.04,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Charge(s) applicant seeks to have expunged"
+        },
+        {
+          "field": "I was arrested on",
+          "factId": "matter.arrest_date",
+          "page": 1,
+          "rect": {
+            "x": 161.88,
+            "y": 407.76,
+            "width": 292.92,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "I was arrested on — arrest date"
+        },
+        {
+          "field": "Idaho Court Case Number",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 204,
+            "y": 390.96,
+            "width": 334.8,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Idaho Court Case Number"
+        },
+        {
+          "field": "County of Court Case Number 1",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 223.8,
+            "y": 374.04,
+            "width": 310.92,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Idaho Court Case Number: ___"
+        },
+        {
+          "field": "First Name",
+          "factId": "participant.first_name",
+          "page": 1,
+          "rect": {
+            "x": 317.78,
+            "y": 520.58,
+            "width": 143.53,
+            "height": 16
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "(last name)"
+        },
+        {
+          "field": "Applicant Last Name",
+          "factId": "participant.last_name",
+          "page": 1,
+          "rect": {
+            "x": 156,
+            "y": 521.28,
+            "width": 157.16,
+            "height": 15.72
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Applicant Name"
+        }
+      ],
+      "refused": [
+        {
+          "field": "County of Court Case Number 2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Applicants Date of Acquittal or Dismissal",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "MI",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "County of Court Case Number 2",
+          "category": "role"
+        },
+        {
+          "field": "Applicants Date of Acquittal or Dismissal",
+          "category": "role"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "MI",
+          "category": "role"
+        }
+      ],
+      "fields": [
+        {
+          "field": "Applicant Date of Birth",
+          "fieldId": "Applicant Date of Birth",
+          "effectiveLabel": "(last n",
+          "harvestedLabel": "(last n",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.date_of_birth",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Current Address",
+          "fieldId": "Current Address",
+          "effectiveLabel": "Current Address",
+          "harvestedLabel": "Current Address",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.street_address",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "City",
+          "fieldId": "City",
+          "effectiveLabel": "City",
+          "harvestedLabel": "City",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.city",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "State",
+          "fieldId": "State",
+          "effectiveLabel": "City: ___________________________________________ State",
+          "harvestedLabel": "City: ___________________________________________ State",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.state",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "ZIP",
+          "fieldId": "ZIP",
+          "effectiveLabel": "City: ___________________________________________ State:____",
+          "harvestedLabel": "City: ___________________________________________ State:____",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.zip",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Telephone Number",
+          "fieldId": "Telephone Number",
+          "effectiveLabel": "Telephone Number",
+          "harvestedLabel": "Telephone Number",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.phone",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "I was charged for the crime of",
+          "fieldId": "I was charged for the crime of",
+          "effectiveLabel": "I was charged for the crime of — charge",
+          "harvestedLabel": "I was charged for the crime of",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.charge",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "I was arrested on",
+          "fieldId": "I was arrested on",
+          "effectiveLabel": "I was arrested on — arrest date",
+          "harvestedLabel": "I was arrested on",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.arrest_date",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Idaho Court Case Number",
+          "fieldId": "Idaho Court Case Number",
+          "effectiveLabel": "Idaho Court Case Number",
+          "harvestedLabel": "Idaho Court Case Number",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.case_number",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "County of Court Case Number 1",
+          "fieldId": "County of Court Case Number 1",
+          "effectiveLabel": "Idaho Court Case Number: ___",
+          "harvestedLabel": "Idaho Court Case Number: ___",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.county",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "County of Court Case Number 2",
+          "fieldId": "County of Court Case Number 2",
+          "effectiveLabel": "Charge(s) applicant seeks to have expunged — second printed rule",
+          "harvestedLabel": "Charge(s) applicant seeks to have expunged: ________________",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "offence_list_continuation_rule",
+          "buildRoleWhy": "The second printed rule of \"Charge(s) applicant seeks to have expunged\". Its own name says county; the shared binder would have written matter.county onto the offence list.",
+          "reason": "The second printed rule of the charges block. The offence the platform holds is written on the first rule; a further charge from the same arrest is the participant's to add, and the platform does not invent it.",
+          "refusalClass": null
+        },
+        {
+          "field": "Charges applicant seeks to have expunged",
+          "fieldId": "Charges applicant seeks to have expunged",
+          "effectiveLabel": "Charge(s) applicant seeks to have expunged",
+          "harvestedLabel": "Charge(s) applicant seeks to have expunged",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "matter.charge",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "Applicants Date of Acquittal or Dismissal",
+          "fieldId": "Applicants Date of Acquittal or Dismissal",
+          "effectiveLabel": "Applicant's Date of Acquittal or Dismissal",
+          "harvestedLabel": "Applicant’s Date of Acquittal or Dismissal",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "acquittal_or_dismissal_date_not_held",
+          "buildRoleWhy": "The date of acquittal or dismissal. Two separate reasons. First, the shared binder matched \"Applicant\" in the field's own name and would have printed the applicant's full legal name here. Second, the platform holds matter.disposition_date as a generic disposition date and does not establish that it is a date of ACQUITTAL or DISMISSAL — on this non-conviction route that is the whole question, and writing a disposition date under that caption would assert an acquittal the platform has not established.",
+          "reason": "The applicant's date of acquittal or dismissal, on page 1. The platform holds a generic disposition date for this matter and does not establish that it is the date the charges were dismissed or the date of an acquittal; on a § 67-3004(10) application that is the fact the whole request turns on, so the participant takes it from the certified court order they must enclose and writes it before sending.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Date",
+          "fieldId": "Date",
+          "effectiveLabel": "Signature of Requestor_____________________________Dat",
+          "harvestedLabel": "Signature of Requestor_____________________________Dat",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 2,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "participant_signature_date",
+          "buildRoleWhy": "The date beside \"Signature of Requestor\" on page 2. Dating a signature that has not been made asserts the application was signed on a day it was not.",
+          "reason": "The date beside \"Signature of Requestor\" on page 2, completed by the participant when the application is signed.",
+          "refusalClass": "signature_or_date_participant_completion"
+        },
+        {
+          "field": "First Name",
+          "fieldId": "First Name",
+          "effectiveLabel": "(last name)",
+          "harvestedLabel": "(last name)",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.first_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        },
+        {
+          "field": "MI",
+          "fieldId": "MI",
+          "effectiveLabel": "middle initial",
+          "harvestedLabel": "(last name)                                         (first n",
+          "labelBasis": "printed_page_text_read_at_the_measured_widget_position",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "refuse",
+          "factId": null,
+          "buildRoleClass": "middle_initial_not_held",
+          "buildRoleWhy": "The \"(middle initial)\" box of the Applicant Name rule. Two reasons, and either alone is enough. The shared binder reads the field's own NAME first and \"MI\" matches its surname descriptor, so left alone it writes the applicant's LAST name into the middle box beside the last name already written to its left. And the platform holds a middle NAME, not an initial: this build writes held facts verbatim and does not derive a new fact from one it holds. With the printed caption corrected, the shared protect rules also refuse the blank, reading \"initial\" as an initialling field.",
+          "reason": "The \"(middle initial)\" box of the Applicant Name rule on page 1. The platform holds a middle name and holds no middle-initial fact, and this build does not derive one from the other; the participant writes the initial before sending. Their last name and first name are written in the two boxes to its left.",
+          "refusalClass": null,
+          "requiredBeforeFiling": true
+        },
+        {
+          "field": "Applicant Last Name",
+          "fieldId": "Applicant Last Name",
+          "effectiveLabel": "Applicant Name",
+          "harvestedLabel": "Applicant Name",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "page": 1,
+          "pdfType": "text",
+          "isSelectionControl": false,
+          "decision": "write",
+          "factId": "participant.last_name",
+          "buildRoleClass": null,
+          "buildRoleWhy": null
+        }
+      ]
+    }
+  ]
+}

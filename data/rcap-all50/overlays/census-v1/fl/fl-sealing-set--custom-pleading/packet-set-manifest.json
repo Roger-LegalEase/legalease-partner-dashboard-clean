@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-composed-packet-set/v1",
+  "familyId": "fl-sealing-set",
+  "jurisdiction": "FL",
+  "trackId": "fl-sealing",
+  "packetSetId": "fl-sealing-set",
+  "packetSetVersion": "1.0.0",
+  "routeKeys": [
+    "obligation:track-only:FL:fl-sealing"
+  ],
+  "implementationStrategy": "custom_pleading",
+  "custodyClass": "SOURCE_BOUND_BY_HELD_BYTES",
+  "statute": "Fla. Stat. Sec. 943.059; Fla. R. Crim. P. 3.989",
+  "exactNextActionFollowed": "Build the sealing rendering of FDLE40-021 and the Rule 3.989 composed pleadings.",
+  "components": [
+    {
+      "componentId": "fl-sealing-primary-filing-1",
+      "documentId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "title": "FDLE Application for Certificate of Eligibility",
+      "role": "primary_filing",
+      "requirement": "required",
+      "order": 1,
+      "outputStrategy": "official_pdf_fill",
+      "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+      "treatment": "retained_official_form_overlaid",
+      "generated": true
+    },
+    {
+      "componentId": "fl-sealing-primary-filing-2",
+      "documentId": "FL-RULE-3.989-PETITION",
+      "title": "Petition to Seal",
+      "role": "primary_filing",
+      "requirement": "required",
+      "order": 2,
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "FL-RULE-3.989-PETITION",
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "fl-sealing-affidavit-3",
+      "documentId": "FL-RULE-3.989-SWORN-STATEMENT",
+      "title": "Sworn Statement in Support of Petition",
+      "role": "affidavit",
+      "requirement": "required",
+      "order": 3,
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "FL-RULE-3.989-SWORN-STATEMENT",
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "fl-sealing-proposed-order-4",
+      "documentId": "FL-RULE-3.989-ORDER",
+      "title": "Order to Seal",
+      "role": "proposed_order",
+      "requirement": "required",
+      "order": 4,
+      "outputStrategy": "custom_pleading",
+      "officialFormId": "FL-RULE-3.989-ORDER",
+      "treatment": "composed_from_authority",
+      "generated": true
+    },
+    {
+      "componentId": "fl-sealing-certificate-of-service-5",
+      "documentId": "fl-sealing-certificate-of-service-5",
+      "title": "Certificate of Service",
+      "role": "certificate_of_service",
+      "requirement": "required",
+      "order": 5,
+      "outputStrategy": "custom_pleading",
+      "officialFormId": null,
+      "treatment": "composed_from_packet_set",
+      "generated": true
+    }
+  ],
+  "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/source-receipt.json",
+  "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/reports/rendered-artifacts.json",
+  "participantInstructions": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/participant-instructions.md",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

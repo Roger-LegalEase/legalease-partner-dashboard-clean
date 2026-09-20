@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "rcap-verifier-rows/v2",
+  "lane": "FIX168",
+  "laneKind": "complex-execution-repair",
+  "isIndependentVerification": false,
+  "worktree": "/home/user/ln2-worktree",
+  "branch": "lane-fix168-20260910",
+  "repairedAtBase": "b984a2f843e493e855442fd25d3a4e73d01a0686",
+  "commits": [
+    {
+      "sha": "7254d2c2d5bd8fc0398a1f86c1b68e13b690a4a0",
+      "familyId": "nj_disorderly_persons-set",
+      "subject": "FIX168: nj_disorderly_persons-set guards the election it refuses to make"
+    }
+  ],
+  "grantSet": "82f53fb72fdadfe7. Two --assert calls in the three-token form, both CLAIM_OK, against the ledger in this worktree (994 claims, generatedAtCommit 409a7c835684f171d3b7ec5dfd21d3f7c542c0d7), asserted before any artifact of either family was read. Released at return, uncommitted.",
+  "actedOnReturns": [
+    "VF11 rows.json at df524f2fd, which failed nj_disorderly_persons-set on COMPONENT_SET and ROUTE_OPTIONS. Its two findings were re-derived here at b984a2f84 rather than carried: COMPONENT_SET no longer reproduces, ROUTE_OPTIONS does.",
+    "FIX121 (4322c4bba), which landed AFTER VF11's base and cured COMPONENT_SET, and which determined ROUTE_OPTIONS unrepairable by a build lane. Both halves were re-derived here from the pinned binary and the committed NJ intake, not taken on FIX121's word. FIX121's determination held; what it left without a guard is what this lane added.",
+    "FIX105 (da0f56d6b), whose withdrawal of the item (d) election this lane left untouched, re-measured, and made enforceable.",
+    "VF34 rows.json and repair-assignments.json at 88d688b8b, whose SOURCE_IDENTITY failure on sd_arrest_expungement-set this lane could neither cure nor re-measure, for the reasons on that row."
+  ],
+  "builtAnything": true,
+  "repairsMade": 1,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "sharedManifestsTouched": "None. RASTER_QUEUE.json, MASTER_QUEUE.json, ACTIVE_ASSIGNMENTS.json and legal-design-packet-set-manifests.json were read and not written. Nothing under data/rcap-grade-a/packet-factory-24h/ other than fix168/ was written. Neither family owes a re-raster: no fixture byte moved in either.",
+  "corpusMountUsed": "MASTER_LIBRARY_SOURCE_DIR=/home/user/corpus-x/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "determinismControlBeforeEditing": "Both builders were run UNMODIFIED at the base before any edit, and the two results were opposite. scripts/build-census-v1-nj_disorderly_persons-set.mjs REPRODUCED: all 95 files under its family directory re-hashed identically except reports/actual-writes.json, which gained a pageCount: 43 key on each of the two artifact blocks -- a container side effect, because this container has a page rasterizer and the machine that produced the committed tree did not. Restored with git checkout; never committed. scripts/build-census-v1-sd_arrest_expungement-set.mjs DID NOT REPRODUCE, and the drift is set out in full on the sd row. Restored with git checkout after every build; the committed SD bytes were never touched.",
+  "howBytesWereMeasured": {
+    "digests": "sha256sum on the files on disk. A 139-line manifest of every file in both family directories was taken BEFORE any edit and re-taken at return; the only line that differs is the one new file this lane emits.",
+    "glyphs": "Flattened widget Form XObjects decompressed with pdf-lib's decodePDFRawStream and tokenized so that strings are consumed whole; an appearance's drawn text is every operand of every show-text operator (Tj, TJ, ', \"). This is deliberately the same semantics scripts/rcap-official-forms/rcap-output-glyph-reading.mjs already uses for the whole-artifact counters -- that module's drawnTextOf is now exported and imported rather than reimplemented, so a per-rectangle reading and a whole-artifact reading of the same appearance cannot disagree by tokenizing differently.",
+    "placement": "Each appearance's placed box is its BBox transformed by its own /Matrix composed with the CTM of the cm operators inside its q ... Do Q invocation, matched against the widget /Rect read first-hand from the pinned court binary at 0.01 pt tolerance. No field map was used to locate an election: a field map records what a build believed, and the guard has to run against what the court published.",
+    "pixels": "Not measured by this lane. No fixture byte moved, so the pixel state the existing raster receipts bind is still the pixel state of the bytes on disk. During the SD determinism control the builder rewrote all 28 page rasters and every one came back byte-identical, which is how the SD rebuild drift is known to be invisible.",
+    "text": "pdftotext -layout, whole-document, for the committed-versus-rebuilt SD comparison."
+  },
+  "everyZeroHasAPositiveControl": true,
+  "positiveControlsForTheZeros": "The 44 zero glyph readings on the NJ elections are not a method that returns zero on anything: the SAME reader, on the SAME rectangle, returned 1 on a mutated copy of the delivered canonical whose guilty appearance draws (4) through Tj, and refused with null rather than 0 on a copy whose appearance was removed. The locator is also discriminating in the unmutated file: it finds exactly one appearance at each of the 22 declared widget rectangles, never zero and never several.",
+  "rasterPixelCounts": null,
+  "rasterPixelCountsWhyNull": "Not measured in pixels by this lane, and reported as null rather than as zero. Neither repair moves a byte, so the raster state each family's receipt binds is unchanged and there was nothing for a fresh pixel reading to settle.",
+  "visualDefects": null,
+  "visualDefectsWhyNull": "null because NOT MEASURED by this lane as a scored counter, never because measured as zero. verify-packet-completeness.mjs prints visualDefects UNMEASURED on this family and that printed word is reported as-is on the row.",
+  "rows": [
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "familyId": "nj_disorderly_persons-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "commit": "7254d2c2d5bd8fc0398a1f86c1b68e13b690a4a0",
+      "failedObligationRepaired": "NEITHER of the two VF11 named, and the row says so rather than claiming a repair. COMPONENT_SET was already cured at this base by FIX121 and nothing was manufactured for it. ROUTE_OPTIONS reproduces and is blocked on legal and intake input, not on build code. What this lane repaired is the missing GUARD on the refusal that ROUTE_OPTIONS turns on.",
+      "headline": "The election this family refuses to make had nothing stopping a later lane from making it. Every assertion FIX105 and FIX121 left checks item (d)'s eight text cells; not one checked the box. All 22 election widgets the pinned kit declares are now read out of the delivered bytes on both fixtures, and an appearance that cannot be located or decoded refuses rather than passes.",
+      "fixtureDigestsBefore": {
+        "fixtures/cn-10557-canonical.pdf": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+        "fixtures/cn-10557-boundary.pdf": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+        "participant-instructions.md": "be7b784ce911c9a9e0347ea463017757f67eb73d22c6f2ebfc4026095af9ac6c",
+        "production-field-map.json": "not re-hashed line by line here; covered by the 139-file manifest, which shows it unchanged"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/cn-10557-canonical.pdf": "03f6169d042fc1d5ed30df008dfc966ef3d03b382731f5956d0e8786ca8a234f",
+        "fixtures/cn-10557-boundary.pdf": "23a571af72985717963001120ba60116ae43054aaa1c2fddbeece944dac24494",
+        "participant-instructions.md": "be7b784ce911c9a9e0347ea463017757f67eb73d22c6f2ebfc4026095af9ac6c",
+        "reports/election-readings.json": "f1c85ef278e66b8fc39e5d35a507d9f2cf8e93aa2bac474db624d9884efe57bf (NEW; emitted by the builder, byte-stable across repeated runs)"
+      },
+      "whichRepairsMovedBytes": "NONE. Both fixtures re-hash to the digests they carried at the base, at 571718 and 574020 bytes, after a full unmodified rebuild AND after a full rebuild with the guard wired in. participant-instructions.md, production-field-map.json, field-census.census-v1.json and all 86 committed page rasters are byte-identical. The only new byte in the family is reports/election-readings.json.",
+      "countersBeforeAndAfter": {
+        "requiredOptionsMissing": {
+          "before": 1,
+          "after": 1,
+          "isA": "a reading, taken twice from verify-packet-completeness.mjs on the committed bytes at this base, unchanged by this lane and deliberately not moved",
+          "note": "VF11 read this as 0 at df524f2fd and said the counter was structurally blind to the defect. At b984a2f84 it reads 1 and the tool returns FAIL_ROUTE_SELECTION, so the counter now sees what VF11 had to measure on the pages. This lane did not make it read 1 and did not try to make it read 0."
+        },
+        "electionsRead": {
+          "before": "not published",
+          "after": 44,
+          "isA": "a reading: 22 declared election widgets on each of the two fixtures, each located exactly once in the delivered bytes"
+        },
+        "electionsMarked": {
+          "before": "not published",
+          "after": 0,
+          "isA": "a reading summed from the rows, not a literal. Proved able to move: the same reader returned 1 on a mutated copy."
+        },
+        "electionsUnreadable": {
+          "before": "not published",
+          "after": 0,
+          "isA": "a reading summed from the rows. An election that cannot be located returns null rather than 0 and is counted here; the guard refuses on it."
+        },
+        "knownRequiredFieldsMissing": { "before": 0, "after": 0, "isA": "printed by verify-packet-completeness.mjs at this base, unchanged" },
+        "requiredComponentsMissing": { "before": 0, "after": 0, "isA": "printed by verify-packet-completeness.mjs at this base, unchanged; and reported with the warning that the tool never opens legal-design-packet-set-manifests.json, so this zero is not what settles COMPONENT_SET" },
+        "invisibleWrites": { "before": "UNMEASURED", "after": "UNMEASURED", "isA": "the word the tool prints" },
+        "visualDefects": { "before": "UNMEASURED", "after": "UNMEASURED", "isA": "the word the tool prints" }
+      },
+      "whatWasActuallyMeasured": "COMPONENT_SET: the six strings VF11 tested and found at 0 hits each -- 'no more than five', 'five disorderly', 'same day', 'closely related', 'sequence of events', 'comparatively short' -- were re-tested against the committed guide and each now hits once. The track registry's own mechanism string for nj_disorderly_persons was loaded and tested as an EXACT substring of the guide: present. The service component carries the held 'The exact objection window is recorded as an open question.' All 10 components declared in the packet-set manifest resolve, and every one that names a participantInstructionsHeading names a heading the guide has. ROUTE_OPTIONS: reports/actual-writes.json carries selections [] on both fixtures and 10 writes each, all of them identity, address, telephone and date of birth. The delivered canonical is byte-identical to nj_indictable_conviction-set's and nj_ordinance-set's (03f6169d...), and the delivered boundary to all three siblings' AND to nj_arrest_no_conviction-set's (23a571af...). Pages 18, 19, 22 of the delivered canonical were extracted and read: the only route-stating device on Form A is which of items (a) to (e) is elected, and the two other route-shaped controls on page 22 are the early-pathway and third/fourth-degree CDS compelling-circumstances elections, which are held self-help stops on this route. guiltyTimeType's option list was read first-hand from the pinned binary c1dd37b5...: exactly [\"  \", \"jail time\", \"prison time\", \"incarceration time\"]. data/record-clearing/legal-design-intake/NJ.memo.json was read for all six tracks: the only fine question on any of them is 'Have you paid every fine, fee, penalty and restitution ordered in these cases, and if not, why not?' -- a whether, never a when -- and no track collects the final sentence or the incarceration-term type at all. The 22 election appearances were then located and read on both delivered fixtures.",
+      "rasterState": "The family's RASTER_PASS (workflowRunId 34292115043, jobId 102281414317, boundToCanonicalSha256 03f6169d...) STILL BINDS, on both roles, because no byte moved. Re-hashed off disk after the rebuild and compared. The receipt covers cn-10557-canonical.pdf only; the boundary is bound by hash but was never rendered by that gate, and this lane did not render it either.",
+      "guardsAddedAndPROVEDTOFIRE": [
+        "NO ELECTION ON THE INSTRUMENT MAY BE MARKED IN THE DELIVERED BYTES. Broken by mutating a copy of the delivered canonical so that the flattened appearance at the guilty rectangle on page 19 draws a ZapfDingbats check through Tj, swapping it into the family and patching rendered-artifacts.json's pin to match so that assertPdfRecordsMatch could not fire first and mask the result. FIRED, from the wired builder path: 'cn-10557-canonical.pdf: 1 election(s) are MARKED in the delivered bytes (guilty p19 draws \"4\"). This build makes no election on this instrument...' Restored; the fixture re-hashes to 03f6169d... and the guard passes clean.",
+        "AN ELECTION THAT CANNOT BE READ IS A REFUSAL, NOT A PASS. Broken by removing the guilty appearance from the page's XObject dictionary in a second mutated copy, swapped in the same way. FIRED: 'cn-10557-canonical.pdf: 1 declared election(s) could not be located in the delivered bytes (guilty p19); an election nobody could read is not an election nobody marked.' This is the limb that stops the guard from degrading into a vacuous pass if a future flatten changes shape. Restored and re-verified byte-identical.",
+        "THE READING MUST COVER ALL 22 DECLARED WIDGETS, NOT THE 19 FIELDS. This one fired on its own during development, before it was deliberately broken: the count was first pinned at 20 from a probe whose map key collapsed same-page duplicates, and the wired guard refused with 'expected the 20 election widgets CN-10557 declares, read 22'. The three the field count would have hidden are the Yes/No plea-bargain pairs on delivered pages 18 and 20 and contOwe's second placement on page 21. The pin was corrected to 22 and re-run.",
+        "THE PINNED SOURCE MUST STILL HASH TO ITS RECEIPT BEFORE ANY RECTANGLE IS TRUSTED. Not deliberately broken; it is a precondition on the same code path as the two limbs above and refuses with 'the pinned source no longer hashes to its receipt; the election rectangles are not the court's'. Reported as ADDED BUT NOT PROVED TO FIRE rather than counted with the two that were."
+      ],
+      "theCOMPLETENESSVERIFIERBEFOREANDAFTER": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family nj_disorderly_persons-set",
+        "before": "FAIL nj_disorderly_persons-set FAIL_ROUTE_SELECTION 18/179 written; requiredOptionsMissing 1, requiredComponentsMissing 0, invisibleWrites UNMEASURED, visualDefects UNMEASURED, exit 0",
+        "after": "identical, character for character",
+        "whyTHATISTHERIGHTRESULT": "This lane did not repair ROUTE_OPTIONS and must not appear to have. The counter reads 1 because one route-determined election is unmade, which is true before and after.",
+        "thisVERDICTISNOTEVIDENCEOFANYTHING": "The tool exits 0 on the word FAIL, prints UNMEASURED on two of its nine counters, and never opens the packet-set manifest, so its requiredComponentsMissing 0 is not what settles COMPONENT_SET here. It is reported because the grant asked for the printed verdict."
+      },
+      "obligationsNOTRE_SCORED": "This lane re-derived COMPONENT_SET and ROUTE_OPTIONS only. It did not re-score the other thirteen obligations VF11 passed. No byte moved, so VF11's readings of them stand on the same bytes.",
+      "whatCouldNotBeRepaired": [
+        "ROUTE_OPTIONS itself. The petition cannot be made to state its statutory route without marking item (d), and item (d) cannot be completed: the final sentence, the jail/prison/incarceration term and the date the fines were paid are collected by no question on any of the three New Jersey conviction tracks, and the court's own term dropdown has no option for a participant who served none. Marking it would fabricate a sentence and a custodial term into a verified petition, which no counter is worth. The cure is an intake and legal-design decision -- collect the three facts and give the no-custodial-term case a truthful treatment, or find that CN-10557 Form A cannot serve this route as a self-help fill -- and is outside a packet-build lane.",
+        "The delivered boundary fixture of this family is byte-identical to nj_arrest_no_conviction-set's, which is PUBLISHED as COMPLETE_PACKET_PROVEN. That identity was observed and is recorded below; it belongs to a lane holding that family's grant, not to this one."
+      ]
+    },
+    {
+      "itemId": "sd_arrest_expungement-set",
+      "familyId": "sd_arrest_expungement-set",
+      "jurisdiction": "SD",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sd/sd-arrest-expungement-set--official-pdf-fill",
+      "commit": null,
+      "commitWhyNull": "Nothing was committed for this family. Not one byte of it was changed; every build run against it was restored with git checkout and the 139-file manifest confirms it.",
+      "failedObligationRepaired": "NONE. SOURCE_IDENTITY reproduces as a genuine defect and is BLOCKED_SOURCE in this container.",
+      "headline": "The shared-pin hypothesis is definitively wrong here and the divergence is real, but the repair the verdict prescribes needs bytes this container is not allowed to fetch -- and, separately, the rebuild that repair depends on does not reproduce the committed packet.",
+      "fixtureDigestsBefore": {
+        "fixtures/canonical.pdf": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+        "fixtures/boundary.pdf": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed"
+      },
+      "fixtureDigestsAfter": {
+        "fixtures/canonical.pdf": "627e6502e0340f5d6d75ae855314cad53160d92acab710a1d43add2341dbe47d",
+        "fixtures/boundary.pdf": "79b2e9ac4ca0cfadba32a9896f39fe82ae7d0dc543d3a7a42d2a338bf318a8ed"
+      },
+      "whichRepairsMovedBytes": "NONE, because there was no repair. The family is committed exactly as it was found.",
+      "wasItTHESHAREDRECORDPINDRIFT": {
+        "answer": "NO, and this is settled rather than assumed.",
+        "how": "The family carries no shared-record pin of any kind. grep for 'legal-design-packet-set-manifests' and 'sharedRecord' across the whole family directory returns nothing, and grep for 'identityRefresh' across it returns nothing -- it is not one of the receipts scripts/rcap-packet-completeness/refresh-shared-record-identity.mjs sweeps. Its six source pins are corpus-file pins: exact path in the Master Library plus SHA-256 plus byte length.",
+        "andThoseSixStillBind": "All six were rehashed here from the mounted corpus and every one matches source-receipt.json exactly: UJS-232 308ed5e4.../166791, UJS-391 ec51457f.../361152, UJS-392 08e44e09.../202256, UJS-393 933c600b.../256929, UJS-394 d6f2dab3.../92135, UJS-395 4ff12868.../295853."
+      },
+      "whatREPRODUCEDANDWHATCOULDNOTBEREMEASURED": "The local limb of SOURCE_IDENTITY was measured here and PASSES: the family binds the corpus copies it names. The limb VF34 failed it on is a CURRENCY limb -- that ujs.sd.gov now publishes different bytes for UJS-232 and UJS-394 than the family pins -- and it COULD NOT BE RE-MEASURED HERE. Outbound HTTPS to ujs.sd.gov:443 is refused by the egress proxy under organization policy (CONNECT tunnel failed, response 403; connect_rejected). No reading of the live site was taken by this lane and none is reported as if it had been. VF34's measurement of 2026-09-03 therefore stands unrebutted rather than confirmed, and it is unrebutted on the record: nothing between 88d688b8b and b984a2f84 touched source-receipt.json, the builder, or any pin -- the only change to the family directory in that range is three derived lines of product-wiring.json.",
+      "whyNOREPAIRWASATTEMPTED": "VF34's own repairInstruction is to acquire and pin the current individual UJS-232 and UJS-394 PDFs from the official page, remap the changed layouts, rebuild and re-raster. The bytes are not obtainable here: egress is denied, and they are not in custody anywhere on this machine -- the SD corpus holds seven files and their hashes are the six pinned ones plus the court's Print All Packet fef3f9aa..., with neither c76ac268... nor 5cbdcdf2... present. Recording those two digests into the family record on VF34's authority, without the bytes, would be pinning a reading this lane did not take. It was not done.",
+      "theDETERMINISMCONTROLFAILED": {
+        "result": "scripts/build-census-v1-sd_arrest_expungement-set.mjs run UNMODIFIED at b984a2f84 does NOT reproduce the committed family.",
+        "whatMoved": [
+          "fixtures/canonical.pdf 627e6502.../572296 B -> 8c9c1c83.../572347 B, +51 bytes.",
+          "fixtures/boundary.pdf 79b2e9ac.../573828 B -> 195f7776.../573879 B, +51 bytes.",
+          "production-field-map.json: 992 insertions, 354 deletions. requiredBeforeFilingCount 107 -> 28, and every requiredBeforeFiling entry gains five keys it did not have (harvestedLabel, buildPolicyCategory, personas, label, labelIsPlainMeaning).",
+          "build-findings.json: '107 field(s) ... classified required-before-filing' -> '28 field(s)'.",
+          "reports/rendered-artifacts.json: re-pinned to the two new digests.",
+          "product-wiring.json: the entire `binding` block -- routeKeys, packetComponents, sourceVersion, acceptanceReceipt, lastIndependentVerification, maintenanceRelationship -- is DELETED, leaving a 17-line stub. The builder overwrites the file that generate-product-wiring.mjs derives."
+        ],
+        "whatTheFIFTYONEBYTESARE": "Exactly 2 of the 192 appearance /Matrix entries in the canonical change from the identity [ 1 0 0 1 0 0 ] to a scaled matrix -- [ 0.9999999999999999 0 0 1.1909259259259246 0 0 ] and [ 1 0 0 0.8971057884231541 0 0 ] -- both on EMPTY '/Tx BMC EMC' appearance streams. Nothing visible changes: pdftotext -layout of the whole 14-page document is byte-identical between the committed and the rebuilt canonical (29,810 bytes each), and the builder rewrote all 28 committed page rasters during the control run and every one came back byte-identical.",
+        "whyItDrifted": "The committed field map and fixtures were last written at ab25f51fa (2026-09-01). The family builder changed afterwards at 41f14826c (FIX13, 2026-09-02), which ran only its own --instruction-repair-only path and never regenerated the map or the packet, and its shared build host scripts/build-census-v1-ne-setaside-custodial-set.mjs changed again at b467824f1 (FIX135, 2026-09-10). The committed artifacts are the output of code that no longer exists in the tree.",
+        "whyThisMattersToTHENEXTLANE": "VF34's repair instruction says to rebuild without changing the selected legal route. A rebuild at this base changes 992 lines of field map, both fixture digests and the whole product-wiring binding for reasons that have nothing to do with the source refresh. Whoever takes the acquisition grant should expect that and separate it from the refresh, or the refresh commit will be unreviewable.",
+        "restoration": "git checkout after every run. The committed SD bytes at return are identical to the committed SD bytes at the base."
+      },
+      "rasterState": "RASTER_PASS (workflowRunId 33488713831, jobId 99795497665, boundToCanonicalSha256 627e6502..., boundToBoundarySha256 79b2e9ac...) still binds both fixtures, because nothing moved. It will stop binding the moment anyone rebuilds this family, for the reason above and independently of any source refresh.",
+      "guardsAddedAndPROVEDTOFIRE": [],
+      "guardsWhyNone": "No repair was made here, and a guard with no repair behind it is decoration. The guard this family needs is one that refuses a rebuild whose output does not reproduce the committed bytes; that belongs with the lane that actually rebuilds it.",
+      "theCOMPLETENESSVERIFIERBEFOREANDAFTER": {
+        "command": "not run by this lane on this family",
+        "why": "VF34 ran it at 88d688b8b and published PASS_COMPLETE with nine zero counters, together with the note that the tool cannot see whether the court has replaced a source PDF. Nothing in the family changed between that base and this one, and this lane made no change, so re-running it would have added a restatement rather than a measurement."
+      },
+      "obligationsNOTRE_SCORED": "All fifteen. This lane measured the two limbs of SOURCE_IDENTITY described above and the reproducibility of the build; it did not re-score ROUTE_IDENTITY, COMPONENT_SET, KNOWN_PREFILLS, REQUIRED_BEFORE_FILING, ROUTE_OPTIONS, REPEATING_ROWS, PROTECTED_FIELDS, ARTIFACTS, PAGE_ORDER, CLIPPING_AND_OVERLAP, FILING_DESTINATION, FEE_AND_WAIVER, SERVICE or SELF_HELP_STOP.",
+      "whatCouldNotBeRepaired": [
+        "SOURCE_IDENTITY. It needs the current official UJS-232 and UJS-394 bytes. Egress to ujs.sd.gov is refused by organization policy and the bytes are not in custody. This is a source-acquisition task, not a build repair.",
+        "The rebuild drift. Curing it means regenerating the field map and both fixtures with the current builder, which moves both digests, destroys a currently binding RASTER_PASS and creates a whole-family raster debt -- on a family whose SOURCE_IDENTITY is failing regardless, and where the same rebuild will have to happen again once the sources are refreshed. Doing it now would spend the raster twice and mix an unrelated 992-line diff into whatever the refresh commit turns out to be.",
+        "reports/actual-writes.json publishes flattenedWidgetAppearancesReadFromOutputBytes: 0 on both fixtures, and it is a hardcoded literal in the builder, not a reading. It is a lying counter and it is named here as one. It was not repaired because the only way to move the committed report is a rebuild, and a rebuild here moves the packet bytes for the unrelated reason above."
+      ]
+    }
+  ],
+  "outOfScopeOBSERVEDNOTACTEDON": [
+    "The four New Jersey families ship the SAME boundary fixture. cn-10557-boundary.pdf is 23a571af... in nj_disorderly_persons-set, nj_indictable_conviction-set, nj_ordinance-set AND nj_arrest_no_conviction-set, which is published as COMPLETE_PACKET_PROVEN. On the three conviction families that identity is the ROUTE_OPTIONS defect; on the arrest family VF11 passed the obligation because its CANONICAL still states its route, and its boundary is not covered by the central raster gate. It is recorded here as an observation about a family this lane does not hold.",
+    "nj_disorderly_persons-set's participant guide prints internal AcroForm field identifiers to the participant, about ninety times, in the section headed 'Exact facts still required before filing' -- rows of the form '- offense(s)) (source field: `arrestOff2`)' and '- IdbAddrStr (source field: `IdbAddrStr`)'. Several rows have no plain-meaning label at all and fall back to the AcroForm name itself, and several carry a caption harvested mid-word ('(original indict'). VF11's REQUIRED_BEFORE_FILING pass was measured by testing for exactly that backticked identifier, so the obligation passed on the presence of the defect. This is the same defect class FIX166 recorded fleet-wide on the three Illinois guides. It was NOT repaired here: the current builder is an incremental patcher that only inserts twelve curated rows and does not author the legacy list, so curing it means drafting about ninety participant-facing labels for a court kit, which is a drafting assignment with a real risk of misdescribing a court field and deserves a settled label source rather than one lane's local patch.",
+    "nj_disorderly_persons-set's held-but-not-printed table also names sibling cells to the participant by AcroForm identifier -- '(guiltyStatute, guiltyFinal1, guiltyTimeType, guiltyDocCmpltDt, guiltyProbDt, guiltyFineDt)'. Same class, same reason for leaving it.",
+    "The NJ builder's whole participant-instructions path is insert-if-absent rather than generative. It cannot correct anything already in the file, only add to it, so a defect that reached the markdown before the patcher existed is permanent as far as the builder is concerned. That is worth knowing before anyone assigns a guide repair to this family."
+  ],
+  "whatThisLaneCouldNotDo": [
+    "It could not measure the live South Dakota UJS forms: egress to ujs.sd.gov is denied by organization policy.",
+    "It could not repair sd_arrest_expungement-set's SOURCE_IDENTITY, for that reason.",
+    "It could not repair nj_disorderly_persons-set's ROUTE_OPTIONS without fabricating a sentence and a custodial term, and refused.",
+    "It rendered no fresh raster and downloaded no raster artifact. Neither family needs one: no byte moved."
+  ],
+  "grantsNothing": [
+    "This lane opened no commercial route and consumed no credit.",
+    "It promoted no family, changed no queue state, and created no acceptance receipt.",
+    "commercialAuthority remains false in both families' records and this lane did not change it.",
+    "Counsel review, visual review and source-freshness review were not performed here and remain owed."
+  ],
+  "independentReVerificationOwed": "Owed on nj_disorderly_persons-set, to a lane that is neither FIX168 nor VF11 nor FIX121: confirm that the two guard limbs refuse on the mutations described, that all 22 election readings are readings and not literals, that no fixture byte moved, and that ROUTE_OPTIONS is correctly left failing rather than quietly cured. Nothing this lane repaired was verified by this lane. sd_arrest_expungement-set needs no re-verification of a repair because no repair was made; it needs a source-acquisition lane with egress, and that lane's own output will need independent verification in turn.",
+  "grantsReleased": "Both released at return: nj_disorderly_persons-set and sd_arrest_expungement-set. The ledger edit is left UNCOMMITTED, as instructed."
+}

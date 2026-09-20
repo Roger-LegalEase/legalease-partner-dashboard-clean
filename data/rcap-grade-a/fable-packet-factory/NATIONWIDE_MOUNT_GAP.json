@@ -1,0 +1,1721 @@
+{
+ "schemaVersion": "rcap-nationwide-mount-gap/v1",
+ "producedBy": "Captain",
+ "producedOn": "2026-09-02T10:02:24.697Z",
+ "atCommit": "c57b511b1da37e337a7cf7ffbcc1f52cb76a69d0",
+ "question": "How much of the source backlog is blocked on a corpus that exists, is inventoried with hashes, and is not carried by this release?",
+ "answer": "Most of it. 99 of the 111 SOURCE_BLOCKED families are in a jurisdiction where the operational Nationwide tree records form-shaped documents this repository does not hold at any hash.",
+ "method": "Every SHA-256 in data/rcap-all50/nationwide-source-inventory.json cross-mapped against every SHA-256 in data/rcap-all50/local-source-corpus-index.json. Nothing was fetched and nothing was opened: the inventory records hashes and the index records hashes, so this is an arithmetic comparison of two committed records.",
+ "theTreeIsNotHere": {
+  "path": "private/Nationwide Record Clearing",
+  "existsInThisContainer": false,
+  "whyNot": "private/source-corpus-environment.txt carries the OFFICIAL_FORMS_SOURCE_DIR export COMMENTED OUT, with the note \"A DIFFERENT corpus, not carried by this release. Do not substitute the Master Library for it; the operational-corpus precondition refuses that by name.\" scripts/rcap-corpus/bootstrap-private-corpus.sh has no acquisition path for it — only that commented export.",
+  "soThisIsNotExecutableWork": "No agent in this container can mount it. Provisioning it is an owner and infrastructure decision, recorded here rather than attempted."
+ },
+ "measurement": {
+  "nationwideFilesInventoried": 583,
+  "byteIdenticalToAFileTheRepositoryHolds": 212,
+  "notHeldAtAnyHash": 371,
+  "ofThoseNotHeldFormShaped": 237,
+  "formShapedMeans": "extension .pdf or .docx — the shapes an official form takes. Reference captures (.html) are excluded from this count and are counted in notHeldAtAnyHash."
+ },
+ "whatItBlocks": {
+  "sourceBlockedFamilies": 111,
+  "inAJurisdictionWhereNationwideHoldsUnheldFormShapedFiles": 99,
+  "inAJurisdictionWhereItDoesNot": 12,
+  "byJurisdiction": {
+   "IL": 11,
+   "AL": 9,
+   "FL": 7,
+   "MO": 7,
+   "KS": 6,
+   "UT": 5,
+   "MD": 5,
+   "AR": 4,
+   "AZ": 4,
+   "DE": 4,
+   "HI": 4,
+   "IA": 4,
+   "MA": 4,
+   "ME": 3,
+   "IN": 3,
+   "MN": 3,
+   "CA": 2,
+   "KY": 2,
+   "MI": 2,
+   "NC": 2,
+   "ND": 2,
+   "WV": 2,
+   "WA": 1,
+   "CO": 1,
+   "GA": 1,
+   "TX": 1
+  }
+ },
+ "whatThisDoesNotEstablish": [
+  "That any particular unheld file serves any particular blocked family. The link measured here is jurisdictional, not per-obligation, so 99 is an UPPER BOUND on what mounting would unblock and not a forecast.",
+  "That any of these files is the current official edition. The inventory records what was collected, with an mtime; it does not establish currentness.",
+  "That any of them is the document a family names. Only opening one and reading its face establishes identity, and this comparison opened nothing."
+ ],
+ "theArkansasExceptionAndWhyItMisleads": "FABLE-DISC05 measured Arkansas and found 22 of 26 Nationwide files byte-identical to the Master Library, concluding that for Arkansas a mount is cheaper than a fetch. That is correct for Arkansas and does not generalise: nationally only 212 of 583 are duplicates. Arkansas is the best-covered state in the inventory, not a representative one.",
+ "perStateUnheldFormShapedFiles": {
+  "AL": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "Alabama-Expungement-Agent-Reference.pdf",
+     "relativePath": "LegalEase Alabama/Alabama-Expungement-Agent-Reference.pdf",
+     "sha256": "ad63fea2cdb70f15183e74c6924cbdc04e61dfb630ccee729b487161adb91d59",
+     "byteLength": 34349
+    },
+    {
+     "fileName": "cr-65-expunge-petition-10-2024.pdf",
+     "relativePath": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+     "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+     "byteLength": 468056
+    },
+    {
+     "fileName": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+     "relativePath": "LegalEase Alabama/cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+     "sha256": "7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+     "byteLength": 238456
+    }
+   ]
+  },
+  "AK": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "Alaska-RecordRelief-Agent-Reference.pdf",
+     "relativePath": "LegalEase Alaska/Alaska-RecordRelief-Agent-Reference.pdf",
+     "sha256": "bc1d4a6d7ebbfdec21d95e017f33299c4d57b29d754c16ada19578b7599844e3",
+     "byteLength": 34263
+    }
+   ]
+  },
+  "AZ": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "AOCCREM4F-071221.pdf",
+     "relativePath": "LegalEase Arizona/AOCCREM4F-071221.pdf",
+     "sha256": "2c528e7b64cbe161c195555521a6ee318b722bdde42feeafd72abf5f76725324",
+     "byteLength": 22596
+    },
+    {
+     "fileName": "Arizona-RecordRelief-Agent-Reference-2.pdf",
+     "relativePath": "LegalEase Arizona/Arizona-RecordRelief-Agent-Reference-2.pdf",
+     "sha256": "218df0b2eed45f5b33e9f05d7000669ae20fb665ce9361929e122b1cb5c6ab8d",
+     "byteLength": 35785
+    },
+    {
+     "fileName": "AO-2025-215__temporary-amendments-to-rule-41-forms-31a-and-31b__2025-12-17.pdf",
+     "relativePath": "LegalEase Arizona/reference-only/AO-2025-215__temporary-amendments-to-rule-41-forms-31a-and-31b__2025-12-17.pdf",
+     "sha256": "f2270146b1d7bc3c112091969a8134c350c347767e7e4c5388009bd5509248b4",
+     "byteLength": 210745
+    }
+   ]
+  },
+  "AR": {
+   "unheldFormShaped": 2,
+   "files": [
+    {
+     "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+     "relativePath": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+     "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+     "byteLength": 775618
+    },
+    {
+     "fileName": "Arkansas-RecordSealing-Agent-Reference.pdf",
+     "relativePath": "LegalEase Arkanasa/Arkansas-RecordSealing-Agent-Reference.pdf",
+     "sha256": "c4367beb089f187e3c5d96c7c3003eb3a8a96497296602c2fc06a23f1d963d2a",
+     "byteLength": 28713
+    }
+   ]
+  },
+  "CA": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "California-Expungement-RecordRelief-Agent-Reference.pdf",
+     "relativePath": "LegalEase California /California-Expungement-RecordRelief-Agent-Reference.pdf",
+     "sha256": "aaa36308e93cda52d803506b3da7da67235e1a692d95f945496127d9ea4f6ab4",
+     "byteLength": 35439
+    },
+    {
+     "fileName": "REF__california-penal-code-section-1203.3.pdf",
+     "relativePath": "LegalEase California /reference-only/REF__california-penal-code-section-1203.3.pdf",
+     "sha256": "1aa904138aed926c9be3ff07787cccb7cdda3918ef5cf49fefd16eb903e7b446",
+     "byteLength": 131527
+    },
+    {
+     "fileName": "REF__california-penal-code-section-1203.4.pdf",
+     "relativePath": "LegalEase California /reference-only/REF__california-penal-code-section-1203.4.pdf",
+     "sha256": "261ce6f30c719921c5db2102a48819721203daa2ab3f17144e5db2790f684b52",
+     "byteLength": 252908
+    }
+   ]
+  },
+  "CO": {
+   "unheldFormShaped": 32,
+   "files": [
+    {
+     "fileName": "Colorado-RecordSealing-Agent-Reference.pdf",
+     "relativePath": "LegalEase Colorado/Colorado-RecordSealing-Agent-Reference.pdf",
+     "sha256": "38c8964c37af23fdace1d48f0e9c4d091e06889e8e5fa2ea1bd1854270e33cdd",
+     "byteLength": 23329
+    },
+    {
+     "fileName": "JDF 2361 - Z Rem.pdf",
+     "relativePath": "LegalEase Colorado/JDF 2361 - Z Rem.pdf",
+     "sha256": "d398bb48c1b01d9b5b4ca390505d9c351647cab3400b7bc2265e1f9d7c06f795",
+     "byteLength": 566503
+    },
+    {
+     "fileName": "JDF 419 Order and Notice of Hearing.pdf",
+     "relativePath": "LegalEase Colorado/JDF 419 Order and Notice of Hearing.pdf",
+     "sha256": "64012a2a3ef643f5b9a587e5181c3332f788764324003709913688d2f9bd86a2",
+     "byteLength": 50720
+    },
+    {
+     "fileName": "JDF 435 order denying petition to seal.pdf",
+     "relativePath": "LegalEase Colorado/JDF 435 order denying petition to seal.pdf",
+     "sha256": "59026b6ad9809e21fd9cb071adb5725329ac7a65f4a7c3055b11ac57b9f2dd15",
+     "byteLength": 50394
+    },
+    {
+     "fileName": "JDF 684 Order Denying Petition to Seal Criminal Conviction Municipal Records.pdf",
+     "relativePath": "LegalEase Colorado/JDF 684 Order Denying Petition to Seal Criminal Conviction Municipal Records.pdf",
+     "sha256": "36fc6a2acbfcd7ce032b5a2d43645517aa53541f25c7c5395dd782395d67f874",
+     "byteLength": 49317
+    },
+    {
+     "fileName": "JDF 685 Order and Notice of Hearing on Petition to Seal Criminal Conviction Municipal Records.pdf",
+     "relativePath": "LegalEase Colorado/JDF 685 Order and Notice of Hearing on Petition to Seal Criminal Conviction Municipal Records.pdf",
+     "sha256": "d5dc81f76b71437ecde58e74004c4893ea6a83b1b87aba63c58282395c421462",
+     "byteLength": 50317
+    },
+    {
+     "fileName": "JDF302.pdf",
+     "relativePath": "LegalEase Colorado/JDF302.pdf",
+     "sha256": "53459fde5fcd0d22ca4b93766fe7f2bc6c6c8a578b5044f46bc0317be2b702c5",
+     "byteLength": 121346
+    },
+    {
+     "fileName": "JDF302.spanish.pdf",
+     "relativePath": "LegalEase Colorado/JDF302.spanish.pdf",
+     "sha256": "e11492a29e5edcfe17269cbb4282b08ad747f4b10545715397e343b74f3a1eeb",
+     "byteLength": 165950
+    },
+    {
+     "fileName": "JDF304.pdf",
+     "relativePath": "LegalEase Colorado/JDF304.pdf",
+     "sha256": "64bd7f9879719bb257b9a794cd1022d27e6c94b5e18ac102cc203064d8109eba",
+     "byteLength": 1083204
+    },
+    {
+     "fileName": "JDF324.pdf",
+     "relativePath": "LegalEase Colorado/JDF324.pdf",
+     "sha256": "fa436ee1561713cad238b33fd761b0a97afbe0e9c0f8b70bdc6662990d7852fa",
+     "byteLength": 30539
+    },
+    {
+     "fileName": "JDF324.spanish.pdf",
+     "relativePath": "LegalEase Colorado/JDF324.spanish.pdf",
+     "sha256": "14c2de516ad4c4d159fa941b114e1bce01f67c85c47b7b480c4fa4ac81f4c795",
+     "byteLength": 37438
+    },
+    {
+     "fileName": "JDF326.pdf",
+     "relativePath": "LegalEase Colorado/JDF326.pdf",
+     "sha256": "7abccec3a4e65e227661f2716f8e61c4e88e6c33c8c5ded4dd8140bab84b23cd",
+     "byteLength": 91947
+    },
+    {
+     "fileName": "JDF326.spanish.pdf",
+     "relativePath": "LegalEase Colorado/JDF326.spanish.pdf",
+     "sha256": "ee6cb8c259ee0c683a927878bd09d890ef977e8566677c32cdeaf811f9546dd1",
+     "byteLength": 154831
+    },
+    {
+     "fileName": "JDF418.pdf",
+     "relativePath": "LegalEase Colorado/JDF418.pdf",
+     "sha256": "1fae098394b532e45c85ac04019ce3ecff54be2a8382badba4749f25527a5e9d",
+     "byteLength": 596551
+    },
+    {
+     "fileName": "JDF477.pdf",
+     "relativePath": "LegalEase Colorado/JDF477.pdf",
+     "sha256": "9bb822f0163adefb1da1748b50b7323f027b90e32a759e737c0a321c8b47404d",
+     "byteLength": 666230
+    },
+    {
+     "fileName": "JDF478.pdf",
+     "relativePath": "LegalEase Colorado/JDF478.pdf",
+     "sha256": "cbe8ed7ce129cc35a1af1ba778507c771265e326ea0e3c9d94940e3cabeed096",
+     "byteLength": 652768
+    },
+    {
+     "fileName": "JDF492.pdf",
+     "relativePath": "LegalEase Colorado/JDF492.pdf",
+     "sha256": "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996",
+     "byteLength": 546426
+    },
+    {
+     "fileName": "JDF493.pdf",
+     "relativePath": "LegalEase Colorado/JDF493.pdf",
+     "sha256": "3dbd29f70847fc488fdba00b0a549b2276ea335bcfd1e72eb19ac2dd220d68d9",
+     "byteLength": 552269
+    },
+    {
+     "fileName": "JDF493.spanish.pdf",
+     "relativePath": "LegalEase Colorado/JDF493.spanish.pdf",
+     "sha256": "037c41260cd352b7b20a8a3ed909e4bffedb1de5ee1e0b174bfbb2f59421f476",
+     "byteLength": 1027753
+    },
+    {
+     "fileName": "JDF611.pdf",
+     "relativePath": "LegalEase Colorado/JDF611.pdf",
+     "sha256": "8f7983af4346e8ccfdc218d01622263af4e783e24a3d7654772d502a74d44fc5",
+     "byteLength": 631473
+    },
+    {
+     "fileName": "JDF612.pdf",
+     "relativePath": "LegalEase Colorado/JDF612.pdf",
+     "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+     "byteLength": 737628
+    },
+    {
+     "fileName": "JDF614.pdf",
+     "relativePath": "LegalEase Colorado/JDF614.pdf",
+     "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+     "byteLength": 555787
+    },
+    {
+     "fileName": "JDF615.pdf",
+     "relativePath": "LegalEase Colorado/JDF615.pdf",
+     "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+     "byteLength": 1054204
+    },
+    {
+     "fileName": "JDF-2361__objection-to-automatic-sealing__rev-2024-02-01.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-2361__objection-to-automatic-sealing__rev-2024-02-01.pdf",
+     "sha256": "d398bb48c1b01d9b5b4ca390505d9c351647cab3400b7bc2265e1f9d7c06f795",
+     "byteLength": 566503
+    },
+    {
+     "fileName": "JDF-419__order-and-notice-of-hearing-sealing-arrest-records-no-charges-filed__rev-2019-08.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-419__order-and-notice-of-hearing-sealing-arrest-records-no-charges-filed__rev-2019-08.pdf",
+     "sha256": "64012a2a3ef643f5b9a587e5181c3332f788764324003709913688d2f9bd86a2",
+     "byteLength": 50720
+    },
+    {
+     "fileName": "JDF-435__order-denying-petition-to-seal-arrest-records-no-charges-filed__rev-2019-08.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-435__order-denying-petition-to-seal-arrest-records-no-charges-filed__rev-2019-08.pdf",
+     "sha256": "59026b6ad9809e21fd9cb071adb5725329ac7a65f4a7c3055b11ac57b9f2dd15",
+     "byteLength": 50394
+    },
+    {
+     "fileName": "JDF-684__order-denying-petition-to-seal-municipal-conviction-records__rev-2019-08.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-684__order-denying-petition-to-seal-municipal-conviction-records__rev-2019-08.pdf",
+     "sha256": "36fc6a2acbfcd7ce032b5a2d43645517aa53541f25c7c5395dd782395d67f874",
+     "byteLength": 49317
+    },
+    {
+     "fileName": "JDF-685__order-and-notice-of-hearing-to-seal-municipal-conviction-records__rev-2019-08.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-685__order-and-notice-of-hearing-to-seal-municipal-conviction-records__rev-2019-08.pdf",
+     "sha256": "d5dc81f76b71437ecde58e74004c4893ea6a83b1b87aba63c58282395c421462",
+     "byteLength": 50317
+    },
+    {
+     "fileName": "JDF-492__order-denying-request-to-seal-non-conviction-records__rev-2024-08-07.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-492__order-denying-request-to-seal-non-conviction-records__rev-2024-08-07.pdf",
+     "sha256": "6b7e427a9696110d6568909802ab9204f9e80d01ca33e577e71678f9514dc996",
+     "byteLength": 546426
+    },
+    {
+     "fileName": "JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-493__order-and-notice-of-hearing-to-seal-non-conviction-records__rev-2019-08.pdf",
+     "sha256": "fb500eb1d0f04e7ab5a7bd1f4932cff27edb451a5c2d66c60288fad96726ef1c",
+     "byteLength": 51649
+    },
+    {
+     "fileName": "JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-613__order-denying-request-to-seal-conviction-records__rev-2024-08-07.pdf",
+     "sha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+     "byteLength": 545525
+    },
+    {
+     "fileName": "JDF-614__order-and-notice-of-hearing-sealing-conviction-records__rev-2024-08-07.pdf",
+     "relativePath": "LegalEase Colorado/reference-only/JDF-614__order-and-notice-of-hearing-sealing-conviction-records__rev-2024-08-07.pdf",
+     "sha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+     "byteLength": 555787
+    }
+   ]
+  },
+  "CT": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "Connecticut-RecordErasure-Agent-Reference.pdf",
+     "relativePath": "LegalEase Connecticut/Connecticut-RecordErasure-Agent-Reference.pdf",
+     "sha256": "16282cb31bb44ed0fff93a09f68b50db6c4b8b24d6c257a73396b7b74686cb10",
+     "byteLength": 25459
+    },
+    {
+     "fileName": "REF__DESPP-eligible-offenses-for-clean-slate-erasures__source-2024-04-09.pdf",
+     "relativePath": "LegalEase Connecticut/reference-only/REF__DESPP-eligible-offenses-for-clean-slate-erasures__source-2024-04-09.pdf",
+     "sha256": "9e5aeb45d4cfeff12fbb0406dcdbe068a0cc1aa15ddd02f7adbf1d0bc112553a",
+     "byteLength": 359524
+    },
+    {
+     "fileName": "REF__DESPP-SPBI-rate-change-notice__effective-2026-10-01.pdf",
+     "relativePath": "LegalEase Connecticut/reference-only/REF__DESPP-SPBI-rate-change-notice__effective-2026-10-01.pdf",
+     "sha256": "fbdc46f4e702e68597a39a0e3a21ba6facd5b0698f7749dec11b9c4bfbeddabf",
+     "byteLength": 314012
+    }
+   ]
+  },
+  "DE": {
+   "unheldFormShaped": 2,
+   "files": [
+    {
+     "fileName": "Delaware-RecordExpungement-Agent-Reference.pdf",
+     "relativePath": "LegalEase Delaware/Delaware-RecordExpungement-Agent-Reference.pdf",
+     "sha256": "1864467c73979f92efe2a942cd1bb2818631f4c301a6ac8525470190851eeb77",
+     "byteLength": 25187
+    },
+    {
+     "fileName": "download.aspx.pdf",
+     "relativePath": "LegalEase Delaware/download.aspx.pdf",
+     "sha256": "f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a",
+     "byteLength": 179445
+    }
+   ]
+  },
+  "DC": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "23-110_Motion.pdf",
+     "relativePath": "LegalEase DC/23-110_Motion.pdf",
+     "sha256": "bf17ab93b780ffa4e61f63141113d2ad2d4d696421e3578651c93b4403d6a253",
+     "byteLength": 104796
+    }
+   ]
+  },
+  "FL": {
+   "unheldFormShaped": 11,
+   "files": [
+    {
+     "fileName": "2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+     "relativePath": "LegalEase Florida/2026_07-JAN-Criminal-Procedure-Rules-1-1-2026.pdf",
+     "sha256": "794119a4aa9e7f731941609922658963b5e1146c434ccf2fa03b2ecf46b7031c",
+     "byteLength": 2036583
+    },
+    {
+     "fileName": "Florida-RecordSealing-Expunction-Agent-Reference.pdf",
+     "relativePath": "LegalEase Florida/Florida-RecordSealing-Expunction-Agent-Reference.pdf",
+     "sha256": "b1348f530df9dbae60c684b56fd912cb72883fa1d9f438770cc108ad1a304552",
+     "byteLength": 25634
+    },
+    {
+     "fileName": "se (1).pdf",
+     "relativePath": "LegalEase Florida/se (1).pdf",
+     "sha256": "457f7af43bc3cffbab3abce2e63df0655175a70502a92dc03fcf5613c3fc7c08",
+     "byteLength": 26597
+    },
+    {
+     "fileName": "se (2).pdf",
+     "relativePath": "LegalEase Florida/se (2).pdf",
+     "sha256": "8bc405aae745a8d21a14944be00ecb322a26ffe64a2d8af89d89a4463a1227df",
+     "byteLength": 22449
+    },
+    {
+     "fileName": "se (3).pdf",
+     "relativePath": "LegalEase Florida/se (3).pdf",
+     "sha256": "16c6d2afa3e7a94a00d30466637ef2de3f3aa4c673ea96f90a654f6e1af95023",
+     "byteLength": 23982
+    },
+    {
+     "fileName": "se (4).pdf",
+     "relativePath": "LegalEase Florida/se (4).pdf",
+     "sha256": "e8efa1cae99d3463a099d2ed60d4070a195afb24e932f4e0e68113f469634358",
+     "byteLength": 21700
+    },
+    {
+     "fileName": "se (5).pdf",
+     "relativePath": "LegalEase Florida/se (5).pdf",
+     "sha256": "5ee3bca6ad7814c92c69255e447a51a8b6a498bdf6fca7199edc0bf16e825006",
+     "byteLength": 26593
+    },
+    {
+     "fileName": "REF__FDLE-criminal-history-record-check-fee-schedule__effective-2025-01-01.pdf",
+     "relativePath": "LegalEase Florida/reference-only/REF__FDLE-criminal-history-record-check-fee-schedule__effective-2025-01-01.pdf",
+     "sha256": "8dc769a6948d837cd1656bc40a3dd3c5622f83d7291d0e1c4e0d392a9224d458",
+     "byteLength": 1070244
+    },
+    {
+     "fileName": "FDLE40-028__application-for-early-juvenile-expunction__rev-2019-10.pdf",
+     "relativePath": "LegalEase Florida/source-gated/FDLE40-028__application-for-early-juvenile-expunction__rev-2019-10.pdf",
+     "sha256": "82a9600b102e7fd77cbfcd340fd74ff77e7cd49fd81b43d46299ecb353ae212a",
+     "byteLength": 22449
+    },
+    {
+     "fileName": "FDLE40-025__application-for-juvenile-diversion-expunction__rev-2022-07.pdf",
+     "relativePath": "LegalEase Florida/source-gated/FDLE40-025__application-for-juvenile-diversion-expunction__rev-2022-07.pdf",
+     "sha256": "6a853dc106d33f5d298a40608171ce0edffc3e5214c930f7c7fccc10f66ae2d8",
+     "byteLength": 23986
+    },
+    {
+     "fileName": "Florida-Supreme-Court__SC19-1983__rules-3.692-3.693-3.694-3.989-and-3.9895-amendments__2019-12-19.pdf",
+     "relativePath": "LegalEase Florida/reference-only/Florida-Supreme-Court__SC19-1983__rules-3.692-3.693-3.694-3.989-and-3.9895-amendments__2019-12-19.pdf",
+     "sha256": "126139247304b98eae055e4725c0cb250b7870a68595fe1f9a6f438b64a65a4a",
+     "byteLength": 114876
+    }
+   ]
+  },
+  "GA": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+     "relativePath": "LegalEase Georgia/Georgia-Record-Restriction-Sealing-Agent-Reference.pdf",
+     "sha256": "aeb7a7ee904b69018ffbf747177f1de650c0b986f5a49293abc14d2fbfae6bf8",
+     "byteLength": 34557
+    },
+    {
+     "fileName": "Request to Restrict Record Application and Instructions form.pdf",
+     "relativePath": "LegalEase Georgia/Request to Restrict Record Application and Instructions form.pdf",
+     "sha256": "5fe841de263070f192ddfb0e322e41b2c2a97e8d07e7e643e98fdf780aefa1ab",
+     "byteLength": 449903
+    },
+    {
+     "fileName": "GBI-Time-Expired-Restrictions__georgia-law-regarding-time-expired-restrictions__source-2013-10-08.pdf",
+     "relativePath": "LegalEase Georgia/reference-only/GBI-Time-Expired-Restrictions__georgia-law-regarding-time-expired-restrictions__source-2013-10-08.pdf",
+     "sha256": "0e2f11700b8793c13f848b4837f9a5c56a7e15429f04aa3d41467835bf913f4d",
+     "byteLength": 167750
+    }
+   ]
+  },
+  "HI": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+     "relativePath": "LegalEase Hawaii/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
+     "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
+     "byteLength": 181711
+    },
+    {
+     "fileName": "Hawaii-Expungement-Reference.pdf",
+     "relativePath": "LegalEase Hawaii/files-4/Hawaii-Expungement-Reference.pdf",
+     "sha256": "8754a27448c4752fc79e46da7a7be4c8bd7e3fd4603feb77c1d4ce16ed92a0fb",
+     "byteLength": 8122
+    },
+    {
+     "fileName": "REVISED-EXP-APPLICATION-2019-11.pdf",
+     "relativePath": "LegalEase Hawaii/REVISED-EXP-APPLICATION-2019-11.pdf",
+     "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
+     "byteLength": 137157
+    }
+   ]
+  },
+  "ID": {
+   "unheldFormShaped": 2,
+   "files": [
+    {
+     "fileName": "1778008446796-Clean-Slate-Instructions.pdf",
+     "relativePath": "LegalEase Idaho/1778008446796-Clean-Slate-Instructions.pdf",
+     "sha256": "7020a6ed49dc473fa710402e3ee4e9d70b550fe635e8f9ce947c4057fcb463e1",
+     "byteLength": 321959
+    },
+    {
+     "fileName": "Idaho-Expungement-Reference.pdf",
+     "relativePath": "LegalEase Idaho/files-4/Idaho-Expungement-Reference.pdf",
+     "sha256": "2de04453d67f9de7883bb6e32666f5a6a2978f3886347c4d100800f99416fa90",
+     "byteLength": 7627
+    }
+   ]
+  },
+  "IL": {
+   "unheldFormShaped": 25,
+   "files": [
+    {
+     "fileName": "CXP Additional Cannabis Convictions.pdf",
+     "relativePath": "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf",
+     "sha256": "32b1ef344909ff9a38b816f0235f261678c57abaebe9858aec12b70094e55969",
+     "byteLength": 396270
+    },
+    {
+     "fileName": "CXP Additional Notice of Court Date.pdf",
+     "relativePath": "LegalEase Illinois/CXP Additional Notice of Court Date.pdf",
+     "sha256": "4a6dde5541b6531f99a4294e07a28ea85096ea5c982ee76e46cf3e8dd00b0afa",
+     "byteLength": 283605
+    },
+    {
+     "fileName": "CXP Getting Started Motion to Vacate and Expunge.pdf",
+     "relativePath": "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf",
+     "sha256": "52ce3880f8d813ca7ebebb1654da5a04f4d70dca538868f7094163a7199eb0b2",
+     "byteLength": 150220
+    },
+    {
+     "fileName": "CXP Instructions.pdf",
+     "relativePath": "LegalEase Illinois/CXP Instructions.pdf",
+     "sha256": "2e1459e6a984555a1bd675a7f462c3616aabd70cdc675f9a4cf972bb27831afd",
+     "byteLength": 869078
+    },
+    {
+     "fileName": "CXP Motion to Vacate and Expunge.pdf",
+     "relativePath": "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf",
+     "sha256": "728ad50c5db068d3d3a6bc68901c79431e865f8e2eaa94c37c38a086d9815acf",
+     "byteLength": 227699
+    },
+    {
+     "fileName": "CXP Notice of Court Date for Motion.pdf",
+     "relativePath": "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf",
+     "sha256": "56179412256e2c98b0f535a328801e4cf012ae3d179848c3a1efe7df6377b041",
+     "byteLength": 370872
+    },
+    {
+     "fileName": "CXP Order Granting or Denying Motion.pdf",
+     "relativePath": "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf",
+     "sha256": "ca0fdef8909a3ef134c562d09a89dcc24de22036c7b8238902443892c3ac77cc",
+     "byteLength": 332731
+    },
+    {
+     "fileName": "EXP Certificate of Service Circuit Clerk.pdf",
+     "relativePath": "LegalEase Illinois/EXP Certificate of Service Circuit Clerk.pdf",
+     "sha256": "34fd161b26d91351cfe782d7518bb6037b868d542a972b3052664c555d0f5f44",
+     "byteLength": 769636
+    },
+    {
+     "fileName": "EXP-AD Additional Cases Expungement.pdf",
+     "relativePath": "LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf",
+     "sha256": "36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00",
+     "byteLength": 821758
+    },
+    {
+     "fileName": "EXP-AD Additional Cases Sealing.pdf",
+     "relativePath": "LegalEase Illinois/EXP-AD Additional Cases Sealing.pdf",
+     "sha256": "fd423706a659ad6b953adc96a900f5f501eb1567851e52b8ded404c5544159cc",
+     "byteLength": 817586
+    },
+    {
+     "fileName": "EXP-AD Case List Request to Expunge Seal Records.pdf",
+     "relativePath": "LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf",
+     "sha256": "b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c",
+     "byteLength": 744328
+    },
+    {
+     "fileName": "EXP-AD Order Denying.pdf",
+     "relativePath": "LegalEase Illinois/EXP-AD Order Denying.pdf",
+     "sha256": "2d3039fa873801bc58bf425a2c73f489951bb82de33b11af031e8bf62df3ffa8",
+     "byteLength": 782948
+    },
+    {
+     "fileName": "Getting_Started_Juv_Exp.pdf",
+     "relativePath": "LegalEase Illinois/Getting_Started_Juv_Exp.pdf",
+     "sha256": "437d109797580a45116a4a12f1c4bb79a79bdc66194171e88acb25a50f08c0d9",
+     "byteLength": 82025
+    },
+    {
+     "fileName": "Illinois-Expungement-Sealing-Agent-Reference.pdf",
+     "relativePath": "LegalEase Illinois/Illinois-Expungement-Sealing-Agent-Reference.pdf",
+     "sha256": "46eb4fd128286fe28e2ae74912a544f6e5e2114c2d73960574e654f1d895c9a4",
+     "byteLength": 35550
+    },
+    {
+     "fileName": "Instructions_Juv_Exp.pdf",
+     "relativePath": "LegalEase Illinois/Instructions_Juv_Exp.pdf",
+     "sha256": "c0be48a780568e0c59190801cd7b46468a1d7e1642c4a8e2a20f7d16d3cf4669",
+     "byteLength": 601508
+    },
+    {
+     "fileName": "Notice_Juv_Exp.pdf",
+     "relativePath": "LegalEase Illinois/Notice_Juv_Exp.pdf",
+     "sha256": "5ac7217797ae86c4dea8fe32400bd328d59b95c6fdafb701ea1661e0b982a522",
+     "byteLength": 875865
+    },
+    {
+     "fileName": "Order_Juv_Exp.pdf",
+     "relativePath": "LegalEase Illinois/Order_Juv_Exp.pdf",
+     "sha256": "7b0db0a6dddff71dcb5a29fcf4a2fc85b88018592e7a2b3a409a0622b5ebf50e",
+     "byteLength": 831896
+    },
+    {
+     "fileName": "Request_Juv_Exp.pdf",
+     "relativePath": "LegalEase Illinois/Request_Juv_Exp.pdf",
+     "sha256": "aee004ee42d5e1a27c4a29106589772c13e0a23fe133a4771bc94db994214be0",
+     "byteLength": 876666
+    },
+    {
+     "fileName": "PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+     "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+     "sha256": "5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd",
+     "byteLength": 226488
+    },
+    {
+     "fileName": "PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+     "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+     "sha256": "b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361",
+     "byteLength": 89530
+    },
+    {
+     "fileName": "PRB-Guidelines-for-Certificate-of-Sealing__guidelines__rev-2024-09-18.pdf",
+     "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Sealing__guidelines__rev-2024-09-18.pdf",
+     "sha256": "b3ad8e361eb51ce05c4ecb917efe59f084add596e4cf1c91d2a2cdca45820e86",
+     "byteLength": 123555
+    },
+    {
+     "fileName": "PRB-Sealable-Convictions-List__offences-eligible-for-certificate-of-sealing__source-undated.pdf",
+     "relativePath": "LegalEase Illinois/reference-only/PRB-Sealable-Convictions-List__offences-eligible-for-certificate-of-sealing__source-undated.pdf",
+     "sha256": "dc2b2c63688ee8028d1d11154f43e7a2aa517fd4d3cd153f320abd8af696f40b",
+     "byteLength": 85779
+    },
+    {
+     "fileName": "PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+     "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+     "sha256": "87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e",
+     "byteLength": 222490
+    },
+    {
+     "fileName": "PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+     "relativePath": "LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+     "sha256": "691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c",
+     "byteLength": 84623
+    },
+    {
+     "fileName": "PRB-Guidelines-for-Certificate-of-Expungement-for-Military__guidelines__rev-2024-09-18.pdf",
+     "relativePath": "LegalEase Illinois/reference-only/PRB-Guidelines-for-Certificate-of-Expungement-for-Military__guidelines__rev-2024-09-18.pdf",
+     "sha256": "cd9f2e021e7ad90b167d8c9477527896edd7e103fe66cbd9aed05cc5c21bb9c2",
+     "byteLength": 123508
+    }
+   ]
+  },
+  "IN": {
+   "unheldFormShaped": 9,
+   "files": [
+    {
+     "fileName": "ConvictionPetitionOrder0320Fillable.pdf",
+     "relativePath": "LegalEase Indiana/ConvictionPetitionOrder0320Fillable.pdf",
+     "sha256": "999fdf4a3f23c96e5a7e93bbbb3b48cd098041f21757ab6e99cd10e9394abec3",
+     "byteLength": 2868997
+    },
+    {
+     "fileName": "Indiana-Expungement-Reference.pdf",
+     "relativePath": "LegalEase Indiana/files-4/Indiana-Expungement-Reference.pdf",
+     "sha256": "ea2cbe5f9e87d7db8497625aa9edae5a804a0d01505aa14e80776ac582f1dbd6",
+     "byteLength": 8954
+    },
+    {
+     "fileName": "IN-FORM-ACR__notice-of-exclusion-of-confidential-information-from-public-access__source-2026-08.docx",
+     "relativePath": "LegalEase Indiana/forms/IN-FORM-ACR__notice-of-exclusion-of-confidential-information-from-public-access__source-2026-08.docx",
+     "sha256": "21001a1265eb8ff2872f0771ef6e7e75b6b0ad664b2d43aaed912f4e0f4c76c3",
+     "byteLength": 27518
+    },
+    {
+     "fileName": "jd-forms-automatic-expungement-order-denial.docx",
+     "relativePath": "LegalEase Indiana/jd-forms-automatic-expungement-order-denial.docx",
+     "sha256": "70d2e02e5ad920ace3bc669cc22fbb7f2ebaf3435430ec82f5207a746737045b",
+     "byteLength": 19039
+    },
+    {
+     "fileName": "jd-forms-automatic-expungement-order-granting.docx",
+     "relativePath": "LegalEase Indiana/jd-forms-automatic-expungement-order-granting.docx",
+     "sha256": "fad471fc7c9c0ebc4479bbbfb54891cc5b57d21fd9e7f7b7f63afe121b0f112e",
+     "byteLength": 27279
+    },
+    {
+     "fileName": "jd-forms-expungement-order.docx",
+     "relativePath": "LegalEase Indiana/jd-forms-expungement-order.docx",
+     "sha256": "2469591de473bb127ae8b08dfcc05348112d16e4b00ac05c729cf8079fe4ca29",
+     "byteLength": 28507
+    },
+    {
+     "fileName": "jd-forms-expungement-petition.docx",
+     "relativePath": "LegalEase Indiana/jd-forms-expungement-petition.docx",
+     "sha256": "c2f3b1fdd05127c8aea9a2495e0eb116d773c6322c807f878077d40cbc4ffbac",
+     "byteLength": 29316
+    },
+    {
+     "fileName": "CCA-XP-0320-7000B__conviction-petition-instructions__rev-2020-03.pdf",
+     "relativePath": "LegalEase Indiana/reference-only/CCA-XP-0320-7000B__conviction-petition-instructions__rev-2020-03.pdf",
+     "sha256": "9ca0d41ef75a99e6ae9da9fc67c79dc521794b6b9923bcf1669b5c3c42281429",
+     "byteLength": 493853
+    },
+    {
+     "fileName": "IOCS__detailed-information-on-criminal-case-expungement__rev-2026-07-01.pdf",
+     "relativePath": "LegalEase Indiana/reference-only/IOCS__detailed-information-on-criminal-case-expungement__rev-2026-07-01.pdf",
+     "sha256": "9c3485e666aa7baaa051e30302b1da39072f97817f076f4b04b3a3e681003510",
+     "byteLength": 294237
+    }
+   ]
+  },
+  "IA": {
+   "unheldFormShaped": 9,
+   "files": [
+    {
+     "fileName": "01_29_2021_order_chapter_2.pdf",
+     "relativePath": "LegalEase Iowa/01_29_2021_order_chapter_2.pdf",
+     "sha256": "f4956419985844799b0c14fd77615eca9ef5cbda2fea6cf9e588b2b06012cead",
+     "byteLength": 2583204
+    },
+    {
+     "fileName": "2_86_4_123_PAULA_Expungement_18A04436D4107.pdf",
+     "relativePath": "LegalEase Iowa/2_86_4_123_PAULA_Expungement_18A04436D4107.pdf",
+     "sha256": "8b2c33815548615733f01f964340fc39efcd8c252ad8c3ee50b97b0639753ffc",
+     "byteLength": 807560
+    },
+    {
+     "fileName": "Iowa-Expungement-Reference.pdf",
+     "relativePath": "LegalEase Iowa/files-4/Iowa-Expungement-Reference.pdf",
+     "sha256": "a14f6e154ebadb70c620a41aa0192d28d0fc5d49f99f3b598356f75048c149dc",
+     "byteLength": 7944
+    },
+    {
+     "fileName": "DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+     "relativePath": "LegalEase Iowa/forms/DCI-76-and-DCI-77__criminal-history-record-check-billing-and-request-forms-fillable__source-2026.pdf",
+     "sha256": "321062c91b3d9e2c8f255d62d20186352a2b5884e0ccd4310a18a3a073d7f516",
+     "byteLength": 1076864
+    },
+    {
+     "fileName": "IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+     "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-1__application-to-expunge-court-record-901c-2__rev-2022-01.pdf",
+     "sha256": "d3e68933c4ed878c72784c5b2b191281116f87d953fa6203aecb702584cb5053",
+     "byteLength": 268162
+    },
+    {
+     "fileName": "IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+     "relativePath": "LegalEase Iowa/forms/IA-RULE-2.86-FORM-3__application-to-expunge-public-intoxication-records-123-46__rev-2022-01.pdf",
+     "sha256": "6f222685001373ba2e1ef63509e3b42e7e47d5067bfb0ed3b130b62040d80f01",
+     "byteLength": 263607
+    },
+    {
+     "fileName": "r286_f1_expngcrt901c2_43EF13261CD9C.pdf",
+     "relativePath": "LegalEase Iowa/r286_f1_expngcrt901c2_43EF13261CD9C.pdf",
+     "sha256": "983d13752a6c7569ae9a1d4fe2f88dfb58ee68c2b93ea2cc64bffd8f7ce91840",
+     "byteLength": 292048
+    },
+    {
+     "fileName": "r286_f2_expngmisd901c3_6F5CCD02F88E6.pdf",
+     "relativePath": "LegalEase Iowa/r286_f2_expngmisd901c3_6F5CCD02F88E6.pdf",
+     "sha256": "df3380d9ff4ea9272be6cf12b58a3c6cbbab93dead855ed1c97280aa2dc24d12",
+     "byteLength": 331574
+    },
+    {
+     "fileName": "r286_f3_expngpblcntox_9182B460CD331.pdf",
+     "relativePath": "LegalEase Iowa/r286_f3_expngpblcntox_9182B460CD331.pdf",
+     "sha256": "d8f958c16fec8f9c831664c9a3122e2a062306a308c41275b3df049bcc18202e",
+     "byteLength": 287801
+    }
+   ]
+  },
+  "KS": {
+   "unheldFormShaped": 9,
+   "files": [
+    {
+     "fileName": "Criminal Cover Sheet 102025.pdf",
+     "relativePath": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+     "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+     "byteLength": 126589
+    },
+    {
+     "fileName": "Instructions for Expungement of Conviction or Diverson 122016.pdf",
+     "relativePath": "LegalEase Kansas/Instructions for Expungement of Conviction or Diverson 122016.pdf",
+     "sha256": "dd1b80739a926a41156c324893bd4330ab666dbbd3a0b92665f52878623cc831",
+     "byteLength": 128248
+    },
+    {
+     "fileName": "Order Denying Expungement of Conviction or Diversion 122016.pdf",
+     "relativePath": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+     "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba",
+     "byteLength": 126038
+    },
+    {
+     "fileName": "Petition for Expungement of Conviction or Diversion 82022.pdf",
+     "relativePath": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+     "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+     "byteLength": 234581
+    },
+    {
+     "fileName": "Kansas-Expungement-Reference.pdf",
+     "relativePath": "LegalEase Kansas/files-4/Kansas-Expungement-Reference.pdf",
+     "sha256": "cb730ad65ca95ec091c010ee71b968fb6b9dc2193db82130a972d036b4a36404",
+     "byteLength": 8449
+    },
+    {
+     "fileName": "KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+     "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-expungement-of-arrest-record-cover-sheet__rev-2016-12.pdf",
+     "sha256": "d13bc7b7b2a9c5367c785c1de4f3a8d6d79410ef29a3c9c86a5b903057d249d5",
+     "byteLength": 55112
+    },
+    {
+     "fileName": "KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+     "relativePath": "LegalEase Kansas/source-gated/KSJC__order-of-relief-from-offender-registration-cover-sheet__rev-2022-06.pdf",
+     "sha256": "0c9c5a751086eee0098925e6e7398f2f0b13dd62cc95bcbffab8732d11b6a0bd",
+     "byteLength": 217564
+    },
+    {
+     "fileName": "KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+     "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-expungement-of-arrest-record__rev-2013-02.pdf",
+     "sha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+     "byteLength": 51084
+    },
+    {
+     "fileName": "KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+     "relativePath": "LegalEase Kansas/source-gated/KSJC__petition-for-relief-from-offender-registration__rev-2022-06.pdf",
+     "sha256": "9264dc51531cd8eea47fd99b00871ff49205e0f2c9ab10cb0d7420d6ca3cf396",
+     "byteLength": 401878
+    }
+   ]
+  },
+  "KY": {
+   "unheldFormShaped": 5,
+   "files": [
+    {
+     "fileName": "497.2.pdf",
+     "relativePath": "LegalEase Kentucky/497.2.pdf",
+     "sha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+     "byteLength": 159169
+    },
+    {
+     "fileName": "Kentucky-Expungement-Reference.pdf",
+     "relativePath": "LegalEase Kentucky/files-4/Kentucky-Expungement-Reference.pdf",
+     "sha256": "865dc22ce63f88bd8d315257fc6a3ed84a986f7f6f0a6c6f93698dc39eae75fe",
+     "byteLength": 9854
+    },
+    {
+     "fileName": "JV-29.1.pdf",
+     "relativePath": "LegalEase Kentucky/JV-29.1.pdf",
+     "sha256": "5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+     "byteLength": 586409
+    },
+    {
+     "fileName": "JV-29.pdf",
+     "relativePath": "LegalEase Kentucky/JV-29.pdf",
+     "sha256": "557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+     "byteLength": 373339
+    },
+    {
+     "fileName": "JV-30.pdf",
+     "relativePath": "LegalEase Kentucky/JV-30.pdf",
+     "sha256": "c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+     "byteLength": 234588
+    }
+   ]
+  },
+  "ME": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+     "relativePath": "LegalEase Maine/forms/ME-CR-308__order-on-motion-to-seal-criminal-history-victims-of-sex-trafficking-or-sexual-exploitation__rev-2026-06.pdf",
+     "sha256": "b2e78f24cb33d52c692d20b5bff3f0ab58115da9f26363df99cf2970f0a645f5",
+     "byteLength": 162514
+    },
+    {
+     "fileName": "MJB-Form-cr-218.pdf",
+     "relativePath": "LegalEase Maine/MJB-Form-cr-218.pdf",
+     "sha256": "82a9e8084346aa736cf25dc6c663d511e96e7205900b97a7dc2adc4ceec905d4",
+     "byteLength": 190343
+    },
+    {
+     "fileName": "MJB-Form-jv-043.pdf",
+     "relativePath": "LegalEase Maine/MJB-Form-jv-043.pdf",
+     "sha256": "79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7",
+     "byteLength": 173449
+    }
+   ]
+  },
+  "MD": {
+   "unheldFormShaped": 6,
+   "files": [
+    {
+     "fileName": "dccr071.pdf",
+     "relativePath": "LegalEase Maryland/dccr071.pdf",
+     "sha256": "d81027ee0dd84ceac09ce9a1dff0195143e225cdcafa7d953530b7fa8c161e8a",
+     "byteLength": 426706
+    },
+    {
+     "fileName": "ccdccr072A.pdf",
+     "relativePath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
+     "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
+     "byteLength": 195791
+    },
+    {
+     "fileName": "ccdccr072B.pdf",
+     "relativePath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+     "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+     "byteLength": 764936
+    },
+    {
+     "fileName": "ccdccr072c.pdf",
+     "relativePath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072c.pdf",
+     "sha256": "9faa52511adfce4c33a63fbc983f5999d288af2579c63f4425dd39714607c5ac",
+     "byteLength": 888008
+    },
+    {
+     "fileName": "ccdccr072d.pdf",
+     "relativePath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
+     "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
+     "byteLength": 166429
+    },
+    {
+     "fileName": "Maryland-Expungement-Shielding-Agent-Reference.pdf",
+     "relativePath": "LegalEase Maryland/Maryland-Expungement-Shielding-Agent-Reference.pdf",
+     "sha256": "cb357be112123a306c019620751dde1e1e45e3eb14f9ce8b025ba0a5d629f1ea",
+     "byteLength": 35181
+    }
+   ]
+  },
+  "MA": {
+   "unheldFormShaped": 4,
+   "files": [
+    {
+     "fileName": "fillable-jud-mps-Petition-to-Seal.pdf",
+     "relativePath": "LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+     "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+     "byteLength": 216883
+    },
+    {
+     "fileName": "jud-Petition-for-Expungement.pdf",
+     "relativePath": "LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+     "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+     "byteLength": 1387408
+    },
+    {
+     "fileName": "jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+     "relativePath": "LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+     "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+     "byteLength": 1374671
+    },
+    {
+     "fileName": "OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+     "relativePath": "LegalEase massachusetts/OCP004%20-%2010days%20NOTICE%20PACKAGE%20Opt-Out%20of%20Sealing%20Form%20version%202-8-2024.pdf",
+     "sha256": "303159c0a290f2b44484e7a024d37d6019b92eae30b770944c5c9836995dc964",
+     "byteLength": 276631
+    }
+   ]
+  },
+  "MI": {
+   "unheldFormShaped": 7,
+   "files": [
+    {
+     "fileName": "2021-11.pdf",
+     "relativePath": "LegalEase Michigan/2021-11.pdf",
+     "sha256": "afa54034adf36bf7e59c6107f56accd2461c81d3131f6c7387afe57af5a0f18c",
+     "byteLength": 180174
+    },
+    {
+     "fileName": "jc105.pdf",
+     "relativePath": "LegalEase Michigan/jc105.pdf",
+     "sha256": "1d03acc4622f009d34e6e345ec8a8c2c043acc2cf9b9be6d5a25a15a64fa6859",
+     "byteLength": 94155
+    },
+    {
+     "fileName": "mc227.pdf",
+     "relativePath": "LegalEase Michigan/mc227.pdf",
+     "sha256": "9fec389975f06640aff057fbace9375866f64761c33e30c86e9798609f93b8a7",
+     "byteLength": 374474
+    },
+    {
+     "fileName": "mc228a.pdf",
+     "relativePath": "LegalEase Michigan/mc228a.pdf",
+     "sha256": "7df3ab936f0da831d27276221a016b7ad70b9dd0343c121a8b91cb39474786f9",
+     "byteLength": 303610
+    },
+    {
+     "fileName": "mc228b.pdf",
+     "relativePath": "LegalEase Michigan/mc228b.pdf",
+     "sha256": "e4973f04fc07a70cf4148250dddc19a76e85515204a3df925fa15600406f2dfa",
+     "byteLength": 368336
+    },
+    {
+     "fileName": "Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+     "relativePath": "LegalEase Michigan/Michigan-SetAside-CleanSlate-Agent-Reference.pdf",
+     "sha256": "dafc4f5cc10da78e909cf199484fbc9eaae64f176617e14ba394ccd1e5368af2",
+     "byteLength": 34160
+    },
+    {
+     "fileName": "MC-262__order-of-acquittal-dismissal-or-remand__rev-2019-06.pdf",
+     "relativePath": "LegalEase Michigan/reference-only/MC-262__order-of-acquittal-dismissal-or-remand__rev-2019-06.pdf",
+     "sha256": "20088d3e64f6203d24386e75c87d3d020d04d30a2a21c1f3c882146ac265f23c",
+     "byteLength": 262101
+    }
+   ]
+  },
+  "MN": {
+   "unheldFormShaped": 7,
+   "files": [
+    {
+     "fileName": "EXP101.pdf",
+     "relativePath": "LegalEase Minnesota/EXP101.pdf",
+     "sha256": "0ccdc99ec3cbb86300b00f5d93bf724d795541d426709f4e97708119d1b1c5de",
+     "byteLength": 310217
+    },
+    {
+     "fileName": "EXP102_Current-2.pdf",
+     "relativePath": "LegalEase Minnesota/EXP102_Current-2.pdf",
+     "sha256": "c98430f1a9c7a6d399b7d01de1ef2eee0df5f0a1a07e89a703b307977d7bf541",
+     "byteLength": 214814
+    },
+    {
+     "fileName": "EXP103_Current.pdf",
+     "relativePath": "LegalEase Minnesota/EXP103_Current.pdf",
+     "sha256": "8dd66a22329559fd434f014814dd2895ea434e60f17d652a9816e8f65dae2fd4",
+     "byteLength": 10256
+    },
+    {
+     "fileName": "EXP104_Current.pdf",
+     "relativePath": "LegalEase Minnesota/EXP104_Current.pdf",
+     "sha256": "0e776a93b61f28f38fc6b318a9f59b78de4e0cbec102236364cf59ab061b423c",
+     "byteLength": 248691
+    },
+    {
+     "fileName": "EXP105_Current.pdf",
+     "relativePath": "LegalEase Minnesota/EXP105_Current.pdf",
+     "sha256": "754cd7a55b07409fe8752906d38dcccc45ab6a13cda5a3d7d061a689b837b4a0",
+     "byteLength": 195876
+    },
+    {
+     "fileName": "EXP106_Current.pdf",
+     "relativePath": "LegalEase Minnesota/EXP106_Current.pdf",
+     "sha256": "da7080f9c0b0135a79b537545e5448da438b63ae0de5d69c25e2513f1170bd85",
+     "byteLength": 183351
+    },
+    {
+     "fileName": "EXP107_Current.pdf",
+     "relativePath": "LegalEase Minnesota/EXP107_Current.pdf",
+     "sha256": "5db87cc3604bfcd1b94651b9a84b4d6e533112d8ba65a5dfc944eb807e38dfd8",
+     "byteLength": 12741
+    }
+   ]
+  },
+  "MS": {
+   "unheldFormShaped": 5,
+   "files": [
+    {
+     "fileName": "Order-of-Expungement-for-Conviction.pdf",
+     "relativePath": "LegalEase Mississippi/Order-of-Expungement-for-Conviction.pdf",
+     "sha256": "53fb893efcbf682aa9fc4b3e44240cae77195edd4869ccba4a4553cedcb279a4",
+     "byteLength": 120212
+    },
+    {
+     "fileName": "Order-of-Expungement-for-Dismissed-Case.pdf",
+     "relativePath": "LegalEase Mississippi/Order-of-Expungement-for-Dismissed-Case.pdf",
+     "sha256": "eaa201740129a88b460874b422240125f14a14bbb4bc66d8045caa7f0c6b73c6",
+     "byteLength": 119755
+    },
+    {
+     "fileName": "Petition-for-Expungement-of-Criminal-Record-of-Criminal-Conviction.pdf",
+     "relativePath": "LegalEase Mississippi/Petition-for-Expungement-of-Criminal-Record-of-Criminal-Conviction.pdf",
+     "sha256": "7cc8ebba3a77b5542e546043171179a17b7176990c05996e0c4c2701f96487ff",
+     "byteLength": 150674
+    },
+    {
+     "fileName": "Petition-for-Expungement-of-Criminal-Record-on-Dismissed-Case.pdf",
+     "relativePath": "LegalEase Mississippi/Petition-for-Expungement-of-Criminal-Record-on-Dismissed-Case.pdf",
+     "sha256": "8c9a450a6eed56c0ae12b2f42120835ece0d47c52136b36567ff97e1aad64b6e",
+     "byteLength": 150562
+    },
+    {
+     "fileName": "MS-HB-1546-2026__enrolled-act-chapter-430-laws-of-2026-expunction-waiting-period__source-2026-08.pdf",
+     "relativePath": "LegalEase Mississippi/reference-only/MS-HB-1546-2026__enrolled-act-chapter-430-laws-of-2026-expunction-waiting-period__source-2026-08.pdf",
+     "sha256": "d5d7169a9553f5c6126602e34165f9ac290773c05800c27e1536bcf86c7a02e4",
+     "byteLength": 101784
+    }
+   ]
+  },
+  "MO": {
+   "unheldFormShaped": 7,
+   "files": [
+    {
+     "fileName": "Conf Case Filing Info Sheet(FI-05).pdf",
+     "relativePath": "LegalEase Missouri/Conf Case Filing Info Sheet(FI-05).pdf",
+     "sha256": "53f1e04eba653d7ed8e2f2f059e57854d3780845e6364bb6b2a57c7728cd412e",
+     "byteLength": 298649
+    },
+    {
+     "fileName": "EXPUNGEMENT FORM.pdf",
+     "relativePath": "LegalEase Missouri/EXPUNGEMENT FORM.pdf",
+     "sha256": "5542597c1914bfde70b4373f2f32ee3b1080b24603849283a06f6688970e964c",
+     "byteLength": 944665
+    },
+    {
+     "fileName": "Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+     "relativePath": "LegalEase Missouri/Judgment and Order of Expungement - Section 610.140 RSMo CR370.pdf",
+     "sha256": "8a4d32d66d3fc05a41fdcd362a6f744c4536d95a8a600eb9d3d524192de60eb6",
+     "byteLength": 103658
+    },
+    {
+     "fileName": "Modified-MSPD-Pro-Se-FormFillable.pdf",
+     "relativePath": "LegalEase Missouri/Modified-MSPD-Pro-Se-FormFillable.pdf",
+     "sha256": "e42d24c0f361893efe7f66f8860d6070af6395e6eae21aacdc8c280e30f0b36e",
+     "byteLength": 752748
+    },
+    {
+     "fileName": "motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person.pdf",
+     "relativePath": "LegalEase Missouri/motion-and-affidavit-in-support-of-request-to-proceed-as-a-poor-person.pdf",
+     "sha256": "d65cc80449dfa7fe7d47b0cf73fb2c7feeab0195871bfaf37aa17ac23b0379af",
+     "byteLength": 87146
+    },
+    {
+     "fileName": "petition-for-expungement-mistaken-identity.pdf",
+     "relativePath": "LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf",
+     "sha256": "5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8",
+     "byteLength": 952015
+    },
+    {
+     "fileName": "petition-for-expungement-of-arrest-records.pdf",
+     "relativePath": "LegalEase Missouri/petition-for-expungement-of-arrest-records.pdf",
+     "sha256": "b3f5d820fcee22ddde2a8fa32ee27417140f2912d034d04dd4b92481ee066408",
+     "byteLength": 16977
+    }
+   ]
+  },
+  "MT": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "2023-Updated-ExpungementRemovalRequestForm.pdf",
+     "relativePath": "LegalEase Montana/2023-Updated-ExpungementRemovalRequestForm.pdf",
+     "sha256": "0362b43d05284210ec0aa0ca1a43e250351456c73880ec1581fbb78f467c99ee",
+     "byteLength": 174304
+    },
+    {
+     "fileName": "Records_Removal_Flowchart_Simple.pdf",
+     "relativePath": "LegalEase Montana/Records_Removal_Flowchart_Simple.pdf",
+     "sha256": "c49d443ecedddb95135fb990fd706fe21ce817a011184be17d04064207f2c6ea",
+     "byteLength": 130791
+    },
+    {
+     "fileName": "srmisexp2025.pdf",
+     "relativePath": "LegalEase Montana/srmisexp2025.pdf",
+     "sha256": "32ff86e20eb41f6e42614cc480c6eaf30d445900e793f62758912f4cbaa6b3c8",
+     "byteLength": 488507
+    }
+   ]
+  },
+  "NV": {
+   "unheldFormShaped": 6,
+   "files": [
+    {
+     "fileName": "dc-record-sealing-form-updated-2018.pdf",
+     "relativePath": "LegalEase Nevada/dc-record-sealing-form-updated-2018.pdf",
+     "sha256": "15e0bcb7d1726100609a57b619a20e0c296d23dfb7350b2aaf794e33537fad7f",
+     "byteLength": 162796
+    },
+    {
+     "fileName": "district-court-forms.pdf",
+     "relativePath": "LegalEase Nevada/district-court-forms.pdf",
+     "sha256": "78b9ca963715cff76b291507e91071533fdfa91b3b5f90c13d375a378747657b",
+     "byteLength": 166429
+    },
+    {
+     "fileName": "DPS-006.pdf",
+     "relativePath": "LegalEase Nevada/DPS-006.pdf",
+     "sha256": "ff4fdf3680b4768b421ebec76e61a163e1ca08904b6f8f8f6ade39f527b53271",
+     "byteLength": 225342
+    },
+    {
+     "fileName": "jc-record-sealing-form-updated-2018.pdf",
+     "relativePath": "LegalEase Nevada/jc-record-sealing-form-updated-2018.pdf",
+     "sha256": "4cf399357f48e4c244fff492bbfb3c30f6a9161f8e0ddc8f476e2d47a2502561",
+     "byteLength": 194393
+    },
+    {
+     "fileName": "justice-court-forms.pdf",
+     "relativePath": "LegalEase Nevada/justice-court-forms.pdf",
+     "sha256": "13fcc247329bcf096dea60e0eea978d29381bffd32090944c5b1dd0f5fe4b421",
+     "byteLength": 106113
+    },
+    {
+     "fileName": "sealing-records-booklet.pdf",
+     "relativePath": "LegalEase Nevada/sealing-records-booklet.pdf",
+     "sha256": "32d42294297aa6a2b05994e345d5b7c7b447a8c4f1d640cdc525331002a8531d",
+     "byteLength": 1110138
+    }
+   ]
+  },
+  "NH": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "nhjb-2981-d.pdf",
+     "relativePath": "LegalEase New Hampshire/nhjb-2981-d.pdf",
+     "sha256": "cd467b2a9041a210b86839c6d139db61bfdf5e2a8863e15267904b32133a9f15",
+     "byteLength": 99464
+    }
+   ]
+  },
+  "NJ": {
+   "unheldFormShaped": 2,
+   "files": [
+    {
+     "fileName": "expungementuserguide.pdf",
+     "relativePath": "LegalEase New Jersey/expungementuserguide.pdf",
+     "sha256": "b54e02a8ff0a214685cea204d8cb563d5aee2f5e9adedfd04bc4e3597d41f113",
+     "byteLength": 2564964
+    },
+    {
+     "fileName": "New-Jersey-Expungement-Agent-Reference.pdf",
+     "relativePath": "LegalEase New Jersey/New-Jersey-Expungement-Agent-Reference.pdf",
+     "sha256": "d61507fb3a0a79814774fe3f12456504beff4e7146f7e8c4fa01f5d3f4d3da4f",
+     "byteLength": 36660
+    }
+   ]
+  },
+  "NM": {
+   "unheldFormShaped": 5,
+   "files": [
+    {
+     "fileName": "4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+     "relativePath": "LegalEase New Mexico/4-951-Petition-to-expunge-arrest-records-and-public-records-identity-theft.-1.pdf",
+     "sha256": "e2fecbc04c4115cef68f9f550aeec134d02502bcea3e4a846793e6ded0df9ef9",
+     "byteLength": 128959
+    },
+    {
+     "fileName": "4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+     "relativePath": "LegalEase New Mexico/4-952-Petition-to-expunge-arrest-records-and-public-records-upon-release-without-conviction.-1.pdf",
+     "sha256": "63aaf07148766143935e061f11eeba95009983051fd507edca31da68a167a576",
+     "byteLength": 136440
+    },
+    {
+     "fileName": "4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+     "relativePath": "LegalEase New Mexico/4-953-Petition-to-expunge-arrest-records-and-public-records-upon-conviction.-1.pdf",
+     "sha256": "a0f1de568c2e54e4c344391d64fa4e5c39f1956e2f14024456b939a14cb4291a",
+     "byteLength": 137754
+    },
+    {
+     "fileName": "4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+     "relativePath": "LegalEase New Mexico/4-958-Notice-of-non-objection-to-petition-to-expunge-records.pdf",
+     "sha256": "b0753256df66e970deea11fba5a2fe339e1b126a53ad2d6d4c0cca13622551fb",
+     "byteLength": 120448
+    },
+    {
+     "fileName": "4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+     "relativePath": "LegalEase New Mexico/4-959-Notice-of-completion-of-briefing-upon-release-without-conviction.pdf",
+     "sha256": "bc34299e4d63be254093615ea39492904f92c00ea5bec9f1137294ed8f077a2c",
+     "byteLength": 123710
+    }
+   ]
+  },
+  "NY": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "NewYork-Record-Sealing-CleanSlate-Agent-Reference.pdf",
+     "relativePath": "LegalEase New York/NewYork-Record-Sealing-CleanSlate-Agent-Reference.pdf",
+     "sha256": "65074afad8d8e85eca5e68f97ccc4258c4cf41d9f3e8b486493cdafa71704ed6",
+     "byteLength": 34401
+    }
+   ]
+  },
+  "NC": {
+   "unheldFormShaped": 5,
+   "files": [
+    {
+     "fileName": "cr287_1.pdf",
+     "relativePath": "LegalEase North Carolina/cr287_1.pdf",
+     "sha256": "d686847a6f824de9c5f34058f23d2e4fded5ee97961a1e7fd57ff5c94196e742",
+     "byteLength": 255132
+    },
+    {
+     "fileName": "cr297-instr_2.pdf",
+     "relativePath": "LegalEase North Carolina/cr297-instr_2.pdf",
+     "sha256": "ea47d3aca9de38a1ce61a1de3ab5eb0bccc736553759b0eebba122558778da9b",
+     "byteLength": 202667
+    },
+    {
+     "fileName": "cr297.pdf",
+     "relativePath": "LegalEase North Carolina/cr297.pdf",
+     "sha256": "1dcfc4594a9dc7e1adc2211d18ec655c885d7728926b77d68c660cd5c4a9f9b6",
+     "byteLength": 277150
+    },
+    {
+     "fileName": "cr298_1.pdf",
+     "relativePath": "LegalEase North Carolina/cr298_1.pdf",
+     "sha256": "af50c33a8d0e8844919bc8a2aaf043953e9ba1ed4b014a49615ea304c3a64ac4",
+     "byteLength": 295511
+    },
+    {
+     "fileName": "North-Carolina-Expunction-Agent-Reference.pdf",
+     "relativePath": "LegalEase North Carolina/North-Carolina-Expunction-Agent-Reference.pdf",
+     "sha256": "738c3424f08185e8502df2da611e9c4f2640d8595b9826a2d4dfae5bb814eae2",
+     "byteLength": 34063
+    }
+   ]
+  },
+  "ND": {
+   "unheldFormShaped": 9,
+   "files": [
+    {
+     "fileName": "1. N of Motion to Prohibit Public Access AR41 5f1.pdf",
+     "relativePath": "LegalEase North Dakota/1. N of Motion to Prohibit Public Access AR41 5f1.pdf",
+     "sha256": "a85f5ca2b8514491838246fbb56bfa90aaaf8063388ca116857ff4e9af1a8903",
+     "byteLength": 1208303
+    },
+    {
+     "fileName": "10. Confidential Info Form AR41 5f1.pdf",
+     "relativePath": "LegalEase North Dakota/10. Confidential Info Form AR41 5f1.pdf",
+     "sha256": "ede55c05a3cb7b57d5b85b939be6f042b48483b33f779df5bd50887d26f10790",
+     "byteLength": 1236475
+    },
+    {
+     "fileName": "2. Motion to Prohibit Public Access AR41 5f1.pdf",
+     "relativePath": "LegalEase North Dakota/2. Motion to Prohibit Public Access AR41 5f1.pdf",
+     "sha256": "0326913ada876838b1f9a294cb0d1fe1d2446f46f7d4f878bd2e110f56b9b2b8",
+     "byteLength": 1244725
+    },
+    {
+     "fileName": "3. Brief Prohibit Public Access AR41 5f1.pdf",
+     "relativePath": "LegalEase North Dakota/3. Brief Prohibit Public Access AR41 5f1.pdf",
+     "sha256": "44bf8283ac6b042689843335e37d64cf632c647f4f606036eeb412bded7387b4",
+     "byteLength": 1425955
+    },
+    {
+     "fileName": "4. Declaration Prohibit Public Access AR41 5f1.pdf",
+     "relativePath": "LegalEase North Dakota/4. Declaration Prohibit Public Access AR41 5f1.pdf",
+     "sha256": "af76c52d1f9aa8b2e986fbd719655c8e3a1f1b8158f5f606d4a6da25d3465e5b",
+     "byteLength": 1288096
+    },
+    {
+     "fileName": "5. Findings Concl Order Prohibit Public Access AR41 5f1.pdf",
+     "relativePath": "LegalEase North Dakota/5. Findings Concl Order Prohibit Public Access AR41 5f1.pdf",
+     "sha256": "47dafce1f10f1972d505e6d988ee05c74421c93be02cddcbb26f15312bfb8d2d",
+     "byteLength": 1675405
+    },
+    {
+     "fileName": "6. Affidavit Service Mail Motion AR41 5f1.pdf",
+     "relativePath": "LegalEase North Dakota/6. Affidavit Service Mail Motion AR41 5f1.pdf",
+     "sha256": "9070a339facab5a2c2a15a453ab468dfdf915a531f798c5d02b14c2a2864fe23",
+     "byteLength": 1291529
+    },
+    {
+     "fileName": "Expungement.pdf",
+     "relativePath": "LegalEase North Dakota/Expungement.pdf",
+     "sha256": "40fd33d0fece1fe31587208a22e549f816c24f71c00c71b4a1d76409109f930f",
+     "byteLength": 274927
+    },
+    {
+     "fileName": "Sealing-DUI-Records-Research-Guide.pdf",
+     "relativePath": "LegalEase North Dakota/Sealing-DUI-Records-Research-Guide.pdf",
+     "sha256": "a3dd1b924bedad7c8ba0b77742bcd99ef6855a1b05021374b7083f1b445e1264",
+     "byteLength": 222600
+    }
+   ]
+  },
+  "OH": {
+   "unheldFormShaped": 4,
+   "files": [
+    {
+     "fileName": "Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+     "relativePath": "LegalEase Ohio/Cover-Sheet-Sealing-and-Expungement-04132026.pdf",
+     "sha256": "10272aa95c86f55b5a2d4deba20e3f2fa039de45563eeebd0a9f5d3f5c907571",
+     "byteLength": 130936
+    },
+    {
+     "fileName": "SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+     "relativePath": "LegalEase Ohio/SEALING-AND-EXPUNGEMENT-APP-EXAMPLE.pdf",
+     "sha256": "5a14cc82fdd6251fe5d69157e6e0f38e3ff11f0c495c99687640686d735d6206",
+     "byteLength": 26035
+    },
+    {
+     "fileName": "SealingorExpunging%20Inst_202504091343476141.pdf",
+     "relativePath": "LegalEase Ohio/SealingorExpunging%20Inst_202504091343476141.pdf",
+     "sha256": "574bc7e7a97295dcaf3cb31f24be44cbd9d43348d062090a6135b959d4439aa6",
+     "byteLength": 292418
+    },
+    {
+     "fileName": "SysServ_CQE_sample_petition.pdf",
+     "relativePath": "LegalEase Ohio/SysServ_CQE_sample_petition.pdf",
+     "sha256": "33618d64200e60faa92e4eb587f4e2b6aa1ddf3dd466c3c873c56b809b85ac5c",
+     "byteLength": 1443665
+    }
+   ]
+  },
+  "OR": {
+   "unheldFormShaped": 2,
+   "files": [
+    {
+     "fileName": "CriminalSetAside_AdultCases2.pdf",
+     "relativePath": "LegalEase Oregon/CriminalSetAside_AdultCases2.pdf",
+     "sha256": "6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a",
+     "byteLength": 253599
+    },
+    {
+     "fileName": "Oregon-SetAside-Expungement-Agent-Reference.pdf",
+     "relativePath": "LegalEase Oregon/Oregon-SetAside-Expungement-Agent-Reference.pdf",
+     "sha256": "ee9b7ae8dd78839dbfae04494f72f4342a40a49463fe3fd7ad8e053f3777f3e7",
+     "byteLength": 32667
+    }
+   ]
+  },
+  "PA": {
+   "unheldFormShaped": 8,
+   "files": [
+    {
+     "fileName": "143137-172055-motionforexpungementjuvenilefillable.pdf",
+     "relativePath": "LegalEase Pennsylvania/143137-172055-motionforexpungementjuvenilefillable.pdf",
+     "sha256": "88bcdade739f26b300e19af058f161c275ed21e23fb0be7829f8c3bc2fc236fd",
+     "byteLength": 214546
+    },
+    {
+     "fileName": "172056-orderforexpungementjuvenilefillable.pdf",
+     "relativePath": "LegalEase Pennsylvania/172056-orderforexpungementjuvenilefillable.pdf",
+     "sha256": "ac3a97e2d4ce40ba08b1309053d04d5b29d9d7780b368eb2f2927500043fc20f",
+     "byteLength": 214409
+    },
+    {
+     "fileName": "213820-file-6290.pdf",
+     "relativePath": "LegalEase Pennsylvania/213820-file-6290.pdf",
+     "sha256": "a27a54ea97d79a143824649f4d3f4c9bf2bfd68c188088cb9ba2e216235adc8e",
+     "byteLength": 930254
+    },
+    {
+     "fileName": "213825-file-6289.pdf",
+     "relativePath": "LegalEase Pennsylvania/213825-file-6289.pdf",
+     "sha256": "9cc88dc153ffdbc23c94c11eca2153d82926c3bfd1557610cda6577bebb3beac",
+     "byteLength": 760347
+    },
+    {
+     "fileName": "213835-file-6288.pdf",
+     "relativePath": "LegalEase Pennsylvania/213835-file-6288.pdf",
+     "sha256": "af9eae90ba7dd45e1a91aa074817a83e07992a5dd5b77ed483e805e5d5af91bd",
+     "byteLength": 2355925
+    },
+    {
+     "fileName": "213843-file-6287.pdf",
+     "relativePath": "LegalEase Pennsylvania/213843-file-6287.pdf",
+     "sha256": "c5970ac987df2ebe1842858df63481d0f6ca1b0830fa4cf8eb8c6e021f79cf8e",
+     "byteLength": 877743
+    },
+    {
+     "fileName": "dna_removal_request.pdf",
+     "relativePath": "LegalEase Pennsylvania/dna_removal_request.pdf",
+     "sha256": "cf22dc9d97f8ba5fb193f3eea3b75317eb4f2049596aced25a46d5989c56513d",
+     "byteLength": 83541
+    },
+    {
+     "fileName": "sp4-170.pdf",
+     "relativePath": "LegalEase Pennsylvania/sp4-170.pdf",
+     "sha256": "1c670a7a097a4a4aee0121d2908229a4f2b272686a49a4d78fbd075d6fc47874",
+     "byteLength": 109501
+    }
+   ]
+  },
+  "SC": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "SCCA223A1(a).pdf",
+     "relativePath": "LegalEase South Carolina /SCCA223A1(a).pdf",
+     "sha256": "bc01a64b530b63e586e7ecc59ae0c272ff663ebc3eb8c537e511db5eb15cc8bb",
+     "byteLength": 229845
+    },
+    {
+     "fileName": "SCCA223B1.pdf",
+     "relativePath": "LegalEase South Carolina /SCCA223B1.pdf",
+     "sha256": "1f49409a17ba08d8d74cbaff3669e31b2cad0d1562063fc394b2634cb50b792d",
+     "byteLength": 154780
+    },
+    {
+     "fileName": "SCCA492.pdf",
+     "relativePath": "LegalEase South Carolina /SCCA492.pdf",
+     "sha256": "f3ca97547842f877d288fec3155331684d5a7199283c2b9d27cf34664409652f",
+     "byteLength": 321133
+    }
+   ]
+  },
+  "SD": {
+   "unheldFormShaped": 6,
+   "files": [
+    {
+     "fileName": "ujs-232-case-filing-statement-written.pdf",
+     "relativePath": "LegalEase South Dakota/ujs-232-case-filing-statement-written.pdf",
+     "sha256": "4301ebb8eea5a70a9ccb22702e0c8d11cfec4de2b6db2d696024d4cf75623dce",
+     "byteLength": 121267
+    },
+    {
+     "fileName": "ujs-390-expungement-instructions.pdf",
+     "relativePath": "LegalEase South Dakota/ujs-390-expungement-instructions.pdf",
+     "sha256": "d7d65a7f8047fad30ea3945284a49f92f507ee9189aa058b38c9b3e65f2beeb1",
+     "byteLength": 96890
+    },
+    {
+     "fileName": "ujs-392-waiver-of-expungement-hearing-07_2025.pdf",
+     "relativePath": "LegalEase South Dakota/ujs-392-waiver-of-expungement-hearing-07_2025.pdf",
+     "sha256": "bae0abc96b9f81303974a8632e53ff0fd9f1e159fda6b3db759ba3bf4ec22244",
+     "byteLength": 137212
+    },
+    {
+     "fileName": "ujs-393-notice-of-hearing-for-expungement-of-record_08_2025.pdf",
+     "relativePath": "LegalEase South Dakota/ujs-393-notice-of-hearing-for-expungement-of-record_08_2025.pdf",
+     "sha256": "11a9157e9e2dc58246f4bd3567bd83a26ebc52364506131cdf20f30fe61bf3dc",
+     "byteLength": 128333
+    },
+    {
+     "fileName": "ujs-395-notice-of-entry-of-expungement-order_06_2023.pdf",
+     "relativePath": "LegalEase South Dakota/ujs-395-notice-of-entry-of-expungement-order_06_2023.pdf",
+     "sha256": "8af0e3e47620b44b8ed7d2f7386e7f76002fac59c564e03f5558818a0fe396b9",
+     "byteLength": 160338
+    },
+    {
+     "fileName": "ujs391-motion-for-expungement-and-affidavit-of-mailing-final-07_2025.pdf",
+     "relativePath": "LegalEase South Dakota/ujs391-motion-for-expungement-and-affidavit-of-mailing-final-07_2025.pdf",
+     "sha256": "964a2fb15fbb57696b3f81dc1f9e4b3f2e901e566c6bbee3636fa739bceecdca",
+     "byteLength": 156690
+    }
+   ]
+  },
+  "TN": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "Tennessee-Expunction-Agent-Reference.pdf",
+     "relativePath": "LegalEase Tennesee/Tennessee-Expunction-Agent-Reference.pdf",
+     "sha256": "d39d374e5363161ea248e422119ee70d3a519566371b8953775d7587a0f46310",
+     "byteLength": 34683
+    }
+   ]
+  },
+  "TX": {
+   "unheldFormShaped": 2,
+   "files": [
+    {
+     "fileName": "petition_charges_dismissed_or_quashed_revision_06112026.pdf",
+     "relativePath": "LegalEase Texas/petition_charges_dismissed_or_quashed_revision_06112026.pdf",
+     "sha256": "0e6ef6cc135ded2cb4a991487a40183c2fe2fc35c270d9d1ceea5524dad586bc",
+     "byteLength": 1550582
+    },
+    {
+     "fileName": "Texas-Statewide-Expunction-Nondisclosure-Agent-Reference.pdf",
+     "relativePath": "LegalEase Texas/Texas-Statewide-Expunction-Nondisclosure-Agent-Reference.pdf",
+     "sha256": "b50405886340ee41430e0bba091a4886d1986b635a10b40f5b7eb5b600d4db26",
+     "byteLength": 36911
+    }
+   ]
+  },
+  "UT": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "1023EX_Order_Cannabis_Conviction.pdf",
+     "relativePath": "LegalEase Utah/1023EX_Order_Cannabis_Conviction.pdf",
+     "sha256": "24868a504130440532dd51f47b212e925815abc91c086a3bf67d5c014b5d002a",
+     "byteLength": 110830
+    }
+   ]
+  },
+  "VT": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "400-00171.pdf",
+     "relativePath": "LegalEase Vermont/400-00171.pdf",
+     "sha256": "b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+     "byteLength": 1964636
+    }
+   ]
+  },
+  "VA": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "cc1473.pdf",
+     "relativePath": "LegalEase Virginia /cc1473.pdf",
+     "sha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+     "byteLength": 31540
+    },
+    {
+     "fileName": "cc1473inst.pdf",
+     "relativePath": "LegalEase Virginia /cc1473inst.pdf",
+     "sha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+     "byteLength": 20802
+    },
+    {
+     "fileName": "Virginia-Expungement-Sealing-Agent-Reference.pdf",
+     "relativePath": "LegalEase Virginia /Virginia-Expungement-Sealing-Agent-Reference.pdf",
+     "sha256": "990ce8eb14d35dbbfd87d737ffc39bc43b5545b4926fc5298d1f7fcbe89cb6be",
+     "byteLength": 36188
+    }
+   ]
+  },
+  "WA": {
+   "unheldFormShaped": 2,
+   "files": [
+    {
+     "fileName": "CrRLJ 09_0150 Notice of Hearing_2019 07.pdf",
+     "relativePath": "LegalEase Washington/CrRLJ 09_0150 Notice of Hearing_2019 07.pdf",
+     "sha256": "5bf278480630d1487e97dea92a00008b2436d1d57bf63c720da0e62c246aff69",
+     "byteLength": 105414
+    },
+    {
+     "fileName": "JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf",
+     "relativePath": "LegalEase Washington/JU 10_0320 Order re Sealing Records of Juvenile Offender_2022 01.pdf",
+     "sha256": "bbe5a288b36a91b71cadbf1279ad6e10bfcc75732c2ef64bb5c21bc2d3ab5d86",
+     "byteLength": 136817
+    }
+   ]
+  },
+  "WV": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "SCA-C-903.pdf",
+     "relativePath": "LegalEase West Virginia/SCA-C-903.pdf",
+     "sha256": "242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035",
+     "byteLength": 112484
+    },
+    {
+     "fileName": "SCA-C906.pdf",
+     "relativePath": "LegalEase West Virginia/SCA-C906.pdf",
+     "sha256": "8c6ced88c37870359bc38537c4409b2dc99a5ed6fc6b69c9c41d386fa7fe6e8c",
+     "byteLength": 153424
+    },
+    {
+     "fileName": "SCA-C907.pdf",
+     "relativePath": "LegalEase West Virginia/SCA-C907.pdf",
+     "sha256": "2a72314146636c4120d87bdfb83f8609e35e9e904eed2f8169bc2375fba30222",
+     "byteLength": 283289
+    }
+   ]
+  },
+  "WI": {
+   "unheldFormShaped": 3,
+   "files": [
+    {
+     "fileName": "CR-266_summary.pdf",
+     "relativePath": "LegalEase Wisconsin/CR-266_summary.pdf",
+     "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+     "byteLength": 248786
+    },
+    {
+     "fileName": "CR-267_summary.pdf",
+     "relativePath": "LegalEase Wisconsin/CR-267_summary.pdf",
+     "sha256": "1c6481cc584bd09196de6122ab5b84572fcabe42d1acc2ee24130e417e5f6342",
+     "byteLength": 69889
+    },
+    {
+     "fileName": "CR-266_summary_en.pdf",
+     "relativePath": "LegalEase Wisconsin/forms-download/CR-266_summary_en.pdf",
+     "sha256": "6ea76724d0295ad87b0a474850d0fb9ef2988cb9250f6eb1360ba007d02591a1",
+     "byteLength": 248786
+    }
+   ]
+  },
+  "WY": {
+   "unheldFormShaped": 1,
+   "files": [
+    {
+     "fileName": "Wyoming Expungement-Handout_05.01.25.pdf",
+     "relativePath": "LegalEase Wyoming/Wyoming Expungement-Handout_05.01.25.pdf",
+     "sha256": "0ad46f3b216f77af4fc571b24042a2b4c57bdd794b14818c5e6975170be3108d",
+     "byteLength": 136787
+    }
+   ]
+  }
+ },
+ "grantsNothing": "A file recorded in an inventory is not a held source. Nothing here binds a source, promotes a family, or authorizes an acquisition."
+}

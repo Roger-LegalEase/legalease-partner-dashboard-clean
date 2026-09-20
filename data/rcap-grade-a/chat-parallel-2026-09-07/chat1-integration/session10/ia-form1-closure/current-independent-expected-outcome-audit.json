@@ -1,0 +1,443 @@
+{
+  "schemaVersion": "rcap-independent-expected-outcome-audit/v1",
+  "reviewer": "GPT-6 Astra mi_mo_closure independent of original Iowa builder",
+  "familyId": "ia-901c2-set",
+  "unmodifiedCandidatePaths": 65,
+  "dependencies": [
+    {
+      "path": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs",
+      "sha256": "03f77f011ba9ed037980adc8a41d6d840084b1e1854a76ad00ca7e010ea8307e"
+    },
+    {
+      "path": "scripts/rcap-packet-completeness/completeness-contract.mjs",
+      "sha256": "338b3b03512a8b2225e0dc0937a07fdb49d1e4d93fe4188aa1821266c8789738"
+    }
+  ],
+  "aggregate": {
+    "familyId": "ia-901c2-set",
+    "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+    "result": "FAIL_ROUTE_SELECTION",
+    "auditable": true,
+    "counters": {
+      "knownRequiredFieldsMissing": 0,
+      "requiredFactsNotCollected": 0,
+      "unclassifiedBlanks": 0,
+      "incompleteRows": 0,
+      "requiredOptionsMissing": 2,
+      "requiredComponentsMissing": 0,
+      "invisibleWrites": 0,
+      "protectedWrites": 0,
+      "visualDefects": 0
+    },
+    "failedCounters": [
+      "requiredOptionsMissing"
+    ],
+    "totals": {
+      "terminalFields": 285,
+      "written": 106,
+      "blank": 179,
+      "blanksByDisposition": {
+        "NON_FILING_SOURCE_ELEMENT": 25,
+        "NOT_APPLICABLE_ON_THIS_ROUTE": 96,
+        "PARTICIPANT_ELECTION_GENUINE": 10,
+        "PROTECTED_FIELD": 34,
+        "ROUTE_OPTION_NOT_SELECTED": 2,
+        "REQUIRED_BEFORE_FILING": 12
+      },
+      "rowsInspected": 0,
+      "fieldMapSchema": "writes-and-refusals"
+    },
+    "outputApprovalStatus": "REVIEW_REQUESTED_NOT_APPROVED",
+    "sourceCurrentness": "EXACT",
+    "findings": [
+      {
+        "counter": "requiredOptionsMissing",
+        "field": "exact-day-180:2.86-1.03.00",
+        "label": "Item 3: waiting-period basis",
+        "disposition": "ROUTE_OPTION_NOT_SELECTED",
+        "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+        "reasonGiven": "Day 180 meets the statutory minimum, but the form says MORE than 180. Do not auto-certify that statement. Update the filing assessment after day 180 or obtain court/legal guidance."
+      },
+      {
+        "counter": "requiredOptionsMissing",
+        "field": "exact-day-180:2.86-1.03.AB",
+        "label": "Item 3.A ordinary wait or 3.B waiver request",
+        "disposition": "ROUTE_OPTION_NOT_SELECTED",
+        "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+        "reasonGiven": "Day 180 meets the statutory minimum, but the form says MORE than 180. Do not auto-certify that statement. Update the filing assessment after day 180 or obtain court/legal guidance."
+      }
+    ],
+    "findingsTruncated": 0
+  },
+  "fixtures": [
+    {
+      "fixture": "canonical",
+      "result": {
+        "familyId": "ia-901c2-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+        "result": "PASS_COMPLETE",
+        "auditable": true,
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failedCounters": [],
+        "totals": {
+          "terminalFields": 57,
+          "written": 26,
+          "blank": 31,
+          "blanksByDisposition": {
+            "NON_FILING_SOURCE_ELEMENT": 5,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 16,
+            "PARTICIPANT_ELECTION_GENUINE": 2,
+            "PROTECTED_FIELD": 8
+          },
+          "rowsInspected": 0,
+          "fieldMapSchema": "writes-and-refusals"
+        },
+        "outputApprovalStatus": "REVIEW_REQUESTED_NOT_APPROVED",
+        "sourceCurrentness": "EXACT",
+        "findings": [],
+        "findingsTruncated": 0
+      },
+      "readiness": {
+        "fixture": "canonical",
+        "classification": "SUPPORTED_UNEXECUTED_DRAFT",
+        "uncompletedSourceAreas": [],
+        "missingParticipantFacts": 0,
+        "sourceWordingConflict": false,
+        "filingReady": false,
+        "source": "unchanged actual packet, explicit facts and original blank ledger; signatures/service remain real later acts",
+        "missingParticipantControlAreas": 0,
+        "unknownFactIds": [],
+        "rawCounterPassIsNotFilingAuthority": true,
+        "inputSnapshotSha256": "edbf09d67e0fd425a07ec5d7ec8d503a122eaddec63f891ea07505df09da973c",
+        "pendingParticipantExecution": [
+          "canonical:2.86-1.01.00",
+          "canonical:2.86-1.01.AB",
+          "canonical:2.86-1.sig.a.02",
+          "canonical:2.86-1.sig.a.03",
+          "canonical:2.86-1.sig.a.04",
+          "canonical:2.86-1.sig.AB",
+          "canonical:2.86-1.cert.02",
+          "canonical:2.86-1.cert.03",
+          "canonical:2.86-1.cert.04",
+          "canonical:printed.participant-signature-rule"
+        ]
+      },
+      "projection": "Read-only exact fixture partition into actual current auditPreparedInputs invoking path; no report generation or disk-copy mutation."
+    },
+    {
+      "fixture": "boundary",
+      "result": {
+        "familyId": "ia-901c2-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+        "result": "PASS_COMPLETE",
+        "auditable": true,
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failedCounters": [],
+        "totals": {
+          "terminalFields": 57,
+          "written": 20,
+          "blank": 37,
+          "blanksByDisposition": {
+            "NON_FILING_SOURCE_ELEMENT": 5,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 25,
+            "PARTICIPANT_ELECTION_GENUINE": 2,
+            "PROTECTED_FIELD": 5
+          },
+          "rowsInspected": 0,
+          "fieldMapSchema": "writes-and-refusals"
+        },
+        "outputApprovalStatus": "REVIEW_REQUESTED_NOT_APPROVED",
+        "sourceCurrentness": "EXACT",
+        "findings": [],
+        "findingsTruncated": 0
+      },
+      "readiness": {
+        "fixture": "boundary",
+        "classification": "SUPPORTED_UNEXECUTED_DRAFT",
+        "uncompletedSourceAreas": [],
+        "missingParticipantFacts": 0,
+        "sourceWordingConflict": false,
+        "filingReady": false,
+        "source": "unchanged actual packet, explicit facts and original blank ledger; signatures/service remain real later acts",
+        "missingParticipantControlAreas": 0,
+        "unknownFactIds": [],
+        "rawCounterPassIsNotFilingAuthority": true,
+        "inputSnapshotSha256": "5a049082c3dd9dd48e7d85724b427cf10b90f77ee02693129c4fb9f85cec8156",
+        "pendingParticipantExecution": [
+          "boundary:2.86-1.01.00",
+          "boundary:2.86-1.01.AB",
+          "boundary:2.86-1.sig.a.02",
+          "boundary:2.86-1.sig.a.03",
+          "boundary:2.86-1.sig.a.04",
+          "boundary:2.86-1.sig.AB",
+          "boundary:printed.participant-signature-rule"
+        ]
+      },
+      "projection": "Read-only exact fixture partition into actual current auditPreparedInputs invoking path; no report generation or disk-copy mutation."
+    },
+    {
+      "fixture": "good-cause-waiver",
+      "result": {
+        "familyId": "ia-901c2-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+        "result": "PASS_COMPLETE",
+        "auditable": true,
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failedCounters": [],
+        "totals": {
+          "terminalFields": 57,
+          "written": 28,
+          "blank": 29,
+          "blanksByDisposition": {
+            "NON_FILING_SOURCE_ELEMENT": 5,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 14,
+            "PARTICIPANT_ELECTION_GENUINE": 2,
+            "PROTECTED_FIELD": 8
+          },
+          "rowsInspected": 0,
+          "fieldMapSchema": "writes-and-refusals"
+        },
+        "outputApprovalStatus": "REVIEW_REQUESTED_NOT_APPROVED",
+        "sourceCurrentness": "EXACT",
+        "findings": [],
+        "findingsTruncated": 0
+      },
+      "readiness": {
+        "fixture": "good-cause-waiver",
+        "classification": "SUPPORTED_UNEXECUTED_DRAFT",
+        "uncompletedSourceAreas": [],
+        "missingParticipantFacts": 0,
+        "sourceWordingConflict": false,
+        "filingReady": false,
+        "source": "unchanged actual packet, explicit facts and original blank ledger; signatures/service remain real later acts",
+        "missingParticipantControlAreas": 0,
+        "unknownFactIds": [],
+        "rawCounterPassIsNotFilingAuthority": true,
+        "inputSnapshotSha256": "3d170b136f08014fd8066c5419bd8380d34d28e72a00f83e72515cae51f62e62",
+        "pendingParticipantExecution": [
+          "good-cause-waiver:2.86-1.01.00",
+          "good-cause-waiver:2.86-1.01.AB",
+          "good-cause-waiver:2.86-1.sig.a.02",
+          "good-cause-waiver:2.86-1.sig.a.03",
+          "good-cause-waiver:2.86-1.sig.a.04",
+          "good-cause-waiver:2.86-1.sig.AB",
+          "good-cause-waiver:2.86-1.cert.02",
+          "good-cause-waiver:2.86-1.cert.03",
+          "good-cause-waiver:2.86-1.cert.04",
+          "good-cause-waiver:printed.participant-signature-rule"
+        ]
+      },
+      "projection": "Read-only exact fixture partition into actual current auditPreparedInputs invoking path; no report generation or disk-copy mutation."
+    },
+    {
+      "fixture": "exact-day-180",
+      "result": {
+        "familyId": "ia-901c2-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+        "result": "FAIL_ROUTE_SELECTION",
+        "auditable": true,
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 2,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failedCounters": [
+          "requiredOptionsMissing"
+        ],
+        "totals": {
+          "terminalFields": 57,
+          "written": 18,
+          "blank": 39,
+          "blanksByDisposition": {
+            "NON_FILING_SOURCE_ELEMENT": 5,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 25,
+            "PARTICIPANT_ELECTION_GENUINE": 2,
+            "ROUTE_OPTION_NOT_SELECTED": 2,
+            "PROTECTED_FIELD": 5
+          },
+          "rowsInspected": 0,
+          "fieldMapSchema": "writes-and-refusals"
+        },
+        "outputApprovalStatus": "REVIEW_REQUESTED_NOT_APPROVED",
+        "sourceCurrentness": "EXACT",
+        "findings": [
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "exact-day-180:2.86-1.03.00",
+            "label": "Item 3: waiting-period basis",
+            "disposition": "ROUTE_OPTION_NOT_SELECTED",
+            "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+            "reasonGiven": "Day 180 meets the statutory minimum, but the form says MORE than 180. Do not auto-certify that statement. Update the filing assessment after day 180 or obtain court/legal guidance."
+          },
+          {
+            "counter": "requiredOptionsMissing",
+            "field": "exact-day-180:2.86-1.03.AB",
+            "label": "Item 3.A ordinary wait or 3.B waiver request",
+            "disposition": "ROUTE_OPTION_NOT_SELECTED",
+            "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+            "reasonGiven": "Day 180 meets the statutory minimum, but the form says MORE than 180. Do not auto-certify that statement. Update the filing assessment after day 180 or obtain court/legal guidance."
+          }
+        ],
+        "findingsTruncated": 0
+      },
+      "readiness": {
+        "fixture": "exact-day-180",
+        "classification": "DIAGNOSTIC_NOT_FILING_POSITIVE",
+        "uncompletedSourceAreas": [
+          "2.86-1.03.00",
+          "2.86-1.03.AB"
+        ],
+        "missingParticipantFacts": 0,
+        "sourceWordingConflict": true,
+        "filingReady": false,
+        "source": "unchanged actual packet, explicit facts and original blank ledger; signatures/service remain real later acts",
+        "missingParticipantControlAreas": 0,
+        "unknownFactIds": [],
+        "rawCounterPassIsNotFilingAuthority": true,
+        "inputSnapshotSha256": "465b4306cf5dd7836dd5de80cbed970b2e42aa8e1e4771f995560f63185c0c67",
+        "pendingParticipantExecution": [
+          "exact-day-180:2.86-1.01.00",
+          "exact-day-180:2.86-1.01.AB",
+          "exact-day-180:2.86-1.sig.a.02",
+          "exact-day-180:2.86-1.sig.a.03",
+          "exact-day-180:2.86-1.sig.a.04",
+          "exact-day-180:2.86-1.sig.AB",
+          "exact-day-180:printed.participant-signature-rule"
+        ]
+      },
+      "projection": "Read-only exact fixture partition into actual current auditPreparedInputs invoking path; no report generation or disk-copy mutation."
+    },
+    {
+      "fixture": "missing-contact",
+      "result": {
+        "familyId": "ia-901c2-set",
+        "directory": "data/rcap-all50/overlays/census-v1/ia/ia-901c2-set--official-pdf-fill",
+        "result": "PASS_COMPLETE",
+        "auditable": true,
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        },
+        "failedCounters": [],
+        "totals": {
+          "terminalFields": 57,
+          "written": 14,
+          "blank": 43,
+          "blanksByDisposition": {
+            "NON_FILING_SOURCE_ELEMENT": 5,
+            "NOT_APPLICABLE_ON_THIS_ROUTE": 16,
+            "PARTICIPANT_ELECTION_GENUINE": 2,
+            "PROTECTED_FIELD": 8,
+            "REQUIRED_BEFORE_FILING": 12
+          },
+          "rowsInspected": 0,
+          "fieldMapSchema": "writes-and-refusals"
+        },
+        "outputApprovalStatus": "REVIEW_REQUESTED_NOT_APPROVED",
+        "sourceCurrentness": "EXACT",
+        "findings": [],
+        "findingsTruncated": 0
+      },
+      "readiness": {
+        "fixture": "missing-contact",
+        "classification": "DIAGNOSTIC_NOT_FILING_POSITIVE",
+        "uncompletedSourceAreas": [
+          "2.86-1.sig.a.05",
+          "2.86-1.sig.a.06",
+          "2.86-1.sig.a.07",
+          "2.86-1.sig.a.08",
+          "2.86-1.sig.a.09",
+          "2.86-1.sig.a.10",
+          "2.86-1.sig.a.11",
+          "2.86-1.cert.05",
+          "2.86-1.cert.06",
+          "2.86-1.cert.07",
+          "2.86-1.cert.08",
+          "2.86-1.cert.09"
+        ],
+        "missingParticipantFacts": 11,
+        "sourceWordingConflict": false,
+        "filingReady": false,
+        "source": "unchanged actual packet, explicit facts and original blank ledger; signatures/service remain real later acts",
+        "missingParticipantControlAreas": 12,
+        "unknownFactIds": [
+          "missing-contact:address",
+          "missing-contact:city",
+          "missing-contact:state",
+          "missing-contact:zip",
+          "missing-contact:phone",
+          "missing-contact:email",
+          "missing-contact:countyAttorney.name",
+          "missing-contact:countyAttorney.address",
+          "missing-contact:countyAttorney.city",
+          "missing-contact:countyAttorney.state",
+          "missing-contact:countyAttorney.zip"
+        ],
+        "rawCounterPassIsNotFilingAuthority": true,
+        "inputSnapshotSha256": "1a8facbab6ae552f35de2487b908ed2c04ee18f6c7ca7210dc5041ffaec4a9d8",
+        "pendingParticipantExecution": [
+          "missing-contact:2.86-1.01.00",
+          "missing-contact:2.86-1.01.AB",
+          "missing-contact:2.86-1.sig.a.02",
+          "missing-contact:2.86-1.sig.a.03",
+          "missing-contact:2.86-1.sig.a.04",
+          "missing-contact:2.86-1.sig.AB",
+          "missing-contact:2.86-1.cert.02",
+          "missing-contact:2.86-1.cert.03",
+          "missing-contact:2.86-1.cert.04",
+          "missing-contact:printed.participant-signature-rule"
+        ]
+      },
+      "projection": "Read-only exact fixture partition into actual current auditPreparedInputs invoking path; no report generation or disk-copy mutation."
+    }
+  ],
+  "expectedDay180RejectionAsserted": true,
+  "unknownMissingContactsPreserved": true,
+  "filingPermissionGranted": false,
+  "rendererInvoked": false,
+  "originalCompatibilityReviewReused": "131ba5388f5e39c69dbae92a0b58b04dbaa57af6/cf7d6a401abd893025ec0639cec4295590f3a320",
+  "harnessCorrection": "Initial read-only projection omitted the actual instructions argument required by auditPreparedInputs and failed before writing evidence. Added the unchanged complete delivered instructions; no candidate or shared-host change."
+}

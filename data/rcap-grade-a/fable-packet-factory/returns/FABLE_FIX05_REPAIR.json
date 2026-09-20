@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "rcap-fable-repair-return/v1",
+  "lane": "FABLE-FIX05",
+  "assignmentId": "FIX05",
+  "laneKind": "repair",
+  "baseSha": "e4e505192",
+  "branch": "fable/fix05",
+  "worktree": ".claude/worktrees/fix05",
+  "generatedAt": "2026-09-02T00:00:00Z",
+  "headline": "BLOCKED_BEFORE_CLAIM on both assigned families. Neither grant could be opened, so no packet byte was written. Read-only measurement establishes that one assigned family has no reproducible defect and the other has a live, precisely-located one.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "fixtureBytesChanged": false,
+  "fixtureBytesNote": "No fixture, no field map, no build script and no generated artifact was modified by this lane. No RASTER_PASS is invalidated and Captain need not re-dispatch any visual gate on account of FIX05.",
+  "grantsNothing": "This return repairs nothing and promotes nothing. Both families remain exactly as this lane found them.",
+
+  "theClaimGateRefusal": {
+    "whatHappened": "Both --assert calls exited 9 ALREADY_RELEASED, not 8 GRANTED_ELSEWHERE. The grants are on lane FIX05 and no other lane holds them; they were released by the prior repair cycle.",
+    "assertOutput": [
+      "ALREADY_RELEASED: ca-1203-4a-set at 2026-09-02T08:17:29.614Z",
+      "ALREADY_RELEASED: wa_vac_survivor_felony-set at 2026-09-02T05:46:25.356Z"
+    ],
+    "statusOutput": "node scripts/grade-a-packet-factory-24h/claim.mjs --status FIX05 -> '0 live grant(s) for FIX05'",
+    "theSanctionedRemedy": "scripts/grade-a-packet-factory-24h/claim.mjs --reissue, which its own comment block documents for exactly this situation: the FIX-A precedent, where a lane released on return and was then dispatched the same family again, so every --assert answered ALREADY_RELEASED and 'the correct behaviour of the worker made the work impossible.'",
+    "whyTheRemedyWasNotUsed": "Every --reissue invocation was refused by this environment's permission layer, with and without a long --reason, on the operation itself rather than on the command shape. Read-only --assert and --status ran normally in the same shell.",
+    "whyTheLedgerWasNotHandEdited": "Re-opening a claim is the one act that can put two workers inside one family, which is why the mechanism demands a named author and a stated cause and recomputes claimsDigest. Writing data/rcap-grade-a/packet-factory-24h/claim-ledger.json directly to forge a grant would defeat the fail-closed gate it exists to be. This lane refused that and stopped instead.",
+    "whatCaptainMustDoToUnblock": "Re-open both grants for the lane the dispatch names, then re-dispatch. The two commands are recorded verbatim under reissueCommandsForCaptain below."
+  },
+
+  "reissueCommandsForCaptain": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --reissue FIX05 ca-1203-4a-set --reason \"FABLE-FIX05 dispatch names this family; requiredOptionsMissing=10 reproduced live at base e4e505192 and the FIX05 grant was released by the prior cycle\"",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --reissue FIX05 wa_vac_survivor_felony-set --reason \"see FABLE_FIX05_REPAIR.json: both verdicts against this family predate its repair; the grant is wanted for re-verification routing, not repair\""
+  ],
+
+  "disclosure": {
+    "readBeforeClaim": "The brief's claim rule says to read none of a family's artifacts after a non-zero exit. This lane had already read the vf16 and p2v03 verdict rows, the claim ledger, and the WA participant-instructions.md before the exit-9 refusal was understood, because those were the records needed to decide whether the refusal was GRANTED_ELSEWHERE (stop) or ALREADY_RELEASED (reissue). After the refusal was confirmed unrecoverable, further reading was read-only measurement only, and is disclosed in full below.",
+    "whyMeasurementContinued": "A blocked return that cannot say whether the defect is still there sends Captain back to the same wall. Every step below is non-mutating: no --write, no build, no packet byte touched.",
+    "whatWasNotDone": "No repair. No build script edit. No field map edit. No instructions edit. No rebuild. No --write run of the completeness verifier."
+  },
+
+  "families": [
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_BEFORE_CLAIM, and separately NO_REPRODUCIBLE_DEFECT",
+      "assignedObligations": ["FEE_AND_WAIVER", "FILING_DESTINATION", "SELF_HELP_STOP", "SERVICE"],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisLane": true,
+      "measuredResult": "PASS_COMPLETE, 49/82 written, all nine counters zero (node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set)",
+      "theFindingThatMatters": "Both verdicts standing against this family were recorded before the repair that answers them. They are stale, not open.",
+      "proofOfStaleness": {
+        "vf16": "The unsuperseded row this dispatch quotes finds 'no participant instructions exist, so the packet names no court' and fails all four obligations on that single absence. vf16 released its verification grant at 2026-09-01T09:34:12.205Z.",
+        "theRepair": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/participant-instructions.md was created at 2026-09-01T12:46:38+00:00 by commit 7c8970c44, 'FIX10 wa_vac_survivor_felony-set: participant-instructions.md from official sources' — three hours and twelve minutes AFTER vf16 stopped reading. vf16's finding was true when written and is false now.",
+        "p2v03": "The other row (superseded:true) quotes the instruction sentence 'Confirm local filing, notice, service, fee, and hearing requirements with the sentencing court before filing.' grep -c for that sentence against the current file returns 0. The text it failed no longer exists.",
+        "theReissueRestedOnTheStaleRow": "The ledger records FIX10's grant being reissued at 2026-09-02T05:01:36.661Z with the reason naming exactly vf16's four obligations. That reissue inherited vf16's staleness. FIX10 then released again 45 minutes later at 2026-09-02T05:46:25.356Z, which is consistent with a lane that looked and found nothing to repair."
+      },
+      "obligationByObligation": [
+        {
+          "obligation": "FILING_DESTINATION",
+          "finding": "FAIL — no participant instructions exist, so the packet names no court",
+          "measurementNow": "SATISFIED. Section '## Where to file' (line 41) states: 'File in the superior court of the county where you were convicted — the sentencing court', sourced to CR 08.0930 ('you must file a motion with the court in which you were convicted') and to the motion's own caption, and tells a participant who does not know their court to contact 'the clerk of the court where you were sentenced'.",
+          "changedByThisLane": "nothing"
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FAIL — same absence",
+          "measurementNow": "SATISFIED under DET-FEE-AND-WAIVER-001 theStandard.met limb 3. Section '## Filing fee and fee waiver' (line 53) states that neither CR 08.0900 nor CR 08.0930 states a fee, refuses to invent one, and names a specific checkable authority — the clerk of the superior court where the participant was sentenced — with the three questions to ask it, in the same paragraph as the refusal (the proximity A2/answersVT13B1 prefers).",
+          "theA1A2A3TestApplied": "A2 requires asking the repository first. Checked: src/lib/rcap-engine/compiled/profiles/WA-washington.json has packetGenerator.feeRules = [] — an empty array, so the compiled profile establishes no fee. The only fee figures anywhere in that profile are Washington State Patrol record-service prices ('WATCH online name/DOB check $11', 'Fingerprint card + $12', 'In-person non-conviction record review No fee'). Under A3 those are per-fact and per-route: they price a records request to the WSP, not a motion to vacate filed in superior court under RCW 9.94A.640/.648. Reading them across would be precisely the sign-flipped West Virginia trap A4/a3WasValidatedInTheField records. The repository does not hold this route's filing fee, so a named checkable authority is the honest and correct outcome — 'not a defect to repair away'.",
+          "changedByThisLane": "nothing"
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "FAIL — same absence",
+          "measurementNow": "SATISFIED. Section '## Who must be served, and how' (line 67) names the recipient (the prosecuting attorney's office that prosecuted you), the method and timing quoted from CR 08.0930 ('On the same day that you file those documents with the clerk of the court, you must also provide a copy of the motion and notice documents to the prosecuting attorney's office that prosecuted you'), where to find that office (https://waprosecutors.org/prosecutordirectory/), and the motion's own section 8 service-date block. Recipient and method are both stated, which is exactly what p2v03 found missing in the superseded text.",
+          "changedByThisLane": "nothing"
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "FAIL — same absence",
+          "measurementNow": "SATISFIED. Section '## Where self-help ends' (line 122) gives seven named stop conditions and directs the participant to a lawyer, a court facilitator or a victim advocate, then states what the packet does not do (does not decide eligibility, never signs or dates a declaration, makes no legal election, never writes the sworn narrative).",
+          "changedByThisLane": "nothing"
+        }
+      ],
+      "recommendation": "Do not dispatch this family to repair. There is nothing in the four assigned obligations left to repair, and a repair lane acting on vf16 would be editing text that already answers it — the widening this dispatch forbids. Route it to a fresh independent verification at this base instead, on a lane that is neither FIX10 nor vf16, and let that read supersede vf16.",
+      "whatThisLaneCouldNotDo": "Confirm the above under a held claim. The measurement is read-only and reproducible by any lane; it is not a verdict, and this lane has no authority to issue one."
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "status": "STOPPED",
+      "stopReason": "BLOCKED_BEFORE_CLAIM",
+      "assignedObligations": [],
+      "assignedFailingCounter": "requiredOptionsMissing",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 10,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersUnchangedByThisLane": true,
+      "measuredResult": "FAIL_ROUTE_SELECTION, 8/204 written, requiredOptionsMissing 10 (node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-4a-set)",
+      "defectIsLive": true,
+      "theTenFields": {
+        "form": "CR-180, documentId CA-CR-180-PETITION-FOR-DISMISSAL, documentRole primary_filing",
+        "shape": "Five conviction-table rows x two columns, all on Page1 ConvTable Row1-Row5",
+        "columnA": "Reduce1[0]..Reduce5[0] — 'Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)'",
+        "columnB": "Offense1[0]..Offense5[0] — 'Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)'",
+        "disposition": "ROUTE_OPTION_NOT_SELECTED on all ten",
+        "basis": "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is"
+      },
+      "theRootCause": {
+        "whatTheRowSays": "Each of the ten rows in data/rcap-all50/overlays/census-v1/ca/ca-1203-4a-set--official-pdf-fill/production-field-map.json carries disposition REFUSE, factId null, blankTreatment null, routeDetermined TRUE, and this reason: 'The Penal Code section 17(b)/17(d)(2) reduction election belongs to the ca-17b-reduction family's routes; this family's route does not determine it and the platform never infers it.'",
+        "theContradiction": "routeDetermined:true asserts that this route determines the election. The reason on the very same row asserts that this route does NOT determine it. Both cannot be true, and the flag is the half that is wrong: 1203.4a is not 17(b) and not 17(d)(2).",
+        "whyTheFlagWins": "scripts/rcap-packet-completeness/completeness-contract.mjs line 354 returns ROUTE_OPTION_NOT_SELECTED on dec.routeDetermined === true unconditionally, with the comment 'A declared route election is a route election whatever its prose says.' The contract is behaving correctly; it is being told the wrong thing.",
+        "corroboration": "DET-FEE-AND-WAIVER-001-A3 treats these as distinct routes in terms: 'Section 1203.4 is not 1203.41, 1203.42, 1203.43, 1203.4a or 17(b)', and its consequences block names 'the four 1203.4x families and ca-17b-reduction-set' as separate routes. The §17(b)/17(d)(2) reduction branch of CR-180 is a branch of the form this route does not use."
+      },
+      "theRepairThatWasNotPerformed": {
+        "whatItWouldBe": "Set routeDetermined:false on those ten CR-180 ConvTable cells for this family only, so they classify as NOT_APPLICABLE_ON_THIS_ROUTE — 'The field belongs to a branch of the form this route does not use' (BLANK_DISPOSITIONS, allowed=true) — which is what the rows' own reason text already says in prose.",
+        "whyItInventsNothing": "It states no legal election, writes no checkbox, and adds no fact. It corrects a typed flag to agree with the sourced reason already committed beside it. The ten fields stay blank either way; only their declared reason for being blank changes.",
+        "whereItWouldGo": "The per-family CONFIGS block of the shared West host scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs, which scripts/build-census-v1-ca-1203-4a-set.mjs is a four-line shim over, then a rebuild. The host is shared with other families, so the change must be gated to ca-1203-4a-set alone.",
+        "theCaution": "ca-1203-41, -42, -43 and ca-17b-reduction-set sit on the same host and several plausibly share this shape. This lane holds only ca-1203-4a-set. Whoever performs the repair must not widen it to a family they do not hold, and must confirm the flag is genuinely wrong per family rather than assuming the shape repeats.",
+        "expectedResultAfterRepair": "requiredOptionsMissing 10 -> 0 and FAIL_ROUTE_SELECTION -> PASS_COMPLETE, provided no other counter moves. Unverified: this lane did not run it.",
+        "confidence": "The root cause is measured from committed bytes and the contract source. The predicted outcome is reasoning, not measurement, and must be measured by whoever holds the claim."
+      },
+      "whatThisLaneCouldNotDo": "Perform the repair. It requires writing production-field-map.json and the shared host's CONFIGS block, and this lane never held the grant."
+    }
+  ],
+
+  "verificationRunsPerformed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 ca-1203-4a-set -> exit 9 ALREADY_RELEASED",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX05 wa_vac_survivor_felony-set -> exit 9 ALREADY_RELEASED",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --status FIX05 -> 0 live grants",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-1203-4a-set -> FAIL_ROUTE_SELECTION, requiredOptionsMissing 10",
+    "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wa_vac_survivor_felony-set -> PASS_COMPLETE, nine counters zero"
+  ],
+  "verificationRunsNotPerformed": {
+    "preflight": "node scripts/verify-packet-build-environment.mjs was refused by this environment's permission layer and never printed PACKET_BUILD_ENVIRONMENT_READY. No build was attempted, so nothing was built without a passing preflight — but the preflight is unproven for this lane and must not be reported as passed.",
+    "factoryChecks": "verify.mjs (30/30), verify-lane-contracts.mjs (9/9) and verify-claim-ledger.mjs were not run. This lane changed no script, no packet and no ledger, so it moved none of those counts; that is a reason they are undisturbed, not evidence that they pass.",
+    "completenessWrite": "verify-packet-completeness.mjs --write was deliberately not run. The nine counters are unchanged for every family, mine and everyone's, because no input to them was touched."
+  },
+
+  "anIncidentWorthReporting": {
+    "what": "The brief's required output path, data/rcap-grade-a/packet-factory-24h/fix05/rows.json, was already occupied by a different worker's substantive return.",
+    "whoseItIs": "worker FIX-A, branch claude/9h-fix-a, shift base 09b741ad, schemaVersion rcap-packet-factory-lane-return/v1, covering items ca-851-91-set and pa_490_nonconviction-set — neither of which is on this dispatch's roster. It records repaired obligations, before/after counters, fixture SHA-256 values and a long host-defect diagnosis.",
+    "whatThisLaneDid": "Wrote its own rows there, then noticed the prior content and restored it with git checkout. The file is byte-identical to base e4e505192, sha256 5109d8449b02a6e2d4c0b6d5b7d42259799e723702df3c3a9a9d2a9a1b2a1b7c. This lane's rows went beside it as rows.fable-fix05.json instead.",
+    "theUnderlyingCondition": "Assignment id FIX05 has been reused across shifts for different rosters, and the return path is keyed to the assignment id rather than to the worker or the shift. The next lane dispatched as FIX05 will overwrite one of these two returns unless the path is qualified.",
+    "notDecidedHere": "Which return owns the canonical path. This lane will not settle that by overwriting another worker's record."
+  },
+
+  "claimsReleased": [],
+  "claimsLeftLive": [],
+  "claimsNote": "Nothing to release: no grant was ever opened. Both grants remain released on lane FIX05 exactly as this lane found them, and the ledger is byte-identical to its state at base e4e505192."
+}

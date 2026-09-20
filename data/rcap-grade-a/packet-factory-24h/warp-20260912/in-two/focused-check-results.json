@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "familyIds": [
+    "in_arrest_no_charges-set",
+    "in_section1_petition-set"
+  ],
+  "checks": [
+    {
+      "command": "node scripts/build-census-v1-in_arrest_no_charges-set.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/in-arrest-build.log",
+      "measurements": "2 documents x 2 fixtures built; 0 builder findings; 8 charge-caption blanks examined, 0 participant-name leaks"
+    },
+    {
+      "command": "node scripts/build-census-v1-in_section1_petition-set.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/in-section-build.log",
+      "measurements": "2 documents x 2 fixtures built; 0 builder findings; 8 charge-caption blanks examined, 0 participant-name leaks"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-route-selections.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/route-selection-test.log",
+      "assertions": 38,
+      "negativeControls": 22
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-settled-selection-byte-proof.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/settled-selection-byte-proof.log",
+      "assertions": 371,
+      "artifactsChecked": 4,
+      "selectedMarksReadFromBytes": 6,
+      "negativeControls": 8,
+      "officialCheckedAppearanceGlyphMatches": 6
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-preservation.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/source-choice-preservation.log",
+      "measurements": "33 source choice fields per family; 105 packet and 140 insert flattened appearances"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-byte-proof.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/source-choice-exact-byte-proof.log",
+      "artifactsChecked": 8,
+      "sourceChoiceWidgetsChecked": 264,
+      "exactSourceAppearanceMatches": 264,
+      "negativeControls": 4
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/in-arrest-no-charges-completeness.log",
+      "written": "7/145",
+      "nineCounters": "all zero as emitted by completeness; visual acceptance remains pending"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/in-section1-petition-completeness.log",
+      "written": "6/145",
+      "nineCounters": "all zero as emitted by completeness; visual acceptance remains pending"
+    }
+  ],
+  "commandsRun": 8,
+  "commandsPassed": 8,
+  "commandsFailed": 0,
+  "countedAssertions": 409,
+  "sourceAppearanceWidgetComparisons": 264,
+  "negativeControlsRejected": 34,
+  "currentByteSelectionChecks": 6,
+  "result": "PASS",
+  "rasterDispatched": false,
+  "independentReview": "PENDING_PRE_RASTER_SEMANTIC_REVIEW"
+}

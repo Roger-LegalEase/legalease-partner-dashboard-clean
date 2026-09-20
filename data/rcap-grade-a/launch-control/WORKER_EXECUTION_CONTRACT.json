@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "rcap-grade-a-worker-execution-contract/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-worker-execution-contract.mjs",
+  "question": "What has to be true of the next dispatch so the first wave's four self-inflicted failures cannot repeat?",
+  "bindsFromWave": 2,
+  "derivedFrom": "data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json",
+  "currentDispatchDeliberatelyNotRewritten": {
+    "manifest": "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+    "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+    "why": "C11_PACKET_FACTORY_ACCELERATOR is still running against this manifest. Regenerating it would change a live worker's row list, owned paths and verification target mid-flight, which is worse than the defect being fixed.",
+    "appliesInstead": "the next dispatch, generated after C11 returns"
+  },
+  "clauses": [
+    {
+      "id": "WEC-1",
+      "title": "Two commits, stated as two commits",
+      "because": "Workers were told to branch from the control baseline and to read the assignment manifest as a required input, but the manifest and the prompt directory exist only in the dispatch commit that follows it.",
+      "evidence": {
+        "manifestPresentAtControlBase": false,
+        "promptDirectoryPresentAtControlBase": false,
+        "independentlyReportedBy": [
+          "C9_ROUTE_MAPPING_RECONCILIATION",
+          "C10_SOURCE_IDENTITY_ACQUISITION"
+        ]
+      },
+      "requirement": [
+        "Every prompt states the control baseline it branches from AND says the assignment is read from the Captain branch tip, not from the baseline.",
+        "The manifest carries a readAssignmentFrom block naming the branch and the exact command to read it.",
+        "The worker verifies that the manifest's captainBaseSha equals the commit it branched from, and stops if it does not.",
+        "No prompt lists the assignment manifest among required inputs resolvable at the baseline, because it is not there."
+      ],
+      "workerSetupBlock": [
+        "git fetch origin --prune",
+        "git checkout -b <workerBranch> <captainBaseSha>",
+        "git show origin/claude/legalease-sprint-captain-utucnw:data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json > /tmp/assignment.json",
+        "# stop unless /tmp/assignment.json captainBaseSha === <captainBaseSha>"
+      ]
+    },
+    {
+      "id": "WEC-2",
+      "title": "A stated environment precondition, and an honest failure when it is not met",
+      "because": "At least one worker host could not install dependencies: 32 MiB free after worktree creation, so no test that needs node_modules could run.",
+      "evidence": {
+        "observedInReturn": "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json (C12)",
+        "returnsDocumentingIt": 1,
+        "reportedByOwnerAsSharedAcrossTheWave": true,
+        "note": "One return documents it in this repository. The owner reports it as a shared worker-environment defect; that wider claim is recorded as reported, not as observed here."
+      },
+      "requirement": [
+        "Each assignment states the minimum free disk its lane needs before any command runs.",
+        "A lane that cannot install the toolchain returns DEPENDENCIES_UNINSTALLABLE with the observed free space, and reports every test it could not run as BLOCKED with that reason.",
+        "A test that could not run is never reported as passed, skipped, or not applicable.",
+        "No partial node_modules or cache is left behind."
+      ],
+      "minimumFreeDiskMib": 4096,
+      "observedWorstCaseFreeDiskMib": 32
+    },
+    {
+      "id": "WEC-3",
+      "title": "Egress recorded per exact source, never per wave",
+      "because": "Acquisition stopped on all 49 obligations because the assignment's group stop rule said egress was refused, not because a probe found it refused. C10's own HEAD probe reached 5 of the 7 official hosts it tested.",
+      "evidence": {
+        "probeRecordedIn": "data/rcap-grade-a/source-acquisition/wave-1/acquired.json",
+        "method": "HEAD only; response bodies were not downloaded",
+        "reachable": 5,
+        "refused": 2,
+        "documentsAcquired": 0
+      },
+      "requirement": [
+        "No assignment carries a blanket 'blocked on egress' stop condition. A blanket rule pre-empts the evidence and stopped 49 obligations against hosts that answered.",
+        "Each acquisition target carries its own last-probe result, and the worker acts on that result.",
+        "A host recorded as refused is escalated, not re-probed. A host recorded as reachable is attempted.",
+        "Reaching a host is not acquiring a document: a HEAD probe proves reachability only, and acquisition still requires the body and its SHA-256."
+      ],
+      "lastProbe": [
+        {
+          "authority": "Louisiana Legislature",
+          "url": "https://www.legis.la.gov/legis/Law.aspx?d=919681",
+          "httpStatus": 200,
+          "reachableOnHeadProbe": true,
+          "instruction": "reachable on a HEAD probe from a worker host; attempt acquisition and record the body's SHA-256"
+        },
+        {
+          "authority": "Montana Department of Justice",
+          "url": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "httpStatus": 403,
+          "reachableOnHeadProbe": false,
+          "instruction": "refused on a HEAD probe; do NOT retry this host — escalate it instead of spending a worker on it"
+        },
+        {
+          "authority": "Montana Supreme Court, Office of the Court Administrator",
+          "url": "https://courts.mt.gov/Forms/mmrta",
+          "httpStatus": 200,
+          "reachableOnHeadProbe": true,
+          "instruction": "reachable on a HEAD probe from a worker host; attempt acquisition and record the body's SHA-256"
+        },
+        {
+          "authority": "North Dakota Supreme Court",
+          "url": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+          "httpStatus": 200,
+          "reachableOnHeadProbe": true,
+          "instruction": "reachable on a HEAD probe from a worker host; attempt acquisition and record the body's SHA-256"
+        },
+        {
+          "authority": "Texas Office of Court Administration",
+          "url": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+          "httpStatus": 200,
+          "reachableOnHeadProbe": true,
+          "instruction": "reachable on a HEAD probe from a worker host; attempt acquisition and record the body's SHA-256"
+        },
+        {
+          "authority": "Utah State Courts",
+          "url": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+          "httpStatus": 406,
+          "reachableOnHeadProbe": false,
+          "instruction": "refused on a HEAD probe; do NOT retry this host — escalate it instead of spending a worker on it"
+        },
+        {
+          "authority": "Utah State Courts legacy official host",
+          "url": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+          "httpStatus": 200,
+          "reachableOnHeadProbe": true,
+          "instruction": "reachable on a HEAD probe from a worker host; attempt acquisition and record the body's SHA-256"
+        }
+      ]
+    },
+    {
+      "id": "WEC-4",
+      "title": "The nonproduction authorization stays unspent until its preconditions hold",
+      "because": "Seven branch-identity lanes returned seven different schemas for the same two required filenames: different array keys, different status vocabularies, different field names for the same fact.",
+      "evidence": {
+        "authorizationConsumed": false,
+        "provenSyntheticForThisRun": false,
+        "migrationApplied": false
+      },
+      "requirement": [
+        "The hosted-acceptance lane is not redispatched until the pinned project can be proven synthetic from the executing session and a credential authorized for its organization exists there.",
+        "authorizationConsumed stays false. Roger's one-time authorization was not spent and is not re-requested.",
+        "Redispatching it into an environment that cannot reach the project spends a worker to re-derive a blocker that is already recorded."
+      ]
+    },
+    {
+      "id": "WEC-5",
+      "title": "Required outputs are specified as a schema, not as a filename",
+      "because": "Seven lanes returned seven shapes for the same two filenames, so no verifier could prove a route was completed rather than merely mentioned, and a translation layer had to be written after the fact.",
+      "evidence": {
+        "lanesReviewed": 7,
+        "distinctStatusWordsObserved": 16,
+        "adapterLayer": "scripts/grade-a-launch-control/generate-category-b-integration-status.mjs"
+      },
+      "requirement": [
+        "Each assignment names the exact array key, the exact route-key field and the exact completion vocabulary its output must use.",
+        "The permitted completion words are COMPLETED and STOPPED, with the lane's detail in separate fields rather than encoded in the status string.",
+        "A return using a word outside that vocabulary is refused at integration rather than translated.",
+        "A completed row names the participant A branch route key or keys it settled on; a row that names none is not complete."
+      ],
+      "canonicalCompletionVocabulary": [
+        "COMPLETED",
+        "STOPPED"
+      ]
+    },
+    {
+      "id": "WEC-6",
+      "title": "A stop condition stops a row, and says so",
+      "because": "C8's stop condition was written as a lane-level sentence. The worker read it as stopping the lane, audited all 37 citations, found one genuine conflict and implemented nothing, so one conflicted row held thirty-six others.",
+      "evidence": {
+        "lane": "C8_ALREADY_ANSWERED_ENGINEERING",
+        "rowsExpected": 37,
+        "rowsImplemented": 0,
+        "rowsGenuinelyConflicted": 1
+      },
+      "requirement": [
+        "Every stop condition states its scope in its own text: this row stops and the lane continues, or the lane stops.",
+        "A lane-level stop is reserved for a condition that makes the remaining rows unsafe or meaningless, and the assignment says why.",
+        "A row-level stop is recorded per row and never prevents the next row from being attempted."
+      ]
+    }
+  ],
+  "appliesTo": {
+    "residualLanes": [
+      "R1_BRANCH_IDENTITY_REMAINDER",
+      "R2_ALREADY_ANSWERED_ENGINEERING",
+      "R3_ROUTE_MAPPING_REMAINDER",
+      "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+      "R6_COUNSEL_DETERMINATION_IMPLEMENTATION",
+      "R7_PACKET_REPAIR",
+      "R5_NONPRODUCTION_ACCEPTANCE"
+    ],
+    "note": "Every residual lane is dispatched under this contract. A dispatch generated without it is a defect the checkpoint refuses."
+  }
+}

@@ -1,0 +1,64 @@
+name: Read the opened payable Session back from Stripe (read-only)
+
+# GETs only, with a restricted live read key. It creates, modifies and deletes
+# nothing in Stripe, opens no browser, mints no matter and touches no
+# deployment. It exists as its own workflow precisely so reading the Session
+# does not re-run the probe that opened it.
+
+on:
+  push:
+    branches:
+      - claude/legalease-sprint-captain-utucnw
+    paths:
+      - .github/workflows/rcap-read-open-session-once.yml
+
+permissions:
+  contents: read
+
+jobs:
+  read_open_session:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TOOLS_SHA: 7e7d5fcc277c3f5ac2c52c9565accda11ef63f45
+      # The Session run 35371550518 opened against matter
+      # 18bd914a-16a7-423e-a621-60eeb4a3ac8b. A Checkout Session id is an
+      # order identifier, not a credential.
+      OPEN_SESSION_ID: cs_live_b17d7o7qhuekimcTW0ALC1Z8AITC2ee2Muer5NGmlMsATr39VzANzgprOY
+    steps:
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify tools commit is canonical and check it out
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin claude/legalease-sprint-captain-utucnw
+          git cat-file -e "$TOOLS_SHA^{commit}"
+          git merge-base --is-ancestor "$TOOLS_SHA" origin/claude/legalease-sprint-captain-utucnw
+          git checkout --detach "$TOOLS_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install frozen dependencies
+        run: npm ci
+
+      - name: Read that exact Session
+        env:
+          RCAP_STRIPE_READ_KEY: ${{ secrets.RCAP_STRIPE_READ_KEY }}
+          RCAP_CHECKOUT_SESSION_ID: ${{ env.OPEN_SESSION_ID }}
+          RCAP_EXPECTED_PRODUCT_ID: prod_VHEHkvH7dSvGv7
+        run: node scripts/rcap-stripe-coupon-object-diagnosis.mjs
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-session-read-${{ github.run_id }}
+          path: production-canary-evidence/
+          if-no-files-found: error

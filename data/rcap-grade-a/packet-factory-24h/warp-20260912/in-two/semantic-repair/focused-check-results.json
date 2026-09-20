@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-focused-check-results/v1",
+  "preparedOn": "2026-09-12",
+  "familyIds": [
+    "in_arrest_no_charges-set",
+    "in_section1_petition-set"
+  ],
+  "checks": [
+    {
+      "command": "node scripts/build-census-v1-in_arrest_no_charges-set.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/in-arrest-build.log",
+      "measurements": "2 official documents x 2 fixtures built; boundary emits three complete insert sets"
+    },
+    {
+      "command": "node scripts/build-census-v1-in_section1_petition-set.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/in-section-build.log",
+      "measurements": "2 official documents x 2 fixtures built; boundary emits three complete insert sets"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-route-selections.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/route-selection-test.log",
+      "assertions": 41,
+      "negativeControls": 22
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-two-semantic-repair.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/semantic-repair-test.log",
+      "assertions": 123,
+      "sourceOccurrenceDocuments": 8,
+      "protectedFindingsControlsChecked": 16,
+      "invalidFixtureNegativeControls": 5
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-preservation.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/source-choice-preservation.log",
+      "measurements": "33 source choice fields per family; 105 packet and 140 insert flattened appearances; all measured writes contained"
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-cca-choice-appearance-byte-proof.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/source-choice-exact-byte-proof.log",
+      "sourceChoiceWidgetsChecked": 512,
+      "artifactsChecked": 12,
+      "negativeControls": 4
+    },
+    {
+      "command": "node scripts/grade-a-packet-factory-24h/test-in-section1-settled-selection-byte-proof.mjs",
+      "exit": 0,
+      "result": "PASS",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/settled-selection-byte-proof.log",
+      "assertions": 777,
+      "artifactsChecked": 8,
+      "selectedMarksReadFromBytes": 20,
+      "negativeControls": 16
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_arrest_no_charges-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/in-arrest-completeness.log",
+      "written": "22/145",
+      "nineCounters": "all zero"
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family in_section1_petition-set",
+      "exit": 0,
+      "result": "PASS_COMPLETE",
+      "log": "data/rcap-grade-a/packet-factory-24h/warp-20260912/in-two/semantic-repair/in-section-completeness.log",
+      "written": "34/145",
+      "nineCounters": "all zero"
+    }
+  ],
+  "commandsRun": 9,
+  "commandsPassed": 9,
+  "commandsFailed": 0,
+  "countedAssertions": 941,
+  "sourceAppearanceWidgetComparisons": 512,
+  "negativeControlsRejected": 47,
+  "currentByteSelectionChecks": 20,
+  "result": "PASS",
+  "rasterDispatched": false,
+  "independentReview": "PENDING_PRE_RASTER_SEMANTIC_REVIEW"
+}

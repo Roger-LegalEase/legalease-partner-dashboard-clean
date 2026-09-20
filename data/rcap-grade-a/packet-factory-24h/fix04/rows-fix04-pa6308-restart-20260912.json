@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-packet-repair-return/v1",
+  "lane": "FIX04",
+  "laneKind": "repair",
+  "baseSha": "07c2cb2512acc9b36848be342bcb81f285c62ee0",
+  "isIndependentVerification": false,
+  "rows": [
+    {
+      "itemId": "pa_6308_underage-set",
+      "familyId": "pa_6308_underage-set",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "correction": "Recovered candidate already withholds the incomplete Rule490 charge/disposition composite and identifies the missing disposition. Renewed only additive font and standardFontFallbackUsed metadata from the current finalizer; the unmodified nonvisual checker now reproduces all six saved PDFs exactly. No packet PDF changed.",
+      "artifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/reports/actual-writes.json",
+          "sha256": "1575ab8c70d8c9e429d975db42c7888af7d1a87ce70a0e0328002743a897ff8c",
+          "byteLength": 72748
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/production-field-map.json",
+          "sha256": "f081c82a75adf9d40e2d6f0166b1bb8c7f2fa608b0e380619863212e249a98cf",
+          "byteLength": 195945
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--official-pdf-fill/participant-instructions.md",
+          "sha256": "1623eabc475cd5f8c816f9bd43222b643caac851ff044ddaed9e4814da884100",
+          "byteLength": 29041
+        }
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterManifest": "data/rcap-grade-a/packet-factory-24h/warp-20260912/pa6308-current/raster-manifest.json",
+      "independentVerification": "PENDING current semantic acceptance of PA-VF62-08 repair; prior independent failure remains authoritative until superseded.",
+      "tests": [
+        "Current unmodified builder --check-nonvisual: PASS 6PDFs, deterministic hashes/lengths/reports and saved-byte proof",
+        "Focused packet completeness: nonvisual counters zero; visual acceptance remains unmeasured"
+      ],
+      "grantsNothing": "No terminal, raster or commercial approval."
+    }
+  ]
+}

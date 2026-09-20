@@ -1,0 +1,801 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX07-SPLITTER-COHORT-ORDERS",
+  "assignmentId": "FIX07",
+  "assignedBase": "f7eb84283 on claude/legalease-sprint-captain-utucnw; the repaired verdicts were taken at aefd46f7c, an ancestor.",
+  "branch": "fix07-splitter-cohort-orders",
+  "laneKind": "repair",
+  "returnFileNote": "Written as rows.splitter-cohort-orders.json. data/rcap-grade-a/packet-factory-24h/fix07/ already held rows.json, mi-setaside-trafficking-clipping-return.json, nv-seal-probation-pagination-return.json and ny-mrta-protected-fields-return.json from earlier FIX07 batches; none of them was moved, read as authority or overwritten by this lane.",
+  "scope": "The one failed obligation, CLIPPING_AND_OVERLAP, on the four granted families, one builder at a time. No other family whose grant the FIX07 label may carry was touched. No wrap rule, component, field map, source pin, route key, appearance entry or instruction line moved beyond what the placement needed.",
+  "grantsConfirmed": [
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 va_exp_nonconviction-set -> CLAIM_OK (repair, grant set f2801259919cbadf), exit 0.",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 wv_dui_deferral_expungement-set -> CLAIM_OK (repair, grant set f2801259919cbadf), exit 0.",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 'composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708' -> CLAIM_OK (repair, grant set f2801259919cbadf), exit 0.",
+    "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX07 ms-nonadj-set -> CLAIM_OK (repair, grant set f2801259919cbadf), exit 0.",
+    "All four asserted before any family artifact was read or written, and each released with a reason when its family was done."
+  ],
+  "verdictProvenance": "The four FAIL rows this lane repairs are recorded in data/rcap-grade-a/packet-factory-24h/vf08/rows.json (Virginia, West Virginia, Wyoming) and vf07/rows.json (Mississippi) as they stand at f7eb84283, each carrying verifiedAtBase aefd46f7c. At aefd46f7c itself those files hold only the earlier PASS rows for the Virginia and West Virginia families and no row at all for the Wyoming and Mississippi items; the FAIL readings were appended to the same files afterwards. Recorded here rather than passed over, because the base the verdict names and the commit the verdict text lives in are not the same commit.",
+  "preflight": {
+    "worktree": "/home/user/fix07-worktree, branch fix07-splitter-cohort-orders from f7eb84283 on claude/legalease-sprint-captain-utucnw",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private, read only; nothing under it was written.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; node 22.22.2, pdf-lib 1.17.1",
+    "masterLibrarySourceDir": "exported to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 as scripts/verify-packet-build-environment.mjs resolves it",
+    "command": "node scripts/verify-packet-build-environment.mjs --family va_exp_nonconviction-set",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable, run before any repair.",
+    "theTwoFailures": [
+      "private_is_git_ignored: private/ is mounted as a SYMLINK, so the check cannot resolve it. .gitignore line 53 is 'private/', git ls-files private/ is empty and git status never listed it. Recorded as failing rather than argued away.",
+      "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled - the same pre-existing corpus gap FIX02, FIX41 and VF01 recorded at their own bases. Not any of these families' sources."
+    ],
+    "control": "For every family the unmodified builder was run at the base before anything was changed and reproduced the committed fixture bytes exactly, so every digest movement in this return is attributable to the change and not to build noise. No separate throwaway checkout was created, so none was left behind.",
+    "otherWorktreesTouched": 0,
+    "captainBranchTouched": false,
+    "forcePushes": 0,
+    "subagentsCreated": 0
+  },
+  "hostChanged": {
+    "files": [
+      "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+      "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
+      "scripts/build-census-v1-ms-nonadj-set.mjs",
+      "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs"
+    ],
+    "familiesReached": 4,
+    "note": "Four private builders, one per family, nothing shared between them except the two shared modules they import: scripts/rcap-custom-pleading/split-token.mjs and scripts/rcap-custom-pleading/composed-page-markdown.mjs. Neither shared module was modified by this lane."
+  },
+  "otherFamiliesOnThisHost": {
+    "gate": "Every family a modified builder reaches must stay byte-identical or be reported and left uncommitted.",
+    "finding": "ALL FOUR BUILDERS ARE SINGLE-FAMILY HOSTS. None reaches another family, so no other family could move, and nothing was found to report or withheld from a commit.",
+    "howThatWasEstablished": [
+      "(1) grep -rln over scripts/ for each builder's name returns only the file itself.",
+      "(2) MASTER_QUEUE.json names each builder as the build script of exactly one family.",
+      "(3) Each family's product-wiring.json records maintenanceRelationship.sharedBuildHost null.",
+      "(4) Measured, not only reasoned: scripts/rcap-scan01-composed-pdf-text-integrity.mjs was run whole-corpus (249 family directories) after each of the four rebuilds and compared row by row against the sweep before it. After each rebuild exactly one family directory's defect list differed - the one being repaired - and after the Wyoming rebuild none differed at all. git status likewise shows no family directory modified other than these four."
+    ]
+  },
+  "rows": [
+    {
+      "itemId": "va_exp_nonconviction-set",
+      "familyId": "va_exp_nonconviction-set",
+      "jurisdiction": "VA",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": {
+        "file": "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+        "singleFamilyHost": true,
+        "howEstablished": "grep -rn 'build-census-v1-va_exp_nonconviction-set' over scripts/ returns only the file itself; MASTER_QUEUE.json names it as the build script of this one family; product-wiring maintenanceRelationship.sharedBuildHost is null; and SCAN01 run whole-corpus (249 family directories) after the rebuild shows no family directory other than this one with a changed defect list. No other family can move, so nothing was withheld from the commit."
+      },
+      "verdictRepaired": {
+        "lane": "vf08",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aefd46f7c",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. Both fixtures were rebuilt with --no-raster and the bytes the standing RASTER_PASS receipt was bound to no longer exist. A fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane, and no raster verdict is claimed here.",
+        "INDEPENDENT VERIFICATION. This lane wrote these bytes and verifies none of them. product-wiring.json binding.acceptanceReceipt is null, no verdict was written, and an independent reading of the delivered pages is owed before any promotion."
+      ],
+      "whatChanged": {
+        "summary": "No delivered page consists only of the route trailer. One existing line was MOVED down a page; not one character of the packet's text was added, removed or reworded.",
+        "lineMovedVerbatim": "This is a prepared set of an official Virginia circuit court form and companion pages. It is not legal advice, it is not filed for you, and it does not decide whether the court will grant expungement.",
+        "page": "page 7 of seven, the last page the participant is handed (component filing_instructions), in both the canonical and the boundary fixture",
+        "before": "Page 7 carried one drawn line and nothing else: 'Route: obligation:track-only:VA:va_exp_nonconviction'. Page 6 ended on the WHAT THIS PACKET IS NOT paragraph.",
+        "after": "Page 6 ends on the heading 'WHAT THIS PACKET IS NOT'. Page 7 opens on the two rows of the closing paragraph quoted above and carries the same trailer, unchanged in text, beneath it.",
+        "builderEdit": "The trailer pull-down, moved onto this composer's own row-by-row pagination. renderComposedPdf() settled its rows straight onto the page and let the route trailer land wherever the row count put it. It now lays every source line out as a block, tags each drawn row with its block index and whether that block is the trailer, and after the layout has settled pulls whole blocks down onto a last page whose every drawn row is trailer. This is the sole-occupant pull-down scripts/build-census-v1-rcap-ok-custom-pleading.mjs already carries and FIX35 moved onto the Rhode Island host: it moves whole blocks only, refuses a move that would not fit, and does nothing to a page that already carries prose. An assertion refuses a build that would still end on a trailer-only page. The private character-accumulating splitToken was replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) from scripts/rcap-custom-pleading/split-token.mjs, with splitToken.hardSplits asserted to be 0 - this family's text is nowhere near the 468pt column, so the shared splitter is inert here and the assertion says so rather than assuming it.",
+        "whatWasNotChanged": "No wrap rule, no line height, no column width, no font, no rows-per-page count (the 45 rows a page the old loop drew are the 45 rows the new one draws), no component, no field-map entry, no source pin, no route key, no appearance entry, no participant-instructions line, and no word of any composed page."
+      },
+      "placementDiff": {
+        "method": "pdftotext -layout page by page over both fixtures, before and after, compared by md5 per page.",
+        "pagesWhoseTextChanged": [
+          6,
+          7
+        ],
+        "pagesIdentical": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "note": "Pages 1-5, which include the two pinned CC-1473 official pages, are character-identical before and after."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+          "oldSha256": "bb6747c8e639fc5310e718e9165352bd1a9204a92e82b5a10703c75590b65f6c",
+          "oldByteLength": 126758,
+          "newSha256": "646977c2b3e2e334f13b958a864b2447f13c99d5ca204ad6a1f37e6d429b4b84",
+          "newByteLength": 126823,
+          "pagesBefore": 7,
+          "pagesAfter": 7
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+          "oldSha256": "dddcc00729d7adcb5803ae64f8cbaa33fa32e050a0afb13e0f12001dd83db885",
+          "oldByteLength": 127000,
+          "newSha256": "ca101cc62be98bb1fd02b760bb853f6fcb48cd1d37c6416155150ac196c1bab4",
+          "newByteLength": 127064,
+          "pagesBefore": 7,
+          "pagesAfter": 7
+        },
+        "primaryFilingSlicesUnmoved": "canonical--CC-1473-primary-filing.pdf fec0c22338cd5c0bd0c08ae9f4e65ed0ec052b968cb9db0f1fd882d6e08c60c9 and boundary--CC-1473-primary-filing.pdf 81c567b6cece7780b3f8f6a9015ace596e6e43b7dee15df419de1454d8145c33 are unchanged by this lane."
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again with no other change: both fixture SHA-256 values are identical across the two runs (canonical 646977c2..., boundary ca101cc6...). The unmodified builder had first been run at the base and reproduced the committed bytes bb6747c8.../dddcc007... exactly, so every digest movement is attributable to this change and not to build noise.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set, PASS_COMPLETE, 15/56 written, before and after.",
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, run over the base bytes and again after the rebuild. Its raw-sweep.json output is untracked and was NOT committed.",
+        "thisFamilyBefore": {
+          "hard_split_token": 0,
+          "route_key_only_page": 2,
+          "fragment_page": 0,
+          "thin_page": 0
+        },
+        "thisFamilyAfter": {
+          "hard_split_token": 0,
+          "route_key_only_page": 0,
+          "fragment_page": 2,
+          "thin_page": 0
+        },
+        "corpusBefore": {
+          "hard_split_token": 70,
+          "route_key_only_page": 13,
+          "fragment_page": 48,
+          "thin_page": 41,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "corpusAfter": {
+          "hard_split_token": 70,
+          "route_key_only_page": 11,
+          "fragment_page": 50,
+          "thin_page": 41,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "readHonestly": "Both route-key-only pages that disappeared corpus-wide are this family's, one per fixture, and the two fragment pages that appeared are the same two pages now carrying prose above the trailer. Page 7 draws three lines against SCAN01's five-line fragment threshold, so it is still recorded in class B - as a short closing page rather than as a bare machine identifier. That is the shape the passing families ship: tx_exp_acquittal-set, which VF07 passed PASS_COMPLETE_INDEPENDENT, carries fragment pages of its own, and 22 family directories in the corpus do. It is reported rather than argued away. No other family's defect list moved in any class."
+      },
+      "appearanceCheck": {
+        "method": "Composed content stream read page by page with pdftotext -layout in both fixtures, then canonical page 7 rastered locally at 110 dpi with pdftoppm into /tmp/fix07-raster and read by eye, before and after.",
+        "rasteredLocally": [
+          "/tmp/fix07-raster/va-old-p7-7.png (base bytes)",
+          "/tmp/fix07-raster/va-new-p7-7.png (repaired bytes)"
+        ],
+        "whatTheRasterShows": "Before: a blank sheet carrying the single line 'Route: obligation:track-only:VA:va_exp_nonconviction' near the top. After: the same sheet opens on 'This is a prepared set of an official Virginia circuit court form and companion pages...' over two rows, then the identical trailer beneath. No ink lands outside the 468pt column and no line overlaps its neighbour.",
+        "rastersDeleted": "The /tmp rasters were measured and then deleted; nothing was rastered into the delivered tree."
+      },
+      "everythingElseHeldStill": "The pinned CC-1473 source binds unchanged (6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219, 120875 bytes). production-field-map.json, participant-instructions.md, source-receipt.json, build-findings.json and the component set are byte-identical to the base.",
+      "verifiersRun": [
+        {
+          "command": "node scripts/verify-packet-build-environment.mjs --family va_exp_nonconviction-set",
+          "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 11/13 passed, 2 failed, 4 not applicable. The two failures are environmental and pre-existing, recorded rather than argued away: private_is_git_ignored (private/ is mounted as a symlink so the check cannot resolve it, though .gitignore line 53 is 'private/' and git status never listed it) and corpus_matches_committed_index (1 absent of 24 sampled, the same pre-existing corpus gap FIX02, FIX41 and VF01 recorded). family_sources_bind passed 1/1."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family va_exp_nonconviction-set",
+          "result": "PASS_COMPLETE, all nine counters zero, before and after."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED (249 receipts compared against HEAD, 53 carrying an identityRefresh)."
+        },
+        {
+          "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs",
+          "result": "see scan01 above."
+        }
+      ],
+      "productWiring": {
+        "regenerated": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family va_exp_nonconviction-set",
+        "componentDigestRepinned": "bb6747c8e639 -> 646977c2b3e2",
+        "acceptanceReceipt": null
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-va_exp_nonconviction-set.mjs",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/reports/independent-visual-review.json",
+        "data/rcap-all50/overlays/census-v1/va/va-exp-nonconviction-set--official-pdf-fill/product-wiring.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no commercial route, creates no fulfillment record, marks no packet proven and promotes no build status."
+    },
+    {
+      "itemId": "wv_dui_deferral_expungement-set",
+      "familyId": "wv_dui_deferral_expungement-set",
+      "jurisdiction": "WV",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "ownerPinned": true,
+      "ownerRereviewOwed": true,
+      "buildHost": {
+        "file": "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
+        "singleFamilyHost": true,
+        "howEstablished": "grep over scripts/ returns only the file itself; MASTER_QUEUE.json names it for this one family; product-wiring maintenanceRelationship.sharedBuildHost is null; and the whole-corpus SCAN01 after the rebuild shows only this family's defect list changed."
+      },
+      "verdictRepaired": {
+        "lane": "vf08",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aefd46f7c",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. Both fixtures were rebuilt with --no-raster and the bytes the standing RASTER_PASS receipt was bound to no longer exist. A fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane, and no raster verdict is claimed here.",
+        "INDEPENDENT VERIFICATION. This lane wrote these bytes and verifies none of them. product-wiring.json binding.acceptanceReceipt is null, no verdict was written, and an independent reading of the delivered pages is owed before any promotion.",
+        "OWNER RE-REVIEW. This family is owner-pinned (ownerPinned true, ownerRereviewOwed true). The owner's re-review of the repaired delivered page is owed and nothing in this return anticipates it."
+      ],
+      "whatChanged": {
+        "summary": "No delivered page consists only of the route trailer, and the trailer no longer prints as a bare machine identifier severed from its own label. Two existing lines were MOVED; not one character of the packet's text was added, removed or reworded.",
+        "lineMovedVerbatim": "Officer authorized to administer oaths ............................................",
+        "alsoMoved": "The first row of the wrapped trailer, 'Route: obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-1-motion-to-dismiss ;', moved down onto the same page as its own continuation row, so the trailer prints whole.",
+        "page": "page 4 of eleven (component supporting_affidavit), in both the canonical and the boundary fixture",
+        "before": "Page 4 carried one drawn line and nothing else: 'obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge' - the second half of the wrapped trailer, with no 'Route:' label and nothing to tell a reader what it was. Page 3 ended on the trailer's first row.",
+        "after": "Page 3 ends on 'Taken, subscribed and sworn to before me this ...... day of .................., 20......'. Page 4 opens on the officer line quoted above and carries the whole two-row trailer, unchanged in text, beneath it.",
+        "builderEdit": "The trailer pull-down, moved onto this composer's own row-by-row pagination. renderComposedPdf() settled its rows straight onto the page and let the route trailer land wherever the row count put it. It now lays every source line out as a block, tags each drawn row with its block index and whether that block is the trailer, and after the layout has settled pulls whole blocks down onto a last page whose every drawn row is trailer. This is the sole-occupant pull-down scripts/build-census-v1-rcap-ok-custom-pleading.mjs already carries and FIX35 moved onto the Rhode Island host: it moves whole blocks only, refuses a move that would not fit, and does nothing to a page that already carries prose. An assertion refuses a build that would still end on a trailer-only page. The private character-accumulating splitToken was replaced by createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) }) from scripts/rcap-custom-pleading/split-token.mjs, with splitToken.hardSplits asserted to be 0 - the pull-down loop reassembled the trailer first (its own two rows are one block) and then pulled the officer line down, which is why the fix took no new rule. The shared splitter is inert for this family and the assertion says so.",
+        "whatWasNotChanged": "No wrap rule, no line height, no column width, no font, no rows-per-page count, no component, no field-map entry, no source pin, no route key, no appearance entry, no participant-instructions line, no notary block wording, and no word of any composed page."
+      },
+      "placementDiff": {
+        "method": "pdftotext -layout page by page over both fixtures, before and after, compared by md5 per page.",
+        "pagesWhoseTextChanged": [
+          3,
+          4
+        ],
+        "pagesIdentical": [
+          1,
+          2,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "07da2172ae350c39e0a70dcf9cc405eb1d161e80e71505dfdd0acae5483dbfc9",
+          "oldByteLength": 25317,
+          "newSha256": "a0cc3dfc1e1303e605dbafb5a2296f54588a83b1142d0ef836be59d74fa159bf",
+          "newByteLength": 25313,
+          "pagesBefore": 11,
+          "pagesAfter": 11
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "69d9be37bb0b0eaa8f7a0aff7670144bfe0341ce46c9e2302cc646ccbdeeb44c",
+          "oldByteLength": 25799,
+          "newSha256": "dc0caf437b44200a637cdeab46b1508312f3ded148d62ed45a9a0d33470321b4",
+          "newByteLength": 25794,
+          "pagesBefore": 11,
+          "pagesAfter": 11
+        }
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again with no other change: both fixture SHA-256 values identical across the two runs. The unmodified builder first reproduced the committed base bytes 07da2172.../69d9be37... exactly.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set, PASS_COMPLETE, 15/46 written, before and after.",
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, before and after. raw-sweep.json is untracked and was NOT committed.",
+        "thisFamilyBefore": {
+          "hard_split_token": 0,
+          "route_key_only_page": 2,
+          "fragment_page": 0,
+          "thin_page": 0
+        },
+        "thisFamilyAfter": {
+          "hard_split_token": 0,
+          "route_key_only_page": 0,
+          "fragment_page": 2,
+          "thin_page": 0
+        },
+        "corpusBefore": {
+          "hard_split_token": 70,
+          "route_key_only_page": 11,
+          "fragment_page": 50,
+          "thin_page": 41,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "corpusAfter": {
+          "hard_split_token": 70,
+          "route_key_only_page": 9,
+          "fragment_page": 52,
+          "thin_page": 41,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "readHonestly": "The two route-key-only pages that disappeared are this family's, one per fixture, and the two fragment pages that appeared are the same two pages now carrying the officer line above the whole trailer - three drawn lines against a five-line fragment threshold. No orphaned_execution_block was introduced: the count held at 10. No other family's defect list moved in any class."
+      },
+      "appearanceCheck": {
+        "method": "Composed content stream read page by page with pdftotext -layout in both fixtures, then canonical page 4 rastered locally at 110 dpi with pdftoppm into /tmp/fix07-raster and read by eye.",
+        "rasteredLocally": [
+          "/tmp/fix07-raster/wv-new-p4-04.png"
+        ],
+        "whatTheRasterShows": "'Officer authorized to administer oaths ............................................' at the top of the sheet, then 'Route: obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-1-motion-to-dismiss ;' and its continuation 'obligation:unit:WV:wv_dui_deferral_expungement:wv-dui-deferral-unit-2-application-to-expunge'. Nothing overlaps and nothing falls outside the column. The bare unlabelled identifier VF08 read is gone.",
+        "rastersDeleted": "The /tmp rasters were measured and then deleted."
+      },
+      "everythingElseHeldStill": "source-receipt.json, production-field-map.json, participant-instructions.md, build-findings.json and the component set are byte-identical to the base. build-status.json moved only where the --no-raster build writes it: rasterEngine 'chromium_calibrated' -> 'not rendered in this run', rasterPages 22 -> 0, rasterState RASTER_LOCAL_PENDING_CENTRAL -> BUILT_RASTER_PENDING, which is the honest state now that the rastered bytes no longer exist. reports/rendered-artifacts.json lost its local raster page records for the same reason. The stale PNGs under raster/ were left on disk untouched; central raster is owed and will replace them.",
+      "verifiersRun": [
+        {
+          "command": "node scripts/verify-packet-build-environment.mjs --family va_exp_nonconviction-set",
+          "result": "run once for the worktree, 11/13, the same two environmental failures recorded in the Virginia row."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_dui_deferral_expungement-set",
+          "result": "PASS_COMPLETE, all nine counters zero, before and after."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED."
+        },
+        {
+          "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs",
+          "result": "see scan01 above."
+        }
+      ],
+      "productWiring": {
+        "regenerated": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family wv_dui_deferral_expungement-set",
+        "componentDigestRepinned": "07da2172ae35 -> a0cc3dfc1e13",
+        "acceptanceReceipt": null
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-wv_dui_deferral_expungement-set.mjs",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/wv/wv-dui-deferral-expungement-set--custom-pleading/product-wiring.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no commercial route, creates no fulfillment record, marks no packet proven and promotes no build status."
+    },
+    {
+      "itemId": "ms-nonadj-set",
+      "familyId": "ms-nonadj-set",
+      "jurisdiction": "MS",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "ownerPinned": true,
+      "ownerRereviewOwed": true,
+      "buildHost": {
+        "file": "scripts/build-census-v1-ms-nonadj-set.mjs",
+        "singleFamilyHost": true,
+        "howEstablished": "grep over scripts/ returns only the file itself; MASTER_QUEUE.json names it for this one family; and the whole-corpus SCAN01 after the rebuild shows only this family's defect list changed. The sibling ms-diversion-set has its own separate builder and was not touched."
+      },
+      "verdictRepaired": {
+        "lane": "vf07",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aefd46f7c",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. Both fixtures were rebuilt with --no-raster and the bytes the standing RASTER_PASS receipt was bound to no longer exist. A fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane, and no raster verdict is claimed here.",
+        "INDEPENDENT VERIFICATION. This lane wrote these bytes and verifies none of them. product-wiring.json binding.acceptanceReceipt is null, no verdict was written, and an independent reading of the delivered pages is owed before any promotion.",
+        "OWNER RE-REVIEW. This family is owner-pinned (ownerPinned true, ownerRereviewOwed true). The owner's re-review of the repaired delivered page is owed and nothing in this return anticipates it."
+      ],
+      "whatChanged": {
+        "summary": "One page-authored preparer-voice closing line was ADDED to the proposed order, so the route key no longer prints inside the prosecuting authority's approval block. Nothing was moved, removed or reworded.",
+        "lineAddedVerbatim": "(The findings, the date of entry, the judge's signature and the prosecuting authority's approval as to form are all left blank.)",
+        "page": "page 4 of eight, the last page of the proposed order, in both the canonical and the boundary fixture",
+        "before": "Page 4 carried six drawn lines and nothing else: 'JUDGE', the APPROVED AS TO FORM caption, the prosecutor's signature rule, 'PROSECUTING AUTHORITY', and then 'Route: obligation:track-only:MS:ms-nonadj'. Nothing was drawn between the prosecutor's caption and the machine text, so the key printed inside a block the page's own words say is completed by the prosecuting authority and is never pre-filled.",
+        "after": "'PROSECUTING AUTHORITY', then a blank row, then the added line over two rows, then the same trailer, unchanged in text. The trailer now follows the preparer's own sentence rather than the prosecutor's signature line.",
+        "builderEdit": "scripts/build-census-v1-ms-nonadj-set.mjs, composedBody(), proposed_order branch: the existing L.push(\"PROSECUTING AUTHORITY\") gained its blank spacer and one L.push of the line above, inserted before the shared trailer push at the foot of the function. 1 line of text, plus a comment.",
+        "whyThisLineAndNotAnother": "It is the convention this family's own passing sibling already prints, word for word. ms-diversion-set, which VF07 passed PASS_COMPLETE_INDEPENDENT, closes its ORDER OF EXPUNGEMENT with exactly this sentence between 'Prosecuting authority' and its trailer; tx_exp_acquittal-set, also a VF07 PASS, carries '(The findings, the date and the judge's signature are the Court's and are left blank.)'; and FIX02 made the same repair on the Illinois vacatur order. Every one is a parenthesised preparer-voice note naming what belongs to the court and to the prosecutor and stating it is left blank. Nothing new was invented and the trailer was not moved above the court's block: this builder has no such structure and inventing one would have been the larger change.",
+        "whatWasNotChanged": "Not one character of the decretal block, the findings, the PROVIDED clause, the SO ORDERED line, the signature rules, the JUDGE caption, the APPROVED AS TO FORM caption or any court-selected term. No pagination rule, no wrap rule, no component, no field-map entry, no source pin, no route key, no appearance entry and no participant-instructions line."
+      },
+      "placementDiff": {
+        "method": "pdftotext -layout page by page over both fixtures, before and after, compared by md5 per page.",
+        "pagesWhoseTextChanged": [
+          4
+        ],
+        "pagesIdentical": [
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          8
+        ],
+        "drawnLinesOnPage4": "6 -> 8; the page count of the packet is unchanged at 8."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "b3488303e6e8ab6e344bb4ef96c9533c5adc1db5d04a2a66707d11f3e2d72527",
+          "oldByteLength": 19899,
+          "newSha256": "481680f62dddb4be3c2bfe4f0c658311913cfde419270336aaf705c89955f0ee",
+          "newByteLength": 20069,
+          "pagesBefore": 8,
+          "pagesAfter": 8
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "3c016942a2891e2b300a33247ec119ee2efce7e129c3ae0991d773152fba47de",
+          "oldByteLength": 20142,
+          "newSha256": "7006c8e94b040e0b98d6b9df8c169faea1c34afe7ae51093488982393e4d3d22",
+          "newByteLength": 20312,
+          "pagesBefore": 8,
+          "pagesAfter": 8
+        }
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again with no other change: both fixture SHA-256 values identical across the two runs. The unmodified builder first reproduced the committed base bytes b3488303.../3c016942... exactly.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonadj-set, PASS_COMPLETE, before and after.",
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, before and after. raw-sweep.json is untracked and was NOT committed.",
+        "thisFamilyBefore": {
+          "hard_split_token": 0,
+          "route_key_only_page": 0,
+          "fragment_page": 0,
+          "thin_page": 4
+        },
+        "thisFamilyAfter": {
+          "hard_split_token": 0,
+          "route_key_only_page": 0,
+          "fragment_page": 0,
+          "thin_page": 2
+        },
+        "corpusBefore": {
+          "hard_split_token": 70,
+          "route_key_only_page": 9,
+          "fragment_page": 52,
+          "thin_page": 41,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "corpusAfter": {
+          "hard_split_token": 70,
+          "route_key_only_page": 9,
+          "fragment_page": 52,
+          "thin_page": 39,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "readHonestly": "SCAN01 never classed this defect - VF07 read it at the appearance level, which is where it lives. The only movement is that page 4 of each fixture leaves the class D thin_page census, because the added line takes it to eight drawn lines, the thinnest-legitimate-page benchmark. The page 8 thin_page entries are untouched. No other family's defect list moved in any class."
+      },
+      "appearanceCheck": {
+        "method": "Composed content stream read page by page with pdftotext -layout in both fixtures, then canonical page 4 rastered locally at 110 dpi with pdftoppm into /tmp/fix07-raster and read by eye.",
+        "rasteredLocally": [
+          "/tmp/fix07-raster/ms-new-p4-4.png"
+        ],
+        "whatTheRasterShows": "'JUDGE', the APPROVED AS TO FORM caption over two rows, the prosecutor's signature rule, 'PROSECUTING AUTHORITY', then the added parenthesised line over two rows, then 'Route: obligation:track-only:MS:ms-nonadj'. The machine text sits under the preparer's sentence and outside both execution blocks. No ink lands outside the column and no line overlaps its neighbour.",
+        "rastersDeleted": "The /tmp rasters were measured and then deleted."
+      },
+      "everythingElseHeldStill": "source-receipt.json, production-field-map.json, participant-instructions.md, build-findings.json and the component set are byte-identical to the base. build-status.json moved only where the --no-raster build writes it (rasterPages 16 -> 0, rasterState RASTER_LOCAL_PENDING_CENTRAL -> BUILT_RASTER_PENDING), and reports/rendered-artifacts.json lost its local raster page records for the same reason.",
+      "verifiersRun": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonadj-set",
+          "result": "PASS_COMPLETE, all nine counters zero, before and after."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED."
+        },
+        {
+          "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs",
+          "result": "see scan01 above."
+        }
+      ],
+      "productWiring": {
+        "regenerated": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family ms-nonadj-set",
+        "componentDigestRepinned": "b3488303e6e8 -> 481680f62ddd",
+        "acceptanceReceipt": null
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-ms-nonadj-set.mjs",
+        "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/build-status.json",
+        "data/rcap-all50/overlays/census-v1/ms/ms-nonadj-set--custom-pleading/product-wiring.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no commercial route, creates no fulfillment record, marks no packet proven and promotes no build status."
+    },
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "familyId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdiction": "WY",
+      "implementationStrategy": "custom_pleading",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "buildHost": {
+        "file": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
+        "singleFamilyHost": true,
+        "howEstablished": "grep over scripts/ returns only the file itself; MASTER_QUEUE.json names it for this one family; and the whole-corpus SCAN01 after the rebuild shows no family's defect list changed at all. This builder carries its own inline copy of the composed build core rather than importing composed-family-host.mjs, so the repair reached no other family."
+      },
+      "verdictRepaired": {
+        "lane": "vf08",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aefd46f7c",
+        "failedObligationNames": [
+          "CLIPPING_AND_OVERLAP"
+        ]
+      },
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. Both fixtures were rebuilt with --no-raster and the bytes the standing RASTER_PASS receipt was bound to no longer exist. A fresh central raster is owed on the new bytes. RASTER_QUEUE.json and MASTER_QUEUE.json were NOT edited by this lane, and no raster verdict is claimed here.",
+        "INDEPENDENT VERIFICATION. This lane wrote these bytes and verifies none of them. product-wiring.json binding.acceptanceReceipt is null, no verdict was written, and an independent reading of the delivered pages is owed before any promotion."
+      ],
+      "whatChanged": {
+        "summary": "The markdown emphasis delimiters no longer print. Repaired at the cause in the renderer, the way FIX30 repaired the Oklahoma and West Virginia trafficking families - never by editing the delivered text's meaning. Not one word of the sentence changed.",
+        "lineRepairedVerbatimBefore": "- **this is the first thing the committed record says about this route:** the compiled Wyoming profile's own handling rule is to ask only what is necessary and then \"route to manual/legal review. Do not require graphic details.\";",
+        "lineRepairedVerbatimAfter": "- this is the first thing the committed record says about this route: the compiled Wyoming profile's own handling rule is to ask only what is necessary and then \"route to manual/legal review. Do not require graphic details.\";",
+        "page": "page 4 of four (component filing_instructions), the first bullet under the heading 'WHEN TO STOP AND GET HELP INSTEAD', in both the canonical and the boundary fixture",
+        "builderEdit": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs: imports stripMarkdownEmphasis and assertNoMarkdownDelimitersOnDeliveredPages from scripts/rcap-custom-pleading/composed-page-markdown.mjs - the shared module FIX30 wrote, imported rather than copied; sanitizePdfText() strips closed emphasis pairs before its existing normalisations, on the same footing as the non-breaking space, the four dash variants, the curly quotes and the section sign it already normalises away; and byteProof() asserts that no delivered page of either fixture carries a delimiter, read back from the saved bytes.",
+        "whyStripAndNotBold": "FIX30's reasoning, carried rather than re-argued: this renderer embeds exactly one face (Times-Roman), draws one drawText per wrapped row and measures every wrap against that one face, so honouring emphasis would mean embedding a second face and splitting the drawn run - a markup system for pages that have never had one. VF08 measured the four asterisks printing at 11pt body weight with no bold applied, so the delimiters bought nothing.",
+        "whatWasNotChanged": "No wrap rule, no pagination rule, no line height, no column width, no font, no component, no field-map entry, no source pin, no route key, no appearance entry and no participant-instructions line. The stop-condition wording is untouched, including every other bullet under that heading."
+      },
+      "placementDiff": {
+        "method": "pdftotext -layout page by page over both fixtures, before and after, compared by md5 per page.",
+        "pagesWhoseTextChanged": [
+          4
+        ],
+        "pagesIdentical": [
+          1,
+          2,
+          3
+        ],
+        "note": "Only the four delimiter characters left the page. The bullet occupies the same three drawn rows before and after and no line reflowed onto another page; the packet is 4 pages before and after."
+      },
+      "artifacts": {
+        "canonical": {
+          "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf",
+          "oldSha256": "6d6e3190303b0aec3a12c009f2e1f3fea579e70a9739c7916536f9119a6b9ecf",
+          "oldByteLength": 12283,
+          "newSha256": "a92ab1f1f38c8feb96e258015e4ea3283c43e2214c4a3ee281b53426ddcc9a86",
+          "newByteLength": 12276,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        },
+        "boundary": {
+          "path": "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf",
+          "oldSha256": "61dc959c94e8669b1b7844c1adca0353e66719a822cd97a3af26b8a612538241",
+          "oldByteLength": 12478,
+          "newSha256": "804d7f2677092635d9d06bec5f20def2a0601092cd67ebe40661c10ff028adf0",
+          "newByteLength": 12471,
+          "pagesBefore": 4,
+          "pagesAfter": 4
+        }
+      },
+      "deterministicRebuild": "Built with --no-raster, then built again with no other change: both fixture SHA-256 values identical across the two runs. The unmodified builder first reproduced the committed base bytes 6d6e3190.../61dc959c... exactly.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersNote": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708, PASS_COMPLETE, before and after.",
+      "scan01": {
+        "instrument": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs, whole corpus, 249 family directories, before and after. raw-sweep.json is untracked and was NOT committed.",
+        "thisFamilyBefore": {
+          "hard_split_token": 0,
+          "route_key_only_page": 0,
+          "fragment_page": 0,
+          "thin_page": 0
+        },
+        "thisFamilyAfter": {
+          "hard_split_token": 0,
+          "route_key_only_page": 0,
+          "fragment_page": 0,
+          "thin_page": 0
+        },
+        "corpusBefore": {
+          "hard_split_token": 70,
+          "route_key_only_page": 9,
+          "fragment_page": 52,
+          "thin_page": 39,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "corpusAfter": {
+          "hard_split_token": 70,
+          "route_key_only_page": 9,
+          "fragment_page": 52,
+          "thin_page": 39,
+          "empty_page": 0,
+          "orphaned_execution_block": 10,
+          "widowed_labelled_value": 1
+        },
+        "readHonestly": "Not one count moved anywhere in the corpus, and this family carried none of these classes before or after. SCAN01 does not see printed markdown; it is not the instrument that found this defect and it is not the instrument that clears it. The instruments that do are the byteProof assertion now in the builder, the shared module's own test, and the raster below."
+      },
+      "appearanceCheck": {
+        "method": "Composed content stream read page by page with pdftotext -layout in both fixtures, then canonical page 4 rastered locally at 110 dpi with pdftoppm into /tmp/fix07-raster and read by eye.",
+        "rasteredLocally": [
+          "/tmp/fix07-raster/wy-new-p4-4.png"
+        ],
+        "whatTheRasterShows": "Under 'WHEN TO STOP AND GET HELP INSTEAD' the first bullet now opens '- this is the first thing the committed record says about this route: the compiled Wyoming profile's own handling rule...' in the same 11pt Times-Roman as the four bullets beneath it. No asterisk appears anywhere on the sheet, the passage reads unchanged, and nothing overlaps or falls outside the column.",
+        "additionalCheck": "node --test scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs, 1 test, 1 pass.",
+        "rastersDeleted": "The /tmp rasters were measured and then deleted."
+      },
+      "everythingElseHeldStill": "source-receipt.json, production-field-map.json, participant-instructions.md, build-findings.json, build-status.json and the component set are byte-identical to the base.",
+      "verifiersRun": [
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+          "result": "PASS_COMPLETE, all nine counters zero, before and after."
+        },
+        {
+          "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED."
+        },
+        {
+          "command": "node scripts/rcap-scan01-composed-pdf-text-integrity.mjs",
+          "result": "see scan01 above."
+        },
+        {
+          "command": "node --test scripts/rcap-custom-pleading/no-markdown-on-delivered-pages.test.mjs",
+          "result": "1 test, 1 pass."
+        }
+      ],
+      "productWiring": {
+        "regenerated": "node scripts/grade-a-packet-factory-24h/generate-product-wiring.mjs --family composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "componentDigestRepinned": "6d6e3190303b -> a92ab1f1f38c",
+        "acceptanceReceipt": null
+      },
+      "filesChanged": [
+        "scripts/build-census-v1-composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708.mjs",
+        "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/canonical.pdf",
+        "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/fixtures/boundary.pdf",
+        "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading/product-wiring.json"
+      ],
+      "rasterOwed": true,
+      "acceptanceReceipt": null,
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "This row opens no commercial route, creates no fulfillment record, marks no packet proven and promotes no build status."
+    }
+  ],
+  "notDone": [
+    "No raster. All four families were built with --no-raster and a fresh central raster is owed on every new fixture. RASTER_QUEUE.json was NOT touched.",
+    "No independent verification. This lane wrote these bytes and verified none of them; every acceptanceReceipt is null and no verdict was issued.",
+    "No owner re-review. ms-nonadj-set and wv_dui_deferral_expungement-set are owner-pinned and their owner re-review is owed.",
+    "The Virginia and West Virginia repaired pages draw three lines each and are recorded by SCAN01 in class B as fragment_page rather than route_key_only_page. The trailer-only page the verdict named is gone; the short closing page that remains is the shape 22 other family directories already ship, tx_exp_acquittal-set among them, and it is reported rather than argued away.",
+    "The stale local raster PNGs under the Mississippi and West Virginia raster/ directories were left on disk. They were rendered from bytes that no longer exist; the reports that pointed at them no longer do, and central raster will replace them."
+  ],
+  "packetBytesChanged": 8,
+  "overlayDirectoriesModified": 4,
+  "buildersModified": 4,
+  "centralStateEdits": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json only, written by claim.mjs itself on the four asserts and four releases. MASTER_QUEUE.json, RASTER_QUEUE.json, every specification, the fulfillment-authority registry and every legal record are untouched.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "selfVerificationPerformed": false,
+  "grantsNothing": "This return opens no commercial route, creates no fulfillment record, consumes no packet credit, marks no packet proven, promotes no build status and issues no verdict on any packet this lane built."
+}

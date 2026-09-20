@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-captain-determinations/v1",
+  "producedOn": "2026-09-02",
+  "producedBy": "Captain, settling two questions two independent verifiers answered differently",
+  "grantsNothing": "Neither determination approves an output, opens a route or proves a packet.",
+  "determinations": [
+    {
+      "id": "DET-PROTECTED-FIELDS-INHERITED-INK",
+      "question": "Does PROTECTED_FIELDS cover ink the build inherited from the source, or only ink the build authored?",
+      "answer": "It covers what is on the delivered page, whatever put it there.",
+      "whyTwoVerifiersDisagreed": "RV-A read the three source-authored values on the Texas Statement of Inability, subtracted the blank source's own printing, and correctly concluded the BUILD did not write them -- then passed the family. RV-D read the same ink and failed a sibling on it. Both measurements were right; they scored different questions.",
+      "theDecidingFact": "The obligation protects a participant, not a builder. A Statement of Inability delivered with 12/15/2022 already printed under the Signature line is a sworn declaration pre-dated by four years, and a participant filing in 2026 swears it. That the packet inherited the date rather than typed it changes nothing the participant experiences.",
+      "andTheFamilyAlreadyAgrees": "tx_nd_conviction_no_supervision-set refuses to write that field itself, with the recorded reason that a date written before the Statement is actually sworn would be false. The refusal is correct and the paper defeats it.",
+      "consequence": "PROTECTED_FIELDS fails when a signature, signature-date, certificate-of-mailing, court-only or prosecutor-only field carries ink on the delivered page, regardless of provenance. A byte proof scoped to build-authored ink does not discharge it.",
+      "measuredPopulation": {
+        "familiesBindingAHumanCapturedSource": 4,
+        "families": [
+          "rcap-tx-custom-pleading",
+          "tx_exp_acquittal-set",
+          "tx_nd_conviction_no_supervision-set",
+          "tx_nd_dwi_probation-set"
+        ],
+        "carryTheStaleDateOnTheSignatureLine": ["tx_exp_acquittal-set", "tx_nd_conviction_no_supervision-set"],
+        "measuredClean": ["rcap-tx-custom-pleading", "tx_nd_dwi_probation-set"],
+        "howMeasured": "Text extraction of each delivered canonical, reading the line context around the date. rcap-tx-custom-pleading was independently confirmed clean by pixel measurement: the signature-date rect went 829 dark pixels to 0, against a control rect that went 9 to 1,225.",
+        "note": "tx_exp_acquittal-set was returned PASS by RV-A under the narrower reading and is demoted by this determination, not by any new measurement."
+      }
+    },
+    {
+      "id": "DET-COMPONENT-SET-BY-NAME-NOT-ORDINAL",
+      "question": "How is a missing required component detected when a surviving component occupies its ordinal?",
+      "answer": "By name against the registry. Never by ordinal.",
+      "whyOrdinalsCannotSeeIt": "West Virginia and Mississippi have the same shape: the registry declares five components ending attachment-4 and instructions-5; the packet renders four and names the fourth filing-instructions-4. The ordinals then read 1,2,3,4 -- unique and contiguous -- and look complete while attachment-4 is absent. Contiguous ordinals are what the collision PRODUCES, so a contiguity check is a test of the symptom's disguise.",
+      "captainErrorRecorded": "I first swept the corpus for ordinals that are not 1..n unique-contiguous and found one family. That sweep was measuring the wrong thing and its low count is not evidence of a small population. The name-based sweep is the one that answers this and has not yet been run.",
+      "whatIsMissingWhenItHappens": "Not a formatting detail. In Mississippi the absent component is the records checklist carrying 12 participantFilingRequirements across three tracks, and none of the 26 delivered pages carries them.",
+      "consequence": "COMPONENT_SET is scored by comparing rendered component names to the registry packetSet's declared names. A corpus-wide name-based sweep is owed."
+    }
+  ]
+}

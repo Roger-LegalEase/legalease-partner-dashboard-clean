@@ -1,0 +1,40 @@
+{
+  "defectsFound": [
+    {
+      "correctedInSpecificationBy": "participant.mailing_address_full",
+      "defect": "an address was filed without its city, state or ZIP",
+      "detail": "The printed label is 'Mailing Address (with city/state/zip)' and the widget is 278 points wide. The binding wrote participant.street_address.",
+      "field": "Address"
+    },
+    {
+      "correctedInSpecificationBy": "filing.court_address",
+      "defect": "the filing destination was left blank",
+      "detail": "Withheld for the same descriptor collision as on JDF 417.",
+      "field": "Court Address"
+    },
+    {
+      "correctedInSpecificationBy": "service.service_date, service.mail_recipient_name_and_address, service.other_method_explanation",
+      "defect": "the certificate of service was left entirely blank",
+      "detail": "All three were withheld together. The recipient fields are the participant's statement of who they served, and the date is the participant's own act.",
+      "field": "CoS_Date, CoS_Mail, CoS_Other"
+    },
+    {
+      "correctedInSpecificationBy": "options pinned to the widget geometry the document draws",
+      "defect": "no checkbox, radio group or dropdown could bind at all",
+      "detail": "Twenty-two election controls were refused as 'non_text_field_type', which is every eligibility election, every qualification election, the appeal and restitution stops and the whole of section 6's agency selection.",
+      "field": "every election control"
+    },
+    {
+      "correctedInSpecificationBy": "options pinned in printed order, with each option's rectangle recorded",
+      "defect": "a yes/no pair that is not in the usual order",
+      "detail": "Section 7(c) prints 'No.' above 'Yes.', the reverse of every other pair on the form. Any binding that assumed yes-first would have recorded the opposite answer to a human trafficking question.",
+      "field": "Group_7C"
+    }
+  ],
+  "family": "jdf-612-form-motion-en",
+  "note": "These are findings about the narrow binding the retained artifacts carry. Each one is corrected in the specification and none of them is corrected on any artifact, because nothing could be re-rendered here.",
+  "reviewOf": "the binding that produced the retained artifacts, read against the document itself",
+  "schemaVersion": "rcap-colorado-output-implementation-review/v1",
+  "specSha256": "bbaaaca47c287eb1fcf410ac5d8ce784fd7840f4c51a4fea135038afdce1ece7",
+  "specVersion": "co-jdf-612-binding/2026-08-29.1"
+}

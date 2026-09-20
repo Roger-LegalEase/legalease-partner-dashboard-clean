@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ca-prop64-set",
+  "routeKeys": [
+    "obligation:track-pathway:CA:ca-prop64:prop-64-completed-sentence-application-11361-8",
+    "obligation:track-pathway:CA:ca-prop64:prop-64-currently-serving-petition-11361-8"
+  ],
+  "implementationStrategy": "official_pdf_fill",
+  "renderStrategy": "source_derived_primary_plus_exact_unchanged_packet_components",
+  "evidenceVariants": [
+    "hs-11361-8-completed-sentence-application",
+    "hs-11361-8-currently-serving-petition"
+  ],
+  "fieldMap": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/production-field-map.json",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "createsFulfillmentRecord": false,
+  "opensCommercialRoute": false,
+  "note": "Artifacts remain review-only alternatives. This record grants no runtime, commercial, fulfillment, eligibility, branch-selection, or approval authority.",
+  "binding": {
+    "family": "ca-prop64-set",
+    "jurisdiction": "CA",
+    "routeKeys": [
+      "obligation:track-pathway:CA:ca-prop64:prop-64-completed-sentence-application-11361-8",
+      "obligation:track-pathway:CA:ca-prop64:prop-64-currently-serving-petition-11361-8",
+      "obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "primary_filing",
+      "proof_of_service",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:ca-prop64-primary-filing-1",
+      "component:ca-prop64-proof-of-service-2",
+      "component:ca-prop64-proposed-order-3"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:CR-400",
+        "sha256": "d325bb75f5a90b7864eab8fa43a905db7f2a9c233bb89fe412f609dee9ab35a1",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-401",
+        "sha256": "394421959966e27833ddd481cc39b969abd788b4119b47a3670de2d2ddb05d01",
+        "tier": "exact_form_number"
+      },
+      {
+        "sourceId": "official-form:CR-403",
+        "sha256": "b0ecaeb4fc761feb6afe22b7c848e811a1028c8b4d1432e803c67112a347baff",
+        "tier": "exact_form_number"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "33850403312",
+      "jobId": "100953975731",
+      "artifactId": "9928691151",
+      "boundToCanonicalSha256": "87f93a9b4273a1af89de31a7576ae0e4aae86e42361bfacfae042574695885d4",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis",
+      "verifiedAtBase": "018cd558455454ca44e7deac8efa7b0e881375d3"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-ca-prop64-set.mjs",
+      "sharedBuildHost": "build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs",
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  }
+}

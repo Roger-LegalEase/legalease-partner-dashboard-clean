@@ -1,0 +1,350 @@
+{
+  "schemaVersion": "rcap-transition-causes/v1",
+  "capturedAt": "2026-09-10",
+  "sourceLog": "/tmp/rcap-integration-20260910.log",
+  "base": "f8c4eaa0604fb9bf56eac6a38a6835e467cc156e",
+  "scope": "20 COMPLETE_PACKET_PROVEN withdrawals; excludes nj_clean_slate-set and ia-12347-set",
+  "evidenceInputs": {
+    "current": [
+      "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+      "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+      "data/rcap-grade-a/packet-factory-24h/VERIFIER_RETURNS.json",
+      "data/rcap-grade-a/packet-completeness/PACKET_COMPLETENESS_MATRIX.json",
+      "scripts/grade-a-packet-factory-24h/generate.mjs"
+    ],
+    "historical": "git show f8c4eaa0604fb9bf56eac6a38a6835e467cc156e:<each current input>",
+    "familySourceReceipts": "each exact family directory/source-receipt.json",
+    "chronologyFunction": "generate.mjs wave2LegalBlockSuperseded/readIsLaterThan/familyMovedSinceVerdict"
+  },
+  "summary": {
+    "total": 20,
+    "historicalGitObjectMissing": 10,
+    "currentRasterEligibilityOrCompletenessInput": 7,
+    "substantiveFamilyInputChangedAfterVerifier": 3,
+    "familyDirectoriesChangedSinceBase": 0,
+    "sourceReceiptsChangedSinceBase": 0,
+    "buildScriptsChangedSinceBase": 0
+  },
+  "missingHistoricalObjects": [
+    {
+      "objectId": "838d75fed7c4628fa501cd135c81b748f1522afa",
+      "objectType": "commit",
+      "status": "ABSENT",
+      "provenance": "WAVE_2_VERIFICATION_LEDGER.json returnCommit",
+      "families": [
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "ca-851-91-set"
+      ]
+    },
+    {
+      "objectId": "b39918e73206a17f240289932873c847c3122cdc",
+      "objectType": "commit",
+      "status": "ABSENT",
+      "provenance": "WAVE_2_VERIFICATION_LEDGER.json returnCommit",
+      "families": [
+        "ca-1203-41-set",
+        "ny_mrta_marijuana-set",
+        "ut_pet_no_charges-set"
+      ]
+    },
+    {
+      "objectId": "009b6204b4ee3b6d6e9b58a82b8832883c17fd4f",
+      "objectType": "commit",
+      "status": "ABSENT",
+      "provenance": "WAVE_2_VERIFICATION_LEDGER.json returnCommit",
+      "families": [
+        "ca-1203-42-set",
+        "wa_vac_survivor_felony-set"
+      ]
+    },
+    {
+      "objectId": "6777009977e7bbfad88b04fab48be952d53425f4",
+      "objectType": "commit",
+      "status": "ABSENT",
+      "provenance": "WAVE_2_VERIFICATION_LEDGER.json returnCommit",
+      "families": [
+        "wa_vac_domestic_violence-set",
+        "wa_vac_treaty_fishing-set"
+      ]
+    },
+    {
+      "objectId": "34417136e9d3eb307ac836bc6dd4e0b8a91abf60",
+      "objectType": "commit",
+      "status": "ABSENT",
+      "provenance": "WAVE_2_VERIFICATION_LEDGER.json returnCommit",
+      "families": [
+        "wa_vac_misdemeanor_ordinary-set"
+      ]
+    },
+    {
+      "objectId": "a9c6602b18c2e5434fdf80673f9d404ee4186fad",
+      "objectType": "commit",
+      "status": "ABSENT",
+      "provenance": "LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json repairCommit (post-repair reread hold)",
+      "families": [
+        "ri_deferred_sentence-set",
+        "ri_first_offender_misdemeanor-set",
+        "ri_multiple_misdemeanors-set"
+      ],
+      "note": "Co-present historical reference; these three transitions were caused by the family-local product-wiring diff, not by this missing repair commit."
+    }
+  ],
+  "transitions": [
+    {
+      "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base 63a28b5f is not later than absent return 838d75fe; decisive obligation: correct official form or approved composer; class GENUINE_NARROW_LEGAL_QUESTION. Underlying blocker: Maricopa arrest-only civil-form/civil-case-number variation lacks counsel confirmation.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "838d75fed7c4628fa501cd135c81b748f1522afa"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ca-1203-4-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "BUILT_RASTER_PENDING",
+      "newBlocker": "24 of 30 queued documents lack parser-readable page count or hash-bound builder count.",
+      "cause": "current_raster_eligibility_input",
+      "objectIds": [],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ca-1203-41-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base ef3cb708 is not later than absent return b39918e7; decisive obligation: fee and waiver treatment. Current filing fee/local variation is not recorded.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "b39918e73206a17f240289932873c847c3122cdc"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ca-1203-42-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base 1a0f45f is not later than absent return 009b6204; decisive obligation: exact route identity. Required California state legal-design review is absent.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "009b6204b4ee3b6d6e9b58a82b8832883c17fd4f"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ca-1203-43-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "BUILT_RASTER_PENDING",
+      "newBlocker": "4 of 6 queued documents lack parser-readable page count or hash-bound builder count.",
+      "cause": "current_raster_eligibility_input",
+      "objectIds": [],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ca-1203-4a-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "BUILT_RASTER_PENDING",
+      "newBlocker": "6 of 8 queued documents lack parser-readable page count or hash-bound builder count.",
+      "cause": "current_raster_eligibility_input",
+      "objectIds": [],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ca-851-91-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base 1a0f45f is not later than absent return 838d75fe; decisive obligation: fee and waiver treatment. No family evidence establishes local fee/waiver treatment.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "838d75fed7c4628fa501cd135c81b748f1522afa"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "BUILT_RASTER_PENDING",
+      "newBlocker": "8 of 12 queued documents lack parser-readable page count or hash-bound builder count.",
+      "cause": "current_raster_eligibility_input",
+      "objectIds": [],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false,
+      "note": "Its selected substantive verdict remains PASS_COMPLETE_INDEPENDENT; current hold reclassification remains SELECT_SUBSTANTIVE_VERDICT."
+    },
+    {
+      "familyId": "ga-nonconv-pre2013-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "BUILT_RASTER_PENDING",
+      "newBlocker": "nonvisual completeness counter unclassifiedBlanks=4; matrix findings cite spawnSync pdftoppm ENOENT.",
+      "cause": "current_completeness_input",
+      "objectIds": [],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ky_nonconviction_expungement-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "BUILT_RASTER_PENDING",
+      "newBlocker": "nonvisual completeness counter requiredComponentsMissing=1; matrix finding cites spawnSync pdftotext ENOENT.",
+      "cause": "current_completeness_input",
+      "objectIds": [],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "md_10105_favorable-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "BUILT_RASTER_PENDING",
+      "newBlocker": "nonvisual completeness counter requiredComponentsMissing=1; matrix finding cites spawnSync pdftotext ENOENT.",
+      "cause": "current_completeness_input",
+      "objectIds": [],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base e925cd97 is not later than absent return b39918e7; decisive obligation: fee and waiver treatment. Current local fees/output approval are not recorded.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "b39918e73206a17f240289932873c847c3122cdc"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ri_deferred_sentence-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "VERIFY_PENDING",
+      "newBlocker": "FAMILY_MOVED_SINCE_THE_VERDICT: product-wiring.json changed after verifier base 85846c48; acceptanceReceipt null→RASTER_PASS and lastIndependentVerification FAIL→PASS.",
+      "cause": "substantive_family_input_changed_after_verifier",
+      "objectIds": [
+        "a9c6602b18c2e5434fdf80673f9d404ee4186fad"
+      ],
+      "changedFiles": [
+        "data/rcap-all50/overlays/census-v1/ri/ri-deferred-sentence-set--official-pdf-fill/product-wiring.json"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ri_first_offender_misdemeanor-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "VERIFY_PENDING",
+      "newBlocker": "FAMILY_MOVED_SINCE_THE_VERDICT: product-wiring.json changed after verifier base 85846c48; acceptanceReceipt null→RASTER_PASS and lastIndependentVerification FAIL→PASS.",
+      "cause": "substantive_family_input_changed_after_verifier",
+      "objectIds": [
+        "a9c6602b18c2e5434fdf80673f9d404ee4186fad"
+      ],
+      "changedFiles": [
+        "data/rcap-all50/overlays/census-v1/ri/ri-first-offender-misdemeanor-set--official-pdf-fill/product-wiring.json"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "ri_multiple_misdemeanors-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "VERIFY_PENDING",
+      "newBlocker": "FAMILY_MOVED_SINCE_THE_VERDICT: product-wiring.json changed after verifier base 85846c48; acceptanceReceipt null→RASTER_PASS and lastIndependentVerification FAIL→PASS.",
+      "cause": "substantive_family_input_changed_after_verifier",
+      "objectIds": [
+        "a9c6602b18c2e5434fdf80673f9d404ee4186fad"
+      ],
+      "changedFiles": [
+        "data/rcap-all50/overlays/census-v1/ri/ri-multiple-misdemeanors-set--official-pdf-fill/product-wiring.json"
+      ],
+      "sourceReceiptChangedSinceBase": false,
+      "familyDirChangedSinceBase": false
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base 6fb6e391 is not later than absent return b39918e7; decisive obligation: fee and waiver treatment. Court petition filingFee and feeWaiverTreatment are not_recorded.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "b39918e73206a17f240289932873c847c3122cdc"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "wa_vac_domestic_violence-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base a0d49e1a is not later than absent return 67770099; decisive obligation: fee and waiver treatment. Court filing-fee/waiver treatment is unestablished.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "6777009977e7bbfad88b04fab48be952d53425f4"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base a0d49e1a is not later than absent return 34417136; decisive obligation: fee and waiver treatment. filingFee and feeWaiverTreatment are not_recorded.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "34417136e9d3eb307ac836bc6dd4e0b8a91abf60"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "wa_vac_survivor_felony-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base a0d49e1a is not later than absent return 009b6204; decisive obligation: fee and waiver treatment. Current vacation-petition fees remain a release blocker.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "009b6204b4ee3b6d6e9b58a82b8832883c17fd4f"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    },
+    {
+      "familyId": "wa_vac_treaty_fishing-set",
+      "oldState": "COMPLETE_PACKET_PROVEN",
+      "newState": "LEGAL_BLOCKED",
+      "newBlocker": "wave-2 current read base a0d49e1a is not later than absent return 67770099; decisive obligation: fee and waiver treatment. Filing-fee/waiver treatment is unestablished.",
+      "cause": "historical_git_object_missing",
+      "objectIds": [
+        "6777009977e7bbfad88b04fab48be952d53425f4"
+      ],
+      "familyDirChangedSinceBase": false,
+      "sourceReceiptChangedSinceBase": false
+    }
+  ],
+  "verificationNotes": [
+    "git diff base -- each of the 20 family directories: no changes.",
+    "git diff base -- each source-receipt.json: no changes.",
+    "git diff base -- each family build script: no changes.",
+    "Current generate.mjs diff is the NJ execution containment change only; it does not explain these 20 transitions.",
+    "For ten legal rows, old MASTER_QUEUE had wave2LegalBlock.superseded=true from an earlier derivation. Current readIsLaterThan() cannot order because the wave-2 returnCommit object is absent, producing superseded=false and LEGAL_BLOCKED.",
+    "The four CA raster rows and three completeness rows have no family-local source change; their current blockers are regenerated shared queue/matrix measurements. Recovered-source rerun may change those seven results.",
+    "All twenty source receipts were present and unchanged; no source-byte drift was found."
+  ],
+  "handoff": {
+    "missingCommitListForCaptain": [
+      "838d75fed7c4628fa501cd135c81b748f1522afa",
+      "b39918e73206a17f240289932873c847c3122cdc",
+      "009b6204b4ee3b6d6e9b58a82b8832883c17fd4f",
+      "6777009977e7bbfad88b04fab48be952d53425f4",
+      "34417136e9d3eb307ac836bc6dd4e0b8a91abf60",
+      "a9c6602b18c2e5434fdf80673f9d404ee4186fad"
+    ],
+    "requestedNextStep": "Captain fetch these historical objects and rerun the chain; do not assign legal repairs from the ten chronology-only transitions."
+  }
+}

@@ -1,0 +1,574 @@
+{
+  "jurisdiction": "VA",
+  "trackId": "va_exp_nonconviction",
+  "legalName": "Petition for Expungement of Police and Court Records of a Non-Conviction, Va. Code \u00a7 19.2-392.2(A)",
+  "publicName": "Expunge a Virginia charge that did not end in a conviction",
+  "mechanism": "Read at source on 2026-08-06 in the version effective until December 1, 2026, \u00a7 19.2-392.2(A) allows a person charged with a crime, a civil offence or any offence defined in Title 18.2 who is acquitted, or against whom a nolle prosequi is taken or the charge is otherwise dismissed including dismissal by accord and satisfaction under \u00a7 19.2-151, to petition for expungement of the police and court records relating to the charge, and provides that no court fees or costs are payable. Subsection C fixes venue in the circuit court of the county or city where the case was disposed of, prescribes the petition contents, and requires the petitioner to request that the CCRE electronically forward a copy of the petitioner's Virginia criminal history record to that court. Subsection D gives the attorney for the Commonwealth twenty-one days to object, answer or give written notice of no objection. Subsection F applies the manifest injustice standard but adds a presumption the controlling review could not verify: where the petitioner has no prior criminal record and the arrest was for a misdemeanor violation or the charge was a civil offence, the petitioner is entitled to expungement in the absence of good cause shown to the contrary by the Commonwealth. Subsection F also allows the court to enter the order without a hearing where the Commonwealth gives written notice of no objection and, for a felony charge, stipulates manifest injustice. Subsection K makes State Police validate the accuracy of the record but not its eligibility. Subsection L makes an order voidable within three years. Subsection M keeps the petition and any responsive pleadings under seal.",
+  "authority": [
+    "Va. Code \u00a7 19.2-392.2(A)",
+    "Va. Code \u00a7 19.2-392.2(C)",
+    "Va. Code \u00a7 19.2-392.2(D)",
+    "Va. Code \u00a7 19.2-392.2(F)",
+    "Va. Code \u00a7 19.2-392.2(G)",
+    "Va. Code \u00a7 19.2-392.2(K)",
+    "Va. Code \u00a7 19.2-392.2(L)",
+    "Va. Code \u00a7 19.2-392.2(M)",
+    "Va. Code \u00a7 19.2-151",
+    "Commonwealth v. Dotson"
+  ],
+  "reviewedAsOf": "2026-08-01",
+  "effectiveFrom": "2025-07-01",
+  "effectiveTo": "2026-11-30",
+  "recordTypes": [
+    "arrest",
+    "charge"
+  ],
+  "dispositions": [
+    "acquitted",
+    "nolle_prosequi",
+    "dismissed",
+    "accord_and_satisfaction"
+  ],
+  "exclusions": [
+    "A charge dismissed after a finding of facts sufficient for guilt, and a deferred or first-offender disposition such as a \u00a7 18.2-251 drug dismissal. Under Commonwealth v. Dotson 'otherwise dismissed' is read narrowly and this population routes to sealing instead.",
+    "Convictions, other than those reached by the pardon and actual-innocence subsections, which are their own tracks.",
+    "Records where another person used the petitioner's identity, which is \u00a7 19.2-392.2(B) and a different track with a fingerprint requirement.",
+    "Juvenile records, which are a separate regime.",
+    "Federal records; Virginia relief reaches Virginia records only."
+  ],
+  "waitingPeriods": [
+    {
+      "condition": "Non-conviction expungement",
+      "duration": "None. Section 19.2-392.2 imposes no waiting period."
+    }
+  ],
+  "outputStrategy": "official_pdf_fill",
+  "outputStrategyDeclared": "official_pdf_fill",
+  "compositionMode": null,
+  "units": [],
+  "geographicScope": "statewide",
+  "geographyKeys": [],
+  "venue": "The circuit court of the county or city in which the case was disposed of by acquittal or by being otherwise dismissed. District court charges are filed in that locality's circuit court.",
+  "destination": {
+    "kind": "court",
+    "name": "Clerk of the circuit court of the locality where the case was disposed of",
+    "detail": "File the petition with a copy of the warrant, summons or indictment if reasonably available. No court fees or costs are payable. Serve a copy on the attorney for the Commonwealth of that locality, who has twenty-one days to respond. Separately request that the CCRE forward the criminal history record electronically to the court."
+  },
+  "packetSet": {
+    "packetSetId": "va_exp_nonconviction-set",
+    "version": "1.0.0",
+    "components": [
+      {
+        "componentId": "va_exp_nonconviction-primary-filing-1",
+        "role": "primary_filing",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "official_pdf_fill",
+        "officialFormId": "CC-1473",
+        "officialSourceUrl": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+        "order": 1
+      },
+      {
+        "componentId": "va_exp_nonconviction-ccre-forwarding-request-2",
+        "role": "ccre_forwarding_request",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "custom_pleading",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 2
+      },
+      {
+        "componentId": "va_exp_nonconviction-commonwealth-service-and-stipulation-req-3",
+        "role": "commonwealth_service_and_stipulation_request",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "custom_pleading",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 3
+      },
+      {
+        "componentId": "va_exp_nonconviction-records-checklist-4",
+        "role": "records_checklist",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 4
+      },
+      {
+        "componentId": "va_exp_nonconviction-filing-instructions-5",
+        "role": "filing_instructions",
+        "requirement": "required",
+        "conditionDescription": null,
+        "outputStrategy": "process_guidance",
+        "officialFormId": null,
+        "officialSourceUrl": null,
+        "order": 5
+      }
+    ],
+    "participantActionRequired": [
+      {
+        "kind": "obtain_document",
+        "description": "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+        "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "obtain_document",
+        "description": "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+        "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "obtain_document",
+        "description": "Obtain Copy of the warrant, summons or indictment. Ask the clerk for a copy of the charging document. If it is not reasonably available, the petition states the reason for the unavailability instead.",
+        "obtainedFrom": "Clerk of the court that handled the case",
+        "requirement": "conditional",
+        "conditionDescription": "Section 19.2-392.2(C) requires it to be filed with the petition where reasonably available.",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "confirm_answer",
+        "description": "Check your answer to \"What was the charge, and which Code section was it under?\" against Copy of the warrant, summons or indictment, and correct the packet if they disagree.",
+        "requirement": "conditional",
+        "conditionDescription": "Section 19.2-392.2(C) requires it to be filed with the petition where reasonably available.",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "Signature \u2014 CC-1473, signature block.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "The manifest injustice statement \u2014 CC-1473, the grounds paragraph.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "complete_field",
+        "description": "Case number \u2014 CC-1473, caption.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "sign",
+        "description": "The petitioner signs the petition.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "notarize",
+        "description": "none stated in \u00a7 19.2-392.2 for a subsection (A) petition.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "pay_fee",
+        "description": "none. Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, which resolves the controlling review's open question about expungement fees against the statute itself rather than against one clerk's guidance.",
+        "requirement": "required",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "apply_fee_waiver",
+        "description": "none \u2014 no court fee is charged. The CCRE charges its own fee for the participant's own copy of their record.",
+        "requirement": "conditional",
+        "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+        "requiredBeforeFiling": true
+      },
+      {
+        "kind": "serve_party",
+        "description": "A copy of the petition is served on the attorney for the Commonwealth of the city or county in which the petition is filed. The Commonwealth is made a party defendant.",
+        "requirement": "required",
+        "requiredBeforeFiling": false
+      },
+      {
+        "kind": "file",
+        "description": "File the CC-1473 petition, with the charging document where reasonably available, in the circuit court of the locality where the case was disposed of.",
+        "requirement": "required",
+        "requiredBeforeFiling": false
+      }
+    ],
+    "requiredBeforeFiling": [
+      "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+      "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
+      "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+      "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
+      "Obtain Copy of the warrant, summons or indictment. Ask the clerk for a copy of the charging document. If it is not reasonably available, the petition states the reason for the unavailability instead.",
+      "Check your answer to \"What was the charge, and which Code section was it under?\" against Copy of the warrant, summons or indictment, and correct the packet if they disagree.",
+      "Signature \u2014 CC-1473, signature block.",
+      "The manifest injustice statement \u2014 CC-1473, the grounds paragraph.",
+      "Case number \u2014 CC-1473, caption.",
+      "The petitioner signs the petition.",
+      "none stated in \u00a7 19.2-392.2 for a subsection (A) petition.",
+      "none. Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, which resolves the controlling review's open question about expungement fees against the statute itself rather than against one clerk's guidance.",
+      "none \u2014 no court fee is charged. The CCRE charges its own fee for the participant's own copy of their record."
+    ]
+  },
+  "officialSources": [
+    {
+      "title": "Code of Virginia \u00a7 19.2-392.2 \u2014 Expungement of police and court records (both the version effective until December 1, 2026 and the version effective December 1, 2026)",
+      "url": "https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
+      "retrievedOn": "2026-08-06",
+      "sha256": null
+    },
+    {
+      "title": "Supreme Court of Virginia form CC-1473 \u2014 Petition for Expungement Filed in a Circuit Court, Acquittal/Dismissal, Va. Code \u00a7 19.2-392.2(A)",
+      "url": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+      "retrievedOn": "2026-08-06",
+      "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "sha256PinRepair": {
+        "repairedBy": "SOURCE-1 (fable/s1), 2026-09-01",
+        "oldValue": "6176c2f55bdb3206c53f4a26a0e6b4c14dfd8b04ee19be0ee52b7b6b3fa4e97f",
+        "newValue": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "basis": "Corrupted pin repair, not a source change. The recorded SHA-256 shared its first 64 bits (6176c2f55bdb3206) with the held CC-1473 bytes and then diverged, which does not occur by chance (SRC01 diagnosis, data/rcap-grade-a/packet-factory-24h/src01/rows.json). The new value was recomputed with sha256sum from the held corpus bytes at STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf (120875 bytes, 2 pages), equals the committed corpus index entry (data/rcap-all50/local-source-corpus-index.json) and the corroborated pin in data/rcap-grade-a/official-source-registry.json and data/rcap-all50/overlays/production/virginia/cc-1473-en/source-record.json. The PDF face prints FORM CC-1473 (MASTER, Page 1 of 2) 07/26, titled PETITION FOR EXPUNGEMENT FILED IN A CIRCUIT COURT - ACQUITTAL/DISMISSAL, Va. Code 19.2-392.2(A): it is the petition for expungement this source names.",
+        "trackId": "va_exp_nonconviction"
+      }
+    },
+    {
+      "title": "Norfolk Circuit Court Clerk \u2014 Expungement and Record Sealing, dated 2026-07-01",
+      "url": "https://www.norfolkcircuitcourt.us/record-expungement/",
+      "retrievedOn": "2026-08-06",
+      "sha256": null
+    }
+  ],
+  "rules": {
+    "filing": "File the CC-1473 petition, with the charging document where reasonably available, in the circuit court of the locality where the case was disposed of.",
+    "fees": "none. Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing a petition under that subsection, which resolves the controlling review's open question about expungement fees against the statute itself rather than against one clerk's guidance.",
+    "feeWaiver": "none \u2014 no court fee is charged. The CCRE charges its own fee for the participant's own copy of their record.",
+    "notice": "The attorney for the Commonwealth may file an objection or answer, or give written notice of no objection, within twenty-one days after service. That is twenty-one days on an expungement, not the thirty days that applies to a sealing petition.",
+    "service": "A copy of the petition is served on the attorney for the Commonwealth of the city or county in which the petition is filed. The Commonwealth is made a party defendant.",
+    "participantSignature": "The petitioner signs the petition.",
+    "notarization": "none stated in \u00a7 19.2-392.2 for a subsection (A) petition."
+  },
+  "generationRequirements": [
+    {
+      "key": "petitionerName",
+      "question": "What is your full legal name, and the full name you used at the time of arrest?",
+      "requirement": "required"
+    },
+    {
+      "key": "dateOfBirth",
+      "question": "What is your date of birth?",
+      "requirement": "required"
+    },
+    {
+      "key": "dispositionLocality",
+      "question": "In which Virginia county or city was the case disposed of?",
+      "requirement": "required"
+    },
+    {
+      "key": "courtLevel",
+      "question": "Was the case in general district court, juvenile and domestic relations court, or circuit court?",
+      "requirement": "required"
+    },
+    {
+      "key": "chargeIdentity",
+      "question": "What was the charge, and which Code section was it under?",
+      "requirement": "required"
+    },
+    {
+      "key": "arrestDate",
+      "question": "On what date were you arrested, and which agency arrested you?",
+      "requirement": "required"
+    },
+    {
+      "key": "dispositionDetail",
+      "question": "How did the case end, and on what date?",
+      "requirement": "required"
+    },
+    {
+      "key": "offenseDate",
+      "question": "On what date did the offence happen?",
+      "requirement": "required"
+    },
+    {
+      "key": "dotsonScreen",
+      "question": "Before the case was dismissed, did you admit the facts, or did the judge find the facts were enough to convict and then hold the case open \u2014 for example a first-offender or deferred disposition?",
+      "requirement": "required"
+    },
+    {
+      "key": "priorCriminalRecord",
+      "question": "Do you have any prior criminal record at all?",
+      "requirement": "required"
+    },
+    {
+      "key": "chargeGrade",
+      "question": "Was the charge a felony, a misdemeanour, or a civil offence?",
+      "requirement": "required"
+    }
+  ],
+  "participantFilingRequirements": [
+    {
+      "name": "The participant's own Virginia criminal history record from the CCRE",
+      "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
+      "confirms": "dispositionDetail"
+    },
+    {
+      "name": "The circuit court case file, or the district court record held by that locality's circuit court",
+      "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
+      "requirement": "required",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
+      "confirms": "dispositionDetail"
+    },
+    {
+      "name": "Copy of the warrant, summons or indictment",
+      "obtainedFrom": "Clerk of the court that handled the case",
+      "requirement": "conditional",
+      "conditionDescription": "Section 19.2-392.2(C) requires it to be filed with the petition where reasonably available.",
+      "requiredBeforeFiling": true,
+      "howToObtain": "Ask the clerk for a copy of the charging document. If it is not reasonably available, the petition states the reason for the unavailability instead.",
+      "confirms": "chargeIdentity"
+    }
+  ],
+  "manualCompletionItems": [
+    {
+      "item": "Signature",
+      "whereInPacket": "CC-1473, signature block",
+      "why": "The petitioner signs their own petition."
+    },
+    {
+      "item": "The manifest injustice statement",
+      "whereInPacket": "CC-1473, the grounds paragraph",
+      "why": "It is the statutory finding the court makes and, on a felony, the stipulation the Commonwealth may give. LegalEase prints the participant's own account of the harm and asserts no legal conclusion."
+    },
+    {
+      "item": "Case number",
+      "whereInPacket": "CC-1473, caption",
+      "why": "The circuit clerk assigns the civil case number at filing."
+    }
+  ],
+  "selfHelpBoundaries": [
+    "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.",
+    "The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.",
+    "The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.",
+    "Any immigration question.",
+    "Juvenile or federal records.",
+    "LegalEase must not generate the manifest injustice conclusion. It prints the participant's own account of the harm the record causes and leaves the finding to the court.",
+    "If the attorney for the Commonwealth objects or answers, or the court sets a hearing, automated assistance ends. The initial packet still generates."
+  ],
+  "postGenerationHandoffs": [
+    "If the attorney for the Commonwealth objects or answers, or the court sets a hearing, automated assistance ends. The initial packet still generates."
+  ],
+  "packetInstructions": [
+    "Sealing restricts access, expungement removes.",
+    "Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing the petition, and there is no fingerprint requirement on a subsection (A) petition; the petitioner instead requests that the CCRE forward the record electronically to the court."
+  ],
+  "participantQuestions": [],
+  "scopeRestrictions": [
+    "The Dotson screen must be a hard gate: the engine must ask whether the dismissal followed a finding of facts sufficient for guilt or a deferred disposition, and route those to sealing rather than expungement.",
+    "An expungement order entered where the court or parties failed to strictly comply with the section's procedures, or an order contrary to law, is voidable on motion within THREE years under \u00a7 19.2-392.2(L). That is a year longer than the two-year sealing rule, which the controlling review states for both."
+  ],
+  "buildBlockers": [],
+  "releaseBlockers": [
+    {
+      "question": "Chapter 23.2 and \u00a7 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: \u00a7 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01.",
+      "impact": "release_blocker",
+      "affectedElement": "governing_mechanism",
+      "provenance": {
+        "classificationBasis": "counsel_confirmation_required",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
+        "sourceStatement": "Is there a 2026 session amendment to Chapter 23.2? A search result rendering of section 19.2-392.12:1 displayed subsection A as \"(Effective until July 1, 2027),\" which would imply a 2026 act creating a later version. The section page read at source on this date shows only the 2025 chapters 634 and 671 in its historical citation and no dual version. **Nonblocking research note with a standing monitor**, and it should be resolved before the next Virginia refresh.",
+        "counselQuestion": "2026 Sp. Sess. I, c. 1 creates a July 1, 2027 version of \u00a7 19.2-392.6(A), and \u00a7 19.2-392.2 has a version effective December 1, 2026 that broadens the expungement gateway and codifies Dotson. Which version does the packet build against between now and 1 December 2026, and what is the cutover plan?"
+      }
+    },
+    {
+      "question": "What the December 1, 2026 version of \u00a7 19.2-392.2 does to this track. Read at source on 2026-08-06, the later version replaces the subsection A gateway with any person 'arrested, charged, summonsed, or indicted' for an infraction, crime or civil offence who 'is not ultimately convicted, provided that no stipulation of facts sufficient to find guilt was entered or the court did not determine the facts sufficient to find guilt but deferred adjudication or disposition to a later date'. That codifies the Dotson limit in the statute, extends the route to infractions, and adds a sentence to subsection C permitting a single petition to cover multiple charges arising out of separate transactions or occurrences, which the current version does not allow. It also provides that unavailability of the arrest information alone is not a basis for refusing expungement, and requires an objecting Commonwealth's Attorney to state the basis. The packet must be rebuilt for that version before it takes effect.",
+      "impact": "release_blocker",
+      "affectedElement": "eligibility_branch",
+      "provenance": {
+        "classificationBasis": "counsel_confirmation_required",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "PART 1: RELIEF TRACKS",
+        "sourceStatement": "A note on section 19.2-392.2. The expungement statute itself was not read at source in this pass.",
+        "counselQuestion": "Should the \u00a7 19.2-392.2 packet be built against the version in force until 1 December 2026, the version effective 1 December 2026, or both with a dated cutover?"
+      }
+    },
+    {
+      "question": "Whether CC-1473 is revised for the December 1, 2026 version, and whether a separate official form exists for the subsection (B) identity-use petition. CC-1473 was retrieved and hashed at the official library on 2026-08-06 and is captioned to \u00a7 19.2-392.2(A) only.",
+      "impact": "release_blocker",
+      "affectedElement": "correct_form",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "2.1 Supreme Court of Virginia forms",
+        "sourceStatement": "Required before build: pull the CC-1201 series from the Virginia Judicial System forms library, confirm which number in the series corresponds to which petition track (19.2-392.12 versus 19.2-392.12:1(A) versus 19.2-392.12:1(B) ancillary-only), and confirm the current revision date of CC-1473."
+      }
+    }
+  ],
+  "awaitingCounselClassification": [],
+  "openLegalQuestions": [],
+  "counselConfirmationRequired": true,
+  "counselQuestions": [
+    "2026 Sp. Sess. I, c. 1 creates a July 1, 2027 version of \u00a7 19.2-392.6(A), and \u00a7 19.2-392.2 has a version effective December 1, 2026 that broadens the expungement gateway and codifies Dotson. Which version does the packet build against between now and 1 December 2026, and what is the cutover plan?",
+    "Should the \u00a7 19.2-392.2 packet be built against the version in force until 1 December 2026, the version effective 1 December 2026, or both with a dated cutover?"
+  ],
+  "selfHelpStopConditions": [
+    "The dismissal followed a stipulation or a judicial finding of facts sufficient for guilt, or was a deferred or first-offender disposition. That is the Dotson screen and it is a hard gate: route to sealing, not expungement.",
+    "The attorney for the Commonwealth objects or answers, or the court sets a contested hearing.",
+    "The participant has a prior criminal record and the charge was a felony, so neither the presumption nor an easy stipulation is available.",
+    "Any immigration question.",
+    "Juvenile or federal records."
+  ],
+  "unresolvedQuestions": [
+    {
+      "question": "Chapter 23.2 and \u00a7 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: \u00a7 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01.",
+      "impact": "release_blocker",
+      "affectedElement": "governing_mechanism",
+      "provenance": {
+        "classificationBasis": "counsel_confirmation_required",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
+        "sourceStatement": "Is there a 2026 session amendment to Chapter 23.2? A search result rendering of section 19.2-392.12:1 displayed subsection A as \"(Effective until July 1, 2027),\" which would imply a 2026 act creating a later version. The section page read at source on this date shows only the 2025 chapters 634 and 671 in its historical citation and no dual version. **Nonblocking research note with a standing monitor**, and it should be resolved before the next Virginia refresh.",
+        "counselQuestion": "2026 Sp. Sess. I, c. 1 creates a July 1, 2027 version of \u00a7 19.2-392.6(A), and \u00a7 19.2-392.2 has a version effective December 1, 2026 that broadens the expungement gateway and codifies Dotson. Which version does the packet build against between now and 1 December 2026, and what is the cutover plan?"
+      }
+    },
+    {
+      "question": "What the December 1, 2026 version of \u00a7 19.2-392.2 does to this track. Read at source on 2026-08-06, the later version replaces the subsection A gateway with any person 'arrested, charged, summonsed, or indicted' for an infraction, crime or civil offence who 'is not ultimately convicted, provided that no stipulation of facts sufficient to find guilt was entered or the court did not determine the facts sufficient to find guilt but deferred adjudication or disposition to a later date'. That codifies the Dotson limit in the statute, extends the route to infractions, and adds a sentence to subsection C permitting a single petition to cover multiple charges arising out of separate transactions or occurrences, which the current version does not allow. It also provides that unavailability of the arrest information alone is not a basis for refusing expungement, and requires an objecting Commonwealth's Attorney to state the basis. The packet must be rebuilt for that version before it takes effect.",
+      "impact": "release_blocker",
+      "affectedElement": "eligibility_branch",
+      "provenance": {
+        "classificationBasis": "counsel_confirmation_required",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "PART 1: RELIEF TRACKS",
+        "sourceStatement": "A note on section 19.2-392.2. The expungement statute itself was not read at source in this pass.",
+        "counselQuestion": "Should the \u00a7 19.2-392.2 packet be built against the version in force until 1 December 2026, the version effective 1 December 2026, or both with a dated cutover?"
+      }
+    },
+    {
+      "question": "Whether CC-1473 is revised for the December 1, 2026 version, and whether a separate official form exists for the subsection (B) identity-use petition. CC-1473 was retrieved and hashed at the official library on 2026-08-06 and is captioned to \u00a7 19.2-392.2(A) only.",
+      "impact": "release_blocker",
+      "affectedElement": "correct_form",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "2.1 Supreme Court of Virginia forms",
+        "sourceStatement": "Required before build: pull the CC-1201 series from the Virginia Judicial System forms library, confirm which number in the series corresponds to which petition track (19.2-392.12 versus 19.2-392.12:1(A) versus 19.2-392.12:1(B) ancillary-only), and confirm the current revision date of CC-1473."
+      }
+    }
+  ],
+  "guidanceRationales": [],
+  "guidanceRereviewCandidate": false,
+  "legalDesignStatus": "legal_design_approved_with_limitations",
+  "legalDesignLimitations": [
+    {
+      "classification": "scope_restriction",
+      "statement": "The Dotson screen must be a hard gate: the engine must ask whether the dismissal followed a finding of facts sufficient for guilt or a deferred disposition, and route those to sealing rather than expungement.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "VA-EXP-01: Expungement of a non-conviction",
+        "sourceStatement": "Approved for implementation with limitations. The Dotson screen must be a hard gate: the engine must ask whether the dismissal followed a finding of facts sufficient for guilt or a deferred disposition, and route those to sealing rather than expungement."
+      }
+    },
+    {
+      "classification": "packet_instruction",
+      "statement": "Sealing restricts access, expungement removes.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "LIMITATION CLASSIFICATION",
+        "sourceStatement": "Sealing restricts access, expungement removes | Participant disclosure"
+      }
+    },
+    {
+      "classification": "scope_restriction",
+      "statement": "An expungement order entered where the court or parties failed to strictly comply with the section's procedures, or an order contrary to law, is voidable on motion within THREE years under \u00a7 19.2-392.2(L). That is a year longer than the two-year sealing rule, which the controlling review states for both.",
+      "provenance": {
+        "classificationBasis": "mechanical_translation",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "LIMITATION CLASSIFICATION",
+        "sourceStatement": "Two-year voidability for failure to strictly comply | Scope restriction; use the official forms",
+        "normalizerInferred": true
+      }
+    },
+    {
+      "classification": "packet_instruction",
+      "statement": "Section 19.2-392.2(A) provides that a person shall not be required to pay any court fees or costs for filing the petition, and there is no fingerprint requirement on a subsection (A) petition; the petitioner instead requests that the CCRE forward the record electronically to the court.",
+      "provenance": {
+        "classificationBasis": "mechanical_translation",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT",
+        "sourceStatement": "Are expungement petitions now free? The Norfolk clerk states no court filing fees or clerical costs for expungement or sealing effective 2026-07-01, and the 2025 acts repealed the Sealing Fee Fund.",
+        "normalizerInferred": true
+      }
+    },
+    {
+      "classification": "self_help_boundary",
+      "statement": "LegalEase must not generate the manifest injustice conclusion. It prints the participant's own account of the harm the record causes and leaves the finding to the court.",
+      "provenance": {
+        "classificationBasis": "explicit_state_addendum",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "2.1 Supreme Court of Virginia forms",
+        "sourceStatement": "Fields that require legal judgment and must not be auto-completed:"
+      }
+    },
+    {
+      "classification": "post_generation_handoff",
+      "statement": "If the attorney for the Commonwealth objects or answers, or the court sets a hearing, automated assistance ends. The initial packet still generates.",
+      "provenance": {
+        "classificationBasis": "general_packet_only_rule",
+        "sourceFile": "VA__LEGAL-REVIEW__STATEWIDE__virginia-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+        "sourceHeading": "4.3 The Commonwealth's Attorney stipulation, common to every sealing petition",
+        "sourceStatement": "Attorney-handoff trigger: any objection or answer filed."
+      }
+    }
+  ],
+  "legalStatus": "legal_review_pending",
+  "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+  "implementationQueue": "F_source_problem",
+  "legalDesignBlockers": [],
+  "blockers": [
+    {
+      "kind": "output_review_gate",
+      "statement": "Output review pending: counsel approved the design, not the produced document."
+    },
+    {
+      "kind": "visual_review_gate",
+      "statement": "Visual review not started."
+    },
+    {
+      "kind": "technical_proof_gate",
+      "statement": "Technical proof not started."
+    },
+    {
+      "kind": "release_blocker",
+      "statement": "Open question blocks release (governing_mechanism): Chapter 23.2 and \u00a7 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: \u00a7 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01."
+    },
+    {
+      "kind": "release_blocker",
+      "statement": "Open question blocks release (eligibility_branch): What the December 1, 2026 version of \u00a7 19.2-392.2 does to this track. Read at source on 2026-08-06, the later version replaces the subsection A gateway with any person 'arrested, charged, summonsed, or indicted' for an infraction, crime or civil offence who 'is not ultimately convicted, provided that no stipulation of facts sufficient to find guilt was entered or the court did not determine the facts sufficient to find guilt but deferred adjudication or disposition to a later date'. That codifies the Dotson limit in the statute, extends the route to infractions, and adds a sentence to subsection C permitting a single petition to cover multiple charges arising out of separate transactions or occurrences, which the current version does not allow. It also provides that unavailability of the arrest information alone is not a basis for refusing expungement, and requires an objecting Commonwealth's Attorney to state the basis. The packet must be rebuilt for that version before it takes effect."
+    },
+    {
+      "kind": "release_blocker",
+      "statement": "Open question blocks release (correct_form): Whether CC-1473 is revised for the December 1, 2026 version, and whether a separate official form exists for the subsection (B) identity-use petition. CC-1473 was retrieved and hashed at the official library on 2026-08-06 and is captioned to \u00a7 19.2-392.2(A) only."
+    },
+    {
+      "kind": "source_gate",
+      "statement": "One or more official sources have no recorded SHA-256, so staleness cannot be detected."
+    }
+  ]
+}

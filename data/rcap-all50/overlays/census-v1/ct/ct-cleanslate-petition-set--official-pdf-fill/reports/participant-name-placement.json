@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-participant-name-placement/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "question": "In the rendered artifact bytes, does every drawn participant-name token sit in a blank this family listed as one the name belongs in?",
+  "method": "Every flattened appearance in each fixture is read and matched back to the censused blank at its own measured rectangle. This is wider than the charge-caption question.",
+  "blanksTheNameMayAppearIn": {
+    "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000": [
+      "form1[0].PAGE1[0].DEFNAME[0]"
+    ]
+  },
+  "allowlistIsEmptyBecause": "No blank on JD-CR-202 may carry the participant's name in this build. The caption name box binds a date of birth through the run-on header caption and is refused; the crimes box binds the name and is refused; the two print-name boxes are jurat fields and are refused. So any name token drawn at any rectangle in either fixture is a blocking finding, which is the strongest form this assertion can take.",
+  "placementsFound": 3,
+  "placementsOutsideTheAllowlist": 0,
+  "placements": [
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "canonical",
+      "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+      "page": 1,
+      "text": "jordan.reyes@example.com",
+      "tokens": [
+        "Jordan",
+        "Reyes"
+      ],
+      "allowed": true,
+      "basis": "the drawn text is exactly the value this map bound to this field"
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "canonical",
+      "field": "form1[0].PAGE1[0].DEFNAME[0]",
+      "page": 1,
+      "text": "Jordan Avery Reyes",
+      "tokens": [
+        "Jordan Avery Reyes",
+        "Jordan",
+        "Avery",
+        "Reyes"
+      ],
+      "allowed": true,
+      "basis": "listed as a blank the name belongs in"
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "boundary",
+      "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+      "page": 1,
+      "text": "jordan.reyes@example.com",
+      "tokens": [
+        "Jordan",
+        "Reyes"
+      ],
+      "allowed": true,
+      "basis": "the drawn text is exactly the value this map bound to this field"
+    }
+  ]
+}

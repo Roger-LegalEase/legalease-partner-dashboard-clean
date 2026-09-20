@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-blanks-left-for-the-participant/v1",
+  "familyId": "id_set_aside_dismissal-set",
+  "requiredBeforeFiling": [
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.fact_sentenceType",
+      "page": 1,
+      "printedContext": "Item C1 - sentence type",
+      "disclosureLabel": "Item C1 - sentence type",
+      "identity": "id_set_aside_dismissal-primary-filing-1 field fact_sentenceType",
+      "why": "the committed track registry records this as a required generation input for id_set_aside_dismissal, and the platform holds no value for it",
+      "participantMustSupply": "Was your sentence suspended, or was judgment withheld?"
+    },
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.fact_probationCompliance",
+      "page": 1,
+      "printedContext": "Item C2 - probation compliance",
+      "disclosureLabel": "Item C2 - probation compliance",
+      "identity": "id_set_aside_dismissal-primary-filing-1 field fact_probationCompliance",
+      "why": "the committed track registry records this as a required generation input for id_set_aside_dismissal, and the platform holds no value for it",
+      "participantMustSupply": "Did you comply at all times with the terms and conditions of probation?"
+    },
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.fact_drugOrMentalHealthCourtGraduation",
+      "page": 1,
+      "printedContext": "Item C3 - drug or mental health court graduation",
+      "disclosureLabel": "Item C3 - drug or mental health court graduation",
+      "identity": "id_set_aside_dismissal-primary-filing-1 field fact_drugOrMentalHealthCourtGraduation",
+      "why": "the committed track registry records this as a required generation input for id_set_aside_dismissal, and the platform holds no value for it",
+      "participantMustSupply": "Did you graduate from an authorized drug court or mental health court program, and comply during any subsequent probation? (Asked on the program-graduation route rather than the probation-compliance route.)"
+    },
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.fact_stillOnProbation",
+      "page": 1,
+      "printedContext": "Item C4 - still on probation",
+      "disclosureLabel": "Item C4 - still on probation",
+      "identity": "id_set_aside_dismissal-primary-filing-1 field fact_stillOnProbation",
+      "why": "the committed track registry records this as a required generation input for id_set_aside_dismissal, and the platform holds no value for it",
+      "participantMustSupply": "Are you still on probation?"
+    },
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.fact_sexOffenderRegistration",
+      "page": 1,
+      "printedContext": "Item C5 - sex offender registration",
+      "disclosureLabel": "Item C5 - sex offender registration",
+      "identity": "id_set_aside_dismissal-primary-filing-1 field fact_sexOffenderRegistration",
+      "why": "the committed track registry records this as a required generation input for id_set_aside_dismissal, and the platform holds no value for it",
+      "participantMustSupply": "Does the offense require sex offender registration under § 18-8304? Those offenses are excluded from this route."
+    }
+  ],
+  "protectedBlanks": [
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.case_number",
+      "label": "Case number of this filing, if the court assigns one at filing",
+      "refusalClass": "court_prosecutor_clerk_or_agency_owned",
+      "why": "if a number is assigned, the court assigns it at filing"
+    },
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.petition_signature",
+      "label": "Signature of the person named in the caption, on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "the participant signs personally; this build never signs for anyone"
+    },
+    {
+      "document": "id_set_aside_dismissal-primary-filing-1",
+      "field": "id_set_aside_dismissal-primary-filing-1.petition_signature_date",
+      "label": "Date beside the signature on the petition",
+      "refusalClass": "signature_or_date_participant_completion",
+      "why": "a date written before the document is signed would be false"
+    }
+  ],
+  "everyRequiredBeforeFilingItemIsDisclosed": true,
+  "disclosedIn": "data/rcap-all50/overlays/census-v1/id/id-set-aside-dismissal-set--custom-pleading/participant-instructions.md"
+}

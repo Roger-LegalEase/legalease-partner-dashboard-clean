@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX03",
+  "laneKind": "repair",
+  "status": "COMPLETED",
+  "branch": "lane-fix03-nj-ordinance-20260911",
+  "worktree": "/tmp/rcap-fix03-nj-ordinance-20260911",
+  "baseSha": "87a6ce081b63ddcdb360d8344df232276aaf014d",
+  "builtAnything": true,
+  "repairsMade": 1,
+  "packetsSelfVerified": 0,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "rows": [
+    {
+      "itemId": "nj_ordinance-set",
+      "familyId": "nj_ordinance-set",
+      "status": "COMPLETED",
+      "repairedByThisLane": true,
+      "scope": "VF62 KNOWN_PREFILLS and REQUIRED_BEFORE_FILING correction for nj_ordinance-set only; source, PDF, participant-guide, and raster bytes preserved",
+      "obligationRepaired": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "finding": "VF62 identified fifteen fields with false participant-sworn refusals, eleven court-completed fields presented as participant work, and four unusable participant-field labels. The current base already contained the eleven owner corrections and four label corrections; fifteen bad refusal classifications remained and produced knownRequiredFieldsMissing 15.",
+      "correction": "Fourteen alternative-branch fields now declare NOT_APPLICABLE_ON_THIS_ROUTE with a named ordinance-route condition. ExpungeDocketNum is classified as clerk-owned from CN-10557's leave-blank-for-clerk instruction. The valid item (d) election refusal and every participant-owned requirement remain in guidance.",
+      "evidence": "data/rcap-grade-a/packet-factory-24h/fix03/nj-ordinance-20260911/repair-evidence.json",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": null,
+        "protectedWrites": 0,
+        "visualDefects": null
+      },
+      "authorVerdict": "REPAIR_COMPLETE_NONVISUAL",
+      "pdfBytesIdentical": true,
+      "sourceIdentityPreserved": true,
+      "rasterIdentityPreserved": true,
+      "countersNote": "The seven substantive counters are zero. The two visual counters remain explicitly unmeasured in the shared completeness command, so this is not an independent terminal verdict.",
+      "remainingGate": "Independent re-verification of the repaired semantics. The original whole-family RASTER_PASS remains bound to unchanged PDF bytes; no reraster is owed.",
+      "grantsNothing": "No independent approval, claim release, route promotion, runtime selection, payment authority, sponsorship authority, or commercial fulfillment authority."
+    }
+  ]
+}

@@ -1,13 +1,66 @@
 # AGENTS.md - RCAP All-50 ASAP Build Discipline
 
-Plan of record for this sprint:
+## Plan hierarchy
+
+**Enterprise plan of record:** `docs/LegalEase-Master-Build-Plan-v4.md`. It carries
+all still-controlling v3 content and adds the Company Controls and SOC 2
+Operating System as a parallel cross-company workstream. v3 is preserved
+unchanged at `docs/LegalEase-Master-Build-Plan-v3.md`.
+
+**Active state-build plan of record for this sprint:**
 
 - `docs/RCAP_ALL50_ASAP_MASTER_PLAN.md`
 - `docs/RCAP_ALL50_AGENT_RUNBOOK.md`
 - `docs/RCAP_ALL50_QA_ATTORNEY_HANDOFF.md`
 - `docs/RCAP_ALL50_BUILD_STATUS.md`
 
+**Company controls:** `docs/security/soc2/`. Ordinary state-build agents should
+not modify company-control documents unless the task assigns them. Company
+controls never replace legal, visual, source-fidelity or packet-verification
+gates, and completing one authorizes no route promotion.
+
 Historical architecture reference: `docs/LegalEase-Master-Build-Plan-v2.md/LegalEase-Master-Build-Plan-v2-4.md`.
+
+## Controlling Product Contract
+
+`docs/PRODUCT_CONTRACT.md` is the authority for product behaviour. Where it and
+an implementation disagree, the implementation is the defect. Where it and any
+other document here disagree — status reports, lane manifests, build plans,
+promotion manifests — the contract governs.
+
+Its governing rule:
+
+> Screening may be anonymous. A Briefcase may not be anonymous. A pending result
+> becomes a matter only when it is securely and atomically claimed by the
+> authenticated participant.
+
+The screening design it is measured against, for all 50 states and DC, is
+`docs/screening/FREE_CHECK_ALL_51_JURISDICTIONS.md`.
+
+## Controls Follow The Product Forward
+
+When a control breaks because the product moved forward, update the control to
+model the real product. Never drag the product backward to satisfy the old
+control.
+
+A failing check is a question, not a verdict. Before changing anything, find out
+which side is stale: run the check against the accepted baseline, compare the
+exact inputs, and say which of these it is — stale approval metadata, real byte
+drift, real behavioural drift, environment or tooling drift, or a defective
+check. "Pre-existing" is a claim that has to be proven against the baseline, not
+inferred from the fact that it predates your commit.
+
+Where the product is right and the control is stale, bring the control forward
+so it models what ships. A test fixture that forces the application back to an
+older contract is worse than no test: it reports a pass for behaviour nobody
+has any longer. Where a stale approval names bytes that legitimately moved,
+record the move through the mechanism that exists for it — a revision, a
+supersession, a signed reclassification — and never by quietly editing the old
+approval.
+
+Green is not the goal. A suite that is green because its checks stopped asking
+proves nothing, and the repository becoming more truthful matters more than it
+becoming more green.
 
 ## Core Directive
 
@@ -40,17 +93,43 @@ Ask Roger before any action that would:
 
 Never use `git add .`, `git add -A`, or `git add --all`.
 
-## Legacy Generators Preserved
+## Legacy Generators: Preserve Assets And History, Not Authority
 
-Existing live legacy generators must remain preserved:
+The legacy packet generators for Mississippi, Illinois, the District of
+Columbia, Pennsylvania and Texas-Harris are **not approved commercial
+fulfillment paths**. Roger Roman decided this on 2026-08-28; the record is
+`data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json`
+and the reasoning is ADR-0004.
 
-- Mississippi
-- Illinois
-- District of Columbia
-- Pennsylvania
-- Texas-Harris
+**Preservation means preserving useful assets and history. It does not mean
+preserving runtime or commercial authority.**
 
-Legacy generators are flow/output references and live fallbacks. Do not break them. Do not change live RCAP routes unless a task explicitly authorizes that exact route change.
+Preserved — do not delete merely because a runtime is retired:
+
+- state packs, official sources, field maps, packet text, filing instructions,
+  fixtures and participant copy;
+- already-generated artifacts, reachable through protected owner-authorized
+  access;
+- the document components, as implementation references and as comparison
+  evidence during migration.
+
+Not preserved — no legacy generator authorizes any of these:
+
+- checkout, sponsored entitlement, packet-credit consumption;
+- render jobs, participant delivery, commercially deliverable status.
+
+Do not restore their direct-consumer price. Do not create a state-specific
+exception, and do not let a partner-only generator become a direct-consumer one.
+Jurisdiction membership grants nothing.
+
+Commercial authority comes from a Grade-A fulfillment record keyed to an exact
+route and packet family, and from nothing else. A route sells only what a record
+proves it delivers, and the absence of a record is a refusal rather than a gap.
+Migration is route by route and family by family; a state is never reopened
+because one of its routes passes.
+
+Do not change live RCAP routes unless a task explicitly authorizes that exact
+route change.
 
 ## Source Hierarchy
 

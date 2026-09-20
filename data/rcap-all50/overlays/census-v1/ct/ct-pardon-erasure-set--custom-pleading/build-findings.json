@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ct-pardon-erasure-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "The family binds no source bytes: sourceStatus is CUSTOM_PLEADING_FROM_CODIFIED_TEXT with an empty boundSources list, and the memo records that no official form was located for the pre-1974 petition.",
+      "consequence": "The petition is composed from the family's committed legal-design records, each verified by SHA-256 and content assertion on every build. Nothing not stated by those records is asserted: no caption format, no notarization rule, no service rule, no figure."
+    },
+    {
+      "finding": "The memo records as a release blocker that the caption and format G.A. clerks accept for the pre-1974 petition must be confirmed with a Connecticut practitioner, and the manifest's component note directs that the packet tell the participant to call the clerk before filing.",
+      "consequence": "The petition's caption carries a labelled dotted blank for the court location with the clerk's office of the Superior Court named as the checkable authority, and both the petition and the instructions direct the participant to call the clerk before filing. The blocker travels to counsel review unresolved."
+    },
+    {
+      "finding": "The § 54-142a(d) branch fork turns on the pardon date, which the memo says selects the branch and which LegalEase does not choose for the participant.",
+      "consequence": "Both instruments are rendered with their conditions printed on their own faces; neither is selected. The fork is not route-determined."
+    },
+    {
+      "finding": "The source review states no notarization requirement and no service requirement, which is not the same as stating that neither exists.",
+      "consequence": "Neither is asserted either way. The petition and instructions tell the participant to ask the Superior Court clerk whether either applies locally when calling about the caption."
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "CHAT4-20260907",
+  "reviewer": "ChatGPT, GPT-6 Astra Pro, independent Chat 4 review session",
+  "sessionIdentity": "chat4-20260907-md-ky-independent-02",
+  "reviewDate": "2026-09-07",
+  "counselApproval": false,
+  "packetFilesEdited": false,
+  "builderExecuted": false,
+  "candidatePredicateExecuted": true,
+  "newRasterRequested": false,
+  "localReviewImagesRendered": true,
+  "productionTouched": false,
+  "rows": [
+    {
+      "familyId": "md_10105_favorable-set",
+      "itemId": "md_10105_favorable-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "verdictScope": "One independently reproduced candidate input-validation defect, not a defect in the supplied fifteen PDFs. This is not a terminal or production-admission decision.",
+      "suppliedPdfVerdict": "PASS_REVIEWED_FIXTURES",
+      "verifiedAtBase": "362694c4fea3872e80778533fd477c6212f63791",
+      "builderPr": 231,
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill",
+      "routeKeys": ["obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"],
+      "candidateScope": "The ordinary CC-DC-CR-072A source and its supplied coherent single-disposition/date fixtures only. No approval of early 072C/release, conviction, cannabis-conviction, pardon or every disposition in the broader registry track. The PBJ-no-longer-crime fixture is a PBJ, not a cannabis-conviction substitution.",
+      "coverage": {
+        "completePdfs": 15,
+        "completePageInstances": 60,
+        "pagesVisuallyExamined": 60,
+        "uniqueCompletePageImages": 30,
+        "exactImageAliases": 30,
+        "visualMethod": "Fresh local 108-dpi review images from every complete PDF, all pages viewed in fifteen four-page full-page sheets. No crops or old GitHub outputs substituted for complete candidate pages.",
+        "actualTextWithinMappedRectangles": {"passed": 268, "total": 268},
+        "declaredSelectedCheckboxesWithAddedInk": {"passed": 46, "total": 46},
+        "protectedExecutionRegionsPixelIdenticalToHeldSource": {"passed": 165, "total": 165},
+        "manifestFileHashes": {"matched": 52, "total": 52},
+        "branches": ["canonical dismissal", "boundary PBJ with unknown agency", "acquittal", "adult-transfer circuit", "citation", "compromise", "juvenile-transfer criminal records", "NCR", "nolle treatment", "nolle", "PBJ DUI", "PBJ no longer crime", "PBJ", "stet treatment", "stet"]
+      },
+      "findings": [
+        {
+          "id": "CHAT4-MD-01",
+          "severity": "repair_required",
+          "owner": "Chat5 candidate predicate; A may instead demonstrate a current upstream rejecting guard before admission",
+          "title": "PBJ discharge earlier than PBJ entry is accepted as a markable disposition",
+          "affectedCode": "scripts/rcap-packet-recovery/chat5/md-favorable.mjs: validateMdFavorable, PBJ date validation and earliest calculation",
+          "measuredCodeGitBlob": "61f9b8f666882e67b57f26582d43be587947106e",
+          "measuredCodeSha256": "9f3a5f304e1cee49af7ba8576beab3192ac55a86dee5fbe90633d5a1a942787d",
+          "reproduction": "Load fixtures/selectable/pbj.facts.json from the exact retained candidate. Change only case.probationDischargeDate to 2019-01-01. case.dispositionDate and its charge disposition remain 2020-04-02. Invoke the exact validateMdFavorable function.",
+          "actual": {"accepted": true, "mayMarkDisposition": true, "earliest": "2023-04-02", "missing": []},
+          "expected": "Reject or explicitly require correction of a purported discharge that predates the grant of that same PBJ. Do not approve a checked timing recital from contradictory known dates.",
+          "method": "Executed the verbatim predicate block and its constants in an isolated Node VM. No render function, wrapper or PDF builder executed. Static code review corroborates the missing chronological comparison. The first local harness attempt lacked ROUTE and was discarded; the corrected harness supplied the exact source constant.",
+          "authority": "Criminal Procedure 10-105(c)(2) uses distinct PBJ grant and discharge events. This is an internal known-fact consistency defect, not a new legal-approval requirement.",
+          "suppliedPdfImpact": "None of the fifteen supplied fixtures has this contradiction. Preserve their successful packet and page review. After a guard-only correction, compare existing outputs and reuse unchanged bytes rather than demand a repeat build or central raster.",
+          "scopeOfProof": "Predicate acceptance was measured; a contradictory complete PDF was not generated, and no installed upstream guard was exercised."
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {"measured": true, "result": "PASS", "finding": "All delivered petitions are ordinary official 072A, selected from their actual facts. No early, guilty, pardon or cannabis-conviction vehicle is substituted. Broader registry options remain an A/Chat6 selector reconciliation, not approval by this review."},
+        "SOURCE_IDENTITY": {"measured": true, "result": "PASS", "finding": "Held one-page 09/2025 072A freshly hashed; current official issuer page and complete source face examined. Held raw digest is measured; live issuer raw digest is not. Current recovery registry blob 5924798ceb808e8013ebb74838469ea9b39238d8 still matches the declared contract anchor."},
+        "COMPONENT_SET": {"measured": true, "result": "PASS", "finding": "Each four-page packet actually delivers one official petition plus three separately identified participant-instruction pages. Ordinary free filing calls for no fee waiver, attached release, participant service certificate or proposed order. Declared component selections match actual pages."},
+        "KNOWN_PREFILLS": {"measured": true, "result": "PASS", "finding": "268 held-text writes were read back within their actual mapped rectangles, including repeated name/contact/date fields and long accented boundary text. Facts, maps and actual pages were compared; no known field was found silently omitted."},
+        "REQUIRED_BEFORE_FILING": {"measured": true, "result": "PASS", "finding": "The boundary agency is genuinely null, blank on the petition and specifically disclosed on instruction pages 2 and 3. Signature/date completion is expressly required. Unknown predicate and missing-discharge probes leave the disposition unmarkable. This is not proof that runtime has collected every fact."},
+        "ROUTE_OPTIONS": {"measured": true, "result": "FAIL", "finding": "All supplied selections and clocks are correct, and all 46 declared marks have ink. Mixed basis/date, pending case, future discharge, protected signature, early-release and wrong-instrument probes behave correctly. CHAT4-MD-01 independently demonstrates contradictory PBJ entry/discharge dates can still authorize a mark."},
+        "REPEATING_ROWS": {"measured": true, "result": "PASS", "finding": "The fifteen supplied one-incident charge lists and disposition dates are coherent. Verbatim predicate probes reject mixed dispositions and mixed dates rather than collapse them. No complete multi-charge overflow PDF is claimed reviewed; non-fitting or unlike units remain outside this bounded candidate coverage."},
+        "PROTECTED_FIELDS": {"measured": true, "result": "PASS", "finding": "Eleven protected source regions per packet, 165 total, are pixel-identical to the held source. Participant signature/date and attorney execution are blank. Printed defendant identifying fields remain filled. No notarial or judicial execution is invented."},
+        "ARTIFACTS": {"measured": true, "result": "PASS", "finding": "Actual ZIP, all fifteen whole PDFs, source, map/instructions, all52 publication-manifest files and all60 retained page entries were hashed. Whole-output and PNG identities are separate in md-measurements.json. This is retained-candidate proof, not installed GitHub/runtime or central-raster admission."},
+        "PAGE_ORDER": {"measured": true, "result": "PASS", "finding": "All15 actual four-page outputs have official petition first, then before-filing, finish/file/follow-up and source/contents instructions. No missing, duplicated or substituted component page found."},
+        "CLIPPING_AND_OVERLAP": {"measured": true, "result": "PASS", "finding": "All60 complete page instances visually examined. Boundary accent, long address, incident continuation, source recitals and source execution blocks remain readable. In-rectangle text checks corroborate placement. No observed visual defect in supplied PDFs."},
+        "FILING_DESTINATION": {"measured": true, "result": "PASS", "finding": "District and adult-transferee circuit variants use their actual selected court and address. Guide distinguishes original court, receiving adult court, original juvenile-transfer court and appellate help. Rockville district and circuit addresses checked against official directories. Juvenile transfer requests criminal records, not juvenile records."},
+        "FEE_AND_WAIVER": {"measured": true, "result": "PASS", "finding": "Current Judiciary 072A instructions support no filing fee. Packets do not import the guilty-disposition fee, a prepaid-cost waiver or a tort release. Tort-claim release is distinguished from fee waiver and directed to the separate treatment."},
+        "SERVICE": {"measured": true, "result": "PASS", "finding": "Court service on the State's Attorney, 30-day objection clock after service, hearing after timely objection and custodian follow-up are correctly explained. No false participant certificate is delivered."},
+        "SELF_HELP_STOP": {"measured": true, "result": "PASS", "finding": "Actual instructions stop for objection/hearing, disputed unit, excluded PBJ, appeal or release decision and provide practical help/record retention. No promise of relief or complete third-party deletion is made."}
+      },
+      "failedObligations": ["ROUTE_OPTIONS"],
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": null,
+        "unclassifiedBlanks": null,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "scope": "Zeros describe only the supplied complete candidate pages and their actual maps. No exhaustive production blank-disposition or runtime intake census was executed. The boundary deliberately has one disclosed unknown agency; signature/date completion remains participant work. CHAT4-MD-01 is not hidden by these fixture-only counters."
+      },
+      "currentSourceChecks": [
+        "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105",
+        "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105.1",
+        "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-107",
+        "https://www.mdcourts.gov/sites/default/files/court-forms/courtforms/joint/ccdccr072A.pdf/ccdccr072A.pdf",
+        "https://www.mdcourts.gov/legalhelp/expungement",
+        "https://www.mdcourts.gov/district/directories/montgomeryROCKVILLE",
+        "https://msa.maryland.gov/msa/mdmanual/36loc/mo/html/moj.html"
+      ],
+      "remainingRequirements": [
+        "Resolve CHAT4-MD-01 with a predicate correction and positive/negative date-order checks, or demonstrate an already-installed upstream rejection bound to these exact candidate inputs. Do not relabel the isolated predicate probe a complete-PDF test.",
+        "A publishes the existing exact source/output bytes and consumes matching current code, then handles central raster, review admission and product binding. No claim that old GitHub PDFs are these new candidates.",
+        "A/Chat6 preserve the existing narrow selector reconciliation: ordinary 072A cannot serve every conviction-related option in the broader favorable registry.",
+        "Preserve the existing recent-treatment nolle source/recital question. The supplied mature-treatment fixture meets both its printed recital and statutory timing; this review does not approve an under-three-year/no-release substitute.",
+        "Any genuine post-review content change needs proportionate changed-output examination and current identities. Unchanged packet work should be reused."
+      ],
+      "terminalPromotionClaimed": false,
+      "productionAdmissionClaimed": false
+    }
+  ]
+}

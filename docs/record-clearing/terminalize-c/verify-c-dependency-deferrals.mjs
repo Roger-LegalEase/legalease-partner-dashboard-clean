@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../../..");
 const ASSIGNMENT_PATH = "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json";
-const ASSIGNMENT_SHA256 = "d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a";
+const ASSIGNMENT_SHA256 = "1b2bb69e97ea78f9b1b84666b830b41be749736c03b53114d5359aa46626e623";
 const PATCH_SPEC_PATH = "docs/record-clearing/terminalize-c/c-dependency-runtime-patch-spec.json";
 const TREATMENT_SCHEMA = "rcap-official-form-deferral-treatment/v1";
 const FIXTURE_SCHEMA = "rcap-official-form-deferral-fixture/v1";

@@ -1,0 +1,558 @@
+{
+  "schemaVersion": "rcap-packet-factory-24h-lane-rows/v1",
+  "lane": "FIX76",
+  "laneKind": "shared-host-repair",
+  "generatedBy": "FIX76, a shared-host repair lane, repairing four New Jersey expungement families together through scripts/build-census-v1-nj_arrest_no_conviction-set.mjs",
+  "baseSha": "a777f061b",
+  "branch": "fix76-nj-host-four",
+  "merge": "MERGE: origin/claude/legalease-sprint-captain-utucnw (7e2d40bd0, Regenerate after FIX77) merged into fix76-nj-host-four at merge commit ccc170482, on this branch, no rebase and no force. The one conflict was in the shared host and both sides were kept whole: FIX77 familyFacts()/derivedFacts channel, its PA_490 composed certificate of service, PA_490_COMPOSED_ORDER_FACTS and PA_490_PETITION_DECLARATIONS all survive verbatim beside this lane caption-block, row-1, component-table and text-fit work. git diff against the Captain branch on that file removes only the six lines this lane deliberately replaced. All four families were then rebuilt twice on the merged host, byte-identical, and pa_490_nonconviction-set was rebuilt and is byte-identical to the merged tree.",
+  "fix77Interaction": "ONE CORRECTION MADE TO A MERGED-IN SENTENCE, in this lane own delivered guides. FIX77 widened the held-but-not-printed disclosure to cover overlay refusals and gave every one of them the words “the value does not fit this box at a size a court could read”. On nj_indictable_conviction-set and nj_ordinance-set, which do not deny ExpungeCntyName, the overlay refuses that field because the widget is a DROPDOWN of the twenty-one county names rather than a free-text line (reason exact_mapping_requires_text_field), so the merged host printed a sentence about WIDTH over a refusal about TYPE, in the participant guide, on a blank the participant is told to complete by hand. The sentence is now derived from the refusal reason: a width refusal keeps FIX77 wording character for character, a type refusal says it is a chooser whose options do not include the held value, and a refusal with no held value is dropped from a section that is for held facts. pa_490_nonconviction-set overlay refusals are width refusals, and it rebuilds byte-identical with this change in place, which is the evidence that FIX77 own family is unmoved by it.",
+  "pa6308Drift": "pa_6308_underage-set moves 20 files when rebuilt on the merged Captain host with NONE of this lane changes applied: the host was checked out at the merge commit, this lane host edit removed, the family rebuilt, and the same 20 files moved (four fixture PDFs, their page rasters and contact sheets, and reports/rendered-artifacts.json; rule-490-petition-canonical.pdf 1048b627... 123,207 bytes -> c89f8995... 122,980 bytes as one instance). It is drift carried in by the merged host and not committed to it, not anything this lane did. Its directory is restored to the merged tree and left untouched. With this lane host edit applied the same 20 files move and no others, so this lane adds nothing to it. Reported, not repaired: the family is not granted here.",
+  "cleanSlate": {
+    "granted": false,
+    "claimAnswer": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX76 nj_clean_slate-set -> GRANTED_ELSEWHERE_BUT_RELEASED (recorded on FIX01, released 2026-09-01T15:53:45Z), exit 8. No transfer was requested and none was assumed.",
+    "builtOnlyToMeasure": "It was built once, its digests recorded, and its directory restored with git checkout. Nothing of it is committed and git status shows it clean at this commit.",
+    "before": {
+      "canonicalSha256": "b71de1df389a55cea2c10ad6e6c7ba9f482b0ffa9c63e7dcee961b9437bf0598",
+      "boundarySha256": "cb536e9766aa55da7a128b0d878231d036794850d136b4332143277d38869464"
+    },
+    "after": {
+      "canonicalSha256": "2b5033961bfc5806acadac7d1897f9e4797dd40d599eaad4231a6383e1c1af1c",
+      "canonicalBytes": 573769,
+      "boundarySha256": "1e1a7aef8f5eb56a1e404862a0d73e9ae66e6a6afcaa43b388520aeba94a2728",
+      "boundaryBytes": 576203
+    },
+    "whyItMoves": "The caption-block correction is scoped to the CN-10557 DOCUMENT, because the printed labels are a property of the form and not of a route, so this family takes it too. That is the same reason and the same repair the four granted families received.",
+    "whyItIsNotCommitted": "Its new bytes are NOT byte-identical to what any granted family received. Before the repair it shared bytes with nj_indictable_conviction-set and nj_ordinance-set (b71de1df / cb536e97); after it, those two also take fitTextPerWidget and the row-1 group, which this family is not granted, so the three diverge. The rule this lane was given commits a non-granted family directory only when its change is byte-identical to a granted family for the same reason, and it is not, so nothing of it is committed. Its next rebuild by whoever holds it will move it to the digests above.",
+    "twentyTwoFiles": "22 files in that directory move on rebuild; the two fixtures are named above."
+  },
+  "preflight": {
+    "command": "node scripts/verify-packet-build-environment.mjs --family <family> --codex-cloud --minimum-captain-sha a777f061b, with MASTER_LIBRARY_SOURCE_DIR exported to the mounted Master Library Edition 1",
+    "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY: 13/14 passed, 1 failed, 3 not applicable — the same 13/14 VF03 recorded on this cohort.",
+    "theOneFailure": "corpus_matches_committed_index: 1 absent, 0 mismatched of 24 sampled. The absent entry is named and is an ALABAMA one, LegalEase Alabama/AL_ABPP-3_rev-2025-06-14.pdf; no New Jersey entry is absent or mismatched. family_sources_bind passes 1/1 for every family here: NJ CN-10557 binds by exact SHA-256 c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7 through source-custody reconciliation.",
+    "privateMount": "private/ is a real directory of symlinks into the read-only corpus rather than a symlink itself, because git check-ignore refuses a path beyond a symbolic link and the gate reported private/ is NOT git-ignored. With the directory form the check passes and git ls-files private/ is empty.",
+    "threeNotApplicable": "browser_environment_exported, build_time_rasterizer_available and page_rasterizer_available: this lane renders no central raster."
+  },
+  "verifiers": [
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <family>",
+      "exitCode": 0,
+      "result": "PASS_COMPLETE on all four, before and after, with the nine counters at zero each time."
+    },
+    {
+      "command": "node scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs --family <family>",
+      "exitCode": 0,
+      "result": "EVERY_IDENTITY_REFRESH_SURVIVED on all four; 249 receipts compared against HEAD, 53 carrying an identityRefresh."
+    },
+    {
+      "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family <family>",
+      "exitCode": 2,
+      "result": "Exit 2 with the message “zero families carry a non-null source value ... this is the shape of a broken reader, not a clean corpus ... confirm by hand, then pass --allow-empty”. It is NOT caused by this lane: the same exit 2 comes back for nj_clean_slate-set and for pa_490_nonconviction-set, neither of which this lane changed. With --allow-empty the same command exits 0 and prints EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED. Both results are reported rather than the convenient one."
+    },
+    {
+      "command": "node scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs --family <family> --allow-empty",
+      "exitCode": 0,
+      "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED on all four."
+    }
+  ],
+  "determinism": "All four families rebuilt twice on the merged host and compared file by file: 396 files across the four directories, byte-identical between the two runs.",
+  "everyOtherFamilyDirectory": "Byte-identical. At this commit git status is clean apart from the four granted family directories, the two host scripts and this return; nj_clean_slate-set, pa_490_nonconviction-set, pa_6308_underage-set and every New York, Ohio, Rhode Island and other Pennsylvania directory are exactly as the merged tree has them.",
+  "whatWasNotDone": [
+    "CENTRAL RASTER ON THE NEW BYTES. Not run and not runnable here; rendering is central. Every fixture digest in this return has moved, so each family live RASTER_PASS receipt no longer binds its bytes and a fresh central raster is owed before anything reads them as proven. The rasters this lane made were 150 and 300 dpi measurements written under /tmp and deleted; no raster PNG produced by this lane was committed.",
+    "INDEPENDENT VERIFICATION. None, and none is possible from this lane: it built what it measured. Nothing here is a verdict, an acceptance receipt or a promotion, and no queue or master-queue state was changed.",
+    "CLIPPING_AND_OVERLAP on nj_arrest_no_conviction-set, first half: the dismissCrt catch-all write that prints a court name inside the page-19 diversion branch. Named in that row obligationsThisRowDoesNotDischarge, untouched, and still failing.",
+    "nj_clean_slate-set and pa_6308_underage-set: measured and reported above, not repaired and not committed."
+  ],
+  "rows": [
+    {
+      "itemId": "nj_disorderly_persons-set",
+      "familyId": "nj_disorderly_persons-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX76 nj_disorderly_persons-set -> CLAIM_OK FIX76 nj_disorderly_persons-set (repair, grant set a2bba26e25b8c21f), exit 0.",
+      "statusReason": "The three obligations VF03 failed on this family at 0d4d1d5a1 are discharged on the delivered page, not in a report: the caption block now carries the city on the (city) line and the state and ZIP on the (state, zip code) line with the telephone only in the box labelled for it, the proposed order arrest row 1 is delivered wholly untouched with both withheld cells disclosed, and all ten components the route declares now carry a disposition, including the statutory transcript protection this packet had never stated. Rebuilt twice byte-identical; nine counters zero before and after. Central raster on the new bytes and independent verification are still owed.",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "COMPONENT_SET"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none could be: rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml) and this lane rastered only into /tmp to measure, then deleted it. Every fixture digest this family carried into its live RASTER_PASS receipt has moved, so that receipt no longer binds these bytes and a fresh central raster is owed before anything reads them as proven.",
+        "INDEPENDENT VERIFICATION. None. This lane changed the host, rebuilt the packets and measured its own output, so it verifies nothing. No verdict was written or replaced, no acceptance receipt was created, no queue file was opened for writing and no master-queue state was changed.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The guidance sections added here are carried word for word from the committed track registry and from delivered pages of the enclosed kit; carrying a held record is not the same as having it reviewed, and the sections are review artifacts like everything else in this directory.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family.",
+        "nj_clean_slate-set. Built through the same host and NOT granted to this lane. Its directory is left exactly as the merged tree has it; see cleanSlate below.",
+        "pa_6308_underage-set. Twenty of its files move on the merged Captain host with NONE of this lane changes applied; see pa6308Drift below. Not repaired, not committed, not this lane to touch.",
+        "THE OTHER FAMILIES ON THIS HOST. ny_160_59_petition-set, ny_mrta_marijuana-set, oh_marijuana_expungement-set, pa_790_nonconviction-set, pa_9122_1_limited_access-set, pa_summary_conviction-set, ri_nonconviction_sealing-set and rcap-oh-custom-pleading-clean-tracks import runEastFamily from this host. None was claimed, rebuilt or opened for writing here and every one of their committed directories is byte-identical at this commit. The caption-block mapping is scoped to the CN-10557 document and the row group, the text-fit flag and the component table are scoped per family, so none of them is reached by these changes; their next rebuild will still carry whatever unrelated drift the merged host holds."
+      ],
+      "whatChanged": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared host) and scripts/build-census-v1-nj_disorderly_persons-set.mjs (that family entrypoint check). In the host: SHARED_EXACT_FACT_ALLOWLIST[NJ-CN-10557] DefAddr2 and DefAddr3 remapped; participant.state_zip added to factsForJurisdiction; the repeating-row rule extended so an unmapped group cell breaks the row, in the build path and in --check identically; NJ_ORDER_ARREST_ROW_1 and NJ_KIT_OFFICIAL_COMPONENTS declared once and taken by the four granted families; fitTextPerWidget added to nj_indictable_conviction-set and nj_ordinance-set; a manifest component-delivery table computed from data/record-clearing/legal-design-packet-set-manifests.json and written into reports/rendered-artifacts.json, with any not-generated entry also written into componentsNotGenerated; guidance sections rendered from each route own committed track record; a disclosure section for participant blanks the form prints with no widget; and the catch-all confirm-before-filing line no longer re-asks a question a rendered section answers. No finalizer, no shared module, no field census, no source pin and no other family configuration was changed. For this family the host also renders the records-to-gather, after-the-order and transcript-protection sections; its own entrypoint script continues to write the cost, where-to-file, who-must-be-served, eleven-actions and self-help sections after the host runs, and now also checks that every heading the component table claims exists in the guide the participant finally receives.",
+      "componentTable": {
+        "declared": 10,
+        "rendered": 10,
+        "notGenerated": 0,
+        "rows": [
+          "primary_filing -> rendered: CN-10557 delivered pages 18 and 19",
+          "statements_accompanying_petition -> rendered: delivered pages 20 to 24",
+          "order_for_hearing -> rendered: delivered page 27",
+          "proposed_order -> rendered: delivered pages 30 to 33",
+          "record_gathering_instructions -> rendered: guide section ## Records to gather before you file, carried from the committed participantFilingRequirements for track nj_disorderly_persons",
+          "efiling_instructions -> rendered by the family entrypoint: guide section ## Where to file",
+          "service_and_objection_instructions -> rendered by the family entrypoint: guide section ## Who must be served",
+          "post_order_service_checklist -> rendered: guide section ## After the order is signed",
+          "transcript_protection_disclosure -> rendered: guide section ## Transcripts you are not required to produce, carrying the statutory statement word for word from the committed packetInstructions. This is the component VF03 found rendered nowhere; the word transcript appeared nowhere in the family directory and nowhere in the 43 delivered pages, and it now has its own section.",
+          "counting_disclosure -> rendered by the family entrypoint: guide section ## Where self-help ends, which names Counting disputes at the five-offence line and Marijuana regrading analysis"
+        ],
+        "componentsNotGenerated": []
+      },
+      "captionBlockMapping": {
+        "asDelivered": "DefAddr2 -> participant.city; DefAddr3 -> participant.state_zip, composed as `${state} ${zip}` from participant.state and participant.zip. Both write through the host exact-measured-fact overlay, on all seven widgets each: delivered pages 18, 27, 30, 35, 38, 40 and 43.",
+        "readBackFromTheDeliveredPage": "Canonical page 18 now prints “(city) Newark” and “(state, zip code) NJ 07102”; boundary prints “(city) Unincorporated Township of Long Hollow Crossing near Newark” and “(state, zip code) NJ 07102-9999”. The same holds on 27, 30, 35, 38, 40 and 43, read with pdftotext -layout on the delivered bytes. Before the repair the same lines read “(city) Newark, NJ 07102” and “(state, zip code) 973-555-0142”.",
+        "theTelephone": "participant.phone keeps DefPhone, the one box CN-10557 labels “(your telephone number)”, on delivered page 18, and is written nowhere else. The other six caption blocks print no telephone line, so the number is not written on them; it is not refused for want of a fact, it is simply not asked for there. Delivered page 35 before carried “(state, zip code) 973-555-0142” and now carries no telephone at all.",
+        "noOverlap": "0 added pixels outside a declared write box: every one of the seven DefAddr2 and seven DefAddr3 appearances sits inside its own /Rect with the value complete when read back, and the 150 dpi page diff shows change confined to the caption lines and, on the canonical fixtures, the order row."
+      },
+      "rowOneDisposition": {
+        "disposition": "UNTOUCHED, and disclosed.",
+        "why": "arrest1Statute asks for an N.J.S.A. citation. The platform holds matter.charge, a charge DESCRIPTION, and no held fact answers the statute, so the statute could not be written truthfully. The whole row is therefore left as rows (2) to (5) are.",
+        "mechanism": "The host repeating-row rule now treats a group member with NO fact mapping as a permanent break, not only a member the fitter refused. Group declared once as NJ_ORDER_ARREST_ROW_1: arrest1Dt, arrest1Statute, arrest1CaseNum, delivered page 31.",
+        "readBackFromTheDeliveredPage": "Delivered page 31 row (1) now prints “(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____”, character for character the shape of rows (2) to (5). Before, the canonical row (1) carried 2019-03-08 and 24-CR-001234 astride a blank statute cell.",
+        "disclosure": "Both withheld cells appear in participant-instructions.md under “Values this platform holds but did not print” with the reason naming arrest1Statute, and arrest1Statute itself is in the required-before-filing list by its printed caption."
+      },
+      "textFitMeasurement": {
+        "option": "fitTextPerWidget, the shared finalizer existing per-widget opt-in. The finalizer was not changed.",
+        "value": "participant.full_legal_name on the boundary persona, “Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III”, 70 characters, on the 20 DefName widgets (208.2 to 366.2pt wide) across delivered pages 18, 23, 24, 27, 30, 31, 35, 38, 40 and 43.",
+        "before": "nj_indictable_conviction-set and nj_ordinance-set: one size 6.5pt stamped into all 20 widgets, widgetsFittedIndividually absent. Measured on the delivered page with pdftotext -bbox against each widget /Rect: 2 of 20 widgets carried the complete value and 18 were cut, most of them after “Alexandrina-Katharine”.",
+        "after": "widgetsFittedIndividually 20 on both, per-widget sizes [6.5,8,10,6,7,6,6,7,7.5,6,7,7,11,10.5,7,8,6.5,7.5,7.5,7], smallest 6.0pt which is the module declared readable floor. 20 of 20 widgets carry the complete 70-character value inside their own /Rect; the tightest right margin anywhere is 2.56pt and no widget has ink at a clip edge.",
+        "theOtherTwoFamilies": "nj_arrest_no_conviction-set and nj_disorderly_persons-set already carried the flag; both re-measured here at 20 of 20 complete with the same per-widget sizes.",
+        "sideEffect": "Turning the flag on also makes DefName render at the size the report states rather than at pdf-lib own auto size, so delivered pages 23 and 24 of the two newly opted-in families change on the canonical fixture as well: “Jordan Avery Reyes” is now drawn at the measured 11pt (glyph height 10.175pt) instead of pdf-lib auto 12.95pt, complete and inside its box in both. That is the same behaviour nj_disorderly_persons-set has shipped since FIX01."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance placed by a Do operator the page content stream was walked with a q/Q/cm interpreter, the Form XObject /BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it lands on within 2pt read from the pinned binary, and cmScale x requiredScale required to equal 1 (|transformedSize x cmScale - rectSize| <= 0.05pt).",
+        "flatWidgetPlacements": "247 of 247 pass on every one of the eight fixtures, 0 fail, 0 unmatched, across all 43 pages of each. 247 is exactly the number VF03 reported on the pre-repair bytes and it did not move.",
+        "hostOverlayPlacements": "The host own exact-measured-fact overlay places a further 19 appearances on each conviction-track fixture (20 on nj_arrest_no_conviction-set), all passing. Before the repair it placed 20 on the conviction tracks; the one fewer is the arrest-table cell withdrawn for row integrity.",
+        "provedSensitive": "Rewriting one FlatWidget /Matrix to [0.8 0 0 0.8 0 0] on delivered page 18 of the ordinance canonical bytes drops the sweep to 246 of 247 and names FlatWidget-7098480789 at 127.472 x 13.234 against a 159.340 x 16.542 rect. The sweep can fail."
+      },
+      "synthesizedSquareCheck": {
+        "method": "The button widgets of the pinned CN-10557 whose neutralized /AS state has no stream in /AP /N, enumerated from the pinned binary and excluding pushbuttons (/Ff bit 17), were windowed at 300 dpi and compared pixel for pixel against the pinned form rendered at the same settings.",
+        "count": "22 such widgets, which is VF03 own count.",
+        "result": "21 of 22 rectangles are PIXEL-IDENTICAL to the pinned official form on every one of the eight fixtures. The 22nd is each family own intended route mark — guilty on delivered page 19 for the three conviction tracks (939 differing pixels) and dismiss for nj_arrest_no_conviction-set (917). No synthesized square returned.",
+        "note": "The pixel counts differ from VF03 833 only because this window pads each rectangle by one pixel; the set of differing rectangles is identical."
+      },
+      "fix62SettingsUnchanged": "updateFieldAppearances: false at the intermediate save and suppressSynthesizedAppearances: true on the finalize call are untouched, character for character, and the synthesized-square measurement above is the evidence that they still hold.",
+      "rasterMethod": "Every page of every fixture, before and after, rastered with Poppler pdftoppm into /tmp and differenced pixel for pixel at 150 dpi; the caption blocks, the order row and the 22 formerly synthesized button rectangles measured again at 300 dpi against the pinned CN-10557. Every raster written under /tmp was deleted after measurement and no raster PNG produced by this lane was committed. The page rasters inside each family directory are the build own 72 dpi receipts, written by the builder, not by this measurement.",
+      "pagesChanged": "canonical 18, 27, 30, 31, 35, 38, 40, 43 (35 of 43 pages pixel-identical at 150 dpi); boundary the same eight (35 of 43 identical).",
+      "digests": {
+        "fixtures": "fixtures/cn-10557-canonical.pdf and fixtures/cn-10557-boundary.pdf, 43 pages each before and after",
+        "before": {
+          "canonicalSha256": "d7cb7a72a71aaed7c3fac1cefd03f3e2a9c461bec20b7809cb90925daab00c46",
+          "canonicalBytes": 573971,
+          "boundarySha256": "ecfecedb25777d13da1c39311090d6654d32605aea656f0f9aab9f33884cbebe",
+          "boundaryBytes": 576641,
+          "source": "sha256sum on disk at base a777f061b, before any edit; equal to what VF03 and VF01 recorded"
+        },
+        "after": {
+          "canonicalSha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+          "canonicalBytes": 573296,
+          "boundarySha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+          "boundaryBytes": 575751,
+          "pageCount": 43
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "acceptanceReceipt": null
+    },
+    {
+      "itemId": "nj_indictable_conviction-set",
+      "familyId": "nj_indictable_conviction-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX76 nj_indictable_conviction-set -> CLAIM_OK FIX76 nj_indictable_conviction-set (repair, grant set a2bba26e25b8c21f), exit 0.",
+      "statusReason": "All four obligations VF03 failed on this family are discharged on the delivered page. The petitioner name is complete on all 20 widgets across 14 delivered pages instead of cut at the clip edge on 20 of them, the caption block carries each fact in the box the form labels for it, the proposed order arrest row 1 is untouched, and the five process-guidance components this family delivered nowhere are now rendered from its own committed track record. Rebuilt twice byte-identical; nine counters zero before and after. Central raster on the new bytes and independent verification are still owed.",
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "COMPONENT_SET"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none could be: rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml) and this lane rastered only into /tmp to measure, then deleted it. Every fixture digest this family carried into its live RASTER_PASS receipt has moved, so that receipt no longer binds these bytes and a fresh central raster is owed before anything reads them as proven.",
+        "INDEPENDENT VERIFICATION. None. This lane changed the host, rebuilt the packets and measured its own output, so it verifies nothing. No verdict was written or replaced, no acceptance receipt was created, no queue file was opened for writing and no master-queue state was changed.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The guidance sections added here are carried word for word from the committed track registry and from delivered pages of the enclosed kit; carrying a held record is not the same as having it reviewed, and the sections are review artifacts like everything else in this directory.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family.",
+        "nj_clean_slate-set. Built through the same host and NOT granted to this lane. Its directory is left exactly as the merged tree has it; see cleanSlate below.",
+        "pa_6308_underage-set. Twenty of its files move on the merged Captain host with NONE of this lane changes applied; see pa6308Drift below. Not repaired, not committed, not this lane to touch.",
+        "THE OTHER FAMILIES ON THIS HOST. ny_160_59_petition-set, ny_mrta_marijuana-set, oh_marijuana_expungement-set, pa_790_nonconviction-set, pa_9122_1_limited_access-set, pa_summary_conviction-set, ri_nonconviction_sealing-set and rcap-oh-custom-pleading-clean-tracks import runEastFamily from this host. None was claimed, rebuilt or opened for writing here and every one of their committed directories is byte-identical at this commit. The caption-block mapping is scoped to the CN-10557 document and the row group, the text-fit flag and the component table are scoped per family, so none of them is reached by these changes; their next rebuild will still carry whatever unrelated drift the merged host holds."
+      ],
+      "whatChanged": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared host) and scripts/build-census-v1-nj_disorderly_persons-set.mjs (that family entrypoint check). In the host: SHARED_EXACT_FACT_ALLOWLIST[NJ-CN-10557] DefAddr2 and DefAddr3 remapped; participant.state_zip added to factsForJurisdiction; the repeating-row rule extended so an unmapped group cell breaks the row, in the build path and in --check identically; NJ_ORDER_ARREST_ROW_1 and NJ_KIT_OFFICIAL_COMPONENTS declared once and taken by the four granted families; fitTextPerWidget added to nj_indictable_conviction-set and nj_ordinance-set; a manifest component-delivery table computed from data/record-clearing/legal-design-packet-set-manifests.json and written into reports/rendered-artifacts.json, with any not-generated entry also written into componentsNotGenerated; guidance sections rendered from each route own committed track record; a disclosure section for participant blanks the form prints with no widget; and the catch-all confirm-before-filing line no longer re-asks a question a rendered section answers. No finalizer, no shared module, no field census, no source pin and no other family configuration was changed. For this family the host newly renders all five process-guidance components from track nj_indictable_conviction: records to gather, where to file and the e-filing route, who must be served and what an objection is, after the order is signed, and what this packet does not decide about eligibility.",
+      "componentTable": {
+        "declared": 9,
+        "rendered": 9,
+        "notGenerated": 0,
+        "rows": [
+          "primary_filing -> rendered: CN-10557 delivered pages 18 and 19",
+          "statements_accompanying_petition -> rendered: delivered pages 20 to 24",
+          "order_for_hearing -> rendered: delivered page 27",
+          "proposed_order -> rendered: delivered pages 30 to 33",
+          "record_gathering_instructions -> rendered: guide section ## Records to gather before you file",
+          "efiling_instructions -> rendered: guide section ## Where to file, and the e-filing route",
+          "service_and_objection_instructions -> rendered: guide section ## Who must be served, and what an objection is",
+          "post_order_service_checklist -> rendered: guide section ## After the order is signed",
+          "eligibility_analysis_disclosure -> rendered: guide section ## What this packet does not decide about your eligibility"
+        ],
+        "componentsNotGenerated": [],
+        "provenance": "Every sentence in those five sections is carried from data/record-clearing/legal-design-track-registry.json track nj_indictable_conviction (venue, destination, participantFilingRequirements, manualCompletionItems, packetInstructions, selfHelpStopConditions, legalDesignLimitations) or points at a delivered page of the enclosed kit by its page number. Nothing is composed and no figure, period or recipient appears that neither source establishes; where the objection period is not established the section says so."
+      },
+      "captionBlockMapping": {
+        "asDelivered": "DefAddr2 -> participant.city; DefAddr3 -> participant.state_zip, composed as `${state} ${zip}` from participant.state and participant.zip. Both write through the host exact-measured-fact overlay, on all seven widgets each: delivered pages 18, 27, 30, 35, 38, 40 and 43.",
+        "readBackFromTheDeliveredPage": "Canonical page 18 now prints “(city) Newark” and “(state, zip code) NJ 07102”; boundary prints “(city) Unincorporated Township of Long Hollow Crossing near Newark” and “(state, zip code) NJ 07102-9999”. The same holds on 27, 30, 35, 38, 40 and 43, read with pdftotext -layout on the delivered bytes. Before the repair the same lines read “(city) Newark, NJ 07102” and “(state, zip code) 973-555-0142”.",
+        "theTelephone": "participant.phone keeps DefPhone, the one box CN-10557 labels “(your telephone number)”, on delivered page 18, and is written nowhere else. The other six caption blocks print no telephone line, so the number is not written on them; it is not refused for want of a fact, it is simply not asked for there. Delivered page 35 before carried “(state, zip code) 973-555-0142” and now carries no telephone at all.",
+        "noOverlap": "0 added pixels outside a declared write box: every one of the seven DefAddr2 and seven DefAddr3 appearances sits inside its own /Rect with the value complete when read back, and the 150 dpi page diff shows change confined to the caption lines and, on the canonical fixtures, the order row."
+      },
+      "rowOneDisposition": {
+        "disposition": "UNTOUCHED, and disclosed.",
+        "why": "arrest1Statute asks for an N.J.S.A. citation. The platform holds matter.charge, a charge DESCRIPTION, and no held fact answers the statute, so the statute could not be written truthfully. The whole row is therefore left as rows (2) to (5) are.",
+        "mechanism": "The host repeating-row rule now treats a group member with NO fact mapping as a permanent break, not only a member the fitter refused. Group declared once as NJ_ORDER_ARREST_ROW_1: arrest1Dt, arrest1Statute, arrest1CaseNum, delivered page 31.",
+        "readBackFromTheDeliveredPage": "Delivered page 31 row (1) now prints “(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____”, character for character the shape of rows (2) to (5). Before, the canonical row (1) carried 2019-03-08 and 24-CR-001234 astride a blank statute cell.",
+        "disclosure": "Both withheld cells appear in participant-instructions.md under “Values this platform holds but did not print” with the reason naming arrest1Statute, and arrest1Statute itself is in the required-before-filing list by its printed caption."
+      },
+      "textFitMeasurement": {
+        "option": "fitTextPerWidget, the shared finalizer existing per-widget opt-in. The finalizer was not changed.",
+        "value": "participant.full_legal_name on the boundary persona, “Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III”, 70 characters, on the 20 DefName widgets (208.2 to 366.2pt wide) across delivered pages 18, 23, 24, 27, 30, 31, 35, 38, 40 and 43.",
+        "before": "nj_indictable_conviction-set and nj_ordinance-set: one size 6.5pt stamped into all 20 widgets, widgetsFittedIndividually absent. Measured on the delivered page with pdftotext -bbox against each widget /Rect: 2 of 20 widgets carried the complete value and 18 were cut, most of them after “Alexandrina-Katharine”.",
+        "after": "widgetsFittedIndividually 20 on both, per-widget sizes [6.5,8,10,6,7,6,6,7,7.5,6,7,7,11,10.5,7,8,6.5,7.5,7.5,7], smallest 6.0pt which is the module declared readable floor. 20 of 20 widgets carry the complete 70-character value inside their own /Rect; the tightest right margin anywhere is 2.56pt and no widget has ink at a clip edge.",
+        "theOtherTwoFamilies": "nj_arrest_no_conviction-set and nj_disorderly_persons-set already carried the flag; both re-measured here at 20 of 20 complete with the same per-widget sizes.",
+        "sideEffect": "Turning the flag on also makes DefName render at the size the report states rather than at pdf-lib own auto size, so delivered pages 23 and 24 of the two newly opted-in families change on the canonical fixture as well: “Jordan Avery Reyes” is now drawn at the measured 11pt (glyph height 10.175pt) instead of pdf-lib auto 12.95pt, complete and inside its box in both. That is the same behaviour nj_disorderly_persons-set has shipped since FIX01."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance placed by a Do operator the page content stream was walked with a q/Q/cm interpreter, the Form XObject /BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it lands on within 2pt read from the pinned binary, and cmScale x requiredScale required to equal 1 (|transformedSize x cmScale - rectSize| <= 0.05pt).",
+        "flatWidgetPlacements": "247 of 247 pass on every one of the eight fixtures, 0 fail, 0 unmatched, across all 43 pages of each. 247 is exactly the number VF03 reported on the pre-repair bytes and it did not move.",
+        "hostOverlayPlacements": "The host own exact-measured-fact overlay places a further 19 appearances on each conviction-track fixture (20 on nj_arrest_no_conviction-set), all passing. Before the repair it placed 20 on the conviction tracks; the one fewer is the arrest-table cell withdrawn for row integrity.",
+        "provedSensitive": "Rewriting one FlatWidget /Matrix to [0.8 0 0 0.8 0 0] on delivered page 18 of the ordinance canonical bytes drops the sweep to 246 of 247 and names FlatWidget-7098480789 at 127.472 x 13.234 against a 159.340 x 16.542 rect. The sweep can fail."
+      },
+      "synthesizedSquareCheck": {
+        "method": "The button widgets of the pinned CN-10557 whose neutralized /AS state has no stream in /AP /N, enumerated from the pinned binary and excluding pushbuttons (/Ff bit 17), were windowed at 300 dpi and compared pixel for pixel against the pinned form rendered at the same settings.",
+        "count": "22 such widgets, which is VF03 own count.",
+        "result": "21 of 22 rectangles are PIXEL-IDENTICAL to the pinned official form on every one of the eight fixtures. The 22nd is each family own intended route mark — guilty on delivered page 19 for the three conviction tracks (939 differing pixels) and dismiss for nj_arrest_no_conviction-set (917). No synthesized square returned.",
+        "note": "The pixel counts differ from VF03 833 only because this window pads each rectangle by one pixel; the set of differing rectangles is identical."
+      },
+      "fix62SettingsUnchanged": "updateFieldAppearances: false at the intermediate save and suppressSynthesizedAppearances: true on the finalize call are untouched, character for character, and the synthesized-square measurement above is the evidence that they still hold.",
+      "rasterMethod": "Every page of every fixture, before and after, rastered with Poppler pdftoppm into /tmp and differenced pixel for pixel at 150 dpi; the caption blocks, the order row and the 22 formerly synthesized button rectangles measured again at 300 dpi against the pinned CN-10557. Every raster written under /tmp was deleted after measurement and no raster PNG produced by this lane was committed. The page rasters inside each family directory are the build own 72 dpi receipts, written by the builder, not by this measurement.",
+      "pagesChanged": "canonical and boundary alike: 18, 23, 24, 27, 30, 31, 35, 38, 40, 43 (33 of 43 pages pixel-identical at 150 dpi on each). Pages 23 and 24 change because DefName now renders at its measured size; see textFitMeasurement.sideEffect.",
+      "digests": {
+        "fixtures": "fixtures/cn-10557-canonical.pdf and fixtures/cn-10557-boundary.pdf, 43 pages each before and after",
+        "before": {
+          "canonicalSha256": "b71de1df389a55cea2c10ad6e6c7ba9f482b0ffa9c63e7dcee961b9437bf0598",
+          "canonicalBytes": 573965,
+          "boundarySha256": "cb536e9766aa55da7a128b0d878231d036794850d136b4332143277d38869464",
+          "boundaryBytes": 576634,
+          "source": "sha256sum on disk at base a777f061b, before any edit; equal to what VF03 and VF01 recorded"
+        },
+        "after": {
+          "canonicalSha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+          "canonicalBytes": 573296,
+          "boundarySha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+          "boundaryBytes": 575751,
+          "pageCount": 43
+        }
+      },
+      "sharedBytes": "Before and after, this family fixtures are byte-for-byte identical to nj_ordinance-set. That was true at VF03 read and it is true here; the two configurations differ only in the guide and the field map, not in the ink.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "acceptanceReceipt": null
+    },
+    {
+      "itemId": "nj_ordinance-set",
+      "familyId": "nj_ordinance-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX76 nj_ordinance-set -> CLAIM_OK FIX76 nj_ordinance-set (repair, grant set a2bba26e25b8c21f), exit 0.",
+      "statusReason": "All four obligations VF03 failed on this family are discharged on the delivered page: the boundary petitioner name is complete on all 20 widgets, the caption block carries each fact in the box the form labels for it, arrest row 1 of the proposed order is untouched, and the four process-guidance components this family delivered nowhere are rendered from track nj_ordinance own committed record. Rebuilt twice byte-identical; nine counters zero before and after. Central raster on the new bytes and independent verification are still owed.",
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP",
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "COMPONENT_SET"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "RASTER. No central raster was run on the new bytes and none could be: rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml) and this lane rastered only into /tmp to measure, then deleted it. Every fixture digest this family carried into its live RASTER_PASS receipt has moved, so that receipt no longer binds these bytes and a fresh central raster is owed before anything reads them as proven.",
+        "INDEPENDENT VERIFICATION. None. This lane changed the host, rebuilt the packets and measured its own output, so it verifies nothing. No verdict was written or replaced, no acceptance receipt was created, no queue file was opened for writing and no master-queue state was changed.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The guidance sections added here are carried word for word from the committed track registry and from delivered pages of the enclosed kit; carrying a held record is not the same as having it reviewed, and the sections are review artifacts like everything else in this directory.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family.",
+        "nj_clean_slate-set. Built through the same host and NOT granted to this lane. Its directory is left exactly as the merged tree has it; see cleanSlate below.",
+        "pa_6308_underage-set. Twenty of its files move on the merged Captain host with NONE of this lane changes applied; see pa6308Drift below. Not repaired, not committed, not this lane to touch.",
+        "THE OTHER FAMILIES ON THIS HOST. ny_160_59_petition-set, ny_mrta_marijuana-set, oh_marijuana_expungement-set, pa_790_nonconviction-set, pa_9122_1_limited_access-set, pa_summary_conviction-set, ri_nonconviction_sealing-set and rcap-oh-custom-pleading-clean-tracks import runEastFamily from this host. None was claimed, rebuilt or opened for writing here and every one of their committed directories is byte-identical at this commit. The caption-block mapping is scoped to the CN-10557 document and the row group, the text-fit flag and the component table are scoped per family, so none of them is reached by these changes; their next rebuild will still carry whatever unrelated drift the merged host holds."
+      ],
+      "whatChanged": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared host) and scripts/build-census-v1-nj_disorderly_persons-set.mjs (that family entrypoint check). In the host: SHARED_EXACT_FACT_ALLOWLIST[NJ-CN-10557] DefAddr2 and DefAddr3 remapped; participant.state_zip added to factsForJurisdiction; the repeating-row rule extended so an unmapped group cell breaks the row, in the build path and in --check identically; NJ_ORDER_ARREST_ROW_1 and NJ_KIT_OFFICIAL_COMPONENTS declared once and taken by the four granted families; fitTextPerWidget added to nj_indictable_conviction-set and nj_ordinance-set; a manifest component-delivery table computed from data/record-clearing/legal-design-packet-set-manifests.json and written into reports/rendered-artifacts.json, with any not-generated entry also written into componentsNotGenerated; guidance sections rendered from each route own committed track record; a disclosure section for participant blanks the form prints with no widget; and the catch-all confirm-before-filing line no longer re-asks a question a rendered section answers. No finalizer, no shared module, no field census, no source pin and no other family configuration was changed. For this family the host newly renders four process-guidance components from track nj_ordinance: records to gather, where to file and the e-filing route, who must be served and what an objection is, and after the order is signed.",
+      "componentTable": {
+        "declared": 8,
+        "rendered": 8,
+        "notGenerated": 0,
+        "rows": [
+          "primary_filing -> rendered: CN-10557 delivered pages 18 and 19",
+          "statements_accompanying_petition -> rendered: delivered pages 20 to 24",
+          "order_for_hearing -> rendered: delivered page 27",
+          "proposed_order -> rendered: delivered pages 30 to 33",
+          "record_gathering_instructions -> rendered: guide section ## Records to gather before you file",
+          "efiling_instructions -> rendered: guide section ## Where to file, and the e-filing route",
+          "service_and_objection_instructions -> rendered: guide section ## Who must be served, and what an objection is",
+          "post_order_service_checklist -> rendered: guide section ## After the order is signed"
+        ],
+        "componentsNotGenerated": [],
+        "provenance": "Carried from track nj_ordinance own record, not from the conviction tracks: this family venue, destination, filing requirements and completion items are its own and are what is quoted."
+      },
+      "captionBlockMapping": {
+        "asDelivered": "DefAddr2 -> participant.city; DefAddr3 -> participant.state_zip, composed as `${state} ${zip}` from participant.state and participant.zip. Both write through the host exact-measured-fact overlay, on all seven widgets each: delivered pages 18, 27, 30, 35, 38, 40 and 43.",
+        "readBackFromTheDeliveredPage": "Canonical page 18 now prints “(city) Newark” and “(state, zip code) NJ 07102”; boundary prints “(city) Unincorporated Township of Long Hollow Crossing near Newark” and “(state, zip code) NJ 07102-9999”. The same holds on 27, 30, 35, 38, 40 and 43, read with pdftotext -layout on the delivered bytes. Before the repair the same lines read “(city) Newark, NJ 07102” and “(state, zip code) 973-555-0142”.",
+        "theTelephone": "participant.phone keeps DefPhone, the one box CN-10557 labels “(your telephone number)”, on delivered page 18, and is written nowhere else. The other six caption blocks print no telephone line, so the number is not written on them; it is not refused for want of a fact, it is simply not asked for there. Delivered page 35 before carried “(state, zip code) 973-555-0142” and now carries no telephone at all.",
+        "noOverlap": "0 added pixels outside a declared write box: every one of the seven DefAddr2 and seven DefAddr3 appearances sits inside its own /Rect with the value complete when read back, and the 150 dpi page diff shows change confined to the caption lines and, on the canonical fixtures, the order row."
+      },
+      "rowOneDisposition": {
+        "disposition": "UNTOUCHED, and disclosed.",
+        "why": "arrest1Statute asks for an N.J.S.A. citation. The platform holds matter.charge, a charge DESCRIPTION, and no held fact answers the statute, so the statute could not be written truthfully. The whole row is therefore left as rows (2) to (5) are.",
+        "mechanism": "The host repeating-row rule now treats a group member with NO fact mapping as a permanent break, not only a member the fitter refused. Group declared once as NJ_ORDER_ARREST_ROW_1: arrest1Dt, arrest1Statute, arrest1CaseNum, delivered page 31.",
+        "readBackFromTheDeliveredPage": "Delivered page 31 row (1) now prints “(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____”, character for character the shape of rows (2) to (5). Before, the canonical row (1) carried 2019-03-08 and 24-CR-001234 astride a blank statute cell.",
+        "disclosure": "Both withheld cells appear in participant-instructions.md under “Values this platform holds but did not print” with the reason naming arrest1Statute, and arrest1Statute itself is in the required-before-filing list by its printed caption."
+      },
+      "textFitMeasurement": {
+        "option": "fitTextPerWidget, the shared finalizer existing per-widget opt-in. The finalizer was not changed.",
+        "value": "participant.full_legal_name on the boundary persona, “Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III”, 70 characters, on the 20 DefName widgets (208.2 to 366.2pt wide) across delivered pages 18, 23, 24, 27, 30, 31, 35, 38, 40 and 43.",
+        "before": "nj_indictable_conviction-set and nj_ordinance-set: one size 6.5pt stamped into all 20 widgets, widgetsFittedIndividually absent. Measured on the delivered page with pdftotext -bbox against each widget /Rect: 2 of 20 widgets carried the complete value and 18 were cut, most of them after “Alexandrina-Katharine”.",
+        "after": "widgetsFittedIndividually 20 on both, per-widget sizes [6.5,8,10,6,7,6,6,7,7.5,6,7,7,11,10.5,7,8,6.5,7.5,7.5,7], smallest 6.0pt which is the module declared readable floor. 20 of 20 widgets carry the complete 70-character value inside their own /Rect; the tightest right margin anywhere is 2.56pt and no widget has ink at a clip edge.",
+        "theOtherTwoFamilies": "nj_arrest_no_conviction-set and nj_disorderly_persons-set already carried the flag; both re-measured here at 20 of 20 complete with the same per-widget sizes.",
+        "sideEffect": "Turning the flag on also makes DefName render at the size the report states rather than at pdf-lib own auto size, so delivered pages 23 and 24 of the two newly opted-in families change on the canonical fixture as well: “Jordan Avery Reyes” is now drawn at the measured 11pt (glyph height 10.175pt) instead of pdf-lib auto 12.95pt, complete and inside its box in both. That is the same behaviour nj_disorderly_persons-set has shipped since FIX01."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance placed by a Do operator the page content stream was walked with a q/Q/cm interpreter, the Form XObject /BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it lands on within 2pt read from the pinned binary, and cmScale x requiredScale required to equal 1 (|transformedSize x cmScale - rectSize| <= 0.05pt).",
+        "flatWidgetPlacements": "247 of 247 pass on every one of the eight fixtures, 0 fail, 0 unmatched, across all 43 pages of each. 247 is exactly the number VF03 reported on the pre-repair bytes and it did not move.",
+        "hostOverlayPlacements": "The host own exact-measured-fact overlay places a further 19 appearances on each conviction-track fixture (20 on nj_arrest_no_conviction-set), all passing. Before the repair it placed 20 on the conviction tracks; the one fewer is the arrest-table cell withdrawn for row integrity.",
+        "provedSensitive": "Rewriting one FlatWidget /Matrix to [0.8 0 0 0.8 0 0] on delivered page 18 of the ordinance canonical bytes drops the sweep to 246 of 247 and names FlatWidget-7098480789 at 127.472 x 13.234 against a 159.340 x 16.542 rect. The sweep can fail."
+      },
+      "synthesizedSquareCheck": {
+        "method": "The button widgets of the pinned CN-10557 whose neutralized /AS state has no stream in /AP /N, enumerated from the pinned binary and excluding pushbuttons (/Ff bit 17), were windowed at 300 dpi and compared pixel for pixel against the pinned form rendered at the same settings.",
+        "count": "22 such widgets, which is VF03 own count.",
+        "result": "21 of 22 rectangles are PIXEL-IDENTICAL to the pinned official form on every one of the eight fixtures. The 22nd is each family own intended route mark — guilty on delivered page 19 for the three conviction tracks (939 differing pixels) and dismiss for nj_arrest_no_conviction-set (917). No synthesized square returned.",
+        "note": "The pixel counts differ from VF03 833 only because this window pads each rectangle by one pixel; the set of differing rectangles is identical."
+      },
+      "fix62SettingsUnchanged": "updateFieldAppearances: false at the intermediate save and suppressSynthesizedAppearances: true on the finalize call are untouched, character for character, and the synthesized-square measurement above is the evidence that they still hold.",
+      "rasterMethod": "Every page of every fixture, before and after, rastered with Poppler pdftoppm into /tmp and differenced pixel for pixel at 150 dpi; the caption blocks, the order row and the 22 formerly synthesized button rectangles measured again at 300 dpi against the pinned CN-10557. Every raster written under /tmp was deleted after measurement and no raster PNG produced by this lane was committed. The page rasters inside each family directory are the build own 72 dpi receipts, written by the builder, not by this measurement.",
+      "pagesChanged": "canonical and boundary alike: 18, 23, 24, 27, 30, 31, 35, 38, 40, 43 (33 of 43 pages pixel-identical at 150 dpi on each).",
+      "digests": {
+        "fixtures": "fixtures/cn-10557-canonical.pdf and fixtures/cn-10557-boundary.pdf, 43 pages each before and after",
+        "before": {
+          "canonicalSha256": "b71de1df389a55cea2c10ad6e6c7ba9f482b0ffa9c63e7dcee961b9437bf0598",
+          "canonicalBytes": 573965,
+          "boundarySha256": "cb536e9766aa55da7a128b0d878231d036794850d136b4332143277d38869464",
+          "boundaryBytes": 576634,
+          "source": "sha256sum on disk at base a777f061b, before any edit; equal to what VF03 and VF01 recorded"
+        },
+        "after": {
+          "canonicalSha256": "292b4d8515cbf153307d5a0317286e34132732a145f602737987b58f7664ca62",
+          "canonicalBytes": 573296,
+          "boundarySha256": "1e437741958a63bdb2c12a58d779301eff612ab469f367359d7d634e5a726222",
+          "boundaryBytes": 575751,
+          "pageCount": 43
+        }
+      },
+      "sharedBytes": "Byte-for-byte identical fixtures to nj_indictable_conviction-set, before and after.",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "acceptanceReceipt": null
+    },
+    {
+      "itemId": "nj_arrest_no_conviction-set",
+      "familyId": "nj_arrest_no_conviction-set",
+      "jurisdiction": "NJ",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "shared-host-repair",
+      "repairedByThisLane": true,
+      "isTheSharedHost": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs is both this family builder and the shared East host every other family here runs through.",
+      "claim": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX76 nj_arrest_no_conviction-set -> CLAIM_OK FIX76 nj_arrest_no_conviction-set (repair, grant set a2bba26e25b8c21f), exit 0.",
+      "statusReason": "Two of the four obligations VF01 failed on this family at d7e293f81 are discharged and one is not. The caption block now carries each fact in the box the form labels for it; the proposed order arrest row 1 is delivered untouched; the required-before-filing list now names the petition own paragraph-1 arrest date, which carries no AcroForm widget and could reach no widget-derived list, together with the page-19 plea-bargain election. CLIPPING_AND_OVERLAP is NOT discharged: half of that finding was the caption mis-fill and is gone, but its first half is a separate defect this lane was not sent to repair and did not touch. Rebuilt twice byte-identical; nine counters zero before and after. Central raster on the new bytes and independent verification are still owed.",
+      "obligationsRepaired": [
+        "KNOWN_PREFILLS",
+        "REPEATING_ROWS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "CLIPPING_AND_OVERLAP. VF01 finding on this family has two halves and only one of them is repaired here. Half two, the caption block printing a telephone number on the (state, zip code) line of seven delivered pages including the sworn petition and the proposed order, is gone: see captionBlockMapping. Half one is UNTOUCHED — delivered page 19, Petition item c, the diversion branch, still carries the ink Example Court in its (name of Court) blank while item c own checkbox is unmarked and its date and offence blanks are empty. The cause VF01 recorded is that dismissCrt is ONE AcroForm field with TWO widgets, index 0 on page 18 in item a and index 1 on page 19 in item c, and the build writes matter.court to the FIELD rather than to the item-a widget. Repairing it means either a per-widget write the host does not have or refusing dismissCrt outright, and neither is among the five repairs this lane was assigned; it is a distinct mapping decision on a sworn petition and it belongs to whoever is sent to make it. This family therefore still fails CLIPPING_AND_OVERLAP.",
+        "RASTER. No central raster was run on the new bytes and none could be: rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml) and this lane rastered only into /tmp to measure, then deleted it. Every fixture digest this family carried into its live RASTER_PASS receipt has moved, so that receipt no longer binds these bytes and a fresh central raster is owed before anything reads them as proven.",
+        "INDEPENDENT VERIFICATION. None. This lane changed the host, rebuilt the packets and measured its own output, so it verifies nothing. No verdict was written or replaced, no acceptance receipt was created, no queue file was opened for writing and no master-queue state was changed.",
+        "SOURCE AND COUNSEL REVIEW. No source was refreshed and no counsel, attorney or visual review was performed or requested. The guidance sections added here are carried word for word from the committed track registry and from delivered pages of the enclosed kit; carrying a held record is not the same as having it reviewed, and the sections are review artifacts like everything else in this directory.",
+        "PROMOTION. Nothing here promotes a route, opens a commercial path, changes a live RCAP route or grants delivery authority to any family.",
+        "nj_clean_slate-set. Built through the same host and NOT granted to this lane. Its directory is left exactly as the merged tree has it; see cleanSlate below.",
+        "pa_6308_underage-set. Twenty of its files move on the merged Captain host with NONE of this lane changes applied; see pa6308Drift below. Not repaired, not committed, not this lane to touch.",
+        "THE OTHER FAMILIES ON THIS HOST. ny_160_59_petition-set, ny_mrta_marijuana-set, oh_marijuana_expungement-set, pa_790_nonconviction-set, pa_9122_1_limited_access-set, pa_summary_conviction-set, ri_nonconviction_sealing-set and rcap-oh-custom-pleading-clean-tracks import runEastFamily from this host. None was claimed, rebuilt or opened for writing here and every one of their committed directories is byte-identical at this commit. The caption-block mapping is scoped to the CN-10557 document and the row group, the text-fit flag and the component table are scoped per family, so none of them is reached by these changes; their next rebuild will still carry whatever unrelated drift the merged host holds."
+      ],
+      "whatChanged": "scripts/build-census-v1-nj_arrest_no_conviction-set.mjs (the shared host) and scripts/build-census-v1-nj_disorderly_persons-set.mjs (that family entrypoint check). In the host: SHARED_EXACT_FACT_ALLOWLIST[NJ-CN-10557] DefAddr2 and DefAddr3 remapped; participant.state_zip added to factsForJurisdiction; the repeating-row rule extended so an unmapped group cell breaks the row, in the build path and in --check identically; NJ_ORDER_ARREST_ROW_1 and NJ_KIT_OFFICIAL_COMPONENTS declared once and taken by the four granted families; fitTextPerWidget added to nj_indictable_conviction-set and nj_ordinance-set; a manifest component-delivery table computed from data/record-clearing/legal-design-packet-set-manifests.json and written into reports/rendered-artifacts.json, with any not-generated entry also written into componentsNotGenerated; guidance sections rendered from each route own committed track record; a disclosure section for participant blanks the form prints with no widget; and the catch-all confirm-before-filing line no longer re-asks a question a rendered section answers. No finalizer, no shared module, no field census, no source pin and no other family configuration was changed. For this family the host also renders the records-to-gather and after-the-order sections it delivered nowhere, and the new blanks-with-no-fill-in-box section.",
+      "componentTable": {
+        "declared": 8,
+        "rendered": 8,
+        "notGenerated": 0,
+        "rows": [
+          "primary_filing -> rendered: CN-10557 delivered pages 18 and 19",
+          "statements_accompanying_petition -> rendered: delivered pages 20 to 24",
+          "order_for_hearing -> rendered: delivered page 27",
+          "proposed_order -> rendered: delivered pages 30 to 33",
+          "record_gathering_instructions -> rendered: guide section ## Records to gather before you file (new here)",
+          "efiling_instructions -> rendered: guide section ## Where to file, which this family already declared and which names the eCourts route and the rule against filing both ways",
+          "service_and_objection_instructions -> rendered: guide section ## Who must be served, which this family already declared and which names every recipient, the certified-mail method and the five-day period",
+          "post_order_service_checklist -> rendered: guide section ## After the order is signed (new here)"
+        ],
+        "componentsNotGenerated": [],
+        "note": "VF01 passed COMPONENT_SET on this family. It is answered entry by entry anyway, because the family carried no record mapping any manifest component to a delivered page and a pass nobody can re-derive is not evidence."
+      },
+      "requiredBeforeFilingRepair": {
+        "finding": "VF01: the fifty declared items were correct as far as they went, and the blank the list did not contain was the arrest date in paragraph 1 of the Petition, delivered page 18, printed “I was arrested/taken into custody on (date)”. It is a participant blank on a verified petition, delivered empty, and it appeared nowhere in the fifty. The plea-bargain pair on page 19 was likewise delivered unmarked and undisclosed.",
+        "whyItCouldNotBeInTheList": "CN-10557 carries no AcroForm widget over either line. Every list this host produces is derived from the field map, which is derived from the census of the form own widgets, so a printed blank with no widget can never reach it however the classifier behaves.",
+        "repair": "A declared per-family table of blanks the form prints with no fill-in box, rendered into participant-instructions.md as its own section under the heading ## Blanks the form prints with no fill-in box, each row naming the delivered page, the words the form prints, and what goes there. The arrest-date row tells the participant in terms that this packet HOLDS the date, prints it on the proposed order at delivered page 31, and that the same date must be copied onto page 18 by hand. Nothing was written into either line and nothing could be.",
+        "whyNotSimplyWritten": "There is no box. This is a disclosure repair, not a write repair, and it is stated as one."
+      },
+      "captionBlockMapping": {
+        "asDelivered": "DefAddr2 -> participant.city; DefAddr3 -> participant.state_zip, composed as `${state} ${zip}` from participant.state and participant.zip. Both write through the host exact-measured-fact overlay, on all seven widgets each: delivered pages 18, 27, 30, 35, 38, 40 and 43.",
+        "readBackFromTheDeliveredPage": "Canonical page 18 now prints “(city) Newark” and “(state, zip code) NJ 07102”; boundary prints “(city) Unincorporated Township of Long Hollow Crossing near Newark” and “(state, zip code) NJ 07102-9999”. The same holds on 27, 30, 35, 38, 40 and 43, read with pdftotext -layout on the delivered bytes. Before the repair the same lines read “(city) Newark, NJ 07102” and “(state, zip code) 973-555-0142”.",
+        "theTelephone": "participant.phone keeps DefPhone, the one box CN-10557 labels “(your telephone number)”, on delivered page 18, and is written nowhere else. The other six caption blocks print no telephone line, so the number is not written on them; it is not refused for want of a fact, it is simply not asked for there. Delivered page 35 before carried “(state, zip code) 973-555-0142” and now carries no telephone at all.",
+        "noOverlap": "0 added pixels outside a declared write box: every one of the seven DefAddr2 and seven DefAddr3 appearances sits inside its own /Rect with the value complete when read back, and the 150 dpi page diff shows change confined to the caption lines and, on the canonical fixtures, the order row."
+      },
+      "rowOneDisposition": {
+        "disposition": "UNTOUCHED, and disclosed.",
+        "why": "arrest1Statute asks for an N.J.S.A. citation. The platform holds matter.charge, a charge DESCRIPTION, and no held fact answers the statute, so the statute could not be written truthfully. The whole row is therefore left as rows (2) to (5) are.",
+        "mechanism": "The host repeating-row rule now treats a group member with NO fact mapping as a permanent break, not only a member the fitter refused. Group declared once as NJ_ORDER_ARREST_ROW_1: arrest1Dt, arrest1Statute, arrest1CaseNum, delivered page 31.",
+        "readBackFromTheDeliveredPage": "Delivered page 31 row (1) now prints “(1) (date) ____ arrest/custody on the charge of violating N.J.S.A. (statute) ____ under (original indictment/accusation/summons/warrant/ complaint/FJ or FO docket number) ____”, character for character the shape of rows (2) to (5). Before, the canonical row (1) carried 2019-03-08 and 24-CR-001234 astride a blank statute cell.",
+        "disclosure": "Both withheld cells appear in participant-instructions.md under “Values this platform holds but did not print” with the reason naming arrest1Statute, and arrest1Statute itself is in the required-before-filing list by its printed caption."
+      },
+      "textFitMeasurement": {
+        "option": "fitTextPerWidget, the shared finalizer existing per-widget opt-in. The finalizer was not changed.",
+        "value": "participant.full_legal_name on the boundary persona, “Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III”, 70 characters, on the 20 DefName widgets (208.2 to 366.2pt wide) across delivered pages 18, 23, 24, 27, 30, 31, 35, 38, 40 and 43.",
+        "before": "nj_indictable_conviction-set and nj_ordinance-set: one size 6.5pt stamped into all 20 widgets, widgetsFittedIndividually absent. Measured on the delivered page with pdftotext -bbox against each widget /Rect: 2 of 20 widgets carried the complete value and 18 were cut, most of them after “Alexandrina-Katharine”.",
+        "after": "widgetsFittedIndividually 20 on both, per-widget sizes [6.5,8,10,6,7,6,6,7,7.5,6,7,7,11,10.5,7,8,6.5,7.5,7.5,7], smallest 6.0pt which is the module declared readable floor. 20 of 20 widgets carry the complete 70-character value inside their own /Rect; the tightest right margin anywhere is 2.56pt and no widget has ink at a clip edge.",
+        "theOtherTwoFamilies": "nj_arrest_no_conviction-set and nj_disorderly_persons-set already carried the flag; both re-measured here at 20 of 20 complete with the same per-widget sizes.",
+        "sideEffect": "Turning the flag on also makes DefName render at the size the report states rather than at pdf-lib own auto size, so delivered pages 23 and 24 of the two newly opted-in families change on the canonical fixture as well: “Jordan Avery Reyes” is now drawn at the measured 11pt (glyph height 10.175pt) instead of pdf-lib auto 12.95pt, complete and inside its box in both. That is the same behaviour nj_disorderly_persons-set has shipped since FIX01."
+      },
+      "placementSweep": {
+        "method": "For every flattened widget appearance placed by a Do operator the page content stream was walked with a q/Q/cm interpreter, the Form XObject /BBox transformed by its /Matrix, the placement matched to the source widget whose /Rect origin it lands on within 2pt read from the pinned binary, and cmScale x requiredScale required to equal 1 (|transformedSize x cmScale - rectSize| <= 0.05pt).",
+        "flatWidgetPlacements": "247 of 247 pass on every one of the eight fixtures, 0 fail, 0 unmatched, across all 43 pages of each. 247 is exactly the number VF03 reported on the pre-repair bytes and it did not move.",
+        "hostOverlayPlacements": "The host own exact-measured-fact overlay places a further 19 appearances on each conviction-track fixture (20 on nj_arrest_no_conviction-set), all passing. Before the repair it placed 20 on the conviction tracks; the one fewer is the arrest-table cell withdrawn for row integrity.",
+        "provedSensitive": "Rewriting one FlatWidget /Matrix to [0.8 0 0 0.8 0 0] on delivered page 18 of the ordinance canonical bytes drops the sweep to 246 of 247 and names FlatWidget-7098480789 at 127.472 x 13.234 against a 159.340 x 16.542 rect. The sweep can fail."
+      },
+      "synthesizedSquareCheck": {
+        "method": "The button widgets of the pinned CN-10557 whose neutralized /AS state has no stream in /AP /N, enumerated from the pinned binary and excluding pushbuttons (/Ff bit 17), were windowed at 300 dpi and compared pixel for pixel against the pinned form rendered at the same settings.",
+        "count": "22 such widgets, which is VF03 own count.",
+        "result": "21 of 22 rectangles are PIXEL-IDENTICAL to the pinned official form on every one of the eight fixtures. The 22nd is each family own intended route mark — guilty on delivered page 19 for the three conviction tracks (939 differing pixels) and dismiss for nj_arrest_no_conviction-set (917). No synthesized square returned.",
+        "note": "The pixel counts differ from VF03 833 only because this window pads each rectangle by one pixel; the set of differing rectangles is identical."
+      },
+      "fix62SettingsUnchanged": "updateFieldAppearances: false at the intermediate save and suppressSynthesizedAppearances: true on the finalize call are untouched, character for character, and the synthesized-square measurement above is the evidence that they still hold.",
+      "rasterMethod": "Every page of every fixture, before and after, rastered with Poppler pdftoppm into /tmp and differenced pixel for pixel at 150 dpi; the caption blocks, the order row and the 22 formerly synthesized button rectangles measured again at 300 dpi against the pinned CN-10557. Every raster written under /tmp was deleted after measurement and no raster PNG produced by this lane was committed. The page rasters inside each family directory are the build own 72 dpi receipts, written by the builder, not by this measurement.",
+      "pagesChanged": "canonical 18, 27, 30, 31, 35, 38, 40, 43 (35 of 43 pixel-identical at 150 dpi); boundary 18, 27, 30, 35, 38, 40, 43 (36 of 43 identical) — page 31 does not move on the boundary fixture because its row 1 was already empty there, the docket number having been refused for width.",
+      "digests": {
+        "fixtures": "fixtures/cn-10557-canonical.pdf and fixtures/cn-10557-boundary.pdf, 43 pages each before and after",
+        "before": {
+          "canonicalSha256": "a742c242eecaac11372fd5376b2e80d06f4cd36a2137a7b72f66c3a415216c99",
+          "canonicalBytes": 574249,
+          "boundarySha256": "166a75b21b5d65566cccb0817f5e7b734395a43b7da09e9382c9a2b9af207bd5",
+          "boundaryBytes": 576380,
+          "source": "sha256sum on disk at base a777f061b, before any edit; equal to what VF03 and VF01 recorded"
+        },
+        "after": {
+          "canonicalSha256": "2079543aefab533acdf90f6b1d5fcf03de2ceaf75e049f8fde990f9cb3a2a044",
+          "canonicalBytes": 573574,
+          "boundarySha256": "56727c67c1617feaa1ddc02dd8d22f4e0c8cf3ecb4fae7c98aeef2c5f7da16be",
+          "boundaryBytes": 575949,
+          "pageCount": 43
+        }
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "acceptanceReceipt": null
+    }
+  ]
+}

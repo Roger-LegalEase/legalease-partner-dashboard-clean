@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-session10-independent-release-lint-review/v1",
+  "reviewer": "/root/release_path_review",
+  "author": "/root Captain",
+  "reviewedAtUtc": "2026-09-08T16:32:23.111607+00:00",
+  "verdict": "PASS_BOUNDED_LINT_REPAIR",
+  "files": [
+    {
+      "path": "scripts/rcap-packet-recovery/chat1/review-session08-delivery.cjs",
+      "sha256": "0e680816e0b3e7680086f63cc8ecd158fee1254d49e56f6a960fd365604de750",
+      "bytes": 15025
+    },
+    {
+      "path": "scripts/rcap-packet-recovery/chat1/test-required-delivery-verification.cjs",
+      "sha256": "fec082740d2a51b8f2a87b6bd37ab8887892d0bdbefdf3001dcc51851a61bf3d",
+      "bytes": 16290
+    },
+    {
+      "path": "src/components/expungement-ai/ConsumerSignInForm.tsx",
+      "sha256": "ab2376e4382a1c8797a72ea12d53372016add1e28663e54edb6cc6312749dd9e",
+      "bytes": 15686
+    }
+  ],
+  "findings": {
+    "unresolved": [],
+    "resolved": [
+      {
+        "severity": "P2",
+        "path": "src/components/expungement-ai/ConsumerSignInForm.tsx",
+        "description": "The first derived-error version restored the claim retry banner during magic-link and OAuth requests, keeping its retry button enabled and retaining it after successful magic-link notice.",
+        "resolution": "Captain added explicit pending-claim dismissal when each valid passwordless attempt begins. Independent old/new component execution agrees on dismissal. Removing these two lines only in VM reproduces both failures, while the other six checks pass.",
+        "independentRegressionProof": "signin-behavior-passwordless-mutation.json"
+      }
+    ]
+  },
+  "verification": {
+    "deliveryEngineering": {
+      "passed": 16,
+      "failed": 0,
+      "elapsedSeconds": 2.28
+    },
+    "deliveryRequired": {
+      "deliveryAndStreamCases": 20,
+      "httpHandlerCases": 22,
+      "vmMutationControls": 4,
+      "elapsedSeconds": 2.55
+    },
+    "signInBehavior": {
+      "passed": 8,
+      "failed": 0,
+      "actualReactServerRender": true,
+      "browserHydrationExecuted": false,
+      "controlledHookStateCases": true,
+      "syntheticAuthAndFetchPorts": true
+    },
+    "historicalReportPreserved": {
+      "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/independent-delivery-engineering.json",
+      "sha256": "5b55877c7d16b6c6ac16225fcfe35ef529f5de6eb9b32440c1850ff73b58c6b2",
+      "beforeAfterEqual": true
+    }
+  },
+  "reviewConclusions": [
+    "Dynamic imports and createRequire preserve original module/dependency resolution. VM exports/module bindings remain coherent after variable renames. Runtime deny branches, actual registry denial and four mutation anchors execute unchanged.",
+    "An explicit unique --out path preserves historical independent attribution and bytes. These reruns do not overwrite the original Session08 report.",
+    "useSyncExternalStore uses an empty server snapshot, browser search snapshot, and popstate subscription with paired removal. The new initial pending state does not rely on an effect that synchronously sets React state.",
+    "consumerAuthContinuationFrom continues to validate opaque token syntax; retry only appears for claimRetry=1 plus a valid token, or an actual failed claim that still retains a token.",
+    "Pending-claim display copy updates with locale while explicit auth-mode/passwordless dismissal remains authoritative. Retry submission suppresses its prior banner and disables ordinary submission; temporary503 retains the token, definitive400 strips the token and removes retry.",
+    "No live auth service, Supabase RLS/session, payment, route authority or delivery implementation was changed by these three lint edits. Tests use synthetic ports and assert closed commercial authority; no new terminal admission or production readiness is established."
+  ],
+  "preexistingVerifierFailures": {
+    "basis": "Reported by Captain, not independently rerun in this review",
+    "command": "node scripts/verify-shared-claim-boundary-app.mjs",
+    "scope": "Two stale literal assertions in unchanged claim-handoff.ts and auth/set-password/page.tsx were reproduced by Captain in clean b48e checkout. Not treated as newly introduced by this lint diff and not waived as release evidence."
+  },
+  "writes": "Only this release-lint-review evidence directory; Captain remains sole implementation writer."
+}

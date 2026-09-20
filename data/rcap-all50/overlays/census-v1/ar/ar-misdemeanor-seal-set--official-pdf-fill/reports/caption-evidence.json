@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-caption-evidence/v1",
+  "familyId": "ar-misdemeanor-seal-set",
+  "whyThisExists": "The three caption widgets on page 1 of both forms are named `IN THE`, `COURT OF` and `DIVISION`, and the names do not describe the blanks they cover. Which blank is which was settled by measuring the printed line's own text runs against each widget's /Rect, and that measurement is recorded here so a reviewer can check it rather than take it.",
+  "printedLine": "IN THE ______________ COURT OF ________________, ARKANSAS / ____________ DIVISION",
+  "blanks": [
+    {
+      "blank": "court type",
+      "printedContext": "the blank between the printed \"IN THE \" and \" COURT OF\"",
+      "printedEvidence": "the run \"IN THE _\" spans x 96.4-149.7, so the printed words end and the underscores begin at x≈142; the underscores close at x≈243 where the run \"____ C\" begins the word COURT",
+      "widget": "IN THE",
+      "widgetRect": {
+        "x": 142.4,
+        "width": 101.3,
+        "spans": "142.40-243.70"
+      },
+      "conclusion": "the widget named `IN THE` covers the COURT TYPE blank",
+      "packetWrites": null,
+      "packetWritesNothingBecause": "the platform holds no court-type fact for this route; the clerk answers it and the participant writes it"
+    },
+    {
+      "blank": "county",
+      "printedContext": "the blank between the printed \" COURT OF \" and \", ARKANSAS\"",
+      "printedEvidence": "the run \"OF __\" spans x 297.2-333.2, so the printed \"OF \" ends at x≈318 and the underscores begin there; the run \"_, \" at x 427.2-441.6 closes the blank before \" ARKANSAS\"",
+      "widget": "COURT OF",
+      "widgetRect": {
+        "x": 318.7,
+        "width": 115.7,
+        "spans": "318.70-434.40"
+      },
+      "conclusion": "the widget NAMED `COURT OF` covers the COUNTY blank, not the court",
+      "packetWrites": "matter.county",
+      "howItBinds": "through a printedLabelCorrection, because the widget's own name matches no descriptor and the caption harvested at it is a bare run of underscores"
+    },
+    {
+      "blank": "division",
+      "printedContext": "the second caption line, \"____________ DIVISION\"",
+      "printedEvidence": "the underscores run x 232.3 to x≈316, where the run \"___ DI\" begins the word DIVISION",
+      "widget": "DIVISION",
+      "widgetRect": {
+        "x": 232.2,
+        "width": 86.6,
+        "spans": "232.20-318.80"
+      },
+      "conclusion": "the widget named `DIVISION` does cover the division blank",
+      "packetWrites": null,
+      "packetWritesNothingBecause": "the platform holds no division fact, and only some Arkansas courts have divisions"
+    }
+  ],
+  "theSameTrapOnTheSiblingFamily": "ar-act531-set records the same hazard on its own ACIC forms, shifted differently again: there the county blank is the widget named `COURT 1` and the court blank is named `DIVISION 1`. On neither form do the names settle anything, and on both the geometry does."
+}

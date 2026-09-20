@@ -68,6 +68,29 @@ export interface PleadingPresentation {
    * Respondent" form). Defaults to false (sovereign first), preserving PA/DC/ND.
    */
   movantFirstInCaption?: boolean;
+  /**
+   * Exact requested-relief clauses, replacing the default (a)/(b)/(c) set.
+   *
+   * The default clause (b) directs *all criminal justice agencies* holding the
+   * record to act. That is right where the order reaches agency records, and
+   * wrong where the statute's relief is narrower — North Dakota's Chapter
+   * 12-60.1 sealing, for example, reaches court and prosecution records and
+   * does not reach BCI criminal history record information or Criminal Justice
+   * Data Information Sharing System data. A route whose statute states a
+   * narrower scope supplies its own clauses here rather than asking a court for
+   * relief the statute does not authorize. Strings render verbatim, in order,
+   * under the WHEREFORE line; the "(a) " labels are part of each string.
+   * Omitted (the default) preserves existing output byte for byte.
+   */
+  reliefClauses?: string[];
+  /**
+   * Exact operative paragraphs for the proposed order, replacing the default
+   * single custodian-direction paragraph. Same rule and same reason as
+   * `reliefClauses`. Strings render verbatim, in order, separated by a blank
+   * line, between the AND NOW recital and the BY THE COURT block. Omitted
+   * preserves existing output byte for byte.
+   */
+  proposedOrderClauses?: string[];
 }
 
 export const PA_DEFAULT_PRESENTATION: PleadingPresentation = {
@@ -417,9 +440,13 @@ function buildSections(
   const recordsScope = pres.recordsScopePhrase ?? "all arrest and criminal history records";
   const reliefLines = [
     `WHEREFORE, ${movantRole} respectfully requests that this Court:`,
-    `(a) Grant this ${filingNoun} and enter an Order directing the ${config.primaryReliefTerm} of ${recordsScope} in the above-captioned matter;`,
-    `(b) Direct all criminal justice agencies having custody of such records to ${reliefAction} all records relating to this matter; and`,
-    "(c) Grant such other and further relief as this Court deems just and appropriate."
+    ...(pres.reliefClauses && pres.reliefClauses.length > 0
+      ? pres.reliefClauses
+      : [
+        `(a) Grant this ${filingNoun} and enter an Order directing the ${config.primaryReliefTerm} of ${recordsScope} in the above-captioned matter;`,
+        `(b) Direct all criminal justice agencies having custody of such records to ${reliefAction} all records relating to this matter; and`,
+        "(c) Grant such other and further relief as this Court deems just and appropriate."
+      ])
   ];
   sections.push({ sectionId: "requested_relief", heading: "V. REQUESTED RELIEF", text: reliefLines.join("\n") });
 
@@ -505,7 +532,11 @@ function buildSections(
       "",
       `AND NOW, this ______ day of ____________________, 20____, upon consideration of the ${filingNoun} filed herein, and any response thereto, it is hereby ORDERED and DECREED that:`,
       "",
-      `${custodianClause}, and all other criminal justice agencies with records pertaining to this matter are hereby directed to ${orderAction} all records relating to the above-captioned matter.`,
+      ...(pres.proposedOrderClauses && pres.proposedOrderClauses.length > 0
+        ? pres.proposedOrderClauses.flatMap((clause, index) => (index === 0 ? [clause] : ["", clause]))
+        : [
+          `${custodianClause}, and all other criminal justice agencies with records pertaining to this matter are hereby directed to ${orderAction} all records relating to the above-captioned matter.`
+        ]),
       "",
       "BY THE COURT:",
       "",

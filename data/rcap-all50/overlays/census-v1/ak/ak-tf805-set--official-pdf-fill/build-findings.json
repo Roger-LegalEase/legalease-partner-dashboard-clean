@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ak-tf805-set",
+  "blocking": [],
+  "findings": [
+    {
+      "finding": "TF-805 prints the request, a sworn verification, a certificate of service and the judge's order on the same two sheets.",
+      "consequence": "Only the request is filled. The verification, the certificate and the order are refused by class, so a prepared packet cannot read as a sworn or served one."
+    },
+    {
+      "finding": "Administrative Rule 40 gives two grounds -- 40(b) and 40(c) -- and this packet is built for the rule rather than for one of them.",
+      "consequence": "The ground is left to the participant and recorded as a genuine participant election. A route-determined selection here would assert a fact about the participant's own case that the platform does not hold."
+    },
+    {
+      "finding": "A removal under Rule 40(c) lasts five years and must then be re-requested; the form says so on its face.",
+      "consequence": "The instructions carry that in the form's own terms, beside the election, rather than leaving the participant to find it in the small print."
+    },
+    {
+      "finding": "This form's text stream interleaves its glyph runs on two lines, so the captions read back scrambled at the widget's coordinate.",
+      "consequence": "The dictionary records what is actually in the stream and the drift check still runs against it; the readable wording is carried in the label, and both are recorded in the field census."
+    },
+    {
+      "severity": "advisory",
+      "finding": "The boundary participant's name carries a typographic apostrophe (U+2019) and the bytes read back carry the name without it. The write is visible and correctly placed; one character of it is not drawn.",
+      "consequence": "Recorded for visual review rather than repaired here. The behaviour is in the shared finalizer's font encoding and reproduces identically in vt_seal_misdemeanor-set, which is already PASS_COMPLETE."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "note": "Routes whose generator runs and produces something that is not the packet the route promises. This is not the same finding as a missing renderer, and it must not be recorded as one: the route generates, the artifact validates as bytes, and what comes out is incomplete or stale against the filing the participant paid for. A route recorded here is closed at every commercial and delivery surface — checkout, sponsored credit, render and participant delivery — because a partial packet is worse than none: it is a document a person may take to a clerk.",
+  "release": [
+    "Build the components the route's packet family actually requires.",
+    "Re-run the deterministic proof for the route and record the artifact hash and components.",
+    "Remove the row. The verifier fails if a row survives without a live defect, so a fixed route cannot keep an exemption."
+  ],
+  "rows": [
+    {
+      "routeKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "status": "closed",
+      "classification": "PACKET_CORRECTION_REQUIRED",
+      "raisedOn": "2026-08-28",
+      "pathway": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "pathwayLabel": "Uncharged or unprosecuted misdemeanor after 12 months (§ 99-15-59)",
+      "track": "none — the factory_v2 registry records registryTrackIds [] and packetSetIds [] for this route",
+      "legacyGenerator": "src/lib/rcap/state-packs/mississippi + src/components/rcap/documents/mississippi/MississippiPetitionPacketPreview.tsx, served at /documents/[partnerSlug]/[packetId]",
+      "entryPoint": "consumer paid path: generatePaidConsumerPacket -> buildConsumerPacketArtifact -> renderSourceDrivenPacket (src/lib/expungement-ai/packet-generation.ts). Partner-sponsored path: attachMississippiPacketInformationRequest -> attachMississippiLegacyPacketArtifact, gated on requireCurrentPacketSponsorshipAuthority.",
+      "packetId": "none — the consumer path writes a text/plain artifact named ms-uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59-packet.txt and creates no rcap_document_packets row",
+      "workerRenderPath": "resolvePacketRoute returns routeKind legacy_verified, rendererKind packet_document_v1, sellable true, creditConsumable true — by jurisdiction, not by route. The consumer paid path never reaches that renderer: buildConsumerPacketArtifact returns contentType text/plain unconditionally.",
+      "deterministicProof": {
+        "matter": "the committed public-witness answer set for this pathway, replayed at RCAP_EVALUATOR_TODAY=2026-08-28",
+        "authoritativeResult": "packet_ready_with_caution, paymentAllowed true, landed on its own pathway",
+        "verificationHash": "e7df97807ab904634847a424f8813fb824d60cea374368cb385ba515f8ea3eec",
+        "artifactSha256": "9a8947080269250619debfa326b6a00a919bef8766b10d19369b25237dd0a787",
+        "artifactBytes": 1165,
+        "artifactContentType": "text/plain",
+        "measuredBefore": "the closure recorded by this row. The result code below is what the route reached while it was still open; with the closure in force it reaches needs_review with no payment, which is what the verifier asserts as the current state.",
+        "authoritativeResultCode": "packet_ready_with_caution"
+      },
+      "componentsRequired": [
+        "exact route",
+        "correct legal treatment",
+        "complete filing",
+        "proposed order where required",
+        "attachments",
+        "filing destination",
+        "current fee/waiver instructions",
+        "service/notice",
+        "post-filing steps"
+      ],
+      "componentsProduced": {
+        "exact route": "PRESENT — the pathway id and label are named",
+        "correct legal treatment": "ABSENT — no statutory recitation and no legal treatment of § 99-15-59 appears in the artifact",
+        "complete filing": "ABSENT — there is no petition; the artifact is a status summary",
+        "proposed order where required": "ABSENT",
+        "attachments": "ABSENT",
+        "filing destination": "ABSENT — no court, county or filing location appears",
+        "current fee/waiver instructions": "ABSENT — the artifact says 'Confirm court filing instructions and fees before submission', which asks the participant to find out",
+        "service/notice": "ABSENT",
+        "post-filing steps": "ABSENT — three generic lines that name no step of this route"
+      },
+      "whatTheArtifactActuallyIs": "A 1,165-byte plain-text status summary: a title, the screening result code, the jurisdiction, pathway, packet mode and form-mapping status, the source rule refs, the packet plan's readiness CONDITIONS presented under the heading 'FILING CHECKLIST', three generic next steps, and the verification hash. Nothing in it is specific to § 99-15-59 beyond the pathway id and the rule-ref list.",
+      "visualReview": "not performed and not applicable — there is no rendered document to review. The artifact is text/plain and no rcap_document_packets row is created.",
+      "privateDelivery": "not reached — closed before delivery.",
+      "repeatDownload": "not reached — closed before delivery.",
+      "commercialDisposition": "checkout closed, sponsored credit closed, render closed, participant delivery closed",
+      "notRouteSpecific": "The same generator serves every route whose packet plan mode is state_specific_custom_packet_from_source_rules. Replaying MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal — a route the registry does vouch for, with every build input met — produced a 1,063-byte artifact of the same shape, differing only in the pathway id and the rule-ref list. So this row records a proven defect on one route and NOT the conclusion that the defect is confined to it. Twenty-nine routes are payment-allowed at the evaluator today; six of them sit in preserved-legacy-generator jurisdictions. Closing the rest is an owner decision with its own evidence, not a consequence of this proof.",
+      "whyTheLegacyGeneratorDoesNotAnswerIt": [
+        "The Mississippi legacy generator is real and produces a genuine petition — caption, body, certificate of service and filing next steps — but it serves the partner/documents path at /documents/[partnerSlug]/[packetId], driven by a stored RcapDocumentPacket row. The consumer paid path never reaches it.",
+        "Reaching it as a consumer requires requireCurrentPacketSponsorshipAuthority to report a live rcap_partner sponsorship. A directly-paying participant has none, so the paid path returns the text summary.",
+        "Its document types cover three Mississippi pathways — non_conviction, misdemeanor_conviction and felony_conviction. There is no document type for the uncharged § 99-15-59 route.",
+        "Its proposed order is MississippiProposedOrderPlaceholder, a placeholder rather than a proposed order."
+      ],
+      "alsoFound": "src/app/documents/[partnerSlug]/[packetId]/page.tsx dispatches on packet.state with a chain of equality checks and Mississippi as the final else. Any state not named in that chain renders the Mississippi petition template. That is the exact hazard the packet-route-resolver's own header says it replaced, still live in the component dispatch. Recorded here; not fixed by this row."
+    }
+  ]
+}

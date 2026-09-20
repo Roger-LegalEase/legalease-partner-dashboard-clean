@@ -1,6 +1,21 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "OK",
     "name": "Oklahoma",
@@ -523,12 +538,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "available when the limitations period has expired or the prosecutor confirms that no prosecution will follow",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -541,6 +552,52 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Arrest with no charges filed",
+        "statute": "22 O.S. § 18",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available when the limitations period has expired or the prosecutor confirms that no prosecution will follow"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma § 18 Expungement Petition — arrest with no charges",
+        "packetComponents": [
+          "Petition under § 18",
+          "Arrest record",
+          "Prosecutor confirmation or limitations showing"
+        ],
+        "effectiveFrom": "2026-07-01",
+        "notes": "Governed by the law effective July 1, 2026 under S.B. 2030."
       }
     },
     {
@@ -638,6 +695,14 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -667,8 +732,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "event-triggered by the reversal plus dismissal; no ordinary wait applies",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -681,6 +746,50 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Conviction reversed and case dismissed",
+        "statute": "22 O.S. § 18",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "event-triggered by the reversal plus dismissal; no ordinary wait applies"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma § 18 Expungement Petition — reversal and dismissal",
+        "packetComponents": [
+          "Petition under § 18",
+          "Reversal order",
+          "Dismissal order"
+        ],
+        "effectiveFrom": "2026-07-01"
       }
     },
     {
@@ -708,8 +817,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "event-triggered by the factual-innocence determination; no ordinary wait applies",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. ( \"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\") Wilma status: likely_eligible_all_charges_dismissed_no_deferred B."
@@ -721,6 +830,49 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "DNA factual-innocence expungement",
+        "statute": "22 O.S. § 18",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "event-triggered by the factual-innocence determination; no ordinary wait applies"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma § 18 Expungement Petition — DNA factual innocence",
+        "packetComponents": [
+          "Petition under § 18",
+          "Factual-innocence order"
+        ],
+        "effectiveFrom": "2026-07-01"
       }
     },
     {
@@ -917,12 +1069,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "unlocks when the fine and the required obligations are paid, under the amended threshold",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -935,6 +1083,51 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Fine-only misdemeanor conviction expungement",
+        "statute": "22 O.S. § 18",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "unlocks when the fine and the required obligations are paid, under the amended threshold"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma § 18 Expungement Petition — fine-only misdemeanor",
+        "packetComponents": [
+          "Petition under § 18",
+          "Proof of payment"
+        ],
+        "effectiveFrom": "2026-07-01"
       }
     },
     {
@@ -991,7 +1184,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1047,7 +1241,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1102,7 +1297,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -1168,14 +1364,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "571 that was later reclassified as a misdemeanor under Oklahoma law, is not currently serving a sentence in Oklahoma or another state, at least 30 days have passed since completion or commutation of sentence, restitution has been paid in full, and any court-ordered treatment program has been successfully completed. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\") Wilma status: likely_eligible_reclassified_felony_30_days",
-        "Separate misdemeanor convictions in the last seven years."
+        "thirty days after completion or commutation, together with the statutory obligations",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -1188,6 +1378,56 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Felony reclassified as a misdemeanor",
+        "statute": "22 O.S. § 18",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 30,
+          "unit": "days",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorText": "thirty days after completion or commutation, together with the statutory obligations"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma § 18 Expungement Petition — reclassified felony",
+        "packetComponents": [
+          "Petition under § 18",
+          "Reclassification order",
+          "Completion or commutation proof"
+        ],
+        "effectiveFrom": "2026-07-01"
       }
     },
     {
@@ -1217,12 +1457,8 @@
       "routeType": "pardon_then_court",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "event-triggered by the full pardon; no ordinary wait applies",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -1235,6 +1471,49 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Pardon-based expungement",
+        "statute": "22 O.S. § 18",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "event-triggered by the full pardon; no ordinary wait applies"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma § 18 Expungement Petition — full pardon",
+        "packetComponents": [
+          "Petition under § 18",
+          "Pardon documentation"
+        ],
+        "effectiveFrom": "2026-07-01"
       }
     },
     {
@@ -1303,13 +1582,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Section 991(c) applies when the court deferred judgment and the person successfully completed all conditions. Upon completion and payment of ordered fines, fees, and monetary assessments, the person is discharged without a judgment of guilt, the plea is expunged from the record, and the charge is dismissed with prejudice. The clerk deletes the person\u0019s name from the docket sheet and public index, but a confidential index is maintained. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-991c/\")"
+        "the § 991c court-record consequence unlocks upon successful completion and dismissal; a separate full § 18 expungement of a deferred matter uses the amended one-year misdemeanor or five-year nonviolent-felony clock where applicable",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -1322,6 +1596,54 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Deferred-sentence court-record expungement",
+        "statute": "22 O.S. § 991c",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "the § 991c court-record consequence unlocks upon successful completion and dismissal; a separate full § 18 expungement of a deferred matter uses the amended one-year misdemeanor or five-year nonviolent-felony clock where applicable"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma § 991c Court-Record Expungement Packet",
+        "packetComponents": [
+          "Motion under § 991c",
+          "Completion and dismissal order"
+        ],
+        "effectiveFrom": "2026-07-01",
+        "notes": "The § 991c consequence and the full § 18 expungement are different remedies with different clocks; do not merge them."
       }
     },
     {
@@ -1349,15 +1671,14 @@
       "caseOutcomes": [],
       "automatic": true,
       "filingRequired": false,
-      "routeType": "automatic",
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "a no-petition statutory process; the participant files nothing",
+        "This rule governs filings on or after 2026-07-01.",
+        "Expedited portal due 2026-11-01 — an implementation deadline for the state, not a participant wait.",
+        "Automated identification due to begin 2027-11-01 — an implementation deadline for the state, not a participant wait.",
+        "Eligible electronic backlog due 2029-11-01 — an implementation deadline for the state, not a participant wait."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -1370,6 +1691,60 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Clean Slate automatic expungement",
+        "statute": "22 O.S. § 18b",
+        "stage": "automatic",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "a no-petition statutory process; the participant files nothing"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Expedited portal due 2026-11-01",
+            "note": "an implementation deadline for the state, not a participant wait"
+          },
+          {
+            "label": "Automated identification due to begin 2027-11-01",
+            "note": "an implementation deadline for the state, not a participant wait"
+          },
+          {
+            "label": "Eligible electronic backlog due 2029-11-01",
+            "note": "an implementation deadline for the state, not a participant wait"
+          }
+        ],
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": null,
+        "effectiveFrom": "2026-07-01",
+        "notes": "As of 2026-08-24 none of these systems is due yet, so they must not be represented as live. Keep manual petition and correction options available until deployment is verified."
       }
     },
     {
@@ -1420,12 +1795,8 @@
       "routeType": "special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "event and nexus based; no elapsed wait applies",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -1438,6 +1809,50 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Human-trafficking survivor relief",
+        "statute": "22 O.S. § 19c",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "event and nexus based; no elapsed wait applies"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma Trafficking-Survivor Relief Petition under § 19c",
+        "packetComponents": [
+          "Petition under § 19c",
+          "Trafficking nexus evidence"
+        ],
+        "effectiveFrom": "2026-07-01"
       }
     },
     {
@@ -1477,9 +1892,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal."
+        "ninety days after the last full-hearing date where the order was dismissed, denied, or the plaintiff failed to appear; three years after vacatur; or the respondent's death, whichever branch applies",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. ( \"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\") Wilma status: likely_eligible_all_charges_dismissed_no_deferred B."
@@ -1491,6 +1905,53 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Victim-protective-order record sealing",
+        "statute": "22 O.S. § 60.18",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 90,
+          "unit": "days",
+          "anchorFactId": "disposition_date",
+          "anchorText": "ninety days after the last full-hearing date where the order was dismissed, denied, or the plaintiff failed to appear; three years after vacatur; or the respondent's death, whichever branch applies"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma VPO Sealing Motion under § 60.18",
+        "packetComponents": [
+          "Motion under § 60.18",
+          "Protective-order docket record"
+        ],
+        "effectiveFrom": "2026-07-01",
+        "notes": "Three distinct branches: ninety days, three years, and death. The stored value is the ninety-day branch, and the branch fact is mandatory intake."
       }
     },
     {
@@ -1541,12 +2002,8 @@
       "routeType": "juvenile",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-        "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
-        "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")"
+        "available at final review, or after successful informal adjustment or closure, when the statutory conditions are met; no generic clock applies",
+        "This rule governs filings on or after 2026-07-01."
       ],
       "exclusionRules": [
         "All charges dismissed, not deferred Eligible if all misdemeanor/felony charges were dismissed, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and the statute of limitations expired or the prosecutor confirms the charges will not be refiled. This route does not apply to charges dismissed after completion of a deferred judgment or delayed sentence. (",
@@ -1559,6 +2016,49 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "mechanism": "Juvenile record expungement",
+        "statute": "10A O.S. § 2-6-109",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available at final review, or after successful informal adjustment or closure, when the statutory conditions are met; no generic clock applies"
+        },
+        "requiredFacts": [
+          "Exact route?",
+          "Arrest/charge limitations?",
+          "Prosecutor declination?",
+          "Reversal/dismissal?",
+          "DNA innocence?",
+          "Pardon?",
+          "Deferred order and dismissal?",
+          "Full-record versus court-record relief?",
+          "Reclassification date?",
+          "Fine amount/payment?",
+          "Trafficking nexus?",
+          "Juvenile completion?",
+          "VPO hearing/vacatur/death?",
+          "Portal/automatic status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Current Oklahoma law effective July 1, 2026",
+          "Exact remedy, offense class, disposition, completion, and operational availability",
+          "Excluded offenses and clean-record rules apply"
+        ],
+        "packetFamily": "Oklahoma Juvenile Expungement Petition under 10A O.S. § 2-6-109",
+        "packetComponents": [
+          "Petition under § 2-6-109",
+          "Disposition or closure record"
+        ],
+        "effectiveFrom": "2026-07-01"
       }
     }
   ],
@@ -2227,16 +2727,10 @@
       "when": {
         "backendPathwayId": "arrest-with-no-charges-filed",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2244,7 +2738,7 @@
           "acquitted",
           "diversion_or_deferred"
         ],
-        "sourceConditionText": "Arrest with no charges filed"
+        "sourceConditionText": "available when the limitations period has expired or the prosecutor confirms that no prosecution will follow"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2254,7 +2748,13 @@
       "sourceRef": "corpus-unit:29; overview:6-12; pathways:13-23; packet_logic:185-226",
       "candidatePathwayIds": [
         "arrest-with-no-charges-filed"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 18",
+        "mechanism": "Arrest with no charges filed"
+      }
     },
     {
       "id": "route-acquittal-dismissal-or-other-no-conviction-expungement",
@@ -2317,18 +2817,16 @@
       "when": {
         "backendPathwayId": "conviction-reversed-and-case-dismissed",
         "requiredFields": [
-          "case_outcome",
-          "disposition_date"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "disposition_date"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
           "convicted_other"
         ],
-        "sourceConditionText": "Conviction reversed and case dismissed"
+        "sourceConditionText": "event-triggered by the reversal plus dismissal; no ordinary wait applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2338,7 +2836,13 @@
       "sourceRef": "section:30-32; corpus-unit:25",
       "candidatePathwayIds": [
         "conviction-reversed-and-case-dismissed"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 18",
+        "mechanism": "Conviction reversed and case dismissed"
+      }
     },
     {
       "id": "route-dna-factual-innocence-expungement",
@@ -2355,7 +2859,7 @@
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "DNA factual-innocence expungement"
+        "sourceConditionText": "event-triggered by the factual-innocence determination; no ordinary wait applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2365,7 +2869,13 @@
       "sourceRef": "section:33-35; corpus-unit:27",
       "candidatePathwayIds": [
         "dna-factual-innocence-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 18",
+        "mechanism": "DNA factual-innocence expungement"
+      }
     },
     {
       "id": "route-misdemeanor-deferred-dismissal-expungement",
@@ -2486,18 +2996,12 @@
         "requiredFields": [
           "case_outcome",
           "offense_level",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "record_type"
+          "financial_obligations"
         ],
         "fieldsReferenced": [
           "case_outcome",
           "offense_level",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "record_type"
+          "financial_obligations"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2506,7 +3010,7 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Fine-only misdemeanor conviction expungement"
+        "sourceConditionText": "unlocks when the fine and the required obligations are paid, under the amended threshold"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2516,7 +3020,13 @@
       "sourceRef": "corpus-unit:43; overview:6-12; pathways:13-23; packet_logic:185-226",
       "candidatePathwayIds": [
         "fine-only-misdemeanor-conviction-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 18",
+        "mechanism": "Fine-only misdemeanor conviction expungement"
+      }
     },
     {
       "id": "route-other-eligible-misdemeanor-conviction-expungement",
@@ -2624,28 +3134,12 @@
         "requiredFields": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "arrest_date",
-          "trafficking_status",
-          "pardon_status",
-          "identity_error",
-          "residency_or_location"
+          "financial_obligations"
         ],
         "fieldsReferenced": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "arrest_date",
-          "trafficking_status",
-          "pardon_status",
-          "identity_error",
-          "residency_or_location"
+          "financial_obligations"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2656,7 +3150,13 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Felony reclassified as a misdemeanor"
+        "sourceConditionText": "thirty days after completion or commutation, together with the statutory obligations",
+        "duration": {
+          "value": 30,
+          "unit": "days",
+          "raw": "30 days"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2666,7 +3166,13 @@
       "sourceRef": "corpus-unit:51; section:133-184; corpus-unit:50; corpus-unit:101",
       "candidatePathwayIds": [
         "felony-reclassified-as-a-misdemeanor"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 18",
+        "mechanism": "Felony reclassified as a misdemeanor"
+      }
     },
     {
       "id": "route-pardon-based-expungement",
@@ -2675,17 +3181,15 @@
       "when": {
         "backendPathwayId": "pardon-based-expungement",
         "requiredFields": [
-          "age_at_offense",
-          "pardon_status"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "age_at_offense",
-          "pardon_status"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "juvenile"
         ],
-        "sourceConditionText": "Pardon-based expungement"
+        "sourceConditionText": "event-triggered by the full pardon; no ordinary wait applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2695,7 +3199,13 @@
       "sourceRef": "section:78-83; corpus-unit:52",
       "candidatePathwayIds": [
         "pardon-based-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 18",
+        "mechanism": "Pardon-based expungement"
+      }
     },
     {
       "id": "route-deferred-sentence-court-record-expungement-under-991-c",
@@ -2705,28 +3215,19 @@
         "backendPathwayId": "deferred-sentence-court-record-expungement-under-991-c",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
           "diversion_or_deferred",
           "convicted_other"
         ],
-        "sourceConditionText": "Deferred-sentence court-record expungement under § 991(c)"
+        "sourceConditionText": "the § 991c court-record consequence unlocks upon successful completion and dismissal; a separate full § 18 expungement of a deferred matter uses the amended one-year misdemeanor or five-year nonviolent-felony clock where applicable",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2736,7 +3237,13 @@
       "sourceRef": "section:88-94; section:6-12; section:185-226; overview:6-12; packet_logic:185-226; corpus-unit:10; corpus-unit:54; corpus-unit:57",
       "candidatePathwayIds": [
         "deferred-sentence-court-record-expungement-under-991-c"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 991c",
+        "mechanism": "Deferred-sentence court-record expungement"
+      }
     },
     {
       "id": "route-clean-slate-automatic-expungement",
@@ -2745,15 +3252,13 @@
       "when": {
         "backendPathwayId": "clean-slate-automatic-expungement",
         "requiredFields": [
-          "financial_obligations",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "financial_obligations",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [],
-        "sourceConditionText": "Clean Slate automatic expungement"
+        "sourceConditionText": "a no-petition statutory process; the participant files nothing"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2763,7 +3268,13 @@
       "sourceRef": "section:101-110; corpus-unit:67",
       "candidatePathwayIds": [
         "clean-slate-automatic-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 18b",
+        "mechanism": "Clean Slate automatic expungement"
+      }
     },
     {
       "id": "route-human-trafficking-survivor-relief",
@@ -2773,23 +3284,11 @@
         "backendPathwayId": "human-trafficking-survivor-relief",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "age_at_offense",
-          "trafficking_status",
-          "pardon_status",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "age_at_offense",
-          "trafficking_status",
-          "pardon_status",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2797,7 +3296,7 @@
           "diversion_or_deferred",
           "juvenile"
         ],
-        "sourceConditionText": "Human-trafficking-survivor relief"
+        "sourceConditionText": "event and nexus based; no elapsed wait applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2807,7 +3306,13 @@
       "sourceRef": "section:111-116; section:13-23; pathways:13-23; corpus-unit:15; corpus-unit:73",
       "candidatePathwayIds": [
         "human-trafficking-survivor-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 19c",
+        "mechanism": "Human-trafficking survivor relief"
+      }
     },
     {
       "id": "route-victim-protective-order-record-relief",
@@ -2816,23 +3321,23 @@
       "when": {
         "backendPathwayId": "victim-protective-order-record-relief",
         "requiredFields": [
-          "case_outcome",
-          "sentence_completion_date",
-          "age_at_offense",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "sentence_completion_date",
-          "age_at_offense",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
           "diversion_or_deferred",
           "juvenile"
         ],
-        "sourceConditionText": "Victim Protective Order record relief"
+        "sourceConditionText": "ninety days after the last full-hearing date where the order was dismissed, denied, or the plaintiff failed to appear; three years after vacatur; or the respondent's death, whichever branch applies",
+        "duration": {
+          "value": 90,
+          "unit": "days",
+          "raw": "90 days"
+        },
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2842,7 +3347,13 @@
       "sourceRef": "corpus-unit:77; pathways:13-23; packet_logic:185-226",
       "candidatePathwayIds": [
         "victim-protective-order-record-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "22 O.S. § 60.18",
+        "mechanism": "Victim-protective-order record sealing"
+      }
     },
     {
       "id": "route-juvenile-record-expungement",
@@ -2851,24 +3362,10 @@
       "when": {
         "backendPathwayId": "juvenile-record-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "age_at_offense",
-          "trafficking_status",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "age_at_offense",
-          "trafficking_status",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2876,7 +3373,7 @@
           "diversion_or_deferred",
           "juvenile"
         ],
-        "sourceConditionText": "Juvenile record expungement"
+        "sourceConditionText": "available at final review, or after successful informal adjustment or closure, when the statutory conditions are met; no generic clock applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2886,7 +3383,13 @@
       "sourceRef": "section:123-127; section:13-23; pathways:13-23; corpus-unit:17; corpus-unit:81",
       "candidatePathwayIds": [
         "juvenile-record-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OK-01",
+        "ruleId": "OK-SB2030-2026-ELEVEN-ROUTE-TRANSITION-MAP",
+        "statute": "10A O.S. § 2-6-109",
+        "mechanism": "Juvenile record expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2944,7 +3447,11 @@
     {
       "id": "wait-03",
       "ruleText": "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
-      "duration": null,
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
       "anchor": "successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses un",
       "fieldsReferenced": [
         "case_outcome",
@@ -2974,9 +3481,9 @@
       "id": "wait-05",
       "ruleText": "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
       "duration": {
-        "value": 7,
+        "value": 5,
         "unit": "years",
-        "raw": "7 years"
+        "raw": "5 years"
       },
       "anchor": null,
       "fieldsReferenced": [
@@ -2999,6 +3506,35 @@
         "case_outcome",
         "offense_level",
         "charge"
+      ]
+    },
+    {
+      "id": "authority-felony-reclassified-as-a-misdemeanor",
+      "ruleText": "22 O.S. § 18 — thirty days after completion or commutation, together with the statutory obligations",
+      "duration": {
+        "value": 30,
+        "unit": "days",
+        "raw": "30 days"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations",
+        "sentence_completion_actual_date"
+      ]
+    },
+    {
+      "id": "authority-victim-protective-order-record-relief",
+      "ruleText": "22 O.S. § 60.18 — ninety days after the last full-hearing date where the order was dismissed, denied, or the plaintiff failed to appear; three years after vacatur; or the respondent's death, whichever branch applies",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": "disposition_date",
+      "fieldsReferenced": [
+        "case_outcome"
       ]
     }
   ],

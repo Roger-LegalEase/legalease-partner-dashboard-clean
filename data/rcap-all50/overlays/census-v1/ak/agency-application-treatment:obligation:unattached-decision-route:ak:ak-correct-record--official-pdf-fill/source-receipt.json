@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+  "worklistGroupId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+  "jurisdiction": "AK",
+  "implementationStrategy": "participant_agency_application",
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "bindingMethod": "committed repository records bound by exact SHA-256 at build time with every relied-on statement re-read from the committed bytes as an anchor, and every official agency document bound by exact SHA-256 resolved through the committed corpus index and its declared custody roots",
+  "routeKeys": [
+    "obligation:unattached-decision-route:AK:ak-correct-record"
+  ],
+  "statutoryAuthority": [
+    "AS 12.62.170",
+    "13 AAC 68.200"
+  ],
+  "legalName": "Request to Correct Criminal Justice Information in the Alaska Public Safety Information Network (AS 12.62.170)",
+  "allSourcesExact": true,
+  "formIdentityNote": "Alaska publishes the form this route uses and the controlling decision names it in terms: the Request to Correct Criminal Justice Information, DPS Form CRI-103 (Rev. 07/25/22). It is bound by exact SHA-256 and delivered as the agency issues it, with values drawn only onto blanks the form itself strokes. Nothing was substituted and nothing was invented; the two composed pages beside it are plainly a route sheet and a checklist and carry no form number of their own.",
+  "agencyTreatmentNote": "This is an AGENCY APPLICATION, not a court filing. The participant submits DPS Form CRI-103 to the Department of Public Safety, or to the agency responsible for the disputed data, and no court is involved at this stage. The recorded escalation on a final adverse decision is an administrative appeal to the Alaska Superior Court, which the decision says is expressly NOT an ordinary self-help record-clearing packet, and which nothing here prepares.",
+  "committedRecords": [
+    {
+      "sourceIds": [
+        "committed-record:data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json"
+      ],
+      "recordId": "legal-decision:2026-08-28:research-track:ak-correct-record",
+      "pathInRepository": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+      "byteLength": 184365,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the controlling decision: that AS 12.62.170 is an administrative correction process, that the challenge goes first to DPS or the agency responsible for the disputed data on the published form, what the challenge must identify, the boundary between a correction claim and a sealing request, and the recorded escalation on a final adverse decision",
+      "anchorStatementsVerified": 14
+    },
+    {
+      "sourceIds": [
+        "committed-record:src/lib/rcap-engine/compiled/profiles/AK-alaska.json"
+      ],
+      "recordId": "compiled-profile:AK-alaska",
+      "pathInRepository": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      "sha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
+      "byteLength": 188501,
+      "instrumentKind": "committed_record_bound_as_authority",
+      "role": "the compiled Alaska profile, a held source for this jurisdiction under DETERMINATION_FEE_AND_WAIVER_STANDARD amendment A2. Its fee table is read narrowly under amendment A3: it prices a TF-810 Courtview exclusion, an SIS set-aside motion, an AS 12.62.180(b) SEALING request and a DPS criminal history record, and none of those is an AS 12.62.170 correction. What it does answer for this route is the cost of the DPS criminal history record the participant needs in order to identify the entry.",
+      "anchorStatementsVerified": 3
+    }
+  ],
+  "documents": [
+    {
+      "sourceIds": [
+        "official-form:Request to Correct Criminal Justice Information"
+      ],
+      "documentId": "DPS-CRI-103",
+      "formNumber": "DPS-CRI-103",
+      "officialTitle": "Request to Correct Criminal Justice Information in the Alaska Public Safety Information Network (APSIN)",
+      "revision": "REV-2022-07-25",
+      "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
+      "byteLength": 144047,
+      "custody": "master_library",
+      "pathInCustody": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
+      "matchedBy": "exact_pinned_sha256_recomputed_from_the_bytes_on_disk",
+      "corpusIndexAgrees": true,
+      "pageCount": 1,
+      "acroFieldCount": 0,
+      "structuralClassObserved": "flat_pdf",
+      "instrumentKind": "participant_agency_application_form",
+      "renderStrategy": "measured_flat_overlay"
+    }
+  ],
+  "composedComponentsAuthoredByThisBuild": [
+    "agency_route_sheet",
+    "evidence_checklist"
+  ],
+  "sourceBinaryCommitted": false,
+  "commercialRoutesOpened": 0,
+  "whatThisReceiptDoesNotEstablish": [
+    "that any output is approved for participant delivery",
+    "that any record is eligible for the relief this family prepares for",
+    "that this is the current edition of DPS Form CRI-103, or that the Department has not revised it since the archive was assembled",
+    "that any particular APSIN entry is inaccurate or incomplete",
+    "what the Department of Public Safety charges for a criminal history record"
+  ]
+}

@@ -1,0 +1,425 @@
+{
+  "schemaVersion": "rcap-packet-factory-focused-repair-return/v1",
+  "workerId": "CLAUDE-FIX34-VT-SEAL-NONCONVICTION",
+  "assignmentId": "FIX34",
+  "assignedBase": "e7ce69ea5",
+  "branch": "fix34-vt-seal-nonconviction",
+  "laneKind": "repair",
+  "grantConfirmed": "node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX34 vt_seal_nonconviction-set returned CLAIM_OK FIX34 vt_seal_nonconviction-set (repair, grant set 2cde557067585f65), exit 0, before anything was read or written.",
+  "preflight": {
+    "worktree": "/home/user/fix34-worktree, created from /home/user/captain-worktree at e7ce69ea5 on branch fix34-vt-seal-nonconviction",
+    "coreSparseCheckout": "false",
+    "skipWorktreeBits": 0,
+    "privateCorpus": "symlinked to /home/user/legalease-partner-dashboard-clean/private (the Captain worktree carries none); nothing under it was edited. MASTER_LIBRARY_SOURCE_DIR was exported at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, which is where scripts/verify-packet-build-environment.mjs resolves it.",
+    "nodeModules": "symlinked to /home/user/captain-worktree/node_modules; no tracked file changed by either step",
+    "otherWorktreesTouched": 0,
+    "captainBranchTouched": false,
+    "mainTouched": false,
+    "forcePushed": false,
+    "subagentsCreated": 0
+  },
+  "arrayKey": "rows",
+  "itemKeyField": "itemId",
+  "rows": [
+    {
+      "itemId": "vt_seal_nonconviction-set",
+      "familyId": "vt_seal_nonconviction-set",
+      "jurisdiction": "VT",
+      "implementationStrategy": "official_pdf_fill",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-nonconviction-set--official-pdf-fill",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "routeKeys": [
+        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-automatic-and-verification",
+        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition",
+        "obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition"
+      ],
+      "obligationsRepaired": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "obligationsThisRowDoesNotDischarge": [
+        "ROUTE_IDENTITY",
+        "SOURCE_IDENTITY",
+        "COMPONENT_SET",
+        "KNOWN_PREFILLS",
+        "ROUTE_OPTIONS",
+        "REPEATING_ROWS",
+        "PROTECTED_FIELDS",
+        "ARTIFACTS",
+        "PAGE_ORDER",
+        "CLIPPING_AND_OVERLAP",
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE",
+        "SELF_HELP_STOP"
+      ],
+      "whyThoseAreNotDischargedHere": "A repair lane may not verify what it built. VF01 read all fifteen obligations at aa866d165 and passed fourteen; this lane repaired the one that failed and recorded, under COMPONENT_SET and FEE_AND_WAIVER, the fee-waiver finding VF01 raised there. The packet bytes have moved, so every obligation VF01 measured has to be measured again by a lane that did not touch this family. Nothing here is a verdict.",
+      "verdictRepaired": {
+        "lane": "VF01",
+        "verifier": "FABLE-VF01-4F",
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verifiedAtBase": "aa866d1657a84bf7779d946ee34ca812990fdf63",
+        "failedObligationNames": [
+          "REQUIRED_BEFORE_FILING"
+        ],
+        "findingAlsoActedOn": "COMPONENT_SET recorded, as a finding rather than a failure, that 600-00228 is generated and prefilled although its own componentRequirements entry says the condition is not met on this track and its filing disposition is do_not_file."
+      },
+      "whatTheReadActuallyFound": "VF01 reported the twenty checkboxes as carrying NO field-map row. Measured first-hand in this lane against the three pinned binaries with pdf-lib, that is not where the defect was: the map already carried all 165 official widgets, the twenty among them, in maps[].selectionControls -- 52/52, 33/33 and 80/80. What the rows said was the defect, and it was worse than a bookkeeping gap because the map asserted things about the page that were false.",
+      "defectsFoundAndFixed": [
+        "Six rows on 200-00130 (10, 12, 14, 15, 16, 17) carried the literal string \"undefined\" where their route reason belongs -- reason: \"undefined; this branch of the form is never populated with participant data on this route\" -- and carried no why at all. censusOf never copied routeReason off the policy entry, so every OFFROUTE and SELECT reason was dropped between the policy table and the map.",
+        "Field 18, the box the packet's own route mark lands on, was declared selected_by_route with its reason and why both undefined, so the one mark the packet draws was declared without the reason for drawing it.",
+        "production-field-map.json declared routeSelectionsMade as the literal empty array, hardcoded, while the build struck two diagonals through question 2 in both fixtures. The map denied making the only selection the packet makes.",
+        "Every checkbox printedLabel carried the form's own Wingdings box glyphs as control characters (U+0007 U+0006 on the petition forms, U+0005 U+007F on one fee-waiver line), so what the map declared as the printed caption was not the printed caption.",
+        "Ten of the twenty share a printed line with their opposite (YES/NO on both consent questions, Yes/No on the fee-waiver's employment, benefits and additional-assets questions). Nearest-printed-line gave both members the same caption, so the map could not tell YES from NO. Two more (200-00130 fields 12 and 14) carried the question as their caption and not the box's own word.",
+        "No checkbox carried an instruction, and participant-instructions.md disposed of all twenty in one sentence -- \"Every checkbox. Read them and tick the ones that are true for you\" -- naming none of them and not saying which the route had already answered.",
+        "600-00228 was generated and prefilled with the participant's name, address, city/state/zip, telephone, email, docket number and printed name, on a component whose manifest condition is unmet, whose filing disposition is do_not_file and whose page 2 is a financial declaration made under oath, while the instructions told the participant twice not to complete or file it.",
+        "The instructions' component table named `filing_and_expectation_instructions`, which is the sibling vt_exp_decriminalized-set's fourth component and is not in this packet; this family's fourth component is `process_guidance`."
+      ],
+      "whatChanged": {
+        "scriptsBuildCensusV1VtSealNonconvictionSetMjs": [
+          "censusOf now carries routeReason and the participant instruction from the policy entry onto every census row, so no reason reaches the map as undefined; officialFieldMap asserts a route selection and an off-route box each carry a reason, and asserts every declared blank checkbox carries an instruction.",
+          "printedCaption() strips the forms' own checkbox glyphs (all C0 controls and U+007F) out of every caption, so printedLabel is the words the form prints.",
+          "optionWordBesideBox() proves, against the pinned binary, which word on a shared YES/NO line belongs to this box: it reads the characters of the widget's own printed line, finds every occurrence of every option word, takes the one nearest to the right of the widget's rect, and refuses the build if it is not the word the policy names. Ten boxes go through it and each records optionWordLocatedInTheBinary with the x of the box and the x of the word.",
+          "routeSelectionsMade is built from the marks the build actually draws, carrying the document, field, page, box, printed caption, mark geometry and the painted-stroke count read back from the output bytes; the build refuses if no mark was recorded.",
+          "POLICY_600_00228's eight WRITE entries became participant-supplied blanks, so the fee-waiver form is rendered with nothing on it; FEE_WAIVER_COMPONENT_REQUIREMENT records the manifest's conditional rule, that its condition is not met on this track, the do_not_file disposition, the delivered_unfilled treatment and why the blank form is still delivered.",
+          "participant-instructions.md gains a generated table of all twenty checkboxes -- form, page, the words printed beside the box, what to do -- built from the field map so the two cannot drift; the fee-waiver copy says the form is delivered blank and why; the component table names process_guidance."
+        ],
+        "productWiringJson": "proposedRepresentation.components[0].sha256 repinned to the rebuilt canonical, and binding.acceptanceReceipt set to null. The RASTER_PASS it carried is bound to 8e4c9321..., which these bytes are not. Nothing else in the record was touched and RASTER_QUEUE.json was not edited.",
+        "issuerBytes": "Preserved. The three source binaries rehash to their pinned SHA-256 and byte length; no page was redrawn, no box was drawn, thickened or moved, and the only ink the build adds is the eight writes per petition/stipulation and the two diagonals inside the court's own box on field 18."
+      },
+      "feeWaiverTreatmentChosen": {
+        "branchTaken": "delivered unfilled",
+        "decidedBy": "data/record-clearing/legal-design-packet-set-manifests.json -> packetSets[vt_seal_nonconviction-set]: the fee-waiver component is `conditional` with conditionDescription \"Only where a filing fee is charged; on this track none is.\", and the apply_fee_waiver participant action is conditional on \"Applies only when the participant cannot pay the filing fee\" and says in the participant's own words \"Use it only if you are asking the court to waive the filing fee; if you are paying the fee, you do not need it.\"",
+        "whatThatMeansOnThePage": "600-00228 is delivered exactly as the Vermont Judiciary publishes it, with nothing written on it -- no name, no address, no docket number, and none of the income, expense or asset figures on the sworn declaration. Read back from the flattened appearances of both fixtures, pages 5 and 6 carry zero inked appearances; a local raster of canonical page 5 shows every line and every box empty.",
+        "whyNotDroppedFromThePacket": "The manifest carries it as a component of this packet set and it is the Judiciary's single statewide fee-waiver form. Delivering it blank keeps the component the manifest lists while removing the thing that was dishonest -- a prefilled sworn financial declaration on a form the participant is told not to file. The instructions and the process-guidance page name the form, say no fee is charged on this track under 32 V.S.A. Sec. 1431(e), and say the only circumstance in which it is used.",
+        "noRuleInvented": "The condition, its resolution against this track, the do_not_file disposition and the when-to-use wording are all read from the manifest and the field map's componentRequirements. This lane added no eligibility rule and changed no route."
+      },
+      "checkboxTable": [
+        {
+          "document": "200-00130",
+          "field": "10",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "I was convicted of the offenses.",
+          "effectiveLabel": "I was convicted of the offenses.",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank; conviction branch of question 2, which this non-conviction route does not take"
+        },
+        {
+          "document": "200-00130",
+          "field": "12",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "Yes",
+          "effectiveLabel": "b. I completed all of the conditions of my probation: Yes",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank; conviction branch of question 2"
+        },
+        {
+          "document": "200-00130",
+          "field": "14",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "No",
+          "effectiveLabel": "b. I completed all of the conditions of my probation: No",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank; conviction branch of question 2"
+        },
+        {
+          "document": "200-00130",
+          "field": "15",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "Yes",
+          "effectiveLabel": "c. Any restitution ordered by the Court has been paid: Yes",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank; conviction branch of question 2"
+        },
+        {
+          "document": "200-00130",
+          "field": "16",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "No",
+          "effectiveLabel": "c. Any restitution ordered by the Court has been paid: No",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank; conviction branch of question 2"
+        },
+        {
+          "document": "200-00130",
+          "field": "17",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "Restitution was not ordered",
+          "effectiveLabel": "Restitution was not ordered",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank; conviction branch of question 2"
+        },
+        {
+          "document": "200-00130",
+          "field": "18",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "I was not convicted for the offenses listed above.",
+          "effectiveLabel": "I was not convicted for the offenses listed above.",
+          "disposition": "WRITTEN — selected_by_route; the mark the packet draws, two diagonals inset 2pt inside the court's own box, 2 painted strokes read back from the output bytes, recorded in routeSelectionsMade"
+        },
+        {
+          "document": "200-00130",
+          "field": "19",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "I was cited or arrested, by (name of arresting law enforcement agency or department)",
+          "effectiveLabel": "I was cited or arrested, by (name of arresting law enforcement agency or department)",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE — declared blank with instruction: tick the one of the three Sec. 7603(a)(1) endings that matches how the case ended"
+        },
+        {
+          "document": "200-00130",
+          "field": "20",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "A charge was filed, but the Court did not find probable cause.",
+          "effectiveLabel": "A charge was filed, but the Court did not find probable cause.",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE — declared blank with instruction: tick the one of the three Sec. 7603(a)(1) endings that matches how the case ended"
+        },
+        {
+          "document": "200-00130",
+          "field": "21",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "A charge was filed and later dismissed by the Court.",
+          "effectiveLabel": "A charge was filed and later dismissed by the Court.",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE — declared blank with instruction: tick the one of the three Sec. 7603(a)(1) endings that matches how the case ended"
+        },
+        {
+          "document": "200-00130",
+          "field": "36a",
+          "pageOfThatForm": 2,
+          "printedCaptionForThisBox": "YES",
+          "effectiveLabel": "I consent to receive documents from the other parties at the email provided below: YES",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE — declared blank with instruction: tick exactly one; the packet has written the email address on the line beneath the question"
+        },
+        {
+          "document": "200-00130",
+          "field": "36b",
+          "pageOfThatForm": 2,
+          "printedCaptionForThisBox": "NO",
+          "effectiveLabel": "I consent to receive documents from the other parties at the email provided below: NO",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE — declared blank with instruction: tick exactly one; the packet has written the email address on the line beneath the question"
+        },
+        {
+          "document": "200-00132",
+          "field": "check box 1",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "YES",
+          "effectiveLabel": "I consent to receive documents from the other parties at the email provided below: YES",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE — declared blank with instruction: tick exactly one; the packet has written the email address on the line beneath the question"
+        },
+        {
+          "document": "200-00132",
+          "field": "chec box 2",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "NO",
+          "effectiveLabel": "I consent to receive documents from the other parties at the email provided below: NO",
+          "disposition": "PARTICIPANT_ELECTION_GENUINE — declared blank with instruction: tick exactly one; the packet has written the email address on the line beneath the question"
+        },
+        {
+          "document": "600-00228",
+          "field": "15",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "Yes",
+          "effectiveLabel": "Are you employed? Yes",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank with instruction: leave blank; 600-00228 is delivered unfilled and no fee is charged on this track"
+        },
+        {
+          "document": "600-00228",
+          "field": "16",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "No",
+          "effectiveLabel": "Are you employed? No",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank with instruction: leave blank; 600-00228 is delivered unfilled and no fee is charged on this track"
+        },
+        {
+          "document": "600-00228",
+          "field": "21",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "Yes",
+          "effectiveLabel": "Do you receive any kind of government benefit that is based on need, dependent children, or other income sensitive criteria? Yes",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank with instruction: leave blank; 600-00228 is delivered unfilled and no fee is charged on this track"
+        },
+        {
+          "document": "600-00228",
+          "field": "22",
+          "pageOfThatForm": 1,
+          "printedCaptionForThisBox": "No",
+          "effectiveLabel": "Do you receive any kind of government benefit that is based on need, dependent children, or other income sensitive criteria? No",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank with instruction: leave blank; 600-00228 is delivered unfilled and no fee is charged on this track"
+        },
+        {
+          "document": "600-00228",
+          "field": "72",
+          "pageOfThatForm": 2,
+          "printedCaptionForThisBox": "Yes",
+          "effectiveLabel": "I have additional assets: Yes",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank with instruction: leave blank; 600-00228 is delivered unfilled and no fee is charged on this track"
+        },
+        {
+          "document": "600-00228",
+          "field": "73",
+          "pageOfThatForm": 2,
+          "printedCaptionForThisBox": "No",
+          "effectiveLabel": "I have additional assets: No",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE — declared blank with instruction: leave blank; 600-00228 is delivered unfilled and no fee is charged on this track"
+        }
+      ],
+      "checkboxTableNote": "Twenty rows: 12 on 200-00130, 2 on 200-00132, 6 on 600-00228. Page numbers are the page of that form, as the field map records them; in the assembled packet 200-00132 page 1 is packet page 3 and 600-00228 pages 1-2 are packet pages 5-6. Every caption was read out of the pinned binary at build time, not transcribed, and every one of the ten sharing a YES/NO line was located by position against its own box.",
+      "appearanceVerification": {
+        "flattenedAppearances": "161 flattened widget appearances in each fixture; 16 carry ink in each, all on the petition and the stipulation, and 0 on pages 5-6. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 for all six documents.",
+        "routeMarkReadBack": "field 18, page 1, box x 55.11-69.51 / y 292.33-306.73, two painted strokes inside the box in both fixtures, zero stray strokes, drewANewBox false, redrewTheCourtsBox false.",
+        "localRaster": "All 8 canonical pages rasterised with scripts/raster/pdf-page-raster.mjs (Chromium, calibrated) into /tmp, for the pre-repair bytes and the repaired bytes, at 3.3333 px/pt with calibration residual 0 on every page. Nothing was written into the family's raster/ directory.",
+        "placementDiff": "Pages 1-4 are PIXEL-IDENTICAL between the pre-repair and repaired rasters -- the petition and the stipulation, every write and the route mark, in exactly the same place. Page 5 and page 6 differ because the prefill was removed; pages 7-8 differ because the process-guidance copy changed. Per-page text extraction agrees: pages 1-4 identical, page 5 loses exactly the docket number, name, name, street, city/state/zip, email and phone, page 6 loses the printed name.",
+        "visualReadOfThePage": "Canonical page 1 read as an image: the X sits inside the court's own box beside \"I was not convicted for the offenses listed above.\", the six conviction-branch boxes above it are empty, and the three Sec. 7603(a)(1) ending boxes below it are empty. Canonical page 5 read as an image: the whole fee-waiver form is blank."
+      },
+      "deterministicRebuild": {
+        "command": "MASTER_LIBRARY_SOURCE_DIR=<Master Library> node scripts/build-census-v1-vt_seal_nonconviction-set.mjs --no-raster",
+        "rebuiltTwice": true,
+        "byteIdenticalAcrossBothRebuilds": true,
+        "howMeasured": "sha256 over every file in the family directory except raster/, after each of two consecutive builds; the two manifests are identical."
+      },
+      "artifacts": {
+        "canonical": {
+          "oldSha256": "8e4c932195738e387b1995e3501af7768308367152cedba0f02dfb30a8e4fdcb",
+          "newSha256": "35989442e0569baaa8e062249850f5f29e528ebce972a7b0fcea2bf391026543",
+          "pages": 8
+        },
+        "boundary": {
+          "oldSha256": "dbd775f8d93975f9dd0dee51536960a6797de116015fcbfcb9dd908f588b5ac5",
+          "newSha256": "1c0dc4cd9fe86227cfe6e33e87d093056218c8f95ec06cbb95f3c29195b44fec",
+          "pages": 8
+        },
+        "perDocumentFixtures": {
+          "canonical--200-00130.pdf": {
+            "old": "651120a460f7e0883b464e8611fabfb37cc89af3ffb620edd83d9158af47a084",
+            "new": "651120a460f7e0883b464e8611fabfb37cc89af3ffb620edd83d9158af47a084",
+            "changed": false
+          },
+          "canonical--200-00132.pdf": {
+            "old": "bdad609567e6e6dbec23017bc04a0f71126603c0870d42087c1cb4437c571cac",
+            "new": "bdad609567e6e6dbec23017bc04a0f71126603c0870d42087c1cb4437c571cac",
+            "changed": false
+          },
+          "canonical--600-00228.pdf": {
+            "old": "0c0ffa75f618ed3d2984f9a2b28acf2e8523e497c8c94d3b4d850578d6457e6e",
+            "new": "2d600575153c161442d4101a8c7a3b9b89d45b12df033074a45a9814cedf3e42",
+            "changed": true
+          },
+          "boundary--200-00130.pdf": {
+            "old": "a4f23c6a5e9bbc5cafe20ecd8e2c563deef1c62482757d3fdc0b03a825732684",
+            "new": "a4f23c6a5e9bbc5cafe20ecd8e2c563deef1c62482757d3fdc0b03a825732684",
+            "changed": false
+          },
+          "boundary--200-00132.pdf": {
+            "old": "b2cfb7e1792ade568fcd758cc58ba8eb3fde5287174f034b013219b154c82ee8",
+            "new": "b2cfb7e1792ade568fcd758cc58ba8eb3fde5287174f034b013219b154c82ee8",
+            "changed": false
+          },
+          "boundary--600-00228.pdf": {
+            "old": "c47ec63060d14c853f5cc63ec84f344fb42c084104bdc585a1116e513eb1e48f",
+            "new": "2d600575153c161442d4101a8c7a3b9b89d45b12df033074a45a9814cedf3e42",
+            "changed": true
+          }
+        },
+        "perDocumentNote": "The two 600-00228 fixtures now hash the same because neither carries any participant value; the canonical and boundary fixtures differ only in facts, and the fee-waiver form receives none.",
+        "sourceBinariesUnchanged": [
+          {
+            "formNumber": "200-00130",
+            "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+            "byteLength": 1535506
+          },
+          {
+            "formNumber": "200-00132",
+            "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+            "byteLength": 1999317
+          },
+          {
+            "formNumber": "600-00228",
+            "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+            "byteLength": 2871072
+          }
+        ]
+      },
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersBeforeNotes": "Measured in this container at base e7ce69ea5 before any edit: verify-packet-completeness.mjs --family vt_seal_nonconviction-set returned PASS_COMPLETE, 27/167 written, all nine zero. VF01 recorded the same nine zeros and said why zero was not a pass: unclassifiedBlanks read 0 over rows that asserted things about the page that were false.",
+      "countersAfterNotes": "Measured after the repair, same command, same container: PASS_COMPLETE, 19/167 written, all nine zero. The eight fewer writes are the eight the build no longer makes on 600-00228. The counters did not move because they never carried this defect; what moved is that the rows now say what the page says.",
+      "verifiersRun": [
+        {
+          "verifier": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_nonconviction-set",
+          "result": "PASS_COMPLETE, 19/167 written, nine counters all zero"
+        },
+        {
+          "verifier": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs (whole corpus)",
+          "result": "241 families audited, 240 PASS_COMPLETE, 1 FAIL_MISSING_PREFILLS. The single failure is pa_6308_underage-set with 6 unclassifiedBlanks; it is a Pennsylvania family this lane did not touch and it fails identically at the unmodified base e7ce69ea5. No counter moved on any other family."
+        },
+        {
+          "verifier": "scripts/rcap-packet-completeness/verify-identity-refresh-survives-rebuild.mjs",
+          "result": "EVERY_IDENTITY_REFRESH_SURVIVED; 249 receipts compared against HEAD, 53 carrying an identityRefresh"
+        },
+        {
+          "verifier": "scripts/rcap-official-forms/verify-source-carried-values-are-dispositioned.mjs",
+          "result": "EVERY_SOURCE_CARRIED_VALUE_IS_DISPOSITIONED; 96 families examined, 21 source-carried values, 0 UNDISPOSITIONED — corpus stayed green"
+        },
+        {
+          "verifier": "scripts/build-census-v1-vt_seal_nonconviction-set.mjs --no-raster, run twice",
+          "result": "COMPLETED both times, nineCountersZero true, byte-identical across the two rebuilds"
+        }
+      ],
+      "siblingByteIdentity": {
+        "claim": "Every other Vermont family is byte-identical before and after.",
+        "howMeasured": "sha256 over all 32 PDFs under data/rcap-all50/overlays/census-v1/vt before the first edit and after the final build; the only four that moved are this family's canonical.pdf, boundary.pdf, canonical--600-00228.pdf and boundary--600-00228.pdf. git status over data/rcap-all50/overlays/ lists no file outside this family's directory.",
+        "familiesProvenUnchanged": [
+          "vt-exp-decriminalized-set--official-pdf-fill",
+          "vt-exp-deferred-sentence-set--custom-pleading",
+          "vt-seal-18-to-21-set--official-pdf-fill",
+          "vt-seal-dui-set--official-pdf-fill",
+          "vt-seal-felony-set--official-pdf-fill",
+          "vt-seal-misdemeanor-set--official-pdf-fill",
+          "vt-seal-pardon-set--official-pdf-fill",
+          "vt-seal-under-25-set--custom-pleading"
+        ],
+        "sharedBuildHost": "product-wiring.json records sharedBuildHost null for this family, and scripts/build-census-v1-vt_seal_nonconviction-set.mjs builds this family alone; no sibling was rebuilt and none was committed."
+      },
+      "sameDefectSeenInASiblingNotRepairedHere": "vt-exp-decriminalized-set--official-pdf-fill carries the same fee-waiver shape: componentRequirements says the condition is unmet on its track and filingDispositionForThisTrack is do_not_file, and its field map still records 8 writes on 600-00228. This lane has no grant for that family and did not touch it. Recorded so the finding is not lost.",
+      "rasterOwed": true,
+      "rasterNote": "The packet bytes moved, so the RASTER_PASS in RASTER_QUEUE.json (run 33836771479, job 100911322211, artifact 9923703809) is bound to 8e4c9321... and no longer covers this family. A fresh central raster is owed and this lane does not discharge it. RASTER_QUEUE.json and MASTER_QUEUE.json were not edited. The eight committed PNGs under raster/ were not regenerated, not deleted and not committed by this lane; they depict the pre-repair packet and the central raster replaces them. build-status.json therefore records rasterState BUILT_RASTER_PENDING and rasterEngine null, which is what a --no-raster build of these bytes is, rather than the pre-repair claim that a browser rendered them locally.",
+      "selfVerified": false,
+      "selfVerificationPerformed": false,
+      "whyNotSelfVerified": "This lane built these bytes. Nothing here is a verdict, and no verifier return was written or amended. VERIFIER_RETURNS.json was not touched.",
+      "whatIsOwedNext": [
+        "An independent read of all fifteen obligations on the new bytes by a lane that did not touch this family.",
+        "A central raster of canonical 35989442... and boundary 1c0dc4cd..., after which product-wiring.json's acceptanceReceipt can be repinned.",
+        "A decision by whoever holds vt-exp-decriminalized-set on the same fee-waiver prefill."
+      ],
+      "routesOpened": 0,
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "grantsNothing": "A repaired packet is review evidence. It authorizes no fulfillment, opens no commercial route, consumes no packet credit and marks nothing proven. Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else; this is not that record.",
+      "claimReleased": "released at the end of this lane with claim.mjs --release FIX34 vt_seal_nonconviction-set; the ledger it wrote is committed with this return.",
+      "statusAsReturnedByLane": "REPAIRED",
+      "captainCorrection": "The lane returned status REPAIRED, a word outside the focused-repair return vocabulary; the state machine reads a completed repair only from status COMPLETED. The Captain set status to COMPLETED at integration and kept the lane word in statusAsReturnedByLane. No other field was changed."
+    }
+  ],
+  "notDone": [
+    "No verdict was issued and none was restored. VERIFIER_RETURNS.json was not touched and this lane self-verified nothing.",
+    "RASTER_QUEUE.json and MASTER_QUEUE.json were not edited; the queue still pins the superseded digests and a central raster is owed.",
+    "The family's eight committed raster PNGs were not regenerated and not deleted; they depict the pre-repair packet.",
+    "pa_6308_underage-set fails the corpus completeness run with 6 unclassifiedBlanks. It is another family, it fails the same way at the unmodified base, and this lane has no grant for it.",
+    "vt-exp-decriminalized-set--official-pdf-fill prefills 600-00228 on a track whose fee-waiver condition its own field map says is unmet. Same defect, different family, no grant here; recorded rather than fixed.",
+    "The stipulation 200-00132 recites 13 V.S.A. Sec. 7602 in its printed body while this family's routes are Sec. 7603. That is the official form's own text and preserving issuer-original bytes means leaving it; the process-guidance page names Sec. 7603 correctly."
+  ]
+}

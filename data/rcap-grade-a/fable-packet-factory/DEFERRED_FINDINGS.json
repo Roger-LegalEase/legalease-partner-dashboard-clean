@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-deferred-findings/v1",
+  "whatThisIsFor": "One list for findings that are real but are not this blitz's work. The controlling instruction is to build, verify, repair, bind and close families; a finding that does not block one of those five actions is recorded here and left alone. Nothing here is a Roger escalation: an escalation names one family blocked by a missing document, an unresolved form identity, an unresolved legal decision, an issuer-controlled source, or an action only Roger can take.",
+  "recordingRule": "A finding is deferred only after its blast radius is measured. A defect that actually opens payment, authorization, private storage or cross-user access is never deferred — it is fixed in the run that found it.",
+  "commercialRoutesOpened": 0,
+  "productionTouched": false,
+  "findings": [
+    {
+      "id": "DF-001",
+      "title": "The Oregon (1)(c) route is closed at the resolver but still shaped as a court filing in its compiled profile",
+      "surfacedBy": "node scripts/verify-legal-authority-routing.mjs — 3 problems, all on OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "assertionsFailing": [
+        "filingRequired must be false",
+        "a closed route must use the verification-and-guidance packet plan",
+        "a closed route must be marked no-filing or automatic so the evaluator refuses payment structurally"
+      ],
+      "whyTheRouteIsClosed": "LWD-2026-08-29-OR-SUBSECTION found this route legally overbroad: ORS 137.225(1)(c) reaches only matters where no accusatory instrument was filed, while acquittals and ordinary dismissals fall under (1)(d). Counsel directed that the broad route be retired, narrowed, or replaced by three disposition-bound configurations (never-charged, acquittal, ordinary dismissal).",
+      "isThisAnOpenPaymentHole": false,
+      "howThatWasEstablished": "The same verifier's layer-1 assertions on this route PASS: resolvePacketRoute returns sellable === false and creditConsumable === false for it, and launch-graph.json reports 0 operationally sellable routes across all 260 intended-paid rows. The availability derivation independently places this route in LEGAL_HOLD because its closed contract outranks its v2 record. Payment is refused today at the resolver; what is missing is the second, structural refusal at the evaluator/profile layer.",
+      "classification": "defense-in-depth gap, not an active boundary failure",
+      "notCausedByThisWork": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json and the legal-authority contracts are the only inputs to the three failing assertions, and neither was modified by the availability wiring merged alongside this record (verified by diffing the merge's file list against the assertions' inputs).",
+      "whyItIsNotFixedHere": "The compiled profile is not written by any generator in scripts/ — it carries profileVersion 2026-06-19-source-conversion-1 and is maintained as a converted source artifact. Reshaping it is a legal-design change (which of the three disposition-bound configurations replaces the overbroad route, and what the retired route presents in the meantime), not a mechanical flag flip. Flipping filingRequired to false to make a check pass would assert a legal treatment nobody decided.",
+      "whatWouldCloseIt": "Apply LWD-2026-08-29-OR-SUBSECTION: retire the overbroad pathway and stand up the three disposition-bound OR configurations, each with its own route contract, packet configuration, required-fact contract, specification and fixture, per LWD-2026-08-29-OR-PACKET-SCOPE. The specifications already exist at data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json and OR-disposition-configurations.v1.json.",
+      "blocksNoFamily": true
+    },
+    {
+      "id": "DF-002",
+      "title": "test-expungement-checkout-guards.mjs cannot resolve @/lib/expungement-ai/packet-fulfillment-authority",
+      "surfacedBy": "npm test chain, on the merged base",
+      "isThisAnOpenPaymentHole": false,
+      "howThatWasEstablished": "The failure is a module-resolution error at import time, so the guard suite does not run at all — it does not report a passing checkout guard. The checkout boundary itself is covered by the lane-F commercial-admission gate (52/52, ten admission points each governed exactly once) and by verify-route-resolution (215 checks plus 28 availability mutations), both green.",
+      "classification": "missing module from another lane's in-flight work",
+      "whyItIsNotFixedHere": "The module belongs to a consumer-launch lane that is explicitly out of scope for the packet blitz; writing a stub would fake a guard rather than restore one.",
+      "blocksNoFamily": true
+    },
+    {
+      "id": "DF-003",
+      "title": "Seven California families are silently excluded from the visual gate because their fixtures are named per variant",
+      "surfacedBy": "FABLE-VT10 while verifying ca-prop64-set on VF05; confirmed by Captain against RASTER_QUEUE.json and the overlay directories",
+      "whatIsWrong": "generate-raster-queue.mjs enrols a family by looking for fixtures/canonical.pdf and fixtures/boundary.pdf. These seven ship their fixtures in per-variant SUBDIRECTORIES instead — ca-prop64-set has fixtures/hs-11361-8-completed-sentence-application-canonical/cr-400-filled.pdf and three siblings — so the check finds neither file and records the family as not eligible for the reason 'no canonical PDF, no boundary PDF'. That reason is literally true and completely misleading: the PDFs exist.",
+      "measured": {
+        "families": [
+          "ca-1203-41-set",
+          "ca-1203-42-set",
+          "ca-1203-43-set",
+          "ca-1203-4a-set",
+          "ca-17b-reduction-set",
+          "ca-851-91-set",
+          "ca-prop64-set"
+        ],
+        "pdfsPresentButNeverExamined": {
+          "ca-1203-41-set": 9,
+          "ca-1203-42-set": 9,
+          "ca-1203-43-set": 2,
+          "ca-1203-4a-set": 9,
+          "ca-17b-reduction-set": 4,
+          "ca-851-91-set": 17,
+          "ca-prop64-set": 13
+        },
+        "totalPdfs": 63
+      },
+      "whichDirectionItFails": "SAFE. No family is falsely passed: COMPLETE_PACKET_PROVEN requires a hash-bound RASTER_PASS, and a family that never enters the queue never earns one. The effect is that these seven are capped below terminal with no visible reason — not that anything slips through.",
+      "whatItCostsToLeave": "Seven families cannot terminalize at all, and the queue reads as complete while saying nothing about what it declined to enrol. '115 of 115 RASTER_PASS' is a true statement about the queue's own denominator and not about the families that exist.",
+      "whyItIsNotFixedInTheRunThatFoundIt": "The batch renderer already supports several documents per family through row.documents[], so the fix is to have the generator populate that for a per-variant family rather than to invent a second naming convention. That is a change to the queue generator, made while eight lanes were mid-flight against the queue it writes, and the safe direction of the failure means it costs nothing to do it deliberately instead of at speed.",
+      "relatedFinding": "VT10 also measured real footer damage in ca-prop64-set's filled CR-400: the official and derived-unlocked render it intact over two lines from x=36.00, while the filled artifact reflows it to one line, drops 'For' and 'your', truncates 'protection' to 'otection', and places it at x0 = -3.485, off the left page edge. The cause is in the family's own report — XFA form data stripped because pdf-lib cannot read or write it. source-fidelity.json cannot see it because it compares official to derived and stops there, and visualDefects reports 0. That damage is exactly what a visual gate exists to catch, and this family has never been through one.",
+      "owner": "Captain (scripts/grade-a-packet-factory-24h/generate-raster-queue.mjs)",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "corrections": {
+        "correctedAt": "2026-09-02T03:05:00Z",
+        "pdfCount": "This entry recorded 63 PDFs. FABLE-Q1 measured the real fixture count at 58; the five-PDF gap is one derived-sources unlocked file per family, which lives outside fixtures/ and correctly is not a fixture.",
+        "scope": "The finding is fixture-naming and queue enrolment across all seven California families, plus two Ohio families Q1 found by measuring. It is not, as I later summarised it, primarily an encryption problem.",
+        "encryption": "The encryption is real and is a SEPARATE blocker on the raster path only. Q1 established that 38 of the 58 fixture PDFs are untouched Judicial Council forms encrypted with objects in xref streams, which pdf-lib cannot open, and the batch renderer counts pages with that same parser. FABLE-R16 separately established that the BUILD path is unaffected because the host has a working pikepdf bridge. Both are true: the build can read these forms and the raster job cannot.",
+        "resolvedPortion": "Q1's fix admitted the two Ohio families. The seven California families remain out, and ca-1203-43-set and ca-17b-reduction-set are additionally blocked by their own build counters rather than by enrolment."
+      }
+    },
+    {
+      "id": "DF-004",
+      "title": "az_marijuana_expungement_arrest_no_charges-set does not reproduce from its own build script, and is currently COMPLETE_PACKET_PROVEN",
+      "surfacedBy": "FABLE-R14, which hit it as a West-host control while repairing an unrelated family and proved causation rather than reporting a suspicion",
+      "whatIsWrong": "Rebuilding this family from its own committed build script at its own base commit produces a POORER artifact set than the one committed. A 69-line hand-written filing-instruction document becomes a 13-line generic stub, 208 field-map lines disappear, documentId and formNumber are stripped from the artifact report, and a wave-2 participant-fact-allowlist feature is lost. The committed artifacts are richer than the script that is supposed to have produced them.",
+      "howItWasProven": "The worker reverted the shared host to its base bytes, rebuilt from the pristine script, obtained the identical regression, then restored its own host from a copy. The family is byte-identical to base in its diff -- it looked, proved it, and put everything back.",
+      "whyThisIsSerious": {
+        "provenance": "A Grade-A packet's evidence chain assumes the committed bytes are what the builder emits. Here they are not, so the family's artifacts have no reproducible provenance: nobody can regenerate what is shipped, and a raster receipt binds bytes that the build cannot produce again.",
+        "itIsAlreadyCounted": "The family currently sits at COMPLETE_PACKET_PROVEN. That state is reported in the terminal count, so the count includes one family whose deliverable cannot be rebuilt.",
+        "itIsATrap": "The next worker on that host who rebuilds this family in good faith -- as a control, or as a side effect of a shared-host change -- will silently degrade a proven packet and may commit the degradation without noticing, because the build succeeds."
+      },
+      "whatIsNotYetKnown": [
+        "whether the committed artifacts were produced by an earlier version of the script that has since regressed, or were hand-finished outside the builder",
+        "whether the sibling az_marijuana_expungement_superior_court-set, which shares the host, has the same gap -- R14 deliberately did not rebuild it",
+        "how many other families would fail a rebuild-and-compare, because no such sweep has ever been run"
+      ],
+      "theRealFix": "Not a repair to one family. The generic answer is a rebuild-and-compare sweep: rebuild every family from its own script and compare against committed bytes, then treat every divergence as a finding. That is the check that would have caught this, the wall-clock CreationDate drift, and any other silent provenance break, and the repository has never had it.",
+      "whyItIsNotFixedInTheRunThatFoundIt": "R14 held a repair grant on four other families and none on this one. Rebuilding a family it did not own, to fix a defect it was not dispatched for, is the collision the claim ledger exists to prevent -- so it proved the defect, restored the bytes, and reported. That was the correct call.",
+      "captainPosition": "Recorded rather than quietly demoted. Demoting the family would change a number Roger is watching, and the honest sequence is to establish first whether the committed artifacts are correct-but-unreproducible or actually wrong, because those have different answers. Until that is established the family keeps its state and this finding travels with it.",
+      "owner": "Captain",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false,
+      "widened": {
+        "widenedAt": "2026-09-02T03:05:00Z",
+        "by": "FABLE-R16",
+        "finding": "The same host writes participant-instructions.md unconditionally, yet ca-1203-43-set and ca-17b-reduction-set have none committed. That is the same shape as the Arizona family: committed artifacts that do not match what the script produces, in the opposite direction.",
+        "consequence": "At least three families on one host diverge from their own builder. This is no longer a single anomaly, and it strengthens the case that the missing check is a rebuild-and-compare sweep across every family rather than any per-family repair."
+      }
+    }
+  ]
+}

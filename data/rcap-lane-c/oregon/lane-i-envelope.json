@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "rcap-lane-i-envelope-copy/v1",
+  "statement": "A verbatim copy of the Lane I envelope, taken from the controlling branch because data/rcap-grade-a/ is a captain-only path this lane may not edit and the envelope postdates this lane's base. The copy is not an authority; the captain's manifest is. Its provenance is recorded so the copy can be proved identical to its origin.",
+  "origin": {
+    "branch": "claude/legalease-sprint-captain-utucnw",
+    "commit": "57bf41104c15a80050d9bb4790d32bbdaaeb1703",
+    "path": "data/rcap-grade-a/active-lane-envelopes.json",
+    "blob": "4fdab175162beb1a3df3fc6be626b635305c0f5f",
+    "fileSha256": "5d50b5f0907fe61cfa47ce2cfdfaa1781f730ee704c41f7957d4dbb20aa721bf"
+  },
+  "laneEnvelopeSha256": "46b68a40dc0734f9295eca0dde48f314395a79a6124e99597cad9a55c435279e",
+  "envelope": {
+    "sprintId": "legalease-68h-grade-a-2026-08-29",
+    "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+    "controllingBranch": "claude/legalease-sprint-captain-utucnw",
+    "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+    "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+    "model": "Claude Opus 5",
+    "status": "active",
+    "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
+    "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
+    "lane": "I",
+    "laneBranch": "claude/grade-a-v6-first-packet-oregon",
+    "shardId": "S-I-OR",
+    "routeIds": [
+      "OR:marijuana-specific-set-aside-redesignation",
+      "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+    ],
+    "packetFamilyIds": [
+      "oregon"
+    ],
+    "jurisdictions": [
+      "OR"
+    ],
+    "sourceIdentities": [
+      "OR__LEGAL-REVIEW__STATEWIDE__oregon-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
+      "OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+      "OR__FORM__OR-OJD-MJ-PCR__motion-and-declaration-to-modify-or-set-aside-marijuana-conviction__REV-2023-07__EN.pdf",
+      "OR__SUPPORT__OR-OJD-CLA-SET-ASIDE-CHECK__ojd-request-for-set-aside-criminal-record-check__REV-2022-01__EN.pdf",
+      "OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+      "STATE_MANIFEST.csv",
+      "STATE_README.md"
+    ],
+    "sourceHashes": [
+      "61e87f6a222449865225aefb01439b3f433072628dae59a002477bfd605517b8",
+      "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+      "6e7a2cde0c963159ad3b467a85985d8034f33f8bfa44d380bbaab774c55bcbd6",
+      "7f8ed25e959d8c942c0c4573c5cc235a1a1e61c31eeeaaf14d98cb7183fa6267",
+      "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "63318d0a76b8d0b5891a2329e95468a739c46fa8c0910f237ff374ccbd5284c8",
+      "c6291b855020efd886d8c61e91d8db7181eec8e04bed55a37577423610c7287f"
+    ],
+    "ownedPaths": [
+      "data/rcap-all50/overlays/lane-c-candidates/oregon/",
+      "docs/rcap/grade-a/oregon/",
+      "data/rcap-lane-c/oregon/"
+    ],
+    "prohibitedSharedPaths": [
+      "package.json",
+      "package-lock.json",
+      "data/rcap-verifier-dispositions.json",
+      "data/rcap-ledger/",
+      "data/rcap-grade-a/",
+      "supabase/migrations/",
+      "docs/rcap/grade-a/captain/",
+      "src/lib/rcap/fulfillment/",
+      "src/lib/rcap/render/",
+      "src/lib/rcap/state-packs/colorado/",
+      "data/rcap-all50/overlays/production/"
+    ],
+    "requiredDeliverables": [
+      "Select the highest-readiness route from the three integrated Oregon candidates and record the exact choice and why. Do not rebuild the Oregon overlay.",
+      "Close or precisely classify each of: packet-specification binding, source-provenance binding, provider and renderer identity, artifact-producing environment, final-verification contract, exact participant/matter binding, synthetic consumer payment, synthetic sponsored entitlement, one-credit generation, durable render, artifact validation, private Briefcase attachment, first download, repeat download, wrong-user denial, wrong-matter denial and substituted-artifact denial.",
+      "Prepare one exact approval packet for the authorized legal/output reviewer bound to route, specification hash, source hashes, artifact hash, candidate commit, page-by-page review and an exact requested approval statement.",
+      "Return the exact remaining owner decision rather than broad legal research."
+    ],
+    "requiredTests": [
+      "node scripts/verify-rcap-oregon-official-pdf-grade-a.mjs",
+      "node scripts/verify-rcap-oregon-grade-a-lane-c.mjs",
+      "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs",
+      "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "npm run typecheck"
+    ],
+    "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v6-first-packet-oregon",
+    "dependencies": [
+      "B: the Grade-A authority",
+      "C: the integrated Oregon candidate evidence",
+      "E: the participant ownership boundary",
+      "F: payment, render and delivery",
+      "H: security and the hosted runner"
+    ],
+    "salvageBranches": [
+      "no salvage branch exists for this lane; it starts fresh from the post-audit base"
+    ],
+    "salvageCommits": [
+      "no salvage commits: this lane has no prior pushed work to recover"
+    ],
+    "stopConditions": [
+      "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-first-packet-oregon` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-first-packet-oregon. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
+      "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
+      "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
+      "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
+      "A route appears to need commercial enabling: it does not. Commercially eligible is zero and every route is denied. Do not add an override, a bypass or a second commercial rule.",
+      "Output-level legal approval would have to be granted: stop. It is not a lane's to grant and not a captain's. Prepare the approval packet and return the exact owner decision.",
+      "Oregon would move out of the candidate area or into a production overlay: stop. It stays candidate-only until every gate passes."
+    ]
+  }
+}

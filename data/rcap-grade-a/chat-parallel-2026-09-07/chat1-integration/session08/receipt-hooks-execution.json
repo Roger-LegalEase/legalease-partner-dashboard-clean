@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-receipt-hooks-execution/v1",
+  "originalRegression": {
+    "executed": true,
+    "exitCode": 1,
+    "failedBuilders": [
+      "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
+      "scripts/build-census-v1-nc_145_5_felony-set.mjs",
+      "scripts/build-census-v1-nc_146_acquittal_petition-set.mjs",
+      "scripts/build-census-v1-rcap-wv-custom-pleading.mjs"
+    ],
+    "failure": "AssertionError [ERR_ASSERTION]: each of these receipts carries an annotation a rebuild would erase; wire its builder's writeJson through preserveIdentityRefresh",
+    "retainedSession07Evidence": "inputs/session07/evidence/open-receipt-preservation-regression.json"
+  },
+  "results": [
+    {
+      "command": [
+        "node",
+        "scripts/rcap-packet-completeness/test-identity-refresh-preserved-on-rebuild.mjs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/receipt-hooks-existing-regression.log"
+    },
+    {
+      "command": [
+        "node",
+        "scripts/rcap-packet-completeness/test-receipt-hooks-write-path.mjs",
+        "--report",
+        "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/receipt-hooks-write-path.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "log": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session08/receipt-hooks-write-path.log"
+    }
+  ],
+  "fullPacketRebuilds": 0,
+  "independentReview": "PENDING"
+}

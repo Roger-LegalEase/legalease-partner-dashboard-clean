@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "fl-expunction-set",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0,
+  "binding": {
+    "family": "fl-expunction-set",
+    "jurisdiction": "FL",
+    "routeKeys": [
+      "obligation:track-only:FL:fl-expunction"
+    ],
+    "deliveryType": "official_pdf_fill",
+    "instrumentKinds": [
+      "affidavit",
+      "certificate_of_service",
+      "primary_filing",
+      "proposed_order"
+    ],
+    "packetComponents": [
+      "component:fl-expunction-affidavit-3",
+      "component:fl-expunction-primary-filing-1",
+      "component:fl-expunction-primary-filing-2",
+      "component:fl-expunction-proposed-order-4"
+    ],
+    "fieldMap": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/production-field-map.json",
+    "instructions": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/participant-instructions.md",
+    "renderedArtifacts": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/reports/rendered-artifacts.json",
+    "sourceReceipt": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/source-receipt.json",
+    "sourceVersion": [
+      {
+        "sourceId": "official-form:FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+        "sha256": "ced5d88f7305780a0d2f6354eca313f32729aa25c1b6782013f8bc6847d4c650",
+        "tier": "exact_content_hash"
+      }
+    ],
+    "acceptanceReceipt": {
+      "verdict": "RASTER_PASS",
+      "workflowRunId": "34756193839",
+      "jobId": "103721354134",
+      "artifactId": "10317326896",
+      "boundToCanonicalSha256": "d4ae558c7bab2beba6c529a6cfdaa13cd480cc98f422f1e0545ab85b127ab436",
+      "coversTheWholeFamily": true
+    },
+    "lastIndependentVerification": {
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf44",
+      "verifiedAtBase": "2577d14fa688dfaa47a297efa362fc9657747bbf"
+    },
+    "paymentEligible": false,
+    "sponsorshipEligible": false,
+    "whyPaymentIsClosed": "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This binding is not that record, and nothing in this repository has produced one.",
+    "maintenanceRelationship": {
+      "rebuiltFrom": "scripts/build-census-v1-fl-expunction-set.mjs",
+      "sharedBuildHost": null,
+      "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
+      "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
+    }
+  },
+  "proposedRepresentation": {
+    "components": [
+      {
+        "file": "data/rcap-all50/overlays/census-v1/fl/fl-expunction-set--official-pdf-fill/fixtures/canonical.pdf",
+        "sha256": "d4ae558c7bab2beba6c529a6cfdaa13cd480cc98f422f1e0545ab85b127ab436"
+      }
+    ]
+  }
+}
