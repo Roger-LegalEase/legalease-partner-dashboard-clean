@@ -9,6 +9,7 @@ import {
   supplementalGuideFor, supplementalGuideIdentityFor, type SupplementalGuideIdentity
 } from "@/lib/rcap/supplemental/guide-registry";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
+import { normalizeLocale } from "@/lib/expungement-ai/localization";
 
 /**
  * THE ONE PLACE A PARTICIPANT'S PACKET IS ASSEMBLED.
@@ -76,7 +77,23 @@ export type ParticipantPacketAssemblyOptions = {
   routeKey: string;
   specification: PacketSpecification;
   variant?: PacketVariant;
-  locale?: GuideLocale;
+  /**
+   * REQUIRED, AND DELIBERATELY NOT DEFAULTED.
+   *
+   * It used to be `locale?: GuideLocale` with `?? "en"` below, and every
+   * production caller omitted it. So the renderer's careful Spanish behaviour
+   * -- refuse an untranslated consequential entry rather than fall back -- was
+   * reachable only from a verifier that asked for Spanish explicitly. The paid,
+   * sponsored and download paths asked for nothing, got English, and a
+   * participant who had chosen Spanish throughout received an English guide
+   * with no refusal anywhere, because nobody had asked for Spanish.
+   *
+   * A default is the wrong shape for this field. "The caller did not say" and
+   * "the participant chose English" are different facts, and only one of them
+   * should produce an English packet. Making it required turns the omission
+   * into a compile error instead of a silent language substitution.
+   */
+  locale: GuideLocale;
   matter?: GuideMatter;
   verifiedAt?: string;
 };
@@ -101,12 +118,44 @@ export async function assembleParticipantPacket(
   packet: GradeAPacket,
   options: ParticipantPacketAssemblyOptions
 ): Promise<ParticipantPacketAssembly> {
+  /*
+   * The type says this is required; this says so at runtime.
+   *
+   * The worker loads these modules through a loader that erases types, and the
+   * controls do the same, so the compiler's refusal never reaches the process
+   * that actually renders a participant's packet. Without this guard an omitted
+   * locale falls through to the guide renderer's own `?? "en"` and produces an
+   * English packet -- which is precisely the defect the required type was added
+   * to end, surviving in the one place it matters.
+   */
+  if (options.locale !== "en" && options.locale !== "es") {
+    throw new ParticipantPacketAssemblyError(options.routeKey,
+      `no delivery language was supplied (got ${JSON.stringify(options.locale)}). A packet is rendered in the `
+      + "language the matter records, and defaulting to English here would hand a participant who chose Spanish "
+      + "an English packet with nothing reporting it. Resolve it with resolveDeliveryLocale for a new artifact, "
+      + "or recordedDeliveryLocale when reproducing one.");
+  }
+
   const variant: PacketVariant = options.variant ?? "full";
   const guide = supplementalGuideFor(options.routeKey);
   const identity = supplementalGuideIdentityFor(options.routeKey) ?? null;
 
   if (!guide) {
-    if (packetRequiresSupplementalGuide(options.specification)) {
+    /*
+     * The refusal is scoped to the full variant, and only there.
+     *
+     * A court-only packet is what the clerk receives and carries zero
+     * supplemental pages by contract, so its contents do not depend on whether
+     * a participant guide exists. Refusing one for want of a guide would make
+     * the court-facing subset unavailable over a document that was never going
+     * to be in it -- a packet nobody can file because of a page nobody was
+     * going to read.
+     *
+     * The full-packet refusal below is untouched: there the missing guide is
+     * the participant's filing instructions, retired from the packet on the
+     * promise of a replacement.
+     */
+    if (variant === "full" && packetRequiresSupplementalGuide(options.specification)) {
       throw new ParticipantPacketAssemblyError(options.routeKey,
         "the specification retires a component in favour of the shared §7 guide, and no guide is registered for "
         + "this route. Assembling it would ship a packet whose filing instructions were removed on the promise "
@@ -131,7 +180,7 @@ export async function assembleParticipantPacket(
   const bytes = await assemblePacketWithGuide(packet, assembled, {
     routeKey: options.routeKey,
     variant,
-    locale: options.locale ?? "en",
+    locale: options.locale,
     matter: options.matter,
     documents: guideDocuments(packet),
     stops: guideStopConditions(options.specification),
@@ -140,6 +189,49 @@ export async function assembleParticipantPacket(
   });
 
   return { bytes, variant, guide: identity, guideAssembled: assembled !== null };
+}
+
+/**
+ * THE LANGUAGE THIS MATTER'S PACKET IS DELIVERED IN.
+ *
+ * Read from the matter's own durable attribution, which the atomic claim wrote
+ * from `consumer_pending_screening_results.locale` -- the language the
+ * participant was actually screening in when the pending result was created.
+ * That is the product's existing accepted language state, and it is already on
+ * the matter; no second preference is invented here.
+ *
+ * NOT the browser. The render happens in a worker with no session, and a repeat
+ * download has to reproduce bytes recorded months earlier. A transient locale
+ * read at render time would make the same matter produce different documents on
+ * different devices, and make a recorded digest unverifiable the moment someone
+ * switched language.
+ *
+ * GENERATION RESOLVES IT; VERIFICATION REPRODUCES IT.
+ *
+ * This function belongs to generation. Once an artifact exists it carries the
+ * locale it was built with, and the download's re-render reads that recorded
+ * value rather than asking again -- otherwise a participant switching language
+ * after purchase would make their own stored packet fail its integrity check.
+ */
+export function resolveDeliveryLocale(artifactRefs: Record<string, unknown> | undefined | null): GuideLocale {
+  const attribution = artifactRefs?.attribution;
+  const claimed = attribution && typeof attribution === "object"
+    ? (attribution as { locale?: unknown }).locale
+    : undefined;
+  return normalizeLocale(typeof claimed === "string" ? claimed : null);
+}
+
+/**
+ * The locale an existing artifact was rendered in.
+ *
+ * `packetLocale` is recorded at generation. Its absence means the artifact
+ * predates this field, and those were all rendered in English -- so English is
+ * the correct answer for them, and it is a statement about the past rather than
+ * a default for the present.
+ */
+export function recordedDeliveryLocale(artifactRefs: Record<string, unknown> | undefined | null): GuideLocale {
+  const recorded = artifactRefs?.packetLocale;
+  return normalizeLocale(typeof recorded === "string" ? recorded : null);
 }
 
 /**

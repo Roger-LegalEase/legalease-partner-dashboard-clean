@@ -165,7 +165,7 @@ if (!guideless) {
 } else {
   const { specification, packet } = compose(guideless, "guideless-0001");
   const assembled = await assembleParticipantPacket(packet, {
-    routeKey: guideless, specification, variant: PARTICIPANT_DELIVERY_VARIANT
+    routeKey: guideless, specification, variant: PARTICIPANT_DELIVERY_VARIANT, locale: "en"
   });
   const direct = await renderGradeAPacketPdf(packet, { variant: PARTICIPANT_DELIVERY_VARIANT });
   const same = crypto.createHash("sha256").update(assembled.bytes).digest("hex")
@@ -186,10 +186,10 @@ if (!guided) {
   const guide = supplementalGuideFor(guided);
 
   const full = await assembleParticipantPacket(packet, {
-    routeKey: guided, specification, variant: "full", verifiedAt: "2026-09-20T00:00:00.000Z"
+    routeKey: guided, specification, variant: "full", locale: "en", verifiedAt: "2026-09-20T00:00:00.000Z"
   });
   const courtOnly = await assembleParticipantPacket(packet, {
-    routeKey: guided, specification, variant: "court_only", verifiedAt: "2026-09-20T00:00:00.000Z"
+    routeKey: guided, specification, variant: "court_only", locale: "en", verifiedAt: "2026-09-20T00:00:00.000Z"
   });
   const bare = await renderGradeAPacketPdf(packet, { variant: "full" });
 
@@ -238,7 +238,7 @@ if (guided) {
   let raised = null;
   try {
     await assembleParticipantPacket(packet, {
-      routeKey: "ZZ:no-such-route", specification: orphaned, variant: "full"
+      routeKey: "ZZ:no-such-route", specification: orphaned, variant: "full", locale: "en"
     });
   } catch (error) {
     raised = error;
@@ -250,6 +250,26 @@ if (guided) {
   check(
     raised !== null && /no guide is registered/.test(raised.message),
     `and the refusal says what is missing${raised ? `: "${String(raised.message).slice(0, 80)}…"` : ""}`
+  );
+
+  /*
+   * COURT-ONLY IS NOT SUBJECT TO THAT REFUSAL.
+   *
+   * A court-only packet carries zero supplemental pages by contract, so its
+   * contents do not depend on whether a participant guide exists. Refusing one
+   * for want of a guide would withhold the court-facing subset over a document
+   * that was never going to be in it.
+   */
+  const courtOnlyOrphan = await assembleParticipantPacket(packet, {
+    routeKey: "ZZ:no-such-route", specification: orphaned, variant: "court_only", locale: "en"
+  });
+  check(
+    courtOnlyOrphan.guideAssembled === false && courtOnlyOrphan.bytes.length > 0,
+    "a court-only packet assembles on a guide-required route with no registered guide"
+  );
+  check(
+    (await pageText(courtOnlyOrphan.bytes)).pages > 0,
+    "and it has court-facing pages rather than being empty"
   );
 
   /*
@@ -267,7 +287,7 @@ if (guided) {
     })
   };
   const relaxed = await assembleParticipantPacket(packet, {
-    routeKey: "ZZ:no-such-route", specification: notRequired, variant: "full"
+    routeKey: "ZZ:no-such-route", specification: notRequired, variant: "full", locale: "en"
   });
   check(
     relaxed.guideAssembled === false && relaxed.bytes.length > 0,
@@ -308,7 +328,7 @@ if (guided) {
    */
   const { specification, packet } = compose(guided, "perturb-0001");
   const before = await assembleParticipantPacket(packet, {
-    routeKey: guided, specification, variant: "full", verifiedAt: "2026-09-20T00:00:00.000Z"
+    routeKey: guided, specification, variant: "full", locale: "en", verifiedAt: "2026-09-20T00:00:00.000Z"
   });
   check(
     before.guide.contentSha256 === identity.contentSha256,
@@ -349,6 +369,66 @@ if (guided) {
   }
 }
 
+/* ------------------- 6b. locale is production-wired, not merely testable */
+
+/**
+ * THE DEFECT THIS SECTION EXISTS FOR.
+ *
+ * The renderer knew how to refuse an untranslated Spanish guide, and no
+ * production caller ever asked for Spanish. `locale` was optional on the
+ * assembly options with `?? "en"` behind it, so the paid, sponsored and
+ * download paths all rendered English while a participant who had chosen
+ * Spanish throughout received it without any refusal anywhere -- nobody had
+ * asked for Spanish, so nothing was missing.
+ *
+ * Two things are measured. First, that the option is genuinely required, so a
+ * caller cannot reintroduce the silent default. Second, that the locale the
+ * product resolves comes from the matter's own durable attribution rather than
+ * a transient request -- the worker has no session and a repeat download has to
+ * reproduce bytes recorded long before.
+ */
+const { resolveDeliveryLocale, recordedDeliveryLocale } =
+  await import("../src/lib/rcap/render/participant-packet-assembly.ts");
+
+check(
+  resolveDeliveryLocale({ attribution: { locale: "es" } }) === "es",
+  "the delivery locale is read from the matter's durable claim attribution"
+);
+check(
+  resolveDeliveryLocale({ attribution: { locale: "fr" } }) === "en"
+  && resolveDeliveryLocale({}) === "en"
+  && resolveDeliveryLocale(undefined) === "en",
+  "an unsupported or absent attribution locale normalises to English rather than throwing"
+);
+check(
+  recordedDeliveryLocale({ packetLocale: "es" }) === "es"
+  && recordedDeliveryLocale({ attribution: { locale: "es" } }) === "en",
+  "a recorded artifact reports the locale it was RENDERED in, not the matter's current one"
+);
+
+/*
+ * The required-ness itself, measured rather than asserted from the type.
+ *
+ * TypeScript refuses a caller that omits `locale`, but the worker and these
+ * controls run through a loader that erases types, so the type alone does not
+ * establish runtime behaviour. Omitting it must not quietly produce English.
+ */
+if (guided) {
+  const { specification, packet } = compose(guided, "locale-required-0001");
+  let omitted = null;
+  try {
+    omitted = await assembleParticipantPacket(packet, {
+      routeKey: guided, specification, variant: "full", verifiedAt: "2026-09-20T00:00:00.000Z"
+    });
+  } catch {
+    omitted = "refused";
+  }
+  check(
+    omitted === "refused",
+    `${guided}: omitting the locale refuses instead of silently rendering English`
+  );
+}
+
 /* ------------------------------------------- 7. the logo is on the page */
 
 /**
@@ -367,7 +447,7 @@ check(fs.existsSync(path.join(rootDir, LOGO)), `the brand asset exists in the re
 if (guided) {
   const { specification, packet } = compose(guided, "logo-0001");
   const full = await assembleParticipantPacket(packet, {
-    routeKey: guided, specification, variant: "full", verifiedAt: "2026-09-20T00:00:00.000Z"
+    routeKey: guided, specification, variant: "full", locale: "en", verifiedAt: "2026-09-20T00:00:00.000Z"
   });
   const raw = Buffer.from(full.bytes).toString("latin1");
   check(
@@ -375,7 +455,7 @@ if (guided) {
     `${guided}: the assembled full packet carries an embedded image, not the text wordmark fallback`
   );
   const courtOnly = await assembleParticipantPacket(packet, {
-    routeKey: guided, specification, variant: "court_only", verifiedAt: "2026-09-20T00:00:00.000Z"
+    routeKey: guided, specification, variant: "court_only", locale: "en", verifiedAt: "2026-09-20T00:00:00.000Z"
   });
   check(
     !/\/Subtype\s*\/Image/.test(Buffer.from(courtOnly.bytes).toString("latin1")),

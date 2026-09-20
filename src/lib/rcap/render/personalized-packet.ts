@@ -12,11 +12,15 @@ import { CONSUMER_PACKET_SAFETY_DISCLAIMER } from "@/lib/expungement-ai/consumer
 import { composeParticipantDeliveryPacket } from "@/lib/rcap/grade-a/participant-packet";
 import { composablePacketSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { GRADE_A_RENDERER_KIND, GRADE_A_RENDERER_VERSION } from "@/lib/rcap/grade-a/renderer";
+import { normalizeLocale } from "@/lib/expungement-ai/localization";
 import {
-  renderParticipantPacketPdf, participantGuideMatter, PARTICIPANT_DELIVERY_VARIANT
+  renderParticipantPacketPdf, participantGuideMatter, resolveDeliveryLocale,
+  PARTICIPANT_DELIVERY_VARIANT
 } from "@/lib/rcap/render/participant-packet-assembly";
 import { supplementalGuideIdentityFor } from "@/lib/rcap/supplemental/guide-registry";
-import { GUIDE_RENDERER_KIND, GUIDE_RENDERER_VERSION } from "@/lib/rcap/supplemental/guide-renderer";
+import {
+  GUIDE_RENDERER_KIND, GUIDE_RENDERER_VERSION, type GuideLocale
+} from "@/lib/rcap/supplemental/guide-renderer";
 import { stableStringify } from "@/lib/rcap/fulfillment/grade-a-registry";
 import { buildRenderJobSpec, computeInputHash, type RenderJobClaim } from "@/lib/rcap/render/job-contract";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
@@ -79,6 +83,14 @@ function uuidFor(seed: string) {
 type PersonalizedInput = {
   authUserId: string; briefcaseItemId: string; personId: string; matterId: string;
   verificationHash: string; snapshot: PacketVerificationSnapshot;
+  /**
+   * The matter's delivery language, from `currentPersonalizedVerification`.
+   *
+   * Required rather than optional: it is part of the immutable render identity
+   * below, so a caller omitting it would not merely pick English, it would mint
+   * a packet id that does not distinguish the two languages.
+   */
+  deliveryLocale: GuideLocale;
 };
 export function preparePersonalizedPacket(input: PersonalizedInput) {
   const { snapshot } = input;
@@ -143,6 +155,15 @@ function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {pack
      * the other.
      */
     supplementalGuide: supplementalGuideIdentityFor(routeId) ?? null,
+    /*
+     * Language is identity. English and Spanish are different documents, and
+     * before this the payload could not tell them apart: the same matter, the
+     * same guide and a different language produced the same packet id and the
+     * same input hash. A worker could then serve one language's bytes for the
+     * other's job, and the download's re-render would compare a Spanish packet
+     * against an English digest.
+     */
+    deliveryLocale: input.deliveryLocale,
     assemblyVariant: PARTICIPANT_DELIVERY_VARIANT,
     assemblyKind: GUIDE_RENDERER_KIND, assemblyVersion: GUIDE_RENDERER_VERSION
   };
@@ -167,7 +188,17 @@ function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {pack
 export async function currentPersonalizedVerification(authUserId: string, briefcaseItemId: string) {
   const item = await getBriefcaseItemForWebhook(authUserId, briefcaseItemId);
   if (!item) throw new Error("personalized render owner unavailable");
-  return requireCurrentPacketVerification(authUserId, item);
+  const verification = await requireCurrentPacketVerification(authUserId, item);
+  /*
+   * The delivery language rides with the verification because every caller that
+   * prepares a personalized packet already asks for one, and pairing them here
+   * is what stops a caller resolving the locale its own way -- or, as before,
+   * not resolving it at all and letting the assembler default to English.
+   *
+   * It comes from the matter's durable attribution, written by the atomic claim
+   * from the locale the participant was screening in. Never from a request.
+   */
+  return { ...verification, deliveryLocale: resolveDeliveryLocale(item.artifactRefs) };
 }
 
 /** The executable worker's adapter. It renders the current protected facts,
@@ -196,10 +227,24 @@ export async function renderPersonalizedClaim(claim: RenderJobClaim): Promise<Bu
   if (verification.hash !== payload.verificationHash || stableStringify(verification.snapshot) !== stableStringify(payload.snapshot)) {
     throw new Error("personalized render verification changed");
   }
+  /*
+   * The language this JOB was minted in, read back from the durable input.
+   *
+   * Not resolved again from the matter: a participant who switches language
+   * after paying must not change the packet their paid job names. The payload
+   * has already been proven to hash to `claim.inputHash` above, so this value
+   * is as immutable as the rest of the render identity -- and because
+   * `prepareBoundPersonalizedPacket` puts it back into the payload it derives
+   * the packet id from, a mismatch between the stored locale and the one used
+   * here fails the identity comparison below rather than rendering quietly in
+   * the wrong language.
+   */
+  const jobLocale = normalizeLocale(typeof payload.deliveryLocale === "string" ? payload.deliveryLocale : null);
   const binding = workerStaticPacketBinding(claim.routeId, verification.snapshot.selectedTrackId);
   if (!binding) throw new Error("personalized static render authority refused");
   const prepared = prepareBoundPersonalizedPacket({ authUserId: payload.authUserId, briefcaseItemId: payload.briefcaseItemId,
-    personId: claim.personId ?? "", matterId: claim.matterId ?? "", verificationHash: verification.hash, snapshot: verification.snapshot }, binding);
+    personId: claim.personId ?? "", matterId: claim.matterId ?? "", verificationHash: verification.hash,
+    snapshot: verification.snapshot, deliveryLocale: jobLocale }, binding);
   if (prepared.spec.packetId !== claim.packetId || prepared.spec.inputHash !== claim.inputHash
     || prepared.spec.rendererKind !== claim.rendererKind || prepared.spec.rendererVersion !== claim.rendererVersion
     || prepared.spec.profileId !== claim.profileId || prepared.spec.profileVersion !== claim.profileVersion) {
@@ -219,6 +264,11 @@ export async function renderPersonalizedClaim(claim: RenderJobClaim): Promise<Bu
     routeKey: claim.routeId,
     specification: prepared.specification,
     variant: PARTICIPANT_DELIVERY_VARIANT,
+    // The locale the JOB was built with, read back from the validated payload
+    // rather than resolved again. A participant who changes language after
+    // paying must not make the worker render something other than the packet
+    // their job identity names.
+    locale: jobLocale,
     verifiedAt: verification.snapshot.verifiedAt,
     matter: participantGuideMatter(verification.snapshot, claim.packetId)
   });

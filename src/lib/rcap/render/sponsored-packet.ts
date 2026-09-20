@@ -39,7 +39,8 @@ export async function finalizeSponsoredRenderArtifact(jobId: string): Promise<bo
   if (current.hash !== job.sponsored_verification_hash) return false;
   const prepared = preparePersonalizedPacket({ authUserId: job.sponsored_consumer_auth_user_id,
     briefcaseItemId: job.sponsored_consumer_briefcase_item_id, personId: job.person_id, matterId: job.matter_id,
-    verificationHash: current.hash, snapshot: current.snapshot });
+    verificationHash: current.hash, snapshot: current.snapshot,
+    deliveryLocale: current.deliveryLocale });
   if (prepared.spec.packetId !== job.packet_id || prepared.spec.inputHash !== job.input_hash) return false;
   const authority = await sponsoredRenderAuthority({ routeId: job.route_id, sourceSessionId: job.sponsored_session_id,
     briefcaseItemId: job.sponsored_consumer_briefcase_item_id, authUserId: job.sponsored_consumer_auth_user_id });

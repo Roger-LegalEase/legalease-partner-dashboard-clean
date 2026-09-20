@@ -27,7 +27,8 @@ import { composeGradeAPacket } from "@/lib/rcap/grade-a/composer";
 import { composablePacketSpecificationFor, packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { gradeAPacketFilename } from "@/lib/rcap/grade-a/renderer";
 import {
-  renderParticipantPacketPdf, participantGuideMatter, PARTICIPANT_DELIVERY_VARIANT
+  renderParticipantPacketPdf, participantGuideMatter, resolveDeliveryLocale, recordedDeliveryLocale,
+  PARTICIPANT_DELIVERY_VARIANT
 } from "@/lib/rcap/render/participant-packet-assembly";
 import { assertValidArtifact } from "@/lib/rcap/render/artifact-validation";
 import { admitCommercial } from "@/lib/rcap/fulfillment/grade-a-admission";
@@ -132,6 +133,15 @@ export type ConsumerPacketArtifactRefs = {
   artifactSha256: string;
   /** Pages in the rendered artifact, checked again before every delivery. */
   pageCount: number;
+  /**
+   * The language the artifact was rendered in, resolved at generation from the
+   * matter's durable attribution.
+   *
+   * Optional because artifacts generated before §7 reached participant delivery
+   * do not carry it, and those were all English -- so reading an absent value as
+   * English is a statement about what was rendered, not a default.
+   */
+  packetLocale?: "en" | "es";
 };
 
 export type ConsumerPacketStatus = {
@@ -211,7 +221,8 @@ export async function generatePaidConsumerPacket({
       if (!person.ok) throw new ConsumerPacketGenerationError("Participant identity is unavailable.");
       const prepared = preparePersonalizedPacket({ authUserId: userId, briefcaseItemId: item.id,
         personId: person.personId, matterId: sponsorship.matterId,
-        verificationHash: verification.hash, snapshot: verification.snapshot });
+        verificationHash: verification.hash, snapshot: verification.snapshot,
+        deliveryLocale: resolveDeliveryLocale(item.artifactRefs) });
       const identity = commercialRouteIdentity({ jurisdiction: verification.snapshot.jurisdiction,
         pathwayId: verification.snapshot.pathwayId });
       governProviderDispatch(identity, fulfillmentRequestContext({
@@ -500,6 +511,11 @@ async function gradeAPacketDownload(
     routeKey: specification.routeKey,
     specification,
     variant: PARTICIPANT_DELIVERY_VARIANT,
+    // The locale RECORDED on the artifact, not the matter's current one. This
+    // re-render exists to reproduce bytes whose digest was taken at generation;
+    // resolving the language again would make a participant who changed it
+    // afterwards fail the integrity check on their own packet.
+    locale: recordedDeliveryLocale(artifactRefs as unknown as Record<string, unknown>),
     verifiedAt: verification.snapshot.verifiedAt,
     matter: participantGuideMatter(verification.snapshot, item.id)
   });
@@ -891,6 +907,10 @@ async function buildGradeAArtifact(
     }
   }
 
+  // Resolved once, here, from the matter's durable attribution -- and recorded
+  // on the artifact below so the download can reproduce it without asking again.
+  const deliveryLocale = resolveDeliveryLocale(item.artifactRefs);
+
   const packet = composeGradeAPacket(specification, {
     routeKey: record.routeKey,
     jurisdiction: snapshot.jurisdiction,
@@ -910,6 +930,7 @@ async function buildGradeAArtifact(
     routeKey: record.routeKey,
     specification,
     variant: PARTICIPANT_DELIVERY_VARIANT,
+    locale: deliveryLocale,
     verifiedAt: snapshot.verifiedAt,
     matter: participantGuideMatter(snapshot, item.id)
   });
@@ -930,7 +951,15 @@ async function buildGradeAArtifact(
     verificationHash: packet.verificationHash,
     downloadPath: `/api/expungement-ai/packet/${item.id}/download`,
     artifactSha256: validation.sha256,
-    pageCount: validation.pageCount
+    pageCount: validation.pageCount,
+    /*
+     * The language these exact bytes were rendered in.
+     *
+     * Recorded rather than re-derived, because the download re-renders and
+     * compares against `artifactSha256` above. A participant is free to change
+     * language afterwards; their already-purchased packet is not.
+     */
+    packetLocale: deliveryLocale
   };
 }
 

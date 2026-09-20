@@ -320,7 +320,8 @@ async function personalizedPacketIdFromRunner(consumer, briefcaseItemId) {
     if (!person.ok) throw new Error(`personalized packet id: person unresolved — ${redactSecrets(String(person.reason)).slice(0, 200)}`);
     const prepared = preparePersonalizedPacket({
       authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId: consumerMatterIdForItem(briefcaseItemId),
-      verificationHash: verification.hash, snapshot: verification.snapshot
+      verificationHash: verification.hash, snapshot: verification.snapshot,
+      deliveryLocale: verification.deliveryLocale
     });
     return prepared.spec.packetId;
   } finally {
@@ -344,7 +345,8 @@ async function replayEnqueueFromRunner(consumer, briefcaseItemId) {
     const matterId = consumerMatterIdForItem(briefcaseItemId);
     const prepared = preparePersonalizedPacket({
       authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId,
-      verificationHash: verification.hash, snapshot: verification.snapshot
+      verificationHash: verification.hash, snapshot: verification.snapshot,
+      deliveryLocale: verification.deliveryLocale
     });
     const supabase = getSupabaseAdminClient();
     if (!supabase) return "replay: admin client unavailable on the runner";

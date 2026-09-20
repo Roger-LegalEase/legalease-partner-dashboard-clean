@@ -218,7 +218,8 @@ export async function enqueueVerifiedConsumerRender(
     const prepared = preparePersonalizedPacket({
       authUserId: identity.expectedConsumerAuthUserId, briefcaseItemId: identity.consumerBriefcaseItemId,
       personId: identity.personId, matterId: identity.matterId,
-      verificationHash: verification.hash, snapshot: verification.snapshot
+      verificationHash: verification.hash, snapshot: verification.snapshot,
+      deliveryLocale: verification.deliveryLocale
     });
     spec = prepared.spec;
     payload = prepared.payload;
