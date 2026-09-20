@@ -79,3 +79,60 @@ or any blocker is open. It additionally carries the open critical blocker
 a defect in this branch's own code, not an external dependency.
 
 Items 1–7 are untouched by this branch and remain as their owners left them.
+
+## Item 11 — the worker publication gate refuses the release candidate
+
+| # | Item | Owner | Proposed dueAt | Required evidence | Why it is external |
+|---|------|-------|----------------|-------------------|--------------------|
+| 11 | Advance `origin/claude/legalease-sprint-captain-utucnw` to the release candidate so a worker image can be published from it | Roger | Before the next hosted acceptance run | The branch pointing at the candidate SHA, and a successful `Publish RCAP render worker` run naming it | Publication is gated on the canonical integration history, and this session is authorized to push only `origin/captain-release` |
+
+**The exact operation and target.** `Publish RCAP render worker`
+(`.github/workflows/publish-rcap-render-worker.yml`), dispatched at
+`claude/legalease-sprint-captain-utucnw` with
+`integration_sha=94f70f10a60d16f40bc1a66e1d93320b5f4f0e01`, to obtain the
+immutable worker digest that belongs to the current candidate.
+
+**The actual error.** Run
+[35510464490](https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35510464490),
+step *Verify the SHA resolves and belongs to the canonical integration
+history*, failed in 63 seconds:
+
+> `94f70f10a60d16f40bc1a66e1d93320b5f4f0e01 is contained in neither
+> origin/main nor origin/claude/legalease-sprint-captain-utucnw. Refusing to
+> publish an image from outside the canonical integration history.`
+
+Nothing was built, tagged or pushed; every step from *Check out the exact
+supplied SHA* onward was skipped. This is the gate working, not a defect, and
+it is not weakened here: the workflow's `RELEASE_INTEGRATION_BRANCH` stays one
+literal branch name, and `captain-release` is deliberately not added to it.
+
+**Why an older image cannot stand in.** The acceptance pins at this tip are
+`AUTHORIZED_WORKER_SOURCE_SHA 6cc9330f1a98e0e0ba1c1fa4c2c21ed03970c3c9` and
+`AUTHORIZED_WORKER_DIGEST sha256:04e37e6c…`. Measured over the canonical
+worker-input set — `package.json`, `package-lock.json`, `tsconfig.json`,
+`scripts/rcap-render-worker.mjs`, `scripts/lib`, `src`,
+`deploy/rcap-render-worker/Dockerfile`:
+
+| From | To | Worker-input drift |
+|------|----|--------------------|
+| `6cc9330f1` (pinned freeze) | `94f70f10a` (candidate) | 46 files, +5228 −221 |
+| `5b69e9681` (integration tip) | `94f70f10a` (candidate) | 28 files, +4509 −197 |
+
+So the pinned digest does not describe this candidate, and neither does any
+image publishable from the integration tip. Running acceptance against either
+would be testing a new application against an older worker and calling the
+result acceptance.
+
+**The smallest action that unblocks it.** Fast-forward the release-integration
+branch to the candidate. `origin/claude/legalease-sprint-captain-utucnw` is
+`94f70f10a`'s ancestor — 0 commits behind, 107 ahead — so this rewrites no
+history and discards nothing:
+
+```
+git push origin 94f70f10a60d16f40bc1a66e1d93320b5f4f0e01:refs/heads/claude/legalease-sprint-captain-utucnw
+```
+
+Then re-dispatch the publication with `integration_sha` left empty, which is
+the workflow's own safe path. The re-pin of `AUTHORIZED_WORKER_SOURCE_SHA` and
+`AUTHORIZED_WORKER_DIGEST` to the resulting digest is ordinary build work and
+does not need Roger; it is the same move recorded at `a1eed1c6e`.
