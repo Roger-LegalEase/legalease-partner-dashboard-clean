@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { loadIlArtifactApproval, loadMsArtifactApproval, REQUIRED_ARTIFACT_OBLIGATIONS } from './owner-artifact-approval.mjs';
 import { carriedForwardSpecificationSha256, specificationBytesAtDigest } from './artifact-approval-carry-forward.mjs';
 import { derivationReconciledSpecificationSha256, reconciledSpecificationDigests } from './specification-derivation-reconciliation.mjs';
+import { bindCurrentCommercialArtifact } from './current-commercial-artifact.mjs';
 
 // The last pre-approval records are immutable provenance, not current approval.
 export const SUCCESSOR_BASE_SHA = '7cb3133a5ca8a5bac80550cb7bdc0e38d2359ce8';
@@ -272,5 +273,10 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
   b.productionFieldMap.sha256 = digest(readBytes(b.productionFieldMap.path));
   b.fixture.canonicalSha256 = artifacts.canonical.sha256;
   b.fixture.boundarySha256 = artifacts.boundary.sha256;
+  // The successor's filing-format artifact is the build host's adopted PDF, not
+  // the packet the commercial provider composes. Bound here so every consumer
+  // of this record -- the generator and the verifier that recomputes it --
+  // agrees, rather than one of them seeing a record that never answered.
+  bindCurrentCommercialArtifact(record);
   return record;
 }

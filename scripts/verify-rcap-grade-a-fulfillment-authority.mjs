@@ -746,6 +746,25 @@ function provenRecord(overrides = {}) {
           matchesRecordProvider: true,
           reconciliation: null,
           deterministicRenderVerified: true
+        },
+        // And a record now has to say whether this artifact is the one the
+        // current commercial provider composes for a participant. Same
+        // reasoning as the field above: a proof that omits it is INCOMPLETE, so
+        // the fixture that is meant to be complete answers it. This one was
+        // produced by a build host rather than the Grade-A renderer, so it
+        // answers no and carries the approval that names the composed bytes --
+        // which is the shape a real route reaches once its owner review lands.
+        isCurrentCommercialArtifact: false,
+        currentCommercialArtifactReview: {
+          state: "approved",
+          composedBy: "rcap_grade_a_composer_v1 -> composeGradeAPacket -> assembleParticipantPacket",
+          approval: {
+            path: "synthetic/owner-approval.json",
+            sha256: sha256("synthetic-approval"),
+            recordId: "SYNTHETIC-COMPOSED-ARTIFACT-APPROVAL",
+            artifactSha256: sha256("synthetic-composed.pdf")
+          },
+          why: "Synthetic fixture: the composed bytes are approved, so this dimension does not hold the route."
         }
       }
     },
@@ -1438,8 +1457,50 @@ check("every exact productized record closes its fulfillment evidence gaps witho
     }
     if (record.finalVerification?.state !== "bound") return `${expected.routeId} did not bind final verification`;
     const staticDecision = authority.evaluateStaticRenderAuthority(record, observationDocument.routes[expected.routeId]);
-    if (!staticDecision.allowed) return `${expected.routeId} static packet authority failed: ${staticDecision.reason}`;
+    /*
+     * One missing proof is allowed here, and only one.
+     *
+     * The current-composed-artifact hold is not an evidence gap the build can
+     * close: it is an owner decision about the bytes a participant receives,
+     * and this check is about whether the build left its own evidence
+     * incomplete. So a record held ONLY by that dimension passes this check --
+     * and is separately required to still be commercially closed, so nothing
+     * is being waved through. Any other missing proof still fails, and a route
+     * held by this dimension that somehow reads eligible fails loudly.
+     */
+    // The refusal carries its reason as JSON text, so it is parsed rather than
+    // pattern-matched against a string that could match for the wrong reason.
+    let refusal = null;
+    try { refusal = typeof staticDecision.reason === "string" ? JSON.parse(staticDecision.reason) : staticDecision.reason; }
+    catch { refusal = null; }
+    const heldOnlyByComposedArtifact = Array.isArray(refusal?.missing)
+      && refusal.missing.length === 1
+      && /the filing-format artifact is an adopted artifact/.test(refusal.missing[0])
+      && refusal.stale?.length === 0
+      && refusal.revoked === false;
+    if (!staticDecision.allowed && !heldOnlyByComposedArtifact) {
+      return `${expected.routeId} static packet authority failed: ${JSON.stringify(staticDecision.reason)}`;
+    }
+    if (heldOnlyByComposedArtifact && row.commercialStatus === "commercially_eligible") {
+      return `${expected.routeId} is held for an unapproved composed artifact and reads commercially eligible`;
+    }
     const publicationCurrent = admission.resolveObservation(expected.routeId) !== null;
+    /*
+     * A route held for an unapproved composed artifact projects INCOMPLETE and
+     * must keep projecting it whatever publication does -- that is the whole
+     * property this dimension exists for, so it is asserted here rather than
+     * assumed from where the code happens to sit.
+     */
+    if (heldOnlyByComposedArtifact) {
+      if (row.state !== "INCOMPLETE" || row.commercialStatus !== "not_commercially_eligible") {
+        return `${expected.routeId} is held for an unapproved composed artifact but projects ${row.state}/${row.commercialStatus}`;
+      }
+      const held = row.missingProof ?? [];
+      if (held.length !== 1 || !/the filing-format artifact is an adopted artifact/.test(held[0])) {
+        return `${expected.routeId} projects ${held.length} missing proof(s) where only the composed-artifact hold was expected`;
+      }
+      continue;
+    }
     const expectedState = publicationCurrent ? COMPLETE_PACKET_PROVEN : "STALE";
     const expectedCommercial = publicationCurrent ? "commercially_eligible" : "not_commercially_eligible";
     if (row.state !== expectedState || row.commercialStatus !== expectedCommercial) {

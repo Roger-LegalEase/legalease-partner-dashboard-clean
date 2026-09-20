@@ -2,6 +2,7 @@
 import { createStaticWorkerAuthority, STATIC_AUTHORITY_PATH } from "./lib/worker-static-authority.mjs";
 import { loadIlArtifactApproval, loadMsArtifactApproval, IL_ARTIFACT_APPROVAL_PATH, MS_ARTIFACT_APPROVAL_PATH } from "./lib/owner-artifact-approval.mjs";
 import { createArtifactSuccessor, SUCCESSOR_FAMILIES, MS_SUCCESSOR_VERIFICATION } from "./lib/artifact-approval-successor.mjs";
+import { bindCurrentCommercialArtifact } from "./lib/current-commercial-artifact.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — candidate records, observation snapshot, projection.
 //
@@ -1177,6 +1178,9 @@ function mississippiPaidConsumerSuccessorRecord() {
     boundInputs: finalInputs};
   record.evidenceBindings.exactPaidPacketProof = {path:MS_PAID_PACKET_PROOF,sha256:proofSha256,
     currentInputsVerified:true, hostedAcceptance:false};
+  // Bound here rather than in the shared pass below, because this builder takes
+  // its own record hash for its history entry and the binding must be inside it.
+  bindCurrentCommercialArtifact(record);
   const prior = priorCurrentRecordFor(MS_CLINIC_ROUTE);
   const sameIdentity = prior?.recordId === record.recordId;
   record.version = sameIdentity ? prior.version : 1;
@@ -1987,6 +1991,7 @@ const records = [
   mississippiPaidConsumerSuccessorRecord(),
   ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedRecordOrRevocation).filter(Boolean)
 ]
+  .map(bindCurrentCommercialArtifact)
   .map(record => {
     if (MS_TRACK_CONTAINER.routes.includes(record.routeId) && record.revocation.revoked) {
       record = structuredClone(record);

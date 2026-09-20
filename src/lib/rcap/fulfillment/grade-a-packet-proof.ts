@@ -84,7 +84,52 @@ export type FilingFormatArtifactProof = {
     reconciliation: string | null;
     deterministicRenderVerified: boolean;
   } | null;
+  /**
+   * WHETHER THESE ARE THE BYTES A PARAGRAPH-BUYING PARTICIPANT ACTUALLY GETS.
+   *
+   * `producedBy` says what made this artifact. It does not say whether that
+   * thing is what the commercial path will run, and the two came apart without
+   * anyone noticing.
+   *
+   * For an ordinary paid Grade-A route the product composes at delivery:
+   * `packetFulfillmentAuthority` -> `rcap_grade_a_composer_v1` ->
+   * `buildGradeAArtifact` -> the CURRENT packet specification ->
+   * `composeGradeAPacket` -> `assembleParticipantPacket`. A personalized route
+   * composes the same way inside the worker. So a record whose filing-format
+   * artifact came from a census-v1 build host names an ADOPTED artifact -- the
+   * thing a reviewer looked at -- and not the thing the participant receives.
+   *
+   * While such a route is held for other reasons the difference is invisible.
+   * The moment the last unrelated gate clears, it would go commercially
+   * eligible on the strength of an approval that names bytes the product no
+   * longer produces. That is the failure this field exists to make impossible,
+   * so it is required rather than optional: a record that does not answer is
+   * incomplete.
+   */
+  isCurrentCommercialArtifact?: boolean;
+  /**
+   * Required when the answer is no: what has to happen before delivery, and the
+   * approval that closed it if one has.
+   */
+  currentCommercialArtifactReview?: {
+    state: "approved" | "pending_owner_review";
+    /** The path the participant's bytes actually come out of. */
+    composedBy: string;
+    /** The approval naming those exact composed bytes, or null while pending. */
+    approval: { path: string; sha256: string; recordId: string; artifactSha256: string } | null;
+    why: string;
+  } | null;
 };
+
+/**
+ * The producer identity that means "the current commercial Grade-A provider".
+ *
+ * A record may only claim its filing-format artifact IS what a participant
+ * receives when the thing that produced it is this renderer. Anything else --
+ * a census-v1 build host, an official-form regeneration lane -- produced an
+ * adopted artifact, whatever the record would like to say about it.
+ */
+export const CURRENT_COMMERCIAL_RENDERER = "rcap_grade_a_document_v1";
 
 /**
  * A custom pleading is a document this product drafts rather than a form a court
@@ -219,6 +264,38 @@ export function collectPacketCompletenessGaps(
       if (!producer.deterministicRenderVerified) {
         gaps.push("packet_completeness: the filing-format artifact's render has not been shown to be deterministic");
       }
+    }
+
+    /*
+     * And whether these bytes are the ones the commercial path produces.
+     *
+     * Checked here, inside the completeness proof, so it is collected by
+     * `collectMissingProof` -- which the authority evaluates BEFORE it looks
+     * for an observation. That ordering is the whole point: worker publication
+     * clears the observation, and it must not be able to clear this.
+     */
+    const isCurrent = artifact.isCurrentCommercialArtifact;
+    const review = artifact.currentCommercialArtifactReview ?? null;
+    if (typeof isCurrent !== "boolean") {
+      gaps.push(
+        "packet_completeness: the record does not say whether the filing-format artifact is the one the current commercial provider composes for a participant"
+      );
+    } else if (isCurrent) {
+      // A record cannot talk itself into this. Only the Grade-A renderer
+      // produces what the commercial path produces.
+      if (!String(artifact.producedBy?.renderer ?? "").startsWith(CURRENT_COMMERCIAL_RENDERER)) {
+        gaps.push(
+          `packet_completeness: the filing-format artifact claims to be the current commercial artifact, but ${artifact.producedBy?.renderer || "an unnamed producer"} is not ${CURRENT_COMMERCIAL_RENDERER}`
+        );
+      }
+    } else if (!review || review.state !== "approved" || !review.approval) {
+      gaps.push(
+        "packet_completeness: the filing-format artifact is an adopted artifact, not the packet the current commercial provider composes from the specification, and no approval names those composed bytes"
+      );
+    } else if (!nonEmpty(review.approval.artifactSha256) || !nonEmpty(review.approval.sha256)) {
+      gaps.push(
+        "packet_completeness: the current-composed-artifact approval names neither the approved bytes nor its own record digest"
+      );
     }
   }
 
