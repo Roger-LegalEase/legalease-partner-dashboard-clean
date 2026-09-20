@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-owner-paid-consumer-successor/v2",
+  "decisionId": "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920",
+  "status": "APPROVED_EXACT_PAID_CONSUMER_SUCCESSOR",
+  "owner": "Roger Roman",
+  "decidedAt": "2026-09-20",
+  "authenticationKind": "owner_instruction_in_current_conversation",
+  "newApproval": true,
+  "priorPaidApprovalInvented": false,
+  "supersedes": {
+    "decisionId": "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260914",
+    "path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+    "sha256": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8",
+    "priorDecisionMutated": false,
+    "specificationSha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+    "specificationSha256Note": "The specification digest the prior approval named, and the digest the historical participant-delivery review still pins. It is kept here so custody of the superseded approval stays exact without any control claiming it describes the current specification.",
+    "why": "The prior decision records packetContentsChanged: false and names the pre-guide packet bytes. Those bytes no longer reproduce, because the shared §7 supplemental guide is now assembled into the full packet and the specification's own ms-filing-and-next-steps page is retired in its favour. A decision cannot be edited to describe bytes it never saw, so this record supersedes it and the prior record is preserved unchanged."
+  },
+  "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "jurisdiction": "MS",
+  "pathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "trackId": "ms-nonconv",
+  "packetSetId": "ms-nonconv-set",
+  "approvedAtCommit": "32d0bf2f9",
+  "consumerPaidAuthorized": true,
+  "consumerModel": "existing_expungement_ai_consumer_packet_purchase",
+  "priceCents": 5000,
+  "currency": "USD",
+  "providerId": "rcap_grade_a_composer_v1",
+  "rendererKind": "rcap_grade_a_document_v1",
+  "packetContentsChanged": true,
+  "packetContentsChange": {
+    "changeKind": "supplemental_guide_supersession",
+    "whatChanged": "The shared §7 supplemental guide is assembled into the full participant packet, and the specification's own ms-filing-and-next-steps page is retired in its favour rather than shipping beside it. The packet's contents list names only what ships. The court-only variant carries no guide and is unaffected by the supersession.",
+    "supersededPacketComponentId": "ms-filing-and-next-steps",
+    "supersededBy": "supplemental_guide",
+    "eligibilityLogicUnchanged": true,
+    "selfHelpStoppingPointsUnchanged": true,
+    "legalTreatmentUnchanged": true
+  },
+  "eligibilityChanged": false,
+  "selfHelpStopsChanged": false,
+  "legalTreatmentChanged": false,
+  "paymentSecurityWaived": false,
+  "technicalAcceptanceWaived": false,
+  "productionAuthorized": false,
+  "legacyRetirementPreserved": true,
+  "historicalSponsoredPreviewApprovalPreserved": true,
+  "approvedArtifacts": [
+    {
+      "id": "full-en",
+      "variant": "full",
+      "locale": "en",
+      "guideAssembled": true,
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+      "sha256": "518f12411df4091927642cd6a0bd6c5cede0833b793e16ab356fef96fbb5408d",
+      "pageCount": 16
+    },
+    {
+      "id": "full-es",
+      "variant": "full",
+      "locale": "es",
+      "guideAssembled": true,
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+      "sha256": "53d1577b1dc0a023fde8338edb80e16ab36282d827c602f99daf89aaa51386c3",
+      "pageCount": 17
+    },
+    {
+      "id": "court-only",
+      "variant": "court_only",
+      "locale": "en",
+      "guideAssembled": false,
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+      "sha256": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe",
+      "pageCount": 8
+    }
+  ],
+  "assemblyBinding": {
+    "assemblyKind": "rcap_supplemental_guide_v1",
+    "assemblyVersion": "2.0.0",
+    "supplementalGuideSourcePath": "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+    "supplementalGuideContentSha256": "847a265224f93f6effab2ba7b0d3c280f63cce22fdf970d703296b70df5c17b4",
+    "specificationId": "ms-nonconviction-expungement-99-19-71-4",
+    "specificationVersion": "2.0.0",
+    "reviewFixturePath": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-a.fixture.json",
+    "reviewFixtureGenerationPurpose": "participant_delivery",
+    "reviewFixtureVerificationHash": "f8c520342faecf3be4b3f5d5dc7e84a44ced9d7e02cb284aa2134d01f4487340",
+    "reviewFixtureVerifiedAt": "2026-09-03T15:00:00.000Z"
+  },
+  "ownerInstruction": "Approve the Mississippi non-conviction paid-consumer successor packet set represented by commit 32d0bf2f9 and these exact artifact hashes: Full EN: 518f12411df4091927642cd6a0bd6c5cede0833b793e16ab356fef96fbb5408d / Full ES: 53d1577b1dc0a023fde8338edb80e16ab36282d827c602f99daf89aaa51386c3 / Court-only: 18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe. This approval includes the changed §7 supplemental-guide replacement and records packetContentsChanged: true. It supersedes the prior decision for this successor candidate; do not mutate the old decision to make it appear to describe these bytes. Record the new decision against the full hashes and current specification/guide/assembly evidence. Then continue without further prompting through the existing downstream build chain: record the new decision, update the paid-packet proof consumed by the generator, regenerate the fulfillment registry and worker-static-authority.json, regenerate the runtime manifest, run the existing static-authority and worker-input checks, and resolve and report the final candidate SHA. Do not redo the packet review, raster review, determinism work, case-identifier work, or Spanish-label work. Push resulting build commits to origin/captain-release as already authorized. STOP before any canonical integration fast-forward or production/worker publication that changes the canonical or live release state. Approval of these packet bytes is not a new authorization for production promotion. At that boundary, report the final SHA, regenerated authority identities, checks, and the exact integration/publication action awaiting authorization.",
+  "scopeLimits": [
+    "Authorizes no other Mississippi route, and no other jurisdiction.",
+    "Changes no eligibility logic, no self-help stopping point, and no legal treatment.",
+    "Waives no payment, security, or technical-acceptance control.",
+    "Authorizes no Production deployment, no canonical integration fast-forward, and no worker publication.",
+    "Does not reactivate, mutate, or remove the legacy_retired status of the Mississippi legacy generator.",
+    "Preserves the historical sponsored Preview approval separately and unchanged."
+  ],
+  "preservedEvidence": [
+    {
+      "role": "packet_specification",
+      "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "sha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2"
+    },
+    {
+      "role": "supplemental_guide",
+      "path": "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+      "sha256": "6c430978f1499018b1466f00ffd3cae99cd9a6721a0c25e2fd49937179be0cbd"
+    },
+    {
+      "role": "successor_review_evidence",
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+      "sha256": "9ac6072e3932c2949e91df02eb1adf9547e654a4aaeaa9d41395f09e390d6629"
+    },
+    {
+      "role": "historical_participant_delivery_approval",
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+      "sha256": "f9eb16e52304b772f27b1bd59068a952eff0e2f6dcad647a8c66a30c22efc07a"
+    },
+    {
+      "role": "historical_participant_delivery_raster_review",
+      "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+      "sha256": "74f8aab9cdfb2518b6ec57b1d888d52bddd31a6b8bba7adb874fa330a1025d26"
+    }
+  ],
+  "historicalApprovalStatus": {
+    "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+    "artifactBytesStillReproduce": false,
+    "why": "The historical participant-delivery artifacts were approved under the pre-guide packet contents. They are preserved as history and as the record of the prior sponsored/participant review. They are not the approved bytes of this decision, and no control may claim they reproduce at the current specification and assembly.",
+    "supersededByArtifactIds": ["full-en", "full-es", "court-only"]
+  }
+}

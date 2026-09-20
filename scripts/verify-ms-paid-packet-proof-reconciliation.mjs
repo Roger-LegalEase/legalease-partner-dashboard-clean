@@ -21,6 +21,26 @@
  *      the behavioural delta, the parity evidence, and that the regenerated
  *      proof is still mutation-sensitive.
  *
+ * THE SECOND WAY A PIN CAN MOVE: THE PROOF ITSELF IS SUPERSEDED.
+ *
+ * A reconciliation carries a pin forward within one proof. It cannot describe
+ * what happens when an owner decision supersedes the packet a proof measured:
+ * there the proof's artifacts stop reproducing altogether, and no re-pin could
+ * make them reproduce. That proof is retired and a new generation is written.
+ *
+ * Retirement is the obvious way to escape a ledger — abandon the proof whose
+ * pins have drifted and start clean — so it is held to its own rules:
+ *
+ *   5. exactly one generation is live, and it is the proof this verifier and
+ *      the authority generator read;
+ *   6. a retired generation names its successor, the successor names it back,
+ *      and the retired proof file is still on disk with the bytes the
+ *      generation records;
+ *   7. a retired generation enumerates every pin it left unreconciled, and the
+ *      list is checked against the tree, so it can be neither padded nor
+ *      emptied;
+ *   8. the live generation's own pins are held to rules 1–4 as before.
+ *
  * Run with --mutations to prove each of those bites.
  *
  * This verifier makes no claim about whether the change was correct. It claims
@@ -36,7 +56,13 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LEDGER = "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-reconciliations.json";
-const PROOF = "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json";
+/**
+ * The live proof is not a constant here. It is whichever generation the ledger
+ * declares live, and `generationRefusals` below proves that declaration is the
+ * one the rest of the system reads. Hard-coding it would mean this verifier and
+ * the authority generator could silently disagree about which proof is current.
+ */
+const PROOF_CONSUMER = "scripts/lib/ms-paid-packet-proof.mjs";
 
 const read = (file) => fs.readFileSync(path.join(rootDir, file), "utf8");
 const json = (file) => JSON.parse(read(file));
@@ -55,6 +81,79 @@ const ok = (label, condition, detail) => {
  * Separated from the assertions so the mutation pass can drive the same
  * function over edited copies instead of re-implementing the rules.
  */
+/**
+ * Every refusal the proof-generation record must produce.
+ *
+ * Kept separate from `refusals` so the mutation pass can drive it over edited
+ * ledgers, and so a generation problem is reported as a generation problem
+ * rather than as a pin that mysteriously stopped matching.
+ */
+function generationRefusals(ledger, livePath) {
+  const found = [];
+  const say = (reason) => found.push(reason);
+  const generations = ledger.proofGenerations ?? [];
+  if (generations.length === 0) return ["the ledger declares no proof generation at all"];
+
+  // 5. Exactly one live generation, and it is the one the rest of the system
+  //    reads. A ledger that declared a different proof live than the generator
+  //    consumes would be auditing a file nothing uses.
+  const live = generations.filter((entry) => entry.state === "live");
+  if (live.length !== 1) say(`the ledger declares ${live.length} live proof generations; exactly one may be live`);
+  else if (live[0].proof !== livePath) {
+    say(`the ledger declares ${live[0].proof} live but ${PROOF_CONSUMER} reads ${livePath}`);
+  }
+
+  for (const generation of generations) {
+    const file = generation.proof;
+    // 6. Every generation's file is still on disk with the bytes it records.
+    //    A retired proof that quietly disappeared would take its unreconciled
+    //    pins with it.
+    if (!file || !fs.existsSync(path.join(rootDir, file))) {
+      say(`${file ?? "(unnamed)"}: the ledger declares a proof generation whose file is not on disk`);
+      continue;
+    }
+    const actual = sha256(fs.readFileSync(path.join(rootDir, file)));
+    if (generation.proofSha256 !== actual) {
+      say(`${file}: the ledger records ${String(generation.proofSha256).slice(0, 12)} but the proof now hashes to ${actual.slice(0, 12)}`);
+    }
+    if (generation.state !== "retired") continue;
+
+    // 6 (cont). Retirement is a two-sided statement, so both sides must agree.
+    const successor = generations.find((entry) => entry.proof === generation.supersededBy);
+    if (!successor) say(`${file}: a retired proof names no successor generation in this ledger`);
+    else if (successor.supersedes !== file) say(`${file}: its successor ${successor.proof} does not name it as superseded`);
+    if (!String(generation.retiredBecause ?? "").trim()) say(`${file}: a retired proof states no reason`);
+    if (generation.resolvedBy !== "retirement_not_repinning") {
+      say(`${file}: a retirement must say that its pins were resolved by retirement rather than re-pinned`);
+    }
+    if (generation.fileKeptUnchanged !== true) say(`${file}: a retirement must keep the retired proof unchanged`);
+
+    // 7. The unreconciled pins are recomputed, not trusted. A padded list and
+    //    an emptied one are both caught: the recorded set must be exactly the
+    //    set of this proof's pins that no longer match the tree.
+    const retiredProof = JSON.parse(read(file));
+    const drifted = new Map();
+    for (const [pinned, expected] of Object.entries(retiredProof.inputs ?? {})) {
+      const absolute = path.join(rootDir, pinned);
+      const now = fs.existsSync(absolute) ? sha256(fs.readFileSync(absolute)) : null;
+      if (now !== expected) drifted.set(pinned, { expected, now });
+    }
+    const recorded = new Map((generation.unreconciledPinsAtRetirement ?? [])
+      .map((entry) => [entry.file, entry]));
+    for (const [pinned, { expected, now }] of drifted) {
+      const entry = recorded.get(pinned);
+      if (!entry) { say(`${file}: retirement does not record that ${pinned} was left unreconciled`); continue; }
+      if (entry.pinnedByRetiredProof !== expected || entry.actualNow !== now) {
+        say(`${file}: the recorded unreconciled pin for ${pinned} is not the one the tree shows`);
+      }
+    }
+    for (const pinned of recorded.keys()) {
+      if (!drifted.has(pinned)) say(`${file}: retirement records ${pinned} as unreconciled, but it matches the tree`);
+    }
+  }
+  return found;
+}
+
 function refusals(ledger, proof) {
   const found = [];
   const say = (reason) => found.push(reason);
@@ -144,31 +243,63 @@ function refusals(ledger, proof) {
 }
 
 const ledger = json(LEDGER);
+/* Which proof is live is read from the module the authority generator imports,
+ * so this verifier cannot drift into auditing a file nothing consumes. */
+const PROOF = (await import(`../${PROOF_CONSUMER}`)).MS_PAID_PACKET_PROOF;
 const proof = json(PROOF);
 
 ok("the ledger declares its schema", ledger.schemaVersion === "rcap-ms-paid-packet-proof-reconciliations/v1", ledger.schemaVersion);
 ok("the ledger states the rule it enforces", String(ledger.rule ?? "").includes("never updated to make a check pass"));
 ok("the ledger is append-only by declaration", String(ledger.purpose ?? "").includes("never rewritten"));
+ok("the ledger states that retirement is not an escape from a proof's pins",
+  String(ledger.rule ?? "").includes("never retired to escape its own pins"));
+
+const generationProblems = generationRefusals(ledger, PROOF);
+ok("the declared proof generations account for every proof on disk", generationProblems.length === 0, generationProblems.join("; "));
 
 const live = refusals(ledger, proof);
 ok("the recorded reconciliations account for the proof as it stands", live.length === 0, live.join("; "));
 
-// The recorded parity evidence must be the proof's own, not a restatement.
+/*
+ * The recorded parity evidence must be the proof's own, not a restatement.
+ *
+ * A reconciliation carries a pin forward within ONE proof, so it is checked
+ * against that proof — not against whichever proof happens to be live now.
+ * Checking the newest re-pin of the retired generation against the live
+ * generation's results would compare a record of one packet to the bytes of
+ * another and fail for a reason that says nothing about either.
+ */
 const newest = ledger.reconciliations[ledger.reconciliations.length - 1];
-for (const result of proof.results ?? []) {
-  ok(`${result.fixture}: the recorded artifact hash is the proof's`,
-    newest.parityAndSafetyEvidence?.artifactSha256?.[result.fixture] === result.artifactSha256,
-    `${newest.parityAndSafetyEvidence?.artifactSha256?.[result.fixture]} vs ${result.artifactSha256}`);
-  ok(`${result.fixture}: the recorded verification digest is the proof's`,
-    newest.parityAndSafetyEvidence?.finalVerificationBoundInputsSha256?.[result.fixture] === result.verificationBoundInputsSha256);
-  ok(`${result.fixture}: the proof still binds every field`,
-    result.negativeBindingControls > 0 && result.currentRendererByteIdentical === true
+const reconciledProof = json(newest.proof);
+const reconciledResults = reconciledProof.results ?? [];
+/* v1 results are keyed by fixture and record the renderer; v2 results are keyed
+ * by approved-artifact id and record the production assembly. */
+const resultKey = (result) => result.fixture ?? result.id;
+const reproducedCurrently = (result) =>
+  (result.currentRendererByteIdentical ?? result.currentAssemblyByteIdentical) === true;
+for (const result of reconciledResults) {
+  const key = resultKey(result);
+  ok(`${key}: the recorded artifact hash is the proof's`,
+    newest.parityAndSafetyEvidence?.artifactSha256?.[key] === result.artifactSha256,
+    `${newest.parityAndSafetyEvidence?.artifactSha256?.[key]} vs ${result.artifactSha256}`);
+  ok(`${key}: the recorded verification digest is the proof's`,
+    newest.parityAndSafetyEvidence?.finalVerificationBoundInputsSha256?.[key] === result.verificationBoundInputsSha256);
+  ok(`${key}: the proof still binds every field`,
+    result.negativeBindingControls > 0 && reproducedCurrently(result)
     && result.postgresJsonbByteIdentical === true && result.postgresVerificationHashIdentical === true);
 }
 ok("the recorded control count is the proof's own total",
   newest.mutationSensitivityPreserved.negativeBindingControls
-    === (proof.results ?? []).reduce((total, result) => total + result.negativeBindingControls, 0),
+    === reconciledResults.reduce((total, result) => total + result.negativeBindingControls, 0),
   String(newest.mutationSensitivityPreserved.negativeBindingControls));
+
+/* And the live proof binds every field in its own right, whether or not any pin
+ * of it has ever needed carrying forward. */
+for (const result of proof.results ?? []) {
+  ok(`${resultKey(result)}: the live proof binds every field`,
+    result.negativeBindingControls > 0 && reproducedCurrently(result)
+    && result.postgresJsonbByteIdentical === true && result.postgresVerificationHashIdentical === true);
+}
 
 // The baseline claim is checkable, so check it rather than trusting the prose.
 const baselineSha = newest.baselineComparison.acceptedBaselineSha;
@@ -177,7 +308,7 @@ const baselineBytes = spawnSync("git", ["show", `${baselineSha}:${newest.pin.fil
 ok("the accepted baseline holds the prior pinned bytes",
   baselineBytes.status === 0 && sha256(baselineBytes.stdout) === newest.pin.priorSha256,
   baselineBytes.status === 0 ? sha256(baselineBytes.stdout).slice(0, 12) : "unreadable");
-const baselineProof = spawnSync("git", ["show", `${baselineSha}:${PROOF}`],
+const baselineProof = spawnSync("git", ["show", `${baselineSha}:${newest.proof}`],
   { cwd: rootDir, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
 ok("the proof artifact itself did not move at the baseline",
   baselineProof.status === 0
@@ -243,6 +374,51 @@ if (process.argv.includes("--mutations")) {
   for (const [name, mutate] of cases) {
     checks += 1;
     const caught = refusals(mutate(), proof);
+    if (caught.length === 0) failures.push(`MISSED: ${name}`);
+    else console.log(`  refused  ${name}\n             ${caught[0].slice(0, 130)}`);
+  }
+
+  /*
+   * Retirement is the second way a pin could escape this ledger, so each way of
+   * abusing it is driven here too: abandoning a proof without declaring it,
+   * declaring two live proofs, declaring one the system does not read, claiming
+   * a retirement left nothing unreconciled, inventing drift that does not
+   * exist, and editing or deleting the retired proof after retiring it.
+   */
+  const generationCases = [
+    ["a proof generation is abandoned rather than declared", (edited) => { delete edited.proofGenerations; }],
+    ["two proofs are declared live", (edited) => { edited.proofGenerations[0].state = "live"; }],
+    ["the live proof is not the one the system reads", (edited) => {
+      edited.proofGenerations.find((entry) => entry.state === "live").proof =
+        "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json";
+    }],
+    ["a retirement claims it left nothing unreconciled", (edited) => {
+      edited.proofGenerations.find((entry) => entry.state === "retired").unreconciledPinsAtRetirement = [];
+    }],
+    ["a retirement invents drift that does not exist", (edited) => {
+      edited.proofGenerations.find((entry) => entry.state === "retired").unreconciledPinsAtRetirement
+        .push({ file: LEDGER, pinnedByRetiredProof: "0".repeat(64), actualNow: "1".repeat(64) });
+    }],
+    ["a retirement understates a pin it left behind", (edited) => {
+      edited.proofGenerations.find((entry) => entry.state === "retired")
+        .unreconciledPinsAtRetirement[0].actualNow = "0".repeat(64);
+    }],
+    ["a retired proof is edited after retirement", (edited) => {
+      edited.proofGenerations.find((entry) => entry.state === "retired").proofSha256 = "0".repeat(64);
+    }],
+    ["a retired proof names no successor", (edited) => {
+      edited.proofGenerations.find((entry) => entry.state === "retired").supersededBy = null;
+    }],
+    ["a retirement claims its pins were re-pinned instead", (edited) => {
+      edited.proofGenerations.find((entry) => entry.state === "retired").resolvedBy = "repinned";
+    }]
+  ];
+  console.log("\nProof-generation mutations that must be refused:");
+  for (const [name, mutate] of generationCases) {
+    checks += 1;
+    const edited = clone();
+    mutate(edited);
+    const caught = generationRefusals(edited, PROOF);
     if (caught.length === 0) failures.push(`MISSED: ${name}`);
     else console.log(`  refused  ${name}\n             ${caught[0].slice(0, 130)}`);
   }

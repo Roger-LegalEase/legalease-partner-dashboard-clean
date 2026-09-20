@@ -39,6 +39,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { MS_SUCCESSOR_REVIEW_OUTPUTS, msSuccessorReviewMatter } from "./lib/ms-successor-review-matter.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -54,7 +55,10 @@ const { assembleParticipantPacket } = await import("../src/lib/rcap/render/parti
 const { supplementalGuideIdentityFor } = await import("../src/lib/rcap/supplemental/guide-registry.ts");
 const { GUIDE_RENDERER_KIND, GUIDE_RENDERER_VERSION } =
   await import("../src/lib/rcap/supplemental/guide-renderer.ts");
-const { composeGradeAPacket } = await import("../src/lib/rcap/grade-a/composer.ts");
+// The production entry point for a participant's own copy. For this family it
+// falls through to composeGradeAPacket; going through it anyway means the
+// review and the proof compose the packet exactly the way delivery does.
+const { composeParticipantDeliveryPacket } = await import("../src/lib/rcap/grade-a/participant-packet.ts");
 const { packetSpecificationFor, specificationCaseIdentifierFactId } =
   await import("../src/lib/rcap/grade-a/packet-specification.ts");
 const { assertValidArtifact } = await import("../src/lib/rcap/render/artifact-validation.ts");
@@ -71,37 +75,26 @@ if (fixture.generationPurpose !== "participant_delivery") {
   throw new Error(`the review fixture must be a participant-delivery matter, not ${fixture.generationPurpose}`);
 }
 
-const packet = composeGradeAPacket(specification, fixture);
+const packet = composeParticipantDeliveryPacket(specification, fixture);
 
 /**
  * The cover panel, from the fixture's own facts.
  *
- * Built here rather than through `participantGuideMatter`, which reads a
- * protected verification snapshot this offline generator does not have. The
- * values are the fixture's, and the date goes through the product's own
- * formatter so the cover reads as it will in delivery.
+ * Built through `msSuccessorReviewMatter` rather than through
+ * `participantGuideMatter`, which reads a protected verification snapshot this
+ * offline generator does not have. The values are the fixture's, and the date
+ * goes through the product's own formatter so the cover reads as it will in
+ * delivery. The rule lives in one module because the proof verifier re-derives
+ * the same panel to show these bytes still reproduce.
  */
-const fact = (id) => {
-  const value = fixture.facts?.[id];
-  return typeof value === "string" && value.trim() ? value : null;
-};
-const matterFor = (locale) => ({
-  preparedFor: fact("participant_full_legal_name"),
-  preparedOn: participantGuideDate(fixture.verifiedAt, locale),
-  jurisdiction: "MS",
-  courtOrAgency: fact("court_name"),
+const matterFor = (locale) => msSuccessorReviewMatter({
+  fixture, specification, locale, participantGuideDate,
   // The route's declared identifier, through the product's own resolver -- not a
   // scan of likely names, and not a second copy of the rule.
-  caseOrMatter: fact(specificationCaseIdentifierFactId(specification) ?? ""),
-  remedy: locale === "es" ? specification.pathwayLabelEs ?? null : specification.pathwayLabel ?? null,
-  packetId: "ms-nonconv-successor-review"
+  caseIdentifierFactId: specificationCaseIdentifierFactId(specification)
 });
 
-const OUTPUTS = [
-  { id: "full-en", variant: "full", locale: "en", file: "ms-nonconviction-successor-review-full-en.pdf" },
-  { id: "full-es", variant: "full", locale: "es", file: "ms-nonconviction-successor-review-full-es.pdf" },
-  { id: "court-only", variant: "court_only", locale: "en", file: "ms-nonconviction-successor-review-court-only.pdf" }
-];
+const OUTPUTS = MS_SUCCESSOR_REVIEW_OUTPUTS;
 
 fs.mkdirSync(path.join(rootDir, OUT_DIR), { recursive: true });
 

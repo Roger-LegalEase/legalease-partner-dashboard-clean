@@ -6,7 +6,9 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
-const { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_DECISION_PATH: decisionPath, MS_PAID_SUCCESSOR_ROUTE: route } = await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
+const { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_DECISION_PATH: decisionPath,
+  MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH: priorDecisionPath, MS_PAID_SUCCESSOR_ROUTE: route } =
+  await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
 const root = process.cwd();
 const approved = JSON.parse(fs.readFileSync(decisionPath));
 const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'ms-paid-scope-'));
@@ -14,15 +16,21 @@ let passed = 0;
 function check(label, run) { run(); passed++; console.log(`PASS ${label}`); }
 function writeDecision(decision) { fs.writeFileSync(path.join(scratch, decisionPath), JSON.stringify(decision)); }
 try {
-  for (const rel of [decisionPath, ...approved.preservedEvidence.map(e => e.path)]) {
+  // The superseded decision and the approved bytes are custody inputs now, not
+  // only the evidence list: the loader reads all of them.
+  for (const rel of [decisionPath, priorDecisionPath,
+    ...approved.preservedEvidence.map(e => e.path), ...approved.approvedArtifacts.map(a => a.path)]) {
     fs.mkdirSync(path.dirname(path.join(scratch, rel)), { recursive: true });
     fs.copyFileSync(path.join(root, rel), path.join(scratch, rel));
   }
   check('new exact approval loads without granting technical acceptance', () => {
     const a = loadMsPaidConsumerSuccessor(scratch);
     assert.equal(a.routeId, route); assert.equal(a.trackId, 'ms-nonconv');
+    assert.equal(a.packetContentsChanged, true, 'the successor packet contents changed and the approval says so');
+    assert.equal(a.approvedArtifacts.length, 3);
     assert.equal(a.decisionSha256, crypto.createHash('sha256').update(fs.readFileSync(path.join(scratch,decisionPath))).digest('hex'));
   });
+  const artifact = (d, id) => d.approvedArtifacts.find(a => a.id === id);
   const mutations = {
     'other route': d => d.routeId += '-other', 'other track': d => d.trackId = 'ms-misd-addl',
     'other family': d => d.packetSetId = 'ms-misd-addl-set', 'wrong price': d => d.priceCents = 100,
@@ -32,12 +40,27 @@ try {
     'technical waiver': d => d.technicalAcceptanceWaived = true,
     'production scope': d => d.productionAuthorized = true,
     'changed eligibility': d => d.eligibilityChanged = true,
-    'changed packet': d => d.packetContentsChanged = true,
+    // The whole point of this decision: an approval that denies the contents
+    // change cannot describe these bytes, and is refused rather than adopted.
+    'an approval that denies the packet change': d => d.packetContentsChanged = false,
+    'an unnamed supersession of the retired filing page': d => d.packetContentsChange.supersededPacketComponentId = 'something-else',
     'retirement removed': d => d.legacyRetirementPreserved = false,
     'historical approval overwritten': d => d.historicalSponsoredPreviewApprovalPreserved = false,
     'missing source binding': d => d.preservedEvidence.pop(),
     'duplicate source binding': d => d.preservedEvidence[1] = d.preservedEvidence[0],
-    'changed source digest': d => d.preservedEvidence[0].sha256 = '0'.repeat(64)
+    'changed source digest': d => d.preservedEvidence[0].sha256 = '0'.repeat(64),
+    'a superseded decision that was edited': d => d.supersedes.sha256 = '0'.repeat(64),
+    'a superseded decision claimed to have been mutated': d => d.supersedes.priorDecisionMutated = true,
+    'a different approved artifact hash': d => artifact(d, 'full-en').sha256 = '0'.repeat(64),
+    'an approved artifact read from another path': d => artifact(d, 'full-es').path = artifact(d, 'full-en').path,
+    'a missing approved artifact': d => d.approvedArtifacts.pop(),
+    'a court-only artifact claiming the guide': d => artifact(d, 'court-only').guideAssembled = true,
+    'a full artifact shipping without the guide': d => artifact(d, 'full-en').guideAssembled = false,
+    'a single-locale approval presented as both': d => artifact(d, 'full-es').locale = 'en',
+    'an assembly binding that names another guide': d => d.assemblyBinding.supplementalGuideContentSha256 = '0'.repeat(64),
+    'an assembly binding that names another assembler version': d => d.assemblyBinding.assemblyVersion = '1.0.0',
+    'a review fixture that is not participant delivery': d => d.assemblyBinding.reviewFixturePath = 'data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.fixture.json',
+    'a claim that the superseded bytes still reproduce': d => d.historicalApprovalStatus.artifactBytesStillReproduce = true
   };
   for (const [label, mutate] of Object.entries(mutations)) {
     const d = structuredClone(approved); mutate(d); writeDecision(d);
@@ -47,6 +70,16 @@ try {
   const evidencePath = path.join(scratch, approved.preservedEvidence[0].path);
   fs.appendFileSync(evidencePath, '\n');
   check('refuses changed packet specification bytes', () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
+  fs.copyFileSync(path.join(root, approved.preservedEvidence[0].path), evidencePath);
+  const approvedPdf = path.join(scratch, artifact(approved, 'full-en').path);
+  fs.appendFileSync(approvedPdf, '\n');
+  check('refuses changed approved packet bytes', () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
+  fs.copyFileSync(path.join(root, artifact(approved, 'full-en').path), approvedPdf);
+  check('the restored evidence and bytes load again (control for the two refusals above)',
+    () => assert.ok(loadMsPaidConsumerSuccessor(scratch)));
+  fs.unlinkSync(path.join(scratch, priorDecisionPath));
+  check('a deleted superseded decision fails closed', () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
+  fs.copyFileSync(path.join(root, priorDecisionPath), path.join(scratch, priorDecisionPath));
   fs.unlinkSync(path.join(scratch, decisionPath));
   check('missing approval fails closed', () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
   check('historical sponsored approval remains unpaid', () => {
@@ -87,7 +120,7 @@ check('new active record binds owner scope and does not invent missing technical
   const registry = JSON.parse(fs.readFileSync(REGISTRY));
   const current = registry.records.filter(r => r.routeId === route && !r.supersededBy);
   assert.equal(current.length, 1);
-  assert.equal(current[0].recordId, 'grade-a-ms-nonconv-paid-consumer-successor-20260914');
+  assert.equal(current[0].recordId, 'grade-a-ms-nonconv-paid-consumer-successor-20260920');
   assert.equal(current[0].evidenceBindings.paidConsumerSuccessor.decisionSha256, loadMsPaidConsumerSuccessor().decisionSha256);
   assert.equal(current[0].finalVerification.state, 'bound');
   assert.equal(current[0].evidenceBindings.exactPaidPacketProof.currentInputsVerified, true);
@@ -160,7 +193,13 @@ function withScratchAuthority(label, mutate, expectAdmitted = false) {
       // tampered record alone leaves the observation intact and is refused one
       // layer up, where the record is compared against it. Either way the
       // answer that matters — commercial authority — must be closed.
-      if (!c.recordOnly) assert.equal(observation, null, `${label}: the resolver must refuse`);
+      //
+      // The record-only case can only make that distinction while the
+      // publication is current. When worker inputs have drifted since the
+      // accepted publication there is no admitted observation to leave intact,
+      // for the real binding or for any mutation of it, so asserting one would
+      // be asserting a state the repository is not in.
+      if (!c.recordOnly || !publicationCurrent) assert.equal(observation, null, `${label}: the resolver must refuse`);
       else assert.ok(observation, `${label}: the untouched observation is still readable; the refusal must come from the authority decision`);
       assert.equal(decision.authorized, false, `${label}: authority must stay closed`);
       assert.equal(decision.commercialStatus, 'not_commercially_eligible', `${label}: no commercial eligibility`);
