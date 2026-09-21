@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Check, CreditCard, Download, LifeBuoy, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
+import type { ConsumerPaymentHistoryItem } from "@/lib/expungement-ai/briefcase-consumer-presentation";
 import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { humanMatterState, matterCareState, type MatterCareState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
 import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
@@ -431,10 +432,10 @@ export function RemindersView() {
   );
 }
 
-export function PaymentsView({ items }: { items: BriefcasePresentationItem[] }) {
-  const paid = items.filter((item) => item.paymentState === "paid");
-  const unavailableCount = items.filter((item) => item.paymentState === "unavailable").length;
-  const hasConsumerMatter = items.some((item) => item.paymentState === "paid" || item.paymentState === "unpaid");
+export function PaymentsView({ items }: { items: ConsumerPaymentHistoryItem[] }) {
+  const paid = items.filter((item) => item.paymentHistory !== null);
+  const unavailableCount = items.filter((item) => !item.paymentHistory && (item.paymentState === "unavailable" || item.paymentState === "paid")).length;
+  const hasConsumerMatter = items.some((item) => item.paymentHistory || item.paymentState === "paid" || item.paymentState === "unpaid");
   return (
     <section className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
       <h1 className="flex items-center gap-2 text-[22px] font-extrabold text-[#0B1320]"><CreditCard className="h-5 w-5" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" /></h1>
@@ -447,9 +448,23 @@ export function PaymentsView({ items }: { items: BriefcasePresentationItem[] }) 
         {paid.length ? (
           paid.map((item) => (
             <div key={item.id} className="rounded-[12px] bg-[#F7F3EC] p-4 text-sm">
-              <p className="font-bold text-[#0B1320]">$50 <LocalizedText k="payment.one_time" fallback="one-time" />: paid</p>
+              <p className="font-bold text-[#0B1320]">
+                {new Intl.NumberFormat("en-US", { style: "currency", currency: item.paymentHistory!.currency }).format(item.paymentHistory!.amountCents / 100)}{" "}
+                {item.paymentHistory!.status === "refunded"
+                  ? <LocalizedText k="payment.refunded" fallback="refunded" />
+                  : item.paymentHistory!.noCharge
+                    ? <LocalizedText k="payment.no_charge" fallback="No charge" />
+                    : <LocalizedText k="payment.paid" fallback="paid" />}
+              </p>
               <p className="mt-1 text-[#5A6275]">{item.title}</p>
               <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.packet_label" fallback="Packet" />: {item.artifact.status === "ready" ? "ready" : "not ready"}</p>
+              {item.paymentHistory!.receipt ? (
+                <a className="mt-3 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] bg-white px-4 text-sm font-bold text-[#0B1320]" href={item.paymentHistory!.receipt.actionPath}>
+                  <LocalizedText k="briefcase.view_receipt" fallback="View receipt" />
+                </a>
+              ) : item.paymentHistory!.noCharge ? (
+                <p className="mt-3 text-sm text-[#5A6275]"><LocalizedText k="payment.no_charge_receipt" fallback="No payment was collected; there is no charge receipt." /></p>
+              ) : null}
             </div>
           ))
         ) : hasConsumerMatter ? (
