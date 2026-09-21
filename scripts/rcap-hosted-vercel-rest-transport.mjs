@@ -10,7 +10,13 @@ import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_N
 // c88f10341 / sha256:df6c2965 tuple; once the worker moved past it, no Preview
 // could satisfy both this pin and the accepted worker, which is how a run that
 // reached the deploy step found it. The agreement is now a test, not a comment.
-export const FROZEN_APPLICATION_SHA = '884ad51d0ad50c520ec0ba2834eac03194ce88ac';
+// TEMPORARY — Target #4 diagnostic branch only. Canonical `captain-release`
+// keeps 884ad51d0ad50c520ec0ba2834eac03194ce88ac and is not touched by this.
+// The REST transport asserts applicationSha === FROZEN_APPLICATION_SHA and
+// gitSource.sha === FROZEN_APPLICATION_SHA, so a Preview cannot be built from
+// the diagnostic tree without naming it here. This branch and its Preview are
+// disposable and are deleted once the divergence is classified.
+export const FROZEN_APPLICATION_SHA = 'f4b353722f67834a3dc4032008d7c9f42ed87bd0';
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 
