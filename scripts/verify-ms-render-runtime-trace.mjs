@@ -7,14 +7,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const require = createRequire(import.meta.url);
 const picomatch = require("next/dist/compiled/picomatch");
 const root = fileURLToPath(new URL("../", import.meta.url));
 const route = "/api/expungement-ai/packet/render";
-// Independent expectations: do not derive these from outputFileTracingIncludes,
-// or deleting a required include could also delete the verifier's expectation.
+// Independent expectations: never derive the denominator from the generated trace.
+// Historical Turbopack already traced these files without explicit includes.
 const factoryInputs = [
   "data/record-clearing/factory-v2-route-registry.json",
   "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -35,13 +35,11 @@ const successorInputs = [
 const expected = [...factoryInputs, ...successorInputs];
 const readJson = (file) => JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
 
-function assertScopedIncludes(includes, routes) {
-  assert.deepEqual(Object.keys(includes ?? {}), [route], "includes must target only the render route");
-  assert.deepEqual([...includes[route]].sort(), successorInputs.map((file) => `./${file}`).sort(),
-    "includes must contain exactly the eleven successor files, without subtree globs");
-  const matchesRoute = picomatch(route);
-  const matches = routes.filter((candidate) => matchesRoute(candidate));
-  assert.deepEqual(matches, [route], "another built route receives the render includes");
+function assertNaturalTracing(includes) {
+  for (const [pattern, files] of Object.entries(includes ?? {})) {
+    assert.ok(!picomatch(pattern)(route) || files.length === 0,
+      `render closure must be naturally traced, without explicit includes: ${pattern}`);
+  }
 }
 
 function assertClosure(trace, tracePath) {
@@ -53,23 +51,26 @@ function assertClosure(trace, tracePath) {
   }
 }
 
-const build = spawnSync("npm", ["run", "build"], { cwd: root, stdio: "inherit" });
-assert.equal(build.error, undefined, "could not start Next.js build");
-assert.equal(build.status, 0, `Next.js build failed (signal: ${build.signal ?? "none"})`);
-
-// Check what Next actually emitted, including App Router and Pages Router paths.
+const build = spawn("npm", ["run", "build"], { cwd: root, stdio: ["ignore", "pipe", "inherit"] });
+let turbopackBanner = "";
+let output = "";
+build.stdout.on("data", (chunk) => {
+  process.stdout.write(chunk);
+  output += chunk.toString();
+});
+const status = await new Promise((resolve, reject) => {
+  build.on("error", reject);
+  build.on("close", resolve);
+});
+assert.equal(status, 0, "Next.js build failed");
+turbopackBanner = output.split("\n").find((line) => /Next\.js .*\(Turbopack\)/.test(line));
+assert.ok(turbopackBanner, "build must prove it used Turbopack, not webpack");
 const config = readJson(".next/required-server-files.json").config;
-const routes = [...new Set([
-  ...Object.values(readJson(".next/app-path-routes-manifest.json")),
-  ...Object.keys(readJson(".next/server/pages-manifest.json")),
-])].sort();
-assert.ok(routes.includes(route), "render route was not built");
-assertScopedIncludes(config.outputFileTracingIncludes, routes);
+assertNaturalTracing(config.outputFileTracingIncludes);
 const tracePath = path.join(root, ".next/server/app/api/expungement-ai/packet/render/route.js.nft.json");
 const trace = JSON.parse(fs.readFileSync(tracePath, "utf8"));
 assertClosure(trace, tracePath);
-console.log(`PASS: real Next.js render trace contains all ${expected.length} runtime inputs`);
-console.log(`PASS: includes match only ${route} among ${routes.length} built routes`);
+console.log(`PASS: ${turbopackBanner.trim()} naturally traces all ${expected.length} runtime inputs`);
 
 // Delete each dependency from a separate in-memory copy of the REAL build trace.
 // The same closure assertion must reject every deletion for that exact reason.
@@ -82,8 +83,8 @@ for (const file of expected) {
     `verifier accepted a trace missing ${file}`);
 }
 console.log(`PASS: ${expected.length}/${expected.length} individual trace-deletion mutations rejected`);
-for (const otherRoute of ["/api/expungement-ai/packet/*", "/api/health"]) {
-  const mutant = { ...config.outputFileTracingIncludes, [otherRoute]: config.outputFileTracingIncludes[route] };
-  assert.throws(() => assertScopedIncludes(mutant, routes), /includes must target only the render route/);
+for (const pattern of [route, "/api/expungement-ai/packet/*", "/**/*"]) {
+  assert.throws(() => assertNaturalTracing({ [pattern]: [successorInputs[0]] }),
+    /render closure must be naturally traced/);
 }
-console.log("PASS: wildcard and sibling-route include mutations rejected");
+console.log("PASS: exact-route and wildcard explicit-include mutations rejected");
