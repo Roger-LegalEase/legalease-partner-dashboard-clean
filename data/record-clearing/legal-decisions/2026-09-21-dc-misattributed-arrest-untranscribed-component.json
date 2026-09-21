@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "DC-MISATTRIBUTED-ARREST-UNTRANSCRIBED-COMPONENT-2026-09-21",
+  "reviewer": "Captain (caption treatment read from owner-adopted artifact bytes, and a newly proven defect recorded against current bytes; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "dc_correct_misattributed_arrest-set",
+  "scope": [
+    "DC:dc_correct_misattributed_arrest"
+  ],
+  "trackId": "dc_correct_misattributed_arrest",
+  "authority": "D.C. Code § 16-806(g)",
+
+  "question": "DC dc_correct_misattributed_arrest is the last of the eight caption refusals outside parked ND. Is its caption resolvable from evidence already held, and if so why is the component still refusing?",
+
+  "part1_theCaptionIsEstablished": {
+    "treatment": "full_independent_caption",
+    "authorityRelied": "Owner-adopted artifact bytes, read page by page, which the caption-treatment contract names as an authority.",
+    "artifact": {
+      "file": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading/fixtures/canonical.pdf",
+      "sha256": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+      "digestReVerified": "Recomputed on 2026-09-21 and equal to the owner pin recorded in FIRST_ROUTE_COHORT.json, whose own sha256Now for this fixture is the same value and whose current flag is true.",
+      "ownerApproval": "OWN-ADOPT-2026-09-02-BATCH-53, Roger Roman, 2026-09-02, approvalCurrent true",
+      "independentVerdict": "PASS_COMPLETE_INDEPENDENT, verifier vf03, at base efda1c0aa5e8e5c6b2b519dca84b0adaee66c595"
+    },
+    "whatPageOneCarries": {
+      "quotedCaption": "SUPERIOR COURT OF THE DISTRICT OF COLUMBIA / CRIMINAL DIVISION / IN THE MATTER OF THE MOTION OF <movant>, MOVANT",
+      "andTheCaseIdentity": "Case number of the case this motion addresses (copy it exactly from the court record): ....  Motion case number: .... (the Seal Team assigns it at filing)",
+      "reading": "The component carries its own caption naming the court and the case, which is the definition of full_independent_caption."
+    },
+    "theBlanksAreLegitimate": "The case-number lines are blank because the participant copies the underlying case number from the court record and the Criminal Division's Seal Team assigns the motion case number at filing. The Court Document Rules permit exactly this: a court filing may carry legitimate legal blanks the participant or the court completes later, and such a blank is not missing product data.",
+    "methodNote": "Classified from this component's own pages, not from a packet-level caption signal. The contract records that a packet-level test was run and discarded as a classifier because Nevada is the counterexample inside its own packet.",
+    "caseModeWasAlreadyResolved": "documentContract.caseMode is existing_case, so unlike VA regime-1 there was no unresolved case identity standing in the way."
+  },
+
+  "part2_theDefectThisExposes": {
+    "statement": "Recording the treatment on the specification alone would not make the component render. It would convert one refusal into another, because the specification carries no caption block to satisfy the treatment.",
+    "theMechanism": "The caption contract's render invariant has two halves: court-facing and unresolved refuses, AND full_independent_caption with no caption block refuses as a derivation defect. This component's specification declares zero sections, so it has no caption block and no body text at all.",
+    "measuredComparison": {
+      "note": "Primary-filing section counts and caption state, measured on current bytes.",
+      "DC-actual-innocence-expungement.v1": { "sections": 14, "captionTreatment": "full_independent_caption", "legalSectionsBound": true },
+      "WY-felony-conviction-expungement.v1": { "sections": 14, "captionTreatment": "full_independent_caption", "legalSectionsBound": true },
+      "SD-suspended-imposition-of-sentence-sealing.v1": { "sections": 10, "captionTreatment": "full_independent_caption", "legalSectionsBound": true },
+      "DC-correct-misattributed-arrest.v1": { "sections": 0, "captionTreatment": null, "legalSectionsBound": false }
+    },
+    "theDiagnosis": "The three comparators are families the transcription program carried: their adopted text was transcribed into their specifications, which is why they hold sections and a recorded caption. This family was never carried by that program. Its approved text exists upstream in the adopted artifact and has never been transcribed down. The unresolved caption is a symptom of that, not an independent question.",
+    "soTheRemedyIsTranscription": "The same remedy the eight-family cohort received, which its own record states as eight transcriptions rather than eight bespoke renderers. Nothing needs to be drafted: the substance is already adopted and digest-pinned.",
+    "whatIsNotWrong": "The family is not defective in its legal design. Seven of the eight first-route-cohort conditions pass for it: packet proven, verdict current and declaring its base, raster receipt still binding the bytes, route-to-family binding exact, source identity complete, covered by an existing owner approval, and no hold applying."
+  },
+
+  "part3_entryIntoA1": {
+    "why": "The adopted plan's §4 permits a new family to enter A1 only on a concrete current defect proven against current authoritative treatment or current bytes, with the affected scope identified. This record is that proof.",
+    "theDefect": "An owner-approved component whose text exists in adopted, digest-current artifact bytes was never transcribed into its specification, so the specification cannot compose it and the component refuses.",
+    "affectedFamily": "dc_correct_misattributed_arrest-set, one route, three components",
+    "affectedScope": "This family only. No adjacent DC family is implicated: DC actual innocence was transcribed and carries its 14 sections and recorded caption.",
+    "whyTheClosedBaselineDoesNotCoverIt": "The 346/346 terminal baseline is a family-construction baseline and this family is constructed — that is precisely why adopted artifact bytes exist for it. What is missing is the post-terminal transcription step, which is the same exception class the eight-family cohort exists for and which by definition sits outside the construction baseline.",
+    "notAReopening": "No terminal family treatment is reopened, no historical audit row is used as authority, and no adjacent family is reviewed."
+  },
+
+  "part4_aSharedDefectFoundWhileReading": {
+    "statement": "The adopted artifact prints an internal route identifier on court-facing pages.",
+    "observed": "The last line of pages 2, 3 and 5 of the canonical fixture reads: Route: obligation:track-only:DC:dc_correct_misattributed_arrest. Page 2 is the primary filing's second page, carrying the sworn attestation and signature block. Page 3 is headed COPY FOR THE PROSECUTING OFFICE. Both are court-facing.",
+    "whyItIsProhibited": "The Court Document Rules state that court-facing documents must not contain internal route identifiers or provenance labels. This is one.",
+    "itIsNotThisFamilysData": {
+      "measured": "73 of 280 canonical census-v1 fixtures carry the same Route: obligation:... footer, across multiple jurisdictions. Sampling shows it on composed and custom-pleading outputs and absent from official_pdf_fill outputs, which is renderer behaviour keyed on output strategy rather than per-family text.",
+      "consequence": "This is a shared renderer or composer defect. Under the adopted plan it goes to the engineering lane and is fixed once; it is not repaired by rebuilding this family's data, and this record does not touch the renderer."
+    },
+    "doNotRegenerateToFixIt": "Regenerating this family's artifact to strip the footer would break the digest the owner adopted by exact value and would require re-review. The footer fix belongs upstream, and the affected artifacts are re-proved afterwards through the mechanism that exists for a changed shipping digest."
+  },
+
+  "whatThisRecordDoesNotDo": {
+    "noTranscription": "The transcription itself is not performed here. It is the next item and it has everything it needs: adopted bytes, a verified digest, a current owner approval and a current independent verdict.",
+    "noCaptionWritten": "captionTreatment is left unrecorded on the specification, deliberately. Recording it before the sections exist would replace a truthful unresolved refusal with a derivation-defect refusal and would look like progress while changing nothing.",
+    "noFulfillmentAuthority": "None is created and none may be. The specification states that no fulfillment authority may be created until a later audit establishes noSubstantiveLegalChangeSinceThatApproval, which FIRST_ROUTE_COHORT.json currently records as false. That condition is untouched by this record.",
+    "noRouteChange": "The route is not suppressed, disabled, retired or converted. It remains as it was."
+  },
+
+  "statusOfThisRecord": {
+    "captionTreatmentEstablishedFromAuthority": "YES",
+    "captionTreatmentRecordedOnTheSpecification": "NO, and deliberately",
+    "componentRenders": "NO",
+    "fulfillmentAuthorityCreated": "NO",
+    "stateChanged": "none",
+    "readThisFirst": "This record establishes the caption treatment from owner-adopted bytes, identifies why the component still refuses, proves the defect that admits this family to A1, and routes a shared renderer defect to the engineering lane. It writes nothing to the specification, creates no authority and opens no route."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "The transcription and its provenance binding. Separately, the post-approval audit that FIRST_ROUTE_COHORT.json records as unmet, which is the only condition standing between this family and a fulfillment-authority record."
+}
