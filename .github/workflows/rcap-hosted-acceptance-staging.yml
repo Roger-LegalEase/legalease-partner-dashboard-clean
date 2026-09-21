@@ -27,7 +27,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_audit (read-only post-failure proof), migrate, deploy, accept, checkout_gate, payment, or full"
+        description: "preflight, vercel_audit, environment_probe, migrate, deploy, accept, full_nonpayment, checkout_pinning, worker_contract, payment_environment_probe or payment"
         required: true
         type: string
       preview_deployment_id:
@@ -74,14 +74,15 @@ on:
         required: true
       SUPABASE_ACCESS_TOKEN:
         required: true
-      # Not required: the acceptance environment must remain runnable before
-      # Stripe exists. Without them the deployment carries no usable Stripe
-      # configuration and the payment matrix reports that plainly rather than
-      # pretending a placeholder transacted.
-      HOSTED_STRIPE_TEST_SECRET:
-        required: false
-      HOSTED_STRIPE_TEST_WEBHOOK_SECRET:
-        required: false
+      # HOSTED_STRIPE_TEST_SECRET and HOSTED_STRIPE_TEST_WEBHOOK_SECRET are
+      # DELIBERATELY NOT DECLARED HERE. They live in exactly one place — the
+      # `rcap-acceptance-payment` GitHub Environment — and are read there by the
+      # hosted_payment job alone. Declaring them as workflow_call secrets would
+      # let a caller supply them to a workflow whose non-payment jobs run in an
+      # environment that must not hold them, and would make the boundary depend
+      # on an unset value resolving to an empty string rather than on the
+      # reference not existing. A caller that tries to pass them now fails
+      # validation, which is the intended outcome.
       # Preview deployments protected by Vercel Authentication answer every
       # unauthenticated probe with Vercel's own wall. Without this, a probe
       # cannot tell "the application's gate withheld this" from "Vercel never
@@ -111,25 +112,26 @@ env:
   PREVIOUS_STRIPE_WEBHOOK_HOST: legalease-partner-dashboard-clean-qfqpixip0-roger947s-projects.vercel.app
 
 jobs:
-  preflight:
-    name: Preflight — credentials usable, acceptance project demonstrably not production
+  # ---------------------------------------------------------------------------
+  # READ-ONLY PHASES. `preflight` proves the credentials and the acceptance
+  # project; `vercel_audit` performs GETs against Vercel after a failed CLI
+  # deployment. Neither writes anything anywhere, so neither declares a GitHub
+  # Environment and neither is handed the write-environment secrets.
+  #
+  # They live in their own job precisely so the write job below can carry an
+  # `environment:` unconditionally. A single job cannot declare an environment
+  # for some phases and not others, and an empty environment name is not a
+  # documented way to say "no environment".
+  # ---------------------------------------------------------------------------
+  readonly_probe:
+    name: Read-only — credentials, acceptance project identity, post-failure Vercel audit
+    if: inputs.phase == 'preflight' || inputs.phase == 'vercel_audit'
     runs-on: ubuntu-latest
-    # 60, not 15. The Preview deploy of the freeze publishes 97 serverless
-    # functions, one of which carries the whole RCAP corpus; on the Pro plan it
-    # reached 14m21s of upload before the 15-minute job timer killed
-    # `npm exec vercel` mid-flight — twice, at the same point, deterministically
-    # (runs 31755348356 and 31756386367). Nothing about the deployment was
-    # failing; the harness simply ran out of clock. This is a runner budget, not
-    # an application change: the file lives outside BOTH image-input path sets
-    # the equivalence gate above checks, so raising it cannot alter the frozen
-    # application bytes or the worker image.
-    timeout-minutes: 120
+    timeout-minutes: 30
     steps:
       - name: Refuse any input that is not the authorized pinned value
         env:
           PHASE_INPUT: ${{ inputs.phase }}
-          PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
-          PREVIEW_HOSTNAME_INPUT: ${{ inputs.preview_hostname }}
           APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
           WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
@@ -142,20 +144,6 @@ jobs:
           [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
           [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
-          if [ "$PHASE_INPUT" = "checkout_gate" ]; then
-            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
-              || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
-          elif [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
-            # A reuse candidate is legitimate for any phase that resolves a
-            # Preview. It is still shape-checked, so a typo refuses here rather
-            # than reaching the resolver as an unresolvable id.
-            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
-              || { echo "::error::preview_deployment_id must be one exact Vercel deployment id"; exit 1; }
-          fi
-          if [ -n "$PREVIEW_HOSTNAME_INPUT" ]; then
-            printf '%s' "$PREVIEW_HOSTNAME_INPUT" | grep -Eq '^[A-Za-z0-9.-]+\.vercel\.app$' \
-              || { echo "::error::preview_hostname must be one exact *.vercel.app hostname"; exit 1; }
-          fi
 
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -186,7 +174,272 @@ jobs:
         run: node scripts/verify-rcap-vercel-failure-audit.mjs
 
       - name: Prove the credentials and the acceptance project
-        if: inputs.phase != 'vercel_audit'
+        if: inputs.phase == 'preflight'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          PREFLIGHT_SCOPE: full
+        run: node scripts/rcap-hosted-acceptance-preflight.mjs
+
+      - name: Query Vercel for an exact READY Preview after CLI failure
+        if: inputs.phase == 'vercel_audit'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-vercel-failure-audit.mjs
+
+      - name: Upload the read-only evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-hosted-${{ inputs.phase }}-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # WRITE-CAPABLE PHASES. Everything that writes to the acceptance Supabase
+  # project, creates a Vercel Preview, runs the matrix, opens a Checkout or
+  # transacts Stripe runs here, under a real GitHub Environment.
+  #
+  # The environment name is decided from `inputs.phase` alone, before any step
+  # runs, so it cannot depend on a value produced inside the job. It is never
+  # empty: the job's own `if:` has already excluded the read-only phases.
+  #
+  #   payment                                             -> rcap-acceptance-payment
+  #   environment_probe | migrate | deploy | accept |
+  #   full_nonpayment | checkout_pinning | worker_contract -> rcap-acceptance
+  #   payment_environment_probe                            -> rcap-acceptance-payment
+  #
+  # The environment SUPPLEMENTS the pinned-value refusal below; it does not
+  # replace it. Both must pass.
+  # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
+  # NON-PAYMENT WRITE PHASES. Everything that writes to the acceptance Supabase
+  # project, creates a Vercel Preview or runs the acceptance matrix, WITHOUT
+  # touching Stripe.
+  #
+  # This job runs for the payment phase too, but only as far as the migrate
+  # readback and the two deployment gates: its `lane` output is then `payment`
+  # and every step after the contract stands down, because the payment lane's
+  # Preview must be built by the payment job with the payment environment's
+  # secrets, not by this one.
+  #
+  # THE STRIPE BOUNDARY. This job's environment is ALWAYS `rcap-acceptance`,
+  # which by owner decision holds neither HOSTED_STRIPE_TEST_SECRET nor
+  # HOSTED_STRIPE_TEST_WEBHOOK_SECRET. There is no `secrets.HOSTED_STRIPE_*`
+  # expression anywhere in this job, so the boundary does not depend on a
+  # missing secret resolving to an empty string: the reference does not exist.
+  # A Preview deployed here carries the deploy script's non-transacting
+  # placeholder and cannot create a Checkout Session.
+  # ---------------------------------------------------------------------------
+  hosted_write:
+    name: Hosted acceptance — non-payment write phases
+    if: inputs.phase != 'preflight' && inputs.phase != 'vercel_audit'
+    environment:
+      name: rcap-acceptance
+    outputs:
+      lane: ${{ steps.contract.outputs.lane }}
+      phase: ${{ steps.contract.outputs.phase }}
+    runs-on: ubuntu-latest
+    # 60, not 15. The Preview deploy of the freeze publishes 97 serverless
+    # functions, one of which carries the whole RCAP corpus; on the Pro plan it
+    # reached 14m21s of upload before the 15-minute job timer killed
+    # `npm exec vercel` mid-flight — twice, at the same point, deterministically
+    # (runs 31755348356 and 31756386367). Nothing about the deployment was
+    # failing; the harness simply ran out of clock. This is a runner budget, not
+    # an application change: the file lives outside BOTH image-input path sets
+    # the equivalence gate above checks, so raising it cannot alter the frozen
+    # application bytes or the worker image.
+    timeout-minutes: 120
+    steps:
+      # SENTINEL — the first executable step in this job, ahead of checkout and
+      # ahead of every network-capable or externally writing step.
+      #
+      # A GitHub Environment can be created implicitly by a workflow naming one
+      # that does not exist. The job then runs in an EMPTY environment: no
+      # reviewers, no branch restriction, no secrets — and every `secrets.*`
+      # reference silently resolves to "". That is indistinguishable from a
+      # correctly configured environment until something fails much later, in
+      # the middle of a write.
+      #
+      # These two are environment-scoped VARIABLES, not secrets. An auto-created
+      # environment has neither, so an empty value is exactly the signal needed.
+      # Nothing is printed but the variable names and the literal expected
+      # values, which are not secret.
+      - name: Acceptance environment identity sentinel
+        id: env_identity
+        env:
+          OBSERVED_ID: ${{ vars.RCAP_ENVIRONMENT_ID }}
+          OBSERVED_CLASS: ${{ vars.RCAP_ENVIRONMENT_CLASS }}
+        run: |
+          set -euo pipefail
+          EXPECTED_ID="rcap-acceptance-v1"
+          EXPECTED_CLASS="nonproduction-acceptance"
+          fail=0
+          if [ -z "${OBSERVED_ID:-}" ]; then
+            echo "  RCAP_ENVIRONMENT_ID is missing or empty"; fail=1
+          elif [ "$OBSERVED_ID" != "$EXPECTED_ID" ]; then
+            echo "  RCAP_ENVIRONMENT_ID is '$OBSERVED_ID'; expected '$EXPECTED_ID'"; fail=1
+          else
+            echo "  ok  RCAP_ENVIRONMENT_ID=$EXPECTED_ID"
+          fi
+          if [ -z "${OBSERVED_CLASS:-}" ]; then
+            echo "  RCAP_ENVIRONMENT_CLASS is missing or empty"; fail=1
+          elif [ "$OBSERVED_CLASS" != "$EXPECTED_CLASS" ]; then
+            echo "  RCAP_ENVIRONMENT_CLASS is '$OBSERVED_CLASS'; expected '$EXPECTED_CLASS'"; fail=1
+          else
+            echo "  ok  RCAP_ENVIRONMENT_CLASS=$EXPECTED_CLASS"
+          fi
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+            echo "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+            echo "The rcap-acceptance environment is missing, empty or wrongly configured. Refusing before checkout and before any external call."
+            exit 1
+          fi
+
+      # Retired and renamed values refuse here, before any secret is read.
+      - name: Refuse retired and renamed legacy phase values
+        id: legacy_refusal
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+        run: |
+          set -euo pipefail
+          case "$PHASE_INPUT" in
+            github_acceptance)
+              echo "::error::GITHUB_ACCEPTANCE_RETIRED"
+              echo "GITHUB_ACCEPTANCE_RETIRED"
+              echo "Use hosted_payment for payment-producing acceptance."
+              exit 1 ;;
+            full)
+              echo "::error::LEGACY_PHASE_REFUSED: 'full' implied a payment-exercising run and no longer exists. Use hosted_full_nonpayment, or hosted_payment when payment must actually be exercised."
+              exit 1 ;;
+            checkout_gate)
+              echo "::error::LEGACY_PHASE_REFUSED: 'checkout_gate' implied a real Checkout Session test. The static pinning verification is hosted_checkout_pinning; the real Sandbox Session is created only by hosted_payment."
+              exit 1 ;;
+          esac
+          echo "phase '$PHASE_INPUT' is not a retired or renamed legacy value"
+
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
+          PREVIEW_HOSTNAME_INPUT: ${{ inputs.preview_hostname }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          SUPABASE_PROJECT_REF_INPUT: ${{ inputs.supabase_project_ref }}
+        run: |
+          set -euo pipefail
+          [ "$APPLICATION_SHA_INPUT" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          if [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
+            # A reuse candidate is legitimate for any phase that resolves a
+            # Preview. It is still shape-checked, so a typo refuses here rather
+            # than reaching the resolver as an unresolvable id.
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::preview_deployment_id must be one exact Vercel deployment id"; exit 1; }
+          fi
+          if [ -n "$PREVIEW_HOSTNAME_INPUT" ]; then
+            printf '%s' "$PREVIEW_HOSTNAME_INPUT" | grep -Eq '^[A-Za-z0-9.-]+\.vercel\.app$' \
+              || { echo "::error::preview_hostname must be one exact *.vercel.app hostname"; exit 1; }
+          fi
+
+      # The read-only acceptance environment probe. It runs entirely on the
+      # runner: no checkout, no Supabase, Vercel, registry or Stripe request,
+      # and nothing created anywhere except the workflow evidence artifact.
+      - name: Read-only acceptance environment probe
+        id: environment_probe
+        if: inputs.phase == 'environment_probe'
+        env:
+          S_SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          S_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          S_VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          S_VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          S_VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          OBSERVED_ID: ${{ vars.RCAP_ENVIRONMENT_ID }}
+          OBSERVED_CLASS: ${{ vars.RCAP_ENVIRONMENT_CLASS }}
+        run: |
+          set -euo pipefail
+          mkdir -p hosted-acceptance-evidence
+          # Only NAMES and booleans are printed. No value, no length, no prefix.
+          present() { if [ -n "$1" ]; then echo true; else echo false; fi; }
+          A=$(present "${S_SUPABASE_ACCESS_TOKEN:-}")
+          B=$(present "${S_VERCEL_TOKEN:-}")
+          C=$(present "${S_VERCEL_ORG_ID:-}")
+          D=$(present "${S_VERCEL_PROJECT_ID:-}")
+          E=$(present "${S_VERCEL_AUTOMATION_BYPASS_SECRET:-}")
+          echo "  SUPABASE_ACCESS_TOKEN present=$A"
+          echo "  VERCEL_TOKEN present=$B"
+          echo "  VERCEL_ORG_ID present=$C"
+          echo "  VERCEL_PROJECT_ID present=$D"
+          echo "  VERCEL_AUTOMATION_BYPASS_SECRET present=$E"
+          printf '%s\n' \
+            '{' \
+            '  "schemaVersion": "rcap-acceptance-environment-probe/v1",' \
+            '  "phase": "environment_probe",' \
+            '  "environment": "rcap-acceptance",' \
+            '  "externalRequestsMade": 0,' \
+            '  "checkoutPerformed": false,' \
+            '  "stripeSecretsReferenced": false,' \
+            '  "PAYMENT_EXERCISED": false,' \
+            '  "paymentExercised": false,' \
+            "  \"environmentIdentity\": { \"RCAP_ENVIRONMENT_ID\": \"$OBSERVED_ID\", \"RCAP_ENVIRONMENT_CLASS\": \"$OBSERVED_CLASS\", \"matchesExpected\": true }," \
+            "  \"sharedSecretPresence\": { \"SUPABASE_ACCESS_TOKEN\": $A, \"VERCEL_TOKEN\": $B, \"VERCEL_ORG_ID\": $C, \"VERCEL_PROJECT_ID\": $D, \"VERCEL_AUTOMATION_BYPASS_SECRET\": $E }" \
+            '}' > hosted-acceptance-evidence/environment-probe.json
+          missing=""
+          [ "$A" = true ] || missing="$missing SUPABASE_ACCESS_TOKEN"
+          [ "$B" = true ] || missing="$missing VERCEL_TOKEN"
+          [ "$C" = true ] || missing="$missing VERCEL_ORG_ID"
+          [ "$D" = true ] || missing="$missing VERCEL_PROJECT_ID"
+          [ "$E" = true ] || missing="$missing VERCEL_AUTOMATION_BYPASS_SECRET"
+          if [ -n "$missing" ]; then
+            echo "::error::ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+            echo "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+            echo "the rcap-acceptance environment is missing:$missing"
+            exit 1
+          fi
+          echo "PAYMENT_EXERCISED=false"
+
+      - name: Check out repository history
+        if: contains(fromJSON('["environment_probe","payment_environment_probe"]'), inputs.phase) == false
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry and image-input equivalence of every pinned SHA
+        if: contains(fromJSON('["environment_probe","payment_environment_probe"]'), inputs.phase) == false
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
+            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        if: contains(fromJSON('["environment_probe","payment_environment_probe"]'), inputs.phase) == false
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prove the credentials and the acceptance project
+        id: preflight
+        if: contains(fromJSON('["environment_probe","payment_environment_probe"]'), inputs.phase) == false
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -200,18 +453,34 @@ jobs:
           PREFLIGHT_SCOPE: ${{ inputs.phase == 'migrate' && 'supabase_only' || 'full' }}
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
-      # This is the final read after a failed or timed-out CLI deployment. It
-      # neither creates nor changes a deployment: every Vercel call is GET, and
-      # an empty exact-match set is a successful, explicit audit outcome.
-      - name: Query Vercel for an exact READY Preview after CLI failure
-        if: inputs.phase == 'vercel_audit'
+      # ENV-007 GATE 1 — the worker image authority must be settled.
+      #
+      # Two authorities in this repository name different worker images. Until
+      # exactly one pair is proven on every required fact, no phase that pulls
+      # the image or deploys bytes may run. The script changes no pin: it either
+      # names a canonical pair or returns WORKER_AUTHORITY_BLOCKED and exits 1.
+      - name: The worker image authority names exactly one proven pair
+        id: worker_authority
+        # Every phase that pulls the worker image or puts bytes in front of a
+        # journey. Keyed on the input, not on a step output, so it can sit
+        # ahead of the first write instead of after it.
+        if: contains(fromJSON('["full_nonpayment","deploy","accept","payment","checkout_pinning","worker_contract"]'), inputs.phase)
+        run: node scripts/rcap-worker-authority-reconcile.mjs
+
+      # ENV-007 GATE 2 — the bytes about to be deployed must be the bytes the
+      # flow audit measured, across the computed audited surface.
+      #
+      # The surface is the transitive import closure of the Phase 1 flow
+      # manifest's own file list plus the declared participant-facing roots, so
+      # "this difference is outside the audited surface" is a derived fact
+      # rather than a claim about a file's directory.
+      - name: The audited surface is byte-identical to the deployment source
+        id: audit_equivalence
+        if: contains(fromJSON('["full_nonpayment","deploy","accept","payment","checkout_pinning"]'), inputs.phase)
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
-        run: node scripts/rcap-vercel-failure-audit.mjs
+          RCAP_APPLICATION_SOURCE_SHA: ${{ inputs.application_sha }}
+          RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+        run: node scripts/rcap-audit-surface-equivalence.mjs
 
       # Guarded by the preflight above: this step is not reached unless the
       # acceptance project has been proven empty of production data in this
@@ -221,11 +490,14 @@ jobs:
       # readback_only and applies nothing; it refuses outright on hash drift.
       - name: Apply the authorized sequence to the acceptance project
         id: migrate_readback
-        if: inputs.phase == 'migrate' || inputs.phase == 'full' || inputs.phase == 'payment'
+        if: inputs.phase == 'migrate' || inputs.phase == 'full_nonpayment' || inputs.phase == 'payment'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          # Recorded in both schema snapshots, so a snapshot names the tools that
+          # produced it rather than leaving that to the run log.
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
         run: node scripts/rcap-hosted-acceptance-migrate.mjs
 
       # Deploys the FROZEN application bytes. The equivalence check above has
@@ -239,52 +511,97 @@ jobs:
       # after it, and still concluded success. A green run that never attempted
       # the matrix is worse than a red one: it reads as acceptance.
       #
-      #   phase          deploy/reuse   matrix   checkout gate
-      #   full           yes            yes      yes
-      #   deploy         yes            no       no
-      #   accept         no             yes      no
-      #   payment        yes            yes      no
-      #   checkout_gate  no             no       yes
-      #   migrate        no             no       no
-      #   preflight      no             no       no
-      #   vercel_audit   no             no       no
-      #   anything else  FAIL CLOSED
+      # The authoritative table now lives in the contract step itself, with
+      # STRIPE_SECRET_ACCESS and STRIPE_TRANSACTION as separate columns.
       - name: Normalize the execution contract for this phase
         id: contract
         run: |
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
+          # ONE table. Secret ACCESS and TRANSACTION authority are separate
+          # columns, because "may read the Stripe key" and "may move money" are
+          # different privileges and the probe needs exactly the first.
+          #
+          #   phase                      DEPLOY MATRIX VERIFY_GATE SESSION S_ACCESS S_TXN DIAG
+          #   environment_probe          no     no     no          no      no       no    no
+          #   migrate                    no     no     no          no      no       no    no
+          #   deploy                     yes    no     no          no      no       no    no
+          #   accept                     no     yes    yes         no      no       no    no
+          #   full_nonpayment            yes    yes    yes         no      no       no    no
+          #   checkout_pinning           no     no     yes         no      no       no    no
+          #   worker_contract            no     no     no          no      no       no    yes
+          #   payment_environment_probe  no     no     no          no      YES      no    no
+          #   payment                    yes    yes    yes         YES     YES      YES   no
+          #   anything else              FAIL CLOSED
+          #
+          # `full_nonpayment` replaces `full`, which implied a payment-exercising
+          # run it had already stopped performing. `checkout_pinning` replaces
+          # `checkout_gate`, which read as a real Checkout Session test; the only
+          # step that creates a Session lives in the payment job. Both old values
+          # are refused by name in an earlier step.
           case "$PHASE" in
-            full)          DEPLOY=true;  MATRIX=true;  GATE=true  ;;
-            deploy)        DEPLOY=true;  MATRIX=false; GATE=false ;;
-            accept)        DEPLOY=false; MATRIX=true;  GATE=false ;;
-            payment)       DEPLOY=true;  MATRIX=true;  GATE=false ;;
-            checkout_gate) DEPLOY=false; MATRIX=false; GATE=true  ;;
-            migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false ;;
+            environment_probe)
+                             DEPLOY=false; MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            migrate)         DEPLOY=false; MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            deploy)          DEPLOY=true;  MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            accept)          DEPLOY=false; MATRIX=true;  VERIFY_GATE=true;  CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            full_nonpayment) DEPLOY=true;  MATRIX=true;  VERIFY_GATE=true;  CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            checkout_pinning) DEPLOY=false; MATRIX=false; VERIFY_GATE=true; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            worker_contract) DEPLOY=false; MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            payment_environment_probe)
+                             DEPLOY=false; MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=true;  S_TXN=false ;;
+            payment)         DEPLOY=true;  MATRIX=true;  VERIFY_GATE=true;  CHECKOUT_SESSION=true;  S_ACCESS=true;  S_TXN=true  ;;
             *)
               echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
               exit 1
               ;;
           esac
+          # Invariants, asserted rather than assumed, so a future edit to the
+          # table cannot quietly re-open the boundary.
+          if [ "$S_TXN" = "true" ] && [ "$S_ACCESS" != "true" ]; then
+            echo "::error::phase '$PHASE' claims transaction authority without secret access"; exit 1
+          fi
+          if [ "$S_ACCESS" = "true" ] && [ "$PHASE" != "payment" ] && [ "$PHASE" != "payment_environment_probe" ]; then
+            echo "::error::phase '$PHASE' claims Stripe secret access; only payment and payment_environment_probe may hold it"; exit 1
+          fi
+          if [ "$S_TXN" = "true" ] && [ "$PHASE" != "payment" ]; then
+            echo "::error::phase '$PHASE' claims Stripe transaction authority; only 'payment' may hold it"; exit 1
+          fi
+          if [ "$CHECKOUT_SESSION" = "true" ] && [ "$S_TXN" != "true" ]; then
+            echo "::error::phase '$PHASE' would create a Checkout Session without transaction authority"; exit 1
+          fi
+          # The lane decides which JOB does the work.
+          #   probe      — hosted_write does nothing external; the probe step is all there is
+          #   payment    — hosted_write stands down after this step; hosted_payment continues
+          #   nonpayment — hosted_write runs the whole non-payment pipeline
+          case "$PHASE" in
+            environment_probe)                 LANE=probe ;;
+            payment|payment_environment_probe) LANE=payment ;;
+            *)                                 LANE=nonpayment ;;
+          esac
+          # A non-payment lane never exercises payment. Stamped into every
+          # artifact this run produces so no report can imply otherwise.
+          if [ "$S_TXN" = "true" ]; then PAYMENT_EXERCISED=true; else PAYMENT_EXERCISED=false; fi
           {
             echo "phase=$PHASE"
+            echo "lane=$LANE"
             echo "deploy=$DEPLOY"
             echo "matrix=$MATRIX"
-            echo "gate=$GATE"
-            # A read-only diagnosis phase: no Preview, no Checkout, no payment,
-            # but it does need the registry to probe inside the published image.
+            echo "verify_gate=$VERIFY_GATE"
+            echo "checkout_session=$CHECKOUT_SESSION"
+            echo "stripe_secret_access=$S_ACCESS"
+            echo "stripe_transaction=$S_TXN"
+            echo "payment_exercised=$PAYMENT_EXERCISED"
             if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
-            # Any phase that transacts — Checkout, payment, worker, artifact,
-            # delivery — needs an OPEN, identity-narrowed delivery route. Derived
-            # from the same decision rather than written out again, so it cannot
-            # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ]; then
+            # The OPEN, identity-narrowed delivery route is a payment-journey
+            # need. A non-transacting matrix does not open it.
+            if [ "$S_TXN" = "true" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
             fi
           } >> "$GITHUB_OUTPUT"
-          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
+          echo "phase=$PHASE lane=$LANE deploy=$DEPLOY matrix=$MATRIX verifyGate=$VERIFY_GATE session=$CHECKOUT_SESSION stripeSecretAccess=$S_ACCESS stripeTransaction=$S_TXN paymentExercised=$PAYMENT_EXERCISED"
 
       # Runs in every phase that runs the gate, not just the gate-only phase.
       # It used to be `inputs.phase == 'checkout_gate'`, so a `full` run executed
@@ -293,13 +610,16 @@ jobs:
       # worker digest. A guard that skips the phase it most needs to cover is
       # not a guard.
       #
+      # NAMING: this is STATIC. It reads the committed pinning records and opens
+      # no socket. It is not, and must not be read as, a Checkout Session test.
+      #
       # It must sit AFTER the contract step: a condition reading
       # steps.contract.outputs.* from a position above that step resolves to the
       # empty string and silently skips — the same class of defect this step
       # exists to catch, which is exactly how it behaved when placed earlier.
-      - name: Verify the reuse-only human Checkout gate
-        id: verify_checkout_gate
-        if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'
+      - name: Static verification that the Checkout pinning records name the accepted release (no Stripe call)
+        id: verify_checkout_pinning
+        if: steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.verify_gate == 'true'
         run: node scripts/verify-rcap-hosted-checkout-gate.mjs
 
       # ONE boundary for which Preview the matrix runs against. Always executes
@@ -312,7 +632,7 @@ jobs:
       # operator's instruction to test one specific deployment.
       - name: Resolve the Preview this run will use
         id: resolve_preview
-        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
+        if: steps.contract.outputs.lane == 'nonpayment' && (steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true')
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -331,7 +651,7 @@ jobs:
         id: deploy_preview
         # Suppressed entirely when the resolver reused an exact READY Preview:
         # reuse means no Vercel deployment command runs at all.
-        if: steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
+        if: steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -339,13 +659,14 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
-          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-          # Only the payment phase opens the delivery route, and only to the one
-          # named synthetic identity the deploy resolves. Every other phase
-          # leaves the flag unset so the control's disabled default applies.
-          HOSTED_ROUTE_STATE: ${{ inputs.phase == 'payment' && 'staging_scoped' || '' }}
+          # NO Stripe secret is passed, and none exists to pass: this job's
+          # environment is rcap-acceptance, which by owner decision holds
+          # neither Stripe secret. The deploy script substitutes its own
+          # non-transacting placeholder, so a Preview built here cannot create
+          # a Checkout Session. The delivery route stays at its disabled
+          # default; only the payment lane opens it.
+          HOSTED_ROUTE_STATE: ""
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
         run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
@@ -354,7 +675,7 @@ jobs:
       # site_url and uri_allow_list, and only on the acceptance project.
       - name: Configure acceptance Auth and create the synthetic identities
         id: auth_identities
-        if: steps.contract.outputs.matrix == 'true'
+        if: steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.matrix == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -368,7 +689,7 @@ jobs:
       # runtime-classification cases, and the pinned worker image by digest.
       - name: Build the frozen application for the matrix runtimes
         id: matrix_build
-        if: steps.contract.outputs.matrix == 'true'
+        if: steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.matrix == 'true'
         env:
           NEXT_TELEMETRY_DISABLED: "1"
         run: |
@@ -378,7 +699,7 @@ jobs:
 
       - name: Log in to the container registry for the pinned worker image
         id: registry_login
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
+        if: steps.contract.outputs.lane == 'nonpayment' && (steps.contract.outputs.matrix == 'true' || steps.contract.outputs.diagnose == 'true')
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -392,7 +713,7 @@ jobs:
       # synthesizes a completion event, runs the worker, or cleans up the item.
       - name: Install frozen application dependencies for the Checkout gate
         id: gate_deps
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
+        if: steps.contract.outputs.lane == 'nonpayment' && (steps.contract.outputs.matrix == 'true' || steps.contract.outputs.diagnose == 'true')
         run: npm ci
 
       # Placed AFTER the registry login and the dependency install, because it
@@ -404,7 +725,7 @@ jobs:
       # defect: a guard placed ahead of the step that gives it a runtime.
       - name: Diagnose the worker contract contradiction
         id: worker_contract
-        if: steps.contract.outputs.diagnose == 'true'
+        if: steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.diagnose == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -412,82 +733,9 @@ jobs:
           CONTRADICTION_JOB_ID: ${{ inputs.contradiction_job_id }}
         run: node scripts/rcap-worker-contract-contradiction.mjs
 
-      # Bound to the contract's own GATE flag alone. This is the REUSE-ONLY human
-      # Checkout gate: it prepares one real Sandbox Session for Roger and stops
-      # unpaid. `payment` sets GATE=false because the automated payment journey
-      # covers the unpaid-402 and cs_test_ Checkout cases itself, so running this
-      # under `payment` contradicted the contract that scheduled the phase.
-      - name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid
-        id: checkout_gate
-        if: steps.contract.outputs.gate == 'true'
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
-          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
-          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
-          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-        run: node scripts/rcap-hosted-checkout-gate.mjs
-
-      - name: Run the hosted golden-journey matrix
-        id: golden_journey
-        if: steps.contract.outputs.matrix == 'true'
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
-        run: node scripts/rcap-hosted-acceptance-matrix.mjs
-
-      # Runs even when the matrix fails: the gallery URLs are what Roger opens
-      # on a phone, and they are worth having in the evidence either way.
-      # Before the journey spends a real Sandbox Checkout: the harness must
-      # still follow THIS run's job, still read columns that exist, still scope
-      # its replay to its own identities, and still refuse to charge before the
-      # published image has admitted the tuple. Run 32393413747 spent all of
-      # that and then reported another run's backlog job as its own result.
-      #
-      # Deliberately ABOVE the payment step and below `npm ci`: a guard placed
-      # after the thing it guards is not a guard, and one placed before its
-      # runtime does not run at all.
-      - name: The payment harness still follows this run's own job
-        id: verify_harness
-        if: steps.contract.outputs.matrix == 'true'
-        run: |
-          node scripts/verify-rcap-target-worker-journey.mjs
-          node scripts/verify-rcap-target-worker-journey.mjs --mutations
-          node scripts/verify-rcap-target-replay-scope.mjs
-          node scripts/verify-rcap-target-replay-scope.mjs --mutations
-          node scripts/verify-rcap-immutable-image-preflight.mjs
-          node scripts/verify-rcap-immutable-image-preflight.mjs --mutations
-          node scripts/verify-rcap-hosted-job-read-columns.mjs
-          node scripts/verify-rcap-hosted-job-read-columns.mjs --mutations
-          node scripts/verify-rcap-packet-contract.mjs
-          node scripts/verify-rcap-packet-contract.mjs --mutations
-
-      - name: Run the hosted Stripe payment and packet-delivery journey
-        id: payment_journey
-        if: steps.contract.outputs.matrix == 'true'
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
-          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
-        run: node scripts/rcap-hosted-acceptance-payment.mjs
-
       - name: Prove the Pennsylvania, Mississippi and Illinois galleries render
         id: galleries
-        if: always() && steps.contract.outputs.matrix == 'true'
+        if: always() && steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.matrix == 'true'
         env:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -504,15 +752,22 @@ jobs:
       # `always()` so the gate itself cannot be skipped by an earlier failure,
       # and it asserts outcomes explicitly — `skipped`, `cancelled`, `failure`
       # and an absent id all fail. Only `success` passes.
-      - name: Every required matrix step actually ran
+      - name: Every required non-payment step actually ran
         id: antiskip
         if: always()
         env:
           PHASE: ${{ inputs.phase }}
+          LANE: ${{ steps.contract.outputs.lane }}
           O_CONTRACT: ${{ steps.contract.outcome }}
           RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
-          RUNS_GATE: ${{ steps.contract.outputs.gate }}
+          RUNS_VERIFY_GATE: ${{ steps.contract.outputs.verify_gate }}
           RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
+          STRIPE_SECRET_ACCESS: ${{ steps.contract.outputs.stripe_secret_access }}
+          STRIPE_TRANSACTION: ${{ steps.contract.outputs.stripe_transaction }}
+          PAYMENT_EXERCISED: ${{ steps.contract.outputs.payment_exercised }}
+          CHECKOUT_SESSION: ${{ steps.contract.outputs.checkout_session }}
+          O_MIGRATE: ${{ steps.migrate_readback.outcome }}
+          O_PROBE: ${{ steps.environment_probe.outcome }}
           O_DIAGNOSE: ${{ steps.worker_contract.outcome }}
           O_RESOLVE: ${{ steps.resolve_preview.outcome }}
           O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
@@ -521,11 +776,11 @@ jobs:
           O_BUILD: ${{ steps.matrix_build.outcome }}
           O_REGISTRY: ${{ steps.registry_login.outcome }}
           O_DEPS: ${{ steps.gate_deps.outcome }}
-          O_VERIFY_GATE: ${{ steps.verify_checkout_gate.outcome }}
-          O_GATE: ${{ steps.checkout_gate.outcome }}
+          O_VERIFY_GATE: ${{ steps.verify_checkout_pinning.outcome }}
+          O_WORKER_AUTHORITY: ${{ steps.worker_authority.outcome }}
+          O_AUDIT_EQUIVALENCE: ${{ steps.audit_equivalence.outcome }}
           O_GOLDEN: ${{ steps.golden_journey.outcome }}
           O_VERIFY_HARNESS: ${{ steps.verify_harness.outcome }}
-          O_PAYMENT: ${{ steps.payment_journey.outcome }}
           O_GALLERY: ${{ steps.galleries.outcome }}
         run: |
           set -uo pipefail
@@ -538,21 +793,68 @@ jobs:
               *)       echo "  $2  $1"; fail=1 ;;
             esac
           }
-          echo "phase=$PHASE contract=$O_CONTRACT matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE"
+          echo "phase=$PHASE lane=$LANE contract=$O_CONTRACT matrix=$RUNS_MATRIX verifyGate=$RUNS_VERIFY_GATE"
           # Without this, a contract step that failed or never ran leaves
           # RUNS_MATRIX empty, the assertions below are all skipped, and this
           # gate reports success having checked nothing — the exact vacuous pass
           # it exists to prevent. Every phase must reach a real decision.
           if [ "$O_CONTRACT" != "success" ]; then
             echo "  $O_CONTRACT  execution contract did not produce a decision; nothing downstream can be trusted"
-            echo "::error::the phase contract did not run to success, so this gate cannot assert the matrix ran; this run is not acceptance evidence"
+            echo "::error::the phase contract did not run to success, so this gate cannot assert what ran; this run is not acceptance evidence"
             exit 1
           fi
-          case "$RUNS_MATRIX/$RUNS_GATE" in
-            true/*|false/true|false/false) ;;
-            *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE', which is not a decision this gate can read"; exit 1 ;;
+          # This job must never hold Stripe authorization. If the contract says
+          # otherwise the lane split has been broken and the run is refused.
+          if [ "$STRIPE_SECRET_ACCESS" = "true" ] && [ "$LANE" != "payment" ]; then
+            echo "::error::the contract claims Stripe secret access outside the payment lane"; exit 1
+          fi
+          if [ "$STRIPE_TRANSACTION" = "true" ] && [ "$LANE" != "payment" ]; then
+            echo "::error::the contract claims Stripe transaction authority outside the payment lane"; exit 1
+          fi
+          if [ "$STRIPE_TRANSACTION" = "true" ] && [ "$STRIPE_SECRET_ACCESS" != "true" ]; then
+            echo "::error::transaction authority without secret access"; exit 1
+          fi
+          if [ "$PAYMENT_EXERCISED" != "false" ] && [ "$LANE" != "payment" ]; then
+            echo "::error::a non-payment lane must report PAYMENT_EXERCISED=false"; exit 1
+          fi
+          if [ "$CHECKOUT_SESSION" = "true" ] && [ "$LANE" != "payment" ]; then
+            echo "::error::the contract scheduled a Checkout Session outside the payment lane"; exit 1
+          fi
+          case "$LANE" in
+            probe)
+              # environment_probe: the probe step is the whole phase. Nothing
+              # external ran, and nothing external was supposed to.
+              require "read-only acceptance environment probe" "$O_PROBE"
+              echo "  ok       PAYMENT_EXERCISED=false; no Supabase, Vercel, registry or Stripe request was made"
+              ;;
+            payment)
+              # The payment lane's work belongs to the hosted_payment job, which
+              # carries its own anti-skip gate. What this job owes the payment
+              # lane is the migrate readback and both deployment gates, and it
+              # must have produced them.
+              require "worker image authority resolved"          "$O_WORKER_AUTHORITY"
+              require "audited surface equals deployment source"  "$O_AUDIT_EQUIVALENCE"
+              require "authorized migration sequence readback"    "$O_MIGRATE"
+              echo "  ok       payment lane: Preview, Checkout and payment journey are asserted by hosted_payment"
+              ;;
+            nonpayment) ;;
+            *)
+              echo "::error::the contract emitted lane='$LANE', which is not a decision this gate can read"; exit 1 ;;
           esac
-          if [ "$RUNS_MATRIX" = "true" ]; then
+          if [ "$LANE" = "probe" ]; then
+            if [ "$fail" -ne 0 ]; then
+              echo "::error::the environment probe did not run"; exit 1
+            fi
+            echo "PAYMENT_EXERCISED=false"
+            exit 0
+          fi
+          case "$RUNS_MATRIX/$RUNS_VERIFY_GATE" in
+            true/*|false/true|false/false) ;;
+            *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' verify_gate='$RUNS_VERIFY_GATE', which is not a decision this gate can read"; exit 1 ;;
+          esac
+          if [ "$LANE" = "nonpayment" ] && [ "$RUNS_MATRIX" = "true" ]; then
+            require "worker image authority resolved"    "$O_WORKER_AUTHORITY"
+            require "audited surface equals deployment source" "$O_AUDIT_EQUIVALENCE"
             require "Preview resolution boundary"        "$O_RESOLVE"
             # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
             if [ "$O_REUSED" != "true" ]; then
@@ -565,42 +867,572 @@ jobs:
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
             require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
-            # Only a phase whose contract set GATE=true runs the reuse-only human
-            # Checkout gate. Requiring it unconditionally would demand a step the
-            # contract deliberately did not schedule.
-            if [ "$RUNS_GATE" = "true" ]; then
-              require "Sandbox Checkout and unpaid 402"  "$O_GATE"
-            else
-              echo "  ok       reuse-only Checkout gate not scheduled by this phase"
-            fi
             require "hosted golden-journey matrix"       "$O_GOLDEN"
-            require "payment harness follows this run's job" "$O_VERIFY_HARNESS"
-            require "Stripe payment and packet delivery" "$O_PAYMENT"
+            require "worker harness follows this run's job" "$O_VERIFY_HARNESS"
             require "PA / MS / IL galleries"             "$O_GALLERY"
-          elif [ "$RUNS_GATE" = "true" ]; then
-            require "registry login for accepted worker" "$O_REGISTRY"
-            require "frozen dependencies"                "$O_DEPS"
+            # Stated rather than left to inference: this lane produced NO
+            # Checkout Session and NO payment journey, by construction. An
+            # acceptance run that reports completeness must say what it did not
+            # do as well as what it did.
+            echo "  ok       non-payment acceptance: no Stripe call, no Checkout Session, no payment journey"
+          elif [ "$LANE" = "nonpayment" ] && [ "$RUNS_VERIFY_GATE" = "true" ]; then
+            require "worker image authority resolved"    "$O_WORKER_AUTHORITY"
+            require "audited surface equals deployment source" "$O_AUDIT_EQUIVALENCE"
             require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
-            require "Sandbox Checkout and unpaid 402"    "$O_GATE"
-          elif [ "$RUNS_DIAGNOSE" = "true" ]; then
+            echo "  ok       checkout_pinning phase is static: the pinning verification ran, no socket was opened and nothing transacted"
+          elif [ "$LANE" = "nonpayment" ] && [ "$RUNS_DIAGNOSE" = "true" ]; then
+            require "worker image authority resolved"    "$O_WORKER_AUTHORITY"
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
             require "worker contract diagnosis"          "$O_DIAGNOSE"
-          else
+          elif [ "$LANE" = "nonpayment" ]; then
             echo "  phase does not claim the matrix; nothing to assert here."
           fi
           if [ "$fail" -ne 0 ]; then
-            echo "::error::a phase that claims the payment-to-PDF matrix did not run every required step; this run is not acceptance evidence"
+            echo "::error::a phase that claims non-payment acceptance did not run every required step; this run is not acceptance evidence"
             exit 1
           fi
 
       # The verdict must come from the emitted evidence, not from the fact that
       # the job reached its end.
       - name: The emitted evidence earns the verdict it reports
-        if: always() && steps.contract.outputs.matrix == 'true'
+        if: always() && steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.matrix == 'true'
         run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
 
+      # Every artifact this job emits carries the fact explicitly, so a green
+      # non-payment run cannot be read as "paid acceptance is complete". The
+      # probe phases skip this because they never checked out the repository —
+      # their single artifact already carries PAYMENT_EXERCISED inline.
+      - name: Stamp PAYMENT_EXERCISED=false on every non-payment artifact
+        id: stamp_payment_exercised
+        if: always() && contains(fromJSON('["environment_probe","payment_environment_probe"]'), inputs.phase) == false
+        env:
+          RCAP_PAYMENT_EXERCISED: "false"
+          RCAP_PHASE: ${{ inputs.phase }}
+        run: node scripts/rcap-stamp-payment-exercised.mjs
+
       - name: Upload the hosted acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-hosted-${{ inputs.phase }}-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # THE PAYMENT PHASE, AND NOTHING ELSE.
+  #
+  # This is the only job in the repository that carries a
+  # `secrets.HOSTED_STRIPE_*` expression, the only one whose environment is
+  # `rcap-acceptance-payment`, and the only one that runs a Stripe-transacting
+  # script. It exists as a separate job for one reason: a job has exactly one
+  # environment, and the owner decision is that the Stripe test secrets live in
+  # exactly one environment. Gating steps inside the non-payment job would have
+  # left `secrets.HOSTED_STRIPE_TEST_SECRET` written in a job whose environment
+  # does not hold it — which resolves to an empty string, not to a refusal.
+  #
+  # It needs hosted_write, so the migrate readback, the worker-authority gate
+  # and the audited-surface equivalence gate have already passed before a single
+  # Stripe call is made. It builds its OWN Preview: a Stripe-configured
+  # deployment can only come from the environment that holds the Stripe
+  # configuration.
+  # ---------------------------------------------------------------------------
+  hosted_payment:
+    name: Hosted acceptance — Stripe secret access (probe) and Stripe test payment
+    if: inputs.phase == 'payment' || inputs.phase == 'payment_environment_probe'
+    needs: hosted_write
+    environment:
+      name: rcap-acceptance-payment
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      # SENTINEL — first executable step, before checkout and before any
+      # network-capable or externally writing step. See the acceptance sentinel
+      # in hosted_write for why an empty environment is the failure mode this
+      # exists to catch.
+      - name: Payment environment identity sentinel
+        id: env_identity
+        env:
+          OBSERVED_ID: ${{ vars.RCAP_ENVIRONMENT_ID }}
+          OBSERVED_CLASS: ${{ vars.RCAP_ENVIRONMENT_CLASS }}
+        run: |
+          set -euo pipefail
+          EXPECTED_ID="rcap-acceptance-payment-v1"
+          EXPECTED_CLASS="nonproduction-acceptance-payment"
+          fail=0
+          if [ -z "${OBSERVED_ID:-}" ]; then
+            echo "  RCAP_ENVIRONMENT_ID is missing or empty"; fail=1
+          elif [ "$OBSERVED_ID" != "$EXPECTED_ID" ]; then
+            echo "  RCAP_ENVIRONMENT_ID is '$OBSERVED_ID'; expected '$EXPECTED_ID'"; fail=1
+          else
+            echo "  ok  RCAP_ENVIRONMENT_ID=$EXPECTED_ID"
+          fi
+          if [ -z "${OBSERVED_CLASS:-}" ]; then
+            echo "  RCAP_ENVIRONMENT_CLASS is missing or empty"; fail=1
+          elif [ "$OBSERVED_CLASS" != "$EXPECTED_CLASS" ]; then
+            echo "  RCAP_ENVIRONMENT_CLASS is '$OBSERVED_CLASS'; expected '$EXPECTED_CLASS'"; fail=1
+          else
+            echo "  ok  RCAP_ENVIRONMENT_CLASS=$EXPECTED_CLASS"
+          fi
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::PAYMENT_ENVIRONMENT_IDENTITY_INVALID"
+            echo "PAYMENT_ENVIRONMENT_IDENTITY_INVALID"
+            echo "The rcap-acceptance-payment environment is missing, empty or wrongly configured. Refusing before checkout and before any Stripe access."
+            exit 1
+          fi
+
+      - name: Refuse retired and renamed legacy phase values
+        id: legacy_refusal
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+        run: |
+          set -euo pipefail
+          case "$PHASE_INPUT" in
+            github_acceptance)
+              echo "::error::GITHUB_ACCEPTANCE_RETIRED"
+              echo "GITHUB_ACCEPTANCE_RETIRED"
+              echo "Use hosted_payment for payment-producing acceptance."
+              exit 1 ;;
+          esac
+          echo "phase '$PHASE_INPUT' is not a retired legacy value"
+
+      # SECRET ACCESS is not TRANSACTION AUTHORITY. The probe phase gets the
+      # first and never the second; only `payment` gets both. Every
+      # Stripe-touching step below reads this decision rather than re-deriving
+      # it from `inputs.phase`.
+      - name: Split Stripe secret access from transaction authority
+        id: capability
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+        run: |
+          set -euo pipefail
+          case "$PHASE_INPUT" in
+            payment_environment_probe) S_ACCESS=true; S_TXN=false ;;
+            payment)                   S_ACCESS=true; S_TXN=true  ;;
+            *)                         S_ACCESS=false; S_TXN=false ;;
+          esac
+          if [ "$S_ACCESS" != "true" ]; then
+            echo "::error::this job runs only for payment or payment_environment_probe"; exit 1
+          fi
+          if [ "$S_TXN" = "true" ] && [ "$PHASE_INPUT" != "payment" ]; then
+            echo "::error::only phase 'payment' may transact"; exit 1
+          fi
+          if [ "$S_TXN" = "true" ] && [ "$S_ACCESS" != "true" ]; then
+            echo "::error::transaction authority without secret access"; exit 1
+          fi
+          if [ "$S_TXN" = "true" ]; then PAYMENT_EXERCISED=true; else PAYMENT_EXERCISED=false; fi
+          {
+            echo "stripe_secret_access=$S_ACCESS"
+            echo "stripe_transaction=$S_TXN"
+            echo "payment_exercised=$PAYMENT_EXERCISED"
+          } >> "$GITHUB_OUTPUT"
+          echo "phase=$PHASE_INPUT stripeSecretAccess=$S_ACCESS stripeTransaction=$S_TXN paymentExercised=$PAYMENT_EXERCISED"
+
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
+          PREVIEW_HOSTNAME_INPUT: ${{ inputs.preview_hostname }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          SUPABASE_PROJECT_REF_INPUT: ${{ inputs.supabase_project_ref }}
+          UPSTREAM_LANE: ${{ needs.hosted_write.outputs.lane }}
+        run: |
+          set -euo pipefail
+          case "$PHASE_INPUT" in
+            payment|payment_environment_probe) ;;
+            *) echo "::error::this job runs only for payment or payment_environment_probe"; exit 1 ;;
+          esac
+          [ "$UPSTREAM_LANE" = "payment" ] || { echo "::error::hosted_write did not classify this run as the payment lane (lane='$UPSTREAM_LANE')"; exit 1; }
+          [ "$APPLICATION_SHA_INPUT" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          if [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::preview_deployment_id must be one exact Vercel deployment id"; exit 1; }
+          fi
+          if [ -n "$PREVIEW_HOSTNAME_INPUT" ]; then
+            printf '%s' "$PREVIEW_HOSTNAME_INPUT" | grep -Eq '^[A-Za-z0-9.-]+\.vercel\.app$' \
+              || { echo "::error::preview_hostname must be one exact *.vercel.app hostname"; exit 1; }
+          fi
+
+      # FAIL CLOSED on an absent secret. Without this the payment journey would
+      # reach its own sk_test_ check and refuse there, which is correct but
+      # reports as a journey failure rather than as "this environment is not
+      # configured to pay". An empty secret must never read as a skipped step.
+      - name: The payment environment actually holds the Stripe test secrets
+        id: stripe_present
+        env:
+          STRIPE_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          STRIPE_WEBHOOK: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+        run: |
+          set -euo pipefail
+          missing=""
+          [ -n "$STRIPE_SECRET" ]  || missing="$missing HOSTED_STRIPE_TEST_SECRET"
+          [ -n "$STRIPE_WEBHOOK" ] || missing="$missing HOSTED_STRIPE_TEST_WEBHOOK_SECRET"
+          if [ -n "$missing" ]; then
+            echo "::error::the rcap-acceptance-payment environment is missing:$missing — the payment phase refuses rather than running an un-transacting journey and reporting it as complete"
+            exit 1
+          fi
+          # Shape only. Neither value is printed, and the length is not reported.
+          case "$STRIPE_SECRET" in
+            sk_test_*) ;;
+            *) echo "::error::HOSTED_STRIPE_TEST_SECRET is not an sk_test_ sandbox key; refusing"; exit 1 ;;
+          esac
+          case "$STRIPE_WEBHOOK" in
+            whsec_*) ;;
+            *) echo "::error::HOSTED_STRIPE_TEST_WEBHOOK_SECRET is not a whsec_ signing secret; refusing"; exit 1 ;;
+          esac
+          echo "both Stripe test secrets are present and correctly shaped"
+
+      # The read-only payment environment probe. It holds STRIPE_SECRET_ACCESS
+      # and inspects FORMAT only: no api.stripe.com request, no Checkout
+      # Session, no webhook, no external write of any kind. It prints secret
+      # NAMES and booleans and nothing else.
+      - name: Read-only payment environment probe
+        id: payment_environment_probe
+        if: inputs.phase == 'payment_environment_probe'
+        env:
+          S_SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          S_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          S_VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          S_VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          S_VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          S_STRIPE: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          S_WEBHOOK: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          OBSERVED_ID: ${{ vars.RCAP_ENVIRONMENT_ID }}
+          OBSERVED_CLASS: ${{ vars.RCAP_ENVIRONMENT_CLASS }}
+          STRIPE_SECRET_ACCESS: ${{ steps.capability.outputs.stripe_secret_access }}
+          STRIPE_TRANSACTION: ${{ steps.capability.outputs.stripe_transaction }}
+        run: |
+          set -euo pipefail
+          mkdir -p hosted-acceptance-evidence
+          if [ "$STRIPE_TRANSACTION" = "true" ]; then
+            echo "::error::the probe must never hold transaction authority"; exit 1
+          fi
+          present() { if [ -n "$1" ]; then echo true; else echo false; fi; }
+          A=$(present "${S_SUPABASE_ACCESS_TOKEN:-}")
+          B=$(present "${S_VERCEL_TOKEN:-}")
+          C=$(present "${S_VERCEL_ORG_ID:-}")
+          D=$(present "${S_VERCEL_PROJECT_ID:-}")
+          E=$(present "${S_VERCEL_AUTOMATION_BYPASS_SECRET:-}")
+          # FORMAT only, by prefix. No value, no length, no suffix is printed.
+          case "${S_STRIPE:-}" in sk_test_*) K=true ;; *) K=false ;; esac
+          case "${S_WEBHOOK:-}" in whsec_*) W=true ;; *) W=false ;; esac
+          echo "  SUPABASE_ACCESS_TOKEN present=$A"
+          echo "  VERCEL_TOKEN present=$B"
+          echo "  VERCEL_ORG_ID present=$C"
+          echo "  VERCEL_PROJECT_ID present=$D"
+          echo "  VERCEL_AUTOMATION_BYPASS_SECRET present=$E"
+          echo "  HOSTED_STRIPE_TEST_SECRET sk_test_ format=$K"
+          echo "  HOSTED_STRIPE_TEST_WEBHOOK_SECRET whsec_ format=$W"
+          printf '%s\n' \
+            '{' \
+            '  "schemaVersion": "rcap-payment-environment-probe/v1",' \
+            '  "phase": "payment_environment_probe",' \
+            '  "environment": "rcap-acceptance-payment",' \
+            '  "externalRequestsMade": 0,' \
+            '  "stripeApiCallsMade": 0,' \
+            '  "checkoutSessionsCreated": 0,' \
+            '  "webhooksConsumed": 0,' \
+            '  "PAYMENT_EXERCISED": false,' \
+            '  "paymentExercised": false,' \
+            "  \"capability\": { \"STRIPE_SECRET_ACCESS\": $STRIPE_SECRET_ACCESS, \"STRIPE_TRANSACTION\": $STRIPE_TRANSACTION }," \
+            "  \"environmentIdentity\": { \"RCAP_ENVIRONMENT_ID\": \"$OBSERVED_ID\", \"RCAP_ENVIRONMENT_CLASS\": \"$OBSERVED_CLASS\", \"matchesExpected\": true }," \
+            "  \"sharedSecretPresence\": { \"SUPABASE_ACCESS_TOKEN\": $A, \"VERCEL_TOKEN\": $B, \"VERCEL_ORG_ID\": $C, \"VERCEL_PROJECT_ID\": $D, \"VERCEL_AUTOMATION_BYPASS_SECRET\": $E }," \
+            "  \"stripeSecretFormat\": { \"HOSTED_STRIPE_TEST_SECRET_is_sk_test\": $K, \"HOSTED_STRIPE_TEST_WEBHOOK_SECRET_is_whsec\": $W }" \
+            '}' > hosted-acceptance-evidence/payment-environment-probe.json
+          missing=""
+          [ "$A" = true ] || missing="$missing SUPABASE_ACCESS_TOKEN"
+          [ "$B" = true ] || missing="$missing VERCEL_TOKEN"
+          [ "$C" = true ] || missing="$missing VERCEL_ORG_ID"
+          [ "$D" = true ] || missing="$missing VERCEL_PROJECT_ID"
+          [ "$E" = true ] || missing="$missing VERCEL_AUTOMATION_BYPASS_SECRET"
+          [ "$K" = true ] || missing="$missing HOSTED_STRIPE_TEST_SECRET(sk_test_)"
+          [ "$W" = true ] || missing="$missing HOSTED_STRIPE_TEST_WEBHOOK_SECRET(whsec_)"
+          if [ -n "$missing" ]; then
+            echo "::error::PAYMENT_ENVIRONMENT_IDENTITY_INVALID"
+            echo "PAYMENT_ENVIRONMENT_IDENTITY_INVALID"
+            echo "the rcap-acceptance-payment environment is missing or malformed:$missing"
+            exit 1
+          fi
+          echo "PAYMENT_EXERCISED=false"
+
+      - name: Check out repository history
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry and image-input equivalence of every pinned SHA
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
+            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Static verification that the Checkout pinning records name the accepted release (no Stripe call)
+        id: verify_checkout_pinning
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        run: node scripts/verify-rcap-hosted-checkout-gate.mjs
+
+      - name: Resolve the Preview this run will use
+        id: resolve_preview
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          HOSTED_REQUIRE_STAGING_SCOPED: "true"
+        run: node scripts/rcap-hosted-resolve-preview.mjs
+
+      # The only Stripe-configured Preview in the system, built by the only
+      # environment that holds the Stripe configuration.
+      - name: Deploy the frozen application SHA to Vercel Preview with Stripe test configuration
+        id: deploy_preview
+        if: steps.capability.outputs.stripe_transaction == 'true' && steps.resolve_preview.outputs.reused != 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          # The payment phase is the only one that opens the delivery route, and
+          # only to the one named synthetic identity the deploy resolves.
+          HOSTED_ROUTE_STATE: staging_scoped
+          HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
+        run: node scripts/rcap-hosted-acceptance-deploy.mjs
+
+      - name: Configure acceptance Auth and create the synthetic identities
+        id: auth_identities
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: node scripts/rcap-hosted-acceptance-auth-config.mjs
+
+      - name: Build the frozen application for the matrix runtimes
+        id: matrix_build
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run build
+
+      - name: Log in to the container registry for the pinned worker image
+        id: registry_login
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install frozen application dependencies for the Checkout gate
+        id: gate_deps
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        run: npm ci
+
+      # MOVED HERE from the checkout_gate phase. It necessarily calls Stripe —
+      # it creates one real Sandbox Checkout Session through the application and
+      # stops while the item and Session are still unpaid — so under the owner
+      # decision it belongs to the payment phase and to no other.
+      - name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid
+        id: checkout_gate
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: node scripts/rcap-hosted-checkout-gate.mjs
+
+      - name: Run the hosted golden-journey matrix
+        id: golden_journey
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+        run: node scripts/rcap-hosted-acceptance-matrix.mjs
+
+      - name: The payment harness still follows this run's own job
+        id: verify_harness
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        run: |
+          node scripts/verify-rcap-target-worker-journey.mjs
+          node scripts/verify-rcap-target-worker-journey.mjs --mutations
+          node scripts/verify-rcap-target-replay-scope.mjs
+          node scripts/verify-rcap-target-replay-scope.mjs --mutations
+          node scripts/verify-rcap-immutable-image-preflight.mjs
+          node scripts/verify-rcap-immutable-image-preflight.mjs --mutations
+          node scripts/verify-rcap-hosted-job-read-columns.mjs
+          node scripts/verify-rcap-hosted-job-read-columns.mjs --mutations
+          node scripts/verify-rcap-packet-contract.mjs
+          node scripts/verify-rcap-packet-contract.mjs --mutations
+
+      - name: Run the hosted Stripe payment and packet-delivery journey
+        id: payment_journey
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+        run: node scripts/rcap-hosted-acceptance-payment.mjs
+
+      - name: Prove the Pennsylvania, Mississippi and Illinois galleries render
+        id: galleries
+        if: always() && steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-hosted-acceptance-gallery.mjs
+
+      - name: Every required payment step actually ran
+        id: antiskip
+        if: always()
+        env:
+          PHASE: ${{ inputs.phase }}
+          STRIPE_SECRET_ACCESS: ${{ steps.capability.outputs.stripe_secret_access }}
+          STRIPE_TRANSACTION: ${{ steps.capability.outputs.stripe_transaction }}
+          PAYMENT_EXERCISED: ${{ steps.capability.outputs.payment_exercised }}
+          O_ENV_IDENTITY: ${{ steps.env_identity.outcome }}
+          O_CAPABILITY: ${{ steps.capability.outcome }}
+          O_PROBE: ${{ steps.payment_environment_probe.outcome }}
+          O_STRIPE_PRESENT: ${{ steps.stripe_present.outcome }}
+          O_VERIFY_GATE: ${{ steps.verify_checkout_pinning.outcome }}
+          O_RESOLVE: ${{ steps.resolve_preview.outcome }}
+          O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
+          O_DEPLOY: ${{ steps.deploy_preview.outcome }}
+          O_AUTH: ${{ steps.auth_identities.outcome }}
+          O_BUILD: ${{ steps.matrix_build.outcome }}
+          O_REGISTRY: ${{ steps.registry_login.outcome }}
+          O_DEPS: ${{ steps.gate_deps.outcome }}
+          O_GATE: ${{ steps.checkout_gate.outcome }}
+          O_GOLDEN: ${{ steps.golden_journey.outcome }}
+          O_VERIFY_HARNESS: ${{ steps.verify_harness.outcome }}
+          O_PAYMENT: ${{ steps.payment_journey.outcome }}
+          O_GALLERY: ${{ steps.galleries.outcome }}
+        run: |
+          set -uo pipefail
+          fail=0
+          require() {
+            case "${2:-}" in
+              success) echo "  ok       $1" ;;
+              "")      echo "  MISSING  $1 — the step id does not exist; the gate is asserting nothing"; fail=1 ;;
+              *)       echo "  $2  $1"; fail=1 ;;
+            esac
+          }
+          require "payment environment identity sentinel"            "$O_ENV_IDENTITY"
+          require "capability split resolved"                        "$O_CAPABILITY"
+          if [ "$STRIPE_TRANSACTION" = "true" ] && [ "$STRIPE_SECRET_ACCESS" != "true" ]; then
+            echo "::error::transaction authority without secret access"; exit 1
+          fi
+          if [ "$STRIPE_TRANSACTION" = "true" ] && [ "$PHASE" != "payment" ]; then
+            echo "::error::only phase 'payment' may transact"; exit 1
+          fi
+          # The probe phase holds secret access and no transaction authority. It
+          # must have run the probe and NOTHING else, and it must report that it
+          # exercised no payment.
+          if [ "$STRIPE_TRANSACTION" != "true" ]; then
+            require "read-only payment environment probe" "$O_PROBE"
+            if [ "$PAYMENT_EXERCISED" != "false" ]; then
+              echo "::error::a non-transacting phase must report PAYMENT_EXERCISED=false"; exit 1
+            fi
+            if [ "$fail" -ne 0 ]; then
+              echo "::error::the payment environment probe did not run"; exit 1
+            fi
+            echo "  ok       PAYMENT_EXERCISED=false; no Stripe API call, no Checkout Session, no webhook, no external write"
+            echo "PAYMENT_EXERCISED=false"
+            exit 0
+          fi
+          require "Stripe test secrets present and correctly shaped" "$O_STRIPE_PRESENT"
+          require "Checkout pinning records name the accepted release" "$O_VERIFY_GATE"
+          require "Preview resolution boundary"                      "$O_RESOLVE"
+          if [ "$O_REUSED" != "true" ]; then
+            require "deploy one new Stripe-configured Preview"       "$O_DEPLOY"
+          else
+            echo "  ok       Preview reused; no deployment command executed"
+          fi
+          require "acceptance Auth and identities"                   "$O_AUTH"
+          require "frozen application build"                         "$O_BUILD"
+          require "registry login for accepted worker"               "$O_REGISTRY"
+          require "frozen dependencies"                              "$O_DEPS"
+          require "Sandbox Checkout and unpaid 402"                  "$O_GATE"
+          require "hosted golden-journey matrix"                     "$O_GOLDEN"
+          require "payment harness follows this run's job"           "$O_VERIFY_HARNESS"
+          require "Stripe payment and packet delivery"               "$O_PAYMENT"
+          require "PA / MS / IL galleries"                           "$O_GALLERY"
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::the payment phase did not run every required step; this run is not payment acceptance evidence"
+            exit 1
+          fi
+          echo "PAYMENT_EXERCISED=true"
+
+      - name: The emitted evidence earns the verdict it reports
+        if: always() && steps.capability.outputs.stripe_transaction == 'true'
+        run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
+
+      - name: Stamp PAYMENT_EXERCISED on every payment-job artifact
+        id: stamp_payment_exercised
+        if: always() && steps.capability.outputs.stripe_transaction == 'true'
+        env:
+          RCAP_PAYMENT_EXERCISED: ${{ steps.capability.outputs.payment_exercised }}
+          RCAP_PHASE: ${{ inputs.phase }}
+        run: node scripts/rcap-stamp-payment-exercised.mjs
+
+      - name: Upload the hosted payment evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
