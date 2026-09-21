@@ -83,7 +83,7 @@ exactly this one:
 |---|---|
 | jurisdiction | `MS` |
 | pathwayId | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` |
-| **pathwayLabel** (this is what the gate passes as `pathway`) | `Non-conviction expungement for dismissal, no disposition, or acquittal` |
+| **pathwayLabel** (assert separately; not the builder route key) | `Non-conviction expungement for dismissal, no disposition, or acquittal` |
 | routeId | `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` |
 | trackId | `ms-nonconv` |
 | packetSetId / packetFamilyId | `ms-nonconv-set` |
@@ -105,6 +105,13 @@ Mississippi is behind the same fence Pennsylvania is. MS clears it through its
 factory-v2 crosswalk row, and those accessors take
 `(jurisdiction, pathwayId, trackId)`. Passing `ms-nonconv` rather than `null` is
 what makes the pass deliberate instead of incidental.
+
+**Amended forward, 2026-09-21 — Captain clarification.** Pass the canonical
+`pathwayId` above as `buildRenderJobSpec.pathway`, with `trackId: "ms-nonconv"`.
+Assert the display label separately. The earlier instruction to pass the label
+as the builder route key was incorrect: the factory registry accepts the exact
+canonical ID. Do not normalize labels in the resolver or substitute another
+route. This is the same Captain-selected fixture.
 
 **If MS surprises**, the structurally simplest fallback is
 `WY:felony-conviction-expungement-w-s-7-13-1502` / `wy_fel_1502-set`, which is

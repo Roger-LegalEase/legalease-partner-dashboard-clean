@@ -721,7 +721,7 @@ jobs:
       # unpaid. `payment` sets GATE=false because the automated payment journey
       # covers the unpaid-402 and cs_test_ Checkout cases itself, so running this
       # under `payment` contradicted the contract that scheduled the phase.
-      - name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid
+      - name: Prove PA refusal and prepare the exact MS Sandbox Checkout, then stop unpaid
         id: checkout_gate
         if: steps.contract.outputs.gate == 'true'
         env:
@@ -737,7 +737,9 @@ jobs:
           # The Preview sells this catalog Product, so the gate identifies the
           # packet by Product id rather than by the ad-hoc name it no longer has.
           HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.stripe_fixtures.outputs.product_id }}
-        run: node scripts/rcap-hosted-checkout-gate.mjs
+        run: |
+          node --test scripts/rcap-hosted-checkout-route-contract.test.mjs scripts/rcap-hosted-checkout-mapping-evidence.test.mjs
+          node scripts/rcap-hosted-checkout-gate.mjs
 
       - name: Run the hosted golden-journey matrix
         id: golden_journey

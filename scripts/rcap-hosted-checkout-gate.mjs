@@ -15,7 +15,7 @@ import { spawnSync } from "node:child_process";
 import { register } from "node:module";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
-import { readPaRefusal, paRefusalEvidence } from "./rcap-hosted-checkout-route-contract.mjs";
+import { readPaRefusal, paRefusalEvidence, MS_CHECKOUT, msMappingEvidence } from "./rcap-hosted-checkout-route-contract.mjs";
 import {
   expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
@@ -56,7 +56,6 @@ const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // superseded sha256:df6c2965… is history, not authority.
 const EXPECTED_WORKER_DIGEST = "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
-const PA_PATHWAY = "Path A — Non-conviction expungement";
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",
   "checkout.session.completed",
@@ -498,90 +497,36 @@ async function main() {
   const consumerProfileVersion = callerVersionMatch?.[1] ?? null;
   const consumerResultCode = "packet_ready";
   const consumerPacketType = packetTypeMatch?.[1] ?? null;
-  const compiledProfile = getProfileByJurisdiction("PA");
-  const compiledPathway = compiledProfile?.pathways?.find((candidate) => candidate.label === PA_PATHWAY) ?? null;
+  const { fulfillmentAuthorityFor } = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
+  const { packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+  const compiledProfile = getProfileByJurisdiction(MS_CHECKOUT.jurisdiction);
+  const compiledPathway = compiledProfile?.pathways?.find((candidate) => candidate.id === MS_CHECKOUT.pathwayId) ?? null;
   const itemId = crypto.randomUUID();
-  const built = buildRenderJobSpec({
+  const mappingRequest = {
     packetId: crypto.randomUUID(),
-    state: "PA",
-    pathway: PA_PATHWAY,
+    state: MS_CHECKOUT.jurisdiction,
+    pathway: MS_CHECKOUT.pathwayId,
     briefcaseItemId: itemId,
-    trackId: null,
+    trackId: MS_CHECKOUT.trackId,
     packetFields: {}
-  });
-  const consumerMappingEvidence = {
-    specPresent: built.spec !== null,
-    routeKind: built.route?.routeKind ?? null,
-    routeReason: built.route?.reason ?? null,
-    operands: [
-      ["consumerProfileVersion", consumerProfileVersion, null],
-      ["consumerPacketType", consumerPacketType, "custom_pleading"],
-      ["isConsumerPaymentAllowed", isConsumerPaymentAllowed(consumerResultCode, true), true],
-      ["compiledProfile.jurisdiction.code", compiledProfile?.jurisdiction?.code, "PA"],
-      ["compiledPathway.label", compiledPathway?.label, PA_PATHWAY],
-      ["built.spec.profileVersion", built.spec?.profileVersion, String(compiledProfile?.profileVersion)],
-      ["built.spec.profileId", built.spec?.profileId, "PA"]
-    ].map(([operand, actual, expected]) => ({
-      operand,
-      // JSON drops undefined properties: preserve absence explicitly so a
-      // refused spec cannot hide the very values this case is measuring.
-      actual: actual === undefined ? "(undefined)" : actual,
-      actualType: typeof actual,
-      expected,
-      passed: actual === expected
-    }))
   };
+  const built = buildRenderJobSpec(mappingRequest);
+  const consumerMappingEvidence = msMappingEvidence({
+    request: mappingRequest, built, compiledProfile, compiledPathway,
+    authority: fulfillmentAuthorityFor(MS_CHECKOUT.routeId),
+    renderable: packetRouteCanRender(built.route),
+    paymentAllowed: isConsumerPaymentAllowed(consumerResultCode, true),
+    consumerProfileVersion, consumerPacketType
+  });
   record(
     "consumer_caller_profile_and_eligibility_mapping_exact",
-    consumerProfileVersion === null
-      && consumerPacketType === "custom_pleading"
-      && isConsumerPaymentAllowed(consumerResultCode, true) === true
-      && compiledProfile?.jurisdiction?.code === "PA"
-      && compiledPathway?.label === PA_PATHWAY
-      // The derived value, not merely the absence of a literal.
-      && built.spec?.profileVersion === String(compiledProfile?.profileVersion)
-      && built.spec?.profileId === "PA",
+    consumerMappingEvidence.passed,
     JSON.stringify(consumerMappingEvidence),
     consumerMappingEvidence
   );
-  const routeIdentity = {
-    routeKind: built.route?.routeKind ?? null,
-    routeId: built.spec?.routeId ?? null,
-    pathwayId: built.route?.pathwayId ?? null,
-    jurisdiction: built.route?.jurisdiction ?? null,
-    rendererKind: built.spec?.rendererKind ?? null,
-    rendererVersion: built.spec?.rendererVersion ?? null,
-    profileId: built.spec?.profileId ?? null,
-    profileVersion: built.spec?.profileVersion ?? null,
-    sourceSha256: built.spec?.sourceSha256 ?? null,
-    sellable: built.route?.sellable ?? null,
-    creditConsumable: built.route?.creditConsumable ?? null,
-    resultCode: consumerResultCode,
-    packetType: consumerPacketType
-  };
-  const routeExact = routeIdentity.routeKind === "legacy_retired"
-    && routeIdentity.routeId === `PA:${PA_PATHWAY}`
-    && routeIdentity.pathwayId === PA_PATHWAY
-    && routeIdentity.jurisdiction === "PA"
-    && routeIdentity.rendererKind === "packet_document_v1"
-    && routeIdentity.rendererVersion === "1.0.0"
-    && routeIdentity.profileId === "PA"
-    && routeIdentity.profileVersion === String(compiledProfile?.profileVersion)
-    && routeIdentity.sourceSha256 === null
-    && routeIdentity.sellable === false
-    && routeIdentity.creditConsumable === false;
-  record("pennsylvania_path_a_resolver_exact", routeExact, JSON.stringify(routeIdentity));
-  evidence.pennsylvaniaRoute = routeIdentity;
 
-  // The PA resolver proof above is a compatibility boundary, not permission to
-  // sell that route — and since ADR-0004 it is the opposite of permission: the
-  // legacy renderer is retained for historical access and migration comparison,
-  // and the identity is asserted to carry sellable false and creditConsumable
-  // false so that a regression restoring legacy commercial authority fails here
-  // rather than at a checkout. The frozen authoritative evaluator classifies PA Path A
-  // needs_review/dtc_no_payment. The transacted fixture therefore follows the
-  // full payment harness: try the registry route first, then MS/IL/PA, and use
-  // only a route the evaluator itself proves sellable.
+  // Exactly the Captain-selected route. No search across other jurisdictions,
+  // siblings, or whichever route happens to pass is permitted.
   const { packetInformationModelFor, packetInformationReviewSafety } =
     await import("../src/lib/expungement-ai/packet-information.ts");
   const { evaluateAuthoritativeScreeningResult } =
@@ -604,6 +549,9 @@ async function main() {
     record_type: "Arrest or charge",
     resolved_timing_bucket: "gt_10_years",
     court_requirements_completed: "yes",
+    actual_arrest: "Yes",
+    release_confirmed: "Yes",
+    disposition_record_wording: "Charge dismissed",
     pending_cases: "No",
     trafficking_status: "No",
     prior_relief: "No",
@@ -682,6 +630,9 @@ async function main() {
         continue;
       }
       last = evaluation;
+      if (evaluation.pathwayId && evaluation.pathwayId !== MS_CHECKOUT.pathwayId) {
+        return { state, failure: `unexpected pathway ${evaluation.pathwayId}; no fallback permitted` };
+      }
       const evaluatorAdmitsPayment = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
         && evaluation.paymentAllowed === true
         && typeof evaluation.pathwayId === "string";
@@ -691,7 +642,7 @@ async function main() {
       // hold, so a route that qualifies legally but has nothing to ship is
       // rejected here rather than at a participant's download.
       const fulfillment = evaluatorAdmitsPayment
-        ? packetFulfillmentAuthority(state, evaluation.pathwayId, "checkout creation")
+        ? packetFulfillmentAuthority(state, evaluation.pathwayId, "checkout creation", { trackId: MS_CHECKOUT.trackId })
         : { allowed: false, reason: "the evaluator does not admit payment for this matter" };
       if (evaluatorAdmitsPayment && !fulfillment.allowed) {
         return { state, failure: `${evaluation.pathwayId}: evaluator admits payment but no proven fulfillment — ${fulfillment.reason}` };
@@ -725,7 +676,8 @@ async function main() {
       packetReady: true,
       pathwayLabel: pathway.pathwayLabel,
       packetType: consumerPacketType,
-      artifactRefs: {}
+      selectedTrackId: MS_CHECKOUT.trackId,
+      artifactRefs: { selectedTrackId: MS_CHECKOUT.trackId }
     };
     const initialModel = packetInformationModelFor(baseItem);
     if (!initialModel) return { failure: `${state}: packet-information model unavailable for ${pathway.pathwayLabel}` };
@@ -759,7 +711,7 @@ async function main() {
         reviewedAt
       }
     };
-    const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow } };
+    const reviewedItem = { ...baseItem, artifactRefs: { selectedTrackId: MS_CHECKOUT.trackId, commercialFlow } };
     const model = packetInformationModelFor(reviewedItem);
     const safety = packetInformationReviewSafety(reviewedItem);
     const complete = model?.stage === "ready_to_generate"
@@ -771,46 +723,34 @@ async function main() {
       : { failure: `${state}: stage=${model?.stage ?? "unavailable"}, missing=${model?.missingInputIds.length ?? "unavailable"}, review=${safety.reason}` };
   }
 
-  let reviewed = null;
-  const attempts = [];
-  const candidates = [routeIdentity.jurisdiction, ...["MS", "IL", "PA"].filter(
-    (code) => code !== routeIdentity.jurisdiction
-  )];
-  for (const state of candidates) {
-    const settled = convergeSellableScreening(state);
-    if (settled.failure) {
-      attempts.push(`${state}: ${settled.failure}`);
-      continue;
-    }
-    const candidate = buildReviewedFlow(settled);
-    if (candidate.failure) {
-      attempts.push(`${state}: ${candidate.failure}`);
-      continue;
-    }
-    reviewed = candidate;
-    break;
-  }
+  const settled = convergeSellableScreening(MS_CHECKOUT.jurisdiction);
+  const reviewed = settled.failure ? settled : buildReviewedFlow(settled);
   record(
     "seeded_item_carries_reviewed_packet_information",
-    Boolean(reviewed),
-    reviewed
-      ? `${reviewed.state} / ${reviewed.pathway.pathwayLabel}; result=${reviewed.evaluation.resultCode}; profile=${reviewed.profile.profileVersion}; required inputs=${reviewed.model.requiredInputIds.length}; review=${reviewed.safety.reason}; prior attempts=${attempts.join(" | ") || "none"}`
-      : `no evaluator-proven sellable reviewed route — ${attempts.join(" | ")}`
+    !reviewed.failure
+      && reviewed.state === MS_CHECKOUT.jurisdiction
+      && reviewed.evaluation?.pathwayId === MS_CHECKOUT.pathwayId
+      && reviewed.pathway?.pathwayLabel === MS_CHECKOUT.pathwayLabel
+      && reviewed.model?.pathwayId === MS_CHECKOUT.pathwayId,
+    reviewed.failure ?? `${reviewed.state} / ${reviewed.pathway?.pathwayLabel}; result=${reviewed.evaluation?.resultCode}; review=${reviewed.safety?.reason}`
   );
 
-  const checkoutBuilt = buildRenderJobSpec({
+  const checkoutRequest = {
     packetId: crypto.randomUUID(),
-    state: reviewed.state,
-    pathway: reviewed.pathway.pathwayLabel,
+    state: MS_CHECKOUT.jurisdiction,
+    pathway: MS_CHECKOUT.pathwayId,
     briefcaseItemId: itemId,
-    trackId: null,
+    trackId: MS_CHECKOUT.trackId,
     packetFields: reviewed.model.initialAnswers
-  });
+  };
+  const checkoutBuilt = buildRenderJobSpec(checkoutRequest);
   const checkoutRouteIdentity = {
     routeKind: checkoutBuilt.route?.routeKind ?? null,
     routeId: checkoutBuilt.spec?.routeId ?? null,
     pathwayId: checkoutBuilt.route?.pathwayId ?? null,
     pathwayLabel: reviewed.pathway.pathwayLabel,
+    trackId: checkoutRequest.trackId,
+    packetFamilyId: checkoutBuilt.route?.factoryV2?.packetFamilyId ?? null,
     jurisdiction: checkoutBuilt.route?.jurisdiction ?? null,
     rendererKind: checkoutBuilt.spec?.rendererKind ?? null,
     rendererVersion: checkoutBuilt.spec?.rendererVersion ?? null,
@@ -822,21 +762,20 @@ async function main() {
     resultCode: reviewed.evaluation.resultCode,
     packetType: consumerPacketType
   };
-  const checkoutRouteExact = checkoutRouteIdentity.jurisdiction === reviewed.state
-    && checkoutRouteIdentity.pathwayLabel === reviewed.pathway.pathwayLabel
-    && checkoutRouteIdentity.profileId === reviewed.state
-    && checkoutRouteIdentity.profileVersion === String(reviewed.profile.profileVersion)
-    && typeof checkoutRouteIdentity.routeId === "string"
-    && typeof checkoutRouteIdentity.rendererKind === "string"
-    && typeof checkoutRouteIdentity.rendererVersion === "string"
-    && checkoutRouteIdentity.sellable === true
-    && checkoutRouteIdentity.creditConsumable === true
-    && isConsumerPaymentAllowed(checkoutRouteIdentity.resultCode, true) === true
-    && checkoutRouteIdentity.packetType === "custom_pleading";
+  const checkoutRouteEvidence = msMappingEvidence({
+    request: checkoutRequest, built: checkoutBuilt,
+    compiledProfile: reviewed.profile,
+    compiledPathway: reviewed.profile.pathways.find((candidate) => candidate.id === reviewed.evaluation.pathwayId),
+    authority: fulfillmentAuthorityFor(MS_CHECKOUT.routeId),
+    renderable: packetRouteCanRender(checkoutBuilt.route),
+    paymentAllowed: isConsumerPaymentAllowed(reviewed.evaluation.resultCode, reviewed.evaluation.paymentAllowed),
+    consumerProfileVersion, consumerPacketType
+  });
   record(
     "checkout_fixture_route_derived_from_authorities",
-    checkoutRouteExact,
-    JSON.stringify(checkoutRouteIdentity)
+    checkoutRouteEvidence.passed,
+    JSON.stringify(checkoutRouteEvidence),
+    checkoutRouteEvidence
   );
   evidence.checkoutRoute = checkoutRouteIdentity;
   evidence.reviewedPacketInformation = {
@@ -846,14 +785,14 @@ async function main() {
     pathwayLabel: reviewed.pathway.pathwayLabel,
     requiredInputCount: reviewed.model.requiredInputIds.length,
     reviewSafety: reviewed.safety.reason,
-    rejectedCandidates: attempts
+    selectedTrackId: MS_CHECKOUT.trackId
   };
 
   const summaryJson = sqlText(JSON.stringify({
     text: `RCAP hosted Checkout gate — evaluator-proven ${checkoutRouteIdentity.jurisdiction} packet`,
     gate: "human_checkout"
   }));
-  const artifactRefsJson = sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow }));
+  const artifactRefsJson = sqlText(JSON.stringify({ selectedTrackId: MS_CHECKOUT.trackId, commercialFlow: reviewed.commercialFlow }));
   const insert = await sql(`
     insert into public.consumer_briefcase_items
       (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
