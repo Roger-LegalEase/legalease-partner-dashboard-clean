@@ -17,6 +17,7 @@
 // always() gate asserts the OUTCOME of every required step, where `skipped` and
 // a missing step id both fail.
 import fs from "node:fs";
+import assert from "node:assert/strict";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
@@ -141,8 +142,8 @@ if (MUTATIONS) {
 
   const mutations = [
     ["hosted_full loses deploy+matrix in the contract", (h, c) =>
-      [h.replace("full)          DEPLOY=true;  MATRIX=true;  GATE=true",
-                 "full)          DEPLOY=true;  MATRIX=false; GATE=false"), c]],
+      [h.replace(/^(\s*full\)[ \t]+DEPLOY=true;[ \t]*MATRIX=)true(;[ \t]*GATE=)true(?=[ \t]*;)/m,
+                 "$1false$2false"), c]],
     ["a required step is switched back to a phase list", (h, c) =>
       [h.replace("        id: golden_journey\n        if: steps.contract.outputs.matrix == 'true'",
                  "        id: golden_journey\n        if: inputs.phase == 'accept'"), c]],
@@ -176,18 +177,17 @@ if (MUTATIONS) {
   let undetected = 0;
   for (const [label, mutate] of mutations) {
     const [h, c] = mutate(hostedText, callerText);
-    if (h === hostedText && c === callerText) {
-      console.log(`MISSED   ${label} (anchor did not match; this check proves nothing)`);
-      undetected += 1;
-      continue;
-    }
+    // Keep application outside the catch below: an unmatched mutation is a
+    // broken test, never evidence that failures() rejected the prohibited input.
+    assert.ok(h !== hostedText || c !== callerText,
+      `Mutation did not change hosted or caller input: ${label}`);
     let caught;
     try {
       caught = failures(h, c).length > base.length;
     } catch {
       caught = true;
     }
-    console.log(`${caught ? "caught  " : "MISSED  "} ${label}`);
+    console.log(`${caught ? "applied + caught" : "applied + MISSED"} ${label}`);
     if (!caught) undetected += 1;
   }
   if (undetected > 0) {
