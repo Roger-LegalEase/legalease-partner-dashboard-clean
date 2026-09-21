@@ -1,0 +1,307 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "assignment": "IV-D",
+  "generatedAt": "2026-09-01T09:35:10Z",
+  "rows": [
+    {
+      "familyId": "vt_seal_misdemeanor-set",
+      "attemptedExactlyOnce": true,
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "collisionDisposition": "CLEAR_TO_VERIFY",
+      "queueBinding": {
+        "familyId": "vt_seal_misdemeanor-set",
+        "packetCommitSha": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "c37d27bad040121f3e677e81911745c6ea41f12fa1b8d7e986b74b9585d98a87",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "f98d432c416ce087ee267333638df32c56cc4c68a7e6395f50d91465067bb269",
+        "expectedPages": 6,
+        "requestedScale": 2.5,
+        "builderAssignment": "VF02",
+        "currentRasterState": "RASTER_PASS",
+        "nextOwner": "independent-verification",
+        "rasterReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33488713831",
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+          "jobId": "99795497995",
+          "jobConclusion": "success",
+          "boundToCanonicalSha256": "c37d27bad040121f3e677e81911745c6ea41f12fa1b8d7e986b74b9585d98a87",
+          "boundToBoundarySha256": "f98d432c416ce087ee267333638df32c56cc4c68a7e6395f50d91465067bb269",
+          "receiptArtifact": {
+            "id": "9793033094",
+            "name": "rcap-raster-vt_seal_misdemeanor-set-33488713831",
+            "zipSha256": "sha256:e594a503ee932f02639de2e964c366113dc0971ebdbf793234ef0c2a1af0619e",
+            "expiresAt": "2026-09-15T08:51:43Z"
+          },
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+        }
+      },
+      "independentRecomputation": {
+        "canonicalSha256": "c37d27bad040121f3e677e81911745c6ea41f12fa1b8d7e986b74b9585d98a87",
+        "canonicalMatchesQueue": true,
+        "boundarySha256": "f98d432c416ce087ee267333638df32c56cc4c68a7e6395f50d91465067bb269",
+        "boundaryMatchesQueue": true,
+        "canonicalPageCount": 6,
+        "boundaryPageCount": 6,
+        "expectedPages": 6,
+        "pageCountsMatch": true,
+        "canonicalComponents": [
+          "200-00130",
+          "200-00132",
+          "600-00228"
+        ],
+        "boundaryComponents": [
+          "200-00130",
+          "200-00132",
+          "600-00228"
+        ],
+        "componentSetsMatch": true
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_misdemeanor-set",
+        "result": "PASS_COMPLETE",
+        "writtenFields": "24/165",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "independentInspection": {
+        "participantInstructions": "PASS \u2014 participant-held blanks, signatures, prosecutor completion, and court completion are explicitly separated",
+        "filingInstructions": "PASS \u2014 packet gives ordered prefiling steps and exact official form identifiers",
+        "feeAndWaiver": "PASS \u2014 waiver form 600-00228 is included; unknown fee/waiver applicability is expressly routed to the filing-unit clerk rather than guessed",
+        "serviceAndNotice": "PASS \u2014 unknown recipient/method is expressly routed to the filing-unit clerk; prosecutor stipulation is distinguished from service",
+        "destination": "PASS \u2014 Vermont Superior Court, Criminal Division, in the unit where the case was decided",
+        "deadlineAndTiming": "PASS \u2014 no unsupported deadline is invented; sequence requires completion, signatures, prosecutor stipulation when used, then filing",
+        "selfHelpStop": "PASS \u2014 instructions state this is not legal advice, is not filed for the participant, and does not decide relief",
+        "requiredBeforeFilingFacts": "PASS \u2014 112 exact blanks are enumerated by form, page, printed label, and participant action",
+        "repeatingRows": "PASS \u2014 optional offense, agency, employer, vehicle, property, and asset repetitions are enumerated without silently truncating the form",
+        "routeDeterminedOptions": "PASS \u2014 exact family route key and route selection are recorded; participant-owned checkboxes remain participant choices",
+        "protectedFields": "PASS \u2014 participant, prosecutor, and judge signatures/dates and the court order are deliberately unwritten",
+        "laterCompletionFields": "PASS \u2014 participant signature/date, prosecutor stipulation fields, and judicial order are identified for later completion",
+        "proposedOrders": "PASS \u2014 the stipulation packet includes its order page and reserves it to the judge",
+        "sourceAndDecisionReceipts": "PASS \u2014 three official forms bind by exact path, corpus-index/on-disk SHA-256, and byte length; no separate family-specific legal decision is asserted or required"
+      },
+      "evidencePaths": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-misdemeanor-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ],
+      "rasterArtifactInspection": "NOT_DIRECTLY_INSPECTED_NO_AUTHORIZED_TOKEN_IN_ENVIRONMENT",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "familyId": "vt_seal_18_to_21-set",
+      "attemptedExactlyOnce": true,
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "collisionDisposition": "CLEAR_TO_VERIFY",
+      "queueBinding": {
+        "familyId": "vt_seal_18_to_21-set",
+        "packetCommitSha": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "4884aef91eec3e1215e0db1b5ff9ebd69f02b8f415594a81eb824c4388af19ae",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "1b8e24ec49bffc3d6967bed810bd5f18f69f9d994358a5024eff536ce7fb5502",
+        "expectedPages": 6,
+        "requestedScale": 2.5,
+        "builderAssignment": "VF11",
+        "currentRasterState": "RASTER_PASS",
+        "nextOwner": "independent-verification",
+        "rasterReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33488713831",
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+          "jobId": "99795497853",
+          "jobConclusion": "success",
+          "boundToCanonicalSha256": "4884aef91eec3e1215e0db1b5ff9ebd69f02b8f415594a81eb824c4388af19ae",
+          "boundToBoundarySha256": "1b8e24ec49bffc3d6967bed810bd5f18f69f9d994358a5024eff536ce7fb5502",
+          "receiptArtifact": {
+            "id": "9793060298",
+            "name": "rcap-raster-vt_seal_18_to_21-set-33488713831",
+            "zipSha256": "sha256:270fd9355dbd4a8639378093a0a2c82c80b839487fbd47e7e152ff9bea21313b",
+            "expiresAt": "2026-09-15T08:52:32Z"
+          },
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+        }
+      },
+      "independentRecomputation": {
+        "canonicalSha256": "4884aef91eec3e1215e0db1b5ff9ebd69f02b8f415594a81eb824c4388af19ae",
+        "canonicalMatchesQueue": true,
+        "boundarySha256": "1b8e24ec49bffc3d6967bed810bd5f18f69f9d994358a5024eff536ce7fb5502",
+        "boundaryMatchesQueue": true,
+        "canonicalPageCount": 6,
+        "boundaryPageCount": 6,
+        "expectedPages": 6,
+        "pageCountsMatch": true,
+        "canonicalComponents": [
+          "200-00130",
+          "200-00132",
+          "600-00228"
+        ],
+        "boundaryComponents": [
+          "200-00130",
+          "200-00132",
+          "600-00228"
+        ],
+        "componentSetsMatch": true
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_18_to_21-set",
+        "result": "PASS_COMPLETE",
+        "writtenFields": "24/165",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "independentInspection": {
+        "participantInstructions": "PASS \u2014 participant-held blanks, signatures, prosecutor completion, and court completion are explicitly separated",
+        "filingInstructions": "PASS \u2014 packet gives ordered prefiling steps and exact official form identifiers",
+        "feeAndWaiver": "PASS \u2014 waiver form 600-00228 is included; unknown fee/waiver applicability is expressly routed to the filing-unit clerk rather than guessed",
+        "serviceAndNotice": "PASS \u2014 unknown recipient/method is expressly routed to the filing-unit clerk; prosecutor stipulation is distinguished from service",
+        "destination": "PASS \u2014 Vermont Superior Court, Criminal Division, in the unit where the case was decided",
+        "deadlineAndTiming": "PASS \u2014 no unsupported deadline is invented; sequence requires completion, signatures, prosecutor stipulation when used, then filing",
+        "selfHelpStop": "PASS \u2014 instructions state this is not legal advice, is not filed for the participant, and does not decide relief",
+        "requiredBeforeFilingFacts": "PASS \u2014 112 exact blanks are enumerated by form, page, printed label, and participant action",
+        "repeatingRows": "PASS \u2014 optional offense, agency, employer, vehicle, property, and asset repetitions are enumerated without silently truncating the form",
+        "routeDeterminedOptions": "PASS \u2014 exact family route key and route selection are recorded; participant-owned checkboxes remain participant choices",
+        "protectedFields": "PASS \u2014 participant, prosecutor, and judge signatures/dates and the court order are deliberately unwritten",
+        "laterCompletionFields": "PASS \u2014 participant signature/date, prosecutor stipulation fields, and judicial order are identified for later completion",
+        "proposedOrders": "PASS \u2014 the stipulation packet includes its order page and reserves it to the judge",
+        "sourceAndDecisionReceipts": "PASS \u2014 three official forms bind by exact path, corpus-index/on-disk SHA-256, and byte length; no separate family-specific legal decision is asserted or required"
+      },
+      "evidencePaths": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-18-to-21-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ],
+      "rasterArtifactInspection": "NOT_DIRECTLY_INSPECTED_NO_AUTHORIZED_TOKEN_IN_ENVIRONMENT",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "familyId": "vt_seal_dui-set",
+      "attemptedExactlyOnce": true,
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "collisionDisposition": "CLEAR_TO_VERIFY",
+      "queueBinding": {
+        "familyId": "vt_seal_dui-set",
+        "packetCommitSha": "1d88410129d4f2240bb6dbd242e63884fe01e7e2",
+        "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/canonical.pdf",
+        "canonicalPdfSha256": "e69f731e1e15799bd8e02afa0d328338bc71333e595b08b056a072b5b89112d7",
+        "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/fixtures/boundary.pdf",
+        "boundaryPdfSha256": "ee94b81bca45e1e437325a0f78286505fa4a1aab0383df611d2982fc4a203ac6",
+        "expectedPages": 6,
+        "requestedScale": 2.5,
+        "builderAssignment": "VF12",
+        "currentRasterState": "RASTER_PASS",
+        "nextOwner": "independent-verification",
+        "rasterReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33488713831",
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "renderedCommitSha": "71894f3f2dde0f5af34818a2fa8dc8bce84e0d24",
+          "jobId": "99795497749",
+          "jobConclusion": "success",
+          "boundToCanonicalSha256": "e69f731e1e15799bd8e02afa0d328338bc71333e595b08b056a072b5b89112d7",
+          "boundToBoundarySha256": "ee94b81bca45e1e437325a0f78286505fa4a1aab0383df611d2982fc4a203ac6",
+          "receiptArtifact": {
+            "id": "9793041896",
+            "name": "rcap-raster-vt_seal_dui-set-33488713831",
+            "zipSha256": "sha256:4dae48465b184411a9e0dbc43b55b97b15c0163fe5c74aa3af4206c8a803802f",
+            "expiresAt": "2026-09-15T08:51:59Z"
+          },
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it"
+        }
+      },
+      "independentRecomputation": {
+        "canonicalSha256": "e69f731e1e15799bd8e02afa0d328338bc71333e595b08b056a072b5b89112d7",
+        "canonicalMatchesQueue": true,
+        "boundarySha256": "ee94b81bca45e1e437325a0f78286505fa4a1aab0383df611d2982fc4a203ac6",
+        "boundaryMatchesQueue": true,
+        "canonicalPageCount": 6,
+        "boundaryPageCount": 6,
+        "expectedPages": 6,
+        "pageCountsMatch": true,
+        "canonicalComponents": [
+          "200-00130",
+          "200-00132",
+          "600-00228"
+        ],
+        "boundaryComponents": [
+          "200-00130",
+          "200-00132",
+          "600-00228"
+        ],
+        "componentSetsMatch": true
+      },
+      "completenessVerifier": {
+        "command": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family vt_seal_dui-set",
+        "result": "PASS_COMPLETE",
+        "writtenFields": "24/165",
+        "counters": {
+          "knownRequiredFieldsMissing": 0,
+          "requiredFactsNotCollected": 0,
+          "unclassifiedBlanks": 0,
+          "incompleteRows": 0,
+          "requiredOptionsMissing": 0,
+          "requiredComponentsMissing": 0,
+          "invisibleWrites": 0,
+          "protectedWrites": 0,
+          "visualDefects": 0
+        }
+      },
+      "independentInspection": {
+        "participantInstructions": "PASS \u2014 participant-held blanks, signatures, prosecutor completion, and court completion are explicitly separated",
+        "filingInstructions": "PASS \u2014 packet gives ordered prefiling steps and exact official form identifiers",
+        "feeAndWaiver": "PASS \u2014 waiver form 600-00228 is included; unknown fee/waiver applicability is expressly routed to the filing-unit clerk rather than guessed",
+        "serviceAndNotice": "PASS \u2014 unknown recipient/method is expressly routed to the filing-unit clerk; prosecutor stipulation is distinguished from service",
+        "destination": "PASS \u2014 Vermont Superior Court, Criminal Division, in the unit where the case was decided",
+        "deadlineAndTiming": "PASS \u2014 no unsupported deadline is invented; sequence requires completion, signatures, prosecutor stipulation when used, then filing",
+        "selfHelpStop": "PASS \u2014 instructions state this is not legal advice, is not filed for the participant, and does not decide relief",
+        "requiredBeforeFilingFacts": "PASS \u2014 112 exact blanks are enumerated by form, page, printed label, and participant action",
+        "repeatingRows": "PASS \u2014 optional offense, agency, employer, vehicle, property, and asset repetitions are enumerated without silently truncating the form",
+        "routeDeterminedOptions": "PASS \u2014 exact family route key and route selection are recorded; participant-owned checkboxes remain participant choices",
+        "protectedFields": "PASS \u2014 participant, prosecutor, and judge signatures/dates and the court order are deliberately unwritten",
+        "laterCompletionFields": "PASS \u2014 participant signature/date, prosecutor stipulation fields, and judicial order are identified for later completion",
+        "proposedOrders": "PASS \u2014 the stipulation packet includes its order page and reserves it to the judge",
+        "sourceAndDecisionReceipts": "PASS \u2014 three official forms bind by exact path, corpus-index/on-disk SHA-256, and byte length; no separate family-specific legal decision is asserted or required"
+      },
+      "evidencePaths": [
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/participant-instructions.md",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/source-receipt.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/reports/rendered-artifacts.json",
+        "data/rcap-all50/overlays/census-v1/vt/vt-seal-dui-set--official-pdf-fill/reports/actual-writes.json",
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json"
+      ],
+      "rasterArtifactInspection": "NOT_DIRECTLY_INSPECTED_NO_AUTHORIZED_TOKEN_IN_ENVIRONMENT",
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
