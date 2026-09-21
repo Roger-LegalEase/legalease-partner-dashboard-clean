@@ -186,7 +186,121 @@
       "requirement": "required",
       "officialFormId": null,
       "manifestComponentId": "dc_correct_misattributed_arrest-primary-filing-1",
-      "sections": [],
+      "sections": [
+        {
+          "heading": "Caption",
+          "kind": "pleading_caption",
+          "fields": [
+            "dc_case_number",
+            "dc_motion_case_number"
+          ],
+          "fieldTreatments": {
+            "dc_case_number": "ruled_blank",
+            "dc_motion_case_number": "court_owned_space"
+          },
+          "captionContract": {
+            "courtLines": [
+              {
+                "prefix": "SUPERIOR COURT OF THE DISTRICT OF COLUMBIA"
+              },
+              {
+                "prefix": "CRIMINAL DIVISION"
+              }
+            ],
+            "matterTitle": "IN THE MATTER OF THE MOTION OF {{participant_full_legal_name}}, MOVANT",
+            "caseNumber": "dc_case_number",
+            "caseNumberLabel": "Case number of the case this motion addresses (copy it exactly from the court record):",
+            "motionCaseNumberLabel": "Motion case number: (the Seal Team assigns it at filing)",
+            "documentTitle": "MOTION TO CORRECT A MISATTRIBUTED ARREST RECORD UNDER D.C. CODE Sec. 16-806(g)"
+          }
+        },
+        {
+          "heading": "The motion",
+          "kind": "pleading_paragraph",
+          "body": "1. The movant, {{participant_full_legal_name}}, date of birth {{date_of_birth}}, moves this Court under D.C. Code Sec. 16-806(g) to correct the publicly available records of the arrest identified in the caption above, which is attributed to the movant although the movant was not the person arrested. This route corrects publicly available records rather than sealing them."
+        },
+        {
+          "heading": "Grounds",
+          "kind": "pleading_paragraph",
+          "body": "2. Grounds: the movant attests under oath, in the sworn attestation below, that the movant was incorrectly identified or named; as far as the movant knows, the agency took no fingerprints at that arrest; and as far as the movant knows, the person arrested presented no other reliable identification. The movant states what is known:"
+        },
+        {
+          "heading": "What the movant knows about the arrest",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dc_fingerprints_knowledge",
+            "dc_other_identification_knowledge"
+          ],
+          "fieldLabels": {
+            "dc_fingerprints_knowledge": "Whether the agency took fingerprints at that arrest, as far as you know:",
+            "dc_other_identification_knowledge": "Whether the person arrested presented any other reliable identification, as far as you know:"
+          },
+          "fieldTreatments": {
+            "dc_fingerprints_knowledge": "ruled_blank",
+            "dc_other_identification_knowledge": "ruled_blank"
+          }
+        },
+        {
+          "heading": "The movant's own sworn statement",
+          "kind": "pleading_paragraph",
+          "body": "3. The movant's own sworn statement of why this arrest was wrongly attributed to the movant, in the movant's own words (state only what you know first-hand; this packet asserts nothing about who committed any offence, and writes none of these lines for you):"
+        },
+        {
+          "heading": "The movant's statement",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dc_misattribution_statement_1",
+            "dc_misattribution_statement_2",
+            "dc_misattribution_statement_3"
+          ],
+          "fieldLabels": {
+            "dc_misattribution_statement_1": "The movant's own words",
+            "dc_misattribution_statement_2": "The movant's own words (continued)",
+            "dc_misattribution_statement_3": "The movant's own words (continued)"
+          },
+          "fieldTreatments": {
+            "dc_misattribution_statement_1": "ruled_blank",
+            "dc_misattribution_statement_2": "ruled_blank",
+            "dc_misattribution_statement_3": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Relief requested",
+          "kind": "pleading_paragraph",
+          "body": "4. The movant therefore asks the Court to order correction of the publicly available records of the arrest identified above, pursuant to D.C. Code Sec. 16-806(g)."
+        },
+        {
+          "heading": "SWORN ATTESTATION OF MISIDENTIFICATION",
+          "kind": "pleading_paragraph",
+          "body": "The movant, {{participant_full_legal_name}}, attests under oath that the movant was incorrectly identified or named in the arrest record described above, that as far as the movant knows the arresting agency took no fingerprints at that arrest, and that as far as the movant knows the person arrested presented no other reliable identification. The attestation is sworn when the movant signs below; nothing on this page is sworn, signed or dated for the movant."
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Movant, sworn under oath"
+        },
+        {
+          "heading": "What oath formality the Criminal Division requires is not stated here",
+          "kind": "pleading_paragraph",
+          "body": "(No held source states whether a notary or other officer must administer this oath in addition to the sworn attestation itself. Before filing, ask the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC (202-879-1373), or the Seal Team at criminalmotionsealteam@dcsc.gov what oath formality the Criminal Division requires, and complete exactly that.)"
+        },
+        {
+          "heading": "The movant's contact details",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "participant_full_legal_name",
+            "mailing_address",
+            "phone_number",
+            "email_address"
+          ],
+          "fieldLabels": {
+            "participant_full_legal_name": "PRINTED NAME",
+            "mailing_address": "MAILING ADDRESS",
+            "phone_number": "TELEPHONE",
+            "email_address": "EMAIL"
+          }
+        }
+      ],
       "documentContract": {
         "instrumentClass": "participant_filing",
         "preparedBy": "participant",
@@ -201,7 +315,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Adopted artifact. The owner-adopted output opens this component with SUPERIOR COURT OF THE DISTRICT OF COLUMBIA / CRIMINAL DIVISION, the in-the-matter-of line, and the case-number lines beneath, and the build host that produced those adopted bytes composes it in captionBlock()."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+        "sourceUsed": "scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs (a thin entry to the shared DC Chapter-8 host build-census-v1-dc_seal_nonconviction-set.mjs) was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and the canonical fixture still hashes to d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f, the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for dc_correct_misattributed_arrest-set; the boundary fixture still hashes to 4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225, and the working tree came back clean. The host is therefore the source that produced the adopted bytes. The fixture participant's own answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. The caption, paragraphs 1 to 4, the sworn attestation, the execution line, the oath-formality note and the contact block are transcribed from pages 1 and 2 of the adopted canonical output."
       }
     },
     {
@@ -214,7 +336,52 @@
       "requirement": "required",
       "officialFormId": null,
       "manifestComponentId": "dc_correct_misattributed_arrest-prosecutor-service-2",
-      "sections": [],
+      "sections": [
+        {
+          "heading": "Copy for the prosecuting office",
+          "kind": "pleading_paragraph",
+          "body": "Enclosed is a copy of the motion filed by {{participant_full_legal_name}} under D.C. Code Sec. 16-806(g): MOTION TO CORRECT A MISATTRIBUTED ARREST RECORD UNDER D.C. CODE Sec. 16-806(g)."
+        },
+        {
+          "heading": "What service means here",
+          "kind": "pleading_paragraph",
+          "body": "Under the recorded rule for this motion, the motion is served on the prosecutor, and the prosecutor need not respond unless the Court orders it. Do not expect an opposition by default."
+        },
+        {
+          "heading": "Which office, and where, is not stated here",
+          "kind": "pleading_paragraph",
+          "body": "WHICH OFFICE, AND WHERE, IS NOT STATED HERE. Two offices prosecute District of Columbia cases - the United States Attorney's Office for the District of Columbia and the Office of the Attorney General for the District of Columbia - and no source this packet is built from states the rule for which office prosecuted a given case or its correct service address. A guessed recipient in a service instruction is worse than none. Before you serve this copy, ask the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC (202-879-1373), or the Seal Team at criminalmotionsealteam@dcsc.gov which office prosecuted your case and the correct service address, and use exactly what they tell you."
+        },
+        {
+          "heading": "Name and mailing address of the prosecuting office",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "dc_prosecuting_office_1",
+            "dc_prosecuting_office_2",
+            "dc_service_date"
+          ],
+          "fieldLabels": {
+            "dc_prosecuting_office_1": "NAME AND MAILING ADDRESS OF THE PROSECUTING OFFICE FOR THE CASE (you write it here before service; the Criminal Division clerk's office can confirm it)",
+            "dc_prosecuting_office_2": "Prosecuting office (continued)",
+            "dc_service_date": "DATE OF SERVICE OF THE COPY"
+          },
+          "fieldTreatments": {
+            "dc_prosecuting_office_1": "ruled_blank",
+            "dc_prosecuting_office_2": "ruled_blank",
+            "dc_service_date": "ruled_blank"
+          }
+        },
+        {
+          "heading": "Signature",
+          "kind": "pro_se_signature_block",
+          "body": "{{participant_full_legal_name}}, Movant"
+        },
+        {
+          "heading": "What this page is not",
+          "kind": "pleading_paragraph",
+          "body": "This page is not proof of service and does not say that anything has been served. It is completed and signed by the movant when the copy actually goes out, in the manner the clerk directs. A date or a signature written before the copy goes out would be false."
+        }
+      ],
       "documentContract": {
         "instrumentClass": "certificate_of_service",
         "preparedBy": "participant",
@@ -229,7 +396,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "supporting_page",
+        "captionTreatmentEvidence": "Adopted artifact. Page 3 of the owner-adopted output carries no caption of its own; it is headed COPY FOR THE PROSECUTING OFFICE and is filed with and identified by the captioned motion in the same packet."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+        "sourceUsed": "scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs (a thin entry to the shared DC Chapter-8 host build-census-v1-dc_seal_nonconviction-set.mjs) was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and the canonical fixture still hashes to d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f, the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for dc_correct_misattributed_arrest-set; the boundary fixture still hashes to 4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225, and the working tree came back clean. The host is therefore the source that produced the adopted bytes. The fixture participant's own answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. Transcribed from page 3 of the adopted canonical output."
       }
     },
     {
@@ -242,7 +417,48 @@
       "requirement": "required",
       "officialFormId": null,
       "manifestComponentId": "dc_correct_misattributed_arrest-filing-instructions-3",
-      "sections": [],
+      "sections": [
+        {
+          "heading": "What this packet is for",
+          "kind": "static",
+          "body": "This packet is prepared for correcting a District of Columbia arrest record wrongly attributed to you, by motion under D.C. Code Sec. 16-806(g)."
+        },
+        {
+          "heading": "Prepared for",
+          "kind": "static",
+          "body": "Prepared for: {{participant_full_legal_name}}"
+        },
+        {
+          "heading": "WHAT YOU DO, IN ORDER (steps one, two and five are stated by the Criminal Division's own instruction sheet, Rev. April 10, 2024, verified byte-exact for this packet)",
+          "kind": "static",
+          "body": "STEP ONE. Call (202) 727-4245 to make an appointment with the Metropolitan Police Department (MPD) to request a copy of your arrest history report.\nSTEP TWO. Request the disposition of your case from DC Superior Court: email criminalcustomerservice@dcsc.gov, or ask in person at the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC, between 8:30 a.m. and 5:00 p.m.\nSTEP THREE. Fill in every dotted blank in this packet from those records. Do not guess a date, a charge wording or a case number.\nSTEP FOUR. Complete the sworn attestation yourself: ask the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC (202-879-1373), or the Seal Team at criminalmotionsealteam@dcsc.gov what oath formality the Criminal Division requires, complete exactly that, and sign and date the attestation yourself.\nSTEP FIVE. Send all your documents - your arrest record, your case disposition, and the motion - to criminalmotionsealteam@dcsc.gov. The Seal Team gives the motion a case number and assigns it to a judge to decide. The instruction sheet states this process can take up to six months. Whether any other filing channel is available is not stated by any held source; ask the clerk's office if email will not work for you.\nSTEP SIX. Serve a copy of the motion on the prosecuting office, using the service page in this packet, after asking the clerk which office prosecuted your case and its correct service address. The prosecutor need not respond unless the Court orders it."
+        },
+        {
+          "heading": "MONEY",
+          "kind": "static",
+          "body": "MONEY. No source this packet is built from states a filing fee, that filing is free, or a fee-waiver procedure for this motion. Before filing, ask the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC (202-879-1373), or the Seal Team at criminalmotionsealteam@dcsc.gov whether any fee applies and, if you cannot pay it, how to ask for a waiver."
+        },
+        {
+          "heading": "WHAT THIS ROUTE DOES",
+          "kind": "static",
+          "body": "WHAT THIS ROUTE DOES. This motion corrects publicly available records rather than sealing them."
+        },
+        {
+          "heading": "WHEN TO STOP AND GET HELP INSTEAD OF FILING",
+          "kind": "static",
+          "body": "- the prosecutor files an opposition or the court orders a response;\n- the court sets a hearing;\n- you may in fact have been the person arrested, or it is unclear;\n- fingerprints were taken at the arrest, or the person arrested presented other reliable identification;\n- the record is federal, military, tribal, or from another jurisdiction;\n- immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play."
+        },
+        {
+          "heading": "THESE ORGANIZATIONS CAN HELP (named, with numbers, on the Criminal Division's own instruction sheet)",
+          "kind": "static",
+          "body": "- Christian Legal Society - 202-710-0592\n- Legal Aid DC - 202-628-1161\n- Neighborhood Legal Services Program - 202-832-6577\n- Public Defender Service (ask for the Duty Day Attorney for Seal cases) - 202-824-2801\n- Rising for Justice - 202-638-4798"
+        },
+        {
+          "heading": "WHAT THIS PACKET IS NOT",
+          "kind": "static",
+          "body": "This is a prepared set of composed pleading and process pages. No official court form exists for this motion - the statute fixes the motion's content, which is why these pages are composed - and this packet is not legal advice, it is not filed for you, and it does not decide whether the Court will grant relief. Expunging destroys a record; sealing hides it from public view."
+        }
+      ],
       "documentContract": {
         "instrumentClass": "participant_guidance",
         "preparedBy": "participant",
@@ -257,7 +473,15 @@
         "localVariant": "unresolved",
         "unresolvedReasons": {
           "localVariant": "no source read states whether a local form or practice controls this component."
-        }
+        },
+        "captionTreatment": "not_applicable",
+        "captionTreatmentEvidence": "Derived from outputStrategy process_guidance: participant-facing guidance, not a court filing, so no caption arises."
+      },
+      "transcriptionProvenance": {
+        "adoptedDigest": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+        "sourceUsed": "scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs",
+        "componentEquivalence": "exact_adopted_bytes",
+        "evidence": "Route A, proven. scripts/build-census-v1-dc_correct_misattributed_arrest-set.mjs (a thin entry to the shared DC Chapter-8 host build-census-v1-dc_seal_nonconviction-set.mjs) was regenerated with MASTER_LIBRARY_SOURCE_DIR pointed at the readable Master Library, and the canonical fixture still hashes to d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f, the digest OWNER_BATCH_ADOPTION_2026-09-02 pins for dc_correct_misattributed_arrest-set; the boundary fixture still hashes to 4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225, and the working tree came back clean. The host is therefore the source that produced the adopted bytes. The fixture participant's own answers were rebound to participant facts rather than carried in, and the trailing machine route footer is not carried. Transcribed from pages 4 and 5 of the adopted canonical output."
       }
     }
   ],
@@ -289,5 +513,5 @@
       "authority": "technical_evidence_only"
     }
   ],
-  "specificationSha256": "d97781b29e4b5525c0782a3a07a75e421f601310801b599136e3955c3b87d3e0"
+  "specificationSha256": "71ad77957f32cdbed06fba05b6fd19f5fe6ce0ac0243585d1e57309757c2f857"
 }
