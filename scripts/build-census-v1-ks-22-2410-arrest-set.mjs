@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * PF20 native build for the Kansas arrest-only record route.
  *
@@ -550,7 +551,7 @@ async function renderGuidance(text, title) {
   const font = await pdf.embedFont(StandardFonts.TimesRoman); const size = 11, lineHeight = 14.5, width = 612, height = 792, margin = 72, max = width - 2 * margin;
   const widthOf = (s) => font.widthOfTextAtSize(s, size); let page = pdf.addPage([width, height]); let y = height - margin;
   const draw = (line) => { if (y < margin) { page = pdf.addPage([width, height]); y = height - margin; } if (line) page.drawText(line, { x: margin, y, size, font, color: rgb(0, 0, 0) }); y -= lineHeight; };
-  const wrap = (raw) => { if (!raw) return [""]; const words = raw.split(/\s+/); const out = []; let cur = ""; for (const word of words) { let parts = [word]; while (widthOf(parts[0]) > max) { let n = parts[0].length - 1; while (n > 1 && widthOf(parts[0].slice(0, n)) > max) n -= 1; parts = [parts[0].slice(0, n), parts[0].slice(n)]; } for (const part of parts) { const candidate = cur ? `${cur} ${part}` : part; if (widthOf(candidate) <= max) cur = candidate; else { if (cur) out.push(cur); cur = part; } } } if (cur) out.push(cur); return out; };
+  const wrap = courtFacingRows((raw) => { if (!raw) return [""]; const words = raw.split(/\s+/); const out = []; let cur = ""; for (const word of words) { let parts = [word]; while (widthOf(parts[0]) > max) { let n = parts[0].length - 1; while (n > 1 && widthOf(parts[0].slice(0, n)) > max) n -= 1; parts = [parts[0].slice(0, n), parts[0].slice(n)]; } for (const part of parts) { const candidate = cur ? `${cur} ${part}` : part; if (widthOf(candidate) <= max) cur = candidate; else { if (cur) out.push(cur); cur = part; } } } if (cur) out.push(cur); return out; });
   for (const raw of sanitizeText(text).split("\n")) for (const line of wrap(raw)) draw(line);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }

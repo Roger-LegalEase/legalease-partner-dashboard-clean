@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC census-v1 builder — Arizona wrongful-arrest clearance, A.R.S. § 13-4051.
  *
@@ -490,7 +491,7 @@ async function renderComposedPdf(fullText, title) {
    * shipping a chopped one.
    */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -501,7 +502,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
   assert.equal(splitToken.hardSplits, 0,
     `${title}: a token was chopped mid-word because it carries no separator to break on`);

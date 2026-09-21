@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC census-v1 builder — three Mississippi first-offense routes:
  * Miss. Code Ann. § 41-29-150(d) conditional discharge, § 63-11-30(13) first
@@ -2197,7 +2198,7 @@ async function renderComposedPdf(fullText, title) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -2208,7 +2209,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   const sourceLines = sanitizePdfText(fullText).split("\n");
   const routeFooter = sourceLines.at(-1)?.startsWith("Route: ") ? sourceLines.pop() : null;
   if (routeFooter && sourceLines.at(-1) === "") sourceLines.pop();

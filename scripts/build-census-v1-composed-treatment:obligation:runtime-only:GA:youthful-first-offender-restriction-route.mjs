@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC composed-treatment builder — Georgia retroactive First Offender
  * treatment under O.C.G.A. § 42-8-66.
@@ -589,7 +590,7 @@ async function renderComposedPdf(fullText, title) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -600,7 +601,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   for (const raw of sanitizePdfText(fullText).split("\n")) {
     if (raw === "[[PAGE_BREAK]]") {
       page = pdf.addPage([width, height]);

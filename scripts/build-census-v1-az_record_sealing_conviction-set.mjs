@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The Arizona record-sealing-on-conviction packet family.
  *
@@ -1059,7 +1060,7 @@ async function renderComposedPdf(fullText, title) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => fits(w) ? [w] : splitToken(w));
     const rows = []; let current = "";
@@ -1070,7 +1071,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
 
   const source = sanitizePdfText(fullText).split("\n");
   const blocks = [];

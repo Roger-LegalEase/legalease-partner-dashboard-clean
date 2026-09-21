@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * Oklahoma trafficking-survivor relief packet under 22 O.S. § 19c.
  *
@@ -748,7 +749,7 @@ async function renderComposedPdf(fullText, title) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => fits(w) ? [w] : splitToken(w));
     const rows = []; let current = "";
@@ -759,7 +760,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   /*
    * Keep markers are family-local layout controls. They never render. A marked
    * question or section moves to the next page only when the complete marked

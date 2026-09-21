@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC census-v1 builder — two Washington routes: post-probation vacation
  * under RCW 9.95.240 and non-conviction record deletion under RCW 10.97.060.
@@ -1256,7 +1257,7 @@ async function renderComposedPdf(fullText, title) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => fits(w) ? [w] : splitToken(w));
     const rows = []; let current = "";
@@ -1267,7 +1268,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
 
   /* Lay every block out into pages before drawing anything, so that the trailer
    * can be caught sitting alone while the layout is still only a plan. */

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 // NH vacated-matter packet: source-bound NHJB-2317, NHJB-2886, NHJB-2328
 // and NHJB-2956, with filing and effect guidance. The settled fee-waiver
 // decision governs the acquired 2886 substitution and financial confidentiality.
@@ -1310,7 +1311,7 @@ async function renderComposedPdf(fullText, title) {
   const maxWidth = width - 2 * margin;
 
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => (font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]));
     const out = []; let current = "";
@@ -1321,7 +1322,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) out.push(current);
     return out;
-  };
+  });
 
   const TRAILER_LINE = /^Route: /;
   const rows = [];

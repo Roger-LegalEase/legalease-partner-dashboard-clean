@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC composed-treatment builder — New York CPL § 160.55 sentencing-court
  * transmission or correction request.
@@ -505,7 +506,7 @@ async function renderComposedPdf(fullText, title) {
    * any run with no separator to break on; the assertion below makes that a
    * build failure rather than a shipped split. */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -516,7 +517,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
   assert.equal(splitToken.hardSplits, 0,
     `composed document "${title}" needed ${splitToken.hardSplits} hard split(s): a token had no separator to break on inside the column. Refusing to ship a mid-word split.`);

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC census-v1 builder — the Tennessee custom-pleading family, eleven
  * routes across eleven committed tracks.
@@ -4747,7 +4748,7 @@ async function renderComposedPdf(fullText, title, componentId) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -4758,7 +4759,7 @@ async function renderComposedPdf(fullText, title, componentId) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   const rows = sanitizePdfText(fullText).split("\n").flatMap((raw) => wrap(raw));
   const footerKeepStart = Math.max(0, rows.length - 4);
   for (const [index, row] of rows.entries()) {

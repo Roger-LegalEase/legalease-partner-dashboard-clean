@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The Rhode Island expungement packet host — five census-v1 families.
  *
@@ -2222,7 +2223,7 @@ async function renderComposedPdf(fullText, title, { keepGuideHeadingsWithBody = 
    * font handle, which is why it serves this host unchanged.
    */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => (font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]));
     const out = []; let current = "";
@@ -2233,7 +2234,7 @@ async function renderComposedPdf(fullText, title, { keepGuideHeadingsWithBody = 
     }
     if (current) out.push(current);
     return out;
-  };
+  });
 
   /*
    * Rows carry which SOURCE LINE they came from and whether that line is the

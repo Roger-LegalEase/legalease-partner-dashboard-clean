@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The Kentucky void-and-seal packet family builder.
  *
@@ -468,7 +469,7 @@ async function renderComposedPdf(fullText, title) {
    * delivered token in the pair at 297.97pt against a 468pt column -- and the
    * assertion below proves that on every build. */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const out = []; let current = "";
@@ -479,7 +480,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) out.push(current);
     return out;
-  };
+  });
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
   /* No Kentucky token reaches the column, so the splitter must never have had
    * to chop one. A future edit that lengthens a route key past 468pt fails

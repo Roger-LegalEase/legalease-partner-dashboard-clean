@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./court-facing-rows.mjs";
 /**
  * The composed custom-pleading family host.
  *
@@ -202,7 +203,7 @@ async function renderComposedPdf(fullText, title) {
    * asserted zero per composed document below, so a future key with no
    * separator to break on fails the build rather than shipping chopped. */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -213,7 +214,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   /* The sentinel starts a new page unless the current one is already empty, so
    * a block asking to stand alone never leaves a blank sheet in front of it,
    * and it opens a block whose overflow is a build failure. */

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The Virginia non-conviction expungement family — `va_exp_nonconviction-set`.
  *
@@ -888,7 +889,7 @@ async function renderComposedPdf(fullText, title) {
   /* The one separator-aware splitter, shared, in place of the private
    * character-accumulating copy this builder carried. */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -899,7 +900,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
 
   /* The route trailer is internal machine metadata rather than participant
    * text, and it must never be the only thing on a delivered page: this packet

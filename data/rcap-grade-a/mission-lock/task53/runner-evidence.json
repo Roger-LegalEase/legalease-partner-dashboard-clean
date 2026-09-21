@@ -1,0 +1,48 @@
+{
+  "canonicalCaptain": "b1e1f1e85b9922ad618a9306c1fb65787abd2e73",
+  "localBase": "dbf8284ca7a0b98381ae9c8bcfe40c7d9686b8a3",
+  "containment46": "PASS: actual acceptance/publication shells and targeted refusal mutations; no containment changes in this candidate",
+  "runnerAttempt": {
+    "mode": "ephemeral",
+    "applicationSha": "b1e1f1e85b9922ad618a9306c1fb65787abd2e73",
+    "toolsSha": "b1e1f1e85b9922ad618a9306c1fb65787abd2e73",
+    "workerSourceSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
+    "result": "BLOCKED",
+    "error": "HTTP 403: Resource not accessible by integration",
+    "endpoint": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/332448793/dispatches",
+    "runCreated": false
+  },
+  "gate42": {
+    "classification": "Existing worker image-input drift; unchanged by #46; independent prerequisite to executing #49 tests",
+    "failure": "final application changes canonical worker inputs; build and pin one new full-SHA image",
+    "baseline": "625a235110264741646730d7a472861b068fa0a4",
+    "candidate": "b1e1f1e85b9922ad618a9306c1fb65787abd2e73",
+    "identicalDiffSha256": "2a20c30e079e1138b1558998cd85c41404ce406fe6651dde7821b743013a2d8c",
+    "beforeAfterDiffIdentical": true,
+    "changedPaths": [
+      "src/app/api/expungement-ai/payment/confirm/route.ts",
+      "src/app/api/expungement-ai/payment/receipt/route.ts",
+      "src/app/briefcase/payments/page.tsx",
+      "src/components/expungement-ai/BriefcaseViews.tsx",
+      "src/lib/expungement-ai/briefcase-consumer-presentation.ts",
+      "src/lib/expungement-ai/briefcase.ts",
+      "src/lib/expungement-ai/consumer-payment-receipt.ts",
+      "src/lib/expungement-ai/localization.ts",
+      "src/lib/expungement-ai/types.ts"
+    ],
+    "gateWeakened": false
+  },
+  "payment49": {
+    "implementationChanged": false,
+    "verifier": "BLOCKED: verify-expungement-consumer-payment-http requires a local PostgreSQL toolchain.",
+    "mutationCommand": "Executed in isolated canonical-SHA fixture; exit 0 reporting 8/8 caught; zero detection credit because the unmutated verifier is red from missing PostgreSQL. All input bytes restored.",
+    "postgresEvidence": "NOT RUN",
+    "hostedEvidence": "NOT RUN",
+    "status": "Implementation complete, evidence open"
+  },
+  "containment46ExactCaptainWorkflowTest": {
+    "sha": "b1e1f1e85b9922ad618a9306c1fb65787abd2e73",
+    "exitCode": 0,
+    "output": "PASS release containment: three actual acceptance shells, publication main/release, outsider/missing SHA denial, stale-branch reproduction, scope and bypass mutations."
+  }
+}

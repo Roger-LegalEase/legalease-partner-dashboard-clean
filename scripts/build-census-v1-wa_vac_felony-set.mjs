@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 // Family-exclusive repair builder for wa_vac_felony-set.
 //
 // The shared Washington host owns ten families, so a SELF_HELP_STOP repair may
@@ -172,7 +173,7 @@ function wrappedLines(font, text, size, width) {
     }
   }
   if (line) lines.push(line);
-  return lines;
+  return courtFacingRows(() => lines)(text);
 }
 
 async function guidancePdf(stops) {

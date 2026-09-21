@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * PF01 — Florida court-ordered sealing packet.
  *
@@ -599,7 +600,7 @@ async function renderTextPdf(title, lines) {
   let page = doc.addPage([width, height]);
   let y = height - margin;
   const maxWidth = width - 2 * margin;
-  const wrap = (raw, activeFont, size) => {
+  const wrap = courtFacingRows((raw, activeFont, size) => {
     if (!raw) return [""];
     const words = sanitize(raw).split(/\s+/);
     const out = []; let current = "";
@@ -610,7 +611,7 @@ async function renderTextPdf(title, lines) {
     }
     if (current) out.push(current);
     return out;
-  };
+  });
   for (const entry of lines) {
     const text = typeof entry === "string" ? entry : entry.text;
     const isBold = typeof entry === "object" && entry.bold;

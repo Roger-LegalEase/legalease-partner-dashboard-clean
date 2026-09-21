@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PF12 census-v1 builder — Hawaii stage-one conviction-expungement motions,
  * HRS 706-622.5(4), 706-622.5(5), 706-622.8, 706-622.9 and 291E-64(e), together
@@ -856,7 +857,7 @@ async function renderComposedPdf(fullText, title) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => (measure(w) > maxWidth ? splitToken(w) : [w]));
     const rows = []; let current = "";
@@ -867,7 +868,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   const sourceLines = sanitizePdfText(fullText).split("\n");
   const routeFooter = sourceLines.at(-1)?.startsWith("Route: ") ? sourceLines.pop() : null;
   if (routeFooter && sourceLines.at(-1) === "") sourceLines.pop();

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * Deterministic census-v1 builder for Florida human-trafficking-victim
  * expunction under section 943.0583, Florida Statutes.
@@ -468,7 +469,7 @@ async function renderDocument(text, title, { keepRawLinesTogether = false } = {}
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (raw) => {
+  const wrap = courtFacingRows((raw) => {
     if (!raw) return [""];
     const words = raw.split(/\s+/).flatMap((word) => body.widthOfTextAtSize(word, fontSize) > maxWidth ? splitToken(word) : [word]);
     const rows = [];
@@ -483,7 +484,7 @@ async function renderDocument(text, title, { keepRawLinesTogether = false } = {}
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   const draw = (line) => {
     if (y < margin) {
       page = pdf.addPage([width, height]);
