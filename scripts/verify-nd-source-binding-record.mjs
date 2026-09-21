@@ -175,8 +175,17 @@ if (!fs.existsSync(duiPath)) {
   const dui = JSON.parse(fs.readFileSync(duiPath, "utf8"));
   check(dui.vehicleDetermination?.vehicle === "custom_pleading",
     "the DUI record no longer determines a custom pleading");
-  check(/affirmative answer, not an absence/i.test(String(dui.whyNoOfficialFormControls?.["theDistinctionThisRests On"] ?? "")),
-    "the DUI record no longer distinguishes a form nobody found from a form the publisher says does not exist");
+  check(/affirmative statement about what the guidance provides, not merely an absence/i
+    .test(String(dui.whyNoOfficialFormControls?.["theDistinctionThisRests On"] ?? "")),
+    "the DUI record no longer distinguishes a form nobody found from guidance that prescribes none");
+  // And it must not overreach in the other direction either. Guidance that
+  // prescribes no form is enough to choose a composed pleading; it is not a
+  // statewide negative, and a local court form would still control if found.
+  check(/does not claim the Self Help Center is the publisher of every possible/i
+    .test(String(dui.whyNoOfficialFormControls?.whatThisDoesNotClaim ?? "")),
+    "the DUI record no longer disclaims asserting a statewide negative about North Dakota forms");
+  check(/this determination yields to it/i.test(String(dui.vehicleDetermination?.scopeOfTheDetermination ?? "")),
+    "the DUI record no longer yields to a local court form if one is found");
   check(dui.statusOfThisSource?.sourceBoundIntoGradeAAuthority === "NO" && dui.statusOfThisSource?.gradeABlockerClosed === "NO",
     "the DUI record now claims a Grade-A binding or closure it has not performed");
   check(dui.opensAnyRoute === false && dui.commercialRoutesOpened === 0,
