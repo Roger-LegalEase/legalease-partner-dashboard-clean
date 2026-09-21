@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
+        options: [ephemeral, vercel_files_read, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -99,6 +99,32 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
+  vercel_files_read:
+    name: Read-only files inspection of the frozen Target 4 Preview
+    if: inputs.mode == 'vercel_files_read'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify GET-only inspection boundaries
+        run: node --test scripts/rcap-target4-deployment-files.test.mjs
+      - name: Inspect exact frozen Preview files
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node scripts/rcap-target4-deployment-files.mjs
+      - name: Retain metadata and hashes only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: target4-deployment-files-${{ github.run_id }}
+          path: target4-deployment-files-evidence.json
+          if-no-files-found: error
+
   production_preflight:
     name: Read-only Production identity and rollback discovery
     if: inputs.mode == 'production_preflight' || inputs.mode == 'production_clinic_migrate' || inputs.mode == 'production_forward_chain_readback' || inputs.mode == 'production_forward_chain_migrate' || inputs.mode == 'production_legal_aid_readback' || inputs.mode == 'production_legal_aid_migrate' || inputs.mode == 'production_smoke' || inputs.mode == 'production_activate'
