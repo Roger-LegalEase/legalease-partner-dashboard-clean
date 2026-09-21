@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "VA-REGIME-1-CAPTION-AND-ADVERTISED-DEAD-END-2026-09-21",
+  "reviewer": "Captain (caption determination from the specification's own recorded reasons, plus a measured disagreement between two runtime authorities; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "va_exp_absolute_pardon-set",
+  "scope": [
+    "VA:regime-1-expungement-available-now"
+  ],
+  "trackId": "va_exp_absolute_pardon",
+  "authority": "Va. Code § 19.2-392.2(I) and (K)",
+
+  "question": "VA regime-1's primary filing is one of the eight court-facing components refusing for an unresolved caption treatment. Unlike Kansas it carries no upstream gate — legalSectionsBound is true. Is its caption resolvable from the adopted bytes, and if the component refuses, what does the route actually do?",
+
+  "part1_theCaptionRefusalIsCorrect": {
+    "answer": "Correct, and for the component's own recorded reason rather than for Kansas's reason.",
+    "whatTheInstrumentIs": {
+      "title": "Transmittal and Request for Entry of the Expungement Order Required by Va. Code § 19.2-392.2(I)",
+      "documentId": "primary_filing",
+      "manifestComponentId": "va_exp_absolute_pardon-primary-filing-1",
+      "outputStrategy": "custom_pleading",
+      "quotedRequestSection": "Send this request only if the pardon document says it is an absolute pardon and says it is for a crime you did not commit. Enclose the certified pardon and ask the circuit court of the locality of conviction to enter the order required by Va. Code § 19.2-392.2(I) and forward it under subsection (K). Complete every case and pardon blank from the source records, then sign and date the request personally.",
+      "reading": "A transmittal to the clerk of a circuit court enclosing a certified pardon and asking the court to enter a statutorily required order. It is not a petition that opens a case."
+    },
+    "whyNoCaptionCanBeRecorded": {
+      "theSpecificationAlreadySaysIt": "documentContract.caseMode is 'unresolved', and its recorded reason is: \"the specification requires no case or cause number and the recorded filing action does not say which case this is filed into: 'Send the transmittal and request, with the certified pardon, to the clerk of the circuit court of the locality'\".",
+      "theConsequence": "A full_independent_caption is defined as a caption naming the court AND the case. No source read establishes which case this instrument belongs to, so a caption cannot be written without inventing the case identity. The caption question is downstream of caseMode and resolves from the same source that resolves caseMode.",
+      "theOtherThreeValuesAlsoFail": {
+        "supporting_page": "Defined as a page filed WITH a captioned instrument and identified by it. The packet's other two components are records_checklist and filing_instructions, both process_guidance. There is no captioned instrument of ours for this page to be identified by, so it is not a supporting page.",
+        "official_form_controls": "The factory-v2 registry row binds no official form for this route (officialFormIds is empty), and formApplicability on the component is custom_document_permitted.",
+        "not_applicable": "Defined as the component not being court-facing. This one is court-facing — documentContract.recipient is 'court' and instrumentClass is 'participant_filing'."
+      },
+      "presentationProvesNothing": "documentContract.presentation is 'pleading', but the caption contract states in terms that nothing is inferred from presentation, and records that a presentation-keyed rule can only be satisfied where it does not fit by manufacturing a caption or relabelling a court-facing filing as guidance. Both are forbidden."
+    },
+    "howItResolves": "When a source establishes which case, if any, the § 19.2-392.2(I) order is entered in. That same source resolves caseMode. Until then the refusal is correct and is the contract's intended state.",
+    "captionTreatmentsRecordedByThisRecord": 0
+  },
+
+  "part2_theActualDefect": {
+    "statement": "The caption is not this route's launch problem. Two runtime authorities disagree about whether the route can be sold, and the participant is shown the optimistic one.",
+    "measured": [
+      {
+        "layer": "screening evaluator",
+        "source": "data/rcap-ledger/public-witness-answer-sets.json, the VA:regime-1-expungement-available-now witness",
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true,
+        "reasonCodes": [
+          "va.compiled_rule_match.rule-01-regime-1-expungement-19-2-392-2-available-now"
+        ]
+      },
+      {
+        "layer": "server-side commercial authority",
+        "source": "fulfillmentAuthorityForRoute in src/lib/rcap/fulfillment/grade-a-admission.ts, which its own comment calls the function that answers whether a route is commercially eligible and the only one",
+        "disposition": "UNKNOWN_FAIL_CLOSED",
+        "reason": "No Grade-A fulfillment record binds VA:regime-1-expungement-available-now; a route nobody has written a record for fails closed."
+      },
+      {
+        "layer": "document render",
+        "state": "the only court-facing component refuses for the unresolved caption established in part 1, so even an admitted order could not produce a filing"
+      }
+    ],
+    "contrastMeasuredAtTheSameTime": {
+      "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal": "COMPLETE_PACKET_PROVEN",
+      "WY:felony-conviction-expungement-w-s-7-13-1502": "COMPLETE_PACKET_PROVEN",
+      "why": "Recorded so the VA result is read as a route-specific absence rather than a broken authority. The authority works; VA simply has no record."
+    },
+    "whatIsAndIsNotAtRisk": {
+      "moneyAndDelivery": "Not at risk. The commercial boundary refuses before any provider is dispatched, any session is opened, any credit is decremented and any artifact is marked deliverable. No charge can complete and no packet can be delivered on this route.",
+      "whatIsAtRisk": "Truthfulness to the participant. Screening reports packet_ready_with_caution with paymentAllowed true, and the product then cannot sell or deliver. That is an advertised dead end, which the launch plan's finish line names explicitly, and a known broken promised route does not become complete because a lower layer refuses service."
+    },
+    "theStructuralPoint": "paymentAllowed is asserted by the compiled screening profile, while commercial eligibility is decided by fulfillmentAuthorityFor. Two independent sources of truth for one question, and here they disagree. Only one of them can be the authority, and the fulfillment record is the one ADR-0004 names."
+  },
+
+  "whatMustNotBeDoneAboutIt": {
+    "rule4": "Mission Lock Rule 4 forbids disabling, hiding, converting to guidance-only or making noncommercial a route because the implementation is broken. Suppressing VA regime-1 from screening to remove the dead end would be exactly that, and is refused here.",
+    "andNotThisEither": "Writing a Grade-A fulfillment record to make the layers agree would be worse. A record asserts that a proven packet is delivered; this route's only filing does not render and its case identity is unestablished. The absence of a record is currently truthful.",
+    "theOrderOfRepair": "Establish the filing's case identity from source, which resolves caseMode and the caption together. Then the component renders, and only then can a fulfillment record be written honestly. Making the participant-facing claim truthful in the meantime is a separate and smaller change."
+  },
+
+  "ownershipOfTheRepair": {
+    "captionAndCaseMode": "Captain. It is a document and source question and is unstarted; this record does not begin it.",
+    "theAdvertisedDeadEnd": "Route availability and commercial eligibility are Captain-owned decisions under the ownership matrix, and the machinery that carries them is serialized shared foundation. So the DECISION is recorded here and the MECHANISM is assigned once rather than edited in parallel: the compiled profile's paymentAllowed for a route with no fulfillment record must not present as purchasable. No commercial-state machinery is touched by this record.",
+    "notCodexUnilaterally": "The matrix records commercial eligibility and route availability as no-unilateral-change for the engineering lane."
+  },
+
+  "statusOfThisRecord": {
+    "captionResolved": "NO, and correctly so",
+    "routeOpened": "NO",
+    "fulfillmentRecordWritten": "NO",
+    "stateChanged": "none",
+    "readThisFirst": "This record determines that VA regime-1's caption refusal is correct for the component's own recorded reason, and measures a disagreement between the screening evaluator and the single server-side commercial authority. It records no caption treatment, writes no fulfillment record, changes no profile, touches no commercial-state machinery and opens no route. VA regime-1 remains incomplete."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Counsel review of what case, if any, a Va. Code § 19.2-392.2(I) order is entered in, which resolves caseMode and the caption together. Separately, an owner decision on how the participant-facing claim is made truthful while the route remains unsellable."
+}
