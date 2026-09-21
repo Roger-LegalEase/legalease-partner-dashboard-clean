@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "OR-SET-ASIDE-WITHOUT-CONVICTION-IS-RETIRED-NOT-UNWRITTEN-2026-09-21",
+  "reviewer": "Captain (A-lane determination; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "rcap-or-official-pdf-fill",
+
+  "readThisFirst": "The four empty process_guidance components on OR-set-aside-without-conviction.v1 are not a content gap. They are empty because the specification is retired. Writing guidance into them would resurrect a route counsel retired as overbroad, and the most obvious source to write it from would have contradicted counsel.",
+
+  "howThisWasScoped": {
+    "theScopingError": "The A2 opening scan looked for specifications with legalSectionsBound false and documents carrying no sections, and read OR-set-aside-without-conviction.v1's four process_guidance components as unwritten guidance. That scan did not check for a successor. It should have: the specification's own supersededBy block says the route is historical_only.",
+    "whoseError": "Mine. It is the same failure the reconciliation rule names - treating a current-looking artifact as current without checking its successor - and it is recorded rather than quietly corrected.",
+    "whatSavedIt": "Reading the specification before writing into it."
+  },
+
+  "part1_theRouteIsRetired": {
+    "specification": "data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json",
+    "status": "historical_only",
+    "retiredOn": "2026-08-29",
+    "supersededBy": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
+    "theOwnersReason": "The legal owner found this route overbroad: it was labelled for arrests or charges without conviction under (1)(c) and delivered the acquittal packet, so a participant who was never charged and one who was acquitted resolved to the same configuration under the wrong subsection for one of them.",
+    "theSpecificationSaysItItself": "The six legal sections are bound on the three configurations that replaced this route. They stay unbound HERE because this route is retired, and an unbound specification is one nothing can be composed from.",
+    "soTheEmptinessIsCorrect": "A retired specification that composes nothing has no use for authored guidance sections. Filling them would make a retired route look composable."
+  },
+
+  "part2_theDivergenceIsRealAndAlreadyRecorded": {
+    "whatIMeasuredIndependently": "The route key, pathwayId and pathwayLabel all name ORS 137.225(1)(c). The bound trackId and packetSetId are or_acquittal, and the Oregon legal-design memo files or_acquittal under ORS 137.225(1)(d) with eligibleDispositions ['acquitted']. The memo carries a separate track, or_arrest_no_charges, for (1)(c), whose eligible dispositions are no_accusatory_instrument_filed and state_elected_not_to_proceed. Those are different populations: a person against whom no accusatory instrument was filed is not a person acquitted after trial.",
+    "itWasNotANewFinding": "The specification's own legalSections.statutoryAuthority.decisionRequired already states it: 'The route id names ORS 137.225(1)(c); the legal-design track registry files or_acquittal under a different subsection ... Two committed records disagree and a generator does not pick one.' The owner then resolved it by splitting the route.",
+    "whyItIsRecordedAnyway": "Because the independent measurement agreeing with the recorded decision is what makes the retirement checkable from the current bytes rather than only from the history."
+  },
+
+  "part3_writingTheGuidanceWouldHaveBeenWrongTwice": {
+    "firstWrong": "It would have populated a retired specification.",
+    "secondWrong": "The obvious source is the Oregon memo's or_acquittal track, whose objection_and_hearing_instructions note reads: 'ORS 137.225(2)(a) gives the prosecuting attorney 120 days from the date the motion was filed to object.' Counsel later determined the opposite for these routes. The successor configuration's bound hearingAndObjectionStops says: 'The 120-day objection period is not applied as the ordinary rule for a motion under paragraph (1)(c) or (1)(d). It is the rule ORS 137.225(1)(a) sets for the conviction set-aside track, and these two routes are not that track.'",
+    "consequence": "Guidance written from the memo would have told a participant to wait out a 120-day objection diary that counsel says does not govern their motion. The empty component was more truthful than the content I was about to write.",
+    "theLesson": "An owner-approved legal-design memo is build input, not a current determination. Where counsel has since bound the same section, counsel's binding governs."
+  },
+
+  "part4_theSuccessorAndWhatItAlreadyCarries": {
+    "specification": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
+    "configurations": [
+      "or-never-charged-137-225-1-c, route OR:set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c",
+      "or-acquittal-137-225-1-d, route OR:set-aside-of-an-acquittal-under-ors-137-225-1-d",
+      "or-ordinary-dismissal-137-225-1-d, route OR:set-aside-of-an-ordinary-dismissal-under-ors-137-225-1-d"
+    ],
+    "legalSectionsBound": "true on all three, with unboundLegalSections empty",
+    "boundBy": "Lawrence (counsel), 2026-08-29, record data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json, read from the pinned packet's own instruction pages 1 to 3 and ORS 137.225",
+    "whereTheGuidanceContentLives": "On each configuration under legalSections, as counsel-bound statements for filingDestination, feeAndWaiver, serviceAndNotice, copyRequirements, postFilingTimeline and hearingAndObjectionStops - not as authored sections on the guidance documents.",
+    "soThereIsNoContentGapToClose": "The six sections the retired route left unbound are bound on the successors. There is no Oregon guidance text for this lane to write.",
+    "commercialState": "All three configurations are commercialStatus closed, commerciallyEligible 0 and completePacketProven 0. The route-design decision is not an output-level approval and opens no admission point."
+  },
+
+  "part5_whatIsActuallyStillWrong": {
+    "theFinding": "The factory-v2 route registry still carries the retired route and does not carry the three successors. Its only Oregon non-conviction row is OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c - the exact key counsel retired as overbroad - and none of the three governed successor route keys appears.",
+    "whatTheRegistryRowSays": "closureCategory paid_packet_intended, publicWitnessReachesThisPathway true, paymentAllowedAtTheEvaluator false, openBlockerIds ['packet_spec_incomplete', 'renderer_unavailable'].",
+    "whyThatMatters": "The declared blocker is the wrong diagnosis. packet_spec_incomplete reads as work outstanding on this specification. The specification is not incomplete; it is retired, and its completeness lives on three successors the registry does not carry. A future reader following that blocker would do exactly what this lane nearly did.",
+    "exposure": "None commercially. The route is non-selling at the evaluator and no fulfillment record exists, so nothing is sold and nothing is delivered on the retired specification. The defect is that a publicly reachable route advertises a design counsel retired.",
+    "whatThisRecordDoesNotDo": "It does not change the route key, register a successor, or alter any gate. Registering or retiring a route is a route change and is not authorized by this record. No adjacent Oregon route was opened or reviewed: the marijuana and conviction set-aside rows were read only to confirm they are distinct rows, and neither was touched."
+  },
+
+  "whatThisRecordDoesNotDo": {
+    "noGuidanceWritten": "No section was authored on the retired specification or on any successor configuration.",
+    "noRouteChanged": "No route key, gate, blocker id or registry row was modified.",
+    "noSupersessionReopened": "The owner's 2026-08-29 retirement and counsel's six bindings are read as current and are not revisited.",
+    "noAdjacentRouteOpened": "Oregon shares a state name across three registry rows. That is not a reason to open the other two."
+  },
+
+  "statusOfThisRecord": {
+    "stateChanged": "none",
+    "readThisFirst": "This is a determination that a suspected content gap is not one. It writes no guidance, changes no specification and opens no route."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Whether the factory-v2 route registry should carry the three governed Oregon successors in place of the retired row, and what the correct blocker id is for a row whose specification is retired rather than incomplete. That is a route change and needs its own authorization."
+}
