@@ -116,3 +116,50 @@ test("a wrong reviewed pathway stops fixture preparation without trying another 
   const changed = gate.replace(anchor, anchor + '\n  if (reviewed.evaluation) reviewed.evaluation.pathwayId = "wrong-route";');
   await assert.rejects(prepareFixture(changed), /seeded_item_carries_reviewed_packet_information/);
 });
+
+// Exercise the gate's own retained durable-row predicate, not a copy of it.
+const storedStart = gate.indexOf('  const storedExact = storedRows.length === 1');
+const storedEnd = gate.indexOf('  evidence.seededItem =', storedStart);
+assert.ok(storedStart >= 0 && storedEnd > storedStart);
+const storedSource = gate.slice(storedStart, storedEnd);
+const storedIdentity = {
+  jurisdiction: MS_CHECKOUT.jurisdiction, pathwayLabel: MS_CHECKOUT.pathwayLabel,
+  resultCode: 'packet_ready_with_caution', packetType: 'custom_pleading'
+};
+const durableRow = {
+  id: 'this-item', user_id: 'this-user', jurisdiction: storedIdentity.jurisdiction,
+  pathway_label: storedIdentity.pathwayLabel, result_code: storedIdentity.resultCode,
+  packet_type: storedIdentity.packetType, status: 'packet_ready', payment_status: 'unpaid',
+  payment_allowed: true, checkout_session_id: null,
+  // Hosted claim-time mirror values must not authorize or prevent final review.
+  packet_information_stage: 'not_started', packet_information_reviewed: false
+};
+function storedCase(rows) {
+  let result;
+  vm.runInNewContext(storedSource, {
+    storedRows: rows, stored: rows[0] ?? null, itemId: 'this-item', A: { id: 'this-user' },
+    checkoutRouteIdentity: storedIdentity,
+    record: (id, passed, observed) => { result = { id, passed, observed }; }
+  });
+  assert.equal(result.id, 'stored_row_matches_authoritative_resolver');
+  return result;
+}
+test('durable identity passes independently of the stale claim-time review mirror', () => {
+  assert.equal(storedCase([{ ...durableRow }]).passed, true);
+  const { packet_information_stage, packet_information_reviewed, ...withoutMirror } = durableRow;
+  assert.equal(storedCase([withoutMirror]).passed, true);
+});
+for (const [field, wrong] of Object.entries({
+  id: 'another-item', user_id: 'another-user', jurisdiction: 'PA', pathway_label: 'another pathway',
+  result_code: 'needs_review', packet_type: 'another packet', status: 'another status',
+  payment_status: 'paid', payment_allowed: false, checkout_session_id: 'unexpected-session'
+})) {
+  test(`stored identity rejects wrong ${field} even with a ready display mirror`, () => {
+    assert.equal(storedCase([{ ...durableRow, [field]: wrong,
+      packet_information_stage: 'ready_to_generate', packet_information_reviewed: true }]).passed, false);
+  });
+}
+test('stored identity requires exactly one row', () => {
+  assert.equal(storedCase([]).passed, false);
+  assert.equal(storedCase([durableRow, durableRow]).passed, false);
+});
