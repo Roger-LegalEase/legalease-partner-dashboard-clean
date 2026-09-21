@@ -64,6 +64,15 @@ export type ConsumerRenderOutcome =
 const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1";
 const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";
 
+/** Temporary render-handler observation; only protected identity and the normal
+ * resolver's result cross this boundary. No participant answers or identifiers. */
+export type ConsumerRenderRouteObserver = (observation: {
+  jurisdiction: string;
+  pathwayId: string | null;
+  selectedTrackId: string | null;
+  routeKind: string;
+}) => void;
+
 function deterministicUuid(seed: string): string {
   const h = createHash("sha256").update(seed).digest("hex");
   const variant = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
@@ -185,8 +194,8 @@ export async function requestConsumerPacketRender(input: {
   /** From the server-verified session. Never from the request body. */
   authUserId: string | null;
   briefcaseItemId: string;
-}): Promise<ConsumerRenderOutcome> {
-  return requestConsumerPacketRenderInternal(input, "session");
+}, observeResolvedRoute?: ConsumerRenderRouteObserver): Promise<ConsumerRenderOutcome> {
+  return requestConsumerPacketRenderInternal(input, "session", observeResolvedRoute);
 }
 
 /**
@@ -205,7 +214,7 @@ export async function requestConsumerPacketRenderForWebhook(input: {
 async function requestConsumerPacketRenderInternal(input: {
   authUserId: string | null;
   briefcaseItemId: string;
-}, lookup: "session" | "service"): Promise<ConsumerRenderOutcome> {
+}, lookup: "session" | "service", observeResolvedRoute?: ConsumerRenderRouteObserver): Promise<ConsumerRenderOutcome> {
   if (!input.authUserId) return { status: "unauthenticated" };
   const authUserId = input.authUserId;
 
@@ -313,6 +322,16 @@ async function requestConsumerPacketRenderInternal(input: {
         : error instanceof Error ? error.message : String(error)
     };
   }
+  // Observe only AFTER the normal resolver has run. Diagnostic failures must
+  // never affect admission, payment, the returned outcome, or cache state.
+  try {
+    observeResolvedRoute?.({
+      jurisdiction: verification.snapshot.jurisdiction,
+      pathwayId: verification.snapshot.pathwayId,
+      selectedTrackId: verification.snapshot.selectedTrackId,
+      routeKind: built.route.routeKind
+    });
+  } catch { /* Temporary diagnostics are strictly best-effort. */ }
   if (!built.spec) return { status: "route_not_renderable", reason: built.route.reason };
 
   const person = await resolveConsumerPersonId(authUserId);
