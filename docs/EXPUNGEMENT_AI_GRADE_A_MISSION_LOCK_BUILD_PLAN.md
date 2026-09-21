@@ -46,7 +46,7 @@ The supplied transcript reports 106 capabilities: 90 built, six built elsewhere,
 | Product requirements and current implementation | Repository `docs/PRODUCT_CONTRACT.md`; actual integration branch | Read the relevant sections and current branch/worktree state. The previously observed `captain-release` SHA `8f3a7891777027f3eac98936eb56b09c133624a2` is a comparison reference, not a reset target. Preserve legitimate later and unpushed work. |
 | Full independent built-state account | Reported in the **independent audit Codespace** at `/workspaces/legalease-partner-dashboard-clean/audit/independent-built-state/BUILT_VS_NOT_BUILT.md` | Transfer the existing file, supporting indexes and the next batch’s relevant safe evidence through an authorized existing channel. That path is not evidence that another Codespace has the file. Do not regenerate the audit. |
 | Audit support | Same audit directory: `BUILT_STATE_REPORT.md`, `EVIDENCE_INDEX.json`, `COVERAGE_LEDGER.json`, `CHECKPOINT.md`; batch-025 privacy and batch-026 consumer evidence | Preserve source snapshot, hashes and relative evidence links. Do not copy credentials, private participant data, an entire Git cache, dependencies or source corpora into the application repository. Missing sensitive evidence gets an authorized private locator. |
-| Final QA Package | Included in this delivery under `qa/grade-a/` | Use an existing canonical installed copy if byte-identical; otherwise adopt this location. Record the actual shared location in the existing worklist. Keep one working results workbook; never overwrite completed results with the blank original. |
+| Final QA Package | **Installed and verified at `qa/grade-a/` in this repository**; integrity and usage rules in `qa/grade-a/LOCATOR.md` | Use an existing canonical installed copy if byte-identical; otherwise adopt this location. Record the actual shared location in the existing worklist. Keep one working results workbook; never overwrite completed results with the blank original. |
 | Source originals, templates and approvals | Existing source receipts, artifact indexes, adopted decisions and QA Sources sheet | Materialize only exact required inputs from existing authorized custody. An unmounted corpus is not evidence that forms were never built. Missing visual-reference access blocks that visual verdict, not unrelated code work. |
 
 Both agents must be able to read the adopted plan and their own task inputs before dependent edits. Transfer only missing evidence; do not rebuild the audit in the Captain’s worktree. A missing input blocks its dependent task, not the entire launch. No agreement, transfer, remote publication or permission is marked complete until it actually occurs.
@@ -187,9 +187,9 @@ The process ends when the intended platform satisfies the attached QA standard a
 
 ## Source notes and review boundary
 
-- **[Q]** Supplied Final QA Package: full Plan, Execution Prompt, Checklist and CSV. All 248 catalog rows were compared across workbook and CSV; they match. The originals remain unmodified and all catalog statuses remain NOT RUN. Package integrity is recorded in `../INPUTS_AND_START.md` and `../SHA256SUMS.txt`.
-- **[B]** Archived `../reference/A1_LOCKED_2026-09-21_SOURCE.md`: supplied September 21 A1-locked Mission Lock §§7.1 and 17: closed construction baseline, exact finite cohort, successor handling and newly proven defect rule. Its contradictory §19 lifecycle is not retained as product authority.
-- **[V]** Archived `../reference/GRADE_A_V2_2026-09-19_SOURCE.md`: supplied September 19 v2 plan: retained product/document/visual quality, saved-matter protection, successor-worker acceptance and release requirements; dated counts and blanket rebuild directives are not treated as current assignments. September 3 status is historical, not restart authority.
+- **[Q]** Supplied Final QA Package: full Plan, Execution Prompt, Checklist and CSV. All 248 catalog rows were compared across workbook and CSV; they match. The originals remain unmodified and all catalog statuses remain NOT RUN. Installed at `qa/grade-a/`; integrity verified on installation and recorded in `qa/grade-a/LOCATOR.md` (ZIP `c8065009…`, workbook `3bf99c50…`, both matching the recorded originals; 248 rows, 248 unique IDs, all NOT RUN).
+- **[B]** This repository's history at commit `1efad92d3`, same path as this file (the delivery's `reference/` directory was not transferred): supplied September 21 A1-locked Mission Lock §§7.1 and 17: closed construction baseline, exact finite cohort, successor handling and newly proven defect rule. Its contradictory §19 lifecycle is not retained as product authority.
+- **[V]** **Not present in this repository and not transferred.** Held only as an uploaded delivery file, SHA-256 `6a499068016f6c40c8344a6857dcf1e5b9f359576d3d7658daed59dfa59ed599`. Retrieve it from Roger before relying on a passage; do not reconstruct it. Supplied September 19 v2 plan: retained product/document/visual quality, saved-matter protection, successor-worker acceptance and release requirements; dated counts and blanket rebuild directives are not treated as current assignments. September 3 status is historical, not restart authority.
 - **[A]** Supplied September 21 audit transcripts, including the 106-capability summary, source/download preservation and PR references. The complete `BUILT_VS_NOT_BUILT.md` and its underlying local evidence were not retrieved here. Exact missing capability rows and present worktree/permission state must come from that existing evidence, not this summary.
 - **[R]** Previously retrieved repository Product Contract and SOC 2 operating/readiness documents at `8f3a7891777027f3eac98936eb56b09c133624a2`, as cited in the supplied execution plan. That is historical source context, not a fresh read of running production.
 
@@ -197,9 +197,9 @@ This revision reviews and corrects the supplied planning materials. It does not 
 
 ## Where the retained sources actually live in this repository
 
-The delivery's `reference/` directory was not transferred here, so the source notes'
-`../reference/A1_LOCKED_2026-09-21_SOURCE.md` and `../reference/GRADE_A_V2_2026-09-19_SOURCE.md`
-do not resolve. Both are preserved in this repository's history at this same path:
+The delivery's `reference/` directory was not transferred here. The source notes
+above have been rewritten to point at locators that actually resolve. For the
+A1-locked source that means this repository's own history at this same path:
 
 - the September 21 A1-locked revision, whose §§7.1 and 17 this revision's §4 carries: `1efad92d3`;
 - the September 21 v2 execution revision, briefly installed and superseded by this one: `28554a15b`;
