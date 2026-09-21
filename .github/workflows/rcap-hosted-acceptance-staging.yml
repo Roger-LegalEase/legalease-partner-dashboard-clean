@@ -129,6 +129,24 @@ env:
   # completion events would be delivered to replaced bytes and nothing would look
   # wrong. Update this whenever the destination is repointed.
   PREVIOUS_STRIPE_WEBHOOK_HOST: legalease-partner-dashboard-clean-qfqpixip0-roger947s-projects.vercel.app
+  # TEMPORARY — Target #4 diagnostic only, and only on the disposable
+  # `captain-target4-diagnostic` branch. These four constants are the ENTIRE
+  # admission surface of the worker-input exception below. They are literals
+  # rather than references to AUTHORIZED_*, so a future change to the accepted
+  # worker cannot silently widen the exception: it would instead stop matching
+  # and the ordinary refusal would return. Delete this block, and the exception
+  # that reads it, before any release candidate is accepted.
+  TARGET4_DIAGNOSTIC_APPLICATION_SHA: f4b353722f67834a3dc4032008d7c9f42ed87bd0
+  TARGET4_DIAGNOSTIC_WORKER_SOURCE_SHA: 117b469c453a403fbd217f1c441a08c7c68f6b3a
+  TARGET4_DIAGNOSTIC_WORKER_DIGEST: sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f
+  # The complete canonical worker-input delta the exception admits, sorted under
+  # LC_ALL=C and newline-joined. Exact set equality: a fifth path, a missing
+  # path, or a renamed substitute all produce a different string and refuse.
+  TARGET4_DIAGNOSTIC_WORKER_INPUT_DELTA: |-
+    src/app/api/expungement-ai/packet/render/route.ts
+    src/lib/expungement-ai/consumer-render-request.ts
+    src/lib/expungement-ai/target4-render-diagnostic.ts
+    src/lib/rcap/documents/factory-v2-registry.ts
 
 jobs:
   preflight:
@@ -214,8 +232,38 @@ jobs:
             # This server-only post-claim Clinic binding is not imported by the
             # render worker. It is the one measured application repair in this
             # Preview; every actual worker input remains byte-compared below.
-            git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src data/record-clearing/supplemental-guides data/record-clearing/brand/legalease-logo.png ':(exclude)src/lib/clinic-mode/result-follow-up.ts' \
-              || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
+            if ! git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src data/record-clearing/supplemental-guides data/record-clearing/brand/legalease-logo.png ':(exclude)src/lib/clinic-mode/result-follow-up.ts'; then
+              # TEMPORARY Target #4 diagnostic exception. This is not a release
+              # policy change: it is one disposable admission of one exact tree,
+              # for two nonproduction phases, whose entire worker-input delta is
+              # four read-only observation files. It widens nothing else. Every
+              # other SHA, phase, worker, digest or delta reaches the identical
+              # refusal below, unchanged. Remove with the constants it reads.
+              #
+              # --- target4-diagnostic-exception:begin ---
+              target4_diagnostic_exception_applies() {
+                # $1 application_sha  $2 worker_source_sha  $3 worker_digest
+                # $4 phase            $5 sorted newline-joined worker-input delta
+                [ "$1" = "$TARGET4_DIAGNOSTIC_APPLICATION_SHA" ] || return 1
+                [ "$2" = "$TARGET4_DIAGNOSTIC_WORKER_SOURCE_SHA" ] || return 1
+                [ "$3" = "$TARGET4_DIAGNOSTIC_WORKER_DIGEST" ] || return 1
+                case "$4" in replace_preview|checkout_gate) ;; *) return 1 ;; esac
+                [ "$5" = "$TARGET4_DIAGNOSTIC_WORKER_INPUT_DELTA" ] || return 1
+                return 0
+              }
+              # --- target4-diagnostic-exception:end ---
+              # --no-renames so a renamed substitute surfaces as an add plus a
+              # delete -- two entries, a different string, and a refusal -- rather
+              # than collapsing into one entry that could impersonate a match.
+              TARGET4_OBSERVED_DELTA="$(git diff --name-only --no-renames "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src data/record-clearing/supplemental-guides data/record-clearing/brand/legalease-logo.png ':(exclude)src/lib/clinic-mode/result-follow-up.ts' | LC_ALL=C sort)"
+              if target4_diagnostic_exception_applies "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.worker_digest }}" "${{ inputs.phase }}" "$TARGET4_OBSERVED_DELTA"; then
+                echo "::warning::TEMPORARY Target #4 diagnostic exception admitted: application ${{ inputs.application_sha }}, phase ${{ inputs.phase }}, worker-input delta is exactly the four read-only observation files. No image is accepted and no release claim is made."
+                printf '%s\n' "$TARGET4_OBSERVED_DELTA" | sed 's/^/  admitted delta: /'
+              else
+                echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"
+                exit 1
+              fi
+            fi
             git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src data/record-clearing/supplemental-guides data/record-clearing/brand/legalease-logo.png \
               || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           fi
