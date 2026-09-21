@@ -1,7 +1,8 @@
 # Expungement.ai Grade A Launch Build Plan
 ## Mission Lock for Parallel Claude + Codex Execution
 
-**Plan version:** 2026-09-20  
+**Plan version:** 2026-09-21  
+**Revision:** A1 post-terminal scope lock  
 **Status:** ACTIVE  
 **Captain / Integration Authority:** Claude  
 **Engineering Execution Lane:** Codex  
@@ -280,6 +281,22 @@ They were asserted as an exact set at that point.
 Hosted acceptance was being rerun against the already-published digest.
 
 Production promotion, production deployment, live charges, and live-environment mutation were not authorized.
+
+## 7.1 346-family terminal baseline — controlling scope lock
+
+The fixed nationwide packet-family corpus has reached **346/346 terminal treatment**.
+
+Treat that as the closed family-construction baseline. It means the family corpus has already been driven to its evidence-backed terminal treatments; it does **not** mean every higher-level live-product resolver, fulfillment, payment, Packet Information, guide, or hosted journey is already perfect.
+
+Therefore:
+
+- do **not** restart a 346-family review;
+- do **not** reopen a terminal family because an old audit, route-product label, manifest, or metadata field says `needs_custom_packet`, `needs_form_mapping`, or similar;
+- do **not** use a historical broad pleading audit as the current A1 denominator;
+- do **not** rebuild a correct terminal family to repair a resolver, reachability, payment, fulfillment, or hosted-acceptance defect;
+- do **not** resurrect a retired route when the current product has a proven successor.
+
+A terminal family may be reopened only when a **new concrete current defect** proves that its current authoritative treatment or current packet bytes are wrong, or when Rule 3 otherwise requires reopening.
 
 ---
 
@@ -721,31 +738,63 @@ Claude decides ownership before changes begin.
 
 Claude should continue substantive work while Codex clears engineering.
 
-## A1. Remaining filing-document remediation
+## A1. Finite post-terminal filing-document defect remediation
 
-Use the existing known worklist.
+### Scope lock
 
-For each unresolved item determine and implement:
+A1 is **not** a nationwide filing-document audit and is **not** a continuation of the 346-family corpus build.
 
-- correct instrument;
-- correct form/custom vehicle;
-- court;
-- venue;
-- case mode;
-- caption;
-- case number treatment;
-- required allegations;
-- prayer/relief;
-- signer;
-- verification;
-- notarization;
-- service;
-- exhibits;
-- privacy/redaction;
-- proposed order;
-- local/official requirements.
+The **346/346 terminal-family baseline is closed**. Preserve it.
 
-Do not redo already-settled routes.
+The standing A1 remediation population is limited to the already-measured post-terminal defect cohort: **8 affected families / 36 documents**, plus the already-enumerated finite historical **§5 findings** solely for one-time reconciliation to the current successor bytes.
+
+The eight named families are:
+
+1. **WY § 7-13-1502** — `WY-felony-conviction-expungement.v1`;
+2. **SD SIS** — suspended-imposition sealing;
+3. **DC actual innocence** — `DC-actual-innocence-expungement.v1`;
+4. **GA pardon/J7** — `GA-restriction-and-sealing-of-a-pardoned-felony.v1`;
+5. **GA SB-288** — `GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1`;
+6. **IL mistaken identity** — `IL-criminal-identity-theft-mistaken-identity-relief.v1`;
+7. **MS § 9-11-15(3)** — `MS-additional-misdemeanor-relief.v1`;
+8. **MS § 99-19-71(1)** — `MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1`.
+
+This fixed cohort exists because the later custom-pleading review proved concrete post-terminal defects such as lost body text, wrong presentation boundaries, bad certification language, court-document contamination, incorrect component classification, renderer behavior, or similar specific defects. It is an exception set, not evidence that the 346-family baseline should be rebuilt.
+
+### Required A1 execution
+
+For each item in the finite cohort:
+
+1. **Reconcile first.** Determine whether the historical finding still applies to the current authoritative successor bytes.
+2. **Close stale findings immediately.** If the defect is already repaired, superseded, retired, or no longer reaches the current product, record the exact successor/evidence and close it. Do not recreate the old defect just to fix it again.
+3. **Repair only a live proven defect.** If the current bytes remain wrong, make the smallest substantive/document correction required.
+4. **Prove only the affected surface.** Run the required targeted build, document, raster, regression, and independent review evidence for changed or directly affected outputs.
+5. **Preserve unaffected terminal families and bytes.** No adjacent-family review is authorized merely because the same state, renderer, route label, or historical audit contains other rows.
+6. **Shared cause means one shared fix.** If multiple members of the finite cohort prove the same shared implementation cause, repair the shared cause once and run targeted regression across the actually affected members.
+7. **A new family enters A1 only after a new concrete defect is proven against current authoritative treatment/current bytes.** Record the defect, affected family, exact evidence, and why the 346/346 baseline no longer covers that specific item.
+
+### A1 exclusions
+
+A1 does **not** own:
+
+- route reachability;
+- resolver wiring;
+- fulfillment wiring;
+- DTC payment mechanics;
+- sponsored RCAP mechanics;
+- Packet Information mechanics;
+- Briefcase/download delivery;
+- hosted acceptance infrastructure;
+- browser/E2E mechanics;
+- participant-guide population except where the finite defect itself is a substantive Captain-owned guide defect.
+
+Those remain in A2 or the C-lanes under the ownership matrix. A runtime failure reaching a correct terminal family is an engineering/integration defect, not permission to rebuild the family.
+
+### Historical-evidence rule
+
+Old audits, manifests, route-product metadata, and historical labels are lower-authority evidence. They may identify a finding to reconcile, but they do not create new A1 work by themselves.
+
+The historical §5 findings are a **finite reconciliation set**: map each once to the current product/successor, close anything already repaired or superseded, and repair only what is still concretely wrong. Do not expand §5 into a new nationwide review.
 
 ## A2. Participant-guide content
 
@@ -1321,7 +1370,8 @@ Unless the Captain changes priority, execute in parallel:
 ## Claude
 
 ```text
-A1 Remaining filing-document remediation
+A1 Finite post-terminal document defects
+   (8 families / 36 documents + finite §5 reconciliation)
     ↓
 A2 Participant-guide route content
     ↓
@@ -1369,6 +1419,8 @@ Continue the substantive Grade A worklist.
 Do not duplicate Codex's engineering lane.
 
 Do not reopen already-proven work without a new concrete defect.
+
+Treat **346/346 terminal families as the closed corpus baseline**. A1 is limited to the named finite post-terminal defect set and newly proven defects only.
 
 Maintain one master remaining-work denominator.
 
