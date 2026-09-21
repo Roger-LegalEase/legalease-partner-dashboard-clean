@@ -79,6 +79,12 @@
     "route": "Preserve ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 as one route. Do not create three.",
     "packet": "One packet family: the Petition to Seal Criminal Records plus the mandatory Proposed Order, with the ground as a required participant fact driving the eligibility screen, the look-back allegation and one conditional supporting document.",
     "screening": "The three grounds are alternative qualifying paths in one screen. A participant who qualifies on none is not eligible; a participant who qualifies on more than one -- for example a pardoned misdemeanor -- pleads the ground that qualifies without a second packet.",
+    "implementationRules": {
+      "pardonCertificateIsNotAComponent": "The certificate of pardon is a conditional EXTERNAL filing attachment the participant obtains from the Pardon Clerk. It is never a platform-generated component -- the memo's four component roles are primary_filing, proposed_order, proof_of_service and filing_instructions, and none of them is ground-specific -- and it is never an upload prerequisite for generating or purchasing the packet.",
+      "requiredBeforeFilingIsNotAGenerationGate": "The memo marks the certificate requiredBeforeFiling: true. That is filing readiness: the participant needs it in hand to file. It must not be read as a gate on packet generation or purchase, which is the same distinction already drawn for the ND DUI supporting documentation.",
+      "preserveTheQualifyingGround": "The engine must preserve which § 12-60.1-02(1) ground actually qualified the participant. The ground is a determined fact, not a presentation detail, and it drives the look-back the petition pleads.",
+      "doNotInventAPreferredGround": "If more than one ground qualifies, preserve the qualifying ground or grounds as they were determined. Do not silently collapse them to a preferred one. Which ground is pleaded, and how more than one is presented, waits on an explicit legal-design rule that does not exist yet."
+    },
     "notAuthorisedByThisRecord": "This record does not build the packet, does not approve output, and does not change the route's INCOMPLETE state or its packet-specification blockers."
   },
 
