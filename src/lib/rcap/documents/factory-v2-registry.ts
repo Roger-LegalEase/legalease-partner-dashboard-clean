@@ -235,6 +235,19 @@ type RawExactRouteProductization = {
 
 let cache: Map<string, FactoryV2Route> | null = null;
 
+/** Temporary Target #4 observation only: never loads or changes the cache. */
+export function factoryV2RegistryCacheIsPopulated(): boolean {
+  return cache !== null;
+}
+
+/** Temporary post-resolution Preview diagnostic. Re-read migration evidence
+ * without assigning the registry cache, to distinguish current files from a
+ * previously cached refusal. Never used to admit a route. */
+export function previewFactoryV2MigrationExists(routeId: string): boolean | null {
+  if (process.env.VERCEL_ENV !== "preview") return null;
+  return loadRouteMigrations().has(routeId);
+}
+
 const stringList = (value: unknown): string[] =>
   Array.isArray(value) ? value.filter((item): item is string => typeof item === "string" && item.trim() !== "") : [];
 

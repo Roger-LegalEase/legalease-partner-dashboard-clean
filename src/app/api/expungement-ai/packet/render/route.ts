@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { requestConsumerPacketRender } from "@/lib/expungement-ai/consumer-render-request";
+import { createTarget4RenderDiagnostic } from "@/lib/expungement-ai/target4-render-diagnostic";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,6 +19,7 @@ export const dynamic = "force-dynamic";
  * this route can act on comes from the verified session.
  */
 export async function POST(request: NextRequest) {
+  const observeResolvedRoute = createTarget4RenderDiagnostic();
   const auth = await getRcapBriefcaseAuthState();
   if (!auth.isAuthenticated || !auth.userId) {
     return NextResponse.json({ error: "Authentication is required." }, { status: 401 });
@@ -35,7 +37,7 @@ export async function POST(request: NextRequest) {
   const outcome = await requestConsumerPacketRender({
     authUserId: auth.userId,
     briefcaseItemId
-  });
+  }, observeResolvedRoute);
 
   switch (outcome.status) {
     case "queued":
