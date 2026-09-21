@@ -15,6 +15,7 @@ import { spawnSync } from "node:child_process";
 import { register } from "node:module";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import { claimAndVerifyHostedFixture, HOSTED_FINAL_REVIEW_ANSWERS } from "./rcap-hosted-final-verification.mjs";
 import { readPaRefusal, paRefusalEvidence, MS_CHECKOUT, msMappingEvidence } from "./rcap-hosted-checkout-route-contract.mjs";
 import {
   expectedHostedReturnOrigin,
@@ -501,7 +502,7 @@ async function main() {
   const { packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
   const compiledProfile = getProfileByJurisdiction(MS_CHECKOUT.jurisdiction);
   const compiledPathway = compiledProfile?.pathways?.find((candidate) => candidate.id === MS_CHECKOUT.pathwayId) ?? null;
-  const itemId = crypto.randomUUID();
+  let itemId = crypto.randomUUID();
   const mappingRequest = {
     packetId: crypto.randomUUID(),
     state: MS_CHECKOUT.jurisdiction,
@@ -788,28 +789,19 @@ async function main() {
     selectedTrackId: MS_CHECKOUT.trackId
   };
 
-  const summaryJson = sqlText(JSON.stringify({
-    text: `RCAP hosted Checkout gate — evaluator-proven ${checkoutRouteIdentity.jurisdiction} packet`,
-    gate: "human_checkout"
-  }));
-  const artifactRefsJson = sqlText(JSON.stringify({ selectedTrackId: MS_CHECKOUT.trackId, commercialFlow: reviewed.commercialFlow }));
-  const insert = await sql(`
-    insert into public.consumer_briefcase_items
-      (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
-       status, summary_json, artifact_refs_json, payment_status, payment_allowed)
-    values
-      ('${itemId}', '${A.id}', 'result', '${checkoutRouteIdentity.jurisdiction}',
-       '${sqlText(checkoutRouteIdentity.pathwayLabel)}', '${checkoutRouteIdentity.resultCode}',
-       '${checkoutRouteIdentity.packetType}', 'packet_ready', '${summaryJson}'::jsonb,
-       '${artifactRefsJson}'::jsonb, 'unpaid', true)
-    returning id, user_id, jurisdiction, pathway_label, result_code, packet_type, status,
-              payment_status, payment_allowed, checkout_session_id, payment_provider,
-              amount_cents, packet_status,
-              artifact_refs_json #>> '{commercialFlow,packetInformation,stage}' as packet_information_stage,
-              (artifact_refs_json #>> '{commercialFlow,packetInformation,reviewedAt}') is not null as packet_information_reviewed
-  `);
-  const inserted = Array.isArray(insert.json) ? insert.json[0] : null;
-  record("briefcase_insert_returning_proves_row", insert.ok && inserted?.id === itemId, `SQL=${insert.status}; returned id=${inserted?.id ?? "(none)"}`);
+  // Establish the fixture through the same claim and final-review APIs as a participant.
+  itemId = await claimAndVerifyHostedFixture({
+    call: (endpoint, options) => callApp(previewUrl, endpoint, { method: "POST", cookie: A.cookie, ...options }),
+    record,
+    screening: {
+      jurisdiction: reviewed.state,
+      profileVersion: reviewed.profile.profileVersion,
+      screeningCorrelationId: itemId,
+      answers: reviewed.commercialFlow.screening.answers,
+      locale: "en"
+    },
+    answers: HOSTED_FINAL_REVIEW_ANSWERS
+  });
   evidence.fixtureRetainedForRoger = true;
 
   const reread = await sql(`
@@ -823,6 +815,9 @@ async function main() {
   `);
   const storedRows = Array.isArray(reread.json) ? reread.json : [];
   const stored = storedRows[0] ?? null;
+  // Retain the row-existence gate: the application claim now performs the INSERT.
+  record("briefcase_insert_returning_proves_row", reread.ok && storedRows.length === 1 && stored?.id === itemId,
+    `application claim returned id=${itemId}; persisted rows=${storedRows.length}`);
   const storedExact = storedRows.length === 1
     && stored.jurisdiction === checkoutRouteIdentity.jurisdiction
     && stored.pathway_label === checkoutRouteIdentity.pathwayLabel
@@ -836,6 +831,29 @@ async function main() {
     && stored.packet_information_reviewed === true;
   record("stored_row_matches_authoritative_resolver", storedExact, `rows=${storedRows.length}; stored=${JSON.stringify(stored)}`);
   evidence.seededItem = { id: itemId, userId: A.id, ...stored };
+
+  // Read back the application-written protected record. Validate its hashes and
+  // current facts with the same pure validator used by the render guard.
+  const verificationRead = await sql(`
+    select status, reason, verification_hash as hash, verification_snapshot as snapshot,
+           draft_hash as "draftHash", draft_snapshot as "draftSnapshot", revision
+      from public.consumer_packet_verifications
+     where briefcase_item_id = '${itemId}' and consumer_auth_user_id = '${A.id}'
+  `);
+  const verificationRows = Array.isArray(verificationRead.json) ? verificationRead.json : [];
+  const protectedVerification = verificationRows[0];
+  const { requireCurrentPacketVerificationRecord } = await import("../src/lib/expungement-ai/packet-information.ts");
+  let currentVerification = null;
+  let verificationFailure = null;
+  try {
+    currentVerification = requireCurrentPacketVerificationRecord(
+      { id: itemId, state: stored.jurisdiction, artifactRefs: {} }, protectedVerification
+    );
+  } catch (error) { verificationFailure = error.message; }
+  record("protected_final_verification_current", verificationRead.ok && verificationRows.length === 1
+    && currentVerification !== null && currentVerification.revision === 2,
+  JSON.stringify({ hash: currentVerification?.hash, draftHash: currentVerification?.draftHash,
+    revision: currentVerification?.revision, failure: verificationFailure }));
 
   // Establish the accepted application's deterministic person and matter chain.
   const personMatchKey = consumerPersonMatchKey(A.id);
@@ -855,7 +873,8 @@ async function main() {
   const unpaidRender = await callApp(previewUrl, "/api/expungement-ai/packet/render", {
     method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId }
   });
-  record("unpaid_render_returns_402", unpaidRender.status === 402, `A render of seeded unpaid item=${unpaidRender.status}; reason=${unpaidRender.json?.reason ?? "(none)"}`);
+  record("unpaid_render_returns_402", unpaidRender.status === 402
+    && unpaidRender.json?.error === "A recorded payment is required before rendering.", `A render of seeded unpaid item=${unpaidRender.status}; reason=${unpaidRender.json?.reason ?? "(none)"}`);
 
   const zeroBefore = await sql(`
     select
