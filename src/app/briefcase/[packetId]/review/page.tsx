@@ -186,11 +186,11 @@ function AnswerSection({ title, itemId, rows }: { title: string; itemId: string;
       <h2 className="text-lg font-extrabold text-[#0B1320]">{title}</h2>
       <dl className="mt-4 divide-y divide-[#ECEFF4]">
         {rows.map((entry) => (
-          <div className="grid gap-2 py-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center" key={entry.key}>
+          <div id={`review-${entry.key}`} tabIndex={-1} className="grid scroll-mt-6 gap-2 py-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center" key={entry.key}>
             <dt className="text-sm font-bold text-[#334155]">{entry.label}</dt>
             <dd className={entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}>{entry.value}</dd>
             {entry.editId ? (
-              <dd><Link className="inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${itemId}/packet-information?edit=${encodeURIComponent(entry.editId)}`}>Edit</Link></dd>
+              <dd><Link className="inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${itemId}/packet-information?edit=${encodeURIComponent(entry.editId)}&returnRow=${encodeURIComponent(entry.key)}`}>Edit</Link></dd>
             ) : null}
           </div>
         ))}

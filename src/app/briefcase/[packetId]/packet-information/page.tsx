@@ -14,7 +14,7 @@ export default async function PacketInformationPage({
   searchParams
 }: {
   params: Promise<{ packetId: string }>;
-  searchParams: Promise<{ edit?: string }>;
+  searchParams: Promise<{ edit?: string; returnRow?: string }>;
 }) {
   const { packetId } = await params;
   const auth = await requireConsumerBriefcaseSession(`/briefcase/${packetId}/packet-information`);
@@ -29,7 +29,8 @@ export default async function PacketInformationPage({
   const model = packetResult && item?.paymentState !== "unavailable" && item?.packetDraft.status === "available"
     ? item.packetDraft
     : null;
-  const editId = (await searchParams).edit?.trim();
+  const { edit, returnRow } = await searchParams;
+  const editId = edit?.trim();
   const displayedQuestions = model
     ? editId ? model.questions.filter((question) => question.id === editId) : model.builderQuestions
     : [];
@@ -74,6 +75,7 @@ export default async function PacketInformationPage({
             sections={displayedSections}
             initiallyMissing={model.missingInputIds}
             editingFromReview={Boolean(editId)}
+            reviewReturnRow={editId ? returnRow : undefined}
           />
         </section>
       ) : (

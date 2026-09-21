@@ -55,8 +55,9 @@ export function PacketInformationBuilder({
   questions,
   sections = [],
   initialAnswers,
-  initiallyMissing
-  ,editingFromReview = false
+  initiallyMissing,
+  editingFromReview = false,
+  reviewReturnRow
 }: {
   itemId: string;
   stateCode: string;
@@ -65,8 +66,13 @@ export function PacketInformationBuilder({
   initialAnswers: Record<string, AnswerValue>;
   initiallyMissing: string[];
   editingFromReview?: boolean;
+  reviewReturnRow?: string;
 }) {
   const router = useRouter();
+  const reviewPath = `/briefcase/${encodeURIComponent(itemId)}/review`;
+  const editReturnPath = editingFromReview && reviewReturnRow
+    ? `${reviewPath}#${encodeURIComponent(`review-${reviewReturnRow}`)}`
+    : reviewPath;
   const { t: translate } = useLocalization();
   const [answers, setAnswers] = useState(initialAnswers);
   const [index, setIndex] = useState(0);
@@ -169,7 +175,7 @@ export function PacketInformationBuilder({
       setIndex((current) => current + 1);
       return;
     }
-    router.push(result.reviewPath ?? `/briefcase/${encodeURIComponent(itemId)}/review`);
+    router.push(editingFromReview ? editReturnPath : result.reviewPath ?? reviewPath);
   }
 
   async function saveAndLeave() {
@@ -263,7 +269,7 @@ export function PacketInformationBuilder({
           disabled={saving}
           onClick={() => {
             setFieldErrors({});
-            if (editingFromReview && index === 0) router.push(`/briefcase/${encodeURIComponent(itemId)}/review`);
+            if (editingFromReview && index === 0) router.push(editReturnPath);
             else setIndex((current) => Math.max(0, current - 1));
           }}
           type="button"

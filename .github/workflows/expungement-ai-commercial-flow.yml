@@ -19,6 +19,7 @@ on:
       - scripts/verify-expungement-authenticated-nav.mjs
       - scripts/verify-expungement-commercial-browser.mjs
       - scripts/verify-expungement-commercial-flow-contract.mjs
+      - scripts/packet-review-return.test.mjs
       - scripts/verify-expungement-landing-copy-safety.mjs
       - scripts/verify-expungement-homepage-interactions.mjs
       - scripts/verify-expungement-date-year-selector.mjs
@@ -86,6 +87,7 @@ jobs:
           scripts/verify-expungement-authenticated-nav.mjs
           scripts/verify-expungement-commercial-browser.mjs
           scripts/verify-expungement-commercial-flow-contract.mjs
+          scripts/packet-review-return.test.mjs
           scripts/verify-expungement-landing-copy-safety.mjs
           scripts/verify-expungement-homepage-interactions.mjs
           scripts/verify-expungement-date-year-selector.mjs
@@ -116,6 +118,7 @@ jobs:
       - name: Verify free Briefcase and builder behavior
         run: |
           node scripts/verify-expungement-commercial-flow-contract.mjs
+          node --test scripts/packet-review-return.test.mjs
           node scripts/verify-expungement-date-year-selector.mjs
 
       - name: Verify authenticated Briefcase and RCAP presentation
