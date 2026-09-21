@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "KS-MUNICIPAL-CAPTION-REFUSALS-ARE-CORRECT-2026-09-21",
+  "reviewer": "Captain (reconciliation of a caption assignment against current specification bytes; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "rcap-ks-custom-pleading",
+  "scope": [
+    "KS:municipal-arrest-record-expungement-under-12-4516a",
+    "KS:municipal-conviction-or-diversion-expungement-under-12-4516"
+  ],
+  "authority": "K.S.A. §§ 12-4516 and 12-4516a",
+
+  "question": "Four of the eight court-facing components that currently refuse for an unresolved caption treatment are the two Kansas municipal routes. Is that a document defect to repair, or is it correct?",
+
+  "finding": "Correct, and repairing it would be the defect. Both Kansas specifications carry legalSectionsBound false, and both say in terms that a packet may not be composed from them and no route may be proven on them in that state. Recording a caption treatment for these components would assert a fact the specification says cannot yet be stated.",
+
+  "whatWasMeasured": {
+    "verifier": "scripts/verify-caption-treatment-contract.mjs",
+    "result": "PASS, 0 failing checks",
+    "courtFacingComponentsByTreatment": {
+      "full_independent_caption": 25,
+      "supporting_page": 11,
+      "unresolved": 8,
+      "official_form_controls": 3,
+      "not_applicable": 2
+    },
+    "theEightThatRefuse": [
+      "DC:dc_correct_misattributed_arrest | primary_filing",
+      "KS:municipal-arrest-record-expungement-under-12-4516a | ks-12-4516a-municipal-arrest-primary-filing-1",
+      "KS:municipal-arrest-record-expungement-under-12-4516a | ks-12-4516a-municipal-arrest-proposed-order-2",
+      "KS:municipal-conviction-or-diversion-expungement-under-12-4516 | ks-12-4516-municipal-primary-filing-1",
+      "KS:municipal-conviction-or-diversion-expungement-under-12-4516 | ks-12-4516-municipal-proposed-order-2",
+      "ND:first-offense-possession-sealing | nd-motion-to-seal",
+      "ND:first-offense-possession-sealing | nd-proposed-order",
+      "VA:regime-1-expungement-available-now | primary_filing"
+    ],
+    "aStaleCountCorrected": "The GA-5-CAPTIONS worklist row records 'Court-facing caption treatments now 31 unresolved'. The measured figure is 8. The row's tail is historical and is not the current denominator; 31 was never re-measured after the classification passes that followed it."
+  },
+
+  "whyKansasIsNotAnA1DocumentDefect": {
+    "bothSpecificationsSayItThemselves": {
+      "KS-municipal-arrest-record-expungement-under-12-4516a.v1": "legalSectionsBound false",
+      "KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1": "legalSectionsBound false",
+      "quotedWhyIncomplete": "A packet may not be composed from this specification and no route may be proven on it while legalSectionsBound is false. Kansas municipal filing practice is court by court: the adopted memorandum yields to a municipal court's own published instrument where one exists, and the route contract holds a local_filing_configuration gate for exactly that reason. Until the per-court configuration is recorded, the destination, fee, copy count and hearing sections cannot be stated as fact."
+    },
+    "unboundSections": [
+      "copyRequirements",
+      "feeAndWaiver",
+      "filingDestination",
+      "hearingAndObjectionStops",
+      "postFilingTimeline",
+      "serviceAndNotice",
+      "statutoryAuthority"
+    ],
+    "theReasoning": "Kansas municipal practice is court by court and the adopted memorandum yields to a municipal court's own published instrument where one exists. Whether a component carries its own caption is precisely the sort of thing such an instrument settles. So the caption question is downstream of the local_filing_configuration gate, not independent of it, and it resolves when that gate resolves and from the same authority.",
+    "derivationDoesNotReachIt": "The caption-treatment contract derives a treatment only where a source field states it: official_pdf_fill yields official_form_controls and process_guidance yields not_applicable. Both Kansas primary filings and proposed orders are custom_pleading, which the contract says yields unresolved precisely because 'a custom pleading is permitted' says nothing about whether this particular component carries a caption. The factory-v2 registry rows confirm officialFormIds is empty for both routes, so official_form_controls is unavailable as well.",
+    "whatRepairingItWouldHaveBeen": "The contract records that a presentation-keyed caption rule can only be satisfied two ways where it does not fit — manufacture a caption, or relabel a court-facing filing as guidance — and forbids both. With no authority available, recording full_independent_caption here would be the first, and recording not_applicable would be the second. The refusal is the correct third answer."
+  },
+
+  "notScopeReduction": {
+    "why": "Mission Lock Rule 4 forbids disabling a route, converting it to guidance-only or making it noncommercial because the implementation is broken, and the adopted plan adds that a known broken promised route does not become complete because it refuses service. Neither is happening here. Nothing is being disabled: the routes already refuse, they already carry an explicit local_filing_configuration gate, and paymentAllowedAtTheEvaluator is already false on both. This record changes no state at all.",
+    "whatItActuallyDoes": "It closes an assignment that looked open. The work these components need is the per-court local filing configuration, which is upstream source and configuration work, not caption classification, and not a document repair."
+  },
+
+  "theOtherFourRefusals": {
+    "note": "Recorded so the remaining set is known, not investigated here. Each is a separate outcome.",
+    "ND:first-offense-possession-sealing": "Two components. Parked by owner instruction on 2026-09-21; not A1 population and not to be expanded. See 2026-09-21-nd-19-03-1-23-9-vehicle-and-two-year-condition.json.",
+    "DC:dc_correct_misattributed_arrest": "One component. The worklist records this as the one specification of nineteen whose pathway the planner cannot plan, so collection has nothing to ask, and DC is noncommercial on this route. Likely blocked upstream in the same shape as Kansas; not established here.",
+    "VA:regime-1-expungement-available-now": "One component. The worklist carries forward that its approved artifact carries no caption anywhere, and the transcription-provenance program classifies the family MATCHES_ADOPTED with its text transcribed. Adopted artifact bytes are an authority under the caption contract, so this is the one of the eight that currently looks resolvable from evidence already held. Not done here; it is a separate coherent outcome."
+  },
+
+  "statusOfThisRecord": {
+    "captionTreatmentsRecorded": 0,
+    "routesOpened": 0,
+    "stateChanged": "none",
+    "readThisFirst": "This record resolves an assignment by establishing that four of the eight caption refusals are correct. It records no caption treatment, composes no packet, changes no specification, opens no route and closes no Grade-A blocker. Both Kansas routes remain incomplete and non-selling, exactly as before."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "None for this record. The Kansas routes' real remaining work is the per-court local filing configuration and the legal sections it would bind, which is separate and unstarted."
+}
