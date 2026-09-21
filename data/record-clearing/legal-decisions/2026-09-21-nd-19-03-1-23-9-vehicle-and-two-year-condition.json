@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "ND-19-03-1-23-9-VEHICLE-AND-TWO-YEAR-CONDITION-2026-09-21",
+  "reviewer": "Captain (vehicle determination from the court system's own guide, plus measurement of the compiled profile and the evaluator; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "rcap-nd",
+  "scope": [
+    "ND:first-offense-possession-sealing"
+  ],
+  "memoTrack": "nd-marijuana-first-offense-seal",
+  "authority": "N.D.C.C. § 19-03.1-23(9)",
+  "question": "The ND vehicle map recorded this route's filing vehicle as 'Not determined here', and the memo records the subsection's two-year period as a release blocker. Determine the vehicle, and establish what the two-year blocker actually costs at runtime rather than assuming it.",
+
+  "supersessionCheckedFirst": {
+    "why": "The Oregon bindings at 16ca9609f were written against a route that had already been superseded, and were reverted at d298774c4. Currency is therefore established before anything is determined, not after.",
+    "routeIsCurrent": true,
+    "evidence": [
+      "data/record-clearing/factory-v2-route-registry.json carries the row ND:first-offense-possession-sealing with factoryV2Resolves true, unmetBuildInputs [], separateGates.openBlockerIds [] and closureCategory paid_packet_intended.",
+      "data/rcap-grade-a/maintenance/route-holds.json contains no North Dakota entry at all, so the route is under no maintenance hold.",
+      "The memo track nd-marijuana-first-offense-seal carries effectiveDates.effectiveFrom 2019-08-01, effectiveTo null and reviewedAsOf 2026-08-06.",
+      "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json carries the pathway first-offense-possession-sealing at profileVersion 2026-06-19-source-conversion-1."
+    ],
+    "notSupersededBy": {
+      "ND:marijuana-specific-summary-pardon-or-sealing-relief": "N.D.C.C. ch. 12-55.1 executive summary pardon. A different body, a different instrument and a different relief. The memo's own self-help stop conditions name a participant confusing the two as a stop condition.",
+      "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1": "The memo records that the § 19-03.1-23(9) seal is STRONGER than Chapter 12-60.1 sealing, because once sealed the record may not be opened even by order of the court. A stronger, mandatory-on-the-elements relief is not absorbed by the weaker discretionary one."
+    },
+    "whatThisCheckDoesNotClaim": "It establishes that the route is current in this repository and unheld. It does not re-verify N.D.C.C. § 19-03.1-23(9) against the current official host; the Nationwide source inventory is absent from this worktree, so no acquisition was performed and none is claimed."
+  },
+
+  "vehicleDetermination": {
+    "vehicle": "custom_pleading",
+    "instrument": "Motion to Seal Court Record Under N.D.C.C. § 19-03.1-23(9)",
+    "caseMode": "existing_case",
+    "filedIn": "the existing criminal case that entered the judgment of guilt",
+    "court": "the court that entered the judgment — District Court or Municipal Court, which the packet cannot hard-code",
+    "destination": "Clerk of Court of that court",
+    "confirms": "The memo's nd-marijuana-first-offense-seal outputStrategy of custom_pleading, and closes the ND vehicle map's 'Not determined here' for this route.",
+    "ruleApplied": "Form vs Custom Pleading: an official form is used where one controls. The publishing body states it has no forms for criminal matters, so a Grade-A composed pleading is appropriate and is not a substitute for a form that was merely not found.",
+    "sourceThisRestsOn": {
+      "title": "Sealing DUI Records (N.D.C.C. Section 39-08-01.6) — A Research Guide for a North Dakota State Court Process",
+      "publisher": "North Dakota Legal Self Help Center",
+      "sha256": "a3dd1b924bedad7c8ba0b77742bcd99ef6855a1b05021374b7083f1b445e1264",
+      "boundBy": "data/record-clearing/legal-decisions/2026-09-21-nd-dui-sealing-vehicle-determination.json",
+      "quote": "The ND Legal Self Help Center can't provide assistance with court process in criminal cases and doesn't have forms, procedures, or expertise available in this area.",
+      "andAlso": "If you represent yourself, you need to conduct your own legal research, determine the appropriate procedures, and create your own legal documents.",
+      "whyItReachesThisRoute": "The statement is about court process in CRIMINAL CASES as a class, not about the DUI statute. A § 19-03.1-23(9) motion is filed in the participant's existing criminal case, so the same statement covers it. This is the guide's own scope, not an extension of it to a neighbouring subject."
+    },
+    "whatThisDoesNotClaim": "It does not establish that no prescribed form exists anywhere in North Dakota for this motion. A district or municipal court could maintain a local form. The determination is that the current statewide self-help guidance prescribes no form and directs the filer to draft one, which is sufficient to choose a composed pleading and is not sufficient to assert a statewide negative. If a local form is later found, that form controls for that court and this determination yields to it.",
+    "correctsNothingInTheMemo": "The memo already said custom_pleading with outputStrategyStatus resolved. What was missing was a source for it; the memo's own component note asserted that 'the official research guide confirms no sealing forms are published' while citing the Chapter 12-60.1 guide, which is a guide to a different statute. That inference is replaced here by a quoted statement about criminal matters generally."
+  },
+
+  "theTwoYearCondition": {
+    "statutoryText": "the court shall seal the court record of that conviction if the person is not subsequently convicted within two years of a further violation of this chapter",
+    "theAmbiguity": "The two-year period has no anchor on the face of the subsection. The memo records the question as counsel_confirmation_required and classifies it impact release_blocker.",
+    "notResolvedHere": "This record does not pick an anchor. Quoting a statute faithfully is not the same as reading it correctly, which is the lesson of the reverted Oregon bindings, and the memo's own classification is counsel_confirmation_required. The counsel question stands exactly as the memo states it: does the two-year period run from the judgment of guilt or from the further violation?",
+    "whatWasMeasuredInstead": "Whether the unresolved anchor has leaked into a participant-facing answer.",
+    "measurement": {
+      "witnessRecord": "data/rcap-ledger/public-witness-answer-sets.json, the ND:first-offense-possession-sealing witness",
+      "terminalResultCode": "needs_review",
+      "terminalReasonCodes": [
+        "nd.waiting_rule_not_executed"
+      ],
+      "paymentAllowed": false,
+      "corroboration": "The factory-v2 census row for this route carries separateGates.paymentAllowedAtTheEvaluator false, which agrees.",
+      "finding": "The engine does not guess the anchor. It detects that the waiting rule was not executed, terminates at needs_review and refuses payment. The unresolved blocker has produced a refusal rather than a wrong answer, which is the correct behaviour and is the same discipline the 12-60.1 determination requires: where more than one reading qualifies, do not silently invent a preferred one."
+    },
+    "consequenceForTheBlockerClassification": "The blocker is real and remains open, but its current cost is that the route does not sell, not that a participant is told the wrong thing. It is a counsel blocker, not a live participant-facing defect."
+  },
+
+  "theHazardThisRecordExistsToName": {
+    "why": "The refusal above is the only thing standing between this route and a legally wrong waiting period sourced from another statute. Anyone repairing nd.waiting_rule_not_executed must know that.",
+    "mechanism": "src/lib/rcap-engine/evaluator.ts, bestWaitingRuleForPathway, builds its candidate pool from the profile-wide waitingPeriodRules PLUS the pathway's own waitingRules, mapping each prose string through parseDurationFromText, then scores candidates by token overlap with the pathway id, label and summary.",
+    "measuredPool": "All thirteen of this pathway's compiled waitingRules parse to a duration. Only three of them carry the § 19-03.1-23(9) two-year period. The other ten carry durations from four different North Dakota authorities.",
+    "foreignDurationsInThisRoutesOwnPool": [
+      {
+        "duration": "five years",
+        "belongsTo": "N.D.C.C. ch. 12-55.1 marijuana summary pardon (Pardon Advisory Board), no convictions in the past five years",
+        "occurrences": 2
+      },
+      {
+        "duration": "3 years",
+        "belongsTo": "N.D.C.C. ch. 12-60.1 misdemeanor conviction sealing, no new conviction for at least 3 years before filing",
+        "occurrences": 2
+      },
+      {
+        "duration": "5 years",
+        "belongsTo": "N.D.C.C. ch. 12-60.1 felony conviction sealing, no new conviction for at least 5 years before filing",
+        "occurrences": 1
+      },
+      {
+        "duration": "7 years / seven years",
+        "belongsTo": "N.D.C.C. § 39-08-01.6 DUI record sealing, no later DUI or any other criminal offense within seven years",
+        "occurrences": 3
+      },
+      {
+        "duration": "45 days",
+        "belongsTo": "N.D.C.C. ch. 12-60.1 hearing timing, not a waiting period at all",
+        "occurrences": 1
+      },
+      {
+        "duration": "10 days",
+        "belongsTo": "N.D.C.C. § 12-60.1-05 nonconviction closing, the court's own deadline, not a waiting period at all",
+        "occurrences": 1
+      }
+    ],
+    "exclusionRulesAreContaminatedTheSameWay": {
+      "count": 3,
+      "note": "None of the three is an exclusion under § 19-03.1-23(9).",
+      "entries": [
+        "The ch. 12-55.1 summary pardon eligibility description, which belongs to a different route.",
+        "The ch. 12-60.1 45-day hearing rule, which is a timing rule and not an exclusion.",
+        "The § 39-08-01.6(2) commercial-driver exclusion, which is the DUI statute's exclusion. A commercial driver is not excluded from sealing a first marijuana possession conviction, and this string asserted as an exclusion on this route would be wrong."
+      ]
+    },
+    "whatMustNotHappen": "Repairing nd.waiting_rule_not_executed by letting a duration be selected out of that pool. Three years, five years, seven years, forty-five days and ten days are each wrong for this subsection, and each would look plausible in a result page. The repair is to scope the pathway's rule set to its own statute and to execute the statute's own two-year condition once counsel has answered the anchor question — in that order.",
+    "ownership": "The compiled profile and the evaluator are engineering-lane surfaces. This record determines the legal content and names the hazard; it changes neither, and it authorizes no route."
+  },
+
+  "a1FieldsSettledForThisRoute": {
+    "instrument": "Motion to Seal Court Record Under N.D.C.C. § 19-03.1-23(9)",
+    "formOrCustom": "custom pleading; no controlling official form established",
+    "court": "the court that entered the judgment of guilt, District or Municipal",
+    "venue": "the existing criminal case",
+    "caseMode": "existing_case",
+    "caseNumberTreatment": "the existing criminal case number; not a new case",
+    "requiredAllegations": "first offence; possession of one ounce or less of marijuana or two grams or less of tetrahydrocannabinol; plea or finding of guilt with judgment entered; and the subsection's subsequent-conviction condition, whose two-year anchor is not settled here",
+    "prayer": "that the court seal the court record of that conviction under N.D.C.C. § 19-03.1-23(9)",
+    "signer": "the participant",
+    "verification": "none required by the subsection",
+    "notarization": "none required",
+    "service": "none stated by the subsection",
+    "notice": "none stated by the subsection",
+    "fees": "none identified; the statewide fee schedule carries no line item for a motion in an existing criminal case",
+    "proposedOrder": "conditional. The subsection does not require one; the memo records it as advisable by analogy to Chapter 12-60.1 practice. It is therefore drafted as a conditional component and is not asserted as a requirement.",
+    "exhibits": "the criminal judgment and the charging document showing the quantity charged, obtained by the participant from the clerk. Neither is a packet-generation prerequisite and no upload may be required to generate or purchase the packet.",
+    "privacyRedaction": "not addressed by the subsection; not invented here",
+    "stillOpen": [
+      "the two-year anchor, which is counsel's",
+      "whether a District Court and a Municipal Court filing need different captions or components",
+      "whether any individual court maintains a local form for this motion"
+    ]
+  },
+
+  "statusOfThisRecord": {
+    "vehicleQuestionAnswered": "YES",
+    "twoYearAnchorAnswered": "NO",
+    "sourceBoundIntoGradeAAuthority": "NO",
+    "gradeABlockerClosed": "NO",
+    "readThisFirst": "This record determines a filing vehicle from a quoted official source and measures what the open blocker currently costs. It binds no source through the controlling Grade-A input, drafts no pleading, changes no compiled profile, changes no evaluator behaviour and opens no route. The route remains INCOMPLETE and remains non-selling."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Counsel review of the vehicle determination and, separately, counsel's answer to the two-year anchor question. Engineering review of the cross-statute contamination in the compiled pathway's waiting and exclusion rule sets."
+}
