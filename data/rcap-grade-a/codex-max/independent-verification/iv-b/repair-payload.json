@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-independent-repair-payload/v1",
+  "assignmentId": "IV-B",
+  "generatedAt": "2026-09-01T09:38:29.635670Z",
+  "payloadCount": 3,
+  "payloads": [
+    {
+      "familyId": "ut_pet_acquittal-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligation": "Participant filing-and-timing guidance completeness (filing instructions, fee/waiver, service/notice, destination, deadline/timing, self-help stop).",
+      "exactEvidencePath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-acquittal-set--official-pdf-fill/participant-instructions.md",
+      "exactAffectedFieldOrComponent": "participant-instructions.md / participantInstructions(config) output",
+      "fixScope": "shared-host",
+      "sharedHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs::participantInstructions",
+      "allImporters": [
+        "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "scripts/build-census-v1-ut_pet_conviction-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_limitations-set.mjs",
+        "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
+        "scripts/build-census-v1-ut_pet_traffic-set.mjs"
+      ],
+      "allowedWriter": "P1 Utah petition completeness repair owner or a newly assigned repair lane that did not perform IV-B verification",
+      "prohibitedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+        "data/record-clearing/legal-decisions/**",
+        "data/rcap-grade-a/launch-control/**",
+        "Production/**"
+      ],
+      "smallestExactRepair": "Extend the shared participantInstructions output with source-supported, route-specific BCI and court filing sequence, filing destinations, fee and waiver procedure, service/notice steps, timing/deadline guidance, and an explicit self-help stop. Regenerate each importing family; do not alter legal rules without a separately authorized legal decision.",
+      "requiredRerender": true,
+      "rerenderScope": "canonical and boundary PDFs plus page rasters and a new exact raster receipt for every affected importer whose packet deliverable embeds or packages the repaired guidance",
+      "requiredIndependentReverifier": "A verifier other than IV-B and other than the repair writer, bound to the new exact hashes and raster receipt."
+    },
+    {
+      "familyId": "ut_pet_conviction-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligation": "Participant filing-and-timing guidance completeness (filing instructions, fee/waiver, service/notice, destination, deadline/timing, self-help stop).",
+      "exactEvidencePath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-conviction-set--official-pdf-fill/participant-instructions.md",
+      "exactAffectedFieldOrComponent": "participant-instructions.md / participantInstructions(config) output",
+      "fixScope": "shared-host",
+      "sharedHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs::participantInstructions",
+      "allImporters": [
+        "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "scripts/build-census-v1-ut_pet_conviction-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_limitations-set.mjs",
+        "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
+        "scripts/build-census-v1-ut_pet_traffic-set.mjs"
+      ],
+      "allowedWriter": "P1 Utah petition completeness repair owner or a newly assigned repair lane that did not perform IV-B verification",
+      "prohibitedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+        "data/record-clearing/legal-decisions/**",
+        "data/rcap-grade-a/launch-control/**",
+        "Production/**"
+      ],
+      "smallestExactRepair": "Extend the shared participantInstructions output with source-supported, route-specific BCI and court filing sequence, filing destinations, fee and waiver procedure, service/notice steps, timing/deadline guidance, and an explicit self-help stop. Regenerate each importing family; do not alter legal rules without a separately authorized legal decision.",
+      "requiredRerender": true,
+      "rerenderScope": "canonical and boundary PDFs plus page rasters and a new exact raster receipt for every affected importer whose packet deliverable embeds or packages the repaired guidance",
+      "requiredIndependentReverifier": "A verifier other than IV-B and other than the repair writer, bound to the new exact hashes and raster receipt."
+    },
+    {
+      "familyId": "ut_pet_limitations-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "failedObligation": "Participant filing-and-timing guidance completeness (filing instructions, fee/waiver, service/notice, destination, deadline/timing, self-help stop).",
+      "exactEvidencePath": "data/rcap-all50/overlays/census-v1/ut/ut-pet-limitations-set--official-pdf-fill/participant-instructions.md",
+      "exactAffectedFieldOrComponent": "participant-instructions.md / participantInstructions(config) output",
+      "fixScope": "shared-host",
+      "sharedHost": "scripts/build-census-v1-ut_pet_acquittal-set.mjs::participantInstructions",
+      "allImporters": [
+        "scripts/build-census-v1-ut_pet_acquittal-set.mjs",
+        "scripts/build-census-v1-ut_pet_conviction-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_with_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_dismissed_without_prejudice-set.mjs",
+        "scripts/build-census-v1-ut_pet_limitations-set.mjs",
+        "scripts/build-census-v1-ut_pet_no_charges-set.mjs",
+        "scripts/build-census-v1-ut_pet_traffic-set.mjs"
+      ],
+      "allowedWriter": "P1 Utah petition completeness repair owner or a newly assigned repair lane that did not perform IV-B verification",
+      "prohibitedPaths": [
+        "data/rcap-grade-a/packet-factory-24h/RASTER_QUEUE.json",
+        "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+        "data/record-clearing/legal-decisions/**",
+        "data/rcap-grade-a/launch-control/**",
+        "Production/**"
+      ],
+      "smallestExactRepair": "Extend the shared participantInstructions output with source-supported, route-specific BCI and court filing sequence, filing destinations, fee and waiver procedure, service/notice steps, timing/deadline guidance, and an explicit self-help stop. Regenerate each importing family; do not alter legal rules without a separately authorized legal decision.",
+      "requiredRerender": true,
+      "rerenderScope": "canonical and boundary PDFs plus page rasters and a new exact raster receipt for every affected importer whose packet deliverable embeds or packages the repaired guidance",
+      "requiredIndependentReverifier": "A verifier other than IV-B and other than the repair writer, bound to the new exact hashes and raster receipt."
+    }
+  ]
+}
