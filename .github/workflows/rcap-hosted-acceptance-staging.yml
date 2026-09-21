@@ -738,7 +738,7 @@ jobs:
           # packet by Product id rather than by the ad-hoc name it no longer has.
           HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.stripe_fixtures.outputs.product_id }}
         run: |
-          node --test scripts/rcap-hosted-checkout-route-contract.test.mjs scripts/rcap-hosted-checkout-mapping-evidence.test.mjs
+          node --test scripts/rcap-hosted-checkout-route-contract.test.mjs scripts/rcap-hosted-checkout-mapping-evidence.test.mjs scripts/rcap-hosted-final-verification.test.mjs
           node scripts/rcap-hosted-checkout-gate.mjs
 
       - name: Run the hosted golden-journey matrix

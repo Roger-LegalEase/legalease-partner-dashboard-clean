@@ -10,6 +10,7 @@ const hostedPath = path.join(root, ".github/workflows/rcap-hosted-acceptance-sta
 const deployPath = path.join(root, "scripts/rcap-hosted-acceptance-deploy.mjs");
 const resolverPath = path.join(root, "scripts/rcap-hosted-resolve-preview.mjs");
 const gate = fs.readFileSync(gatePath, "utf8");
+const verificationLifecycle = fs.readFileSync(path.join(root, "scripts/rcap-hosted-final-verification.mjs"), "utf8");
 const routeContract = fs.readFileSync(path.join(root, "scripts/rcap-hosted-checkout-route-contract.mjs"), "utf8");
 const entry = fs.readFileSync(entryPath, "utf8");
 const hosted = fs.readFileSync(hostedPath, "utf8");
@@ -328,6 +329,18 @@ check(gitDiffQuiet(ACCEPTED_WORKER_SOURCE_SHA, [
   "package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs",
   "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"
 ]), "checkout-gate branch changes frozen worker inputs");
+
+// The unpaid probe must be downstream of application-owned final verification.
+const verificationStart = gate.indexOf("itemId = await claimAndVerifyHostedFixture(");
+check(verificationStart >= 0 && verificationStart < gate.indexOf("const unpaidRender = await callApp("),
+  "the unpaid render probe must follow the real claim/final-review lifecycle");
+includesEvery(gate, ["claimAndVerifyHostedFixture", "protected_final_verification_current",
+  "requireCurrentPacketVerificationRecord", "currentVerification.revision === 2",
+  "unpaidRender.status === 402", 'unpaidRender.json?.error === "A recorded payment is required before rendering."'], "verified unpaid probe");
+check(!gate.includes("insert into public.consumer_briefcase_items"), "fixture must be created by the application claim");
+includesEvery(verificationLifecycle, ["/api/expungement-ai/screening/pending", "/api/expungement-ai/screening/pending/claim",
+  "/packet-information", "verify: false", "verify: true", "unverified.status === 403",
+  "current final verification is required", "verified.json?.readyToGenerate === true"], "final-review lifecycle");
 
 if (failures.length > 0) {
   console.error(`FAIL verify-rcap-hosted-checkout-gate — ${failures.length}/${checks} checks failed`);

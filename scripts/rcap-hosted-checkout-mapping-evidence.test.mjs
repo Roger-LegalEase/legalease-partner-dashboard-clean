@@ -80,7 +80,7 @@ test("null spec preserves both undefined identity values", () => {
 // auth, HTTP, Stripe or any write. No copied convergence/review implementation.
 export async function prepareFixture(sourceText = gate) {
   const begin = sourceText.indexOf('  const { buildRenderJobSpec } = await import(');
-  const stop = sourceText.indexOf('  const summaryJson = sqlText(', begin);
+  const stop = sourceText.indexOf('  // Establish the fixture through the same claim', begin);
   assert.ok(begin >= 0 && stop > begin);
   const preparation = sourceText.slice(begin, stop).replaceAll('"../src/', `"${new URL("../src/", import.meta.url).href}`);
   const helper = new URL("./rcap-hosted-checkout-route-contract.mjs", import.meta.url).href;
