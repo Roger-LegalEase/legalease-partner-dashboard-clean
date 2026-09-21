@@ -53,8 +53,36 @@ const bytes = sfn.theBytes ?? {};
 const identifies = sfn.theFormIdentifiesItself ?? {};
 
 // --- the record must not quietly stop binding, or widen what it binds --------
-check(sfn.status === "RESOLVED from bytes already held",
-  "the SFN-61663 status no longer claims resolution from bytes already held");
+// Proving which bytes a form is, applying that binding to the Grade-A
+// authority, and closing the blocker are three acts. This record performs the
+// first only, and the gap between "proven" and "closed" is exactly where a
+// status overstatement lives, so the three are checked separately and the
+// record is required to keep saying that the last two have not happened.
+check(sfn.status?.sourceIdentifiedAndProvenanceProven === "YES",
+  "the SFN-61663 provenance is no longer recorded as proven");
+check(sfn.status?.authoritativeSourceBindingApplied === "NO",
+  "the record now claims the Grade-A source binding has been applied; if that is true it must be proven by a regenerated projection, not asserted here");
+check(sfn.status?.gradeABlockerClosed === "NO",
+  "the record now claims the Grade-A blocker is closed; closure is proven by the five official_sources entries disappearing from the regenerated projection, not by this record");
+// The key name supplies the refusal, so match what the value asserts -- that
+// the projection is generated and editing it by hand would defeat the point.
+check(/editing it by hand/i.test(String(sfn.howToActuallyCloseIt?.doNotHandEditTheProjection ?? "")),
+  "the record no longer explains why the generated projection may not be edited by hand to close the blocker");
+
+// And the authority must still agree that the blocker is open. If the five
+// entries have gone, this record's own status text is stale and must be
+// revisited deliberately rather than left behind as a false negative.
+const projectionPath = path.join(ROOT, "data/rcap-grade-a/fulfillment-authority-projection.json");
+if (!fs.existsSync(projectionPath)) {
+  skipped.push("the authority projection is not present, so the open/closed status could not be cross-checked");
+} else {
+  const projection = JSON.parse(fs.readFileSync(projectionPath, "utf8"));
+  const route = (projection.routes ?? []).find(entry => entry.routeId === sfn.boundTo?.route) ?? null;
+  const stillOpen = (route?.missingProof ?? []).filter(entry => /SFN-61663/.test(entry)).length;
+  check(route !== null, "the bound route is no longer in the authority projection");
+  check(stillOpen > 0,
+    "the projection no longer lists SFN-61663 source gaps for this route, so the binding appears to have been applied; update this record's status from NO to the proven closure rather than leaving it stale");
+}
 check(sfn.boundTo?.route === "ND:marijuana-specific-summary-pardon-or-sealing-relief",
   "SFN-61663 is no longer bound to the marijuana summary-pardon route");
 check(sfn.boundTo?.memoTrack === "nd-summary-marijuana-pardon",

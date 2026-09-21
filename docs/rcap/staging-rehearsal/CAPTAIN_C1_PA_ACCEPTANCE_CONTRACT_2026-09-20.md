@@ -82,13 +82,37 @@ exactly this one:
 | field | value |
 |---|---|
 | jurisdiction | `MS` |
-| pathwayId | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` |
-| **pathwayLabel** (this is what the gate passes as `pathway`) | `Non-conviction expungement for dismissal, no disposition, or acquittal` |
+| **pathwayId** — pass THIS to `buildRenderJobSpec` as `pathway` | `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` |
+| pathwayLabel — assert separately as the compiled/user-facing label | `Non-conviction expungement for dismissal, no disposition, or acquittal` |
 | routeId | `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` |
 | trackId | `ms-nonconv` |
 | packetSetId / packetFamilyId | `ms-nonconv-set` |
 | profileVersion | `2026-06-19-source-conversion-1` |
 | componentCount | 5 |
+
+### Correction, 2026-09-21 — the builder takes the canonical ID, not the label
+
+The row above originally said the **display label** was "what the gate passes as
+`pathway`". **That was wrong**, and Codex was right to stop and ask rather than
+implement it.
+
+The existing PA case passes `PA_PATHWAY`, a display label, so the label looked
+like the builder's route key. It is not. With the display label the real MS
+builder resolves `legacy_retired`; with the canonical pathway ID plus
+`trackId: "ms-nonconv"` it resolves the intended `factory_v2` route and the
+exact `ms-nonconv-set`. The factory registry keys on the ID.
+
+So: pass `non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`
+as `pathway`, pass `ms-nonconv` as `trackId`, and assert the display label as a
+**separate** compiled/user-facing check rather than as the route key.
+
+This is not a route substitution and changes no product behaviour. It is the
+same exact Captain-selected route, identified the way the registry identifies
+it. And it is **not** a licence to normalize labels in the resolver: the
+resolver stays untouched, because changing the product to preserve a mistaken
+acceptance instruction is the wrong direction of repair. The instruction is
+amended forward; the mistaken sentence is left above so the correction is
+legible rather than invisible.
 
 **Why this one and not another.** It is the only candidate that is
 simultaneously: current Grade-A proven for the exact route *and* packet family;
