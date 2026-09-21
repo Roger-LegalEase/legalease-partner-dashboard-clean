@@ -168,48 +168,19 @@ const documents = set.components
     sections: []
   }));
 
-// ---- the legal sections this generator still may not write ------------------
-// A legal-design owner decides these in a versioned record; this generator only
-// carries what that record decided. It never composes a statement of its own,
-// and a section the record does not bind stays UNBOUND with its reason intact.
-const SECTION_BINDINGS = "data/record-clearing/legal-decisions/2026-09-21-or-137-225-1c-legal-section-bindings.json";
+// ---- the legal sections nobody here may write -------------------------------
 const UNBOUND = (decision) => ({ bound: false, boundBy: null, decisionRequired: decision });
-const DECISIONS = {
-  statutoryAuthority:
-    "The controlling ORS subsection for this route, and the rule statement a packet may print. The route id names ORS 137.225(1)(c); the legal-design track registry files or_acquittal under a different subsection; Oregon's committed legal review flags the same area as unsettled. Two committed records disagree and a generator does not pick one.",
-  filingDestination: "Which court and which case number an Oregon set-aside motion is filed in, and the rule that says so.",
-  feeAndWaiver: "The Oregon filing fee for this motion, whether a waiver applies, and the rule for each.",
-  serviceAndNotice: "Whether service on the district attorney is required, on whom, and whether a certificate of service is included.",
-  copyRequirements: "How many copies a participant brings and what happens to each.",
-  postFilingTimeline: "The steps and timings after filing that a packet may state as fact.",
-  hearingAndObjectionStops: "The situations in which a participant must stop and get help."
+const legalSections = {
+  statutoryAuthority: UNBOUND(
+    "The controlling ORS subsection for this route, and the rule statement a packet may print. The route id names ORS 137.225(1)(c); the legal-design track registry files or_acquittal under a different subsection; Oregon's committed legal review flags the same area as unsettled. Two committed records disagree and a generator does not pick one."
+  ),
+  filingDestination: UNBOUND("Which court and which case number an Oregon set-aside motion is filed in, and the rule that says so."),
+  feeAndWaiver: UNBOUND("The Oregon filing fee for this motion, whether a waiver applies, and the rule for each."),
+  serviceAndNotice: UNBOUND("Whether service on the district attorney is required, on whom, and whether a certificate of service is included."),
+  copyRequirements: UNBOUND("How many copies a participant brings and what happens to each."),
+  postFilingTimeline: UNBOUND("The steps and timings after filing that a packet may state as fact."),
+  hearingAndObjectionStops: UNBOUND("The situations in which a participant must stop and get help.")
 };
-
-const bindings = fs.existsSync(path.join(rootDir, SECTION_BINDINGS)) ? read(SECTION_BINDINGS) : null;
-// A binding record written for some other route would bind the wrong law to
-// this specification. Refuse rather than bind, and refuse loudly.
-if (bindings && bindings.routeKey !== ROUTE_KEY) {
-  throw new Error(`${SECTION_BINDINGS} binds ${bindings.routeKey}, not ${ROUTE_KEY}`);
-}
-
-const legalSections = Object.fromEntries(Object.entries(DECISIONS).map(([key, decision]) => {
-  const decided = bindings?.sections?.[key] ?? null;
-  if (!decided?.bound) {
-    // The record may explain why a section stays unbound; where it does, that
-    // reason is more useful than the generic prompt and replaces it.
-    return [key, UNBOUND(decided?.whyNot ? `${decision} ${decided.whyNot}` : decision)];
-  }
-  if (!decided.statement || !Array.isArray(decided.authority) || decided.authority.length === 0) {
-    throw new Error(`${SECTION_BINDINGS} binds ${key} without a statement and authority`);
-  }
-  return [key, {
-    bound: true,
-    boundBy: SECTION_BINDINGS,
-    statement: decided.statement,
-    authority: decided.authority,
-    basisQuote: decided.basisQuote ?? null
-  }];
-}));
 const unboundLegalSections = Object.keys(legalSections).filter((k) => !legalSections[k].bound).sort();
 
 const specification = {
@@ -251,10 +222,7 @@ const specification = {
     theSixSectionsAreBoundOnTheReplacement:
       "The six legal sections are bound on the three configurations that replaced this route. They stay unbound HERE because this route is retired, and an unbound specification is one nothing can be composed from."
   },
-  // Computed, not asserted. Hardcoding false would quietly become a lie the day
-  // the last section binds; computing it keeps the field honest in both
-  // directions, and it stays false while any section is unbound.
-  legalSectionsBound: unboundLegalSections.length === 0,
+  legalSectionsBound: false,
   unboundLegalSections,
   legalSections,
   whyIncomplete:
