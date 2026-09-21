@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "ND-12-60-1-ROUTE-SPLIT-DETERMINATION-2026-09-21",
+  "reviewer": "Captain (A-lane route determination from the memo's own controlling text; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "rcap-nd",
+  "scope": [
+    "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1"
+  ],
+  "authority": "N.D.C.C. ch. 12-60.1, principally §§ 12-60.1-02(1), 12-60.1-03 and 12-60.1-04",
+  "question": "The ND memo carries three separate tracks under N.D.C.C. § 12-60.1-02(1) -- misdemeanor (a), felony (b) and pardoned (c). Does the single runtime route ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 have to split into three, or does one route serve all three grounds?",
+
+  "determination": "One route. The three tracks are three qualifying grounds for one statutory petition, not three reliefs. They share one instrument, one content specification, one mandatory companion document, one venue, one respondent, one service path and one source set. What differs is which facts the petition must allege and what proof rides along, which is conditionality inside a packet rather than a reason to build three.",
+
+  "theTestApplied": "Split on controlling eligibility criteria, filing vehicle and source authority -- not on the memo having subsections. Two of the three axes are identical across the branches; the third differs, and differs in a way one packet expresses.",
+
+  "measuredFromTheMemo": {
+    "method": "The three tracks were compared field by field rather than read impressionistically.",
+    "identicalAcrossAllThree": [
+      "components",
+      "destination",
+      "effectiveDates",
+      "eligibleDispositions",
+      "eligibleRecordTypes",
+      "geography",
+      "manualCompletionItems",
+      "nodeType",
+      "officialSources",
+      "outputStrategy",
+      "outputStrategyStatus",
+      "packetIdentity",
+      "rules"
+    ],
+    "differs": [
+      "controllingAuthority",
+      "exclusions",
+      "legalDesignDecision",
+      "legalName",
+      "participantInputs",
+      "publicName",
+      "selfHelpStopConditions",
+      "supportingDocuments",
+      "trackId",
+      "unresolvedQuestions",
+      "waitingPeriods"
+    ],
+    "whatThatPartitionMeans": "Every field that decides what document is produced -- components, outputStrategy, rules, destination, geography, officialSources, manualCompletionItems -- is identical. Every field that differs is eligibility, screening or input collection. The production surface does not vary by ground."
+  },
+
+  "decidingFacts": {
+    "oneInstrument": {
+      "quote": "Petition to Seal Criminal Records Under N.D.C.C. Chapter 12-60.1, captioned in the existing criminal case.",
+      "why": "The primary filing is named at CHAPTER level, not by subsection, and is byte-identical across the three tracks."
+    },
+    "oneContentSpecification": {
+      "quote": "Contents follow N.D.C.C. § 12-60.1-03(2)(a) to (d): the petitioner's identity and every other name used, the address history from the offence to filing, the reasons sealing should be granted, and the full criminal history including out-of-state, federal and foreign matters and every prior relief request in any forum.",
+      "why": "§ 12-60.1-03(2) prescribes what the petition must contain, and it does not vary with which ground under § 12-60.1-02(1) qualifies the petitioner."
+    },
+    "oneMandatoryCompanion": {
+      "quote": "N.D.C.C. § 12-60.1-03(3) makes this mandatory: the petitioner shall file a proposed order when filing the petition.",
+      "why": "The same Proposed Order to Seal Criminal Records is required on all three grounds."
+    },
+    "oneVenueRespondentAndService": "The existing criminal case under § 12-60.1-03(1); district or municipal court, whichever holds the case; the prosecuting attorney as respondent; service under § 12-60.1-03(4) routing through N.D.R.Crim.P. 49 to N.D.R.Civ.P. 5(b). Identical across the three.",
+    "oneFindingsRegime": "§ 12-60.1-04 governs what the court must find, including the (1)(c) and (d) findings on completed imprisonment and probation and paid restitution, on every ground.",
+    "oneSourceSet": "officialSources is identical across the three tracks: the chapter text at ndlegis.gov and the official research guide for Chapter 12-60.1.",
+    "oneVehicleStatus": "All three carry outputStrategy custom_pleading at outputStrategyStatus resolved, and each legalDesignDecision records the same reason: no official petition-to-seal form is published, and the official research guide supplies the drafting specification."
+  },
+
+  "whatDiffersAndHowOnePacketCarriesIt": {
+    "groundSelector": "Which of § 12-60.1-02(1)(a), (b) or (c) qualifies the petitioner is a participant fact that selects the eligibility screen and the look-back allegation the petition pleads.",
+    "misdemeanor_1a": "No conviction of a new crime in the three years immediately before filing.",
+    "felony_1b": "No conviction of a new crime in the five years immediately before filing, plus the violence-or-intimidation bar during the firearm-disability period under N.D.C.C. § 62.1-02-01(1)(a) -- offence set chapters 12.1-16 through 12.1-25, ten years from the latest of conviction, release from incarceration, release from parole or release from probation.",
+    "pardoned_1c": "No look-back of its own. Requires an unconditional pardon; a conditional pardon under N.D.C.C. § 12-55.1-01(2) is excluded. The pardon certificate is the one ground-specific supporting document.",
+    "sharedExclusions": "All three exclude registration offences under N.D.C.C. § 12.1-32-15 and route impaired-driving offences to the separate seal under N.D.C.C. § 39-08-01.6.",
+    "inputs": "participantInputs share the same base keys -- full legal name, all other names, address history, reasons -- which are the § 12-60.1-03(2) contents. The divergence is ground-specific additions on top of that shared base, not a different questionnaire."
+  },
+
+  "consequencesForTheBuild": {
+    "route": "Preserve ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1 as one route. Do not create three.",
+    "packet": "One packet family: the Petition to Seal Criminal Records plus the mandatory Proposed Order, with the ground as a required participant fact driving the eligibility screen, the look-back allegation and one conditional supporting document.",
+    "screening": "The three grounds are alternative qualifying paths in one screen. A participant who qualifies on none is not eligible; a participant who qualifies on more than one -- for example a pardoned misdemeanor -- pleads the ground that qualifies without a second packet.",
+    "notAuthorisedByThisRecord": "This record does not build the packet, does not approve output, and does not change the route's INCOMPLETE state or its packet-specification blockers."
+  },
+
+  "whatThisDoesNotDecide": {
+    "otherChapterTracks": "N.D.C.C. § 12-60.1-05 carries two nonconviction tracks with DIFFERENT vehicles -- official_pdf_fill for the pre-1-August-2025 petition and process_guidance for the automatic closing on or after that date. They are outside this route and this determination says nothing about them; a shared chapter number is not a shared route.",
+    "dui": "Impaired-driving sealing is N.D.C.C. § 39-08-01.6 and is separate by the source's own statement, already recorded 2026-09-21.",
+    "feesAndWaiver": "The memo records fees and fee waiver as not established for this petition. Unknown procedure is not permission to guess, and nothing here fills it in.",
+    "counsel": "Counsel review of the determination and of every eligibility fact recorded above."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Counsel review. This record determines a route boundary from the memo's controlling text; it drafts nothing, binds nothing and opens no route."
+}
