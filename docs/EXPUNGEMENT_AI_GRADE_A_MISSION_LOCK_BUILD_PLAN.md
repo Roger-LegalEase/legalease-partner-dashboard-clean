@@ -1,233 +1,236 @@
-# Expungement.ai • Grade A launch execution plan
+# Expungement.ai — Grade A launch execution and regression protection
 
-**Date:** September 21, 2026  
-**Repository:** `Roger-LegalEase/legalease-partner-dashboard-clean`  
-**Objective:** Finish the existing Expungement.ai, RCAP partner platform, Standard Clinic Mode and configured Legal Aid Clinic Mode, and satisfy the attached Final QA Package. Do not rebuild the platform from scratch.  
-**Adoption:** Use this as the execution revision of `docs/EXPUNGEMENT_AI_GRADE_A_MISSION_LOCK_BUILD_PLAN.md`, not a second competing plan. Preserve the earlier versions in Git history and their still-applicable source, legal and visual requirements. This document prepares execution; it reports no new implementation, approval, hosted acceptance or production deployment.
+**Prepared:** September 21, 2026. **Repository:** `Roger-LegalEase/legalease-partner-dashboard-clean`.
 
-## 1. The finish line and the decision rule
+**Adoption target:** Amend `docs/EXPUNGEMENT_AI_GRADE_A_MISSION_LOCK_BUILD_PLAN.md` in place. This is the proposed execution revision, not an additional plan or a claim that the repository has already changed. Use the existing implementation worklist and Final QA workbook. Preserve history; retire conflicting startup instructions only after the adopted revision is available to both agents.
 
-The delivered product must be professionally presented, legally appropriate, secure and usable from first interaction through document delivery, return visits and support. A participant receives the correct route-specific documents and instructions without duplicate intake, lost work, wrong-person access, double charging or dead ends. Partners can operate their programs and clinics without developer intervention for normal tasks.
+**Objective:** Finish the existing Expungement.ai, RCAP partner platform, Standard Clinic Mode and configured Legal Aid Clinic Mode to the attached Grade A acceptance standard. Preserve correct work, integrate missing compatible work, repair demonstrated defects, complete actual gaps, and release the tested product. Do not restart platform construction.
 
-**The attached `ExpungementAI_Final_QA_Checklist.xlsx` is the acceptance tracker.** Preserve its 248 control types, P00–P11 organization, case/page coverage requirements, result states and necessary human approvals. It is not 248 total executions. Every applicable route, outcome, channel, local variant, role, language and unique document/page needs the required evidence. A held promised route stays in scope.
+## 1. The decision test
 
-Before starting or expanding work, answer yes to Roger’s five questions:
+Before starting or expanding a task, answer Roger’s questions:
 
-> Are we moving with maximum precision and efficiency? Are we avoiding redundancy and bureaucracy? Are we maximizing the potential of both agents? Are we avoiding drift? Are we marching toward a Grade A launch?
+> Are we moving with maximum precision and efficiency? Are we avoiding redundancy and bureaucracy? Are we maximizing the potential of both agents? Are we avoiding drift? Are we avoiding regression? Are we building on or improving what has already been built instead of rebuilding it? Are we marching toward a Grade A launch?
 
-Apply that rule through one practical test: **this task must close a specific launch requirement, reuse existing work where possible, have one implementation owner, and have a defined acceptance result.** If it does not, do not start it. This is a decision rule, not a new approval form or a ritual to repeat in every progress message.
+Make the answers observable in the existing work item: the required outcome, existing work to reuse, one writer, expected change, behavior that must survive, and closing QA cases. Do not create a separate questionnaire or repeat these questions in progress reports. A task that lacks a required outcome is not launch work. A missing proof is a verification task, not automatically a rebuild.
 
-Efficiency removes duplicate work. It does not remove required quality, security, legal or visual proof.
+## 2. Requirements, instructions and permissions
 
-## 2. Start from the work we have
+The Product Contract defines behavior; current authoritative sources and applicable adopted decisions establish legal/document requirements; the Final QA Package defines acceptance; this plan assigns execution. The audit describes implementation, not permission or acceptance. Dated status statements inside any document remain historical observations.
 
-The supplied independent-audit transcript reports 106 capability entries: 90 BUILT, six BUILT ELSEWHERE / NOT INTEGRATED, one PARTIALLY BUILT and nine CANNOT VERIFY. It reports no demonstrated whole-capability absence and maps 740 pathway identities across 51 jurisdictions. These are implementation observations, not a launch-readiness percentage or proof that every pathway delivers correctly. [A]
+Roger controls product scope and execution authorization. An owner preference or agent conclusion cannot establish a statutory requirement, replace a mandatory court form, create professional approval, or waive an applicable legal requirement. Keep product choices, such as an adopted additional verification requirement, distinct from claims about what the law requires. Resolve a real source conflict at the exact affected requirement through the required qualified review.
 
-The remote `captain-release` head independently read for this plan is:
+### Required instruction corrections at adoption
 
-`8f3a7891777027f3eac98936eb56b09c133624a2`
+Apply a targeted diff to the current Mission Lock and applicable `AGENTS.md`; do not replace all repository instructions with a generic short file. Preserve unrelated safety, source-custody, history, worktree and explicit staging/push restrictions.
 
-It matches the snapshot named in the audit transcript. It is a starting reference, not an accepted production release. At restart, inspect local unpushed work and any subsequent remote delta once; do not reset either agent to this SHA if legitimate later work exists. [R1]
-
-The full `BUILT_VS_NOT_BUILT.md` remains an input from the independent Codespace. Its fetch at the current remote Captain path returned 404. Use its saved rows and evidence directly at handoff; do not invent the identities of all six missing integrations or all nine unknowns from the summary.
-
-### Work already identified for preservation or focused action
-
-| Existing evidence | Execution consequence |
+| Conflict or risk | Adopted treatment |
 |---|---|
-| Missouri packet discovery and current download fixes are reported integrated. | Preserve them. Repair a new failure only at its demonstrated source; do not repeat their implementation. |
-| Connecticut packet work existed before later unfinished labels; checked approval PDF hashes match. | Preserve the identified artifacts and applicable approvals. Existing files do not alone prove every current route’s selection or delivery. |
-| 32 recovered source originals are hash-verified; 33 bindings remain integrated. | Reuse the exact recovered custody and bindings. Do not start a replacement acquisition campaign or claim the entire corpus is mounted. |
-| Payment/recovery, receipt, privacy and attribution changes exist in other branches; the audit identifies missing or partial integration. | Inspect the exact audit-identified changes and their dependencies; port only missing compatible fixes. An entire old PR is not automatically safe to merge. |
-| Current authentication/continuation, sponsorship, Packet Information, render jobs and authorized downloads exist. | Finish their real gaps and prove the connected experience. Do not create replacement systems. |
-| Reporting, counter, logging and verifier defects are reported. | Repair current customer/security/QA impact once per root cause. Historical dead tooling is not a launch project unless it can affect this execution or release. |
+| Payment-first lifecycle in old Mission Lock §19 | Reference `PRODUCT_CONTRACT.md` §§0, 4–6 rather than maintain another lifecycle. Required Packet Information and current final verification precede DTC checkout. Initial partner/event validation is not sponsored packet entitlement. Preserve the contract’s distinct sponsored sequence. |
+| Product sequence corrected by imposing filing tasks before purchase | Preserve QA P03-09/P06-03/P06-18: collect genuine required facts, reuse known answers, and keep later signing/notarization/certified-copy tasks out of unnecessary intake gates. Do not invent missing facts or mandatory uploads. |
+| Historical RCAP-only instruction prohibiting consumer UI work | Supersede only that restriction. Required consumer and partner UX repairs are in scope; unrelated redesign is not. |
+| A1 scope lost during plan replacement | Retain the explicit scope in §4 below. QA coverage remains nationwide; document repair is defect-driven. |
+| “Built elsewhere” treated as automatically safe to merge | Require current applicability, complete dependencies and post-integration proof under §6. |
+| A plan implies a prior Claude agreement or grants new access | Use the actual assignment and authorization record. Proposed ownership is not a claimed past handoff. Do not invent access, approval or an absent artifact. |
 
-Source: the supplied audit transcripts and their evidence references. These entries are a starting handoff, not independently re-executed closures. [A]
+Do not change the Product Contract, QA pass criteria or a legal decision merely to match current code. If sources genuinely conflict, record the exact clauses and resolve that bounded issue; continue independent work. Do not launch another general instruction audit.
 
-### Resolve the instruction conflicts once
+Local inspection and already-authorized development/testing continue without repetitive approval requests. This document does not lift existing specific holds or expand permissions for remote sandbox, auth/RLS, secret, database, billing, publication or other privileged operations. Check the actual target and existing authorization for those actions. Production changes, live money, real-user destructive actions and court communications require the applicable explicit authorization. Do not reset/clean another worktree or stage unrelated files.
 
-**Purchase sequence.** Current `docs/PRODUCT_CONTRACT.md` §0 and QA control **P06-03** require packet information and verification before checkout. The supplied September 21 Mission Lock §19 instead diagrams payment before Packet Information. This plan follows the product contract and the latest instruction to pass the attached QA:
+## 3. Make existing inputs usable once
 
-`Screening → preliminary result → authenticated claim → participant-owned matter/Briefcase → necessary Packet Information → review/verification → DTC checkout and settlement → generation → download and filing tasks.`
+The supplied transcript reports 106 capabilities: 90 built, six built elsewhere, one partial and nine not verifiable. These are audit observations at an inspected snapshot, not a complete defect list or a release-readiness percentage. The full capability report was not available in the attachments reviewed for this revision. Do not invent its missing rows. [A]
 
-Reuse known information and existing collection/verification code. Do not push detailed packet intake into screening. Signatures, notarization, certified-copy acquisition and other filing-only tasks do not become purchase prerequisites merely because filing eventually requires them. Supported sponsored admission remains its separate authority path, with participant ownership, consent and verification intact and no consumer charge. Update only contrary instructions and controls; retain correct implementation. [R2, Q: P03-09, P06-03, P06-18]
-
-**A1.** Adopt the supplied September 21 scope lock: preserve the closed 346-family construction baseline. The standing post-terminal cohort is eight families / 36 documents plus the finite historical §5 findings. This is neither an instruction to repair all 36 again nor permission to skip final nationwide QA. Already-correct findings close through their current successor evidence. Additional repairs require an actual current defect or changed governing requirement. [B]
-
-**UI and security work.** The inspected `AGENTS.md` still excludes new Expungement.ai UI work and contains older sprint directions. Replace conflicting launch instructions in place so required UX and nonproduction security engineering are in scope. Preserve production, money, credentials, participant-data and destructive-action safeguards. Do not run a separate repository-wide skills-cleanup project. [R3]
-
-## 3. Two implementation agents, one integrated product
-
-| Responsibility | Owner | Working boundary |
+| Input | Existing locator or handoff | Required action |
 |---|---|---|
-| Integration, exact launch scope and the existing remaining-work list | Claude | Sole writer to the integration branch under its existing permissions. Integrate small coherent changes and their dependencies, not old branch histories wholesale. |
-| Legal routing, forms, pleading substance, document data, filing guidance and substantive EN/ES content | Claude | Reuse accepted sources, forms, decisions and templates. Obtain qualified approval where required; an agent is not a substitute for that approval. |
-| Consumer/partner/clinic UX, payments, identity, privacy/security, persistence, fulfillment, renderer mechanics and test/release engineering | Codex / Astra 6 | Work in the established engineering lane; no direct integration-branch push. Read the audit once, then the exact task’s sources and consumers. |
-| Independent final QA recommendation and evidence/page review | ChatGPT, using the package’s review-lead role | Review actual outputs, source passages and execution evidence in active review sessions. A runner’s report is not independent approval. |
-| Required professional, physical or operational judgments | Existing qualified authorized reviewers/operators | Narrow legal, Spanish-comprehension, screen-reader, physical-clinic, security or production actions. Reuse valid prior approvals. |
+| Product requirements and current implementation | Repository `docs/PRODUCT_CONTRACT.md`; actual integration branch | Read the relevant sections and current branch/worktree state. The previously observed `captain-release` SHA `8f3a7891777027f3eac98936eb56b09c133624a2` is a comparison reference, not a reset target. Preserve legitimate later and unpushed work. |
+| Full independent built-state account | Reported in the **independent audit Codespace** at `/workspaces/legalease-partner-dashboard-clean/audit/independent-built-state/BUILT_VS_NOT_BUILT.md` | Transfer the existing file, supporting indexes and the next batch’s relevant safe evidence through an authorized existing channel. That path is not evidence that another Codespace has the file. Do not regenerate the audit. |
+| Audit support | Same audit directory: `BUILT_STATE_REPORT.md`, `EVIDENCE_INDEX.json`, `COVERAGE_LEDGER.json`, `CHECKPOINT.md`; batch-025 privacy and batch-026 consumer evidence | Preserve source snapshot, hashes and relative evidence links. Do not copy credentials, private participant data, an entire Git cache, dependencies or source corpora into the application repository. Missing sensitive evidence gets an authorized private locator. |
+| Final QA Package | Included in this delivery under `qa/grade-a/` | Use an existing canonical installed copy if byte-identical; otherwise adopt this location. Record the actual shared location in the existing worklist. Keep one working results workbook; never overwrite completed results with the blank original. |
+| Source originals, templates and approvals | Existing source receipts, artifact indexes, adopted decisions and QA Sources sheet | Materialize only exact required inputs from existing authorized custody. An unmounted corpus is not evidence that forms were never built. Missing visual-reference access blocks that visual verdict, not unrelated code work. |
 
-Each implementation agent takes one coherent outcome at a time. Both continue on nonconflicting work. There is no mandatory fleet of subagents and no verification swarm.
+Both agents must be able to read the adopted plan and their own task inputs before dependent edits. Transfer only missing evidence; do not rebuild the audit in the Captain’s worktree. A missing input blocks its dependent task, not the entire launch. No agreement, transfer, remote publication or permission is marked complete until it actually occurs.
 
-Executable shared foundations default to Codex ownership; legal/document/guide content defaults to Claude. For shared files, name the writer in the existing work item before edits. The other agent supplies the required behavior or patch proposal, not simultaneous edits. Claude does not reimplement engineering to review it; Codex does not invent legal decisions to avoid a handoff.
+## 4. Preserve the completed baseline and the A1 limit
 
-Integrate at meaningful batch boundaries, not every small commit and not after weeks of isolated work. Independent QA can review stable outputs while the runner prepares the next batch. When a dependency changes, refresh the affected evidence, not everything.
+The supplied September 21 scope lock records **346/346 terminal family treatments as the closed construction baseline**. This is not 346 paid routes or proof that all live journeys work. Preserve the baseline’s exact family identities, applicable treatments, artifacts and approvals; verify only relevant subsequent changes. [B]
 
-## 4. Execution order: four completion gates
+The standing A1 cohort is **eight affected families / 36 documents**, plus the finite historical §5 findings for one-time comparison with their current successors:
 
-These gates organize implementation. They do not replace or renumber the twelve QA phases.
+| Family | Supplied identity |
+|---|---|
+| Wyoming felony expungement | `WY-felony-conviction-expungement.v1` |
+| South Dakota suspended-imposition sealing | SD SIS; resolve its existing canonical identifier, do not invent one |
+| DC actual innocence | `DC-actual-innocence-expungement.v1` |
+| Georgia pardon/J7 | `GA-restriction-and-sealing-of-a-pardoned-felony.v1` |
+| Georgia SB-288 | `GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1` |
+| Illinois mistaken identity | `IL-criminal-identity-theft-mistaken-identity-relief.v1` |
+| Mississippi §9-11-15(3) | `MS-additional-misdemeanor-relief.v1` |
+| Mississippi §99-19-71(1) | `MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1` |
 
-### Gate 1 — Convert the audit into executable launch work
+These are findings to resolve, not eight assumed unfinished families or 36 mandatory rerenders. Preserve a repaired successor. Change only still-wrong output. Add another repair only on a concrete current defect, changed governing requirement or evidence-invalidating change, with the affected scope identified. A shared change requires tests across all affected consumers; it does not automatically require rewriting them.
 
-**Codex:** use the saved capability report and evidence to identify the exact six branch integrations, the missing part of the partial capability, current defects inside built capabilities, and the nine unresolved proof areas. Check any changed snapshot only where it affects the finding. Do not resume a 245-PR reading target.
+The audit reports current Missouri discovery, download safeguards, Connecticut packet work, checked approval artifacts, 32 recovered originals and 33 source bindings. Treat them as **preservation candidates to confirm at relevant use**, not a new integration queue. Matching a PDF hash proves byte preservation, not continuing legal applicability or correct current delivery. [A]
 
-**Claude:** join those items to the existing worklist and relevant QA control/case IDs. Preserve each verified existing implementation. Put one row per remaining outcome, with only: requirement/defect, existing work to reuse, smallest remaining change, owner, dependency and closing evidence. Multiple failed cases sharing one root link to that row.
+## 5. Two writers with complementary responsibilities
 
-**In parallel:** verify the actual authorized nonproduction app, database, worker, storage, provider sandbox, test inbox and required private source access. Name the required human/device/clinic reviewers and existing performance targets. Missing access blocks the dependent test, not all useful work. Do not change target projects to make a credential work.
+| Responsibility | Writer | Review and completion |
+|---|---|---|
+| Mission Lock adoption, existing worklist, scope and release integration | Claude | Codex checks the instruction diff for contradictions, lost protections and missing locators before both use it. This is one bounded review, not another planning project. |
+| Legal/route decisions, document specifications, pleading and guide substance, substantive Spanish | Claude | Required independent output/source review and qualified approval. Claude’s authorship is not professional sign-off. |
+| Consumer/partner/clinic UX, identity, payments, privacy/security, persistence, shared renderer mechanics, fulfillment, test/release engineering | Codex | Claude reviews the coherent integration change; actual QA evidence is evaluated independently under the package. |
+| Final QA evidence evaluation | Package’s G review lead, ChatGPT in active review sessions | R remains the runtime executor. Preserve H-L/H-A/H-C/H-S/H-O responsibilities where applicable; do not substitute agent claims for their evidence. |
 
-Load final-QA scope from the audit’s existing inventories plus actual promised coverage. Instantiate applicable controls using existing tooling and evidence links. Do not create a replacement census or manually maintained parallel tracker.
+One coherent outcome per writer at a time. Each existing work item names exact owned files/symbols before mutation; overlapping files have one writer even when the edits appear separate. An existing valid assignment is sufficient; do not demand an additional ceremonial handoff. If one shared change is necessary, assign that change once and let the other writer continue an independent outcome.
 
-**Gate 1 is complete when the known launch work has exact owners and evidence, the first safe batches are executable, and all QA areas have visible coverage or a named remaining proof task.** The nine unknowns become bounded verification tasks; they do not require a new open-ended audit before implementation resumes.
+Do not deploy extra agents for routine double-checking. Use a genuinely independent bounded reviewer only when it removes a real bottleneck or satisfies an existing review requirement. Do not create competing implementations.
 
-### Gate 2 — Recover missing work and make the connected journeys succeed
+## 6. The regression-resistant change loop
 
-**First Codex batch:** the audit-identified missing payment/recovery, receipt and privacy integrations, including required schema, caller, privilege and compatibility dependencies. Check current successors before importing. Preserve existing sponsorship and ownership safeguards. Audit evidence has also identified defects in some branch-only fixes; “built elsewhere” is not permission to ship them unchanged.
+Use the existing task/PR and QA Cases/Defects records, not a new ledger.
 
-**First Claude batch:** the finite still-live A1 document defects and current route/form/guide mismatches. Start from existing correct packet artifacts and source-backed decisions. Any renderer-mechanics defect becomes one named shared correction, not separate state rebuilds.
+**1. Establish the smallest real gap.** Name the requirement and affected customer outcome. Inspect the current path and the audit’s existing implementation. If it already works with applicable evidence, preserve it and close the stale assignment. If the full audit is needed but unavailable, transfer it rather than guess.
 
-Carry both batches through the actual nonproduction product. Establish connected reference journeys for DTC, RCAP and every materially distinct Standard/Legal Aid clinic profile, including MVLP where offered. These exercise the shared plumbing early; they are not substitutes for final per-route coverage.
+**2. Capture what must survive.** Record the starting SHA and relevant configuration/schema/input identities. Identify changed and dependent consumers. Retain the existing passing cases and applicable artifacts as the before-state. Use independent contract/source expectations for the defect; the candidate cannot be its own answer key. Reuse an exact applicable baseline result rather than rerun unrelated suites.
 
-The required result is the same participant-owned matter moving through the real UI and services to the expected persisted, authenticated downloadable output. Connect provider settlement or legitimate sponsorship, job, artifact and repeat download. Do not insert a final “paid,” “verified” or “ready” row to bypass the transitions being tested.
+**3. Make one coherent change.** Prefer current-compatible existing implementation. Include necessary callers, schema, privileges, assets and tests; the smallest safe change is not always the fewest lines. No wholesale checkout of old files over newer working code, blind cherry-pick series, or replacement system to avoid understanding a narrow integration.
 
-Finish the remaining partner/clinic and Packet Information gaps as those existing paths expose them. Include safe recovery: leave/resume, lost save, expired auth, edit/reverify, early payment return, duplicate events, worker retry and stale-output replacement without duplicate payment or credit.
+**4. Prove the correction and preservation.** Where executable, show the same defect case failing before and passing after for the intended reason. Test the legitimate success path and the relevant prohibited path. Compare affected membership, data, artifacts and side effects, not only aggregate counts. A crash, skipped test, zero-test run or already-red baseline earns no detection credit. Required execution that cannot run stays explicitly unverified.
 
-Security and accessibility tests travel with these batches. Do not leave them until a cosmetic final pass.
+**5. Review and integrate the actual candidate.** Hand over the task, exact base/head, changed paths, dependency/expected-change list, test/artifact evidence and next action in the existing record. Claude compares against the current integration head, including newer fixes. If the base moved, resolve only relevant changes; if scopes conflict, return the specific dependency rather than overwrite either writer. Integrate under existing branch permissions.
 
-**Gate 2 is complete when missing integrations and demonstrated shared-path failures are corrected and the connected reference journeys pass on the integrated candidate.** It is not yet a national Grade A sign-off.
+**6. Verify after integration.** Recheck the actual integrated implementation and affected tests. An ancestor containing a fix does not prove the current file retains it. Update QA evidence only for the version it covers. A branch test is not integrated acceptance. Close the item only after required review and integration proof; continue the next independent outcome.
 
-### Gate 3 — Close all attached QA coverage and commercial polish
+### Required preservation checks by change type
 
-Finish route-specific, document, content, role, device and operational exceptions using the existing QA workbook. The scope below is the package’s scope, not optional enhancements. [Q]
+| Change | What must be tested and preserved |
+|---|---|
+| Route/resolver/family mapping | Intended family and route identity sets; legal outcome boundaries; declared members work; undeclared siblings remain denied; no silently lost promised route. |
+| Form/template/renderer/guide | Complete declared component set including conditional outputs; known values and protected blanks; every affected required variant/page; unaffected accepted artifacts; full/court-only separation and actual download identity. A guide edit must not silently change filings. |
+| Authentication/Packet Information/UI | Participant ownership, existing saved matters, known answers, Review/Edit return, EN/ES canonical values, session recovery and accessibility. No new upstream screening burden without the exact authorized correction. |
+| Payment/sponsorship/privacy | Exact user/matter/verification binding; valid delivery and wrong-resource denial; concurrency/replay; preserved payment records and entitlements; no duplicate charge, credit or deletion workflow. Check actual allowed application roles, not only an administrator. |
+| Migration/worker/configuration | Old populated-data and in-flight-job compatibility, least privileges, retries and safe recovery; correct packaged assets; tested app/worker/schema combination. Compare individual records and constraints, not just row counts. |
+| Test/status/reporting | Contract-supported expectations, genuine positive path and targeted negative detection; actual source events for metrics. Do not weaken a test or roll an approval hash merely to match output. |
 
-| QA phase | Controls | Required launch outcome | Build owner |
-|---|---:|---|---|
-| P00 — Exact review scope | 20 | Same release identities; all intended routes/outcomes/local variants, sources, roles and surfaces accounted for; independent expectations and real access. | Claude integrates; Codex supplies runtime inventory/evidence. |
-| P01 — Public experience, messages, Wilma | 20 | Polished entry/pricing/help/policies, working links and messages, grounded and isolated Wilma, clear errors and no unsupported claims. | Codex UI/runtime; Claude substantive/legal copy. |
-| P02 — Legal/procedural correctness | 24 | Correct remedy, timing, exclusions, vehicle, venue, actors, fees, execution and local scope; correct positive and negative outcomes in all jurisdictions. | Claude plus required qualified approval. |
-| P03 — Screening through Packet Information | 22 | Fact reuse, no duplicate mandatory asks, safe derivation, necessary workload only, verified saves, resume/edit and correct purchase/filing staging. | Codex; Claude owns legal fact requirements. |
-| P04 — Every form and filing | 24 | Correct contents, protected blanks, professional typography/pagination, complete components and all required unique final page/variant reviews. | Claude content/output; Codex shared renderer mechanics. |
-| P05 — Guides and assembly | 17 | Approved four-section design, accurate route instructions/fees, EN/ES, readable overflow and exact full/court-only separation. | Claude content; Codex renderer/assembly. |
-| P06 — DTC payment to delivery | 22 | Real sandbox payment to exact authorized output on every offered DTC path, including retries, concurrency, refunds where supported and no duplicate side effects. | Codex. |
-| P07 — RCAP partner operations | 20 | Provisioning, prepared onboarding, invitations, publication, staff/codes, sponsorship, caps/overages, billing, truthful reporting and closure. | Codex; Claude approved program terms. |
-| P08 — Standard and Legal Aid Clinic Mode | 23 | Real profile workflow, assisted consent, sensitive-data restrictions, distinct program/legal/execution decisions, ten-person shared-device sequence, export and follow-up. | Codex workflow; Claude legal content; physical operators. |
-| P09 — Security/privacy/integrity | 20 | Tested identity/role/tenant/event/resource boundaries, RLS/RPC/storage, secrets, logging, data rights, concurrency, migration and recovery. | Codex plus qualified assurance where required. |
-| P10 — Accessibility/language/devices/performance | 18 | Actual supported-device usability, EN/ES meaning, keyboard/screen-reader checks, printing and accepted load/response/recovery targets. | Codex; qualified language/device users. |
-| P11 — Final regression/live release | 18 | All required coverage closes on the exact candidate, followed by authorized production and live operational evidence. | Claude integrates; Codex executes; independent review; Roger authorizes. |
-| **Total** | **248** | **Control types, not total test instances.** | |
+Run mutation/fault tests in isolated disposable fixtures, never a concurrently edited worktree or customer dataset. Confirm actual process completion and restoration; do not kill a remembered PID. Extend existing tests where coverage is missing, not a new generic verification platform.
 
-#### The quality bar is observable
+For unchanged documents, preserve exact bytes and existing applicable review. A necessary source/renderer/template/config change can invalidate evidence even when one fixture still matches. Determine the real dependency scope. Rebuild/rerender only outputs needing new proof; broad impact justifies broad affected testing, not an unexamined “representative” shortcut.
 
-**Documents:** official forms control where required. Custom petitions, motions and orders follow the actual court’s format and source-backed contents, including caption, allegations, relief, verification, service and signer roles. No invented judicial acts, generic report page substituted for a pleading, wrong-jurisdiction fallback, clipped values, missing body text, internal tokens or product branding on filings. The approved guide remains separate; informational translations never replace a required filing-language form.
+## 7. Execution order: complete working outcomes in parallel
 
-**Experience:** use the approved design and existing components rather than redesigning the brand. Inspect real loading, empty, error, success, timeout and recovery states, not just the happy-path screenshot. Measure manual participant effort, not screen headings. Partners review prepared information instead of retyping it; commercial authorization is never silently supplied for them. Staff can run the clinic without seeing another participant’s data or needing a developer for normal operations.
+### First: make the next two tasks runnable
 
-**Completeness:** every intended route and materially different outcome/channel combination has explicit coverage. Each offered packet path proves its own selection, population, requirements and connected delivery in applicable languages. Reuse common harness steps and genuinely equivalent evidence, not an unrelated route’s success. Pairwise presentation/device cases do not replace coupled legal, financial or permission branches.
+Claude adopts the targeted instruction correction and records actual shared input locations and writers. Codex transfers/reads existing audit evidence and checks the first engineering task’s current code. Both preserve dirty/unpushed work and specific holds. Name authorized test targets and the actual legal, language, device, clinic and operational reviewers needed. Use existing performance targets; missing targets require an explicit decision before load results are accepted.
 
-**Page review:** inspect every unique required canonical, boundary, local-form, language and layout-stress output at readable resolution. An exact hash-bound existing review can be reused when its requirements, scope and source applicability remain current. Different bytes need applicable review; contact sheets and matching aggregate page counts are not approval. Use the package’s small review batches, including the five-packet/40-page limit, without reducing overall coverage.
+**Exit:** a consistent adopted instruction revision, accessible inputs for the next tasks, and two nonoverlapping outcomes. Do not require every audit unknown or all-country review to finish first.
 
-**Gate 3 is complete when every applicable pre-release requirement has passed with its actual evidence or a supported true N/A, and no known defect against the agreed Grade A requirements remains.** S0–S3 ranks fix order; it does not waive an agreed requirement. An unrequested enhancement can be backlog; a promised missing feature cannot.
+### Next: restore missing value and close current defects
 
-### Gate 4 — Freeze, release and prove the live product
+**Codex:** start with the audit-supported privacy-readiness/processor and Briefcase-receipt gaps and remaining payment/recovery behavior, after confirming current applicability. The reported PR #219 source is `codex/fix-consumer-launch-defects` at `7e7ddb13f5bc1113134a74737624bf50e786d6d2`. It is a historical implementation reference, not a ready-to-merge release or proof every recovery function is missing. Preserve authentication, sponsorship and download fixes already present. PR #220 attribution/platform work is separate unless an actual dependency requires its inclusion. [A]
 
-Claude stops parallel changes to the release candidate after approved batches are integrated. Record the exact application SHA, worker source and immutable digest, data/source/template versions, configuration and target migration state. Keep the last accepted deployment intact while proving this successor.
+**Claude:** resolve the current A1 exceptions using existing decisions and outputs; complete exact guide/legal-content gaps. Route shared renderer mechanics to Codex without rebuilding correct family data. Use the existing report’s current findings, not the broad September 19 rebuild list or September 3 backlog counts as new assignments. [B, V]
 
-Run final integrated acceptance and inspect complete results. No skipped downstream jobs, self-comparisons or unrelated crashes count as passes. Renew evidence for affected consumers after a correction. Rebuild and republish when real packaged inputs changed; do not repeatedly undo necessary fixes to preserve `rebuildRequired: false`.
+Connect each completed batch through the real nonproduction product immediately. Use reference DTC, sponsored, Standard Clinic and each materially distinct configured Legal Aid profile to expose shared integration failures early. These journeys do not replace nationwide route-specific QA. Continue the other current gaps in risk/dependency order from the existing worklist. Do not invent all six missing integrations from the audit summary.
 
-Before production, satisfy applicable production-protection and privacy gates, required reviews, hosted journeys, migration compatibility, recovery and support ownership. The production-only permission/smoke cases remain pending until their actual stage; they are not premarked PASS or N/A.
+### Throughout: make the product commercially finished
 
-**READY FOR AUTHORIZED RELEASE:** all prerequisites to production are evidenced against the exact candidate, with only explicitly scheduled production actions remaining.
+Use approved designs and existing components. Inspect loading, empty, validation, timeout, failure, success and recovery states, not just a happy-path screenshot. Measure new manual input, backtracking and lost-save behavior rather than screen count. Check partner prefill review without self-authorizing its commercial terms. Staff should complete intended clinic operations without developer coaching or another participant’s data.
 
-**Roger’s exact GO → authorized target-specific migration/deployment sequence → production smoke → LIVE VERIFIED.** The actual migration/deployment order follows the existing compatibility and recovery procedure, not a generic fixed ordering. Confirm real domains, auth, saves, help, packaged assets and safe download boundaries. Confirm alerts, support/refund/retry handling and the named responder. Do not conduct destructive tests, actual court filings or unapproved live charges against customers.
+Security and accessibility travel with each feature batch. Independent QA reviews stable evidence while the runner prepares the next batch. Schedule required human work through actual authorized arrangements early; do not claim it has been booked or approved merely because the plan names a role.
 
-Close P11 and this launch effort only after the accepted release is actually live and verified. Subsequent changes use scoped maintenance rather than restarting this project.
+## 8. Preserve the complete Final QA standard
 
-## 5. Security and SOC 2 Type II: use the existing gates
+Use the original **248 control types and nine-sheet workbook**. Keep one editable QA result source; the CSV is the control catalog, not another manual results ledger. Link each root defect to the existing implementation work item and all affected case instances. Append inside the workbook tables and extend validations as needed; do not replace populated evidence with this unexecuted template. [Q]
 
-Use `docs/security/soc2/CONTROL_REGISTER.csv`, `READINESS_GATES.md`, the operating plan and approved private evidence system. Do not create a parallel compliance program or weaken security to accelerate delivery. [R4, R5]
+| QA scope | Required coverage retained |
+|---|---|
+| P00 — 20 controls | Exact release/input/access identities, intended scope, independent expected results, usable evidence and qualified dependencies. |
+| P01 — 20 | Public entry, pricing/claims, all messages/help, partner pages and Wilma’s grounding, privacy, injection and failure behavior. |
+| P02 — 24 | Every intended remedy, material outcome, legal threshold, effective-date and supported local/form/actor variant, with current independent sources and required approval. |
+| P03 — 22 | Screening, claim, saved matter, required facts, real workload, save/resume/edit, invalidation, EN/ES and usable navigation. |
+| P04 — 24 | Correct forms and court documents; complete contents, field placement, execution/service/order/privacy, actual delivered bytes and all required unique pages/variants. |
+| P05 — 17 | Approved Overview, Next Steps, Filing Checklist and Fees & Costs; accurate EN/ES content, packaged assets, readable overflow and uncontaminated court-only output. |
+| P06 — 22 | Each intended paid route’s actual same-matter sandbox payment-to-download chain; retries, races, failures, recovery, receipts and financial authority. |
+| P07 — 20 | Partner provisioning/onboarding, roles/codes, sponsorship/caps/overages/invoices, truthful private reporting, revocation, closure and participant continuation. |
+| P08 — 23 | Standard and configured Legal Aid/MVLP clinic workflows, consent and separate decisions/roles, sensitive data, signatures/execution, exports, follow-up and ten sequential shared-device participants. |
+| P09 — 20 | Real authorization/RLS/RPC/storage, secrets/logging, encryption, injection, data rights, concurrency, migration/recovery and required focused assurance. |
+| P10 — 18 | EN/ES meaning, all distinct screen states, keyboard/screen-reader/real devices, document accessibility, print/scan, agreed load/performance and endurance. |
+| P11 — 18 | Complete coverage, fix/regression proof, exact release identity, actual schema, hosted journeys, approvals, authorized production smoke and operations. |
 
-For production, explicitly establish **CCG-B — Production Protection Minimum**, including its CCG-A prerequisite, and **CCG-D — Privacy and Data Lifecycle Ready** for the Grade A privacy promise. This includes actual privileged MFA/access reviews, an effective protected production change path, required checks, secrets inventory, backup evidence, alerts/responders, and one real end-to-end privacy request with required processor propagation. Apply other company gates where their stated scope requires them.
+Every intended route and materially different outcome/channel/locale/local variant stays visible, including promised held routes. Correct non-packet treatments remain non-packet; do not invent filings. Neither 346 families, 740 reported pathway identities, 106 capabilities nor 248 control types is a universal completion percentage.
 
-Read historical status notes as history: an old statement that deletion was never built cannot override current inspected code or the audit’s branch findings. Equally, implemented code is not proof that hosted settings or external processors are configured.
+Reuse shared mechanics only with demonstrated equivalence and explicit case links. Each route still proves its own selection, population and integration. Each offered packet path retains the package’s complete same-matter journey requirement; do not seed final verified/paid/ready rows to bypass it. Use actual sandbox provider/DB state for integration claims. Pairwise presentation cases cannot replace coupled legal, payment or permission branches.
 
-CCG-C/CCG-E concern operating cycles and observation readiness. CCG-F is the external auditor’s issued-report outcome. Passing the final QA package does not itself produce a SOC 2 Type II report or establish operating effectiveness over an unobserved period. Preserve the existing control-operation/evidence process and close its real outstanding requirements without pretending a checklist is certification.
+Read every required unique final document and visually inspect every required page at readable resolution. Preserve exact applicable prior page review; do not repeat it solely because it is old. Different content/geometry and affected variants need their applicable review. Use the package’s five-packet/40-page batch limit without reducing total coverage. A contact sheet, successful parse or stored filename is not approval. Retrieve the actual source/reference and delivered artifact before judging fidelity.
 
-The repository names Roger as executive owner, Lawrence for legal/privacy/compliance approval and Faith for evidence operations. Confirm the needed actions with those actual owners, reuse existing evidence and ask only for the specific external action an agent cannot perform. Nothing here schedules or fabricates their approval.
+Apply the package’s versioned security and accessibility references as scoped there. Use existing SOC 2 controls, including applicable CCG-B production protection and CCG-D privacy gates and their prerequisites, not a new compliance program. CCG-C/E operating/observation readiness and CCG-F issued-auditor-report outcome remain distinct. Neither local tests nor this plan establish hosted configuration, recurring control operation or a Type II report. [Q, R]
 
-## 6. Keep the work and the prompts small
+## 9. Final candidate, regression closure and production
 
-Maintain **one existing implementation worklist** and **one existing QA workbook**. The audit is evidence. The workbook’s Defects sheet links to existing build items; it is not a second build backlog. Keep exact cases, page review and result evidence in the package’s existing sheets. Runner outputs may populate those records; avoid two independently edited result systems.
+Freeze after coherent reviewed batches integrate; do not freeze the old product indefinitely to protect old evidence. Keep the last accepted deployment intact while proving its successor. Record one exact application/worker digest/source/template/data/configuration/schema combination.
 
-Keep the applicable `AGENTS.md` short: current mission, owners, canonical plan, real safety boundaries and task-specific pointers. Load a skill only when it applies. Do not force a stack of architecture/legal/deployment documents before every edit. Preserve the detailed source and QA requirements as referenced material. This follows the supplied Astra guidance, not a new instructions-maintenance project. [W1]
+Run the current required build/type/lint/release checks and final hosted journeys; inspect complete jobs, skips and artifacts. Carry forward only evidence still applicable to that candidate. Any post-freeze change creates a new candidate and requires affected retests plus required final integration checks. A necessary worker-input change requires matching publication/acceptance, not reverting the fix merely to keep `rebuildRequired: false`.
 
-Each agent’s task needs only **outcome, current evidence, owned scope and closing QA cases**. Safe local and already-authorized nonproduction work continues through implementation, actual inspection and correction without a permission question at each command. Existing push and external-operation scopes still apply. Production, live money, real participant data, destructive actions and privileged changes outside the authorized scope require exact authorization.
+Prepare the actual migration/deployment sequence from compatibility requirements. Establish backup/recovery and how saved matters, payments, entitlements, artifacts and in-flight jobs survive upgrade and a supported rollback or forward repair. Do not assume restoring an old database is safe after new valid transactions. Execute only authorized nonproduction rehearsals before the production decision.
 
-Checkpoints report: **customer outcome closed; relevant QA cases passed; exact change; remaining blocker/owner; next outcome.** No headlines about PR-reading percentages, agent counts or report volume.
+**READY FOR AUTHORIZED RELEASE:** every applicable preproduction requirement and required review passes for the intended scope; evidence binds the final candidate; no known defect against an agreed requirement remains. Production permission, deployment, target-migration readback and smoke cases await their actual stage and are not premarked PASS or N/A. Severity orders fixes; it does not waive required S2/S3 usability, reporting or accessibility failures.
 
-## 7. First handoff and completion accounting
+**LIVE VERIFIED:** Roger’s actual target/candidate authorization is obtained, the authorized compatible deployment/migration sequence completes, the running app/worker/schema/config identities match, production smoke passes, and support/alerts/refund-retry/recovery ownership is proven. Close the production-stage QA cases only then. No real charges, destructive customer tests or court filings are authorized by this plan.
 
-The first restart handoff must reuse the independent Codespace’s completed audit, including its full capability rows and specific missing-integration evidence. Transfer only required non-sensitive reports/locators and legitimate source custody using existing mechanisms. Do not rebuild the audit in the Captain’s worktree.
+On a regression, stop only the affected merge/publication/release action, retain evidence, repair or revert the specific unsafe change in the candidate, and rerun affected checks. Follow the established incident/recovery procedure for production. Independent safe work continues; a known broken promised route does not become “complete” because it refuses service.
 
-Claude adopts this revision in the existing plan path and names the two first nonconflicting batches. Codex begins the missing-integration batch using current actual code and compatible predecessors. Claude begins the live document/content exceptions. Independent QA starts with stable evidence, and required external reviewers receive their exact cases immediately. No new national discovery gate stands in front of known safe work.
+## 10. Reporting and completion
 
-Success is counted by required product outcomes and applicable QA cases, with explicit unique artifact/page coverage. The 106 capability entries, 740 pathway identities, 346-family baseline and 248 control types are different populations; none is a substitute for the others or a universal completion percentage.
+Update the existing work item and QA records at coherent batch boundaries. Report only: **outcome closed; existing work reused; exact change/integration identity; correction and no-regression evidence; next owned outcome; real blocker**. Missing evidence is NOT RUN/BLOCKED; changed applicable evidence is STALE. Do not invent verdicts or new status vocabularies.
 
-**We finish when the existing platform meets the attached Grade A acceptance standard and the matching accepted product is live. Not when another report is written.**
+The process ends when the intended platform satisfies the attached QA standard and the accepted release is live verified. Future changes receive scoped maintenance. No ongoing historical PR audit, replacement architecture, redundant ledger or additional plan is required.
 
-## Source notes
+## Source notes and review boundary
 
-- **[Q]** User-supplied `ExpungementAI_Final_QA_Package(1).zip`: Final QA Plan, Execution Prompt, Checklist workbook and `QA_Control_Library.csv`. The workbook/CSV’s 248 control rows were compared and match exactly; all start NOT RUN. Original workbook SHA-256: `3bf99c500db70f23b3053cd31763cf5e92e4df85780e719f4785868b7d69be00`. No QA outcomes were inserted.
-- **[A]** User-supplied `Pasted text(20260921-195700).txt`, especially the saved audit results and final capability summary at displayed lines 1025–1042, plus prior supplied audit evidence. These are audit-reported findings, not a fresh execution of their entire underlying report in this planning session.
-- **[B]** User-supplied `EXPUNGEMENT_AI_GRADE_A_MISSION_LOCK_BUILD_PLAN_2026-09-21_A1_LOCKED(1).md`, §§7.1, 17/A1, 19 and final acceptance. `ExpungementAI_Grade_A_Launch_Build_Plan_v2(10).md` supplies retained quality/visual and integration requirements; its old status counts and broad rebuild directions are not automatically current work.
-- **[R1]** GitHub branch read, September 21, 2026: `captain-release` at `8f3a7891777027f3eac98936eb56b09c133624a2`.
-- **[R2]** `docs/PRODUCT_CONTRACT.md` §§0–2 at that SHA; blob `48354aa3083e2e6f8530e13bcc07e0f7bcce5019`.
-- **[R3]** `AGENTS.md` at that SHA; blob `64d558c3247937215820e68f3a50eab1d1305f62`. Current Mission Lock header read as version September 20, 2026; supplied A1-lock revision is September 21.
-- **[R4]** `docs/security/soc2/COMPANY_CONTROLS_OPERATING_PLAN.md` at that SHA; blob `b25a8eb542174a63a66c325cec1756f1b1917330`.
-- **[R5]** `docs/security/soc2/READINESS_GATES.md` at that SHA; blob `98706f59fbe8210a9c8868f96a697d06c9dd03e2`.
-- **[W1]** OpenAI Developers, Eric Provencher, “Rethinking skills and prompts for GPT-6 Astra,” September 11, 2026. Official article checked September 21, 2026. Used only for lean task/skill instruction design.
+- **[Q]** Supplied Final QA Package: full Plan, Execution Prompt, Checklist and CSV. All 248 catalog rows were compared across workbook and CSV; they match. The originals remain unmodified and all catalog statuses remain NOT RUN. Package integrity is recorded in `../INPUTS_AND_START.md` and `../SHA256SUMS.txt`.
+- **[B]** Archived `../reference/A1_LOCKED_2026-09-21_SOURCE.md`: supplied September 21 A1-locked Mission Lock §§7.1 and 17: closed construction baseline, exact finite cohort, successor handling and newly proven defect rule. Its contradictory §19 lifecycle is not retained as product authority.
+- **[V]** Archived `../reference/GRADE_A_V2_2026-09-19_SOURCE.md`: supplied September 19 v2 plan: retained product/document/visual quality, saved-matter protection, successor-worker acceptance and release requirements; dated counts and blanket rebuild directives are not treated as current assignments. September 3 status is historical, not restart authority.
+- **[A]** Supplied September 21 audit transcripts, including the 106-capability summary, source/download preservation and PR references. The complete `BUILT_VS_NOT_BUILT.md` and its underlying local evidence were not retrieved here. Exact missing capability rows and present worktree/permission state must come from that existing evidence, not this summary.
+- **[R]** Previously retrieved repository Product Contract and SOC 2 operating/readiness documents at `8f3a7891777027f3eac98936eb56b09c133624a2`, as cited in the supplied execution plan. That is historical source context, not a fresh read of running production.
 
-Execution sequencing and ownership in this revision are recommendations for this launch, not claims that the work has been performed. No repository or external-system writes were made to prepare this plan.
+This revision reviews and corrects the supplied planning materials. It does not claim new code implementation, legal approval, hosted QA, remote adoption or production activity. The operating mechanisms in §§3, 5–7 and 9 are proposed execution refinements; the acceptance criteria remain those of the supplied package.
 
-## Retained from the superseded revision
+## Where the retained sources actually live in this repository
 
-This revision replaces the September 21 A1-locked revision at this same path. That
-revision is preserved in Git history at `1efad92d3` and is referenced material, not
-a second plan. The following sections of it remain controlling where this revision
-is silent, because this revision changes execution order and ownership rather than
-those rules:
+The delivery's `reference/` directory was not transferred here, so the source notes'
+`../reference/A1_LOCKED_2026-09-21_SOURCE.md` and `../reference/GRADE_A_V2_2026-09-19_SOURCE.md`
+do not resolve. Both are preserved in this repository's history at this same path:
 
-- Non-Negotiable Mission Lock Rules (Rules 1–10), in particular no scope reduction
-  as repair, no fake denominators, no stale evidence laundering, and green must
-  mean something;
-- Court Document Rules;
-- the Form vs Custom Pleading Rule;
-- the External Document Rule;
-- the Source and Legal Content Rule — unknown fees are not zero-dollar fees and
-  unknown procedure is not permission to guess;
-- the English/Spanish Rule;
-- the Serialized Shared Foundation list;
-- the Status Vocabulary — implemented, committed, pushed, published, accepted,
-  deployed, live and terminal are not collapsed;
-- the Production Boundary;
-- §7.1's closed 346-family construction baseline and §17's A1 scope lock, which
-  §2 of this revision adopts by reference.
+- the September 21 A1-locked revision, whose §§7.1 and 17 this revision's §4 carries: `1efad92d3`;
+- the September 21 v2 execution revision, briefly installed and superseded by this one: `28554a15b`;
+- the September 20 revision that preceded both: `8f3a78917`.
 
-Two things this revision changes and the superseded one must no longer be read for:
+Read a passage from those commits when §4 or a source note points at it. They are
+reference material, not startup plans, and neither is to be executed as a
+replacement file.
 
-1. **Purchase sequence.** The superseded §19 diagrammed payment before Packet
-   Information. `docs/PRODUCT_CONTRACT.md` §0 Experience A and QA control P06-03
-   both require packet information and verification before checkout, and §2 of
-   this revision follows them. The superseded diagram is withdrawn.
-2. **UI and nonproduction security scope.** The superseded revision inherited
-   `AGENTS.md`'s sprint-era exclusion of Expungement.ai UI work. §2 of this
-   revision brings required UX and nonproduction security engineering into scope.
-   The production, money, credential, participant-data and destructive-action
-   safeguards are unchanged.
+Four rule sets from the superseded revisions are not restated here and remain
+controlling where this revision is silent, because this revision changes execution
+order, ownership and regression protection rather than those rules:
+
+- **Court Document Rules.** Court-facing documents carry no LegalEase,
+  Expungement.ai or RCAP branding, no internal route identifiers, workflow
+  statuses, provenance labels, developer instructions, participant coaching, or
+  "Not attached" / "To be confirmed" / "Needs review" / "Upload this" text. A
+  legitimate legal blank the participant or court completes later is not the same
+  thing as missing product data, and facts are never invented to fill one.
+- **The Form vs Custom Pleading Rule**, applied per component — petitions,
+  motions, applications, affidavits, declarations, proposed orders, notices,
+  certificates and cover sheets alike. A renderer being able to compose a
+  document is not a reason to compose one where a form controls.
+- **The Source and Legal Content Rule.** Unknown fees are not zero-dollar fees.
+  Unknown procedure is not permission to guess.
+- **The Status Vocabulary.** Implemented, committed, pushed, published, accepted,
+  deployed, live and terminal are distinct and are not collapsed. This revision's
+  §10 adds NOT RUN, BLOCKED and STALE for evidence; neither set replaces the other.
+
+One correction this revision makes to the immediately superseded v2 install, so it
+is not re-derived: v2 was installed here wholesale and that was wrong. It corrected
+the payment order but dropped the explicit A1 cohort, the qualified-review roles,
+the cross-cutting placement of security and accessibility, and the post-integration
+regression requirement. This revision restores all four.

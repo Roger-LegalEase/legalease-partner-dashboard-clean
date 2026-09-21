@@ -17,23 +17,33 @@ outranks the plan, so a live instruction that disagrees with the snapshot govern
 The plan's own §2 resolves two conflicts that older text in this file and in the
 superseded plan revision got wrong. Read them here so neither is rediscovered:
 
-**Purchase sequence.** `docs/PRODUCT_CONTRACT.md` §0 Experience A and QA control
-P06-03 both put packet information and verification *before* checkout. The
-superseded plan §19 diagrammed payment first; it is withdrawn. The sequence is
-screening → preliminary result → authenticated claim → participant-owned
-matter/Briefcase → necessary Packet Information → review/verification → DTC
-checkout and settlement → generation → download and filing tasks. Do not push
-detailed packet intake up into screening, and do not turn signatures,
-notarization or certified-copy acquisition into purchase prerequisites merely
-because filing eventually needs them. Sponsored admission keeps its separate
-authority path with ownership, consent and verification intact and no consumer
-charge.
+**Purchase sequence.** The lifecycle lives in `docs/PRODUCT_CONTRACT.md` §§0 and
+4–6 and nowhere else; do not maintain a second copy of it here or in the plan.
+Its Experience A already reads packet information, then verification, then
+payment, and QA control P06-03 requires the same. The superseded plan §19
+diagrammed payment first and is withdrawn.
 
-**Expungement.ai UI and nonproduction security are in scope.** The sprint-era
-instruction below that excluded new Expungement.ai UI work is superseded.
-Required UX and nonproduction security engineering are launch work. Every
-production, money, credential, participant-data and destructive-action safeguard
-in this file is unchanged.
+Two consequences, because they are what gets broken in practice (QA P03-09,
+P06-03, P06-18): collect the genuinely required facts and reuse known answers
+rather than pushing detailed packet intake up into screening; and keep later
+signing, notarization and certified-copy tasks out of intake gates — they do not
+become purchase prerequisites merely because filing eventually needs them. Do not
+invent a missing fact or a mandatory upload. Initial partner or event validation
+is not sponsored packet entitlement, and the contract's distinct sponsored
+sequence is preserved.
+
+**Required consumer and partner UX repairs are in scope.** The sprint-era
+instruction below that excluded new Expungement.ai UI work is superseded — that
+restriction only. Required UX and nonproduction security engineering are launch
+work; unrelated redesign is not. Security and accessibility travel with each
+feature batch rather than waiting for a late pass.
+
+Nothing here lifts an existing hold or widens permissions. Every source-custody,
+history, worktree, staging and push restriction in this file stands, as do the
+production, money, credential, participant-data and destructive-action
+safeguards. Remote sandbox, auth/RLS, secret, database, billing and publication
+operations still need their own existing authorization checked against the actual
+target.
 
 **Enterprise plan of record:** `docs/LegalEase-Master-Build-Plan-v4.md`. It carries
 all still-controlling v3 content and adds the Company Controls and SOC 2
