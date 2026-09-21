@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "src-x7-field-ledger/v1",
+  "fields": [
+    {"id":"participant.full_name","requiredBeforeFiling":true,"source":"participant"},
+    {"id":"participant.aliases","requiredBeforeFiling":true,"source":"participant_or_records"},
+    {"id":"participant.address","requiredBeforeFiling":true,"source":"participant"},
+    {"id":"matter.court","requiredBeforeFiling":true,"repeatable":true,"source":"court_record"},
+    {"id":"matter.docket_or_complaint_number","requiredBeforeFiling":true,"repeatable":true,"source":"court_record"},
+    {"id":"matter.arresting_agency","requiredBeforeFiling":true,"repeatable":true,"source":"law_enforcement_record"},
+    {"id":"matter.arrest_date","requiredBeforeFiling":true,"repeatable":true,"source":"law_enforcement_record"},
+    {"id":"matter.charge_and_statute","requiredBeforeFiling":true,"repeatable":true,"source":"court_record"},
+    {"id":"matter.disposition_and_date","requiredBeforeFiling":true,"repeatable":true,"source":"court_record"}
+  ]
+}
