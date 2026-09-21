@@ -119,7 +119,7 @@ env:
   AUTHORIZED_WORKER_DIGEST: sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
+  RELEASE_INTEGRATION_BRANCH: captain-release
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
   ROLLBACK_OWNER: Roger Roman
   # The host the Stripe sandbox webhook destination currently points at. Recorded
@@ -197,10 +197,10 @@ jobs:
       - name: Verify ancestry and image-input equivalence of every pinned SHA
         run: |
           set -euo pipefail
-          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          git fetch --no-tags origin "$RELEASE_INTEGRATION_BRANCH"
           for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
-            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$RELEASE_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
           done
           git merge-base --is-ancestor "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" \
             || { echo "::error::the accepted worker source is not an ancestor of the final application candidate"; exit 1; }

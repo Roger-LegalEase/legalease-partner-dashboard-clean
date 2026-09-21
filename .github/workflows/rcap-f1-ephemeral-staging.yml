@@ -386,6 +386,9 @@ jobs:
   f1:
     name: Ephemeral F1 staging rehearsal (rcap-ci-staging)
     if: inputs.mode == 'ephemeral' || inputs.mode == ''
+    env:
+      # Preproduction only; production jobs retain their existing containment.
+      RELEASE_INTEGRATION_BRANCH: captain-release
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
@@ -412,10 +415,10 @@ jobs:
       - name: Verify ancestry and image-input equivalence of every pinned SHA
         run: |
           set -euo pipefail
-          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          git fetch --no-tags origin "$RELEASE_INTEGRATION_BRANCH"
           for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
-            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$RELEASE_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
           done
           git merge-base --is-ancestor "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" \
             || { echo "::error::the accepted worker source is not an ancestor of the final application candidate"; exit 1; }
