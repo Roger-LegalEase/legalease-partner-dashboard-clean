@@ -86,7 +86,7 @@ check('the canonical integration history is main',
 // sprint's release integration moved to the captain branch on 2026-08-29 and the
 // old name, sprint/20260825-full-product-captain, is retired: a candidate on the
 // live branch would have been refused before anything was fetched.
-const EXPECTED_RELEASE_INTEGRATION_BRANCH = 'claude/legalease-sprint-captain-utucnw';
+const EXPECTED_RELEASE_INTEGRATION_BRANCH = 'captain-release';
 check('the release-integration branch is pinned to one exact name',
   new RegExp(`^\\s{2}RELEASE_INTEGRATION_BRANCH:\\s*${EXPECTED_RELEASE_INTEGRATION_BRANCH.replace(/[/\\-]/g, '\\$&')}\\s*$`, 'm').test(src),
   `the release-integration branch is absent or is not ${EXPECTED_RELEASE_INTEGRATION_BRANCH}`);
@@ -219,6 +219,7 @@ if (planIndex >= 0) {
   }
 }
 for (const script of [
+  'scripts/test-rcap-release-containment.mjs',
   ...(planIndex >= 0 ? ['scripts/rcap-worker-input-copy.test.mjs'] : ['scripts/verify-rcap-image-input-fingerprint.mjs']),
   'scripts/test-rcap-image-fingerprint-mutations.mjs',
 ]) {
