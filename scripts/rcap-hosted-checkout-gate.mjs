@@ -15,6 +15,7 @@ import { spawnSync } from "node:child_process";
 import { register } from "node:module";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import { readPaRefusal, paRefusalEvidence } from "./rcap-hosted-checkout-route-contract.mjs";
 import {
   expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
@@ -473,6 +474,9 @@ async function main() {
   record("consumer_a_admitted_to_staging_scope", admittedA.status === 404, `A render probe=${admittedA.status}; 404 proves the request passed the scope and reached item lookup`);
   record("consumer_b_outside_staging_scope", outsideB.status === 503, `B render probe=${outsideB.status}; expected route-disabled 503`);
   record("anonymous_access_denied", anonymous.status === 401, `anonymous render probe=${anonymous.status}; expected 401`);
+
+  const paRefusal = paRefusalEvidence(await readPaRefusal());
+  record("pennsylvania_path_a_refuses_commercial_authority", paRefusal.passed, JSON.stringify(paRefusal), paRefusal);
 
   const { buildRenderJobSpec } = await import("../src/lib/rcap/render/job-contract.ts");
   const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
