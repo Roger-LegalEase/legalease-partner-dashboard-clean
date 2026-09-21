@@ -346,7 +346,7 @@ const verificationStart = gate.indexOf("itemId = await claimAndVerifyHostedFixtu
 check(verificationStart >= 0 && verificationStart < gate.indexOf("const unpaidRender = await callApp("),
   "the unpaid render probe must follow the real claim/final-review lifecycle");
 includesEvery(gate, ["claimAndVerifyHostedFixture", "protected_final_verification_current",
-  "requireCurrentPacketVerificationRecord", "currentVerification.revision === 2",
+  "requireCurrentPacketVerificationRecord", "currentVerification.revision === 1",
   "unpaidRender.status === 402", 'unpaidRender.json?.error === "A recorded payment is required before rendering."'], "verified unpaid probe");
 check(!gate.includes("insert into public.consumer_briefcase_items"), "fixture must be created by the application claim");
 includesEvery(verificationLifecycle, ["/api/expungement-ai/screening/pending", "/api/expungement-ai/screening/pending/claim",

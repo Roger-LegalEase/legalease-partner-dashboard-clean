@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createRequire, register } from 'node:module';
 import test from 'node:test';
+import { isDeepStrictEqual } from 'node:util';
 import { claimAndVerifyHostedFixture, HOSTED_FINAL_REVIEW_ANSWERS } from './rcap-hosted-final-verification.mjs';
 import { prepareFixture } from './rcap-hosted-checkout-mapping-evidence.test.mjs';
 const { reviewed } = await prepareFixture();
@@ -14,7 +15,8 @@ const info = await import('../src/lib/expungement-ai/packet-information.ts');
 const presentation = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
 
 // Load the actual handlers/guard. Only authentication, storage and person lookup
-// are doubles; review, hashes, revisions, preflight, builder and HTTP mapping are real.
+// are doubles; review, hashes, preflight, builder and HTTP mapping are real.
+// Storage revision numbering below models the authoritative RPC, not the client proposal.
 async function load(relative, overrides) {
   const source = fs.readFileSync(new URL(relative, import.meta.url), 'utf8');
   const deps = { ...overrides };
@@ -37,6 +39,26 @@ async function load(relative, overrides) {
   return mod.exports;
 }
 
+// persist_consumer_packet_verification in 20260901120000_dtc_consumer_launch_rails.sql:
+// JSONB snapshot equality ignores object key order; absent nullable values are SQL NULL.
+function persistVerificationDouble(prior, transition) {
+  assert.equal(transition.expectedPriorRevision, prior?.revision ?? 0);
+  assert.equal(transition.expectedPriorHash, prior?.status === 'verified' ? prior.hash : null);
+  const next = transition.nextVerification;
+  const unchanged = prior && ['draftHash', 'status', 'hash', 'draftSnapshot', 'snapshot']
+    .every((field) => isDeepStrictEqual(prior[field] ?? null, next[field] ?? null));
+  const revision = !prior ? (next.status === 'unverified' ? 0 : 1)
+    : unchanged ? prior.revision : prior.revision + 1;
+  const value = structuredClone({
+    status: next.status, reason: next.reason,
+    draftHash: next.draftHash, draftSnapshot: next.draftSnapshot, revision,
+    ...(next.hash != null ? { hash: next.hash } : {}),
+    ...(next.snapshot != null ? { snapshot: next.snapshot } : {}),
+    ...(next.invalidatedAt != null ? { invalidatedAt: next.invalidatedAt } : {})
+  });
+  return { ok: true, value };
+}
+
 async function application() {
   const id = 'd1111111-1111-4111-8111-111111111111';
   const trusted = { jurisdiction: 'MS', profileVersion: '2026-06-19-source-conversion-1', matterId: id,
@@ -56,10 +78,9 @@ async function application() {
       readProtectedPacketVerification: async () => protectedRecord
         ? { ok: true, value: protectedRecord } : { ok: false, reason: 'protected_verification_authority_missing' },
       persistProtectedPacketVerification: async ({ transition }) => {
-        assert.equal(transition.expectedPriorRevision, protectedRecord?.revision ?? 0);
-        assert.equal(transition.expectedPriorHash, protectedRecord?.status === 'verified' ? protectedRecord.hash : null);
-        protectedRecord = transition.nextVerification;
-        return { ok: true, value: protectedRecord };
+        const saved = persistVerificationDouble(protectedRecord, transition);
+        protectedRecord = saved.value;
+        return saved;
       }
     }
   });
@@ -107,7 +128,7 @@ test('real final-review lifecycle: unverified unpaid -> 403; verified unpaid -> 
   assert.ok(cases.includes('unverified_unpaid_render_requires_verification'));
   assert.equal(app.paymentReads, 0, 'verification refusal must occur before payment');
   const current = info.requireCurrentPacketVerificationRecord(app.item, app.record);
-  assert.equal(current.revision, 2);
+  assert.equal(current.revision, 1);
   assert.match(current.hash, /^[a-f0-9]{64}$/);
   const unpaid = await app.call('/api/expungement-ai/packet/render', { body: { briefcaseItemId: id } });
   assert.equal(unpaid.status, 402, JSON.stringify(unpaid));
@@ -140,3 +161,51 @@ test('tampering with the established verification hash restores verification ref
   assert.equal(response.json.reason, 'current final verification is required');
   assert.equal(app.paymentReads, 0);
 });
+
+// These unit inputs isolate storage numbering. Real snapshot validity and the
+// full hosted fixture's revision 1 are exercised by the lifecycle test above.
+const draftRecord = {
+  status: 'unverified', reason: 'saved', draftHash: 'a'.repeat(64),
+  draftSnapshot: { a: 1, b: 2 }, revision: 999
+};
+const verifiedRecord = {
+  ...draftRecord, status: 'verified', hash: 'b'.repeat(64), snapshot: { a: 1, b: 2 }
+};
+function transitionFor(prior, nextVerification) {
+  return { expectedPriorRevision: prior?.revision ?? 0,
+    expectedPriorHash: prior?.status === 'verified' ? prior.hash : null, nextVerification };
+}
+for (const [status, expected] of [['unverified', 0], ['verified', 1], ['invalidated', 1]]) {
+  test(`storage double: first ${status} insert uses server revision ${expected}`, () => {
+    const next = status === 'verified' ? verifiedRecord : { ...draftRecord, status };
+    const saved = persistVerificationDouble(null, transitionFor(null, next));
+    assert.equal(saved.value.revision, expected);
+    assert.equal(next.revision, 999, 'client proposal is not mutated or trusted');
+  });
+}
+test('storage double: unchanged JSONB snapshots preserve revision despite client proposal and metadata changes', () => {
+  const prior = { ...verifiedRecord, revision: 7 };
+  const next = { ...prior, revision: 999, reason: 'metadata only', invalidatedAt: '2026-09-21',
+    draftSnapshot: { b: 2, a: 1 }, snapshot: { b: 2, a: 1 } };
+  assert.equal(persistVerificationDouble(prior, transitionFor(prior, next)).value.revision, 7);
+  const unverified = { ...draftRecord, revision: 0 };
+  assert.equal(persistVerificationDouble(unverified, transitionFor(unverified,
+    { ...unverified, revision: 999, hash: null, snapshot: null })).value.revision, 0);
+});
+for (const [field, value] of Object.entries({ draftHash: 'c'.repeat(64), status: 'invalidated',
+  hash: 'd'.repeat(64), draftSnapshot: { a: 2, b: 2 }, snapshot: { a: 2, b: 2 } })) {
+  test(`storage double: material ${field} change increments prior revision`, () => {
+    const prior = { ...verifiedRecord, revision: 7 };
+    const next = { ...prior, [field]: value, revision: 999 };
+    if (field === 'status') { delete next.hash; delete next.snapshot; }
+    assert.equal(persistVerificationDouble(prior, transitionFor(prior, next)).value.revision, 8);
+  });
+}
+for (const field of ['expectedPriorRevision', 'expectedPriorHash']) {
+  test(`storage double still rejects stale ${field}`, () => {
+    const prior = { ...verifiedRecord, revision: 7 };
+    const transition = transitionFor(prior, verifiedRecord);
+    transition[field] = field === 'expectedPriorRevision' ? 6 : '0'.repeat(64);
+    assert.throws(() => persistVerificationDouble(prior, transition), assert.AssertionError);
+  });
+}
