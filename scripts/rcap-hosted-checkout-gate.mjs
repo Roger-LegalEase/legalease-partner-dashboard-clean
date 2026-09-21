@@ -807,9 +807,7 @@ async function main() {
   const reread = await sql(`
     select id, user_id, jurisdiction, pathway_label, result_code, packet_type, status,
            payment_status, payment_allowed, checkout_session_id, payment_provider,
-           amount_cents, packet_status,
-           artifact_refs_json #>> '{commercialFlow,packetInformation,stage}' as packet_information_stage,
-           (artifact_refs_json #>> '{commercialFlow,packetInformation,reviewedAt}') is not null as packet_information_reviewed
+           amount_cents, packet_status
       from public.consumer_briefcase_items
      where id = '${itemId}' and user_id = '${A.id}'
   `);
@@ -819,6 +817,8 @@ async function main() {
   record("briefcase_insert_returning_proves_row", reread.ok && storedRows.length === 1 && stored?.id === itemId,
     `application claim returned id=${itemId}; persisted rows=${storedRows.length}`);
   const storedExact = storedRows.length === 1
+    && stored.id === itemId
+    && stored.user_id === A.id
     && stored.jurisdiction === checkoutRouteIdentity.jurisdiction
     && stored.pathway_label === checkoutRouteIdentity.pathwayLabel
     && stored.result_code === checkoutRouteIdentity.resultCode
@@ -826,9 +826,7 @@ async function main() {
     && stored.status === "packet_ready"
     && stored.payment_status === "unpaid"
     && stored.payment_allowed === true
-    && stored.checkout_session_id === null
-    && stored.packet_information_stage === "ready_to_generate"
-    && stored.packet_information_reviewed === true;
+    && stored.checkout_session_id === null;
   record("stored_row_matches_authoritative_resolver", storedExact, `rows=${storedRows.length}; stored=${JSON.stringify(stored)}`);
   evidence.seededItem = { id: itemId, userId: A.id, ...stored };
 

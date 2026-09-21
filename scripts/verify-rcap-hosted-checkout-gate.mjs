@@ -125,9 +125,10 @@ check(
   gate.includes("seeded_item_carries_reviewed_packet_information")
     && gate.includes("packetInformationReviewSafety")
     && gate.includes("briefcase_insert_returning_proves_row")
-    && gate.includes("artifact_refs_json")
-    && gate.includes('stored.packet_information_stage === "ready_to_generate"')
-    && gate.includes("stored.packet_information_reviewed === true"),
+    && gate.includes("protected_final_verification_current")
+    && gate.includes("requireCurrentPacketVerificationRecord")
+    && !gate.includes("stored.packet_information_stage")
+    && !gate.includes("stored.packet_information_reviewed"),
   "Checkout fixture must carry an authoritative reviewed packet-information flow before the unpaid render probe"
 );
 check(
@@ -329,6 +330,16 @@ check(gitDiffQuiet(ACCEPTED_WORKER_SOURCE_SHA, [
   "package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs",
   "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"
 ]), "checkout-gate branch changes frozen worker inputs");
+
+includesEvery(gate, [
+  "storedRows.length === 1", "stored.id === itemId", "stored.user_id === A.id",
+  "stored.jurisdiction === checkoutRouteIdentity.jurisdiction",
+  "stored.pathway_label === checkoutRouteIdentity.pathwayLabel",
+  "stored.result_code === checkoutRouteIdentity.resultCode",
+  "stored.packet_type === checkoutRouteIdentity.packetType",
+  'stored.status === "packet_ready"', 'stored.payment_status === "unpaid"',
+  "stored.payment_allowed === true", "stored.checkout_session_id === null"
+], "durable stored identity");
 
 // The unpaid probe must be downstream of application-owned final verification.
 const verificationStart = gate.indexOf("itemId = await claimAndVerifyHostedFixture(");
