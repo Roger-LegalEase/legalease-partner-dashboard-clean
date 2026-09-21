@@ -156,9 +156,20 @@ if (!corpusRoot) {
 }
 
 // --- 5. the proposed-order gap stays closed the way it was closed -------------
+// Two questions were answered differently and the difference is the whole
+// point. "Closed" belongs to the acquisition question only; the legal-design
+// question is counsel's and is open. A record that lets the first sentence
+// stand for both would license generating an order nobody approved, so the
+// split status is checked rather than left to careful reading.
 const gap = record.vehicleConfirmedIndependently?.proposedOrderGap ?? {};
 check(/Do not draft a custom proposed order/i.test(String(gap.disposition ?? "")),
   "the proposed-order disposition no longer refuses to draft a custom order");
+check(gap.status?.acquisition === "CLOSED",
+  "the proposed-order acquisition status is no longer recorded as closed");
+check(gap.status?.legalDesign === "OPEN",
+  "the proposed-order LEGAL-DESIGN question is no longer recorded as open; closing the acquisition question does not resolve it");
+check(typeof gap.status?.doNotInfer === "string" && /does not mean the legal question is resolved/i.test(gap.status.doNotInfer),
+  "the record no longer warns that a closed acquisition gap is not a resolved legal question");
 
 for (const note of skipped) console.log(`  skipped  ${note}`);
 for (const problem of problems) console.error(`  FAIL  ${problem}`);
