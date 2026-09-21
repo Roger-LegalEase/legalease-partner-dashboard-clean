@@ -101,12 +101,30 @@ ok("assertCheckoutAllowed refuses this route", refuses(assertCheckoutAllowed));
 // classification rather than "anything but the correction" keeps this a real
 // pin: it fails if the neighbour ever inherits the correction, and equally if
 // it silently changes treatment again.
-const neighbour = resolvePacketRoute({
-  state: "MS", pathway: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal", trackId: null });
+// Resolved the way the product resolves it. The render path passes the track
+// from the protected verification snapshot, so `trackId: null` asked a question
+// no participant request asks. Measured today, null and `ms-nonconv` both admit
+// `factory_v2` and only a WRONG track refuses -- the MS route's registry row
+// carries `exactTrackSelectionRequired: null` -- so the old form was not
+// asserting a false thing. It was asserting a true thing about an input shape
+// the product had moved away from, which is how a pin goes quietly stale: the
+// day this route requires exact track selection, `null` would refuse and this
+// control would report a defect the real journey does not have.
+const NEIGHBOUR_PATHWAY = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+const neighbour = resolvePacketRoute({ state: "MS", pathway: NEIGHBOUR_PATHWAY, trackId: "ms-nonconv" });
 ok("a Mississippi route with no correction row does not inherit the correction",
   neighbour.routeKind === "factory_v2", neighbour.routeKind);
 ok("the correction stays route-scoped rather than state-wide",
   neighbour.routeKind !== "packet_correction_required", neighbour.routeKind);
+ok("the neighbour resolves its own packet family rather than the correction's",
+  neighbour.factoryV2?.packetFamilyId === "ms-nonconv-set", neighbour.factoryV2?.packetFamilyId);
+
+// Route scoping is the claim, so it has to hold when the track is wrong too. A
+// refused track drops the neighbour to `legacy_retired` behind the ADR-0004
+// fence; what it must never do is hand it this route's correction.
+const misTracked = resolvePacketRoute({ state: "MS", pathway: NEIGHBOUR_PATHWAY, trackId: "not-a-real-track" });
+ok("a refused track still does not inherit the correction",
+  misTracked.routeKind !== "packet_correction_required", misTracked.routeKind);
 
 // -------------------------------------------------- the artifact, re-derived
 const profile = getProfileByJurisdiction("MS");
