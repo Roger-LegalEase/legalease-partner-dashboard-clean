@@ -848,8 +848,10 @@ async function main() {
       { id: itemId, state: stored.jurisdiction, artifactRefs: {} }, protectedVerification
     );
   } catch (error) { verificationFailure = error.message; }
+  // The RPC inserts the first unverified save at revision 0; final review
+  // is a material update, so this two-step fixture has server-owned revision 1.
   record("protected_final_verification_current", verificationRead.ok && verificationRows.length === 1
-    && currentVerification !== null && currentVerification.revision === 2,
+    && currentVerification !== null && currentVerification.revision === 1,
   JSON.stringify({ hash: currentVerification?.hash, draftHash: currentVerification?.draftHash,
     revision: currentVerification?.revision, failure: verificationFailure }));
 
