@@ -14,6 +14,8 @@ on:
       - package.json
       - package-lock.json
       - scripts/lib/ts-esm-loader.mjs
+      - scripts/test-expungement-consumer-payment-receipt.mjs
+      - scripts/test-expungement-consumer-verifier-mutations.mjs
       - scripts/test-expungement-checkout-guards.mjs
       - scripts/test-rcap-consumer-payment-http-mutations.mjs
       - scripts/verify-expungement-authenticated-nav.mjs
@@ -82,6 +84,8 @@ jobs:
           src/lib/expungement-ai
           src/lib/partners/we-must-vote-routing.ts
           src/proxy.ts
+          scripts/test-expungement-consumer-payment-receipt.mjs
+          scripts/test-expungement-consumer-verifier-mutations.mjs
           scripts/test-expungement-checkout-guards.mjs
           scripts/test-rcap-consumer-payment-http-mutations.mjs
           scripts/verify-expungement-authenticated-nav.mjs
@@ -127,6 +131,9 @@ jobs:
           node scripts/verify-rcap-partner-result-cta.mjs
           node scripts/verify-rcap-partner-result-lanes.mjs
           node scripts/verify-we-must-vote-launch.mjs
+
+      - name: Verify owner-scoped financial history and receipt mutations
+        run: node scripts/test-expungement-consumer-verifier-mutations.mjs
 
       - name: Verify final-review Checkout guards
         run: node scripts/test-expungement-checkout-guards.mjs

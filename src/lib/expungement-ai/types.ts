@@ -130,8 +130,7 @@ export type ConsumerBriefcaseItem = {
   paymentProvider?: "stripe" | "dry_run";
   checkoutSessionId?: string;
   paymentIntentId?: string;
-  amountCents?: 5000;
-  receiptUrl?: string;
+  amountCents?: number;
   packetStatus?: "not_started" | "pending" | "generating" | "ready" | "failed" | "downloaded";
   reminderAt?: string;
   sourceSessionId?: string;
@@ -157,7 +156,7 @@ export type CreateConsumerBriefcaseItemInput = {
   paymentProvider?: ConsumerBriefcaseItem["paymentProvider"];
   checkoutSessionId?: string;
   paymentIntentId?: string;
-  amountCents?: 5000;
+  amountCents?: number;
   receiptUrl?: string;
   packetStatus?: ConsumerBriefcaseItem["packetStatus"];
   reminderAt?: string;

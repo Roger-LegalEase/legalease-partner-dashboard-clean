@@ -272,6 +272,11 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     en: "The $50 covers Expungement.ai packet generation. Court, agency, or background-report fees are separate.",
     es: "Los $50 cubren la generación del paquete de Expungement.ai. Las cuotas del tribunal, de agencias o de informes de antecedentes son aparte."
   },
+  "payment.paid": { en: "paid", es: "pagado" },
+  "payment.refunded": { en: "refunded", es: "reembolsado" },
+  "payment.no_charge": { en: "No charge", es: "Sin cargo" },
+  "payment.no_charge_receipt": { en: "No payment was collected; there is no charge receipt.", es: "No se cobró ningún pago; no hay recibo de cargo." },
+  "briefcase.view_receipt": { en: "View receipt", es: "Ver recibo" },
   "payment.one_time": { en: "one-time", es: "pago único" },
   "payment.fee_note": {
     en: "You are paying for self-help packet preparation and filing instructions. Court approval is not promised. Expungement.ai is not a law firm and does not provide legal advice.",
