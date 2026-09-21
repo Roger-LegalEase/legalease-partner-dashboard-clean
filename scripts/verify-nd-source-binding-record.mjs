@@ -161,6 +161,67 @@ if (!corpusRoot) {
   }
 }
 
+// --- the DUI vehicle determination is held to its guide ----------------------
+// That record concludes no official form controls, which is the conclusion most
+// at risk of being reached lazily: "we could not find a form" and "the body that
+// publishes the forms says it has none" look alike in a summary and are not
+// alike at all. So the sentences carrying the second are checked verbatim, and
+// the record is required to keep distinguishing the two.
+const DUI_RECORD = "data/record-clearing/legal-decisions/2026-09-21-nd-dui-sealing-vehicle-determination.json";
+const duiPath = path.join(ROOT, DUI_RECORD);
+if (!fs.existsSync(duiPath)) {
+  skipped.push("the DUI vehicle determination record is not present");
+} else {
+  const dui = JSON.parse(fs.readFileSync(duiPath, "utf8"));
+  check(dui.vehicleDetermination?.vehicle === "custom_pleading",
+    "the DUI record no longer determines a custom pleading");
+  check(/affirmative answer, not an absence/i.test(String(dui.whyNoOfficialFormControls?.["theDistinctionThisRests On"] ?? "")),
+    "the DUI record no longer distinguishes a form nobody found from a form the publisher says does not exist");
+  check(dui.statusOfThisSource?.sourceBoundIntoGradeAAuthority === "NO" && dui.statusOfThisSource?.gradeABlockerClosed === "NO",
+    "the DUI record now claims a Grade-A binding or closure it has not performed");
+  check(dui.opensAnyRoute === false && dui.commercialRoutesOpened === 0,
+    "the DUI record claims to open a route");
+  // Unknowns must stay unknown: this is where invented procedure would appear.
+  const unknown = dui.documentComponents?.notStatedBySource?.unknown ?? [];
+  for (const dimension of ["service and notice", "copy requirements", "filing fee or waiver"]) {
+    check(unknown.includes(dimension), `the DUI record no longer records "${dimension}" as unstated by its source`);
+  }
+
+  const guidePath = path.join(
+    "/home/user/legalease-partner-dashboard-clean/private/source-imports",
+    "Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/Sealing-DUI-Records-Research-Guide.pdf"
+  );
+  if (!fs.existsSync(guidePath)) {
+    skipped.push("the DUI guide's quotes could not be checked: the research guide is not in this checkout");
+  } else {
+    const actual = createHash("sha256").update(fs.readFileSync(guidePath)).digest("hex");
+    check(actual === dui.sourceRead?.sha256, "the DUI guide no longer hashes to the recorded value");
+    let guideText = "";
+    try {
+      const { execFileSync } = await import("node:child_process");
+      guideText = execFileSync("pdftotext", ["-layout", guidePath, "-"], { encoding: "utf8", maxBuffer: 1 << 24 });
+    } catch { skipped.push("the DUI guide's quotes could not be compared: pdftotext is unavailable"); }
+    if (guideText) {
+      const flat = guideText.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, " ");
+      const quotes = [];
+      const walk = node => {
+        if (Array.isArray(node)) return node.forEach(walk);
+        if (!node || typeof node !== "object") return;
+        for (const [key, value] of Object.entries(node)) {
+          if ((key === "quote" || key === "andAlso") && typeof value === "string") quotes.push(value);
+          else walk(value);
+        }
+      };
+      walk(dui);
+      check(quotes.length >= 10, "the DUI record carries fewer quotes than the determination rests on");
+      for (const quote of quotes) {
+        check(flat.includes(quote.replace(/\s+/g, " ").trim()),
+          `a DUI quote is not verbatim in the guide: ${JSON.stringify(quote.slice(0, 70))}`);
+      }
+    }
+  }
+}
+
 for (const note of skipped) console.log(`  skipped  ${note}`);
 for (const problem of problems) console.error(`  FAIL  ${problem}`);
 

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "ND-DUI-SEALING-VEHICLE-DETERMINATION-2026-09-21",
+  "reviewer": "Captain (vehicle determination from the court system's own guide; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "rcap-nd",
+  "scope": ["ND:dui-record-sealing-under-the-separate-dui-statute"],
+  "memoTrack": "nd-dui-record-seal",
+  "authority": "N.D.C.C. § 39-08-01.6",
+  "question": "Does an official form control the North Dakota DUI record-sealing filing, or is a composed pleading the correct vehicle? The memo says custom_pleading and the Edition 1 review says 'Additional research required', so neither settles it.",
+  "finding": "No official form controls, and the answer comes from the North Dakota court system's own self-help arm rather than from the absence of a form in this library. A Grade-A custom pleading is therefore the correct vehicle, and the memo's custom_pleading strategy is confirmed from source rather than merely followed.",
+  "sourceRead": {
+    "title": "Sealing DUI Records (N.D.C.C. Section 39-08-01.6) — A Research Guide for a North Dakota State Court Process",
+    "publisher": "North Dakota Legal Self Help Center",
+    "revisionPrinted": "Sealing DUI Records/Rev May 2024",
+    "pages": 6,
+    "sha256": "a3dd1b924bedad7c8ba0b77742bcd99ef6855a1b05021374b7083f1b445e1264",
+    "foundIn": "private/source-imports/Nationwide_Recovery_Pool_2026-09-02/LegalEase North Dakota/Sealing-DUI-Records-Research-Guide.pdf",
+    "notInEdition1": "This file is not in Edition 1's STATES/ND and is not in STATES/ND/STATE_MANIFEST.csv. It is an authoritative source the corpus holds in a different collection and has never bound.",
+    "extraction": "pdftotext -layout"
+  },
+  "whyNoOfficialFormControls": {
+    "theCourtSystemSaysItHasNone": {
+      "quote": "The ND Legal Self Help Center can't provide assistance with court process in criminal cases and doesn't have forms, procedures, or expertise available in this area.",
+      "where": "Sealing DUI Records research guide, 'No Assistance with Court Processes in Criminal Cases'"
+    },
+    "andSaysToDraftYourOwn": {
+      "quote": "If you represent yourself, you need to conduct your own legal research, determine the appropriate procedures, and create your own legal documents.",
+      "where": "same section"
+    },
+    "andNamesTheInstrumentGenerically": {
+      "quote": "At minimum, file a written petition in your DUI case showing you meet the requirements of N.D.C.C. Section 39-08-01.6(a) and (b). You should also include any documentation you believe proves what you state in your Petition.",
+      "where": "'How do I ask to have my DUI record sealed?'",
+      "reading": "'A written petition', not 'the petition form'. The guide describes what the document must show rather than pointing at a document to fill in, which is what a jurisdiction without a prescribed form looks like."
+    },
+    "theDistinctionThisRests On": "A missing form in this library is not evidence that no form exists -- that was the explicit caution when this route was first mapped. This is different evidence: the body that would publish the form states it does not have one for criminal matters and tells the filer to create their own documents. That is an affirmative answer, not an absence."
+  },
+  "vehicleDetermination": {
+    "vehicle": "custom_pleading",
+    "instrument": "Petition to Seal DUI Record",
+    "confirms": "The memo's nd-dui-record-seal outputStrategy of custom_pleading, now supported by source rather than followed on the memo's word.",
+    "ruleApplied": "Form vs Custom Pleading: an official form is used where one controls. Here the publishing body says none exists for criminal matters, so a Grade-A composed pleading is appropriate and is not a substitute for a form that was merely not found."
+  },
+  "documentComponents": {
+    "caseMode": "existing_case",
+    "filedIn": "the participant's existing DUI case",
+    "courtBranchesTwoWays": {
+      "quote": "File your Petition and any accompanying documents in your DUI case with the Clerk of Court of Municipal Court or District Court where your DUI case is filed.",
+      "where": "'Where do I file my Petition to seal my DUI record?'",
+      "consequence": "The court is Municipal Court OR District Court depending on where the DUI case sits. Caption and clerk differ between them, so the packet cannot hard-code one. This is a required packet fact, and it is a fact the participant already knows from their own case rather than one requiring an uploaded document."
+    },
+    "caseNumberTreatment": "The existing DUI case number. Not a new case.",
+    "requiredContents": "A showing that the requirements of N.D.C.C. § 39-08-01.6(a) and (b) are met. The guide states this as the minimum and does not enumerate paragraphs.",
+    "attachments": {
+      "quote": "You should also include any documentation you believe proves what you state in your Petition.",
+      "treatment": "Participant-supplied supporting documentation. A filing-readiness item, not a packet-generation prerequisite, and no upload may be required to generate or purchase the packet."
+    },
+    "hearing": {
+      "quote": "No, a hearing isn't required. However, the judge may decide to have a hearing.",
+      "where": "'Is a hearing required?'"
+    },
+    "notStatedBySource": {
+      "note": "The guide does not address these, and they are recorded as unknown rather than filled in. Unknown procedure is not permission to guess.",
+      "unknown": ["service and notice", "copy requirements", "filing fee or waiver", "proposed order", "verification or notarization", "post-filing timeline beyond the possibility of a hearing"]
+    }
+  },
+  "eligibilityFactsTheSourceStates": {
+    "note": "Recorded because they bear on screening and on what a participant may be told. This record changes no screening logic.",
+    "commercialDriverExclusion": {
+      "quote": "No, under N.D.C.C. Section 39-08-01.6(2), you can't have your DUI record sealed if you're an individual licensed as a commercial driver under N.D.C.C. Section 39-06.2-10."
+    },
+    "sevenYearAnyOffenceBar": {
+      "quote": "No, under N.D.C.C. Section 39-08-01.6(1)(b), you can't be found guilty of a later DUI violation or an equivalent municipal ordinance, Or Any Other criminal offense within seven years of the first DUI violation.",
+      "why": "The bar is not DUI-only. Any other criminal offence inside the seven years defeats it, which is a materially different screen from the one a reader might assume from the route's name."
+    },
+    "sealingIsNotExpungement": {
+      "quote": "In North Dakota, expungement of DUI records isn't available.",
+      "andAlso": "Sealing records doesn't delete or destroy the records, so access may be possible in limited situations. Often, access to sealed records requires a court order.",
+      "why": "The route is named ...dui-record-sealing... which is correct. Participant-facing copy must not describe this relief as expungement."
+    },
+    "prosecutorRetainsAccess": {
+      "quote": "Yes, under N.D.C.C. Chapter 39-08-01.6(2), a prosecutor has access to a prior offense in your DUI record for purposes of enhancement under N.D.C.C. Section 39-08-01(3) or an equivalent municipal offense."
+    }
+  },
+  "routeSeparationConfirmed": {
+    "quote": "No, DUI records can't be sealed using the N.D.C.C. Chapter 12-60.1 process.",
+    "where": "'Can I have my DUI records sealed under N.D.C.C. Chapter 12-60.1?'",
+    "why": "The runtime carries a separate general-conviction-sealing route under chapter 12-60.1. The source states in terms that DUI records are outside that process, so the two routes may not be merged, and the 12-60.1 route's eventual vehicle may not be reused for DUI. The route name -- ...under-the-separate-dui-statute -- is accurate and the separation is now sourced rather than assumed."
+  },
+  "a2GuideData": {
+    "supported": {
+      "filingDestination": "The Clerk of Court of the Municipal Court or District Court where the DUI case is filed, in that existing case.",
+      "filingSequence": "File the written petition together with any supporting documentation in the existing DUI case.",
+      "externalDocuments": "Supporting documentation the participant believes proves the petition's statements. Obtained by the participant; not required to generate or buy the packet.",
+      "hearingAndObjectionStops": "No hearing is required, but the judge may decide to hold one.",
+      "whereToAskForMore": "The guide directs the participant to the Clerk of Court of the Municipal Court or District Court where the case is filed."
+    },
+    "notSupportedAndThereforeNotWritten": ["service", "copies", "fees and waiver", "post-filing steps beyond the possible hearing"]
+  },
+  "statusOfThisSource": {
+    "vehicleQuestionAnswered": "YES",
+    "sourceBoundIntoGradeAAuthority": "NO",
+    "gradeABlockerClosed": "NO",
+    "readThisFirst": "Same three-part distinction as SFN-61663. This record answers the filing-vehicle question from an authoritative source; it does not bind that source through the controlling Grade-A input and does not close any blocker. The route remains INCOMPLETE.",
+    "toBindItLater": "The guide is a procedural source, not a filing form, so binding it does not by itself supply the route's official-source requirement. What it supplies is the determination that a composed pleading is correct. Drafting that pleading, and whatever source records it needs, is separate work and is not started here."
+  },
+  "whatRemains": [
+    "The composed Petition to Seal a DUI Record is not drafted here.",
+    "Service, copies, fees, proposed-order and verification treatment are unknown from this source and must not be invented.",
+    "Whether a Municipal Court and a District Court filing need different captions or components.",
+    "Counsel review of the vehicle determination and of every eligibility fact recorded above."
+  ],
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Counsel review. This record determines a filing vehicle from an official procedural source; it drafts nothing, binds nothing into the Grade-A authority, and opens no route."
+}
