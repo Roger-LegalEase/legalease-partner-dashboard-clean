@@ -128,7 +128,11 @@ const REQUIRED_BUILD_INPUTS = [
   "packetSpecification",
   "requiredParticipantFields",
   "sourceOrApprovedComposedDocument",
-  "deterministicFixture"
+  "deterministicFixture",
+  // A route the decision owner retired is not a build target, however well
+  // formed its old packet set still is. The fact is read from the existing
+  // `retiredBy` record on the legal-authority route, not decided here.
+  "routeNotRetired"
 ] as const;
 
 type RawRoute = {

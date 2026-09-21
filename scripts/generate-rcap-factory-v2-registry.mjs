@@ -68,11 +68,41 @@ const GRAPH = "data/rcap-ledger/paid-pathway-legal-join.json";
 const PACKET_SETS = "data/record-clearing/legal-design-packet-set-manifests.json";
 const WITNESS = "data/rcap-ledger/public-witness-answer-sets.json";
 const CLOSURE = "data/rcap-ledger/sellable-pathway-closure.json";
+// The legal-authority route records already carry `retiredBy` on a route the
+// decision owner retired, naming the record, the successor specification and
+// the replacement route keys. That fact existed before this generator read it;
+// nothing new is decided here and no route is registered or removed.
+const LEGAL_ROUTES = "src/lib/legal-authority/routes/single-routes.json";
 
 const graph = read(GRAPH);
 const packetSets = read(PACKET_SETS);
 const witnessFile = read(WITNESS);
 const closure = read(CLOSURE);
+const legalRoutes = read(LEGAL_ROUTES);
+
+/**
+ * Routes the decision owner has retired, keyed by route id.
+ *
+ * A retired route is not a build target. Before this existed the registry read
+ * only the packet-set manifest's shape, so a retired route whose old packet set
+ * is still well formed reported every build input met and resolved TRUE — the
+ * field the resolver reads, and only that field. Oregon's
+ * set-aside-of-arrests-or-charges-without-conviction route did exactly that: it
+ * was retired on 2026-08-29 as legally overbroad, its treatment moved to three
+ * disposition-bound successor configurations, and the registry went on admitting
+ * the retired key to the factory while separately reporting it as a packet
+ * specification that is merely incomplete.
+ *
+ * This reads the existing `retiredBy` record rather than introducing a second
+ * retirement vocabulary, and it changes nothing commercial: build inputs are
+ * never folded into the separate gates, so admitting less opens nothing and
+ * closing a build target sells nothing.
+ */
+const RETIRED_ROUTES = new Map(
+  (Array.isArray(legalRoutes) ? legalRoutes : (legalRoutes.routes ?? []))
+    .filter((route) => route && route.retiredBy && route.routeKey)
+    .map((route) => [route.routeKey, route.retiredBy])
+);
 const ownerDecision = readOwnerLegalDecision();
 
 const packetSetByTrack = new Map(packetSets.packetSets.map((set) => [set.trackId, set]));
@@ -127,8 +157,13 @@ for (const pathway of graph.pathways) {
       && (set.components ?? []).every((component) => component.role && component.requirement && component.outputStrategy)),
     requiredParticipantFields: Boolean(plan && (plan.requiredInputIds ?? []).length > 0),
     sourceOrApprovedComposedDocument: documentComponents.length > 0 && componentsWithoutASource.length === 0,
-    deterministicFixture: Boolean(witness && witness.terminalEvaluation && witness.landedOnThisPathway === true)
+    deterministicFixture: Boolean(witness && witness.terminalEvaluation && witness.landedOnThisPathway === true),
+    // Last, because it is a fact about the route rather than about its inputs:
+    // a retired route cannot be built no matter how well formed its old packet
+    // set still is.
+    routeNotRetired: !RETIRED_ROUTES.has(pathway.pathwayKey)
   };
+  const retiredBy = RETIRED_ROUTES.get(pathway.pathwayKey) ?? null;
 
   const unmet = Object.entries(buildInputs).filter(([, met]) => !met).map(([name]) => name);
   const legacyOwned = LEGACY_VERIFIED.has(pathway.jurisdiction);
@@ -157,6 +192,24 @@ for (const pathway of graph.pathways) {
     officialFormIds: [...new Set(documentComponents.map((component) => component.officialFormId).filter(Boolean))].sort(),
     buildInputs,
     unmetBuildInputs: unmet,
+    // Present only on a retired route, so the row says why it is not a build
+    // target and where the treatment went, instead of leaving a reader to infer
+    // outstanding work from an unmet input.
+    ...(retiredBy
+      ? {
+        retired: {
+          why: retiredBy.why ?? null,
+          decisions: retiredBy.decisions ?? [],
+          record: retiredBy.record ?? null,
+          currentSpecification: retiredBy.specification ?? null,
+          replacedBy: (retiredBy.replacedBy ?? []).map((replacement) => ({
+            routeKey: replacement.routeKey ?? null,
+            specificationId: replacement.specificationId ?? null
+          })),
+          thisKeyIsNotABuildTarget: true
+        }
+      }
+      : {}),
     // The resolver reads exactly this field, and only this field.
     factoryV2Resolves: unmet.length === 0 && !legacyOwned,
     legacyGeneratorOwnsThisJurisdiction: legacyOwned,
@@ -186,6 +239,7 @@ const registry = {
   inputs: {
     canonicalGraph: { path: GRAPH, sha256: sha256(GRAPH) },
     packetSetManifests: { path: PACKET_SETS, sha256: sha256(PACKET_SETS) },
+    legalAuthorityRoutes: { path: LEGAL_ROUTES, sha256: sha256(LEGAL_ROUTES) },
     publicWitnessAnswerSets: { path: WITNESS, sha256: sha256(WITNESS) },
     sellablePathwayClosure: { path: CLOSURE, sha256: sha256(CLOSURE) }
   },
