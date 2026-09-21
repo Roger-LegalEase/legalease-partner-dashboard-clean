@@ -34,9 +34,16 @@ const MIGRATIONS = [
   'supabase/phase-53-rcap-consumer-job-binding.sql',
 ];
 
-if (!ephemeralPgAvailable()) {
-  console.log('verify-rcap-phase53-consumer-job-binding SKIPPED: no ephemeral PostgreSQL available');
-  process.exit(0);
+let postgresAvailable = false;
+try {
+  postgresAvailable = ephemeralPgAvailable();
+} catch (error) {
+  console.error(JSON.stringify({ status: 'UNAVAILABLE', verifier: 'phase53', reason: error.message }));
+  process.exit(2);
+}
+if (!postgresAvailable) {
+  console.error('{"status":"UNAVAILABLE","verifier":"phase53","reason":"postgresql unavailable"}');
+  process.exit(2);
 }
 
 const results = [];
