@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "rcap-worker-authority-reconciliation/v1",
+  "generatedBy": "scripts/rcap-worker-authority-reconcile.mjs",
+  "readOnly": true,
+  "pinnedApplicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "manifestPhases": [
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55
+  ],
+  "workflowPins": [
+    {
+      "file": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+      "applicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+      "workerSourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+      "workerDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+      "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker"
+    },
+    {
+      "file": ".github/workflows/rcap-hosted-acceptance-staging.yml",
+      "applicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+      "workerSourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+      "workerDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+      "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker"
+    }
+  ],
+  "stagingActionWorkerDigest": null,
+  "stagingActionWorkerSourceSha": null,
+  "candidates": [
+    {
+      "id": "A",
+      "label": "workflow-pinned pair",
+      "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+      "digest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+      "declaredBy": [
+        ".github/workflows/rcap-f1-ephemeral-staging.yml",
+        ".github/workflows/rcap-hosted-acceptance-staging.yml"
+      ],
+      "facts": {
+        "registryReference": "ghcr.io/roger-legalease/rcap-render-worker:5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+        "immutableDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+        "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+        "sourceCommit": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+        "sourceCommitResolves": true,
+        "sourceCommitIsAncestorOfMain": true,
+        "workerImageInputHash": "d623034888ffd9dcba6c966453e434a37e03748890877cf4d9b13a9db2edae55",
+        "workerImageInputEntries": [
+          "package.json:1 file(s)",
+          "package-lock.json:1 file(s)",
+          "tsconfig.json:1 file(s)",
+          "scripts/rcap-render-worker.mjs:1 file(s)",
+          "deploy/rcap-render-worker/Dockerfile:1 file(s)",
+          "scripts/lib:20 file(s)",
+          "src:1130 file(s)"
+        ],
+        "buildWorkflow": ".github/workflows/publish-rcap-render-worker.yml",
+        "buildWorkflowRunId": 32307070302,
+        "buildWorkflowConclusion": "not recorded for this digest",
+        "healthReadinessResult": "NOT PROVEN — no acceptance status recorded for this digest",
+        "healthReadinessProven": false,
+        "ociRevisionOrProvenance": "absent; covered by data/rcap-render/worker-source-binding-exception.json, whose status is \"retired_not_in_force\"",
+        "ociRevisionAcceptable": false,
+        "compatibleWithPinnedApplicationSource": true,
+        "pinnedApplicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+        "imageInputPathsDifferingFromPinnedApplication": [],
+        "canProcessPacketSchemaAfterManifestSequence": false,
+        "packetSchemaEvidence": "No committed record names sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530 alongside a run against an environment carrying manifest phases 49-50-51-52-53-54-55. The verifiers that would answer this — scripts/verify-rcap-hosted-job-read-columns.mjs and scripts/verify-rcap-packet-contract.mjs — run only inside a hosted matrix phase, and no such run is recorded for this digest. Searched: data/rcap-render/f1-confirmatory-acceptance.json, data/rcap-render/delivery-gate-evidence.json, data/rcap-render/deployment-closure.json, data/rcap-render/staging-apply-evidence.json, data/rcap-render/state-machine.json.",
+        "supersededByPublicationRecord": true,
+        "supersedeReason": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged."
+      },
+      "requirements": [
+        {
+          "name": "source commit resolves",
+          "met": true
+        },
+        {
+          "name": "source commit is in canonical main ancestry",
+          "met": true
+        },
+        {
+          "name": "build workflow run recorded",
+          "met": true
+        },
+        {
+          "name": "health / readiness acceptance proven for this digest",
+          "met": false
+        },
+        {
+          "name": "image states its source, or an in-force exception covers this exact tuple",
+          "met": false
+        },
+        {
+          "name": "image inputs equal the pinned application source",
+          "met": true
+        },
+        {
+          "name": "proven able to process the packet schema after the manifest sequence",
+          "met": false
+        },
+        {
+          "name": "not marked superseded by the publication record",
+          "met": false
+        }
+      ],
+      "unmet": [
+        "health / readiness acceptance proven for this digest",
+        "image states its source, or an in-force exception covers this exact tuple",
+        "proven able to process the packet schema after the manifest sequence",
+        "not marked superseded by the publication record"
+      ],
+      "eligible": false
+    },
+    {
+      "id": "B",
+      "label": "publication-record pair",
+      "sourceSha": "57318c2046a9f8c149beff0053373ad3bfe3fc71",
+      "digest": "sha256:2656abeb0a2c722e028043cc43fd17e7baa3bb809be912ae045d0f2ecca69ccf",
+      "declaredBy": [
+        "data/rcap-render/worker-publication-evidence.json",
+        "data/rcap-staging-action.json"
+      ],
+      "facts": {
+        "registryReference": "ghcr.io/roger-legalease/rcap-render-worker:57318c2046a9f8c149beff0053373ad3bfe3fc71",
+        "immutableDigest": "sha256:2656abeb0a2c722e028043cc43fd17e7baa3bb809be912ae045d0f2ecca69ccf",
+        "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:2656abeb0a2c722e028043cc43fd17e7baa3bb809be912ae045d0f2ecca69ccf",
+        "sourceCommit": "57318c2046a9f8c149beff0053373ad3bfe3fc71",
+        "sourceCommitResolves": true,
+        "sourceCommitIsAncestorOfMain": true,
+        "workerImageInputHash": "29735a6b4c9f3237a5e2c162b31b9c4471e3a0580994494cb8e545f0d25aa517",
+        "workerImageInputEntries": [
+          "package.json:1 file(s)",
+          "package-lock.json:1 file(s)",
+          "tsconfig.json:1 file(s)",
+          "scripts/rcap-render-worker.mjs:1 file(s)",
+          "deploy/rcap-render-worker/Dockerfile:1 file(s)",
+          "scripts/lib:20 file(s)",
+          "src:1131 file(s)"
+        ],
+        "buildWorkflow": ".github/workflows/publish-rcap-render-worker.yml",
+        "buildWorkflowRunId": 32599252817,
+        "buildWorkflowConclusion": "success",
+        "healthReadinessResult": "NOT PROVEN — publication_recorded_image_acceptance_pending",
+        "healthReadinessProven": false,
+        "ociRevisionOrProvenance": "image states its own revision (publication record reconciliationStatus present)",
+        "ociRevisionAcceptable": true,
+        "compatibleWithPinnedApplicationSource": false,
+        "pinnedApplicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+        "imageInputPathsDifferingFromPinnedApplication": [
+          "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/prefill/route.ts",
+          "src/app/internal/partners/onboarding/[partnerSlug]/Phase1PrefillPanel.tsx",
+          "src/app/partner/dashboard/page.tsx",
+          "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
+          "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
+          "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+          "src/app/partner/onboarding/[sectionKey]/page.tsx",
+          "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx",
+          "src/app/partner/onboarding/page.tsx",
+          "src/app/partner/onboarding/resources/PartnerResourcesClient.tsx",
+          "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+          "src/app/partner/team/PartnerTeamInviteForm.tsx",
+          "src/app/partner/team/invite/route.ts",
+          "src/app/partners/checkout/[partnerId]/page.tsx",
+          "src/app/partners/checkout/success/page.tsx",
+          "src/app/partners/insights/feed.xml/route.ts",
+          "src/app/partners/onboarding/[partnerSlug]/email-sequence/page.tsx",
+          "src/app/partners/onboarding/[partnerSlug]/launch-kit/page.tsx",
+          "src/app/partners/onboarding/[partnerSlug]/page.tsx",
+          "src/lib/partners/first-admin-provisioning-presentation.ts",
+          "src/lib/partners/onboarding/brand-page-presentation.ts",
+          "src/lib/partners/onboarding/derivations.ts",
+          "src/lib/partners/onboarding/guided-substeps.ts",
+          "src/lib/partners/onboarding/implementation-presentation.ts",
+          "src/lib/partners/onboarding/partner-labels.ts",
+          "src/lib/partners/onboarding/prefill-domain.ts",
+          "src/lib/partners/onboarding/prefill-service.ts",
+          "src/lib/partners/onboarding/service.ts",
+          "src/lib/partners/onboarding/support-contact.ts",
+          "src/lib/partners/onboarding/types.ts",
+          "src/lib/partners/onboarding/validation.ts",
+          "src/lib/partners/partner-launch-materials.ts",
+          "src/lib/partners/onboarding/partner-copy.ts (removed)"
+        ],
+        "canProcessPacketSchemaAfterManifestSequence": false,
+        "packetSchemaEvidence": "No committed record names sha256:2656abeb0a2c722e028043cc43fd17e7baa3bb809be912ae045d0f2ecca69ccf alongside a run against an environment carrying manifest phases 49-50-51-52-53-54-55. The verifiers that would answer this — scripts/verify-rcap-hosted-job-read-columns.mjs and scripts/verify-rcap-packet-contract.mjs — run only inside a hosted matrix phase, and no such run is recorded for this digest. Searched: data/rcap-render/f1-confirmatory-acceptance.json, data/rcap-render/delivery-gate-evidence.json, data/rcap-render/deployment-closure.json, data/rcap-render/staging-apply-evidence.json, data/rcap-render/state-machine.json.",
+        "supersededByPublicationRecord": false,
+        "supersedeReason": null
+      },
+      "requirements": [
+        {
+          "name": "source commit resolves",
+          "met": true
+        },
+        {
+          "name": "source commit is in canonical main ancestry",
+          "met": true
+        },
+        {
+          "name": "build workflow run recorded",
+          "met": true
+        },
+        {
+          "name": "health / readiness acceptance proven for this digest",
+          "met": false
+        },
+        {
+          "name": "image states its source, or an in-force exception covers this exact tuple",
+          "met": true
+        },
+        {
+          "name": "image inputs equal the pinned application source",
+          "met": false
+        },
+        {
+          "name": "proven able to process the packet schema after the manifest sequence",
+          "met": false
+        },
+        {
+          "name": "not marked superseded by the publication record",
+          "met": true
+        }
+      ],
+      "unmet": [
+        "health / readiness acceptance proven for this digest",
+        "image inputs equal the pinned application source",
+        "proven able to process the packet schema after the manifest sequence"
+      ],
+      "eligible": false
+    }
+  ],
+  "canonicalPair": null,
+  "status": "WORKER_AUTHORITY_BLOCKED",
+  "reason": "neither candidate meets every requirement; no pin is changed",
+  "pinsUnchanged": true,
+  "agreementRequiredBeforeDeploy": [
+    "data/rcap-staging-action.json → preconditions.workerImageDigest",
+    ".github/workflows/rcap-f1-ephemeral-staging.yml → AUTHORIZED_WORKER_SOURCE_SHA / AUTHORIZED_WORKER_DIGEST",
+    ".github/workflows/rcap-hosted-acceptance-staging.yml → AUTHORIZED_WORKER_SOURCE_SHA / AUTHORIZED_WORKER_DIGEST",
+    "data/rcap-render/worker-publication-evidence.json → sourceSha / immutableRegistryDigest"
+  ],
+  "authoritiesCurrentlyAgree": false
+}

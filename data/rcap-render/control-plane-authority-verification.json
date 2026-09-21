@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "rcap-control-plane-authority-verification/v1",
+  "total": 55,
+  "passed": 55,
+  "failed": 0,
+  "checks": [
+    {
+      "id": "c1_control_scripts_execute_only_from_control",
+      "ok": true,
+      "observed": "37 tree-touching steps run from control/ and every one that invokes `node scripts/` does; 2 build steps run from application/ (hosted_write/matrix_build, hosted_payment/matrix_build); no orchestration script runs from any other tree"
+    },
+    {
+      "id": "c1_application_and_worker_checkouts_cannot_overwrite_control",
+      "ok": true,
+      "observed": "each of readonly_probe, hosted_write, hosted_payment checks out exactly three trees at distinct paths — control/ at job.workflow_sha from job.workflow_repository, application/ at application_sha, worker/ at worker_source_sha — none at the workspace root, and no executable git checkout/reset/switch line exists anywhere in the workflow"
+    },
+    {
+      "id": "c1_old_tools_runner_cannot_execute",
+      "ok": true,
+      "observed": "tools_sha appears as a checkout ref in no workflow; the F1 rehearsal requires tools_sha == github.sha; the control gate runs evaluateToolsShaLabel, which refuses 6d9e8792… and accepts only the control commit; the retired fallback's own first step exits 1 before its detach line is reachable"
+    },
+    {
+      "id": "c1_manifest_and_authorization_are_loaded_from_control",
+      "ok": true,
+      "observed": "the control gate loads the manifest from RCAP_CONTROL_DIR (${{ github.workspace }}/control) and refuses if it is itself executing from any other tree; the migration runner imports ./lib/rcap-migration-manifest.mjs by relative path so it cannot be handed a foreign manifest; the gate runs in readonly_probe, hosted_write, hosted_payment"
+    },
+    {
+      "id": "c1_all_seven_migration_hashes_are_checked_before_write",
+      "ok": true,
+      "observed": "all 7 manifest SHA-256 values recompute from the control tree's own SQL bytes; a single tampered hash and a six-member manifest are both refused; the gate sits at step 10, ahead of the credential preflight (11) and the migration runner (14)"
+    },
+    {
+      "id": "c1_migration_sql_is_unchanged",
+      "ok": true,
+      "observed": "all 7 migration blobs are byte-identical between dd935798 and HEAD; the manifest hash is 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4"
+    },
+    {
+      "id": "c1_migration_manifest_hash_is_the_reviewed_value",
+      "ok": true,
+      "observed": "manifest hash 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4 equals the reviewed 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4"
+    },
+    {
+      "id": "c1_control_tree_carries_every_required_file",
+      "ok": true,
+      "observed": "control carries scripts/lib/rcap-migration-manifest.mjs, scripts/lib/rcap-acceptance-schema-snapshot.mjs, scripts/rcap-hosted-acceptance-migrate.mjs, data/rcap-acceptance-migration-manifest.json"
+    },
+    {
+      "id": "worker_equivalence_uses_only_actual_worker_image_inputs",
+      "ok": true,
+      "observed": "1158 inputs derived from the Dockerfile's 7 context-reading COPY specs (the --from=deps stage excluded), each with an exact path, SHA-256 and inclusion proof, ordered byte-wise; aggregate c1625d0fda72c482bd564c3ee247e19d968fd46291435a89f36335894bf5da26; nothing under scripts/control/ enters the context; the reconciler no longer compares whole directories"
+    },
+    {
+      "id": "worker_manifest_states_which_control_modules_enter_the_image",
+      "ok": true,
+      "observed": "recorded rather than hidden: COPY scripts/lib/ is a whole-directory copy, so scripts/lib/rcap-migration-manifest.mjs and scripts/lib/rcap-acceptance-schema-snapshot.mjs DO enter the image context; 5 infrastructure-only module(s) under scripts/control/ do not"
+    },
+    {
+      "id": "worker_authority_remains_blocked_and_no_worker_is_selected",
+      "ok": true,
+      "observed": "the reconciler exits 1 with WORKER_AUTHORITY_BLOCKED, changes no pin, and the image-input evidence records workerSelectedOrPublished=false. This is a gate, not a worker acceptance."
+    },
+    {
+      "id": "c2_payment_probe_reaches_success_with_all_unrelated_steps_skipped",
+      "ok": true,
+      "observed": "payment_environment_probe schedules payment_probe and reaches its artifact-upload step, running exactly [execution_authority, env_identity, legacy_refusal, capability, payment_environment_probe, antiskip] and nothing else. No needs:, no checkout, no network, no Stripe API call, no Checkout Session, no webhook; the only action is actions/upload-artifact. Worker authority, audit equivalence, migration readback, deployment, matrix and payment steps are not merely skipped — they are absent from the lane."
+    },
+    {
+      "id": "c2_payment_probe_no_longer_traverses_the_write_or_payment_jobs",
+      "ok": true,
+      "observed": "for phase payment_environment_probe, hosted_write is not scheduled (false) and hosted_payment is not scheduled (false); the probe needs neither, so it no longer depends on a job that checks out, sets up Node and runs a contract and anti-skip gate"
+    },
+    {
+      "id": "c3_hosted_accept_runs_golden_journey_and_verify_harness",
+      "ok": true,
+      "observed": "simulating phase accept: hosted_write runs golden_journey, verify_harness, auth_identities, matrix_build, galleries, verify_checkout_pinning; both new steps are gated exactly on lane == nonpayment && matrix == true, so migrate, deploy, checkout_pinning, worker_contract and the probes are untouched"
+    },
+    {
+      "id": "c3_hosted_full_nonpayment_runs_golden_journey_and_verify_harness",
+      "ok": true,
+      "observed": "simulating phase full_nonpayment: hosted_write runs golden_journey, verify_harness, auth_identities, matrix_build, galleries, verify_checkout_pinning; both new steps are gated exactly on lane == nonpayment && matrix == true, so migrate, deploy, checkout_pinning, worker_contract and the probes are untouched"
+    },
+    {
+      "id": "c3_the_matrix_runs_only_where_the_contract_says_matrix_true",
+      "ok": true,
+      "observed": "phases migrate, deploy, checkout_pinning, worker_contract, environment_probe run neither golden_journey nor verify_harness; MATRIX=true in the contract now means the matrix actually runs, and MATRIX=false means it does not"
+    },
+    {
+      "id": "c3_neither_non_payment_phase_references_stripe",
+      "ok": true,
+      "observed": "readonly_probe and hosted_write contain zero secrets.HOSTED_STRIPE_TEST_* expressions, zero references to either transacting script and zero Stripe endpoints — the boundary is the absence of the reference, not an empty value"
+    },
+    {
+      "id": "c4_every_workflow_expression_parses_to_the_end_of_its_input",
+      "ok": true,
+      "observed": "every ${{ }} expression in all 12 workflow files parses to the end of its input. The construct GitHub rejected — a phase map with nine opening and ten closing parentheses ending in `|| 'preflight'` — no longer exists"
+    },
+    {
+      "id": "c4_github_parser_accepts_the_corrected_workflow",
+      "ok": true,
+      "observed": "data/rcap-render/env007-workflow-parser-evidence.json: before a2206642 → 2 zero-job push-event failure run(s) for .github/workflows/rcap-f1-ephemeral-staging.yml; after 5ca3aad3 → 0, with 0 check suite(s) reporting a parse failure and no hosted or protected job dispatched"
+    },
+    {
+      "id": "c5_retired_modes_make_no_readonly_or_protected_call",
+      "ok": true,
+      "observed": "routing is an exact map in the `route` job: no startsWith test anywhere in the file; hosted_full, full, hosted_checkout_gate, checkout_gate, github_acceptance each reach a refusal arm that exits 1 BEFORE the accepted-mode map is consulted; `hosted` and `f1` both need route, so a refusal there means neither readonly_probe, hosted_write, payment_probe nor hosted_payment is ever scheduled"
+    },
+    {
+      "id": "c5_unknown_mode_refuses_explicitly",
+      "ok": true,
+      "observed": "the accepted-mode map's only catch-all prints UNKNOWN_MODE_REFUSED and exits 1; there is no fallthrough that assigns a target or a phase"
+    },
+    {
+      "id": "c5_no_execution_path_defaults_to_preflight",
+      "ok": true,
+      "observed": "PHASE=preflight is assigned in exactly one place, by the literal mode hosted_preflight; the `|| 'preflight'` tail of the old chained expression is gone from the file entirely"
+    },
+    {
+      "id": "c5_the_called_workflow_also_fails_closed_on_an_unknown_phase",
+      "ok": true,
+      "observed": "defence in depth: even if a phase reached the called workflow, its contract step refuses an unrecognised value rather than defaulting"
+    },
+    {
+      "id": "c6_readonly_artifacts_contain_payment_exercised_false",
+      "ok": true,
+      "observed": "preflight and vercel_audit both reach the stamp step (if: always()), which runs from control/ with RCAP_PAYMENT_EXERCISED=false and sits before the artifact upload; the stamper opens no socket, so this adds no network activity beyond the existing upload"
+    },
+    {
+      "id": "shared_secret_evidence_is_labelled_presence_only_in_the_artifact",
+      "ok": true,
+      "observed": "both probe bodies were executed and each emitted parseable JSON carrying sharedSecretEvidenceClass=PRESENCE_ONLY, ENVIRONMENT_PROVENANCE_NOT_YET_PROVEN, a concrete pre-probe plan for removing the broader copies, and PAYMENT_EXERCISED=false. The two Stripe secrets are separately labelled ENVIRONMENT_SCOPED, because they are declared in no workflow_call secrets block and forwarded by no caller."
+    },
+    {
+      "id": "the_readonly_preflight_path_is_not_weakened_by_the_provenance_caveat",
+      "ok": true,
+      "observed": "the caller still forwards 5 shared secrets because readonly_probe declares no environment (true) and still needs them (true); a reusable workflow's job resolves no repository-scope secret it was not passed, so dropping the forwarding would disable the read-only preflight rather than harden it. The caveat is therefore labelled, not fixed, and the plan is recorded in the artifact."
+    },
+    {
+      "id": "c7_wrong_sha_refuses",
+      "ok": true,
+      "observed": "a github.sha other than RCAP_AUTHORIZED_INFRASTRUCTURE_SHA returns INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID — github.sha is '2222222222222222222222222222222222222222'; expected '1111111111111111111111111111111111111111'"
+    },
+    {
+      "id": "c7_wrong_ref_refuses",
+      "ok": true,
+      "observed": "a github.ref other than RCAP_AUTHORIZED_EXECUTION_REF returns INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID — github.ref is 'refs/heads/some-branch'; expected 'refs/tags/rcap-acceptance-infra-v1'"
+    },
+    {
+      "id": "c7_caller_and_called_workflow_must_share_one_authority",
+      "ok": true,
+      "observed": "a called workflow resolving from a different commit than its caller refuses (job.workflow_sha is '3333333333333333333333333333333333333333'; expected '1111111111111111111111111111111111111111'); an UNCONFIGURED authority also refuses rather than passing — 6 reason(s), so the gate fails closed until both variables exist"
+    },
+    {
+      "id": "c7_authority_gate_precedes_checkout_setup_and_secrets",
+      "ok": true,
+      "observed": "execution_authority is step 0 of readonly_probe, hosted_write, hosted_payment, payment_probe and of the caller's route job; it reads the two non-secret variables and no secret; every checkout and every secret-bearing step in each job comes after it (readonly_probe: checkout@2 secret@9; hosted_write: checkout@5 secret@4; hosted_payment: checkout@6 secret@5; payment_probe: checkout@-1 secret@4)"
+    },
+    {
+      "id": "c7_expected_values_are_named_but_not_created",
+      "ok": true,
+      "observed": "both non-secret names appear as `vars.*` references only; no value is hard-coded, no repository or environment variable is created by this change, and no tag is created"
+    },
+    {
+      "id": "f1_the_undefined_github_workflow_sha_property_appears_nowhere",
+      "ok": true,
+      "observed": "the undefined github-context workflow-SHA property appears in none of the 12 workflow files and in no script, document or evidence artifact"
+    },
+    {
+      "id": "f1_missing_github_workflow_sha_refuses",
+      "ok": true,
+      "observed": "github.workflow_sha is missing or empty"
+    },
+    {
+      "id": "f1_wrong_github_workflow_sha_refuses",
+      "ok": true,
+      "observed": "github.workflow_sha is '2222222222222222222222222222222222222222'; expected '1111111111111111111111111111111111111111'"
+    },
+    {
+      "id": "f1_missing_job_context_workflow_sha_refuses",
+      "ok": true,
+      "observed": "job.workflow_sha is missing or empty"
+    },
+    {
+      "id": "f1_wrong_job_context_workflow_sha_refuses",
+      "ok": true,
+      "observed": "job.workflow_sha is '3333333333333333333333333333333333333333'; expected '1111111111111111111111111111111111111111'"
+    },
+    {
+      "id": "f1_wrong_job_workflow_repository_refuses",
+      "ok": true,
+      "observed": "job.workflow_repository is 'attacker/fork'; expected 'Roger-LegalEase/legalease-partner-dashboard-clean'"
+    },
+    {
+      "id": "f1_wrong_job_workflow_file_path_refuses",
+      "ok": true,
+      "observed": "job.workflow_file_path is '.github/workflows/other.yml'; expected '.github/workflows/rcap-hosted-acceptance-staging.yml'"
+    },
+    {
+      "id": "f1_wrong_job_workflow_ref_refuses",
+      "ok": true,
+      "observed": "job.workflow_ref 'Roger-LegalEase/legalease-partner-dashboard-clean/.github/workflows/rcap-hosted-acceptance-staging.yml@refs/heads/anything' does not end at the authorized execution ref 'refs/tags/rcap-acceptance-infra-v1'"
+    },
+    {
+      "id": "f1_correct_caller_and_called_shas_pass",
+      "ok": true,
+      "observed": "the called gate passes when github.sha, github.workflow_sha and job.workflow_sha all equal the authorized SHA, job.workflow_repository equals github.repository, job.workflow_file_path equals .github/workflows/rcap-hosted-acceptance-staging.yml and job.workflow_ref ends at the authorized ref; the caller gate passes on its three comparisons"
+    },
+    {
+      "id": "f1_success_statement_is_unreachable_until_every_comparison_passes",
+      "ok": true,
+      "observed": "in all four called-workflow jobs the refusal branch precedes the success line and is reached whenever fail is set; all seven documented values are compared; an empty observed value calls note() and so is a refusal, never a skipped check. The caller gate compares its three values on the same rule."
+    },
+    {
+      "id": "f1_control_checkout_uses_job_workflow_repository_and_sha",
+      "ok": true,
+      "observed": "all three control checkouts read repository: job.workflow_repository and ref: job.workflow_sha, so the control tree is the reusable workflow's own bytes; the control_authority gate still re-proves that commit against RCAP_AUTHORIZED_INFRASTRUCTURE_SHA"
+    },
+    {
+      "id": "f2_actionlint_configuration_is_narrowly_scoped",
+      "ok": true,
+      "observed": ".github/actionlint.yaml scopes every ignore to .github/workflows/rcap-hosted-acceptance-staging.yml alone and lists exactly 6 patterns, each naming ONE property or secret; the four job-context patterns are anchored on actionlint's own {check_run_id: number; container: …} object type, so a misspelled job property is not covered"
+    },
+    {
+      "id": "f2_actionlint_exits_zero_with_the_checked_in_configuration",
+      "ok": true,
+      "observed": "actionlint -shellcheck= -pyflakes= over all 12 workflow files exits 0 with the checked-in .github/actionlint.yaml"
+    },
+    {
+      "id": "f2_a_misspelled_property_and_an_unrelated_secret_still_fail",
+      "ok": true,
+      "observed": "the negative control exits 1 and all six MUST-FAIL findings are reported — including the four names the config DOES ignore, at a path the config does not cover, which is the scoping proof; the one correctly declared secret produces no finding"
+    },
+    {
+      "id": "f3_accept_with_an_exact_preview_reaches_the_matrix",
+      "ok": true,
+      "observed": "accept with a reused exact Preview skips the refusal, runs auth_identities, matrix_build, gate_deps, golden_journey, verify_harness, galleries, and never runs deploy_preview"
+    },
+    {
+      "id": "f3_accept_without_an_exact_preview_refuses_early",
+      "ok": true,
+      "observed": "accept with no exact Preview reaches require_exact_preview at position 16, ahead of every application step (first at 17); it prints ACCEPTANCE_EXACT_PREVIEW_REQUIRED and exits 1, so npm ci, the build, Auth configuration and the matrix are never reached"
+    },
+    {
+      "id": "f3_accept_performs_no_deploy",
+      "ok": true,
+      "observed": "the contract row for accept is DEPLOY=false with REQUIRE_EXACT_PREVIEW=true, and the contract refuses outright if any phase ever claims both"
+    },
+    {
+      "id": "f3_full_nonpayment_deploys_when_no_exact_preview_exists",
+      "ok": true,
+      "observed": "full_nonpayment with no exact Preview runs deploy_preview and never reaches the exact-Preview refusal; with a reused exact Preview it deploys nothing"
+    },
+    {
+      "id": "f3_the_antiskip_gate_no_longer_requires_a_forbidden_deploy",
+      "ok": true,
+      "observed": "the anti-skip gate demands deploy success only when RUNS_DEPLOY=true and O_REUSED!=true, so a phase whose contract forbids deploying is never failed for not having deployed — the misleading \"deploy one new Preview\" failure cannot occur for accept"
+    },
+    {
+      "id": "f4_no_node_invocation_precedes_setup_node",
+      "ok": true,
+      "observed": "every job orders execution authority (step 0, shell only) → control/application/worker checkout → actions/setup-node@node-version 20 → the worker image-input manifest → the control-plane gate → the remaining Node scripts. No node command runs before setup-node, and the before-checkout authority gate is unmoved."
+    },
+    {
+      "id": "f5_tools_sha_is_documented_as_a_provenance_label_only",
+      "ok": true,
+      "observed": "both the dispatch input and the workflow_call input state that tools_sha is a provenance label only, must equal the reviewed control-plane SHA, is not a checkout ref, is not executable authority, and that the former 6d9e8792 value is no longer valid; it appears as a checkout ref in neither workflow"
+    },
+    {
+      "id": "product_files_remain_unchanged",
+      "ok": true,
+      "observed": "33 files differ from dd935798, none of them under src/, supabase/, public/, next.config*, package.json, package-lock.json or tsconfig*"
+    },
+    {
+      "id": "audit_branch_and_audit_artifacts_remain_unchanged",
+      "ok": true,
+      "observed": "origin/claude/expai-flow-audit-p1 is at 00212d529e82a2a2a90b172b29268922feecfcbd (the frozen ENV-007 packet commit); no flow-audit artifact was written"
+    },
+    {
+      "id": "git_diff_check_is_clean",
+      "ok": true,
+      "observed": "git diff --check reports no whitespace error"
+    }
+  ]
+}

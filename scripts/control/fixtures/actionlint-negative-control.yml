@@ -1,0 +1,67 @@
+# ENV-007 F2 NEGATIVE CONTROL — this file is DELIBERATELY INVALID.
+#
+# It is not a workflow this repository runs. It lives outside .github/workflows
+# so GitHub never loads it, and it exists for exactly one purpose: to prove the
+# narrow ignores in .github/actionlint.yaml do not silence the classes of error
+# they are scoped around.
+#
+# It is a `workflow_call` workflow with a DECLARED secrets block, which is what
+# makes actionlint model the secrets set — the same shape as the real called
+# workflow, so the undefined-secret check applies here exactly as it does there.
+#
+# Every MUST-FAIL below is expected to be reported. Losing any one of them means
+# an ignore has widened, and scripts/verify-rcap-control-plane-authority.mjs
+# fails.
+name: actionlint negative control
+
+on:
+  workflow_call:
+    inputs:
+      phase:
+        required: true
+        type: string
+    secrets:
+      DECLARED_SECRET:
+        required: true
+
+jobs:
+  negative_control:
+    runs-on: ubuntu-latest
+    steps:
+      # MUST-FAIL 1 — a misspelled `github` property. The ignores never cover
+      # the github context, and never cover an unlisted name.
+      - name: misspelled github property
+        env:
+          A: ${{ github.workfl0w_sha }}
+        run: echo "$A"
+
+      # MUST-FAIL 2 — a misspelled `job` property. Four job properties are
+      # ignored BY NAME in the hosted workflow; a fifth, misspelled one is not,
+      # and this file is not that path in any case.
+      - name: misspelled job property
+        env:
+          B: ${{ job.workflow_shaa }}
+        run: echo "$B"
+
+      # MUST-FAIL 3 — an undefined secret that is not one of the two Stripe
+      # test secrets. Undefined-secret suppression is per name, not blanket.
+      - name: unrelated undefined secret
+        env:
+          C: ${{ secrets.SOME_SECRET_THAT_IS_NOT_DECLARED }}
+        run: echo "$C"
+
+      # MUST-FAIL 4 — the very properties that ARE ignored, at a path the
+      # ignores do not cover. This is the scoping proof.
+      - name: the ignored properties outside the hosted workflow
+        env:
+          D: ${{ job.workflow_sha }}
+          E: ${{ job.workflow_repository }}
+          F: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: echo "$D $E $F"
+
+      # A declared secret must NOT be reported — the control has to stay honest
+      # about what a correct reference looks like.
+      - name: declared secret is fine
+        env:
+          G: ${{ secrets.DECLARED_SECRET }}
+        run: echo "$G"

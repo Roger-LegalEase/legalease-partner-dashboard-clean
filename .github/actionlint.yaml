@@ -1,0 +1,50 @@
+# actionlint configuration — ENV-007 F2.
+#
+# NARROW BY CONSTRUCTION. Every ignore below is scoped to ONE file, names ONE
+# property or secret, and anchors on the object type actionlint printed, so a
+# different undefined property or a different undefined secret in the same file
+# still fails. Nothing here suppresses whole rules, whole categories, or any
+# other workflow.
+#
+# Pinned validator: actionlint v1.7.12.
+#
+# Verified against a negative-control fixture on every run of
+# scripts/verify-rcap-control-plane-authority.mjs: a deliberately misspelled
+# `github` property and an unrelated undefined secret both still fail.
+
+paths:
+  .github/workflows/rcap-hosted-acceptance-staging.yml:
+    ignore:
+      # ---------------------------------------------------------------------
+      # 1. The documented `job` context workflow-identity properties.
+      #
+      # GitHub documents job.workflow_sha, job.workflow_ref,
+      # job.workflow_repository and job.workflow_file_path as the identity of
+      # the workflow file defining the current job. They are exactly what the
+      # F1 execution-authority gate must compare, and exactly what binds the
+      # control checkout to the reusable workflow's own commit. actionlint
+      # v1.7.12 models the `job` context as
+      # {check_run_id, container, services, status} and does not yet carry
+      # them, so it reports each as an undefined property.
+      #
+      # Each pattern names ONE property and anchors on that object type, so an
+      # actually-misspelled `job` property is still reported.
+      - 'property "workflow_sha" is not defined in object type \{check_run_id: number; container:'
+      - 'property "workflow_ref" is not defined in object type \{check_run_id: number; container:'
+      - 'property "workflow_repository" is not defined in object type \{check_run_id: number; container:'
+      - 'property "workflow_file_path" is not defined in object type \{check_run_id: number; container:'
+      # ---------------------------------------------------------------------
+      # 2. The two Stripe test secrets, in this called workflow only.
+      #
+      # HOSTED_STRIPE_TEST_SECRET and HOSTED_STRIPE_TEST_WEBHOOK_SECRET are
+      # supplied ONLY by the job-level `rcap-acceptance-payment` GitHub
+      # Environment and are DELIBERATELY absent from on.workflow_call.secrets:
+      # declaring them there would let a caller supply them to a workflow whose
+      # non-payment jobs must not hold them, and would make the Stripe
+      # privilege boundary depend on an unset value resolving to an empty
+      # string rather than on the reference not existing. actionlint cannot
+      # model environment-scoped secrets, so it reports both as undefined.
+      #
+      # Named individually. Any OTHER undefined secret in this file still fails.
+      - 'property "hosted_stripe_test_secret" is not defined in object type'
+      - 'property "hosted_stripe_test_webhook_secret" is not defined in object type'

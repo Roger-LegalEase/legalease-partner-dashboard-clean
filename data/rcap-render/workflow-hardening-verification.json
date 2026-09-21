@@ -1,0 +1,420 @@
+{
+  "schemaVersion": "rcap-acceptance-workflow-hardening-verification/v1",
+  "generatedBy": "scripts/verify-rcap-acceptance-workflow-hardening.mjs",
+  "infraBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "passed": 82,
+  "failed": 0,
+  "total": 82,
+  "results": [
+    {
+      "id": "legacy_regex_selection_reproduces_the_phase55_double_application",
+      "ok": true,
+      "observed": "the pre-fix regex /^phase-(49|50|51|52|53|54)-/ leaves phase 55 in the baseline; baseline selects it once and the authorized sequence selects it again — total selections: 2 (defect reproduced: true)"
+    },
+    {
+      "id": "phase_55_is_selected_exactly_once",
+      "ok": true,
+      "observed": "manifest-based selection: phase 55 appears 1 time(s) across 42 baseline file(s) and 7 sequence entr(ies)"
+    },
+    {
+      "id": "every_migration_is_selected_exactly_once",
+      "ok": true,
+      "observed": "all 7 manifest migrations are selected exactly once: 49=1, 50=1, 51=1, 52=1, 53=1, 54=1, 55=1"
+    },
+    {
+      "id": "ordered_selection_has_length_seven",
+      "ok": true,
+      "observed": "ordered authorized selection: [49, 50, 51, 52, 53, 54, 55] — length 7"
+    },
+    {
+      "id": "baseline_and_authorized_sequence_are_disjoint",
+      "ok": true,
+      "observed": "42 baseline file(s) and 7 sequence file(s) share nothing; exclusion is by exact filename"
+    },
+    {
+      "id": "a_second_completed_run_selects_zero_migrations",
+      "ok": true,
+      "observed": "with all 7 exact hashes recorded the plan is \"noop\" and selects 0 migration(s): all 7 manifest hashes are already recorded in the ledger; this run verifies and applies nothing"
+    },
+    {
+      "id": "a_completed_environment_is_verify_only",
+      "ok": true,
+      "observed": "recovery disposition: resumeSafe=true, action=verify_only"
+    },
+    {
+      "id": "a_partial_sequence_resumes_from_the_first_unapplied_exact_hash",
+      "ok": true,
+      "observed": "ledger [49,50,51] -> mode \"apply\", resumes at phase 52, applying 4: phases 49,50,51 are recorded at their exact manifest hashes; resuming at phase 52"
+    },
+    {
+      "id": "a_gapped_sequence_blocks_with_an_exact_disposable_project_recovery_instruction",
+      "ok": true,
+      "observed": "ledger [49,50,52] -> mode \"blocked\" (ledger_sequence_has_a_gap); recovery names delete-and-recreate: true; names that no production project is eligible: true"
+    },
+    {
+      "id": "phase_50_is_never_blindly_rerun_after_its_ledger_entry_exists",
+      "ok": true,
+      "observed": "phase 50 recorded -> selected for re-apply: false; the runner no longer treats a duplicate-object error as \"adopted\": true. Phase 50 creates its triggers unconditionally, so a blind re-run raises a duplicate-object error rather than converging."
+    },
+    {
+      "id": "phase_55_cannot_be_recorded_twice",
+      "ok": true,
+      "observed": "a ledger carrying phase 55 twice fails the sequence assertion: perPhase[55]=2, errors=duplicate_ledger_entries: 55; ledger_length: expected 7, observed 8; ledger_sequence: expected 49,50,51,52,53,54,55, observed 49,50,51,52,53,54,55,55; phase_55_execution_count: 2 (must be exactly 1)"
+    },
+    {
+      "id": "the_ledger_sequence_is_exactly_49_to_55_once_each",
+      "ok": true,
+      "observed": "expected [49,50,51,52,53,54,55], observed [49,50,51,52,53,54,55], per-phase counts {\"49\":1,\"50\":1,\"51\":1,\"52\":1,\"53\":1,\"54\":1,\"55\":1}"
+    },
+    {
+      "id": "explicit_migration_manifest_is_authoritative",
+      "ok": true,
+      "observed": "verifyManifest ok=true over 7 entries; the runner imports the manifest module and uses selectBaselineFiles/planSequence"
+    },
+    {
+      "id": "no_regex_decides_which_migrations_execute",
+      "ok": true,
+      "observed": "the runner's executable lines contain no phase-number regex filter; selection comes from 7 exact filenames in data/rcap-acceptance-migration-manifest.json"
+    },
+    {
+      "id": "manifest_hash_describes_its_own_contents",
+      "ok": true,
+      "observed": "manifestHash 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4 recomputes exactly"
+    },
+    {
+      "id": "migration_hash_mismatch_stops_before_write",
+      "ok": true,
+      "observed": "a one-line change to phase 52 on disk is refused before anything is applied: hash_mismatch: supabase/phase-52-rcap-consumer-payment-authority.sql on disk is 2425894f62e49a764bba2763f7e33e6ca1238c9ccba4557b9b2f3c4a5eb46487, manifest says c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3"
+    },
+    {
+      "id": "unknown_migration_stops_before_write",
+      "ok": true,
+      "observed": "an unlisted phase-53a inside the authorized range is refused: unknown_migration: supabase/phase-53a-unauthorized-addition.sql sits inside the authorized range 49-55 and is not in the manifest"
+    },
+    {
+      "id": "missing_migration_stops_before_write",
+      "ok": true,
+      "observed": "a manifest member absent from disk is refused: missing_migration: supabase/phase-54-rcap-person-namespace-hardening.sql is listed in the manifest and absent on disk"
+    },
+    {
+      "id": "the_manifest_gate_precedes_every_write_in_the_runner",
+      "ok": true,
+      "observed": "the manifest refusal and process.exit sit at offset 8545, ahead of the first write at offset 10730"
+    },
+    {
+      "id": "acceptance_authorization_is_recorded_per_phase",
+      "ok": true,
+      "observed": "every one of the 7 manifest members carries its acceptance-environment authorization verbatim from data/rcap-staging-action.json; authorized: [49, 55], withheld: [50, 51, 52, 53, 54]"
+    },
+    {
+      "id": "phase_49_and_phase_55_authorization_is_read_not_assumed",
+      "ok": true,
+      "observed": "phase 49 scope \"repository_integration_and_conditional_production_application\" (acceptance: authorized); phase 55 scope \"repository_integration_and_nonproduction_acceptance_only\" (acceptance: authorized — missing migrations may be applied only to the v…) — both read from the action record, neither inferred from the runner including them"
+    },
+    {
+      "id": "a_withheld_acceptance_authorization_stops_before_write",
+      "ok": true,
+      "observed": "phases 50, 51, 52, 53, 54 are recorded \"queued\" for staging, so the runner refuses before the ledger is created, before the marker is stamped and before any snapshot: acceptance_authorization_withheld: phase 50 (supabase/phase-50-rcap-packet-delivery-hardening.sql) is recorded as \"queued — requires Roger to name both migration files and the staging environment\" under scope \"repository_integration_only\""
+    },
+    {
+      "id": "the_manifest_does_not_itself_authorize_anything",
+      "ok": true,
+      "observed": "the containing action record's status is \"prepared_queued_not_authorized\" and its \"authorizes\" list is empty; the manifest says so in its own text"
+    },
+    {
+      "id": "environment_declared_on_every_write_capable_job",
+      "ok": true,
+      "observed": "write-capable job \"hosted_write\" declares environment rcap-acceptance and runs for every phase except preflight, vercel_audit and payment_environment_probe (ENV-007 C2 gave the payment probe its own lane); jobs with an environment: hosted_write, payment_probe, hosted_payment; without: readonly_probe"
+    },
+    {
+      "id": "hosted_payment_uses_the_separate_payment_environment",
+      "ok": true,
+      "observed": "hosted_payment runs only for the transacting payment phase in environment rcap-acceptance-payment; payment_probe runs only for payment_environment_probe in the same environment and transacts nothing; hosted_write runs every other write phase in rcap-acceptance. Three jobs, two environments, no shared Stripe secret."
+    },
+    {
+      "id": "read_only_phases_declare_no_write_environment",
+      "ok": true,
+      "observed": "\"readonly_probe\" runs for preflight and vercel_audit and declares no environment (none)"
+    },
+    {
+      "id": "the_environment_name_is_never_empty_for_a_write_capable_run",
+      "ok": true,
+      "observed": "both write-capable jobs name a literal environment — hosted_write: rcap-acceptance, hosted_payment: rcap-acceptance-payment. Neither is an expression, so neither can evaluate to an empty name."
+    },
+    {
+      "id": "pinned_value_refusal_survives_the_environment_change",
+      "ok": true,
+      "observed": "both jobs still refuse any input that is not the authorized pinned value; the environment declaration supplements the refusal rather than replacing it"
+    },
+    {
+      "id": "only_the_payment_authorized_job_receives_stripe_secret_expressions",
+      "ok": true,
+      "observed": "7 Stripe secret expression(s) in \"hosted_payment\" and 2 in \"payment_probe\" — the two Stripe-secret-authorized jobs, both in the rcap-acceptance-payment environment; jobs \"readonly_probe\", \"hosted_write\" carry zero"
+    },
+    {
+      "id": "only_the_payment_phase_may_invoke_a_stripe_transacting_script",
+      "ok": true,
+      "observed": "both transacting scripts (rcap-hosted-checkout-gate.mjs, rcap-hosted-acceptance-payment.mjs) are invoked only by \"hosted_payment\", whose job-level `if` is inputs.phase == 'payment'"
+    },
+    {
+      "id": "the_payment_job_is_bound_to_the_payment_phase_and_the_payment_environment",
+      "ok": true,
+      "observed": "hosted_payment if=\"inputs.phase == 'payment'\" environment=\"rcap-acceptance-payment\""
+    },
+    {
+      "id": "hosted_accept_contains_no_payment_matrix",
+      "ok": true,
+      "observed": "accept: MATRIX=true, STRIPE=false, CHECKOUT_SESSION=false — it runs the non-transacting acceptance matrix and no payment journey. The payment-journey step no longer exists in the non-payment job at all."
+    },
+    {
+      "id": "hosted_full_nonpayment_cannot_transact",
+      "ok": true,
+      "observed": "full_nonpayment: S_ACCESS=false, S_TXN=false, CHECKOUT_SESSION=false; and the non-payment job contains no transacting script to run even if a future edit set the flag. The legacy value \"full\" is refused by name."
+    },
+    {
+      "id": "hosted_checkout_pinning_is_non_transacting",
+      "ok": true,
+      "observed": "checkout_pinning: VERIFY_GATE=true, S_ACCESS=false, S_TXN=false, CHECKOUT_SESSION=false — it runs the STATIC pinning verifier only, which opens no socket. The operation that necessarily calls Stripe (rcap-hosted-checkout-gate.mjs, which creates one real Sandbox Session) lives in hosted_payment. The legacy value \"checkout_gate\" is refused by name."
+    },
+    {
+      "id": "hosted_worker_contract_contains_no_stripe_secret",
+      "ok": true,
+      "observed": "worker_contract carries S_ACCESS=false and S_TXN=false and runs in hosted_write, which carries zero Stripe secret expressions"
+    },
+    {
+      "id": "no_non_payment_phase_can_create_a_checkout_session",
+      "ok": true,
+      "observed": "CHECKOUT_SESSION is true for payment alone and false for every other phase including both probes; the contract step exits 1 if any phase pairs CHECKOUT_SESSION=true with S_TXN!=true or claims transaction authority outside the payment phase; and the only script that creates a Session is absent from the non-payment job entirely"
+    },
+    {
+      "id": "the_stripe_secrets_cannot_be_supplied_from_outside_the_payment_environment",
+      "ok": true,
+      "observed": "the hosted workflow no longer declares either Stripe secret under workflow_call.secrets (true), and the F1 dispatch entry point forwards neither to any called workflow (true). The only source is the rcap-acceptance-payment environment, read by hosted_payment"
+    },
+    {
+      "id": "the_github_acceptance_fallback_can_no_longer_transact",
+      "ok": true,
+      "observed": "rcap-github-hosted-acceptance.yml is workflow_call-only with exactly one caller, that caller no longer forwards either Stripe secret, and the fallback's own first step exits 1 on a key that is not sk_test_ — so it fails closed instead of transacting outside the payment phase"
+    },
+    {
+      "id": "an_empty_stripe_secret_never_reads_as_a_completed_acceptance",
+      "ok": true,
+      "observed": "hosted_payment fails closed on an absent or wrongly-shaped Stripe secret before any Stripe call, and its anti-skip gate requires that step's outcome, so an empty secret cannot present as a skipped step inside a green run"
+    },
+    {
+      "id": "non_payment_acceptance_states_what_it_did_not_do",
+      "ok": true,
+      "observed": "the non-payment anti-skip gate records explicitly that the lane produced no Stripe call, no Checkout Session and no payment journey, so a complete non-payment run cannot be read as a complete payment run"
+    },
+    {
+      "id": "payment_refuses_a_non_sk_test_key",
+      "ok": true,
+      "observed": "the payment journey exits 1 unless the key begins sk_test_, and the workflow refuses the same shape before the script is reached"
+    },
+    {
+      "id": "payment_refuses_an_invalid_webhook_secret",
+      "ok": true,
+      "observed": "the payment journey exits 1 unless the signing secret begins whsec_, and the workflow refuses the same shape first"
+    },
+    {
+      "id": "the_two_environments_stay_separate_with_no_shared_stripe_secret",
+      "ok": true,
+      "observed": "hosted_write -> rcap-acceptance (migrate, deploy, non-payment acceptance, worker contract; zero Stripe expressions); hosted_payment -> rcap-acceptance-payment (Stripe test payment only). The required-reviewer boundary between them is a GitHub Settings control and is listed in the setup checklist."
+    },
+    {
+      "id": "the_derived_phase_boundary_matrices_hold_every_invariant",
+      "ok": true,
+      "observed": "STRIPE_SECRET_ACCESS: [hosted_payment, hosted_payment_environment_probe]; STRIPE_TRANSACTION: [hosted_payment]; creates a Checkout Session: [hosted_payment]; no phase writes Vercel Production. All 10 invariants hold. Derived from the workflow by scripts/rcap-phase-boundary-matrix.mjs"
+    },
+    {
+      "id": "a_missing_acceptance_marker_refuses_before_checkout_or_external_execution",
+      "ok": true,
+      "observed": "hosted_write: step 0 is \"Validate the execution authority before checkout, setup or secrets\" (no secret, no checkout, no request) and step 1 is \"Acceptance environment identity sentinel\"; an empty RCAP_ENVIRONMENT_ID or RCAP_ENVIRONMENT_CLASS exits 1 with ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID, at step index 1 versus the first checkout at index 5"
+    },
+    {
+      "id": "a_wrong_acceptance_marker_refuses",
+      "ok": true,
+      "observed": "hosted_write compares against the literals rcap-acceptance-v1 / nonproduction-acceptance and exits 1 with ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID on any other value; the step reads no secret"
+    },
+    {
+      "id": "a_missing_payment_marker_refuses_before_checkout_or_external_execution",
+      "ok": true,
+      "observed": "hosted_payment: step 0 is \"Validate the execution authority before checkout, setup or secrets\" (no secret, no checkout, no request) and step 1 is \"Payment environment identity sentinel\"; an empty RCAP_ENVIRONMENT_ID or RCAP_ENVIRONMENT_CLASS exits 1 with PAYMENT_ENVIRONMENT_IDENTITY_INVALID, at step index 1 versus the first checkout at index 6"
+    },
+    {
+      "id": "a_wrong_payment_marker_refuses",
+      "ok": true,
+      "observed": "hosted_payment compares against the literals rcap-acceptance-payment-v1 / nonproduction-acceptance-payment and exits 1 with PAYMENT_ENVIRONMENT_IDENTITY_INVALID on any other value; the step reads no secret"
+    },
+    {
+      "id": "an_automatically_created_empty_environment_cannot_reach_a_write",
+      "ok": true,
+      "observed": "all three environment-declaring jobs (hosted_write, hosted_payment, payment_probe) assert their environment-scoped variables in step 1, immediately after the execution-authority gate and before any checkout. An auto-created environment carries neither variable, so the sentinel exits 1 before the preflight and before any Supabase, Vercel, registry or Stripe call."
+    },
+    {
+      "id": "hosted_environment_probe_makes_no_external_request",
+      "ok": true,
+      "observed": "the probe runs only for phase environment_probe in hosted_write (environment rcap-acceptance), invokes no script and no action, contacts no Supabase / Vercel / registry / Stripe endpoint, validates the presence of all five shared secrets, references no Stripe secret, and prints only names and booleans"
+    },
+    {
+      "id": "the_probe_phases_reach_no_network_step_in_hosted_write",
+      "ok": true,
+      "observed": "payment_environment_probe cannot enter hosted_write at all (job-level if), and for environment_probe all 6 tree-touching or network-capable steps carry \"inputs.phase != 'environment_probe'\""
+    },
+    {
+      "id": "hosted_payment_environment_probe_makes_no_external_request",
+      "ok": true,
+      "observed": "the payment probe runs only for phase payment_environment_probe, in its own payment_probe job (environment rcap-acceptance-payment), invokes no script and no action, contacts api.stripe.com never, validates the five shared secrets plus sk_test_ and whsec_ FORMAT by prefix, and aborts if it is ever handed transaction authority"
+    },
+    {
+      "id": "the_payment_probe_creates_no_checkout_session",
+      "ok": true,
+      "observed": "the probe body contains no Checkout Session endpoint, invokes neither transacting script, and records stripeApiCallsMade=0, checkoutSessionsCreated=0 and webhooksConsumed=0 in its artifact"
+    },
+    {
+      "id": "secret_access_and_transaction_authority_are_distinct",
+      "ok": true,
+      "observed": "the contract emits STRIPE_SECRET_ACCESS and STRIPE_TRANSACTION separately, asserts that transaction implies access, and every transacting step is gated on transaction rather than on job membership — so the probe holds the key and cannot spend it"
+    },
+    {
+      "id": "only_hosted_payment_can_access_stripe_secrets",
+      "ok": true,
+      "observed": "S_ACCESS=true for exactly [payment, payment_environment_probe], both of which run in hosted_payment; hosted_write carries zero Stripe secret expressions"
+    },
+    {
+      "id": "only_phase_payment_can_transact",
+      "ok": true,
+      "observed": "S_TXN=true for exactly [payment]; every transacting phase also holds access; the contract step in hosted_write and the capability step in hosted_payment each exit 1 if any other phase claims transaction authority"
+    },
+    {
+      "id": "github_acceptance_is_absent_from_dispatch_choices_and_callers",
+      "ok": true,
+      "observed": "dispatch choices are [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_environment_probe, hosted_migrate, hosted_deploy, hosted_accept, hosted_full_nonpayment, hosted_checkout_pinning, hosted_worker_contract, hosted_payment_environment_probe, hosted_payment] — github_acceptance absent; no workflow references rcap-github-hosted-acceptance.yml in a `uses:`, so it has no caller and cannot be invoked"
+    },
+    {
+      "id": "direct_legacy_github_acceptance_invocation_returns_GITHUB_ACCEPTANCE_RETIRED",
+      "ok": true,
+      "observed": "a legacy value is refused in three independent places, each before any secret is read: the F1 `route` job's exact mode map, the legacy_refusal step of all three environment-declaring jobs, and the retired workflow's own first step. Each prints GITHUB_ACCEPTANCE_RETIRED and \"Use hosted_payment for payment-producing acceptance.\""
+    },
+    {
+      "id": "the_retired_payment_behaviour_was_not_moved_elsewhere",
+      "ok": true,
+      "observed": "the tunnel-and-wait-for-a-human-payment machinery stays in the retired file and appears nowhere in the hosted workflow. Its unique case — a real human-completed Sandbox payment on a live host — is documented in the caller and routed through hosted_payment, whose reuse-only Checkout step prepares one real unpaid Session on a stable Preview host."
+    },
+    {
+      "id": "misleading_phase_names_are_retired_as_refused_aliases",
+      "ok": true,
+      "observed": "dispatch offers hosted_full_nonpayment and hosted_checkout_pinning; the old hosted_full and hosted_checkout_gate are gone from the choices and are refused by exact name — with their bare aliases full and checkout_gate — in the route map at the caller and as step 2 of the protected job"
+    },
+    {
+      "id": "the_static_checkout_verification_cannot_be_mistaken_for_a_session_test",
+      "ok": true,
+      "observed": "both jobs name the step \"Static verification that the Checkout pinning records name the accepted release (no Stripe call)\", and scripts/verify-rcap-hosted-checkout-gate.mjs opens no socket and reads no Stripe secret"
+    },
+    {
+      "id": "every_non_payment_artifact_asserts_PAYMENT_EXERCISED_false",
+      "ok": true,
+      "observed": "hosted_write AND readonly_probe each stamp RCAP_PAYMENT_EXERCISED=false onto every JSON artifact they produced and write a standalone payment-exercised.json; both probe artifacts carry PAYMENT_EXERCISED inline because they never check out; the anti-skip gates print PAYMENT_EXERCISED=false; and the stamper's note states plainly that a green non-payment result does not mean paid acceptance is complete"
+    },
+    {
+      "id": "the_payment_job_stamps_the_capability_decision_not_a_literal",
+      "ok": true,
+      "observed": "hosted_payment stamps whatever the capability step decided, so PAYMENT_EXERCISED can only be true where STRIPE_TRANSACTION was true"
+    },
+    {
+      "id": "worker_mismatch_blocks_deploy",
+      "ok": true,
+      "observed": "the reconciler exits non-zero on WORKER_AUTHORITY_BLOCKED, the workflow runs it for every deploying/matrix/gate/diagnose phase ahead of the first write, and the anti-skip gate requires its outcome"
+    },
+    {
+      "id": "the_worker_authority_is_currently_blocked_and_no_pin_was_changed",
+      "ok": true,
+      "observed": "WORKER_AUTHORITY_BLOCKED — neither candidate meets every requirement; no pin is changed; the workflow pins are byte-unchanged from INFRA_BASE_SHA"
+    },
+    {
+      "id": "audit_source_equivalence_failure_blocks_deploy",
+      "ok": true,
+      "observed": "the equivalence check exits non-zero on failure, the workflow runs it before deploying, and the anti-skip gate requires its outcome"
+    },
+    {
+      "id": "the_audited_surface_is_computed_not_asserted",
+      "ok": true,
+      "observed": "190 files in the closure from 112 roots (62 from the Phase 1 flow manifest); 190 identical, 0 differing inside, 33 differing outside — each outside difference carries a derived reachability reason, not a directory claim"
+    },
+    {
+      "id": "no_unexplained_participant_facing_difference_blocks_deployment",
+      "ok": true,
+      "observed": "PASS — all 190 files in the audited surface are byte-identical between d32267b8 and f7ed0ad3, and tools_sha carries the same application bytes. 33 src file(s) differ outside the surface and are named above."
+    },
+    {
+      "id": "vercel_production_target_blocks_deploy",
+      "ok": true,
+      "observed": "all six Preview safeguards are required cases: deployed_to_preview_not_production, deployment_carries_the_final_application_sha, production_aliases_unchanged, production_domains_unchanged, production_deployment_count_unchanged, production_environment_variables_unchanged; the script never passes --prod and asserts target !== \"production\" both when selecting a reuse candidate and after deploying"
+    },
+    {
+      "id": "stripe_live_key_blocks_payment",
+      "ok": true,
+      "observed": "the payment journey refuses any key that is not sk_test_ and any signing secret that is not whsec_; the deploy refuses to place a non-test key in the acceptance environment"
+    },
+    {
+      "id": "pre_and_post_write_snapshots_capture_the_required_shape",
+      "ok": true,
+      "observed": "15 catalog sources captured, including schemas, extensions, tables, columns, constraints, functions, triggers, tableGrants, rlsPolicies, migrationLedger, environmentMarker; the runner captures pre_write and post_write and records the case as required"
+    },
+    {
+      "id": "the_snapshot_records_no_secret_and_no_production_identifier",
+      "ok": true,
+      "observed": "the snapshot carries the acceptance project ref, the source SHA, the tools SHA and the manifest hash, and reads no key, token or password"
+    },
+    {
+      "id": "the_pre_write_snapshot_precedes_the_first_schema_write",
+      "ok": true,
+      "observed": "pre_write is captured before the environment marker is stamped and before the baseline loop runs"
+    },
+    {
+      "id": "the_recovery_model_is_stated_explicitly",
+      "ok": true,
+      "observed": "recoveryDisposition returns resume-safe or delete-and-recreate, names the phase-50 and phase-53 partial states that force recreation, and states that no production project is eligible"
+    },
+    {
+      "id": "product_behavior_files_unchanged",
+      "ok": true,
+      "observed": "no file under src/ or public/, and neither package manifest nor next.config.ts, differs from INFRA_BASE_SHA or is dirty in the worktree (33 path(s) touched in total)"
+    },
+    {
+      "id": "migration_sql_files_unchanged",
+      "ok": true,
+      "observed": "no supabase/*.sql file differs from INFRA_BASE_SHA or is dirty; all 7 manifest hashes still recompute to their authorized values"
+    },
+    {
+      "id": "audit_manifests_unchanged_on_this_branch",
+      "ok": true,
+      "observed": "the Phase 1 / Phase 1B / ENV-007 audit artifacts are untouched by this branch; the infrastructure report references the audit commit externally"
+    },
+    {
+      "id": "git_diff_check_is_clean",
+      "ok": true,
+      "observed": "git diff --check and git diff --check --cached report no whitespace error and no conflict marker"
+    },
+    {
+      "id": "migration_manifest_hash_is_exactly_the_authorized_value",
+      "ok": true,
+      "observed": "recorded 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4; recomputed 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4; expected 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4"
+    },
+    {
+      "id": "all_seven_migration_sql_files_are_byte_identical_to_the_base",
+      "ok": true,
+      "observed": "all 7 migration blobs are identical between dd935798 and HEAD"
+    },
+    {
+      "id": "the_audit_branch_has_not_moved",
+      "ok": true,
+      "observed": "origin/claude/expai-flow-audit-p1 is at 00212d529e82a2a2a90b172b29268922feecfcbd (the frozen ENV-007 packet commit)"
+    },
+    {
+      "id": "every_manifest_hash_still_recomputes_from_disk",
+      "ok": true,
+      "observed": "all 7 manifest SHA-256 values recompute from the files in supabase/"
+    }
+  ]
+}
