@@ -3,8 +3,10 @@
 //
 // The record disposes of a finite historical population -- Defect Register
 // D-001 through D-014 in ExpungementAI_Custom_Pleading_Release_Audit.xlsx --
-// against current bytes. Thirteen rows closed as repaired; one, D-012, is
-// partly live and blocked on the register's own source.
+// against current bytes. Thirteen closed by reading what the product contains.
+// The fourteenth, D-012, was closed by repairing the one specification the row
+// actually reaches: the Virginia absolute-pardon participant filing, rebound
+// from a custom "Transmittal and Request" to official Form CC-1472.
 //
 // Two failure modes are worth a guard, and they pull in opposite directions:
 //
@@ -14,14 +16,13 @@
 //      something false. Those checks are regression guards, not freezes: they
 //      fail only when the defect returns.
 //
-//   2. The one live item gets smoothed over. D-012's Virginia part is a named
-//      conflict between the register and the specification. The danger is a
-//      form binding written from the row alone -- treating an old label as
-//      current truth, which the reconciliation rule forbids. So check 4 is a
-//      disjunction: either an official form is actually bound (the conflict is
-//      resolved from a source), or the specification still says what the record
-//      says it says. It fails on the middle state: a claim that a form controls
-//      with no form bound.
+//   2. A closure claims more than was done. D-012's repair binds a form that is
+//      identified but not ingested, so check 4 is a disjunction: either the
+//      form's geometry has been measured, or the specification still cannot
+//      compose. That passes today, passes after ingestion, and fails on the
+//      dangerous middle -- a route claiming to compose an official form nobody
+//      has measured. The two-branch invariants themselves live in
+//      verify-va-cc1472-two-branch-treatment.mjs.
 //
 // Check 6 is the same shape for D-008's live successor. The record closed the
 // LegalEase footer as written while naming a live instance of the same class
@@ -84,8 +85,9 @@ ok('the §5 prose was explicitly excluded as the enumeration',
   /historical summary context/.test(record.theSource?.whatWasDeliberatelyIgnored ?? ''));
 ok('the record disclaims being an audit, census or nationwide review',
   /not an audit, a census or a nationwide review/.test(record.whatThisIs ?? ''));
-ok('the arithmetic holds: 13 closed + 1 partly live = 14',
-  record.result?.closedRepaired === 13 && record.result?.partlyLive === 1 && record.result?.total === 14,
+ok('the arithmetic holds: every one of the fourteen rows is accounted for',
+  (record.result?.closedRepaired ?? 0) + (record.result?.partlyLive ?? 0) === 14
+  && record.result?.total === 14,
   record.result);
 
 // ---------------------------------------------------------------------------
@@ -177,33 +179,43 @@ ok('D-014: the Grade-A renderer is still standalone rather than packet_document_
   /Deliberately standalone rather than an extension of packet_document_v1/.test(readFileSync(RENDERER, 'utf8')));
 
 // ---------------------------------------------------------------------------
-// The live invariant for D-012. Not a freeze: binding a form from a real
-// source satisfies it.
-console.log('\n4. D-012: the Virginia conflict is not resolved by asserting a form nobody read');
+// D-012 was closed by repairing the one specification the row reaches, rather
+// than by reading the row as current truth. The detailed two-branch invariants
+// live in verify-va-cc1472-two-branch-treatment.mjs; what belongs here is that
+// the closure this record claims is the closure that actually happened.
+console.log('\n4. D-012: the Virginia row was closed by a repair, not by an assertion');
 const va = json(SPEC_VA);
 const vaPrimary = (va.documents ?? []).find((d) => d.role === 'primary_filing');
 const vaForms = [vaPrimary?.officialFormId, ...(vaPrimary?.officialFormIds ?? []), ...(va.officialFormIds ?? [])]
   .filter(Boolean);
-const vaApplicability = vaPrimary?.documentContract?.formApplicability ?? vaPrimary?.formApplicability ?? null;
-ok('an official form is bound, or the specification still says a custom document is permitted',
-  vaForms.length > 0 || vaApplicability === 'custom_document_permitted',
-  { officialForms: vaForms, formApplicability: vaApplicability });
-console.log(vaForms.length > 0
-  ? '            (a form is bound; the register and the specification now agree)'
-  : '            (no form bound and none claimed; the conflict stands as the record describes it)');
-ok('the record refuses to resolve it from the row alone',
-  /treating an old label as current truth, which the reconciliation rule forbids/
-    .test(byId['D-012']?.whyItIsNotResolvedHere ?? ''));
-ok('the record names what the resolution actually needs',
-  /requires the source the register relied on/.test(byId['D-012']?.whyItIsNotResolvedHere ?? ''));
-ok('the parts that do not reach the current product are separated from the live one',
+ok('the participant instrument binds the official form the row named',
+  vaForms.includes('CC-1472'), vaForms);
+ok('it is an official_pdf_fill rather than a custom substitute',
+  vaPrimary?.outputStrategy === 'official_pdf_fill', vaPrimary?.outputStrategy);
+// Not a freeze: this holds today and after the form is ingested. It fails only
+// if the route claims to compose an official form nobody has measured.
+ok('the form geometry has been measured, or the specification still cannot compose',
+  va.officialForm?.overlayGeometry?.status === 'MEASURED' || va.legalSectionsBound === false,
+  { geometry: va.officialForm?.overlayGeometry?.status, legalSectionsBound: va.legalSectionsBound });
+ok('the superseded custom approval is not rolled forward',
+  va.supersession?.priorApprovalStatus === 'HISTORICAL_EVIDENCE_ONLY',
+  va.supersession?.priorApprovalStatus);
+ok('no fee exemption was invented while rebinding the form',
+  va.feeAndWaiver?.feeExemptionEstablished === false, va.feeAndWaiver?.feeExemptionEstablished);
+ok('the record names the real defect as instrument selection, not a missing form',
+  /defect was instrument selection/.test(byId['D-012']?.whatWasActuallyWrong ?? ''));
+ok('the record states the form is identified but not yet ingested',
+  /identified, not ingested/.test(byId['D-012']?.whatIsNotDoneAndWhy ?? ''));
+ok('the parts that do not reach the current product are still separated out',
   /WA CROP and MA BMC multi have no packet specification/.test(byId['D-012']?.whatIsNotLive ?? ''));
 ok('no adjacent Washington or Massachusetts route was opened on the strength of the row',
   /No adjacent Washington or Massachusetts route was opened or reviewed/.test(byId['D-012']?.whatIsNotLive ?? ''));
-ok('the remaining review names exactly this one item',
-  /D-012's Virginia part/.test(record.remainingReview ?? ''));
-ok('the result lists exactly one live item', (record.result?.liveItems ?? []).length === 1,
+ok('no historical finding is left live', (record.result?.liveItems ?? []).length === 0,
   record.result?.liveItems);
+ok('the remaining downstream work is named rather than dropped',
+  (record.result?.itemsCarryingRemainingWork ?? []).some((s) => /CC-1472 is bound .* but not ingested/.test(s)));
+ok('the correction to the first pass is recorded as an amendment',
+  /that was wrong, and the correction is recorded/i.test(record.amendment?.why ?? ''));
 
 // ---------------------------------------------------------------------------
 // The same shape for D-008's live successor.
