@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "ND-SFN-61663-BINDING-BLOCKER-ANALYSIS-2026-09-21",
+  "reviewer": "Captain (A-lane; mechanism analysis from committed inputs, not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "rcap-nd",
+  "scope": [
+    "ND:marijuana-specific-summary-pardon-or-sealing-relief"
+  ],
+  "question": "The five official_sources entries on the ND marijuana-pardon route all name SFN-61663. The bytes were proven present and manifest-declared on 2026-09-21. Why did applying that evidence not close them, and what exactly would?",
+  "finding": "SFN-61663 is unaccounted because the Grade-A source chain resolves a source by identifier on both sides, and neither side has ever carried the identifier SFN-61663. The bytes are present, byte-identical, in two custodies -- but indexed under the document id ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA, not under the form number. No packet source record anywhere declares documentId SFN-61663. The blocker is an identity binding that does not exist, not missing or unverified bytes.",
+
+  "theFiveEntries": {
+    "whereTheyLive": "data/rcap-grade-a/fulfillment-authority-projection.json, route ND:marijuana-specific-summary-pardon-or-sealing-relief",
+    "entries": [
+      "official_sources: SFN-61663 does not name the corpus release and archive its bytes were verified from",
+      "official_sources: SFN-61663 has no content hash",
+      "official_sources: SFN-61663 has no expected content hash from a packet source record",
+      "official_sources: SFN-61663 has no installed content hash from a verified corpus",
+      "official_sources: SFN-61663 has no source verification record"
+    ],
+    "emittedBy": "src/lib/rcap/fulfillment/grade-a-authority.ts, the officialSources loop",
+    "note": "All five are one cause. They are five because the proof requires five independent fields, and an uncorroborated source has none of them."
+  },
+
+  "theChain": {
+    "1_corpusIndex": {
+      "file": "data/rcap-all50/local-source-corpus-index.json",
+      "keysBy": "formNumber",
+      "suppliesTheInstalledSide": true
+    },
+    "2_packetSourceRecords": {
+      "scannedBy": "scripts/generate-rcap-official-source-registry.mjs, scanOverlays()",
+      "fileName": "source-record.json",
+      "keysBy": "documentId",
+      "suppliesTheExpectedSide": true
+    },
+    "3_sourceRegistry": {
+      "file": "data/rcap-grade-a/official-source-registry.json",
+      "generatedBy": "scripts/generate-rcap-official-source-registry.mjs",
+      "rule": "corroborated requires BOTH sides present AND the two digests equal. Both empty is 'unaccounted'; one present is 'single_record_only'."
+    },
+    "4_fulfillmentAuthority": {
+      "file": "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "generatedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+      "rule": "Only a corroborated source receives sha256, corpusReleaseId, corpusArchiveSha256, verifiedAt and verificationRecord. An uncorroborated source is written with empty strings, deliberately."
+    },
+    "theGeneratorSaysWhyInItsOwnWords": "It is never derived from the identifier: hashing the name proves nothing about the document, and a court could reissue a form under the same identifier without anything reading as stale. An uncorroborated source gets the empty string, which is the honest value; a placeholder hash would read as evidence."
+  },
+
+  "whatIsMeasuredFromCommittedData": {
+    "bytesInTheIndex": {
+      "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+      "byteLength": 46054,
+      "pageCount": 2,
+      "acroFormPresent": true,
+      "acroFieldCount": 36,
+      "custodies": [
+        "master_library — STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA__north-dakota-pardon-advisory-board-application-to-pardon-eligible__REV-2020-02__EN.pdf",
+        "d_source_packs — private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/ND/04_SUPPORTING_PROCESS/ (same file name)"
+      ],
+      "byteIdentical": "Both custodies carry the same sha256 and the same byte length."
+    },
+    "theIdentifierGap": {
+      "formNumberInTheIndex": "ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA",
+      "entriesWhoseFormNumberIsSfn61663": 0,
+      "sourceRecordsDeclaringDocumentIdSfn61663": 0,
+      "ndOverlayDirectory": "data/rcap-all50/overlays/production/north-dakota/ does not exist",
+      "consequence": "The registry looks up SFN-61663, finds nothing on either side, and writes status 'unaccounted' with every field empty. That is the correct behaviour."
+    },
+    "registryStatusToday": "unaccounted; expectedSha256, installedSha256, expectedFrom, installedFrom and corpusPath are all empty strings."
+  },
+
+  "whatWouldActuallyCloseThem": {
+    "expectedSide": "A packet source record with documentId 'SFN-61663', its sha256, and canonicalBundlePath pointing at the corpus file. That record asserts the packet was built against this form, so it may only be written when an overlay or packet actually binds it. None exists, and North Dakota has no overlay directory at all.",
+    "installedSide": "The corpus index must carry an entry whose formNumber is SFN-61663. The index is regenerated from the corpus, which this record's own header states is not committed, so that side cannot be produced in this checkout.",
+    "bothAreRequired": "Writing only the packet source record would move SFN-61663 from 'unaccounted' to 'single_record_only'. That clears some of the five entries and leaves the installed-hash, corpus-release and verification-record entries standing. Partial binding is not closure.",
+    "whatMayNotBeDone": "The identity SFN-61663 = ND-NORTH-DAKOTA-PARDON-ADVISORY-BOARD-APPLICA is established in this repository's legal records, but a legal record is not an input to the source registry and must not be made one by hand-editing a generated file. Hand-writing either digest, or asserting corroboration the generator did not compute, would produce exactly the placeholder the generator refuses to accept."
+  },
+
+  "newFindingRevisionAmbiguity": {
+    "what": "A third North Dakota pardon-application file exists in the corpus index with a DIFFERENT digest and no form number at all: sha256 b88cb559c375d244..., under the Nationwide Recovery Pool acquisition of 2026-09-04.",
+    "whyItMatters": "Two distinct files plausibly answer to 'the North Dakota pardon application'. The one this analysis names is pinned to REV-2020-02 and agrees with STATE_MANIFEST.csv; the other is unpinned and unidentified. Binding the wrong bytes would be worse than binding nothing.",
+    "disposition": "Not resolved here. Which file SFN-61663 denotes, and whether the 2026-09-04 acquisition supersedes REV-2020-02, must be settled before any binding is attempted."
+  },
+
+  "statusOfThisSource": {
+    "sourceIdentifiedAndProvenancedProven": "YES",
+    "authoritativeSourceBindingApplied": "NO",
+    "gradeABlockerClosed": "NO",
+    "whatChangedToday": "Only the explanation. The 2026-09-21 record proved the bytes exist and are manifest-declared; this record establishes why that evidence did not and could not close the five entries, and names exactly what would. No binding was applied and no blocker was closed.",
+    "readThisFirst": "Do not read 'the cause is understood' as 'the blocker is closed'. The route remains INCOMPLETE and not_commercially_eligible."
+  },
+
+  "whatRemains": [
+    "Resolve the revision ambiguity between c59cd5b8 (REV-2020-02, manifest-agreed) and b88cb559 (2026-09-04 acquisition, unidentified).",
+    "Decide whether the marijuana-pardon route binds SFN-61663 as an official form at all, which is the legal-design question and is not answered here.",
+    "If it does: build the packet source record against the corpus, and regenerate the corpus index so the installed side carries the identifier.",
+    "Counsel review of everything above."
+  ],
+
+  "marijuanaPardonCommercialQuestion": "Left as a legal-design question only. This record mutates no commercial-state machinery, opens no route and changes no runtime behaviour.",
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Counsel review. This record explains a blocker from committed inputs; it binds nothing, closes nothing and approves nothing."
+}
