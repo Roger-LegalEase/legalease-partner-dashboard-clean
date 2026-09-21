@@ -10,6 +10,7 @@ const hostedPath = path.join(root, ".github/workflows/rcap-hosted-acceptance-sta
 const deployPath = path.join(root, "scripts/rcap-hosted-acceptance-deploy.mjs");
 const resolverPath = path.join(root, "scripts/rcap-hosted-resolve-preview.mjs");
 const gate = fs.readFileSync(gatePath, "utf8");
+const routeContract = fs.readFileSync(path.join(root, "scripts/rcap-hosted-checkout-route-contract.mjs"), "utf8");
 const entry = fs.readFileSync(entryPath, "utf8");
 const hosted = fs.readFileSync(hostedPath, "utf8");
 const deploy = fs.readFileSync(deployPath, "utf8");
@@ -88,13 +89,14 @@ includesEvery(gate, [
   "consumer_a_admitted_to_staging_scope",
   "consumer_b_outside_staging_scope",
   "anonymous_access_denied",
-  "Path A — Non-conviction expungement",
+  "pennsylvania_path_a_refuses_commercial_authority",
+  "paRefusalEvidence(await readPaRefusal())",
   "consumer_caller_profile_and_eligibility_mapping_exact",
   "getProfileByJurisdiction",
   "isConsumerPaymentAllowed",
-  'routeKind === "legacy_retired"',
-  'rendererKind === "packet_document_v1"',
-  'rendererVersion === "1.0.0"',
+  "msMappingEvidence",
+  "fulfillmentAuthorityFor(MS_CHECKOUT.routeId)",
+  "packetRouteCanRender",
   "unpaid_render_returns_402",
   "checkoutSessionId",
   "exactly_one_real_stripe_session_for_item",
@@ -106,11 +108,18 @@ includesEvery(gate, [
   "fixtureRetainedForRoger = true"
 ], "gate");
 
-check(
-  gate.includes("routeIdentity.profileVersion === String(compiledProfile?.profileVersion)")
-    && !/routeIdentity\.profileVersion\s*===\s*["'][^"']+["']/.test(gate),
-  "Pennsylvania route gate must bind profileVersion to compiledProfile instead of a stale literal"
-);
+includesEvery(routeContract, [
+  'pathwayLabel: "Path A — Non-conviction expungement"',
+  'pathwayId: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"',
+  'trackId: "ms-nonconv"',
+  'packetFamilyId: "ms-nonconv-set"',
+  '["built.spec.profileVersion", built.spec?.profileVersion, MS_CHECKOUT.profileVersion]',
+  '["compiledProfile.profileVersion", compiledProfile?.profileVersion, MS_CHECKOUT.profileVersion]',
+  '["built.spec.rendererKind", built.spec?.rendererKind, "packet_document_v1"]',
+  '["built.spec.rendererVersion", built.spec?.rendererVersion, "1.0.0"]',
+  '"legacy_retired"', '"consumer_checkout"', '"generation_admission"',
+  '"sponsored_entitlement"', '"packet_credit_admission"', '"consumer payment authority"'
+], "exact route contract");
 check(
   gate.includes("seeded_item_carries_reviewed_packet_information")
     && gate.includes("packetInformationReviewSafety")
@@ -122,12 +131,16 @@ check(
 );
 check(
   gate.includes("convergeSellableScreening")
-    && gate.includes('[routeIdentity.jurisdiction, ...["MS", "IL", "PA"].filter')
+    && gate.includes("convergeSellableScreening(MS_CHECKOUT.jurisdiction)")
+    && !gate.includes("const candidates =")
+    && gate.includes("no fallback permitted")
+    && gate.includes("pathway: MS_CHECKOUT.pathwayId")
+    && gate.includes("trackId: MS_CHECKOUT.trackId")
     && gate.includes("checkout_fixture_route_derived_from_authorities")
     && gate.includes("stored_row_matches_authoritative_resolver")
     && gate.includes("jurisdiction: checkoutRouteIdentity.jurisdiction")
     && gate.includes("pathway_label: checkoutRouteIdentity.pathwayLabel"),
-  "Checkout fixture must fall back to an evaluator-proven sellable route and derive its metadata dynamically"
+  "Checkout fixture must stay on the exact Captain-selected MS route and explicit track without fallback"
 );
 
 // A partial rebind is the dangerous shape: one constant moved, the other left
@@ -223,7 +236,7 @@ check(
 // The gate and its verifier are driven by the normalized contract, not by
 // hand-written phase lists. Eight independently-written `inputs.phase ==`
 // conditions is exactly how `full` went missing from the matrix.
-const gateStep = hosted.match(/- name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid[\s\S]*?\n\s+env:/)?.[0] ?? "";
+const gateStep = hosted.match(/- name: Prove PA refusal and prepare the exact MS Sandbox Checkout, then stop unpaid[\s\S]*?\n\s+env:/)?.[0] ?? "";
 check(Boolean(gateStep), "could not locate the Checkout gate step");
 check(/steps\.contract\.outputs\.(gate|matrix)/.test(gateStep),
   "the Checkout gate step is not driven by the normalized phase contract");
