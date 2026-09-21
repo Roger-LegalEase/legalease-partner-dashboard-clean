@@ -10,11 +10,30 @@ other agent, a shared-foundation change needing coordination, or work that shoul
 not be started. It is committed once and amended in place — do not write a
 derivative plan, a second worklist, or a competing definition of done.
 
-Two things it says about itself that are easy to get wrong. Its §7 release
-snapshot is a reference, not a live record: refresh branch, SHA and run state
-from the repository before acting on it. And its authority order puts Roger's
-current instruction above the plan, so a live instruction that disagrees with §7
-governs.
+Its release snapshot is a reference, not a live record: refresh branch, SHA and
+run state from the repository before acting on it. Roger's current instruction
+outranks the plan, so a live instruction that disagrees with the snapshot governs.
+
+The plan's own §2 resolves two conflicts that older text in this file and in the
+superseded plan revision got wrong. Read them here so neither is rediscovered:
+
+**Purchase sequence.** `docs/PRODUCT_CONTRACT.md` §0 Experience A and QA control
+P06-03 both put packet information and verification *before* checkout. The
+superseded plan §19 diagrammed payment first; it is withdrawn. The sequence is
+screening → preliminary result → authenticated claim → participant-owned
+matter/Briefcase → necessary Packet Information → review/verification → DTC
+checkout and settlement → generation → download and filing tasks. Do not push
+detailed packet intake up into screening, and do not turn signatures,
+notarization or certified-copy acquisition into purchase prerequisites merely
+because filing eventually needs them. Sponsored admission keeps its separate
+authority path with ownership, consent and verification intact and no consumer
+charge.
+
+**Expungement.ai UI and nonproduction security are in scope.** The sprint-era
+instruction below that excluded new Expungement.ai UI work is superseded.
+Required UX and nonproduction security engineering are launch work. Every
+production, money, credential, participant-data and destructive-action safeguard
+in this file is unchanged.
 
 **Enterprise plan of record:** `docs/LegalEase-Master-Build-Plan-v4.md`. It carries
 all still-controlling v3 content and adds the Company Controls and SOC 2
@@ -82,7 +101,12 @@ Build RCAP coverage for all 50 states plus DC from `private/Nationwide Record Cl
 
 For ordinary build work, do not wait for visual verification, counsel review, source freshness review, or Roger approval. QA and attorney review happen after the buildout using generated review artifacts. Build statuses and review statuses are tracked separately.
 
-Do not work on the new Expungement.ai UI in this sprint. Focus only on RCAP state coverage, official PDF overlays, custom pleadings, guidance packets, manifests, verifiers, internal previews, and review artifacts.
+SUPERSEDED by the plan's §2, recorded above: this paragraph once read "Do not
+work on the new Expungement.ai UI in this sprint." Required Expungement.ai UX and
+nonproduction security engineering are now launch work. The rest of the sprint
+focus — RCAP state coverage, official PDF overlays, custom pleadings, guidance
+packets, manifests, verifiers, internal previews and review artifacts — still
+describes real work and is not cancelled by that change.
 
 ## Standing Permission
 
