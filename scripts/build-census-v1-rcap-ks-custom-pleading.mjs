@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC census-v1 builder — Kansas municipal-court expungement, K.S.A. 12-4516
  * (ordinance conviction or diversion) and K.S.A. 12-4516a (ordinance arrest).
@@ -1253,7 +1254,7 @@ async function renderComposedPdf(fullText, title) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => renderedWidth(w) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -1264,7 +1265,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   const sourceLines = sanitizePdfText(fullText).split("\n");
   const routeFooter = sourceLines.at(-1)?.startsWith("Route: ") ? sourceLines.pop() : null;
   if (routeFooter && sourceLines.at(-1) === "") sourceLines.pop();

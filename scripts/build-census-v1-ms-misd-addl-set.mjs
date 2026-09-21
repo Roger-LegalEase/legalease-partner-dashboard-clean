@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The Mississippi additional justice-court / municipal-court misdemeanor
  * expungement packet family builder.
@@ -664,7 +665,7 @@ async function renderComposedPdf(fullText, title) {
    * break on fails the build instead of shipping a chopped one.
    */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -675,7 +676,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
 
   /* Lay every block out into pages before drawing anything, so the trailer can
    * be caught sitting alone while the layout is still only a plan. A block is

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PC census-v1 builder — West Virginia first-offense drug possession
  * conditional discharge relief, W. Va. Code § 60A-4-407.
@@ -1081,7 +1082,7 @@ async function renderComposedPdf(fullText, title, componentId) {
     if (current) chunks.push(current);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -1092,7 +1093,7 @@ async function renderComposedPdf(fullText, title, componentId) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   /* The same rows, wrapped by the same rule, on the same pages: rowsPerPage is
    * exactly the number the old draw-until-the-margin loop fitted, so no
    * component's pagination moves. What is new is that the closing execution

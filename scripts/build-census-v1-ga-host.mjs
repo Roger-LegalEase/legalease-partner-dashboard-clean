@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The shared Georgia record-restriction packet host.
  *
@@ -1162,7 +1163,7 @@ async function renderComposedPdf(fullText, title) {
    * column, so no token here is ever long enough to be split -- and the
    * assertion below proves that on every build rather than asserting it here. */
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]);
     const rows = []; let current = "";
@@ -1173,7 +1174,7 @@ async function renderComposedPdf(fullText, title) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   /* THE SOLE-OCCUPANT TRAILER PULL-DOWN.
    *
    * The route trailer is internal machine metadata rather than pleading text,

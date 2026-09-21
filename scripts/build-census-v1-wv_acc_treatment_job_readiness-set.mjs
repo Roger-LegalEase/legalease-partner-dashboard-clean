@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The West Virginia § 61-11-26a accelerated expungement family —
  * `wv_acc_treatment_job_readiness-set`.
@@ -1221,7 +1222,7 @@ async function renderComposedPdf(fullText, title, layout = {}) {
     y -= lineHeight;
   };
   const splitToken = createTokenSplitter({ fits: fitsByFontMetrics(font, fontSize, maxWidth) });
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => (font.widthOfTextAtSize(w, fontSize) > maxWidth ? splitToken(w) : [w]));
     const rows = []; let current = "";
@@ -1232,7 +1233,7 @@ async function renderComposedPdf(fullText, title, layout = {}) {
     }
     if (current) rows.push(current);
     return rows;
-  };
+  });
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
   assert.equal(splitToken.hardSplits, 0,
     `${title}: a token was chopped mid-word to fit the column; it has no separator to break on and must not ship broken`);

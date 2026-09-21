@@ -1,3 +1,4 @@
+import { courtFacingRows } from "../rcap-custom-pleading/court-facing-rows.mjs";
 import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -379,7 +380,7 @@ async function renderComposedPdf(fullText, title, layout = {}) {
     if (cur) chunks.push(cur);
     return chunks;
   };
-  const wrap = (line) => {
+  const wrap = courtFacingRows((line) => {
     if (!line) return [""];
     const words = line.split(/\s+/).flatMap((w) => (renderedWidth(w) > maxWidth ? splitToken(w) : [w]));
     const rows = []; let cur = "";
@@ -389,7 +390,7 @@ async function renderComposedPdf(fullText, title, layout = {}) {
     }
     if (cur) rows.push(cur);
     return rows;
-  };
+  });
   for (const raw of sanitizePdfText(fullText).split("\n")) for (const row of wrap(raw)) draw(row);
   return Buffer.from(await pdf.save({ useObjectStreams: false, updateMetadata: false }));
 }
