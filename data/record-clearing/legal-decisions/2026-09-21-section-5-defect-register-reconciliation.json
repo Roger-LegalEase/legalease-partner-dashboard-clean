@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "SECTION-5-DEFECT-REGISTER-RECONCILIATION-2026-09-21",
+  "reviewer": "Captain (one-time reconciliation of the finite historical §5 findings against current bytes; not a counsel approval)",
+  "reviewDate": "2026-09-21",
+  "familyId": "cross-family",
+
+  "whatThisIs": "The one-time reconciliation the A1 scope lock requires of the finite historical §5 findings. It is not an audit, a census or a nationwide review, and it creates no worklist. The population is fixed at fourteen rows and is now closed except where stated.",
+
+  "theSource": {
+    "section": "GRADE_A_V2_2026-09-19_SOURCE.md, '## 5. Complete nationwide legal, form and document remediation'",
+    "rowLevelSource": "ExpungementAI_Custom_Pleading_Release_Audit.xlsx",
+    "workbookSha256": "38fe4f058d1c06efdfbc60da82c5f0ff53e87adb4af257a8a3f84f1afdfe4df1",
+    "shaVerifiedOnReceipt": true,
+    "population": "Defect Register, D-001 through D-014. Fourteen rows, header excluded. The workbook's Productized Components, Lane-C Inventory and Format Gate tabs were treated as supporting evidence for mapping a row to a current successor, not as additional task lists.",
+    "whatWasDeliberatelyIgnored": "The §5 prose naming Virginia, Tennessee, Texas, Mississippi, Georgia and other audited states is historical summary context. The finite enumeration is D-001 to D-014 and nothing else was taken from the prose."
+  },
+
+  "method": {
+    "rule": "Each row was tested against current bytes rather than read as current truth. Where a row named an exact string or behaviour, the test was whether that string or behaviour is present in the current product now.",
+    "primaryEvidenceSurface": "The 280 current canonical census-v1 fixtures at data/rcap-all50/overlays/census-v1/*/*/fixtures/canonical.pdf, read with pdftotext -layout, plus the current packet specifications and the current runtime source.",
+    "whyOutputRatherThanCode": "A row about what appears in a filed document is settled by what the filed document contains. Reading the composer would establish intent; reading the output establishes fact.",
+    "oneCorrectionMadeDuringThePass": "An early case-insensitive count reported 'AND NOW' in twelve fixtures. That was wrong: it matched ordinary lower-case prose. The case-sensitive figure is two. The disposition below uses the corrected figure."
+  },
+
+  "dispositions": [
+    {
+      "id": "D-001",
+      "layer": "Shared renderer",
+      "historicalDefect": "Pennsylvania default leakage: usesCounty:true could emit Pennsylvania Court of Common Pleas / Pennsylvania State Police in non-PA filings. Affected scope TX, IL, KY.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "Zero of the non-PA canonical fixtures carry Pennsylvania defaults. Pennsylvania text now lives in a named jurisdiction builder, buildPennsylvaniaNextSteps in src/lib/rcap/documents/filing-next-steps.ts, rather than in a shared branch keyed on usesCounty; every usesCounty occurrence found in the current tree is a per-state configuration value, not a renderer branch.",
+      "aFalsePositiveWorthRecording": "The first sweep flagged ct/ct-cannabis-petition-set--custom-pleading as a leak because it contains the words 'Court of Common Pleas'. It is not a leak. The sentence is Connecticut's own venue rule under Conn. Gen. Stat. Sec. 54-142v - for a conviction in the former Court of Common Pleas, Circuit Court, a municipal court or before a trial justice, file in the Superior Court where venue would currently exist - and the word 'Pennsylvania' appears zero times in that fixture. A court name shared between states is not evidence of leakage."
+    },
+    {
+      "id": "D-002",
+      "layer": "Shared renderer",
+      "historicalDefect": "Universal generic pleading skeleton: nationwide Roman-numeral sections and generic parties/facts/eligibility/prayer overriding jurisdiction-specific architecture. Affected scope all custom routes.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "'I. PARTIES', 'II. FACTS' and 'III. ELIGIBILITY' each appear in zero canonical fixtures. 'PRAYER FOR RELIEF' appears in one, hi/rcap-hi-custom-pleading, where it is that jurisdiction's own pleading structure rather than an imposed nationwide skeleton. One jurisdiction using a heading is not the universal skeleton the row describes."
+    },
+    {
+      "id": "D-003",
+      "layer": "Shared renderer",
+      "historicalDefect": "Court-facing eligibility disclaimer inside a filed pleading.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "The disclaimer's own words, 'this document does not guarantee', appear in zero canonical fixtures. The phrase 'may be eligible' appears in eight, and every one was read: five Kansas and one Arizona and one Texas are the states' own official form text about registration relief or fee modification, all official_pdf_fill, and one is a Pennsylvania guidance passage about vacatur. None is a product disclaimer on a court page."
+    },
+    {
+      "id": "D-004",
+      "layer": "Shared renderer",
+      "historicalDefect": "Universal 'VI. VERIFICATION' heading appearing where governing law does not require verification. Affected scope TN, WV and others.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "'VI. VERIFICATION' appears in zero canonical fixtures."
+    },
+    {
+      "id": "D-005",
+      "layer": "Shared renderer",
+      "historicalDefect": "DOB/SSN instructional note in a filed document, telling the participant to add identifiers if local rules require.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "'if local rules require' appears in zero canonical fixtures."
+    },
+    {
+      "id": "D-006",
+      "layer": "Shared renderer",
+      "historicalDefect": "Generic service menu in a filed certificate: '[personal delivery / first-class mail / other...]'.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "'personal delivery / first-class mail' appears in zero canonical fixtures."
+    },
+    {
+      "id": "D-007",
+      "layer": "Shared renderer",
+      "historicalDefect": "Generic proposed-order language used nationwide: 'AND NOW', 'ORDERED and DECREED', 'BY THE COURT', 'J.'.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "'ORDERED and DECREED' appears in zero canonical fixtures. Case-sensitive 'AND NOW' appears in exactly two, pa/pa-age70-deceased-set and pa/pa-pardon-expungement-set, both official_pdf_fill - that is the Pennsylvania official form's own text, which is where the phrase belongs. The defect was nationwide use, and nationwide use is gone."
+    },
+    {
+      "id": "D-008",
+      "layer": "Shared renderer",
+      "historicalDefect": "LegalEase footer on filed pages: 'Prepared by ... using LegalEase. This is not an official court form.'",
+      "disposition": "CLOSED as written - but the class has a live successor instance, already tracked",
+      "currentEvidence": "'using LegalEase' and 'This is not an official court form' each appear in zero canonical fixtures, so the exact footer is gone.",
+      "theLiveInstanceOfTheSameClass": "A different product identifier is on court-facing pages now: the composer appends 'Route: obligation:...' as the last line, measured on 73 of 280 canonical fixtures and confirmed in the composer source at build-census-v1-dc_seal_nonconviction-set.mjs, which pushes `Route: ${variant.routeKey}` after the body. It reaches a filing's signature page and a prosecutor's copy. This is not a reopening of D-008; it is a current defect of the same class, already raised and owned by the engineering lane, and it is not repaired here."
+    },
+    {
+      "id": "D-009",
+      "layer": "Data/config",
+      "historicalDefect": "Unresolved placeholder tokens in canonical renders: {county}, {court}, {petitionerName}, [TO BE CONFIRMED]. Affected scope TX, IL, WV, GA and others.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "All four token forms appear in zero canonical fixtures. The shared token-safety defect was closed and the affected routes now refuse rather than leak; the remaining containment question - that eleven documents on six routes refuse instead of rendering - is separately tracked and is coverage work, not this leakage defect."
+    },
+    {
+      "id": "D-010",
+      "layer": "Packet specification",
+      "historicalDefect": "Evidence mislabeled as custom pleading: externally obtained disposition, pardon and criminal-history documents classified custom_pleading. Affected scope GA productized specs. Remediation: reclassify to participant attachment and create only neutral exhibit separators if appropriate.",
+      "disposition": "CLOSED - repaired via successor, in the remediation's own shape",
+      "currentEvidence": "Read the component rather than its outputStrategy. GA-restriction-and-sealing-of-a-pardoned-felony exhibit_b_pardon_certificate carries instrumentClass 'attachment', preparedBy 'participant', presentation 'guidance', and exactly one static section which is an exhibit cover - 'EXHIBIT B - PARDON CERTIFICATE / For: {{participant_full_legal_name}} / Filing: ...'. It is a neutral separator, not the certificate. Both Georgia specifications pair each exhibit with its own *_instructions component at process_guidance. outputStrategy custom_pleading here describes how a composed separator page is produced, not what the component claims to be."
+    },
+    {
+      "id": "D-011",
+      "layer": "Packet specification",
+      "historicalDefect": "Automatic route mislabeled primary filing: the SDCL 23A-27-17 court duty modeled as a participant 'Written Request' primary filing. Remediation: remove primary filing; use status verification / escalation route.",
+      "disposition": "CLOSED - repaired via successor",
+      "currentEvidence": "The South Dakota specification now carries implementation_request and enforcement_motion rather than a participant 'Written Request'. The instrument asks the court to implement the duty the statute already places on it, with an escalation motion behind it, which is the status-verification-and-escalation shape the remediation asked for.",
+      "oneHonestCaveat": "The role name primary_filing persists on implementation_request, so the remediation's literal words - remove primary filing - are not satisfied by name. They are satisfied in substance: what the participant files is no longer a request the statute does not require of them. Recorded rather than smoothed over."
+    },
+    {
+      "id": "D-012",
+      "layer": "Packet specification",
+      "historicalDefect": "Official form ignored: custom product persists despite a current official form for the exact route. Affected scope VA absolute pardon; VA wrong-person; WA CROP; MA BMC multi.",
+      "disposition": "PARTLY LIVE - the one live part needs the register's own source before it can be acted on",
+      "currentEvidence": "VA-absolute-pardon-expungement.v1 is still a custom_pleading with no official form bound. But the current specification does not merely omit a form: it asserts formApplicability 'custom_document_permitted' and records localVariant 'unresolved' with the reason 'no source read states whether a local form or practice controls this component'. The register asserts a current official form exists for this exact route. Those two positions cannot both be right.",
+      "whyItIsNotResolvedHere": "Resolving it requires the source the register relied on when it asserted the form exists, and that source is not identified by the row. Recording a form from the row alone would be treating an old label as current truth, which the reconciliation rule forbids. Naming the conflict is the correct outcome of a reconciliation; inventing the resolution is not.",
+      "whatIsNotLive": "WA CROP and MA BMC multi have no packet specification in the current set at all, so 'custom product persists despite an official form' does not reach the current product for them. No adjacent Washington or Massachusetts route was opened or reviewed on the strength of the row naming those states."
+    },
+    {
+      "id": "D-013",
+      "layer": "Architecture",
+      "historicalDefect": "State-level historical exception: five states represented by special legacy-retired architecture rather than exact route/family proof. Affected scope MS, IL, DC, PA, TX. Remediation: historical download access may remain, but fulfillment must use the same route/family/current-authority gate as all jurisdictions.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "Fulfillment now runs through one gate for legacy and non-legacy jurisdictions alike. fulfillmentAuthorityForRoute, which its own source calls the function that answers whether a route is commercially eligible and the only one, was measured returning COMPLETE_PACKET_PROVEN for MS:non-conviction-expungement (a legacy-listed state) and COMPLETE_PACKET_PROVEN for WY:felony-conviction-expungement (not listed) and UNKNOWN_FAIL_CLOSED for VA:regime-1 (not listed, no record). The gate discriminates on whether a Grade-A record exists, not on which state it is. LEGACY_VERIFIED survives only as the ADR-0004 retirement refusal at route resolution, which is the preserved historical-access boundary the remediation explicitly allows."
+    },
+    {
+      "id": "D-014",
+      "layer": "Factory PDF",
+      "historicalDefect": "Generic court-facing pages are not pleadings: shared packet_document_v1 renders labelled facts plus a Statement instead of exact pleading or form structure. Remediation: do not equate valid PDF bytes with a fileable court document; bind the exact form or pleading artifact family.",
+      "disposition": "CLOSED - repaired",
+      "currentEvidence": "The Grade-A renderer is a separate implementation: src/lib/rcap/grade-a/renderer.ts states it is deliberately standalone rather than an extension of packet_document_v1. packet_document_v1 remains one named renderer kind among several in the job contract alongside official_pdf_overlay_v1 and xfa_static_variant_v1, rather than the single generic path every custom route is sent through. The Grade-A families read in this session compose from exact per-component sections, which is the bound artifact family the remediation asked for."
+    }
+  ],
+
+  "result": {
+    "total": 14,
+    "closedRepaired": 13,
+    "partlyLive": 1,
+    "liveItems": [
+      "D-012, and only its Virginia absolute-pardon part, which is blocked on the register's own source rather than on implementation"
+    ],
+    "raisedButNotPartOfThisPopulation": [
+      "The 'Route: obligation:...' identifier on 73 of 280 canonical fixtures. It is the live successor of D-008's class, it is a current concrete defect, and it is owned by the engineering lane. It is named here so the D-008 closure cannot be read as saying no product identifier reaches a court page."
+    ],
+    "nothingWasRebuilt": "No historical output was regenerated to reproduce a historical failure, no state was reopened because a row named it, and no adjacent route was reviewed. Thirteen rows were closed by reading what the current product actually contains."
+  },
+
+  "statusOfThisRecord": {
+    "stateChanged": "none",
+    "readThisFirst": "This is a reconciliation. It repairs nothing, changes no specification, opens no route and creates no authority. Its output is a disposition per historical row and one named live conflict."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "D-012's Virginia part: whether a current official form controls the Va. Code Sec. 19.2-392.2(I) transmittal, which the current specification says no read source establishes and the historical register says exists."
+}
