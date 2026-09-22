@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
-  "sourceSha": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+  "sourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "canonicalIntegrationBranch": "main",
   "releaseIntegrationBranch": "captain-release",
   "containedIn": "captain-release",
@@ -8,36 +8,35 @@
   "dockerfileSha256": "75d30c7888ea4e34d4a9aa6176c2455e8b468e5bc7d59818738ccde5eef1ddaf",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
-  "immutableRegistryDigest": "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41",
-  "workflowRunId": 35750246888,
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35750246888",
+  "imageTag": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+  "immutableRegistryDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+  "workflowRunId": 35769217594,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769217594",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationTimestamp": "2026-09-22T15:55:30Z",
-  "publicationArtifactId": 10705325749,
-  "publicationArtifactName": "rcap-render-worker-publication-8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
-  "publicationArtifactSha256": "sha256:45263768ab551a38a770d33847760037eb67cec5055510ebc14fb4fff13b08f9",
+  "publicationTimestamp": "2026-09-22T18:47:07Z",
+  "publicationArtifactId": 10714015137,
+  "publicationArtifactName": "rcap-render-worker-publication-fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+  "publicationArtifactSha256": "sha256:9dd9c4f89456321dd053333797122beadcc040ded0a87ab6294353b99fce0b7e",
   "originalPublicationPath": null,
   "originalArchivePath": null,
-  "originalPublicationSource": "Publication run 35750246888, dispatched at workflow ref captain-release so the DEFINITION that executed is the current Captain copy -- main's copy still names the retired release branch claude/rcap-48h-launch-integration and would have resolved a different history. Inputs: integration_sha 8eb8ddc9d8525e7390453c9b7a64224b9651bc42, resolve_from_ref captain-release, tag_replacement_authorization EMPTY. All sixteen steps concluded success, including both source-SHA tag guards -- before login and again at the last point before pushing -- so the tag was newly created and no pre-existing tag was overwritten or could have been. The build checked out the exact supplied SHA; the workflow itself ran from tools commit 025a0d747, which is not the worker source.",
-  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
-  "runtimeAccepted": true,
-  "authorization": "Roger authorization (2026-09-22), the final worker publication: build one image from the exact frozen application SHA, capture its real immutable registry digest, record truthful evidence, then run the read-only image acceptance. Publication and read-only acceptance only. Explicitly NOT authorized by that instruction and not performed: production deployment, staging deployment, worker claiming, Supabase mutation, Stripe, Vercel application deployment, participant mutation, release activation. The final release tuple is deliberately NOT rebound here -- the hosted and F1 accepted-worker constants, the Checkout gate pins, RELEASE_CANDIDATE_BINDING.json, HOSTED_TOOLS_BINDING.json and the production pins all still name the superseded worker and stay that way until read-only image acceptance passes.",
+  "originalPublicationSource": "Publication run 35769217594, dispatched at workflow ref captain-release. Inputs: integration_sha fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e, resolve_from_ref captain-release, tag_replacement_authorization EMPTY. All sixteen steps concluded success, including step 5 (the SHA belongs to the canonical integration history), step 6 (check out the exact supplied SHA) and both source-SHA tag guards -- step 9 before login and step 12 at the last point before pushing -- so the tag for this source was created rather than replaced. The workflow DEFINITION executed from Captain 0961a7d534b05d47d83d614d07ef7ebd0511cd18, which is the freeze receipt commit and is NOT the worker source; the image was built from the detached checkout of fe2457a71.",
+  "registryPullByDigestStatus": "not_yet_established_for_this_digest",
+  "runtimeAccepted": false,
+  "authorization": "Roger authorization (2026-09-22), AUTHORIZED - PUBLISH THE SUCCESSOR WORKER: exactly ONE worker publication from fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e, the SUCCESSOR_APPLICATION_FREEZE, explicitly NOT from Captain HEAD 0961a7d53 which is the freeze receipt only. Build, push one full-SHA tag, obtain the immutable digest, record evidence, then run the read-only image acceptance. Explicitly NOT authorized and not performed: Vercel deployment, staging deployment, production deployment, worker claiming, Supabase migration, participant mutation, Stripe charge, webhook retarget, production worker promotion. The final release tuple is deliberately NOT rebound here: the hosted and F1 accepted-worker constants, the Checkout gate pins, RELEASE_CANDIDATE_BINDING.json, HOSTED_TOOLS_BINDING.json and the production pins are untouched by this record.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
-    "sourceSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
-    "immutableRegistryDigest": "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f",
-    "publicationRunId": 35538783807,
-    "imageAcceptanceRunId": null,
+    "sourceSha": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+    "immutableRegistryDigest": "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41",
+    "publicationRunId": 35750246888,
     "disposition": "superseded_by_source_drift",
-    "why": "Correct for its own source and retained unchanged in GHCR; its tag was not moved. Superseded because the Grade-A application freeze 8eb8ddc9d moved 37 canonical worker inputs past 117b469c4, measured by createWorkerInputPlan and independently reproduced, so an image built from 117b469c4 no longer contains the inputs the frozen application runs beside. This is source drift, not a defect in that publication: the owner decision it carries (OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920) is unaffected and its artifacts are byte-identical on the freeze."
+    "why": "Retained unchanged in GHCR; tag not moved. It remains the exact image built from application freeze 8eb8ddc9d and its read-only acceptance (run 35751543666) still stands. Superseded by publication run 35769217594 from fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e, the SUCCESSOR_APPLICATION_FREEZE, because two canonical worker inputs moved after it -- data/rcap-grade-a/worker-static-authority.json and scripts/lib/noncommercial-evidence-producer-reconciliation.mjs -- so it no longer contains the inputs this tree describes. Source supersession, not a defect."
   },
   "supersededChain": [
     {
@@ -289,28 +288,26 @@
       "disposition": "superseded_by_source_drift",
       "why": "Historically valid for 5ac0d8d6 and inert. Superseded now that PR #127 merged the prepared-onboarding partner experience and the applied-prefill reproposal lifecycle into main, which changed 33 canonical image-input paths. Not deleted, not retagged. This record stays as the tuple the retired worker-source-binding exception covers; later publications are listed in supersededChain.",
       "publicationRunId": 32307070302
+    },
+    {
+      "sourceSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
+      "immutableRegistryDigest": "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f",
+      "publicationRunId": 35538783807,
+      "imageAcceptanceRunId": null,
+      "disposition": "superseded_by_source_drift",
+      "why": "Correct for its own source and retained unchanged in GHCR; its tag was not moved. Superseded because the Grade-A application freeze 8eb8ddc9d moved 37 canonical worker inputs past 117b469c4, measured by createWorkerInputPlan and independently reproduced, so an image built from 117b469c4 no longer contains the inputs the frozen application runs beside. This is source drift, not a defect in that publication: the owner decision it carries (OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920) is unaffected and its artifacts are byte-identical on the freeze."
     }
   ],
   "exactlyOnePublication": {
     "attemptThatPublished": 1,
-    "howItIsKnown": "Run 35750246888 succeeded on attempt 1 and is the only run of this workflow ever dispatched at ref captain-release: the workflow's 60 prior runs all ran at the retired branch and none of them built 8eb8ddc9d. Both source-SHA tag guards concluded success with tag_replacement_authorization empty, so the tag for this source SHA was created rather than replaced. No prior publication of this SHA exists to overwrite."
+    "howItIsKnown": "Run 35769217594 succeeded on attempt 1 and is the only run of this workflow that has ever built fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e -- the commit was created in this session and the 61 prior runs all predate it. Both source-SHA tag guards concluded success with tag_replacement_authorization empty, so no pre-existing tag was overwritten."
   },
-  "workerInputFingerprint": "sha256:ccd5d24f901a3aab6d28aaf4393215f705b67eb0ec1f8ea93baeaca5cdfc8c67",
+  "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
-  "imageAcceptanceAttempts": [
-    {
-      "runId": 35750924874,
-      "conclusion": "failure",
-      "reason": "stale source-binding-exception anchor; no image property failed"
-    },
-    {
-      "runId": 35751543666,
-      "conclusion": "success"
-    }
-  ],
+  "imageAcceptanceAttempts": [],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Proved by acceptance run 35751543666: the anonymous pull step refused, and the authenticated pull by immutable digest succeeded.",
+  "packageVisibilityEvidence": "Established for the superseded digest by acceptance run 35751543666. Not yet re-established for this digest; the acceptance run for sha256:a22ad855 will prove it or refuse.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
@@ -319,7 +316,8 @@
     "configDigest": null,
     "note": "Not read back for this digest yet. Left null rather than restated from the superseded publication."
   },
-  "imageAcceptance": {
+  "imageAcceptance": null,
+  "previousImageAcceptance": {
     "runId": 35751543666,
     "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35751543666",
     "runAttempt": 1,
@@ -356,11 +354,5 @@
       "why": "The retired exception anchor required its historical tuple to equal evidence.supersededPublication, which moves at every publication. It was already failing at the previous Captain 025a0d747. Repaired at f18d7c818 by anchoring to membership in the superseded history; 17/17 mutations catch. The image was not rebuilt, republished or retagged, and no image identity changed."
     }
   },
-  "previousImageAcceptance": {
-    "sourceSha": "3a9f4906dc87d644763434ea4e88a5decaa6c404",
-    "immutableRegistryDigest": "sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e",
-    "workflowRunId": 35413031376,
-    "workflowConclusion": "success"
-  },
-  "readBackLimitation": "The publication artifact's own bytes were read from the run's `cat` of the file it uploaded, not by downloading the artifact zip: this environment's egress proxy denies productionresultssa4.blob.core.windows.net, so the artifact download URL is unreachable from here. The upload step reported the uploaded zip's SHA-256 as 45263768ab551a38a770d33847760037eb67cec5055510ebc14fb4fff13b08f9, which equals the artifact metadata digest the Actions API returns, so the bytes read are the bytes stored. No value in this record was typed from memory or predicted."
+  "readBackLimitation": "The publication artifact's own bytes were read from the run's  of the file it uploaded, not by downloading the artifact zip: this environment's egress proxy denies productionresultssa4.blob.core.windows.net. The upload step reported the uploaded zip's SHA-256 as 9dd9c4f89456321dd053333797122beadcc040ded0a87ab6294353b99fce0b7e, which equals the artifact metadata digest the Actions API returns for artifact 10714015137, so the bytes read are the bytes stored. No value in this record was typed from memory or predicted. The publication job-log window retrievable through the API begins at 18:46:00Z, after the resolve, containment, exact-checkout and first tag-guard steps ran, so those four are reported from their step conclusions rather than from quoted lines."
 }
