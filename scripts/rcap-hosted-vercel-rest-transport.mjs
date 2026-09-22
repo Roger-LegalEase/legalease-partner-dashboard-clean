@@ -4,13 +4,19 @@ import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_N
 // The commit whose TREE the acceptance Preview is built from. It must carry the
 // publication receipt and Grade-A route observations that name the worker the
 // deployment runs beside, and the accepted worker source must be an ancestor of
-// it -- the entry workflow refuses otherwise. 884ad51d0 is the first commit that
-// carries the receipt for 117b469c4 / sha256:9faa24e8 and the six-route
-// observations regenerated against it. The superseded 4e16d6d8e pin named the
-// c88f10341 / sha256:df6c2965 tuple; once the worker moved past it, no Preview
-// could satisfy both this pin and the accepted worker, which is how a run that
-// reached the deploy step found it. The agreement is now a test, not a comment.
-export const FROZEN_APPLICATION_SHA = '884ad51d0ad50c520ec0ba2834eac03194ce88ac';
+// it -- the entry workflow refuses otherwise. The superseded 4e16d6d8e pin named
+// the c88f10341 / sha256:df6c2965 tuple; once the worker moved past it, no
+// Preview could satisfy both this pin and the accepted worker, which is how a
+// run that reached the deploy step found it. The agreement is now a test, not a
+// comment.
+//
+// 2026-09-22: advanced from 884ad51d0 to the Grade-A application freeze. The
+// old pin was not wrong when it was written -- it was the first commit carrying
+// the 117b469c4 / sha256:9faa24e8 receipt -- but it stopped describing the
+// application that is actually being released, so REST Preview creation and
+// response validation refused the frozen candidate. The pin stays exact and
+// fails closed: it is one 40-character SHA, never a branch, prefix or input.
+export const FROZEN_APPLICATION_SHA = '8eb8ddc9d8525e7390453c9b7a64224b9651bc42';
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 

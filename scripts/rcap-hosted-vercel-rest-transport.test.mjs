@@ -77,6 +77,27 @@ test('the frozen application pin names a tree that carries the accepted worker p
   assert.equal(pinned.sourceSha,accepted.sourceSha);
   assert.equal(pinned.immutableRegistryDigest,accepted.immutableRegistryDigest);
 });
+test('the frozen application pin is the application this tree releases, not an older one',async()=>{
+  // The checks above are satisfied by any commit that carries a matching
+  // receipt, so an older pin passes them while refusing the real candidate --
+  // which is how 884ad51d0 survived past the freeze. These two say the pin is
+  // THIS release: it is on the authoritative history leading to HEAD, and no
+  // application byte moved between it and HEAD. Only release tooling may.
+  const root=new URL('..',import.meta.url);
+  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+  git(['merge-base','--is-ancestor',FROZEN_APPLICATION_SHA,'HEAD']);
+  // The canonical closure, read from the plan rather than hand-listed, so a
+  // newly canonical input is covered here the day it is added.
+  const {createWorkerInputPlan}=await import('./rcap-hosted-acceptance-worker-input-plan.mjs');
+  const head=git(['rev-parse','HEAD']);
+  const plan=createWorkerInputPlan({rootDir:new URL('.',root).pathname.replace(/\/$/,''),candidateSha:head,
+    acceptedSourceSha:FROZEN_APPLICATION_SHA,acceptedDigest:'sha256:'+'0'.repeat(64)});
+  assert.deepEqual(plan.changedPaths,[],
+    `application inputs moved after the frozen pin: ${plan.changedPaths.join(', ')}`);
+  const moved=git(['diff','--name-only','--no-renames',FROZEN_APPLICATION_SHA,head,'--','src','public','supabase'])
+    .split('\n').filter(Boolean);
+  assert.deepEqual(moved,[],`application paths moved after the frozen pin: ${moved.join(', ')}`);
+});
 test('ambiguous network response is never retried',async()=>{
   let calls=0;await assert.rejects(createRestPreview(fixture(),{fetchImpl:async()=>{calls++;throw Error('network');}}));assert.equal(calls,1);
 });

@@ -8,6 +8,8 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(rootDir, "scripts/rcap-hosted-acceptance-preflight.mjs"), "utf8");
+const deploySource = fs.readFileSync(path.join(rootDir, "scripts/rcap-hosted-acceptance-deploy.mjs"), "utf8");
+const transportSource = fs.readFileSync(path.join(rootDir, "scripts/rcap-hosted-vercel-rest-transport.mjs"), "utf8");
 const hostedWorkflow = fs.readFileSync(path.join(rootDir, ".github/workflows/rcap-hosted-acceptance-staging.yml"), "utf8");
 const dispatcherWorkflow = fs.readFileSync(path.join(rootDir, ".github/workflows/rcap-f1-ephemeral-staging.yml"), "utf8");
 
@@ -27,28 +29,115 @@ test("full preflight proves Preview isolation without reading Production values"
   assert.doesNotMatch(source, /credentialled, reachable and demonstrably not production/);
 });
 
-test("Preview isolation proof inspects the actual deploy argument contract", () => {
+// The deployment path moved from the Vercel CLI to the REST transport, so the
+// CLI-era argument-line assertions described a builder that no longer exists.
+// The invariant they protected is unchanged and is asserted twice over: once in
+// the preflight's own contract list, and once directly against the files that
+// list is about, so the proof cannot pass on a preflight that merely names a
+// guard the real deploy path has since lost.
+test("Preview isolation proof inspects the actual REST deployment contract", () => {
   assert.match(source, /rcap-hosted-acceptance-deploy\.mjs/);
-  assert.match(source, /const deployArgsLine = deploySource\.match/);
-  assert.match(source, /args\.push\("--env"/);
-  assert.match(source, /neverWroteProjectLevelEnv: true/);
-  assert.match(source, /!deployArgsLine\.includes\('"--prod"'\)/);
-  assert.match(source, /!deployArgsLine\.includes\('"alias"'\)/);
+  assert.match(source, /rcap-hosted-vercel-rest-transport\.mjs/);
+
+  // The preflight requires each guard before it will pass the Preview-isolation case.
+  for (const required of [
+    /deploySource\.includes\('await createRestPreview\('\)/,
+    /!deploySource\.includes\('spawn\("npx"'\)/,
+    /transportSource\.includes\("REST_NON_PREVIEW_REFUSED"\)/,
+    /transportSource\.includes\("REST_PINNED_IDENTITY_MISMATCH"\)/,
+    /deploySource\.includes\("neverWroteProjectLevelEnv: true"\)/,
+    /deploySource\.includes\('"production_aliases_unchanged"'\)/,
+    /deploySource\.includes\('"production_environment_variables_unchanged"'\)/
+  ]) assert.match(source, required);
+  assert.match(source, /"preview_binding_is_per_deployment_only"/);
+
+  // The same guards, in the files themselves.
+  assert.match(deploySource, /await createRestPreview\(\{/);
+  assert.doesNotMatch(deploySource, /spawn\("npx"|vercel@latest/);
+  assert.match(deploySource, /neverWroteProjectLevelEnv: true/);
+  assert.match(deploySource, /"production_aliases_unchanged"/);
+  assert.match(deploySource, /"production_environment_variables_unchanged"/);
+
+  // Preview-only, by refusal rather than by omission: an absent or non-preview
+  // target throws instead of defaulting to whatever Vercel would choose.
+  assert.match(transportSource, /!Object\.hasOwn\(d, 'target'\) \|\| \(d\.target !== null && d\.target !== 'preview'\)/);
+  assert.match(transportSource, /throw new Error\('REST_NON_PREVIEW_REFUSED'\)/);
+  assert.match(transportSource, /throw new Error\('REST_PINNED_IDENTITY_MISMATCH'\)/);
+  assert.doesNotMatch(transportSource, /target:\s*['"]production['"]/);
+
+  // Deployment metadata binds the exact application SHA, the pinned acceptance
+  // project, and the scope hash the reuse comparison reads back.
+  assert.match(deploySource, /const deploymentMeta = \{[\s\S]*?rcapApplicationSha: APPLICATION_SHA/);
+  assert.match(deploySource, /const deploymentMeta = \{[\s\S]*?rcapAcceptanceProjectRef: PROJECT_REF/);
+  assert.match(deploySource, /const deploymentMeta = \{[\s\S]*?rcapStagingScopeSha256: sha256\(SCOPE_IDS\)/);
+  assert.match(deploySource, /\/\^\[0-9a-f\]\{40\}\$\/\.test\(APPLICATION_SHA\)/);
+  assert.match(deploySource, /PROJECT_REF !== EXPECTED_PROJECT_REF/);
+  assert.match(deploySource, /d\.meta\?\.rcapApplicationSha === APPLICATION_SHA/);
+  assert.match(deploySource, /d\.meta\?\.rcapStagingScopeSha256 === sha256\(SCOPE_IDS\)/);
+
+  // Production shape is snapshotted, never decrypted, and never rewritten.
+  assert.match(source, /decrypt=false/);
+  assert.match(source, /requestedDecryption: false/);
+  assert.match(source, /storedValuesRead: false/);
+  assert.match(source, /productionAliasesBefore/);
 });
+
+// Every top-level `if (SCOPE === "full"...)` region, by brace matching rather
+// than by a fixed-width regex window. The old test pinned the three guarded
+// bodies by their opening statements and a 500-character lookahead, which reads
+// as a proof about scope but is really a proof about line order.
+function fullScopeRegions(src) {
+  const regions = [];
+  const opener = /if \(SCOPE === "full"[^)]*\) \{/g;
+  for (let m; (m = opener.exec(src)); ) {
+    let depth = 0, i = src.indexOf("{", m.index);
+    const start = i;
+    for (; i < src.length; i += 1) {
+      if (src[i] === "{") depth += 1;
+      else if (src[i] === "}" && (depth -= 1) === 0) break;
+    }
+    regions.push([start, i]);
+  }
+  return regions;
+}
 
 test("Supabase-only preflight neither requires nor accesses Vercel", () => {
   assert.doesNotMatch(source, /requiredCredentials\.push\(\["VERCEL_TOKEN"/);
-  assert.match(source, /if \(SCOPE === "full"\) \{\s*const result = await resolvePreflightVercelIdentity/);
-  assert.match(source, /if \(SCOPE === "full" && VERCEL_IDENTITY\) \{\s*const listing = await vercelApi/);
-  assert.match(source, /if \(SCOPE === "full" && VERCEL_IDENTITY\) \{[\s\S]{0,500}const env = await vercelApi/);
-  assert.match(hostedWorkflow, /VERCEL_TOKEN:\s*\n\s*required: false/);
-  assert.match(dispatcherWorkflow, /VERCEL_TOKEN: \$\{\{ inputs\.mode == 'hosted_migrate' && 'not-used-in-supabase-only' \|\| secrets\.VERCEL_TOKEN \}\}/);
+
+  // Not one Vercel call sits outside a full-scope guard. This counts the calls
+  // rather than naming them, so a newly added unguarded call fails too.
+  const regions = fullScopeRegions(source);
+  assert.ok(regions.length >= 3, "the full-scope guards must still exist");
+  const calls = [...source.matchAll(/await vercelApi\(|await resolvePreflightVercelIdentity\(/g)]
+    .map(m => m.index)
+    .filter(i => !source.slice(0, i).match(/(^|\n)(async )?function [^\n]*$/));
+  assert.ok(calls.length >= 4, "the Vercel calls must still exist");
+  for (const at of calls) {
+    assert.ok(regions.some(([a, b]) => at > a && at < b),
+      `a Vercel call at index ${at} is reachable in supabase_only scope`);
+  }
+
+  // The reusable workflow's supabase-only step: scope set, Supabase token
+  // supplied, Vercel token absent.
   const supabaseStep = hostedWorkflow.match(/- name: Prove acceptance Supabase credentials and project[\s\S]*?run: node scripts\/rcap-hosted-acceptance-preflight\.mjs/)?.[0] ?? "";
   const fullStep = hostedWorkflow.match(/- name: Prove credentials and Preview-only deployment boundary[\s\S]*?run: node scripts\/rcap-hosted-acceptance-preflight\.mjs/)?.[0] ?? "";
-  assert.doesNotMatch(supabaseStep, /VERCEL_TOKEN/);
+  assert.ok(supabaseStep && fullStep, "both preflight steps must exist");
   assert.match(supabaseStep, /PREFLIGHT_SCOPE: supabase_only/);
-  assert.match(fullStep, /VERCEL_TOKEN: \$\{\{ secrets\.VERCEL_TOKEN \}\}/);
+  assert.match(supabaseStep, /SUPABASE_ACCESS_TOKEN: \$\{\{ secrets\.SUPABASE_ACCESS_TOKEN \}\}/);
+  assert.doesNotMatch(supabaseStep, /VERCEL_TOKEN/);
   assert.match(fullStep, /PREFLIGHT_SCOPE: full/);
+  assert.match(fullStep, /VERCEL_TOKEN: \$\{\{ secrets\.VERCEL_TOKEN \}\}/);
+  assert.match(hostedWorkflow, /VERCEL_TOKEN:\s*\n\s*required: false/);
+
+  // The dispatcher withholds the real token from every supabase-only mode. The
+  // mode list is read from the expression rather than pinned, because a second
+  // supabase-only mode was added after the CLI-era assertion was written and a
+  // third would otherwise fail this test for being correct.
+  const withheld = dispatcherWorkflow.match(/VERCEL_TOKEN: \$\{\{ \(([^)]*)\) && 'not-used-in-supabase-only' \|\| secrets\.VERCEL_TOKEN \}\}/);
+  assert.ok(withheld, "the dispatcher must withhold VERCEL_TOKEN from supabase-only modes");
+  const modes = [...withheld[1].matchAll(/inputs\.mode == '([a-z_]+)'/g)].map(m => m[1]);
+  assert.ok(modes.length >= 1, "at least one supabase-only mode must be named");
+  for (const mode of modes) assert.match(mode, /_migrate$/);
 });
 
 test("service-only exception cannot admit a mutation phase with changed worker inputs", async () => {

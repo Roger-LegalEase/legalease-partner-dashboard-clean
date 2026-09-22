@@ -41,14 +41,30 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     const toolingPath = 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
     if (fs.existsSync(path.join(root, toolingPath))) {
       const binding = JSON.parse(fs.readFileSync(path.join(root, toolingPath)));
+      // The tuple is read from the controlling candidate record, not written
+      // here. A literal tuple made the check exact for exactly one release and
+      // unsatisfiable for every later one: a correctly bound successor was
+      // refused for the sole reason that it was not the September tuple, which
+      // is a verifier defect rather than a finding about the successor. The
+      // invariant is unchanged and the strictness is not relaxed — the binding
+      // must still equal the candidate on all four identities, exactly, and the
+      // candidate is itself anchored below to the publication evidence and to
+      // the current worker inputs, so nothing self-certifies.
       const frozen = {
-        applicationSha: '436520e4a99f0b8a290ace32f1d717b951630319',
-        workerSourceSha: '436520e4a99f0b8a290ace32f1d717b951630319',
-        workerDigest: 'sha256:98e3e820f82c52912b3d007031e1e3e6c45445bcf231d9a61b3f269ffb5d1257',
-        workerInputFingerprint: 'sha256:d63d9c69d1468a140002571bb756e019abccd50332b08ed114d2d093f6e60683'
+        applicationSha: candidate.applicationSha,
+        workerSourceSha: candidate.workerSourceSha,
+        workerDigest: candidate.workerDigest,
+        workerInputFingerprint: candidate.workerInputFingerprint
+      };
+      const shapes = {
+        applicationSha: /^[a-f0-9]{40}$/,
+        workerSourceSha: /^[a-f0-9]{40}$/,
+        workerDigest: /^sha256:[a-f0-9]{64}$/,
+        workerInputFingerprint: /^sha256:[a-f0-9]{64}$/
       };
       for (const [key, value] of Object.entries(frozen)) {
-        if (binding[key] !== value || candidate[key] !== value) throw new Error('Frozen identity mismatch');
+        if (!shapes[key].test(value ?? '')) throw new Error(`Candidate ${key} is absent or not an exact identity`);
+        if (binding[key] !== value) throw new Error(`Tooling binding ${key} does not equal the candidate's`);
       }
       if (!/^[a-f0-9]{40}$/.test(binding.toolsSha ?? '')) throw new Error('Exact tools SHA required');
       const git = args => execFileSync('git', args, {cwd: root, encoding: 'utf8', stdio: 'pipe'}).trim();
@@ -129,6 +145,12 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     const changed = execFileSync('git', ['diff', '--name-only', candidate.applicationSha], { cwd: root, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
     const publication = JSON.parse(fs.readFileSync(path.join(root, 'data/rcap-render/worker-publication-evidence.json')));
     if (publication.immutableRegistryDigest !== candidate.workerDigest || publication.workflowConclusion !== 'success') reasons.push('Worker digest is not the successful native publication.');
+    // The candidate names a worker source SHA; it must be the one that was
+    // actually published, not merely an ancestor of the application. Without
+    // this the candidate could name any tree and still satisfy the line below.
+    if (candidate.workerSourceSha && publication.sourceSha !== candidate.workerSourceSha) {
+      reasons.push(`Candidate worker source ${candidate.workerSourceSha} is not the published source ${publication.sourceSha}.`);
+    }
     execFileSync('git', ['merge-base', '--is-ancestor', publication.sourceSha, candidate.applicationSha], { cwd: root, stdio: 'pipe' });
     const plan = createWorkerInputPlan({ rootDir: root, candidateSha: candidate.applicationSha,
       acceptedSourceSha: publication.sourceSha, acceptedDigest: publication.immutableRegistryDigest });
@@ -138,8 +160,12 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     const changedInputs = [...changed.filter(p => !generated.has(p)), ...untrackedRuntime];
     if (changedInputs.length) reasons.push(`Candidate inputs changed: ${changedInputs.join(', ')}`);
     if (plan.rebuildRequired !== false) reasons.push('Current application requires a successor worker publication.');
-  } catch {
-    reasons.push('Candidate ancestry or current worker input proof could not be verified.');
+  } catch (error) {
+    // Name what refused. A single opaque sentence for ten distinct checks made
+    // a legitimate "not yet bound" state indistinguishable from a broken
+    // verifier, which is how the historical hard pin survived unnoticed.
+    const detail = (error?.message ?? String(error)).split('\n')[0].trim();
+    reasons.push(`Candidate ancestry or current worker input proof could not be verified: ${detail || 'no detail reported'}`);
   }
   return { current: reasons.length === 0, status: reasons.length ? 'STALE_OR_UNVERIFIED' : 'CURRENT', reasons };
 }
