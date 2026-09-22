@@ -1,0 +1,50 @@
+/workspaces/legalease-partner-dashboard-clean/src/lib/rcap/render/commercial-admission.ts.cjs:140
+        throw new CommercialAdmissionDeniedError(decision);
+              ^
+
+CommercialAdmissionDeniedError: consumer_checkout refused (participant_context_denied): consumer_checkout is denied on a proven route: 4 participant condition(s) not met.
+    at governCommercialAdmission (/workspaces/legalease-partner-dashboard-clean/src/lib/rcap/render/commercial-admission.ts.cjs:140:15)
+    at Object.createConsumerPacketCheckout (/workspaces/legalease-partner-dashboard-clean/src/lib/expungement-ai/payment-adapter.ts.cjs:203:58)
+    at async checkoutBehavior (file:///workspaces/legalease-partner-dashboard-clean/scripts/test-expungement-checkout-guards.mjs:432:20)
+    at async file:///workspaces/legalease-partner-dashboard-clean/scripts/test-expungement-checkout-guards.mjs:1268:1 {
+  admissionPoint: 'consumer_checkout',
+  denialCode: 'participant_context_denied',
+  contextDenials: [
+    'final_verification: the snapshot has no formSetSha256',
+    'final_verification: the snapshot has no formSetVersion',
+    'final_verification: the snapshot has no legalRuleVersion',
+    'final_verification: the snapshot has no routeContractVersion'
+  ],
+  httpStatus: 409,
+  participantMessage: 'Please finish reviewing your information before continuing.',
+  decision: {
+    admissionPoint: 'consumer_checkout',
+    admitted: false,
+    authority: {
+      state: 'COMPLETE_PACKET_PROVEN',
+      authorized: true,
+      commercialStatus: 'commercially_eligible',
+      routeId: 'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',
+      jurisdiction: 'MS',
+      packetFamilyId: 'ms-nonconv-set',
+      serviceDisposition: 'paid_packet_intended',
+      recordId: 'grade-a-ms-nonconv-paid-consumer-successor-20260920',
+      recordVersion: 6,
+      missingProof: [],
+      stalenessReasons: [],
+      revocationReason: null,
+      reason: 'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal version 6 is COMPLETE_PACKET_PROVEN against legal decision auth-2026-08-19-owner-legal-approval-completed-output, spec ms-nonconviction-expungement-99-19-71-4@2.0.0, provider ghcr.io/roger-legalease/rcap-render-worker@1.0.0 and fixture ms-nonconviction-clinic-demo-participant-a.'
+    },
+    disposition: 'SOURCE_OR_CONFIGURATION_GATE',
+    contextDenials: [
+      'final_verification: the snapshot has no formSetSha256',
+      'final_verification: the snapshot has no formSetVersion',
+      'final_verification: the snapshot has no legalRuleVersion',
+      'final_verification: the snapshot has no routeContractVersion'
+    ],
+    denialCode: 'participant_context_denied',
+    reason: 'consumer_checkout is denied on a proven route: 4 participant condition(s) not met.'
+  }
+}
+
+Node.js v24.21.0

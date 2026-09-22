@@ -54,6 +54,17 @@ export type BriefcasePresentationArtifact =
     }>;
   };
 
+/** Derived server actions, not persisted commercial state or evaluator authority. */
+export type BriefcaseCommercialActions = {
+  fulfillmentAvailable: boolean;
+  checkoutAllowed: boolean;
+  generationAllowed: boolean;
+};
+
+export const UNAVAILABLE_COMMERCIAL_ACTIONS: BriefcaseCommercialActions = {
+  fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false
+};
+
 export type BriefcasePresentationItem = {
   id: string;
   createdAt: string;
@@ -95,6 +106,7 @@ export type BriefcasePresentationItem = {
       reviewSafety: { safe: boolean; reason: string };
     }
     | { status: "unavailable" };
+  commercialActions: BriefcaseCommercialActions;
   paymentState: "paid" | "unpaid" | "sponsored" | "unavailable";
   artifact: BriefcasePresentationArtifact;
 };
@@ -123,6 +135,7 @@ export function assembleBriefcasePresentationItem(input: {
   legalAuthority: BriefcaseLegalPresentationAuthority;
   protectedArtifact: ProtectedPacketArtifactRecord | null;
   paymentState: BriefcasePresentationItem["paymentState"];
+  commercialActions?: BriefcaseCommercialActions;
 }): BriefcasePresentationItem {
   if (input.legalAuthority.status === "unavailable") {
     const artifact = sanitizeProtectedPresentationArtifact(input.protectedArtifact);
@@ -145,6 +158,7 @@ export function assembleBriefcasePresentationItem(input: {
       verificationStatus: "unavailable",
       packetProgress: "unavailable",
       packetDraft: { status: "unavailable" },
+      commercialActions: { ...UNAVAILABLE_COMMERCIAL_ACTIONS },
       paymentState: "unavailable",
       artifact
     };
@@ -170,6 +184,7 @@ export function assembleBriefcasePresentationItem(input: {
     verificationStatus: input.legalAuthority.verificationStatus,
     packetProgress: input.legalAuthority.packetProgress,
     packetDraft: input.legalAuthority.packetDraft,
+    commercialActions: input.commercialActions ?? { ...UNAVAILABLE_COMMERCIAL_ACTIONS },
     paymentState: input.paymentState,
     artifact
   };
@@ -287,6 +302,12 @@ export type TrustedBriefcasePresentationSource = {
 type AuthoritativeEvaluation = ReturnType<typeof evaluateAuthoritativeScreeningResult>;
 
 export type BriefcasePresentationDependencies = {
+  readCommercialActions?(input: {
+    consumerAuthUserId: string;
+    item: ConsumerBriefcaseItem;
+    legalAuthority: Exclude<BriefcaseLegalPresentationAuthority, { status: "unavailable" }>;
+    paymentState: BriefcasePresentationItem["paymentState"];
+  }): Promise<BriefcaseCommercialActions>;
   readProtectedVerification(input: {
     consumerAuthUserId: string;
     briefcaseItemId: string;
@@ -376,7 +397,9 @@ export async function decorateBriefcaseItemForPresentationWithDependencies(
     item: input.item,
     legalAuthority,
     protectedArtifact: protectedArtifact.value,
-    paymentState
+    paymentState,
+    commercialActions: await dependencies.readCommercialActions?.({ ...input, legalAuthority, paymentState })
+      .catch(() => ({ ...UNAVAILABLE_COMMERCIAL_ACTIONS }))
   });
 }
 
@@ -650,6 +673,21 @@ function nonEmpty(value: unknown): value is string {
 }
 
 const DEFAULT_PRESENTATION_DEPENDENCIES: BriefcasePresentationDependencies = {
+  readCommercialActions: async ({ consumerAuthUserId, item, legalAuthority, paymentState }) => {
+    const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
+    const packetResult = legalAuthority.resultCode === "packet_ready" || legalAuthority.resultCode === "packet_ready_with_caution";
+    const fulfillmentAvailable = packetResult && packetFulfillmentAuthority(
+      legalAuthority.jurisdiction, legalAuthority.pathwayId,
+      paymentState === "sponsored" ? "sponsored entitlement" : paymentState === "paid" ? "packet generation" : "checkout creation",
+      { trackId: legalAuthority.selectedTrackId }
+    ).allowed;
+    if (!fulfillmentAvailable) return { ...UNAVAILABLE_COMMERCIAL_ACTIONS };
+    const checkoutAllowed = paymentState === "unpaid"
+      && await (await import("@/lib/expungement-ai/payment-adapter")).consumerPacketPurchaseAllowedNow(consumerAuthUserId, item);
+    const generationAllowed = (paymentState === "paid" || paymentState === "sponsored")
+      && await (await import("@/lib/expungement-ai/packet-generation")).packetGenerationAllowedNow(consumerAuthUserId, item);
+    return { fulfillmentAvailable, checkoutAllowed, generationAllowed };
+  },
   readProtectedVerification: readProtectedPacketVerification,
   readProtectedArtifact: readProtectedPacketArtifact,
   readPaymentAuthority: consumerPacketPaymentAuthority,

@@ -26,6 +26,7 @@ const BASE: BriefcasePresentationItem = {
   verificationStatus: "trusted_source",
   packetProgress: "unavailable",
   packetDraft: { status: "unavailable" },
+  commercialActions: { fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false },
   paymentState: "unpaid",
   artifact: { status: "absent", canDownload: false, documents: [] }
 };
@@ -59,6 +60,7 @@ export const BRIEFCASE_CARE_FIXTURES: readonly BriefcasePresentationItem[] = [
   {
     ...BASE,
     id: "fixture-packet-ready",
+    commercialActions: { fulfillmentAvailable: true, checkoutAllowed: false, generationAllowed: false },
     resultCode: "packet_ready",
     summary: "A packet-ready path was found.",
     nextSteps: ["Generate your self-help packet.", "Review every document before filing."],

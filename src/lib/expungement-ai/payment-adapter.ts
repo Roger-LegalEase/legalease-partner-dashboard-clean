@@ -15,7 +15,7 @@ import {
   governCommercialAdmission,
   isOperationallySellable
 } from "@/lib/rcap/render/commercial-admission";
-import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import {
@@ -171,6 +171,95 @@ export function createConsumerPaymentPlaceholder(
   };
 }
 
+/** The same current prerequisite checks power checkout and its server-rendered CTA.
+ * This reads authority and runs the existing preflight; it creates no order. */
+export async function requireConsumerPacketPurchaseReadiness(userId: string, item: ConsumerBriefcaseItem) {
+  let verification;
+  try {
+    verification = await requireCurrentPacketVerification(userId, item);
+  } catch {
+    throw new ConsumerCheckoutReviewRequiredError();
+  }
+  const verifiedSnapshot = verification.snapshot;
+  assertCheckoutAllowed(verifiedSnapshot);
+
+  /**
+   * Grade-A commercial admission, point 1 of 10 — `consumer_checkout`.
+   *
+   * Shared by presentation and checkout before any new Stripe Session.
+   * Checkout still handles already-paid and completed-session recovery before
+   * entering this read; those paths mint no new session.
+   *
+   * `assertCheckoutAllowed` above stays exactly as it is. It refuses deferrals
+   * and terminal treatments on their own terms; this refuses a route whose
+   * packet was never proven. Neither subsumes the other, and this one never
+   * opens a door the other closed.
+   */
+  const checkoutMatterId = consumerMatterIdForItem(item.id);
+  const checkoutIdentity = commercialRouteIdentity({
+    jurisdiction: verifiedSnapshot.jurisdiction,
+    pathwayId: verifiedSnapshot.pathwayId
+  });
+  governCommercialAdmission("consumer_checkout", checkoutIdentity, fulfillmentRequestContext({
+    participantUserId: userId,
+    matterId: checkoutMatterId,
+    matterOwnerUserId: userId,
+    finalVerification: finalVerificationSnapshotFrom({
+      snapshot: verifiedSnapshot,
+      verificationHash: verification.hash,
+      matterId: checkoutMatterId,
+      ownerUserId: userId,
+      packetFamilyId: checkoutIdentity.packetFamilyId
+    })
+  }));
+
+  /**
+   * READY_TO_PURCHASE.
+   *
+   * Checkout does not open because packet information reached 100%. It opens
+   * because this exact matter can actually be bought: the owner and the matter
+   * are confirmed above, the route still verifies, the Grade-A fulfillment
+   * admission has passed, and now the packet the money is for is proven
+   * renderable from the facts the verification is bound to.
+   *
+   * The preflight composes nothing that anyone can reach. It persists nothing,
+   * creates no entitlement, consumes no credit and produces no artifact; it
+   * runs the real composer over the real verified facts and discards the
+   * result. What it leaves behind is a hash of the canonical render input, so
+   * the thing the participant pays against is nameable and comparable later.
+   *
+   * Refusing here costs a participant a wait. Not refusing here costs them $50
+   * for a packet this route cannot produce.
+   */
+  const purchaseReadiness = readyToPurchase({
+    snapshot: verifiedSnapshot,
+    verificationHash: verification.hash,
+    facts: {
+      ...verifiedSnapshot.screeningAnswers,
+      ...verifiedSnapshot.prefilledAnswers,
+      ...verifiedSnapshot.packetAnswers,
+      ...verifiedSnapshot.serverFacts
+    }
+  });
+  if (!purchaseReadiness.ready) {
+    throw new ConsumerCheckoutRenderPreflightError(purchaseReadiness.reason, purchaseReadiness.missingFactIds);
+  }
+
+  return { verification, verifiedSnapshot, purchaseReadiness };
+}
+
+/** A presentation read, never a replacement for rechecking at checkout time. */
+export async function consumerPacketPurchaseAllowedNow(userId: string, item: ConsumerBriefcaseItem): Promise<boolean> {
+  if (item.paymentStatus === "paid") return false;
+  try {
+    if (await isPartnerSponsoredPacketItem(item)) return false;
+    await requireConsumerPacketPurchaseReadiness(userId, item);
+    return (await resolveConsumerPersonId(userId)).ok;
+  } catch {
+    return false;
+  }
+}
+
 export async function createConsumerPacketCheckout({
   userId,
   item,
@@ -260,78 +349,7 @@ export async function createConsumerPacketCheckout({
     }
   }
 
-  let verification;
-  try {
-    verification = await requireCurrentPacketVerification(userId, item);
-  } catch {
-    throw new ConsumerCheckoutReviewRequiredError();
-  }
-  const verifiedSnapshot = verification.snapshot;
-  assertCheckoutAllowed(verifiedSnapshot);
-
-  /**
-   * Grade-A commercial admission, point 1 of 10 — `consumer_checkout`.
-   *
-   * Placed here because this is the last statement before a Stripe Checkout
-   * Session can be created, and a session URL is a price the participant has
-   * seen. Everything above it either returns money already collected (the
-   * already-paid and completed-session recoveries, which mint no session) or
-   * establishes the verification this admission is required to carry.
-   *
-   * `assertCheckoutAllowed` above stays exactly as it is. It refuses deferrals
-   * and terminal treatments on their own terms; this refuses a route whose
-   * packet was never proven. Neither subsumes the other, and this one never
-   * opens a door the other closed.
-   */
-  const checkoutMatterId = consumerMatterIdForItem(item.id);
-  const checkoutIdentity = commercialRouteIdentity({
-    jurisdiction: verifiedSnapshot.jurisdiction,
-    pathwayId: verifiedSnapshot.pathwayId
-  });
-  governCommercialAdmission("consumer_checkout", checkoutIdentity, fulfillmentRequestContext({
-    participantUserId: userId,
-    matterId: checkoutMatterId,
-    matterOwnerUserId: userId,
-    finalVerification: finalVerificationSnapshotFrom({
-      snapshot: verifiedSnapshot,
-      verificationHash: verification.hash,
-      matterId: checkoutMatterId,
-      ownerUserId: userId,
-      packetFamilyId: checkoutIdentity.packetFamilyId
-    })
-  }));
-
-  /**
-   * READY_TO_PURCHASE.
-   *
-   * Checkout does not open because packet information reached 100%. It opens
-   * because this exact matter can actually be bought: the owner and the matter
-   * are confirmed above, the route still verifies, the Grade-A fulfillment
-   * admission has passed, and now the packet the money is for is proven
-   * renderable from the facts the verification is bound to.
-   *
-   * The preflight composes nothing that anyone can reach. It persists nothing,
-   * creates no entitlement, consumes no credit and produces no artifact; it
-   * runs the real composer over the real verified facts and discards the
-   * result. What it leaves behind is a hash of the canonical render input, so
-   * the thing the participant pays against is nameable and comparable later.
-   *
-   * Refusing here costs a participant a wait. Not refusing here costs them $50
-   * for a packet this route cannot produce.
-   */
-  const purchaseReadiness = readyToPurchase({
-    snapshot: verifiedSnapshot,
-    verificationHash: verification.hash,
-    facts: {
-      ...verifiedSnapshot.screeningAnswers,
-      ...verifiedSnapshot.prefilledAnswers,
-      ...verifiedSnapshot.packetAnswers,
-      ...verifiedSnapshot.serverFacts
-    }
-  });
-  if (!purchaseReadiness.ready) {
-    throw new ConsumerCheckoutRenderPreflightError(purchaseReadiness.reason, purchaseReadiness.missingFactIds);
-  }
+  const { verification, verifiedSnapshot, purchaseReadiness } = await requireConsumerPacketPurchaseReadiness(userId, item);
 
   const person = await resolveConsumerPersonId(userId);
   if (!person.ok) throw new ConsumerCheckoutTemporarilyUnavailableError();

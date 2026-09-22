@@ -1,3 +1,4 @@
+import { packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { NextResponse } from "next/server";
 import type { ScreeningEvaluationRequest } from "@/lib/rcap-engine/contracts";
 import { forbiddenRouteIdentityFields } from "@/lib/rcap-engine/composed-route-selector";
@@ -33,7 +34,16 @@ export async function POST(request: Request) {
   };
 
   try {
-    return NextResponse.json(evaluateAuthoritativeScreeningResult(clientInput).evaluation);
+    const authoritative = evaluateAuthoritativeScreeningResult(clientInput);
+    const evaluation = authoritative.evaluation;
+    const binding = { trackId: authoritative.selectedTrackId };
+    // Legal evaluator signals remain intact. Availability is read separately
+    // from Grade-A authority; neither field authorizes an anonymous checkout.
+    return NextResponse.json({
+      ...evaluation,
+      consumerPacketAvailable: packetFulfillmentAuthority(evaluation.jurisdiction, evaluation.pathwayId, "checkout creation", binding).allowed,
+      sponsoredPacketAvailable: packetFulfillmentAuthority(evaluation.jurisdiction, evaluation.pathwayId, "sponsored entitlement", binding).allowed
+    });
   } catch (error) {
     if (error instanceof UnsupportedJurisdictionError) {
       return NextResponse.json({ error: "unsupported_jurisdiction", jurisdiction: error.jurisdiction }, { status: 404 });

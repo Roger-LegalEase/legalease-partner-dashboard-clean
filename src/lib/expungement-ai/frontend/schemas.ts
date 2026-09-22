@@ -146,6 +146,8 @@ export const screeningEvaluationSchema = z
     cautions: z.array(z.string()),
     nextSteps: z.array(z.string()),
     paymentAllowed: z.boolean(),
+    consumerPacketAvailable: z.boolean().optional(),
+    sponsoredPacketAvailable: z.boolean().optional(),
     packetPlan: packetPlanSchema.optional()
   })
   .passthrough();

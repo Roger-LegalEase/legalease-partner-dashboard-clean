@@ -4,10 +4,9 @@
  * Renders the engine's result. The frontend NEVER decides the outcome — it switches on the
  * validated `resultCode` and renders what the engine returned.
  *
- * Payment/packet clamp (safety constraint #2): the packet/checkout action is shown ONLY when the
- * validated evaluation has `paymentAllowed === true` AND `resultCode` is `packet_ready` or
- * `packet_ready_with_caution` (enforced by `isPaymentAllowed`). Every other result saves/stops
- * with no payment action. No forced-result control, hidden payment flag, or override exists here.
+ * Evaluator paymentAllowed is a candidate signal. Route availability is read
+ * from server fulfillment authority; checkout is authorized only inside the
+ * authenticated matter after Packet Information and current verification.
  */
 import { AlertTriangle, CheckCircle2, Clock, FileText, HelpCircle, Info, ShieldAlert } from "lucide-react";
 import type { ReactNode } from "react";
@@ -158,13 +157,14 @@ export function ScreeningResult({
   const { locale, t: translate, text: localizeText } = useLocalization();
   const presentation = RESULT_PRESENTATION[evaluation.resultCode];
   const accent = TONE_ACCENT[presentation.tone];
-  const showPacketAction = isPaymentAllowed(evaluation);
+  const packetAvailable = hasScreeningSession ? evaluation.sponsoredPacketAvailable === true : evaluation.consumerPacketAvailable === true;
+  const showPacketAction = packetAvailable && isPaymentAllowed(evaluation);
   const missing = evaluation.missingQuestionIds ?? [];
   const isPacketReady = PACKET_READY_RESULT_CODES.has(evaluation.resultCode);
   // Fixed copy is translated by key; engine text is passed through the engine-text
   // helper, which is what that helper is for.
   const nextSteps = isPacketReady
-    ? PACKET_READY_NEXT_STEPS.map((step) => translate(step.key, step.fallback))
+    ? (packetAvailable ? PACKET_READY_NEXT_STEPS : PACKET_READY_NEXT_STEPS.slice(0, 1)).map((step) => translate(step.key, step.fallback))
     : (evaluation.nextSteps ?? []).map((step) => safeUserFacingEngineText(step, { locale }));
   const routeLabelKey = routeLabelKeyForState(stateName, evaluation.pathwayId);
   const routeLabel = evaluation.pathwayLabel
@@ -184,12 +184,12 @@ export function ScreeningResult({
       <h1 className="mt-3 text-[26px] font-extrabold leading-tight text-[#0B1320] md:text-[32px]">
         {isMississippiClinicPacket
           ? "A Mississippi non-conviction expungement path may be available."
-          : isPacketReady ? translate("result.packet_title", "You may be able to prepare an expungement packet.") : localizeText(evaluation.userLabel)}
+          : isPacketReady ? packetAvailable ? translate("result.packet_title", "You may be able to prepare an expungement packet.") : translate("result.path_available", "A path may be available") : localizeText(evaluation.userLabel)}
       </h1>
       <p className="mt-2 text-sm font-semibold text-[#8A93A6]">
         {isMississippiClinicPacket
           ? "Save this result to your Briefcase and continue."
-          : isPacketReady ? localizeText(packetSubheading(stateName, evaluation, routeLabel)) : stateName}
+          : isPacketReady ? localizeText(packetAvailable ? packetSubheading(stateName, evaluation, routeLabel) : "Your answers may match a record-clearing route. A packet is not available for this route yet. You can still save your result.") : stateName}
       </p>
       <p className="mt-3 inline-flex rounded-full bg-[#F7F3EC] px-3 py-1.5 text-xs font-bold text-[#334155]">
         {stateName}: {routeLabel}
@@ -263,7 +263,7 @@ export function ScreeningResult({
         </Section>
       ) : null}
 
-      {evaluation.packetPlan ? <PacketPlanSummary plan={evaluation.packetPlan} routeLabel={routeLabel} /> : null}
+      {evaluation.packetPlan ? <PacketPlanSummary plan={evaluation.packetPlan} routeLabel={routeLabel} packetAvailable={packetAvailable} /> : null}
 
       {showPacketAction && !hasScreeningSession ? (
         <div className="mt-6 rounded-xl border border-[#E7F7F4] bg-[#F4FBFA] px-4 py-3">
@@ -280,9 +280,9 @@ export function ScreeningResult({
       ) : null}
 
       {hasScreeningSession ? (
-        <p className="mt-6 rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] px-4 py-3 text-sm font-semibold leading-6 text-[#29453B]" data-partner-coverage="verified">
+        <p className="mt-6 rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] px-4 py-3 text-sm font-semibold leading-6 text-[#29453B]" data-partner-context="saved">
           {isPacketReady
-            ? `Your packet is covered by ${partnerDisplayName ?? "your partner program"}.`
+            ? localizeText("Your partner program information is saved. Packet coverage is confirmed before preparation.")
             : "Your saved result and next steps are covered by your partner program."}
         </p>
       ) : null}
@@ -336,7 +336,7 @@ export function ScreeningResult({
 
       {showPacketAction && hasScreeningSession ? (
         <p className="mt-3 rounded-xl bg-[#EEF2F7] px-3 py-2 text-[13px] leading-5 text-[#334155]">
-          {translate("result.partner_covered", "Your packet is covered by your partner program.")}
+          {localizeText("Packet coverage is confirmed before preparation.")}
         </p>
       ) : null}
 
@@ -352,12 +352,12 @@ function packetBodyText(mode: PacketPlan["mode"], routeLabel: string) {
   return `We’ll prepare a ${routeLabel} self-help packet for you to review, including the documents and filing steps that match the information you provided.`;
 }
 
-function PacketPlanSummary({ plan, routeLabel }: { plan: PacketPlan; routeLabel: string }) {
+function PacketPlanSummary({ plan, routeLabel, packetAvailable }: { plan: PacketPlan; routeLabel: string; packetAvailable: boolean }) {
   const { t: translate, text: localizeText } = useLocalization();
   return (
     <Section title={translate("result.packet_includes", "What your packet would include")}>
       <div className="rounded-xl border border-[#E7F7F4] bg-[#F4FBFA] px-4 py-3 text-sm leading-6 text-[#0B5C54]">
-        <p>{localizeText(packetBodyText(plan.mode, routeLabel))}</p>
+        <p>{localizeText(packetAvailable ? packetBodyText(plan.mode, routeLabel) : "These are the planned packet components for this route. A packet is not available yet.")}</p>
       </div>
     </Section>
   );

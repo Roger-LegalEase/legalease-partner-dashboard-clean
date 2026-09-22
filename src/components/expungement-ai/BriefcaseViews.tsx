@@ -48,7 +48,7 @@ export function matterStatus(item: BriefcasePresentationItem): MatterStatus {
   const careState = matterCareState(item);
   const isGuidance = careState === "guidance_only";
   const label = humanMatterState(item);
-  const tone: PillTone = label === "Matter details unavailable" ? "gray"
+  const tone: PillTone = label === "Packet not available yet" || label === "Matter details unavailable" ? "gray"
     : label === "We need a little more information" ? "red"
     : label === "You may need to wait before taking the next step" || label === "Waiting on the court" ? "amber"
       : label === "Decision received" ? "green"
@@ -59,7 +59,7 @@ export function matterStatus(item: BriefcasePresentationItem): MatterStatus {
 
 function stepperForHumanState(label: ReturnType<typeof humanMatterState>) {
   const stateLabel = label as string;
-  if (label === "Matter details unavailable" || label === "Next steps saved" || label === "We need a little more information" || label === "You may need to wait before taking the next step") return null;
+  if (label === "Packet not available yet" || label === "Matter details unavailable" || label === "Next steps saved" || label === "We need a little more information" || label === "You may need to wait before taking the next step") return null;
   if (label === "Matter saved") return { done: 1, current: -1 };
   if (label === "A self-help packet may be available") return { done: 1, current: 1 };
   if (label === "Packet details in progress") return { done: 1, current: 1 };
@@ -217,6 +217,9 @@ function pickNextStep(matters: BriefcasePresentationItem[]): NextStep | null {
     if (!item) continue;
     const href = `/briefcase/${item.id}`;
     const where = matterSubtitle(item) || item.jurisdiction || "saved matter";
+    if (humanMatterState(item) === "Packet not available yet") {
+      return { headline: "Packet not available yet", body: "Your eligibility result and saved information remain available. There is no packet to purchase for this route yet.", ctaLabel: "Open matter", href };
+    }
     switch (target) {
       case "needs_attention":
         return { headline: `Finish your ${item.title} check`, body: "We need one more thing before this can move forward. Open it to see what to add.", ctaLabel: "See what we need", href };

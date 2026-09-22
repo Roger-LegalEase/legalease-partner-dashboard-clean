@@ -123,9 +123,9 @@ export default async function PacketAccuracyReviewPage({
 
           <ReviewCard title="Your packet" icon={<FileText className="h-5 w-5" aria-hidden="true" />}>
             <dl className="grid gap-3 text-sm">
-              <SummaryLine label="Result" value={reviewSafety.safe ? "Based on these answers, a packet is still available to you." : "Check these answers before you continue."} />
+              <SummaryLine label="Result" value={!item.commercialActions.fulfillmentAvailable ? "Your eligibility result is saved. A packet is not available for this route yet." : reviewSafety.safe ? "Your answers still match this packet route. Confirm the facts before continuing." : "Check these answers before you continue."} />
               <SummaryLine label="Coverage" value={sponsored ? "Covered by your partner program" : "This packet belongs to your private Briefcase matter."} />
-              {!sponsored ? <SummaryLine label="Cost" value={item.paymentState === "paid" ? "Already paid for this matter" : "$50 one time, after you confirm your information"} /> : null}
+              {!sponsored ? <SummaryLine label="Cost" value={item.paymentState === "paid" ? "Already paid for this matter" : item.commercialActions.fulfillmentAvailable ? "$50 one time, after you confirm your information" : "No payment available"} /> : null}
             </dl>
           </ReviewCard>
 
@@ -144,7 +144,9 @@ export default async function PacketAccuracyReviewPage({
           </div>
 
           <PacketVerificationAction
+            key={`${item.verificationStatus}:${item.commercialActions.fulfillmentAvailable}:${item.commercialActions.checkoutAllowed}:${item.commercialActions.generationAllowed}`}
             itemId={item.id}
+            commercialActions={item.commercialActions}
             verificationAnswers={model.initialAnswers}
             initiallyVerified={initiallyVerified}
             canVerify={summary.complete && model.missingInputIds.length === 0 && reviewSafety.safe}

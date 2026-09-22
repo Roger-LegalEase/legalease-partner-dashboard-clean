@@ -41,7 +41,8 @@ export type HumanMatterState =
   | "Filed"
   | "Waiting on the court"
   | "Decision received"
-  | "Matter details unavailable";
+  | "Matter details unavailable"
+  | "Packet not available yet";
 
 export type MatterTone = "positive" | "info" | "wait" | "attention" | "care" | "neutral";
 
@@ -61,6 +62,7 @@ export function matterCareState(item: BriefcasePresentationItem): MatterCareStat
 
   if (item.authorityStatus === "unavailable") return "unavailable";
   if (item.artifact.status === "ready") return "completed";
+  if ((rc === "packet_ready" || rc === "packet_ready_with_caution") && !item.commercialActions?.fulfillmentAvailable) return "needs_attention";
   if ((rc === "packet_ready" || rc === "packet_ready_with_caution") && item.packetDraft.status === "unavailable") {
     return "unavailable";
   }
@@ -86,6 +88,8 @@ export function humanMatterState(item: BriefcasePresentationItem): HumanMatterSt
   if (item.authorityStatus === "unavailable") return "Matter details unavailable";
   if (item.artifact.status === "ready") return "Packet ready";
   if ((item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution")
+    && !item.commercialActions?.fulfillmentAvailable) return "Packet not available yet";
+  if ((item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution")
     && item.packetDraft.status === "unavailable") return "Matter details unavailable";
 
   if (item.resultCode === "guidance_only" || item.resultCode === "not_covered_yet" || item.packetType === "guidance_packet") {
@@ -95,7 +99,7 @@ export function humanMatterState(item: BriefcasePresentationItem): HumanMatterSt
   if (item.resultCode === "not_yet") return "You may need to wait before taking the next step";
 
   if (item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution") {
-    if (item.packetProgress === "verified") return item.paymentState === "paid" ? "Payment confirmed" : "Ready to generate";
+    if (item.packetProgress === "verified") return item.paymentState === "paid" ? "Payment confirmed" : (item.commercialActions.checkoutAllowed || item.commercialActions.generationAllowed) ? "Ready to generate" : "Packet not available yet";
     if (item.packetProgress === "facts_complete") return "Packet facts complete";
     if (item.packetProgress === "in_progress") return "Packet details in progress";
     return "A self-help packet may be available";
@@ -157,5 +161,9 @@ const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careSt
 
 export function matterCarePresentation(item: BriefcasePresentationItem): MatterCarePresentation {
   const careState = matterCareState(item);
+  if (humanMatterState(item) === "Packet not available yet") {
+    return { careState, badge: "Packet not available yet", tone: "neutral", showCallout: true,
+      blurb: "A packet is not available for this route yet. Your eligibility result and saved information remain available." };
+  }
   return { careState, ...PRESENTATION[careState] };
 }

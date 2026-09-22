@@ -1,0 +1,16 @@
+ok   resource_missing against the verified account and mode is absence, and the order may continue
+ok   resource_missing with NO verified identity refuses: the lookup failed, which is not the same as the order not existing
+ok   resource_missing against a DIFFERENT account refuses: the earlier order may be in the account we are no longer asking
+ok   resource_missing against the right account in the WRONG mode refuses: test and live are separate object spaces
+ok   a rate_limit lookup failure refuses rather than discarding the stored session
+ok   a api_key_expired lookup failure refuses rather than discarding the stored session
+ok   a account_invalid lookup failure refuses rather than discarding the stored session
+ok   a parameter_unknown lookup failure refuses rather than discarding the stored session
+ok   a processing_error lookup failure refuses rather than discarding the stored session
+ok   a refusal carrying no code refuses
+ok   an error this module never classified refuses
+ok   a null error refuses
+ok   with no expected account configured for this environment, nothing can be verified and the refusal stands
+ok   a configured expectation still refuses when the mode does not match the environment
+ok   a deployment that configures its own account and matches mode can conclude absence
+test-consumer-checkout-stored-session passed: 15/15
