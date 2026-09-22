@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "rcap-noncommercial-evidence-producer-provider-succession/v1",
+  "recordedOn": "2026-09-22",
+  "recordedBy": "Captain, under the task-53 provider-succession authorization. Not an owner approval, not a legal decision, and not authority for any new bytes.",
+
+  "why": "The task-53 receipt proved that a footer-only builder correction moved no commercial provider publication. It expressed that by pinning the bytes of the live publication ledger. That pin was true at the task-53 boundary and becomes false at the next legitimate publication, which the release lifecycle guarantees. This record separates the historical boundary fact, which never moves, from the forward-moving ledger, which does -- without editing the v1 receipt or relaxing anything it actually proved.",
+
+  "predecessor": {
+    "receiptPath": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/reconciliation.json",
+    "receiptSha256": "4e8fab74c96e3ef7375f88dfcab8cd7b4f7734055b755e0074155da5328a76e9",
+    "baseCaptain": "4d00a1ffa16965290d55536787dca85981d0fced",
+    "footerCommit": "95ca90ba99de215d35dcbe06ddeb6528c42d8c7a",
+    "status": "immutable_and_unedited",
+    "note": "The v1 receipt is byte-exact and stays that way. Its preservedFiles and commercialBindings still record what was true at its own boundary."
+  },
+
+  "historicalBoundaryFact": {
+    "classification": "historical_boundary_fact",
+    "publicationEvidencePath": "data/rcap-render/worker-publication-evidence.json",
+    "publicationEvidenceSha256": "b5a0ffd123f96d0011f200991ee7729ce4541e154c2f9e2cd47068a60f87cebf",
+    "sourceSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
+    "immutableDigest": "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f",
+    "publicationRunId": 35538783807,
+    "independentlyVerifiable": "The publication ledger hashes to exactly this value at the predecessor base Captain 4d00a1ffa16965290d55536787dca85981d0fced, so the historical fact is provable from the commit rather than only from the receipt that asserts it.",
+    "mustNeverBeRewritten": "These values are what task 53 observed. They are never updated to resemble the current provider; a record that did that would be an exception wearing history's clothes."
+  },
+
+  "currentTreatment": "forward_provider_succession_allowed_only_through_verified_publication_history",
+
+  "theRule": {
+    "statement": "The publication ledger is append-forward. The task-53 provider may be superseded, but only by a publication that is itself proven, and only while the task-53 tuple remains honestly represented in the ledger's superseded history.",
+    "requiresOfTheCurrentPublication": [
+      "an exact 40-character source SHA",
+      "a well-formed immutable sha256 digest",
+      "workflowConclusion success",
+      "runtimeAccepted true",
+      "a recorded image acceptance whose conclusion is success",
+      "an image acceptance naming the same digest as the publication",
+      "an image acceptance naming the same tag and source as the publication",
+      "the canonical publication-evidence path, unchanged"
+    ],
+    "requiresOfTheHistory": "The task-53 tuple -- source, digest and publication run together -- must appear on ONE entry of the superseded history, which is supersededPublication plus every entry of supersededChain. No field may be borrowed from a different entry.",
+    "deliberatelyNotPinnedHere": "This record names no current provider digest. Pinning one would reproduce the defect it repairs: the next legitimate publication would make this record stale too. The current provider is the Grade-A fulfillment and publication authority chain's responsibility, not task 53's."
+  },
+
+  "responsibilityBoundary": {
+    "task53Proves": [
+      "the footer-only builder change was narrowly noncommercial",
+      "the immutable owner, artifact and legal facts it preserved are still exact",
+      "the provider that existed at its boundary is still honestly represented in publication history"
+    ],
+    "task53DoesNotProve": [
+      "that the current registry provider digest is valid",
+      "that the current registry provider equals the current publication evidence"
+    ],
+    "why": "Making task 53 the canonical verifier of the current provider would create a circular dependency: the registry is the generator's output, and the generator consults task 53 while producing it."
+  },
+
+  "changesLegalContent": false,
+  "changesCurrentCommercialArtifacts": false,
+  "changesShippingArtifactApproval": false,
+  "createsApproval": false,
+  "approvesNewBytes": false,
+  "productionTouched": false,
+  "opensAnyRoute": false
+}

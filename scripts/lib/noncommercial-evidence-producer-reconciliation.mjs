@@ -11,6 +11,15 @@ export const FOOTER_COMMIT = '95ca90ba99de215d35dcbe06ddeb6528c42d8c7a';
 export const PROOF_ROOT = 'data/rcap-grade-a/mission-lock/task53-evidence-reconciliation';
 export const RECONCILIATION_PATH = `${PROOF_ROOT}/reconciliation.json`;
 export const RECONCILIATION_SHA256 = '4e8fab74c96e3ef7375f88dfcab8cd7b4f7734055b755e0074155da5328a76e9';
+/** The successor contract. The v1 receipt pinned the bytes of the LIVE
+ * publication ledger, which is append-forward by design: that pin was true at
+ * the task-53 boundary and false at the next legitimate publication. The v1
+ * receipt is not edited. Instead its publication-ledger facts are read as
+ * historical, and forward movement is allowed only through a publication that
+ * proves itself and leaves the task-53 tuple intact in superseded history. */
+export const PROVIDER_SUCCESSION_PATH = `${PROOF_ROOT}/provider-succession.json`;
+export const PROVIDER_SUCCESSION_SHA256 = '3bfd466b9f94330124dcf7f49b11926c49011985059e9bd161ed463baf06bee0';
+export const WORKER_EVIDENCE_PATH = 'data/rcap-render/worker-publication-evidence.json';
 export const APPROVAL_PATH = 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json';
 export const REGISTRY_PATH = 'data/rcap-grade-a/fulfillment-authority-registry.json';
 export const HELPER = { path: 'scripts/rcap-custom-pleading/court-facing-rows.mjs', sha256: 'e8e8c558d35cc8eb4e3511be8f83de0bfa79b8f4e8462b38b2f6334e71f06ce2' };
@@ -23,6 +32,12 @@ export const FAMILIES = Object.freeze([
     builderPath: 'scripts/build-census-v1-il-prostitution-j-vacate-set.mjs', preSha256: '993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b', postSha256: '7a894298e4feb4a34fa68eac9976213c66a59a7e8508657b0e49361f35fb6962' }
 ]);
 export const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+/** Read a blob from history, so the historical boundary fact can be proven from
+ * the commit rather than only from the receipt that asserts it. Returns null
+ * where history is unavailable, which is a skip rather than a pass. */
+export function defaultGitBlob(ref, path) {
+  return execFileSync('git', ['show', `${ref}:${path}`], { encoding: 'buffer', maxBuffer: 64*1024*1024 });
+}
 export function pageCount(bytes) {
   const info = execFileSync('pdfinfo', ['-'], { input: bytes, encoding: 'utf8', maxBuffer: 1024*1024 });
   const count = Number(info.match(/^Pages:\s+(\d+)/m)?.[1]);
@@ -54,9 +69,111 @@ export function commercialInvariant(record) {
     deliveryProviderEvidencePath: record.evidenceBindings.provider.deliveryProviderEvidencePath,
     deliveryProviderEvidenceSha256: record.evidenceBindings.provider.deliveryProviderEvidenceSha256 };
 }
+/** The same invariant, split. Everything task 53 actually proved is STABLE and
+ * still compared byte-for-byte. Only the three fields the publication lifecycle
+ * owns move, and they are proven separately by assertProviderSuccession rather
+ * than waived: provider.imageDigest, deliveryProvider.imageDigest and
+ * deliveryProviderEvidenceSha256. Note what stays stable inside provider --
+ * providerId, rendererKind and rendererVersion -- so a changed renderer or a
+ * different registry is still a refusal. */
+const FORWARD_PROVIDER_FIELDS = Object.freeze(['imageDigest']);
+function stableProviderFields(provider) {
+  if (!provider || typeof provider !== 'object') return provider;
+  return Object.fromEntries(Object.entries(provider).filter(([key]) => !FORWARD_PROVIDER_FIELDS.includes(key)));
+}
+export function stableCommercialInvariant(record) {
+  const full = commercialInvariant(record);
+  return { routeId: full.routeId, packetFamilyId: full.packetFamilyId,
+    isCurrentCommercialArtifact: full.isCurrentCommercialArtifact,
+    currentCommercialArtifactReview: full.currentCommercialArtifactReview,
+    provider: stableProviderFields(full.provider),
+    deliveryProvider: stableProviderFields(full.deliveryProvider),
+    deliveryProviderEvidencePath: full.deliveryProviderEvidencePath };
+}
+/** The forward-moving fields, named so a mutation can prove they are read at
+ * all rather than silently dropped. */
+export function forwardProviderFields(record) {
+  const full = commercialInvariant(record);
+  return { providerImageDigest: full.provider?.imageDigest ?? null,
+    deliveryProviderImageDigest: full.deliveryProvider?.imageDigest ?? null,
+    deliveryProviderEvidenceSha256: full.deliveryProviderEvidenceSha256 ?? null };
+}
+
+const EXACT_SHA40 = /^[0-9a-f]{40}$/;
+const EXACT_DIGEST = /^sha256:[0-9a-f]{64}$/;
+/** Prove the task-53 provider was SUPERSEDED rather than erased or rewritten.
+ * This deliberately does not check that the current registry provider equals
+ * the current publication -- that is the Grade-A authority chain's job, and
+ * asserting it here would be circular, because the registry is the generator's
+ * own output and the generator calls this while producing it. */
+export function assertProviderSuccession({ readBytes = fs.readFileSync, readGitBlob } = {}) {
+  const successionBytes = readBytes(PROVIDER_SUCCESSION_PATH);
+  assert.equal(digest(successionBytes), PROVIDER_SUCCESSION_SHA256, 'provider-succession record changed');
+  const succession = JSON.parse(successionBytes);
+  assert.equal(succession.schemaVersion, 'rcap-noncommercial-evidence-producer-provider-succession/v1');
+  assert.equal(succession.predecessor.receiptPath, RECONCILIATION_PATH);
+  assert.equal(succession.predecessor.receiptSha256, RECONCILIATION_SHA256);
+  assert.equal(succession.predecessor.baseCaptain, CAPTAIN);
+  assert.equal(succession.predecessor.footerCommit, FOOTER_COMMIT);
+  assert.equal(succession.historicalBoundaryFact.classification, 'historical_boundary_fact');
+  assert.equal(succession.currentTreatment, 'forward_provider_succession_allowed_only_through_verified_publication_history');
+  for (const key of ['changesLegalContent','changesCurrentCommercialArtifacts','changesShippingArtifactApproval','createsApproval','approvesNewBytes']) {
+    assert.equal(succession[key], false, `provider succession ${key}`);
+  }
+
+  // The historical fact, taken from the immutable v1 receipt rather than from
+  // the successor record asserting itself.
+  const historical = succession.historicalBoundaryFact;
+  const receipt = JSON.parse(readBytes(RECONCILIATION_PATH));
+  const pinned = (receipt.preservedFiles ?? []).find(entry => entry.path === WORKER_EVIDENCE_PATH);
+  assert.ok(pinned, 'the v1 receipt records no publication-ledger pin to read as history');
+  assert.equal(historical.publicationEvidencePath, WORKER_EVIDENCE_PATH);
+  assert.equal(historical.publicationEvidenceSha256, pinned.sha256,
+    'the successor names a different historical ledger hash than the v1 receipt recorded');
+  for (const binding of receipt.commercialBindings ?? []) {
+    assert.equal(binding.deliveryProviderEvidenceSha256, pinned.sha256, 'v1 receipt is internally inconsistent about the historical ledger');
+    assert.equal(binding.provider.imageDigest, historical.immutableDigest, 'the successor names a different historical digest than the v1 receipt recorded');
+  }
+  // Preferably also from the commit, so the fact does not rest on a receipt
+  // asserting itself. Skipped only where git history is unavailable.
+  if (readGitBlob) {
+    let boundaryBytes = null;
+    try { boundaryBytes = readGitBlob(CAPTAIN, WORKER_EVIDENCE_PATH); } catch { boundaryBytes = null; }
+    if (boundaryBytes) {
+      assert.equal(digest(boundaryBytes), historical.publicationEvidenceSha256,
+        'the publication ledger at the task-53 base Captain does not hash to the recorded historical value');
+    }
+  }
+
+  // The current publication must prove itself.
+  const current = JSON.parse(readBytes(WORKER_EVIDENCE_PATH));
+  assert.ok(EXACT_SHA40.test(String(current.sourceSha)), 'current publication has no exact source SHA');
+  assert.ok(EXACT_DIGEST.test(String(current.immutableRegistryDigest)), 'current publication has no well-formed immutable digest');
+  assert.equal(current.workflowConclusion, 'success', 'current publication did not succeed');
+  assert.equal(current.runtimeAccepted, true, 'current publication is not runtime accepted');
+  const acceptance = current.imageAcceptance;
+  assert.ok(acceptance, 'current publication records no image acceptance');
+  assert.equal(acceptance.conclusion, 'success', 'current image acceptance did not succeed');
+  assert.equal(acceptance.digest, current.immutableRegistryDigest, 'image acceptance names a different digest than the publication');
+  assert.equal(acceptance.tag, current.imageTag, 'image acceptance names a different tag than the publication');
+  assert.equal(current.imageTag, current.sourceSha, 'the published tag is not the source SHA');
+
+  // And the task-53 tuple must still be honestly represented, as ONE entry.
+  const history = [
+    ...(current.supersededPublication ? [current.supersededPublication] : []),
+    ...(Array.isArray(current.supersededChain) ? current.supersededChain : [])
+  ];
+  assert.ok(history.length > 0, 'the publication ledger records no superseded history');
+  const match = history.find(entry =>
+    entry?.sourceSha === historical.sourceSha
+    && entry?.immutableRegistryDigest === historical.immutableDigest
+    && entry?.publicationRunId === historical.publicationRunId);
+  assert.ok(match, `the task-53 provider ${historical.sourceSha} / ${historical.immutableDigest} / run ${historical.publicationRunId} is not represented as one entry of the superseded history`);
+  return { historical, currentSourceSha: current.sourceSha, currentDigest: current.immutableRegistryDigest };
+}
 /** Conditions are separately callable so mutation tests reach them past the
  * outer receipt byte pin, rather than taking credit for that pin alone. */
-export function assertProducerReconciliation({ proof, familyId, routeId, builderPath, preSha256, readBytes = fs.readFileSync }) {
+export function assertProducerReconciliation({ proof, familyId, routeId, builderPath, preSha256, readBytes = fs.readFileSync, readGitBlob = defaultGitBlob }) {
   const exact = FAMILIES.find(f => f.familyId === familyId && f.routeIds.includes(routeId));
   assert.ok(exact, 'family/route outside bounded reconciliation');
   assert.equal(builderPath, exact.builderPath, 'wrong builder path');
@@ -77,7 +194,17 @@ export function assertProducerReconciliation({ proof, familyId, routeId, builder
   footerOnlyBuilderDelta(before, after);
   // Full bytes, not counts: specifications, field maps, track/legal authority,
   // original receipts/approvals and commercial provider publication remain exact.
-  for (const entry of [...proof.preservedFiles, ...proof.proofTools]) exactFile(entry, readBytes);
+  // Every preserved file stays byte-exact EXCEPT the live publication ledger,
+  // whose v1 pin is a historical boundary fact rather than a perpetual one.
+  // It is not waived: assertProviderSuccession proves the historical tuple is
+  // still honestly represented and that whatever replaced it proved itself.
+  for (const entry of [...proof.preservedFiles, ...proof.proofTools]) {
+    if (entry.path === WORKER_EVIDENCE_PATH) continue;
+    exactFile(entry, readBytes);
+  }
+  assert.ok(proof.preservedFiles.some(entry => entry.path === WORKER_EVIDENCE_PATH),
+    'the v1 receipt no longer records the publication ledger, so the historical fact cannot be established');
+  assertProviderSuccession({ readBytes, readGitBlob });
   const approval = JSON.parse(readBytes(APPROVAL_PATH));
   assert.equal(approval.decisionId, 'OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920');
   assert.equal(approval.status, 'APPROVED_EXACT_CURRENT_COMMERCIAL_ARTIFACTS');
@@ -91,7 +218,35 @@ export function assertProducerReconciliation({ proof, familyId, routeId, builder
   for (const expected of proof.commercialBindings) {
     const matches = records.filter(r => r.routeId === expected.routeId);
     assert.equal(matches.length, 1, 'commercial route not unique');
-    assert.deepEqual(commercialInvariant(matches[0]), expected, 'commercial artifact review/provider changed');
+    // Stable fields must still equal the receipt exactly. The three
+    // publication-lifecycle fields are proven by assertProviderSuccession
+    // instead of being compared with their task-53 values, which a legitimate
+    // republication makes false by definition. Their SHAPE is still required,
+    // so a dropped or malformed provider digest is a refusal.
+    assert.deepEqual(stableCommercialInvariant(matches[0]), stableCommercialInvariant({
+      routeId: expected.routeId, packetFamilyId: expected.packetFamilyId,
+      provider: expected.provider,
+      packetCompleteness: { filingFormatArtifact: {
+        isCurrentCommercialArtifact: expected.isCurrentCommercialArtifact,
+        currentCommercialArtifactReview: expected.currentCommercialArtifactReview } },
+      evidenceBindings: { provider: {
+        deliveryProvider: expected.deliveryProvider,
+        deliveryProviderEvidencePath: expected.deliveryProviderEvidencePath,
+        deliveryProviderEvidenceSha256: expected.deliveryProviderEvidenceSha256 } }
+    }), 'commercial artifact review/provider identity changed');
+    const forward = forwardProviderFields(matches[0]);
+    assert.ok(EXACT_DIGEST.test(String(forward.providerImageDigest)), 'provider image digest missing or malformed');
+    assert.ok(EXACT_DIGEST.test(String(forward.deliveryProviderImageDigest)), 'delivery provider image digest missing or malformed');
+    assert.equal(forward.providerImageDigest, forward.deliveryProviderImageDigest, 'provider and delivery provider name different images');
+    assert.ok(/^[0-9a-f]{64}$/.test(String(forward.deliveryProviderEvidenceSha256)), 'delivery provider evidence hash missing or malformed');
+    // Deliberately NOT asserted here: that this hash equals the current ledger.
+    // The record being read is the generator's own prior output, so requiring
+    // it to match the new ledger is circular -- it would refuse during the very
+    // regeneration that updates it, and the first attempt at this check failed
+    // exactly that way. Binding the registry's provider to the current
+    // publication belongs to the Grade-A authority chain; task 53's job is to
+    // prove its own historical provider is still honestly represented, which
+    // assertProviderSuccession does against the ledger itself.
     assert.equal(expected.isCurrentCommercialArtifact, false, 'census is not commercial provider');
     assert.equal(expected.currentCommercialArtifactReview.state, 'approved');
   }
@@ -131,9 +286,10 @@ export function assertProducerReconciliation({ proof, familyId, routeId, builder
 }
 export function reconcileNoncommercialProducer(input) {
   const readBytes = input.readBytes ?? fs.readFileSync;
+  const readGitBlob = 'readGitBlob' in input ? input.readGitBlob : defaultGitBlob;
   const bytes = readBytes(RECONCILIATION_PATH);
   assert.equal(digest(bytes), RECONCILIATION_SHA256, 'technical reconciliation receipt changed');
-  return assertProducerReconciliation({ ...input, readBytes, proof: JSON.parse(bytes) });
+  return assertProducerReconciliation({ ...input, readBytes, readGitBlob, proof: JSON.parse(bytes) });
 }
 /** Return historical producer bytes ONLY after proving why today's supporting
  * builder differs. Those bytes remain the provenance of the old approved PDF. */
