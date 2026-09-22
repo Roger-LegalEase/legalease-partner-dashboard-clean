@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-successor-application-freeze/v1",
+  "recordedOn": "2026-09-22",
+  "recordedBy": "Captain, under the DC historical-producer reconciliation and successor-freeze authorization. Not an owner approval, not a publication receipt, and not authority to deploy anything.",
+  "classification": "SUCCESSOR_APPLICATION_FREEZE",
+
+  "successorApplicationFreeze": {
+    "sha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+    "branch": "captain-release",
+    "what": "The bounded evidence refresh: the DC historical-producer reconciliation, the truthful Grade-A regeneration it forced, the 32-mutation DC adversarial suite, and the operability control on the task-53 footer comparator.",
+    "containsNoApplicationByteChange": "No file under src/, public/ or supabase/ moved between 8eb8ddc9d8525e7390453c9b7a64224b9651bc42 and this commit. The application behaviour is identical; what moved is evidence and the controls over it."
+  },
+
+  "supersededApplicationFreeze": {
+    "sha": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+    "status": "SUPERSEDED_BY_BOUNDED_EVIDENCE_REFRESH",
+    "supersededOnlyNow": "This classification was withheld until the bounded successor-freeze commit actually existed. It exists, and is named above.",
+    "whatSupersededMeansHere": "It is no longer the commit whose tree a release Preview should be built from. It remains the exact source the currently published worker was built from, and that fact is not revoked by this record.",
+    "whatItDoesNotMean": [
+      "that a worker has been published from the successor freeze",
+      "that the currently published image is invalid",
+      "that any route regained commercial authority",
+      "that production or staging may be deployed"
+    ]
+  },
+
+  "workerInputFingerprint": {
+    "acceptedSourceSha": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+    "acceptedDigest": "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41",
+    "candidateSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+    "derivedBy": "scripts/rcap-hosted-acceptance-worker-input-plan.mjs, createWorkerInputPlan -- the single canonical closure, including the Docker COPY-derived inputs",
+    "comparedInputs": 38,
+    "rebuildRequired": true,
+    "changedPaths": [
+      "data/rcap-grade-a/worker-static-authority.json",
+      "scripts/lib/noncommercial-evidence-producer-reconciliation.mjs"
+    ],
+    "aggregateInputSha256": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+    "meaning": "The published worker does not contain these bytes, so it cannot answer for what this tree would render. rebuildRequired is the honest answer, and publication is the only thing that changes it."
+  },
+
+  "restApplicationPinNotAdvanced": {
+    "pin": "scripts/rcap-hosted-vercel-rest-transport.mjs, FROZEN_APPLICATION_SHA",
+    "currentValue": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+    "deliberatelyLeftAtTheSupersededFreeze": true,
+    "why": "The frozen-release contract requires the publication evidence to name the frozen application: `e.sourceSha === w.frozen`. No worker has been published from fe2457a71, so advancing the pin to it would assert a publication that does not exist -- the precise falsehood the pin exists to prevent. The pin is advanced by the successor publication, not by the freeze.",
+    "consequence": "Two controls in scripts/rcap-hosted-vercel-rest-transport.test.mjs are RED on this commit, both reporting the same true fact from different angles: canonical worker inputs moved after the freeze. They are left red rather than repinned.",
+    "clearedBy": "Publishing the successor worker from fe2457a71 and recording its receipt and image acceptance, then advancing the pin. That publication is NOT authorized by this record."
+  },
+
+  "knownRedControls": [
+    {
+      "path": "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
+      "tests": [
+        "the frozen application pin is the source the accepted worker was published from",
+        "the frozen application pin is the application this tree releases, not an older one"
+      ],
+      "reason": "canonical worker inputs moved after the freeze",
+      "classification": "truthful_red_awaiting_successor_publication"
+    },
+    {
+      "path": "scripts/test-current-commercial-artifact-hold.mjs",
+      "tests": [
+        "Mississippi non-conviction is not held by this proof",
+        "exactly the six approved routes are commercially eligible, and no others"
+      ],
+      "reason": "Both pin a publication-current world: an empty missingProof list for the MS clinic route, and six commercially eligible routes. With no current publication the clinic route truthfully regained `provider` and the eligible set is empty.",
+      "classification": "truthful_red_awaiting_successor_publication",
+      "deliberatelyNotRepinned": "The pinned list and the exact eligible set are what would notice a hold quietly arriving or disappearing. Editing them to match a temporary loss of publication proof would bake the regression into the control built to catch it. The other 23 checks in that file -- the artifact-hold logic itself -- all pass.",
+      "notTheArtifactHold": "Neither failure is the composed-artifact hold. That hold is proven closed, proven to close again when the approval is withdrawn, and proven unreachable by publication."
+    }
+  ],
+
+  "commercialState": {
+    "commerciallyEligibleRoutes": 0,
+    "why": "The published worker at 8eb8ddc9d is not input-equivalent to this tree, so the current world cannot be observed. Every route with a complete record is STALE on that one reason; the MS clinic route is INCOMPLETE because the generator declines to copy a provider digest from an image that does not contain current inputs.",
+    "thisIsARefusalNotAGap": "A route sells only what a record proves it delivers. Nothing here is worked around, and no route is opened."
+  },
+
+  "verification": {
+    "gradeAGenerator": "pass, and idempotent on a second run",
+    "gradeAGeneratorCheck": "pass",
+    "gradeAAuthorityVerifier": "78/78",
+    "dcHistoricalProducerMutations": "32/32 refused",
+    "task53ReconciliationMutations": "93/93 refused, 18 independently confirmed by an operable footer comparator",
+    "approvedCommercialArtifacts": "byte-identical; no approval created, extended or reinterpreted"
+  },
+
+  "productionAuthorized": false,
+  "stagingAuthorized": false,
+  "workerPublicationAuthorized": false,
+  "createsApproval": false,
+  "approvesNewBytes": false,
+  "opensAnyRoute": false
+}
