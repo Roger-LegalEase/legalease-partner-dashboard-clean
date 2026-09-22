@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "rcap-mission-lock-terminal-receipt/v1",
+  "task": "#42",
+  "disposition": "LIVE_DEFECT_FIXED",
+  "decidedBy": "Roger, on Captain's focused rerun. Not a counsel approval.",
+  "decidedOn": "2026-09-22",
+  "integratedCaptainSha": "e74c02f0d9d5500bdc8dad45e8e8e2804496bfdb",
+  "captainShaBeforeIntegration": "211cc19ce291ead296c994a2453c069c0f83835c",
+
+  "originalClaim": {
+    "recordedOn": "2026-09-21",
+    "where": "docs/rcap/staging-rehearsal/CAPTAIN_C1_INTEGRATION_2026-09-21.md and docs/RCAP_EXTERNAL_ACTION_REGISTER.md",
+    "what": "scripts/rcap-hosted-acceptance-preparation.test.mjs failed 3 of 10 on stale CLI-era bindings: a superseded accepted-worker identity fixture, an equivalence assertion that compared the accepted tree with itself under two names, and scope/deployment assertions written for the Vercel CLI after the deploy path moved to the REST transport.",
+    "whyItWasDeferred": "It was established as pre-existing rather than candidate-caused, was not in the selected Mission Lock control set, and was named so the next pass would start from a list rather than a rediscovery."
+  },
+
+  "theDefectWasLiveAtCaptainBeforeIntegration": {
+    "measuredAt": "211cc19ce291ead296c994a2453c069c0f83835c",
+    "result": "7 passed, 3 failed",
+    "failing": [
+      "5 - Mississippi Preview preparation is bounded to four synthetic identities and a two-participant scope",
+      "6 - same worker source SHA reuses the accepted immutable digest",
+      "7 - distinct evidence-only SHA reuses the digest with the accepted image revision"
+    ],
+    "soTheDispositionIsFixedRatherThanRetired": "The three failures reproduced on current Captain immediately before the cherry-pick, and the same three pass immediately after. The repair is measured against a live red, not asserted."
+  },
+
+  "integration": {
+    "codexCandidate": "d3141c126e052b3b75e92f1cd759866f5218c720",
+    "codexCandidateParent": "247687a7d9238349f94dbbc490249903f19838ca",
+    "method": "git cherry-pick -x onto Captain. Codex was not asked to rebase or recreate the patch.",
+    "ancestryDifferenceVerifiedIndependently": {
+      "range": "247687a7d..211cc19ce",
+      "commits": ["f8068d90d #62 receipt", "327548c98 #55 receipt", "211cc19ce #58 and #61 receipts"],
+      "filesChangedInRange": "4, all additions under data/rcap-grade-a/mission-lock/",
+      "task42FilesChangedInRange": "none — git diff over both patched paths across the range is empty",
+      "note": "The range is one commit longer than it was when the cherry-pick was authorised, because the #58 and #61 launch-safety receipts landed in between. It is the same kind of difference: receipts only, and neither #42 file moved."
+    },
+    "exactlyTwoFilesChanged": [
+      "scripts/rcap-hosted-acceptance-preparation.test.mjs",
+      "scripts/test-rcap-hosted-preparation-mutations.mjs"
+    ],
+    "byteIdentityWithTheCandidate": {
+      "scripts/rcap-hosted-acceptance-preparation.test.mjs": "blob 01b3455c263a91a41e7e32a9f501887dc0ba89f5 on both the candidate and integrated Captain",
+      "scripts/test-rcap-hosted-preparation-mutations.mjs": "blob 3da021233623133af07d72ffd2298dc1388d62dc on both"
+    },
+    "noOtherSemanticMovement": "git diff --name-only 211cc19ce e74c02f0d over src/, data/, supabase/, deploy/, .github/, docs/, package.json and package-lock.json is empty.",
+    "notAdded": "No package script, CI wiring or workflow entry was added for the standalone mutation script. That was not the original defect and adding it would alter worker inputs."
+  },
+
+  "acceptance": {
+    "preparationBaseline": "10/10 — every previously failing test now passes and no previously passing test regressed.",
+    "combinedPreparationCopyInputRest": {
+      "files": [
+        "scripts/rcap-hosted-acceptance-preparation.test.mjs",
+        "scripts/rcap-worker-input-copy.test.mjs",
+        "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
+        "scripts/rcap-hosted-acceptance-vercel-identity.test.mjs"
+      ],
+      "result": "47/47 passed, 0 failed"
+    },
+    "releaseContainment": "scripts/test-rcap-release-containment.mjs — PASS. Three actual acceptance shells, publication main/release, outsider and missing-SHA denial, stale-branch reproduction, scope and bypass mutations.",
+    "mutations": {
+      "required": 6,
+      "caught": 6,
+      "greenUnmutatedBaselineRequiredFirst": "The suite asserts the unmutated control exits 0 before any mutation is applied, so credit is not available from an already-red file.",
+      "detail": [
+        "retired worker source — caught",
+        "non-equivalent candidate — caught",
+        "candidate compared with itself — caught",
+        "scope hash removed from REST metadata — caught",
+        "scope reuse comparison removed — caught",
+        "metadata omitted from REST invocation — caught"
+      ],
+      "eachMutationIsProvenToApplyExactlyOnce": "The suite asserts a unique match before mutating, so a silently-missed mutation cannot count itself undetected.",
+      "isolation": "Mutations are written only to copies inside a temporary fixture directory; the repository's own scripts are symlinked read-only and the Git directory is symlinked rather than copied. The Git directory was confirmed intact after the run and the working tree stayed clean."
+    },
+    "static": {
+      "syntax": "node --check clean on both files",
+      "targetedLint": "npx eslint on both files — exit 0, no findings",
+      "diffCheck": "scripts/verify-tracked-mutation-safety.mjs — OK, 42 checks"
+    }
+  },
+
+  "workerInputEffect": {
+    "patchMovement": "ZERO. git diff --name-only across the ten canonical worker inputs (package.json, package-lock.json, tsconfig.json, scripts/rcap-render-worker.mjs, scripts/lib, src, deploy/rcap-render-worker/Dockerfile, deploy/rcap-render-worker/Dockerfile.dockerignore, data/record-clearing/supplemental-guides, data/record-clearing/brand/legalease-logo.png) between 211cc19ce and e74c02f0d returns nothing. Both patched files are outside the canonical set.",
+    "soNoRepublication": "#42 authorises no worker build, publication or digest repin.",
+    "separateAndPreserved": {
+      "what": "Captain as a whole still differs from the accepted worker source 117b469c4 across the canonical set.",
+      "measuredAtIntegratedCaptain": {
+        "decision": "rebuild-required",
+        "rebuildRequired": true,
+        "changedPaths": 37,
+        "aggregateInputSha256": "sha256:ccd5d24f901a3aab6d28aaf4393215f705b67eb0ec1f8ea93baeaca5cdfc8c67"
+      },
+      "statement": "This drift predates #42 and is not caused by it. It is a legitimate release prerequisite belonging to #49 and to final worker publication. It is not suppressed, repinned, or regenerated against a moving Captain here."
+    }
+  },
+
+  "noProductAuthorityOrMoneyMovement": {
+    "productCode": "unchanged",
+    "workflows": "unchanged",
+    "fulfillmentAuthority": "unchanged",
+    "payment": "unchanged",
+    "packetOrGeneratedData": "unchanged",
+    "canonicalWorkerInput": "unchanged",
+    "commercialRoutesOpened": 0,
+    "productionTouched": false,
+    "isCounselApproval": false,
+    "createsOutputApproval": false,
+    "opensAnyRoute": false
+  },
+
+  "notPartOfThisDisposition": {
+    "why": "Recorded as measurement, not as a reopening. The 2026-09-21 register listed five controls in the CLI-era cohort. This patch repairs the preparation file's three failures; the other three controls were measured at integrated Captain and remain red. They are named here so their redness is not later mistaken for an #42 regression, and no work on them is started or implied.",
+    "stillRed": [
+      "scripts/rcap-hosted-acceptance-preflight.test.mjs — 6 pass, 2 fail (tests 2 and 3)",
+      "scripts/rcap-hosted-acceptance-redaction.test.mjs — 1 pass, 1 fail (test 2)",
+      "scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs — 0 pass, 1 fail"
+    ],
+    "theseAreNotGates": "The 2026-09-21 record establishes that no workflow runs any of them, so none gates hosted_full.",
+    "whoDecides": "Whether they are repaired, retired or left recorded is Roger's call, not Captain's, and it is outside the bounded #42 scope he defined."
+  },
+
+  "futureTrigger": "Reopen only if these preparation bindings regress — that is, if scripts/rcap-hosted-acceptance-preparation.test.mjs stops passing 10/10, or the mutation suite stops catching 6/6 from a green baseline. Redness in any other CLI-era control is not an #42 regression.",
+
+  "denominatorEffect": "#42 leaves the active substantive Mission Lock denominator."
+}
