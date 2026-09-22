@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-mission-lock-terminal-receipt/v1",
+  "task": "#62",
+  "disposition": "NO_CURRENT_RUNTIME_DEFECT",
+  "decidedBy": "Roger, on Captain's reproduction. Not a counsel approval.",
+  "decidedOn": "2026-09-22",
+  "captainSha": "247687a7d9238349f94dbbc490249903f19838ca",
+
+  "originalClaim": "Connecticut rule-08 states the pre-2000 JD-CR-202 rule without the Clean Slate qualifier its sibling rule-23 carries. An under-eighteen pre-2000 misdemeanant is a pre-2000 conviction, so the unqualified rule describes them, and the hypothesis was that it could pull a participant on the unresolved C.G.S. § 54-142a(f)(2) branch into a selling route carrying packet_ready_with_caution and show_cautions_then_allow_packet_checkout.",
+
+  "whatWasNeverProvenBefore": "The 2026-09-21 determination recorded this under whatWasNotProven: 'Whether rule-08 actually causes such a participant to land on the JD-CR-202 route. Establishing the live effect needs an evaluator run against a purpose-built Connecticut under-eighteen answer set, which was not built here.' That run is what this receipt records.",
+
+  "reproduction": {
+    "method": "The real evaluateScreening from src/lib/rcap-engine/evaluator.ts, loaded through the repository's own scripts/lib/ts-esm-loader.mjs. No re-implementation of routing.",
+    "personas": 168,
+    "personaSpace": "every case_outcome x possible_pathway_context x offense_level x pardon_status offered by the compiled Connecticut profile",
+    "resultCodeDistribution": { "guidance_only": 96, "not_yet": 24, "needs_review": 48 },
+    "personasReachingPaymentAllowedTrue": 0,
+    "personasReachingPacketReady": 0,
+    "personasReachingPacketReadyWithCaution": 0,
+    "pre2000JdCr202Context": {
+      "resultCode": "not_yet",
+      "paymentAllowed": false,
+      "pathway": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+    }
+  },
+
+  "whyTheHypothesisFails": {
+    "noRuntimeRoute": "§ 54-142a(f)(2) has no runtime route. The compiled Connecticut profile carries six pathways and none of them is the under-eighteen petition branch; the profile contains zero occurrences of 'under eighteen', 'under 18', '54-142a(f)(2)' or any variant.",
+    "noAddressableInput": "Connecticut asks no age-at-offense question and no offense-date question, so the branch is not runtime-addressable: such a participant cannot be identified by the screening at all.",
+    "jdCr202IsCorrectlyScoped": "JD-CR-202 is the Clean Slate pre-2000 petition and remains scoped to that separate route. The controlling record holds it is not the (f)(2) vehicle, and neither the profile nor the packet specification maps it to (f)(2).",
+    "suggestionIsNotResult": "packet_ready_with_caution is the pathway's authored suggestedResultCode, written by scripts/apply-legal-authority-to-profiles.mjs. The evaluator overrides it. Connecticut currently has no checkout-positive path on any persona."
+  },
+
+  "productMutation": "NONE. No file changed. No generated artifact moved. The generated profile was not edited to improve internal descriptive wording.",
+
+  "retainedNonLaunchNote": "rule-08's sourceConditionText still lacks the Clean Slate qualifier that rule-23 carries. sourceConditionText is not wholly inert -- the evaluator can use rule and pathway text for scoring and timing -- so this is retained as a non-launch hardening note. There is no current behavioural evidence authorising product work on it.",
+
+  "boundariesHeld": {
+    "61": "C.G.S. § 54-142a(f)(2) remains external legal-authority blocked and untouched. This receipt decides no filing vehicle.",
+    "noBroadening": "No further Connecticut audit was performed and none is implied.",
+    "corpus": "The 346/346 terminal-family corpus was not reopened."
+  },
+
+  "futureTrigger": "Reconsider only if Connecticut inputs or routing change such that the under-eighteen pre-2000 branch becomes runtime-addressable -- for example if an age-at-offense or offense-date question is added, if an (f)(2) pathway is introduced, or if any Connecticut persona becomes able to reach packet_ready, packet_ready_with_caution or paymentAllowed true.",
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "opensAnyRoute": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
