@@ -1268,9 +1268,9 @@ check("the shipped registry loads with no structural problems", () => {
     : `${live.length} current records produced ${loaded.current.size} current routes`;
 });
 
-check("the projection names exactly the routes the registry controls", () => {
+check("the projection names registry routes including retired history", () => {
   const loaded = buildRegistry(registryDocument);
-  const registryRoutes = [...loaded.current.keys()].sort().join(",");
+  const registryRoutes = [...loaded.history.keys()].sort().join(",");
   const projectionRoutes = projection.routes.map((route) => route.routeId).sort().join(",");
   return registryRoutes === projectionRoutes ? null : `registry has [${registryRoutes}] but the projection has [${projectionRoutes}]`;
 });
@@ -1278,8 +1278,19 @@ check("the projection names exactly the routes the registry controls", () => {
 check("every projected state is what the shipped authority computes from the registry", () => {
   const loaded = buildRegistry(registryDocument);
   for (const row of projection.routes) {
-    const record = loaded.current.get(row.routeId);
-    if (!record) return `${row.routeId} is projected but not controlled`;
+    // Falling back to history is required for a terminally retired route, whose
+    // newest record is deliberately superseded and therefore never current. But
+    // an unqualified fallback would also swallow a route that lost its current
+    // authority for no recorded reason, so the fallback is allowed only when the
+    // newest record says why it is not current.
+    const newest = loaded.history.get(row.routeId)?.[0];
+    const record = loaded.current.get(row.routeId)
+      ?? ((newest?.supersededBy || newest?.revocation?.revoked) ? newest : undefined);
+    if (!record) {
+      return newest
+        ? `${row.routeId} is projected but has no current record and no recorded supersession or revocation`
+        : `${row.routeId} is projected but absent from registry history`;
+    }
     const decision = evaluateFulfillmentAuthority(record, admission.resolveObservation(row.routeId), row.routeId);
     if (decision.state !== row.state) return `${row.routeId} projects ${row.state} but computes ${decision.state}`;
     if (decision.commercialStatus !== row.commercialStatus) return `${row.routeId} projects ${row.commercialStatus} but computes ${decision.commercialStatus}`;

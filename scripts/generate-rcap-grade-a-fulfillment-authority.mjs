@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { supersedeFromSpecification } from "./lib/specification-supersession.mjs";
 import { evidenceProducerBytes } from "./lib/noncommercial-evidence-producer-reconciliation.mjs";
 import { createStaticWorkerAuthority, STATIC_AUTHORITY_PATH } from "./lib/worker-static-authority.mjs";
 import { loadIlArtifactApproval, loadMsArtifactApproval, IL_ARTIFACT_APPROVAL_PATH, MS_ARTIFACT_APPROVAL_PATH } from "./lib/owner-artifact-approval.mjs";
@@ -9,6 +10,8 @@ import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-trac
 //
 //   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs
 //   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check
+//   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check --scope <route>
+//     (or RCAP_AUTHORITY_SCOPED_CHECK_ROUTE=<route>) — nonmutating scoped authority check
 //
 // Three artifacts, one derivation, so that none of them can quietly disagree
 // with the evidence the repository actually holds:
@@ -38,6 +41,7 @@ import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-trac
 
 import { loadMsPaidPacketProof, MS_PAID_PACKET_PROOF } from "./lib/ms-paid-packet-proof.mjs";
 import { MS_TRACK_CONTAINER, reconcileMsUnchangedTrack } from "./lib/ms-unchanged-track-authority.mjs";
+import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -51,7 +55,30 @@ process.chdir(rootDir);
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const CHECK = process.argv.includes("--check");
+// A bounded historical transition needs no fresh packet-evidence approval.
+// Use committed authority/observations as inputs; --check still derives every
+// output, so editing a generated artifact cannot satisfy regeneration.
+// Canonical scoped-check interface:
+//   node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check --scope <route>
+//   RCAP_AUTHORITY_SCOPED_CHECK_ROUTE=<route>
+// The full run must keep failing on the unrelated Mississippi paid-packet proof
+// baseline; this path exists because that throw sits inside the `records` array
+// literal, upstream of every comparison, so the full run can never reach the
+// point where it would compare this route against its committed bytes.
+const SCOPE_FLAG_INDEX = process.argv.indexOf("--scope");
+const SCOPED_ROUTE = (SCOPE_FLAG_INDEX !== -1 ? process.argv[SCOPE_FLAG_INDEX + 1] : null)
+  ?? process.env.RCAP_AUTHORITY_SCOPED_CHECK_ROUTE
+  ?? null;
+// CLI scope, not a retirement authority: the registered specification must
+// independently establish historical_only and its dated supersession.
+const OR_RETIREMENT_ROUTE = "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c";
+if (SCOPED_ROUTE !== null && SCOPED_ROUTE !== OR_RETIREMENT_ROUTE) {
+  console.error(`--scope only supports the terminal-retirement route today; received ${SCOPED_ROUTE}`);
+  process.exit(2);
+}
+const OR_RETIREMENT_ONLY = SCOPED_ROUTE === OR_RETIREMENT_ROUTE;
 
+const RETIREMENT_DETERMINATION = "data/record-clearing/legal-decisions/2026-09-21-or-set-aside-without-conviction-is-retired-not-unwritten.json";
 const LAUNCH_GRAPH = "data/rcap-ledger/launch-graph.json";
 const LEGAL_JOIN = "data/rcap-ledger/paid-pathway-legal-join.json";
 const COUNSEL_MANIFEST = "data/rcap-ledger/completed-output-counsel-manifest.json";
@@ -2034,13 +2061,27 @@ function exactProductizedRecordOrRevocation(definition) {
   return record;
 }
 
-const records = [
-  ...rows.map(candidateRecord),
+const records = (OR_RETIREMENT_ONLY
+  ? committedRegistry.records.map(record => record.routeId === OR_RETIREMENT_ROUTE
+    ? supersedeFromSpecification(record, packetSpecificationFor(record.routeId), fulfillmentRecordSha256, GENERATOR_ID, changeDate, RETIREMENT_DETERMINATION)
+    : structuredClone(record))
+  : [
+  ...rows.map(row => {
+    const specification = packetSpecificationFor(row.pathwayKey);
+    // A retired specification does not need a live successor record. Reuse the
+    // predecessor in full so regeneration cannot rewrite historical proof.
+    const prior = committedRegistry.records.find(record => record.routeId === row.pathwayKey);
+    return supersedeFromSpecification(
+      specification?.supersededBy && prior ? prior : candidateRecord(row),
+      specification, fulfillmentRecordSha256, GENERATOR_ID, changeDate
+    );
+  }),
   mississippiPaidConsumerSuccessorRecord(),
   ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedRecordOrRevocation).filter(Boolean)
 ]
-  .map(bindCurrentCommercialArtifact)
+  .map(record => record.supersededBy ? record : bindCurrentCommercialArtifact(record))
   .map(record => {
+    if (record.supersededBy) return record;
     if (MS_TRACK_CONTAINER.routes.includes(record.routeId) && record.revocation.revoked) {
       record = structuredClone(record);
       const reconciliation = reconcileMsUnchangedTrack({familyId:record.packetFamilyId,routeId:record.routeId,
@@ -2068,7 +2109,7 @@ const records = [
     }];
     return record;
   })
-  .sort((a, b) => a.routeId.localeCompare(b.routeId));
+  ).sort((a, b) => a.routeId.localeCompare(b.routeId));
 
 /*
  * A ROUTE WHOSE RECORD IDENTITY CHANGES SUPERSEDES ITS PREDECESSOR. IT DOES NOT
@@ -2113,6 +2154,15 @@ for (const record of records) {
 }
 records.push(...supersededRecords);
 records.sort((a, b) => a.routeId.localeCompare(b.routeId) || a.version - b.version);
+if (OR_RETIREMENT_ONLY) {
+  assert.deepEqual(records.filter(record => record.routeId !== OR_RETIREMENT_ROUTE),
+    committedRegistry.records.filter(record => record.routeId !== OR_RETIREMENT_ROUTE),
+    "#60 refuses any non-target record change");
+  const retired = records.filter(record => record.routeId === OR_RETIREMENT_ROUTE);
+  assert.equal(retired.length, 1, "#60 must preserve the historical Oregon record");
+  assert.ok(retired[0].supersededBy && retired[0].supersededAt,
+    "#60 requires the existing authored specification supersession");
+}
 
 for (const withdrawn of withdrawnCandidates) {
   // Explicitly the live record: the registry can now also carry a superseded
@@ -2158,7 +2208,7 @@ const allCandidateJurisdictions = [...new Set([
 
 const ownerArtifactApprovals = [loadIlArtifactApproval(readEvidenceBytes), loadMsArtifactApproval(readEvidenceBytes)];
 
-const registry = {
+const registry = OR_RETIREMENT_ONLY ? { ...committedRegistry, records } : {
   schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
   generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
   purpose: "The one canonical controlling registry of Grade-A fulfillment authority records. Only COMPLETE_PACKET_PROVEN authorizes a commercial action; every other state, including the absence of a record, denies.",
@@ -2233,7 +2283,12 @@ for (const record of liveRecords) {
   };
 }
 
-const observation = {
+const committedObservation = OR_RETIREMENT_ONLY ? JSON.parse(readGitBlob("HEAD", OBSERVATION_OUT).toString("utf8")) : null;
+const observation = OR_RETIREMENT_ONLY ? {
+  ...committedObservation,
+  routes: Object.fromEntries(Object.entries(committedObservation.routes)
+    .filter(([routeId]) => routeId !== OR_RETIREMENT_ROUTE))
+} : {
   schemaVersion: "rcap-grade-a-fulfillment-observation/v1",
   generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
   purpose: "What the server currently observes for each route with a fulfillment record. A record whose bound proof disagrees with this snapshot is STALE and authorizes nothing.",
@@ -2257,6 +2312,43 @@ function writeIfNeeded(rel, value) {
   return { rel, changed: true, serialized };
 }
 
+if (OR_RETIREMENT_ONLY) {
+  const unrelatedRegistry = document => ({ ...document,
+    records: document.records.filter(record => record.routeId !== OR_RETIREMENT_ROUTE) });
+  assert.deepEqual(unrelatedRegistry(registry), unrelatedRegistry(committedRegistry),
+    "#60 refuses non-target registry or metadata changes");
+  const expectedObservation = structuredClone(committedObservation);
+  delete expectedObservation.routes[OR_RETIREMENT_ROUTE];
+  assert.deepEqual(observation, expectedObservation, "#60 refuses any non-target observation change");
+
+  // The three replacement configurations are closed BY ABSENCE. This retirement
+  // grants them nothing, so their absence is asserted rather than assumed.
+  const SUCCESSOR_ROUTES = [
+    "OR:set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c",
+    "OR:set-aside-of-an-acquittal-under-ors-137-225-1-d",
+    "OR:set-aside-of-an-ordinary-dismissal-under-ors-137-225-1-d"
+  ];
+  for (const route of SUCCESSOR_ROUTES) {
+    assert.ok(!registry.records.some(record => record.routeId === route),
+      `#60 must not create Grade-A authority for ${route}`);
+  }
+
+  // Idempotence: applying the same authored supersession to the derived records
+  // must be a fixed point. If a second pass moved anything, regeneration would
+  // not be stable and the committed bytes could not be trusted.
+  const secondPass = records.map(record => record.routeId === OR_RETIREMENT_ROUTE
+    ? supersedeFromSpecification(record, packetSpecificationFor(record.routeId), fulfillmentRecordSha256, GENERATOR_ID, changeDate, RETIREMENT_DETERMINATION)
+    : record);
+  assert.deepEqual(secondPass, records, "#60 requires a second generation to be idempotent");
+
+  const retiredRecord = records.find(record => record.routeId === OR_RETIREMENT_ROUTE);
+  console.log(`scoped authority check for ${OR_RETIREMENT_ROUTE}`);
+  console.log(`  committed registry and observation bytes AGREE with this derivation`);
+  console.log(`  terminal retirement: ${retiredRecord.supersededBy} effective ${retiredRecord.supersededAt}`);
+  console.log(`  non-target authority records: unchanged`);
+  console.log(`  three replacement configurations: absent from Grade-A authority`);
+  console.log(`  second generation: idempotent`);
+}
 const drifted = [];
 for (const [rel, value] of [[REGISTRY_OUT, registry], [OBSERVATION_OUT, observation]]) {
   const result = writeIfNeeded(rel, value);
@@ -2281,7 +2373,10 @@ if (loaded.problems.length > 0) {
   process.exit(1);
 }
 
-const projectionRoutes = [...loaded.current.values()]
+// Include the latest historical record when a route has no current authority.
+// The native evaluator returns SUPERSEDED with no active missing-proof work.
+const projectionRoutes = [...loaded.history.entries()]
+  .map(([routeId, history]) => loaded.current.get(routeId) ?? history[0])
   .sort((a, b) => a.routeId.localeCompare(b.routeId))
   .map((record) => {
     const decision = evaluateFulfillmentAuthority(record, resolveObservation(record.routeId), record.routeId);
@@ -2319,13 +2414,33 @@ const projection = {
   routes: projectionRoutes
 };
 
+if (OR_RETIREMENT_ONLY) {
+  const previous = JSON.parse(readGitBlob("HEAD", PROJECTION_OUT).toString("utf8"));
+  const unrelated = document => ({ ...document, counters: undefined,
+    routes: document.routes.filter(record => record.routeId !== OR_RETIREMENT_ROUTE) });
+  assert.deepEqual(unrelated(projection), unrelated(previous), "#60 refuses any non-target projection change");
+  for (const key of ["routesWithARecord", "completePacketProven", "commerciallyEligible"]) {
+    assert.equal(projection.counters[key], previous.counters[key], `#60 cannot change ${key}`);
+  }
+  const retired = projection.routes.find(record => record.routeId === OR_RETIREMENT_ROUTE);
+  assert.equal(retired?.state, "SUPERSEDED");
+  assert.equal(retired.commercialStatus, "not_commercially_eligible");
+  assert.deepEqual(retired.missingProof, []);
+}
 const projectionResult = writeIfNeeded(PROJECTION_OUT, projection);
 if (CHECK && projectionResult.changed) {
   console.error(`Regeneration required — ${PROJECTION_OUT} does not match the controlling registry.`);
   process.exit(1);
 }
 
-const staticResult = writeIfNeeded(STATIC_AUTHORITY_PATH, createStaticWorkerAuthority(registry, observation));
+const staticAuthority = createStaticWorkerAuthority(registry, observation);
+if (OR_RETIREMENT_ONLY) {
+  const previous = JSON.parse(readGitBlob("HEAD", STATIC_AUTHORITY_PATH).toString("utf8"));
+  assert.deepEqual(staticAuthority, { ...previous,
+    entries: previous.entries.filter(entry => entry.record.routeId !== OR_RETIREMENT_ROUTE)
+  }, "#60 refuses any non-target worker authority change");
+}
+const staticResult = writeIfNeeded(STATIC_AUTHORITY_PATH, staticAuthority);
 if (CHECK && staticResult.changed) throw new Error(`Regeneration required: ${STATIC_AUTHORITY_PATH}`);
 const verb = CHECK ? "verified" : "written";
 console.log(`Grade-A fulfillment authority ${verb}: ${liveRecords.length} current record(s) (${records.length - liveRecords.length} superseded) across ${allCandidateJurisdictions.join(", ")}.`);
