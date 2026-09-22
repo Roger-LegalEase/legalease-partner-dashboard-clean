@@ -5247,10 +5247,10 @@
       "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "packetFamilyId": "rcap-or-official-pdf-fill",
       "serviceDisposition": "paid_packet_intended",
-      "version": 17,
+      "version": 18,
       "effectiveFrom": "2026-08-19",
-      "supersededBy": null,
-      "supersededAt": null,
+      "supersededBy": "terminal-retirement:sha256:a0557fc51ebf134674eab60b0aee860ea31869c362c4f93b175571413722ddce",
+      "supersededAt": "2026-08-29",
       "revocation": {
         "revoked": false,
         "reason": null,
@@ -5557,8 +5557,36 @@
           "reason": "Regenerated current evidence bindings without rewriting the prior authority history; no new owner approval or hosted acceptance is implied.",
           "recordSha256": "6b6ac7d96f605fc944392a4e12140511ba44b86b0c98d0d38f4d76a5a10ce151",
           "supersedesRecordSha256": "f48e9d2de6ebea6a66b4a43e44f0610d1d2bc9fb57fba5091a3e0c0e0e4c99af"
+        },
+        {
+          "version": 18,
+          "changeKind": "superseded",
+          "changedAt": "2026-09-22",
+          "changedBy": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "reason": "Specification or-set-aside-without-conviction became historical_only on 2026-08-29: The legal owner found this route overbroad: it was labelled for arrests or charges without conviction under (1)(c) and delivered the acquittal packet, so a participant who was never charged and one who was acquitted resolved to the same configuration under the wrong subsection for one of them. Replaced by data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json (or-never-charged-137-225-1-c, or-acquittal-137-225-1-d, or-ordinary-dismissal-137-225-1-d). Historical evidence is preserved; no replacement receives fulfillment authority.",
+          "recordSha256": "ae372bbb3e1ad737819f7a01bf737896b51f4cc0badb68ec9fe34e5800e6e895",
+          "supersedesRecordSha256": "6b6ac7d96f605fc944392a4e12140511ba44b86b0c98d0d38f4d76a5a10ce151"
         }
-      ]
+      ],
+      "terminalRetirement": {
+        "retirementId": "terminal-retirement:sha256:a0557fc51ebf134674eab60b0aee860ea31869c362c4f93b175571413722ddce",
+        "kind": "terminal_legal_retirement",
+        "effectiveDate": "2026-08-29",
+        "sourceSpecification": {
+          "specificationId": "or-set-aside-without-conviction",
+          "specificationVersion": "1.0.0",
+          "routeKey": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+          "authorityField": "supersededBy"
+        },
+        "replacementSpecification": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
+        "replacementConfigurations": [
+          "or-never-charged-137-225-1-c",
+          "or-acquittal-137-225-1-d",
+          "or-ordinary-dismissal-137-225-1-d"
+        ],
+        "reason": "The legal owner found this route overbroad: it was labelled for arrests or charges without conviction under (1)(c) and delivered the acquittal packet, so a participant who was never charged and one who was acquitted resolved to the same configuration under the wrong subsection for one of them.",
+        "successorGradeAAuthority": "none"
+      }
     },
     {
       "schemaVersion": "rcap-grade-a-fulfillment-authority/v1",

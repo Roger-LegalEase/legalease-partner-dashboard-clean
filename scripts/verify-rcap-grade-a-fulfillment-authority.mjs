@@ -1268,9 +1268,11 @@ check("the shipped registry loads with no structural problems", () => {
     : `${live.length} current records produced ${loaded.current.size} current routes`;
 });
 
-check("the projection names exactly the routes the registry controls", () => {
+check("the projection names registry routes including explicit terminal retirement", () => {
   const loaded = buildRegistry(registryDocument);
-  const registryRoutes = [...loaded.current.keys()].sort().join(",");
+  const registryRoutes = [...loaded.history.entries()]
+    .filter(([routeId, history]) => loaded.current.has(routeId) || history[0]?.terminalRetirement)
+    .map(([routeId]) => routeId).sort().join(",");
   const projectionRoutes = projection.routes.map((route) => route.routeId).sort().join(",");
   return registryRoutes === projectionRoutes ? null : `registry has [${registryRoutes}] but the projection has [${projectionRoutes}]`;
 });
@@ -1278,8 +1280,10 @@ check("the projection names exactly the routes the registry controls", () => {
 check("every projected state is what the shipped authority computes from the registry", () => {
   const loaded = buildRegistry(registryDocument);
   for (const row of projection.routes) {
-    const record = loaded.current.get(row.routeId);
-    if (!record) return `${row.routeId} is projected but not controlled`;
+    const historical = loaded.history.get(row.routeId)?.[0];
+    const record = loaded.current.get(row.routeId) ?? (historical?.terminalRetirement ? historical : null);
+    if (!loaded.current.has(row.routeId) && row.state !== "SUPERSEDED") return `${row.routeId} has no current authority but projects ${row.state}`;
+    if (!record) return `${row.routeId} is projected but absent from registry history`;
     const decision = evaluateFulfillmentAuthority(record, admission.resolveObservation(row.routeId), row.routeId);
     if (decision.state !== row.state) return `${row.routeId} projects ${row.state} but computes ${decision.state}`;
     if (decision.commercialStatus !== row.commercialStatus) return `${row.routeId} projects ${row.commercialStatus} but computes ${decision.commercialStatus}`;

@@ -261,6 +261,23 @@ export type RevocationRecord = {
   revokedBy: string | null;
 };
 
+/** A legal retirement with no successor fulfillment authority record. */
+export type TerminalFulfillmentRetirement = {
+  retirementId: `terminal-retirement:sha256:${string}`;
+  kind: "terminal_legal_retirement";
+  effectiveDate: string;
+  sourceSpecification: {
+    specificationId: string;
+    specificationVersion: string;
+    routeKey: string;
+    authorityField: "supersededBy";
+  };
+  replacementSpecification: string;
+  replacementConfigurations: string[];
+  reason: string;
+  successorGradeAAuthority: "none";
+};
+
 export type GradeAFulfillmentRecord = {
   schemaVersion: string;
   recordId: string;
@@ -272,8 +289,10 @@ export type GradeAFulfillmentRecord = {
   serviceDisposition: ServiceDisposition;
   version: number;
   effectiveFrom: string;
+  /** Successor record ID, or a terminal-retirement identifier bound below. */
   supersededBy: string | null;
   supersededAt: string | null;
+  terminalRetirement?: TerminalFulfillmentRetirement;
   revocation: RevocationRecord;
   legalAuthority: LegalAuthorityProof;
   packetSpecification: PacketSpecificationProof;
@@ -752,6 +771,9 @@ export function evaluateFulfillmentAuthority(
   };
 
   if (record.supersededBy) {
+    if (record.terminalRetirement) {
+      return deny("SUPERSEDED", record.routeId, `Authority for ${record.routeId} was legally retired effective ${record.terminalRetirement.effectiveDate}; no successor receives Grade-A authority.`, identity);
+    }
     return deny("SUPERSEDED", record.routeId, `Version ${record.version} of ${record.routeId} was superseded by ${record.supersededBy}; only the current version decides.`, identity);
   }
 

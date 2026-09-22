@@ -8,6 +8,7 @@ import {
   GRADE_A_AUTHORITY_SCHEMA_VERSION,
   GRADE_A_EVALUABLE_SCHEMA_VERSIONS,
   type AuthorityHistoryEntry,
+  type TerminalFulfillmentRetirement,
   type GradeAFulfillmentRecord
 } from "@/lib/rcap/fulfillment/grade-a-authority";
 
@@ -121,6 +122,27 @@ export function validateRecordStructure(candidate: unknown): string[] {
     problems.push("routeId must be <JURISDICTION>:<pathwayId>");
   } else if (typeof record.jurisdiction === "string" && !record.routeId.startsWith(`${record.jurisdiction}:`)) {
     problems.push(`routeId ${record.routeId} does not begin with jurisdiction ${record.jurisdiction}`);
+  }
+  const retirement = record.terminalRetirement as TerminalFulfillmentRetirement | undefined;
+  if (retirement || String(record.supersededBy ?? "").startsWith("terminal-retirement:")) {
+    if (!retirement
+      || !/^terminal-retirement:sha256:[0-9a-f]{64}$/.test(retirement.retirementId ?? "")
+      || retirement.retirementId !== record.supersededBy
+      || retirement.kind !== "terminal_legal_retirement"
+      || !/^\d{4}-\d{2}-\d{2}$/.test(retirement.effectiveDate ?? "")
+      || retirement.effectiveDate !== record.supersededAt
+      || retirement.sourceSpecification?.routeKey !== record.routeId
+      || !retirement.sourceSpecification?.specificationId
+      || !retirement.sourceSpecification?.specificationVersion
+      || retirement.sourceSpecification?.authorityField !== "supersededBy"
+      || !retirement.replacementSpecification
+      || !Array.isArray(retirement.replacementConfigurations)
+      || retirement.replacementConfigurations.length === 0
+      || !retirement.replacementConfigurations.every(id => typeof id === "string" && id.trim())
+      || !retirement.reason
+      || retirement.successorGradeAAuthority !== "none") {
+      problems.push("terminal retirement must bind its dedicated identifier, date, source, replacements and absence of successor authority");
+    }
   }
   if (!Array.isArray(record.officialSources)) problems.push("officialSources must be an array");
   if (!Array.isArray(record.history) || record.history.length === 0) {
