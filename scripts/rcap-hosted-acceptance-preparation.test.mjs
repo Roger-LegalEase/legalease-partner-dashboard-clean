@@ -14,11 +14,14 @@ const LAYOUT_MODULE = path.join(SCRIPTS, "rcap-hosted-acceptance-evidence-layout
 const PREPARE_CLI = path.join(SCRIPTS, "rcap-hosted-acceptance-prepare.mjs");
 const WORKER_PLAN_MODULE = path.join(SCRIPTS, "rcap-hosted-acceptance-worker-input-plan.mjs");
 const CURRENT_BASE = "07675789a80e732d2b835c1e8ba2092b39201b79";
-const ACCEPTED_SOURCE = "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8";
-const ACCEPTED_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
-const CANONICAL_ACCEPTED_SOURCE = "b680a4e4dd92e7422bc7030aa2189026929782a1";
-const CANONICAL_ACCEPTED_DIGEST = "sha256:bf4589d3432f396f08196b2a619e445b75f1b4e2d2a0c404fbb06c4017e61864";
-const EVIDENCE_ONLY_CANDIDATE = "3285b6606605549c4ea730610f2c3e55c1e32859";
+// Historical drift fixtures: these must still require a rebuild.
+const HISTORICAL_SOURCE = "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8";
+const HISTORICAL_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
+// Fixed publication/C1 regression pair, not live release pins. Keep the
+// candidate distinct: equivalence must compare two independently named trees.
+const CANONICAL_ACCEPTED_SOURCE = "117b469c453a403fbd217f1c441a08c7c68f6b3a";
+const CANONICAL_ACCEPTED_DIGEST = "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f";
+const EVIDENCE_ONLY_CANDIDATE = "b3bbb4a6b274e373f904815d87f5cee10d16f847";
 const PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const AUTH_CONFIG_SOURCE = fs.readFileSync(path.join(SCRIPTS, "rcap-hosted-acceptance-auth-config.mjs"), "utf8");
 const DEPLOY_SOURCE = fs.readFileSync(path.join(SCRIPTS, "rcap-hosted-acceptance-deploy.mjs"), "utf8");
@@ -229,9 +232,10 @@ test("Mississippi Preview preparation is bounded to four synthetic identities an
   assert.match(AUTH_CONFIG_SOURCE, /no password or token recorded/);
   assert.match(DEPLOY_SOURCE, /participants = MISSISSIPPI_PREVIEW_MODE/);
   assert.match(DEPLOY_SOURCE, /SCOPE_IDS\.split\(","\)\.filter\(Boolean\)\.length !== 2/);
-  assert.match(DEPLOY_SOURCE, /rcapStagingScopeSha256=/);
-  assert.match(DEPLOY_SOURCE, /const args = \["vercel@latest", "deploy", "--archive=tgz", "--yes"/);
-  assert.doesNotMatch(DEPLOY_SOURCE.match(/const args = \[[^\n]+/)?.[0] ?? "", /--prod/);
+  assert.match(DEPLOY_SOURCE, /rcapStagingScopeSha256: sha256\(SCOPE_IDS\)/);
+  assert.match(DEPLOY_SOURCE, /d\.meta\?\.rcapStagingScopeSha256 === sha256\(SCOPE_IDS\)/);
+  assert.match(DEPLOY_SOURCE, /await createRestPreview\(\{[\s\S]*?meta: deploymentMeta\}/);
+  assert.doesNotMatch(DEPLOY_SOURCE, /target:\s*["']production["']|const args = \["vercel@latest"/);
 });
 
 test("same worker source SHA reuses the accepted immutable digest", async () => {
@@ -241,15 +245,15 @@ test("same worker source SHA reuses the accepted immutable digest", async () => 
   );
   const plan = createWorkerInputPlan({
     rootDir: ROOT,
-    acceptedSourceSha: ACCEPTED_SOURCE,
-    acceptedDigest: ACCEPTED_DIGEST,
-    candidateSha: ACCEPTED_SOURCE
+    acceptedSourceSha: CANONICAL_ACCEPTED_SOURCE,
+    acceptedDigest: CANONICAL_ACCEPTED_DIGEST,
+    candidateSha: CANONICAL_ACCEPTED_SOURCE
   });
 
   assert.equal(plan.rebuildRequired, false);
   assert.equal(plan.decision, "reuse-accepted-digest");
   assert.deepEqual(plan.changedPaths, []);
-  assert.equal(plan.image.digest, ACCEPTED_DIGEST);
+  assert.equal(plan.image.digest, CANONICAL_ACCEPTED_DIGEST);
   assert.deepEqual(plan.image.tags, []);
   assert.match(plan.aggregateInputSha256, /^sha256:[0-9a-f]{64}$/);
 });
@@ -266,6 +270,8 @@ test("distinct evidence-only SHA reuses the digest with the accepted image revis
     candidateSha: EVIDENCE_ONLY_CANDIDATE
   });
 
+  assert.notEqual(EVIDENCE_ONLY_CANDIDATE, CANONICAL_ACCEPTED_SOURCE);
+  assert.equal(plan.candidateSha, EVIDENCE_ONLY_CANDIDATE);
   assert.deepEqual(plan.changedPaths, []);
   assert.equal(plan.rebuildRequired, false);
   assert.equal(plan.decision, "reuse-accepted-digest");
@@ -284,15 +290,15 @@ test("current base versus accepted worker source requires a full-SHA-only rebuil
   );
   const plan = createWorkerInputPlan({
     rootDir: ROOT,
-    acceptedSourceSha: ACCEPTED_SOURCE,
-    acceptedDigest: ACCEPTED_DIGEST,
+    acceptedSourceSha: HISTORICAL_SOURCE,
+    acceptedDigest: HISTORICAL_DIGEST,
     candidateSha: CURRENT_BASE
   });
   const expectedChangedPaths = gitLines([
     "diff",
     "--name-only",
     "--no-renames",
-    ACCEPTED_SOURCE,
+    HISTORICAL_SOURCE,
     CURRENT_BASE,
     "--",
     ...CANONICAL_INPUTS
@@ -312,8 +318,8 @@ test("current base versus accepted worker source requires a full-SHA-only rebuil
   assert.equal(
     createWorkerInputPlan({
       rootDir: ROOT,
-      acceptedSourceSha: ACCEPTED_SOURCE,
-      acceptedDigest: ACCEPTED_DIGEST,
+      acceptedSourceSha: HISTORICAL_SOURCE,
+      acceptedDigest: HISTORICAL_DIGEST,
       candidateSha: CURRENT_BASE
     }).aggregateInputSha256,
     plan.aggregateInputSha256
@@ -330,8 +336,8 @@ test("worker plan CLI writes sanitized evidence to the external layout", (t) => 
   ];
   const result = runNode(WORKER_PLAN_MODULE, {
     HOSTED_ACCEPTANCE_EVIDENCE_DIR: externalRoot,
-    HOSTED_ACCEPTED_WORKER_SOURCE_SHA: ACCEPTED_SOURCE,
-    HOSTED_ACCEPTED_WORKER_DIGEST: ACCEPTED_DIGEST,
+    HOSTED_ACCEPTED_WORKER_SOURCE_SHA: HISTORICAL_SOURCE,
+    HOSTED_ACCEPTED_WORKER_DIGEST: HISTORICAL_DIGEST,
     HOSTED_APPLICATION_SHA: CURRENT_BASE,
     ACCEPTANCE_CONSUMER_PASSWORD: forbiddenValues[0],
     HOSTED_PROMOTION_VALID_CODE: forbiddenValues[1],
