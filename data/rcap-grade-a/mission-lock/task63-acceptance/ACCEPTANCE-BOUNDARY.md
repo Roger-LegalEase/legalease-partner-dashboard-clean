@@ -1,8 +1,15 @@
 # #63 acceptance boundary
 
-Read before integrating any #63 correction. Established by Captain at
-`c594babcf880f4eab38eaff4fa8ef04adb3e53ab` by reading the code and measuring the
-compiled profiles, independently of whatever Codex reports.
+Read before integrating any #63 correction. Established by Captain by reading
+the code and measuring the compiled profiles, independently of whatever Codex
+reports.
+
+**This revision corrects four counting defects in the first version.** The
+original instrument transcribed only 2 of the 15 production
+`UNIVERSAL_PREPAY_FACT_IDS`, so it counted legitimate universal facts as foreign
+injection and materially overstated the blast radius. The numbers below are the
+corrected measurement. Wherever this document and the first version disagree,
+this one is right.
 
 ## The defect, exactly
 
@@ -23,94 +30,147 @@ collectFieldIds(profile.exclusionRules, deciding);
 collectFieldIds(profile.waitingPeriodRules, deciding);
 ```
 
-Every exclusion and waiting rule in a jurisdiction therefore lands in every
-route's deciding set. Because this set decides which facts a participant must
-supply before a route can be sold, a rule that decides one route becomes a
-payment gate on routes it has nothing to do with.
+The sibling `pathwayRelevantFactIds` sweeps the same way on purpose and its own
+comment says so. That function answers a different question and is out of scope.
+A correction that changes it has exceeded the task.
 
-The sibling function `pathwayRelevantFactIds` sweeps the same way on purpose,
-and its own comment says so. That one answers a different question and is not
-in scope here. A correction that changes it has exceeded the task.
+## Deciding-set size is not foreign-fact count
+
+`routeDecidingFactIds` returns a **set of fact IDs**, not a set of rules. A rule
+that has nothing to do with a route but references a fact the route already
+holds — universal, its own pathway clauses, a decision rule naming it, or its
+escalation entry — adds **nothing** to the returned set. Sweeping is not the
+same as injecting.
+
+Measured across all 344 routes, the sweep touches 3,645 (route, fact) pairs.
+Only **669 of them are genuinely foreign**. The rest are already held:
+
+| basis | pairs | meaning |
+|---|---|---|
+| universal | 1,874 | in `UNIVERSAL_PREPAY_FACT_IDS`; blocking on every route anyway |
+| **foreign** | **669** | **present only because of the unscoped sweep — the #63 defect** |
+| pathway | 659 | already named by the route's own compiled clauses |
+| decision | 442 | already named by a decision rule that names this route |
+| escalation | 1 | already named by `ROUTE_ESCALATION_FACT_IDS` for this route |
+| prose | 0 | free text admitted as an ID (none present; see rule shapes below) |
+
+### Worked reconciliation — ND:first-offense-possession-sealing
+
+This route was earlier observed with 52 entries. That number is the **size of
+the returned deciding set**, and it is not a count of foreign facts.
+
+| | |
+|---|---|
+| deciding set without the sweep | 51 |
+| deciding set with the sweep (what the function returns) | **52** |
+| facts the sweep touches | 9 |
+| of those: universal | 5 — `case_outcome`, `offense_level`, `charge`, `pardon_status`, `criminal_history` |
+| of those: pathway | 2 — `offense_category`, `record_type` |
+| of those: decision | 1 — `court` |
+| of those: escalation | 0 |
+| of those: prose | 0 |
+| **genuinely foreign** | **1 — `county`** |
+
+So the sweep costs this route exactly one fact. The correct statement is "52
+deciding facts, of which one is there only because of the unscoped sweep", not
+"52 foreign facts".
 
 ## The real population — what completeness means
-
-Measured across all 51 compiled profiles:
 
 | | |
 |---|---|
 | jurisdictions | 51 |
-| jurisdictions with exclusion or waiting rules | 51 |
-| jurisdictions with more than one pathway, where the sweep can leak | 51 |
+| routes | 344 |
+| **routes carrying genuinely foreign facts** | **250** |
+| **jurisdictions with at least one affected route** | **45** |
+| jurisdictions clean | 6 |
+| median foreign facts on an affected route | 2 |
+| worst single route | 10 |
+
+Worst affected are eight Mississippi routes at 10 foreign facts each.
+
+## Rule-shape inventory — the evidence for "nothing carries scoping"
+
+Measured, not inferred from prose:
+
+| | |
+|---|---|
 | exclusion rules | 704 |
 | waiting-period rules | 822 |
-| **of those 1,526 rules, carrying any pathway scoping today** | **0** |
-| routes | 344 |
-| **routes carrying facts injected by the sweep** | **282** |
-| jurisdictions with no affected route | 2 of 51 |
-| median injected facts on an affected route | 3 |
-| worst single route | 14 |
+| total | 1,526 |
+| object rules | 1,526 |
+| raw-string rules | 0 |
+| with `candidatePathwayIds` | **0** |
+| with `pathwayId` / `pathwayIds` | **0** |
+| with `routeId` / `routeIds` | **0** |
+| with any machine-readable ownership | **0** |
+| with no machine-readable ownership | **1,526** |
+| profiles carrying a populated `questionLifecycle.routeConsumers` | 8 of 51 |
+| unowned rules living in those 8 profiles | 228 |
+| of those, fully recoverable via `routeConsumers` | 0 |
+| of those, partially recoverable | 2 |
 
-Worst affected routes are Mississippi's, at 14 injected facts each, including
-`arrest_date`, `county`, `court` and `court_requirements_completed`.
+Note on that last block: the `routeConsumers` key exists on all 51 profiles but
+is an empty object on 43 of them. Empty is no data, so only populated maps are
+counted — otherwise "51 of 51" would read as coverage that does not exist.
 
-The zero in that table is the important number. No exclusion or waiting rule in
-any jurisdiction currently carries pathway scoping, so this cannot be fixed by
-reading scoping data that already exists. The correction must either introduce
-that scoping across 1,526 rules, or derive the scope some other way. Either
-path is a 51-jurisdiction change, and a proof that covers a handful of states
-has not shown the defect closed.
+The zeros are the load-bearing figures. No exclusion or waiting rule in any
+jurisdiction carries pathway scoping today, and route ownership is not
+recoverable from `routeConsumers` for any of them. The correction must
+introduce or derive that scoping. It cannot read it.
 
 ## What under-collection would look like
 
-- A correction demonstrated on Mississippi, or on the states with the worst
-  counts, presented as closing #63. 282 routes are affected across 49
-  jurisdictions; the loud ones are not the boundary.
-- Scoping added only to rules that were easy to classify, leaving the ambiguous
-  ones swept, with the residue unstated.
-- A per-jurisdiction fix that silently leaves the two already-clean
-  jurisdictions unexamined, so their cleanliness is assumed rather than proved.
-- Evidence counted in rules touched rather than in routes whose deciding set
-  actually changed. Rules and routes are not the same denominator.
+- A correction demonstrated on Mississippi, or on the worst-count states, and
+  presented as closing #63. 250 routes across 45 jurisdictions are affected.
+- Scoping added only to the easily classified rules, with the residue unstated.
+- Assuming the 6 clean jurisdictions rather than proving they stayed clean.
+- Counting rules touched instead of routes changed. 1,526 rules and 344 routes
+  are different denominators, and 3,645 swept pairs is a third.
 
 ## The direction that matters more than the count
 
-Over-inclusion and under-inclusion are not symmetric here.
-
 Over-inclusion — today's defect — asks a participant for a fact that does not
-decide their route. That is friction, and it is what #63 exists to fix.
+decide their route. That is friction.
 
 Under-inclusion drops a rule that *does* decide the route. An exclusion exists
-to stop a sale. Removing one from a route's deciding set where it genuinely
-reaches that route means the product can offer the route to someone the
-exclusion should have stopped. That is a worse failure than the one being
-fixed, and it would not show up as a red check — it would show up as a
-smaller, cleaner-looking number.
+to stop a sale. Removing one that genuinely reaches a route lets the product
+offer that route to someone the exclusion should have stopped. That failure does
+not appear as a red check; it appears as a smaller, cleaner-looking number.
 
 So a shrinking deciding set is not by itself evidence of correctness. Every
-removal of an exclusion-derived fact needs a stated basis for why that
-exclusion does not reach that route. The instrument lists these individually
-rather than counting them as progress.
+removal of an exclusion-derived fact needs a stated basis for why that exclusion
+does not reach that route. A count is not a basis.
 
 ## How to check it
 
 ```
 node scripts/measure-route-deciding-fact-scope.mjs
+node scripts/measure-route-deciding-fact-scope.mjs --route ND:first-offense-possession-sealing
+node scripts/measure-route-deciding-fact-scope.mjs --ledger data/rcap-grade-a/mission-lock/task63-acceptance
 node scripts/measure-route-deciding-fact-scope.mjs --baseline \
-  data/rcap-grade-a/mission-lock/task63-acceptance/deciding-fact-census-c594babcf.json
+  data/rcap-grade-a/mission-lock/task63-acceptance/deciding-fact-census-a1329224b.json
 ```
 
-The census pinned in this directory was taken at `c594babcf`. Review mode
-reports routes improved, routes still affected, routes that got worse, routes
-that appeared or disappeared, the jurisdictions still sweeping unscoped, and
-every exclusion-derived removal for reading.
+`--ledger` writes `deciding-fact-ledger.json`: **every** (route, fact) pair the
+sweep contributes — 3,645 rows — each carrying jurisdiction, pathway, fact,
+`fromExclusionRules`, `fromWaitingRules`, `retainedByOtherAuthority` and
+`basis`. The console summarises; the ledger is what the review reads. Console
+truncation is never the evidence.
 
 Exit codes: `1` regression present, do not integrate; `2` partial, confirm the
-residue is a stated boundary and not under-collection; `0` complete on
-coverage, with per-route correctness still to be read.
+residue is a stated boundary and not under-collection; `0` complete on coverage,
+with per-route correctness still to be read; `3` instrument drift.
 
-The instrument transcribes `collectFieldIds` rather than importing it, so that
-a regression in the module under test cannot make the measurement agree with
-it by construction.
+### Drift protection
+
+The universal set is transcribed in the instrument so that a regression in the
+module under test cannot make the measurement agree with it by construction. A
+duplicated list rots, so the transcription is not trusted on its own: the
+production constant is parsed out of `route-fact-relevance.ts` and asserted
+identical to the transcription on every run. Any mismatch exits `3` and names
+the differing IDs, because every number below it would be wrong. This is the
+check that would have caught the original 2-of-15 error immediately.
 
 ## Not part of #63
 
