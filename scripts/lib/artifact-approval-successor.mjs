@@ -1,3 +1,4 @@
+import { evidenceProducerBytes } from "./noncommercial-evidence-producer-reconciliation.mjs";
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { loadIlArtifactApproval, loadMsArtifactApproval, REQUIRED_ARTIFACT_OBLIGATIONS } from './owner-artifact-approval.mjs';
@@ -242,7 +243,10 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
   // Witness fixture collections use the same canonical answers digest as the
   // original productization; a changed fixture requires its own proof refresh.
   insist(witness && digest(stableStringify(witness.answers ?? {})) === b.fixture.witnessFixtureSha256 && witness.expected?.paymentAllowed === false, 'participant fixture missing or changed');
-  const builderHash = digest(Buffer.concat(b.provider.artifactProducer.providerPaths.map(readBytes)));
+  // The old adopted PDF keeps its actual producer identity. A new supporting
+  // builder is accepted only through the bounded noncommercial reconciliation.
+  const builderHash = digest(Buffer.concat(b.provider.artifactProducer.providerPaths.map(builderPath =>
+    evidenceProducerBytes({familyId:record.packetFamilyId,routeId,builderPath,readBytes}))));
   const scope = {historicalLegalApproval:structuredClone(record.legalAuthority), artifactApproval:{recordId:approval.recordId,path:approval.path,sha256:approval.sha256}, routeId, familyId:record.packetFamilyId, artifacts};
   const scopeHash = digest(stableStringify(scope));
   record.revocation = {revoked:false, reason:null, revokedAt:null, revokedBy:null};

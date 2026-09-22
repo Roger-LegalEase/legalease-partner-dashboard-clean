@@ -1,0 +1,29 @@
+#53 reconciliation review gate — what the correction must not move
+
+1. the owner approval records are untouched
+  ok        OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json is byte-identical to the review baseline
+  ok        OWNER_BATCH_ADOPTION_2026-09-02.json is byte-identical to the review baseline
+  ok        BATCH_ADOPTION_PACKAGE_2026-09-02.json is byte-identical to the review baseline
+
+2. the current commercial artifacts are still exact
+  ok        the approval still carries all 18 approved artifacts
+  ok        every approved current-commercial artifact is present
+  ok        every approved current-commercial artifact hashes to its approved value
+
+3. no binding was reclassified to dodge the check
+  ok        MS affected route still declares a filing-format artifact
+  ok        MS affected artifact is still isCurrentCommercialArtifact false
+  ok        WY affected route still declares a filing-format artifact
+  ok        WY affected artifact is still isCurrentCommercialArtifact false
+  ok        the MS non-conviction binding is still declared current commercial output
+  ok        and its filing-format digest is unmoved
+  ok        the count of current-commercial declarations is unchanged (1 true, 6 false)
+
+4. the #53 correction itself survives the reconciliation
+  ok        the shared court-facing row helper still exists
+  ok        it still matches the internal route footer on an anchored obligation pattern
+  ok        it still preserves the wrapped row count rather than deleting rows
+
+16/16 checks passed.
+The reconciliation moved nothing it was forbidden to move.
+This gate does not judge the evidence-producer identity it binds — review that separately.

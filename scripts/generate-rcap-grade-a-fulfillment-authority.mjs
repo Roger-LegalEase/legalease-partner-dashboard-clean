@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { evidenceProducerBytes } from "./lib/noncommercial-evidence-producer-reconciliation.mjs";
 import { createStaticWorkerAuthority, STATIC_AUTHORITY_PATH } from "./lib/worker-static-authority.mjs";
 import { loadIlArtifactApproval, loadMsArtifactApproval, IL_ARTIFACT_APPROVAL_PATH, MS_ARTIFACT_APPROVAL_PATH } from "./lib/owner-artifact-approval.mjs";
 import { createArtifactSuccessor, SUCCESSOR_FAMILIES, MS_SUCCESSOR_VERIFICATION } from "./lib/artifact-approval-successor.mjs";
@@ -1626,7 +1627,11 @@ function exactProductizedCandidateRecord(definition) {
     requireEvidence(raster.rasterReceipt.receiptArtifact?.zipSha256 === expectedRaster.artifactZipSha256, `${familyId} bound a stale raster artifact digest`);
   }
 
-  const providerByteParts = providerPaths.map((rel) => readEvidenceBytes(rel));
+  // Keep adopted-artifact producer provenance historical. Today's supporting
+  // census producer may differ only through the exact #53 technical proof.
+  const providerByteParts = providerPaths.map((builderPath) => evidenceProducerBytes({
+    familyId, routeId, builderPath, readBytes: readEvidenceBytes
+  }));
   const builderBytes = Buffer.concat(providerByteParts);
   const builderSource = providerByteParts.map((bytes) => bytes.toString("utf8")).join("\n");
   const builderSha256 = sha256(builderBytes);
