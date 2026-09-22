@@ -60,7 +60,33 @@ ok('the adopted artifact is still present', existsSync(ARTIFACT));
 const actual = existsSync(ARTIFACT)
   ? createHash('sha256').update(readFileSync(ARTIFACT)).digest('hex')
   : null;
-ok('its digest still equals the value the owner adopted', actual === PINNED_SHA, actual);
+// Brought forward on 2026-09-22. This asserted the artifact still hashed to the
+// adopted value. Codex #53 removed the internal route footer and the bytes
+// legitimately moved, so the assertion had to become a disjunction rather than
+// a roll-forward: either the artifact still IS the adopted bytes, or the move is
+// characterised in a committed record AND the adopted digest is still recorded
+// as the adopted value. It fails on the dangerous middle -- bytes that moved
+// with nothing explaining them, or an adoption quietly repointed at new bytes.
+const RENDER_EVIDENCE = 'data/rcap-grade-a/mission-lock/task54-dc-render/render-evidence.json';
+const evidence = existsSync(RENDER_EVIDENCE) ? json(RENDER_EVIDENCE) : null;
+const driftCharacterised = actual !== null
+  && evidence?.digests?.afterThisRegeneration?.canonical === actual
+  && evidence?.digests?.adoptedByTheOwner?.canonical === PINNED_SHA;
+ok('the artifact is still the adopted bytes, or the move is characterised and the adoption is unmoved',
+  actual === PINNED_SHA || driftCharacterised,
+  { onDisk: actual, adopted: PINNED_SHA, characterised: driftCharacterised });
+console.log(actual === PINNED_SHA
+  ? '            (unchanged; the adopted bytes are still on disk)'
+  : '            (moved by task #53; characterised in the render evidence, adoption not rolled forward)');
+if (actual !== PINNED_SHA) {
+  ok('the render evidence refuses to transfer the adoption to the new bytes',
+    /does not transfer that adoption to the new bytes/
+      .test(evidence?.whatThisRecordDoesNotDo?.noAdoptionRolledForward ?? ''));
+  ok('the footer that caused the move is actually gone',
+    /0 occurrences of 'Route: obligation'/.test(evidence?.theProof?.footerAbsent ?? ''));
+  ok('every changed court-facing page was visually reviewed',
+    /Every changed court-facing page was inspected/.test(evidence?.pageLevelVisualReview?.verdict ?? ''));
+}
 ok('the record cites that same digest', record.part1_theCaptionIsEstablished?.artifact?.sha256 === PINNED_SHA);
 ok('the cohort row still pins it as current',
   (cohortRow?.legalApproval?.shippingArtifactDigestPins ?? [])

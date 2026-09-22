@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "rcap-render-evidence/v1",
+  "recordId": "TASK54-DC-MISATTRIBUTED-ARREST-RENDER-AFTER-TASK53-2026-09-22",
+  "recordedBy": "Captain (integration render proof; not a counsel approval and not an owner adoption)",
+  "recordedOn": "2026-09-22",
+  "familyId": "dc_correct_misattributed_arrest-set",
+  "routeKey": "DC:dc_correct_misattributed_arrest",
+
+  "whatThisIs": "The single regeneration of the DC misattributed-arrest family after Codex #53 removed the internal route footer, with the evidence that the bytes moved for that reason and no other. It characterises the drift from the owner-adopted digest. It does not re-grant the adoption.",
+
+  "whyTheBytesMoved": {
+    "cause": "Codex task #53, integrated as the shared court-facing row correction in scripts/rcap-custom-pleading/court-facing-rows.mjs, blanks any composed row matching ^\\s*_?Route:\\s*obligation:\\S while preserving the wrapped row count so signatures, court footers, page numbers and page breaks do not move.",
+    "regeneratedOnce": true,
+    "howItWasScoped": "runFamilyById('dc_correct_misattributed_arrest-set') on the shared DC Chapter-8 host, so only this family rebuilt. The host's four other families were not regenerated and their artifacts did not move."
+  },
+
+  "digests": {
+    "adoptedByTheOwner": {
+      "canonical": "d4e4125cb51ec2248468dc093da2d40f66ae1dafc380ed7c2d6f84ec8fc4ce7f",
+      "decisionRecordId": "OWN-ADOPT-2026-09-02-BATCH-53",
+      "status": "STILL THE ADOPTED VALUE. It is not rolled forward, not edited, and not superseded by this record."
+    },
+    "afterThisRegeneration": {
+      "canonical": "31beb81d0a97122b9517b17d58d04527aba2bae88ecd157e05b9755a4dd35a27",
+      "boundary": "f1086e078bce597b9629f86afc4e0f683d4d1c41ff704d3aee5d94caeccb0d72",
+      "previousBoundary": "4a5cea51f550c553758c09e1ad96f21d0c0f751bdf77ee2da6adb7a2f9dc4225",
+      "status": "Recorded so the drift is traceable rather than unexplained. Recording a digest is not approving it."
+    }
+  },
+
+  "theProof": {
+    "textDelta": "Six lines removed and nothing else: three 'Route: obligation:track-only:DC:dc_correct_misattributed_arrest' footer lines and the blank line preceding each. 153 extracted lines before, 147 after. No line was added, reworded or reordered.",
+    "footerAbsent": "0 occurrences of 'Route: obligation' in canonical.pdf and in boundary.pdf. Previously 3 in each.",
+    "pageCount": "5 before and 5 after, in both fixtures. No blank page, filler page or repagination.",
+    "rastersThatMoved": "canonical pages 2, 3 and 5, and boundary pages 2, 3 and 5 — exactly the three pages that carried the footer. Pages 1 and 4 are byte-identical.",
+    "substantiveMarkersUnchanged": "Counted before and after and identical in every case: SUPERIOR COURT OF THE DISTRICT OF COLUMBIA 1, CRIMINAL DIVISION 11, IN THE MATTER OF 1, MOTION 17, 16-806 6, COPY FOR THE PROSECUTING OFFICE 1, FILING INSTRUCTIONS 1, oath and sworn markers 11, Signature 3, Date 7.",
+    "transcribedSections": "All 25 sections recorded in DC-correct-misattributed-arrest.v1 were checked against the render. Zero headings present in the adopted render are absent from the new one. Ten spec section labels appear in neither render; they are internal structure labels the composer has never printed, and their absence is unchanged from the adopted bytes.",
+    "noInternalMetadata": "0 occurrences of obligation:, track-only, LegalEase, packetSetId, familyId, census-v1, specificationSha, TODO, mustache placeholders or [TO BE tokens."
+  },
+
+  "pageLevelVisualReview": {
+    "performedBy": "Captain, on the regenerated canonical rasters at 2448x3168",
+    "pagesInspected": [
+      "page 1 — caption page. SUPERIOR COURT OF THE DISTRICT OF COLUMBIA / CRIMINAL DIVISION, IN THE MATTER OF THE MOTION OF Jordan Avery Reyes, MOVANT, the case-number blank with 'copy it exactly from the court record', the motion-case-number blank with '(the Seal Team assigns it at filing)', the motion title, paragraphs 1 to 4 and the sworn attestation heading. Caption correct, case identifiers correct, legitimate blanks blank.",
+      "page 2 — signature and execution page, changed. DATE and SIGNATURE OF MOVANT, SWORN UNDER OATH on their dotted rules, the oath-formality note naming the Criminal Division clerk's office and the Seal Team, and the contact identity block. Execution block intact, footer gone, no layout break.",
+      "page 3 — prosecutor copy, changed. COPY FOR THE PROSECUTING OFFICE, the enclosure statement, the service rule, the WHICH OFFICE AND WHERE IS NOT STATED HERE refusal, the blank office name and address rules, DATE OF SERVICE and SIGNATURE OF MOVANT rules, and the not-proof-of-service note. Prosecutor copy correct, blanks preserved, footer gone.",
+      "page 4 — filing instructions, unchanged and byte-identical.",
+      "page 5 — guidance close, changed. THESE ORGANIZATIONS CAN HELP with five named organisations and numbers, and WHAT THIS PACKET IS NOT. Footer gone, page ends cleanly."
+    ],
+    "verdict": "Every changed court-facing page was inspected. The only visible difference is the absence of the internal route footer. No court-document substance moved."
+  },
+
+  "whatThisRecordDoesNotDo": {
+    "noAdoptionRolledForward": "The owner adoption OWN-ADOPT-2026-09-02-BATCH-53 named exact bytes. Those bytes changed. This record does not transfer that adoption to the new bytes and does not edit the pinned value anywhere it appears.",
+    "noApprovalCreated": "No counsel approval, no output-level approval, no visual verdict beyond the integration review stated above.",
+    "noRouteOpened": "No route became commercially eligible, no payment opened, and no fulfillment record was created.",
+    "noOtherFamilyRegenerated": "The four other families on the shared DC host were not rebuilt and their artifacts are untouched."
+  },
+
+  "remainingReview": "The owner re-review of the new bytes. Until it exists, this family reads as characterised drift rather than as adopted, which is the truthful state after a composer correction moved bytes an owner had approved by exact value.",
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false
+}
