@@ -16,6 +16,8 @@ on:
       - scripts/lib/ts-esm-loader.mjs
       - scripts/test-expungement-consumer-payment-receipt.mjs
       - scripts/test-expungement-consumer-verifier-mutations.mjs
+      - scripts/test-commercial-readiness.mjs
+      - scripts/test-briefcase-presentation-authority.mjs
       - scripts/test-expungement-checkout-guards.mjs
       - scripts/test-rcap-consumer-payment-http-mutations.mjs
       - scripts/verify-expungement-authenticated-nav.mjs
@@ -85,6 +87,8 @@ jobs:
           src/proxy.ts
           scripts/test-expungement-consumer-payment-receipt.mjs
           scripts/test-expungement-consumer-verifier-mutations.mjs
+          scripts/test-commercial-readiness.mjs
+          scripts/test-briefcase-presentation-authority.mjs
           scripts/test-expungement-checkout-guards.mjs
           scripts/test-rcap-consumer-payment-http-mutations.mjs
           scripts/verify-expungement-authenticated-nav.mjs
@@ -131,6 +135,11 @@ jobs:
 
       - name: Verify owner-scoped financial history and receipt mutations
         run: node scripts/test-expungement-consumer-verifier-mutations.mjs
+
+      - name: Verify server commercial readiness and participant actions
+        run: |
+          node scripts/test-commercial-readiness.mjs
+          node scripts/test-briefcase-presentation-authority.mjs
 
       - name: Verify final-review Checkout guards
         run: node scripts/test-expungement-checkout-guards.mjs

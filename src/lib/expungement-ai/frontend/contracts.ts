@@ -261,7 +261,10 @@ export type ScreeningEvaluation = {
   missingQuestionIds: string[];
   cautions: string[];
   nextSteps: string[];
+  /** Evaluator candidate signal, never checkout authority. */
   paymentAllowed: boolean;
+  consumerPacketAvailable?: boolean;
+  sponsoredPacketAvailable?: boolean;
   packetPlan?: PacketPlan;
 };
 

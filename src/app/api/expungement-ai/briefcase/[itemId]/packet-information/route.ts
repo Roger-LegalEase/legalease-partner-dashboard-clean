@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import {
+  decorateBriefcaseItemForPresentation,
   protectedPacketVerificationSeedFromTrustedSource,
   readTrustedBriefcasePresentationSource
 } from "@/lib/expungement-ai/briefcase-presentation-authority";
@@ -83,8 +84,10 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "save_failed" }, { status: 503 });
   }
 
+  const presentation = await decorateBriefcaseItemForPresentation({ consumerAuthUserId: auth.userId, item });
   return NextResponse.json({
     ok: true,
+    commercialActions: presentation.commercialActions,
     itemId: item.id,
     readyToGenerate: update.readyToGenerate,
     reviewReason: update.reviewReason,

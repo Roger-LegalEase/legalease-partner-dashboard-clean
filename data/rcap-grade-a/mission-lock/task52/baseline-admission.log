@@ -1,0 +1,43 @@
+file:///workspaces/legalease-partner-dashboard-clean/artifacts/task52-baseline-check/src/lib/rcap/render/commercial-admission.ts:125
+        throw new CommercialAdmissionDeniedError(decision);
+              ^
+
+CommercialAdmissionDeniedError: consumer_checkout refused (fulfillment_incomplete): consumer_checkout is denied: IL:felony-prostitution-relief is missing 1 proof(s) required for Grade-A fulfillment.
+    at Module.governCommercialAdmission (file:///workspaces/legalease-partner-dashboard-clean/artifacts/task52-baseline-check/src/lib/rcap/render/commercial-admission.ts:125:15)
+    at file:///workspaces/legalease-partner-dashboard-clean/artifacts/task52-baseline-check/scripts/verify-rcap-il-delivery-binding.mjs:80:21
+    at withSyntheticPacketRegistry (file:///workspaces/legalease-partner-dashboard-clean/artifacts/task52-baseline-check/scripts/test-rcap-il-authority-fixture.mjs:175:18)
+    at withIllinoisRegistry (file:///workspaces/legalease-partner-dashboard-clean/artifacts/task52-baseline-check/scripts/test-rcap-il-authority-fixture.mjs:146:10)
+    at file:///workspaces/legalease-partner-dashboard-clean/artifacts/task52-baseline-check/scripts/verify-rcap-il-delivery-binding.mjs:76:7 {
+  admissionPoint: 'consumer_checkout',
+  denialCode: 'fulfillment_incomplete',
+  httpStatus: 403,
+  participantMessage: 'This isn’t available yet. Your information is saved in your Briefcase.',
+  contextDenials: [],
+  decision: {
+    admissionPoint: 'consumer_checkout',
+    admitted: false,
+    authority: {
+      state: 'INCOMPLETE',
+      authorized: false,
+      commercialStatus: 'not_commercially_eligible',
+      routeId: 'IL:felony-prostitution-relief',
+      jurisdiction: 'IL',
+      packetFamilyId: 'il-prostitution-j-vacate-set',
+      serviceDisposition: 'paid_packet_intended',
+      recordId: 'SYNTHETIC-IL-delivery-test-only',
+      recordVersion: 1,
+      missingProof: [
+        'packet_completeness: the record does not say whether the filing-format artifact is the one the current commercial provider composes for a participant'
+      ],
+      stalenessReasons: [],
+      revocationReason: null,
+      reason: 'IL:felony-prostitution-relief is missing 1 proof(s) required for Grade-A fulfillment.'
+    },
+    disposition: 'ARTIFACT_GENERATION_REQUIRED',
+    contextDenials: [],
+    denialCode: 'fulfillment_incomplete',
+    reason: 'consumer_checkout is denied: IL:felony-prostitution-relief is missing 1 proof(s) required for Grade-A fulfillment.'
+  }
+}
+
+Node.js v24.21.0

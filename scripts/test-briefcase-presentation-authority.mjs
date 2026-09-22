@@ -235,6 +235,7 @@ assert.deepEqual(unavailable, {
   packetProgress: "unavailable",
   packetDraft: { status: "unavailable" },
   paymentState: "unavailable",
+  commercialActions: { fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false },
   artifact: { status: "absent", canDownload: false, documents: [] }
 });
 
@@ -643,3 +644,28 @@ const mismatchedLegacyRead = await actualCas.readProtectedPacketArtifact({ consu
 assert.equal(mismatchedLegacyRead.ok, false, "legacy plan mismatch fails closed");
 
 console.log("briefcase-presentation-authority: forged-row and protected-first boundaries passed");
+
+// Commercial actions are a server read, never a writable-row or evaluator flag.
+for (const failure of [false, true]) {
+  const commercial = await adapter.decorateBriefcaseItemForPresentationWithDependencies({
+    consumerAuthUserId: "11111111-1111-4111-8111-111111111111",
+    item: { ...item, paymentAllowed: true, commercialActions: { checkoutAllowed: true } }
+  }, {
+    readProtectedVerification: async () => ({ ok: true, value: protectedVerification }),
+    readProtectedArtifact: async () => ({ ok: true, value: null }),
+    readPaymentAuthority: async () => ({ valid: false, reason: "unpaid" }),
+    readTrustedPendingSource: async () => ({ ok: true, value: {
+      jurisdiction: "PA", profileVersion: "profile-pa-1", matterId: item.id, answers: {},
+      product: "expungement_ai_dtc", sourceSessionId: null, partnerBenefitActive: false, partnerSlug: null
+    } }),
+    evaluateAuthoritative: () => authoritativeEvaluation,
+    readCommercialActions: async (input) => {
+      assert.equal(input.legalAuthority.pathwayId, protectedAuthority.pathwayId);
+      if (failure) throw new Error("authority unreadable");
+      return { fulfillmentAvailable: true, checkoutAllowed: true, generationAllowed: false };
+    }
+  });
+  assert.equal(commercial.resultCode, "packet_ready", "commercial refusal preserves legal result");
+  assert.equal(commercial.commercialActions.checkoutAllowed, !failure, "only server action read controls CTA");
+}
+console.log("briefcase-presentation-authority: server commercial actions fail closed independently of legal results");

@@ -778,6 +778,24 @@ export async function requireOwnedPacketItem(userId: string, briefcaseItemId: st
   return item;
 }
 
+/** Read the existing generation gates without consuming credit or creating a job. */
+export async function packetGenerationAllowedNow(userId: string, item: ConsumerBriefcaseItem): Promise<boolean> {
+  try {
+    const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
+    const verification = await assertPacketGenerationAllowed(userId, item, false, {
+      paymentRequired: !sponsorship.sponsored,
+      entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
+    });
+    if (sponsorship.sponsored) assertPacketFulfillmentProven(
+      verification.snapshot.jurisdiction, verification.snapshot.pathwayId, "sponsored entitlement",
+      { trackId: verification.snapshot.selectedTrackId }
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function requireWebhookOwnedPacketItem(userId: string, briefcaseItemId: string) {
   const item = await getBriefcaseItemForWebhook(userId, briefcaseItemId);
   if (!item) throw new ConsumerPacketNotFoundError();

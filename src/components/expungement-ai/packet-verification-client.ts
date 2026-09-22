@@ -1,7 +1,9 @@
+import type { BriefcaseCommercialActions } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 export type PacketVerificationClientResult = {
   ok: boolean;
+  commercialActions: BriefcaseCommercialActions;
   readyToGenerate: boolean;
   reviewReason: string | null;
   missingInputIds: string[];
@@ -22,11 +24,13 @@ export type PacketVerificationActions = {
 export function packetVerificationActions({
   verified,
   packetReady,
-  mode
+  mode,
+  commercialActions
 }: {
   verified: boolean;
   packetReady: boolean;
   mode: VerificationMode;
+  commercialActions?: BriefcaseCommercialActions;
 }): PacketVerificationActions {
   if (!verified) {
     return { openPacket: false, checkout: false, generation: null };
@@ -36,7 +40,7 @@ export function packetVerificationActions({
     return {
       openPacket: packetReady,
       checkout: false,
-      generation: { mode: "paid_durable", label: "Prepare updated packet" }
+      generation: commercialActions?.generationAllowed === true ? { mode: "paid_durable", label: "Prepare updated packet" } : null
     };
   }
 
@@ -44,13 +48,13 @@ export function packetVerificationActions({
     return {
       openPacket: packetReady,
       checkout: false,
-      generation: packetReady ? null : { mode: "sponsored_sync" }
+      generation: !packetReady && commercialActions?.generationAllowed === true ? { mode: "sponsored_sync" } : null
     };
   }
 
   return {
     openPacket: packetReady,
-    checkout: !packetReady,
+    checkout: !packetReady && commercialActions?.checkoutAllowed === true,
     generation: null
   };
 }
@@ -84,7 +88,14 @@ export async function requestPacketVerification({
     }
   ).catch(() => null);
   const result = responseRecord(await response?.json().catch(() => null));
+  const actions = result?.commercialActions && typeof result.commercialActions === "object"
+    ? result.commercialActions as Record<string, unknown> : {};
   return {
+    commercialActions: {
+      fulfillmentAvailable: response?.ok === true && actions.fulfillmentAvailable === true,
+      checkoutAllowed: response?.ok === true && actions.checkoutAllowed === true,
+      generationAllowed: response?.ok === true && actions.generationAllowed === true
+    },
     ok: response?.ok === true,
     readyToGenerate: result?.readyToGenerate === true,
     reviewReason: typeof result?.reviewReason === "string" ? result.reviewReason : null,

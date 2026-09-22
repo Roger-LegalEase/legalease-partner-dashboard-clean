@@ -19,8 +19,8 @@ const branchPresentation: Record<ExpungementAiResultCode, BranchPresentation> = 
   packet_ready: {
     tag: "Possible packet route",
     title: "A path may be available.",
-    body: "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.",
-    primary: "Generate my packet - $50",
+    body: "Based on what you shared, there may be a record-clearing path available. Open your Briefcase to check packet availability and next steps.",
+    primary: "Open my Briefcase",
     secondary: "Save and come back later",
     tone: "teal",
     icon: CheckCircle2
@@ -28,8 +28,8 @@ const branchPresentation: Record<ExpungementAiResultCode, BranchPresentation> = 
   packet_ready_with_caution: {
     tag: "Possible path",
     title: "A path may be available.",
-    body: "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.",
-    primary: "Generate my packet - $50",
+    body: "Based on what you shared, there may be a record-clearing path available. Open your Briefcase to check packet availability and next steps.",
+    primary: "Open my Briefcase",
     secondary: "Save and come back later",
     tone: "cream",
     icon: ShieldCheck
@@ -109,8 +109,8 @@ const nonPaymentCodes: ExpungementAiResultCode[] = [
 ];
 
 // Behavioral source: design-handoff/expungement-ai-frontend/files-6/Expungement-Flow-Prototype.html
-export function shouldShowConsumerPayGate(result: ExpungementAiEligibilityResult) {
-  return result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution");
+export function shouldShowConsumerPayGate(result: ExpungementAiEligibilityResult, checkoutAllowed = false) {
+  return checkoutAllowed && result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution");
 }
 
 export function nonPaymentBranchesNeverShowPayGate(resultCode: ExpungementAiResultCode) {
@@ -124,7 +124,7 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
   const Icon = presentation.icon;
 
   return (
-    <section className="rounded-[24px] border border-[#E4E8EF] bg-white p-5 font-sans shadow-sm md:p-8" data-payment-allowed={String(result.paymentAllowed)}>
+    <section className="rounded-[24px] border border-[#E4E8EF] bg-white p-5 font-sans shadow-sm md:p-8" data-payment-allowed={String(showPayGate)}>
       <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#E7F7F4] text-[#00A99D]">
         <Icon className="h-8 w-8" aria-hidden />
       </div>
@@ -170,7 +170,7 @@ export function ResultPanel({ result }: { result: ExpungementAiEligibilityResult
           <div className="rounded-2xl border border-[#ECEFF4] bg-[#FBFCFE] p-5" data-consumer-pay-gate="hidden">
             <p className="flex items-center gap-2 text-sm font-extrabold text-[#0B1320]">
               <ShieldCheck className="h-5 w-5 text-[#00A99D]" aria-hidden />
-              {translate("result.no_payment_saved", "Saved to Briefcase. No payment is available for this result.")}
+              {localizeText("Open your Briefcase to review packet availability and the next steps for this result.")}
             </p>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <Link className="inline-flex min-h-12 flex-1 items-center justify-center rounded-[13px] bg-[#0B1320] px-5 text-sm font-extrabold text-white" href={result.resultCode === "needs_more_info" ? `/expungement-ai/check?state=${encodeURIComponent(result.state)}` : "/briefcase"}>

@@ -1,0 +1,74 @@
+{
+  "workItem": "internal Grade A #52",
+  "baselineCommit": "95ca90ba99de215d35dcbe06ddeb6528c42d8c7a",
+  "canonicalCaptain": "b1e1f1e85b9922ad618a9306c1fb65787abd2e73",
+  "scope": "Shared participant commercial readiness; evaluator results and exact route coverage preserved.",
+  "authority": "Existing fulfillment, Packet Information/final verification, consumer checkout, order/payment, and sponsorship authorities. Presentation booleans are derived, never persisted.",
+  "checks": [
+    {
+      "command": "TASK52_COMPARE_BASELINE=95ca90ba9 node scripts/test-commercial-readiness.mjs",
+      "exitCode": 0,
+      "evidence": "readiness.log"
+    },
+    {
+      "command": "node scripts/test-briefcase-presentation-authority.mjs",
+      "exitCode": 0,
+      "evidence": "presentation.log"
+    },
+    {
+      "command": "node scripts/test-expungement-consumer-payment-receipt.mjs",
+      "exitCode": 0,
+      "evidence": "receipt.log"
+    },
+    {
+      "command": "node scripts/test-consumer-checkout-stored-session.mjs",
+      "exitCode": 0,
+      "evidence": "stored-session.log"
+    },
+    {
+      "command": "npx tsc --noEmit --incremental false",
+      "exitCode": 0
+    },
+    {
+      "command": "npx eslint <changed TypeScript files>",
+      "exitCode": 0
+    },
+    {
+      "command": "npx eslint scripts/test-commercial-readiness.mjs scripts/test-briefcase-presentation-authority.mjs src/lib/expungement-ai/frontend/briefcase-presentation.ts",
+      "exitCode": 0
+    }
+  ],
+  "unchangedBehaviorProof": "AST equivalence of createConsumerPacketCheckout after inlining shared read, assertCheckoutAllowed, and getConsumerCheckoutStatus against baseline. No fulfillment registry, sponsorship posture, receipt/history implementation, auth/RLS or gate change.",
+  "existingFailures": [
+    {
+      "command": "node scripts/test-expungement-checkout-guards.mjs",
+      "classification": "defective/stale test fixture",
+      "baselineEvidence": "baseline-checkout.log",
+      "failure": "Synthetic final verification omits formSetSha256, formSetVersion, legalRuleVersion, routeContractVersion. Existing harness unchanged. New focused tests supply complete synthetic verification and use real fulfillment/commercial admission/composer."
+    },
+    {
+      "command": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
+      "classification": "defective/stale synthetic IL proof fixture",
+      "baselineEvidence": "baseline-admission.log",
+      "currentEvidence": "current-admission.log",
+      "baselineIdenticalAfterPathNormalization": true,
+      "failure": "packet_completeness: the record does not say whether the filing-format artifact is the one the current commercial provider composes for a participant",
+      "gateChanged": false
+    }
+  ],
+  "limits": [
+    "Local engineering tests; no hosted PostgreSQL evidence, browser session, live payment or deployment.",
+    "#49 remains open for PostgreSQL/hosted evidence; existing runner dispatch was rejected with HTTP 403.",
+    "#53 integration and renewed DC artifact evidence against the combined #54 transcription/composer correction remain pending.",
+    "No route is promoted or approved by these results. VA regime-1 remains commercially unavailable and an open Grade-A launch defect."
+  ],
+  "logSha256": {
+    "readiness.log": "887ac6830320c54249daa9b75035757667a7d76197f2b019f634e192cb895d67",
+    "presentation.log": "90041ff987124aaa8a0c3cc6e654b1927e4a80b28c1c8ea3b7d8eb840edb98f5",
+    "receipt.log": "71bf422e70fb1091770fa92b9384f3bc83abf1338a989496e24567e83769b74e",
+    "stored-session.log": "9b07ff985a307c4101532fc66f030921035496ea3238c007664dac93b29e74d3",
+    "baseline-checkout.log": "5022d494f9efab9c4b7f825ee73ba254507c9a71d441132005b4b0c617c45df1",
+    "baseline-admission.log": "48c086f7998951feae3891eafa6ff600904effacd197e10d6012cab94d8cd874",
+    "current-admission.log": "63942a9a42ac72acb26a61630d89205179cd408addc3c37bfd5ae9b0275e7999"
+  }
+}

@@ -11,6 +11,8 @@ import {
   requestPacketVerification,
   type VerificationMode
 } from "@/components/expungement-ai/packet-verification-client";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import type { BriefcaseCommercialActions } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 function sponsoredReviewCopy(verified: boolean, packetReady: boolean) {
@@ -20,7 +22,7 @@ function sponsoredReviewCopy(verified: boolean, packetReady: boolean) {
         heading: "Packet facts verified and current.",
         body: packetReady
           ? "Your covered packet remains available in this matter."
-          : "Covered packet generation is now available."
+          : "Packet generation is available only after the server confirms this matter can be prepared."
       }
     : {
         eyebrow: "Covered by your partner program",
@@ -35,6 +37,7 @@ export function PacketVerificationAction({
   initiallyVerified,
   canVerify,
   packetReady = false,
+  commercialActions,
   mode
 }: {
   itemId: string;
@@ -42,15 +45,18 @@ export function PacketVerificationAction({
   initiallyVerified: boolean;
   canVerify: boolean;
   packetReady?: boolean;
+  commercialActions: BriefcaseCommercialActions;
   mode: VerificationMode;
 }) {
   const router = useRouter();
+  const { text: localizeText } = useLocalization();
+  const [allowedActions, setAllowedActions] = useState(commercialActions);
   const [verified, setVerified] = useState(initiallyVerified);
   const [verifying, setVerifying] = useState(false);
   const [preparing, setPreparing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sponsoredCopy = sponsoredReviewCopy(verified, packetReady);
-  const nextActions = packetVerificationActions({ verified, packetReady, mode });
+  const nextActions = packetVerificationActions({ verified, packetReady, mode, commercialActions: allowedActions });
 
   async function verify() {
     if (verifying || !canVerify) return;
@@ -63,7 +69,8 @@ export function PacketVerificationAction({
       return;
     }
     setVerified(true);
-    if (mode === "sponsored") {
+    setAllowedActions(result.commercialActions);
+    if (mode === "sponsored" && result.commercialActions.generationAllowed) {
       setPreparing(true);
       const generated = await fetch("/api/expungement-ai/packet/generate", {
         method: "POST",
@@ -97,11 +104,17 @@ export function PacketVerificationAction({
       </h2>
       <p className="mt-2 text-sm leading-6 text-white/75">
         {mode === "sponsored"
-          ? sponsoredCopy.body
+          ? localizeText(sponsoredCopy.body)
           : mode === "paid" && verified && packetReady
-            ? "Your existing packet remains available. You can also prepare an updated packet for this same matter."
+            ? allowedActions.generationAllowed ? "Your existing packet remains available. You can also prepare an updated packet for this same matter." : "Your existing packet remains available."
             : "Check every answer against your records. Editing any answer will require verification again."}
       </p>
+
+      {!allowedActions.fulfillmentAvailable ? (
+        <p className="mt-4 rounded-[10px] bg-white/10 px-4 py-3 text-sm" role="status">
+          {localizeText("A packet is not available for this route yet. Your eligibility result and saved information remain available.")}
+        </p>
+      ) : null}
 
       {!verified ? (
         canVerify ? (
@@ -115,7 +128,7 @@ export function PacketVerificationAction({
               ? "Preparing clinic packet..."
               : verifying
                 ? mode === "sponsored" ? "Verifying and preparing..." : "Verifying packet facts..."
-                : mode === "sponsored" ? "Verify and prepare clinic packet" : "I verified these packet facts"}
+                : mode === "sponsored" && allowedActions.fulfillmentAvailable ? "Verify and prepare clinic packet" : "I verified these packet facts"}
           </button>
         ) : (
           <p className="mt-4 rounded-[10px] bg-white/10 px-4 py-3 text-sm font-semibold">

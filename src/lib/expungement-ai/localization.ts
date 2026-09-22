@@ -9,6 +9,16 @@ type CopyEntry = {
 };
 
 export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
+  "commercial.unavailable": { en: "Packet not available yet", es: "Paquete aún no disponible" },
+  "commercial.unavailable_detail": { en: "A packet is not available for this route yet. Your eligibility result and saved information remain available.", es: "Aún no hay un paquete disponible para esta ruta. Su resultado de elegibilidad y su información guardada siguen disponibles." },
+  "commercial.screening_unavailable": { en: "Your answers may match a record-clearing route. A packet is not available for this route yet. You can still save your result.", es: "Sus respuestas pueden coincidir con una ruta de limpieza de antecedentes. Aún no hay un paquete disponible para esta ruta. Puede guardar su resultado." },
+  "commercial.planned_components": { en: "These are the planned packet components for this route. A packet is not available yet.", es: "Estos son los componentes previstos del paquete para esta ruta. El paquete aún no está disponible." },
+  "commercial.sponsor_context": { en: "Your partner program information is saved. Packet coverage is confirmed before preparation.", es: "La información de su programa asociado está guardada. La cobertura del paquete se confirma antes de prepararlo." },
+  "commercial.sponsor_confirmation": { en: "Packet coverage is confirmed before preparation.", es: "La cobertura del paquete se confirma antes de prepararlo." },
+  "commercial.open_matter": { en: "Open your Briefcase to review packet availability and the next steps for this result.", es: "Abra su Portafolio para revisar la disponibilidad del paquete y los próximos pasos para este resultado." },
+  "commercial.saved_result": { en: "Your eligibility result and saved information remain available. There is no packet to purchase for this route yet.", es: "Su resultado de elegibilidad y su información guardada siguen disponibles. Aún no hay un paquete para comprar para esta ruta." },
+  "commercial.generation_confirmation": { en: "Packet generation is available only after the server confirms this matter can be prepared.", es: "La preparación del paquete solo está disponible después de que el servidor confirme que este asunto puede prepararse." },
+
   "common.free": { en: "Free", es: "Gratis" },
   "common.continue": { en: "Continue", es: "Continuar" },
   "common.back": { en: "Back", es: "Atrás" },
