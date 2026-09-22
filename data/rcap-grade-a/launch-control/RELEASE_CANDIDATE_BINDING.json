@@ -1,69 +1,106 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
-  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE_AND_PRODUCTION_RELEASE",
-  "applicationSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
-  "workerSourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
-  "workerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
-  "workerInputFingerprint": "sha256:36c9109540c8314886da58bba997df402b3a32c1a9e969e25b0097081da9a46d",
+  "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
+  "applicationSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+  "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+  "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+  "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35227578682,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35227578682",
+    "runId": 35769217594,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769217594",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35229311713,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35229311713",
+    "runId": 35769776831,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831",
     "conclusion": "success"
   },
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "preview": "dpl_4VJ9SwLKsdiCSAy5T85tcab48698 (legalease-rcap-0fee79bd127e-roger947s-projects.vercel.app)",
-    "note": "Every journey below drove Stripe's own hosted Checkout page in a browser against this Preview and this worker digest, and read the session back from Stripe rather than asserting it.",
-    "journeys": [
-      {
-        "runId": 35178342916,
-        "order": "Mississippi, no promotion code, 5000 cents",
-        "result": "PASS — real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
-      },
-      {
-        "runId": 35179247131,
-        "order": "Mississippi, ACCEPT40PCT",
-        "result": "PASS"
-      },
-      {
-        "runId": 35180723873,
-        "order": "Illinois, no promotion code",
-        "result": "PASS — the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
-      },
-      {
-        "runId": 35205114308,
-        "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
-        "result": "PASS — Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
-      }
-    ]
-  },
-  "regressions": {
-    "sourceSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
-    "note": "Run in this session against the final application. The worker is reused from c88f10341fec848b3f6f4dec9fc3381e6eea0530, an ancestor of this commit; the worker-input plan reports changedPaths=[] at this head, so the accepted digest stays valid.",
-    "productionCanary": "node scripts/verify-rcap-production-canary.mjs 41/41; mutations 19/19",
-    "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
-    "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
-    "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95/95",
-    "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs — 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
-    "syntheticPublicationFixture": false,
-    "publishedWorkerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
-    "publicationRunId": 35227578682,
-    "imageAcceptanceRunId": 35229311713,
-    "scope": "Real published authority binding. The hosted journeys are the runtime evidence and have not run yet on this candidate; these checks are the static contracts."
+    "note": "No integrated hosted acceptance has run on this successor tuple yet.",
+    "journeys": [],
+    "deliberatelyEmpty": "The previous candidate's four passing journeys are retained in supersedes[0] and describe ITS tuple. Copying them here would claim runtime evidence this worker has never earned."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
-    "sha256": "4f6f53dc05ce993f668b9ebe4305437b0825e4d590e2de9d8bf0b02cdc33f770"
+    "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
+      "workerSourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
+      "workerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+      "workerInputFingerprint": "sha256:36c9109540c8314886da58bba997df402b3a32c1a9e969e25b0097081da9a46d",
+      "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
+      "hostedAcceptance": {
+        "preview": "dpl_4VJ9SwLKsdiCSAy5T85tcab48698 (legalease-rcap-0fee79bd127e-roger947s-projects.vercel.app)",
+        "note": "Every journey below drove Stripe's own hosted Checkout page in a browser against this Preview and this worker digest, and read the session back from Stripe rather than asserting it.",
+        "journeys": [
+          {
+            "runId": 35178342916,
+            "order": "Mississippi, no promotion code, 5000 cents",
+            "result": "PASS — real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
+          },
+          {
+            "runId": 35179247131,
+            "order": "Mississippi, ACCEPT40PCT",
+            "result": "PASS"
+          },
+          {
+            "runId": 35180723873,
+            "order": "Illinois, no promotion code",
+            "result": "PASS — the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
+          },
+          {
+            "runId": 35205114308,
+            "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
+            "result": "PASS — Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
+          }
+        ]
+      },
+      "publication": {
+        "runId": 35227578682,
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35227578682",
+        "conclusion": "success"
+      },
+      "readOnlyImageAcceptance": {
+        "runId": 35229311713,
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35229311713",
+        "conclusion": "success"
+      },
+      "regressions": {
+        "sourceSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
+        "note": "Run in this session against the final application. The worker is reused from c88f10341fec848b3f6f4dec9fc3381e6eea0530, an ancestor of this commit; the worker-input plan reports changedPaths=[] at this head, so the accepted digest stays valid.",
+        "productionCanary": "node scripts/verify-rcap-production-canary.mjs 41/41; mutations 19/19",
+        "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
+        "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
+        "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95/95",
+        "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs — 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
+        "syntheticPublicationFixture": false,
+        "publishedWorkerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
+        "publicationRunId": 35227578682,
+        "imageAcceptanceRunId": 35229311713,
+        "scope": "Real published authority binding. The hosted journeys are the runtime evidence and have not run yet on this candidate; these checks are the static contracts."
+      },
+      "publicationReceipt": {
+        "path": "data/rcap-render/worker-publication-evidence.json",
+        "sha256": "4f6f53dc05ce993f668b9ebe4305437b0825e4d590e2de9d8bf0b02cdc33f770"
+      },
+      "applicationPin": {
+        "sha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
+        "why": "The Vercel build takes a git commit, so the application pin is the commit whose TREE the deployment is built from -- not a filtered subset of it. This commit carries the publication receipt and the Grade-A route observations that name sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06, the worker the deployment runs beside. Pinning c88f10341fec848b3f6f4dec9fc3381e6eea0530 instead would have deployed an application whose own records named the superseded worker.",
+        "workerSourceIsAnAncestor": true,
+        "workerReuseEvidence": "scripts/rcap-hosted-acceptance-worker-input-plan.mjs at this head: decision=reuse-accepted-digest, rebuildRequired=false, changedPaths=[]. The records that changed are not in deploy/rcap-render-worker/runtime-data-manifest.json, so the image's packaged inputs are unchanged and it is reused rather than rebuilt."
+      },
+      "productionAuthorized": true,
+      "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
+      "productionReleasePending": "The previous candidate's production run ids are retained in supersedes[0]'s lane history; this candidate has not been released yet and claims no run of its own.",
+      "disposition": "superseded_by_the_successor_application_freeze",
+      "why": "Superseded on 2026-09-22 by fe2457a71, the SUCCESSOR_APPLICATION_FREEZE. Two canonical worker inputs moved after the tuple this record froze, so its published image no longer contains the inputs the tree describes. Its Production authorization -- Roger Roman, 2026-09-17 -- is retained HERE, bound to the tuple it was granted for. It is history, and history is not current authority: the successor below carries no Production authorization of its own."
+    },
     {
       "applicationSha": "0fee79bd127eb3dc072c2a35945177fa7e7b6683",
       "workerSourceSha": "35d33755045ee1825fc281ab0eb451d34bccec0a",
@@ -82,14 +119,14 @@
   ],
   "participantReceiptPaths": [],
   "independentReviewerIdentities": [],
-  "productionAuthorized": true,
-  "productionAuthorization": "Roger Roman, 2026-09-17 (chat): complete the Grade A production rollout to expungement.ai, including Illinois, covering in-scope application fixes, test-harness repairs, release configuration, truthful publication and Grade-A evidence updates, reviewed migrations, worker deployment, production activation, public verification and the authorized live $0 order.",
-  "scope": "Exact candidate freeze with published-worker and image-acceptance evidence, the four hosted journeys that passed on it, and the production phases it was released through. This record authorizes no runtime-pin change, hosted database write or migration by itself.",
+  "productionAuthorized": false,
+  "productionAuthorization": null,
+  "productionAuthorizationNote": "This successor candidate carries NO live Production authorization. The 2026-09-17 authorization named the superseded tuple and is preserved in supersedes[0]; it is not inherited here. Production for this tuple requires a new, explicit owner authorization after hosted acceptance passes on it.",
+  "scope": "Exact successor candidate freeze with published-worker and read-only image-acceptance evidence. It authorizes no runtime-pin change, no hosted database write, no migration, and no Production action by itself. Hosted acceptance has not run on this tuple.",
   "applicationPin": {
-    "sha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
-    "why": "The Vercel build takes a git commit, so the application pin is the commit whose TREE the deployment is built from -- not a filtered subset of it. This commit carries the publication receipt and the Grade-A route observations that name sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06, the worker the deployment runs beside. Pinning c88f10341fec848b3f6f4dec9fc3381e6eea0530 instead would have deployed an application whose own records named the superseded worker.",
+    "sha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+    "why": "The Vercel build takes a git commit, so the application pin is the commit whose TREE the deployment is built from. Here the application and the worker source are the SAME commit: the worker was published from fe2457a71 and the application freeze is that commit, so no ancestry gap exists between what runs and what was accepted.",
     "workerSourceIsAnAncestor": true,
-    "workerReuseEvidence": "scripts/rcap-hosted-acceptance-worker-input-plan.mjs at this head: decision=reuse-accepted-digest, rebuildRequired=false, changedPaths=[]. The records that changed are not in deploy/rcap-render-worker/runtime-data-manifest.json, so the image's packaged inputs are unchanged and it is reused rather than rebuilt."
-  },
-  "productionReleasePending": "The previous candidate's production run ids are retained in supersedes[0]'s lane history; this candidate has not been released yet and claims no run of its own."
+    "workerReuseEvidence": "createWorkerInputPlan at this head: rebuildRequired=false, changedPaths=[] against the accepted source and digest."
+  }
 }
