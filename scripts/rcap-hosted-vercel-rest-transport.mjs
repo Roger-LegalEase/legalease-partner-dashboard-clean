@@ -16,7 +16,22 @@ import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_N
 // application that is actually being released, so REST Preview creation and
 // response validation refused the frozen candidate. The pin stays exact and
 // fails closed: it is one 40-character SHA, never a branch, prefix or input.
-export const FROZEN_APPLICATION_SHA = '8eb8ddc9d8525e7390453c9b7a64224b9651bc42';
+//
+// 2026-09-22, later: advanced again, from 8eb8ddc9d to the SUCCESSOR_APPLICATION
+// _FREEZE. Two canonical worker inputs moved after 8eb8ddc9d -- worker-static-
+// authority.json and the task-53 producer-reconciliation library -- so the image
+// published from it no longer contained the inputs this tree describes.
+//
+// The ORDER here is the point, and it is why this pin sat stale for four
+// commits rather than being advanced with the freeze. The frozen-release
+// contract requires the publication evidence to name the frozen application,
+// so a pin advanced before a worker existed from fe2457a71 would have asserted
+// a publication that had not happened -- the exact falsehood this pin exists to
+// prevent. It is advanced now, and only now, because publication run
+// 35769217594 built fe2457a71 and read-only acceptance run 35769776831 proved
+// the resulting image states that source as its OCI revision. The pin follows
+// the publication; it never leads it.
+export const FROZEN_APPLICATION_SHA = 'fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e';
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 
