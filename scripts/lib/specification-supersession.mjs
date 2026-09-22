@@ -50,9 +50,36 @@ export function supersedeFromSpecification(record, specification, recordHash, ch
     throw new Error(`Terminal retirement id for ${record.routeId} is borrowed from another namespace: ${retirementId}`);
   }
 
+  // The basis, not just the label. retirementId is derived from the
+  // specificationId and the date, so a later edit to the authored reason, the
+  // replacement specification or the replacement configurations leaves the
+  // identifier and the date untouched. Comparing only those two would silently
+  // accept a record whose stored retirement no longer describes the retirement
+  // that is actually authored. Rerunning therefore re-derives the basis and
+  // refuses any drift, which is a read-only check: a record that still matches
+  // is returned unchanged, byte for byte.
   if (record.supersededBy) {
     if (record.supersededBy !== retirementId || record.supersededAt !== supersession.on) {
       throw new Error(`Conflicting specification supersession for ${record.routeId}`);
+    }
+    const stored = record.terminalRetirement;
+    if (!stored) {
+      throw new Error(`Superseded record for ${record.routeId} carries no terminalRetirement basis`);
+    }
+    const drift = [];
+    if (stored.retirementId !== retirementId) drift.push("retirementId");
+    if (stored.effectiveDate !== supersession.on) drift.push("effectiveDate");
+    if (stored.replacementSpecification !== supersession.by) drift.push("replacementSpecification");
+    if (JSON.stringify(stored.replacementConfigurations ?? null) !== JSON.stringify(supersession.configurations)) {
+      drift.push("replacementConfigurations");
+    }
+    if ((stored.reason ?? null) !== (supersession.why ?? null)) drift.push("reason");
+    if (stored.sourceSpecification?.specificationId !== specification.specificationId) drift.push("sourceSpecification.specificationId");
+    if (stored.sourceSpecification?.routeKey !== specification.routeKey) drift.push("sourceSpecification.routeKey");
+    if (stored.successorAuthority?.grantsGradeAAuthority !== false
+      || stored.successorAuthority?.successorRecordId !== null) drift.push("successorAuthority");
+    if (drift.length > 0) {
+      throw new Error(`Authored retirement basis for ${record.routeId} changed since it was recorded (${drift.join(", ")}); the stored terminal retirement no longer describes the authored retirement`);
     }
     return record;
   }

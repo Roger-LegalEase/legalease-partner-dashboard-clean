@@ -60,6 +60,27 @@ function assertRetirement(record) {
 }
 assertRetirement(expected);
 assert.deepEqual(supersedeFromSpecification(expected, spec, fulfillmentRecordSha256, 'unused'), expected, 'transition must be idempotent');
+
+// Rerunning must re-derive the authored BASIS, not just re-match the label.
+// retirementId is derived from specificationId and date, so an edit to the
+// reason, the replacement specification or the replacement configurations
+// leaves both untouched; without this the rerun would silently accept a stored
+// retirement that no longer describes the authored one.
+for (const [label, mutate] of [
+  ['replacement specification', s => { s.supersededBy.by = 'data/record-clearing/packet-specifications/OTHER.v1.json'; }],
+  ['replacement configurations removed', s => { s.supersededBy.configurations = s.supersededBy.configurations.slice(0, 2); }],
+  ['replacement configuration renamed', s => { s.supersededBy.configurations = [...s.supersededBy.configurations.slice(0, -1), 'or-something-else']; }],
+  ['authored reason', s => { s.supersededBy.why = 'a different reason entirely'; }]
+]) {
+  const drifted = structuredClone(spec);
+  mutate(drifted);
+  assert.throws(() => supersedeFromSpecification(expected, drifted, fulfillmentRecordSha256, 'unused'),
+    /Authored retirement basis .* changed since it was recorded/,
+    `rerun must refuse drifted ${label}`);
+}
+// A superseded record with no recorded basis cannot be re-validated at all.
+assert.throws(() => supersedeFromSpecification({ ...expected, terminalRetirement: undefined }, spec, fulfillmentRecordSha256, 'unused'),
+  /carries no terminalRetirement basis/, 'rerun must refuse a superseded record with no recorded basis');
 let mutations = 0;
 function kill(label, operation) {
   assert.throws(operation, { name: 'AssertionError' }, `${label} escaped`);
