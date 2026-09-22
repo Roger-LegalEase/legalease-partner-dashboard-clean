@@ -66,7 +66,26 @@ try {
 
   // A NEW worker digest, deliberately unlike the retired literal.
   const workerDigest = "sha256:" + "ab".repeat(32);
-  write(PUBLICATION, { sourceSha: workerSourceSha, immutableRegistryDigest: workerDigest, workflowConclusion: "success" });
+  // A published image is not an accepted one, and since 2026-09-22 the verifier
+  // says so: the fixture therefore carries the read-only acceptance this tuple
+  // would really have. This does not weaken anything below -- the acceptance is
+  // mutated in its own right by test-release-control-boundary-mutations.mjs;
+  // here it is simply the truthful baseline the identity mutations move away
+  // from. A fixture that omitted it would now be measuring a refusal it did not
+  // intend and reporting it as a pass for a tuple mutation.
+  write(PUBLICATION, {
+    sourceSha: workerSourceSha,
+    immutableRegistryDigest: workerDigest,
+    workflowConclusion: "success",
+    runtimeAccepted: true,
+    imageAcceptance: {
+      runId: 424242,
+      conclusion: "success",
+      digest: workerDigest,
+      tag: workerSourceSha,
+      readOnly: true
+    }
+  });
   git("add", "-f", PUBLICATION);
   git("commit", "-q", "-m", "publication evidence");
   const publicationSha = git("rev-parse", "HEAD");

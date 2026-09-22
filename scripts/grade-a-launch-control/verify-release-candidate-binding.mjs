@@ -1,7 +1,56 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createWorkerInputPlan } from '../rcap-hosted-acceptance-worker-input-plan.mjs';
+
+/**
+ * A successful build is not an accepted image.
+ *
+ * Publication proves only that a digest came back from the registry. It does
+ * not prove the bytes can be pulled, that the process inside them fails closed,
+ * or that anyone looked. Until this existed the verifier accepted a candidate
+ * whose worker had been published and never accepted, which is the one thing
+ * the read-only acceptance workflow exists to prevent -- so the acceptance was
+ * run, recorded, and then not required by the control that gates the release.
+ *
+ * Exported so mutations reach these conditions directly rather than only
+ * through a whole fixture repository.
+ */
+export function imageAcceptanceRefusals(publication, candidate) {
+  const out = [];
+  if (publication?.runtimeAccepted !== true) {
+    out.push(`Publication is not runtime accepted (runtimeAccepted=${JSON.stringify(publication?.runtimeAccepted)}).`);
+  }
+  const acceptance = publication?.imageAcceptance;
+  if (!acceptance || typeof acceptance !== 'object' || Array.isArray(acceptance)) {
+    out.push('No recorded read-only image acceptance for this publication.');
+    return out;
+  }
+  if (acceptance.conclusion !== 'success') {
+    out.push(`Recorded image acceptance did not succeed (conclusion=${JSON.stringify(acceptance.conclusion)}).`);
+  }
+  if (acceptance.digest !== candidate.workerDigest) {
+    out.push(`Image acceptance names digest ${acceptance.digest}, not the candidate digest ${candidate.workerDigest}.`);
+  }
+  if (candidate.workerSourceSha && acceptance.tag !== candidate.workerSourceSha) {
+    out.push(`Image acceptance names tag ${acceptance.tag}, not the candidate worker source ${candidate.workerSourceSha}.`);
+  }
+  if (!Number.isInteger(acceptance.runId) || acceptance.runId <= 0) {
+    out.push(`Image acceptance names no exact run id (runId=${JSON.stringify(acceptance.runId)}).`);
+  }
+  if (acceptance.readOnly !== true) {
+    out.push('Image acceptance is not recorded as read-only.');
+  }
+  // When the candidate names its own acceptance run, it must be the run the
+  // committed evidence records. A candidate that cites a different run is
+  // citing an acceptance of something else.
+  const cited = candidate?.readOnlyImageAcceptance?.runId;
+  if (cited !== undefined && cited !== null && cited !== acceptance.runId) {
+    out.push(`Candidate cites image acceptance run ${cited}; the evidence records ${acceptance.runId}.`);
+  }
+  return out;
+}
 
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
@@ -28,6 +77,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     'data/rcap-grade-a/fulfillment-authority-projection.json',
     'data/rcap-grade-a/fulfillment-authority-registry.json',
     'data/rcap-grade-a/fulfillment-observation-snapshot.json',
+    // The successor-freeze receipt: written after the freeze it describes, so
+    // it can never be inside it. A release record, like the ones above --
+    // evidence about the release, not an input the image is built from.
+    'data/rcap-grade-a/mission-lock/successor-application-freeze.json',
     // Roger's independent Production Legal Aid migration authorization: filled
     // only from passing acceptance run ids, read by the migrate control.
     'data/rcap-production-legal-aid-migration-authorization.json',
@@ -125,7 +178,20 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-production-forward-chain-migrate.mjs',
         'scripts/test-rcap-production-forward-chain-migrate-mutations.mjs',
         'scripts/rcap-production-save-transition-probe.mjs',
-        'scripts/verify-rcap-production-save-transition-probe.mjs'
+        'scripts/verify-rcap-production-save-transition-probe.mjs',
+        // 2026-09-22 release-control repair, bound to the successor freeze.
+        // The GitHub-hosted fallback is CALLABLE, so its workflow, gate,
+        // verifier and post-payment control are release controls in exactly
+        // the sense this set means: leaving them out would let an alternate
+        // path earn current evidence against an older worker while the bounded
+        // set said nothing had moved. The two mutation suites are the controls
+        // that keep the repair honest, so they are bound with it.
+        '.github/workflows/rcap-github-hosted-acceptance.yml',
+        'scripts/rcap-github-acceptance-gate.mjs',
+        'scripts/verify-rcap-github-hosted-acceptance.mjs',
+        'scripts/rcap-github-post-payment-acceptance.mjs',
+        'scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs',
+        'scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');
@@ -151,6 +217,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     if (candidate.workerSourceSha && publication.sourceSha !== candidate.workerSourceSha) {
       reasons.push(`Candidate worker source ${candidate.workerSourceSha} is not the published source ${publication.sourceSha}.`);
     }
+    reasons.push(...imageAcceptanceRefusals(publication, candidate));
     execFileSync('git', ['merge-base', '--is-ancestor', publication.sourceSha, candidate.applicationSha], { cwd: root, stdio: 'pipe' });
     const plan = createWorkerInputPlan({ rootDir: root, candidateSha: candidate.applicationSha,
       acceptedSourceSha: publication.sourceSha, acceptedDigest: publication.immutableRegistryDigest });
@@ -168,4 +235,46 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     reasons.push(`Candidate ancestry or current worker input proof could not be verified: ${detail || 'no detail reported'}`);
   }
   return { current: reasons.length === 0, status: reasons.length ? 'STALE_OR_UNVERIFIED' : 'CURRENT', reasons };
+}
+
+export const CANDIDATE_PATH = 'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+
+/**
+ * The same single implementation, runnable.
+ *
+ * Executing this module used to do nothing and exit 0, so a workflow that
+ * "ran the verifier" would have proved nothing at all -- a green step that
+ * never asked a question. There is no second verifier here: this loads the
+ * controlling record, calls the exported function, prints every refusal, and
+ * exits nonzero unless the answer is exactly CURRENT.
+ */
+export function runReleaseCandidateBindingCli(root = process.cwd(), out = console) {
+  const candidatePath = path.join(root, CANDIDATE_PATH);
+  if (!fs.existsSync(candidatePath)) {
+    out.error(`status : NOT_FROZEN\ncurrent: false\nreason : ${CANDIDATE_PATH} does not exist.`);
+    return 1;
+  }
+  let candidate;
+  try {
+    candidate = JSON.parse(fs.readFileSync(candidatePath, 'utf8'));
+  } catch (error) {
+    out.error(`status : INVALID\ncurrent: false\nreason : ${CANDIDATE_PATH} is not readable JSON: ${error?.message ?? error}`);
+    return 1;
+  }
+  const result = verifyReleaseCandidateBinding(root, candidate, candidate.participantReceiptPaths ?? []);
+  const lines = [
+    `status : ${result.status}`,
+    `current: ${result.current}`,
+    `candidate application ${candidate.applicationSha}`,
+    `candidate worker      ${candidate.workerSourceSha}`,
+    `candidate digest      ${candidate.workerDigest}`
+  ];
+  for (const reason of result.reasons) lines.push(`refused: ${reason}`);
+  const ok = result.current === true && result.status === 'CURRENT';
+  (ok ? out.log : out.error).call(out, lines.join('\n'));
+  return ok ? 0 : 1;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  process.exit(runReleaseCandidateBindingCli());
 }

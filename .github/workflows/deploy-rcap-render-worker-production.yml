@@ -89,7 +89,24 @@ jobs:
           if (publication.sourceSha !== sha) mismatches.push("publication sourceSha");
           if (publication.immutableRegistryDigest !== digest) mismatches.push("publication immutableRegistryDigest");
           if (publication.workflowConclusion !== "success") mismatches.push("publication workflowConclusion");
-          if (publication.imageAcceptance?.workflowConclusion !== "success" || publication.imageAcceptance?.immutableRegistryDigest !== digest) mismatches.push("image acceptance of this digest");
+          // Field-contract repair, 2026-09-22. This read `imageAcceptance.workflowConclusion`
+          // and `imageAcceptance.immutableRegistryDigest`, which the evidence schema carried
+          // until 4e16d6d8e and has not carried since: the block records `conclusion`, `digest`
+          // and `tag`. Both reads were therefore undefined, so the clause could never be
+          // satisfied by any tuple. It failed CLOSED, which is why nothing broke, but it was
+          // tripping on absent fields rather than checking acceptance -- a gate that refuses
+          // for the wrong reason proves nothing about the image. It now reads the fields the
+          // committed evidence actually records, and also requires runtimeAccepted and that
+          // the acceptance names this worker source as its tag.
+          if (publication.runtimeAccepted !== true) mismatches.push("publication runtimeAccepted");
+          const acceptance = publication.imageAcceptance;
+          if (!acceptance || typeof acceptance !== "object") mismatches.push("recorded image acceptance");
+          else {
+            if (acceptance.conclusion !== "success") mismatches.push("image acceptance conclusion");
+            if (acceptance.digest !== digest) mismatches.push("image acceptance digest");
+            if (acceptance.tag !== sha) mismatches.push("image acceptance tag");
+            if (acceptance.digest !== candidate.workerDigest) mismatches.push("image acceptance vs candidate digest");
+          }
           if (mismatches.length) throw new Error("refused: " + mismatches.join(", "));
           console.log("worker tuple is the frozen, published, accepted candidate");
           JS

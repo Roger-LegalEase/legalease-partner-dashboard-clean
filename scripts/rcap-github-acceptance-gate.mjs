@@ -36,7 +36,7 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
 const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41";
+const EXPECTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";

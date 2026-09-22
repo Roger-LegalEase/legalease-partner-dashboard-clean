@@ -11,9 +11,9 @@ const gate = fs.readFileSync(path.join(root, "scripts/rcap-github-acceptance-gat
 const postPayment = fs.readFileSync(path.join(root, "scripts/rcap-github-post-payment-acceptance.mjs"), "utf8");
 const consumerRender = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
 const packetConstraints = fs.readFileSync(path.join(root, "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql"), "utf8");
-const RELEASE_CONTROL_BASE_SHA = "8eb8ddc9d8525e7390453c9b7a64224b9651bc42";
-const ACCEPTED_WORKER_SOURCE_SHA = "8eb8ddc9d8525e7390453c9b7a64224b9651bc42";
-const ACCEPTED_WORKER_DIGEST = "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41";
+const RELEASE_CONTROL_BASE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
+const ACCEPTED_WORKER_SOURCE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
+const ACCEPTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
 
 let checks = 0;
 const failures = [];

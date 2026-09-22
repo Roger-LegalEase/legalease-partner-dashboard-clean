@@ -70,9 +70,9 @@ function includesEvery(text, values, label) {
  * the 4e16d6d8e / c88f10341 / sha256:df6c2965… tuple. Neither governs
  * anything now.
  */
-const RELEASE_CONTROL_BASE_SHA = "8eb8ddc9d8525e7390453c9b7a64224b9651bc42";
-const ACCEPTED_WORKER_SOURCE_SHA = "8eb8ddc9d8525e7390453c9b7a64224b9651bc42";
-const ACCEPTED_WORKER_DIGEST = "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41";
+const RELEASE_CONTROL_BASE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
+const ACCEPTED_WORKER_SOURCE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
+const ACCEPTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
 
 includesEvery(gate, [
   "applicationShaExact",
@@ -160,7 +160,11 @@ check(![
   "870532340f3ef091bfa3b1a2e2b64c16d3195b25",
   "78c8c15c4fddd525bf3c327bbfde1c99dee778f0",
   "300a0edbf0a75daf5249f94d7a33f51570a00ba0",
-  "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"
+  "cc4d8275cca6310329ab0d2b8f2f5bcb3435eb1b",
+  // Superseded 2026-09-22 by the successor freeze fe2457a71: two canonical
+  // worker inputs moved after it, so the image published from it no longer
+  // contains the inputs this tree describes.
+  "8eb8ddc9d8525e7390453c9b7a64224b9651bc42"
 ].some((superseded) => gate.includes(superseded)), "gate still pins a superseded application identity");
 check(![
   "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
@@ -170,7 +174,8 @@ check(![
   "sha256:a12ae8486cb391814375a560366bfc47cbc2972b980d750c6f60368a2e673b46",
   "sha256:f99ebc19732e994cfb9c0ebfc0734345e857be050d8bda8952b852f78b611301",
   "sha256:e96d384b808e15884bbc8a6c95754bde956bb27bf2dcf6893b2b93f9f9d9f716",
-  "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"
+  "sha256:57bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832",
+  "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41"
 ].some((superseded) => gate.includes(superseded)), "gate still pins a superseded worker identity");
 
 for (const eventType of [

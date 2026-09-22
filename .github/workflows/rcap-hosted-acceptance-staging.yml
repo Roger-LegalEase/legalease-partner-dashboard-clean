@@ -115,8 +115,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: 8eb8ddc9d8525e7390453c9b7a64224b9651bc42
-  AUTHORIZED_WORKER_DIGEST: sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41
+  AUTHORIZED_WORKER_SOURCE_SHA: fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e
+  AUTHORIZED_WORKER_DIGEST: sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   RELEASE_INTEGRATION_BRANCH: captain-release
@@ -242,6 +242,25 @@ jobs:
           # (@supabase/realtime-js 2.106) requires a native WebSocket when it
           # connects, which Node 20 lacks; run 35036010302 stopped there.
           node-version: 22
+
+      # THE RELEASE BINDING IS LOAD-BEARING HERE, not only in a unit test.
+      #
+      # The exact release/tools binding had a verifier, a mutation suite and no
+      # caller: executing the module did nothing and exited 0, and no workflow
+      # invoked it at all. So a hosted run could earn acceptance evidence for a
+      # candidate whose binding was stale, whose worker had never been accepted,
+      # or whose bound orchestration had moved -- and nothing would have said so.
+      #
+      # This runs before any phase that can create release evidence. The
+      # exclusions are the phases that cannot: the three Supabase-only migration
+      # phases, and the read-only preflight/identity/audit diagnostics. Every
+      # other phase -- full, deploy, replace_preview, accept, payment, browser,
+      # checkout_gate, worker_contract, clinic_preview, legal_aid_browser,
+      # stripe_retarget -- is covered, and an unknown phase is already refused
+      # by the contract normalizer below.
+      - name: Require a CURRENT exact release/tools binding before any release evidence
+        if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'legal_aid_migrate' && inputs.phase != 'preflight' && inputs.phase != 'vercel_identity' && inputs.phase != 'vercel_audit'
+        run: node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
 
       - name: Record worker rebuild requirement without accepting an image
         if: inputs.phase == 'preflight'

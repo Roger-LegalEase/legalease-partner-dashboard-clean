@@ -56,7 +56,7 @@ const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // freeze 8eb8ddc9d by run 35750246888 and proved against the registry by
 // read-only image acceptance run 35751543666. The superseded sha256:9faa24e8…
 // and sha256:df6c2965… are history, not authority.
-const EXPECTED_WORKER_DIGEST = "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41";
+const EXPECTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",
