@@ -112,21 +112,32 @@ function failures(w) {
       w.evidence.workflowRunId !== tuple.publicationRunId,
       "the exception is marked retired but still names the publication run in force"
     );
-    // And it must still name the publication it actually covered, which the
-    // evidence records as the superseded one. Without this anchor a retired
-    // record could be edited to name any digest at all and stay "not in force".
-    const superseded = w.evidence.supersededPublication ?? {};
+    // And it must still name a publication the evidence actually records as
+    // superseded. Without this anchor a retired record could be edited to name
+    // any digest at all and stay "not in force".
+    //
+    // The anchor is MEMBERSHIP in the superseded history, not equality with the
+    // most recently superseded entry. The older form held for exactly one
+    // instant -- the moment 5ac0d8d6 was superseded -- and broke at the next
+    // publication, because supersededPublication moves forward each time while
+    // the tuple this record covers is a fixed historical fact that must never
+    // move. It has been failing since the chain advanced past that tuple, which
+    // is why this is a stale anchor rather than a finding about any image.
+    //
+    // It is not weaker: the tuple must still match a REAL published tuple
+    // exactly on all three fields at once, so no field may be borrowed from a
+    // different entry, and the "not in force" checks above are unchanged.
+    const history = [
+      ...(w.evidence.supersededPublication ? [w.evidence.supersededPublication] : []),
+      ...(Array.isArray(w.evidence.supersededChain) ? w.evidence.supersededChain : [])
+    ];
+    fail(history.length > 0, "the evidence records no superseded publication for the retired exception to anchor to");
     fail(
-      superseded.immutableRegistryDigest === tuple.immutableDigest,
-      "the retired exception does not name the digest the evidence records as superseded"
-    );
-    fail(
-      superseded.sourceSha === tuple.sourceSha,
-      "the retired exception does not name the source the evidence records as superseded"
-    );
-    fail(
-      superseded.publicationRunId === tuple.publicationRunId,
-      "the retired exception does not name the run the evidence records as superseded"
+      history.some((entry) =>
+        entry?.immutableRegistryDigest === tuple.immutableDigest
+        && entry?.sourceSha === tuple.sourceSha
+        && entry?.publicationRunId === tuple.publicationRunId),
+      "the retired exception names no tuple the evidence records as superseded"
     );
   } else {
     // In force: the committed evidence must independently agree — one record
@@ -209,7 +220,25 @@ if (MUTATIONS) {
     ["a retired record is pointed back at the publication run in force", (w) => {
       w.exception.supersededTuple.publicationRunId = w.evidence.workflowRunId;
     }],
-    ["a retired record stops saying why it stopped applying", (w) => { w.exception.retiredBecause = ""; }]
+    ["a retired record stops saying why it stopped applying", (w) => { w.exception.retiredBecause = ""; }],
+    // The membership anchor, adversarially: a tuple assembled from DIFFERENT
+    // historical entries must fail even though every field appears somewhere.
+    ["the tuple borrows a run id from another superseded entry", (w) => {
+      const history = [w.evidence.supersededPublication, ...w.evidence.supersededChain];
+      const other = history.find((e) => e?.publicationRunId
+        && e.publicationRunId !== w.exception.supersededTuple.publicationRunId);
+      w.exception.supersededTuple.publicationRunId = other.publicationRunId;
+    }],
+    ["the tuple borrows a digest from another superseded entry", (w) => {
+      const history = [w.evidence.supersededPublication, ...w.evidence.supersededChain];
+      const other = history.find((e) => e?.immutableRegistryDigest
+        && e.immutableRegistryDigest !== w.exception.supersededTuple.immutableDigest);
+      w.exception.supersededTuple.immutableDigest = other.immutableRegistryDigest;
+    }],
+    ["the superseded history is emptied so the anchor has nothing to check", (w) => {
+      w.evidence.supersededPublication = null;
+      w.evidence.supersededChain = [];
+    }]
   ];
 
   let undetected = 0;
