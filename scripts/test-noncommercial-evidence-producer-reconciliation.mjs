@@ -48,6 +48,15 @@ for(const family of FAMILIES){
  const render=row.renders[0];
  const box=fs.mkdtempSync(path.join(os.tmpdir(),'task53-negative-pdf-'));
  try{
+  // Operability control, BEFORE any refusal is credited below. execFileSync
+  // throws just as readily when the comparator cannot start -- a missing
+  // pymupdf or numpy -- as when it catches a mutation, and this suite once
+  // banked six refusals per family on nothing but an ImportError. So require
+  // the comparator to ACCEPT the real unmutated pair first: if it cannot run,
+  // this fails loudly instead of reporting a green that asked nothing.
+  const proven=JSON.parse(execFileSync('python',['scripts/verify-noncommercial-footer-render.py',render.baseline.path,render.technical.path],{stdio:['ignore','pipe','pipe']}).toString());
+  assert.equal(proven.footerAbsent,true,`${tag}: comparator does not accept the real footer-removal pair`);
+  assert.ok(proven.pages.some(p=>p.removedWrappedRows>0),`${tag}: comparator proved no footer removal on the real pair`);
   for(const kind of ['non-footer text','signature text','service text','order text','new blank page','footer remains']){
    let bytes;
    if(kind==='footer remains')bytes=read(render.baseline.path);

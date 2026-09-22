@@ -20,6 +20,37 @@ export const RECONCILIATION_SHA256 = '4e8fab74c96e3ef7375f88dfcab8cd7b4f7734055b
 export const PROVIDER_SUCCESSION_PATH = `${PROOF_ROOT}/provider-succession.json`;
 export const PROVIDER_SUCCESSION_SHA256 = '3bfd466b9f94330124dcf7f49b11926c49011985059e9bd161ed463baf06bee0';
 export const WORKER_EVIDENCE_PATH = 'data/rcap-render/worker-publication-evidence.json';
+/** DC historical producer. The task-53 footer change touched a census host that
+ * DC:dc_actual_innocence_expungement_16_803 SHARES but that task 53 never
+ * listed as one of its families, so its adopted artifact's producer identity
+ * silently moved to the post-53 host while the artifact itself did not. The
+ * adopted PDF was made by the PRE-53 bytes and must keep saying so.
+ *
+ * Bounded on purpose, and every bound is checked: one family, one route, one
+ * provider path. The DC wrapper did not move and takes no exception at all.
+ * This is not a jurisdiction rule, not a family rule, and not a general
+ * "ignore later builder changes" path -- a second DC route sharing this host
+ * would not match, and would be a refusal until reconciled on its own. */
+export const DC_HISTORICAL_PRODUCER_PATH = `${PROOF_ROOT}/dc-innocence-historical-producer.json`;
+export const DC_HISTORICAL_PRODUCER_SHA256 = 'f1c7afe4bd68ff212ca2133ca73ef0bdc3fae24a5ad8e8c15c465b8a820780d4';
+/** The ONE exact tuple. Every field is matched exactly; nothing is prefixed,
+ * inferred from jurisdiction, or shared with a sibling family. */
+export const HISTORICAL_PRODUCERS = Object.freeze([Object.freeze({
+  recordPath: DC_HISTORICAL_PRODUCER_PATH,
+  familyId: 'dc_innocence_expungement-set',
+  routeId: 'DC:dc_actual_innocence_expungement_16_803',
+  providerPaths: Object.freeze([
+    'scripts/build-census-v1-dc_innocence_expungement-set.mjs',
+    'scripts/build-census-v1-dc_seal_nonconviction-set.mjs'
+  ]),
+  movedProviderPath: 'scripts/build-census-v1-dc_seal_nonconviction-set.mjs',
+  historicalBytesPath: `${PROOF_ROOT}/dc_innocence_expungement-set/pre-builder-shared-host.mjs`,
+  task53Parent: 'dbf8284ca7a0b98381ae9c8bcfe40c7d9686b8a3',
+  historicalArtifacts: Object.freeze([
+    'd887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076',
+    '84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d'
+  ])
+})]);
 export const APPROVAL_PATH = 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json';
 export const REGISTRY_PATH = 'data/rcap-grade-a/fulfillment-authority-registry.json';
 export const HELPER = { path: 'scripts/rcap-custom-pleading/court-facing-rows.mjs', sha256: 'e8e8c558d35cc8eb4e3511be8f83de0bfa79b8f4e8462b38b2f6334e71f06ce2' };
@@ -293,7 +324,93 @@ export function reconcileNoncommercialProducer(input) {
 }
 /** Return historical producer bytes ONLY after proving why today's supporting
  * builder differs. Those bytes remain the provenance of the old approved PDF. */
+/** Prove the DC historical-producer mapping, deriving every identity rather
+ * than reading it out of the record, then comparing the derivation with what
+ * the record claims. A record that disagrees with git is a refusal. */
+export function assertDcHistoricalProducer({ entry, readBytes = fs.readFileSync, readGitBlob = defaultGitBlob }) {
+  const recordBytes = readBytes(entry.recordPath);
+  assert.equal(digest(recordBytes), DC_HISTORICAL_PRODUCER_SHA256, 'DC historical-producer reconciliation changed');
+  return assertDcHistoricalProducerConditions({ entry, record: JSON.parse(recordBytes), readBytes, readGitBlob });
+}
+/** Conditions are separately callable so mutation tests reach them past the
+ * outer record byte pin, rather than taking credit for that pin alone. */
+export function assertDcHistoricalProducerConditions({ entry, record, readBytes = fs.readFileSync, readGitBlob = defaultGitBlob }) {
+  assert.equal(record.schemaVersion, 'rcap-dc-innocence-historical-producer-reconciliation/v1');
+  assert.equal(record.classification, 'historical_producer_required_for_historical_filing_proof');
+  assert.equal(record.scope.routeId, entry.routeId, 'record routeId is not the mapped route');
+  assert.equal(record.scope.familyId, entry.familyId, 'record familyId is not the mapped family');
+  assert.deepEqual(record.scope.providerPaths, [...entry.providerPaths], 'record provider paths differ from the mapping');
+  assert.equal(record.scope.task53Parent, entry.task53Parent, 'record names a different task-53 parent');
+  assert.equal(record.scope.task53FooterCommit, FOOTER_COMMIT, 'record names a different task-53 footer commit');
+  for (const key of ['changesLegalContent','changesPacketSpecification','changesApprovedCommercialArtifacts','createsApproval','approvesNewBytes']) {
+    assert.equal(record[key], false, `DC historical producer ${key}`);
+  }
+
+  // Historical bytes: pinned in the tree AND proven to be what the parent held.
+  const historicalHost = readBytes(entry.historicalBytesPath);
+  const hist = record.producerIdentity.historical;
+  assert.equal(digest(historicalHost), hist.pinnedBytes.sha256, 'pinned DC historical host bytes changed');
+  assert.equal(hist.sharedHostSha256, digest(historicalHost), 'record historical host hash disagrees with the pinned bytes');
+  if (readGitBlob) {
+    let atParent = null;
+    try { atParent = readGitBlob(entry.task53Parent, entry.movedProviderPath); } catch { atParent = null; }
+    if (atParent) assert.equal(digest(atParent), digest(historicalHost), 'the pinned DC historical bytes are not what the task-53 parent held');
+  }
+
+  // Derive BOTH aggregates here; do not take them from the record.
+  const wrapperPath = entry.providerPaths.find(p => p !== entry.movedProviderPath);
+  const wrapperNow = readBytes(wrapperPath);
+  assert.equal(digest(wrapperNow), hist.wrapperSha256, 'the DC wrapper moved; this mapping only covers a moved shared host');
+  const derivedHistorical = digest(Buffer.concat(entry.providerPaths.map(p =>
+    p === entry.movedProviderPath ? historicalHost : wrapperNow)));
+  assert.equal(derivedHistorical, hist.aggregateSha256, 'derived historical aggregate disagrees with the record');
+
+  const currentHost = readBytes(entry.movedProviderPath);
+  const cur = record.producerIdentity.currentAtReconciliation;
+  assert.equal(digest(wrapperNow), cur.wrapperSha256, 'record current wrapper hash disagrees with the tree');
+  assert.equal(digest(currentHost), cur.sharedHostSha256, 'record current shared-host hash disagrees with the tree');
+  const derivedCurrent = digest(Buffer.concat(entry.providerPaths.map(p =>
+    p === entry.movedProviderPath ? currentHost : wrapperNow)));
+  assert.equal(derivedCurrent, cur.aggregateSha256, 'derived current aggregate disagrees with the record');
+  assert.notEqual(derivedCurrent, derivedHistorical, 'the two producer identities must remain distinct facts');
+
+  // The only admitted delta, by the task-53 contract, unweakened.
+  footerOnlyBuilderDelta(historicalHost, currentHost);
+
+  // And the mapping exists for these exact historical artifacts.
+  assert.deepEqual([record.historicalFilingProofArtifacts.canonical, record.historicalFilingProofArtifacts.boundary],
+    [...entry.historicalArtifacts], 'record names different historical filing-proof artifacts');
+  assert.equal(record.historicalFilingProofArtifacts.producedBy, derivedHistorical, 'the historical artifacts are not attributed to the derived historical producer');
+  assert.equal(record.historicalFilingProofArtifacts.isCurrentCommercialArtifact, false);
+  assert.equal(record.historicalFilingProofArtifacts.task53EvidenceStatus, 'STALE');
+
+  // Current participant delivery stays separately governed and unchanged.
+  const approval = JSON.parse(readBytes(record.currentCommercialApproval.path));
+  assert.equal(approval.decisionId, record.currentCommercialApproval.recordId);
+  assert.equal(digest(readBytes(record.currentCommercialApproval.path)), record.currentCommercialApproval.sha256,
+    'the current-commercial owner approval moved');
+  assert.equal(record.currentCommercialApproval.verdict, 'UNCHANGED_APPROVED_BYTES');
+  assert.equal(record.currentCommercialApproval.artifacts.length, 3);
+  for (const artifact of record.currentCommercialApproval.artifacts) {
+    assert.ok(/^[0-9a-f]{64}$/.test(artifact.sha256), `${artifact.id}: malformed approved hash`);
+    assert.equal(artifact.reproducedIdentical, true, `${artifact.id}: not reproduced identically`);
+    assert.equal(typeof artifact.pageCount, 'number');
+    assert.equal(artifact.guideAssembled, artifact.id !== 'court-only', `${artifact.id}: guide state contract changed`);
+  }
+  return { record, historicalAggregate: derivedHistorical, currentAggregate: derivedCurrent };
+}
+
 export function evidenceProducerBytes({ familyId, routeId, builderPath, readBytes = fs.readFileSync }) {
+  const historical = HISTORICAL_PRODUCERS.find(e =>
+    e.familyId === familyId && e.routeId === routeId && e.providerPaths.includes(builderPath));
+  if (historical) {
+    // The unmoved provider in the tuple needs no exception at all.
+    if (builderPath !== historical.movedProviderPath) return readBytes(builderPath);
+    const bytes = readBytes(builderPath);
+    if (digest(bytes) === digest(readBytes(historical.historicalBytesPath))) return bytes;
+    assertDcHistoricalProducer({ entry: historical, readBytes });
+    return readBytes(historical.historicalBytesPath);
+  }
   const current = readBytes(builderPath);
   const exact = FAMILIES.find(f=>f.familyId===familyId && f.routeIds.includes(routeId) && f.builderPath===builderPath);
   if (!exact || digest(current)===exact.preSha256) return current;

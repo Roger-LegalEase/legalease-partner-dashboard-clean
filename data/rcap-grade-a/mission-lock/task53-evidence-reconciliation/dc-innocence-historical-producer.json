@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-dc-innocence-historical-producer-reconciliation/v1",
+  "recordedOn": "2026-09-22",
+  "recordedBy": "Captain, under the DC historical-producer authorization. Not an owner approval, not a legal decision, not authority for new bytes, and not a re-approval of the historical census artifacts.",
+  "classification": "historical_producer_required_for_historical_filing_proof",
+
+  "statement": "The historical producer mapping applies only to the two historical census filing-proof artifacts. Current participant-delivery authority comes from the separately approved current-commercial artifacts.",
+
+  "why": "Task 53 changed a census host that this DC route SHARES but that task 53 never listed among its own families. The shared host moved to the post-53 bytes while the reviewed census PDFs did not, so the recorded producer identity for those PDFs silently drifted to a builder that did not make them. Asserting that would be false provenance. This record keeps the historical filing proof attributed to the bytes that actually produced it, and keeps that strictly separate from what a participant receives today.",
+
+  "scope": {
+    "routeId": "DC:dc_actual_innocence_expungement_16_803",
+    "familyId": "dc_innocence_expungement-set",
+    "providerPaths": [
+      "scripts/build-census-v1-dc_innocence_expungement-set.mjs",
+      "scripts/build-census-v1-dc_seal_nonconviction-set.mjs"
+    ],
+    "task53Parent": "dbf8284ca7a0b98381ae9c8bcfe40c7d9686b8a3",
+    "task53FooterCommit": "95ca90ba99de215d35dcbe06ddeb6528c42d8c7a",
+    "exactTupleOnly": "The mapping activates only when routeId, familyId and provider path all match exactly, and only for the two historical artifacts named below. There is no jurisdiction shortcut, no family-prefix or route-prefix matching, no sibling-family fallback and no generic cosmetic-change rule. A different DC route sharing this same host does not match and remains a refusal until reconciled on its own.",
+    "doesNotExtendTask53V1Scope": "The immutable task-53 v1 receipt is unedited and its FAMILIES list is unchanged. DC is not added to it."
+  },
+
+  "producerIdentity": {
+    "howItIsComputed": "builderSha256 = sha256(Buffer.concat(providerByteParts)) across BOTH provider paths in the generator's declared order. It is not the hash of the first file, and it is derived at verification rather than read from this record.",
+    "historical": {
+      "wrapperSha256": "d0bbcb5cee95bd08ff91713a255fa4f166578249124486cb3f4ed2486a6d8b20",
+      "sharedHostSha256": "fcfb6a28bd9d512da91195b1a83d8349e3d3bb50d26c1c6d11385d672d7145d8",
+      "aggregateSha256": "8b59bddbdc444d40aca545651c96373bddec47a822fc740b6ce3c6feeaa14268",
+      "pinnedBytes": {
+        "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/dc_innocence_expungement-set/pre-builder-shared-host.mjs",
+        "sha256": "fcfb6a28bd9d512da91195b1a83d8349e3d3bb50d26c1c6d11385d672d7145d8",
+        "why": "Committed under the proof root so a future generator run resolves the historical producer from evidence in the tree rather than from a branch that can move or be rewritten."
+      }
+    },
+    "currentAtReconciliation": {
+      "wrapperSha256": "d0bbcb5cee95bd08ff91713a255fa4f166578249124486cb3f4ed2486a6d8b20",
+      "sharedHostSha256": "8745f1a86e2ca390e6f83a4bcdc35ea299e102d69a5eef034f25fea7db985af4",
+      "aggregateSha256": "914ba6a544aea7e3a1a2bc90a5cbb9ba8b223e85ed745bdd89a98163b5ca0318"
+    },
+    "wrapperDidNotMove": true,
+    "bothIdentitiesAreKept": "8b59bddb answers which bytes produced the historical census PDFs. 914ba6a5 answers what the current census producer is. The record derives and states both; the current one never replaces the historical one on the old artifacts.",
+    "onlyAdmittedDelta": "The current shared host differs from the task-53 parent through exactly the existing courtFacingRows treatment and its import, proven by footerOnlyBuilderDelta unweakened. Any additional delta refuses."
+  },
+
+  "historicalFilingProofArtifacts": {
+    "canonical": "d887a3cba40f27765809ba436a4ed4c223f5927282f3f4f43eee178e5b2a1076",
+    "boundary": "84ebf215a5e1e3b25fbc15cfdac155b375650f553c41046ceeeb5dcc0bc6203d",
+    "producedBy": "8b59bddbdc444d40aca545651c96373bddec47a822fc740b6ce3c6feeaa14268",
+    "task53EvidenceStatus": "STALE",
+    "whyStale": "The pages carry internal Route: obligation: provenance, which task 53 removes from future rendering. That classification is preserved exactly and is not relabelled.",
+    "renewalInstructionPreserved": "Rerender composed pages, then renew applicable artifact/visual evidence; not approved.",
+    "isCurrentCommercialArtifact": false,
+    "notClaimed": [
+      "that the current producer 914ba6a5 made these artifacts",
+      "that they are the current participant-delivered bytes",
+      "that they are re-approved as current output"
+    ]
+  },
+
+  "currentCommercialApproval": {
+    "recordId": "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920",
+    "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+    "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+    "composedThrough": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket",
+    "reproducedAt": "0b0c4bed8c5569271b2f62ef45eeec589e35bc20, in an isolated fixture whose write targets were real directories outside the working tree, leaving this repository byte-identical",
+    "artifacts": [
+      { "id": "full-en", "sha256": "baaf7e489216c8fd7de7cc197afd163351f2909dacddd175b011caa89a1f6b9c", "pageCount": 11, "guideAssembled": true, "reproducedIdentical": true },
+      { "id": "court-only", "sha256": "761dd42907ca6bb68985fbc6a74f4d19747170ae51ab704b391bf74881565e78", "pageCount": 5, "guideAssembled": false, "reproducedIdentical": true },
+      { "id": "full-es", "sha256": "d5533512366af8334b242986e65e8d3e9aa1dc23c882028212cb131dce52a509", "pageCount": 11, "guideAssembled": true, "reproducedIdentical": true }
+    ],
+    "verdict": "UNCHANGED_APPROVED_BYTES",
+    "consequence": "No new owner approval, no new visual review, no new legal review and no packet-content change."
+  },
+
+  "changesLegalContent": false,
+  "changesPacketSpecification": false,
+  "changesApprovedCommercialArtifacts": false,
+  "createsApproval": false,
+  "approvesNewBytes": false,
+  "productionTouched": false,
+  "opensAnyRoute": false
+}
