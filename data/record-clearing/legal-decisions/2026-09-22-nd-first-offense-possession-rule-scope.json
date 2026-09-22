@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "ND-FIRST-OFFENSE-POSSESSION-RULE-SCOPE-2026-09-22",
+  "reviewer": "Captain (A-lane rule-scope determination; not a counsel approval)",
+  "reviewDate": "2026-09-22",
+  "familyId": "nd-marijuana-first-offense-seal",
+
+  "theBoundedQuestion": "Is the eligibility decision for ND:first-offense-possession-sealing governed by its own statutory elements under N.D.C.C. § 19-03.1-23(9), or by unrelated North Dakota sealing and pardon criteria?",
+
+  "answer": "Governed by its own elements at the layer that decides what the route requires and delivers. No eligibility rule was found that belongs to another route and reaches this one's specification. One real contamination was measured, and it is in a shared screening-engine mechanic rather than in any North Dakota rule, so it is routed to the engineering lane and nothing was changed here.",
+
+  "part1_theStatutorySpine": {
+    "authority": "N.D.C.C. § 19-03.1-23(9)",
+    "elements": [
+      "guilty plea or finding of guilt",
+      "first offence",
+      "possession of one ounce or 28.35 grams or less of marijuana, or two grams or less of tetrahydrocannabinol",
+      "judgment of guilt entered",
+      "motion to the court",
+      "no subsequent conviction within two years for a further violation of chapter 19-03.1"
+    ],
+    "consequence": "On those facts the court shall seal the court record of that conviction, and once sealed the record may not be opened even by order of the court.",
+    "whatItDoesNotRequire": "No three- or five-year clean period, no clear-and-convincing burden, no forty-five-day hearing floor, no five-year pardon clean record, and no generic absence of other convictions beyond the two-year chapter 19-03.1 condition."
+  },
+
+  "part2_whatTheSpecificationAlreadyDoes": {
+    "file": "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+    "routeKey": "ND:first-offense-possession-sealing",
+    "pathwayId": "first-offense-possession-sealing",
+    "trackId": "nd-marijuana-first-offense-seal",
+    "reliefIsMandatoryOnMotion": true,
+    "itsRuleStatementCarriesEveryElement": "The specification's ruleStatement states the guilty plea or finding, the first offence, the one-ounce and two-gram thresholds, the entry of judgment, the motion, the mandatory seal, the two-year subsequent-conviction condition and the no-reopening consequence.",
+    "itAlreadyFencesTheImports": "Its statutoryAuthority.doNotImport says, in its own words, that chapter 12-60.1 is North Dakota's general sealing chapter and that 'its three- and five-year clean periods, its clear-and-convincing burden, its forty-five-day hearing floor and its proof-of-service requirement do not govern this route, which is mandatory on motion under ch. 19-03.1', and that the Summary Pardon Application 'is not this route and its five-year condition must never be applied here'.",
+    "itCarriesItsOwnStatutoryFacts": "requiredFacts includes nd_charged_quantity and nd_first_offense_confirmation, which exist for this route and no other. First offence is not modelled as a generic clean-record requirement.",
+    "conclusion": "At the specification layer the route is already scoped to its own statute, and it was scoped deliberately rather than by accident. Nothing needed correcting here."
+  },
+
+  "part3_whatTheEvaluatorActuallyDoes": {
+    "method": "The real evaluator was run, not reasoned about. Twenty-four combinations of pathway context, case outcome and offence level across the three routes, plus the eight required cases.",
+    "routeSelectionIsClean": "In every combination the pathway context resolved to its own pathway and never to a neighbour: the first-offence context to first-offense-possession-sealing, the general context to general-conviction-sealing-under-n-d-c-c-chapter-12-60-1, the pardon context to marijuana-specific-summary-pardon-or-sealing-relief. A general chapter 12-60.1 case does not enter this route, and summary-pardon facts do not enter this route.",
+    "nothingIsSellable": "Every combination returned paymentAllowed false and needs_more_info, and no waiting period ever resolved. The three- and five-year waits therefore never materialise as a gate on a real participant today.",
+    "theHonestLimit": "The screening profile has only five answerable questions: ownership_scope, jurisdiction_scope, case_outcome, offense_level and possible_pathway_context. Everything else is a transcribed source prompt with no options, including source_question_31, which is the § 19-03.1-23(9) check itself. So the screening layer cannot distinguish cases 3 to 6 — amount above threshold, not a first offence, a later chapter 19-03.1 conviction inside two years, and no judgment of guilt — because it cannot ask the quantity, the first-offence fact, the two-year fact or the judgment fact. Those four cases are recorded as unaskable rather than as passing.",
+    "aSecondObservation": "The evaluation rule route-first-offense-possession-sealing declares requiredFields case_outcome, offense_level, offense_category and record_type, and the last two are not questions in this profile at all. That is consistent with the route never leaving needs_more_info."
+  },
+
+  "part4_theOpenDefect": {
+    "whatItIs": "routeDecidingFactIds — documented as the facts that decide whether a route is the right one and whether it may be sold — returns 52 entries for this pathway, and they include the other routes' eligibility criteria: the chapter 12-60.1 three-year misdemeanour wait and five-year felony wait, the summary pardon's five-year clean record, the DUI seven-year clean period and commercial-driver exclusion, and the forty-five-day hearing floor. These are the exact things the specification says must never be applied here.",
+    "measured": "Of this route's 52 deciding entries, 46 of 52 are shared with the general chapter 12-60.1 route and 48 of 52 with the summary pardon route. Only six entries are unique against the general route and only four against the pardon route.",
+    "aDataQualityObservationWhileThere": "The sweep is also collecting whole rule texts as if they were fact identifiers, so entries such as 'A hearing cannot be held earlier than 45 days after the petition is filed' appear in the deciding set as fact ids. That is why the set can never be satisfied.",
+    "theCause": "It is not a North Dakota rule. The profile's four exclusionRules and nineteen waitingPeriodRules carry no candidatePathwayIds, and src/lib/rcap-engine/route-fact-relevance.ts sweeps both into every route's deciding set by design — its own comments say exclusions 'apply to every route' and the waiting rules are ones 'any route may reach'.",
+    "thereIsPrecedentForThisBugClass": "The same module already scopes the packet generator per pathway, with the comment that collecting the whole thing 'would hand every route every other route's packet facts — which is how the Proposition 64 facts reached California's dismissal/set-aside remedy'. The waiting and exclusion sweeps were not given the same treatment.",
+    "exposure": "Nothing is mis-sold today. Route selection is correct in every measured combination, payment is closed on all three routes, and no waiting period resolves. The defect is that this route cannot be confirmed for sale without facts its statute does not require.",
+    "whoOwnsIt": "A shared engine mechanic used by all fifty-one jurisdictions, so it is not this lane's to edit. Narrowing the sweep could under-collect facts on other routes in other states, which is the opposite harm.",
+    "whyTheCompiledProfileWasNotEditedEither": "ND-north-dakota.json is a source-conversion artifact compiled from the Nationwide North Dakota reference. Hand-scoping its waiting rules would desync it from the source it is compiled from."
+  },
+
+  "whatThisRecordDoesNotDo": {
+    "noRuleEdited": "No compiled rule, question or waiting rule was edited, and no specification field was changed. The finding is a measurement.",
+    "noProcedureRemoved": "No procedural filing requirement was removed because subsection (9) does not spell it out. Eligibility scoping and filing procedure are separate questions and the packet's filing steps are untouched.",
+    "noFormInvented": "No official form or filing vehicle was invented for this route. Its documents remain the custom motion, proposed order and guidance the specification already carries.",
+    "noAdjacentRouteChanged": "No rule, question or binding on any other North Dakota route was changed. General chapter 12-60.1 sealing, the marijuana summary pardon, the regular pardon, DUI sealing, deferred-imposition routes and nonconviction closing were read only to measure separation, and none was altered or merged.",
+    "noQuantitiesWidened": "The one-ounce and two-gram thresholds are unchanged, the two-year subsequent-conviction condition is unchanged, and first offence was not converted into a generic clean-record requirement.",
+    "noPaymentOpened": "No rule was removed, so no gate was loosened. Payment remains closed on this route and on its neighbours."
+  },
+
+  "statusOfThisRecord": {
+    "stateChanged": "none",
+    "readThisFirst": "This is a scope determination that closes mostly as a pass. The specification already governs this route by its own statute; the one real contamination is in a shared screening mechanic and is routed rather than repaired."
+  },
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "createsTerminalStatus": false,
+  "productionTouched": false,
+  "commercialRoutesOpened": 0,
+  "opensAnyRoute": false,
+  "productionAuthorized": false,
+  "remainingReview": "Two items, both outside this lane. First, the shared route-fact-relevance sweep that puts other routes' waiting and exclusion rules into this route's deciding set. Second, the screening profile's inability to ask this route's own statutory facts — the quantity, the first-offence confirmation, the two-year condition and the entry of judgment — which is why four of the eight required cases cannot be distinguished at screening. Neither is a document or legal-content gap."
+}
