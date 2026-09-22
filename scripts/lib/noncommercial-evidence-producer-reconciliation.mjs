@@ -10,7 +10,7 @@ export const CAPTAIN = '4d00a1ffa16965290d55536787dca85981d0fced';
 export const FOOTER_COMMIT = '95ca90ba99de215d35dcbe06ddeb6528c42d8c7a';
 export const PROOF_ROOT = 'data/rcap-grade-a/mission-lock/task53-evidence-reconciliation';
 export const RECONCILIATION_PATH = `${PROOF_ROOT}/reconciliation.json`;
-export const RECONCILIATION_SHA256 = 'ff5c100d69d8b0188ff88d22492d27a1191427dcb602413b720108e7e697add1';
+export const RECONCILIATION_SHA256 = '4e8fab74c96e3ef7375f88dfcab8cd7b4f7734055b755e0074155da5328a76e9';
 export const APPROVAL_PATH = 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json';
 export const REGISTRY_PATH = 'data/rcap-grade-a/fulfillment-authority-registry.json';
 export const HELPER = { path: 'scripts/rcap-custom-pleading/court-facing-rows.mjs', sha256: 'e8e8c558d35cc8eb4e3511be8f83de0bfa79b8f4e8462b38b2f6334e71f06ce2' };
@@ -18,7 +18,9 @@ export const FAMILIES = Object.freeze([
   { familyId: 'ms-misd-addl-set', routeIds: ['MS:additional-justice-court-misdemeanor-relief-9-11-15-3','MS:additional-municipal-court-misdemeanor-relief-21-23-7-6'],
     builderPath: 'scripts/build-census-v1-ms-misd-addl-set.mjs', preSha256: 'cc66b9fb6092bb826a2cd91a829a8bb0e550242c71ec7564368f238cb210553f', postSha256: '7af4839430477a1dacac3c2ea184314c701f7ed16c635c1cb6b97a40427be838' },
   { familyId: 'wy_fel_1502-set', routeIds: ['WY:felony-conviction-expungement-w-s-7-13-1502'],
-    builderPath: 'scripts/build-census-v1-wy_fel_1502-set.mjs', preSha256: '5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76', postSha256: '57f9c4baf161581ed048805a0368f3cfb8363c4e7de4f7f864d86b892c94a91a' }
+    builderPath: 'scripts/build-census-v1-wy_fel_1502-set.mjs', preSha256: '5ff1ae7b72ad6d52281c68fc18b7431ba5ca2a2c974aa67f6de3dc6880b5bf76', postSha256: '57f9c4baf161581ed048805a0368f3cfb8363c4e7de4f7f864d86b892c94a91a' },
+  { familyId: 'il-prostitution-j-vacate-set', routeIds: ['IL:felony-prostitution-relief'],
+    builderPath: 'scripts/build-census-v1-il-prostitution-j-vacate-set.mjs', preSha256: '993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b', postSha256: '7a894298e4feb4a34fa68eac9976213c66a59a7e8508657b0e49361f35fb6962' }
 ]);
 export const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 export function pageCount(bytes) {

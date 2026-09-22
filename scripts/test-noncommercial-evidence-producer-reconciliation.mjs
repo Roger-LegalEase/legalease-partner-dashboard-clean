@@ -17,11 +17,11 @@ for(const family of FAMILIES){
   reconcileNoncommercialProducer({...input,routeId});
   assert.equal(digest(evidenceProducerBytes({...input,routeId})),family.preSha256,'historical PDF producer provenance retained');
  }
- const tag=family.familyId;
+ const tag=family.familyId, jurisdiction=family.routeIds[0].split(':')[0];
  const extra=Buffer.concat([read(family.builderPath),Buffer.from('\nconst unrelatedLegalChange = true;\n')]);
  deny(`${tag}: arbitrary extra builder edit`,()=>evaluate(proof,{[family.builderPath]:extra}));
  deny(`${tag}: extra builder edit past hash check`,()=>footerOnlyBuilderDelta(read(row.preBuilder.path),extra));
- const spec=proof.preservedFiles.find(f=>f.path.includes('packet-specifications/')&&f.path.includes(tag.startsWith('ms')?'/MS-':'/WY-'));
+ const spec=proof.preservedFiles.find(f=>f.path.includes('packet-specifications/')&&f.path.includes(`/${jurisdiction}-`));
  deny(`${tag}: legal specification changed`,()=>evaluate(proof,{[spec.path]:Buffer.concat([read(spec.path),Buffer.from(' ')])}));
  const count=structuredClone(proof);count.families.find(f=>f.identity.familyId===tag).renders[0].pageCount++;
  deny(`${tag}: page count changed`,()=>evaluate(count));
@@ -39,7 +39,7 @@ for(const family of FAMILIES){
  const review=JSON.parse(read(REGISTRY_PATH));review.records.find(r=>r.routeId===input.routeId).packetCompleteness.filingFormatArtifact.currentCommercialArtifactReview.state='pending_owner_review';
  deny(`${tag}: commercial review no longer approved`,()=>evaluate(proof,{[REGISTRY_PATH]:Buffer.from(JSON.stringify(review))}));
  deny(`${tag}: owner approval moved`,()=>evaluate(proof,{[APPROVAL_PATH]:Buffer.concat([read(APPROVAL_PATH),Buffer.from(' ')])}));
- const map=proof.preservedFiles.find(f=>f.path.includes(tag.startsWith('ms')?'/ms/':'/wy/')&&f.path.endsWith('production-field-map.json'));
+ const map=proof.preservedFiles.find(f=>f.path.includes(`/${jurisdiction.toLowerCase()}/`)&&f.path.endsWith('production-field-map.json'));
  deny(`${tag}: field map/execution ownership changed`,()=>evaluate(proof,{[map.path]:Buffer.concat([read(map.path),Buffer.from(' ')])}));
  const classification=JSON.parse(read(REGISTRY_PATH));classification.records.find(r=>r.routeId===input.routeId).packetCompleteness.filingFormatArtifact.isCurrentCommercialArtifact=true;
  deny(`${tag}: noncommercial classification flipped`,()=>evaluate(proof,{[REGISTRY_PATH]:Buffer.from(JSON.stringify(classification))}));
