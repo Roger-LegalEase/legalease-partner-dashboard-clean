@@ -406,16 +406,48 @@ if (fs.existsSync(path.join(rootDir, verificationClientPath))) {
     checkout: false,
     generation: null
   }, "unverified protected matters expose no commerce or generation action");
+  // Brought forward on 2026-09-22 for task #52. This asserted that verification
+  // alone exposed Checkout. That is exactly the defect #52 was commissioned to
+  // remove: the participant CTA must follow server authority, not the
+  // evaluator's own paymentAllowed. The assertion is therefore strengthened
+  // rather than relaxed -- it now pins BOTH directions, so a regression that
+  // re-widened checkout would fail here again.
   assert.deepEqual(packetVerificationActions({ verified: true, packetReady: false, mode: "consumer" }), {
+    openPacket: false,
+    checkout: false,
+    generation: null
+  }, "a verified consumer matter WITHOUT server checkout authority exposes no Checkout");
+  assert.deepEqual(packetVerificationActions({
+    verified: true, packetReady: false, mode: "consumer",
+    commercialActions: { checkoutAllowed: true }
+  }), {
     openPacket: false,
     checkout: true,
     generation: null
-  }, "only a verified consumer matter without Ready access exposes Checkout");
+  }, "only server-granted checkout authority exposes Checkout");
+  assert.deepEqual(packetVerificationActions({
+    verified: true, packetReady: true, mode: "consumer",
+    commercialActions: { checkoutAllowed: true }
+  }), {
+    openPacket: true,
+    checkout: false,
+    generation: null
+  }, "an already-Ready consumer matter exposes the packet, never a second Checkout");
+  // Also brought forward for #52: generation now follows server authority too,
+  // so the no-authority case is pinned first and the granted case second.
   assert.deepEqual(packetVerificationActions({ verified: true, packetReady: true, mode: "paid" }), {
     openPacket: true,
     checkout: false,
+    generation: null
+  }, "paid Ready access stays open but offers no generation without server authority");
+  assert.deepEqual(packetVerificationActions({
+    verified: true, packetReady: true, mode: "paid",
+    commercialActions: { generationAllowed: true }
+  }), {
+    openPacket: true,
+    checkout: false,
     generation: { mode: "paid_durable", label: "Prepare updated packet" }
-  }, "paid Ready access remains open while updated generation is explicit");
+  }, "paid Ready access remains open while updated generation is explicit and server-granted");
   assert.deepEqual(packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored" }), {
     openPacket: true,
     checkout: false,
@@ -424,8 +456,16 @@ if (fs.existsSync(path.join(rootDir, verificationClientPath))) {
   assert.deepEqual(packetVerificationActions({ verified: true, packetReady: false, mode: "sponsored" }), {
     openPacket: false,
     checkout: false,
+    generation: null
+  }, "sponsored generation is not offered without server authority either");
+  assert.deepEqual(packetVerificationActions({
+    verified: true, packetReady: false, mode: "sponsored",
+    commercialActions: { generationAllowed: true }
+  }), {
+    openPacket: false,
+    checkout: false,
     generation: { mode: "sponsored_sync" }
-  }, "verified sponsored generation remains separate from consumer Checkout");
+  }, "verified sponsored generation remains separate from consumer Checkout, and still never exposes Checkout");
 
   let verificationRequest = null;
   const verificationResponse = await requestPacketVerification({
@@ -445,12 +485,21 @@ if (fs.existsSync(path.join(rootDir, verificationClientPath))) {
     answers: { court: "Hinds County Circuit Court" },
     verify: true
   }, "the real protected client sends the exact explicit-verification payload");
+  // Brought forward for #52: the verification response now carries the
+  // server-owned commercial authority block. It is pinned here rather than
+  // loosened out of the equality, so a server that started handing back
+  // permissive defaults would fail this control.
   assert.deepEqual(verificationResponse, {
     ok: true,
     readyToGenerate: true,
     reviewReason: null,
-    missingInputIds: []
-  });
+    missingInputIds: [],
+    commercialActions: {
+      checkoutAllowed: false,
+      fulfillmentAvailable: false,
+      generationAllowed: false
+    }
+  }, "verification returns server-owned authority, and it defaults closed when the server states nothing");
 }
 
 async function exerciseBuilderRoute(item, protectedVerification) {
@@ -464,7 +513,16 @@ async function exerciseBuilderRoute(item, protectedVerification) {
     },
     "@/lib/expungement-ai/briefcase-presentation-authority": {
       protectedPacketVerificationSeedFromTrustedSource: () => null,
-      readTrustedBriefcasePresentationSource: async () => ({ ok: false, reason: "not_expected_in_seeded_test" })
+      readTrustedBriefcasePresentationSource: async () => ({ ok: false, reason: "not_expected_in_seeded_test" }),
+      // Added for #52, which routes the response's commercial authority through
+      // presentation. This seeded fixture has no Grade-A fulfillment record and
+      // no entitlement, so the faithful stand-in is authority closed on every
+      // axis -- the same refusal the real resolver returns with nothing to grant.
+      // Stubbing it open would make every downstream assertion here meaningless.
+      decorateBriefcaseItemForPresentation: async ({ item }) => ({
+        ...item,
+        commercialActions: { checkoutAllowed: false, fulfillmentAvailable: false, generationAllowed: false }
+      })
     },
     "@/lib/expungement-ai/packet-information": { packetInformationPatch, protectedPacketInformationModelFor },
     "@/lib/expungement-ai/verification-cas": {
