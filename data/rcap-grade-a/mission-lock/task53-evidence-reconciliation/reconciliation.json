@@ -454,6 +454,68 @@
       },
       "deliveryProviderEvidencePath": "data/rcap-render/worker-publication-evidence.json",
       "deliveryProviderEvidenceSha256": "b5a0ffd123f96d0011f200991ee7729ce4541e154c2f9e2cd47068a60f87cebf"
+    },
+    {
+      "routeId": "IL:felony-prostitution-relief",
+      "packetFamilyId": "il-prostitution-j-vacate-set",
+      "isCurrentCommercialArtifact": false,
+      "currentCommercialArtifactReview": {
+        "state": "approved",
+        "composedBy": "rcap_grade_a_composer_v1 -> buildGradeAArtifact -> composeGradeAPacket -> assembleParticipantPacket, from the current packet specification",
+        "approval": {
+          "path": "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json",
+          "sha256": "f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5",
+          "recordId": "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920",
+          "artifactSha256": "9f9f28401f89c79712689c645826c6e53486412e7254b79a6c38fd027ed6a04e",
+          "artifactPageCount": 9,
+          "decidedAt": "2026-09-20",
+          "owner": "Roger Roman",
+          "boundToCommit": "ed7356a733b5f47976e012c9ba386f0a021057ca",
+          "boundToBatchSha256": "5166d9159e7d4ff111c36a264b224d7760e47356ee119cdefa6ac3abe44c82ee",
+          "boundToVisualReviewSha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29",
+          "approvedArtifacts": [
+            {
+              "artifactId": "full-en",
+              "variant": "full",
+              "locale": "en",
+              "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/il-felony-prostitution-full-en.pdf",
+              "sha256": "9f9f28401f89c79712689c645826c6e53486412e7254b79a6c38fd027ed6a04e",
+              "pageCount": 9
+            },
+            {
+              "artifactId": "court-only",
+              "variant": "court_only",
+              "locale": "en",
+              "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/il-felony-prostitution-court-only.pdf",
+              "sha256": "6e201b2537cdf036748802e5b715efe1f0732b423928facf31fd5109cc937eed",
+              "pageCount": 4
+            },
+            {
+              "artifactId": "full-es",
+              "variant": "full",
+              "locale": "es",
+              "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/il-felony-prostitution-full-es.pdf",
+              "sha256": "b216432ddc58cb57ea446a695713b76e286e9d6805b0c5ce66ff2e080fa45b26",
+              "pageCount": 11
+            }
+          ]
+        },
+        "why": "The reviewed artifact d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657 was produced by scripts/build-census-v1-il-prostitution-j-vacate-set.mjs@sha256:993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b, which is not the current commercial provider, so it is an adopted artifact and not the packet a participant receives. What the participant receives is composed at delivery, and OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920 approves those exact composed bytes -- bound to commit ed7356a733b5f47976e012c9ba386f0a021057ca, to the Item 13B batch, to the page-by-page visual review, and to each artifact's own digest. This closes the composed-artifact question and nothing else: every other gate on this route still applies."
+      },
+      "provider": {
+        "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
+        "rendererKind": "packet_document_v1",
+        "rendererVersion": "1.0.0",
+        "imageDigest": "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f"
+      },
+      "deliveryProvider": {
+        "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
+        "rendererKind": "packet_document_v1",
+        "rendererVersion": "1.0.0",
+        "imageDigest": "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f"
+      },
+      "deliveryProviderEvidencePath": "data/rcap-render/worker-publication-evidence.json",
+      "deliveryProviderEvidenceSha256": "b5a0ffd123f96d0011f200991ee7729ce4541e154c2f9e2cd47068a60f87cebf"
     }
   ],
   "filingFormatBindings": [
@@ -794,6 +856,18 @@
   ],
   "preservedFiles": [
     {
+      "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/production-field-map.json",
+      "sha256": "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/reports/rendered-artifacts.json",
+      "sha256": "7ce6ea98750384141c60ca62350e647dd94f34bf31cf39903baa6cae594c0e47"
+    },
+    {
+      "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/source-receipt.json",
+      "sha256": "e55fd8fa329a0502c936b7783e47195bc5a8462c9ee83fca6902651627fd6f77"
+    },
+    {
       "path": "data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/production-field-map.json",
       "sha256": "826f3ca14f6054056647ae5df8791159c9a5fdc4fc9f288fb6b65f3786394098"
     },
@@ -830,6 +904,10 @@
       "sha256": "bd248b2aa8fb84e57893f4c5695733816fb9db24eb20d1c693edd8a97b0f1c29"
     },
     {
+      "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_IL_VACATUR_2026-09-14.json",
+      "sha256": "6d0a4760360f036b7c163f07c9410c3706bcdef3ce1fc69cd33061609536ae34"
+    },
+    {
       "path": "data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_MS_ADDITIONAL_MISDEMEANOR_2026-09-14.json",
       "sha256": "9c04b146893f71d09cbf043317a6af6147a31dbe40395ab362ada8a2509abddd"
     },
@@ -850,12 +928,20 @@
       "sha256": "189a7e9616d8114b540ffcede6372c1794583c67e2136dcfba418b5722ab0043"
     },
     {
+      "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json",
+      "sha256": "52a4c3169cd0e575e1441fae7a104d5f707cb12d5855b87bf59193a17409cbc6"
+    },
+    {
       "path": "data/rcap-grade-a/participant-data-rights/artifact-successor-20260914/ms-independent-verification.json",
       "sha256": "058fcf673ba8881e89d0da47511471886ef1d02365b4bcbc9b52d7988866b199"
     },
     {
       "path": "data/rcap-render/worker-publication-evidence.json",
       "sha256": "b5a0ffd123f96d0011f200991ee7729ce4541e154c2f9e2cd47068a60f87cebf"
+    },
+    {
+      "path": "data/record-clearing/legal-design-intake/IL.memo.json",
+      "sha256": "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
     },
     {
       "path": "data/record-clearing/legal-design-intake/MS.memo.json",
@@ -868,6 +954,10 @@
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
       "sha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0"
+    },
+    {
+      "path": "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+      "sha256": "ad588e077ef31a839622bdc65e6279b7f2e69293a8c0b9a659ef3da809a48bc8"
     },
     {
       "path": "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
@@ -1059,6 +1149,97 @@
             "sha256": "883e60d10dc6f0dff4866cf185b50d0cbdddb230f5718a21c2772c9c808d70f2"
           },
           "pageCount": 8
+        }
+      ]
+    },
+    {
+      "identity": {
+        "familyId": "il-prostitution-j-vacate-set",
+        "routeIds": [
+          "IL:felony-prostitution-relief"
+        ],
+        "builderPath": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+        "preSha256": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b",
+        "postSha256": "7a894298e4feb4a34fa68eac9976213c66a59a7e8508657b0e49361f35fb6962"
+      },
+      "preBuilder": {
+        "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/pre-builder.mjs",
+        "sha256": "993d2c189284d57259b6d2a2f288e5d91050061d63dc557072dc346b235e741b"
+      },
+      "postBuilder": {
+        "path": "scripts/build-census-v1-il-prostitution-j-vacate-set.mjs",
+        "sha256": "7a894298e4feb4a34fa68eac9976213c66a59a7e8508657b0e49361f35fb6962"
+      },
+      "auxiliaryEvidence": [
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/before/reports/rendered-artifacts.json",
+          "sha256": "7ce6ea98750384141c60ca62350e647dd94f34bf31cf39903baa6cae594c0e47"
+        },
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/before/production-field-map.json",
+          "sha256": "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8"
+        },
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/before/reports/blanks-left-for-the-participant.json",
+          "sha256": "49b626c821657352a40c8966c74c2a8137ad7277340961c36ccaa63b943bb927"
+        },
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/before/reports/actual-writes.json",
+          "sha256": "3129b7d7048b6dc207ad33c9579be76f801abe28055887eb2578b193dee71776"
+        },
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/after/reports/rendered-artifacts.json",
+          "sha256": "19b7a7afb3a9c99fdd96022a868774ccfe5d75455627a9c88f72ec07c691b212"
+        },
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/after/production-field-map.json",
+          "sha256": "98dd21ad067761c64b2b58149bf307e7188b60c8892fc6578a22383725ec7de8"
+        },
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/after/reports/blanks-left-for-the-participant.json",
+          "sha256": "49b626c821657352a40c8966c74c2a8137ad7277340961c36ccaa63b943bb927"
+        },
+        {
+          "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/after/reports/actual-writes.json",
+          "sha256": "3129b7d7048b6dc207ad33c9579be76f801abe28055887eb2578b193dee71776"
+        }
+      ],
+      "renders": [
+        {
+          "fixture": "canonical",
+          "baseline": {
+            "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/canonical.pdf",
+            "sha256": "d4cb765983ed2ed180a74feb1a70b7b5cc43134419b2c497746d8fd188bd2657",
+            "byteLength": 7895,
+            "pageCount": 3
+          },
+          "technical": {
+            "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/after/fixtures/canonical.pdf",
+            "sha256": "cbd73f4bc88371ae2f2062cbb94ba4533666f640aba567e7e7936b41ced24e30"
+          },
+          "comparison": {
+            "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/canonical-comparison.json",
+            "sha256": "2209e6ce2d66997782fa44c2d7ca14b113fdebb7e4084d422919e50aa97b11a0"
+          },
+          "pageCount": 3
+        },
+        {
+          "fixture": "boundary",
+          "baseline": {
+            "path": "data/rcap-all50/overlays/census-v1/il/il-prostitution-j-vacate-set--custom-pleading/fixtures/boundary.pdf",
+            "sha256": "ea728bba06d2112537e99846f12d78a1c3d7f49eb8ae0f101a94291920bbf25e",
+            "byteLength": 8073,
+            "pageCount": 3
+          },
+          "technical": {
+            "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/after/fixtures/boundary.pdf",
+            "sha256": "4e46cf7c1227c5f6dafaaf2cf061337d01460fa644a5e0079c001e3d2d2a5bb0"
+          },
+          "comparison": {
+            "path": "data/rcap-grade-a/mission-lock/task53-evidence-reconciliation/il-prostitution-j-vacate-set/boundary-comparison.json",
+            "sha256": "76e502efe686c5435726a96eaa5d0891a6c0cf30bf3b8a5b938cbf10f6b67798"
+          },
+          "pageCount": 3
         }
       ]
     }
