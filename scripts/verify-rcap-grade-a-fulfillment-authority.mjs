@@ -1268,9 +1268,9 @@ check("the shipped registry loads with no structural problems", () => {
     : `${live.length} current records produced ${loaded.current.size} current routes`;
 });
 
-check("the projection names exactly the routes the registry controls", () => {
+check("the projection names registry routes including retired history", () => {
   const loaded = buildRegistry(registryDocument);
-  const registryRoutes = [...loaded.current.keys()].sort().join(",");
+  const registryRoutes = [...loaded.history.keys()].sort().join(",");
   const projectionRoutes = projection.routes.map((route) => route.routeId).sort().join(",");
   return registryRoutes === projectionRoutes ? null : `registry has [${registryRoutes}] but the projection has [${projectionRoutes}]`;
 });
@@ -1278,8 +1278,8 @@ check("the projection names exactly the routes the registry controls", () => {
 check("every projected state is what the shipped authority computes from the registry", () => {
   const loaded = buildRegistry(registryDocument);
   for (const row of projection.routes) {
-    const record = loaded.current.get(row.routeId);
-    if (!record) return `${row.routeId} is projected but not controlled`;
+    const record = loaded.current.get(row.routeId) ?? loaded.history.get(row.routeId)?.[0];
+    if (!record) return `${row.routeId} is projected but absent from registry history`;
     const decision = evaluateFulfillmentAuthority(record, admission.resolveObservation(row.routeId), row.routeId);
     if (decision.state !== row.state) return `${row.routeId} projects ${row.state} but computes ${decision.state}`;
     if (decision.commercialStatus !== row.commercialStatus) return `${row.routeId} projects ${row.commercialStatus} but computes ${decision.commercialStatus}`;

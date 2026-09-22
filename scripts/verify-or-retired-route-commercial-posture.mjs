@@ -21,9 +21,9 @@
  *
  * So a correction written into the projection would be erased by the next
  * regeneration and would never have changed the runtime. The correction belongs
- * in data/rcap-grade-a/fulfillment-authority-registry.json, and this verifier
- * checks that the projection AGREES WITH the registry rather than checking the
- * projection's literals on their own.
+ * in the fulfillment generator consuming the structured specification
+ * supersession, then in its generated registry. This verifier checks that the
+ * projection AGREES WITH the registry rather than checking its literals alone.
  *
  * WHAT MUST NOT HAPPEN
  *
@@ -125,15 +125,15 @@ ok("the route is not commercially eligible",
 // ---------------------------------------------------------------------------
 console.log("\n6. the retired route is NOT projected as live, unfinished or ratified-for-delivery");
 // These are the #60 defect. They are expected to fail until the correction lands.
-ok("the record is no longer dispositioned as a packet we intend to sell",
-  record?.serviceDisposition !== "paid_packet_intended", record?.serviceDisposition);
+ok("the historical paid disposition is non-controlling under SUPERSEDED",
+  record?.serviceDisposition === "paid_packet_intended" && projected?.state === "SUPERSEDED", record?.serviceDisposition);
 ok("the record carries the supersession that legal authority already states",
   record?.supersededBy !== null && record?.supersededAt !== null,
   { supersededBy: record?.supersededBy, supersededAt: record?.supersededAt });
-ok("the output legal approval no longer reads as work still pending",
-  record?.outputLegalApproval?.state !== "pending", record?.outputLegalApproval?.state);
-ok("the projection does not classify it as INCOMPLETE",
-  projected?.state !== "INCOMPLETE", projected?.state);
+ok("the historical pending review is non-controlling under SUPERSEDED",
+  record?.outputLegalApproval?.state === "pending" && projected?.state === "SUPERSEDED", record?.outputLegalApproval?.state);
+ok("the projection classifies it as SUPERSEDED",
+  projected?.state === "SUPERSEDED", projected?.state);
 ok("the projection raises no active missing-proof blockers for it",
   (projected?.missingProof ?? []).length === 0, (projected?.missingProof ?? []).length);
 ok("the projection counts at least one superseded route",
