@@ -211,12 +211,25 @@ jobs:
           # Service inspection makes no image/application acceptance claim.
           # Every other phase retains the existing image-equivalence refusals.
           if [ "${{ inputs.phase }}" != "preflight" ] && [ "${{ inputs.phase }}" != "vercel_identity" ]; then
-            # This server-only post-claim Clinic binding is not imported by the
-            # render worker. It is the one measured application repair in this
-            # Preview; every actual worker input remains byte-compared below.
-            git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src data/record-clearing/supplemental-guides data/record-clearing/brand/legalease-logo.png ':(exclude)src/lib/clinic-mode/result-follow-up.ts' \
+            # Worker equivalence is decided by the canonical resolver, not by a
+            # path list maintained here. The previous hand-written comparison
+            # omitted Dockerfile.dockerignore and every Docker COPY-derived
+            # input, so it could report no drift while the planner required a
+            # rebuild. It also carried ':(exclude)src/lib/clinic-mode/result-follow-up.ts',
+            # added for one Preview on the reasoning that the render worker does
+            # not import that module. The Dockerfile COPYs src/ wholesale and the
+            # dockerignore does not exclude it, so the file ships in the image:
+            # not importing it at runtime does not make the image bytes equal.
+            # A hosted-only exemption the canonical resolver does not recognise
+            # is exactly how a changed input disappears from a release decision,
+            # so it is gone rather than carried forward.
+            node scripts/verify-rcap-worker-input-equivalence.mjs \
+              --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.application_sha }}" \
+              --label "accepted worker source -> final application" \
               || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
-            git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src data/record-clearing/supplemental-guides data/record-clearing/brand/legalease-logo.png \
+            node scripts/verify-rcap-worker-input-equivalence.mjs \
+              --base "${{ inputs.application_sha }}" --head "${{ inputs.tools_sha }}" \
+              --label "final application -> workflow tools" \
               || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           fi
           git checkout --detach "${{ inputs.tools_sha }}"

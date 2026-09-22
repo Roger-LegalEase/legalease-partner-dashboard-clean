@@ -403,9 +403,18 @@ jobs:
           # application SHA's bytes, and the worker fingerprint is unchanged.
           git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
-          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+          # Worker equivalence is decided by the canonical resolver. The list
+          # this step used to carry named seven paths and omitted
+          # Dockerfile.dockerignore, the supplemental guides, the brand asset
+          # and every Docker COPY-derived input, so it could report no drift
+          # while the planner required a rebuild.
+          node scripts/verify-rcap-worker-input-equivalence.mjs \
+            --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.application_sha }}" \
+            --label "accepted worker source -> final application" \
             || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+          node scripts/verify-rcap-worker-input-equivalence.mjs \
+            --base "${{ inputs.application_sha }}" --head "${{ inputs.tools_sha }}" \
+            --label "final application -> workflow tools" \
             || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           git checkout --detach "${{ inputs.tools_sha }}"
 

@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { workerInputEquivalence } from "./verify-rcap-worker-input-equivalence.mjs";
 
 const root = process.cwd();
 const gatePath = path.join(root, "scripts/rcap-hosted-checkout-gate.mjs");
@@ -300,6 +301,12 @@ const paymentStep = hosted.match(/- name: Run the hosted Stripe payment and pack
 check(Boolean(paymentStep), "could not locate the legacy payment step");
 check(!paymentStep.includes("checkout_gate"), "checkout_gate must never run the legacy simulated payment journey");
 
+function headSha() {
+  const run = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" });
+  if (run.status !== 0) throw new Error(`git rev-parse HEAD failed: ${String(run.stderr ?? "").trim()}`);
+  return run.stdout.trim();
+}
+
 function gitDiffQuiet(baseSha, paths) {
   const run = spawnSync("git", [
     "diff", "--quiet",
@@ -326,10 +333,28 @@ check(gitDiffQuiet(RELEASE_CONTROL_BASE_SHA, [
 // Worker inputs are compared against the source the accepted image was built
 // from, so a candidate that silently moved a canonical worker input could not
 // keep pinning the published digest.
-check(gitDiffQuiet(ACCEPTED_WORKER_SOURCE_SHA, [
-  "package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs",
-  "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"
-]), "checkout-gate branch changes frozen worker inputs");
+//
+// The path set comes from the canonical resolver, not from this file. The seven
+// paths listed here previously were a subset of it: Dockerfile.dockerignore,
+// the supplemental guides, the brand asset and every Docker COPY-derived input
+// were absent, so this check could report the frozen worker inputs unchanged
+// while createWorkerInputPlan required a rebuild. Asking the resolver also
+// means a later Dockerfile COPY is covered here the day it is added, with no
+// edit to this list -- because there is no longer a list.
+const canonicalWorkerInputs = (() => {
+  try {
+    return workerInputEquivalence(root, ACCEPTED_WORKER_SOURCE_SHA, headSha()).comparedInputs;
+  } catch (error) {
+    failures.push(`the canonical worker-input closure could not be resolved: ${error.message}`);
+    return null;
+  }
+})();
+check(Boolean(canonicalWorkerInputs) && canonicalWorkerInputs.length > 0,
+  "the canonical worker-input closure is empty or unavailable");
+if (canonicalWorkerInputs?.length) {
+  check(gitDiffQuiet(ACCEPTED_WORKER_SOURCE_SHA, canonicalWorkerInputs),
+    "checkout-gate branch changes frozen worker inputs");
+}
 
 includesEvery(gate, [
   "storedRows.length === 1", "stored.id === itemId", "stored.user_id === A.id",

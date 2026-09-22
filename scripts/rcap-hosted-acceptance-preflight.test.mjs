@@ -143,9 +143,15 @@ test("Supabase-only preflight neither requires nor accesses Vercel", () => {
 test("service-only exception cannot admit a mutation phase with changed worker inputs", async () => {
   const { spawnSync } = await import('node:child_process');
   const guarded = hostedWorkflow.slice(hostedWorkflow.indexOf('          if [ "${{ inputs.phase }}" != "preflight" ] && [ "${{ inputs.phase }}" != "vercel_identity" ]; then'), hostedWorkflow.indexOf('          git checkout --detach'));
-  assert.ok(guarded.includes('git diff --quiet'));
+  // The guard's worker comparison moved from an inline `git diff --quiet` to
+  // the canonical equivalence control, so the refusal now arrives through that
+  // command. Both are stubbed to fail: what this test asserts is the GUARD --
+  // a failing verification must stop every mutation phase and no phase outside
+  // preflight/vercel_identity may skip it -- not which command verifies.
+  assert.match(guarded, /verify-rcap-worker-input-equivalence\.mjs/);
+  assert.doesNotMatch(guarded, /git diff --quiet[^\n]*worker_source_sha/);
   for (const phase of ['preflight','vercel_identity','deploy','replace_preview','accept','full','payment','browser','clinic_preview','clinic_migrate','migrate','stripe_retarget','checkout_gate','worker_contract','unknown']) {
-    const script = 'set -e\ngit() { return 1; }\n' + guarded.replaceAll('${{ inputs.phase }}', phase).replaceAll(/\$\{\{ inputs\.[a-z_]+ \}\}/g,'a'.repeat(40));
+    const script = 'set -e\ngit() { return 1; }\nnode() { return 1; }\n' + guarded.replaceAll('${{ inputs.phase }}', phase).replaceAll(/\$\{\{ inputs\.[a-z_]+ \}\}/g,'a'.repeat(40));
     const result = spawnSync('bash',['-c',script],{encoding:'utf8'});
     assert.equal(result.status === 0, ['preflight','vercel_identity'].includes(phase),phase);
   }
