@@ -27,8 +27,8 @@
   "originalPublicationPath": null,
   "originalArchivePath": null,
   "originalPublicationSource": "Publication run 35769217594, dispatched at workflow ref captain-release. Inputs: integration_sha fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e, resolve_from_ref captain-release, tag_replacement_authorization EMPTY. All sixteen steps concluded success, including step 5 (the SHA belongs to the canonical integration history), step 6 (check out the exact supplied SHA) and both source-SHA tag guards -- step 9 before login and step 12 at the last point before pushing -- so the tag for this source was created rather than replaced. The workflow DEFINITION executed from Captain 0961a7d534b05d47d83d614d07ef7ebd0511cd18, which is the freeze receipt commit and is NOT the worker source; the image was built from the detached checkout of fe2457a71.",
-  "registryPullByDigestStatus": "not_yet_established_for_this_digest",
-  "runtimeAccepted": false,
+  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
+  "runtimeAccepted": true,
   "authorization": "Roger authorization (2026-09-22), AUTHORIZED - PUBLISH THE SUCCESSOR WORKER: exactly ONE worker publication from fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e, the SUCCESSOR_APPLICATION_FREEZE, explicitly NOT from Captain HEAD 0961a7d53 which is the freeze receipt only. Build, push one full-SHA tag, obtain the immutable digest, record evidence, then run the read-only image acceptance. Explicitly NOT authorized and not performed: Vercel deployment, staging deployment, production deployment, worker claiming, Supabase migration, participant mutation, Stripe charge, webhook retarget, production worker promotion. The final release tuple is deliberately NOT rebound here: the hosted and F1 accepted-worker constants, the Checkout gate pins, RELEASE_CANDIDATE_BINDING.json, HOSTED_TOOLS_BINDING.json and the production pins are untouched by this record.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
@@ -305,9 +305,14 @@
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
-  "imageAcceptanceAttempts": [],
+  "imageAcceptanceAttempts": [
+    {
+      "runId": 35769776831,
+      "conclusion": "success"
+    }
+  ],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Established for the superseded digest by acceptance run 35751543666. Not yet re-established for this digest; the acceptance run for sha256:a22ad855 will prove it or refuse.",
+  "packageVisibilityEvidence": "Proved for THIS digest by acceptance run 35769776831: the anonymous token was refused with HTTP 401, and the authenticated pull by immutable digest succeeded.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
@@ -316,7 +321,36 @@
     "configDigest": null,
     "note": "Not read back for this digest yet. Left null rather than restated from the superseded publication."
   },
-  "imageAcceptance": null,
+  "imageAcceptance": {
+    "runId": 35769776831,
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831",
+    "runAttempt": 1,
+    "conclusion": "success",
+    "acceptedAt": "2026-09-22T18:54:20Z",
+    "acceptedAtCommit": "0fda351646cd5a11688ea3cca3d8f529969438ea",
+    "subjectTakenFrom": "committed publication evidence; no digest was supplied by hand. The run echoed: accepting ghcr.io/roger-legalease/rcap-render-worker@sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905 built from fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+    "digest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+    "tag": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+    "readOnly": true,
+    "properties": {
+      "tagResolvesToExpectedDigest": true,
+      "authenticatedPullByDigest": true,
+      "anonymousPullRefused": true,
+      "tagAndDigestAreTheSameImage": "both pulls resolved to the same local image id sha256:9f42fbed0c75cc4d3c89cc78cdbd5cb877143b29c5dd623ebe0af60c08298c8b; RepoDigests carries the expected digest",
+      "sourceBindingExceptionExactlyOneDigestWide": true,
+      "sourceBinding": "PASSED ON THE NORMAL PATH, with no exception in force. verify-rcap-worker-image-revision read the pulled image and reported org.opencontainers.image.revision = fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e, SOURCE BINDING: PASS, OCI REVISION: PRESENT. The retired exception record names neither the accepted source nor the digest under acceptance, and its 17/17 mutation controls all caught.",
+      "runsAsNonRoot": true,
+      "healthcheckDeclaredAndSucceeds": "CMD-SHELL node -e \"process.exit(0)\"",
+      "failsClosedWithoutCredentials": "exit 2 with: rcap-render-worker: Supabase is not configured; the worker has no storage or queue to run against. No claim, render or finalize output.",
+      "gracefulShutdownOnSigterm": "worker_stop_requested -> worker_stopped -> shutdown_complete, SIGTERM, 10 cycles",
+      "scratchDirectory": "present, owned by rcapworker, empty and writable",
+      "secretScanPositiveAndNegativeControls": "the pattern catches a credential-shaped string and ignores prefix-only policy code",
+      "filesystemSecretScan": "clean",
+      "configAndHistorySecretScan": "config env matches 0; layer history matches 0",
+      "deployedNothingClaimedNothing": "acceptance is read-only: no push, no deploy, no claim"
+    },
+    "evidenceLimit": "All twenty steps concluded success on attempt 1. The literal output line of step 12 (non-root) falls outside the retrievable job-log window; that property is reported from the step conclusion plus the step script's own conditions, which require both the declared image USER and the effective whoami to equal rcapworker. Every other property above is quoted from the run log."
+  },
   "previousImageAcceptance": {
     "runId": 35751543666,
     "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35751543666",
