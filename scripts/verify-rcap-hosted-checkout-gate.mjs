@@ -42,9 +42,11 @@ function includesEvery(text, values, label) {
  * The immutable release freeze the candidate is measured against.
  *
  * All three name the SAME commit now, because the current accepted worker was
- * built from exactly that tree: publication run 35538783807 recorded
- * sourceSha 117b469c4, and the Dockerfile and lockfile digests in its artifact
- * were reproduced from that tree before anything was bound to the image.
+ * built from exactly that tree: publication run 35750246888 recorded
+ * sourceSha 8eb8ddc9d, the Grade-A application freeze, and read-only image
+ * acceptance run 35751543666 then proved that digest against the registry --
+ * tag resolution, authenticated pull by digest, anonymous refusal, source
+ * binding, fail-closed startup and both secret scans.
  *
  * WHY THIS IS NOT THE BRANCH TIP, AND MUST NEVER BE
  *
@@ -53,22 +55,24 @@ function includesEvery(text, values, label) {
  * freeze at the tip and they compare the candidate with itself: both go green
  * while asking nothing, which is worse than deleting them, because a green
  * check is read as an answer. Acceptance legitimately runs from a LATER commit
- * than the freeze -- 09bcf84f1 and after carry publication evidence, pins and
- * register text -- and the question "has anything canonical moved since
- * 117b469c4" is exactly what makes pinning that earlier digest honest.
+ * than the freeze -- the publication receipt, the acceptance receipt and the
+ * release bindings are all committed after it, because a worker built FROM the
+ * freeze cannot have its receipt inside the freeze -- and the question "has
+ * anything canonical moved since 8eb8ddc9d" is exactly what makes pinning that
+ * earlier digest honest.
  *
  * So this is updated only when a new worker image is published and bound, and
  * only to the source SHA that image was actually built from.
  *
  * Superseded, and kept here as history rather than as authority: the
- * 4e16d6d8e / c88f10341 / sha256:df6c2965… tuple, which by 2026-09-20 was 599
- * and 601 commits behind the candidate with a digest three publications old.
- * It had been failing this file since long before the Mississippi owner
- * decision; it governs nothing now.
+ * 117b469c4 / sha256:9faa24e8… tuple, correct for its own source and retired
+ * because the freeze moved 37 canonical worker inputs past it; and before it
+ * the 4e16d6d8e / c88f10341 / sha256:df6c2965… tuple. Neither governs
+ * anything now.
  */
-const RELEASE_CONTROL_BASE_SHA = "117b469c453a403fbd217f1c441a08c7c68f6b3a";
-const ACCEPTED_WORKER_SOURCE_SHA = "117b469c453a403fbd217f1c441a08c7c68f6b3a";
-const ACCEPTED_WORKER_DIGEST = "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f";
+const RELEASE_CONTROL_BASE_SHA = "8eb8ddc9d8525e7390453c9b7a64224b9651bc42";
+const ACCEPTED_WORKER_SOURCE_SHA = "8eb8ddc9d8525e7390453c9b7a64224b9651bc42";
+const ACCEPTED_WORKER_DIGEST = "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41";
 
 includesEvery(gate, [
   "applicationShaExact",

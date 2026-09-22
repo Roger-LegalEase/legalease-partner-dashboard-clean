@@ -55,27 +55,97 @@ for(const status of [401,403,429,500])test(`creation HTTP ${status} fails closed
 for(const changes of [{id:null},{id:'wrong'},{target:'production'},{target:undefined},{url:'evil.example'},{projectId:'prj_wrong'},{gitSource:{sha:'0'.repeat(40)}},{meta:{}},{readyState:'ERROR'}])test(`invalid creation response refuses ${JSON.stringify(changes)}`,async()=>{
   const o=fixture(),m=mock(o,{changes});await assert.rejects(createRestPreview(o,m));assert.equal(m.calls.length,1);
 });
-test('the frozen application pin names a tree that carries the accepted worker publication receipt',()=>{
-  // The pin is what tells Vercel which commit to build, so it is only truthful
-  // while the tree it names carries the receipt for the worker the deployment
-  // will run beside. Nothing asserted that before: when the accepted worker
-  // moved to a descendant of the pin, the pin and the entry workflow's
-  // "worker source is an ancestor of the application" guard became jointly
-  // unsatisfiable, and the contradiction surfaced only as a REST refusal in a
-  // dispatched acceptance run. This is that check, made locally and cheaply.
+// The old invariant read the publication receipt out of the FROZEN TREE and
+// required it to name the accepted worker. That is unsatisfiable for any
+// release whose worker is built FROM the freeze: the receipt is produced by a
+// run that happens after the application is frozen, so the frozen commit can
+// never contain it. It held only while the worker predated the application,
+// and the correct repair is the real lifecycle, not a newer application SHA.
+//
+//   frozen application  ->  worker published FROM it  ->  receipt committed after
+//
+// Held as data so the negative controls below mutate one fact and re-run the
+// same checks, rather than asserting the happy path and hoping.
+function frozenReleaseWorld(){
   const root=new URL('..',import.meta.url);
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
-  const accepted=JSON.parse(fs.readFileSync(new URL('./data/rcap-render/worker-publication-evidence.json',root),'utf8'));
-  assert.match(accepted.sourceSha,/^[0-9a-f]{40}$/);
-  assert.equal(accepted.workflowConclusion,'success');
-  assert.match(FROZEN_APPLICATION_SHA,/^[0-9a-f]{40}$/);
-  assert.equal(git(['cat-file','-t',FROZEN_APPLICATION_SHA]),'commit');
-  // The accepted worker source must already be in the pinned tree's history,
-  // which is exactly what rcap-f1-ephemeral-staging.yml independently requires.
-  git(['merge-base','--is-ancestor',accepted.sourceSha,FROZEN_APPLICATION_SHA]);
-  const pinned=JSON.parse(git(['show',`${FROZEN_APPLICATION_SHA}:data/rcap-render/worker-publication-evidence.json`]));
-  assert.equal(pinned.sourceSha,accepted.sourceSha);
-  assert.equal(pinned.immutableRegistryDigest,accepted.immutableRegistryDigest);
+  return {
+    git,
+    frozen:FROZEN_APPLICATION_SHA,
+    head:git(['rev-parse','HEAD']),
+    evidence:JSON.parse(fs.readFileSync(new URL('./data/rcap-render/worker-publication-evidence.json',root),'utf8')),
+    rootDir:new URL('.',root).pathname.replace(/\/$/,'')
+  };
+}
+
+async function frozenReleaseProblems(w){
+  const out=[];
+  const fail=(ok,message)=>{ if(!ok) out.push(message); };
+  const e=w.evidence;
+  fail(/^[0-9a-f]{40}$/.test(w.frozen),'the frozen application pin is not an exact 40-character SHA');
+  fail((()=>{ try{ return w.git(['cat-file','-t',w.frozen])==='commit'; }catch{ return false; } })(),'the frozen application pin is not a commit in this repository');
+
+  // The committed receipt must be for THIS application, and must be real.
+  fail(e.sourceSha===w.frozen,`the publication evidence names ${e.sourceSha}, not the frozen application ${w.frozen}`);
+  fail(e.workflowConclusion==='success','the publication evidence does not record a successful publication');
+  fail(/^sha256:[0-9a-f]{64}$/.test(String(e.immutableRegistryDigest)),'the publication evidence carries no well-formed immutable digest');
+  fail(Number.isInteger(e.workflowRunId)&&e.workflowRunId>0,'the publication evidence names no exact publication run');
+  fail(e.imageTag===e.sourceSha,'the published tag is not the full source SHA');
+  fail(e.mutableLatestTagCreated===false,'the publication created a mutable latest tag');
+  // The digest must be the one the rest of the record is about. Shape alone
+  // accepts any well-formed value, so a wrong-but-valid digest would otherwise
+  // pass every check here; these tie it to the reference and to the acceptance.
+  fail(String(e.digestPinnedReference).endsWith(`@${e.immutableRegistryDigest}`),
+    `the digest-pinned reference ${e.digestPinnedReference} does not name ${e.immutableRegistryDigest}`);
+  fail(String(e.imageReference)===`${e.imageRepository}:${e.imageTag}`,'the image reference does not name the repository and tag');
+  if(e.imageAcceptance){
+    fail(e.imageAcceptance.digest===e.immutableRegistryDigest,
+      'the recorded image acceptance is for a different digest than the publication evidence');
+    fail(e.imageAcceptance.conclusion==='success','the recorded image acceptance did not succeed');
+  }
+
+  // The worker was built from the freeze, so the published source and the
+  // application are the same commit and no rebuild can be outstanding.
+  const {createWorkerInputPlan}=await import('./rcap-hosted-acceptance-worker-input-plan.mjs');
+  let plan=null;
+  try{
+    plan=createWorkerInputPlan({rootDir:w.rootDir,candidateSha:w.frozen,
+      acceptedSourceSha:e.sourceSha,acceptedDigest:e.immutableRegistryDigest});
+  }catch(error){ fail(false,`the published source to frozen application plan could not be computed: ${error.message}`); }
+  if(plan) fail(plan.rebuildRequired===false,`the published worker source does not match the frozen application on canonical inputs: ${plan.changedPaths.join(', ')}`);
+
+  // A later commit may carry the receipt; it does not become the candidate.
+  fail((()=>{ try{ w.git(['merge-base','--is-ancestor',w.frozen,w.head]); return true; }catch{ return false; } })(),
+    'the frozen application is not an ancestor of HEAD');
+  let headPlan=null;
+  try{
+    headPlan=createWorkerInputPlan({rootDir:w.rootDir,candidateSha:w.head,
+      acceptedSourceSha:w.frozen,acceptedDigest:e.immutableRegistryDigest});
+  }catch(error){ fail(false,`the frozen application to HEAD plan could not be computed: ${error.message}`); }
+  if(headPlan) fail(headPlan.changedPaths.length===0,`canonical worker inputs moved after the freeze: ${headPlan.changedPaths.join(', ')}`);
+  return out;
+}
+
+test('the frozen application pin is the source the accepted worker was published from',async()=>{
+  const base=frozenReleaseWorld();
+  assert.deepEqual(await frozenReleaseProblems(base),[]);
+
+  // Negative controls. Each must be refused; a check that cannot fail is not a check.
+  const clone=()=>({...base,evidence:JSON.parse(JSON.stringify(base.evidence))});
+  const refusals=[
+    ['publication evidence for another source',w=>{ w.evidence.sourceSha='0'.repeat(40); }],
+    ['another digest',w=>{ w.evidence.immutableRegistryDigest='sha256:'+'0'.repeat(64); }],
+    ['a malformed digest',w=>{ w.evidence.immutableRegistryDigest='latest'; }],
+    ['a failed publication',w=>{ w.evidence.workflowConclusion='failure'; }],
+    ['no exact publication run',w=>{ w.evidence.workflowRunId=null; }],
+    ['a tag that is not the source SHA',w=>{ w.evidence.imageTag='latest'; }],
+    ['a mutable latest tag',w=>{ w.evidence.mutableLatestTagCreated=true; }],
+    ['another application SHA',w=>{ w.frozen='0'.repeat(40); }]
+  ];
+  for(const [label,mutate] of refusals){
+    const w=clone(); mutate(w);
+    assert.ok((await frozenReleaseProblems(w)).length>0,`${label}: must be refused`);
+  }
 });
 test('the frozen application pin is the application this tree releases, not an older one',async()=>{
   // The checks above are satisfied by any commit that carries a matching

@@ -52,10 +52,11 @@ const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_RETURN_ORIGIN = applicationShaExact ? expectedHostedReturnOrigin(APPLICATION_SHA) : "";
 const EXPECTED_RETURN_HOST = EXPECTED_RETURN_ORIGIN ? new URL(EXPECTED_RETURN_ORIGIN).host : "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-// Rebound again on 2026-09-20 to the image published from 117b469c4 by run
-// 35538783807, which is the worker the six approved routes are open on. The
-// superseded sha256:df6c2965… is history, not authority.
-const EXPECTED_WORKER_DIGEST = "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f";
+// Rebound on 2026-09-22 to the image published from the Grade-A application
+// freeze 8eb8ddc9d by run 35750246888 and proved against the registry by
+// read-only image acceptance run 35751543666. The superseded sha256:9faa24e8…
+// and sha256:df6c2965… are history, not authority.
+const EXPECTED_WORKER_DIGEST = "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",

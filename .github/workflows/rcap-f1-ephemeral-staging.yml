@@ -89,11 +89,14 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # The accepted worker tuple, rebound 2026-09-20 to the image published from
-  # 117b469c4 by run 35538783807. Superseded: c88f10341 / sha256:df6c2965…,
-  # which was 601 commits and three publications behind the candidate.
-  AUTHORIZED_WORKER_SOURCE_SHA: 117b469c453a403fbd217f1c441a08c7c68f6b3a
-  AUTHORIZED_WORKER_DIGEST: sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f
+  # The accepted worker tuple, rebound 2026-09-22 to the image published from
+  # the Grade-A application freeze 8eb8ddc9d by run 35750246888 and proved
+  # against the registry by read-only image acceptance run 35751543666. For
+  # this release the worker source and the application are the same commit.
+  # Superseded: 117b469c4 / sha256:9faa24e8…, retired because the freeze moved
+  # 37 canonical worker inputs past it; and before it c88f10341 / sha256:df6c2965…
+  AUTHORIZED_WORKER_SOURCE_SHA: 8eb8ddc9d8525e7390453c9b7a64224b9651bc42
+  AUTHORIZED_WORKER_DIGEST: sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
