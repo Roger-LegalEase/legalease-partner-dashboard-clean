@@ -34,7 +34,7 @@ import {
   resolvedFactValues,
   type PacketCollectionResolution
 } from "@/lib/expungement-ai/packet-collection";
-import { pathwayRelevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
+import { pathwayRelevantFactIds, routeDecidingFactScope } from "@/lib/rcap-engine/route-fact-relevance";
 
 export type PacketInformationStage = "not_started" | "in_progress" | "facts_complete" | "ready_to_generate";
 
@@ -649,8 +649,9 @@ export function packetCollectionFor(input: {
   const profile = getProfileByJurisdiction(input.jurisdiction);
   if (!profile) return null;
   const pathway = profile.pathways.find((candidate) => candidate.id === input.pathwayId) ?? null;
+  const scope = pathway ? routeDecidingFactScope(profile, pathway) : null;
   const decidingFactIds = new Set<string>([
-    ...(pathway ? pathwayRelevantFactIds(profile, pathway) : []),
+    ...(scope?.factIds ?? []),
     ...routeSafetyGateFactIds(input.jurisdiction, input.pathwayId)
   ]);
   return resolvePacketCollection({
@@ -663,6 +664,10 @@ export function packetCollectionFor(input: {
     savedAnswers: input.savedAnswers,
     specification: packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null,
     routeDecidingFactIds: decidingFactIds,
+    unresolvedRouteFactIds: new Set(scope?.unresolvedRules.flatMap((rule) => rule.factIds) ?? []),
+    // Narrowing confirmation must not synthesize new evaluator inputs. Preserve
+    // the accepted materialization guard independently of route identity.
+    materializationProtectedFactIds: pathway ? pathwayRelevantFactIds(profile, pathway) : undefined,
     baselineCarriedFactIds: baselineCarriedFactIds(`${input.jurisdiction}:${input.pathwayId ?? ""}`),
     override: routeCollectionOverrideFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`)
   });

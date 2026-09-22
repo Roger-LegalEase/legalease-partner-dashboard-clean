@@ -274,6 +274,10 @@ export type PacketCollectionInput = {
   specification?: RegisteredSpecification | null;
   /** Fact ids the evaluator or a route-safety gate actually reads for this route. */
   routeDecidingFactIds?: ReadonlySet<string>;
+  /** Rule fields whose route ownership cannot be established; never waive them. */
+  unresolvedRouteFactIds?: ReadonlySet<string>;
+  /** Existing evaluator/ambiguity inputs protected against newly synthesized values. */
+  materializationProtectedFactIds?: ReadonlySet<string>;
   /**
    * Facts the accepted baseline already materialised without asking.
    *
@@ -565,6 +569,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   const requiredInputIds = dedupe(input.requiredInputIds);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
+  const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
   /**
    * Whether a value may be written into the prefilled map for this fact.
@@ -572,7 +577,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
    * evaluator has seen that value and reusing it changes nothing.
    */
   const mayMaterialize = (factId: string, sameId: boolean) =>
-    sameId || !decidesRouteFor(factId) || baselineCarried.has(factId);
+    sameId || baselineCarried.has(factId) || (
+      !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.materializationProtectedFactIds?.has(factId)
+    );
 
   for (const factId of requiredInputIds) {
     const specFact = factById.get(factId);
@@ -626,6 +634,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     // 4. Something the participant has already told us, under this id or a
     //    screening id that carries the same answer.
     const carried = carriedValue(factId, available, input.screeningAnswers);
+    if (unresolvedScopeFor(factId) && !decidesRouteFor(factId) && !carried?.sameId) {
+      facts.push({
+        factId,
+        collection: "unresolved",
+        phase: "prepay_confirmation",
+        group,
+        source: "unresolved_route_rule_scope",
+        reason: "a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"
+      });
+      continue;
+    }
     if (carried && carried.sameId === false && !mayMaterialize(factId, false)) {
       // A route fact this layer would have to synthesise from a different
       // answer. It is asked instead, so the evaluator only ever sees values

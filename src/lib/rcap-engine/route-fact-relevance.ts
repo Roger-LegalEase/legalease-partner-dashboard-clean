@@ -130,29 +130,113 @@ export function pathwayRelevantFactIds(profile: EngineProfile, pathway: Compiled
   return relevant;
 }
 
+// Unlike the ambiguity collector above, only these schema properties contain
+// fact IDs. ruleClauses, waitingRules, requiredFacts and exclusionRules contain
+// prose; caseOutcomes, candidatePathwayIds and sourceEvidenceRefs are not facts.
+const FACT_ARRAY_PROPERTIES = new Set([
+  "fields", "fieldIds", "fieldsReferenced", "triggerFields", "requiredFields",
+  "requiredInputIds", "questionIds", "screeningFactIds",
+  "timingAnchorAlternateFactIds", "anchorAlternates"
+]);
+const FACT_SCALAR_PROPERTIES = new Set(["factId", "anchorFactId", "timingAnchorFactId"]);
+
+function collectDecidingFieldIds(value: unknown, into: Set<string>) {
+  if (!value || typeof value !== "object") return;
+  if (Array.isArray(value)) {
+    for (const entry of value) collectDecidingFieldIds(entry, into);
+    return;
+  }
+  for (const [key, entry] of Object.entries(value)) {
+    if (FACT_ARRAY_PROPERTIES.has(key) && Array.isArray(entry)) {
+      for (const id of entry) if (typeof id === "string") into.add(id);
+    } else if (FACT_SCALAR_PROPERTIES.has(key) && typeof entry === "string") {
+      into.add(entry);
+    } else if (entry && typeof entry === "object") collectDecidingFieldIds(entry, into);
+  }
+}
+
+function explicitRulePathways(value: unknown): readonly string[] {
+  if (!value || typeof value !== "object") return [];
+  const rule = value as {
+    candidatePathwayIds?: string[]; pathwayIds?: string[]; pathwayId?: string;
+    when?: { backendPathwayId?: string };
+  };
+  if (rule.candidatePathwayIds?.length) return rule.candidatePathwayIds;
+  if (rule.pathwayIds?.length) return rule.pathwayIds;
+  if (rule.pathwayId) return [rule.pathwayId];
+  return rule.when?.backendPathwayId ? [rule.when.backendPathwayId] : [];
+}
+
+export type RouteFactScope = {
+  factIds: Set<string>;
+  /** No authored consumer exists: absence is not permission to waive the fact. */
+  unresolvedRules: Array<{ section: string; ruleId: string; factIds: string[] }>;
+};
+
 /**
- * Facts that decide whether this route is the right one and whether it may be
- * sold: the universal prepay facts, this pathway's own clauses, the decision
- * rules that name it, the exclusions and the waiting rules.
- *
- * This is deliberately NARROWER than `pathwayRelevantFactIds`, which also
- * sweeps in the packet generator's own inputs. That sweep is right for
- * deciding whether an "I'm not sure" should block, and wrong for deciding
- * which facts confirm the paid route: it would classify every caption and
- * identity field the packet needs as a payment-deciding fact. Neither function
- * changes the other; they answer different questions.
+ * Resolve commercial-confirmation facts from authored ownership, never prose.
+ * An unscoped rule may reuse an established consumer but cannot create one.
+ * A genuinely global fact is universal or has authored consumers on all routes.
+ * Unbound fields are reported separately for conservative packet collection.
+ * This result is neither eligibility nor fulfillment/payment authority.
+ */
+export function routeDecidingFactScope(profile: EngineProfile, pathway: CompiledPathway): RouteFactScope {
+  const factIds = new Set<string>(UNIVERSAL_PREPAY_FACT_IDS);
+  const unresolvedRules: RouteFactScope["unresolvedRules"] = [];
+  const sections = [
+    ["orderedDecisionRules", profile.orderedDecisionRules],
+    ["exclusionRules", profile.exclusionRules ?? []],
+    ["waitingPeriodRules", profile.waitingPeriodRules ?? []]
+  ] as const;
+  // Derived from the profile on each resolution, not a second authored registry.
+  const consumers = new Map<string, Set<string>>();
+  const bind = (id: string, route: string) => {
+    const routes = consumers.get(id) ?? new Set<string>();
+    routes.add(route);
+    consumers.set(id, routes);
+  };
+  for (const candidate of profile.pathways) {
+    const fields = new Set<string>();
+    collectDecidingFieldIds(candidate, fields);
+    for (const id of fields) {
+      const authored = routeConsumersForQuestion(profile, id);
+      if (authored.length === 0 || authored.includes(candidate.id)) bind(id, candidate.id);
+    }
+    for (const id of ROUTE_ESCALATION_FACT_IDS[`${profile.jurisdiction.code}:${candidate.id}`] ?? []) bind(id, candidate.id);
+  }
+  for (const [id, routes] of Object.entries(profile.questionLifecycle?.routeConsumers ?? {})) {
+    for (const route of routes) bind(id, route);
+  }
+  for (const [, rules] of sections) for (const rule of rules) {
+    const routes = explicitRulePathways(rule);
+    const fields = new Set<string>();
+    collectDecidingFieldIds(rule, fields);
+    for (const id of fields) for (const route of routes) bind(id, route);
+  }
+  for (const [id, routes] of consumers) if (routes.has(pathway.id)) factIds.add(id);
+
+  for (const [section, rules] of sections) for (const [index, rule] of rules.entries()) {
+    if (explicitRulePathways(rule).length > 0) continue;
+    const fields = new Set<string>();
+    collectDecidingFieldIds(rule, fields);
+    const unresolved = [...fields].filter((id) => !UNIVERSAL_PREPAY_FACT_IDS.has(id) && !consumers.has(id));
+    if (unresolved.length > 0) unresolvedRules.push({
+      section,
+      ruleId: String((rule as { id?: string })?.id ?? index),
+      factIds: unresolved
+    });
+  }
+  return { factIds, unresolvedRules };
+}
+
+/**
+ * Narrow route identity/confirmation set, excluding packet-only inputs and rule
+ * prose. Use the scope result as well when classifying required packet inputs:
+ * unresolved ownership must not silently relax collection. The broader
+ * pathwayRelevantFactIds continues to govern participant uncertainty unchanged.
  */
 export function routeDecidingFactIds(profile: EngineProfile, pathway: CompiledPathway): Set<string> {
-  const deciding = new Set<string>(UNIVERSAL_PREPAY_FACT_IDS);
-  collectFieldIds(pathway, deciding);
-  for (const rule of ((profile as { orderedDecisionRules?: DecisionRule[] }).orderedDecisionRules ?? [])) {
-    const candidates = rule.candidatePathwayIds ?? [];
-    if (candidates.length === 0 || candidates.includes(pathway.id)) collectFieldIds(rule, deciding);
-  }
-  collectFieldIds((profile as { exclusionRules?: unknown }).exclusionRules, deciding);
-  collectFieldIds((profile as { waitingPeriodRules?: unknown }).waitingPeriodRules, deciding);
-  for (const id of ROUTE_ESCALATION_FACT_IDS[`${profile.jurisdiction.code}:${pathway.id}`] ?? []) deciding.add(id);
-  return deciding;
+  return routeDecidingFactScope(profile, pathway).factIds;
 }
 
 /**
