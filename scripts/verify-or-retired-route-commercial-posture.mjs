@@ -162,54 +162,100 @@ for (const record of superseded) {
 
 // ---------------------------------------------------------------------------
 console.log("\n7. history was NOT falsified to achieve closure");
-// The operational result must come from supersession, not from rewriting what
-// the record claimed while it was live.
-ok("serviceDisposition is preserved as the historical fact it was",
-  allForRoute.every((r) => typeof r.serviceDisposition === "string" && r.serviceDisposition.length > 0),
+// Pinned to exact values. "nonempty" and "not approved" were too weak: they
+// would have let a correction quietly rewrite the record's historical claims
+// while still passing. If supersession is the only intended semantic change,
+// every historical field must survive byte-for-byte.
+const HISTORICAL = {
+  serviceDisposition: "paid_packet_intended",
+  outputLegalApprovalState: "pending",
+  legalAuthorityStatus: "approved_by_decision_owner",
+  packetFamilyId: "rcap-or-official-pdf-fill",
+  packetSpecificationSpecId: "or_acquittal-set",
+  packetSpecificationSha256: "cee130aae71f9282e0a88f7d8940a6d4d586482ed04a3d83d1be20fb4ac26c24",
+  finalVerificationState: "unbound"
+};
+ok(`serviceDisposition stays exactly "${HISTORICAL.serviceDisposition}"`,
+  allForRoute.every((r) => r.serviceDisposition === HISTORICAL.serviceDisposition),
   allForRoute.map((r) => r.serviceDisposition));
-ok("the historical output-review state was not overwritten to fake completion",
-  allForRoute.every((r) => r.outputLegalApproval?.state !== "approved"),
+ok(`outputLegalApproval.state stays exactly "${HISTORICAL.outputLegalApprovalState}"`,
+  allForRoute.every((r) => r.outputLegalApproval?.state === HISTORICAL.outputLegalApprovalState),
   allForRoute.map((r) => r.outputLegalApproval?.state));
-ok("the historical legal authority status is unchanged",
-  allForRoute.every((r) => r.legalAuthority?.status === "approved_by_decision_owner"),
+ok(`legalAuthority.status stays exactly "${HISTORICAL.legalAuthorityStatus}"`,
+  allForRoute.every((r) => r.legalAuthority?.status === HISTORICAL.legalAuthorityStatus),
   allForRoute.map((r) => r.legalAuthority?.status));
+ok(`packetFamilyId stays exactly "${HISTORICAL.packetFamilyId}"`,
+  allForRoute.every((r) => r.packetFamilyId === HISTORICAL.packetFamilyId),
+  allForRoute.map((r) => r.packetFamilyId));
+ok("the historical packet-specification binding is unchanged",
+  allForRoute.every((r) => r.packetSpecification?.specId === HISTORICAL.packetSpecificationSpecId
+    && r.packetSpecification?.sha256 === HISTORICAL.packetSpecificationSha256
+    && r.packetSpecification?.complete === true),
+  allForRoute.map((r) => r.packetSpecification?.specId));
+ok(`finalVerification.state stays exactly "${HISTORICAL.finalVerificationState}"`,
+  allForRoute.every((r) => r.finalVerification?.state === HISTORICAL.finalVerificationState),
+  allForRoute.map((r) => r.finalVerification?.state));
 
 // ---------------------------------------------------------------------------
-console.log("\n8. the correction is durable: generated files match their generator");
-// The generator's --check currently fails on a Mississippi paid-packet proof
-// digest, identically at 16aaf5ea0, c594babcf and e3ba81908. That is the known
-// "stale MS non-conviction manifest proof" baseline item and has nothing to do
-// with Oregon. Demanding a clean exit would make #60 unachievable and would
-// quietly absorb a separate baseline failure into this task, so the gate asks
-// the question that actually matters: does regeneration disagree about THIS
-// route? If the MS baseline is ever repaired, the clean-exit branch takes over
-// and the gate becomes strictly stronger without being edited.
-const MS_BASELINE = "loadMsPaidPacketProof";
-let checkExit = null;
-let checkOutput = "";
+console.log("\n8. the correction is durable: the generator itself derives it");
+// The earlier version of this section was VACUOUS and is replaced.
+//
+// The full generator throws at mississippiPaidConsumerSuccessorRecord(), which
+// sits INSIDE the `records` array literal. Oregon's candidateRecord derivation
+// runs before it, but the supersession loop and every comparison against
+// committed bytes are downstream of that throw and never execute. So accepting
+// the known MS exit and then asserting "the output names no Oregon
+// disagreement" proved only that execution stopped before it could report one.
+//
+// What is required instead is a generator-owned, NONMUTATING, route-scoped
+// check that runs the same authority derivation for this record despite the
+// unrelated MS failure. It must use the generator's own logic -- not a second
+// hand-coded interpretation of it -- and must prove, for the target route:
+//   the generator derives the supersession itself;
+//   committed registry and projection bytes agree with that derivation;
+//   no non-target authority record changes;
+//   the three successor routes remain absent;
+//   a second generation is byte-identical (idempotent).
+//
+// The full generator must KEEP failing on MS exactly as it does now. This
+// section does not suppress that; it refuses to accept it as proof.
+const SCOPED_ENV = "RCAP_AUTHORITY_SCOPED_CHECK_ROUTE";
+let scopedExit = null;
+let scopedOutput = "";
 try {
-  checkOutput = execFileSync("node", [GENERATOR, "--check"], { stdio: "pipe", encoding: "utf8" });
-  checkExit = 0;
+  scopedOutput = execFileSync("node", [GENERATOR, "--check", "--scope", RETIRED],
+    { stdio: "pipe", encoding: "utf8", env: { ...process.env, [SCOPED_ENV]: RETIRED } });
+  scopedExit = 0;
 } catch (error) {
-  checkExit = error.status ?? 1;
-  checkOutput = `${error.stdout ?? ""}${error.stderr ?? ""}`;
+  scopedExit = error.status ?? 1;
+  scopedOutput = `${error.stdout ?? ""}${error.stderr ?? ""}`;
 }
-const blockedByKnownBaseline = checkExit !== 0 && checkOutput.includes(MS_BASELINE);
-ok("regeneration does not disagree about this route",
-  checkExit === 0 || blockedByKnownBaseline,
-  { exit: checkExit, firstLine: checkOutput.split("\n").find((l) => /Error|Assertion/i.test(l))?.slice(0, 90) });
-ok("the generator names no Oregon disagreement",
-  !/OR:set-aside-of-arrests-or-charges-without-conviction/.test(checkOutput));
-if (blockedByKnownBaseline) {
-  console.log("            (--check still stops at the known MS paid-packet proof baseline;");
-  console.log("             pre-existing at 16aaf5ea0, c594babcf and e3ba81908, tracked separately)");
-}
+const scopedModeExists = scopedExit === 0 && !/loadMsPaidPacketProof/.test(scopedOutput);
+ok("the generator offers a nonmutating route-scoped authority check that survives the MS baseline",
+  scopedModeExists,
+  { exit: scopedExit, stoppedAtMsBaseline: /loadMsPaidPacketProof/.test(scopedOutput) });
+ok("the scoped check reports agreement for this route",
+  scopedModeExists && /\bagree|match|identical|OK|PASS/i.test(scopedOutput),
+  scopedOutput.split("\n").filter(Boolean).slice(-1)[0]?.slice(0, 100));
+ok("the scoped check reports the three successors still absent",
+  scopedModeExists && SUCCESSORS.every((route) => !new RegExp(`${route}\\b(?![^\\n]*absent)`).test(scopedOutput) || /absent/.test(scopedOutput)),
+  scopedModeExists ? undefined : "scoped mode unavailable");
+ok("the scoped check proves a second generation is idempotent",
+  scopedModeExists && /idempotent|second generation|stable/i.test(scopedOutput),
+  scopedModeExists ? undefined : "scoped mode unavailable");
+
+// The unrelated baseline must remain exactly as red as it is today.
+let fullExit = null;
+let fullOutput = "";
+try { execFileSync("node", [GENERATOR, "--check"], { stdio: "pipe", encoding: "utf8" }); fullExit = 0; }
+catch (error) { fullExit = error.status ?? 1; fullOutput = `${error.stdout ?? ""}${error.stderr ?? ""}`; }
+ok("the full generator check still fails on the MS baseline, unsuppressed",
+  fullExit !== 0 && /loadMsPaidPacketProof/.test(fullOutput),
+  { exit: fullExit });
+
 ok("the projection still declares itself derived from the registry",
   /derived by the shipped authority module from the controlling registry/.test(projection.rule ?? ""),
   projection.rule?.slice(0, 50));
-ok("the projection's packet family agrees with a record of the route",
-  allForRoute.some((r) => r.packetFamilyId === projected?.packetFamilyId),
-  { projection: projected?.packetFamilyId });
 
 // ---------------------------------------------------------------------------
 console.log("\n9. mutation control: removing the supersession must break this");
@@ -227,26 +273,85 @@ console.log("\n9. mutation control: removing the supersession must break this");
 }
 
 // ---------------------------------------------------------------------------
-console.log("\n10. nothing was over-corrected");
+console.log("\n10. supersededBy must not be overloaded");
+// The loader validates nothing about this value: grade-a-registry.ts only tests
+// truthiness (`ordered.filter((record) => !record.supersededBy)`), and the type
+// is `string | null`. Its established MEANING comes from its only writer, which
+// sets a successor record's recordId, and from the denial text "was superseded
+// by X; only the current version decides". So a packet-spec filename, a route
+// id or an invented record id would pass at runtime purely because it is
+// truthy, while asserting a successor Grade-A record that does not exist.
+//
+// #60 is a terminal retirement: the three successors are closed BY ABSENCE and
+// no successor Grade-A record exists to name. Whatever is bound here must
+// therefore either name a record that really is in the registry, or be an
+// explicit, fail-closed terminal-retirement representation -- not a string
+// borrowed from another namespace.
+const recordIds = new Set(registry.records.map((r) => r.recordId));
+for (const r of allForRoute.filter((x) => x.supersededBy)) {
+  const value = r.supersededBy;
+  const namesRealRecord = recordIds.has(value);
+  const looksBorrowed = /\.json$|^OR:|^data\//.test(value);
+  ok("supersededBy is not a filename, route id or path borrowed from another namespace",
+    !looksBorrowed, value);
+  ok("supersededBy either names a record present in the registry, or the retirement is represented explicitly rather than by an invented id",
+    namesRealRecord || (r.terminalRetirement ?? r.retirement ?? null) !== null,
+    { supersededBy: value, namesRealRecord, explicitRetirement: r.terminalRetirement ?? r.retirement ?? null });
+}
+if (allForRoute.every((r) => !r.supersededBy)) {
+  console.log("            (no supersession bound yet — this section binds once section 5 is addressed)");
+}
+
+console.log("\n11. nothing was over-corrected");
+// Per-record digests, not a count. A population floor would have permitted a
+// brand-new authority record to appear unnoticed.
+const NON_TARGET_DIGESTS = {
+  "grade-a-dc-dc_actual_innocence_expungement_16_803-v1": "812992ae1c87d04227942ff7da8b1cfa",
+  "grade-a-il-felony-prostitution-relief-v1": "8d3f39300e459fd28d145c3eadf76152",
+  "grade-a-ms-additional-justice-court-misdemeanor-relief-9-11-15-3-v1": "a3ec15b1d69516167ff42dbc65863b11",
+  "grade-a-ms-additional-municipal-court-misdemeanor-relief-21-23-7-6-v1": "65275c4171901e6cdc27bf139d522b01",
+  "grade-a-ms-nonconv-paid-consumer-successor-20260920": "761068c9e26df8362e276be6b986afcc",
+  "grade-a-nd-deferred-imposition-dismissal-and-sealing-v1": "3fbb24731316790d530cc5d681d8beee",
+  "grade-a-nd-dui-record-sealing-under-the-separate-dui-statute-v1": "0543dc950225d95c9330353eaaedcdff",
+  "grade-a-nd-first-offense-possession-sealing-v1": "fa39fd9662d407bd39877eec81b8d2d2",
+  "grade-a-nd-general-conviction-sealing-under-n-d-c-c-chapter-12-60-1-v1": "52103aab726d317eb131b304dcd75ba9",
+  "grade-a-nd-marijuana-specific-summary-pardon-or-sealing-relief-v1": "acc83f061ad172d0860ed05f091fcb72",
+  "grade-a-or-marijuana-specific-set-aside-redesignation-v1": "a697cf2b07514a84cd1dd8187c1e6636",
+  "grade-a-or-set-aside-of-eligible-convictions-under-ors-137-225-1-a-v1": "674914a01ea32c10d180e2a788cd5102",
+  "grade-a-wy-felony-conviction-expungement-w-s-7-13-1502-v1": "c45b7106c3baac36d5648d8709b168f5"
+};
+const ROUTE_POPULATION = ["DC:dc_actual_innocence_expungement_16_803","IL:felony-prostitution-relief","MS:additional-justice-court-misdemeanor-relief-9-11-15-3","MS:additional-municipal-court-misdemeanor-relief-21-23-7-6","MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal","ND:deferred-imposition-dismissal-and-sealing","ND:dui-record-sealing-under-the-separate-dui-statute","ND:first-offense-possession-sealing","ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1","ND:marijuana-specific-summary-pardon-or-sealing-relief","OR:marijuana-specific-set-aside-redesignation","OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c","OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a","WY:felony-conviction-expungement-w-s-7-13-1502"];
+
+const nonTarget = registry.records.filter((r) => r.routeId !== RETIRED);
+const changed = nonTarget.filter((r) => sha(r).slice(0, 32) !== NON_TARGET_DIGESTS[r.recordId]);
+const appeared = nonTarget.filter((r) => !(r.recordId in NON_TARGET_DIGESTS));
+const vanished = Object.keys(NON_TARGET_DIGESTS).filter((id) => !nonTarget.some((r) => r.recordId === id));
+ok("every non-target authority record is byte-identical", changed.length === 0,
+  changed.map((r) => r.recordId));
+ok("no new non-target authority record appeared", appeared.length === 0, appeared.map((r) => r.recordId));
+ok("no non-target authority record vanished", vanished.length === 0, vanished);
+ok("the route population is exactly the same set",
+  JSON.stringify([...new Set(registry.records.map((r) => r.routeId))].sort()) === JSON.stringify(ROUTE_POPULATION),
+  [...new Set(registry.records.map((r) => r.routeId))].sort().filter((x) => !ROUTE_POPULATION.includes(x)));
 ok("Oregon legal substance is untouched",
   sha(retiredSpec.legalSections ?? null) === LEGAL_SUBSTANCE_SHA,
   sha(retiredSpec.legalSections ?? null).slice(0, 16));
 ok("the nationwide commercially-eligible count is unchanged",
   projection.counters?.commerciallyEligible === 6, projection.counters?.commerciallyEligible);
 ok("no route was revoked wholesale", (projection.counters?.revoked ?? 0) === 0, projection.counters?.revoked);
-ok("the nationwide route population did not shrink",
-  (projection.counters?.routesWithARecord ?? 0) >= 14, projection.counters?.routesWithARecord);
 ok("the factory registry still carries all 267 rows",
   (factory.routes ?? factory.rows ?? []).length === 267, (factory.routes ?? factory.rows ?? []).length);
 
 console.log("");
 if (failures > 0) {
   console.log(`${checks - failures}/${checks} checks passed — ${failures} open.`);
-  console.log("Sections 5 and 6 are the #60 work: bind the supersession at the generator or an");
-  console.log("authoritative input it consumes, so current authority reports SUPERSEDED with no");
-  console.log("active proof and the history chain records why. Section 8 must STAY green: it is");
-  console.log("what proves the correction survives regeneration rather than being a hand-patch.");
-  console.log("Sections 1, 4, 7 and 10 failing would instead mean the correction overshot —");
+  console.log("Sections 5, 6 and 8 are the #60 work. Bind the supersession at the generator or");
+  console.log("an authoritative input it consumes, so current authority reports SUPERSEDED with");
+  console.log("no active proof and a hash-chained history entry records why; and add the");
+  console.log("nonmutating route-scoped generator check that section 8 requires, because the");
+  console.log("full run stops at the unrelated MS baseline before it can compare this route.");
+  console.log("Section 10 binds only once a supersession value exists to inspect.");
+  console.log("Sections 1, 4, 7, 10 and 11 failing would instead mean the correction overshot —");
   console.log("deleting the route, opening a successor, falsifying history, or moving gates.");
   process.exit(1);
 }
