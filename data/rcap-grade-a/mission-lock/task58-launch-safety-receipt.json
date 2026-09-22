@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-mission-lock-launch-safety-receipt/v1",
+  "task": "#58",
+  "subject": "Virginia CC-1472 / VA:regime-1-expungement-available-now",
+  "classification": "LAUNCH_SAFE_EXTERNAL_CURRENTNESS_BLOCKER",
+  "recordedBy": "Captain, no-mutation launch-safety classification. Not a counsel approval, not new Virginia research.",
+  "recordedOn": "2026-09-22",
+  "captainSha": "327548c98723af9d2f9e8f9bc036866b54cded50",
+  "productMutation": "NONE. No file read for this classification was changed.",
+
+  "questionAnswered": "Does current Captain truthfully fail closed on the unresolved Virginia branch, with no false packet, filing vehicle, payment, entitlement, generation or delivery authority?",
+
+  "noFilingVehicleIsClaimed": {
+    "legalSectionsBound": false,
+    "meaning": "The specification carries an upstream gate that holds the route. CC-1472 is identified and bound as the participant vehicle but is NOT ingested, and the specification says so in its own text: 'official Form CC-1472; identified by the audit workbook Sources tab, not ingested here'.",
+    "specificationDisclaimer": "'It grants no fulfillment or commercial authority.'",
+    "noSubstitution": "CC-1473 is expressly not substituted; it is captioned to subsection (A).",
+    "verifier": "scripts/verify-va-cc1472-two-branch-treatment.mjs — 77/77 checks passed, including the mutation that would roll a superseded approval forward."
+  },
+
+  "noCommercialAuthority": {
+    "gradeAFulfillmentRecord": "NONE. No VA route appears in data/rcap-grade-a/fulfillment-authority-registry.json. Absence of a record is a refusal, not a gap.",
+    "projection": "NONE. No VA route appears in fulfillment-authority-projection.json.",
+    "consumerPacketAvailable": false,
+    "sponsoredPacketAvailable": false,
+    "provenBy": "scripts/test-commercial-readiness.mjs, the purpose-built #52 control, which constructs the VA regime-1 case and asserts consumerPacketAvailable false and sponsoredPacketAvailable false."
+  },
+
+  "noGenerationOrDelivery": {
+    "workerStaticAuthority": "NONE. No VA route appears in worker-static-authority.json, which governs render-job and delivery admission.",
+    "observationSnapshot": "NONE. No VA route appears in fulfillment-observation-snapshot.json."
+  },
+
+  "participantTreatmentIsTruthful": {
+    "rendered": "'A packet is not available for this route yet', with the route and legal result still named ('Regime 1 expungement').",
+    "absentFromTheRender": "No '$50', no 'We’ll prepare', no 'You may be able to prepare an expungement packet', no 'Verify the packet facts before payment'.",
+    "payCta": "The pay CTA is rendered only when the authoritative server answer allows it.",
+    "assertedBy": "scripts/test-commercial-readiness.mjs"
+  },
+
+  "theEvaluatorSignalIsDeliberate": {
+    "observation": "The evaluator still reports resultCode packet_ready with paymentAllowed true for this route.",
+    "whyThatIsNotALeak": "That is the preserved LEGAL CANDIDACY signal, and #52 made the participant CTA follow server authority rather than that signal. The same control asserts the legal result and route coverage are preserved while commercial availability is false on both the consumer and sponsored surfaces. Evaluator candidacy is not purchase authority.",
+    "doNotRediscoverAsADefect": "This was #51's finding and #52's fix. It is recorded here so the true-looking paymentAllowed is not re-reported as a live leak."
+  },
+
+  "notedAndDeliberatelyNotTreatedAsALeak": {
+    "fact": "The factory-v2 route registry row for VA:regime-1-expungement-available-now carries factoryV2Resolves true with no unmet build inputs, unlike the retired Oregon row.",
+    "whyItIsNotALeak": "Factory resolution is internal build eligibility, not participant-facing generation or sale. Render-job and delivery admission run through worker-static-authority, where the route is absent, and commercial authority runs through the Grade-A registry, where it has no record.",
+    "recordedSoItIsNotRediscovered": true
+  },
+
+  "separateVirginiaBranchUnaffected": "The automatic statutory branch under Va. Code § 2.2-402 — the court duty on transmission, requiring no participant filing — stands on its own and is not affected by the CC-1472 currentness question. The two branches are modelled separately and both are preserved.",
+
+  "honestLimitOfThisClassification": "An ad-hoc sweep of 480 constructed Virginia personas returned needs_more_info on every one and never selected a pathway, so that sweep proves nothing and is not offered as evidence. The positive proof above rests on the purpose-built control and on the authority, worker and observation surfaces, not on persona construction.",
+
+  "whatRemainsBlocked": "Whether CC-1472 remains a currently prescribed or accepted participant vehicle, or is a legacy artifact retained at a live URL. That is an external currentness question. No new Virginia source was sought for this classification and none may be inferred from an old one.",
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "opensAnyRoute": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

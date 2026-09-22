@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-mission-lock-launch-safety-receipt/v1",
+  "task": "#61",
+  "subject": "Connecticut C.G.S. § 54-142a(f)(2) — petition branch for under-eighteen misdemeanors committed before January 1, 2000",
+  "classification": "LAUNCH_SAFE_EXTERNAL_LEGAL_AUTHORITY_BLOCKER",
+  "recordedBy": "Captain, no-mutation launch-safety classification. Not a counsel approval, not a filing-vehicle determination, not new Connecticut research.",
+  "recordedOn": "2026-09-22",
+  "captainSha": "327548c98723af9d2f9e8f9bc036866b54cded50",
+  "productMutation": "NONE. No file read for this classification was changed. No Connecticut source was searched for a new vehicle.",
+
+  "questionAnswered": "With the (f)(2) filing vehicle unresolved, does current Captain fail closed truthfully — no approved vehicle claimed, no pleading fabricated, no checkout, payment, packet, render or delivery authority — and does the separate Clean Slate route remain unaffected?",
+
+  "theControllingDetermination": {
+    "path": "data/record-clearing/legal-decisions/2026-09-21-ct-54-142a-f-2-filing-vehicle-unresolved.json",
+    "recordId": "CT-54-142A-F-2-FILING-VEHICLE-UNRESOLVED-2026-09-21",
+    "jdCr202Applicable": "NO",
+    "vehicle": "UNRESOLVED",
+    "stateChanged": "none"
+  },
+
+  "noApprovedFilingVehicleIsClaimed": {
+    "jdCr202IsNotClaimedForF2": "The determination answers NO on the record, from the retained official binary rather than a description of it (sha256 b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c). The form's own Instruction 1 says 'Only use this form to ask the court to erase convictions for offenses committed before January 1, 2000 that are eligible for erasure under Clean Slate', and the form has no field for the petitioner's age at the time of the offence — the defining element of (f)(2).",
+    "noOtherFormIsMapped": "The determination's four-answer search closed with none established. The retained Connecticut source set holds exactly three documents — JD-CR-202, DPS-0846-C and the source-gated DESPP-0847-C — and none is an under-eighteen or pre-2000 petition other than JD-CR-202.",
+    "ownerAdoptedState": "BATCH_ADOPTION_PACKAGE_2026-09-02.json carries obligation:unit:CT:ct-under18-misdemeanor:ct-under18-misdemeanor-branch-petition as unit_unavailable, with runtimePathwayId null and runtimeRouteId null. The branch claims no vehicle because it is wired to no route."
+  },
+
+  "noCustomPleadingIsFabricated": {
+    "determinationHolds": "noCustomPleadingFabricated — 'No custom petition was drafted or authorised for (f)(2). No source read states that a custom petition is accepted.'",
+    "andNoneWasCreatedSince": "This classification created no pleading, no overlay, no specification and no packet family for (f)(2)."
+  },
+
+  "noRuntimeReachability": {
+    "noPathway": "The compiled Connecticut profile carries six pathways and none of them is the under-eighteen petition branch. It contains zero occurrences of 'under eighteen', 'under 18', '54-142a(f)(2)' or any variant.",
+    "noAddressableInput": "Connecticut asks no age-at-offense question and no offense-date question, so an (f)(2) participant cannot be identified by the screening at all. The branch is not runtime-addressable.",
+    "provenBy": "The #62 reproduction, recorded at data/rcap-grade-a/mission-lock/task62-terminal-receipt.json."
+  },
+
+  "noCheckoutPaymentPacketRenderOrDelivery": {
+    "evaluatorSweep": {
+      "method": "The real evaluateScreening from src/lib/rcap-engine/evaluator.ts, loaded through scripts/lib/ts-esm-loader.mjs. No re-implementation of routing.",
+      "personas": 168,
+      "personaSpace": "every case_outcome x possible_pathway_context x offense_level x pardon_status offered by the compiled Connecticut profile",
+      "resultCodeDistribution": { "guidance_only": 96, "not_yet": 24, "needs_review": 48 },
+      "personasReachingPaymentAllowedTrue": 0,
+      "personasReachingPacketReady": 0,
+      "personasReachingPacketReadyWithCaution": 0
+    },
+    "gradeAFulfillmentRecord": "NONE. No Connecticut route appears in data/rcap-grade-a/fulfillment-authority-registry.json. Absence of a record is a refusal, not a gap.",
+    "workerStaticAuthority": "NONE. No Connecticut route appears in worker-static-authority.json, which governs render-job and delivery admission.",
+    "observationSnapshot": "NONE. No Connecticut route appears in fulfillment-observation-snapshot.json.",
+    "soThereIsNothingToSell": "Even if a participant could reach the branch — and they cannot — there is no record keyed to a Connecticut route and packet family, so checkout, entitlement, render and delivery all refuse."
+  },
+
+  "participantTreatmentIsTruthful": {
+    "whatHappensToday": "An (f)(2) participant is not identified as one, because no question asks the facts (f)(2) turns on. They fall to the general Connecticut outcome, and across all 168 constructed personas that outcome is guidance_only, not_yet or needs_review — never a packet, never a payment, and never a claim about a filing vehicle.",
+    "noFalseInstruction": "No surface names a form, a court location or a filing step for (f)(2). The branch is silent rather than wrong, which is the correct posture while the vehicle is unresolved.",
+    "whatIsNotClaimed": "This receipt does not claim the participant is affirmatively told about the (f)(2) branch and referred to counsel. They are not: the branch is unaddressable, so the truthful fail-closed here is silence plus the general guidance outcome. Recorded plainly so the distinction is not lost."
+  },
+
+  "cleanSlateRouteUnaffected": {
+    "scope": "JD-CR-202 remains the Clean Slate pre-2000 petition and stays scoped to that separate route. Neither the profile nor the packet specification maps it to (f)(2); the specification's own label is 'Petitioned Clean Slate erasure for eligible pre-2000 convictions (JD-CR-202)'.",
+    "notEdited": "The determination holds noRouteChanged — 'rule-08 was measured, not edited. The Clean Slate route, its rules and its payment state are untouched.' That remains true on current Captain.",
+    "andItIsNotSellingEither": "The Clean Slate route rule carries paymentAllowed true as an authored signal, but the evaluator overrides it: zero of 168 Connecticut personas reach paymentAllowed true, and Connecticut holds no Grade-A record. #62 dispositioned that hypothesis TERMINAL — NO CURRENT RUNTIME DEFECT."
+  },
+
+  "retainedNonLaunchNote": {
+    "fact": "rule-08-for-convictions-entered-before-1-1-2000-the-person-file still states the pre-2000 JD-CR-202 rule without the Clean Slate qualifier its sibling rule-23 carries.",
+    "status": "Non-launch hardening note only. It is recorded on #62's receipt and is not reopened here. There is no current behavioural evidence authorising product work on it.",
+    "doNotRediscover": true
+  },
+
+  "whatRemainsBlocked": "What a person actually files under C.G.S. § 54-142a(f)(2). That is an external legal-authority question: an authoritative Connecticut Judicial Branch source — form instructions, a self-help page, a Practice Book provision, a standing order, clerk filing guidance or the form inventory — stating the vehicle. None was reachable from this environment (the egress proxy blocks jud.ct.gov, cga.ct.gov, law.justia.com, codes.findlaw.com and lawserver.com). No new Connecticut vehicle was sought for this classification and none may be inferred from an old source.",
+
+  "whyThisIsLaunchSafe": "The blocker is external and the product does not depend on it. The branch is wired to no route, addressable by no input, claimed by no vehicle, and backed by no Grade-A record, so the unresolved question cannot leak into a sellable, generative or false-instruction path. Launch does not need (f)(2) answered; it needs (f)(2) to stay closed, and it is closed at four independent layers.",
+
+  "futureTrigger": "Reopen only if an authoritative (f)(2) vehicle is established, or if Connecticut becomes able to identify an (f)(2) participant — an age-at-offense or offense-date question, an (f)(2) pathway, or any Connecticut persona reaching packet_ready, packet_ready_with_caution or paymentAllowed true.",
+
+  "isCounselApproval": false,
+  "createsOutputApproval": false,
+  "opensAnyRoute": false,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
