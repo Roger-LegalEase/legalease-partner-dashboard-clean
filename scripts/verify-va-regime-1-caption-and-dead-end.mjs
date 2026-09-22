@@ -62,15 +62,30 @@ console.log('VA regime-1 — the caption refusal, and the advertised dead end\n'
 console.log('1. the route and its primary filing are still what this record read');
 ok('the route is still registered', Boolean(row));
 ok('the specification still carries a primary_filing', Boolean(primary));
-ok('it is still a custom pleading with no official form',
-  primary?.outputStrategy === 'custom_pleading' && (row?.officialFormIds ?? []).length === 0,
-  { strategy: primary?.outputStrategy, forms: row?.officialFormIds });
+// Brought forward on 2026-09-22. This read "still a custom pleading with no
+// official form", which was true when the dead end was found and stopped being
+// true when D-012 bound CC-1472. The product moved; the check had not. What the
+// finding actually needs is that the primary filing is court-facing and cannot
+// compose today, whichever instrument it now names -- so it is stated that way.
+ok('its primary filing still cannot compose, whether as a custom pleading or an unmapped official form',
+  primary?.outputStrategy === 'custom_pleading'
+    ? (row?.officialFormIds ?? []).length === 0
+    : primary?.outputStrategy === 'official_pdf_fill' && spec.legalSectionsBound === false,
+  { strategy: primary?.outputStrategy, forms: row?.officialFormIds, legalSectionsBound: spec.legalSectionsBound });
 ok('it is still court-facing (recipient court, participant filing)',
   primary?.documentContract?.recipient === 'court'
   && primary?.documentContract?.instrumentClass === 'participant_filing',
   primary?.documentContract?.recipient);
-ok('the specification has no upstream gate holding it (legalSectionsBound true)',
-  spec.legalSectionsBound === true, spec.legalSectionsBound);
+// Also brought forward. The original point was that nothing upstream held the
+// route, so the evaluator was the only thing offering it. D-012 added an
+// upstream gate, and that does not weaken the finding -- it sharpens it: the
+// evaluator now offers checkout on a route its own specification refuses to
+// compose. Either reading is recorded, and the dead end below is what fails.
+ok('the upstream state is recorded, whether the specification holds the route or not',
+  typeof spec.legalSectionsBound === 'boolean', spec.legalSectionsBound);
+console.log(spec.legalSectionsBound === false
+  ? '            (the specification now refuses to compose, and the evaluator still offers checkout)'
+  : '            (nothing upstream holds it, so the evaluator is the only thing offering it)');
 
 console.log('\n2. the caption cannot be written while the case is unestablished');
 const caseMode = primary?.documentContract?.caseMode;

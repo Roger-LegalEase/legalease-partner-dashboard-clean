@@ -9,9 +9,7 @@
   ],
   "trackId": "va_exp_absolute_pardon",
   "authority": "Va. Code § 19.2-392.2(I) and (K)",
-
   "question": "VA regime-1's primary filing is one of the eight court-facing components refusing for an unresolved caption treatment. Unlike Kansas it carries no upstream gate — legalSectionsBound is true. Is its caption resolvable from the adopted bytes, and if the component refuses, what does the route actually do?",
-
   "part1_theCaptionRefusalIsCorrect": {
     "answer": "Correct, and for the component's own recorded reason rather than for Kansas's reason.",
     "whatTheInstrumentIs": {
@@ -35,7 +33,6 @@
     "howItResolves": "When a source establishes which case, if any, the § 19.2-392.2(I) order is entered in. That same source resolves caseMode. Until then the refusal is correct and is the contract's intended state.",
     "captionTreatmentsRecordedByThisRecord": 0
   },
-
   "part2_theActualDefect": {
     "statement": "The caption is not this route's launch problem. Two runtime authorities disagree about whether the route can be sold, and the participant is shown the optimistic one.",
     "measured": [
@@ -70,19 +67,16 @@
     },
     "theStructuralPoint": "paymentAllowed is asserted by the compiled screening profile, while commercial eligibility is decided by fulfillmentAuthorityFor. Two independent sources of truth for one question, and here they disagree. Only one of them can be the authority, and the fulfillment record is the one ADR-0004 names."
   },
-
   "whatMustNotBeDoneAboutIt": {
     "rule4": "Mission Lock Rule 4 forbids disabling, hiding, converting to guidance-only or making noncommercial a route because the implementation is broken. Suppressing VA regime-1 from screening to remove the dead end would be exactly that, and is refused here.",
     "andNotThisEither": "Writing a Grade-A fulfillment record to make the layers agree would be worse. A record asserts that a proven packet is delivered; this route's only filing does not render and its case identity is unestablished. The absence of a record is currently truthful.",
     "theOrderOfRepair": "Establish the filing's case identity from source, which resolves caseMode and the caption together. Then the component renders, and only then can a fulfillment record be written honestly. Making the participant-facing claim truthful in the meantime is a separate and smaller change."
   },
-
   "ownershipOfTheRepair": {
     "captionAndCaseMode": "Captain. It is a document and source question and is unstarted; this record does not begin it.",
     "theAdvertisedDeadEnd": "Route availability and commercial eligibility are Captain-owned decisions under the ownership matrix, and the machinery that carries them is serialized shared foundation. So the DECISION is recorded here and the MECHANISM is assigned once rather than edited in parallel: the compiled profile's paymentAllowed for a route with no fulfillment record must not present as purchasable. No commercial-state machinery is touched by this record.",
     "notCodexUnilaterally": "The matrix records commercial eligibility and route availability as no-unilateral-change for the engineering lane."
   },
-
   "statusOfThisRecord": {
     "captionResolved": "NO, and correctly so",
     "routeOpened": "NO",
@@ -90,7 +84,6 @@
     "stateChanged": "none",
     "readThisFirst": "This record determines that VA regime-1's caption refusal is correct for the component's own recorded reason, and measures a disagreement between the screening evaluator and the single server-side commercial authority. It records no caption treatment, writes no fulfillment record, changes no profile, touches no commercial-state machinery and opens no route. VA regime-1 remains incomplete."
   },
-
   "isCounselApproval": false,
   "createsOutputApproval": false,
   "createsTerminalStatus": false,
@@ -98,5 +91,13 @@
   "commercialRoutesOpened": 0,
   "opensAnyRoute": false,
   "productionAuthorized": false,
-  "remainingReview": "Counsel review of what case, if any, a Va. Code § 19.2-392.2(I) order is entered in, which resolves caseMode and the caption together. Separately, an owner decision on how the participant-facing claim is made truthful while the route remains unsellable."
+  "remainingReview": "Counsel review of what case, if any, a Va. Code § 19.2-392.2(I) order is entered in, which resolves caseMode and the caption together. Separately, an owner decision on how the participant-facing claim is made truthful while the route remains unsellable.",
+  "currentnessNote": {
+    "addedOn": "2026-09-22",
+    "what": "Two facts in this record's framing were true when it was written and are no longer current.",
+    "whatMoved": "The primary filing was a custom_pleading with no official form and the specification carried no upstream gate (legalSectionsBound true). D-012, recorded at 2026-09-21-section-5-defect-register-reconciliation.json and applied in the Virginia specification, bound official Form CC-1472 and set legalSectionsBound false because the form is identified but not ingested.",
+    "whatDidNotMove": "The finding itself. The evaluator still returns packet_ready_with_caution with paymentAllowed true while fulfillmentAuthorityForRoute returns no record, so the route is still advertised and still cannot deliver.",
+    "itIsNowSharper": "The route's own specification refuses to compose, and the evaluator offers checkout anyway. That is a stronger statement of the same defect, not a different one.",
+    "theGuardWasBroughtForwardNotWeakened": "scripts/verify-va-regime-1-caption-and-dead-end.mjs had two checks resting on the moved facts. They were restated to assert what the finding actually needs, and the deliberate red on the dead end is untouched and still fails."
+  }
 }
