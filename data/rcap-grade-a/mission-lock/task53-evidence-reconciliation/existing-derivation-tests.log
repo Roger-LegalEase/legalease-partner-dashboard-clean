@@ -1,0 +1,28 @@
+PASS the real reconciliation admits the current specification
+PASS it declines a family it does not name rather than throwing
+PASS it refuses a route the family does not name
+PASS it refuses a starting digest the record does not hold
+PASS it refuses evidence whose bytes were edited
+PASS the unedited record is admitted (control for the refusals below)
+PASS refuses a record that claims to create an approval
+PASS refuses a record that claims to approve the composed output
+PASS refuses a record that claims to open a route
+PASS refuses a record that claims publication proof
+PASS refuses a record that claims the approved artifacts changed
+PASS refuses a record of another schema
+PASS refuses a record of another identity
+PASS refuses a build host recorded as reading the specification
+PASS refuses an approved artifact recorded as changed
+PASS refuses an approved artifact digest that is not the artifact on disk
+PASS refuses a family that names no approved artifact
+PASS refuses a prior specification that could already produce a packet
+PASS refuses a current specification that cannot produce a packet
+PASS refuses an assertion that is not in the owner-approved artifact
+PASS refuses a reconciliation to the same digest
+PASS refuses a family named twice
+PASS refuses a different specification path
+PASS a build host that starts reading the specification refuses
+PASS an approved artifact whose bytes move refuses
+PASS a specification that moves past the reconciled digest refuses
+PASS the digest map covers every reconciled route and nothing else
+27/27 derivation-reconciliation controls passed; no approval, route or publication proof is created by any of them.

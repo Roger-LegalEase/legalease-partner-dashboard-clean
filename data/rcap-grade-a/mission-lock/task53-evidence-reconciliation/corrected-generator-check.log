@@ -1,0 +1,22 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: stale MS packet proof: data/record-clearing/legal-design-packet-set-manifests.json
++ actual - expected
+
++ '177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0'
+- '9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4'
+
+    at loadMsPaidPacketProof (file:///workspaces/legalease-partner-dashboard-clean/scripts/lib/ms-paid-packet-proof.mjs:32:68)
+    at mississippiPaidConsumerSuccessorRecord (file:///workspaces/legalease-partner-dashboard-clean/scripts/generate-rcap-grade-a-fulfillment-authority.mjs:1143:40)
+    at file:///workspaces/legalease-partner-dashboard-clean/scripts/generate-rcap-grade-a-fulfillment-authority.mjs:2039:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0',
+  expected: '9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

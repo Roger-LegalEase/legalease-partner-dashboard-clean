@@ -1,3 +1,4 @@
+import { evidenceProducerBytes } from "./noncommercial-evidence-producer-reconciliation.mjs";
 // Bounded reconciliation of a sibling-only memo addition. This is no new approval.
 import crypto from 'node:crypto';
 import { derivationReconciledSpecificationSha256 } from './specification-derivation-reconciliation.mjs';
@@ -72,7 +73,11 @@ export function reconcileWyUnchangedTrack({ familyId, routeId, approvedBytes, cu
   });
   const admitted = { ...frozenFiles };
   if (reconciled) admitted[SPECIFICATION_PATH] = reconciled.specificationSha256;
-  for (const [path, sha256] of Object.entries(admitted)) requireProof(hash(readBytes(path)) === sha256, `approved supporting bytes changed: ${path}`);
+  for (const [path, sha256] of Object.entries(admitted)) {
+    const bytes = path === 'scripts/build-census-v1-wy_fel_1502-set.mjs'
+      ? evidenceProducerBytes({familyId, routeId, builderPath:path, readBytes}) : readBytes(path);
+    requireProof(hash(bytes) === sha256, `approved supporting bytes changed: ${path}`);
+  }
   const auditPath = 'data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json';
   const audit = JSON.parse(readBytes(auditPath)).families.filter(r => r.familyId === familyId);
   requireProof(audit.length === 1 && hash(JSON.stringify(audit[0])) === '8daf694071c249b9c888e7083cf9e9a86de4493f65466db7b2ffeb7e6a8cb712', 'approved successor audit changed');
