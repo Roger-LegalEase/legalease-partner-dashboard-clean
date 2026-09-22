@@ -1,44 +1,52 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
-  "sourceSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
+  "sourceSha": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
   "canonicalIntegrationBranch": "main",
-  "releaseIntegrationBranch": "claude/legalease-sprint-captain-utucnw",
-  "containedIn": "claude/legalease-sprint-captain-utucnw",
+  "releaseIntegrationBranch": "captain-release",
+  "containedIn": "captain-release",
   "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
   "dockerfileSha256": "75d30c7888ea4e34d4a9aa6176c2455e8b468e5bc7d59818738ccde5eef1ddaf",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:117b469c453a403fbd217f1c441a08c7c68f6b3a",
-  "immutableRegistryDigest": "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f",
-  "workflowRunId": 35538783807,
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35538783807",
+  "imageTag": "8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+  "immutableRegistryDigest": "sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:44de1199846a46fd9092272cb4f8f1f94ed51dd18467c93a05741026a157ca41",
+  "workflowRunId": 35750246888,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35750246888",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
   "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "publicationTimestamp": "2026-09-20T21:30:20Z",
-  "publicationArtifactId": 10613891519,
-  "publicationArtifactName": "rcap-render-worker-publication-117b469c453a403fbd217f1c441a08c7c68f6b3a",
-  "publicationArtifactSha256": "sha256:c5a236a4712411dfcd5e54d5a63e07a3e4779321bc3fb18816da4774dc954ce1",
+  "publicationTimestamp": "2026-09-22T15:55:30Z",
+  "publicationArtifactId": 10705325749,
+  "publicationArtifactName": "rcap-render-worker-publication-8eb8ddc9d8525e7390453c9b7a64224b9651bc42",
+  "publicationArtifactSha256": "sha256:45263768ab551a38a770d33847760037eb67cec5055510ebc14fb4fff13b08f9",
   "originalPublicationPath": null,
   "originalArchivePath": null,
-  "originalPublicationSource": "Publication run 35538783807 pushed the source-SHA tag 117b469c453a403fbd217f1c441a08c7c68f6b3a and reported sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f. Both source-SHA tag guards concluded success and tag_replacement_authorization was empty, so no pre-existing tag was overwritten and none could have been.",
+  "originalPublicationSource": "Publication run 35750246888, dispatched at workflow ref captain-release so the DEFINITION that executed is the current Captain copy -- main's copy still names the retired release branch claude/rcap-48h-launch-integration and would have resolved a different history. Inputs: integration_sha 8eb8ddc9d8525e7390453c9b7a64224b9651bc42, resolve_from_ref captain-release, tag_replacement_authorization EMPTY. All sixteen steps concluded success, including both source-SHA tag guards -- before login and again at the last point before pushing -- so the tag was newly created and no pre-existing tag was overwritten or could have been. The build checked out the exact supplied SHA; the workflow itself ran from tools commit 025a0d747, which is not the worker source.",
   "registryPullByDigestStatus": "not_yet_attempted",
   "runtimeAccepted": false,
-  "authorization": "Roger authorization (2026-09-20), the corrected dispatch: integration_sha 117b469c453a403fbd217f1c441a08c7c68f6b3a, resolve_from_ref and tag_replacement_authorization both empty, exactly one publication. Accepted against the five conditions he set -- sourceSha, a truthful containedIn, a valid immutable sha256 digest, an image revision label naming that same source SHA, and a newly created rather than silently replaced tag. This publication carries the owner decision approving eighteen artifact entries across six routes (OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920). Publication is authorized; production promotion, production deployment, live charges and any live environment mutation are not.",
+  "authorization": "Roger authorization (2026-09-22), the final worker publication: build one image from the exact frozen application SHA, capture its real immutable registry digest, record truthful evidence, then run the read-only image acceptance. Publication and read-only acceptance only. Explicitly NOT authorized by that instruction and not performed: production deployment, staging deployment, worker claiming, Supabase mutation, Stripe, Vercel application deployment, participant mutation, release activation. The final release tuple is deliberately NOT rebound here -- the hosted and F1 accepted-worker constants, the Checkout gate pins, RELEASE_CANDIDATE_BINDING.json, HOSTED_TOOLS_BINDING.json and the production pins all still name the superseded worker and stay that way until read-only image acceptance passes.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
-    "sourceSha": "58e76b81e32eb82e912cd142ac4c329be1d1d6e2",
-    "immutableRegistryDigest": "sha256:354ceb6b18fc78a6405681eb0c8cbb058e1a947b2bccafd05da78d5b218b8678",
-    "publicationRunId": 35415304426,
+    "sourceSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
+    "immutableRegistryDigest": "sha256:9faa24e8c6919c5801d5c38fd40d9476c4e54188fc7ab0087ba9eb711371b34f",
+    "publicationRunId": 35538783807,
+    "imageAcceptanceRunId": null,
     "disposition": "superseded_by_source_drift",
-    "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35538783807 from 117b469c453a403fbd217f1c441a08c7c68f6b3a, which carries the owner decision recorded on 2026-09-20 for the six approved routes, the Mississippi v3 successor supersession, and the packaging repair that made the candidate buildable at all: the Dockerfile copied six Mississippi paths the build-context allowlist excluded, so no image of this candidate could be produced until b26a2bf45's omission was corrected."
+    "why": "Correct for its own source and retained unchanged in GHCR; its tag was not moved. Superseded because the Grade-A application freeze 8eb8ddc9d moved 37 canonical worker inputs past 117b469c4, measured by createWorkerInputPlan and independently reproduced, so an image built from 117b469c4 no longer contains the inputs the frozen application runs beside. This is source drift, not a defect in that publication: the owner decision it carries (OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-20260920) is unaffected and its artifacts are byte-identical on the freeze."
   },
   "supersededChain": [
+    {
+      "sourceSha": "58e76b81e32eb82e912cd142ac4c329be1d1d6e2",
+      "immutableRegistryDigest": "sha256:354ceb6b18fc78a6405681eb0c8cbb058e1a947b2bccafd05da78d5b218b8678",
+      "publicationRunId": 35415304426,
+      "disposition": "superseded_by_source_drift",
+      "why": "Retained unchanged in GHCR; tag not moved. Superseded by publication run 35538783807 from 117b469c453a403fbd217f1c441a08c7c68f6b3a, which carries the owner decision recorded on 2026-09-20 for the six approved routes, the Mississippi v3 successor supersession, and the packaging repair that made the candidate buildable at all: the Dockerfile copied six Mississippi paths the build-context allowlist excluded, so no image of this candidate could be produced until b26a2bf45's omission was corrected."
+    },
     {
       "sourceSha": "3a9f4906dc87d644763434ea4e88a5decaa6c404",
       "immutableRegistryDigest": "sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e",
@@ -285,14 +293,14 @@
   ],
   "exactlyOnePublication": {
     "attemptThatPublished": 1,
-    "howItIsKnown": "Run 35538783807 succeeded on attempt 1. The tag guard ran before login and again at the last point before pushing, both concluded success, and tag_replacement_authorization was empty, so no pre-existing source-SHA tag was overwritten. Two earlier dispatches published nothing under this decision: run 35537699575 built origin/main (a3d4587b0) because an empty integration_sha resolves CANONICAL_INTEGRATION_BRANCH, and run 35538205516 passed every gate and then failed in the build on COPY paths the context allowlist excluded. Neither is bound to anything, and the a3d4587b0 image is not authority for this candidate."
+    "howItIsKnown": "Run 35750246888 succeeded on attempt 1 and is the only run of this workflow ever dispatched at ref captain-release: the workflow's 60 prior runs all ran at the retired branch and none of them built 8eb8ddc9d. Both source-SHA tag guards concluded success with tag_replacement_authorization empty, so the tag for this source SHA was created rather than replaced. No prior publication of this SHA exists to overwrite."
   },
-  "workerInputFingerprint": "sha256:4d9f3b36eb12957aa2b8a8bde162efc421a9505bd94ddcaab72d298d8a8e8e58",
+  "workerInputFingerprint": "sha256:ccd5d24f901a3aab6d28aaf4393215f705b67eb0ec1f8ea93baeaca5cdfc8c67",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No pre-publication local container build was made for this source; the registry digest above is the only image identity.",
   "imageAcceptanceAttempts": [],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Not yet re-proved for this digest; the acceptance run that proves it has not been recorded.",
+  "packageVisibilityEvidence": "Not yet re-proved for this digest; the acceptance run that proves it has not been recorded. Anonymous pull was refused from this environment during the pre-publication tag check (GHCR issued no anonymous token for the repository), which is consistent with a private package but is not the acceptance proof.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
@@ -307,5 +315,6 @@
     "immutableRegistryDigest": "sha256:5749dc1fff6dd0353e1eee0888d08f1c5d3813165c7130d15dbfd0a5eda0ff8e",
     "workflowRunId": 35413031376,
     "workflowConclusion": "success"
-  }
+  },
+  "readBackLimitation": "The publication artifact's own bytes were read from the run's `cat` of the file it uploaded, not by downloading the artifact zip: this environment's egress proxy denies productionresultssa4.blob.core.windows.net, so the artifact download URL is unreachable from here. The upload step reported the uploaded zip's SHA-256 as 45263768ab551a38a770d33847760037eb67cec5055510ebc14fb4fff13b08f9, which equals the artifact metadata digest the Actions API returns, so the bytes read are the bytes stored. No value in this record was typed from memory or predicted."
 }
