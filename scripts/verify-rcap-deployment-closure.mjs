@@ -22,6 +22,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { deploymentExcludedDirectories, deploymentPathExcluded } from "./rcap-deployment-source-ignore.mjs";
 import { requireCurrentReleaseCandidate } from "./grade-a-launch-control/verify-release-candidate-binding.mjs";
+import { discoverRuntimeAuthorityConsumers, expandRuntimeAuthorityIncludes } from "./rcap-runtime-authority-consumers.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const emitEvidence = process.argv.includes("--emit-evidence");
@@ -189,8 +190,14 @@ function collectCodeFiles() {
 }
 
 const codeFiles = collectCodeFiles();
+// src/ also contains standalone review CLIs. The existing conservative Next
+// entry graph distinguishes those tools from code a deployed entry can reach.
+const { entries } = discoverRuntimeAuthorityConsumers({ rootDir });
+const runtimeCode = new Set(entries.flatMap(entry => [...entry.reachable]).map(file => path.relative(rootDir, file)));
+runtimeCode.add("next.config.ts");
 const referenceHits = [];
 for (const file of codeFiles) {
+  if (!runtimeCode.has(file)) continue;
   const source = fs.readFileSync(path.join(rootDir, file), "utf8");
   // Comments stripped: a doc comment naming an output directory is not a read,
   // and treating it as one would block a correct exclusion forever.
@@ -226,7 +233,7 @@ check(
   "no_application_or_build_code_references_an_excluded_path",
   referenceHits.length === 0,
   referenceHits.length === 0
-    ? `${codeFiles.length} source files scanned against ${excluded.length} exclusions, comments stripped so an output-directory doc comment is not mistaken for a read`
+    ? `${codeFiles.filter(file => runtimeCode.has(file)).length} reachable application/build files scanned against ${excluded.length} exclusions; standalone review CLIs and comments are not runtime reads`
     : referenceHits.join("; ")
 );
 
@@ -270,6 +277,9 @@ const missingRequired = REQUIRED_RUNTIME_PATHS.flatMap(([rel, why]) => {
   if (!fs.existsSync(path.join(prunedRoot, rel))) return [[rel, why]];
   return walk(rel).files.filter(file => !fs.existsSync(path.join(prunedRoot, file))).map(file => [file, why]);
 });
+for (const { file } of expandRuntimeAuthorityIncludes({ rootDir }).files) {
+  if (!fs.existsSync(path.join(prunedRoot, file))) missingRequired.push([file, "canonical runtime authority includes"]);
+}
 check(
   "every_required_runtime_path_survives_pruning",
   missingRequired.length === 0,
