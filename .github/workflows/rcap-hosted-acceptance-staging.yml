@@ -481,6 +481,13 @@ jobs:
       # steps.contract.outputs.* from a position above that step resolves to the
       # empty string and silently skips — the same class of defect this step
       # exists to catch, which is exactly how it behaved when placed earlier.
+      # Structured metadata checks execute the real adapter and TypeScript
+      # parser, so frozen dependencies must exist before this verifier runs.
+      - name: Install frozen application dependencies for the Checkout gate
+        id: gate_deps
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
+        run: npm ci
+
       - name: Verify the reuse-only human Checkout gate
         id: verify_checkout_gate
         if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'
@@ -602,11 +609,6 @@ jobs:
       # one real sandbox Checkout Session through the application, and stops
       # while the item and Session are still unpaid. It never deploys, migrates,
       # synthesizes a completion event, runs the worker, or cleans up the item.
-      - name: Install frozen application dependencies for the Checkout gate
-        id: gate_deps
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
-        run: npm ci
-
       # The payment matrix now completes Checkout on Stripe's hosted page in a
       # browser, because a session nobody paid has no PaymentIntent and the
       # payment writer refuses a paid order without one. Idempotent, and a
@@ -777,6 +779,7 @@ jobs:
         id: golden_journey
         if: steps.contract.outputs.matrix == 'true'
         env:
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
@@ -912,6 +915,10 @@ jobs:
           if [ "$O_CONTRACT" != "success" ]; then
             echo "  $O_CONTRACT  execution contract did not produce a decision; nothing downstream can be trusted"
             echo "::error::the phase contract did not run to success, so this gate cannot assert the matrix ran; this run is not acceptance evidence"
+            exit 1
+          fi
+          if [ "$PHASE" = "full" ] && { [ "$RUNS_MATRIX" != "true" ] || [ "$RUNS_GATE" != "true" ]; }; then
+            echo "::error::full must execute Checkout and the complete matrix together"
             exit 1
           fi
           case "$RUNS_MATRIX/$RUNS_GATE/$RUNS_BROWSER" in
@@ -1056,7 +1063,11 @@ jobs:
       # the job reached its end.
       - name: The emitted evidence earns the verdict it reports
         if: always() && steps.contract.outputs.matrix == 'true'
-        run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
+        env:
+          REQUIRE_CHECKOUT_GATE: ${{ steps.contract.outputs.gate }}
+        run: |
+          node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
+          node scripts/verify-rcap-hosted-evidence-completion.mjs
 
       # Last lines of the job, deliberately. Reprints placed mid-job keep landing
       # above the window the log API returns, which is how two runs were spent

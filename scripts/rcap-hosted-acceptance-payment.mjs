@@ -1,6 +1,7 @@
 import { register } from "node:module";
 import crypto from "node:crypto";
 import fs from "node:fs";
+import { cardEntryEvidence, deliveryRefusal, privateObjectRefusal } from "./rcap-hosted-response-contract.mjs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
@@ -164,6 +165,7 @@ const REQUIRED_CASES = [
   "payment_preview_deployment_discovered",
   "bypass_reaches_the_application_not_the_protection_layer",
   "renderable_route_selected_from_the_registry",
+  "seeded_item_carries_reviewed_packet_information",
   "seeded_item_agrees_with_the_authoritative_resolver",
   // Before a single cent is spent: the published image, by digest, admits the
   // exact tuple the job about to be created will carry.
@@ -465,8 +467,8 @@ const evidence = {
   acceptanceProjectRef: PROJECT_REF,
   applicationSha: APPLICATION_SHA,
   stripeMode: "sandbox (sk_test_)",
-  cardEntryAutomated: false,
-  cardEntryNote: "Stripe's hosted Checkout page cannot be driven from CI without a browser. Every field of the completion event comes from the real session read back from Stripe; payment_status is the single overridden field. The phone test covers the card entry itself."
+  cardEntryAutomated: null,
+  cardEntryNote: "completeHostedCheckout drives Stripe Sandbox Checkout in a browser. Stripe readback supplies payment status, amount, discounts and PaymentIntent; no Session field is overridden. Zero-total orders complete without card entry."
 };
 
 // What this matrix does and does not prove about jurisdictions. It buys and
@@ -2005,6 +2007,8 @@ const stripeApi = async (pathname, init) => {
     }
   });
 
+  evidence.cardEntryAutomated = cardEntryEvidence(outcome.notes);
+
   // Stripe is the witness, not the page. The session is read back and every
   // later case reads this copy.
   const after = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session.id)}?expand[]=discounts.promotion_code&expand[]=payment_intent`, {
@@ -2221,7 +2225,7 @@ const completionEvent = {
   id: `evt_hosted_acceptance_${crypto.randomUUID().replace(/-/g, "").slice(0, 20)}`,
   object: "event",
   type: "checkout.session.completed",
-  created: Math.floor(Date.parse(session.created ? session.created * 1000 : Date.parse("2026-08-14T00:00:00Z")) / 1000) || 1786665600,
+  created: Math.floor(Date.now() / 1000),
   // Every field is the REAL session Stripe returned after the customer paid on
   // its hosted page. Nothing is overridden any more — payment_status, the
   // PaymentIntent and any applied discount are all Stripe's, because the
@@ -3111,6 +3115,7 @@ let finalCycleResult = null;
     // The image is addressed by its immutable digest, not by a tag. A tag is an
     // alias and can be moved; only the sha256 digest names these exact bytes.
     pulled_by_immutable_digest: /@sha256:[0-9a-f]{64}$/.test(WORKER_DIGEST_REF),
+    artifact_produced_by_the_accepted_worker: job?.container_digest === WORKER_DIGEST_REF.split("@")[1],
     // --- the journey reached THIS run's job, and knows that it did -----------
     target_job_id_from_the_paid_render_response: typeof targetJobId === "string" && targetJobId.trim() !== "",
     // Every cycle was attributable to a specific row. An unattributable cycle
@@ -3315,7 +3320,7 @@ let finalCycleResult = null;
   record(
     "artifact_is_stored_privately_and_re_readable",
     typeof artifactPath === "string" && artifactPath.trim() !== ""
-      && typeof publicRead === "number" && publicRead >= 400
+      && privateObjectRefusal(publicRead)
       && serviceRead.status === 200 && serviceRead.bytes > 0,
     `artifact path ${artifactPath ?? "(none recorded)"}: anonymous read of the public object path = ${publicRead} (must refuse); an authorized re-read returned ${serviceRead.status} with ${serviceRead.bytes} bytes. Written once, readable back by an authorized reader, and not readable by the public.`
   );
@@ -3359,14 +3364,7 @@ let finalCycleResult = null;
     && ownerHash === (evidence.worker?.validation ? finalJob?.output_sha256 : null);
   // A sign-in redirect is a refusal; a redirect to anywhere else is not, and
   // saying which one it was is the difference between evidence and a number.
-  const refused = (response) => {
-    if (typeof response.status !== "number") return false;
-    if (response.status >= 400) return true;
-    if (response.status >= 300 && response.status < 400) {
-      return typeof response.location === "string" && /sign-?in|login|auth/i.test(response.location);
-    }
-    return false;
-  };
+  const refused = (response) => deliveryRefusal(response, PREVIEW);
   record(
     "delivery_serves_the_owner_and_refuses_everyone_else",
     ownerServed && refused(stranger) && refused(anonymous) && refused(legacy),

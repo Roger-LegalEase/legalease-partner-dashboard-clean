@@ -18,6 +18,7 @@
 // safety, and the rollback rehearsal.
 
 import crypto from "node:crypto";
+import { register } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
@@ -35,13 +36,14 @@ const APP_PORT = Number(process.env.HOSTED_APP_PORT ?? 3000);
 const APP_URL = `http://127.0.0.1:${APP_PORT}`;
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
-if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF)) {
-  console.error("MATRIX: SUPABASE_ACCESS_TOKEN and a well-formed ACCEPTANCE_SUPABASE_PROJECT_REF are required");
+if (!SUPABASE_ACCESS_TOKEN || PROJECT_REF !== "hyflxnlhpmiqxvvcoiia") {
+  console.error("MATRIX: SUPABASE_ACCESS_TOKEN and the pinned acceptance ACCEPTANCE_SUPABASE_PROJECT_REF are required");
   process.exit(1);
 }
 
 const verdicts = new Map();
 function record(caseId, passed, observed) {
+  if (verdicts.has(caseId) || typeof passed !== "boolean" || !observed) throw new Error(`invalid matrix verdict: ${caseId}`);
   verdicts.set(caseId, { passed, observed });
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
 }
@@ -209,6 +211,7 @@ async function startApp(extraEnv, logName, runtime = "start") {
 
 const evidence = {
   schemaVersion: "rcap-hosted-acceptance-matrix/v1",
+  applicationSha: process.env.HOSTED_APPLICATION_SHA ?? "",
   acceptanceProjectRef: PROJECT_REF,
   supabaseUrl: SUPABASE_URL,
   workerDigestRef: WORKER_DIGEST_REF || null,
@@ -317,12 +320,9 @@ const probeRender = (authenticated) => probeRenderAs(authenticated ? A() : null)
   // by the scope. Distinguishing A from B is the whole point of the case.
   const outOfScope = await probeRenderAs(B());
 
-  // What this case can honestly prove is which side of the DELIVERY CONTROL
-  // each caller lands on, and 503 is that control's own answer. Requiring a
-  // specific downstream code from A would be asserting something else — how far
-  // past the gate a synthetic item happens to get — and would fail for reasons
-  // that have nothing to do with the scope. Past the gate is the property.
-  const admittedA = inScope.status !== 503 && inScope.status !== 401;
+  // The random item is absent. A typed 404 proves authenticated passage past
+  // delivery admission; transport/500/verified-account errors prove no such thing.
+  const admittedA = inScope.status === 404;
   const pass = up && admittedA && outOfScope.status === 503 && anon.status === 401;
   record(
     "scoped_admits_only_its_named_identity",
@@ -360,15 +360,23 @@ async function evaluate(jurisdiction, answers, profileVersion) {
 }
 
 {
+  register("./lib/ts-esm-loader.mjs", import.meta.url);
+  const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
   const journeys = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-all50/hosted-acceptance-journeys.json"), "utf8"));
 
   for (const [caseId, spec] of Object.entries(journeys.cases)) {
     const results = [];
     for (const probe of spec.probes) {
+      const expected = evaluateAuthoritativeScreeningResult({
+        jurisdiction: probe.jurisdiction, profileVersion: probe.profileVersion,
+        answers: probe.answers, matterId: "00000000-0000-4000-8000-000000000000"
+      }).evaluation;
       const res = await evaluate(probe.jurisdiction, probe.answers, probe.profileVersion);
       results.push({
         label: probe.label,
         status: res.status,
+        expected: { resultCode: expected.resultCode, paymentAllowed: expected.paymentAllowed, pathwayId: expected.pathwayId ?? null },
+        pathwayId: res.json?.pathwayId ?? null,
         resultCode: res.json?.resultCode ?? null,
         paymentAllowed: res.json?.paymentAllowed ?? null,
         selectedTrackId: res.json?.selectedTrackId ?? null
@@ -379,7 +387,9 @@ async function evaluate(jurisdiction, answers, profileVersion) {
     // failure, not a pass by absence.
     const answered = results.filter((r) => r.status === 200);
     const anyPaid = results.some((r) => r.paymentAllowed === true);
-    const pass = answered.length === results.length && !anyPaid;
+    const pass = results.length > 0 && answered.length === results.length && !anyPaid
+      && results.every(r => r.paymentAllowed === false && r.expected.paymentAllowed === false
+        && r.resultCode === r.expected.resultCode && r.pathwayId === r.expected.pathwayId);
     record(
       caseId,
       pass,
@@ -401,12 +411,13 @@ async function evaluate(jurisdiction, answers, profileVersion) {
     returning id
   `);
   const itemId = Array.isArray(seed.json) ? seed.json[0]?.id : null;
+  const seededOwnedItem = seed.ok && /^[a-f0-9-]{36}$/i.test(itemId ?? "");
 
   const asB = await supabase(`/rest/v1/consumer_briefcase_items?id=eq.${itemId}`, { token: B().token });
   const rows = Array.isArray(asB.json) ? asB.json.length : -1;
   record(
     "cross_tenant_read_denied",
-    rows === 0,
+    seededOwnedItem && asB.status === 200 && rows === 0,
     `participant B reading participant A's item through PostgREST on the hosted project: status ${asB.status}, rows returned ${rows} (must be 0)`
   );
 
@@ -420,7 +431,7 @@ async function evaluate(jurisdiction, answers, profileVersion) {
   const value = Array.isArray(after.json) ? after.json[0]?.payment_status : null;
   record(
     "payment_write_denied_through_postgrest",
-    value === "unpaid",
+    seededOwnedItem && after.ok && [200, 204, 400, 401, 403].includes(patch.status) && value === "unpaid",
     `the OWNER patching their own row's payment_status through PostgREST returned ${patch.status}; the stored value is still '${value}' (must be 'unpaid') — this is the RCAP-SEC-001 forgery attempted over HTTP rather than in SQL`
   );
   evidence.cases.isolation = { crossTenantRows: rows, ownerPatchStatus: patch.status, storedPaymentStatus: value };
@@ -473,7 +484,7 @@ async function evaluate(jurisdiction, answers, profileVersion) {
       "worker_digest_runs_against_hosted_project",
       pass,
       pass
-        ? `${WORKER_DIGEST_REF} started, reached ${SUPABASE_URL}, drained the queue and exited 0`
+        ? `${WORKER_DIGEST_REF} started, reached ${SUPABASE_URL}, completed one claim cycle and exited 0`
         : `worker exited ${run.status}: ${output.replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***").slice(-400)}`
     );
     evidence.cases.worker = { ref: WORKER_DIGEST_REF, exitCode: run.status };
@@ -488,6 +499,8 @@ finish();
 function finish() {
   const missing = REQUIRED_CASES.filter((caseId) => !verdicts.has(caseId));
   const failed = [...verdicts.entries()].filter(([, v]) => !v.passed).map(([caseId]) => caseId);
+  evidence.observations = evidence.cases;
+  evidence.cases = Object.fromEntries(verdicts);
   evidence.requiredCases = REQUIRED_CASES;
   evidence.missingCases = missing;
   evidence.failedCases = failed;

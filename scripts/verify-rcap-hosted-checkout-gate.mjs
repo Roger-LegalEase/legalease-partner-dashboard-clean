@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from "node:fs";
+import { checkoutMetadataContractFailures, checkoutMetadataBehaviorFailures } from "./verify-rcap-checkout-metadata-contract.mjs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { workerInputEquivalence } from "./verify-rcap-worker-input-equivalence.mjs";
@@ -109,8 +110,8 @@ check(
     && gate.includes("trackId: MS_CHECKOUT.trackId")
     && gate.includes("checkout_fixture_route_derived_from_authorities")
     && gate.includes("stored_row_matches_authoritative_resolver")
-    && gate.includes("jurisdiction: checkoutRouteIdentity.jurisdiction")
-    && gate.includes("pathway_label: checkoutRouteIdentity.pathwayLabel"),
+    && gate.includes("stored.jurisdiction === checkoutRouteIdentity.jurisdiction")
+    && gate.includes("stored.pathway_label === checkoutRouteIdentity.pathwayLabel"),
   "Checkout fixture must stay on the exact Captain-selected MS route and explicit track without fallback"
 );
 
@@ -350,6 +351,9 @@ check(!gate.includes("insert into public.consumer_briefcase_items"), "fixture mu
 includesEvery(verificationLifecycle, ["/api/expungement-ai/screening/pending", "/api/expungement-ai/screening/pending/claim",
   "/packet-information", "verify: false", "verify: true", "unverified.status === 403",
   "current final verification is required", "verified.json?.readyToGenerate === true"], "final-review lifecycle");
+
+const metadataFailures = [...checkoutMetadataContractFailures({ root }), ...await checkoutMetadataBehaviorFailures()];
+check(metadataFailures.length === 0, `Checkout metadata contract: ${metadataFailures.join("; ")}`);
 
 if (failures.length > 0) {
   console.error(`FAIL verify-rcap-hosted-checkout-gate — ${failures.length}/${checks} checks failed`);

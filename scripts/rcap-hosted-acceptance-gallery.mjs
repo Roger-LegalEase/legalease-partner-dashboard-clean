@@ -5,8 +5,8 @@
 // Mississippi and Illinois — are reachable and rendering on the DEPLOYED
 // Preview instance, and emits the exact URLs to open on a phone.
 //
-// These three are also the states with preserved legacy generators, so this
-// doubles as the check that the freeze did not break a live legacy surface.
+// These states retain internal review assets. Gallery access grants no
+// commercial or fulfillment authority to a retired generator.
 //
 // The gallery is the internal review surface, not a consumer page: it is where
 // a state's build status, overlay coverage, pleading set and review artifacts
@@ -14,6 +14,7 @@
 // can be exercised while the consumer delivery route is still disabled.
 
 import fs from "node:fs";
+import { internalGalleryRefusal } from "./rcap-hosted-response-contract.mjs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -52,8 +53,15 @@ const PRIORITY = [
   { code: "IL", slug: "illinois", name: "Illinois" }
 ];
 
+const REQUIRED_CASES = [
+  "gallery_preview_deployment_discovered", "gallery_bypass_reaches_the_application",
+  "gallery_index_reached_the_application", "gallery_content_exists_for_every_priority_state",
+  "gallery_handoff_reached_the_application",
+  ...PRIORITY.map((state) => `gallery_is_reachable_and_gated_${state.slug}`)
+];
 const verdicts = new Map();
 function record(caseId, passed, observed) {
+  if (verdicts.has(caseId) || typeof passed !== "boolean" || !observed) throw new Error(`invalid gallery verdict: ${caseId}`);
   verdicts.set(caseId, { passed, observed });
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
 }
@@ -139,7 +147,8 @@ let previewUrl = null;
     && (match?.readyState ?? match?.state) === "READY"
     && (match?.target === null || match?.target === "preview")
     && match?.meta?.rcapApplicationSha === APPLICATION_SHA
-    && match?.meta?.rcapAcceptanceProjectRef === PROJECT_REF;
+    && match?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
+    && match?.meta?.rcapRouteState === "staging_scoped";
   previewUrl = exact ? `https://${EXACT_PREVIEW_HOSTNAME}` : null;
   record("gallery_preview_deployment_discovered", Boolean(previewUrl), previewUrl ?? `resolved deployment ${EXACT_DEPLOYMENT_ID} did not preserve the exact READY nonproduction candidate contract`);
   if (!previewUrl) finish();
@@ -179,9 +188,7 @@ let previewUrl = null;
   // is the point; what must not happen is Vercel answering instead. The
   // must-succeed 200 anchor is the /api/health probe below, which is what
   // separates "the app refused me" from "I never got there".
-  const answeredByApplication = !index.fromProtectionLayer
-    && !String(index.redirectHost).endsWith("vercel.com")
-    && typeof index.status === "number";
+  const answeredByApplication = internalGalleryRefusal(index, previewUrl, "/internal/record-clearing/states");
   record(
     "gallery_index_reached_the_application",
     answeredByApplication,
@@ -205,7 +212,7 @@ for (const state of PRIORITY) {
   // APPLICATION must have answered — a wall 401 withholds the state name too,
   // which is how the superseded evidence passed while proving nothing. And the
   // content must be withheld from a caller with no session.
-  const answeredByApplication = !page.fromProtectionLayer && !page.redirectHost.endsWith("vercel.com");
+  const answeredByApplication = internalGalleryRefusal(page, previewUrl, `/internal/record-clearing/states/${state.slug}`);
   const withheld = !page.body.includes(state.name);
   record(
     `gallery_is_reachable_and_gated_${state.slug}`,
@@ -250,7 +257,7 @@ for (const state of PRIORITY) {
   const handoff = await get(`${previewUrl}/internal/record-clearing/handoff`);
   record(
     "gallery_handoff_reached_the_application",
-    !handoff.fromProtectionLayer && !String(handoff.redirectHost).endsWith("vercel.com"),
+    internalGalleryRefusal(handoff, previewUrl, "/internal/record-clearing/handoff"),
     `GET /internal/record-clearing/handoff = ${handoff.status}${handoff.location ? `, location=${handoff.location}` : ""}; ` +
     `answered by=${handoff.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "the application"} — the QA and counsel handoff summary is internal-admin gated, so a sign-in redirect from the application is the correct anonymous answer`
   );
@@ -261,7 +268,10 @@ finish();
 function finish() {
   const failed = [...verdicts.entries()].filter(([, v]) => !v.passed).map(([caseId]) => caseId);
   evidence.failedCases = failed;
-  evidence.passed = verdicts.size > 0 && failed.length === 0;
+  evidence.requiredCases = REQUIRED_CASES;
+  evidence.cases = Object.fromEntries(verdicts);
+  evidence.missingCases = REQUIRED_CASES.filter((id) => !verdicts.has(id));
+  evidence.passed = failed.length === 0 && evidence.missingCases.length === 0;
   fs.writeFileSync(path.join(EVIDENCE_DIR, "gallery.json"), `${JSON.stringify(evidence, null, 2)}\n`);
 
   console.log("");

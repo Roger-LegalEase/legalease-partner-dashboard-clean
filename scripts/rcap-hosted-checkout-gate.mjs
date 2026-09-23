@@ -9,6 +9,7 @@
 // URL, and stops.
 
 import crypto from "node:crypto";
+import { checkoutMetadataExpectation, checkoutMetadataEvidence } from "./rcap-checkout-metadata-contract.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -52,10 +53,9 @@ const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_RETURN_ORIGIN = applicationShaExact ? expectedHostedReturnOrigin(APPLICATION_SHA) : "";
 const EXPECTED_RETURN_HOST = EXPECTED_RETURN_ORIGIN ? new URL(EXPECTED_RETURN_ORIGIN).host : "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-// Rebound on 2026-09-22 to the image published from the Grade-A application
-// freeze 8eb8ddc9d by run 35750246888 and proved against the registry by
-// read-only image acceptance run 35751543666. The superseded sha256:9faa24e8…
-// and sha256:df6c2965… are history, not authority.
+// Accepted worker source fe2457a71 was published by run 35769217594 and
+// passed read-only image acceptance 35769776831. Application identity remains
+// separately bound; canonical input equivalence authorizes this digest reuse.
 const EXPECTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_EVENTS = [
@@ -808,7 +808,7 @@ async function main() {
   const reread = await sql(`
     select id, user_id, jurisdiction, pathway_label, result_code, packet_type, status,
            payment_status, payment_allowed, checkout_session_id, payment_provider,
-           amount_cents, packet_status
+           amount_cents, packet_status, source_session_id
       from public.consumer_briefcase_items
      where id = '${itemId}' and user_id = '${A.id}'
   `);
@@ -871,6 +871,12 @@ async function main() {
   const personRow = Array.isArray(person.json) ? person.json[0] : null;
   record("authenticated_user_resolves_unique_consumer_person", Boolean(personRow?.id) && personRow.match_key === personMatchKey, `person id=${personRow?.id ?? "(none)"}; namespace=${personRow?.partner_slug ?? "(none)"}`);
 
+  // Independently derive the full expectation before Checkout from owned server
+  // rows and the application's pure verification/preflight authority.
+  const expectedMetadata = await checkoutMetadataExpectation({
+    userId: A.id, stored, personRow, protectedVerification
+  });
+
   const unpaidRender = await callApp(previewUrl, "/api/expungement-ai/packet/render", {
     method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId }
   });
@@ -926,21 +932,8 @@ async function main() {
     `matching Sessions after the one application POST=${sessionsAfter.length}; ids=${sessionsAfter.map((entry) => entry.id).join(",")}`
   );
 
-  const expectedMetadata = {
-    channel: "expungement_ai_consumer",
-    user_id: A.id,
-    briefcase_item_id: itemId,
-    result_code: checkoutRouteIdentity.resultCode,
-    jurisdiction: checkoutRouteIdentity.jurisdiction,
-    packet_type: checkoutRouteIdentity.packetType,
-    pathway_label: checkoutRouteIdentity.pathwayLabel
-  };
-  // Stripe treats an empty metadata value as an unset operation. The accepted
-  // application supplies source_session_id="" for this seeded item, so Stripe
-  // may return it as either absent or the empty string; both represent the same
-  // no-source-session binding.
-  const metadataExact = Object.entries(expectedMetadata).every(([key, value]) => session?.metadata?.[key] === value)
-    && (session?.metadata?.source_session_id ?? "") === "";
+  const metadataProof = checkoutMetadataEvidence(session?.metadata, expectedMetadata);
+  const metadataExact = metadataProof.passed;
   const lineItem = lineItems[0] ?? null;
   const product = lineItem?.price?.product;
   const productName = typeof product === "object" ? product.name : lineItem?.description;
@@ -960,10 +953,12 @@ async function main() {
     : `inline product ${JSON.stringify(productName)}`;
   const sessionExact = sessionResponse.status === 200
     && session?.id === checkoutSessionId
+    && session?.mode === "payment"
     && session?.livemode === false
     && session?.status === "open"
     && session?.payment_status === "unpaid"
     && session?.amount_total === 5000
+    && session?.amount_subtotal === 5000
     && String(session?.currency ?? "").toLowerCase() === "usd"
     && session?.client_reference_id === itemId
     && session?.url === checkoutUrl
@@ -972,18 +967,23 @@ async function main() {
     && lineItems.length === 1
     && lineItem?.quantity === 1
     && lineItem?.amount_total === 5000
+    && lineItem?.amount_subtotal === 5000
+    && lineItem?.price?.unit_amount === 5000
+    && lineItem?.currency === "usd"
+    && lineItem?.price?.currency === "usd"
     && isThePacketProduct;
   record(
     "stripe_session_amount_mode_metadata_and_product_exact",
     sessionExact,
-    `id=${session?.id}; livemode=${session?.livemode}; status=${session?.status}; payment_status=${session?.payment_status}; amount=${session?.amount_total}; currency=${session?.currency}; metadata exact=${metadataExact}; line items=${lineItems.length}; quantity=${lineItem?.quantity}; product=${productIdentity}`
+    `id=${session?.id}; livemode=${session?.livemode}; status=${session?.status}; payment_status=${session?.payment_status}; amount=${session?.amount_total}; currency=${session?.currency}; metadata exact=${metadataExact}; metadata failures=${JSON.stringify(metadataProof.failures)}; line items=${lineItems.length}; quantity=${lineItem?.quantity}; product=${productIdentity}`
   );
 
-  const personMatterProductBound = session.metadata.user_id === A.id
+  const personMatterProductBound = metadataExact
+    && session.metadata.user_id === A.id
     && personRow?.match_key === consumerPersonMatchKey(session.metadata.user_id)
     && matterId === consumerMatterIdForItem(session.metadata.briefcase_item_id)
     && session.metadata.jurisdiction === checkoutRouteIdentity.jurisdiction
-    && session.metadata.pathway_label === checkoutRouteIdentity.pathwayLabel
+    && session.metadata.pathway_id === currentVerification.snapshot.pathwayId
     && session.metadata.packet_type === checkoutRouteIdentity.packetType
     && isThePacketProduct;
   record(
@@ -999,7 +999,8 @@ async function main() {
     briefcaseItemId: itemId,
     matterId,
     matterBinding: "metadata.briefcase_item_id -> consumerMatterIdForItem(item)",
-    productBinding: "metadata jurisdiction/pathway/packet_type + authoritative route + Stripe line item",
+    productBinding: "canonical metadata.product_id + authoritative route + Stripe line item",
+    metadataContract: metadataProof,
     literalPersonIdMetadataPresent: Object.hasOwn(session.metadata ?? {}, "person_id"),
     literalMatterIdMetadataPresent: Object.hasOwn(session.metadata ?? {}, "matter_id")
   };

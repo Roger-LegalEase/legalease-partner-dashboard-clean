@@ -8,6 +8,8 @@ import Module from "node:module";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { buildMsNonConvictionVerification } from "./lib/rcap-ms-nonconviction-fixture.mjs";
+import { HOSTED_FINAL_REVIEW_ANSWERS } from "./rcap-hosted-final-verification.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
@@ -112,6 +114,15 @@ const UNRECORDED_JURISDICTION = "PA";
 const UNRECORDED_PATHWAY_ID = "pa-path-a-non-conviction-expungement";
 const APP_ORIGIN = "https://axis-serving-believed-century.trycloudflare.com";
 
+// Reuse the real protected-verification fixture. An abbreviated snapshot no
+// longer reaches Checkout's metadata builder through current commercial admission.
+const verifiedFixture = buildMsNonConvictionVerification({
+  ...loadTsWithMocks("src/lib/expungement-ai/authoritative-screening-result.ts", {}),
+  ...loadTsWithMocks("src/lib/expungement-ai/packet-information.ts", {}),
+  matterId: ITEM,
+  answerOverrides: HOSTED_FINAL_REVIEW_ANSWERS
+});
+
 function eligibleItem(overrides = {}) {
   return {
     id: ITEM,
@@ -136,6 +147,8 @@ function openSession(overrides = {}) {
     payment_status: "unpaid",
     client_reference_id: ITEM,
     amount_total: 5000,
+    amount_subtotal: 5000,
+    allow_promotion_codes: true,
     currency: "usd",
     success_url: `${APP_ORIGIN}/expungement-ai/packet-ready?briefcaseItemId=${ITEM}`,
     cancel_url: `${APP_ORIGIN}/expungement-ai/pay?briefcaseItemId=${ITEM}`,
@@ -153,7 +166,9 @@ function openSession(overrides = {}) {
       data: [{
         quantity: 1,
         amount_total: 5000,
-        price: { product: { id: "prod_legacy", name: "Expungement.ai self-help packet" } }
+        amount_subtotal: 5000,
+        currency: "usd",
+        price: { unit_amount: 5000, product: { id: "prod_legacy", name: "Expungement.ai self-help packet" } }
       }]
     },
     ...overrides
@@ -344,6 +359,8 @@ function buildPaymentAdapter({
     },
     "@/lib/expungement-ai/consumer-payment-authority": {
       CONSUMER_PACKET_PRODUCT_ID: PRODUCT,
+      CONSUMER_PACKET_PRICE_CENTS: 5000,
+      CONSUMER_PACKET_CURRENCY: "usd",
       persistConsumerCheckoutBinding: async (input) => {
         persistCalls.push(input);
         return { outcome: persistOutcome };
@@ -356,6 +373,7 @@ function buildPaymentAdapter({
         return {
           hash: verificationHash,
           snapshot: {
+            ...verifiedFixture.snapshot,
             jurisdiction: JURISDICTION,
             pathwayId: PATHWAY_ID,
             // The server-owned track, from the specification this route's
@@ -479,7 +497,7 @@ async function checkoutBehavior() {
       Object.fromEntries(["user_id", "briefcase_item_id", "product_id", "person_id", "matter_id"].map((key) => [key, h.createCalls[0].params.metadata[key]])),
       { user_id: USER, briefcase_item_id: ITEM, product_id: PRODUCT, person_id: PERSON, matter_id: MATTER }
     );
-    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:initial`);
+    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:initial:inline`);
     assert.equal(h.persistCalls.length, 1);
     assert.equal(h.persistCalls[0].checkoutSessionId, "cs_test_new");
     assert.equal(h.persistCalls[0].expectedVerificationHash, "a".repeat(64), "checkout binding carries the exact verified snapshot hash");
@@ -580,7 +598,7 @@ async function checkoutBehavior() {
       item: eligibleItem({ checkoutSessionId: expired.id })
     });
     assert.equal(h.createCalls.length, 1);
-    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:${expired.id}`);
+    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:${expired.id}:inline`);
   }
 
   {
@@ -642,7 +660,7 @@ async function protectedCasBehavior() {
     schemaVersion: "expungement-ai/protected-packet-draft/v1",
     capturedAt: "2026-08-26T00:00:00.000Z",
     jurisdiction: JURISDICTION,
-    profileVersion: "1.3.0",
+    profileVersion: verifiedFixture.snapshot.profileVersion,
     profileAuthorityFingerprint: "c".repeat(64),
     requiredInputIds: [],
     packetFamilyIdentifiers: { mode: null, sourceFormIds: [] },
@@ -778,7 +796,9 @@ function completedEvent(overrides = {}) {
     type: "checkout.session.completed",
     data: {
       object: {
+        ...openSession(),
         id: "cs_test_bound",
+        status: "complete",
         mode: "payment",
         payment_status: "paid",
         amount_total: 5000,
@@ -792,7 +812,7 @@ function completedEvent(overrides = {}) {
           product_id: PRODUCT,
           person_id: PERSON,
           matter_id: MATTER,
-          reviewed_input_hash: "a".repeat(64),
+          pathway_id: PATHWAY_ID,
           verification_hash: "a".repeat(64)
         }
       }
@@ -851,8 +871,9 @@ function buildReconciliation({
       }
     },
     "@/lib/expungement-ai/consumer-payment-authority": {
-      CONSUMER_PACKET_CURRENCY: "usd",
       CONSUMER_PACKET_PRODUCT_ID: PRODUCT,
+      CONSUMER_PACKET_PRICE_CENTS: 5000,
+      CONSUMER_PACKET_CURRENCY: "usd",
       recordConsumerPacketPayment: async (input) => {
         paymentCalls.push(input);
         return { outcome: paymentOutcome, briefcaseItemId: ITEM, providerEventId: "evt_original" };
@@ -877,7 +898,7 @@ function buildReconciliation({
       consumerPacketPriceCents: 5000
     },
     "@/lib/expungement-ai/packet-information": {
-      requireCurrentPacketVerification: () => ({ hash: "a".repeat(64), snapshot: {} })
+      requireCurrentPacketVerification: () => ({ hash: "a".repeat(64), snapshot: verifiedFixture.snapshot })
     },
     "@/lib/expungement-ai/verification-cas": {
       readProtectedPacketArtifact: async () => ({
@@ -1035,32 +1056,18 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
   };
 
   const item = eligibleItem({
-    summary: "The saved screening result identifies the Pennsylvania non-conviction pathway.",
+    summary: "The protected screening result identifies the Mississippi non-conviction pathway.",
     nextSteps: ["Confirm the current filing instructions before filing."],
     checkoutSessionId: "cs_test_bound",
     paymentStatus: "paid"
   });
+  const snapshot = verifiedFixture.snapshot;
   const model = reviewReady ? {
-    stateCode: JURISDICTION,
-    stateName: "Pennsylvania",
-    pathwayId: "path-a-non-conviction-expungement",
-    pathwayLabel: item.pathwayLabel,
-    packetPlan: null,
-    questions: [],
-    initialAnswers: {
-      participant_full_legal_name: "Alex Acceptance",
-      county: "Allegheny",
-      court: "Court of Common Pleas",
-      charge: "Synthetic test charge",
-      disposition_date: "2025-01-02",
-      criminal_history: "The listed charge was dismissed."
-    },
-    serverFacts: { jurisdiction: JURISDICTION, pathway_id: PATHWAY_ID },
-    requiredInputIds: ["participant_full_legal_name", "county", "court", "charge", "disposition_date", "criminal_history"],
-    missingInputIds: [],
-    stage: "ready_to_generate",
-    updatedAt: "2026-08-15T00:00:00.000Z",
-    reviewedAt: "2026-08-15T00:00:00.000Z"
+    stateCode: snapshot.jurisdiction, pathwayId: snapshot.pathwayId,
+    packetPlan: snapshot.packetPlan,
+    initialAnswers: { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers },
+    serverFacts: snapshot.serverFacts, requiredInputIds: snapshot.requiredInputIds,
+    missingInputIds: [], stage: "ready_to_generate", reviewedAt: snapshot.verifiedAt
   } : null;
 
   const renderRequest = loadTsWithMocks("src/lib/expungement-ai/consumer-render-request.ts", {
@@ -1072,6 +1079,8 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
     },
     "@/lib/expungement-ai/consumer-payment-authority": {
       CONSUMER_PACKET_PRODUCT_ID: PRODUCT,
+      CONSUMER_PACKET_PRICE_CENTS: 5000,
+      CONSUMER_PACKET_CURRENCY: "usd",
       consumerPacketPaymentAuthority: async () => ({ valid: true, reason: "authorized", providerEventId: "evt_paid" })
     },
     "@/lib/expungement-ai/briefcase": {
@@ -1085,7 +1094,7 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
         if (model?.stage !== "ready_to_generate") throw new Error("current final verification is required");
         return {
           hash: "a".repeat(64),
-          snapshot: { pathwayId: PATHWAY_ID, selectedTrackId: null, resultCode: "packet_ready", packetPlan: null },
+          snapshot: verifiedFixture.snapshot,
           revision: 4
         };
       }
@@ -1096,12 +1105,12 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
         return {
           spec: {
             packetId: input.packetId,
-            routeId: `PA:${PATHWAY_ID}`,
+            routeId: `${JURISDICTION}:${PATHWAY_ID}`,
             rendererKind: "packet_document_v1",
             rendererVersion: "1.0.0",
             sourceSha256: null,
             profileId: JURISDICTION,
-            profileVersion: "1.3.0",
+            profileVersion: verifiedFixture.snapshot.profileVersion,
             briefcaseItemId: ITEM,
             inputHash: "a".repeat(64)
           },
@@ -1141,15 +1150,15 @@ async function renderRequestBehavior() {
       authUserId: USER,
       briefcaseItemId: ITEM
     });
-    assert.equal(outcome.status, "queued");
+    assert.equal(outcome.status, "queued", JSON.stringify(outcome));
     assert.equal(h.item.paymentStatus, "paid");
     assert.ok(!("commercialFlow" in (h.item.artifactRefs ?? {})), "post-payment render does not require the writable commercialFlow mirror");
     assert.equal(h.buildCalls.length, 2, "provisional and immutable-version packet specs are both built from the exact pathway");
     assert.equal(h.buildCalls[0].pathway, PATHWAY_ID);
     assert.equal(h.buildCalls[1].pathway, PATHWAY_ID);
-    assert.equal(h.buildCalls[0].trackId, null);
-    assert.equal(h.buildCalls[1].trackId, null);
-    assert.equal(h.buildCalls[0].packetFields.participant_full_legal_name, "Alex Acceptance");
+    assert.equal(h.buildCalls[0].trackId, TRACK_ID);
+    assert.equal(h.buildCalls[1].trackId, TRACK_ID);
+    assert.equal(h.buildCalls[0].packetFields.participant_full_legal_name, verifiedFixture.snapshot.packetAnswers.participant_full_legal_name);
     assert.equal(h.buildCalls[0].packetFields.jurisdiction, JURISDICTION);
     assert.equal(h.packetRows.length, 0, "application performs no packet-row write before atomic enqueue");
     assert.equal(h.inputSnapshots.length, 0, "application performs no mutable input upsert before atomic enqueue");
@@ -1163,14 +1172,14 @@ async function renderRequestBehavior() {
       expectedVerificationHash: "a".repeat(64)
     });
     assert.equal(h.enqueueCalls[0].payload.renderPacket.pathway, "source_engine_packet_plan");
-    assert.equal(h.enqueueCalls[0].payload.renderPacket.petitioner_first_name, "Alex");
-    assert.equal(h.enqueueCalls[0].payload.renderPacket.petitioner_last_name, "Acceptance");
-    assert.equal(h.enqueueCalls[0].payload.renderPacket.court_county, "Allegheny");
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.petitioner_first_name, "Acceptance");
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.petitioner_last_name, "Consumer");
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.court_county, "Hinds County");
     assert.equal(h.enqueueCalls[0].payload.renderPacket.person_id, PERSON);
     assert.equal(h.enqueueCalls[0].payload.renderInputPayload.productId, PRODUCT);
     assert.equal(h.enqueueCalls[0].payload.renderInputPayload.matterId, MATTER);
     assert.equal(h.enqueueCalls[0].payload.renderInputPayload.pathwayId, PATHWAY_ID);
-    assert.equal(h.enqueueCalls[0].payload.renderInputPayload.packetFields.charge, "Synthetic test charge");
+    assert.deepEqual(h.enqueueCalls[0].payload.renderInputPayload.packetFields.charge, verifiedFixture.snapshot.packetAnswers.charge);
   }
 
   {
@@ -1224,8 +1233,10 @@ function sourceContracts() {
     assert.ok(verificationClient.includes('if (mode === "paid")'));
     assert.ok(verificationClient.includes('mode: "paid_durable"') && verificationClient.includes('label: "Prepare updated packet"'));
     assert.ok(verificationClient.includes("openPacket: packetReady"), "paid/sponsored Ready keeps immutable packet access");
-    assert.ok(verificationClient.includes('packetReady ? null : { mode: "sponsored_sync"'), "sponsored Ready cannot duplicate generation");
-    assert.ok(verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode })"));
+    const { packetVerificationActions } = loadTsWithMocks("src/components/expungement-ai/packet-verification-client.ts", {});
+    assert.equal(packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored", commercialActions: { generationAllowed: true } }).generation, null, "sponsored Ready cannot duplicate generation");
+    assert.equal(packetVerificationActions({ verified: true, packetReady: false, mode: "sponsored", commercialActions: { generationAllowed: false } }).generation, null, "server refusal cannot be bypassed by a verified UI state");
+    assert.ok(verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode, commercialActions: allowedActions })"));
     assert.ok(verificationAction.includes("nextActions.openPacket") && verificationAction.includes("Open my packet"));
     assert.ok(verificationAction.includes('nextActions.generation?.mode === "paid_durable"'));
     assert.ok(verificationAction.includes('mode="paid_durable"') && verificationAction.includes("label={nextActions.generation.label}"));
@@ -1264,6 +1275,29 @@ function sourceContracts() {
   assert.ok(packageSource.includes("HOSTED_STRIPE_TEST_SECRET"));
 }
 
+// Export the same executable adapter fixture for the hosted metadata contract
+// tests. No provider client or live database is involved.
+export async function captureCheckoutMetadataFixture() {
+  const sourceSessionId = "55555555-5555-4555-8555-555555555555";
+  const item = eligibleItem({ sourceSessionId });
+  const h = buildPaymentAdapter({ verificationSnapshotOverrides: verifiedFixture.snapshot });
+  await h.adapter.createConsumerPacketCheckout({ userId: USER, item });
+  const { readyToPurchase } = loadTsWithMocks("src/lib/expungement-ai/render-preflight.ts", {});
+  const snapshot = verifiedFixture.snapshot;
+  const readiness = readyToPurchase({ snapshot, verificationHash: "a".repeat(64), facts: {
+    ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers, ...snapshot.serverFacts
+  } });
+  assert.equal(readiness.ready, true);
+  return { actual: h.createCalls[0].params.metadata, authority: {
+    userId: USER, personId: PERSON, matterId: MATTER, productId: PRODUCT,
+    stored: { id: ITEM, user_id: USER, jurisdiction: item.state, result_code: item.resultCode,
+      packet_type: item.packetType, source_session_id: sourceSessionId },
+    verification: { hash: "a".repeat(64), snapshot }, renderInputHash: readiness.renderInputHash
+  } };
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+
 await authoritativePersistenceBehavior();
 await checkoutBehavior();
 await protectedCasBehavior();
@@ -1276,3 +1310,5 @@ console.log("- Final review gates Checkout and exact matter metadata is persiste
 console.log("- An open legacy Session is patched and reused; mismatches fail closed without duplication.");
 console.log("- Signed events reject sponsored or conflicting evidence and enqueue durable Phase 53 work.");
 console.log("- Reviewed packet fields are snapshotted, hashed and persisted into the worker source row.");
+
+}

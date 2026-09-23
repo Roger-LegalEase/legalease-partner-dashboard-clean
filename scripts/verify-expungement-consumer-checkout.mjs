@@ -1,9 +1,18 @@
 import fs from "node:fs";
+import { checkoutMetadataContractFailures, checkoutMetadataBehaviorFailures } from "./verify-rcap-checkout-metadata-contract.mjs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 const root = process.cwd();
 const failures = [];
+// This repository also retains an older aggregate which recursively invokes
+// nationwide build verifiers. Hosted closure uses this bounded contract mode;
+// the historical aggregate remains available without suppressing its failures.
+const hostedContract = process.argv.includes("--hosted-contract");
+const schemaAt = process.argv.indexOf("--schema");
+const liveSchema = hostedContract && schemaAt >= 0
+  ? JSON.parse(fs.readFileSync(process.argv[schemaAt + 1], "utf8")) : null;
+if (hostedContract && !Array.isArray(liveSchema?.columns)) throw new Error("--hosted-contract requires --schema with acceptance introspection");
 
 function read(file) {
   return fs.readFileSync(path.join(root, file), "utf8");
@@ -81,7 +90,7 @@ assert(paymentAdapter.includes("ConsumerCheckoutTemporarilyUnavailableError"), "
 // only thing that records a payment at all — so it is asserted there. Asserting
 // it on the adapter would pass only while the adapter still wrote state it must
 // no longer write.
-assert(checkoutReconciliation.includes('item.packetStatus === "ready" ? "ready" : "pending"'), "Payment confirmation must not mark packets ready before artifact generation.");
+assert(/updateBriefcasePacketStatusForWebhook\(\s*userId,\s*item\.id,\s*"pending"\s*\)/.test(checkoutReconciliation), "Webhook queues Pending; protected artifact authority alone may already be Ready (also exercised behaviorally).");
 assert(!/payment_status:\s*["']paid["']/.test(paymentAdapter), "The payment adapter must not write a paid payment status; the server-only writer owns that.");
 assert(!paymentAdapter.includes("updateBriefcasePaymentMetadata("), "The participant-authenticated payment writer must not return; phase 52 revokes those columns from authenticated.");
 assert(!paymentAdapter.includes("partner_billing") && !paymentAdapter.includes("partner_billing_requests"), "Payment adapter must not touch partner billing.");
@@ -120,17 +129,9 @@ assert(exists(legacyStripeWebhookRoute), "Legacy Expungement.ai Stripe webhook c
 assert(!legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must not delegate to the canonical route before verification.");
 assert(legacyStripeWebhookSource.includes("STRIPE_LEGACY_WEBHOOK_SECRET"), "Legacy Stripe webhook route must verify with STRIPE_LEGACY_WEBHOOK_SECRET.");
 assert(legacyStripeWebhookSource.includes('runtime = "nodejs"') && legacyStripeWebhookSource.includes('dynamic = "force-dynamic"'), "Legacy Stripe webhook route must declare static App Router route config locally.");
-for (const metadataKey of [
-  "source_session_id",
-  "jurisdiction",
-  "packet_type",
-  "pathway_label",
-  "product_id",
-  "person_id",
-  "matter_id"
-]) {
-  assert(paymentAdapter.includes(metadataKey), `Checkout metadata must include ${metadataKey}.`);
-}
+// Check the actual builder and both acceptance call sites, not unrelated text.
+for (const failure of [...checkoutMetadataContractFailures({ root }), ...await checkoutMetadataBehaviorFailures()]) failures.push(failure);
+run(process.execPath, ["scripts/test-expungement-checkout-guards.mjs"]);
 for (const eventType of ["checkout.session.completed", "checkout.session.async_payment_succeeded"]) {
   assert(checkoutReconciliation.includes(eventType), `Consumer Checkout webhook must handle ${eventType}.`);
 }
@@ -145,7 +146,9 @@ assert(checkoutReconciliation.includes("getBriefcaseItemForWebhook(userId, brief
 assert(checkoutReconciliation.includes("recordConsumerPacketPayment"), "Consumer Checkout webhook must record Stripe payment confirmation.");
 assert(checkoutReconciliation.includes('authority: "server_webhook"'), "Consumer Checkout webhook must record payment under the server_webhook authority.");
 assert(!/\.from\("consumer_briefcase_items"\)[\s\S]{0,200}?\.update\(/.test(checkoutReconciliation), "Consumer Checkout webhook must not write payment columns directly.");
-assert(checkoutReconciliation.includes("session.amount_total !== consumerPacketPriceCents"), "Consumer Checkout webhook must verify the charged amount against the signed event.");
+assert(checkoutReconciliation.includes("const order = await reconcileOrderFromStripe(session, {")
+  && checkoutReconciliation.includes("const reconciliation = reconcileConsumerOrder("),
+"Webhook must reconcile provider line items, discount arithmetic and settled total (exercised by checkout guards).");
 assert(checkoutReconciliation.includes("CONSUMER_PACKET_CURRENCY"), "Consumer Checkout webhook must verify the currency against the signed event.");
 assert(checkoutReconciliation.includes("requestConsumerPacketRenderForWebhook"), "Consumer Checkout webhook must enqueue the durable paid packet render.");
 assert(!checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must not synchronously generate a legacy artifact.");
@@ -154,9 +157,12 @@ assert(!checkoutReconciliation.includes("console.") && !checkoutReconciliation.i
 
 for (const column of ["payment_provider", "checkout_session_id", "payment_intent_id", "amount_cents", "receipt_url"]) {
   assert(briefcaseSource.includes(column), `Briefcase adapter must store ${column}.`);
-  assert(migrationSource.includes(column), `Migration must include ${column}.`);
+  assert(hostedContract ? liveSchema.columns.some(c => c.table_name === "consumer_briefcase_items" && c.column_name === column) : migrationSource.includes(column), `Checkout storage must include ${column}.`);
 }
-assert(migrationSource.includes("amount_cents is null or amount_cents = 5000"), "Migration must constrain amount_cents to 5000.");
+assert(hostedContract
+  ? liveSchema.constraints.some(c => c.table === "consumer_briefcase_items" && c.definition.includes("amount_cents >= 0") && c.definition.includes("amount_cents <= 5000"))
+  : migrationSource.includes("amount_cents is null or amount_cents = 5000"),
+  hostedContract ? "Live amount constraint must admit collected totals 0..5000." : "Historical phase-27 migration must retain its original price constraint.");
 assert(!migrationSource.includes("partner_"), "Checkout metadata migration must not alter partner billing.");
 
 const forbiddenChangedPrefixes = [
@@ -214,8 +220,10 @@ function assertPacketReadyCompatibilityReturn(source, targetFailures) {
   }
 }
 
-run("npm", ["run", "expungement:verify-consumer-persistence"]);
-run("npm", ["run", "expungement:verify-consumer-adapter"]);
+if (!hostedContract) {
+  run("npm", ["run", "expungement:verify-consumer-persistence"]);
+  run("npm", ["run", "expungement:verify-consumer-adapter"]);
+}
 
 if (failures.length) {
   console.error("Expungement.ai consumer checkout verification failed:");
