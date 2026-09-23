@@ -20,7 +20,7 @@
   },
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "note": "Run #336 passed the #333 regression and created the correct real Sandbox Checkout, then stopped on stale control metadata. Those facts remain preserved under the prior binding; this successor tools tuple has not run hosted_full.",
+    "note": "Focused successor to #337. The real binding RPC and retained #337 evidence prove strict-null unpaid amounts; paid amounts and all other gate checks are preserved. This successor tools tuple has not run hosted_full. Ledger completeness remains NOT CERTIFIED.",
     "journeys": [],
     "deliberatelyEmpty": "No complete hosted journey or Production authorization is inherited.",
     "retainedPreview": {
@@ -34,6 +34,31 @@
     "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
+      "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+      "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+      "bindingCommit": "9ad323288c57163a10881b77f6dcf9bd09f7458b",
+      "toolsSha": "e9fd9780fd03fd760d494655ae88465728e7f687",
+      "hostedAcceptanceStatus": "FAILED_ON_THIS_CONTROL_CANDIDATE",
+      "hostedAcceptance": {
+        "runId": 35921317119,
+        "runNumber": 337,
+        "jobId": 107385687298,
+        "artifactId": 10777223070,
+        "artifactSha256": "436c3e1f4e35ac55bcfac280fd0db58ba425ce1ee6d33a696df1e18b889ef9d5",
+        "deployment": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+        "firstCausalCase": "beginning_checkout_does_not_mark_paid_or_queue_work",
+        "cause": "Both gates expected 5000 in an unpaid post-binding item; the actual binding RPC clears uncollected amount_cents to SQL NULL and preserves paid amounts.",
+        "preservedPassingEvidence": "The thirteen-field Stripe metadata, $50/USD/catalog Product, exact Session and ownership checks passed. Captured return URLs independently pass the unchanged predicates.",
+        "journeys": []
+      },
+      "productionAuthorized": false,
+      "productionAuthorization": null,
+      "disposition": "superseded_by_focused_unpaid_payment_state_control_correction",
+      "why": "Application, database, Preview, worker and Stripe destination are unchanged. Partial run evidence is not hosted_full acceptance. Ledger completeness remains NOT CERTIFIED."
+    },
     {
       "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
       "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
@@ -203,7 +228,7 @@
   "productionAuthorized": false,
   "productionAuthorization": null,
   "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
-  "scope": "Bounded #336 and remaining hosted control correction for independent audit. Application, worker source/digest and existing Preview remain exact. No push, new Preview, retarget or hosted dispatch in this mission.",
+  "scope": "Focused #337 unpaid payment-state control correction and local binding only. Review the four changed control/test files and this successor binding at the existing focused approval boundary. No push, new Session, hosted run, deployment, retarget or Production authorization.",
   "applicationPin": {
     "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
     "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
