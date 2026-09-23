@@ -4,7 +4,7 @@
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "8b532bc72478c18feed3ec53c517a4f3f5ed7d33",
+  "toolsSha": "31d6a7554acb3127cff0fd9118cab0c7bf9133fa",
   "toolsShaIsNotHead": "Exact control-correction snapshot preceding this binding. It is not the application SHA.",
   "orchestrationFiles": [
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
@@ -17,6 +17,7 @@
     "scripts/rcap-hosted-acceptance-matrix.mjs",
     "scripts/rcap-hosted-acceptance-payment.mjs",
     "scripts/rcap-hosted-checkout-gate.mjs",
+    "scripts/rcap-hosted-final-verification.test.mjs",
     "scripts/rcap-hosted-response-contract.mjs",
     "scripts/rcap-hosted-surface-inspection.mjs",
     "scripts/test-expungement-checkout-guards.mjs",
@@ -29,10 +30,10 @@
     "scripts/verify-rcap-hosted-evidence-completion.mjs",
     "scripts/verify-rcap-hosted-job-read-columns.mjs"
   ],
-  "previousToolsSha": "cda70fed7cc7683265f7c2fd1538d220dd9068cd",
-  "previousBindingCommit": "f5003135edff2bffd0b738ac0eb752d48f9f5770",
-  "why": "Retains the #337 strict-null unpaid binding correction and real-RPC regression. Replaces nine stale fallback-verifier expectations with parsed shared-route calls, application-owned post-payment packet identity, strict owned-packet absence and claim-after-Auth ordering; adds 12 named in-memory negative tests and executes the existing 32-case route behavioral suite. Application, database, Preview, worker and Stripe destination are unchanged.",
-  "authorization": "Roger Roman: finish the focused #337 review in the existing workspace, semantically correct mandatory stale fallback checks, update tools/binding once if needed, then ordinary fast-forward push the exact reviewed head and return the complete manual hosted_full form. Captain self-review is not independent audit.",
+  "previousToolsSha": "8b532bc72478c18feed3ec53c517a4f3f5ed7d33",
+  "previousBindingCommit": "ba3aaee3743bdc622c4d269ab65feb8ca596486a",
+  "why": "Hosted #338 payment fixture now uses the existing pending-screening, atomic claim and explicit final-review APIs with an explicitly selected synthetic participant locale. Removes direct item INSERT and manual protected-verification seeding. Preserves the claimed item ID in replay scope; verifies owned attribution/source session/track before charge; persists redacted diagnostic evidence if preparation throws. The actual pending/claim, final verification and personalized packet paths pass focused English/Spanish and refusal regressions. Application and database bytes are unchanged.",
+  "authorization": "Roger Roman: correct the concrete #338 payment-fixture defect in this workspace, complete targeted proof and focused review, update tools/binding, and follow the existing controlled fast-forward push authorization after checks pass. Return the complete manual hosted_full form; do not retry the denied dispatch credential.",
   "deploymentAuthorized": false,
-  "deploymentScope": "Reuse exact existing Preview dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee. No deployment, retarget, workflow dispatch or Production authorization in this task. Ledger completeness remains NOT CERTIFIED."
+  "deploymentScope": "Reuse exact Preview dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee, accepted worker and existing Stripe destination. No replacement deployment, retarget, hosted dispatch or Production authorization in this task. End-to-end payment/delivery pending; ledger completeness NOT CERTIFIED."
 }
