@@ -1,26 +1,23 @@
 {
   "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-  "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
+  "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "1169bc513258660cfd556be45d6da5db10c9733b",
-  "toolsShaIsNotHead": "The exact tools snapshot is the immutable control-reconciliation commit 1169bc513258660cfd556be45d6da5db10c9733b, the parent of this local tools-binding successor. It includes the original currentness/control commit 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e. Neither control commit replaces application f9116800db2fcdc55801ce33b86fd548bc00801c.",
+  "toolsSha": "5c7f999e4313735f9d1b7c9cb267b8b47966126c",
+  "toolsShaIsNotHead": "Exact control-correction snapshot preceding this binding. It is not the application SHA.",
   "orchestrationFiles": [
-    "scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-    "scripts/rcap-hosted-vercel-rest-transport.mjs",
-    "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
-    "scripts/test-ms-proof-currentness.mjs",
-    "scripts/verify-ms-paid-packet-proof-reconciliation.mjs",
-    "scripts/verify-rcap-github-hosted-acceptance.mjs",
-    "scripts/verify-rcap-hosted-checkout-gate.mjs"
+    "scripts/rcap-deployment-source-ignore.mjs",
+    "scripts/rcap-deployment-source-ignore.test.mjs",
+    "scripts/rcap-hosted-acceptance-matrix.mjs",
+    "scripts/rcap-hosted-acceptance-payment.mjs",
+    "scripts/verify-rcap-deployment-closure.mjs"
   ],
-  "previousToolsSha": "88d389e6c7294328bc1549ad09a9385a62ef603f",
-  "supersededToolsSha": "0aed58be4cdb9825ef983735366e06c3e1a66d01",
-  "why": "Checkout, the hosted fallback and REST transport now derive application authority from the validated canonical release candidate, independently of its reusable worker source and later tools commit. The existing frozen-path, exact tooling-byte, ancestry, publication/image-acceptance and worker-input checks remain enforced. Boundary and REST mutations cover identity substitution, missing/forged application authority, application drift and stale bindings. All eight application-to-tools script paths are explicitly declared. The fresh 38-input plan at this tools commit reports changedPaths=[] and rebuildRequired=false. The application/worker tuple and pending hosted state are unchanged.",
-  "authorization": "Roger Roman, current local instruction: perform one bounded control-plane reconciliation across all remaining release gates for stale application/worker/tools identity assumptions, then run the complete release-control suite. No application/runtime/config/worker change, rebuild, push, deployment, hosted_full, #49 or Production authorization.",
+  "previousToolsSha": "1169bc513258660cfd556be45d6da5db10c9733b",
+  "previousBindingCommit": "d560453fa79da8c7579637aba92477f914e5906e",
+  "why": "Bounded hosted #333 source-pruning verification repair and downstream readiness corrections. Git-ignore semantics are measured against Git; unsupported ambiguous exclusions fail closed; required runtime directory children must survive. The payment harness no longer supplies obsolete profile arguments, and matrix comments reflect the existing runtime environment classifier. No worker inputs moved. The existing conservative Next entry graph separates standalone review CLIs from deployed readers; every canonical runtime-authority include is checked individually after pruning.",
+  "authorization": "Roger Roman: diagnose and correct the proven hosted #333 defect and inspect the seven unexecuted downstream scripts for provably stale assumptions in this same campaign.",
   "deploymentAuthorized": false,
-  "deploymentScope": "None. Local binding and release-control checks only. Hosted status is PENDING_ON_THIS_CANDIDATE, journeys are empty, and Production remains unauthorized.",
-  "previousBindingCommit": "b71127e640e0009662bbbe375e419fad602b9c34"
+  "deploymentScope": "This local binding does not authorize Production or claim a hosted pass. Corrected Preview acceptance remains pending."
 }

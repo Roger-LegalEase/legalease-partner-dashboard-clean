@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
   "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
-  "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
+  "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
@@ -20,15 +20,39 @@
   },
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "note": "No integrated hosted acceptance has run on this exact application/worker tuple.",
+    "note": "The corrected application has not run hosted acceptance. Diagnostic previews are not release candidates and earn no hosted journeys.",
     "journeys": [],
-    "deliberatelyEmpty": "Historical journeys remain attached to their historical tuples in supersedes and are not inherited."
+    "deliberatelyEmpty": "Previous tuple results remain in supersedes; none are inherited."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
     "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
+      "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+      "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+      "bindingCommit": "d560453fa79da8c7579637aba92477f914e5906e",
+      "toolsSha": "1169bc513258660cfd556be45d6da5db10c9733b",
+      "hostedAcceptanceStatus": "FAILED_ON_THIS_CANDIDATE",
+      "hostedAcceptance": {
+        "runId": 35883072380,
+        "runNumber": 333,
+        "deployment": "dpl_Cnjck8y2PLEFsaQXY86mXCyq3SMm",
+        "firstCausalCase": "unpaid_render_returns_402",
+        "actualStatus": 403,
+        "expectedStatus": 402,
+        "artifactId": 10760459373,
+        "artifactSha256": "0a5ff70fe0d4b8b5e83b8556324adfa4f922e0c46dfab4b2d5fc48d295cbe6b1",
+        "journeys": []
+      },
+      "productionAuthorized": false,
+      "productionAuthorization": null,
+      "disposition": "superseded_by_root_anchored_vercel_source_pruning",
+      "why": "The unanchored artifacts/ deployment exclusion removed nested runtime-authority review PDFs before the Vercel build. The successor anchors only the root output exclusion; runtime guards and authority bytes are unchanged."
+    },
     {
       "applicationSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
       "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
@@ -151,14 +175,19 @@
   "independentReviewerIdentities": [],
   "productionAuthorized": false,
   "productionAuthorization": null,
-  "productionAuthorizationNote": "This local successor binding carries no Production authorization. Historical authorizations remain attached to their historical tuples; this mission authorizes no deployment or hosted execution.",
-  "scope": "Local successor release binding for the independently verified retained Turbopack application and unchanged accepted worker. Hosted acceptance is pending; this record authorizes no deployment, hosted database write, migration or Production action.",
+  "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
+  "scope": "Local corrected candidate for independent audit following hosted #333. Hosted acceptance remains pending; no prior journey or Production authorization transfers.",
   "applicationPin": {
-    "sha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
-    "tree": "e19d04867896c67a2c8b9ad2b7263cc6d795fac7",
-    "why": "This is the exact application whose retained Turbopack BUILD_ID Xmnvlz5cA-tQpZsg_CivK was independently audited. The later currentness/control commit and this binding commit do not replace that application identity.",
+    "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
+    "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
+    "why": "Successor to the audited release chain; the sole application change is .vercelignore artifacts/ -> /artifacts/. This deployment-input change supersedes f9116800d as application authority. No src, next.config.ts, authority data, package or worker input changed.",
     "workerSourceIsAnAncestor": true,
-    "workerReuseEvidence": "Fresh canonical worker plans for application f9116800db2fcdc55801ce33b86fd548bc00801c and control 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e both compare 38 inputs: changedPaths=[], rebuildRequired=false, reusing the accepted published source/digest and input fingerprint."
+    "workerReuseEvidence": "Fresh canonical plan at application and final tools snapshot: 38 inputs, changedPaths=[], rebuildRequired=false, accepted source/digest/fingerprint unchanged.",
+    "priorRetainedBuild": {
+      "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
+      "buildId": "Xmnvlz5cA-tQpZsg_CivK",
+      "reuseScope": "Unchanged compiled modules, route behavior, source/authority bytes and worker authority. The retained build is not relabeled as a new build. The affected Vercel source-pruning boundary is proved separately with Git-ignore parity, all eleven actual reader targets, and the original/corrected fail-closed reader regression."
+    }
   },
   "currentnessControl": {
     "sha": "9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e",
