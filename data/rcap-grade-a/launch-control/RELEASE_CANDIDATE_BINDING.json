@@ -20,15 +20,42 @@
   },
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "note": "The corrected application has not run hosted acceptance. Diagnostic previews are not release candidates and earn no hosted journeys.",
+    "note": "Run #336 passed the #333 regression and created the correct real Sandbox Checkout, then stopped on stale control metadata. Those facts remain preserved under the prior binding; this successor tools tuple has not run hosted_full.",
     "journeys": [],
-    "deliberatelyEmpty": "Previous tuple results remain in supersedes; none are inherited."
+    "deliberatelyEmpty": "No complete hosted journey or Production authorization is inherited.",
+    "retainedPreview": {
+      "deploymentId": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+      "hostname": "legalease-rcap-5592ab2bd80f-roger947s-projects.vercel.app",
+      "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b"
+    }
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
     "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
+      "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+      "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+      "bindingCommit": "a81337d98466f29dd9bf5fd2a7fec22223f32697",
+      "toolsSha": "e2ee069671e8870de240e50d15f557c04fd94e55",
+      "hostedAcceptanceStatus": "FAILED_ON_THIS_CONTROL_CANDIDATE",
+      "hostedAcceptance": {
+        "runId": 35898483044,
+        "runNumber": 336,
+        "deployment": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+        "firstCausalCase": "stripe_session_amount_mode_metadata_and_product_exact",
+        "cause": "Stale pathway_label and empty source_session_id expectations; accepted application metadata was correct.",
+        "prior333Regression": "unpaid_render_returns_402 passed; factory_v2 and commercial authority passed.",
+        "journeys": []
+      },
+      "productionAuthorized": false,
+      "productionAuthorization": null,
+      "disposition": "superseded_by_bounded_remaining_hosted_surface_control_reconciliation",
+      "why": "Application, Preview, worker and canonical sandbox webhook remain unchanged. Partial runtime evidence is reusable but is not an integrated hosted_full PASS."
+    },
     {
       "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
       "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
@@ -94,7 +121,7 @@
           {
             "runId": 35178342916,
             "order": "Mississippi, no promotion code, 5000 cents",
-            "result": "PASS — real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
+            "result": "PASS \u2014 real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
           },
           {
             "runId": 35179247131,
@@ -104,12 +131,12 @@
           {
             "runId": 35180723873,
             "order": "Illinois, no promotion code",
-            "result": "PASS — the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
+            "result": "PASS \u2014 the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
           },
           {
             "runId": 35205114308,
             "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
-            "result": "PASS — Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
+            "result": "PASS \u2014 Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
           }
         ]
       },
@@ -130,7 +157,7 @@
         "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
         "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
         "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95/95",
-        "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs — 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
+        "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs \u2014 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
         "syntheticPublicationFixture": false,
         "publishedWorkerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
         "publicationRunId": 35227578682,
@@ -176,7 +203,7 @@
   "productionAuthorized": false,
   "productionAuthorization": null,
   "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
-  "scope": "Local corrected candidate for independent audit following hosted #333. Hosted acceptance remains pending; no prior journey or Production authorization transfers.",
+  "scope": "Bounded #336 and remaining hosted control correction for independent audit. Application, worker source/digest and existing Preview remain exact. No push, new Preview, retarget or hosted dispatch in this mission.",
   "applicationPin": {
     "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
     "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
