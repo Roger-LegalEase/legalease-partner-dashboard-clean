@@ -8,6 +8,7 @@ import { spawnSync } from "node:child_process";
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import { completeHostedCheckout, STRIPE_TEST_CARD } from "./rcap-stripe-checkout-browser.mjs";
 import { captureSurface, reviewJourneyCopy } from "./rcap-journey-copy-review.mjs";
+import { claimAndVerifyHostedFixture } from "./rcap-hosted-final-verification.mjs";
 
 /** Customer-facing text from the screens that only exist after payment. */
 const postPaymentCopy = [];
@@ -79,6 +80,9 @@ const CATALOG_PRODUCT_ID = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").
 // Lets one run prove a non-Mississippi purchase without duplicating this
 // journey per state. Empty keeps the existing behaviour.
 const JOURNEY_STATE = (process.env.HOSTED_JOURNEY_STATE ?? "").trim().toUpperCase();
+// An explicit choice by this synthetic participant, not a fallback for missing
+// customer attribution. Pending screening and the atomic claim persist it.
+const SYNTHETIC_PARTICIPANT_LOCALE = "en";
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
@@ -306,26 +310,38 @@ async function postgresErrorLogExcerpt(sinceIso) {
 // deployed route will read — so the id is known before anything is charged.
 // Returns null when the resolved route is not a personalized delivery route.
 async function personalizedPacketIdFromRunner(consumer, briefcaseItemId) {
-  const service = await serviceRoleKey();
-  process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
-  process.env.SUPABASE_SERVICE_ROLE_KEY = service;
-  try {
-    const { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } = await import("../src/lib/rcap/render/personalized-packet.ts");
-    const { resolveConsumerPersonId, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
-    const verification = await currentPersonalizedVerification(consumer.id, briefcaseItemId);
-    const routeId = `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`;
-    if (!isPersonalizedDeliveryRoute(routeId)) return null;
-    const person = await resolveConsumerPersonId(consumer.id);
-    if (!person.ok) throw new Error(`personalized packet id: person unresolved — ${redactSecrets(String(person.reason)).slice(0, 200)}`);
-    const prepared = preparePersonalizedPacket({
-      authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId: consumerMatterIdForItem(briefcaseItemId),
-      verificationHash: verification.hash, snapshot: verification.snapshot,
-      deliveryLocale: verification.deliveryLocale
-    });
-    return prepared.spec.packetId;
-  } finally {
-    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-  }
+  return prechargeStep("personalized_packet_identity", async () => {
+    const service = await serviceRoleKey();
+    process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+    try {
+      const { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } = await import("../src/lib/rcap/render/personalized-packet.ts");
+      const { resolveConsumerPersonId, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+      const verification = await currentPersonalizedVerification(consumer.id, briefcaseItemId);
+      const routeId = `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`;
+      if (verification.deliveryLocale !== SYNTHETIC_PARTICIPANT_LOCALE
+        || verification.snapshot.jurisdiction !== derived.jurisdiction
+        || verification.snapshot.pathwayId !== derived.pathwayId
+        || verification.snapshot.selectedTrackId !== derived.trackId) {
+        throw new Error("protected verification differs from the selected fixture route or delivery language");
+      }
+      evidence.protectedVerification = { persisted: true, selectedTrackId: verification.snapshot.selectedTrackId,
+        hash: verification.hash, deliveryLocale: verification.deliveryLocale, failure: null };
+      if (!isPersonalizedDeliveryRoute(routeId)) return null;
+      const person = await resolveConsumerPersonId(consumer.id);
+      if (!person.ok) throw new Error(`personalized packet id: person unresolved — ${redactSecrets(String(person.reason)).slice(0, 200)}`);
+      const prepared = preparePersonalizedPacket({
+        authUserId: consumer.id, briefcaseItemId, personId: person.personId, matterId: consumerMatterIdForItem(briefcaseItemId),
+        verificationHash: verification.hash, snapshot: verification.snapshot,
+        deliveryLocale: verification.deliveryLocale
+      });
+      evidence.personalizedPreparation = { packetId: prepared.spec.packetId, inputHash: prepared.spec.inputHash,
+        verificationHash: verification.hash, deliveryLocale: verification.deliveryLocale, routeId };
+      return prepared.spec.packetId;
+    } finally {
+      delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    }
+  });
 }
 
 async function replayEnqueueFromRunner(consumer, briefcaseItemId) {
@@ -519,6 +535,19 @@ function finish() {
   if (failed.length > 0) console.error(`PAYMENT FAILED — ${failed.join(", ")}`);
   if (evidence.passed) console.log(`PAYMENT PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} against ${PROJECT_REF} on ${PREVIEW}`);
   process.exit(evidence.passed ? 0 : 1);
+}
+
+async function prechargeStep(stage, operation) {
+  try {
+    return await operation();
+  } catch (error) {
+    evidence.prechargeFailure = { stage, beforeCheckout: true,
+      name: String(error?.name ?? "Error"),
+      message: redactSecrets(String(error?.message ?? error)).slice(0, 1200) };
+    record("precharge_preparation_exception", false, JSON.stringify(evidence.prechargeFailure));
+    finish();
+    throw error; // Never continue if a test double replaces process.exit.
+  }
 }
 
 // --- 1. The one resolved deployment that actually carries Stripe -------------
@@ -785,10 +814,9 @@ let route = null;
   evidence.route = route;
 }
 
-// The briefcase item id is minted here because the derivation below builds a
-// render spec against it, and a const referenced before its declaration is a
-// temporal dead zone error rather than a subtle one.
-const itemId = crypto.randomUUID();
+// Provisional screening correlation; replaced by the application's claimed
+// matter ID before packet, payment, worker or replay identities are established.
+let itemId = crypto.randomUUID();
 // Single-quoted SQL literal, doubling embedded quotes. Never JSON.stringify:
 // that produces double quotes, which Postgres reads as an identifier.
 const sqlText = (value) => String(value).split("'").join("''");
@@ -1256,143 +1284,66 @@ const derived = (() => {
 })();
 evidence.derivedRouteIdentity = derived;
 
-// --- 3. Seed the participant's item, unpaid ----------------------------------
-//
-// The authoritative route this run will sell, hoisted so the pre-charge image
-// preflight below can name the exact tuple the render job will carry.
+// --- 3. Claim and verify the synthetic participant's item, unpaid ------------
+// Reuse the same application lifecycle as the successful hosted Checkout gate.
+// The application owns attribution, source session, selected track and protected
+// verification. The harness supplies participant answers and an explicit locale.
 let preflightRoute = null;
-const seedResult = await sql(`
-  insert into public.consumer_briefcase_items
-    (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
-     status, summary_json, artifact_refs_json, payment_status, payment_allowed)
-  values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayId)}',
-          '${derived.resultCode}', '${derived.packetType}',
-          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
-          '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow, selectedTrackId: reviewed.selectedTrackId ?? null }))}'::jsonb, 'unpaid', true)
-  returning id, status, result_code, pathway_label
-`);
-
-// The seed is asserted, not assumed. Two defects hid behind an unchecked
-// insert and both surfaced as a 404 from the application, which read as an
-// application fault when it was this harness writing nothing:
-//
-//   * pathway_label was interpolated with JSON.stringify, which emits DOUBLE
-//     quotes — a Postgres IDENTIFIER, not a string literal. The statement
-//     referenced a column that does not exist.
-//   * result_code was absent. assertCheckoutAllowed refuses a null one with
-//     "missing_result_code", so checkout returned 403 on an item that was
-//     otherwise fine — payment_allowed alone is not enough.
-//   * status was 'result_saved', which is not in the phase-26 CHECK
-//     constraint ('check_saved', 'guidance_saved', 'packet_ready',
-//     'needs_info', 'needs_review', 'waiting', 'not_eligible', 'hard_stop').
-//
-// A silent write failure that later looks like a missing row is exactly the
-// shape of bug that wastes a full hosted cycle, so it fails here instead.
-{
-  const seeded = Array.isArray(seedResult.json) ? seedResult.json[0] : null;
-  if (!seeded || seeded.id !== itemId) {
-    record(
-      "unpaid_render_is_refused_for_payment",
-      false,
-      `the briefcase item could not be seeded, so nothing downstream could be tested: status ${seedResult.status}, response ${JSON.stringify(seedResult.json).slice(0, 300)}`
-    );
-    finish();
-  }
-  evidence.seededItem = { id: seeded.id, status: seeded.status, resultCode: seeded.result_code, pathwayLabel: seeded.pathway_label, jurisdiction: route.state };
-
-  // The stored row and the resolver must agree. A row that disagrees with the
-  // authority is a row that would render one thing and be sold as another.
-  const agrees =
-    seeded.result_code === derived.resultCode &&
-    seeded.pathway_label === derived.compiledPathwayId &&
-    derived.jurisdiction === route.state &&
-    derived.rendererKind === "packet_document_v1" &&
-    derived.routeKind === "factory_v2" &&
-    derived.authorityAllowed === true &&
-    derived.profileId === route.state &&
-    typeof derived.profileVersion === "string" && derived.profileVersion.length > 0 &&
-    derived.routeId === `${route.state}:${derived.compiledPathwayId}`;
-  record(
-    "seeded_item_agrees_with_the_authoritative_resolver",
-    agrees,
-    `routeKind=${derived.routeKind}; compiled pathway=${JSON.stringify(derived.compiledPathwayId)}; routeId=${JSON.stringify(derived.routeId)}; ` +
-    `renderer=${derived.rendererKind}@${derived.rendererVersion}; sourceSha256=${JSON.stringify(derived.sourceSha256)} ` +
-    `(null is correct — this route composes its own document and the worker's allowedSourceShas is empty); ` +
-    `profile=${derived.profileId}@${derived.profileVersion}; track=${JSON.stringify(derived.trackId)}; resolver sellable=${derived.sellable} (factory routes resolve in shadow); Grade-A authority for checkout creation=${derived.authorityAllowed} (${derived.authorityReason}); ` +
-    `stored result_code=${JSON.stringify(seeded.result_code)} vs derived ${JSON.stringify(derived.resultCode)}; ` +
-    `stored packet_type derived from result_code as ${JSON.stringify(derived.packetType)} per eligibility-adapter; ` +
-    `stored pathway_label=${JSON.stringify(seeded.pathway_label)}`
-  );
+await prechargeStep("claim_and_final_verification", async () => {
+  itemId = await claimAndVerifyHostedFixture({
+    call: (endpoint, options) => callApp(endpoint, { method: "POST", cookie: A.cookie, ...options }),
+    record: (id, passed, observed) => {
+      record(id, passed, observed);
+      if (!passed) throw new Error(`participant fixture refused: ${id}`);
+    },
+    screening: {
+      jurisdiction: reviewed.state,
+      profileVersion: reviewed.commercialFlow.screening.profileVersion,
+      screeningCorrelationId: itemId,
+      answers: reviewed.screeningAnswers,
+      locale: SYNTHETIC_PARTICIPANT_LOCALE
+    },
+    answers: reviewed.packetAnswers
+  });
+  runNamespace.briefcaseItemId = itemId;
+  const readback = await sql(`
+    select id, user_id, status, result_code, packet_type, pathway_label,
+           source_session_id, source_pending_result_id, artifact_refs_json,
+           payment_status, payment_allowed, checkout_session_id, packet_status, provider_event_id
+      from public.consumer_briefcase_items
+     where id = '${sqlText(itemId)}' and user_id = '${sqlText(A.id)}'
+  `);
+  const rows = Array.isArray(readback.json) ? readback.json : [];
+  const seeded = rows[0] ?? null;
+  const agrees = readback.status === 200 && rows.length === 1
+    && seeded.id === itemId && seeded.user_id === A.id
+    && seeded.result_code === derived.resultCode && seeded.packet_type === derived.packetType
+    && seeded.pathway_label === route.pathwayLabel
+    && seeded.status === "packet_ready" && seeded.payment_status === "unpaid"
+    && seeded.payment_allowed === true && seeded.checkout_session_id === null
+    && seeded.packet_status === "not_started" && seeded.provider_event_id === null
+    && typeof seeded.source_pending_result_id === "string"
+    && seeded.source_session_id === seeded.source_pending_result_id
+    && seeded.artifact_refs_json?.attribution?.product === "expungement_ai_dtc"
+    && seeded.artifact_refs_json?.attribution?.locale === SYNTHETIC_PARTICIPANT_LOCALE
+    && seeded.artifact_refs_json?.selectedTrackId === derived.trackId
+    && derived.jurisdiction === route.state && derived.rendererKind === "packet_document_v1"
+    && derived.routeKind === "factory_v2" && derived.authorityAllowed === true
+    && derived.profileId === route.state
+    && typeof derived.profileVersion === "string" && derived.profileVersion.length > 0
+    && derived.routeId === `${route.state}:${derived.compiledPathwayId}`;
+  evidence.seededItem = { id: seeded?.id ?? null, status: seeded?.status ?? null,
+    resultCode: seeded?.result_code ?? null, pathwayLabel: seeded?.pathway_label ?? null,
+    jurisdiction: route.state, sourceSessionId: seeded?.source_session_id ?? null,
+    sourcePendingResultId: seeded?.source_pending_result_id ?? null,
+    deliveryLocale: seeded?.artifact_refs_json?.attribution?.locale ?? null,
+    selectedTrackId: seeded?.artifact_refs_json?.selectedTrackId ?? null,
+    creationAuthority: "pending screening, atomic participant claim, explicit final verification" };
+  record("seeded_item_agrees_with_the_authoritative_resolver", agrees,
+    `SQL=${readback.status}; rows=${rows.length}; claimed=${JSON.stringify(evidence.seededItem)}; route=${derived.routeId}`);
   if (!agrees) finish();
-
-  // --- 2d. The protected verification the deployed Checkout demands ----------
-  //
-  // Since 89a3ad7d8 (2026-08-26) createConsumerPacketCheckout calls
-  // requireCurrentPacketVerification first, and a seeded item with no
-  // server-persisted protected verification is refused with
-  // protected_verification_missing before any Stripe call. The verification is
-  // produced by the application's own server functions from the authoritative
-  // screening the evaluator just returned, and persisted through the same
-  // CAS RPCs the application uses, against the acceptance project only.
-  {
-    const service = await serviceRoleKey();
-    process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
-    process.env.SUPABASE_SERVICE_ROLE_KEY = service;
-    const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
-    const {
-      packetInformationPatch: derivePacketInformationPatch,
-      requireCurrentPacketVerification,
-      protectedPacketDraftSeedFromAuthoritative
-    } = await import("../src/lib/expungement-ai/packet-information.ts");
-    const { persistProtectedPacketVerification } = await import("../src/lib/expungement-ai/verification-cas.ts");
-    let verificationFailure = null;
-    let readback = null;
-    try {
-      const existingItem = await getBriefcaseItemForWebhook(A.id, itemId);
-      if (!existingItem) throw new Error("the seeded item could not be read back through the application's own reader");
-      const seed = protectedPacketDraftSeedFromAuthoritative({
-        authoritative: reviewed.authoritative,
-        screeningAnswers: reviewed.screeningAnswers,
-        packetAnswers: reviewed.packetAnswers,
-        dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: "expungement_packet" },
-        capturedAt: new Date().toISOString()
-      });
-      if (!seed) throw new Error("protectedPacketDraftSeedFromAuthoritative produced no seed");
-      const verified = derivePacketInformationPatch({
-        existingItem,
-        answers: {},
-        verify: true,
-        protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0, draftSnapshot: seed.snapshot, draftHash: seed.hash }
-      });
-      if (!verified?.readyToGenerate) throw new Error(`not ready to generate: ${verified?.reviewReason}; missing=${JSON.stringify(verified?.missingInputIds ?? null)}`);
-      const persisted = await persistProtectedPacketVerification({ consumerAuthUserId: A.id, briefcaseItemId: itemId, transition: verified.protectedTransition });
-      if (!persisted.ok) throw new Error(`persistence refused: ${persisted.reason}`);
-      readback = await requireCurrentPacketVerification(A.id, existingItem);
-      if ((readback.snapshot?.selectedTrackId ?? null) !== (route.trackId ?? null)) {
-        throw new Error(`persisted track ${JSON.stringify(readback.snapshot?.selectedTrackId ?? null)} differs from the server-selected ${JSON.stringify(route.trackId ?? null)}`);
-      }
-    } catch (error) {
-      verificationFailure = String(error?.message ?? error).slice(0, 400);
-    } finally {
-      delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-    }
-    evidence.protectedVerification = {
-      persisted: verificationFailure === null,
-      selectedTrackId: readback?.snapshot?.selectedTrackId ?? null,
-      hash: readback?.hash ?? null,
-      failure: verificationFailure
-    };
-    if (verificationFailure !== null) {
-      record(
-        "unpaid_render_is_refused_for_payment",
-        false,
-        `the protected packet verification the deployed Checkout requires could not be persisted for the seeded item, so the unpaid probe below would have measured protected_verification_missing rather than the payment gate: ${verificationFailure}`
-      );
-      finish();
-    }
-  }
   preflightRoute = derived;
-}
+});
 
 // --- 3b. What the published image will accept, BEFORE anything is charged ----
 //

@@ -135,6 +135,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-checkout-metadata-contract.mjs',
         'scripts/verify-rcap-hosted-evidence-completion.mjs',
         'scripts/test-expungement-checkout-guards.mjs',
+        // #338 participant fixture regression, already executed by the hosted workflow.
+        'scripts/rcap-hosted-final-verification.test.mjs',
         'scripts/verify-expungement-consumer-checkout.mjs',
         'scripts/verify-rcap-hosted-checkout-gate.mjs',
         'scripts/rcap-hosted-colorado-clinic-browser.mjs',
