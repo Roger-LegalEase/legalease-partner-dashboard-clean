@@ -6,15 +6,12 @@
 // through a real HTTP surface with real GoTrue identities and real RLS; the
 // only synthetic thing is who the participants are.
 //
-// Why the application runs on the runner rather than only on the Vercel
-// deployment: the delivery control refuses `staging_scoped` in any production
-// runtime, and a Next.js production build compiles `NODE_ENV === "production"`
-// to a literal true. That is the control's fail-closed design and it is
-// asserted here as a REQUIRED case, not worked around — but it also means the
-// scoped journey can only execute in a development-compiled runtime. So the
-// matrix runs both: the production build proves the route is shut, and the dev
-// compile proves the scope logic admits exactly its named identity and nobody
-// else. Both are bound to the same hosted database.
+// These runner processes exercise the non-Vercel production/development
+// fallback of the shared server-runtime-environment classifier. Vercel Preview
+// is classified separately by VERCEL_ENV/VERCEL_TARGET_ENV, even when Next.js
+// uses a production build. Its scoped delivery path is exercised by the
+// deployed Checkout and payment gates. Both runner modes use the same hosted
+// database; their NODE_ENV values are not evidence about Vercel classification.
 //
 // Journeys covered, in Roger's terms: paid, sponsored, guidance, exact
 // deferral, product-scope exclusion, security/isolation, problematic-PDF
@@ -301,13 +298,13 @@ const probeRender = (authenticated) => probeRenderAs(authenticated ? A() : null)
   record(
     "scoped_refused_in_production_runtime",
     up && authed.status === 503,
-    `staging_scoped under a production build: the in-scope identity A still gets ${authed.status} — a production runtime refuses the scoped state outright, which is the control's fail-closed design and the reason a hosted Vercel deployment cannot serve this journey`
+    `staging_scoped in the runner's non-Vercel production runtime: the in-scope identity A gets ${authed.status} — the production environment refuses scoped delivery; a Vercel Preview is classified separately`
   );
   evidence.cases.scopedUnderProductionBuild = { authenticated: authed.status };
 }
 
 {
-  // The only runtime in which the scoped state can execute at all.
+  // Exercise the non-Vercel development fallback with the same hosted database.
   await killApp();
   const up = await startApp(
     { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped", RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: `${A().id},acceptance-scope-2` },
@@ -387,7 +384,7 @@ async function evaluate(jurisdiction, answers, profileVersion) {
       caseId,
       pass,
       pass
-        ? `${results.length}/${results.length} probes evaluated against the hosted deployment and none opened payment: ${results.map((r) => `${r.label}=${r.resultCode}`).join(", ")}`
+        ? `${results.length}/${results.length} probes evaluated by the runner application against the hosted acceptance project and none opened payment: ${results.map((r) => `${r.label}=${r.resultCode}`).join(", ")}`
         : `${answered.length}/${results.length} evaluated; paymentAllowed=true on ${results.filter((r) => r.paymentAllowed === true).map((r) => r.label).join(", ") || "none"}; statuses ${results.map((r) => `${r.label}:${r.status}`).join(", ")}`
     );
     evidence.cases[caseId] = { intent: spec.intent, results };

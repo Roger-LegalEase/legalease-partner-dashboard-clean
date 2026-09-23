@@ -9,9 +9,8 @@
 // tested reads the one file that is no longer there. So the exclusions are not
 // trusted; they are proven here, and the proof runs in CI.
 //
-// This file and .vercelignore are deliberately outside BOTH image-input path
-// sets, so neither the frozen application bytes nor the published worker image
-// change and no republication is warranted.
+// .vercelignore controls application deployment inputs. Its changes require a
+// new application identity even when the canonical worker inputs do not move.
 //
 //   node scripts/verify-rcap-deployment-closure.mjs
 //   node scripts/verify-rcap-deployment-closure.mjs --emit-evidence
@@ -21,24 +20,18 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { deploymentExcludedDirectories, deploymentPathExcluded } from "./rcap-deployment-source-ignore.mjs";
+import { requireCurrentReleaseCandidate } from "./grade-a-launch-control/verify-release-candidate-binding.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const emitEvidence = process.argv.includes("--emit-evidence");
 
-/**
- * The accepted application source. Image-input equality is proven against it.
- *
- * Rebound to the security implementation source accepted by the worker-image
- * workflow. Evidence-only commits descend from this source without changing
- * application or worker inputs, and the equivalence check below keeps that
- * self-reference escape exact. Leaving the prior PR #127 source here would
- * assert that this release's deployment closes over bytes it no longer
- * contains.
- */
-const APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
+// Use the same validated application authority as the other release controls.
+const candidate = requireCurrentReleaseCandidate(rootDir);
+const APPLICATION_SHA = candidate.applicationSha;
 
 /** Exactly the paths a Next.js build consumes. */
-const APPLICATION_INPUTS = ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"];
+const APPLICATION_INPUTS = ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public", ".vercelignore"];
 /** Exactly the paths the worker Dockerfile copies. */
 const WORKER_INPUTS = [
   "package.json", "package-lock.json", "tsconfig.json",
@@ -114,6 +107,7 @@ const excluded = ignoreLines
   .map((line) => line.trim())
   .filter((line) => line.length > 0 && !line.startsWith("#"))
   .sort();
+const excludedPrefixes = deploymentExcludedDirectories(ignoreLines.join("\n"));
 
 // Negation would let a later line silently re-admit a path this verifier has
 // already reported as excluded, and gitignore-style negation does not even
@@ -153,7 +147,7 @@ const exclusionReport = [];
 let totalExcludedBytes = 0;
 let totalExcludedFiles = 0;
 for (const entry of excluded) {
-  const rel = entry.replace(/\/$/, "");
+  const rel = entry.replace(/^\//, "").replace(/\/$/, "");
   const { files, bytes } = walk(rel);
   exclusionReport.push({ path: entry, files: files.length, bytes });
   totalExcludedBytes += bytes;
@@ -172,13 +166,10 @@ for (const entry of excluded) {
 // softening touches. Inert entries are still reported by name so a typo is
 // visible rather than silent.
 const inert = exclusionReport.filter((row) => row.files === 0).map((row) => row.path);
-const malformed = excluded.filter((entry) => entry.startsWith("/") || entry.includes("*"));
 check(
   "exclusions_are_well_formed_and_at_least_one_matches",
-  malformed.length === 0 && exclusionReport.some((row) => row.files > 0),
-  malformed.length > 0
-    ? `malformed entries (absolute path or wildcard): ${malformed.join(", ")}`
-    : `${exclusionReport.length} entries, ${totalExcludedFiles} files, ${totalExcludedBytes} bytes removed` +
+  exclusionReport.some((row) => row.files > 0),
+  `${exclusionReport.length} root-relative directory entries, ${totalExcludedFiles} files, ${totalExcludedBytes} bytes removed` +
       (inert.length > 0
         ? `; inert in this checkout (generated-only, removes nothing here): ${inert.join(", ")}`
         : "")
@@ -205,7 +196,7 @@ for (const file of codeFiles) {
   // and treating it as one would block a correct exclusion forever.
   const code = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
   for (const entry of excluded) {
-    const rel = entry.replace(/\/$/, "");
+    const rel = entry.replace(/^\//, "").replace(/\/$/, "");
     const quoted = rel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
     // A path INTO the excluded directory: the name must be followed by a
@@ -243,10 +234,8 @@ check(
 
 const prunedRoot = fs.mkdtempSync(path.join(process.env.RUNNER_TEMP || "/tmp", "rcap-pruned-"));
 const ALWAYS_SKIP = new Set(["node_modules", ".git", ".next", "hosted-acceptance-evidence"]);
-const excludedPrefixes = excluded.map((entry) => entry.replace(/\/$/, ""));
-
 function isExcluded(rel) {
-  return excludedPrefixes.some((prefix) => rel === prefix || rel.startsWith(`${prefix}/`));
+  return deploymentPathExcluded(rel, excludedPrefixes);
 }
 
 let prunedFiles = 0;
@@ -276,7 +265,11 @@ check(
 
 // --- 7. Every required path survived ----------------------------------------
 
-const missingRequired = REQUIRED_RUNTIME_PATHS.filter(([rel]) => !fs.existsSync(path.join(prunedRoot, rel)));
+// A surviving parent directory does not prove its runtime children survived.
+const missingRequired = REQUIRED_RUNTIME_PATHS.flatMap(([rel, why]) => {
+  if (!fs.existsSync(path.join(prunedRoot, rel))) return [[rel, why]];
+  return walk(rel).files.filter(file => !fs.existsSync(path.join(prunedRoot, file))).map(file => [file, why]);
+});
 check(
   "every_required_runtime_path_survives_pruning",
   missingRequired.length === 0,

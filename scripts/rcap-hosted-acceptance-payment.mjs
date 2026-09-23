@@ -31,8 +31,7 @@ import {
 // Hosted acceptance staging — the Stripe payment and packet-delivery journey.
 //
 // Runs against the DEPLOYED Preview instance and the hosted acceptance Supabase
-// project. Nothing here is simulated except one step, and that step is called
-// out rather than glossed:
+// project. Stripe's sandbox supplies the test payment environment:
 //
 //   * The Checkout Session is REAL. It is created by the deployed application
 //     talking to Stripe with the sandbox secret key, and every field this
@@ -41,11 +40,9 @@ import {
 //   * The webhook event is signed with the REAL signing secret and posted to
 //     the REAL endpoint, so signature verification, idempotency and the
 //     server-authoritative payment write are all exercised for real.
-//   * The one thing that is NOT automated is a human typing a test card into
-//     Stripe's hosted page. That page cannot be driven from CI without a
-//     browser, so the session's payment_status is the single field overridden.
-//     Roger's phone test is what covers that last inch, and this script says so
-//     in its own evidence rather than implying a card was entered.
+//   * completeHostedCheckout drives Stripe's hosted page with a test card.
+//     The Session is then read back from Stripe; its payment_status is not
+//     manufactured by this harness.
 
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -737,11 +734,9 @@ let route = null;
   }
   const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
   const tried = [];
-  // Pennsylvania first, because PA is the first review priority and PA does in
-  // fact expose packet-capable routes — 11 of them. Mississippi and Illinois
-  // follow for the same reason. The rest of the corpus is the fallback, so the
-  // journey still runs if the priority states ever stop being renderable
-  // rather than silently testing nothing.
+  // Preserve the review priority while discovering technical capability from
+  // current authority. A priority jurisdiction grants no render or commercial
+  // authority; retired routes still fail buildRenderJobSpec.
   const PRIORITY_ORDER = ["PA", "MS", "IL"];
   const profiles = [...getAllJurisdictionProfiles()].sort((a, b) => {
     const rank = (p) => {
@@ -762,8 +757,6 @@ let route = null;
         packetId: crypto.randomUUID(),
         state: profile.jurisdiction.code,
         pathway: pathway.id,
-        profileId: profile.jurisdiction.code,
-        profileVersion: "1.3.0",
         briefcaseItemId: crypto.randomUUID(),
         trackId: null,
         packetFields: {}
@@ -1212,18 +1205,15 @@ let reviewed = null;
 // phase-26 CHECK constraint accepted it. That is not a derivation, it is a
 // value that happened to be legal, and it was WRONG: eligibility-adapter maps
 // result_code to packet_type, and packet_ready maps to 'custom_pleading'. The
-// resolver independently classifies PA / Path A as routeKind legacy_verified
-// with rendererKind packet_document_v1 — it is not an official-PDF overlay at
-// all. Deriving instead of guessing is what surfaced that.
+// current factory route and Grade-A authority must independently agree before
+// the item can be sold. The retired PA / Path A generator grants no authority.
 const derived = (() => {
   const built = buildRenderJobSpec({
     packetId: crypto.randomUUID(),
     state: route.state,
     pathway: route.pathwayId,
-    profileId: route.state,
-    // The same profileVersion consumer-render-request pins when it builds the
-    // real job, so the spec compared here is the spec that route will produce.
-    profileVersion: "1.3.0",
+    // buildRenderJobSpec derives profile identity from the resolved route,
+    // exactly as the deployed consumer-render caller does.
     briefcaseItemId: itemId,
     trackId: route.trackId ?? null,
     packetFields: {}
