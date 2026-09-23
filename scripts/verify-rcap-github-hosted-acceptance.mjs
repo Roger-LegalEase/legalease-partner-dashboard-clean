@@ -2,7 +2,60 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import assert from "node:assert/strict";
+import ts from "typescript";
+import { syntax, initializer, evaluate } from "./rcap-hosted-surface-inspection.mjs";
 import { requireCurrentReleaseCandidate } from "./grade-a-launch-control/verify-release-candidate-binding.mjs";
+
+// Follow the actual gate's shared authority calls and application-owned fixture.
+// File-wide tokens from the former PA fixture cannot prove these contracts.
+function currentGateContractChecks(source) {
+  const parsed = syntax("rcap-github-acceptance-gate.mjs", source);
+  const compact = (text) => text.replace(/\s+/g, "");
+  const init = (name) => compact(initializer(parsed, name));
+  const calls = (name) => parsed.nodes.filter((n) => ts.isCallExpression(n) && n.expression.getText() === name);
+  const records = (name) => calls("record").filter((n) => n.arguments[0]?.text === name);
+  const predicate = (name, expression) => records(name).length === 1
+    && compact(records(name)[0].arguments[1].getText()) === compact(expression);
+  const imports = parsed.nodes.filter(ts.isImportDeclaration);
+  const imported = (file, names) => names.every((name) => imports.some((n) => n.moduleSpecifier.text === file
+    && n.importClause?.namedBindings?.elements?.some((e) => !e.propertyName && e.name.text === name)));
+  const packetAssignments = parsed.nodes.filter((n) => ts.isBinaryExpression(n)
+    && n.operatorToken.kind === ts.SyntaxKind.EqualsToken && n.left.getText() === "evidence.applicationOwnedPacket");
+  const packet = packetAssignments.length === 1 ? evaluate(packetAssignments[0].right.getText(), {
+    itemId: "owned-item", CONSUMER_PACKET_STORAGE_PATHWAY: "source_engine_packet_plan"
+  }) : {};
+  const claims = calls("claimAndVerifyHostedFixture");
+  const auth = records("acceptance_auth_callbacks_bound_to_temporary_host");
+  const packetRead = initializer(parsed, "packetAbsence");
+  return [
+    ["canonical_route_helpers_imported", imported("./rcap-hosted-checkout-route-contract.mjs",
+      ["readPaRefusal", "paRefusalEvidence", "MS_CHECKOUT", "msMappingEvidence"])],
+    ["pa_real_refusal_evaluated", init("paRefusal") === "paRefusalEvidence(awaitreadPaRefusal())"],
+    ["pa_commercial_refusal_enforced", predicate("pennsylvania_path_a_refuses_commercial_authority", "paRefusal.passed")],
+    ["ms_real_mapping_evaluated", init("built") === "buildRenderJobSpec(mappingRequest)"
+      && init("consumerMappingEvidence").startsWith("msMappingEvidence({request:mappingRequest,built,compiledProfile,compiledPathway,")
+      && predicate("consumer_caller_profile_and_eligibility_mapping_exact", "consumerMappingEvidence.passed")],
+    ["ms_reviewed_route_enforced", init("checkoutBuilt") === "buildRenderJobSpec(checkoutRequest)"
+      && init("checkoutRouteEvidence").startsWith("msMappingEvidence({request:checkoutRequest,built:checkoutBuilt,")
+      && predicate("checkout_fixture_route_derived_from_authorities", "checkoutRouteEvidence.passed")],
+    ["owned_packet_absent_before_payment", predicate("consumer_packet_record_absent_before_real_payment", "packetAbsence.ok && packetCount === 0")
+      && /select\s+count\(\*\)::int\s+as\s+packets\s+from\s+public\.rcap_document_packets\s+where\s+briefcase_id\s*=\s*'\$\{itemId\}'\s+and\s+user_id\s*=\s*'\$\{A.id\}'\s*`\)/.test(packetRead)],
+    ["application_owns_postpayment_packet_identity", packet.briefcaseItemId === "owned-item"
+      && packet.packetIdentityDerivedByApplicationAfterPayment === true
+      && packet.storagePathway === "source_engine_packet_plan" && packet.creationAuthority === "canonical Stripe webhook"
+      && packet.applicationCreatesPacketAfterPayment === true && packet.paymentAuthorityRequired === true
+      && packet.scriptPacketWritePerformed === false && packet.compatibilityFixtureUsed === false
+      && !Object.hasOwn(packet, "packetId")],
+    ["claimed_fixture_after_auth_readback", imported("./rcap-hosted-final-verification.mjs", ["claimAndVerifyHostedFixture"])
+      && claims.length === 1 && auth.length === 1 && claims[0].getStart() > auth[0].getEnd()
+      && ts.isAwaitExpression(claims[0].parent)
+      && ts.isBinaryExpression(claims[0].parent.parent) && claims[0].parent.parent.left.getText() === "itemId"
+      && predicate("acceptance_auth_callbacks_bound_to_temporary_host", `authPatch.ok
+        && authAfter.json?.site_url === publicOrigin && typeof authAfter.json?.uri_allow_list === "string"
+        && authAfter.json.uri_allow_list.includes(publicOrigin)`)]
+  ];
+}
 
 const root = process.cwd();
 const entry = fs.readFileSync(path.join(root, ".github/workflows/rcap-f1-ephemeral-staging.yml"), "utf8");
@@ -12,6 +65,32 @@ const gate = fs.readFileSync(path.join(root, "scripts/rcap-github-acceptance-gat
 const postPayment = fs.readFileSync(path.join(root, "scripts/rcap-github-post-payment-acceptance.mjs"), "utf8");
 const consumerRender = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
 const packetConstraints = fs.readFileSync(path.join(root, "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql"), "utf8");
+if (process.argv.includes("--contract-mutations")) {
+  // In-memory source mutations only: no Session, auth write, or working-tree edit.
+  assert.ok(currentGateContractChecks(gate).every(([, ok]) => ok), "current gate contract baseline");
+  const mutations = [
+    ["wrong helper import", './rcap-hosted-checkout-route-contract.mjs', './wrong-route-contract.mjs', "canonical_route_helpers_imported"],
+    ["PA reader bypass", 'paRefusalEvidence(await readPaRefusal())', 'paRefusalEvidence({})', "pa_real_refusal_evaluated"],
+    ["PA refusal bypass", 'paRefusal.passed, JSON.stringify(paRefusal)', 'true, JSON.stringify(paRefusal)', "pa_commercial_refusal_enforced"],
+    ["MS builder bypass", 'buildRenderJobSpec(mappingRequest)', 'buildRenderJobSpec({})', "ms_real_mapping_evaluated"],
+    ["MS mapping refusal bypass", 'consumerMappingEvidence.passed,', 'true,', "ms_real_mapping_evaluated"],
+    ["reviewed route refusal bypass", 'checkoutRouteEvidence.passed,', 'true,', "ms_reviewed_route_enforced"],
+    ["premature packet allowed", 'packetAbsence.ok && packetCount === 0', 'packetAbsence.ok && packetCount === 1', "owned_packet_absent_before_payment"],
+    ["packet ownership omitted", "where briefcase_id = '${itemId}' and user_id = '${A.id}'", "where briefcase_id = '${itemId}'", "owned_packet_absent_before_payment"],
+    ["packet identity precomputed", 'packetIdentityDerivedByApplicationAfterPayment: true', 'packetIdentityDerivedByApplicationAfterPayment: false', "application_owns_postpayment_packet_identity"],
+    ["script packet write admitted", 'scriptPacketWritePerformed: false', 'scriptPacketWritePerformed: true', "application_owns_postpayment_packet_identity"],
+    ["Auth readback bypass", 'authPatch.ok\n      && authAfter.json?.site_url === publicOrigin', 'true\n      && authAfter.json?.site_url === publicOrigin', "claimed_fixture_after_auth_readback"],
+    ["claim before Auth", 'const authPatch = await managementApi', 'await claimAndVerifyHostedFixture({});\n  const authPatch = await managementApi', "claimed_fixture_after_auth_readback"]
+  ];
+  for (const [name, before, after, id] of mutations) {
+    assert.ok(gate.includes(before), `mutation target missing: ${name}`);
+    const result = currentGateContractChecks(gate.replace(before, after));
+    assert.equal(result.find(([key]) => key === id)?.[1], false, `${name}: must refuse for ${id}`);
+    console.log(`PASS ${name}: ${id}`);
+  }
+  console.log(`OK fallback current-contract mutations — ${mutations.length}/${mutations.length}; baseline 8/8`);
+  process.exit(0);
+}
 const candidate = requireCurrentReleaseCandidate(root);
 const RELEASE_CONTROL_BASE_SHA = candidate.applicationSha;
 const ACCEPTED_WORKER_SOURCE_SHA = candidate.workerSourceSha;
@@ -145,24 +224,16 @@ includesEvery(gate, [
   "consumer_a_admitted_to_staging_scope",
   "consumer_b_outside_staging_scope",
   "anonymous_access_denied",
-  "Path A — Non-conviction expungement",
   "consumer_caller_profile_and_eligibility_mapping_exact",
   "consumer-render-request.ts",
   "eligibility-adapter.ts",
   "isConsumerPaymentAllowed",
-  'routeKind === "legacy_retired"',
-  "legacy_route_is_not_a_transactable_fulfillment_path",
-  'rendererKind === "packet_document_v1"',
-  'rendererVersion === "1.0.0"',
-  'profileVersion === "1.3.0"',
   "briefcase_insert_returning_proves_row",
   "stored_row_matches_authoritative_resolver",
   'const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan"',
-  "consumerPacketNamespaceMatch",
   "consumer_packet_record_absent_before_real_payment",
   "applicationOwnedPacket",
   "select count(*)::int as packets",
-  "expectedConsumerPacketId",
   'creationAuthority: "canonical Stripe webhook"',
   "applicationCreatesPacketAfterPayment: true",
   "scriptPacketWritePerformed: false",
@@ -181,6 +252,13 @@ includesEvery(gate, [
   "workerRunByThisWorkflow: false"
 ], "checkout gate");
 
+for (const [id, ok] of currentGateContractChecks(gate)) check(ok, `current Checkout contract: ${id}`);
+// These shared-helper tests execute real application authority and reject wrong
+// renderer/version/profile, reopened PA, and lost commercial admission. A moved
+// comparison is not replaced by merely finding the helper's name in this file.
+const routeProof = spawnSync(process.execPath, ["--test", "scripts/rcap-hosted-checkout-route-contract.test.mjs"], { cwd: root, encoding: "utf8" });
+check(routeProof.status === 0, `shared PA refusal/MS route behavioral proof failed: ${routeProof.stdout}\n${routeProof.stderr}`);
+
 for (const eventType of [
   "checkout.session.completed",
   "checkout.session.async_payment_succeeded",
@@ -195,7 +273,8 @@ const healthIndex = gate.indexOf("temporary_https_host_reaches_application_json"
 const mismatchIndex = gate.indexOf("if (!webhookUrlExact)");
 const earlyReturnIndex = gate.indexOf('if (GATE_PHASE === "webhook")');
 const authWriteIndex = gate.indexOf('method: "PATCH"');
-const fixtureWriteIndex = gate.indexOf("insert into public.consumer_briefcase_items");
+const fixtureWriteIndex = syntax("gate.mjs", gate).nodes.find((n) => ts.isCallExpression(n)
+  && n.expression.getText() === "claimAndVerifyHostedFixture")?.getStart() ?? -1;
 const packetAbsenceIndex = gate.indexOf('"consumer_packet_record_absent_before_real_payment"');
 const unpaidRenderIndex = gate.indexOf('const unpaidRender = await callApp(previewUrl, "/api/expungement-ai/packet/render"');
 const checkoutCallIndex = gate.indexOf('const checkoutResponse = await callApp(previewUrl, "/api/expungement-ai/checkout"');
@@ -207,7 +286,7 @@ check(authWriteIndex > earlyReturnIndex, "acceptance Auth write can occur before
 check(fixtureWriteIndex > authWriteIndex, "Briefcase write can occur before canonical webhook and Auth checks");
 check(packetAbsenceIndex > fixtureWriteIndex && unpaidRenderIndex > packetAbsenceIndex && checkoutCallIndex > unpaidRenderIndex, "packet absence must be proved before unpaid render and Checkout");
 check((gate.match(/insert into public\.rcap_document_packets/g) ?? []).length === 0, "gate must not insert a compatibility packet row");
-check(consumerRender.includes('const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1"'), "accepted application packet namespace changed without updating the fixture derivation");
+check(consumerRender.includes('const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1"'), "accepted application packet namespace changed without review");
 check(consumerRender.includes("pathway: CONSUMER_PACKET_STORAGE_PATHWAY") && consumerRender.includes("safety_disclaimer: CONSUMER_PACKET_SAFETY_DISCLAIMER"), "application packet row no longer satisfies the constrained pathway and safety contract");
 check(packetConstraints.includes("'source_engine_packet_plan'") && !packetConstraints.includes("'Path A — Non-conviction expungement'"), "phase-37 compatibility pathway assumptions changed; reassess the fixture");
 check(
