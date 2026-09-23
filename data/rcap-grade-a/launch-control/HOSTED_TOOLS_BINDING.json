@@ -4,19 +4,23 @@
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "88d389e6c7294328bc1549ad09a9385a62ef603f",
-  "toolsShaIsNotHead": "The exact tools snapshot is the immutable control-correction commit 88d389e6c7294328bc1549ad09a9385a62ef603f, the parent of this local tools-binding successor. It includes the original currentness/control commit 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e. Neither control commit replaces application f9116800db2fcdc55801ce33b86fd548bc00801c.",
+  "toolsSha": "1169bc513258660cfd556be45d6da5db10c9733b",
+  "toolsShaIsNotHead": "The exact tools snapshot is the immutable control-reconciliation commit 1169bc513258660cfd556be45d6da5db10c9733b, the parent of this local tools-binding successor. It includes the original currentness/control commit 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e. Neither control commit replaces application f9116800db2fcdc55801ce33b86fd548bc00801c.",
   "orchestrationFiles": [
     "scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+    "scripts/rcap-hosted-vercel-rest-transport.mjs",
+    "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
     "scripts/test-ms-proof-currentness.mjs",
-    "scripts/verify-ms-paid-packet-proof-reconciliation.mjs"
+    "scripts/verify-ms-paid-packet-proof-reconciliation.mjs",
+    "scripts/verify-rcap-github-hosted-acceptance.mjs",
+    "scripts/verify-rcap-hosted-checkout-gate.mjs"
   ],
-  "previousToolsSha": "9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e",
+  "previousToolsSha": "88d389e6c7294328bc1549ad09a9385a62ef603f",
   "supersededToolsSha": "0aed58be4cdb9825ef983735366e06c3e1a66d01",
-  "why": "The exact application-to-tools delta contains the two Mississippi currentness controls and the release-binding verifier/boundary-test correction that admits those two paths. All four scripts are explicitly declared; identity, ancestry, committed-byte, image-acceptance and worker-input checks remain enforced. The fresh 38-input plan at this tools commit reports changedPaths=[] and rebuildRequired=false. The application/worker tuple and its pending hosted state are unchanged.",
-  "authorization": "Roger Roman, current local release-control adjudication: establish the purpose, callers and authority of the two Mississippi currentness scripts and, if warranted, make the minimal control correction. Prior authorization to complete the local successor binding and release-control suite continues. No application/config/worker change, rebuild, push, deployment, hosted_full, #49 or Production authorization.",
+  "why": "Checkout, the hosted fallback and REST transport now derive application authority from the validated canonical release candidate, independently of its reusable worker source and later tools commit. The existing frozen-path, exact tooling-byte, ancestry, publication/image-acceptance and worker-input checks remain enforced. Boundary and REST mutations cover identity substitution, missing/forged application authority, application drift and stale bindings. All eight application-to-tools script paths are explicitly declared. The fresh 38-input plan at this tools commit reports changedPaths=[] and rebuildRequired=false. The application/worker tuple and pending hosted state are unchanged.",
+  "authorization": "Roger Roman, current local instruction: perform one bounded control-plane reconciliation across all remaining release gates for stale application/worker/tools identity assumptions, then run the complete release-control suite. No application/runtime/config/worker change, rebuild, push, deployment, hosted_full, #49 or Production authorization.",
   "deploymentAuthorized": false,
   "deploymentScope": "None. Local binding and release-control checks only. Hosted status is PENDING_ON_THIS_CANDIDATE, journeys are empty, and Production remains unauthorized.",
-  "previousBindingCommit": "606a5997c9eb921b5653e3f5f67a7c2a5df428c4"
+  "previousBindingCommit": "b71127e640e0009662bbbe375e419fad602b9c34"
 }
