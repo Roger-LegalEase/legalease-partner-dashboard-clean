@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
   "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
-  "applicationSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+  "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
@@ -20,15 +20,43 @@
   },
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "note": "No integrated hosted acceptance has run on this successor tuple yet.",
+    "note": "No integrated hosted acceptance has run on this exact application/worker tuple.",
     "journeys": [],
-    "deliberatelyEmpty": "The previous candidate's four passing journeys are retained in supersedes[0] and describe ITS tuple. Copying them here would claim runtime evidence this worker has never earned."
+    "deliberatelyEmpty": "Historical journeys remain attached to their historical tuples in supersedes and are not inherited."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
     "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+      "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+      "publication": {
+        "runId": 35769217594,
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769217594",
+        "conclusion": "success"
+      },
+      "readOnlyImageAcceptance": {
+        "runId": 35769776831,
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831",
+        "conclusion": "success"
+      },
+      "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
+      "hostedAcceptance": {
+        "note": "No integrated hosted acceptance has run on this successor tuple yet.",
+        "journeys": [],
+        "deliberatelyEmpty": "The previous candidate's four passing journeys are retained in supersedes[0] and describe ITS tuple. Copying them here would claim runtime evidence this worker has never earned."
+      },
+      "productionAuthorized": false,
+      "productionAuthorization": null,
+      "bindingCommit": "9cd9ad9659a75c530118468cd09ee99fbc6857c9",
+      "toolsSha": "3fd259de559c0bc0a6180a2ba879581543be1a1b",
+      "disposition": "superseded_by_retained_f9116800d_application_binding",
+      "why": "The worker remains unchanged; this local successor binds the accepted retained application and its separate currentness controls. No hosted or Production authority is inherited."
+    },
     {
       "applicationSha": "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb",
       "workerSourceSha": "c88f10341fec848b3f6f4dec9fc3381e6eea0530",
@@ -117,16 +145,29 @@
       "hostedAcceptanceStatusThen": "NOT_RUN_ON_THIS_CANDIDATE"
     }
   ],
-  "participantReceiptPaths": [],
+  "participantReceiptPaths": [
+    "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-reconciliations.json"
+  ],
   "independentReviewerIdentities": [],
   "productionAuthorized": false,
   "productionAuthorization": null,
-  "productionAuthorizationNote": "This successor candidate carries NO live Production authorization. The 2026-09-17 authorization named the superseded tuple and is preserved in supersedes[0]; it is not inherited here. Production for this tuple requires a new, explicit owner authorization after hosted acceptance passes on it.",
-  "scope": "Exact successor candidate freeze with published-worker and read-only image-acceptance evidence. It authorizes no runtime-pin change, no hosted database write, no migration, and no Production action by itself. Hosted acceptance has not run on this tuple.",
+  "productionAuthorizationNote": "This local successor binding carries no Production authorization. Historical authorizations remain attached to their historical tuples; this mission authorizes no deployment or hosted execution.",
+  "scope": "Local successor release binding for the independently verified retained Turbopack application and unchanged accepted worker. Hosted acceptance is pending; this record authorizes no deployment, hosted database write, migration or Production action.",
   "applicationPin": {
-    "sha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
-    "why": "The Vercel build takes a git commit, so the application pin is the commit whose TREE the deployment is built from. Here the application and the worker source are the SAME commit: the worker was published from fe2457a71 and the application freeze is that commit, so no ancestry gap exists between what runs and what was accepted.",
+    "sha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
+    "tree": "e19d04867896c67a2c8b9ad2b7263cc6d795fac7",
+    "why": "This is the exact application whose retained Turbopack BUILD_ID Xmnvlz5cA-tQpZsg_CivK was independently audited. The later currentness/control commit and this binding commit do not replace that application identity.",
     "workerSourceIsAnAncestor": true,
-    "workerReuseEvidence": "createWorkerInputPlan at this head: rebuildRequired=false, changedPaths=[] against the accepted source and digest."
+    "workerReuseEvidence": "Fresh canonical worker plans for application f9116800db2fcdc55801ce33b86fd548bc00801c and control 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e both compare 38 inputs: changedPaths=[], rebuildRequired=false, reusing the accepted published source/digest and input fingerprint."
+  },
+  "currentnessControl": {
+    "sha": "9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e",
+    "parentApplicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
+    "scope": "Mississippi evidence/currentness verifier and bounded test only; this control commit does not replace the application SHA.",
+    "paths": [
+      "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-reconciliations.json",
+      "scripts/test-ms-proof-currentness.mjs",
+      "scripts/verify-ms-paid-packet-proof-reconciliation.mjs"
+    ]
   }
 }

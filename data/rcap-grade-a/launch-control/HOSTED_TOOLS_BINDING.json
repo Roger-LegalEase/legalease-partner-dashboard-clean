@@ -1,31 +1,20 @@
 {
   "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-  "applicationSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+  "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "3fd259de559c0bc0a6180a2ba879581543be1a1b",
-  "toolsShaIsNotHead": "toolsSha is T1, the final orchestration commit -- NOT this commit and not the branch tip. The hosted workflow may execute from a later HEAD, and a dispatch tools_sha equal to github.sha is a different concept from this binding. Binding to HEAD would be self-reference: the record would certify whatever tree happened to contain it.",
+  "toolsSha": "9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e",
+  "toolsShaIsNotHead": "The exact tools snapshot is the immutable pre-binding currentness/control commit 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e. It is the parent of the local binding commit, not a self-reference to the commit containing this record. The application remains f9116800db2fcdc55801ce33b86fd548bc00801c.",
   "orchestrationFiles": [
-    ".github/workflows/deploy-rcap-render-worker-production.yml",
-    ".github/workflows/rcap-f1-ephemeral-staging.yml",
-    ".github/workflows/rcap-github-hosted-acceptance.yml",
-    ".github/workflows/rcap-hosted-acceptance-staging.yml",
-    "scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs",
-    "scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs",
-    "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-    "scripts/rcap-github-acceptance-gate.mjs",
-    "scripts/rcap-github-post-payment-acceptance.mjs",
-    "scripts/rcap-hosted-checkout-gate.mjs",
-    "scripts/rcap-hosted-vercel-rest-transport.mjs",
-    "scripts/verify-rcap-github-hosted-acceptance.mjs",
-    "scripts/verify-rcap-hosted-checkout-gate.mjs"
+    "scripts/test-ms-proof-currentness.mjs",
+    "scripts/verify-ms-paid-packet-proof-reconciliation.mjs"
   ],
-  "previousToolsSha": "0aed58be4cdb9825ef983735366e06c3e1a66d01",
-  "supersededToolsSha": "bf77d7fcf57132a21338549929b7a201702d89ee",
-  "why": "Successor rebind, 2026-09-22. The previous binding named the MVLP-era tuple 436520e4 / sha256:98e3e820 and tools 0aed58be4, which PREDATES the successor freeze -- the successor freeze is not an ancestor of it, so the binding was stale by a release generation. This binds the successor application and worker fe2457a71 / sha256:a22ad855, published by run 35769217594 and proved against the registry by read-only image acceptance run 35769776831, to the exact orchestration delta from that freeze to T1. The delta is recomputed from git, not hand-listed, and every path in it is individually named in the verifier bounded set: no prefix, no pattern, unknown tooling still refuses.",
-  "productionWorkflowInThisSet": ".github/workflows/deploy-rcap-render-worker-production.yml appears here because this repair changed its image-acceptance field contract, which read fields the evidence schema has not carried since 4e16d6d8e and could therefore never be satisfied. That is a validator repair and it authorizes nothing: no Production pin, project, input or deployment changed, and Production remains unauthorized.",
-  "authorization": "Roger Roman, 2026-09-22 (chat), FINAL RELEASE-CONTROL REPAIR + EXACT TUPLE REBIND: one bounded authorization covering the three release-control defects and the successor rebind. It explicitly does NOT authorize running hosted acceptance, deploying Production, changing Production worker or application pins, or changing product, application, legal or artifact bytes.",
+  "previousToolsSha": "3fd259de559c0bc0a6180a2ba879581543be1a1b",
+  "supersededToolsSha": "0aed58be4cdb9825ef983735366e06c3e1a66d01",
+  "why": "Tools authority is derived from the last scripts/.github commit before binding and the exact Git delta from the application. The only post-application executable control changes are the Mississippi currentness verifier and bounded test listed here. Their reconciliation receipt is explicitly named by the candidate participantReceiptPaths. Existing T1 orchestration is already contained in the application tree. Post-binding release controls must adjudicate this new binding; no passing result is asserted by this record.",
+  "authorization": "Roger Roman, current retained-entry adjudication instruction: independently adjudicate the supplied retained bytes, recompute worker inputs, create a local successor binding, and run release controls. No application/config/verifier modification, rebuild, push, deployment, hosted_full, #49, or Production authorization.",
   "deploymentAuthorized": false,
-  "deploymentScope": "None. This binding authorizes no deployment. Hosted acceptance has not run on this tuple; the release candidate record carries hostedAcceptanceStatus PENDING_ON_THIS_CANDIDATE and productionAuthorized false."
+  "deploymentScope": "None. Local binding and release-control checks only. Hosted status is PENDING_ON_THIS_CANDIDATE, journeys are empty, and Production remains unauthorized.",
+  "previousBindingCommit": "9cd9ad9659a75c530118468cd09ee99fbc6857c9"
 }
