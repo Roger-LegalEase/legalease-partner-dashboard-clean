@@ -4,17 +4,19 @@
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e",
-  "toolsShaIsNotHead": "The exact tools snapshot is the immutable pre-binding currentness/control commit 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e. It is the parent of the local binding commit, not a self-reference to the commit containing this record. The application remains f9116800db2fcdc55801ce33b86fd548bc00801c.",
+  "toolsSha": "88d389e6c7294328bc1549ad09a9385a62ef603f",
+  "toolsShaIsNotHead": "The exact tools snapshot is the immutable control-correction commit 88d389e6c7294328bc1549ad09a9385a62ef603f, the parent of this local tools-binding successor. It includes the original currentness/control commit 9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e. Neither control commit replaces application f9116800db2fcdc55801ce33b86fd548bc00801c.",
   "orchestrationFiles": [
+    "scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs",
+    "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
     "scripts/test-ms-proof-currentness.mjs",
     "scripts/verify-ms-paid-packet-proof-reconciliation.mjs"
   ],
-  "previousToolsSha": "3fd259de559c0bc0a6180a2ba879581543be1a1b",
+  "previousToolsSha": "9747d175a9dfd9b2b3ad4b2d063d8b84a00d4a2e",
   "supersededToolsSha": "0aed58be4cdb9825ef983735366e06c3e1a66d01",
-  "why": "Tools authority is derived from the last scripts/.github commit before binding and the exact Git delta from the application. The only post-application executable control changes are the Mississippi currentness verifier and bounded test listed here. Their reconciliation receipt is explicitly named by the candidate participantReceiptPaths. Existing T1 orchestration is already contained in the application tree. Post-binding release controls must adjudicate this new binding; no passing result is asserted by this record.",
-  "authorization": "Roger Roman, current retained-entry adjudication instruction: independently adjudicate the supplied retained bytes, recompute worker inputs, create a local successor binding, and run release controls. No application/config/verifier modification, rebuild, push, deployment, hosted_full, #49, or Production authorization.",
+  "why": "The exact application-to-tools delta contains the two Mississippi currentness controls and the release-binding verifier/boundary-test correction that admits those two paths. All four scripts are explicitly declared; identity, ancestry, committed-byte, image-acceptance and worker-input checks remain enforced. The fresh 38-input plan at this tools commit reports changedPaths=[] and rebuildRequired=false. The application/worker tuple and its pending hosted state are unchanged.",
+  "authorization": "Roger Roman, current local release-control adjudication: establish the purpose, callers and authority of the two Mississippi currentness scripts and, if warranted, make the minimal control correction. Prior authorization to complete the local successor binding and release-control suite continues. No application/config/worker change, rebuild, push, deployment, hosted_full, #49 or Production authorization.",
   "deploymentAuthorized": false,
   "deploymentScope": "None. Local binding and release-control checks only. Hosted status is PENDING_ON_THIS_CANDIDATE, journeys are empty, and Production remains unauthorized.",
-  "previousBindingCommit": "9cd9ad9659a75c530118468cd09ee99fbc6857c9"
+  "previousBindingCommit": "606a5997c9eb921b5653e3f5f67a7c2a5df428c4"
 }
