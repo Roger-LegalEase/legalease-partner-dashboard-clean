@@ -27,9 +27,9 @@ tmp/official-pdf-shadow-batch/
 tmp/record-clearing-shadow/
 tmp/official-pdf-implementation-gate/
 
-# Generated review/evidence artifacts. No string literal or path read in src/
-# resolves here.
-artifacts/
+# Root generated review/evidence output only. The leading slash is required:
+# nested data/**/artifacts directories contain runtime authority and must ship.
+/artifacts/
 
 # Documentation with no runtime reader. docs/record-clearing is NOT listed:
 # it holds field-map-drafts, which is read at runtime.
