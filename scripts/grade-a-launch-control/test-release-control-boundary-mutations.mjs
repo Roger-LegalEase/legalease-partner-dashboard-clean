@@ -32,6 +32,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
   verifyReleaseCandidateBinding,
+  requireCurrentReleaseCandidate,
   imageAcceptanceRefusals,
   runReleaseCandidateBindingCli
 } from "./verify-release-candidate-binding.mjs";
@@ -156,6 +157,7 @@ try {
   write("package.json", { name: "fixture", private: true });
   write("package-lock.json", { lockfileVersion: 3 });
   write("tsconfig.json", { compilerOptions: {} });
+  write("next.config.ts", "export default {};\n");
   write("scripts/rcap-render-worker.mjs", "// fixture worker\n");
   write("scripts/lib/placeholder.mjs", "export const placeholder = true;\n");
   write("src/placeholder.ts", "export const placeholder = true;\n");
@@ -163,15 +165,17 @@ try {
   write("deploy/rcap-render-worker/Dockerfile.dockerignore", "node_modules\n");
   write("data/record-clearing/supplemental-guides/placeholder.json", { placeholder: true });
   write("data/record-clearing/brand/legalease-logo.png", "fixture-logo-bytes");
-  git("add", "-f", "package.json", "package-lock.json", "tsconfig.json", "scripts", "src", "deploy", "data");
+  git("add", "-f", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "scripts", "src", "deploy", "data");
   git("commit", "-q", "-m", "worker source");
   const workerSourceSha = git("rev-parse", "HEAD");
 
   const workerDigest = "sha256:" + "ab".repeat(32);
   const acceptanceRunId = 424242;
-  // The application freeze IS the worker source here, as in the real successor.
+  // An accepted application config change does not require a worker rebuild.
+  // The application and worker freezes must therefore remain distinct.
   write("docs/note.md", "application freeze\n");
-  git("add", "-f", "docs/note.md");
+  write("next.config.ts", "export default { poweredByHeader: false };\n");
+  git("add", "-f", "docs/note.md", "next.config.ts");
   git("commit", "-q", "-m", "application freeze");
   const applicationSha = git("rev-parse", "HEAD");
 
@@ -295,6 +299,56 @@ try {
     git("add", "-f", "scripts/lib/placeholder.mjs");
     git("commit", "-q", "-m", "canonical worker input moved");
   });
+
+  // Checkout, fallback and REST consume this same validated record. A worker
+  // source or a subsequent tools commit must never replace its application.
+  reset();
+  commitJson(CANDIDATE, candidate, "candidate application authority");
+  const authorityBound = git("rev-parse", "HEAD");
+  const resetAuthority = () => { git("reset", "-q", "--hard", authorityBound); git("clean", "-qfd"); };
+  assert.equal(requireCurrentReleaseCandidate(root).applicationSha, applicationSha);
+  assert.notEqual(applicationSha, workerSourceSha);
+  assert.notEqual(applicationSha, toolsSha);
+  assert.equal(git("diff", "--name-only", applicationSha, "--", "next.config.ts"), "");
+  const refuseAuthority = (label, mutate, expectedReason) => {
+    resetAuthority();
+    mutate();
+    assert.throws(() => requireCurrentReleaseCandidate(root), expectedReason, label);
+    results.push(`application authority: ${label}`);
+    resetAuthority();
+  };
+  refuseAuthority("application file moved after the bound SHA", () => {
+    write("next.config.ts", "export default { poweredByHeader: true };\n");
+  }, /Candidate inputs changed: next\.config\.ts/);
+  refuseAuthority("worker-source change alone cannot redefine the application", () => {
+    commitJson(CANDIDATE, { ...candidate, workerSourceSha: applicationSha }, "wrong worker source only");
+  }, /Tooling binding workerSourceSha/);
+  refuseAuthority("forged application SHA", () => {
+    commitJson(CANDIDATE, { ...candidate, applicationSha: "0".repeat(40) }, "forged application");
+  }, /Tooling binding applicationSha/);
+  refuseAuthority("missing application identity", () => {
+    const { applicationSha: omitted, ...missingApplication } = candidate;
+    commitJson(CANDIDATE, missingApplication, "missing application identity");
+  }, /Exact application SHA/);
+  refuseAuthority("missing candidate record", () => {
+    fs.unlinkSync(path.join(root, CANDIDATE));
+  }, /ENOENT/);
+  refuseAuthority("stale tools binding", () => {
+    write("scripts/rcap-vercel-identity-recheck.mjs", "// unbound tooling edit\n");
+  }, /Command failed: git diff --exit-code/);
+  refuseAuthority("tools SHA substituted for the application", () => {
+    commitJson(CANDIDATE, { ...candidate, applicationSha: toolsSha }, "tools presented as application");
+  }, /Tooling binding applicationSha/);
+
+  write("scripts/rcap-vercel-identity-recheck.mjs", "// next bounded tools snapshot\n");
+  git("add", "-f", "scripts/rcap-vercel-identity-recheck.mjs");
+  git("commit", "-q", "-m", "tools-only successor");
+  const nextToolsSha = git("rev-parse", "HEAD");
+  commitJson(TOOLING, { ...binding, toolsSha: nextToolsSha }, "bind tools-only successor");
+  assert.equal(requireCurrentReleaseCandidate(root).applicationSha, applicationSha);
+  assert.notEqual(applicationSha, nextToolsSha);
+  console.log("PASS application authority: exact application and tools-only successor preserve the same application pin (2/2)");
+  reset();
 
   // The CLI is the thing workflows call, so prove IT refuses too, and that it
   // exits 0 only on CURRENT.

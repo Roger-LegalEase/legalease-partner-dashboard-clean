@@ -244,6 +244,18 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
 
 export const CANDIDATE_PATH = 'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
 
+// Release consumers share the controlling record and its existing verifier.
+// A worker source or a later tools commit never becomes application authority
+// merely because it is current. Missing, forged or stale bindings refuse.
+export function requireCurrentReleaseCandidate(root = process.cwd()) {
+  const candidate = JSON.parse(fs.readFileSync(path.join(root, CANDIDATE_PATH), 'utf8'));
+  const result = verifyReleaseCandidateBinding(root, candidate, candidate?.participantReceiptPaths ?? []);
+  if (result.current !== true || result.status !== 'CURRENT') {
+    throw new Error(`Current release candidate required: ${result.reasons.join('; ')}`);
+  }
+  return candidate;
+}
+
 /**
  * The same single implementation, runnable.
  *

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { workerInputEquivalence } from "./verify-rcap-worker-input-equivalence.mjs";
+import { requireCurrentReleaseCandidate } from "./grade-a-launch-control/verify-release-candidate-binding.mjs";
 
 const root = process.cwd();
 const gatePath = path.join(root, "scripts/rcap-hosted-checkout-gate.mjs");
@@ -29,50 +30,13 @@ function includesEvery(text, values, label) {
   for (const value of values) check(text.includes(value), `${label} is missing ${JSON.stringify(value)}`);
 }
 
-// Lane A supplies the exact final application SHA at dispatch time. The only
-// reusable publication pin is the accepted worker source/digest pair, and the
-// workflow's canonical-input diff decides whether that pair is still valid.
-// Exact subjects of the frozen successor candidate (RELEASE_CANDIDATE_BINDING.json):
-// application 300a0edb carries the publication binding of worker b64701c1,
-// published natively as sha256:f99ebc19 (run 35027251980) and accepted
-// read-only (run 35027988039). The checked-out tools commit may not change
-// the application's frozen inputs relative to that candidate, nor the
-// worker's canonical inputs relative to the published worker source.
-/*
- * The immutable release freeze the candidate is measured against.
- *
- * All three name the SAME commit now, because the current accepted worker was
- * built from exactly that tree: publication run 35750246888 recorded
- * sourceSha 8eb8ddc9d, the Grade-A application freeze, and read-only image
- * acceptance run 35751543666 then proved that digest against the registry --
- * tag resolution, authenticated pull by digest, anonymous refusal, source
- * binding, fail-closed startup and both secret scans.
- *
- * WHY THIS IS NOT THE BRANCH TIP, AND MUST NEVER BE
- *
- * Two of the checks below ask whether the candidate being exercised has
- * changed a frozen application or worker input since the freeze. Point the
- * freeze at the tip and they compare the candidate with itself: both go green
- * while asking nothing, which is worse than deleting them, because a green
- * check is read as an answer. Acceptance legitimately runs from a LATER commit
- * than the freeze -- the publication receipt, the acceptance receipt and the
- * release bindings are all committed after it, because a worker built FROM the
- * freeze cannot have its receipt inside the freeze -- and the question "has
- * anything canonical moved since 8eb8ddc9d" is exactly what makes pinning that
- * earlier digest honest.
- *
- * So this is updated only when a new worker image is published and bound, and
- * only to the source SHA that image was actually built from.
- *
- * Superseded, and kept here as history rather than as authority: the
- * 117b469c4 / sha256:9faa24e8… tuple, correct for its own source and retired
- * because the freeze moved 37 canonical worker inputs past it; and before it
- * the 4e16d6d8e / c88f10341 / sha256:df6c2965… tuple. Neither governs
- * anything now.
- */
-const RELEASE_CONTROL_BASE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
-const ACCEPTED_WORKER_SOURCE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
-const ACCEPTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
+// Application, worker source and tools are distinct release identities. The
+// canonical binding verifier validates their relationship before any freeze
+// comparison; a branch tip or worker publication cannot redefine the app pin.
+const candidate = requireCurrentReleaseCandidate(root);
+const RELEASE_CONTROL_BASE_SHA = candidate.applicationSha;
+const ACCEPTED_WORKER_SOURCE_SHA = candidate.workerSourceSha;
+const ACCEPTED_WORKER_DIGEST = candidate.workerDigest;
 
 includesEvery(gate, [
   "applicationShaExact",

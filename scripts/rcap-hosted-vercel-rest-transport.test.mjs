@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {execFileSync} from 'node:child_process';
+import {CANDIDATE_PATH, verifyReleaseCandidateBinding} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import {createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
 import {resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
@@ -55,23 +56,17 @@ for(const status of [401,403,429,500])test(`creation HTTP ${status} fails closed
 for(const changes of [{id:null},{id:'wrong'},{target:'production'},{target:undefined},{url:'evil.example'},{projectId:'prj_wrong'},{gitSource:{sha:'0'.repeat(40)}},{meta:{}},{readyState:'ERROR'}])test(`invalid creation response refuses ${JSON.stringify(changes)}`,async()=>{
   const o=fixture(),m=mock(o,{changes});await assert.rejects(createRestPreview(o,m));assert.equal(m.calls.length,1);
 });
-// The old invariant read the publication receipt out of the FROZEN TREE and
-// required it to name the accepted worker. That is unsatisfiable for any
-// release whose worker is built FROM the freeze: the receipt is produced by a
-// run that happens after the application is frozen, so the frozen commit can
-// never contain it. It held only while the worker predated the application,
-// and the correct repair is the real lifecycle, not a newer application SHA.
-//
-//   frozen application  ->  worker published FROM it  ->  receipt committed after
-//
-// Held as data so the negative controls below mutate one fact and re-run the
-// same checks, rather than asserting the happy path and hoping.
+// The controlling binding names the application and accepted worker separately.
+// Publication proves the worker source/digest; input equivalence permits that
+// worker to serve a later bound application. Neither publication nor tools
+// history substitutes for application authority.
 function frozenReleaseWorld(){
   const root=new URL('..',import.meta.url);
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
   return {
     git,
     frozen:FROZEN_APPLICATION_SHA,
+    candidate:JSON.parse(fs.readFileSync(new URL(CANDIDATE_PATH,root),'utf8')),
     head:git(['rev-parse','HEAD']),
     evidence:JSON.parse(fs.readFileSync(new URL('./data/rcap-render/worker-publication-evidence.json',root),'utf8')),
     rootDir:new URL('.',root).pathname.replace(/\/$/,'')
@@ -82,11 +77,16 @@ async function frozenReleaseProblems(w){
   const out=[];
   const fail=(ok,message)=>{ if(!ok) out.push(message); };
   const e=w.evidence;
+  const candidate=w.candidate;
+  const currentness=verifyReleaseCandidateBinding(w.rootDir,candidate,candidate.participantReceiptPaths??[]);
+  fail(currentness.current===true && currentness.status==='CURRENT',`the release binding is not current: ${currentness.reasons.join('; ')}`);
+  fail(w.frozen===candidate.applicationSha,'the transport does not name the bound application');
   fail(/^[0-9a-f]{40}$/.test(w.frozen),'the frozen application pin is not an exact 40-character SHA');
   fail((()=>{ try{ return w.git(['cat-file','-t',w.frozen])==='commit'; }catch{ return false; } })(),'the frozen application pin is not a commit in this repository');
 
-  // The committed receipt must be for THIS application, and must be real.
-  fail(e.sourceSha===w.frozen,`the publication evidence names ${e.sourceSha}, not the frozen application ${w.frozen}`);
+  // The committed receipt must name the bound WORKER, and must be real.
+  fail(e.sourceSha===candidate.workerSourceSha,`the publication evidence names ${e.sourceSha}, not the bound worker ${candidate.workerSourceSha}`);
+  fail(e.immutableRegistryDigest===candidate.workerDigest,'the publication digest is not the bound worker digest');
   fail(e.workflowConclusion==='success','the publication evidence does not record a successful publication');
   fail(/^sha256:[0-9a-f]{64}$/.test(String(e.immutableRegistryDigest)),'the publication evidence carries no well-formed immutable digest');
   fail(Number.isInteger(e.workflowRunId)&&e.workflowRunId>0,'the publication evidence names no exact publication run');
@@ -98,21 +98,30 @@ async function frozenReleaseProblems(w){
   fail(String(e.digestPinnedReference).endsWith(`@${e.immutableRegistryDigest}`),
     `the digest-pinned reference ${e.digestPinnedReference} does not name ${e.immutableRegistryDigest}`);
   fail(String(e.imageReference)===`${e.imageRepository}:${e.imageTag}`,'the image reference does not name the repository and tag');
+  fail(e.runtimeAccepted===true,'the published worker is not runtime accepted');
+  fail(Boolean(e.imageAcceptance),'the publication has no image acceptance');
   if(e.imageAcceptance){
     fail(e.imageAcceptance.digest===e.immutableRegistryDigest,
       'the recorded image acceptance is for a different digest than the publication evidence');
     fail(e.imageAcceptance.conclusion==='success','the recorded image acceptance did not succeed');
+    fail(e.imageAcceptance.tag===candidate.workerSourceSha,'the image acceptance names another worker source');
+    fail(e.imageAcceptance.readOnly===true,'the image acceptance is not read-only');
   }
 
-  // The worker was built from the freeze, so the published source and the
-  // application are the same commit and no rebuild can be outstanding.
+  // The accepted worker may precede the application, but it must be an
+  // ancestor with identical canonical inputs.
+  fail((()=>{ try{ w.git(['merge-base','--is-ancestor',e.sourceSha,w.frozen]); return true; }catch{ return false; } })(),
+    'the accepted worker source is not an ancestor of the application');
   const {createWorkerInputPlan}=await import('./rcap-hosted-acceptance-worker-input-plan.mjs');
   let plan=null;
   try{
     plan=createWorkerInputPlan({rootDir:w.rootDir,candidateSha:w.frozen,
       acceptedSourceSha:e.sourceSha,acceptedDigest:e.immutableRegistryDigest});
   }catch(error){ fail(false,`the published source to frozen application plan could not be computed: ${error.message}`); }
-  if(plan) fail(plan.rebuildRequired===false,`the published worker source does not match the frozen application on canonical inputs: ${plan.changedPaths.join(', ')}`);
+  if(plan) {
+    fail(plan.rebuildRequired===false,`the published worker source does not match the frozen application on canonical inputs: ${plan.changedPaths.join(', ')}`);
+    fail(plan.aggregateInputSha256===candidate.workerInputFingerprint,'the application worker-input fingerprint differs from the binding');
+  }
 
   // A later commit may carry the receipt; it does not become the candidate.
   fail((()=>{ try{ w.git(['merge-base','--is-ancestor',w.frozen,w.head]); return true; }catch{ return false; } })(),
@@ -120,18 +129,18 @@ async function frozenReleaseProblems(w){
   let headPlan=null;
   try{
     headPlan=createWorkerInputPlan({rootDir:w.rootDir,candidateSha:w.head,
-      acceptedSourceSha:w.frozen,acceptedDigest:e.immutableRegistryDigest});
-  }catch(error){ fail(false,`the frozen application to HEAD plan could not be computed: ${error.message}`); }
+      acceptedSourceSha:e.sourceSha,acceptedDigest:e.immutableRegistryDigest});
+  }catch(error){ fail(false,`the accepted worker source to HEAD plan could not be computed: ${error.message}`); }
   if(headPlan) fail(headPlan.changedPaths.length===0,`canonical worker inputs moved after the freeze: ${headPlan.changedPaths.join(', ')}`);
   return out;
 }
 
-test('the frozen application pin is the source the accepted worker was published from',async()=>{
+test('the bound application reuses its independently accepted worker source and digest',async()=>{
   const base=frozenReleaseWorld();
   assert.deepEqual(await frozenReleaseProblems(base),[]);
 
   // Negative controls. Each must be refused; a check that cannot fail is not a check.
-  const clone=()=>({...base,evidence:JSON.parse(JSON.stringify(base.evidence))});
+  const clone=()=>({...base,candidate:JSON.parse(JSON.stringify(base.candidate)),evidence:JSON.parse(JSON.stringify(base.evidence))});
   const refusals=[
     ['publication evidence for another source',w=>{ w.evidence.sourceSha='0'.repeat(40); }],
     ['another digest',w=>{ w.evidence.immutableRegistryDigest='sha256:'+'0'.repeat(64); }],
@@ -140,7 +149,13 @@ test('the frozen application pin is the source the accepted worker was published
     ['no exact publication run',w=>{ w.evidence.workflowRunId=null; }],
     ['a tag that is not the source SHA',w=>{ w.evidence.imageTag='latest'; }],
     ['a mutable latest tag',w=>{ w.evidence.mutableLatestTagCreated=true; }],
-    ['another application SHA',w=>{ w.frozen='0'.repeat(40); }]
+    ['another application SHA',w=>{ w.frozen='0'.repeat(40); }],
+    ...(base.candidate.workerSourceSha!==base.frozen ? [['worker source substituted for application',w=>{ w.frozen=w.candidate.workerSourceSha; }]] : []),
+    ...(base.head!==base.frozen ? [['tools head substituted for application',w=>{ w.frozen=w.head; }]] : []),
+    ['forged application binding',w=>{ w.candidate.applicationSha='0'.repeat(40); }],
+    ['changed worker source binding',w=>{ w.candidate.workerSourceSha='0'.repeat(40); }],
+    ['missing runtime acceptance',w=>{ w.evidence.runtimeAccepted=false; }],
+    ['missing image acceptance',w=>{ w.evidence.imageAcceptance=null; }]
   ];
   for(const [label,mutate] of refusals){
     const w=clone(); mutate(w);
@@ -148,12 +163,12 @@ test('the frozen application pin is the source the accepted worker was published
   }
 });
 test('the frozen application pin is the application this tree releases, not an older one',async()=>{
-  // The checks above are satisfied by any commit that carries a matching
-  // receipt, so an older pin passes them while refusing the real candidate --
-  // which is how 884ad51d0 survived past the freeze. These two say the pin is
-  // THIS release: it is on the authoritative history leading to HEAD, and no
-  // application byte moved between it and HEAD. Only release tooling may.
+  // Retain the explicit application freeze as well as binding validation:
+  // the bound application is on the history leading to HEAD, and no frozen
+  // application byte moved after it. A reusable worker source is independent.
   const root=new URL('..',import.meta.url);
+  const candidate=JSON.parse(fs.readFileSync(new URL(CANDIDATE_PATH,root),'utf8'));
+  assert.equal(FROZEN_APPLICATION_SHA,candidate.applicationSha);
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
   git(['merge-base','--is-ancestor',FROZEN_APPLICATION_SHA,'HEAD']);
   // The canonical closure, read from the plan rather than hand-listed, so a
@@ -161,10 +176,10 @@ test('the frozen application pin is the application this tree releases, not an o
   const {createWorkerInputPlan}=await import('./rcap-hosted-acceptance-worker-input-plan.mjs');
   const head=git(['rev-parse','HEAD']);
   const plan=createWorkerInputPlan({rootDir:new URL('.',root).pathname.replace(/\/$/,''),candidateSha:head,
-    acceptedSourceSha:FROZEN_APPLICATION_SHA,acceptedDigest:'sha256:'+'0'.repeat(64)});
+    acceptedSourceSha:candidate.workerSourceSha,acceptedDigest:candidate.workerDigest});
   assert.deepEqual(plan.changedPaths,[],
-    `application inputs moved after the frozen pin: ${plan.changedPaths.join(', ')}`);
-  const moved=git(['diff','--name-only','--no-renames',FROZEN_APPLICATION_SHA,head,'--','src','public','supabase'])
+    `canonical worker inputs moved after the bound worker source: ${plan.changedPaths.join(', ')}`);
+  const moved=git(['diff','--name-only','--no-renames',FROZEN_APPLICATION_SHA,head,'--','src','public','supabase','package.json','package-lock.json','tsconfig.json','next.config.ts','postcss.config.mjs','tailwind.config.ts','docs/record-clearing/field-map-drafts'])
     .split('\n').filter(Boolean);
   assert.deepEqual(moved,[],`application paths moved after the frozen pin: ${moved.join(', ')}`);
 });

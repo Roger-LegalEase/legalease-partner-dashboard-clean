@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { requireCurrentReleaseCandidate } from "./grade-a-launch-control/verify-release-candidate-binding.mjs";
 
 const root = process.cwd();
 const entry = fs.readFileSync(path.join(root, ".github/workflows/rcap-f1-ephemeral-staging.yml"), "utf8");
@@ -11,9 +12,10 @@ const gate = fs.readFileSync(path.join(root, "scripts/rcap-github-acceptance-gat
 const postPayment = fs.readFileSync(path.join(root, "scripts/rcap-github-post-payment-acceptance.mjs"), "utf8");
 const consumerRender = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
 const packetConstraints = fs.readFileSync(path.join(root, "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql"), "utf8");
-const RELEASE_CONTROL_BASE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
-const ACCEPTED_WORKER_SOURCE_SHA = "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e";
-const ACCEPTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
+const candidate = requireCurrentReleaseCandidate(root);
+const RELEASE_CONTROL_BASE_SHA = candidate.applicationSha;
+const ACCEPTED_WORKER_SOURCE_SHA = candidate.workerSourceSha;
+const ACCEPTED_WORKER_DIGEST = candidate.workerDigest;
 
 let checks = 0;
 const failures = [];
@@ -283,13 +285,13 @@ check((postPayment.match(/spawnSync\("docker", \[\s*"run"/g) ?? []).length === 1
 check(postPayment.indexOf("private_storage_bytes_reread_hash_and_pdf_validate") > workerRunIndex, "storage validation can occur before the immutable worker finishes");
 check(postPayment.indexOf("consumer_a_downloads_exact_worker_pdf") > workerRunIndex, "owner PDF download can occur before the immutable worker finishes");
 
-function gitDiffQuiet(paths) {
+function gitDiffQuiet(baseSha, paths) {
   return spawnSync("git", [
-    "diff", "--quiet", RELEASE_CONTROL_BASE_SHA, "--", ...paths
+    "diff", "--quiet", baseSha, "--", ...paths
   ], { cwd: root, encoding: "utf8" }).status === 0;
 }
-check(gitDiffQuiet(["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "postcss.config.mjs", "tailwind.config.ts", "public", "docs/record-clearing/field-map-drafts"]), "fallback branch changes frozen application inputs");
-check(gitDiffQuiet(["package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs", "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"]), "fallback branch changes frozen worker inputs");
+check(gitDiffQuiet(RELEASE_CONTROL_BASE_SHA, ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "postcss.config.mjs", "tailwind.config.ts", "public", "docs/record-clearing/field-map-drafts"]), "fallback branch changes frozen application inputs");
+check(gitDiffQuiet(ACCEPTED_WORKER_SOURCE_SHA, ["package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs", "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"]), "fallback branch changes frozen worker inputs");
 
 if (failures.length > 0) {
   console.error(`FAIL verify-rcap-github-hosted-acceptance — ${failures.length}/${checks} checks failed`);

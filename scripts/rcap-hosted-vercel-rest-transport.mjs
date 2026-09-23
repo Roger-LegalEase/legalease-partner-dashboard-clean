@@ -1,37 +1,12 @@
+import {fileURLToPath} from 'node:url';
+import {requireCurrentReleaseCandidate} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
 import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 
-// The commit whose TREE the acceptance Preview is built from. It must carry the
-// publication receipt and Grade-A route observations that name the worker the
-// deployment runs beside, and the accepted worker source must be an ancestor of
-// it -- the entry workflow refuses otherwise. The superseded 4e16d6d8e pin named
-// the c88f10341 / sha256:df6c2965 tuple; once the worker moved past it, no
-// Preview could satisfy both this pin and the accepted worker, which is how a
-// run that reached the deploy step found it. The agreement is now a test, not a
-// comment.
-//
-// 2026-09-22: advanced from 884ad51d0 to the Grade-A application freeze. The
-// old pin was not wrong when it was written -- it was the first commit carrying
-// the 117b469c4 / sha256:9faa24e8 receipt -- but it stopped describing the
-// application that is actually being released, so REST Preview creation and
-// response validation refused the frozen candidate. The pin stays exact and
-// fails closed: it is one 40-character SHA, never a branch, prefix or input.
-//
-// 2026-09-22, later: advanced again, from 8eb8ddc9d to the SUCCESSOR_APPLICATION
-// _FREEZE. Two canonical worker inputs moved after 8eb8ddc9d -- worker-static-
-// authority.json and the task-53 producer-reconciliation library -- so the image
-// published from it no longer contained the inputs this tree describes.
-//
-// The ORDER here is the point, and it is why this pin sat stale for four
-// commits rather than being advanced with the freeze. The frozen-release
-// contract requires the publication evidence to name the frozen application,
-// so a pin advanced before a worker existed from fe2457a71 would have asserted
-// a publication that had not happened -- the exact falsehood this pin exists to
-// prevent. It is advanced now, and only now, because publication run
-// 35769217594 built fe2457a71 and read-only acceptance run 35769776831 proved
-// the resulting image states that source as its OCI revision. The pin follows
-// the publication; it never leads it.
-export const FROZEN_APPLICATION_SHA = 'fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e';
+// Preview source is the validated release candidate's application, independent
+// of its reusable worker source and later tools commit. Read the canonical
+// binding from this checkout, never a caller-supplied SHA or the branch tip.
+export const FROZEN_APPLICATION_SHA = requireCurrentReleaseCandidate(fileURLToPath(new URL('..', import.meta.url))).applicationSha;
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 
