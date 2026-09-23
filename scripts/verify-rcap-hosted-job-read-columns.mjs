@@ -38,9 +38,10 @@ const SCHEMA_FILES = [
   "supabase/phase-50-rcap-packet-delivery-hardening.sql",
   "supabase/phase-51-rcap-consumer-payment-gate.sql",
   "supabase/phase-52-rcap-consumer-payment-authority.sql",
-  "supabase/phase-53-rcap-consumer-enqueue.sql",
-  "supabase/phase-54-rcap-delivery-control.sql",
-  "supabase/phase-55-rcap-matter-payment-binding.sql"
+  "supabase/phase-53-rcap-consumer-job-binding.sql",
+  "supabase/phase-54-rcap-person-namespace-hardening.sql",
+  "supabase/phase-55-expungement-matter-payment-binding.sql",
+  "supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql"
 ];
 
 const read = (p) => {
@@ -53,22 +54,46 @@ const read = (p) => {
  * `alter table … add column if not exists`. Function parameters (`p_*`) are
  * deliberately not a source — mistaking one for a column is the whole defect.
  */
-function declaredColumns() {
+function tableDefinitions(body) {
+  const definitions = [];
+  let start = 0, depth = 0, quote = null;
+  for (let i = 0; i < body.length; i++) {
+    const ch = body[i];
+    if (quote) {
+      if (ch === quote) {
+        if (body[i + 1] === quote) i++;
+        else quote = null;
+      }
+    } else if (ch === "'" || ch === '"') quote = ch;
+    else if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    else if (ch === ',' && depth === 0) { definitions.push(body.slice(start, i)); start = i + 1; }
+  }
+  if (depth !== 0 || quote) throw new Error('Unbalanced packet_render_jobs table definition');
+  definitions.push(body.slice(start));
+  return definitions;
+}
+
+function declaredColumns(readSchema = read) {
   const columns = new Set();
   for (const file of SCHEMA_FILES) {
-    const sql = read(file);
-    if (!sql) continue;
+    const sql = readSchema(file).replace(/--[^\n]*/g, '');
+    if (!sql.trim()) throw new Error(`Required schema file is missing or empty: ${file}`);
 
     const create = sql.match(/create table if not exists public\.packet_render_jobs\s*\(([\s\S]*?)\n\);/);
     if (create) {
-      for (const line of create[1].split("\n")) {
+      for (const line of tableDefinitions(create[1])) {
         const bare = line.trim();
         if (!bare || bare.startsWith("--") || /^(constraint|primary key|unique|check|foreign key|references)\b/i.test(bare)) continue;
         const name = bare.match(/^([a-z_][a-z0-9_]*)\s+/);
         if (name) columns.add(name[1]);
       }
     }
-    for (const [, name] of sql.matchAll(/add column if not exists\s+([a-z_][a-z0-9_]*)/g)) columns.add(name);
+    // A migration may alter several tables. Only this table's ALTER body can
+    // grant a column to this table; consumer payment metadata is not job data.
+    for (const [, body] of sql.matchAll(/alter table(?: if exists)? public\.packet_render_jobs\b([\s\S]*?);/gi)) {
+      for (const [, name] of body.matchAll(/add column if not exists\s+([a-z_][a-z0-9_]*)/gi)) columns.add(name);
+    }
   }
   return columns;
 }
@@ -123,6 +148,7 @@ function failures(harness) {
   const columns = declaredColumns();
   fail(columns.size > 20, `only ${columns.size} columns were derived from the migrations; the schema contract is not being read`);
   fail(columns.has("page_count"), "page_count is not in the derived column set, so this verifier cannot police it");
+  fail(columns.has("consumer_verification_hash"), "the protected-commerce job binding column is absent from the schema authority");
   fail(!columns.has("output_page_count"),
     "output_page_count appears as a real column; if that ever becomes true this verifier's premise must be revisited");
 
@@ -175,7 +201,11 @@ if (MUTATIONS) {
     ["the page proof reads the function parameter name again", (h) =>
       h.replace("Number(job?.page_count ?? -1)", "Number(job?.output_page_count ?? -1)")],
     ["an invented column is added to the job read", (h) =>
-      h.replace("           renderer_kind, renderer_version, route_id, source_sha256,", "           renderer_kind, renderer_version, route_id, source_sha256, worker_profile_digest,")]
+      h.replace("           renderer_kind, renderer_version, route_id, source_sha256,", "           renderer_kind, renderer_version, route_id, source_sha256, worker_profile_digest,")],
+    ["a real consumer-payment column is borrowed as a job column", (h) =>
+      h.replace("           renderer_kind, renderer_version, route_id, source_sha256,", "           renderer_kind, renderer_version, route_id, source_sha256, provider_event_id,")],
+    ["a multiline constraint word is mistaken for a column", (h) =>
+      h.replace("           renderer_kind, renderer_version, route_id, source_sha256,", "           renderer_kind, renderer_version, route_id, source_sha256, and,")]
   ];
 
   let undetected = 0;
@@ -187,11 +217,17 @@ if (MUTATIONS) {
     console.log(`${caught ? "caught  " : "MISSED  "} ${label}`);
     if (!caught) undetected += 1;
   }
+  const missing = SCHEMA_FILES.at(-1);
+  let missingCaught = false;
+  try { declaredColumns(file => file === missing ? '' : read(file)); }
+  catch (error) { missingCaught = error.message === `Required schema file is missing or empty: ${missing}`; }
+  console.log(`${missingCaught ? 'caught  ' : 'MISSED  '} a required schema migration disappears`);
+  if (!missingCaught) undetected += 1;
   if (undetected > 0) {
     console.error(`\nverify-rcap-hosted-job-read-columns FAILED — ${undetected} mutation(s) undetected.`);
     process.exit(1);
   }
-  console.log(`\nThe hosted job read cannot select a column packet_render_jobs does not have (${M.length}/${M.length}).`);
+  console.log(`\nThe hosted job read cannot select a column packet_render_jobs does not have (${M.length + 1}/${M.length + 1}).`);
   process.exit(0);
 }
 

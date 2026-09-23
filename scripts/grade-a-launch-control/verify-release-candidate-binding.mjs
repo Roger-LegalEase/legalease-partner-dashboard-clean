@@ -137,6 +137,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-deployment-closure.mjs',
         'scripts/rcap-deployment-source-ignore.mjs',
         'scripts/rcap-deployment-source-ignore.test.mjs',
+        'scripts/verify-rcap-hosted-job-read-columns.mjs',
         'scripts/rcap-hosted-acceptance-auth-config.mjs',
         'scripts/rcap-hosted-acceptance-gallery.mjs',
         'scripts/verify-rcap-immutable-image-preflight.mjs',
