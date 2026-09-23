@@ -4,7 +4,7 @@
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "5c7f999e4313735f9d1b7c9cb267b8b47966126c",
+  "toolsSha": "e2ee069671e8870de240e50d15f557c04fd94e55",
   "toolsShaIsNotHead": "Exact control-correction snapshot preceding this binding. It is not the application SHA.",
   "orchestrationFiles": [
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
@@ -12,11 +12,12 @@
     "scripts/rcap-deployment-source-ignore.test.mjs",
     "scripts/rcap-hosted-acceptance-matrix.mjs",
     "scripts/rcap-hosted-acceptance-payment.mjs",
-    "scripts/verify-rcap-deployment-closure.mjs"
+    "scripts/verify-rcap-deployment-closure.mjs",
+    "scripts/verify-rcap-hosted-job-read-columns.mjs"
   ],
-  "previousToolsSha": "1169bc513258660cfd556be45d6da5db10c9733b",
-  "previousBindingCommit": "d560453fa79da8c7579637aba92477f914e5906e",
-  "why": "Bounded hosted #333 source-pruning verification repair and downstream readiness corrections. Git-ignore semantics are measured against Git; unsupported ambiguous exclusions fail closed; required runtime directory children must survive. The payment harness no longer supplies obsolete profile arguments, and matrix comments reflect the existing runtime environment classifier. No worker inputs moved. The existing conservative Next entry graph separates standalone review CLIs from deployed readers; every canonical runtime-authority include is checked individually after pruning.",
+  "previousToolsSha": "5c7f999e4313735f9d1b7c9cb267b8b47966126c",
+  "previousBindingCommit": "c3f042ced645949958db41fb7d5dc6e0a87e7600",
+  "why": "Bounded hosted #333 source-pruning verification repair and downstream readiness corrections. Git-ignore semantics are measured against Git; unsupported ambiguous exclusions fail closed; required runtime directory children must survive. The payment harness no longer supplies obsolete profile arguments, and matrix comments reflect the existing runtime environment classifier. No worker inputs moved. The existing conservative Next entry graph separates standalone review CLIs from deployed readers; every canonical runtime-authority include is checked individually after pruning. The downstream job-column verifier names the actual phase-53/54/55 and protected-commerce migration files, refuses missing schema inputs, and derives only packet_render_jobs columns. Its 43-column set equals acceptance readback, with all 35 harness selections present and ten mutations refused.",
   "authorization": "Roger Roman: diagnose and correct the proven hosted #333 defect and inspect the seven unexecuted downstream scripts for provably stale assumptions in this same campaign.",
   "deploymentAuthorized": false,
   "deploymentScope": "This local binding does not authorize Production or claim a hosted pass. Corrected Preview acceptance remains pending."
