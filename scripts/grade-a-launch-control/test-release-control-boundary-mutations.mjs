@@ -143,6 +143,10 @@ const write = (rel, body) => {
 const TOOLING = "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json";
 const CANDIDATE = "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json";
 const PUBLICATION = "data/rcap-render/worker-publication-evidence.json";
+const MS_CURRENTNESS_CONTROLS = [
+  "scripts/verify-ms-paid-packet-proof-reconciliation.mjs",
+  "scripts/test-ms-proof-currentness.mjs"
+];
 
 try {
   git("init", "-b", "main");
@@ -189,7 +193,8 @@ try {
   git("commit", "-q", "-m", "publication evidence");
 
   write("scripts/rcap-vercel-identity-recheck.mjs", "// tooling change\n");
-  git("add", "-f", "scripts/rcap-vercel-identity-recheck.mjs");
+  for (const file of MS_CURRENTNESS_CONTROLS) write(file, "// fixture currentness control\n");
+  git("add", "-f", "scripts/rcap-vercel-identity-recheck.mjs", ...MS_CURRENTNESS_CONTROLS);
   git("commit", "-q", "-m", "bounded tooling change");
   const toolsSha = git("rev-parse", "HEAD");
 
@@ -215,13 +220,15 @@ try {
   const green = verifyReleaseCandidateBinding(root, candidate);
   assert.equal(green.current, true, `fixture baseline is not CURRENT: ${green.reasons.join("; ")}`);
   assert.equal(green.status, "CURRENT");
+  console.log("PASS currentness tooling: 2/2 exact control paths accepted in the bound tools commit");
 
-  const refuses = (label, mutatedCandidate = candidate, mutate = null) => {
+  const refuses = (label, mutatedCandidate = candidate, mutate = null, expectedReason = null) => {
     reset();
     if (mutate) mutate();
     const result = verifyReleaseCandidateBinding(root, mutatedCandidate);
     assert.equal(result.current, false, `MISSED: ${label}`);
     assert.ok(result.reasons.length > 0, `${label}: refused with no stated reason`);
+    if (expectedReason) assert.match(result.reasons.join("; "), expectedReason, label);
     results.push(label);
     reset();
   };
@@ -257,6 +264,30 @@ try {
     git("add", "-f", "scripts/rcap-vercel-identity-recheck.mjs");
     git("commit", "-q", "-m", "post-binding orchestration drift");
   });
+
+  // Currentness controls belong to the same exact binding as other release
+  // tooling. Admitting their paths must not excuse an incomplete declaration,
+  // later edits, or a similarly named script outside the finite boundary.
+  for (const file of MS_CURRENTNESS_CONTROLS) {
+    refuses(`currentness: ${file} omitted from the declared set`, candidate, () => {
+      commitJson(TOOLING, { ...binding, orchestrationFiles: orchestrationFiles.filter(p => p !== file) },
+        "omit currentness control from declaration");
+    }, /Tooling file set mismatch/);
+    refuses(`currentness: ${file} changed after the tools SHA`, candidate, () => {
+      write(file, "// currentness control changed after binding\n");
+      git("add", "-f", file);
+      git("commit", "-q", "-m", "post-binding currentness drift");
+    }, /Command failed: git diff --exit-code/);
+  }
+  refuses("currentness: an unapproved sibling script remains outside the boundary", candidate, () => {
+    const file = "scripts/test-ms-proof-currentness-unapproved.mjs";
+    write(file, "// unapproved currentness script\n");
+    git("add", "-f", file);
+    git("commit", "-q", "-m", "unapproved currentness tooling");
+    const sha = git("rev-parse", "HEAD");
+    commitJson(TOOLING, { ...binding, toolsSha: sha, orchestrationFiles: [...orchestrationFiles, file] },
+      "declare an unapproved currentness script");
+  }, /Unbounded tooling delta/);
 
   // 15. A canonical worker input moved after the successor freeze.
   refuses("worker: canonical input moved after the freeze", candidate, () => {

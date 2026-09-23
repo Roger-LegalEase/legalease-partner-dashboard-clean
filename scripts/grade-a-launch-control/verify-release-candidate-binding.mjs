@@ -191,7 +191,12 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/verify-rcap-github-hosted-acceptance.mjs',
         'scripts/rcap-github-post-payment-acceptance.mjs',
         'scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs',
-        'scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs'
+        'scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs',
+        // Mississippi proof-currentness controls read evidence and assert its
+        // history/behavior; they do not change application or worker inputs.
+        // They still require an exact declaration and the tools commit's bytes.
+        'scripts/verify-ms-paid-packet-proof-reconciliation.mjs',
+        'scripts/test-ms-proof-currentness.mjs'
       ]);
       const delta = git(['diff', '--name-only', candidate.applicationSha, binding.toolsSha]).split('\n').filter(Boolean);
       if (delta.some(p => !generated.has(p) && p !== toolingPath && !bounded.has(p))) throw new Error('Unbounded tooling delta');
