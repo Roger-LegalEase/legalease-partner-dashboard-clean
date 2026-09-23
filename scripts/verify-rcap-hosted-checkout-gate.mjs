@@ -355,6 +355,16 @@ includesEvery(verificationLifecycle, ["/api/expungement-ai/screening/pending", "
 const metadataFailures = [...checkoutMetadataContractFailures({ root }), ...await checkoutMetadataBehaviorFailures()];
 check(metadataFailures.length === 0, `Checkout metadata contract: ${metadataFailures.join("; ")}`);
 
+// Execute the actual binding RPC and both unpaid predicates before another
+// hosted Session can be created. Case-name presence cannot prove payment state.
+try {
+  const { checkoutBindingStateBehavior } = await import("./test-expungement-checkout-guards.mjs");
+  await checkoutBindingStateBehavior();
+  check(true, "Checkout binding-state RPC regression");
+} catch (error) {
+  check(false, `Checkout binding-state RPC regression: ${error.message}`);
+}
+
 if (failures.length > 0) {
   console.error(`FAIL verify-rcap-hosted-checkout-gate — ${failures.length}/${checks} checks failed`);
   for (const failure of failures) console.error(`  - ${failure}`);

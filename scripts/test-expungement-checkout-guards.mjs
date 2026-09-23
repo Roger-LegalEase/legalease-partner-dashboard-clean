@@ -1,6 +1,6 @@
 // Focused behavioral checks for the Expungement.ai matter-level payment gate.
-// Stripe and Supabase are deterministic in-memory doubles. No provider or
-// hosted project is contacted by this test.
+// Provider boundaries use deterministic doubles; the Checkout-binding RPC runs
+// unchanged in isolated PostgreSQL (PGlite). No hosted project is contacted.
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -10,6 +10,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { buildMsNonConvictionVerification } from "./lib/rcap-ms-nonconviction-fixture.mjs";
 import { HOSTED_FINAL_REVIEW_ANSWERS } from "./rcap-hosted-final-verification.mjs";
+import { syntax, initializer, evaluate } from "./rcap-hosted-surface-inspection.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
@@ -264,6 +265,7 @@ async function authoritativePersistenceBehavior() {
     assert.equal(h.insertCalls[0].user_id, USER);
     assert.equal(h.insertCalls[0].payment_allowed, true);
     assert.equal(h.insertCalls[0].payment_status, "unpaid");
+    // Pre-binding list price only. The real binding RPC below clears this for unpaid rows.
     assert.equal(h.insertCalls[0].amount_cents, 5000);
   }
 }
@@ -1296,7 +1298,148 @@ export async function captureCheckoutMetadataFixture() {
   } };
 }
 
+// Hosted #337: replay the gate predicates themselves against the real binding
+// function, not a JavaScript RPC double that retains the pre-binding list price.
+// Optional captured evidence is read-only and never creates a Stripe Session.
+export async function checkoutBindingStateBehavior({ evidencePath, rpcReadbackPath } = {}) {
+  const { PGlite } = await import("@electric-sql/pglite");
+  const { pgcrypto } = await import("@electric-sql/pglite/contrib/pgcrypto");
+  const sqlFunction = (file, name) => {
+    const match = read(file).match(new RegExp(`create or replace function public\\.${name}\\([\\s\\S]*?\\bas\\s+(\\$\\w*\\$)[\\s\\S]*?\\1;`, "i"));
+    assert.ok(match, `real SQL function required: ${name}`);
+    return match[0];
+  };
+  let rpc = sqlFunction("supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql", "bind_consumer_checkout_verification");
+  const results = [];
+  const pass = (id, actual) => { assert.equal(actual, true, id); results.push(id); };
+  if (rpcReadbackPath) {
+    const live = JSON.parse(fs.readFileSync(rpcReadbackPath, "utf8"));
+    assert.equal(live.project, "hyflxnlhpmiqxvvcoiia");
+    assert.equal(live.functions.length, 1);
+    const body = sql => sql.match(/\bas\s+(\$\w*\$)([\s\S]*?)\1/i)[2].replace(/\s+/g, " ").trim();
+    pass("live_binding_rpc_body_equals_committed_migration", body(live.functions[0].definition) === body(rpc));
+    rpc = live.functions[0].definition;
+  }
+  const gates = ["rcap-hosted-checkout-gate.mjs", "rcap-github-acceptance-gate.mjs"].map(name => {
+    const parsed = syntax(path.join(rootDir, "scripts", name));
+    const records = parsed.nodes.filter(n => ts.isCallExpression(n) && n.expression.getText() === "record"
+      && ts.isStringLiteral(n.arguments[0]) && n.arguments[0].text === "beginning_checkout_does_not_mark_paid_or_queue_work");
+    assert.equal(records.length, 1);
+    assert.equal(records[0].arguments[1].getText(), "stillUnpaid");
+    return { name, parsed, unpaid: context => evaluate(initializer(parsed, "stillUnpaid"), context) };
+  });
+  const db = new PGlite({ extensions: { pgcrypto } });
+  try {
+    // Only the function's table dependencies are provisioned. All three SQL
+    // functions are the actual migration definitions, with no mocked behavior.
+    await db.exec(`
+      create schema extensions;
+      create extension pgcrypto with schema extensions;
+      create table public.consumer_briefcase_items (
+        id uuid primary key, user_id uuid, payment_allowed boolean, payment_status text,
+        payment_provider text, checkout_session_id text, payment_product_id text,
+        payment_person_id uuid, payment_matter_id uuid, amount_cents integer,
+        packet_status text, provider_event_id text, updated_at timestamptz
+      );
+      create table public.consumer_packet_verifications (briefcase_item_id uuid, status text, verification_hash text);
+      create table public.packet_render_jobs (briefcase_item_id uuid);
+      create table public.consumer_packet_payment_consumption (consumer_briefcase_item_id uuid);
+      create table public.processed_stripe_events (related_object_id text);
+    `);
+    const identities = "supabase/phase-55-expungement-matter-payment-binding.sql";
+    await db.exec(sqlFunction(identities, "expungement_packet_product_id"));
+    await db.exec(sqlFunction(identities, "consumer_matter_id_for_briefcase_item"));
+    await db.exec(rpc);
+    const matter = (await db.query("select public.consumer_matter_id_for_briefcase_item($1) as id", [ITEM])).rows[0].id;
+    const session = "cs_test_binding_state";
+    const args = [USER, ITEM, session, "stripe", PRODUCT, PERSON, matter, "a".repeat(64)];
+    const bind = async (values = args) => (await db.query("select * from public.bind_consumer_checkout_verification($1,$2,$3,$4,$5,$6,$7,$8)", values)).rows[0];
+    await db.query("insert into public.consumer_packet_verifications values ($1,'verified',$2)", [ITEM, args[7]]);
+    let boundContext;
+    for (const startingAmount of [null, 0, 5000]) {
+      await db.exec("delete from public.consumer_briefcase_items");
+      await db.query("insert into public.consumer_briefcase_items (id,user_id,payment_allowed,payment_status,amount_cents,packet_status) values ($1,$2,true,'unpaid',$3,'not_started')", [ITEM, USER, startingAmount]);
+      pass(`rpc_unpaid_${startingAmount}_binds`, (await bind()).ok === true);
+      for (const gate of gates) {
+        const query = async (name, context) => {
+          const declarations = gate.parsed.nodes.filter(n => ts.isVariableDeclaration(n) && n.name.getText() === name);
+          assert.equal(declarations.length, 1);
+          const awaited = declarations[0].initializer;
+          assert.ok(ts.isAwaitExpression(awaited) && ts.isCallExpression(awaited.expression));
+          assert.equal(awaited.expression.expression.getText(), "sql");
+          return (await db.query(evaluate(awaited.expression.arguments[0].getText(), context))).rows[0] ?? null;
+        };
+        const operands = { itemId: ITEM, A: { id: USER }, checkoutSessionId: session };
+        const afterItem = await query("afterItemResponse", operands);
+        const afterCounts = await query("afterCountsResponse", operands);
+        assert.equal(afterItem.amount_cents, null, "real RPC must clear every unpaid amount, including zero");
+        boundContext = { afterItem, afterCounts, checkoutSessionId: session };
+        pass(`${gate.name}:rpc_unpaid_${startingAmount}`, gate.unpaid(boundContext));
+        const foreign = await query("afterItemResponse", { ...operands, A: { id: PERSON } });
+        pass(`${gate.name}:wrong_owner_refused_${startingAmount}`, foreign === null && !gate.unpaid({ ...boundContext, afterItem: foreign }));
+      }
+    }
+    const negatives = [
+      ["premature_paid", c => { c.afterItem.payment_status = "paid"; }],
+      ["wrong_session", c => { c.afterItem.checkout_session_id = "cs_test_other"; }],
+      ["wrong_provider", c => { c.afterItem.payment_provider = "dry_run"; }],
+      ...[0, 5000, "0", "", undefined].map(amount => [`non_null_amount_${String(amount)}`, c => { c.afterItem.amount_cents = amount; }]),
+      ["packet_started", c => { c.afterItem.packet_status = "queued"; }],
+      ["provider_event", c => { c.afterItem.provider_event_id = "evt_early"; }],
+      ["queued_work", c => { c.afterCounts.jobs = 1; }],
+      ["entitlement", c => { c.afterCounts.entitlements = 1; }],
+      ["processed_payment_event", c => { c.afterCounts.processed_events = 1; }]
+    ];
+    for (const gate of gates) for (const [name, mutate] of negatives) {
+      const changed = structuredClone(boundContext); mutate(changed);
+      pass(`${gate.name}:${name}_refused`, gate.unpaid(changed) === false);
+    }
+    const foreign = await bind([PERSON, ...args.slice(1)]);
+    pass("rpc_wrong_owner_refused", foreign.ok === false && foreign.reason === "item_not_found");
+    for (const amount of [0, 3200, 5000]) {
+      await db.query("update public.consumer_briefcase_items set payment_status='paid', amount_cents=$1, provider_event_id='evt_settled' where id=$2", [amount, ITEM]);
+      pass(`rpc_paid_${amount}_rebinds`, (await bind()).ok === true);
+      const paid = (await db.query("select * from public.consumer_briefcase_items where id=$1", [ITEM])).rows[0];
+      pass(`rpc_paid_${amount}_preserved`, paid.payment_status === "paid" && paid.amount_cents === amount && paid.provider_event_id === "evt_settled");
+    }
+  } finally { await db.close(); }
+
+  if (evidencePath) {
+    const evidence = JSON.parse(fs.readFileSync(evidencePath, "utf8"));
+    const failed = evidence.cases.beginning_checkout_does_not_mark_paid_or_queue_work;
+    assert.equal(failed.passed, false, "retained failing evidence must remain unchanged");
+    pass("captured_stripe_metadata_and_price_already_passed", evidence.cases.stripe_session_amount_mode_metadata_and_product_exact.passed);
+    const parts = failed.observed.match(/^item=(.*); counts=(.*)$/);
+    const afterItem = JSON.parse(parts[1]), afterCounts = JSON.parse(parts[2]);
+    const checkoutResponse = evidence.cases.application_created_one_checkout_response;
+    assert.equal(checkoutResponse.passed, true);
+    const checkoutSessionId = checkoutResponse.observed.match(/; id=(cs_test_[A-Za-z0-9]+); amount=/)?.[1];
+    assert.ok(checkoutSessionId, "expected Session comes from the captured Checkout response, not the item being checked");
+    for (const gate of gates) {
+      pass(`${gate.name}:captured_337_unpaid`, gate.unpaid({ afterItem, afterCounts, checkoutSessionId }));
+      const urls = evidence.checkoutReturn;
+      const context = { itemId: afterItem.id, successUrl: new URL(urls.successUrl), cancelUrl: new URL(urls.cancelUrl),
+        previewUrl: urls.hostedEnvironmentOrigin, publicOrigin: urls.hostedEnvironmentOrigin };
+      const predicate = initializer(gate.parsed, "returnShapeExact");
+      pass(`${gate.name}:captured_337_return_urls`, evaluate(predicate, context));
+      for (const field of ["successUrl", "cancelUrl"]) {
+        const changed = { ...context, [field]: new URL(context[field]) };
+        changed[field].hostname = "wrong.example";
+        pass(`${gate.name}:${field}_wrong_origin_refused`, evaluate(predicate, changed) === false);
+        changed[field] = new URL(context[field]); changed[field].pathname = "/briefcase/wrong-item";
+        pass(`${gate.name}:${field}_wrong_item_refused`, evaluate(predicate, changed) === false);
+      }
+    }
+  }
+  console.log(`Checkout binding-state regression: ${results.length}/${results.length} passed (real SQL RPC, both gate predicates).`);
+  return results;
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+
+const option = name => process.argv.find(arg => arg.startsWith(`--${name}=`))?.slice(name.length + 3);
+await checkoutBindingStateBehavior({ evidencePath: option("checkout-evidence"), rpcReadbackPath: option("binding-rpc-readback") });
+if (!process.argv.includes("--checkout-binding-state-only")) {
 
 await authoritativePersistenceBehavior();
 await checkoutBehavior();
@@ -1311,4 +1454,5 @@ console.log("- An open legacy Session is patched and reused; mismatches fail clo
 console.log("- Signed events reject sponsored or conflicting evidence and enqueue durable Phase 53 work.");
 console.log("- Reviewed packet fields are snapshotted, hashed and persisted into the worker source row.");
 
+}
 }

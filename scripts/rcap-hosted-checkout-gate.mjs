@@ -1040,7 +1040,8 @@ async function main() {
   const stillUnpaid = afterItem?.payment_status === "unpaid"
     && afterItem?.payment_provider === "stripe"
     && afterItem?.checkout_session_id === checkoutSessionId
-    && Number(afterItem?.amount_cents) === 5000
+    // The binding RPC clears uncollected amounts; zero is a settled free order.
+    && afterItem?.amount_cents === null
     && afterItem?.packet_status === "not_started"
     && afterItem?.provider_event_id === null
     && Number(afterCounts?.jobs) === 0
