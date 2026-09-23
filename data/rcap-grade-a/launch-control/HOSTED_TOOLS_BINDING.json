@@ -4,7 +4,7 @@
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "cda70fed7cc7683265f7c2fd1538d220dd9068cd",
+  "toolsSha": "8b532bc72478c18feed3ec53c517a4f3f5ed7d33",
   "toolsShaIsNotHead": "Exact control-correction snapshot preceding this binding. It is not the application SHA.",
   "orchestrationFiles": [
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
@@ -24,14 +24,15 @@
     "scripts/verify-expungement-consumer-checkout.mjs",
     "scripts/verify-rcap-checkout-metadata-contract.mjs",
     "scripts/verify-rcap-deployment-closure.mjs",
+    "scripts/verify-rcap-github-hosted-acceptance.mjs",
     "scripts/verify-rcap-hosted-checkout-gate.mjs",
     "scripts/verify-rcap-hosted-evidence-completion.mjs",
     "scripts/verify-rcap-hosted-job-read-columns.mjs"
   ],
-  "previousToolsSha": "e9fd9780fd03fd760d494655ae88465728e7f687",
-  "previousBindingCommit": "9ad323288c57163a10881b77f6dcf9bd09f7458b",
-  "why": "Both acceptance gates now require amount_cents === null after unpaid Checkout binding. The unchanged SQL RPC executes in isolated PostgreSQL and drives both real gate predicates, negative state checks and paid-amount preservation; the existing Checkout verifier runs this regression before Session creation. Stripe price/currency and all other gate bytes remain unchanged.",
-  "authorization": "Roger Roman: fix the concrete #337 unpaid-payment-state contract defect locally, run targeted regressions and update tools/binding authority. Preserve application, Preview, worker and Stripe destination; focused diff review before advancement. No hosted rerun or Production authorization.",
+  "previousToolsSha": "cda70fed7cc7683265f7c2fd1538d220dd9068cd",
+  "previousBindingCommit": "f5003135edff2bffd0b738ac0eb752d48f9f5770",
+  "why": "Retains the #337 strict-null unpaid binding correction and real-RPC regression. Replaces nine stale fallback-verifier expectations with parsed shared-route calls, application-owned post-payment packet identity, strict owned-packet absence and claim-after-Auth ordering; adds 12 named in-memory negative tests and executes the existing 32-case route behavioral suite. Application, database, Preview, worker and Stripe destination are unchanged.",
+  "authorization": "Roger Roman: finish the focused #337 review in the existing workspace, semantically correct mandatory stale fallback checks, update tools/binding once if needed, then ordinary fast-forward push the exact reviewed head and return the complete manual hosted_full form. Captain self-review is not independent audit.",
   "deploymentAuthorized": false,
-  "deploymentScope": "Existing exact Preview dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee remains the application target. This local control correction authorizes no deployment or hosted run. Ledger completeness remains NOT CERTIFIED."
+  "deploymentScope": "Reuse exact existing Preview dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee. No deployment, retarget, workflow dispatch or Production authorization in this task. Ledger completeness remains NOT CERTIFIED."
 }

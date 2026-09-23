@@ -20,7 +20,7 @@
   },
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "note": "Focused successor to #337. The real binding RPC and retained #337 evidence prove strict-null unpaid amounts; paid amounts and all other gate checks are preserved. This successor tools tuple has not run hosted_full. Ledger completeness remains NOT CERTIFIED.",
+    "note": "Focused successor to #337 and the mandatory fallback-verifier reconciliation. Real binding RPC and retained #337 evidence prove strict-null unpaid amounts; paid amounts and other gate checks remain intact. Captain self-review only. No hosted_full has run on this successor; ledger completeness remains NOT CERTIFIED.",
     "journeys": [],
     "deliberatelyEmpty": "No complete hosted journey or Production authorization is inherited.",
     "retainedPreview": {
@@ -34,6 +34,22 @@
     "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
+      "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+      "bindingCommit": "f5003135edff2bffd0b738ac0eb752d48f9f5770",
+      "toolsSha": "cda70fed7cc7683265f7c2fd1538d220dd9068cd",
+      "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
+      "hostedAcceptance": {
+        "journeys": [],
+        "note": "Not dispatched; six-file #337 correction passed Captain self-review."
+      },
+      "productionAuthorized": false,
+      "productionAuthorization": null,
+      "disposition": "superseded_by_focused_fallback_verifier_reconciliation",
+      "why": "Mandatory verifier had nine stale assertions; no application or shared runtime defect found. Historical 186/195 failure remains recorded. This successor is not certification of the separate GitHub fallback runtime."
+    },
     {
       "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
       "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
@@ -228,7 +244,7 @@
   "productionAuthorized": false,
   "productionAuthorization": null,
   "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
-  "scope": "Focused #337 unpaid payment-state control correction and local binding only. Review the four changed control/test files and this successor binding at the existing focused approval boundary. No push, new Session, hosted run, deployment, retarget or Production authorization.",
+  "scope": "Focused #337 control correction and mandatory fallback-verifier reconciliation, followed by authorized exact fast-forward advancement and manual hosted_full instructions. Application, Preview, worker and Stripe destination unchanged. No automated dispatch, new Session, deployment, retarget or Production authorization.",
   "applicationPin": {
     "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
     "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
