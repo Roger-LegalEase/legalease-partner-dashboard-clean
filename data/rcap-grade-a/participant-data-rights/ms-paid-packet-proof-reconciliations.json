@@ -75,6 +75,138 @@
         "productionAuthorized": false,
         "runtimeAuthorized": false
       }
+    },
+    {
+      "reconciledOn": "2026-09-23",
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "trackId": "ms-nonconv",
+      "packetFamilyId": "ms-nonconv-set",
+      "regenerationCommit": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+      "detectedBy": "scripts/verify-ms-paid-packet-proof-reconciliation.mjs; independent pre-release currentness audit",
+      "failure": "The live proof is already current; the ledger lacked the scoped record of its accepted input refresh.",
+      "baselineComparison": {
+        "acceptedBaselineSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
+        "resultOnBaseline": "The V3 proof and source input agree at the prior SHA-256.",
+        "resultOnCandidate": "All 76 live proof inputs agree with current files; approved V3 outputs and substantive proof results are unchanged by the two-pin refresh.",
+        "classification": "authorized source movement with missing currentness reconciliation"
+      },
+      "whyTheBytesDiffer": {
+        "intentional": true,
+        "commits": [
+          "973d42d6221bd6f88add0d5f6465030f6406ada8"
+        ],
+        "cause": "Task #63 replaced broad text-derived route facts with authored route scope, retained unresolved-fact refusal and the prior materialization guard. On this MS route, county and participant_full_legal_name change from prepay_confirmation to render_required; both remain collected in the same participant sections and in the pre-payment completeness gate. Two bounded cases preserve evaluator/payment results, selected route/track binding, collected values and DTC/sponsored/commercial authority. Verification code, packet specification, approved artifact bytes and renderer inputs did not change."
+      },
+      "pin": {
+        "file": "src/lib/expungement-ai/packet-information.ts",
+        "priorSha256": "9578d912adac0c3bbbab96107347e002353ba3dd97a73e768af18ec54eba4b70",
+        "currentSha256": "2e7a019dc488d07770cfdc4e59dfaf51d00ddd1fd7757e70b3013af392a37dad"
+      },
+      "behaviouralDelta": {
+        "summary": "Task #63 replaced broad text-derived route facts with authored route scope, retained unresolved-fact refusal and the prior materialization guard. On this MS route, county and participant_full_legal_name change from prepay_confirmation to render_required; both remain collected in the same participant sections and in the pre-payment completeness gate. Two bounded cases preserve evaluator/payment results, selected route/track binding, collected values and DTC/sponsored/commercial authority. Verification code, packet specification, approved artifact bytes and renderer inputs did not change.",
+        "authorizesNoNewBehaviour": "Bookkeeping only. No eligibility, packet, legal, payment, render, worker, hosted or Production authority is created or changed."
+      },
+      "parityAndSafetyEvidence": {
+        "currentAssemblyByteIdentical": true,
+        "postgresJsonbByteIdentical": true,
+        "postgresVerificationHashIdentical": true,
+        "artifactSha256": {
+          "full-en": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+          "full-es": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+          "court-only": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe"
+        },
+        "finalVerificationBoundInputsSha256": {
+          "full-en": "aeed2e00b77cb12c2686d4c04090edb75f15183c38b0cbd2beb3c7dded511c58",
+          "full-es": "93ed18984ce8a97e606a8a1269c3570843649ea1c9791b1239656d83e485cf5e",
+          "court-only": "cf02d78bd015c6cc8793c0bece22d418b656dec282330af1e8cfe6cc078d5e83"
+        },
+        "sourceAuthorityBoundInputsSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+        "evidenceCommit": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+        "note": "Existing regeneration evidence, independently bound to the exact proof bytes. No new render or approval is asserted."
+      },
+      "mutationSensitivityPreserved": {
+        "negativeBindingControls": 27,
+        "how": "Preserved from the exact existing ed3af2dd regeneration; every substantive proof result equals the prior V3 proof."
+      },
+      "scope": {
+        "collectionClassificationChanged": [
+          "county",
+          "participant_full_legal_name"
+        ],
+        "participantSectionsChanged": false,
+        "prepaymentGateChanged": false,
+        "verificationSemanticsChanged": false,
+        "selectedTrackIdHandlingChanged": false,
+        "packetFamilyIdentityChanged": false,
+        "paymentAllowedChanged": false,
+        "commercialEligibilityChanged": false,
+        "rendererInputsChanged": false,
+        "approvedPacketContentChanged": false,
+        "productionAuthorized": false,
+        "runtimeAuthorized": false
+      }
+    },
+    {
+      "reconciledOn": "2026-09-23",
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "trackId": "ms-nonconv",
+      "packetFamilyId": "ms-nonconv-set",
+      "regenerationCommit": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+      "detectedBy": "scripts/verify-ms-paid-packet-proof-reconciliation.mjs; independent pre-release currentness audit",
+      "failure": "The live proof is already current; the ledger lacked the scoped record of its accepted input refresh.",
+      "baselineComparison": {
+        "acceptedBaselineSha": "117b469c453a403fbd217f1c441a08c7c68f6b3a",
+        "resultOnBaseline": "The V3 proof and source input agree at the prior SHA-256.",
+        "resultOnCandidate": "All 76 live proof inputs agree with current files; approved V3 outputs and substantive proof results are unchanged by the two-pin refresh.",
+        "classification": "authorized source movement with missing currentness reconciliation"
+      },
+      "whyTheBytesDiffer": {
+        "intentional": true,
+        "commits": [
+          "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8"
+        ],
+        "cause": "The shared manifest moved outside this MS packet set. The exact ms-nonconv-set entry is unchanged; the current proof sourceAuthority continues to bind the same selected packet-set digest. The full-file pin was refreshed by the existing bounded proof regeneration."
+      },
+      "pin": {
+        "file": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "priorSha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
+        "currentSha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0"
+      },
+      "behaviouralDelta": {
+        "summary": "The shared manifest moved outside this MS packet set. The exact ms-nonconv-set entry is unchanged; the current proof sourceAuthority continues to bind the same selected packet-set digest. The full-file pin was refreshed by the existing bounded proof regeneration.",
+        "authorizesNoNewBehaviour": "Bookkeeping only. No eligibility, packet, legal, payment, render, worker, hosted or Production authority is created or changed."
+      },
+      "parityAndSafetyEvidence": {
+        "currentAssemblyByteIdentical": true,
+        "postgresJsonbByteIdentical": true,
+        "postgresVerificationHashIdentical": true,
+        "artifactSha256": {
+          "full-en": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+          "full-es": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+          "court-only": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe"
+        },
+        "finalVerificationBoundInputsSha256": {
+          "full-en": "aeed2e00b77cb12c2686d4c04090edb75f15183c38b0cbd2beb3c7dded511c58",
+          "full-es": "93ed18984ce8a97e606a8a1269c3570843649ea1c9791b1239656d83e485cf5e",
+          "court-only": "cf02d78bd015c6cc8793c0bece22d418b656dec282330af1e8cfe6cc078d5e83"
+        },
+        "sourceAuthorityBoundInputsSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+        "evidenceCommit": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+        "note": "Existing regeneration evidence, independently bound to the exact proof bytes. No new render or approval is asserted."
+      },
+      "mutationSensitivityPreserved": {
+        "negativeBindingControls": 27,
+        "how": "Preserved from the exact existing ed3af2dd regeneration; every substantive proof result equals the prior V3 proof."
+      },
+      "scope": {
+        "msPacketSetChanged": false,
+        "approvedPacketContentChanged": false,
+        "commercialEligibilityChanged": false,
+        "productionAuthorized": false,
+        "runtimeAuthorized": false
+      }
     }
   ],
   "proofGenerations": [
@@ -146,6 +278,176 @@
       "supersedes": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json",
       "proofSha256": "e1d7fb68c837920d7293fc6f4fa1dc47dc6faab30d2242db8e88a8149bfa93f5",
       "createdBecause": "Generated from current bytes by scripts/verify-ms-paid-packet-proof.mjs against the three artifacts the 2026-09-20 owner decision approves, re-assembled through src/lib/rcap/render/participant-packet-assembly.ts."
+    }
+  ],
+  "generationSnapshotSha": "26546a161570229a7d2a9ffe1f17686803342b91",
+  "proofRevisions": [
+    {
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "recordedAtCommit": "f9c6373bff6f2fe472a7b5e4543110d5bfe59171",
+      "priorSha256": "e1d7fb68c837920d7293fc6f4fa1dc47dc6faab30d2242db8e88a8149bfa93f5",
+      "currentSha256": "7e9c1da4651c7c2b4ef4ba1ed9f16ee9cc345d891a64a9d0eb6a405ddba1eb07",
+      "priorDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+        "decisionSha256": "be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502"
+      },
+      "currentDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+        "decisionSha256": "be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502"
+      },
+      "changedFields": [
+        "inputs",
+        "sourceSha"
+      ],
+      "changedInputs": [
+        {
+          "file": "src/lib/rcap/grade-a/composer.ts",
+          "priorSha256": "f1637d902e19fbec5d51a10d342212416be31c2c9eb0019d6e3fa11daa7145f3",
+          "currentSha256": "04d06450d862e8d3ded5f7abffe1b56426637370d3a44177df974d4192a35d80"
+        },
+        {
+          "file": "src/lib/rcap/supplemental/guide-registry.ts",
+          "priorSha256": "72304713ac71cc2f00767edf4f1e7d8335d8c3e282b465ff7f75b5dc48808a5f",
+          "currentSha256": "93d3e58bc42871b125133781ff1a609129334fede5011727cd2b6bd3d2a191ed"
+        }
+      ],
+      "kind": "input_refresh",
+      "evidence": "Existing remeasurement at f9c6373: composer/guide registry input refresh; results and owner decision unchanged."
+    },
+    {
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "recordedAtCommit": "995b5a17c611f580440f834bc3478b85e54d3321",
+      "priorSha256": "7e9c1da4651c7c2b4ef4ba1ed9f16ee9cc345d891a64a9d0eb6a405ddba1eb07",
+      "currentSha256": "fcd6690dbd00f1ca4a53c173616dabec168a4272ede699dc9ff9d2b3cd2c8d2c",
+      "priorDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+        "decisionSha256": "be3be9979f69cb01f5ecf5ec003044401b90a48c3c6efb9a0efa514bce647502"
+      },
+      "currentDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "decisionSha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563"
+      },
+      "changedFields": [
+        "assemblyIdentity",
+        "inputs",
+        "ownerDecision",
+        "results",
+        "sourceAuthority",
+        "sourceSha",
+        "supersededProof",
+        "unapprovedDeterminismControls"
+      ],
+      "changedInputs": [
+        {
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+          "priorSha256": "518f12411df4091927642cd6a0bd6c5cede0833b793e16ab356fef96fbb5408d",
+          "currentSha256": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd"
+        },
+        {
+          "file": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+          "priorSha256": "53d1577b1dc0a023fde8338edb80e16ab36282d827c602f99daf89aaa51386c3",
+          "currentSha256": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04"
+        },
+        {
+          "file": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+          "priorSha256": "9ac6072e3932c2949e91df02eb1adf9547e654a4aaeaa9d41395f09e390d6629",
+          "currentSha256": "86414be006fd5ecec1a3c91f8c6b65b05fb3a35b5f908d3b4af56c5483ea5a8e"
+        },
+        {
+          "file": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters/full-en/page-05.png",
+          "priorSha256": "f671482936751fc64df116339c7bc8beb6129990b6f774fe53f57d1f7b851f97",
+          "currentSha256": "a887b2284493dd0cb70fb281fc7b06e46f410631eaacc2b370aef296ad7e186d"
+        },
+        {
+          "file": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters/full-en/page-06.png",
+          "priorSha256": "f4fb936cddb406cbcd6da2cf4c773fb3fc8b07d171a2500602635dc304198945",
+          "currentSha256": "3aac71fe2318250ca1a5404f2e5b2edeed4cd8c9cf073e2c73e2d92fd309fa96"
+        },
+        {
+          "file": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters/full-es/page-06.png",
+          "priorSha256": "c1c36949a4dac2554eb5b6055efd67dada81d5db513d8c4b3116e576bc3a19fd",
+          "currentSha256": "3a79697740d35848252a3eff6d43c99cf3d83583e141183ba60503c54f59255b"
+        },
+        {
+          "file": "data/rcap-ledger/grade-a/reviews/ms-nonconviction-successor-review-rasters/full-es/page-07.png",
+          "priorSha256": "f4d28ef2ab616513bae1f035c94fa4b2a362ad4f0d2a0b6c99544cf554789feb",
+          "currentSha256": "1fcc3a9113695f9f19be49495782a514f193c48d265326b3b06d9c679a66c27a"
+        },
+        {
+          "file": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+          "priorSha256": "e2ad8a71790622fb23037c88ce5afed6ea2caeb0e86942390eeb73f9e9b69ec8",
+          "currentSha256": null
+        },
+        {
+          "file": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+          "priorSha256": null,
+          "currentSha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563"
+        },
+        {
+          "file": "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+          "priorSha256": "6c430978f1499018b1466f00ffd3cae99cd9a6721a0c25e2fd49937179be0cbd",
+          "currentSha256": "14bf2c28d1e4b553028c75c6250288c437895265916d8d374ed33610f882230c"
+        },
+        {
+          "file": "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+          "priorSha256": "651d2f7dd048f2100cda6a4523b356f2db4d01ceca1d838ce83260f345c42546",
+          "currentSha256": "150938aed6a36d7fade71de82855f9f2d99a1a48cfdbe620ce34a5269ede7dc2"
+        },
+        {
+          "file": "src/lib/rcap/grade-a/composer.ts",
+          "priorSha256": "04d06450d862e8d3ded5f7abffe1b56426637370d3a44177df974d4192a35d80",
+          "currentSha256": "b471b8dc3558de977ff1da8449a6d50ee555870067e18b6fef945fc835f7e7cb"
+        },
+        {
+          "file": "src/lib/rcap/grade-a/packet-specification.ts",
+          "priorSha256": "de8d1811d2d314127cfcc2b3108f80642e42703373939a39a88c96d343b34122",
+          "currentSha256": "8b57ab8521d5f4609d2e345949fd8b1bc232872c83fed417eff836ab709add2e"
+        },
+        {
+          "file": "src/lib/rcap/supplemental/guide-contract.ts",
+          "priorSha256": "d5a4b73f9dd06ce3bd7e8e5b06e2fb308dfb45769bca338e16c179722095aff0",
+          "currentSha256": "236ef37e7710d08d86083a256bf66a7a2cbebdec1d4d02992fefcf4e181d09d1"
+        },
+        {
+          "file": "src/lib/rcap/supplemental/guide-renderer.ts",
+          "priorSha256": "dbe46c82088d589163ad8cda98c7821ceca244628260aa69ef0a3f44a0f9233d",
+          "currentSha256": "bab6d6e5c78b00a5da7477c8a7a35403252213d439320b2722ff034082640994"
+        }
+      ],
+      "kind": "approved_authority_supersession",
+      "evidence": "Existing V3 owner-approved supersession at 995b5a17: full EN/ES packet artifacts and guide assembly revised under the V3 decision. This record grants no new approval."
+    },
+    {
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "recordedAtCommit": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+      "priorSha256": "fcd6690dbd00f1ca4a53c173616dabec168a4272ede699dc9ff9d2b3cd2c8d2c",
+      "currentSha256": "e1bc83b3db7788d67e349db637de6e760d6e6e8e73f942a4f1826a054e9560bb",
+      "priorDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "decisionSha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563"
+      },
+      "currentDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "decisionSha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563"
+      },
+      "changedFields": [
+        "inputs",
+        "sourceSha"
+      ],
+      "changedInputs": [
+        {
+          "file": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "priorSha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
+          "currentSha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0"
+        },
+        {
+          "file": "src/lib/expungement-ai/packet-information.ts",
+          "priorSha256": "9578d912adac0c3bbbab96107347e002353ba3dd97a73e768af18ec54eba4b70",
+          "currentSha256": "2e7a019dc488d07770cfdc4e59dfaf51d00ddd1fd7757e70b3013af392a37dad"
+        }
+      ],
+      "kind": "input_refresh",
+      "evidence": "Existing bounded regeneration at ed3af2dd: only sourceSha and two input hashes changed; all three approved outputs, source authority, final-verification hashes and 27 negative binding controls unchanged."
     }
   ]
 }

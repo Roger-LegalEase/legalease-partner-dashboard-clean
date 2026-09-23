@@ -37,7 +37,7 @@
  *      and the retired proof file is still on disk with the bytes the
  *      generation records;
  *   7. a retired generation enumerates every pin it left unreconciled, and the
- *      list is checked against the tree, so it can be neither padded nor
+ *      list is checked against the retirement tree, so it can be neither padded nor
  *      emptied;
  *   8. the live generation's own pins are held to rules 1–4 as before.
  *
@@ -67,6 +67,96 @@ const PROOF_CONSUMER = "scripts/lib/ms-paid-packet-proof.mjs";
 const read = (file) => fs.readFileSync(path.join(rootDir, file), "utf8");
 const json = (file) => JSON.parse(read(file));
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");
+const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const decisionIdentity = proof => ({
+  decisionPath: proof.ownerDecision.decisionPath,
+  decisionSha256: proof.ownerDecision.decisionSha256
+});
+const gitCache = new Map();
+const git = (args, encoding = "utf8") => {
+  const key = JSON.stringify([args, encoding]);
+  if (!gitCache.has(key)) gitCache.set(key, spawnSync("git", args,
+    { cwd: rootDir, encoding, maxBuffer: 64 * 1024 * 1024 }));
+  return gitCache.get(key);
+};
+const blob = (commit, file) => {
+  if (!/^[a-f0-9]{40}$/.test(commit ?? "")) return null;
+  const result = git(["show", `${commit}:${file}`], "buffer");
+  return result.status === 0 ? result.stdout : null;
+};
+const blobJson = (commit, file) => {
+  const bytes = blob(commit, file);
+  return bytes ? JSON.parse(bytes) : null;
+};
+const inputChanges = (before, after) => [...new Set([
+  ...Object.keys(before.inputs ?? {}), ...Object.keys(after.inputs ?? {})
+])].sort().filter(file => before.inputs?.[file] !== after.inputs?.[file])
+  .map(file => ({ file, priorSha256: before.inputs?.[file] ?? null, currentSha256: after.inputs?.[file] ?? null }));
+
+// Generation declarations and their retirement pins are historical facts.
+// Revisions project a live identity forward without editing those declarations.
+function revisionRefusals(ledger, livePath) {
+  const found = [];
+  const snapshot = ledger.generationSnapshotSha;
+  const original = blobJson(snapshot, LEDGER);
+  if (!original) return ["the generation snapshot is not an available exact Git object"];
+  if (git(["merge-base", "--is-ancestor", snapshot, "HEAD"]).status !== 0) {
+    found.push("the generation snapshot is not in this candidate's history");
+  }
+  if (!equal(ledger.proofGenerations, original.proofGenerations)
+    || !equal(ledger.reconciliations?.slice(0, original.reconciliations.length), original.reconciliations)) {
+    found.push("historical generation declarations or reconciliations were rewritten");
+  }
+  const history = git(["log", "--reverse", "--format=%H", `${snapshot}..HEAD`, "--", livePath]);
+  const revisions = ledger.proofRevisions ?? [];
+  if (history.status !== 0 || !equal(revisions.map(r => r.recordedAtCommit), history.stdout.trim().split(/\s+/).filter(Boolean))) {
+    found.push("the live proof revision chain does not account for its exact Git history");
+  }
+  let previousBytes = blob(snapshot, livePath);
+  if (!previousBytes) return [...found, "the generation snapshot has no live proof"];
+  let previous = JSON.parse(previousBytes);
+  const declared = ledger.proofGenerations?.find(g => g.state === "live");
+  if (declared?.proofSha256 !== sha256(previousBytes) || declared?.decision !== previous.ownerDecision.decisionPath) {
+    found.push("the initial live generation does not match its historical proof");
+  }
+  for (const revision of revisions) {
+    const bytes = blob(revision.recordedAtCommit, livePath);
+    if (!bytes) { found.push("a recorded proof revision is unavailable"); continue; }
+    const current = JSON.parse(bytes);
+    const fields = [...new Set([...Object.keys(previous), ...Object.keys(current)])].sort()
+      .filter(key => !equal(previous[key], current[key]));
+    if (revision.proof !== livePath || revision.priorSha256 !== sha256(previousBytes)
+      || revision.currentSha256 !== sha256(bytes)
+      || !equal(revision.priorDecision, decisionIdentity(previous))
+      || !equal(revision.currentDecision, decisionIdentity(current))
+      || !equal(revision.changedFields, fields)
+      || !equal(revision.changedInputs, inputChanges(previous, current))) {
+      found.push(`${revision.recordedAtCommit}: the proof revision does not match the immutable before/after objects`);
+    }
+    const decisionBytes = blob(revision.recordedAtCommit, current.ownerDecision.decisionPath);
+    if (!decisionBytes || sha256(decisionBytes) !== current.ownerDecision.decisionSha256) {
+      found.push(`${revision.recordedAtCommit}: the controlling decision bytes do not match`);
+    }
+    if (!String(revision.evidence ?? "").trim()) found.push("a proof revision supplies no evidence disposition");
+    if (revision.kind === "input_refresh") {
+      if (fields.some(key => !["sourceSha", "inputs"].includes(key))) {
+        found.push("an input refresh changes substantive proof or authority fields");
+      }
+    } else if (revision.kind === "approved_authority_supersession") {
+      if (equal(previous.ownerDecision, current.ownerDecision)) found.push("an authority supersession supplies no successor decision");
+    } else found.push("an unknown proof revision kind cannot carry authority forward");
+    previousBytes = bytes;
+    previous = current;
+  }
+  if (sha256(previousBytes) !== sha256(fs.readFileSync(path.join(rootDir, livePath)))) {
+    found.push("the live proof has an unrecorded revision after the recorded chain");
+  }
+  const currentDecision = path.join(rootDir, previous.ownerDecision.decisionPath);
+  if (!fs.existsSync(currentDecision) || sha256(fs.readFileSync(currentDecision)) !== previous.ownerDecision.decisionSha256) {
+    found.push("the projected live decision no longer matches its current authority bytes");
+  }
+  return found;
+}
 
 const failures = [];
 let checks = 0;
@@ -89,7 +179,7 @@ const ok = (label, condition, detail) => {
  * rather than as a pin that mysteriously stopped matching.
  */
 function generationRefusals(ledger, livePath) {
-  const found = [];
+  const found = revisionRefusals(ledger, livePath);
   const say = (reason) => found.push(reason);
   const generations = ledger.proofGenerations ?? [];
   if (generations.length === 0) return ["the ledger declares no proof generation at all"];
@@ -113,7 +203,10 @@ function generationRefusals(ledger, livePath) {
       continue;
     }
     const actual = sha256(fs.readFileSync(path.join(rootDir, file)));
-    if (generation.proofSha256 !== actual) {
+    const expected = generation.state === "live"
+      ? ledger.proofRevisions?.at(-1)?.currentSha256 ?? generation.proofSha256
+      : generation.proofSha256;
+    if (expected !== actual) {
       say(`${file}: the ledger records ${String(generation.proofSha256).slice(0, 12)} but the proof now hashes to ${actual.slice(0, 12)}`);
     }
     if (generation.state !== "retired") continue;
@@ -130,12 +223,12 @@ function generationRefusals(ledger, livePath) {
 
     // 7. The unreconciled pins are recomputed, not trusted. A padded list and
     //    an emptied one are both caught: the recorded set must be exactly the
-    //    set of this proof's pins that no longer match the tree.
+    //    set of this proof's pins that no longer matched at retirement.
     const retiredProof = JSON.parse(read(file));
     const drifted = new Map();
     for (const [pinned, expected] of Object.entries(retiredProof.inputs ?? {})) {
-      const absolute = path.join(rootDir, pinned);
-      const now = fs.existsSync(absolute) ? sha256(fs.readFileSync(absolute)) : null;
+      const retiredBytes = blob(ledger.generationSnapshotSha, pinned);
+      const now = retiredBytes ? sha256(retiredBytes) : null;
       if (now !== expected) drifted.set(pinned, { expected, now });
     }
     const recorded = new Map((generation.unreconciledPinsAtRetirement ?? [])
@@ -144,7 +237,7 @@ function generationRefusals(ledger, livePath) {
       const entry = recorded.get(pinned);
       if (!entry) { say(`${file}: retirement does not record that ${pinned} was left unreconciled`); continue; }
       if (entry.pinnedByRetiredProof !== expected || entry.actualNow !== now) {
-        say(`${file}: the recorded unreconciled pin for ${pinned} is not the one the tree shows`);
+        say(`${file}: the recorded unreconciled pin for ${pinned} is not the one the retirement tree shows`);
       }
     }
     for (const pinned of recorded.keys()) {
@@ -161,16 +254,23 @@ function refusals(ledger, proof) {
 
   if (entries.length === 0) say("the ledger records no reconciliation at all");
 
-  // Grouped per pinned file: a proof pins many files and each has its own chain.
+  // A retired proof and its successor have independent pin histories.
   const byFile = new Map();
   for (const entry of entries) {
     const file = entry.pin?.file;
     if (!file) { say("a reconciliation names no pinned file"); continue; }
-    if (!byFile.has(file)) byFile.set(file, []);
-    byFile.get(file).push(entry);
+    if (!(ledger.proofGenerations ?? []).some(g => g.proof === entry.proof)) {
+      say(`${file}: a reconciliation names an undeclared proof generation`);
+      continue;
+    }
+    const key = JSON.stringify([entry.proof, file]);
+    if (!byFile.has(key)) byFile.set(key, []);
+    byFile.get(key).push(entry);
   }
 
-  for (const [file, chain] of byFile) {
+  for (const [key, chain] of byFile) {
+    const [proofPath, file] = JSON.parse(key);
+    const scopedProof = proofPath === PROOF ? proof : json(proofPath);
     const superseded = new Set();
     let previousCurrent = null;
     for (const entry of chain) {
@@ -219,12 +319,45 @@ function refusals(ledger, proof) {
       if (!(entry.mutationSensitivityPreserved?.negativeBindingControls > 0)) {
         say(`${file}: a reconciliation does not show the regenerated proof is still mutation-sensitive`);
       }
+      const baselineBytes = blob(baseline.acceptedBaselineSha, file);
+      const baselineProof = blobJson(baseline.acceptedBaselineSha, proofPath);
+      if (!baselineBytes || sha256(baselineBytes) !== priorSha256 || baselineProof?.inputs?.[file] !== priorSha256) {
+        say(`${file}: the baseline source and its proof do not establish the prior pin`);
+      }
+      const recordedProof = entry.regenerationCommit ? blobJson(entry.regenerationCommit, proofPath) : scopedProof;
+      if (!recordedProof || recordedProof.inputs?.[file] !== currentSha256) {
+        say(`${file}: the cited regeneration does not establish the new pin`);
+      }
+      const results = recordedProof?.results ?? [];
+      for (const result of results) {
+        const id = result.fixture ?? result.id;
+        if (entry.parityAndSafetyEvidence?.artifactSha256?.[id] !== result.artifactSha256
+          || entry.parityAndSafetyEvidence?.finalVerificationBoundInputsSha256?.[id] !== result.verificationBoundInputsSha256
+          || (result.currentRendererByteIdentical ?? result.currentAssemblyByteIdentical) !== true
+          || result.postgresJsonbByteIdentical !== true || result.postgresVerificationHashIdentical !== true) {
+          say(`${file}: the recorded parity does not match this proof generation's measured results`);
+        }
+      }
+      if (!results.length || entry.mutationSensitivityPreserved?.negativeBindingControls
+        !== results.reduce((n, result) => n + result.negativeBindingControls, 0)) {
+        say(`${file}: the mutation-control count is not this proof generation's measured total`);
+      }
     }
 
     // 1. The newest pin must be the live one, in the proof and on disk.
-    const live = proof.inputs?.[file] ?? null;
+    const live = scopedProof.inputs?.[file] ?? null;
     if (live !== previousCurrent) {
       say(`${file}: the proof pins ${String(live).slice(0, 12)} but the ledger's newest reconciliation leaves ${String(previousCurrent).slice(0, 12)}`);
+    }
+  }
+
+  // The latest refresh needs an explicit scoped reconciliation for each input
+  // it carried forward, even when the regenerated proof already matches disk.
+  const latest = ledger.proofRevisions?.at(-1);
+  if (latest?.kind === "input_refresh") for (const changed of latest.changedInputs ?? []) {
+    if (!entries.some(entry => entry.proof === PROOF && entry.regenerationCommit === latest.recordedAtCommit
+      && equal(entry.pin, changed))) {
+      say(`${changed.file}: the live input refresh lacks its scoped reconciliation`);
     }
   }
 
@@ -316,8 +449,28 @@ ok("the proof artifact itself did not move at the baseline",
 
 // ------------------------------------------------------------- mutations
 if (process.argv.includes("--mutations")) {
+  if (generationProblems.length || live.length) {
+    console.error("Mutation credit refused: the unmutated currentness baseline is not green.");
+    process.exit(1);
+  }
   const clone = () => JSON.parse(JSON.stringify(ledger));
   const cases = [
+    ["the current packet-information reconciliation is missing", () => {
+      const edited = clone();
+      edited.reconciliations = edited.reconciliations.filter(entry =>
+        !(entry.proof === PROOF && entry.pin.file === "src/lib/expungement-ai/packet-information.ts"));
+      return edited;
+    }],
+    ["a current reconciliation is assigned to the retired generation", () => {
+      const edited = clone();
+      edited.reconciliations.at(-1).proof = edited.proofGenerations[0].proof;
+      return edited;
+    }],
+    ["a reconciliation invents an artifact parity hash", () => {
+      const edited = clone();
+      edited.reconciliations.at(-1).parityAndSafetyEvidence.artifactSha256["full-en"] = "0".repeat(64);
+      return edited;
+    }],
     ["a reconciliation is deleted, leaving the move unexplained", () => {
       const edited = clone();
       edited.reconciliations = [];
@@ -386,6 +539,16 @@ if (process.argv.includes("--mutations")) {
    * exist, and editing or deleting the retired proof after retiring it.
    */
   const generationCases = [
+    ["a proof revision is omitted", (edited) => { edited.proofRevisions.splice(1, 1); }],
+    ["the latest proof revision is deleted", (edited) => { edited.proofRevisions.pop(); }],
+    ["the current decision is reverted to the initial V2 declaration", (edited) => {
+      edited.proofRevisions.at(-1).currentDecision = edited.proofRevisions[0].priorDecision;
+    }],
+    ["a revision understates its changed input set", (edited) => { edited.proofRevisions.at(-1).changedInputs.pop(); }],
+    ["a revised proof silently reuses a superseded hash", (edited) => {
+      edited.proofRevisions.at(-1).currentSha256 = edited.proofRevisions[0].priorSha256;
+    }],
+    ["retirement is judged against a later tree", (edited) => { edited.generationSnapshotSha = ledger.proofRevisions.at(-1).recordedAtCommit; }],
     ["a proof generation is abandoned rather than declared", (edited) => { delete edited.proofGenerations; }],
     ["two proofs are declared live", (edited) => { edited.proofGenerations[0].state = "live"; }],
     ["the live proof is not the one the system reads", (edited) => {
