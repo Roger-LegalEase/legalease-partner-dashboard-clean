@@ -1,0 +1,1903 @@
+{
+  "schemaVersion": "rcap-packet-database-repair-evidence/v1",
+  "recordedAt": "2026-09-24T12:38:47.282Z",
+  "status": "LOCAL_CORRECTION_VERIFIED_ACCEPTANCE_WRITES_AND_ORIGINAL_REVIEW_RERUN_PENDING",
+  "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+  "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+  "branch": "codex/packet-database-repair-345",
+  "historicalBaselineOnly": "316f680c3ef54daf9023e784215655e2bdbe8908",
+  "handoff": {
+    "preserved": true,
+    "path": "/workspaces/legalease-partner-dashboard-clean/CAPTAIN_LAUNCH_UNBLOCK.md",
+    "historicalRecord": "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json#/supersedes/0",
+    "run": 345,
+    "runId": 35954758875,
+    "artifactId": 10790301903,
+    "artifactSha256": "228c2f4d47b73f618d804f3b3dbd5b11d45a3638f526a61eef91ef0061e4c9d9",
+    "targetJobId": "7f729c6a-6d90-498a-a50b-3f8b461c564c",
+    "amountSubtotalCents": 5000,
+    "discountCents": 5000,
+    "amountTotalCents": 0,
+    "paymentIntent": null,
+    "classification": "ZERO_DOLLAR_JOURNEY_EVIDENCE_NOT_ORDINARY_50_DOLLAR_ACCEPTANCE"
+  },
+  "preserved": {
+    "separateRuntimeAuthorityWorktree": "/workspaces/legalease-partner-dashboard-clean",
+    "separateWorktreeHead": "9cd9ad9659a75c530118468cd09ee99fbc6857c9",
+    "separateWorktreeEdited": false,
+    "existingHandoffEdited": false,
+    "historicalAuthorizationRecordsEdited": false,
+    "historicalAppliedMigration": {
+      "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
+      "sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+      "bytes": 14886,
+      "recordedVersion": "20260924114022",
+      "recordedBytesMatch": true,
+      "revised": false
+    },
+    "jobsDeleted": 0,
+    "jobsReset": 0,
+    "remoteQueueReconciled": false,
+    "obsoleteRpcsAbsent": {
+      "claim_packet_render_job_text_text_array": true,
+      "consume_rcap_packet_credit_text_text_uuid": true
+    },
+    "supportedWorkerRpcRestrictions": {
+      "claim_packet_render_job": {
+        "claim_packet_render_job(text,text[],integer)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "start_packet_render": {
+        "start_packet_render(uuid,uuid)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "start_packet_validation": {
+        "start_packet_validation(uuid,uuid)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "fail_packet_render_job": {
+        "fail_packet_render_job(uuid,uuid,text,text,boolean)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "finalize_packet_render_job": {
+        "finalize_packet_render_job(uuid,uuid,text,text,text,text,text,integer,integer,text)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "release_expired_packet_render_claims": {
+        "release_expired_packet_render_claims()": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "requeue_retryable_packet_render_jobs": {
+        "requeue_retryable_packet_render_jobs()": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      }
+    }
+  },
+  "correction": {
+    "migration": {
+      "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+      "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+      "bytes": 61195
+    },
+    "alreadyRecorded": false,
+    "choice": "Additional forward delta because the previous repair is already recorded at its exact original SHA256.",
+    "sourceAuthority": "Selected declarations from the existing Sep6 sponsored migration and its legitimate Sep6 regeneration successors, guarded by accepted predecessor/current function body identities; no replay of historical route registration or later payment definitions.",
+    "contract": {
+      "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+      "sha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+      "bytes": 427275
+    },
+    "currentPostconditionCount": 400,
+    "expectedReferenceOrigin": "Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion and checkout successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority."
+  },
+  "fourReviewedDefects": {
+    "deliveryDependency": {
+      "implementation": "Restore the sponsored reader column and its real related object/function dependencies using guarded source projections; include the current payment, verification, finalizer, provenance and download dependencies in certification.",
+      "pairedLocalProof": {
+        "missing": "Current pre-charge gate fails; exact frozen getRenderJob returns null; actual owner GET returns404.",
+        "corrected": "Gate passes; exact frozen reader returns the known PostgreSQL fixture job; actual owner GET returns200 with the finalized PDF bytes and SHA256.",
+        "denials": "Stranger403 and anonymous401; both denied before storage read.",
+        "scope": "Real local PostgreSQL and the complete shipped download handler, with external session/storage transport doubles; this is not a remote #345 delivery claim."
+      }
+    },
+    "retryExceptions": {
+      "implementation": "Recover only SQLSTATE23505 naming public.packet_render_jobs and packet_render_jobs_input_hash_live_unique, with a verified live sibling. Unexpected unique violations and trigger errors throw, and the real queue adapter/worker no longer turn RPC errors into zero work.",
+      "positive": "Expected live-input collision allows unrelated progress; deterministic winners, unique index, backoff, attempt ceilings and history remain.",
+      "negative": "Unrelated constraints, same-named constraints on other relations/schemas, missing actual sibling and trigger exceptions reject without terminalizing jobs or fabricating successful recovery. Two prior swallowing assertions reversed."
+    },
+    "migrationCertification": {
+      "implementation": "Actual hosted executable loop always verifies current source postconditions; counters advance after required database operations, receipt verification and evidence persistence.",
+      "positive": "Complete current state succeeds without writes or forced historical ledger adoption.",
+      "negative": "Matching non-Phase50 historical ledger over stale state fails; ledger or evidence write failure fails the loop. A committed SQL operation is reported applied-but-unrecorded; recovery reads actual state and never blindly replays historical SQL."
+    },
+    "claimOrder": {
+      "implementation": "Read-only projection of release-expired, requeue-retryable, then canonical claim; includes attempt_count<max_attempts, next_attempt_at, supported renderer and ORDER BY created_at,id.",
+      "proof": "Executed against actual PostgreSQL housekeeping and claims: equal timestamps, exhausted queued jobs, due failed predecessors, expired claims, and SAME-target storage retry. Cycle and wait allowances were not increased."
+    }
+  },
+  "verification": {
+    "independentCore": {
+      "path": "tmp/packet-independent-verification.json",
+      "sha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293",
+      "bytes": 4090,
+      "report": {
+        "at": "2026-09-24T12:27:57.332Z",
+        "reviewedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+        "sourceHashes": [
+          {
+            "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+            "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795"
+          },
+          {
+            "path": "scripts/rcap-packet-database-contract.mjs",
+            "sha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638"
+          },
+          {
+            "path": "scripts/rcap-packet-database-reference.mjs",
+            "sha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9"
+          },
+          {
+            "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+            "sha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182"
+          },
+          {
+            "path": "scripts/rcap-packet-database-contract.test.mjs",
+            "sha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4"
+          },
+          {
+            "path": "src/lib/rcap/render/job-queue.ts",
+            "sha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c"
+          },
+          {
+            "path": "scripts/rcap-migration-certification.mjs",
+            "sha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c"
+          },
+          {
+            "path": "scripts/rcap-migration-certification.test.mjs",
+            "sha256": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505"
+          },
+          {
+            "path": "scripts/rcap-hosted-acceptance-migrate.mjs",
+            "sha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66"
+          },
+          {
+            "path": "scripts/rcap-hosted-acceptance-payment.mjs",
+            "sha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745"
+          }
+        ],
+        "appliedHistoricalMigrationBytesPreserved": true,
+        "commands": [
+          {
+            "command": "node --test scripts/rcap-packet-database-contract.test.mjs",
+            "passed": 486,
+            "failed": 0,
+            "skipped": 0,
+            "log": "tmp/packet-database-independent-corrected.tap"
+          },
+          {
+            "command": "node --test scripts/rcap-migration-certification.test.mjs scripts/rcap-production-migration-contract.test.mjs scripts/rcap-hosted-target-retry.test.mjs",
+            "passed": 37,
+            "failed": 0,
+            "skipped": 0,
+            "log": "tmp/packet-controls-independent-corrected.tap"
+          }
+        ],
+        "currentSourceChecks": {
+          "missingReaderDependency": "gate fails; frozen reader null; actual owner GET404",
+          "correctedReaderDependency": "gate passes; frozen reader known job; actual owner GET200 exact PDF bytes and SHA256",
+          "denials": "stranger403; anonymous401; denied calls never read storage",
+          "retryErrors": "expected index23505 isolated; unrelated constraints, relation/schema aliases, trigger errors reject without terminalizing history; actual adapter and worker reject",
+          "migrationLoop": "actual hosted entrypoint rejects matching nonPhase50 ledger over stale catalog; corrected catalog no-write path; failed receipt/evidence reported applied but unrecorded; counts only after evidence",
+          "claimOrder": "actual read-only prediction agrees with release then requeue then claim, including equal timestamps, exhausted queued rows, due failed predecessors, SAME-target storage retry"
+        },
+        "unavailableOriginalReviewFile": {
+          "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+          "exists": false,
+          "rewritten": false,
+          "rerun": false
+        },
+        "productionFindingsPendingOwnerCorrection": [
+          "Actual preflight/smoke/activate scripts retain historical tuple constants despite successor workflow inputs.",
+          "Clinic certificate omitted clinic_sync_packet_reservation_after_job trigger on packet_render_jobs; isolated source database still certified after dropping trigger."
+        ],
+        "remoteOperationsPerformedByVerifier": [],
+        "limitations": [
+          "No claim of original four-case rerun; file absent.",
+          "No remote correction, reconciliation, REST reader, storage, recovery, Checkout, deployment or Production execution performed.",
+          "Production controls pending owner correction and rerun."
+        ]
+      }
+    },
+    "independentProductionFollowup": {
+      "path": "tmp/packet-independent-production-followup.json",
+      "sha256": "4182a913f97ef28c484c7c9cb387ce7ca7cefa71d3cd8e25cea740f3c2596ff2",
+      "bytes": 9412,
+      "report": {
+        "at": "2026-09-24T12:31:26.591Z",
+        "reviewedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+        "priorIndependentEvidence": {
+          "path": "tmp/packet-independent-verification.json",
+          "sha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293"
+        },
+        "coreInputsReused": [
+          {
+            "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+            "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "currentSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "unchanged": true
+          },
+          {
+            "path": "scripts/rcap-packet-database-contract.mjs",
+            "sha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+            "currentSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+            "unchanged": true
+          },
+          {
+            "path": "scripts/rcap-packet-database-reference.mjs",
+            "sha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+            "currentSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+            "unchanged": true
+          },
+          {
+            "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+            "sha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "currentSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "unchanged": true
+          },
+          {
+            "path": "scripts/rcap-packet-database-contract.test.mjs",
+            "sha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+            "currentSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+            "unchanged": true
+          },
+          {
+            "path": "src/lib/rcap/render/job-queue.ts",
+            "sha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+            "currentSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+            "unchanged": true
+          },
+          {
+            "path": "scripts/rcap-migration-certification.mjs",
+            "sha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+            "currentSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+            "unchanged": true
+          },
+          {
+            "path": "scripts/rcap-migration-certification.test.mjs",
+            "sha256": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505",
+            "currentSha256": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505",
+            "unchanged": true
+          },
+          {
+            "path": "scripts/rcap-hosted-acceptance-migrate.mjs",
+            "sha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+            "currentSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+            "unchanged": true
+          },
+          {
+            "path": "scripts/rcap-hosted-acceptance-payment.mjs",
+            "sha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+            "currentSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+            "unchanged": true
+          }
+        ],
+        "sourceHashes": [
+          {
+            "path": ".github/workflows/rcap-production-canary.yml",
+            "sha256": "ff2417c6b4c961f864dda6085bd832e6e56ea139f4fd6944c56f7877d35857be"
+          },
+          {
+            "path": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+            "sha256": "d6a0ed88840f594ee94a779db3b9ad55e13d1accd9d7bace853fe5ba774388b1"
+          },
+          {
+            "path": "scripts/rcap-production-migration-contract.mjs",
+            "sha256": "90de33427034c1872f226d2853573f48f7f271809f4096acf3fd2a32229dcd0e"
+          },
+          {
+            "path": "scripts/rcap-production-migration-contract.test.mjs",
+            "sha256": "7f1b28cb4a445c5556b88bc7ddc12e5b9272aaf473418f60c4dd1df7013cb49f"
+          },
+          {
+            "path": "scripts/rcap-production-clinic-migrate.mjs",
+            "sha256": "13652be376981f107469114f7beff8480e09ed196c0f9c91f787ac754a73813e"
+          },
+          {
+            "path": "scripts/rcap-production-canary.mjs",
+            "sha256": "639216b106c12084185978f5115334cfaed6c394eed3d56278c875a9169e4c9c"
+          },
+          {
+            "path": "scripts/rcap-production-canary-smoke.mjs",
+            "sha256": "05020d0a74571fd0ef8d7dd8c133ec780dc6fb8eb8efa8a6e6425f3449793909"
+          },
+          {
+            "path": "scripts/rcap-production-activate.mjs",
+            "sha256": "1a0d3075e6dbdeeda1fd138dd2ea848c2e34d5cd449a4caf05a6f11470856f9d"
+          },
+          {
+            "path": "scripts/verify-rcap-production-canary.mjs",
+            "sha256": "c1c7875f6025beb6b6b11fed5640d52b4324d42a8d1ee79992f626be6c3458f4"
+          },
+          {
+            "path": "scripts/verify-rcap-production-smoke.mjs",
+            "sha256": "6980641a8e6a44ca72f6fa58c2b01344380acd3eeb1e72b9ff02fca95428c431"
+          },
+          {
+            "path": "scripts/verify-rcap-production-activation.mjs",
+            "sha256": "012835a039777c4de3e0466109c476df3d7bfce630b37141c8b3c2d4c8015ab0"
+          },
+          {
+            "path": "scripts/test-rcap-production-canary-mutations.mjs",
+            "sha256": "91d854749d088f2d9545481e8ef677a2fb5279d918e63c1ed3adf994b7ad1fad"
+          },
+          {
+            "path": "scripts/test-rcap-production-smoke-mutations.mjs",
+            "sha256": "68d6b549493d82b6164029dce837232de029b7abacb51116525dc420ef10fbb6"
+          },
+          {
+            "path": "scripts/test-rcap-production-activation-mutations.mjs",
+            "sha256": "e83052097ec14e768e6c3b56d46b3e67fdc2283bcc8cd4cc216310fa9f4adf83"
+          }
+        ],
+        "commands": [
+          {
+            "command": "node --test scripts/rcap-production-migration-contract.test.mjs",
+            "exitCode": 0,
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0,
+            "log": "tmp/packet-production-independent-final.tap",
+            "logSha256": "baf4a29e15451316e9cfdc516421e1a4968eb838fd221350d0aa4cff29ec5d7a"
+          },
+          {
+            "command": "node scripts/verify-rcap-production-canary.mjs",
+            "exitCode": 0,
+            "summary": "verify-rcap-production-canary passed: 43/43",
+            "log": "tmp/verify-rcap-production-canary-independent-final.log",
+            "logSha256": "8fa4e3e59071f0cd07ff4a238a77b463b99b3193bfcc8c4056f5e5cbae5e9f1b"
+          },
+          {
+            "command": "node scripts/verify-rcap-production-smoke.mjs",
+            "exitCode": 0,
+            "summary": "verify-rcap-production-smoke passed: 32/32",
+            "log": "tmp/verify-rcap-production-smoke-independent-final.log",
+            "logSha256": "70589fb239108f201fd51e9b533ffe7e274a4aeecebcdf0d5dbd657382da36bc"
+          },
+          {
+            "command": "node scripts/verify-rcap-production-activation.mjs",
+            "exitCode": 0,
+            "summary": "verify-rcap-production-activation passed: 42/42",
+            "log": "tmp/verify-rcap-production-activation-independent-final.log",
+            "logSha256": "558e2a1d9ed965fefbb4bad8cf4987a28a0e4519dab0dd7c40ec2a10ef216044"
+          },
+          {
+            "command": "node scripts/test-rcap-production-canary-mutations.mjs",
+            "exitCode": 0,
+            "summary": "test-rcap-production-canary-mutations passed: 20/20",
+            "log": "tmp/test-rcap-production-canary-mutations-independent-final.log",
+            "logSha256": "2722368c2ae6e3108d278b64935466f80fdc0dc6d22b46ecdde92b3566280ce2"
+          },
+          {
+            "command": "node scripts/test-rcap-production-smoke-mutations.mjs",
+            "exitCode": 0,
+            "summary": "test-rcap-production-smoke-mutations passed: 16/16",
+            "log": "tmp/test-rcap-production-smoke-mutations-independent-final.log",
+            "logSha256": "7edf3d64c4bf90c76e7d292a41effada91d369e90b6d62e9027b4aff6ed455b5"
+          },
+          {
+            "command": "node scripts/test-rcap-production-activation-mutations.mjs",
+            "exitCode": 0,
+            "summary": "test-rcap-production-activation-mutations passed: 19/19",
+            "log": "tmp/test-rcap-production-activation-mutations-independent-final.log",
+            "logSha256": "e9881b30d99ab02052b5da0d19897b049f9830320396f1b21812754634dca59e"
+          }
+        ],
+        "productionFindings": {
+          "staleTupleControl": "closed: dispatched scripts use current release candidate and requireProductionMigrationRelease before service access; workflow artifact download uses the authorized current smoke run; directly invoked old forward-chain SHA is historical-record validation only",
+          "omittedReservationTrigger": "closed: exact source-owned packet_render_jobs trigger definition and enabled state now certified; actual Clinic no-write branch rejects its removal"
+        },
+        "behavioralProof": {
+          "exactTupleAndCompleteCurrentState": "actual Clinic/Legal Aid/forward entrypoints via local transport succeed without SQL writes",
+          "wrongTuple": "actual Clinic rejects before service request",
+          "partialSchema": "actual Clinic rejects missing trigger or disabled RLS or drifted privileges",
+          "falseReceipt": "claimed certificate cannot replace source state; actual activation receipt predicate rejects a false SHA256",
+          "deploymentAndSmokeBinding": "correct successor Preview/staged/rollback/smoke identities have a valid validation path; wrong Preview or same staged/rollback or missing smoke receipt is denied"
+        },
+        "unavailableOriginalReviewFile": {
+          "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+          "exists": false,
+          "rewritten": false,
+          "rerun": false
+        },
+        "remoteOperationsPerformedByVerifier": [],
+        "limitations": [
+          "No original four-case rerun: supplied file remains absent.",
+          "No Production preflight, deployment, smoke, activation or remote service entrypoint executed.",
+          "Release tuple finalization and any acceptance migration, queue reconciliation, REST reader, storage or recovery remain Captain responsibilities."
+        ]
+      }
+    },
+    "behavioralSuites": {
+      "packetDatabase": {
+        "passed": 486,
+        "failed": 0,
+        "skipped": 0,
+        "log": {
+          "path": "tmp/packet-database-independent-corrected.tap",
+          "sha256": "13225608434197308c871346676fe7d186a1eb672dc73346131da0ef733e93b4",
+          "bytes": 190111
+        }
+      },
+      "migrationLoop": {
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "log": {
+          "path": "/tmp/migration-corrected-tests.tap",
+          "sha256": "55b795e92baa8a3e6c022ee74b392a3f550f9471e28c6413a6ce5bead8b17e31",
+          "bytes": 2369
+        }
+      },
+      "targetRetry": {
+        "passed": 19,
+        "failed": 0,
+        "skipped": 0,
+        "log": {
+          "path": "/tmp/target-retry-final.tap",
+          "sha256": "3fd4776efef7f4567bbb86056def37335a0d5cf5c46747324f76e80c8f1e3e4a",
+          "bytes": 1934
+        }
+      },
+      "productionPreparation": {
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "log": {
+          "path": "tmp/packet-production-independent-final.tap",
+          "sha256": "baf4a29e15451316e9cfdc516421e1a4968eb838fd221350d0aa4cff29ec5d7a",
+          "bytes": 32315
+        }
+      }
+    },
+    "typecheck": {
+      "command": "npx tsc --noEmit --incremental false",
+      "exitCode": 0,
+      "log": {
+        "path": "/tmp/correction-typecheck-final.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 4,
+      "classification": "Baseline warnings retained: payment sanitize plus Production canary HOSTED_VERCEL_TEAM_SLUG, hostedVercelCliEnvironment and runVercelCli. Exact reviewed-baseline canary source independently linted with the same three warnings."
+    },
+    "releaseBindingPositiveAndNegative": {
+      "futureTupleAndEightWrongIdentities": {
+        "path": "tmp/release-candidate-corrected.log",
+        "sha256": "df05727ec2bdcd5a2a7d91c8e30aac3f41864208188ef94182c2d0f2010caf99",
+        "bytes": 560
+      },
+      "thirtyEightBoundaryMutations": {
+        "path": "tmp/release-boundary-corrected.log",
+        "sha256": "e4b382a5a687df50a7e37bf887ee0df1611ff456230612bf33928f9220ff35d3",
+        "bytes": 2229
+      }
+    },
+    "additionalLegacyTestLimitations": {
+      "currentRun": {
+        "path": "/tmp/correction-release-binding-tests.tap",
+        "sha256": "a4a93c6de69ccd103337ea43fe516e5f0f1d7f80db70117731e3e0126984931b",
+        "bytes": 2104
+      },
+      "passed": 0,
+      "failed": 2,
+      "testsUnchanged": true,
+      "baselineProof": {
+        "baseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+        "verifierSource": "exact git blob from reviewed baseline via Node load hook",
+        "testInputMethod": "same binding construction as unchanged verify-hosted-tools-binding.test.mjs; sparse disposable checkout preserves Git tracked state",
+        "original": {
+          "current": true,
+          "status": "CURRENT",
+          "reasons": []
+        },
+        "regeneratedExactlyAsExistingTest": {
+          "current": false,
+          "status": "STALE_OR_UNVERIFIED",
+          "reasons": [
+            "Candidate ancestry or current worker input proof could not be verified: Tooling file set mismatch"
+          ]
+        }
+      },
+      "syntheticBaselineRun": {
+        "path": "tmp/release-binding-synthetic-reviewed-baseline.tap",
+        "sha256": "bfa2191c90b3a3415efc46787e54938f23e715d5730e8e5afda691bfe72aa465",
+        "bytes": 1116
+      },
+      "classification": "Both old fixtures also fail on the reviewed baseline: tooling fixture omits bounded non-script files; synthetic publication fixture omits required runtime acceptance. No expectation was relaxed. The existing stronger future-tuple and boundary mutation suites pass."
+    },
+    "originalFourCurrentSourceCounterexamples": {
+      "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+      "exists": false,
+      "rewritten": false,
+      "recreated": false,
+      "rerun": false,
+      "status": "UNAVAILABLE_AT_USER_SUPPLIED_PATH",
+      "independentSignoffLimitation": "The repository behavioral suites pass; the exact original four-case rerun cannot be asserted until this file is materialized unchanged."
+    },
+    "independentCustody": {
+      "path": "tmp/packet-independent-custody.json",
+      "sha256": "5d8e538075e4e764643a5d7c5c78b02f1ffcacc0b60695caf533e8bf010f8d35",
+      "bytes": 29283,
+      "report": {
+        "schemaVersion": "rcap-packet-independent-custody/v1",
+        "recordedAt": "2026-09-24T12:41:09.488Z",
+        "status": "BOUNDED_CUSTODY_CHECK_PASSED_NOT_RELEASE_ACCEPTANCE",
+        "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+        "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+        "reviewScope": "Evidence and source custody only; no implementation review rebuild or further behavioral execution.",
+        "reviewedEvidenceSnapshotBeforeCustodyReference": {
+          "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_REPAIR_EVIDENCE.json",
+          "sha256": "88f103c2e4507c421275e0589a8276754c0b2d736114b29bc33e98f708271c27",
+          "bytes": 59713
+        },
+        "reviewedFreezeSnapshot": {
+          "path": "data/rcap-grade-a/mission-lock/successor-application-freeze.json",
+          "sha256": "449190acbd17819b97017d7889b0bbb59e453e91646d0e203b511b930f2842c5",
+          "bytes": 14898
+        },
+        "checkedHashAndByteCountReferences": 55,
+        "checkedReferences": [
+          {
+            "reference": "evidence.preserved.historicalAppliedMigration",
+            "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
+            "recordedSha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+            "observedSha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+            "recordedBytes": 14886,
+            "observedBytes": 14886,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.correction.migration",
+            "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+            "recordedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "observedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "recordedBytes": 61195,
+            "observedBytes": 61195,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.correction.contract",
+            "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+            "recordedSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "observedSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "recordedBytes": 427275,
+            "observedBytes": 427275,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore",
+            "path": "tmp/packet-independent-verification.json",
+            "recordedSha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293",
+            "observedSha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293",
+            "recordedBytes": 4090,
+            "observedBytes": 4090,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.0",
+            "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+            "recordedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "observedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "recordedBytes": null,
+            "observedBytes": 61195,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.1",
+            "path": "scripts/rcap-packet-database-contract.mjs",
+            "recordedSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+            "observedSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+            "recordedBytes": null,
+            "observedBytes": 12724,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.2",
+            "path": "scripts/rcap-packet-database-reference.mjs",
+            "recordedSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+            "observedSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+            "recordedBytes": null,
+            "observedBytes": 10035,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.3",
+            "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+            "recordedSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "observedSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "recordedBytes": null,
+            "observedBytes": 427275,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.4",
+            "path": "scripts/rcap-packet-database-contract.test.mjs",
+            "recordedSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+            "observedSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+            "recordedBytes": null,
+            "observedBytes": 47049,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.5",
+            "path": "src/lib/rcap/render/job-queue.ts",
+            "recordedSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+            "observedSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+            "recordedBytes": null,
+            "observedBytes": 25566,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.6",
+            "path": "scripts/rcap-migration-certification.mjs",
+            "recordedSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+            "observedSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+            "recordedBytes": null,
+            "observedBytes": 6426,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.7",
+            "path": "scripts/rcap-migration-certification.test.mjs",
+            "recordedSha256": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505",
+            "observedSha256": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505",
+            "recordedBytes": null,
+            "observedBytes": 11040,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.8",
+            "path": "scripts/rcap-hosted-acceptance-migrate.mjs",
+            "recordedSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+            "observedSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+            "recordedBytes": null,
+            "observedBytes": 33767,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentCore.report.sourceHashes.9",
+            "path": "scripts/rcap-hosted-acceptance-payment.mjs",
+            "recordedSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+            "observedSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+            "recordedBytes": null,
+            "observedBytes": 209188,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup",
+            "path": "tmp/packet-independent-production-followup.json",
+            "recordedSha256": "4182a913f97ef28c484c7c9cb387ce7ca7cefa71d3cd8e25cea740f3c2596ff2",
+            "observedSha256": "4182a913f97ef28c484c7c9cb387ce7ca7cefa71d3cd8e25cea740f3c2596ff2",
+            "recordedBytes": 9412,
+            "observedBytes": 9412,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.priorIndependentEvidence",
+            "path": "tmp/packet-independent-verification.json",
+            "recordedSha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293",
+            "observedSha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293",
+            "recordedBytes": null,
+            "observedBytes": 4090,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.0",
+            "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+            "recordedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "observedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "recordedBytes": null,
+            "observedBytes": 61195,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.1",
+            "path": "scripts/rcap-packet-database-contract.mjs",
+            "recordedSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+            "observedSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+            "recordedBytes": null,
+            "observedBytes": 12724,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.2",
+            "path": "scripts/rcap-packet-database-reference.mjs",
+            "recordedSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+            "observedSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+            "recordedBytes": null,
+            "observedBytes": 10035,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.3",
+            "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+            "recordedSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "observedSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "recordedBytes": null,
+            "observedBytes": 427275,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.4",
+            "path": "scripts/rcap-packet-database-contract.test.mjs",
+            "recordedSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+            "observedSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+            "recordedBytes": null,
+            "observedBytes": 47049,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.5",
+            "path": "src/lib/rcap/render/job-queue.ts",
+            "recordedSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+            "observedSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+            "recordedBytes": null,
+            "observedBytes": 25566,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.6",
+            "path": "scripts/rcap-migration-certification.mjs",
+            "recordedSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+            "observedSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+            "recordedBytes": null,
+            "observedBytes": 6426,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.7",
+            "path": "scripts/rcap-migration-certification.test.mjs",
+            "recordedSha256": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505",
+            "observedSha256": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505",
+            "recordedBytes": null,
+            "observedBytes": 11040,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.8",
+            "path": "scripts/rcap-hosted-acceptance-migrate.mjs",
+            "recordedSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+            "observedSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+            "recordedBytes": null,
+            "observedBytes": 33767,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.coreInputsReused.9",
+            "path": "scripts/rcap-hosted-acceptance-payment.mjs",
+            "recordedSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+            "observedSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+            "recordedBytes": null,
+            "observedBytes": 209188,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.0",
+            "path": ".github/workflows/rcap-production-canary.yml",
+            "recordedSha256": "ff2417c6b4c961f864dda6085bd832e6e56ea139f4fd6944c56f7877d35857be",
+            "observedSha256": "ff2417c6b4c961f864dda6085bd832e6e56ea139f4fd6944c56f7877d35857be",
+            "recordedBytes": null,
+            "observedBytes": 12671,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.1",
+            "path": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+            "recordedSha256": "d6a0ed88840f594ee94a779db3b9ad55e13d1accd9d7bace853fe5ba774388b1",
+            "observedSha256": "d6a0ed88840f594ee94a779db3b9ad55e13d1accd9d7bace853fe5ba774388b1",
+            "recordedBytes": null,
+            "observedBytes": 31327,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.2",
+            "path": "scripts/rcap-production-migration-contract.mjs",
+            "recordedSha256": "90de33427034c1872f226d2853573f48f7f271809f4096acf3fd2a32229dcd0e",
+            "observedSha256": "90de33427034c1872f226d2853573f48f7f271809f4096acf3fd2a32229dcd0e",
+            "recordedBytes": null,
+            "observedBytes": 12437,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.3",
+            "path": "scripts/rcap-production-migration-contract.test.mjs",
+            "recordedSha256": "7f1b28cb4a445c5556b88bc7ddc12e5b9272aaf473418f60c4dd1df7013cb49f",
+            "observedSha256": "7f1b28cb4a445c5556b88bc7ddc12e5b9272aaf473418f60c4dd1df7013cb49f",
+            "recordedBytes": null,
+            "observedBytes": 13689,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.4",
+            "path": "scripts/rcap-production-clinic-migrate.mjs",
+            "recordedSha256": "13652be376981f107469114f7beff8480e09ed196c0f9c91f787ac754a73813e",
+            "observedSha256": "13652be376981f107469114f7beff8480e09ed196c0f9c91f787ac754a73813e",
+            "recordedBytes": null,
+            "observedBytes": 15523,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.5",
+            "path": "scripts/rcap-production-canary.mjs",
+            "recordedSha256": "639216b106c12084185978f5115334cfaed6c394eed3d56278c875a9169e4c9c",
+            "observedSha256": "639216b106c12084185978f5115334cfaed6c394eed3d56278c875a9169e4c9c",
+            "recordedBytes": null,
+            "observedBytes": 24567,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.6",
+            "path": "scripts/rcap-production-canary-smoke.mjs",
+            "recordedSha256": "05020d0a74571fd0ef8d7dd8c133ec780dc6fb8eb8efa8a6e6425f3449793909",
+            "observedSha256": "05020d0a74571fd0ef8d7dd8c133ec780dc6fb8eb8efa8a6e6425f3449793909",
+            "recordedBytes": null,
+            "observedBytes": 28340,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.7",
+            "path": "scripts/rcap-production-activate.mjs",
+            "recordedSha256": "1a0d3075e6dbdeeda1fd138dd2ea848c2e34d5cd449a4caf05a6f11470856f9d",
+            "observedSha256": "1a0d3075e6dbdeeda1fd138dd2ea848c2e34d5cd449a4caf05a6f11470856f9d",
+            "recordedBytes": null,
+            "observedBytes": 27652,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.8",
+            "path": "scripts/verify-rcap-production-canary.mjs",
+            "recordedSha256": "c1c7875f6025beb6b6b11fed5640d52b4324d42a8d1ee79992f626be6c3458f4",
+            "observedSha256": "c1c7875f6025beb6b6b11fed5640d52b4324d42a8d1ee79992f626be6c3458f4",
+            "recordedBytes": null,
+            "observedBytes": 6347,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.9",
+            "path": "scripts/verify-rcap-production-smoke.mjs",
+            "recordedSha256": "6980641a8e6a44ca72f6fa58c2b01344380acd3eeb1e72b9ff02fca95428c431",
+            "observedSha256": "6980641a8e6a44ca72f6fa58c2b01344380acd3eeb1e72b9ff02fca95428c431",
+            "recordedBytes": null,
+            "observedBytes": 5134,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.10",
+            "path": "scripts/verify-rcap-production-activation.mjs",
+            "recordedSha256": "012835a039777c4de3e0466109c476df3d7bfce630b37141c8b3c2d4c8015ab0",
+            "observedSha256": "012835a039777c4de3e0466109c476df3d7bfce630b37141c8b3c2d4c8015ab0",
+            "recordedBytes": null,
+            "observedBytes": 6576,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.11",
+            "path": "scripts/test-rcap-production-canary-mutations.mjs",
+            "recordedSha256": "91d854749d088f2d9545481e8ef677a2fb5279d918e63c1ed3adf994b7ad1fad",
+            "observedSha256": "91d854749d088f2d9545481e8ef677a2fb5279d918e63c1ed3adf994b7ad1fad",
+            "recordedBytes": null,
+            "observedBytes": 4102,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.12",
+            "path": "scripts/test-rcap-production-smoke-mutations.mjs",
+            "recordedSha256": "68d6b549493d82b6164029dce837232de029b7abacb51116525dc420ef10fbb6",
+            "observedSha256": "68d6b549493d82b6164029dce837232de029b7abacb51116525dc420ef10fbb6",
+            "recordedBytes": null,
+            "observedBytes": 3210,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.independentProductionFollowup.report.sourceHashes.13",
+            "path": "scripts/test-rcap-production-activation-mutations.mjs",
+            "recordedSha256": "e83052097ec14e768e6c3b56d46b3e67fdc2283bcc8cd4cc216310fa9f4adf83",
+            "observedSha256": "e83052097ec14e768e6c3b56d46b3e67fdc2283bcc8cd4cc216310fa9f4adf83",
+            "recordedBytes": null,
+            "observedBytes": 3579,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.behavioralSuites.packetDatabase.log",
+            "path": "tmp/packet-database-independent-corrected.tap",
+            "recordedSha256": "13225608434197308c871346676fe7d186a1eb672dc73346131da0ef733e93b4",
+            "observedSha256": "13225608434197308c871346676fe7d186a1eb672dc73346131da0ef733e93b4",
+            "recordedBytes": 190111,
+            "observedBytes": 190111,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.behavioralSuites.migrationLoop.log",
+            "path": "/tmp/migration-corrected-tests.tap",
+            "recordedSha256": "55b795e92baa8a3e6c022ee74b392a3f550f9471e28c6413a6ce5bead8b17e31",
+            "observedSha256": "55b795e92baa8a3e6c022ee74b392a3f550f9471e28c6413a6ce5bead8b17e31",
+            "recordedBytes": 2369,
+            "observedBytes": 2369,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.behavioralSuites.targetRetry.log",
+            "path": "/tmp/target-retry-final.tap",
+            "recordedSha256": "3fd4776efef7f4567bbb86056def37335a0d5cf5c46747324f76e80c8f1e3e4a",
+            "observedSha256": "3fd4776efef7f4567bbb86056def37335a0d5cf5c46747324f76e80c8f1e3e4a",
+            "recordedBytes": 1934,
+            "observedBytes": 1934,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.behavioralSuites.productionPreparation.log",
+            "path": "tmp/packet-production-independent-final.tap",
+            "recordedSha256": "baf4a29e15451316e9cfdc516421e1a4968eb838fd221350d0aa4cff29ec5d7a",
+            "observedSha256": "baf4a29e15451316e9cfdc516421e1a4968eb838fd221350d0aa4cff29ec5d7a",
+            "recordedBytes": 32315,
+            "observedBytes": 32315,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.typecheck.log",
+            "path": "/tmp/correction-typecheck-final.log",
+            "recordedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "observedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "recordedBytes": 0,
+            "observedBytes": 0,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.releaseBindingPositiveAndNegative.futureTupleAndEightWrongIdentities",
+            "path": "tmp/release-candidate-corrected.log",
+            "recordedSha256": "df05727ec2bdcd5a2a7d91c8e30aac3f41864208188ef94182c2d0f2010caf99",
+            "observedSha256": "df05727ec2bdcd5a2a7d91c8e30aac3f41864208188ef94182c2d0f2010caf99",
+            "recordedBytes": 560,
+            "observedBytes": 560,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.releaseBindingPositiveAndNegative.thirtyEightBoundaryMutations",
+            "path": "tmp/release-boundary-corrected.log",
+            "recordedSha256": "e4b382a5a687df50a7e37bf887ee0df1611ff456230612bf33928f9220ff35d3",
+            "observedSha256": "e4b382a5a687df50a7e37bf887ee0df1611ff456230612bf33928f9220ff35d3",
+            "recordedBytes": 2229,
+            "observedBytes": 2229,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.additionalLegacyTestLimitations.currentRun",
+            "path": "/tmp/correction-release-binding-tests.tap",
+            "recordedSha256": "a4a93c6de69ccd103337ea43fe516e5f0f1d7f80db70117731e3e0126984931b",
+            "observedSha256": "a4a93c6de69ccd103337ea43fe516e5f0f1d7f80db70117731e3e0126984931b",
+            "recordedBytes": 2104,
+            "observedBytes": 2104,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.verification.additionalLegacyTestLimitations.syntheticBaselineRun",
+            "path": "tmp/release-binding-synthetic-reviewed-baseline.tap",
+            "recordedSha256": "bfa2191c90b3a3415efc46787e54938f23e715d5730e8e5afda691bfe72aa465",
+            "observedSha256": "bfa2191c90b3a3415efc46787e54938f23e715d5730e8e5afda691bfe72aa465",
+            "recordedBytes": 1116,
+            "observedBytes": 1116,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.applicationAndWorker.planArtifact",
+            "path": "hosted-acceptance-evidence/worker/correction-input-plan.json",
+            "recordedSha256": "262d7738fe6c7122378c04267ad4e77f4df34a6bad9fcfc9e7e4e42b16611746",
+            "observedSha256": "262d7738fe6c7122378c04267ad4e77f4df34a6bad9fcfc9e7e4e42b16611746",
+            "recordedBytes": 5391,
+            "observedBytes": 5391,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.remoteBefore.catalog",
+            "path": "hosted-acceptance-evidence/database/correction-before-catalog-current.json",
+            "recordedSha256": "68d1c6819caed79d3bb8cd41276e611abca53c8afd616ae690cc574d248559b3",
+            "observedSha256": "68d1c6819caed79d3bb8cd41276e611abca53c8afd616ae690cc574d248559b3",
+            "recordedBytes": 349015,
+            "observedBytes": 349015,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.remoteBefore.health",
+            "path": "hosted-acceptance-evidence/database/correction-before-health-current.json",
+            "recordedSha256": "e2433c05037132662d9a9e27ccc898a03efb42acf94470b78ecd9e168956a83e",
+            "observedSha256": "e2433c05037132662d9a9e27ccc898a03efb42acf94470b78ecd9e168956a83e",
+            "recordedBytes": 14701,
+            "observedBytes": 14701,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.remoteBefore.differences",
+            "path": "hosted-acceptance-evidence/database/correction-before-differences-current.json",
+            "recordedSha256": "6a5bfcad1cc5be50f6349d3f8113175aff9f682e0dc42ab9a275db4d7f5d72ae",
+            "observedSha256": "6a5bfcad1cc5be50f6349d3f8113175aff9f682e0dc42ab9a275db4d7f5d72ae",
+            "recordedBytes": 43329,
+            "observedBytes": 43329,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.remoteBefore.ledger",
+            "path": "hosted-acceptance-evidence/database/correction-before-ledger-current.json",
+            "recordedSha256": "2d4e32ed597e3f40446e29a08a26bec0934b8858b951721363474c50f412a7b7",
+            "observedSha256": "2d4e32ed597e3f40446e29a08a26bec0934b8858b951721363474c50f412a7b7",
+            "recordedBytes": 777,
+            "observedBytes": 777,
+            "hashMatches": true,
+            "bytesMatch": true
+          },
+          {
+            "reference": "evidence.acceptanceWriteAuthorizationRequest.migrationFiles.0",
+            "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+            "recordedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "observedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "recordedBytes": 61195,
+            "observedBytes": 61195,
+            "hashMatches": true,
+            "bytesMatch": true
+          }
+        ],
+        "independentReports": {
+          "core": {
+            "path": "tmp/packet-independent-verification.json",
+            "sha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293",
+            "embeddedReportExact": true
+          },
+          "productionFollowup": {
+            "path": "tmp/packet-independent-production-followup.json",
+            "sha256": "4182a913f97ef28c484c7c9cb387ce7ca7cefa71d3cd8e25cea740f3c2596ff2",
+            "embeddedReportExact": true
+          },
+          "testedSourceHashDrift": []
+        },
+        "preservation": {
+          "historicalFreeze": "Reviewed baseline successor-application-freeze.json is structurally exact at current supersedes[0].",
+          "unchangedRecords": [
+            "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+            "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+            "data/rcap-render/worker-publication-evidence.json",
+            "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql"
+          ],
+          "historicalAuthorizationRecordsChanged": [],
+          "run345": {
+            "runNumber": 345,
+            "runId": 35954758875,
+            "artifactId": 10790301903,
+            "artifactSha256": "228c2f4d47b73f618d804f3b3dbd5b11d45a3638f526a61eef91ef0061e4c9d9",
+            "targetJobId": "7f729c6a-6d90-498a-a50b-3f8b461c564c",
+            "allIdentitiesMatchPreservedBinding": true,
+            "classification": "ZERO_DOLLAR_JOURNEY_EVIDENCE_NOT_ORDINARY_50_DOLLAR_ACCEPTANCE"
+          },
+          "separateRuntimeAuthorityWorktreeHeadMatches": true,
+          "separateRuntimeAuthorityWorktreeModifiedByVerifier": false
+        },
+        "inputComparison": {
+          "canonicalComparedInputs": 38,
+          "gitChangedWorkerPaths": [
+            "src/lib/rcap/render/job-queue.ts"
+          ],
+          "gitChangedApplicationPaths": [
+            "src/lib/rcap/render/job-queue.ts"
+          ],
+          "aggregateInputSha256": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+          "planArtifactEqualsEmbeddedPlan": true,
+          "freezePlanEqualsEmbeddedPlan": true,
+          "rebuildRequired": true
+        },
+        "truthfulBoundaries": {
+          "remoteBeforeLedgerEmbeddingExact": true,
+          "remoteAfterStateAvailable": false,
+          "newWorkerDigest": null,
+          "newPreviewDeployment": null,
+          "productionAuthorized": false,
+          "finalToolsBindingGenerated": false,
+          "dispatchReady": false,
+          "originalFourCaseRerunProven": false,
+          "originalFile": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+          "newAcceptanceWriteRequestStatus": "REQUESTED_NOT_GRANTED"
+        },
+        "findings": [],
+        "evidenceFilesCommittedAtInspection": false,
+        "testsRerunDuringCustodyCheck": [],
+        "externalActionsDuringCustodyCheck": [],
+        "limitations": [
+          "This report checks the recorded local evidence and source custody; it is not a remote verification receipt.",
+          "The original four-case file remains unavailable and was not recreated or rerun.",
+          "The evidence JSON snapshot hash predates adding this custody report reference; implementation and previously tested source bytes remained unchanged."
+        ]
+      }
+    }
+  },
+  "applicationAndWorker": {
+    "plan": {
+      "schemaVersion": "rcap-worker-input-plan/v1",
+      "acceptedSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+      "acceptedDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+      "candidateSha": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+      "canonicalInputs": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json",
+        "scripts/rcap-render-worker.mjs",
+        "scripts/lib",
+        "src",
+        "deploy/rcap-render-worker/Dockerfile",
+        "deploy/rcap-render-worker/Dockerfile.dockerignore",
+        "data/record-clearing/supplemental-guides",
+        "data/record-clearing/brand/legalease-logo.png",
+        "data/rcap-all50/composed-routes",
+        "data/rcap-all50/guidance-packets",
+        "data/rcap-all50/problematic-pdf-register.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/terminalization-treatments",
+        "data/rcap-codex/release-readiness.json",
+        "data/rcap-grade-a/maintenance/route-holds.json",
+        "data/rcap-grade-a/worker-static-authority.json",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+        "data/rcap-ledger/packet-correction-required.json",
+        "data/rcap-ledger/packet-fulfillment-records.json",
+        "data/rcap-ledger/route-kind-adjudications.json",
+        "data/rcap-ledger/route-presentation-conflicts.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/factory-v2-route-registry.json",
+        "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "data/record-clearing/legal-decisions/route-ratification-registry.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/record-clearing/packet-specifications",
+        "deploy/rcap-render-worker/preflight.mjs",
+        "deploy/rcap-render-worker/runtime-data-manifest.json"
+      ],
+      "comparedInputs": [
+        "data/rcap-all50/composed-routes",
+        "data/rcap-all50/guidance-packets",
+        "data/rcap-all50/problematic-pdf-register.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/terminalization-treatments",
+        "data/rcap-codex/release-readiness.json",
+        "data/rcap-grade-a/maintenance/route-holds.json",
+        "data/rcap-grade-a/worker-static-authority.json",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+        "data/rcap-ledger/packet-correction-required.json",
+        "data/rcap-ledger/packet-fulfillment-records.json",
+        "data/rcap-ledger/route-kind-adjudications.json",
+        "data/rcap-ledger/route-presentation-conflicts.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/brand/legalease-logo.png",
+        "data/record-clearing/factory-v2-route-registry.json",
+        "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "data/record-clearing/legal-decisions/route-ratification-registry.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/record-clearing/packet-specifications",
+        "data/record-clearing/supplemental-guides",
+        "deploy/rcap-render-worker/Dockerfile",
+        "deploy/rcap-render-worker/Dockerfile.dockerignore",
+        "deploy/rcap-render-worker/preflight.mjs",
+        "deploy/rcap-render-worker/runtime-data-manifest.json",
+        "package-lock.json",
+        "package.json",
+        "scripts/lib",
+        "scripts/rcap-render-worker.mjs",
+        "src",
+        "tsconfig.json"
+      ],
+      "changedPaths": [
+        "src/lib/rcap/render/job-queue.ts"
+      ],
+      "missingCanonicalInputs": [],
+      "aggregateInputSha256": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+      "aggregateAlgorithm": "sha256 of sorted path, mode, type, and Git object ID records",
+      "rebuildRequired": true,
+      "decision": "rebuild-required",
+      "image": {
+        "sourceSha": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+        "tags": [
+          "4cfb78749edb6f6241df6f12c9c529f96f0886bc"
+        ],
+        "tagPolicy": "full-40-character-candidate-sha-only",
+        "digest": "pending",
+        "ociAnnotations": {
+          "org.opencontainers.image.revision": "4cfb78749edb6f6241df6f12c9c529f96f0886bc"
+        }
+      }
+    },
+    "planArtifact": {
+      "path": "hosted-acceptance-evidence/worker/correction-input-plan.json",
+      "sha256": "262d7738fe6c7122378c04267ad4e77f4df34a6bad9fcfc9e7e4e42b16611746",
+      "bytes": 5391
+    },
+    "applicationComparedRoots": [
+      "src",
+      "public",
+      "package.json",
+      "package-lock.json",
+      "next.config.ts",
+      "next.config.js",
+      "next.config.mjs",
+      "tsconfig.json",
+      "vercel.json"
+    ],
+    "changedApplicationPaths": [
+      "src/lib/rcap/render/job-queue.ts"
+    ],
+    "reused": "Existing worktree, PostgreSQL harness, worker planner, lifecycle functions, source authority, actual download handler, current fixtures, build configuration, packet inputs, route records, and #345 evidence.",
+    "notReusableForCorrectedRelease": [
+      "Accepted worker digest at4f7d209de112",
+      "Preview dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak"
+    ],
+    "newWorkerDigest": null,
+    "newPreviewDeployment": null,
+    "successorMechanism": "data/rcap-grade-a/mission-lock/successor-application-freeze.json, followed by existing publication/read-only image acceptance and RELEASE_CANDIDATE_BINDING/HOSTED_TOOLS_BINDING procedure"
+  },
+  "remoteBefore": {
+    "projectRef": "hyflxnlhpmiqxvvcoiia",
+    "catalog": {
+      "path": "hosted-acceptance-evidence/database/correction-before-catalog-current.json",
+      "sha256": "68d1c6819caed79d3bb8cd41276e611abca53c8afd616ae690cc574d248559b3",
+      "bytes": 349015
+    },
+    "health": {
+      "path": "hosted-acceptance-evidence/database/correction-before-health-current.json",
+      "sha256": "e2433c05037132662d9a9e27ccc898a03efb42acf94470b78ecd9e168956a83e",
+      "bytes": 14701
+    },
+    "differences": {
+      "path": "hosted-acceptance-evidence/database/correction-before-differences-current.json",
+      "sha256": "6a5bfcad1cc5be50f6349d3f8113175aff9f682e0dc42ab9a275db4d7f5d72ae",
+      "bytes": 43329
+    },
+    "ledger": {
+      "path": "hosted-acceptance-evidence/database/correction-before-ledger-current.json",
+      "sha256": "2d4e32ed597e3f40446e29a08a26bec0934b8858b951721363474c50f412a7b7",
+      "bytes": 777
+    },
+    "ledgerReadback": {
+      "projectRef": "hyflxnlhpmiqxvvcoiia",
+      "readOnly": true,
+      "observedAt": {
+        "current_time": "2026-09-24 12:32:19 UTC"
+      },
+      "rows": [
+        {
+          "version": "20260924005744",
+          "name": "consumer_checkout_replacement_evidence_guard",
+          "statements_sha256": "cb8abf4587ec087f0e143f007058598cdb2a215178777dff311dbc6d44619dc8",
+          "statements_md5": "d328909c0b3f597a8b1c178ae2606d4c",
+          "statements_bytes": 6312
+        },
+        {
+          "version": "20260924114022",
+          "name": "packet_render_retry_and_phase50_reconciliation",
+          "statements_sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+          "statements_md5": "55dab507580912e2f57550e0c812e981",
+          "statements_bytes": 14886
+        }
+      ],
+      "newCorrectionRecorded": false
+    },
+    "observedPostconditions": 358,
+    "requiredPostconditions": 400,
+    "differencesCount": 52,
+    "allDifferencesWithinForwardDelta": true,
+    "jobCount": 22,
+    "duplicateRetryGroups": 2,
+    "expiredExhaustedClaims": 2,
+    "dueRetryable": 5,
+    "rows": [
+      {
+        "id": "9fdc60c0-d1bc-40fa-81a8-7ee2eb90eaee",
+        "status": "claimed",
+        "packetId": "9d4f88d5-54c4-4cf2-9a40-bf46524d7532",
+        "createdAt": "2026-08-18T21:08:14.211414+00:00",
+        "errorCode": null,
+        "inputHash": "5223da83db3af0284905abe47e5b6131eaa1c519c3d9710c0d67ff5cf39e1623",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 39,
+        "nextAttemptAt": null,
+        "claimExpiresAt": "2026-09-24T04:30:02.599906+00:00",
+        "profileVersion": "1.3.0",
+        "failureDisposition": null,
+        "authorityFingerprint": "5d8e7c1d834cc7532ff79259e3f9d79e"
+      },
+      {
+        "id": "ca12bf6b-6ace-4e02-af5c-70e1bfb7d331",
+        "status": "claimed",
+        "packetId": "d7880b0a-63f6-4ac6-b012-2f058fd0745a",
+        "createdAt": "2026-08-18T23:11:38.830356+00:00",
+        "errorCode": null,
+        "inputHash": "e2b8cbd059b78c92c37a4b9bceecdc5c2144931f611b755050e5a77ed2f050d0",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 23,
+        "nextAttemptAt": null,
+        "claimExpiresAt": "2026-09-24T04:24:46.485165+00:00",
+        "profileVersion": "1.3.0",
+        "failureDisposition": null,
+        "authorityFingerprint": "8cf585838d7a66a173920a72bf9e0716"
+      },
+      {
+        "id": "14c626c2-d287-4d5f-8fef-172fec8e52b9",
+        "status": "failed",
+        "packetId": "eb6e033d-771d-44ba-8055-89243570ad9e",
+        "createdAt": "2026-08-20T16:46:48.400274+00:00",
+        "errorCode": "render_failed",
+        "inputHash": "bf1849bff0e70a811727b34e80ee9d078ce8eb6c7e3804ee41788920a986b7a9",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 2,
+        "nextAttemptAt": "2026-08-20T21:01:58.565783+00:00",
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": "retryable",
+        "authorityFingerprint": "7b3228dcc9f323e3c142453cda704eb6"
+      },
+      {
+        "id": "cab14012-a0ad-44d1-80d2-d0d4bebc87d8",
+        "status": "failed",
+        "packetId": "eb6e033d-771d-44ba-8055-89243570ad9e",
+        "createdAt": "2026-08-20T16:47:42.066638+00:00",
+        "errorCode": "render_failed",
+        "inputHash": "bf1849bff0e70a811727b34e80ee9d078ce8eb6c7e3804ee41788920a986b7a9",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": "2026-08-20T21:00:47.258234+00:00",
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": "retryable",
+        "authorityFingerprint": "220d93e1d7bcf7f4ee115a876292bb4a"
+      },
+      {
+        "id": "e5357bcb-0fb0-45ab-a68e-8ca4eadc6b7d",
+        "status": "failed",
+        "packetId": "fb3fb0df-6fef-4abe-a1f1-6462543c06a4",
+        "createdAt": "2026-08-20T20:59:25.001217+00:00",
+        "errorCode": "render_failed",
+        "inputHash": "cab5b9e37760f0c6b5dc99f91df283ed2a2442b49ddc52376e39572afad53f41",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": "2026-08-20T21:01:09.013941+00:00",
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": "retryable",
+        "authorityFingerprint": "5b9e70ca417fff260bceaba81d7cc5a7"
+      },
+      {
+        "id": "36a86224-e7aa-4949-8f92-0a5c0e10c892",
+        "status": "failed",
+        "packetId": "fb3fb0df-6fef-4abe-a1f1-6462543c06a4",
+        "createdAt": "2026-08-20T21:00:30.1092+00:00",
+        "errorCode": "timeout",
+        "inputHash": "cab5b9e37760f0c6b5dc99f91df283ed2a2442b49ddc52376e39572afad53f41",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": "2026-09-15T22:47:47.806022+00:00",
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": "retryable",
+        "authorityFingerprint": "835c7d2f201c16c996f3efb5324de584"
+      },
+      {
+        "id": "14852ea7-3bd4-4378-a16c-bf249353230a",
+        "status": "delivered",
+        "packetId": "aa710197-15ab-459a-93e5-c71591e83e84",
+        "createdAt": "2026-08-21T00:21:25.98928+00:00",
+        "errorCode": null,
+        "inputHash": "be96276d59dea18e0c008edbc3343e84d99df83c8048eeb2b1e6b840a225af80",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "bbb4d6ca70f5d8d5206d36d1cee689f5"
+      },
+      {
+        "id": "e34a61ec-3dd0-41c8-8e88-eb607cbd5c01",
+        "status": "artifact_validated",
+        "packetId": "eafbd262-1894-49b7-8cbc-41cf8aa22af0",
+        "createdAt": "2026-09-16T02:20:06.469554+00:00",
+        "errorCode": null,
+        "inputHash": "7dbafe96263076a4d435765182348a46263b00f9142fb886c8419af25b0492aa",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "d76cf6bab21b33176e2b16cb4af9bb08"
+      },
+      {
+        "id": "88366888-e3f9-4ed3-a5ed-a894cbe3db46",
+        "status": "delivered",
+        "packetId": "1eec528b-c6da-4332-82c6-e211f5a89bf1",
+        "createdAt": "2026-09-16T02:51:16.883641+00:00",
+        "errorCode": null,
+        "inputHash": "c642742e3d7c91c45341bb90503d79186ef63dd73a13343328ff19df82299cbe",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "2e39b4a6404c772ea5d51f367a66ed0e"
+      },
+      {
+        "id": "732d5b3d-5e38-4351-8611-f6611ef9e5ba",
+        "status": "delivered",
+        "packetId": "3f5f2f3b-f9b9-43c4-8081-dce04f0d9114",
+        "createdAt": "2026-09-16T10:36:53.010724+00:00",
+        "errorCode": null,
+        "inputHash": "9454e2c0fb3dd1401580c21fc5676eead43efd87ae95bd990bb4b70e93ce26f1",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "d2ac5c246c52a954bcc2d296af8cf457"
+      },
+      {
+        "id": "c911d067-07af-4e5a-8580-a9eab45bde52",
+        "status": "delivered",
+        "packetId": "dd9ee2a2-45cd-4ff9-8740-81f4efc11aec",
+        "createdAt": "2026-09-16T23:39:48.794384+00:00",
+        "errorCode": null,
+        "inputHash": "e240fa861b39695f0415912249d443444dcde4790289bb5e4f4afec306fc63e3",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "81ad230224e837d51137146a122cdd77"
+      },
+      {
+        "id": "99044a2e-66cb-4aac-8444-0c19820eec3a",
+        "status": "delivered",
+        "packetId": "22a1ddc8-088b-497d-8252-1971c3a10cf9",
+        "createdAt": "2026-09-17T00:53:14.725782+00:00",
+        "errorCode": null,
+        "inputHash": "6beb6734cbba1a109ffdf29928bb41ae3b50899a03f0a14a6d54ff8c162e606b",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "68a8a2693e1bc4a04cd4b2282eeeb903"
+      },
+      {
+        "id": "54f19a7d-6ab8-41ea-b0f9-9d8e94361f41",
+        "status": "delivered",
+        "packetId": "31ee01bb-1af6-440d-8b9f-ab2c187dbafb",
+        "createdAt": "2026-09-17T03:36:22.000977+00:00",
+        "errorCode": null,
+        "inputHash": "6351c7723515d6f76ac87ea66e86776d940307d08650a23decb1e7704fcd5f2a",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "ddb7f3ec7c158afff56fefe6e51b930b"
+      },
+      {
+        "id": "edbbf779-0d95-4e5a-b1d0-5473861bbb03",
+        "status": "delivered",
+        "packetId": "3ddf6228-9f34-4c77-8e1d-e68986aa0d38",
+        "createdAt": "2026-09-17T03:50:29.941181+00:00",
+        "errorCode": null,
+        "inputHash": "4f3aaf3311ada9500597c3c6b677643889ad8f993506adb770f012e1bc399339",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "bbb7b32013d262a804206884b892d02a"
+      },
+      {
+        "id": "da5769a0-e18d-4d6d-9b58-9bebf565d401",
+        "status": "delivered",
+        "packetId": "cb09ee53-5079-4191-8b59-a8e1efe28d85",
+        "createdAt": "2026-09-17T04:13:27.824415+00:00",
+        "errorCode": null,
+        "inputHash": "7cbacee96bddbfd0863b2431b58b65db564af85a36a3a030f37eb7900b513f1d",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "2f2e9ea38f6f864a0d89fe87953f3fda"
+      },
+      {
+        "id": "2cb7cc77-ff5a-46bf-90ca-5e20333b2259",
+        "status": "delivered",
+        "packetId": "ae9ad466-7e19-43ba-86f1-6cd6179fba48",
+        "createdAt": "2026-09-17T09:20:23.832625+00:00",
+        "errorCode": null,
+        "inputHash": "cfa0538fe71bfa6db6b75751bde59806e45c42c877250650ca7005da7a8f3075",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "dd01f439143d761d0f025547ad5f66e2"
+      },
+      {
+        "id": "4522cebc-4945-494a-9924-3293ecbe0ed3",
+        "status": "delivered",
+        "packetId": "85ee7539-da9a-4449-8287-0f6c53e9be48",
+        "createdAt": "2026-09-17T09:32:09.050938+00:00",
+        "errorCode": null,
+        "inputHash": "6c884af93e1f854f1486da884ba2c4375fb7e7b19f40681492ce1bcf67fe05bf",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "df40a24c5950a54dc7a2476a36c273a2"
+      },
+      {
+        "id": "a1543cec-bdba-49e9-9476-06af2f0a09e9",
+        "status": "delivered",
+        "packetId": "aaaa309d-e146-41af-80a4-e149abe43cc5",
+        "createdAt": "2026-09-17T16:00:42.828161+00:00",
+        "errorCode": null,
+        "inputHash": "abd50889051be184d27722416de0fc5be052cbc339529c46850a4f413dc3a693",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "fbac837c5cf6e6820fb91fdd780a9035"
+      },
+      {
+        "id": "bbbb1cf2-49f3-4250-8076-65d9a971be2c",
+        "status": "delivered",
+        "packetId": "d5058168-7203-4db8-8842-02e66f1338ec",
+        "createdAt": "2026-09-17T16:17:30.437498+00:00",
+        "errorCode": null,
+        "inputHash": "16f44878ed581523df66fc4b7bb39c4f975250c515a5f9291fcdfd44bcb86863",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "555991f932c73cce39c0e376ca9c65c4"
+      },
+      {
+        "id": "2dcbd52b-2d7b-4551-ad1d-bbf26a438e49",
+        "status": "delivered",
+        "packetId": "5e46bc92-8fa5-4314-86cb-6981d2d66c12",
+        "createdAt": "2026-09-17T20:36:32.728103+00:00",
+        "errorCode": null,
+        "inputHash": "54b8f593ff4699d309596b6ef890de3211030b635abfd1ea0681c3d124d8ee73",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "d71696ec55bb7c03fefaafe348b3dbfa"
+      },
+      {
+        "id": "359717e8-63a5-4b0b-93fc-3e6f2c543f3c",
+        "status": "delivered",
+        "packetId": "ce518706-88d2-49b1-8116-70111f1751ca",
+        "createdAt": "2026-09-17T20:57:55.767745+00:00",
+        "errorCode": null,
+        "inputHash": "13d9f4b430b8a7af2a95824af0696287d96b04a3507e23dd4b1055e764c5fd1c",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": null,
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": null,
+        "authorityFingerprint": "b8224f893348bb4795435985b410c6e6"
+      },
+      {
+        "id": "7f729c6a-6d90-498a-a50b-3f8b461c564c",
+        "status": "failed",
+        "packetId": "3707170a-72e5-47c4-8325-6b4b92bf355c",
+        "createdAt": "2026-09-24T04:21:25.436221+00:00",
+        "errorCode": "storage_write_failed",
+        "inputHash": "474f26fda184f71c1f1727a295d4d940ca8ca7595d482ac8b47eb2b2522b53c2",
+        "profileId": "MS",
+        "maxAttempts": 5,
+        "attemptCount": 1,
+        "nextAttemptAt": "2026-09-24T04:23:58.061386+00:00",
+        "claimExpiresAt": null,
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "failureDisposition": "retryable",
+        "authorityFingerprint": "94f38a5a7f423eb2160db617471e1295"
+      }
+    ],
+    "prechargeGate": {
+      "path": "hosted-acceptance-evidence/database/correction-before-precharge-gate.json",
+      "sha256": "0f689779c5cffe034c0f82299981801829ab72e6dd43bb511d8fb4187721f004",
+      "bytes": 4741,
+      "passed": false,
+      "failureCount": 54,
+      "missingSponsoredReaderDependencyRefused": true
+    }
+  },
+  "remoteAfter": {
+    "available": false,
+    "reason": "No acceptance write authorization for this new migration/runtime successor has been recorded. No remote schema/queue/storage/recovery/Preview/Stripe write was executed in this correction turn.",
+    "mutationCount": 0
+  },
+  "productionPreparation": {
+    "prepared": true,
+    "executed": false,
+    "projectRef": "wwtwtsmywnckfkdaqqeg",
+    "authorized": false,
+    "separateFromHostedAcceptance": true,
+    "historicalAuthorizationPreserved": true,
+    "behavior": "Current release tuple and separately recorded phase authorization required before service access. Clinic/LegalAid/current dependency certificates have a real source-derived no-write success path. Missing cross-table reservation trigger, partial schema, stale tuple and false receipts fail.",
+    "counts": {
+      "behavioral": 10,
+      "canarySmokeActivationStatic": 117,
+      "canarySmokeActivationMutations": 55,
+      "clinicLegalAidForwardStatic": 116,
+      "clinicLegalAidForwardMutations": 50
+    }
+  },
+  "acceptanceWriteAuthorizationRequest": {
+    "status": "REQUESTED_NOT_GRANTED",
+    "targetProject": "hyflxnlhpmiqxvvcoiia",
+    "sourceCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+    "migrationFiles": [
+      {
+        "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+        "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+        "bytes": 61195
+      }
+    ],
+    "expectedMigrationRowEffects": "Zero existing business-row updates, inserts, deletes or resets. Add the missing sponsored schema dependencies and regeneration history field; replace only guarded source-owned functions plus corrected retry function. New sponsored route registry remains empty; no entitlement, sponsorship, payment, verification, refund, checkout or route-registration replay.",
+    "reconciliation": {
+      "functionsInOrder": [
+        "public.release_expired_packet_render_claims()",
+        "public.requeue_retryable_packet_render_jobs()"
+      ],
+      "preserveEveryExistingJobId": true,
+      "jobCount": 22,
+      "resetAttempts": false,
+      "deleteJobs": false,
+      "expectedFromRecordedBeforeState": {
+        "expiredExhaustedToRetainedTerminal": [
+          "9fdc60c0-d1bc-40fa-81a8-7ee2eb90eaee",
+          "ca12bf6b-6ace-4e02-af5c-70e1bfb7d331"
+        ],
+        "duplicateLosersToRetainedTerminal": [
+          "cab14012-a0ad-44d1-80d2-d0d4bebc87d8",
+          "36a86224-e7aa-4949-8f92-0a5c0e10c892"
+        ],
+        "canonicalRetryWinnersToQueued": [
+          "14c626c2-d287-4d5f-8fef-172fec8e52b9",
+          "e5357bcb-0fb0-45ab-a68e-8ca4eadc6b7d",
+          "7f729c6a-6d90-498a-a50b-3f8b461c564c"
+        ],
+        "releaseCount": 2,
+        "requeueCount": 3
+      },
+      "guard": "Re-read all22 identities, state and source contract before acting. Stop on unrelated drift; do not force expected counts. Canonical lifecycle appends history; no direct queue edits."
+    },
+    "successorPublication": {
+      "repository": "ghcr.io/roger-legalease/rcap-render-worker",
+      "tag": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+      "sourceSha": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+      "fingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+      "scope": "One necessary successor worker publication and its existing read-only image acceptance; retain old publication receipts. Use only its observed immutable digest after successful acceptance."
+    },
+    "successorPreview": {
+      "teamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+      "projectName": "legalease-partner-dashboard-clean",
+      "applicationSha": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+      "target": "Preview",
+      "alias": "legalease-rcap-4cfb78749edb-roger947s-projects.vercel.app",
+      "scope": "One exact successor Preview bound to acceptance project; retain old Preview and Production aliases; per-deployment test configuration only, no Production environment/secret writes."
+    },
+    "sandboxWebhook": {
+      "endpointId": "we_1U4AKGRWROAHlAKyNFChAnWr",
+      "mode": "test",
+      "destination": "https://legalease-rcap-4cfb78749edb-roger947s-projects.vercel.app/api/stripe/webhook",
+      "scope": "After the successor Preview is READY and exact identity is verified, update only this existing test endpoint URL using the existing bounded retarget script and existing protection-bypass credential. Preserve endpoint identity, enabled events and signing secret; create/delete no endpoint. This prepares the later ordinary sandbox journey and is not a charge authorization."
+    },
+    "storageAndRecovery": {
+      "targetJobId": "7f729c6a-6d90-498a-a50b-3f8b461c564c",
+      "createCheckout": false,
+      "createPayment": false,
+      "createJob": false,
+      "resetHistory": false,
+      "scope": "Run bounded canonical recovery with the accepted successor worker for the existing #345 job and its two existing canonical predecessors if claimed first. Preserve current attempt ceilings and existing journey cycle/wait budgets. Write only canonical private artifacts, provenance, delivery/accounting records for those existing jobs; verify bytes/SHA256, exact REST reader and owner GET200, stranger403 and anonymous401 using existing acceptance identities. Record #345 as zero-dollar evidence."
+    },
+    "receiptFailureRecovery": {
+      "report": "applied_but_unrecorded; no false rollback or successful counter increment",
+      "steps": [
+        "Stop further mutations and save the exact attempted operation and response.",
+        "Read actual current catalog, owner definitions, original job identities/history/accounting and the migration ledger; compare to the source-derived contract.",
+        "If state is already correct and exact execution identity is established, perform only the missing receipt repair through existing migration authority and persist evidence; do not re-execute SQL.",
+        "If state is partial or execution identity cannot be established, stop with exact observed state and require a separately reviewed forward recovery; never replay historical migrations or reset jobs."
+      ],
+      "historicalReplay": false
+    },
+    "permissionBasis": "AGENTS.md requires Roger approval for live Supabase migrations; the preserved prior authorization names only the old already-applied migration and existing runtime tuple. This new forward file, successor publication/Preview and test-webhook move exceed that exact scope. Local implementation and read-only verification were completed first.",
+    "productionAuthorized": false,
+    "liveChargeAuthorized": false,
+    "ordinarySandboxCheckoutExecuted": false,
+    "requiredBeforeAnyWrite": "Original user-supplied four-case file must be available and independently pass unchanged against this successor; otherwise keep the external-write boundary closed even if scope authorization arrives."
+  },
+  "dispatchReadiness": {
+    "ready": false,
+    "dispatchGenerated": false,
+    "eventualPhase": "hosted_full",
+    "eventualPromotionInput": "",
+    "eventualOrdinarySandboxAmountCents": 5000,
+    "unresolved": [
+      "Original user-specified four-case file is absent; unchanged rerun remains unproven.",
+      "New exact acceptance write/runtime-successor scope requires authorization.",
+      "Remote post-correction catalog/REST/queue/storage/owner-denial proof has not run.",
+      "New immutable worker acceptance and Preview identities do not exist; final CURRENT tools binding cannot yet be generated."
+    ],
+    "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production."
+  }
+}
