@@ -7,11 +7,12 @@
 // functions that the forward migrations from 20260828100000 onward create.
 // This control applies exactly those ten committed forward migrations, in
 // repository order, each hash-pinned to its bytes at the frozen application
-// commit, reads back one signature object per file, and records each version
+// commit, reads signature objects as inventory only, and records each version only after successful exact execution in this run
 // in supabase_migrations.schema_migrations so a later `supabase db push`
 // sees the same history. Nothing else is written. No participant, checkout,
 // deployment, alias, worker or environment action is performed.
 
+import { requireMigrationCertification } from './rcap-migration-certification.mjs';
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
@@ -91,6 +92,7 @@ export const PHASE_PREREQUISITES = Object.freeze([
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const verdicts = [];
+const certifiedExecutions = new Set();
 const evidence = {
   schemaVersion: "rcap-production-forward-chain-migrate/v1",
   phase: PHASE,
@@ -143,7 +145,7 @@ async function managementQuery(query, caseId) {
   });
   const text = await response.text();
   const json = parseJson(text);
-  if (!response.ok) throw new Error(`${caseId}: HTTP ${response.status}: ${String(json?.message ?? "database query failed").slice(0, 300)}`);
+  if (!response.ok || !Array.isArray(json)) throw new Error(`${caseId}: HTTP ${response.status}: ${String(json?.message ?? "database query failed").slice(0, 300)}`);
   return json;
 }
 
@@ -244,7 +246,9 @@ export function summarizeReadback(row) {
     present,
     missing,
     orderedPrefix,
-    complete: missing.length === 0
+    signaturesComplete: missing.length === 0,
+    certificationAuthority: 'signatures_are_inventory_only',
+    complete: missing.length === 0 && MIGRATIONS.every(m => certifiedExecutions.has(m.version))
   };
 }
 
@@ -335,6 +339,7 @@ async function backupReadback() {
 }
 
 async function recordLedgerRow(migration, hasNameColumn) {
+  requireMigrationCertification({ executed:certifiedExecutions.has(migration.version) });
   const name = path.basename(migration.path, ".sql").replace(/^\d+_/, "");
   const query = hasNameColumn
     ? `insert into supabase_migrations.schema_migrations (version, name) values (${sqlLiteral(migration.version)}, ${sqlLiteral(name)}) on conflict (version) do nothing`
@@ -448,18 +453,18 @@ try {
           && migration.signature.kind === "ledger";
         if (reExecute) {
           await managementQuery(sqlByVersion.get(migration.version), `forward_migration_${migration.position}_executed`);
+          certifiedExecutions.add(migration.version);
+          requireMigrationCertification({ executed:true });
           evidence.productionDatabaseMutated = true;
           evidence.migrationsApplied.push(migration.version);
           record(`forward_migration_${migration.position}_executed_to_back_its_ledger_row`, true, `${migration.path} executed although its ledger row was already present (${authorization.executeDespiteLedgerRow.why ?? "reason recorded"})`);
           continue;
         }
-        evidence.migrationsAlreadyPresent.push(migration.version);
-        if (!current.ledgerVersions.includes(migration.version)) {
-          await recordLedgerRow(migration, current.ledgerHasNameColumn);
-          evidence.productionDatabaseMutated = true;
-        }
-        record(`forward_migration_${migration.position}_already_present`, true, `${migration.path} signature ${migration.signature.kind}:${migration.signature.name} present; ledger row ${current.ledgerVersions.includes(migration.version) ? "present" : "recorded"}`);
-        continue;
+        // A table/column/function signature and a ledger row cannot prove a
+        // whole multi-statement file. No complete catalog certificate for this
+        // historical forward chain is currently committed. Refuse adoption
+        // before a ledger write; do not replay old bytes over later ownership.
+        requireMigrationCertification();
       }
       const gap = unsafeGaps(current, sqlByVersion).find((entry) => entry.version === migration.version);
       record(
@@ -469,11 +474,13 @@ try {
       );
       const ledgerRowBeforeApply = current.ledgerVersions.includes(migration.version);
       await managementQuery(sqlByVersion.get(migration.version), `forward_migration_${migration.position}_applied`);
+      certifiedExecutions.add(migration.version);
       evidence.productionDatabaseMutated = true;
       evidence.migrationsApplied.push(migration.version);
       const after = await readback(`post_apply_readback_${migration.version}`);
       if (!after.ledgerVersions.includes(migration.version)) await recordLedgerRow(migration, after.ledgerHasNameColumn);
-      const proven = migration.signature.kind === "ledger" ? true : after.signatures[migration.version] === true;
+      const proven = requireMigrationCertification({ executed:certifiedExecutions.has(migration.version) }).certified
+        && (migration.signature.kind === "ledger" || after.signatures[migration.version] === true);
       record(`forward_migration_${migration.position}_applied_and_read_back`, proven, `${migration.path} applied; signature ${migration.signature.kind}:${migration.signature.name} present=${proven}; ledger row before apply=${ledgerRowBeforeApply}`);
     }
 

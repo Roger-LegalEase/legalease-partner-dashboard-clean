@@ -28,6 +28,8 @@
 // tries the exact forgery RCAP-SEC-001 described, as the role that would
 // attempt it, against this database.
 
+import { loadPacketContract, packetCatalogQuery, normalizeCatalog } from './rcap-packet-database-contract.mjs';
+import { migrationCertification, acceptanceLedgerExecution } from './rcap-migration-certification.mjs';
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -77,7 +79,7 @@ async function query(sql) {
   const text = await res.text();
   let json = null;
   try { json = JSON.parse(text); } catch { /* non-JSON surfaces through text */ }
-  return { ok: res.status >= 200 && res.status < 300, status: res.status, json, text };
+  return { ok: res.status >= 200 && res.status < 300 && Array.isArray(json), status: res.status, json, text };
 }
 
 /** One scalar out of a single-row single-column result. */
@@ -141,6 +143,42 @@ const authorizedMigrationPaths = new Set(sequence.map((entry) => entry.path));
   }
 }
 
+// Existing environments must never replay the old baseline over later authority.
+// Read the ledger before the first write, then prove Phase 50 from its complete
+// source-derived catalog. The old adopted_existing_objects receipt is not proof.
+const ledgerExists = await query(`select to_regclass('public.rcap_acceptance_migration_ledger') is not null as present`);
+if (!ledgerExists.ok || !Array.isArray(ledgerExists.json) || ledgerExists.json.length !== 1 || typeof ledgerExists.json[0].present !== 'boolean') {
+  throw new Error('Migration ledger presence could not be read; no writes authorized by this control');
+}
+const priorLedger = ledgerExists.json[0].present
+  ? await query(`select phase,sha256,applied_by from public.rcap_acceptance_migration_ledger`)
+  : { ok:true, json:[] };
+if (!priorLedger.ok || !Array.isArray(priorLedger.json)) throw new Error('Migration ledger read failed; refusing writes');
+const priorRows = priorLedger.ok && Array.isArray(priorLedger.json) ? priorLedger.json : [];
+const existingSequence = priorRows.length > 0;
+let phase50Proof = null;
+async function certifyPhase50() {
+  const contract = loadPacketContract(rootDir);
+  const readback = await query(packetCatalogQuery());
+  const actual = readback.ok && Array.isArray(readback.json) && readback.json.length === 1
+    ? normalizeCatalog(readback.json[0].catalog ?? {}) : {};
+  // Later authorized phases and this forward correction supersede only the
+  // exact objects recorded by the disposable replay, never an arbitrary match.
+  const current = migrationCertification({ expected:contract.current, actual });
+  const original = migrationCertification({ expected:contract.phase50, actual });
+  return current.certified ? { ...current, revision:'forward_corrected', httpStatus:readback.status }
+    : original.certified ? { ...original, revision:'phase50_exact', httpStatus:readback.status }
+    : { ...current, httpStatus:readback.status };
+}
+if (existingSequence) {
+  phase50Proof = await certifyPhase50();
+  evidence.readback.phase50Catalog = phase50Proof;
+  if (!phase50Proof.certified) {
+    fs.writeFileSync(path.join(EVIDENCE_DIR,'migrate.json'), JSON.stringify({ ...evidence, passed:false },null,2)+'\n');
+    throw new Error('Existing Phase-50 catalog is incomplete; apply an authorized forward correction. No baseline or ledger write was performed.');
+  }
+}
+
 // --- 1b. Stamp the environment before the first write -----------------------
 // Written only to the pinned acceptance ref, and it names that ref, so a copy
 // of this row in any other database identifies the wrong project and is
@@ -201,7 +239,7 @@ const authorizedMigrationPaths = new Set(sequence.map((entry) => entry.path));
     return an - bn || as_.localeCompare(bs) || af.localeCompare(bf);
   });
 
-  for (const name of ordered) {
+  for (const name of existingSequence ? [] : ordered) {
     const rel = `supabase/${name}`;
     const sql = fs.readFileSync(path.join(rootDir, rel), "utf8");
     let r = await query(sql);
@@ -272,17 +310,9 @@ const authorizedMigrationPaths = new Set(sequence.map((entry) => entry.path));
   // A migration ledger, because "apply the sequence" and "the sequence is
   // applied" are different claims and only the second one matters.
   //
-  // These files are not written to be re-runnable — phase 50 creates a
-  // trigger unconditionally — so a second run against an environment that
-  // already has them fails on a duplicate object. That is a re-run artifact,
-  // not a defect, and treating it as a failure would mean the pipeline could
-  // never verify an environment it had already built.
-  //
-  // So each phase is applied once and recorded against the exact SHA-256 that
-  // was applied. A later run skips a phase whose recorded hash matches the file
-  // on disk. A phase whose recorded hash DIFFERS is not skipped and not
-  // silently re-applied: the hash gate above has already refused the run in
-  // that case, because the file no longer matches its authorization record.
+  // These files contain non-idempotent statements. An execution receipt can
+  // skip an exact previously executed file; a duplicate-error adoption cannot.
+  // Phase 50 always receives full definition/privilege/postcondition readback.
   await query(`
     create table if not exists public.rcap_acceptance_migration_ledger (
       phase int primary key,
@@ -295,45 +325,51 @@ const authorizedMigrationPaths = new Set(sequence.map((entry) => entry.path));
   await query(`revoke all on public.rcap_acceptance_migration_ledger from anon, authenticated`);
   await query(`alter table public.rcap_acceptance_migration_ledger enable row level security`);
 
-  const ledgerRows = await query(`select phase, sha256 from public.rcap_acceptance_migration_ledger`);
+  const ledgerRows = await query(`select phase, sha256, applied_by from public.rcap_acceptance_migration_ledger`);
   const ledger = new Map(
-    (Array.isArray(ledgerRows.json) ? ledgerRows.json : []).map((row) => [Number(row.phase), String(row.sha256)])
+    (Array.isArray(ledgerRows.json) ? ledgerRows.json : []).map((row) => [Number(row.phase), row])
   );
 
-  // Duplicate-object codes. Seeing one means the phase's objects are already
-  // present from an earlier apply — which the readback below then has to
-  // confirm on its own terms. It is recorded as adopted rather than applied, so
-  // the evidence never claims this run did work it did not do.
-  const ALREADY_PRESENT = /42710|42P07|42701|42P06|already exists/i;
-
+  // Duplicate responses are only failed executions. Exact postconditions may
+  // independently prove adoption; no error pattern can certify a phase.
   let satisfied = 0;
   let failure = null;
   for (const entry of sequence) {
     const row = evidence.authorizedSequence.find((candidate) => candidate.phase === entry.phase);
     const onDisk = row.onDisk;
 
-    if (ledger.get(entry.phase) === onDisk) {
+    const ledgerEntry = ledger.get(entry.phase);
+    const proof = entry.phase === 50 ? (phase50Proof ?? await certifyPhase50()) : null;
+    if ((entry.phase === 50 && proof.certified)
+        || (entry.phase !== 50 && acceptanceLedgerExecution(ledgerEntry,onDisk))) {
       row.applied = true;
-      row.disposition = "already_applied_at_this_hash";
+      row.disposition = entry.phase === 50 ? "complete_postconditions_verified" : "prior_exact_execution_at_this_hash";
+      if (proof) row.postconditions = proof;
       satisfied += 1;
       console.log(`    phase ${entry.phase} already applied at ${onDisk.slice(0, 12)}… (ledger)`);
       continue;
     }
 
+    if (ledgerEntry && !acceptanceLedgerExecution(ledgerEntry,onDisk)) {
+      row.applied = false;
+      failure = `phase ${entry.phase}: legacy adoption has no complete postcondition authority; explicit forward reconciliation required`;
+      break;
+    }
     const sql = fs.readFileSync(path.join(rootDir, entry.path), "utf8");
     const r = await query(sql);
-    const duplicate = !r.ok && ALREADY_PRESENT.test(String(r.json?.message ?? r.text));
-
-    if (r.ok || duplicate) {
+    const readbackProof = entry.phase === 50 ? await certifyPhase50() : null;
+    const certification = readbackProof ?? migrationCertification({ executed:r.ok });
+    if (certification.certified) {
       await query(`
         insert into public.rcap_acceptance_migration_ledger (phase, sha256, authorization_id, applied_by)
-        values (${entry.phase}, '${onDisk}', '${entry.authorizationId}', '${duplicate ? "adopted_existing_objects" : "hosted_acceptance_pipeline"}')
+        values (${entry.phase}, '${onDisk}', '${entry.authorizationId}', '${r.ok ? "hosted_acceptance_pipeline" : "complete_postconditions_verified"}')
         on conflict (phase) do update set sha256 = excluded.sha256, applied_at = now(), applied_by = excluded.applied_by
       `);
       row.applied = true;
-      row.disposition = duplicate ? "objects_already_present_adopted" : "applied_by_this_run";
+      row.disposition = r.ok ? "applied_by_this_run" : "complete_postconditions_verified";
+      row.postconditions = certification;
       satisfied += 1;
-      console.log(`    phase ${entry.phase} ${duplicate ? "adopted (objects already present)" : "applied"} (${entry.authorizationId})`);
+      console.log(`    phase ${entry.phase} ${r.ok ? "applied" : "verified by complete postconditions"} (${entry.authorizationId})`);
       continue;
     }
 

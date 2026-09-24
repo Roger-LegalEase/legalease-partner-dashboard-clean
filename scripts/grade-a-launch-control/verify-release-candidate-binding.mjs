@@ -62,6 +62,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
   }
   const generated = new Set([
     'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
+    'data/rcap-grade-a/launch-control/PACKET_DATABASE_REPAIR_EVIDENCE.json',
     'data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json',
     'docs/rcap/grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md',
     'data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST.json',
@@ -142,6 +143,19 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-hosted-colorado-clinic-browser.mjs',
         'scripts/verify-rcap-hosted-browser.mjs',
         'scripts/rcap-hosted-acceptance-payment.mjs',
+        // #345 bounded forward database correction and exact certification.
+        // These exact database/tool authorities are outside application/worker
+        // inputs; additional migrations still fail this closed path allowlist.
+        'supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql',
+        'data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json',
+        'scripts/rcap-hosted-acceptance-migrate.mjs',
+        'scripts/rcap-packet-database-contract.mjs',
+        'scripts/rcap-packet-database-contract.test.mjs',
+        'scripts/rcap-packet-database-reference.mjs',
+        'scripts/verify-rcap-packet-database.mjs',
+        'scripts/rcap-migration-certification.mjs',
+        'scripts/rcap-migration-certification.test.mjs',
+        'scripts/rcap-production-clinic-migrate.mjs',
         // #345 bounded target retry and explicit promotion-input controls.
         'scripts/verify-rcap-target-worker-journey.mjs',
         'scripts/rcap-hosted-target-retry.test.mjs',

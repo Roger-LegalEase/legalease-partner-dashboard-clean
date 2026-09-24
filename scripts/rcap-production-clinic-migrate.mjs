@@ -5,6 +5,7 @@
 // ledger, fixture, participant, checkout, deployment, alias, or worker action
 // is performed. A partial pre-existing Clinic schema is refused.
 
+import { requireMigrationCertification } from './rcap-migration-certification.mjs';
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
@@ -339,11 +340,13 @@ try {
     evidence.productionDatabaseMutated = true;
     evidence.migrationDisposition = "applied_exact_three_file_sequence";
   } else {
-    evidence.migrationDisposition = "preexisting_complete_structural_readback";
+    // Object counts and ACL probes are inventory, not complete definitions.
+      // No historical adoption without a complete source-derived certificate.
+      requireMigrationCertification();
   }
   record(
     "clinic_migrations_applied_in_exact_order",
-    evidence.migrationApplied || complete,
+    requireMigrationCertification({ executed:evidence.migrationApplied }).certified,
     evidence.migrationDisposition
   );
 

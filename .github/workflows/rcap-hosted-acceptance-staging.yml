@@ -850,6 +850,13 @@ jobs:
           node scripts/verify-rcap-packet-contract.mjs
           node scripts/verify-rcap-packet-contract.mjs --mutations
 
+      - name: Verify the repaired packet database before payment
+        if: steps.contract.outputs.matrix == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+        run: node scripts/verify-rcap-packet-database.mjs
+
       - name: Run the hosted Stripe payment and packet-delivery journey
         id: payment_journey
         if: steps.contract.outputs.matrix == 'true'

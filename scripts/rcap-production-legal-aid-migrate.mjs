@@ -10,6 +10,7 @@
 // No ledger, fixture, participant, checkout, deployment, alias, or worker
 // action is performed. Nothing is ever dropped.
 
+import { requireMigrationCertification } from './rcap-migration-certification.mjs';
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -221,9 +222,11 @@ try {
       evidence.productionDatabaseMutated = true;
       evidence.migrationDisposition = "applied_exact_frozen_file";
     } else {
-      evidence.migrationDisposition = "preexisting_complete_structural_readback";
+      // Object counts and ACL probes are inventory, not complete definitions.
+      // No historical adoption without a complete source-derived certificate.
+      requireMigrationCertification();
     }
-    record("legal_aid_migration_applied_or_already_exact", evidence.migrationApplied || before.complete, evidence.migrationDisposition);
+    record("legal_aid_migration_applied_or_already_exact", requireMigrationCertification({ executed:evidence.migrationApplied }).certified, evidence.migrationDisposition);
     const after = await readback("legal_aid_catalog_direct_readback");
     record("all_12_legal_aid_tables_exist_with_rls_enabled", after.legalAid.tableCount === LEGAL_AID_TABLES.length && after.legalAid.rlsTableCount === LEGAL_AID_TABLES.length, `tables=${after.legalAid.tableCount}/${LEGAL_AID_TABLES.length}; RLS=${after.legalAid.rlsTableCount}/${LEGAL_AID_TABLES.length}`);
     record("all_32_legal_aid_functions_exist", after.legalAid.functionCount === LEGAL_AID_FUNCTIONS.length, `functions=${after.legalAid.functionCount}/${LEGAL_AID_FUNCTIONS.length}`);
