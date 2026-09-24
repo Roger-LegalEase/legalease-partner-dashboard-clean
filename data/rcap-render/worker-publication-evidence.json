@@ -28,8 +28,8 @@
   "originalPublicationPath": "hosted-acceptance-evidence/worker/publication-36039120033/rcap-render-worker-publication.json",
   "originalArchivePath": "hosted-acceptance-evidence/worker/publication-36039120033/publication.zip",
   "originalPublicationSource": "Native publication artifact 10826276181 from Roger-dispatched run 36039120033. The downloaded ZIP SHA256 matches the Actions artifact digest. Both the detached build source and workflow head are 615b4021f7fff4b41b774967a78f4b117cfce3e2. Dockerfile and lockfile hashes independently match Git at that source. workflowRunId is normalized to the numeric ledger representation; all native publication values are retained.",
-  "registryPullByDigestStatus": "pending_read_only_image_acceptance",
-  "runtimeAccepted": false,
+  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
+  "runtimeAccepted": true,
   "authorization": "Roger authorized consuming successful publication run 36039120033, binding its exact source, digest, native artifact and canonical input fingerprint, preserving prior acceptance history, independently reviewing and pushing this evidence-only commit, then returning the single manual image-acceptance dispatch. No second publication, migration, Preview, #345 activity, hosted_full or Production action is authorized by this binding.",
   "priorPublicationEvidencePath": "data/rcap-render/worker-publication-evidence.json#/supersededPublication",
   "supersededPublication": {
@@ -1129,17 +1129,66 @@
   },
   "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
   "localVerificationDigest": null,
-  "localVerificationDigestScope": "No independent local build or pull was performed. The native registry digest is recorded; read-only image acceptance remains pending.",
-  "imageAcceptanceAttempts": [],
-  "imageAcceptance": null,
-  "packageVisibility": null,
-  "packageVisibilityEvidence": "Current-digest anonymous refusal and authenticated pull are pending the single read-only image-acceptance run. Prior successful acceptance is preserved under supersededPublication.",
+  "localVerificationDigestScope": "No independent local build or pull was performed. Native read-only image acceptance run 36041137857 verified the recorded registry digest.",
+  "imageAcceptanceAttempts": [
+    {
+      "runId": 36041137857,
+      "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36041137857",
+      "runAttempt": 1,
+      "headSha": "a3e828b48ce4777fedf29ac9ba039aabdddc6977",
+      "conclusion": "success",
+      "jobId": 107773314558
+    }
+  ],
+  "imageAcceptance": {
+    "runId": 36041137857,
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36041137857",
+    "runAttempt": 1,
+    "conclusion": "success",
+    "acceptedAt": "2026-09-24T18:27:31Z",
+    "acceptedAtCommit": "a3e828b48ce4777fedf29ac9ba039aabdddc6977",
+    "subjectTakenFrom": "Committed publication evidence at the exact workflow head. Native logs name the accepted source and immutable digest; all 20 main steps and all 24 reported steps passed.",
+    "digest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
+    "tag": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
+    "readOnly": true,
+    "properties": {
+      "tagResolvesToExpectedDigest": true,
+      "authenticatedPullByDigest": true,
+      "anonymousPullRefused": true,
+      "anonymousStatus": 401,
+      "tagAndDigestAreTheSameImage": true,
+      "sourceBindingExceptionExactlyOneDigestWide": true,
+      "sourceBinding": "SOURCE BINDING: PASS; OCI REVISION: PRESENT; exact source revision verified on the normal path.",
+      "runsAsNonRoot": true,
+      "healthcheckDeclaredAndSucceeds": true,
+      "failsClosedWithoutCredentials": true,
+      "gracefulShutdownOnSigterm": true,
+      "scratchDirectory": "present, owned by rcapworker, empty and writable",
+      "secretScanPositiveAndNegativeControls": true,
+      "filesystemSecretScan": "clean",
+      "configAndHistorySecretScan": "config env matches: 0; layer history matches: 0",
+      "deployedNothingClaimedNothing": true
+    },
+    "nativeResult": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/native-result.json",
+      "sha256": "d55d69e40e6d87cb937756097ba99c65d6dd3f90306faa03b5f75b559f756ac2",
+      "bytes": 4957
+    },
+    "nativeLog": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/native.log",
+      "sha256": "cbfcdbd40dc94ba7673687821a2faf7d3db2b2202f9277e965fd03ac21549a14",
+      "bytes": 407209
+    },
+    "evidenceLimit": "Image acceptance only. No successor Preview, natural delivery proof, hosted_full or Production acceptance is asserted."
+  },
+  "packageVisibility": "private",
+  "packageVisibilityEvidence": "Native run 36041137857 refused anonymous pull with HTTP 401 and successfully authenticated to pull the exact immutable digest.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
     "manifestMediaType": null,
     "configDigest": null,
-    "note": "Not yet read back for this digest; no platform facts are copied from the prior accepted image."
+    "note": "Source binding and runtime controls passed in native run 36041137857. Platform and config digest are not separately recorded here."
   },
-  "readBackLimitation": "Native publication evidence is verified. Image acceptance remains pending for source 615b4021f7fff4b41b774967a78f4b117cfce3e2 and digest sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b. This binding establishes no deployment, queue processing, hosted acceptance or Production authorization."
+  "readBackLimitation": "Image acceptance is complete for exact source 615b4021f7fff4b41b774967a78f4b117cfce3e2 and digest sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b. No successor Preview, natural delivery proof, hosted_full or Production authorization is asserted."
 }
