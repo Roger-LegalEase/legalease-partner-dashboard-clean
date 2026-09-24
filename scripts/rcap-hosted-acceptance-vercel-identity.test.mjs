@@ -215,7 +215,7 @@ test("fresh staging-scoped deploy bootstraps consumer A before binding the immut
     "utf8"
   );
   const keysIndex = source.indexOf("const keys = await supabaseKeys()");
-  const scopeIndex = source.indexOf('if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS)');
+  const scopeIndex = source.indexOf('if (ROUTE_STATE === "staging_scoped"');
   assert.ok(keysIndex >= 0 && keysIndex < scopeIndex, "service credentials must be resolved before scoped identity bootstrap");
   assert.match(source, /fetch\(`\$\{SUPABASE_URL\}\/auth\/v1\/admin\/users`/);
   assert.match(source, /acceptance-consumer-a@rcap-acceptance\.test/);
@@ -231,4 +231,15 @@ test("deploy cannot pass unless the exact Preview health endpoint is application
   assert.match(source, /health\.status === 200/);
   assert.match(source, /health\.json !== null/);
   assert.match(source, /"checks" in health\.json/);
+});
+
+
+test('Clinic origin is purpose-isolated, deterministic and restricted to Preview hosts', async () => {
+  const {expectedHostedReturnOrigin} = await import('./rcap-hosted-acceptance-vercel-identity.mjs');
+  const sha='a0d0b933f7241a209379775754540fc22775f174';
+  const clinic=expectedHostedReturnOrigin(sha,'mississippi_clinic');
+  assert.equal(clinic,'https://legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app');
+  assert.notEqual(clinic,expectedHostedReturnOrigin(sha));
+  assert.equal(expectedHostedReturnOrigin(sha,'none'),expectedHostedReturnOrigin(sha));
+  for(const mode of ['production','ordinary','../',null])assert.throws(()=>expectedHostedReturnOrigin(sha,mode),/unsupported/);
 });

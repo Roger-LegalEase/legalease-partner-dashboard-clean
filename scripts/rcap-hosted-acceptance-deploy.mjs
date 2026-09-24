@@ -33,6 +33,8 @@ import { fileURLToPath } from "node:url";
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import {
   expectedHostedReturnOrigin,
+  HOSTED_MS_CLINIC_PARTICIPANTS,
+  HOSTED_ORDINARY_PREVIEW,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
@@ -49,6 +51,8 @@ let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const MISSISSIPPI_PREVIEW_MODE = CLINIC_DEMO_MODE === "mississippi_preview";
+const ISOLATED_CLINIC_PREVIEW = process.env.HOSTED_ISOLATED_CLINIC_PREVIEW === "true";
+if (ISOLATED_CLINIC_PREVIEW && !MISSISSIPPI_PREVIEW_MODE) throw new Error("DEPLOY_CLINIC_PURPOSE_MISMATCH");
 const CLINIC_DEMO_PASSWORD = (process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? "").trim();
 const LEGAL_AID_EMAIL = (() => {
   const apiKey = (process.env.HOSTED_LEGAL_AID_RESEND_API_KEY ?? "").trim();
@@ -65,7 +69,7 @@ if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_
   process.exit(1);
 }
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
-const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA);
+const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA, ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : "");
 const RETURN_ALIAS_HOST = new URL(RETURN_ORIGIN).host;
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
@@ -86,6 +90,7 @@ const REQUIRED_CASES = [
   "deployed_application_health_is_200",
   "delivery_route_refuses_on_the_deployed_instance"
 ];
+if (ISOLATED_CLINIC_PREVIEW) REQUIRED_CASES.push("ordinary_preview_unchanged", "clinic_scope_and_purpose_exact");
 
 function sha256(value) {
   return crypto.createHash("sha256").update(String(value)).digest("hex");
@@ -154,6 +159,24 @@ const evidence = {
   largeFunctionsSupport: "enabled per-deployment; the checkout/status function bundles the RCAP corpus to ~611mb against a 250mb default"
 };
 
+async function ordinaryPreviewSnapshot() {
+  const alias = new URL(expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha)).host;
+  if (RETURN_ALIAS_HOST === alias || APPLICATION_SHA !== HOSTED_ORDINARY_PREVIEW.applicationSha) throw new Error("DEPLOY_CLINIC_ALIAS_NOT_ISOLATED");
+  const details = [];
+  for (const name of [HOSTED_ORDINARY_PREVIEW.id, HOSTED_ORDINARY_PREVIEW.immutableHostname, alias]) {
+    const response = await vercelApi(`/v13/deployments/${encodeURIComponent(name)}`);
+    if (response.status !== 200) throw new Error("DEPLOY_ORDINARY_PREVIEW_READBACK_FAILED");
+    const d = assertPreviewResponse(response.json, {
+      rcapApplicationSha: APPLICATION_SHA, rcapAcceptanceProjectRef: PROJECT_REF,
+      rcapReturnOrigin: `https://${alias}`, rcapClinicDemoMode: "none"
+    }, HOSTED_ORDINARY_PREVIEW.id);
+    if (d.readyState !== "READY" || d.url !== HOSTED_ORDINARY_PREVIEW.immutableHostname) throw new Error("DEPLOY_ORDINARY_PREVIEW_MISMATCH");
+    details.push({ name, id: d.id, immutableHostname: d.url, target: d.target,
+      applicationSha: d.meta.rcapApplicationSha, aliases: [...(d.alias ?? [])].sort() });
+  }
+  return { deploymentId: HOSTED_ORDINARY_PREVIEW.id, immutableHostname: HOSTED_ORDINARY_PREVIEW.immutableHostname, alias, details };
+}
+
 // --- 0. Before-picture of everything this run must not disturb ---------------
 const beforeProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
 const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
@@ -165,6 +188,7 @@ const aliasesBefore = Array.isArray(beforeProject.json?.alias)
   : [];
 const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.envs : []);
 evidence.productionBefore = { aliases: aliasesBefore, environmentShape: envBefore };
+if (ISOLATED_CLINIC_PREVIEW) evidence.ordinaryPreviewBefore = await ordinaryPreviewSnapshot();
 if (aliasesBefore.includes(RETURN_ALIAS_HOST)) {
   console.error(`DEPLOY: deterministic acceptance alias ${RETURN_ALIAS_HOST} is attached to Production; refusing`);
   process.exit(1);
@@ -201,8 +225,40 @@ if (CATALOG_PRODUCT_ID && !CATALOG_PRODUCT_ID.startsWith("prod_")) {
   process.exit(1);
 }
 const CATALOG_PRODUCT_TAG = CATALOG_PRODUCT_ID || "inline";
+if (ISOLATED_CLINIC_PREVIEW && (process.env.HOSTED_STRIPE_TEST_SECRET || process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || CATALOG_PRODUCT_ID || LEGAL_AID_EMAIL)) {
+  throw new Error("DEPLOY_CLINIC_PROVIDER_CONFIGURATION_REFUSED");
+}
 
 async function findReusableDeployment() {
+  if (ISOLATED_CLINIC_PREVIEW) {
+    // Read every page, including non-READY attempts. An incomplete/ambiguous
+    // prior creation is a readback boundary, never permission to create twice.
+    const expected = { ...FROZEN_WORKER_METADATA, rcapPreviewPurpose: "mississippi_clinic", rcapApplicationSha: APPLICATION_SHA,
+      rcapAcceptanceProjectRef: PROJECT_REF, rcapClinicDemoMode: CLINIC_DEMO_MODE,
+      rcapRouteState: ROUTE_STATE_TAG, rcapStagingScopeSha256: sha256(SCOPE_IDS),
+      rcapReturnOrigin: RETURN_ORIGIN, rcapStripeConfigured: "false", rcapCatalogProduct: "inline" };
+    const matches = [], cursors = new Set();
+    let until = null;
+    do {
+      const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100${until === null ? "" : `&until=${encodeURIComponent(until)}`}`);
+      if (res.status !== 200 || !Array.isArray(res.json?.deployments) || !res.json.pagination || !Object.hasOwn(res.json.pagination, "next")) throw new Error("DEPLOY_CLINIC_SEARCH_INCOMPLETE");
+      for (const summary of res.json.deployments) {
+        if (summary.meta?.rcapApplicationSha !== APPLICATION_SHA || summary.meta?.rcapClinicDemoMode !== CLINIC_DEMO_MODE) continue;
+        const detail = await vercelApi(`/v13/deployments/${encodeURIComponent(summary.uid ?? summary.id)}`);
+        if (detail.status !== 200) throw new Error("DEPLOY_CLINIC_SEARCH_READBACK_FAILED");
+        // Same-source Clinic attempts must be reconciled, not bypassed by a new deployment.
+        const d = assertPreviewResponse(detail.json, expected);
+        if (d.readyState !== "READY") throw new Error("DEPLOY_CLINIC_PRIOR_ATTEMPT_NOT_READY");
+        matches.push({ url: `https://${d.url}`, id: d.id });
+      }
+      until = res.json.pagination.next;
+      if (until !== null && (!Number.isFinite(until) || cursors.has(until))) throw new Error("DEPLOY_CLINIC_SEARCH_PAGINATION_INVALID");
+      cursors.add(until);
+    } while (until !== null);
+    if (matches.length > 1) throw new Error("DEPLOY_CLINIC_MULTIPLE_EXACT_PREVIEWS");
+    evidence.clinicPreviewSearch = { complete: true, exactReadyMatches: matches, observedAt: new Date().toISOString() };
+    return matches[0] ?? null;
+  }
   const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100&state=READY`);
   if (res.status !== 200 || !Array.isArray(res.json?.deployments)) return null;
   const match = res.json.deployments.find(
@@ -236,7 +292,7 @@ if (!keys.anon || !keys.service) {
 // The bounded Mississippi Preview names exactly A and B. The legacy hosted
 // payment matrix continues to name A alone so its existing negative control
 // remains unchanged.
-if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
+if (ROUTE_STATE === "staging_scoped" && (!SCOPE_IDS || ISOLATED_CLINIC_PREVIEW)) {
   const participants = MISSISSIPPI_PREVIEW_MODE
     ? [
         "mvl-demo-participant-a@rcap-acceptance.test",
@@ -252,8 +308,9 @@ if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
       body: JSON.stringify({ query: `select id from auth.users where lower(email)=lower('${sqlText(email)}') limit 1` })
     });
     const rows = await lookup.json().catch(() => null);
-    let id = Array.isArray(rows) ? rows[0]?.id : null;
-    if (!id && process.env.HOSTED_EXISTING_PARTICIPANT_ONLY === "true") {
+    let id = lookup.ok && Array.isArray(rows) ? rows[0]?.id : null;
+    if (ISOLATED_CLINIC_PREVIEW && id !== HOSTED_MS_CLINIC_PARTICIPANTS[email]) throw new Error("DEPLOY_CLINIC_EXISTING_IDENTITY_MISMATCH");
+    if (!id && (ISOLATED_CLINIC_PREVIEW || process.env.HOSTED_EXISTING_PARTICIPANT_ONLY === "true")) {
       throw new Error("DEPLOY_EXISTING_ACCEPTANCE_PARTICIPANT_REQUIRED");
     }
     if (!id) {
@@ -282,6 +339,7 @@ if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
     }
     resolved.push(id);
   }
+  if (ISOLATED_CLINIC_PREVIEW && SCOPE_IDS && SCOPE_IDS !== resolved.join(",")) throw new Error("DEPLOY_CLINIC_SCOPE_MISMATCH");
   SCOPE_IDS = resolved.join(",");
   evidence.syntheticConsumerBootstrap = outcomes;
   evidence.stagingScopeParticipantCount = resolved.length;
@@ -293,6 +351,15 @@ if (MISSISSIPPI_PREVIEW_MODE && (ROUTE_STATE !== "staging_scoped" || SCOPE_IDS.s
 }
 
 const reusable = await findReusableDeployment();
+if (ISOLATED_CLINIC_PREVIEW) {
+  const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
+  if (current.status !== 404) {
+    if (current.status !== 200 || !reusable || current.json?.id !== reusable.id) throw new Error("DEPLOY_CLINIC_ALIAS_CONFLICT");
+    assertPreviewResponse(current.json, { rcapReturnOrigin: RETURN_ORIGIN, rcapClinicDemoMode: CLINIC_DEMO_MODE }, reusable.id);
+  }
+  evidence.clinicScope = { participants: HOSTED_MS_CLINIC_PARTICIPANTS, scope: SCOPE_IDS, sha256: sha256(SCOPE_IDS) };
+  fs.writeFileSync(path.join(EVIDENCE_DIR, "clinic-deploy-before.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+}
 
 // --- 1. Deploy to Preview ----------------------------------------------------
 // Public at build time, server-only at runtime. The delivery flag is passed
@@ -382,6 +449,7 @@ const buildEnv = {
 
 const deploymentMeta = {
   ...FROZEN_WORKER_METADATA,
+  ...(ISOLATED_CLINIC_PREVIEW ? { rcapPreviewPurpose: "mississippi_clinic" } : {}),
   rcapApplicationSha: APPLICATION_SHA,
   rcapAcceptanceProjectRef: PROJECT_REF,
   rcapStripeConfigured: String(STRIPE_CONFIGURED),
@@ -461,7 +529,9 @@ let deploymentId = null;
 if (deploymentId && verdicts.get("deployed_to_preview_not_production")?.passed && verdicts.get("deployment_carries_the_final_application_sha")?.passed) {
   const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
   const currentId = current.json?.id ?? current.json?.uid ?? null;
+  if (ISOLATED_CLINIC_PREVIEW && current.status !== 404 && (current.status !== 200 || currentId !== deploymentId)) throw new Error("DEPLOY_CLINIC_ALIAS_CONFLICT");
   if (current.status !== 200 || currentId !== deploymentId) {
+    if (ISOLATED_CLINIC_PREVIEW) fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({...evidence, status:"ALIAS_ASSIGNMENT_PENDING"}, null, 2)}\n`);
     const assigned = await vercelApi(`/v2/deployments/${encodeURIComponent(deploymentId)}/aliases`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -505,7 +575,7 @@ console.log(`  exact acceptance return origin: ${previewUrl}`);
 // So this is derived rather than assumed. The previous host is queried on its
 // own and asked which application SHA it carries; the new deployment is asked
 // for any alias that would let a stable URL survive the move.
-{
+if (!ISOLATED_CLINIC_PREVIEW) {
   const previousHost = (process.env.HOSTED_PREVIOUS_WEBHOOK_HOST ?? "").trim().replace(/^https:\/\//, "");
   const newHost = previewUrl.replace(/^https:\/\//, "");
   const stableAliases = (evidence.deploymentAliases ?? []).filter((a) => typeof a === "string" && a.length > 0);
@@ -582,6 +652,14 @@ console.log(`  exact acceptance return origin: ${previewUrl}`);
   );
   evidence.productionUntouched = { aliasCount: aliasesAfter.length, productionVariableCount: envAfter.length };
   evidence.productionAfter = { aliases: aliasesAfter, environmentShape: envAfter };
+}
+if (ISOLATED_CLINIC_PREVIEW) {
+  evidence.ordinaryPreviewAfter = await ordinaryPreviewSnapshot();
+  record("ordinary_preview_unchanged", JSON.stringify(evidence.ordinaryPreviewBefore) === JSON.stringify(evidence.ordinaryPreviewAfter), "ordinary deployment, immutable hostname and application-SHA alias compared before/after");
+  record("clinic_scope_and_purpose_exact", evidence.deployment.metadata.rcapStagingScopeSha256 === sha256(Object.values(HOSTED_MS_CLINIC_PARTICIPANTS).join(","))
+    && evidence.deployment.metadata.rcapRouteState === "staging_scoped" && evidence.deployment.metadata.rcapClinicDemoMode === "mississippi_preview", "existing A/B identities only; exact scope hash and Clinic metadata");
+  evidence.clinicExecutionPerformed = false;
+  evidence.stripeRetargetPerformed = false;
 }
 
 // --- 4. Probe the deployed instance -----------------------------------------

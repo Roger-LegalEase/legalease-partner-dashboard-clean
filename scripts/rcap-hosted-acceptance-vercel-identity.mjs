@@ -5,14 +5,26 @@ export const HOSTED_VERCEL_TEAM_ID = "team_4qLmZK9WI6xIy5vjYC0IF3ae";
 export const HOSTED_VERCEL_PROJECT_ID = "prj_cdgwGzFqIHgEUlzEburSLaZETdQV";
 export const HOSTED_VERCEL_PROJECT_NAME = "legalease-partner-dashboard-clean";
 
-export function expectedHostedReturnOrigin(applicationSha) {
+export const HOSTED_MS_CLINIC_PARTICIPANTS = Object.freeze({
+  "mvl-demo-participant-a@rcap-acceptance.test": "e7c1d76e-dcf2-4d41-b585-ba164806f391",
+  "mvl-demo-participant-b@rcap-acceptance.test": "255998e1-eb69-4239-b151-0f8b8935a539"
+});
+export const HOSTED_ORDINARY_PREVIEW = Object.freeze({
+  id: "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
+  immutableHostname: "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
+  applicationSha: "a0d0b933f7241a209379775754540fc22775f174"
+});
+
+export function expectedHostedReturnOrigin(applicationSha, previewPurpose = "") {
   if (!/^[0-9a-f]{40}$/.test(applicationSha ?? "")) {
     throw new Error("one exact lowercase 40-character application SHA is required for the hosted return origin");
   }
   // A SHA-scoped Preview alias is known before `next build`, so Checkout
   // return URLs can be baked into one exact deployment without naming
   // Production or a mutable shared alias.
-  return `https://legalease-rcap-${applicationSha.slice(0, 12)}-${HOSTED_VERCEL_TEAM_SLUG}.vercel.app`;
+  if (!["", "none", "mississippi_clinic"].includes(previewPurpose)) throw new Error("unsupported hosted return-origin purpose");
+  const purpose = previewPurpose === "mississippi_clinic" ? "clinic-" : "";
+  return `https://legalease-rcap-${purpose}${applicationSha.slice(0, 12)}-${HOSTED_VERCEL_TEAM_SLUG}.vercel.app`;
 }
 
 const TEAM_ID = /^team_[A-Za-z0-9_]+$/;

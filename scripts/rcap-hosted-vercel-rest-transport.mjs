@@ -21,7 +21,7 @@ const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 // and packages/client/src/deploy.ts (deploymentOptions serialized into POST).
 export function createPreviewRequest({identity, applicationSha, runtimeEnv, buildEnv, meta}) {
   if (identity?.teamId !== HOSTED_VERCEL_TEAM_ID || identity?.projectId !== HOSTED_VERCEL_PROJECT_ID || identity?.projectName !== HOSTED_VERCEL_PROJECT_NAME) throw new Error('REST_PINNED_IDENTITY_MISMATCH');
-  if (applicationSha !== FROZEN_APPLICATION_SHA || meta?.rcapApplicationSha !== applicationSha || meta?.rcapAcceptanceProjectRef !== ACCEPTANCE_PROJECT || meta?.rcapReturnOrigin !== expectedHostedReturnOrigin(applicationSha)) throw new Error('REST_FROZEN_METADATA_MISMATCH');
+  if (applicationSha !== FROZEN_APPLICATION_SHA || meta?.rcapApplicationSha !== applicationSha || meta?.rcapAcceptanceProjectRef !== ACCEPTANCE_PROJECT || meta?.rcapReturnOrigin !== expectedHostedReturnOrigin(applicationSha, meta?.rcapPreviewPurpose)) throw new Error('REST_FROZEN_METADATA_MISMATCH');
   if (Object.entries(FROZEN_WORKER_METADATA).some(([key,value]) => meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
   for (const name of ['rcapStripeConfigured','rcapRouteState','rcapClinicDemoMode','rcapStagingScopeSha256']) if (typeof meta[name] !== 'string') throw new Error('REST_METADATA_MISSING');
   for (const env of [runtimeEnv, buildEnv]) {

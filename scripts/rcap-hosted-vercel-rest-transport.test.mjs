@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {CANDIDATE_PATH, verifyReleaseCandidateBinding} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import {assertPreviewResponse, createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
-import {hostedVercelScopedUrl, resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
+import {hostedVercelScopedUrl, resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin, HOSTED_MS_CLINIC_PARTICIPANTS, HOSTED_ORDINARY_PREVIEW} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
 function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
@@ -269,11 +269,14 @@ test('state fallback, ambiguous creation and timeouts keep distinct evidence',as
 
 // Execute the actual deploy/resolver program and REST transport with provider
 // responses at the fetch boundary. No deployment, Auth or queue call is real.
-async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=200, aliasReadbackAbsent=false, afterEnvChanged=false, reused=false, remotePatch={}, receiptFailure=false}={}) {
+async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=200, aliasReadbackAbsent=false, afterEnvChanged=false, reused=false, remotePatch={}, receiptFailure=false, clinic=false, aliasConflict=false, searchStatus=200, secondPage=false, badCursor=false, ordinaryMoved=false, scopeOverride, identityMismatch=false, legacyClinic=false}={}) {
   const calls=[], writes=new Map(); let deployment=null, aliasBound=reused, envReads=0;
   const owner='b6dc86a3-12bb-490d-b130-48d95d426a1e';
-  const origin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA);
+  const origin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA,clinic?'mississippi_clinic':'');
   const meta={...fixture('staging_scoped').meta,rcapCatalogProduct:'prod_synthetic',rcapStagingScopeSha256:crypto.createHash('sha256').update(owner).digest('hex')};
+  if(clinic)Object.assign(meta,{rcapReturnOrigin:origin,rcapPreviewPurpose:'mississippi_clinic',rcapClinicDemoMode:'mississippi_preview',rcapStripeConfigured:'false',rcapCatalogProduct:'inline',rcapStagingScopeSha256:crypto.createHash('sha256').update(Object.values(HOSTED_MS_CLINIC_PARTICIPANTS).join(',')).digest('hex')});
+  const ordinaryOrigin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA);
+  const ordinary={...response({meta:{...fixture().meta,rcapReturnOrigin:ordinaryOrigin}}),id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,alias:[new URL(ordinaryOrigin).host]};
   const remote=()=>({...response({meta}),...remotePatch});
   if(reused) deployment=remote();
   const fetchImpl=async(input,init={})=>{
@@ -284,8 +287,14 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
     }
     if(url.pathname.startsWith('/v9/projects/'))return reply({...identity,id:identity.projectId,name:identity.projectName,accountId:identity.teamId,...(aliasReadbackAbsent?{}:{alias:[{target:'PRODUCTION',domain:'production.example.test'}]})});
     if(url.pathname.endsWith('/api-keys')) return reply([{name:'anon',api_key:'synthetic-anon'},{name:'service_role',api_key:'synthetic-service'}]);
-    if(url.pathname.endsWith('/database/query')) return reply(missingOwner?[]:[{id:owner}]);
-    if(url.pathname==='/v6/deployments') return reply({deployments:deployment?[{...deployment,uid:deployment.id}]:[]});
+    if(url.pathname.endsWith('/database/query')) {
+      const email=Object.keys(HOSTED_MS_CLINIC_PARTICIPANTS).find(e=>String(init.body).includes(e));
+      return reply(missingOwner?[]:[{id:clinic&&!identityMismatch?HOSTED_MS_CLINIC_PARTICIPANTS[email]:owner}]);
+    }
+    if(url.pathname==='/v6/deployments') {
+      const first=secondPage&&!url.searchParams.has('until');
+      return reply({deployments:!first&&deployment?[{...deployment,uid:deployment.id}]:[],pagination:{next:first||badCursor?100:null}},searchStatus);
+    }
     if(url.pathname==='/v13/deployments'&&method==='POST') {
       const body=JSON.parse(init.body);deployment={...response({meta:body.meta}),...remotePatch};return reply(deployment);
     }
@@ -294,6 +303,8 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
       return reply({aliases:[]});
     }
     if(url.pathname.startsWith('/v13/deployments/')) {
+      if(clinic&&[HOSTED_ORDINARY_PREVIEW.id,HOSTED_ORDINARY_PREVIEW.immutableHostname,new URL(ordinaryOrigin).host].some(v=>url.pathname.endsWith(v)))return reply({...ordinary,...(ordinaryMoved&&deployment?{id:'dpl_Moved'}:{})});
+      if(clinic&&aliasConflict&&url.pathname.endsWith(new URL(origin).host))return reply(ordinary);
       if(url.pathname.endsWith(new URL(origin).host)&&!aliasBound)return reply({},404);
       return deployment?reply(deployment):reply({},404);
     }
@@ -302,10 +313,19 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
     throw new Error(`unexpected provider call ${method} ${url.pathname}`);
   };
   const env={VERCEL_TOKEN:'synthetic-token',SUPABASE_ACCESS_TOKEN:'synthetic-access',ACCEPTANCE_SUPABASE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',HOSTED_APPLICATION_SHA:FROZEN_APPLICATION_SHA,HOSTED_ROUTE_STATE:'staging_scoped',HOSTED_EXISTING_PARTICIPANT_ONLY:'true',HOSTED_REQUIRE_STAGING_SCOPED:'true',HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic',HOSTED_STRIPE_CATALOG_PRODUCT_ID:'prod_synthetic'};
+  if(clinic) {
+    delete env.HOSTED_STRIPE_TEST_SECRET;delete env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET;delete env.HOSTED_STRIPE_CATALOG_PRODUCT_ID;
+    env.HOSTED_ISOLATED_CLINIC_PREVIEW='true';env.HOSTED_CLINIC_DEMO_MODE='mississippi_preview';env.HOSTED_CLINIC_DEMO_PASSWORD='synthetic-clinic-test-only-password';
+    if(scopeOverride!==undefined)env.HOSTED_STAGING_SCOPE=scopeOverride;
+  }
+  if(legacyClinic) {
+    env.HOSTED_CLINIC_DEMO_MODE='mississippi_preview';env.HOSTED_CLINIC_DEMO_PASSWORD='synthetic-clinic-test-only-password';
+    env.HOSTED_LEGAL_AID_RESEND_API_KEY='re_synthetic';env.HOSTED_LEGAL_AID_EMAIL_FROM='sender@example.test';env.HOSTED_LEGAL_AID_TEST_MAILBOX='mailbox@example.test';
+  }
   if(name==='rcap-hosted-resolve-preview.mjs')env.HOSTED_PREVIEW_DEPLOYMENT_ID='dpl_Synthetic123';
   const program=fs.readFileSync(new URL(`./${name}`,import.meta.url),'utf8').replace(/^#![^\n]*\n/,'').replace(/^import[\s\S]*?;\n/gm,'').replaceAll('import.meta.url',JSON.stringify(new URL(`./${name}`,import.meta.url).href));
   let exitCode=0,error=null;
-  const context={crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
+  const context={crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,HOSTED_MS_CLINIC_PARTICIPANTS,HOSTED_ORDINARY_PREVIEW,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
   try {await vm.runInNewContext(`(async()=>{${program}\n})()`,context);} catch(e){exitCode=e.exitCode??1;error=e.message;}
   return {exitCode,error,calls,writes,meta};
 }
@@ -354,4 +374,61 @@ test('actual resolver accepts exact READY Preview and rejects wrong worker, sour
     assert.equal(r.writes.get('preview-resolution.json')?.outcome,Object.keys(remotePatch).length?'refused_no_exact_preview':'reused_exact_ready_preview');
     assert.equal(r.calls.some(c=>c.method!=='GET'&&new URL(c.url).hostname==='api.vercel.com'),false);
   }
+});
+
+
+test('actual isolated Clinic loop creates once or reuses a paginated exact deployment, preserving ordinary and Production',async()=>{
+  for(const reused of [false,true]) {
+    const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{clinic:true,reused,secondPage:true});
+    assert.equal(r.exitCode,0,r.error);
+    const e=r.writes.get('deploy.json');assert.equal(e.passed,true);
+    const creation=r.calls.find(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments');
+    if(creation) {
+      const body=JSON.parse(creation.body);
+      assert.equal(body.env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE,Object.values(HOSTED_MS_CLINIC_PARTICIPANTS).join(','));
+      assert.equal(body.env.NEXT_PUBLIC_EXPUNGEMENT_AI_URL,e.deployment.metadata.rcapReturnOrigin);
+      assert.equal(body.build.env.NEXT_PUBLIC_EXPUNGEMENT_AI_URL,e.deployment.metadata.rcapReturnOrigin);
+      assert.equal(Object.hasOwn(body,'target'),false);
+    }
+    assert.deepEqual(e.ordinaryPreviewBefore,e.ordinaryPreviewAfter);
+    assert.deepEqual(e.productionBefore,e.productionAfter);
+    assert.equal(e.clinicScope.sha256,'bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336');
+    assert.equal(e.deployment.metadata.rcapReturnOrigin,expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA,'mississippi_clinic'));
+    assert.equal(e.clinicExecutionPerformed,false);assert.equal(e.stripeRetargetPerformed,false);
+    assert.equal(r.calls.filter(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments').length,reused?0:1);
+    assert.equal(r.calls.some(c=>c.url.includes('/auth/v1/admin')),false);
+    assert(r.calls.filter(c=>c.url.includes('/database/query')).every(c=>JSON.parse(c.body).query.startsWith('select id from auth.users')));
+    for(const call of r.calls.filter(c=>c.method==='POST'&&c.url.includes('/aliases')))assert.equal(JSON.parse(call.body).alias,new URL(expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA,'mississippi_clinic')).host);
+    const before=r.writes.get('clinic-deploy-before.json');assert.equal(before.clinicPreviewSearch.complete,true);assert.equal(before.ordinaryPreviewBefore.deploymentId,HOSTED_ORDINARY_PREVIEW.id);
+  }
+});
+test('actual Clinic loop refuses ambiguous search, alias collision, missing or substituted identities before any deployment or alias write',async()=>{
+  for(const options of [{missingOwner:true},{identityMismatch:true},{scopeOverride:'someone-else'},{searchStatus:403},{badCursor:true},{aliasConflict:true},{reused:true,remotePatch:{readyState:'BUILDING'}},{reused:true,remotePatch:{target:'production'}}]) {
+    const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{clinic:true,...options});
+    assert.equal(r.exitCode,1,JSON.stringify(options));
+    assert.equal(r.calls.some(c=>c.method==='POST'&&(new URL(c.url).pathname==='/v13/deployments'||c.url.includes('/aliases')||c.url.includes('/auth/v1/admin'))),false);
+  }
+});
+test('actual Clinic loop observes ordinary/Production drift and receipt failure without repeating a creation',async()=>{
+  for(const options of [{ordinaryMoved:true},{afterEnvChanged:true},{receiptFailure:true}]) {
+    const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{clinic:true,...options});
+    assert.equal(r.exitCode,1,JSON.stringify(options));
+    assert.equal(r.calls.filter(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments').length,1);
+  }
+});
+test('REST transport rejects the ordinary alias for Clinic metadata before HTTP',async()=>{
+  const o=fixture();o.meta.rcapClinicDemoMode='mississippi_preview';o.meta.rcapPreviewPurpose='mississippi_clinic';const m=mock(o);
+  await assert.rejects(createRestPreview(o,m),/REST_FROZEN_METADATA_MISMATCH/);assert.equal(m.calls.length,0);
+});
+
+
+test('legacy Legal Aid deployment retains its existing origin and provider environment',async()=>{
+  const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{legacyClinic:true});
+  assert.equal(r.exitCode,0,r.error);
+  const creation=r.calls.find(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments');
+  const body=JSON.parse(creation.body);
+  assert.equal(body.meta.rcapReturnOrigin,expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA));
+  assert.equal(body.env.ENABLE_PARTNER_EMAIL_DELIVERY,'true');
+  assert.equal(body.env.RESEND_API_KEY,'re_synthetic');
+  assert.equal(Object.hasOwn(body.meta,'rcapPreviewPurpose'),false);
 });

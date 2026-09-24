@@ -61,7 +61,9 @@ if (PROJECT_REF !== EXPECTED_PROJECT_REF) {
   process.exit(1);
 }
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
-const EXPECTED_RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA);
+const ISOLATED_CLINIC_PREVIEW = process.env.HOSTED_ISOLATED_CLINIC_PREVIEW === "true";
+if (ISOLATED_CLINIC_PREVIEW && CLINIC_DEMO_MODE !== "mississippi_preview") throw new Error("PREVIEW_CLINIC_PURPOSE_MISMATCH");
+const EXPECTED_RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA, ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : "");
 const EXPECTED_RETURN_HOST = new URL(EXPECTED_RETURN_ORIGIN).host;
 const EXPECTED_CLINIC_SCOPE_SHA256 = CLINIC_DEMO_MODE === "mississippi_preview"
   ? await resolveClinicScopeSha256()
@@ -164,6 +166,7 @@ async function findExistingExactPreview() {
       && meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
       && (meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT
       && meta.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
+      && (!ISOLATED_CLINIC_PREVIEW || meta.rcapPreviewPurpose === "mississippi_clinic")
       && meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
       && (CLINIC_DEMO_MODE !== "mississippi_preview"
         || (EXPECTED_CLINIC_SCOPE_SHA256 && meta.rcapStagingScopeSha256 === EXPECTED_CLINIC_SCOPE_SHA256))
@@ -266,7 +269,7 @@ deployedReturnOrigin === EXPECTED_RETURN_ORIGIN
   ? ok("deployment_carries_the_deterministic_return_origin", deployedReturnOrigin)
   : bad("deployment_carries_the_deterministic_return_origin", `deployment records ${deployedReturnOrigin ?? "(none)"}, expected ${EXPECTED_RETURN_ORIGIN}`);
 
-meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
+meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE && (!ISOLATED_CLINIC_PREVIEW || meta.rcapPreviewPurpose === "mississippi_clinic")
   ? ok("deployment_carries_the_exact_clinic_mode", EXPECTED_CLINIC_DEMO_MODE)
   : bad("deployment_carries_the_exact_clinic_mode", `deployment records ${meta.rcapClinicDemoMode ?? "(none)"}, expected ${EXPECTED_CLINIC_DEMO_MODE}`);
 meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED

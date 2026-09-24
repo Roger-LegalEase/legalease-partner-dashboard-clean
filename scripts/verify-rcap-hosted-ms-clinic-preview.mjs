@@ -4,6 +4,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import crypto from "node:crypto";
 import ts from "typescript";
+import os from "node:os";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+import { parse } from "yaml";
 
 const entry = fs.readFileSync(".github/workflows/rcap-f1-ephemeral-staging.yml", "utf8");
 const hosted = fs.readFileSync(".github/workflows/rcap-hosted-acceptance-staging.yml", "utf8");
@@ -205,5 +209,42 @@ assert.notEqual(earlyRepeat, browser);
 const repeated = fixture();
 await assert.rejects(controllers(earlyRepeat).proveClinicFirstDelivery(repeated.ports, repeated.ready, {}), /repeat cannot cause/);
 check("proof verifier rejects repeat before first completion is observed", true);
+
+// Execute the real normalized phase and anti-skip shell. A deployment-only
+// verdict cannot be mistaken for participant-journey acceptance.
+const workflow = parse(hosted);
+const workflowSteps = workflow.jobs.preflight.steps;
+const contractStep = workflowSteps.find(s => s.id === "contract");
+const antiskipStep = workflowSteps.find(s => s.id === "antiskip");
+const executionDir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-clinic-deploy-contract-"));
+try {
+  const inputs = { phase: "clinic_deploy", application_sha: "a0d0b933f7241a209379775754540fc22775f174",
+    preview_hostname: "", preview_deployment_id: "", promotion_code: "", journey_state: "", contradiction_job_id: "" };
+  const output = path.join(executionDir, "outputs");
+  const shell = contractStep.run.replace(/\$\{\{ inputs\.(\w+) \}\}/g, (_, key) => inputs[key] ?? "");
+  const run = spawnSync("bash", ["-c", shell], { encoding: "utf8", env: { PATH: process.env.PATH, GITHUB_OUTPUT: output }, cwd: executionDir });
+  check("deployment-only phase normalizes successfully", run.status === 0);
+  const outputs = Object.fromEntries(fs.readFileSync(output, "utf8").trim().split("\n").map(line => line.split("=")));
+  check("deployment-only phase enables deployment and scope without a journey", outputs.deploy === "true" && outputs.require_staging_scoped === "true"
+    && ["matrix", "gate", "retarget", "browser", "clinic", "legal_aid", "diagnose"].every(k => outputs[k] === "false"));
+  const steps = Object.fromEntries(workflowSteps.filter(s => s.id).map(s => [s.id, { outputs: {}, outcome: "skipped" }]));
+  steps.contract = { outputs, outcome: "success" };
+  const evaluate = expression => new Function("inputs", "steps", "always", "success", `return (${expression.replace(/^\$\{\{|\}\}$/g, "")});`)(inputs, steps, () => true, () => true);
+  for (const step of workflowSteps.filter(s => s.id)) if (!step.if || evaluate(step.if)) steps[step.id].outcome = "success";
+  check("deployment-only phase schedules verifier, dependencies and isolated deployer", ["gate_deps", "verify_clinic_preview", "deploy_preview"].every(id => steps[id].outcome === "success"));
+  const forbidden = ["auth_identities", "clinic_seed", "clinic_journey", "clinic_audit", "clinic_database_readback", "registry_login", "checkout_browser", "matrix_build", "checkout_gate", "payment_journey", "golden_journey", "stripe_fixtures", "stripe_retarget", "clinic_migrate", "legal_aid_migrate"];
+  check("deployment-only phase skips every participant, worker, payment, Auth and migration operation", forbidden.every(id => steps[id].outcome === "skipped"));
+  const deployStep = workflowSteps.find(s => s.id === "deploy_preview");
+  check("deployment-only phase passes isolated purpose and no Stripe credentials", evaluate(deployStep.env.HOSTED_ISOLATED_CLINIC_PREVIEW) === "true"
+    && evaluate(deployStep.env.HOSTED_CLINIC_DEMO_MODE) === "mississippi_preview"
+    && evaluate(deployStep.env.HOSTED_STRIPE_TEST_SECRET) === "" && evaluate(deployStep.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET) === "");
+  const env = Object.fromEntries(Object.entries(antiskipStep.env).map(([key, value]) => [key, String(evaluate(value) ?? "")]));
+  const anti = patch => spawnSync("bash", ["-c", antiskipStep.run], { encoding: "utf8", env: { PATH: process.env.PATH, ...env, ...patch }, cwd: executionDir });
+  check("actual anti-skip accepts deployment-only success", anti({}).status === 0);
+  for (const key of ["O_DEPLOY", "O_VERIFY_CLINIC_PREVIEW", "O_DEPS"]) check(`deployment-only anti-skip rejects skipped ${key}`, anti({ [key]: "skipped" }).status !== 0);
+  for (const key of ["O_AUTH", "O_CLINIC_JOURNEY", "O_CLINIC_SEED", "O_REGISTRY", "O_STRIPE_FIXTURES", "O_STRIPE_RETARGET", "O_CLINIC_MIGRATE"]) check(`deployment-only anti-skip rejects executed ${key}`, anti({ [key]: "success" }).status !== 0);
+} finally {
+  fs.rmSync(executionDir, { recursive: true });
+}
 
 console.log(`Hosted Mississippi Clinic Preview workflow: PASS — ${checks.length}/${checks.length} contract and behavioral checks.`);

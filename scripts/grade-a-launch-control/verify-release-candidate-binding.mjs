@@ -184,6 +184,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-hosted-vercel-rest-transport.test.mjs',
         'scripts/rcap-hosted-acceptance-preflight.mjs',
         'scripts/rcap-hosted-acceptance-vercel-identity.test.mjs',
+        'scripts/rcap-hosted-acceptance-vercel-identity.mjs',
         'scripts/verify-rcap-packet-contract.mjs',
         // Production release controls: the same exact-identity pins, moved to
         // the successor tuple under Roger's 2026-09-16 production authorization.
