@@ -4346,13 +4346,13 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "Published successor from a7ca0201fa8e209216d9c4bd051294b0d5416b90 awaits its exact read-only image acceptance. Roger performs its manual push/dispatch; Captain has prepared the independently verified publication receipt and exact command.",
+      "Receipt commit ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d is pushed to captain-release and read back. GitHub refused the requested read-only image-acceptance dispatch with HTTP 403 Resource not accessible by integration. Roger must dispatch the existing workflow from an account with dispatch permission and provide its run ID; publication must not be repeated.",
       "Exact acceptance Preview, authenticated REST reader, existing#345 Storage/recovery and remote owner200/hash,stranger403,anonymous401 remain pending.",
       "Final current tools binding and ordinary50-dollar blank-promotion hosted_full dispatch remain unready until those identities and proofs exist."
     ],
     "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
     "authorizationReceived": true,
-    "executionBoundary": "Consume successful publication36004158153 without republishing. Current record binds its native source and immutable digest with runtimeAccepted=false. Next: Roger pushes the receipt commit and dispatches read-only image acceptance from that commit."
+    "executionBoundary": "The requested script ran once: push succeeded and was verified, dispatch was refused, and no matching acceptance run appears in readback. Await the read-only image-acceptance run for the already-pushed receipt commit. No authentication repair or state-changing retry was performed."
   },
   "workerPublication": {
     "runId": 36004158153,
@@ -4419,7 +4419,96 @@
       "subjectSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
       "subjectDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
       "runtimeAccepted": false,
-      "scope": "Read-only image acceptance with no Supabase configuration. No publication, deployment, queue claim, Preview, hosted journey or Production operation."
+      "scope": "Read-only image acceptance with no Supabase configuration. No publication, deployment, queue claim, Preview, hosted journey or Production operation.",
+      "pushCompleted": true,
+      "pushedReceiptCommit": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+      "state": "PUSHED_DISPATCH_REFUSED_BY_GITHUB",
+      "executionAttempt": {
+        "path": "hosted-acceptance-evidence/worker/publication-36004158153/image-acceptance-dispatch-attempt.json",
+        "sha256": "297cdcbcb026b995fe17a127dff25a1c8a578717dd5477bcbdd8b724094a45ee",
+        "bytes": 4215,
+        "report": {
+          "schemaVersion": "rcap-image-acceptance-dispatch-attempt/v1",
+          "recordedAt": "2026-09-24T13:29:13.601Z",
+          "userInstruction": "bash /workspaces/legalease-partner-dashboard-clean/.worktrees/packet-database-repair-345/tmp/packet-reviewed-correction-ab4dab6cd-NEXT.sh",
+          "authorizationInterpretation": "Roger explicitly requested execution of this prepared script in the latest message. That authorizes this one script invocation; it does not change the standing manual ownership of later pushes or dispatches.",
+          "script": "tmp/packet-reviewed-correction-ab4dab6cd-NEXT.sh",
+          "scriptInvocations": 1,
+          "exitCode": 1,
+          "observedOutput": "To https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean\n   a7ca0201f..ab4dab6cd  ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d -> captain-release\ncould not create workflow dispatch event: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/338164231/dispatches)\n",
+          "push": {
+            "completed": true,
+            "beforeSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+            "afterSha": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+            "readback": {
+              "ref": "refs/heads/captain-release",
+              "node_id": "REF_kwDOSmz9frpyZWZzL2hlYWRzL2NhcHRhaW4tcmVsZWFzZQ",
+              "url": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/git/refs/heads/captain-release",
+              "object": {
+                "sha": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+                "type": "commit",
+                "url": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/git/commits/ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d"
+              }
+            }
+          },
+          "dispatch": {
+            "workflow": "rcap-worker-image-acceptance.yml",
+            "workflowId": 338164231,
+            "ref": "captain-release",
+            "created": false,
+            "httpStatus": 403,
+            "reason": "Resource not accessible by integration",
+            "runId": null,
+            "matchingRunsInReadback": [],
+            "readback": [
+              {
+                "conclusion": "success",
+                "createdAt": "2026-09-24T01:39:27Z",
+                "databaseId": 35943884247,
+                "event": "workflow_dispatch",
+                "headSha": "a36a60c430be54323f5ca76cc1ada34767a85d7f",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35943884247"
+              },
+              {
+                "conclusion": "success",
+                "createdAt": "2026-09-22T18:49:49Z",
+                "databaseId": 35769776831,
+                "event": "workflow_dispatch",
+                "headSha": "0fda351646cd5a11688ea3cca3d8f529969438ea",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831"
+              },
+              {
+                "conclusion": "success",
+                "createdAt": "2026-09-22T16:03:34Z",
+                "databaseId": 35751543666,
+                "event": "workflow_dispatch",
+                "headSha": "f18d7c81821b7971b06b64da0e8464e3f3c78939",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35751543666"
+              },
+              {
+                "conclusion": "failure",
+                "createdAt": "2026-09-22T15:58:10Z",
+                "databaseId": 35750924874,
+                "event": "workflow_dispatch",
+                "headSha": "4c6bd498246ac4d6f4df3fd8499deb44694df924",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35750924874"
+              }
+            ]
+          },
+          "image": {
+            "sourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+            "digest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+            "runtimeAccepted": false
+          },
+          "actionsAfterRefusal": "Read-only remote ref and workflow-run readbacks only. No repeat dispatch, credential change, publication, Preview or recovery operation.",
+          "nextAction": "Roger dispatches rcap-worker-image-acceptance.yml on the already-pushed captain-release receipt commit from an account permitted to dispatch the workflow, then provides the run ID.",
+          "nextCommand": "gh workflow run rcap-worker-image-acceptance.yml --repo Roger-LegalEase/legalease-partner-dashboard-clean --ref captain-release"
+        }
+      }
     }
   }
 }
