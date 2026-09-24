@@ -61,6 +61,30 @@ function loop(db,{writeEvidence=async()=>{},query,calls=[],priorRows=[],rows=[{p
   })};
 }
 
+test('actual migration loop rejects PostgreSQL duplicate-object execution without certifying or recording it',async t=>{
+  const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());createLedger(db);
+  const before=readPacketCatalog(db);
+  assert.equal(migrationCertification({expected:contract.current,actual:before}).certified,false);
+  const duplicateSql='create table public.packet_render_jobs (id uuid);';
+  const duplicateEntry={phase:56,path:'local-duplicate-object-fixture.sql',authorizationId:'local_duplicate_rejection_test'};
+  const rows=[{phase:duplicateEntry.phase,onDisk:digest(duplicateSql)}],calls=[],evidence=[];
+  const result=await runAcceptanceMigrationSequence({
+    sequence:[duplicateEntry],rows,priorRows:[],preserveExistingState:false,
+    query:databaseQuery(db,calls),
+    readSql:relative=>{assert.equal(relative,duplicateEntry.path);return duplicateSql;},
+    certifyCurrent:async()=>migrationCertification({expected:contract.current,actual:readPacketCatalog(db)}),
+    persistEvidence:async value=>{evidence.push(value);}
+  });
+  assert.equal(result.passed,false);assert.equal(result.satisfied,0);assert.equal(result.applied,0);
+  assert.match(result.failure,/Migration execution failed:.*relation "packet_render_jobs" already exists/s);
+  assert.equal(rows[0].disposition,'execution_failed_state_requires_readback');
+  for(const flag of ['satisfied','applied','databaseApplied','receiptRecorded','evidenceRecorded'])assert.equal(rows[0][flag],false,flag);
+  assert.deepEqual(calls,[duplicateSql],'duplicate SQL failure must stop before any receipt statement');
+  assert.deepEqual(evidence,[]);
+  assert.equal(db.scalar('select count(*) from rcap_acceptance_migration_ledger'),'0');
+  assert.deepEqual(readPacketCatalog(db),before,'failed duplicate DDL must leave current state unchanged');
+});
+
 test('actual migration loop distinguishes a committed database correction from a failed execution receipt',async t=>{
   const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());
   createLedger(db);
