@@ -401,7 +401,7 @@
   },
   "correction": {
     "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-    "status": "ACCEPTED_WORKER_BOUND_PENDING_ONE_SUCCESSOR_PREVIEW",
+    "status": "READY_FOR_ONE_SUCCESSOR_PREVIEW",
     "sourceHistoryReused": [
       "62425c837b5edf3d7e22b110910885abdaec1692",
       "a01f4fdae0447fdc81eb4a26de7ab62c777d847f",
@@ -443,7 +443,8 @@
         "passed": 60,
         "failed": 0,
         "skipped": 0,
-        "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout."
+        "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout.",
+        "verifiedAfterWorkerBinding": true
       },
       "checkoutGuards": {
         "command": "node scripts/test-expungement-checkout-guards.mjs",
@@ -514,7 +515,32 @@
         "commerciallyEligibleBefore": 6,
         "commerciallyEligibleAfter": 6,
         "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
-      }
+      },
+      "checkoutGate": {
+        "checks": 139,
+        "passed": 139,
+        "bindingStateCasesPassed": 48,
+        "bindingStateCasesTotal": 48
+      },
+      "githubAcceptanceGate": {
+        "checks": 196,
+        "passed": 196
+      },
+      "releaseBindings": {
+        "current": true,
+        "status": "CURRENT",
+        "identityMutationsRefused": 8,
+        "identityMutationsTotal": 8,
+        "boundaryMutationsRefused": 38,
+        "boundaryMutationsTotal": 38,
+        "exactHostedToolsBindingTestPassed": true
+      },
+      "vercelRestTransport": {
+        "passed": 25,
+        "failed": 0
+      },
+      "applicationBytesEquivalentToCandidate": true,
+      "productionPinsChanged": false
     },
     "manualHostedFullReady": false,
     "releaseBoundary": "Application and accepted worker source are the exact authorized candidate. Publication and image acceptance are independent native runs. One successor Preview remains pending; no hosted journey or Production authority is asserted.",

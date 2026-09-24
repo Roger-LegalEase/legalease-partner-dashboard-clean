@@ -26,7 +26,8 @@
       "passed": 60,
       "failed": 0,
       "skipped": 0,
-      "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout."
+      "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout.",
+      "verifiedAfterWorkerBinding": true
     },
     "checkoutGuards": {
       "command": "node scripts/test-expungement-checkout-guards.mjs",
@@ -97,6 +98,31 @@
       "commerciallyEligibleBefore": 6,
       "commerciallyEligibleAfter": 6,
       "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
-    }
+    },
+    "checkoutGate": {
+      "checks": 139,
+      "passed": 139,
+      "bindingStateCasesPassed": 48,
+      "bindingStateCasesTotal": 48
+    },
+    "githubAcceptanceGate": {
+      "checks": 196,
+      "passed": 196
+    },
+    "releaseBindings": {
+      "current": true,
+      "status": "CURRENT",
+      "identityMutationsRefused": 8,
+      "identityMutationsTotal": 8,
+      "boundaryMutationsRefused": 38,
+      "boundaryMutationsTotal": 38,
+      "exactHostedToolsBindingTestPassed": true
+    },
+    "vercelRestTransport": {
+      "passed": 25,
+      "failed": 0
+    },
+    "applicationBytesEquivalentToCandidate": true,
+    "productionPinsChanged": false
   }
 }
