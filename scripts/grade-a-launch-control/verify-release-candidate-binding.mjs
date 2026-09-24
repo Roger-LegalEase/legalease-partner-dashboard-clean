@@ -142,6 +142,9 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-hosted-colorado-clinic-browser.mjs',
         'scripts/verify-rcap-hosted-browser.mjs',
         'scripts/rcap-hosted-acceptance-payment.mjs',
+        // #345 bounded target retry and explicit promotion-input controls.
+        'scripts/verify-rcap-target-worker-journey.mjs',
+        'scripts/rcap-hosted-target-retry.test.mjs',
         // Hosted #333 correction controls: source-pruning semantics and the
         // downstream runner's environment/readiness account. Exact files only.
         'scripts/rcap-hosted-acceptance-matrix.mjs',

@@ -2613,7 +2613,7 @@ async function readClaimOrder(jobId, rendererKind) {
  * is sitting claimed. Sleeping to a canonical instant is the difference between
  * waiting for the queue to become claimable and hammering it on a guess.
  */
-async function canonicalWakeInstant(jobId, rendererKind) {
+async function canonicalWakeInstant(jobId, rendererKind, retryingTarget = false) {
   const res = await sql(`
     select
       (select min(next_attempt_at) from public.packet_render_jobs
@@ -2623,8 +2623,15 @@ async function canonicalWakeInstant(jobId, rendererKind) {
       (select next_attempt_at from public.packet_render_jobs where id = '${sqlText(jobId)}') as target_next_attempt_at,
       now() as server_now
   `);
-  const row = Array.isArray(res.json) ? res.json[0] ?? null : null;
+  const row = res.ok && Array.isArray(res.json) && res.json.length === 1 ? res.json[0] : null;
   if (!row) return { source: "unreadable", at: null };
+  // A retry belongs to this exact target. Another queued job's earlier clock
+  // must not spend a worker cycle before the target's canonical backoff ends.
+  if (retryingTarget) return {
+    source: "the target's own retry backoff",
+    at: row.target_next_attempt_at,
+    serverNow: row.server_now
+  };
   const candidates = [
     ["the target's own retry backoff", row.target_next_attempt_at],
     ["the target's claim lease expiry", row.target_claim_expires_at],
@@ -2783,20 +2790,20 @@ let finalCycleResult = null;
   // bound is DERIVED from what actually stands in front of the target, so a
   // deeper backlog gets more cycles and an empty one gets no wasted work.
   //
-  //   cycleBound = claimable predecessors + 1 target cycle + churn allowance
+  //   ceiling = claimable predecessors + remaining target attempts + churn
   //
   // The allowance covers work that becomes claimable mid-journey (a retryable
   // job whose backoff elapses while the run is in progress). It is small,
-  // explicit and a CEILING: the bound is recomputed after every cycle from the
-  // backlog that remains, and may tighten, but a bound that follows a growing
-  // queue upward without limit is not a bound.
+  // explicit and a CEILING. Backlog convergence may tighten the next-cycle
+  // bound; a retryable target retains its own remaining attempts underneath
+  // the original ceiling. Neither queue growth nor retries lift that ceiling.
   const QUEUE_CHURN_ALLOWANCE = 2;
   const WAIT_BUDGET_MS = 8 * 60 * 1000;
   const MAX_SINGLE_WAIT_MS = 90_000;
   const MIN_SINGLE_WAIT_MS = 3_000;
 
   /**
-   * Drive the pinned worker until it claims THIS run's target job, or until a
+   * Drive the pinned worker until it finishes THIS run's target job, or until a
    * derived bound or an explicit wait budget says it never will.
    *
    * Every cycle is classified before it is permitted to mean anything. A
@@ -2845,12 +2852,24 @@ let finalCycleResult = null;
     const initialClaimablePredecessors = initialOrder.claimablePredecessors;
     journey.initialClaimablePredecessors = initialClaimablePredecessors;
     journey.targetClaimRank = initialOrder.targetClaimRank;
-    const boundCeiling = initialClaimablePredecessors + 1 + QUEUE_CHURN_ALLOWANCE;
+    const maxAttempts = initialTargetRow?.max_attempts;
+    const initialAttempts = initialTargetRow?.attempt_count;
+    if (!Number.isInteger(maxAttempts) || maxAttempts < 1
+      || !Number.isInteger(initialAttempts) || initialAttempts < 0 || initialAttempts >= maxAttempts) {
+      journey.failure = {
+        code: "acceptance_target_retry_state_invalid",
+        detail: `target attempt_count=${JSON.stringify(initialAttempts)}, max_attempts=${JSON.stringify(maxAttempts)}; expected integer 0 <= attempt_count < max_attempts`
+      };
+      return journey;
+    }
+    const targetAttemptBudget = maxAttempts - initialAttempts;
+    journey.targetAttemptBudget = targetAttemptBudget;
+    const boundCeiling = initialClaimablePredecessors + targetAttemptBudget + QUEUE_CHURN_ALLOWANCE;
     journey.cycleBoundCeiling = boundCeiling;
     let cycleBound = boundCeiling;
     journey.cycleBoundHistory = [];
 
-    console.log(`  target ${jobId} is rank ${initialOrder.targetClaimRank ?? "(not claimable)"} of ${initialOrder.currentlyClaimable} currently-claimable job(s) (${initialOrder.totalQueued ?? "?"} queued in total); ${initialClaimablePredecessors} claimable predecessor(s); cycle bound ${cycleBound} = ${initialClaimablePredecessors} + 1 + ${QUEUE_CHURN_ALLOWANCE}`);
+    console.log(`  target ${jobId} is rank ${initialOrder.targetClaimRank ?? "(not claimable)"} of ${initialOrder.currentlyClaimable} currently-claimable job(s) (${initialOrder.totalQueued ?? "?"} queued in total); ${initialClaimablePredecessors} claimable predecessor(s); cycle ceiling ${cycleBound} = ${initialClaimablePredecessors} + ${targetAttemptBudget} remaining target attempts + ${QUEUE_CHURN_ALLOWANCE}`);
 
     let cycle = 0;
     while (cycle < cycleBound) {
@@ -2869,24 +2888,54 @@ let finalCycleResult = null;
         // Recomputed from what remains, never above the declared ceiling.
         cycleBound = Math.min(boundCeiling, Math.max(cycle + 1, cycle + order.claimablePredecessors + 1));
       }
+      const target = journey.targetRowFinal;
+      const retryingTarget = journey.targetCycles > 0 && target?.failure_disposition === "retryable";
+      if (retryingTarget) {
+        if (target.id !== jobId || !["failed", "retryable", "queued"].includes(target.status)
+          || target.max_attempts !== maxAttempts || !Number.isInteger(target.attempt_count)
+          || target.attempt_count <= initialAttempts || target.attempt_count >= maxAttempts
+          || typeof target.next_attempt_at !== "string" || !Number.isFinite(Date.parse(target.next_attempt_at))) {
+          journey.failure = {
+            code: "acceptance_target_retry_state_invalid",
+            detail: `target=${target.id}, expected=${jobId}; status=${target.status}, expected=failed/retryable/queued; attempt_count=${target.attempt_count}, expected=${initialAttempts + 1}..${maxAttempts - 1}; max_attempts=${target.max_attempts}, expected=${maxAttempts}; next_attempt_at=${JSON.stringify(target.next_attempt_at)}, expected=canonical timestamp`
+          };
+          break;
+        }
+        cycleBound = Math.min(boundCeiling, cycle + maxAttempts - target.attempt_count);
+      }
+      journey.cycleBoundHistory.at(-1).cycleBound = cycleBound;
+      journey.cycleBoundHistory.at(-1).retryingTarget = retryingTarget;
       if (cycle >= cycleBound) break;
 
       // Sleep only to an instant the queue itself is waiting on, and only
       // inside the declared budget. A fixed poll interval would burn the
       // budget on a queue that is not going to change for another minute.
-      const wake = await canonicalWakeInstant(jobId, journey.rendererKind);
-      const requested = wake.at ? Date.parse(wake.at) + 3000 - Date.now() : MIN_SINGLE_WAIT_MS;
-      const waitMs = Math.min(Math.max(requested, MIN_SINGLE_WAIT_MS), MAX_SINGLE_WAIT_MS);
-      if (journey.waitedMs + waitMs > WAIT_BUDGET_MS) {
-        journey.failure = {
-          code: "acceptance_wait_budget_exhausted",
-          detail: `waiting a further ${waitMs}ms for ${wake.source} would exceed the declared ${WAIT_BUDGET_MS}ms wait budget, of which ${journey.waitedMs}ms has been spent across ${cycle} cycle(s)`
-        };
+      const wake = await canonicalWakeInstant(jobId, journey.rendererKind, retryingTarget);
+      if (retryingTarget && (typeof wake.at !== "string" || typeof wake.serverNow !== "string"
+        || !Number.isFinite(Date.parse(wake.at)) || !Number.isFinite(Date.parse(wake.serverNow)))) {
+        journey.failure = { code: "acceptance_target_retry_schedule_unreadable", detail: `next_attempt_at=${JSON.stringify(wake.at)}, server_now=${JSON.stringify(wake.serverNow)}; expected canonical target retry and server timestamps` };
         break;
       }
-      journey.waitedMs += waitMs;
-      console.log(`  waiting ${waitMs}ms for ${wake.source}${wake.at ? ` (${wake.at})` : ""}; ${journey.waitedMs}/${WAIT_BUDGET_MS}ms of the wait budget spent`);
-      await sleep(waitMs);
+      const serverNow = Number.isFinite(Date.parse(wake.serverNow)) ? Date.parse(wake.serverNow) : Date.now();
+      const requested = wake.at ? Date.parse(wake.at) + 3000 - serverNow : MIN_SINGLE_WAIT_MS;
+      let remainingWaitMs = Math.max(requested, MIN_SINGLE_WAIT_MS);
+      // Chunk long waits without running the worker between chunks. Capping a
+      // wait and immediately cycling would spend attempts before requeue is due.
+      while (remainingWaitMs > 0) {
+        const waitMs = Math.min(remainingWaitMs, MAX_SINGLE_WAIT_MS);
+        if (journey.waitedMs + waitMs > WAIT_BUDGET_MS) {
+          journey.failure = {
+            code: "acceptance_wait_budget_exhausted",
+            detail: `waiting a further ${remainingWaitMs}ms for ${wake.source} would exceed the declared ${WAIT_BUDGET_MS}ms wait budget, of which ${journey.waitedMs}ms has been spent across ${cycle} cycle(s)`
+          };
+          break;
+        }
+        journey.waitedMs += waitMs;
+        console.log(`  waiting ${waitMs}ms for ${wake.source}${wake.at ? ` (${wake.at})` : ""}; ${journey.waitedMs}/${WAIT_BUDGET_MS}ms of the wait budget spent`);
+        await sleep(waitMs);
+        remainingWaitMs -= waitMs;
+      }
+      if (journey.failure) break;
     }
 
     if (!journey.failure && journey.targetCycles === 0) {
@@ -3054,6 +3103,7 @@ let finalCycleResult = null;
     targetClaimRank: journey.targetClaimRank ?? null,
     queueChurnAllowance: journey.queueChurnAllowance,
     cycleBoundCeiling: journey.cycleBoundCeiling ?? null,
+    targetAttemptBudget: journey.targetAttemptBudget ?? null,
     cycleBoundHistory: journey.cycleBoundHistory ?? [],
     waitBudgetMs: journey.waitBudgetMs,
     waitedMs: journey.waitedMs,
@@ -3178,7 +3228,7 @@ let finalCycleResult = null;
     "worker_renders_and_stores_the_artifact",
     unmet.length === 0 && contradiction === null,
     unmet.length === 0 && contradiction === null
-      ? `${WORKER_DIGEST_REF} drove THIS RUN'S TARGET job ${job.id} — the id returned by the paid render request, not a row inferred from a worker cycle — to '${job.status}'. ${diagnostics.cycles.length} cycle(s) ran against a bound of ${journey.cycleBoundCeiling} derived from ${journey.initialClaimablePredecessors} claimable predecessor(s) + 1 target cycle + a ${journey.queueChurnAllowance}-cycle churn allowance: ${journey.backlogCycles} spent on other runs' backlog, ${journey.noJobCycles} idle, ${journey.targetCycles} on the target. Its own cycle result reads ${cycleBoundary(finalCycleResult)} and names ${finalCycleResult?.jobId}. ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded.`
+      ? `${WORKER_DIGEST_REF} drove THIS RUN'S TARGET job ${job.id} — the id returned by the paid render request, not a row inferred from a worker cycle — to '${job.status}'. ${diagnostics.cycles.length} cycle(s) ran against a bound of ${journey.cycleBoundCeiling} derived from ${journey.initialClaimablePredecessors} claimable predecessor(s) + ${journey.targetAttemptBudget} remaining target attempts + a ${journey.queueChurnAllowance}-cycle churn allowance: ${journey.backlogCycles} spent on other runs' backlog, ${journey.noJobCycles} idle, ${journey.targetCycles} on the target. Its own cycle result reads ${cycleBoundary(finalCycleResult)} and names ${finalCycleResult?.jobId}. ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded.`
       : `TARGET ${targetJobId ?? "(never minted)"}${journey.failure ? ` — ${journey.failure.code}: ${journey.failure.detail}` : ""}. Target read outcome ${finalJobRead?.readOutcome ?? "never attempted"}${finalJobRead?.readOutcome === "query_error" ? ` (${finalJobRead.readErrorClass}: ${finalJobRead.readErrorMessage}) — this is the diagnostic failing, NOT evidence that no job exists` : ""}; the target is '${job?.status ?? (finalJobRead?.readOutcome === "no_row" ? "(no job row)" : "(unread)")}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s), of which ${journey.targetCycles} provably claimed it, ${journey.backlogCycles} claimed other runs' backlog (${journey.backlogJobsClaimed.join(", ") || "none"}), ${journey.noJobCycles} claimed nothing and ${journey.unprovenCycles} could not be attributed. It entered the journey at claim rank ${journey.targetClaimRank ?? "(not claimable)"} behind ${journey.initialClaimablePredecessors ?? "(unknown)"} claimable predecessor(s). TARGET CYCLE RESULT: ${cycleBoundary(finalCycleResult)}${finalCycleResult ? ` — ${JSON.stringify(finalCycleResult)}` : " (no cycle provably claimed the target, so no cycle result may be quoted as this run's)"}.${contradiction ? ` CONTRADICTION: ${contradiction}.` : ""} Unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
   );
 

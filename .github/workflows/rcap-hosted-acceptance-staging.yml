@@ -321,7 +321,9 @@ jobs:
       # readback_only and applies nothing; it refuses outright on hash drift.
       - name: Apply the authorized sequence to the acceptance project
         id: migrate_readback
-        if: inputs.phase == 'migrate' || inputs.phase == 'full' || inputs.phase == 'payment'
+        # Reusing an exact Preview also reuses its established schema. Migration
+        # authority is not implied by a control-only acceptance retry.
+        if: inputs.phase == 'migrate' || ((inputs.phase == 'full' || inputs.phase == 'payment') && inputs.preview_hostname == '')
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -836,6 +838,7 @@ jobs:
         id: verify_harness
         if: steps.contract.outputs.matrix == 'true'
         run: |
+          node --test scripts/rcap-hosted-target-retry.test.mjs
           node scripts/verify-rcap-target-worker-journey.mjs
           node scripts/verify-rcap-target-worker-journey.mjs --mutations
           node scripts/verify-rcap-target-replay-scope.mjs
@@ -863,7 +866,7 @@ jobs:
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
           # One discount shape per run, entered on Stripe's own page. Empty is
           # the ordinary $50 order, which is the default.
-          HOSTED_STRIPE_PROMOTION_CODE: ${{ inputs.promotion_code || steps.stripe_fixtures.outputs.promotion_code }}
+          HOSTED_STRIPE_PROMOTION_CODE: ${{ inputs.promotion_code }}
           # What that code is restricted to. The journey asserts the line item
           # is on this product, so a pass means the coupon matched the product
           # actually being sold rather than happening to apply to anything.

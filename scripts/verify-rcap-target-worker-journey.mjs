@@ -113,10 +113,12 @@ function failures(harness) {
   // --- 4. the bound is derived, the budget is explicit, failures are typed ---
   fail(!/for \(let cycle = 1; cycle <= 4; cycle \+= 1\)/.test(harness),
     "the worker still runs a hardcoded four cycles rather than a bound derived from the backlog");
-  fail(/boundCeiling = initialClaimablePredecessors \+ 1 \+ QUEUE_CHURN_ALLOWANCE/.test(harness),
-    "the cycle bound is not derived from the measured claimable predecessors plus one target cycle plus a declared churn allowance");
-  fail(/cycleBound = Math\.min\(boundCeiling,/.test(harness),
+  fail(/boundCeiling = initialClaimablePredecessors \+ targetAttemptBudget \+ QUEUE_CHURN_ALLOWANCE/.test(harness),
+    "the cycle ceiling is not derived from measured predecessors, remaining target attempts and declared churn");
+  fail(/cycleBound = Math\.min\(boundCeiling, Math\.max\(cycle \+ 1, cycle \+ order\.claimablePredecessors \+ 1\)\)/.test(harness),
     "the cycle bound is not recomputed against the declared ceiling after each cycle");
+  fail(/cycleBound = Math\.min\(boundCeiling, cycle \+ maxAttempts - target\.attempt_count\)/.test(harness),
+    "target retries do not retain their remaining attempts inside the original ceiling");
   // The predicate must mirror the live claim function, all three conditions in
   // order. Checking them separately, or anywhere in the file, is satisfied by
   // the comment that quotes the function and by a second query that happens to
@@ -127,7 +129,7 @@ function failures(harness) {
   fail(/order by created_at\s*\n\s*limit 200/.test(harness),
     "the claim order is not read in the order the claim function walks it");
   // Waiting is to a canonical instant, inside a declared budget.
-  fail(/function canonicalWakeInstant\(/.test(harness) && /await canonicalWakeInstant\(jobId, journey\.rendererKind\)/.test(harness),
+  fail(/function canonicalWakeInstant\(/.test(harness) && /await canonicalWakeInstant\(jobId, journey\.rendererKind, retryingTarget\)/.test(harness),
     "the journey does not sleep to an instant the queue itself is waiting on");
   fail(/journey\.waitedMs \+ waitMs > WAIT_BUDGET_MS/.test(harness),
     "there is no declared wait budget bounding how long the journey may sleep");
@@ -167,9 +169,11 @@ if (MUTATIONS) {
     ["the delivery case falls back to the last job the journey read", (h) =>
       h.replace("  const jobId = targetJobId;", "  const jobId = finalJob?.id ?? evidence.render?.jobId ?? null;")],
     ["the cycle bound is hardcoded to four again", (h) =>
-      h.replace("boundCeiling = initialClaimablePredecessors + 1 + QUEUE_CHURN_ALLOWANCE", "boundCeiling = 4")],
+      h.replace("boundCeiling = initialClaimablePredecessors + targetAttemptBudget + QUEUE_CHURN_ALLOWANCE", "boundCeiling = 4")],
     ["the bound stops being recomputed against its ceiling", (h) =>
       h.replace("cycleBound = Math.min(boundCeiling,", "cycleBound = Math.max(boundCeiling,")],
+    ["target retries lift the original cycle ceiling", (h) =>
+      h.replace("cycleBound = Math.min(boundCeiling, cycle + maxAttempts", "cycleBound = Math.max(boundCeiling, cycle + maxAttempts")],
     // Anchored on the newline so the mutation lands on the PREDICATE and not on
     // the comment above it that quotes the same SQL. A mutation that edits a
     // comment proves nothing about behaviour.
