@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-packet-database-repair-evidence/v1",
   "recordedAt": "2026-09-24T12:38:47.282Z",
-  "status": "LOCAL_CORRECTION_VERIFIED_SCOPE_APPROVED_ORIGINAL_REVIEW_FILE_UNAVAILABLE",
+  "status": "LOCAL_CORRECTION_VERIFIED_ORIGINAL_BYTES_RECOVERED_UNCHANGED_PASS_GATE_UNSATISFIED",
   "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
   "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
   "branch": "codex/packet-database-repair-345",
@@ -576,12 +576,12 @@
     },
     "originalFourCurrentSourceCounterexamples": {
       "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
-      "exists": false,
+      "exists": true,
       "rewritten": false,
       "recreated": false,
-      "rerun": false,
-      "status": "UNAVAILABLE_AT_USER_SUPPLIED_PATH",
-      "independentSignoffLimitation": "The repository behavioral suites pass; the exact original four-case rerun cannot be asserted until this file is materialized unchanged.",
+      "rerun": true,
+      "status": "EXACT_JOURNAL_BYTES_RECOVERED_UNCHANGED_RUN_FAILED",
+      "independentSignoffLimitation": "The original file is recovered and ran unchanged. It did not pass: three cases fail in obsolete source extraction before exercising the corrected loop; the fourth rejects its old-schema fixture before reaching reader/download. The historical4/4 run asserted that residual defects existed. This cannot be claimed as current behavioral acceptance.",
       "custodyClarification": {
         "source": "Roger follow-up to missing original-file question",
         "recordedAt": "2026-09-24T12:46:00.659Z",
@@ -599,7 +599,328 @@
           "Only after that unchanged gate passes, repeat exact migration-byte and remote pre-apply state checks before using the recorded conditional authorization."
         ],
         "reconstructionPermitted": false
-      }
+      },
+      "sha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+      "bytes": 8000,
+      "fileBytesBase64": "Ly8gSW5kZXBlbmRlbnQgcmV2aWV3IGNvdW50ZXJleGFtcGxlcy4gUGFzc2luZyBtZWFucyB0aGUgbmFtZWQgcmVzaWR1YWwgaXMKLy8gcmVwcm9kdWNlZCBhZ2FpbnN0IGN1cnJlbnQgc291cmNlLCBub3QgdGhhdCByZWxlYXNlIHJlYWRpbmVzcyBpcyBlc3RhYmxpc2hlZC4KaW1wb3J0IGFzc2VydCBmcm9tICdub2RlOmFzc2VydC9zdHJpY3QnOwppbXBvcnQgdGVzdCBmcm9tICdub2RlOnRlc3QnOwppbXBvcnQgZnMgZnJvbSAnbm9kZTpmcyc7CmltcG9ydCBwYXRoIGZyb20gJ25vZGU6cGF0aCc7CmltcG9ydCB2bSBmcm9tICdub2RlOnZtJzsKaW1wb3J0IHsgY3JlYXRlUmVxdWlyZSwgcmVnaXN0ZXIgfSBmcm9tICdub2RlOm1vZHVsZSc7CmltcG9ydCB7IHBhdGhUb0ZpbGVVUkwgfSBmcm9tICdub2RlOnVybCc7CmltcG9ydCB7IHJhbmRvbVVVSUQsIGNyZWF0ZUhhc2ggfSBmcm9tICdub2RlOmNyeXB0byc7CmNvbnN0IHJvb3Q9cHJvY2Vzcy5jd2QoKSwgcmVxdWlyZT1jcmVhdGVSZXF1aXJlKHBhdGguam9pbihyb290LCdwYWNrYWdlLmpzb24nKSk7CmNvbnN0IHRzPXJlcXVpcmUoJ3R5cGVzY3JpcHQnKTsKcmVnaXN0ZXIocGF0aFRvRmlsZVVSTChwYXRoLmpvaW4ocm9vdCwnc2NyaXB0cy9saWIvdHMtZXNtLWxvYWRlci5tanMnKSkpOwpjb25zdCBtb2Q9cmVsPT5pbXBvcnQocGF0aFRvRmlsZVVSTChwYXRoLmpvaW4ocm9vdCxyZWwpKS5ocmVmKTsKY29uc3Qge3BhY2tldFRlc3REYXRhYmFzZSxyZWFkUGFja2V0Q2F0YWxvZ309YXdhaXQgbW9kKCdzY3JpcHRzL3JjYXAtcGFja2V0LWRhdGFiYXNlLXJlZmVyZW5jZS5tanMnKTsKY29uc3Qge1JFUEFJUl9QQVRILENPTlRSQUNUX1BBVEgsY29tcGFyZVBhY2tldENhdGFsb2d9PWF3YWl0IG1vZCgnc2NyaXB0cy9yY2FwLXBhY2tldC1kYXRhYmFzZS1jb250cmFjdC5tanMnKTsKY29uc3Qge21pZ3JhdGlvbkNlcnRpZmljYXRpb24sYWNjZXB0YW5jZUxlZGdlckV4ZWN1dGlvbn09YXdhaXQgbW9kKCdzY3JpcHRzL3JjYXAtbWlncmF0aW9uLWNlcnRpZmljYXRpb24ubWpzJyk7CmNvbnN0IHNvdXJjZT1mcy5yZWFkRmlsZVN5bmMocGF0aC5qb2luKHJvb3QsJ3NjcmlwdHMvcmNhcC1ob3N0ZWQtYWNjZXB0YW5jZS1taWdyYXRlLm1qcycpLCd1dGY4Jyk7CmNvbnN0IGxvb3A9c291cmNlLnNsaWNlKHNvdXJjZS5pbmRleE9mKCcgIGxldCBzYXRpc2ZpZWQgPSAwOycpLHNvdXJjZS5pbmRleE9mKCdcbiAgcmVjb3JkKFxuICAgICJhdXRob3JpemVkX3NlcXVlbmNlX2FwcGxpZWRfaW5fb3JkZXIiJykpOwphc3luYyBmdW5jdGlvbiBydW5DdXJyZW50TG9vcCh7bGVkZ2VyTWF0Y2g9ZmFsc2UsbGVkZ2VyV3JpdGVPaz10cnVlLGFwcGx5T2s9dHJ1ZX09e30pIHsKICBjb25zdCBoYXNoPSdhJy5yZXBlYXQoNjQpLGNhbGxzPVtdOwogIGNvbnN0IGNvbnRleHQ9e3NlcXVlbmNlOlt7cGhhc2U6NTEscGF0aDoncGhhc2UtNTEuc3FsJyxhdXRob3JpemF0aW9uSWQ6J3Jldmlldyd9XSwKICAgIGV2aWRlbmNlOnthdXRob3JpemVkU2VxdWVuY2U6W3twaGFzZTo1MSxvbkRpc2s6aGFzaH1dfSwKICAgIGxlZGdlcjpuZXcgTWFwKGxlZGdlck1hdGNoP1tbNTEse3NoYTI1NjpoYXNoLGFwcGxpZWRfYnk6J2hvc3RlZF9hY2NlcHRhbmNlX3BpcGVsaW5lJ31dXTpbXSksCiAgICBtaWdyYXRpb25DZXJ0aWZpY2F0aW9uLGFjY2VwdGFuY2VMZWRnZXJFeGVjdXRpb24scm9vdERpcjpyb290LHBhdGgsCiAgICBmczp7cmVhZEZpbGVTeW5jKCl7cmV0dXJuICdBUFBMWV9GSVhUVVJFJzt9fSxjb25zb2xlOntsb2coKXt9fSwKICAgIHF1ZXJ5OmFzeW5jIHF1ZXJ5PT57Y2FsbHMucHVzaChxdWVyeSk7cmV0dXJuIHF1ZXJ5PT09J0FQUExZX0ZJWFRVUkUnCiAgICAgID8ge29rOmFwcGx5T2ssc3RhdHVzOmFwcGx5T2s/MjAxOjQwOSxqc29uOmFwcGx5T2s/W106e21lc3NhZ2U6JzQyNzEwOiBkdXBsaWNhdGUgb2JqZWN0J319CiAgICAgIDoge29rOmxlZGdlcldyaXRlT2ssc3RhdHVzOmxlZGdlcldyaXRlT2s/MjAxOjUwMyxqc29uOmxlZGdlcldyaXRlT2s/W106e21lc3NhZ2U6J2xlZGdlciB1bmF2YWlsYWJsZSd9fTt9fTsKICBjb25zdCByZXN1bHQ9YXdhaXQgdm0ucnVuSW5OZXdDb250ZXh0KGAoYXN5bmMoKT0+eyR7bG9vcH1cbnJldHVybiB7c2F0aXNmaWVkLGZhaWx1cmUsZXZpZGVuY2V9O30pKClgLGNvbnRleHQpOwogIHJldHVybiB7Li4ucmVzdWx0LGNhbGxzfTsKfQp0ZXN0KCdDVVJSRU5UIGNvdW50ZXJleGFtcGxlOiB1bnN1Y2Nlc3NmdWwgbGVkZ2VyIHdyaXRlIGlzIGNvdW50ZWQgYXMgc2F0aXNmaWVkJyxhc3luYygpPT57CiAgY29uc3Qgcj1hd2FpdCBydW5DdXJyZW50TG9vcCh7bGVkZ2VyV3JpdGVPazpmYWxzZX0pOwogIGFzc2VydC5lcXVhbChyLnNhdGlzZmllZCwxKTthc3NlcnQuZXF1YWwoci5mYWlsdXJlLG51bGwpO2Fzc2VydC5lcXVhbChyLmNhbGxzLmxlbmd0aCwyKTsKfSk7CnRlc3QoJ0NVUlJFTlQgY291bnRlcmV4YW1wbGU6IG1hdGNoaW5nIG5vbi1QaGFzZS01MCByZWNlaXB0IHNraXBzIGFsbCBsaXZlIHBvc3Rjb25kaXRpb25zJyxhc3luYygpPT57CiAgY29uc3Qgcj1hd2FpdCBydW5DdXJyZW50TG9vcCh7bGVkZ2VyTWF0Y2g6dHJ1ZX0pOwogIGFzc2VydC5lcXVhbChyLnNhdGlzZmllZCwxKTthc3NlcnQuZXF1YWwoci5jYWxscy5sZW5ndGgsMCk7Cn0pOwp0ZXN0KCdDVVJSRU5UIGNvcnJlY3RlZCBicmFuY2g6IGR1cGxpY2F0ZSBhcHBseSByZXNwb25zZSBubyBsb25nZXIgY2VydGlmaWVzIHdob2xlIHBoYXNlJyxhc3luYygpPT57CiAgY29uc3Qgcj1hd2FpdCBydW5DdXJyZW50TG9vcCh7YXBwbHlPazpmYWxzZX0pOwogIGFzc2VydC5lcXVhbChyLnNhdGlzZmllZCwwKTthc3NlcnQubWF0Y2goci5mYWlsdXJlLC9kdXBsaWNhdGUgb2JqZWN0Lyk7YXNzZXJ0LmVxdWFsKHIuY2FsbHMubGVuZ3RoLDEpOwp9KTsKZnVuY3Rpb24gZnVuY3Rpb25zRnJvbShyZWwsbmFtZXMsY29udGV4dCkgewogIGNvbnN0IGlucHV0PWZzLnJlYWRGaWxlU3luYyhwYXRoLmpvaW4ocm9vdCxyZWwpLCd1dGY4Jyk7CiAgY29uc3QgYXN0PXRzLmNyZWF0ZVNvdXJjZUZpbGUocmVsLGlucHV0LHRzLlNjcmlwdFRhcmdldC5MYXRlc3QsdHJ1ZSk7CiAgY29uc3Qgc2VsZWN0ZWQ9YXN0LnN0YXRlbWVudHMuZmlsdGVyKG49PnRzLmlzRnVuY3Rpb25EZWNsYXJhdGlvbihuKSYmbmFtZXMuaW5jbHVkZXMobi5uYW1lPy50ZXh0KSk7CiAgYXNzZXJ0LmVxdWFsKHNlbGVjdGVkLmxlbmd0aCxuYW1lcy5sZW5ndGgpOwogIGNvbnN0IGNvZGU9dHMudHJhbnNwaWxlTW9kdWxlKHNlbGVjdGVkLm1hcChuPT5uLmdldFRleHQoYXN0KS5yZXBsYWNlKC9eZXhwb3J0IC8sJycpKS5qb2luKCdcbicpLHtjb21waWxlck9wdGlvbnM6e21vZHVsZTp0cy5Nb2R1bGVLaW5kLkNvbW1vbkpTLHRhcmdldDp0cy5TY3JpcHRUYXJnZXQuRVMyMDIyfX0pLm91dHB1dFRleHQ7CiAgdm0ucnVuSW5OZXdDb250ZXh0KGNvZGUrJ1xuZ2xvYmFsVGhpcy5yZXZpZXdGdW5jdGlvbnM9eycrbmFtZXMuam9pbignLCcpKyd9OycsY29udGV4dCk7CiAgcmV0dXJuIGNvbnRleHQucmV2aWV3RnVuY3Rpb25zOwp9CnRlc3QoJ3JlYWwgUG9zdGdyZVNRTDogY3VycmVudCBjYXRhbG9nIHBhc3Mgc3RpbGwgb21pdHMgdGhlIGZyb3plbiByZWFkZXIgZGVwZW5kZW5jeScsYXN5bmMgdD0+ewogIGNvbnN0IGRiPXBhY2tldFRlc3REYXRhYmFzZShyb290KTt0LmFmdGVyKCgpPT5kYi5zdG9wKCkpO2RiLmFwcGx5RmlsZShwYXRoLmpvaW4ocm9vdCxSRVBBSVJfUEFUSCkpOwogIGNvbnN0IGV4cGVjdGVkPUpTT04ucGFyc2UoZnMucmVhZEZpbGVTeW5jKHBhdGguam9pbihyb290LENPTlRSQUNUX1BBVEgpLCd1dGY4JykpOwogIGFzc2VydC5kZWVwRXF1YWwoY29tcGFyZVBhY2tldENhdGFsb2coZXhwZWN0ZWQuY3VycmVudCxyZWFkUGFja2V0Q2F0YWxvZyhkYikpLFtdKTsKICBhc3NlcnQuZXF1YWwoZGIuc2NhbGFyKCJzZWxlY3QgY291bnQoKikgZnJvbSBpbmZvcm1hdGlvbl9zY2hlbWEuY29sdW1ucyB3aGVyZSB0YWJsZV9uYW1lPSdwYWNrZXRfcmVuZGVyX2pvYnMnIGFuZCBjb2x1bW5fbmFtZT0nc3BvbnNvcmVkX2NvbnN1bWVyX2F1dGhfdXNlcl9pZCciKSwnMCcpOwogIC8vIEJyaW5nIHRoZSBkaXNwb3NhYmxlIGZpeHR1cmUgdXAgdG8gdGhlIHByZS1leGlzdGluZyBsaXZlIGNvbnN1bWVyIGNvbHVtbi4KICAvLyBVc2UgdGhlIG9yaWdpbmFsIG93bmVyJ3MgZXhhY3QgRERMOyB0aGlzIGlzIG5vdCBhIHNwb25zb3JlZCByZXBhaXIuCiAgY29uc3QgcmFpbHM9ZnMucmVhZEZpbGVTeW5jKHBhdGguam9pbihyb290LCdzdXBhYmFzZS9taWdyYXRpb25zLzIwMjYwOTAxMTIwMDAwX2R0Y19jb25zdW1lcl9sYXVuY2hfcmFpbHMuc3FsJyksJ3V0ZjgnKTsKICBjb25zdCBkZGw9cmFpbHMubWF0Y2goL2FsdGVyIHRhYmxlIHB1YmxpY1wucGFja2V0X3JlbmRlcl9qb2JzXHMrYWRkIGNvbHVtbiBpZiBub3QgZXhpc3RzIGNvbnN1bWVyX3ZlcmlmaWNhdGlvbl9oYXNoIHRleHRbXHNcU10qPzsvaSk/LlswXTsKICBhc3NlcnQub2soZGRsKTtkYi5zcWwoZGRsKTsKICBjb25zdCBwYXJ0bmVyPXJhbmRvbVVVSUQoKSxwZXJzb249cmFuZG9tVVVJRCgpLHBhY2tldD1yYW5kb21VVUlEKCksam9iPXJhbmRvbVVVSUQoKSxtYXR0ZXI9cmFuZG9tVVVJRCgpOwogIGRiLnNxbChgaW5zZXJ0IGludG8gcGFydG5lcl9yZWNvcmRzIHZhbHVlcyAoJyR7cGFydG5lcn0nLCdyZXZpZXcnKTsgaW5zZXJ0IGludG8gcmNhcF9wZXJzb25zIHZhbHVlcyAoJyR7cGVyc29ufScsJ3JldmlldycsJ3JldmlldycpOwogICAgaW5zZXJ0IGludG8gcGFydG5lcl9wYWNrZXRfZW50aXRsZW1lbnQocGFydG5lcl9pZCxwYWNrZXRfY2FwKSB2YWx1ZXMgKCcke3BhcnRuZXJ9JywxMCk7CiAgICBpbnNlcnQgaW50byByY2FwX2RvY3VtZW50X3BhY2tldHMgdmFsdWVzICgnJHtwYWNrZXR9Jyk7CiAgICBzZWxlY3Qgc2V0X2NvbmZpZygncmNhcC5wYWNrZXRfbXV0YXRpb25fYXV0aG9yaXR5JywnZW5xdWV1ZV9wYWNrZXRfcmVuZGVyX2pvYicsZmFsc2UpOwogICAgaW5zZXJ0IGludG8gcGFja2V0X3JlbmRlcl9qb2JzKGlkLHBhY2tldF9pZCxyb3V0ZV9pZCxyZW5kZXJlcl9raW5kLHJlbmRlcmVyX3ZlcnNpb24scHJvZmlsZV9pZCxwcm9maWxlX3ZlcnNpb24saW5wdXRfaGFzaCxwYXJ0bmVyX2lkLHBlcnNvbl9pZCxtYXR0ZXJfaWQpCiAgICB2YWx1ZXMgKCcke2pvYn0nLCcke3BhY2tldH0nLCdNUzpyZXZpZXcnLCdwYWNrZXRfZG9jdW1lbnRfdjEnLCcxLjAuMCcsJ01TJywncmV2aWV3JywnJHsnMScucmVwZWF0KDY0KX0nLCcke3BhcnRuZXJ9JywnJHtwZXJzb259JywnJHttYXR0ZXJ9Jyk7YCk7CiAgY29uc3QgY2xhaW09ZGIuanNvbigic2VsZWN0IHRvX2pzb25iKGMpIGZyb20gY2xhaW1fcGFja2V0X3JlbmRlcl9qb2IoJ3JldmlldycsbnVsbCw2MDApIGMiKTsKICBjb25zdCB7UERGRG9jdW1lbnR9PXJlcXVpcmUoJ3BkZi1saWInKTtjb25zdCBwZGY9YXdhaXQgUERGRG9jdW1lbnQuY3JlYXRlKCk7cGRmLmFkZFBhZ2UoWzYxMiw3OTJdKTtjb25zdCBieXRlcz1CdWZmZXIuZnJvbShhd2FpdCBwZGYuc2F2ZSgpKTsKICBjb25zdCBzaGE9Y3JlYXRlSGFzaCgnc2hhMjU2JykudXBkYXRlKGJ5dGVzKS5kaWdlc3QoJ2hleCcpLG9iamVjdFBhdGg9YHBhY2tldHMvJHtqb2J9LyR7c2hhfS5wZGZgOwogIGRiLnNxbChgc2VsZWN0IHN0YXJ0X3BhY2tldF9yZW5kZXIoJyR7am9ifScsJyR7Y2xhaW0uZmVuY2luZ190b2tlbn0nKTsgc2VsZWN0IHN0YXJ0X3BhY2tldF92YWxpZGF0aW9uKCcke2pvYn0nLCcke2NsYWltLmZlbmNpbmdfdG9rZW59Jyk7CiAgICBzZWxlY3QgKiBmcm9tIGZpbmFsaXplX3BhY2tldF9yZW5kZXJfam9iKCcke2pvYn0nLCcke2NsYWltLmZlbmNpbmdfdG9rZW59JywnJHtvYmplY3RQYXRofScsJyR7c2hhfScsJyR7c2hhfScsJyR7c2hhfScsJyR7c2hhfScsJHtieXRlcy5sZW5ndGh9LDEsJ3NoYTI1NjokeydhJy5yZXBlYXQoNjQpfScpO2ApOwogIGFzc2VydC5lcXVhbChkYi5zY2FsYXIoYHNlbGVjdCBzdGF0dXMgZnJvbSBwYWNrZXRfcmVuZGVyX2pvYnMgd2hlcmUgaWQ9JyR7am9ifSdgKSwnYXJ0aWZhY3RfdmFsaWRhdGVkJyk7CiAgY29uc3QgZXJyb3JzPVtdLHF1ZXJpZXM9W107CiAgY29uc3QgY2xpZW50PXtmcm9tKHRhYmxlKXtsZXQgZmllbGRzLGZpbHRlcjtyZXR1cm4ge3NlbGVjdChmKXtmaWVsZHM9ZjtyZXR1cm4gdGhpczt9LGVxKGssdil7YXNzZXJ0LmVxdWFsKGssJ2lkJyk7YXNzZXJ0Lm1hdGNoKHYsL15bYS1mMC05LV17MzZ9JC8pO2ZpbHRlcj12O3JldHVybiB0aGlzO30sYXN5bmMgbWF5YmVTaW5nbGUoKXsKICAgIGNvbnN0IHE9YHNlbGVjdCB0b19qc29uYihyKSBmcm9tIChzZWxlY3QgJHtmaWVsZHN9IGZyb20gcHVibGljLiR7dGFibGV9IHdoZXJlIGlkPScke2ZpbHRlcn0nKSByYDtxdWVyaWVzLnB1c2gocSk7CiAgICBjb25zdCByZXN1bHQ9YXdhaXQgZGIuc3FsQXN5bmMocSk7aWYoIXJlc3VsdC5vayl7ZXJyb3JzLnB1c2gocmVzdWx0LmVycik7cmV0dXJuIHtkYXRhOm51bGwsZXJyb3I6e21lc3NhZ2U6cmVzdWx0LmVycn19O30KICAgIHJldHVybiB7ZGF0YTpyZXN1bHQub3V0P0pTT04ucGFyc2UocmVzdWx0Lm91dCk6bnVsbCxlcnJvcjpudWxsfTt9fTt9fTsKICBjb25zdCB7Z2V0UmVuZGVySm9ifT1mdW5jdGlvbnNGcm9tKCdzcmMvbGliL3JjYXAvcmVuZGVyL2pvYi1xdWV1ZS50cycsWydyb3dGcm9tUmVjb3JkJywnZ2V0UmVuZGVySm9iJ10se2dldFN1cGFiYXNlQWRtaW5DbGllbnQ6KCk9PmNsaWVudH0pOwogIGFzc2VydC5lcXVhbChhd2FpdCBnZXRSZW5kZXJKb2Ioam9iKSxudWxsKTthc3NlcnQubWF0Y2goZXJyb3JzWzBdLC9zcG9uc29yZWRfY29uc3VtZXJfYXV0aF91c2VyX2lkLipkb2VzIG5vdCBleGlzdC8pOwogIGNvbnN0IHthdXRob3JpemVQYWNrZXREb3dubG9hZCxzdHJlYW1BdXRob3JpemVkUGFja2V0fT1hd2FpdCBtb2QoJ3NyYy9saWIvcmNhcC9yZW5kZXIvcGFja2V0LWRlbGl2ZXJ5LnRzJyk7CiAgbGV0IHN0b3JhZ2VSZWFkcz0wOwogIGNvbnN0IHtHRVR9PWZ1bmN0aW9uc0Zyb20oJ3NyYy9hcHAvYXBpL3JjYXAvcGFja2V0cy9bam9iSWRdL2Rvd25sb2FkL3JvdXRlLnRzJyxbJ0dFVCddLHsKICAgIGdldFJjYXBCcmllZmNhc2VBdXRoU3RhdGU6YXN5bmMoKT0+KHtpc0F1dGhlbnRpY2F0ZWQ6dHJ1ZSx1c2VySWQ6cmFuZG9tVVVJRCgpfSksCiAgICBnZXRQYWNrZXRBcnRpZmFjdFN0b3JhZ2U6KCk9Pih7cmVhZDphc3luYygpPT57c3RvcmFnZVJlYWRzKys7cmV0dXJuIGJ5dGVzO319KSxnZXRSZW5kZXJKb2IsCiAgICByZXNvbHZlQ29uc3VtZXJEZWxpdmVyeUFjY2VzczooKT0+KHthbGxvd2VkOnRydWV9KSxnZXRCcmllZmNhc2VJdGVtOmFzeW5jKCk9Pih7aWQ6cmFuZG9tVVVJRCgpfSksCiAgICByZXF1aXJlQ3VycmVudFBhY2tldFZlcmlmaWNhdGlvbjphc3luYygpPT57dGhyb3cgbmV3IEVycm9yKCd1bmV4cGVjdGVkIGRvd25zdHJlYW0gY2FsbCcpO30sCiAgICBjb25zdW1lck1hdHRlcklkRm9ySXRlbTooKT0+bWF0dGVyLHJlY29yZERlbGl2ZXJ5RXZlbnQ6YXN5bmMoKT0+bnVsbCwKICAgIGF1dGhvcml6ZVBhY2tldERvd25sb2FkLHN0cmVhbUF1dGhvcml6ZWRQYWNrZXQsTmV4dFJlc3BvbnNlOnJlcXVpcmUoJ25leHQvc2VydmVyJykuTmV4dFJlc3BvbnNlCiAgfSk7CiAgY29uc3QgcmVzcG9uc2U9YXdhaXQgR0VUKG5ldyBSZXF1ZXN0KCdodHRwOi8vbG9jYWwuaW52YWxpZC9kb3dubG9hZCcpLHtwYXJhbXM6UHJvbWlzZS5yZXNvbHZlKHtqb2JJZDpqb2J9KX0pOwogIGFzc2VydC5lcXVhbChyZXNwb25zZS5zdGF0dXMsNDA0KTthc3NlcnQuZXF1YWwoKGF3YWl0IHJlc3BvbnNlLmpzb24oKSkuY29kZSwnbm90X2ZvdW5kJyk7YXNzZXJ0LmVxdWFsKHN0b3JhZ2VSZWFkcywwKTsKICBhc3NlcnQuZXF1YWwocXVlcmllcy5sZW5ndGgsMik7YXNzZXJ0LmVxdWFsKGVycm9ycy5sZW5ndGgsMik7Cn0pOwo=",
+      "persistence": "Exact recovered bytes are embedded here so this source artifact remains recoverable if the temporary reviewer directory is lost again. Decode base64 and require the recorded SHA256; do not rewrite cases.",
+      "recovery": {
+        "path": "hosted-acceptance-evidence/review/original-review-byte-recovery.json",
+        "sha256": "d4b448b2f6c40e8816d3cb208038484a70607d04ef539c4653abf068a201af3a",
+        "bytes": 2367,
+        "manifest": {
+          "schemaVersion": "rcap-original-review-byte-recovery/v1",
+          "recoveredAt": "2026-09-24T12:50:00.251801+00:00",
+          "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+          "sha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+          "bytes": 8000,
+          "sourceJournal": "/home/codespace/.codex/sessions/2026/09/23/rollout-2026-09-23T23-56-06-01a0d0b2-af7c-7db3-88eb-4810a94cc396.jsonl",
+          "sourceJournalSha256": "74d63b78222d1e80193518d749c4dfcd74dc1de11f1990d0a282d44e79365df3",
+          "sourceChanges": [
+            {
+              "journalLine": 2880,
+              "timestamp": "2026-09-24T11:46:26.552Z",
+              "operation": "add",
+              "sourceRecordSha256": "d8554cd534c84326b4584e2f2f70262af5ccd4ce97b9f8a4ccc70017890e3598",
+              "beforeSha256": null,
+              "afterSha256": "0ff3c78a8e67cf4c6c439ca54888e0f0ac9cd9ed5cc46ecea2ba2e8d63dee811"
+            },
+            {
+              "journalLine": 2896,
+              "timestamp": "2026-09-24T11:46:40.138Z",
+              "operation": "update",
+              "sourceRecordSha256": "291e660cdeb440547a162197bebceec8201ddff1b50941294ab2acab7eb996ea",
+              "beforeSha256": "0ff3c78a8e67cf4c6c439ca54888e0f0ac9cd9ed5cc46ecea2ba2e8d63dee811",
+              "afterSha256": "086ee66442ef0c247c74298cc96ccb333591ecd728d77e81e6e816e8488730e4"
+            },
+            {
+              "journalLine": 2921,
+              "timestamp": "2026-09-24T11:46:59.839Z",
+              "operation": "update",
+              "sourceRecordSha256": "ac074fe751d372928cc24387e285371ff0f8ea82c018f0bb8b29a8c0e03c3871",
+              "beforeSha256": "086ee66442ef0c247c74298cc96ccb333591ecd728d77e81e6e816e8488730e4",
+              "afterSha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd"
+            }
+          ],
+          "originalSuccessfulRun": {
+            "command": "node --test /tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+            "cwd": "/workspaces/legalease-partner-dashboard-clean/.worktrees/packet-database-repair-345",
+            "journalCommandLine": 2925,
+            "journalReadbackLine": 2930,
+            "exitCode": 0,
+            "passed": 4,
+            "failed": 0,
+            "logSha256": "6c0a457f319ea87a1291fff375dc07be22328b4967b303633c6ecae5614d3e92"
+          },
+          "method": "Exact original FileChange add content plus only the two original pre-run journal updates, applied with exact line/context matching. No cases/assertions/imports are designed, substituted or edited for the correction.",
+          "currentCandidateRun": null,
+          "conditionalWriteGateSatisfied": false
+        },
+        "fileChangeJournal": {
+          "path": "hosted-acceptance-evidence/review/original-review-filechange-journal.json",
+          "sha256": "00778e8fc5641e9c9639118933d87bea878abd07ea474c8aabe598c296255565",
+          "bytes": 11848,
+          "records": [
+            {
+              "journalLine": 2880,
+              "record": {
+                "timestamp": "2026-09-24T11:46:26.552Z",
+                "ordinal": 2879,
+                "type": "event_msg",
+                "payload": {
+                  "type": "item_completed",
+                  "thread_id": "01a0d0b2-af7c-7db3-88eb-4810a94cc396",
+                  "turn_id": "01a0d31c-04f4-7911-8199-b2e9812cbcf4",
+                  "item": {
+                    "type": "FileChange",
+                    "id": "exec-ce1e67a2-0836-4fc5-9b62-c7942aeaf0a0",
+                    "changes": {
+                      "/tmp/rcap-db-repair-345/review-current-controls.test.mjs": {
+                        "type": "add",
+                        "content": "// Independent review counterexamples. Passing means the named residual is\n// reproduced against current source, not that release readiness is established.\nimport assert from 'node:assert/strict';\nimport test from 'node:test';\nimport fs from 'node:fs';\nimport path from 'node:path';\nimport vm from 'node:vm';\nimport { createRequire, register } from 'node:module';\nimport { pathToFileURL } from 'node:url';\nimport { randomUUID, createHash } from 'node:crypto';\nconst root=process.cwd(), require=createRequire(path.join(root,'package.json'));\nconst ts=require('typescript');\nregister(pathToFileURL(path.join(root,'scripts/lib/ts-esm-loader.mjs')));\nconst mod=rel=>import(pathToFileURL(path.join(root,rel)).href);\nconst {packetTestDatabase,readPacketCatalog}=await mod('scripts/rcap-packet-database-reference.mjs');\nconst {REPAIR_PATH,CONTRACT_PATH,comparePacketCatalog}=await mod('scripts/rcap-packet-database-contract.mjs');\nconst {migrationCertification,acceptanceLedgerExecution}=await mod('scripts/rcap-migration-certification.mjs');\nconst source=fs.readFileSync(path.join(root,'scripts/rcap-hosted-acceptance-migrate.mjs'),'utf8');\nconst loop=source.slice(source.indexOf('  let satisfied = 0;'),source.indexOf('\\n  record(\\n    \"authorized_sequence_applied_in_order\"'));\nasync function runCurrentLoop({ledgerMatch=false,ledgerWriteOk=true,applyOk=true}={}) {\n  const hash='a'.repeat(64),calls=[];\n  const context={sequence:[{phase:51,path:'phase-51.sql',authorizationId:'review'}],\n    evidence:{authorizedSequence:[{phase:51,onDisk:hash}]},\n    ledger:new Map(ledgerMatch?[[51,{sha256:hash,applied_by:'hosted_acceptance_pipeline'}]]:[]),\n    migrationCertification,acceptanceLedgerExecution,rootDir:root,path,\n    fs:{readFileSync(){return 'APPLY_FIXTURE';}},console:{log(){}},\n    query:async query=>{calls.push(query);return query==='APPLY_FIXTURE'\n      ? {ok:applyOk,status:applyOk?201:409,json:applyOk?[]:{message:'42710: duplicate object'}}\n      : {ok:ledgerWriteOk,status:ledgerWriteOk?201:503,json:ledgerWriteOk?[]:{message:'ledger unavailable'}};}};\n  const result=await vm.runInNewContext(`(async()=>{${loop}\\nreturn {satisfied,failure,evidence};})()`,context);\n  return {...result,calls};\n}\ntest('CURRENT counterexample: unsuccessful ledger write is counted as satisfied',async()=>{\n  const r=await runCurrentLoop({ledgerWriteOk:false});\n  assert.equal(r.satisfied,1);assert.equal(r.failure,null);assert.equal(r.calls.length,2);\n});\ntest('CURRENT counterexample: matching non-Phase-50 receipt skips all live postconditions',async()=>{\n  const r=await runCurrentLoop({ledgerMatch:true});\n  assert.equal(r.satisfied,1);assert.equal(r.calls.length,0);\n});\ntest('CURRENT corrected branch: duplicate apply response no longer certifies whole phase',async()=>{\n  const r=await runCurrentLoop({applyOk:false});\n  assert.equal(r.satisfied,0);assert.match(r.failure,/duplicate object/);assert.equal(r.calls.length,1);\n});\nfunction functionsFrom(rel,names,context) {\n  const input=fs.readFileSync(path.join(root,rel),'utf8');\n  const ast=ts.createSourceFile(rel,input,ts.ScriptTarget.Latest,true);\n  const selected=ast.statements.filter(n=>ts.isFunctionDeclaration(n)&&names.includes(n.name?.text));\n  assert.equal(selected.length,names.length);\n  const code=ts.transpileModule(selected.map(n=>n.getText(ast).replace(/^export /,'')).join('\\n'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;\n  vm.runInNewContext(code+'\\nglobalThis.reviewFunctions={'+names.join(',')+'};',context);\n  return context.reviewFunctions;\n}\ntest('real PostgreSQL: current catalog pass still omits the frozen reader dependency',async t=>{\n  const db=packetTestDatabase(root);t.after(()=>db.stop());db.applyFile(path.join(root,REPAIR_PATH));\n  const expected=JSON.parse(fs.readFileSync(path.join(root,CONTRACT_PATH),'utf8'));\n  assert.deepEqual(comparePacketCatalog(expected.current,readPacketCatalog(db)),[]);\n  assert.equal(db.scalar(\"select count(*) from information_schema.columns where table_name='packet_render_jobs' and column_name='sponsored_consumer_auth_user_id'\"),'0');\n  // Bring the disposable fixture up to the pre-existing live consumer column.\n  // Use the original owner's exact DDL; this is not a sponsored repair.\n  const rails=fs.readFileSync(path.join(root,'supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql'),'utf8');\n  const ddl=rails.match(/alter table public\\.packet_render_jobs\\s+add column if not exists consumer_verification_hash text[\\s\\S]*?;/i)?.[0];\n  assert.ok(ddl);db.sql(ddl);\n  const partner=randomUUID(),person=randomUUID(),packet=randomUUID(),job=randomUUID(),matter=randomUUID();\n  db.sql(`insert into partner_records values ('${partner}','review'); insert into rcap_persons values ('${person}','review','review');\n    insert into partner_packet_entitlement(partner_id,packet_cap) values ('${partner}',10);\n    insert into rcap_document_packets values ('${packet}');\n    select set_config('rcap.packet_mutation_authority','enqueue_packet_render_job',false);\n    insert into packet_render_jobs(id,packet_id,route_id,renderer_kind,renderer_version,profile_id,profile_version,input_hash,partner_id,person_id,matter_id)\n    values ('${job}','${packet}','MS:review','packet_document_v1','1.0.0','MS','review','${'1'.repeat(64)}','${partner}','${person}','${matter}');`);\n  const claim=db.json(\"select to_jsonb(c) from claim_packet_render_job('review',null,600) c\");\n  const {PDFDocument}=require('pdf-lib');const pdf=await PDFDocument.create();pdf.addPage([612,792]);const bytes=Buffer.from(await pdf.save());\n  const sha=createHash('sha256').update(bytes).digest('hex'),objectPath=`packets/${packet}/${sha}.pdf`;\n  db.sql(`select start_packet_render('${job}','${claim.fencing_token}'); select start_packet_validation('${job}','${claim.fencing_token}');\n    select * from finalize_packet_render_job('${job}','${claim.fencing_token}','${objectPath}','${sha}','${sha}','${sha}','${sha}',${bytes.length},1,'sha256:${'a'.repeat(64)}');`);\n  assert.equal(db.scalar(`select status from packet_render_jobs where id='${job}'`),'artifact_validated');\n  const errors=[],queries=[];\n  const client={from(table){let fields,filter;return {select(f){fields=f;return this;},eq(k,v){assert.equal(k,'id');assert.match(v,/^[a-f0-9-]{36}$/);filter=v;return this;},async maybeSingle(){\n    const q=`select to_jsonb(r) from (select ${fields} from public.${table} where id='${filter}') r`;queries.push(q);\n    const result=await db.sqlAsync(q);if(!result.ok){errors.push(result.err);return {data:null,error:{message:result.err}};}\n    return {data:result.out?JSON.parse(result.out):null,error:null};}}};\n  const {getRenderJob}=functionsFrom('src/lib/rcap/render/job-queue.ts',['rowFromRecord','getRenderJob'],{getSupabaseAdminClient:()=>client});\n  assert.equal(await getRenderJob(job),null);assert.match(errors[0],/sponsored_consumer_auth_user_id.*does not exist/);\n  const {authorizePacketDownload,streamAuthorizedPacket}=await mod('src/lib/rcap/render/packet-delivery.ts');\n  let storageReads=0;\n  const {GET}=functionsFrom('src/app/api/rcap/packets/[jobId]/download/route.ts',['GET'],{\n    getRcapBriefcaseAuthState:async()=>({isAuthenticated:true,userId:randomUUID()}),\n    getPacketArtifactStorage:()=>({read:async()=>{storageReads++;return bytes;}}),getRenderJob,\n    resolveConsumerDeliveryAccess:()=>({allowed:true}),getBriefcaseItem:async()=>({id:randomUUID()}),\n    requireCurrentPacketVerification:async()=>{throw new Error('unexpected downstream call');},\n    consumerMatterIdForItem:()=>matter,recordDeliveryEvent:async()=>null,\n    authorizePacketDownload,streamAuthorizedPacket,NextResponse:require('next/server').NextResponse\n  });\n  const response=await GET(new Request('http://local.invalid/download'),{params:Promise.resolve({jobId:job})});\n  assert.equal(response.status,404);assert.equal((await response.json()).code,'not_found');assert.equal(storageReads,0);\n  assert.equal(queries.length,2);assert.equal(errors.length,2);\n});\n"
+                      }
+                    },
+                    "status": "completed",
+                    "stdout": "Success. Updated the following files:\nA /tmp/rcap-db-repair-345/review-current-controls.test.mjs\n",
+                    "stderr": ""
+                  },
+                  "started_at_ms": 1790250386551,
+                  "completed_at_ms": 1790250386552
+                }
+              }
+            },
+            {
+              "journalLine": 2896,
+              "record": {
+                "timestamp": "2026-09-24T11:46:40.138Z",
+                "ordinal": 2895,
+                "type": "event_msg",
+                "payload": {
+                  "type": "item_completed",
+                  "thread_id": "01a0d0b2-af7c-7db3-88eb-4810a94cc396",
+                  "turn_id": "01a0d31c-04f4-7911-8199-b2e9812cbcf4",
+                  "item": {
+                    "type": "FileChange",
+                    "id": "exec-84e062e5-fbd6-4db2-b47f-aaf92f972ac8",
+                    "changes": {
+                      "/tmp/rcap-db-repair-345/review-current-controls.test.mjs": {
+                        "type": "update",
+                        "unified_diff": "@@ -80,3 +80,3 @@\n     const result=await db.sqlAsync(q);if(!result.ok){errors.push(result.err);return {data:null,error:{message:result.err}};}\n-    return {data:result.out?JSON.parse(result.out):null,error:null};}}};\n+    return {data:result.out?JSON.parse(result.out):null,error:null};}};}};\n   const {getRenderJob}=functionsFrom('src/lib/rcap/render/job-queue.ts',['rowFromRecord','getRenderJob'],{getSupabaseAdminClient:()=>client});\n",
+                        "move_path": null
+                      }
+                    },
+                    "status": "completed",
+                    "stdout": "Success. Updated the following files:\nM /tmp/rcap-db-repair-345/review-current-controls.test.mjs\n",
+                    "stderr": ""
+                  },
+                  "started_at_ms": 1790250400136,
+                  "completed_at_ms": 1790250400138
+                }
+              }
+            },
+            {
+              "journalLine": 2921,
+              "record": {
+                "timestamp": "2026-09-24T11:46:59.839Z",
+                "ordinal": 2920,
+                "type": "event_msg",
+                "payload": {
+                  "type": "item_completed",
+                  "thread_id": "01a0d0b2-af7c-7db3-88eb-4810a94cc396",
+                  "turn_id": "01a0d31c-04f4-7911-8199-b2e9812cbcf4",
+                  "item": {
+                    "type": "FileChange",
+                    "id": "exec-497b3a05-dda8-4131-8219-9a0b284e0017",
+                    "changes": {
+                      "/tmp/rcap-db-repair-345/review-current-controls.test.mjs": {
+                        "type": "update",
+                        "unified_diff": "@@ -72,3 +72,3 @@\n   const {PDFDocument}=require('pdf-lib');const pdf=await PDFDocument.create();pdf.addPage([612,792]);const bytes=Buffer.from(await pdf.save());\n-  const sha=createHash('sha256').update(bytes).digest('hex'),objectPath=`packets/${packet}/${sha}.pdf`;\n+  const sha=createHash('sha256').update(bytes).digest('hex'),objectPath=`packets/${job}/${sha}.pdf`;\n   db.sql(`select start_packet_render('${job}','${claim.fencing_token}'); select start_packet_validation('${job}','${claim.fencing_token}');\n",
+                        "move_path": null
+                      }
+                    },
+                    "status": "completed",
+                    "stdout": "Success. Updated the following files:\nM /tmp/rcap-db-repair-345/review-current-controls.test.mjs\n",
+                    "stderr": ""
+                  },
+                  "started_at_ms": 1790250419839,
+                  "completed_at_ms": 1790250419839
+                }
+              }
+            }
+          ]
+        },
+        "historicalFourOfFour": {
+          "path": "hosted-acceptance-evidence/review/original-review-4-of-4.log",
+          "sha256": "6c0a457f319ea87a1291fff375dc07be22328b4967b303633c6ecae5614d3e92",
+          "bytes": 4123
+        }
+      },
+      "independentRun": {
+        "path": "hosted-acceptance-evidence/review/original-current-candidate-independent.json",
+        "sha256": "d3396c2701c81dee2c4251978a27547faa29e72b0f450550ed56e2f8132b4b9a",
+        "bytes": 7007,
+        "report": {
+          "schemaVersion": "rcap-original-review-independent-rerun/v1",
+          "recordedAt": "2026-09-24T12:51:36.979Z",
+          "status": "ORIGINAL_RECOVERED_EXACT_UNCHANGED_RUN_FAILED_NO_AUTHORIZATION",
+          "independentVerifier": "/root/independent_verification",
+          "custody": {
+            "journalPath": "/home/codespace/.codex/sessions/2026/09/23/rollout-2026-09-23T23-56-06-01a0d0b2-af7c-7db3-88eb-4810a94cc396.jsonl",
+            "journalSha256AtInspection": "74d63b78222d1e80193518d749c4dfcd74dc1de11f1990d0a282d44e79365df3",
+            "journalBytesAtInspection": 22041052,
+            "threadId": "01a0d0b2-af7c-7db3-88eb-4810a94cc396",
+            "turnId": "01a0d31c-04f4-7911-8199-b2e9812cbcf4",
+            "method": "Read recorded FileChange add content and strictly replay only the two recorded historical unified diffs in memory; each old hunk matched exactly. Compared the resulting hash with the Captain-exported original before and after execution. No assertions or source were reconstructed.",
+            "chain": [
+              {
+                "journalLine": 2880,
+                "timestamp": "2026-09-24T11:46:26.552Z",
+                "event": "add",
+                "recordSha256": "9bc516fe8267f346fe4762d643ccd21d01f8e5cbdd7e24e0702948562d75113e",
+                "resultSha256": "0ff3c78a8e67cf4c6c439ca54888e0f0ac9cd9ed5cc46ecea2ba2e8d63dee811",
+                "resultBytes": 8001
+              },
+              {
+                "journalLine": 2896,
+                "timestamp": "2026-09-24T11:46:40.138Z",
+                "event": "update",
+                "recordSha256": "89b2e28c52e5a2002acf5d69924fe573bcdc597f2faa05449821bc9c9b4b5d88",
+                "resultSha256": "086ee66442ef0c247c74298cc96ccb333591ecd728d77e81e6e816e8488730e4",
+                "resultBytes": 8003
+              },
+              {
+                "journalLine": 2921,
+                "timestamp": "2026-09-24T11:46:59.839Z",
+                "event": "update",
+                "recordSha256": "811a38440f98fe375263718b8e0a6dc66184aa7a1de53b97a200259933fbf32e",
+                "resultSha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+                "resultBytes": 8000
+              }
+            ],
+            "onlyFileChangeRecordsThroughHistoricalFinalReport": [
+              2880,
+              2896,
+              2921
+            ],
+            "historicalSuccessfulCommand": {
+              "journalLine": 2925,
+              "exitCode": 0,
+              "cwd": "/workspaces/legalease-partner-dashboard-clean/.worktrees/packet-database-repair-345"
+            },
+            "historicalOutput": {
+              "journalLine": 2930,
+              "tests": 4,
+              "passed": 4,
+              "failed": 0,
+              "skipped": 0,
+              "durationMs": 6037.829186
+            },
+            "historicalFinalReportJournalLine": 2938
+          },
+          "original": {
+            "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+            "bytes": 8000,
+            "sha256Before": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+            "sha256After": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+            "unchanged": true,
+            "header": "Independent review counterexamples. Passing means the named residual is reproduced against current source, not that release readiness is established."
+          },
+          "execution": {
+            "command": "node --test /tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+            "cwd": "/workspaces/legalease-partner-dashboard-clean/.worktrees/packet-database-repair-345",
+            "headBefore": "864891a9a51c37bdfcce730d84790dd677bc0589",
+            "headAfter": "864891a9a51c37bdfcce730d84790dd677bc0589",
+            "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+            "exitCode": 1,
+            "tests": 4,
+            "passed": 0,
+            "failed": 4,
+            "skipped": 0,
+            "durationMs": 3752.593043,
+            "log": {
+              "path": "hosted-acceptance-evidence/review/original-current-candidate-independent.tap",
+              "sha256": "393d4299c69bbd75f92c0d399329659cef4f56542cbae39868d19a8a87aa1ba7",
+              "bytes": 196761
+            }
+          },
+          "cases": [
+            {
+              "name": "CURRENT counterexample: unsuccessful ledger write is counted as satisfied",
+              "testLine": 33,
+              "result": "failed",
+              "failure": "ReferenceError: satisfied is not defined",
+              "failureLine": 30,
+              "classification": "historical source-extraction harness no longer reaches the current loop",
+              "historicalPassRequired": "A failed ledger write still counted as one satisfied migration with no failure.",
+              "currentLoopBehaviorEvaluated": false
+            },
+            {
+              "name": "CURRENT counterexample: matching non-Phase-50 receipt skips all live postconditions",
+              "testLine": 37,
+              "result": "failed",
+              "failure": "ReferenceError: satisfied is not defined",
+              "failureLine": 30,
+              "classification": "historical source-extraction harness no longer reaches the current loop",
+              "historicalPassRequired": "A matching historical receipt counted satisfied with zero live postcondition queries.",
+              "currentLoopBehaviorEvaluated": false
+            },
+            {
+              "name": "CURRENT corrected branch: duplicate apply response no longer certifies whole phase",
+              "testLine": 41,
+              "result": "failed",
+              "failure": "ReferenceError: satisfied is not defined",
+              "failureLine": 30,
+              "classification": "historical source-extraction harness no longer reaches the current loop",
+              "historicalPassRequired": "The prior already-correct duplicate-apply branch returned failure and zero satisfied migrations.",
+              "currentLoopBehaviorEvaluated": false
+            },
+            {
+              "name": "real PostgreSQL: current catalog pass still omits the frozen reader dependency",
+              "testLine": 54,
+              "result": "failed",
+              "failure": "AssertionError: comparePacketCatalog returned differences, expected []",
+              "failureLine": 57,
+              "classification": "current expanded certificate rejects the unchanged test setup containing only historical phase/repair schema",
+              "historicalPassRequired": "Partial schema certified, sponsored column absent, reader returned null, actual download GET returned404.",
+              "currentCatalogComparisonEvaluated": true,
+              "currentReaderEvaluated": false,
+              "currentDownloadHandlerEvaluated": false
+            }
+          ],
+          "sourceCompatibility": {
+            "historicalLoopStartNeedleIndex": -1,
+            "historicalLoopEndNeedleIndex": -1,
+            "currentEntrypointCalls": "runAcceptanceMigrationSequence",
+            "originalFixtureApplies": "packetTestDatabase(root) followed by REPAIR_PATH only",
+            "originalFixtureAppliesForwardCorrection": false
+          },
+          "interpretation": {
+            "historicalFourOfFourWasCorrectedAcceptance": false,
+            "currentUnchangedPassConditionSatisfied": false,
+            "currentFailuresProveFourBehavioralCorrections": false,
+            "originalAccessBoundaryResolved": true,
+            "unresolvedBoundary": "The requested unchanged original does not pass on the current candidate. Three cases cannot reach the relocated executable loop, and the fourth stops at current certificate rejection before its reader/download assertions. No waiver or permission is inferred."
+          },
+          "changesMadeToOriginalTest": false,
+          "changesMadeToImplementation": false,
+          "unrelatedTestsRun": [],
+          "externalWritesPerformed": [],
+          "acceptanceWritesAuthorizedByThisResult": false,
+          "productionAuthorizedByThisResult": false
+        },
+        "log": {
+          "path": "hosted-acceptance-evidence/review/original-current-candidate-independent.tap",
+          "sha256": "393d4299c69bbd75f92c0d399329659cef4f56542cbae39868d19a8a87aa1ba7",
+          "bytes": 196761
+        },
+        "passed": 0,
+        "failed": 4,
+        "skipped": 0,
+        "exitCode": 1,
+        "beforeSha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+        "afterSha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd"
+      },
+      "gateDefinitionConflict": "Original cases1/2 require incorrect success after failed receipt or without live postconditions; case4 requires missing dependency and owner404. Making all unchanged assertions green would reintroduce the defects. No source, assertion or test runner is altered to obtain green."
     },
     "independentCustody": {
       "path": "tmp/packet-independent-custody.json",
@@ -1799,7 +2120,7 @@
   },
   "remoteAfter": {
     "available": false,
-    "reason": "Exact acceptance scope approved, but the original four-case file is still absent. That approved prerequisite is not met; no schema, queue, storage, recovery, publication, Preview, webhook or charge operation has run.",
+    "reason": "Exact acceptance scope approved. Original review bytes recovered and independently rerun unchanged with0/4 passing; explicit unchanged-pass condition remains unsatisfied. No schema, queue, storage, recovery, publication, Preview, webhook or charge operation has run.",
     "mutationCount": 0
   },
   "productionPreparation": {
@@ -1902,7 +2223,7 @@
     "productionAuthorized": false,
     "liveChargeAuthorized": false,
     "ordinarySandboxCheckoutExecuted": false,
-    "requiredBeforeAnyWrite": "Original user-supplied four-case file must be available and independently pass unchanged against this successor; otherwise keep the external-write boundary closed even if scope authorization arrives.",
+    "requiredBeforeAnyWrite": "The exact original file has now been recovered and rerun, but the explicit unchanged-pass condition is not satisfied. Keep writes blocked unless Roger explicitly resolves this gate conflict; existing operation scope remains approved.",
     "approval": {
       "recordedAt": "2026-09-24T12:45:24.581Z",
       "source": "Roger user reply to exact acceptance-only authorization request",
@@ -1914,7 +2235,7 @@
       "currentCatalogMatchesRecorded": true,
       "currentJobRowsMatchRecorded": true,
       "currentLedgerMatchesRecorded": true,
-      "originalReviewFileAvailable": false,
+      "originalReviewFileAvailable": true,
       "originalReviewRerunPassed": false,
       "executionAllowedNow": false,
       "readbackArtifacts": [
@@ -1946,12 +2267,12 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "Original user-specified four-case file is absent; unchanged rerun remains unproven.",
+      "Original file recovered; unchanged run fails4/4. Its defect-reproduction assertions and obsolete harness cannot serve as a green corrected-acceptance gate without an explicit gate decision.",
       "Remote post-correction catalog/REST/queue/storage/owner-denial proof has not run.",
       "New immutable worker acceptance and Preview identities do not exist; final CURRENT tools binding cannot yet be generated."
     ],
     "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
     "authorizationReceived": true,
-    "executionBoundary": "Roger reaffirmed: original reviewer must export exact four-case bytes, whose SHA256 is recorded and whose unchanged rerun passes. The10-case historical file is separate. Repeat exact hash/current pre-apply checks only after that gate passes; approval is already recorded and need not be requested again for the same scope."
+    "executionBoundary": "Original-file access is resolved. The unchanged-pass gate is not satisfied; no acceptance write is permitted under the recorded conditional approval. Preserve exact original bytes and await resolution of the gate definition, then repeat pre-apply checks before any previously approved operation."
   }
 }
