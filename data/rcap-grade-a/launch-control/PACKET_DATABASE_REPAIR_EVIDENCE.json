@@ -3105,6 +3105,235 @@
         ],
         "findings": []
       }
+    },
+    "independentImageAcceptanceHistoryCorrection": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/independent-history-correction-verification.json",
+      "sha256": "ddbc5839c2db3590e76c18583a859bea0b505a3275739ad857d9565471e4ff43",
+      "bytes": 10496,
+      "report": {
+        "schemaVersion": "rcap-independent-publication-history-correction-verification/v1",
+        "recordedAt": "2026-09-24T13:40:04.353035+00:00",
+        "verdict": "PASS_LOCAL_HISTORY_CORRECTION_IMAGE_ACCEPTANCE_STILL_FAILED_PENDING_NEW_RUN",
+        "scope": "Bounded independent verification of the native failed acceptance evidence, exact baseline comparison, Captain-authored data-only historical chain correction, and unchanged local source-binding controls. No implementation edits or external operations.",
+        "baseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+        "failedReceiptCommit": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+        "currentLocalHead": "73dbb8df88f87a1925dfc3d2c736509b84dd18c1",
+        "classification": {
+          "type": "successor_publication_receipt_history_layout_regression",
+          "realByteDrift": true,
+          "workerApplicationBehaviorDrift": false,
+          "verifierDrift": false,
+          "preExistingAgainstReviewedBaseline": false,
+          "cause": "Receipt ab4 wrapped the full prior record in supersededPublication while omitting the top-level supersededChain consumed by the existing unchanged retired-exception control. The historical tuple survived in nested data but was no longer reachable through the control contract.",
+          "baselineTopLevelChainEntries": 36,
+          "baselineExactRetiredTupleMatches": 2,
+          "failedReceiptTopLevelChainEntries": 0,
+          "failedReceiptExactTopLevelMatches": 0,
+          "failedReceiptNestedExactMatches": 2,
+          "priorIndependentReviewLimit": "The earlier native-publication ratification correctly checked archive/native/source identity and full historical preservation but missed this current-control history-layout gap. That report is retained unchanged as historical evidence; it is not evidence that runtime acceptance passed."
+        },
+        "nativeFailure": {
+          "runId": 36006545373,
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36006545373",
+          "runAttempt": 1,
+          "workflowHead": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+          "conclusion": "failure",
+          "subjectSource": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "subjectDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+          "failedSteps": [
+            "The source-binding exception stays exactly one digest wide"
+          ],
+          "passedRelevantSteps": [
+            "Ask the registry what the tag resolves to",
+            "Anonymous pull is refused",
+            "Authenticated pull by immutable digest",
+            "Prove the tag and the digest are the same image"
+          ],
+          "anonymousStatus": 401,
+          "ociRevisionStep": "skipped",
+          "laterRuntimeChecks": "skipped",
+          "runtimeAccepted": false
+        },
+        "correction": {
+          "beforeRecord": {
+            "gitRef": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+            "path": "data/rcap-render/worker-publication-evidence.json",
+            "sha256": "edd7d50a6843c234cc4562af2f40b48b717662f9a7c4213b4ce384a487079d06",
+            "bytes": 46796
+          },
+          "historyOnlyCorrectedRecord": {
+            "path": "data/rcap-render/worker-publication-evidence.json",
+            "sha256": "40b31072118464f2161d716fd522ce1790064b00f43fe680c648ae45e529b3d8",
+            "bytes": 82845
+          },
+          "onlyStructuralDifference": "Add top-level supersededChain containing the exact prior supersededPublication followed by the exact prior supersededChain, with ordering and duplicates preserved.",
+          "restoredChainEntries": 37,
+          "exactHistoricalObjectsPreserved": true,
+          "completePriorSupersededPublicationUnchanged": true,
+          "allOtherReceiptFieldsUnchanged": true,
+          "currentSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "currentDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+          "runtimeAccepted": false,
+          "imageAcceptance": null,
+          "newPublicationOrRebuildRequired": false
+        },
+        "unchangedControls": [
+          {
+            "path": "scripts/verify-rcap-worker-source-binding-exception.mjs",
+            "sha256": "3990b3e28fca365dd8765bdfeb2f0b34b8a9eb10e3284d7c5c856aca7113c9b3",
+            "bytes": 14381
+          },
+          {
+            "path": "data/rcap-render/worker-source-binding-exception.json",
+            "sha256": "3d97a5be59841905453fcbf630e0a627c695f6382116d33f4b920bd8d579eb1f",
+            "bytes": 3048
+          },
+          {
+            "path": ".github/workflows/publish-rcap-render-worker.yml",
+            "sha256": "68e1c93daa86e02e108beb4ec67739ddec6bb986182d63453abd13178914a7bd",
+            "bytes": 14422
+          },
+          {
+            "path": "scripts/verify-rcap-worker-image-revision.mjs",
+            "sha256": "6cd8082a6f29f70088e0c02c16c14a1e4792d62288ab4c848ffa573c10fe5ff5",
+            "bytes": 10146
+          },
+          {
+            "path": ".github/workflows/rcap-worker-image-acceptance.yml",
+            "sha256": "0037e74760e88507b47e0b6335155843fd8a42113805d35e755cbc7854cdaf1e",
+            "bytes": 18709
+          }
+        ],
+        "actualVerifierRuns": [
+          {
+            "command": [
+              "node",
+              "scripts/verify-rcap-worker-source-binding-exception.mjs"
+            ],
+            "exitCode": 0,
+            "stdout": "verify-rcap-worker-source-binding-exception passed.\n  no source-binding exception is in force.\n  the record is history for 5ac0d8d6910a\u2026 -> sha256:4e5b58e449228\u2026 (run 32307070302),\n  and names neither the accepted source a7ca0201fa8e\u2026 nor the digest under acceptance.\n  reusable: false; OCI revision present: false; provenance present: false\n  future publications record org.opencontainers.image.revision, so the next image needs no exception.\n  a contradictory revision still fails: the exception compensates for absence, never for disagreement.\n",
+            "stderr": "",
+            "log": {
+              "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/independent-exception-corrected.log",
+              "sha256": "e9a55e0375df5a89a40e0547a870176fa007bef8043a72d763ce3277bac56a75",
+              "bytes": 553
+            }
+          },
+          {
+            "command": [
+              "node",
+              "scripts/verify-rcap-worker-source-binding-exception.mjs",
+              "--mutations"
+            ],
+            "exitCode": 0,
+            "stdout": "caught   reusable: false is removed\ncaught   one digest character is changed\ncaught   one source-SHA character is changed\ncaught   the publication run is changed\ncaught   the exception claims the OCI revision is present\ncaught   the owner decision is widened beyond one digest\ncaught   the future workflow stops recording the revision\ncaught   the verifier drops its contradiction branch\ncaught   the verifier reports the revision as a pass\ncaught   the exception no longer disclaims deployment\ncaught   a retired record is pointed back at the digest in force\ncaught   a retired record is pointed back at the accepted source\ncaught   a retired record is pointed back at the publication run in force\ncaught   a retired record stops saying why it stopped applying\ncaught   the tuple borrows a run id from another superseded entry\ncaught   the tuple borrows a digest from another superseded entry\ncaught   the superseded history is emptied so the anchor has nothing to check\n\nThe exception cannot be widened, reused, or turned into a revision pass (17/17).\n",
+            "stderr": "",
+            "log": {
+              "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/independent-exception-corrected-mutations.log",
+              "sha256": "3b99218329a5c35e7717e1ce63004f7f1147aef061754c8c5d4551690ce71f09",
+              "bytes": 1054
+            }
+          }
+        ],
+        "baselineComparisonReport": {
+          "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/independent-exception-baseline-comparison.json",
+          "sha256": "21bdf8ce817d3418bc4666b1e81dc9a6f00c3cc7c6afb6be92533baea1e754a7",
+          "bytes": 3760
+        },
+        "canonicalInputEquivalence": {
+          "priorReport": {
+            "path": "hosted-acceptance-evidence/review/publication-36004158153-independent-input-equivalence.json",
+            "sha256": "8471ec07ee6c4fdb27283e3f6cd63eb8e482ed1e864699d9649613c7e7976388",
+            "bytes": 31096
+          },
+          "inputCount": 38,
+          "fingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+          "gitComparisons": [
+            {
+              "from": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+              "to": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+              "changedCanonicalPaths": []
+            },
+            {
+              "from": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+              "to": "73dbb8df88f87a1925dfc3d2c736509b84dd18c1",
+              "changedCanonicalPaths": []
+            }
+          ],
+          "workingTreeChangedCanonicalPaths": [],
+          "untrackedCanonicalPaths": [],
+          "behavioralEvidenceReusePreserved": true
+        },
+        "priorNativeRatificationPreserved": {
+          "path": "hosted-acceptance-evidence/worker/publication-36004158153/independent-native-publication-verification.json",
+          "sha256": "68ab6608e4ad57b914da1ab64428bd745bc9213aa932daba037a7ec5ee139727",
+          "bytes": 9735
+        },
+        "nativeEvidence": [
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/run.json",
+            "sha256": "9ed0da05771e3c95ca1cb7dbb5d62884682e0c6105dac472b35ed170de87f588",
+            "bytes": 15033
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/jobs.json",
+            "sha256": "bb6d7c5b2adad90a3db3bd0d02dcd9d2e1ca6d453adbdb0e192a3b185ad9b482",
+            "bytes": 5352
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/failed-step.log",
+            "sha256": "a93fb8c8d414052b963aa1859596cb3e196f8967663a104d4d4629b2d984ea4e",
+            "bytes": 2177
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/job.log",
+            "sha256": "1bfa3229c7c4d2946e8fe731dfb57df8120dcb1f13ea238ce0ed6099335d9fbd",
+            "bytes": 366622
+          }
+        ],
+        "requiredNextBoundary": "Captain may record this real failed attempt without changing runtimeAccepted=false. Roger retains manual push/dispatch ownership. A read-only acceptance run must consume the corrected committed record and pass the remaining OCI/runtime controls before image acceptance is claimed. This review performs no dispatch, Preview or recovery operation.",
+        "actions": {
+          "baselineExactVerifierRuns": 2,
+          "correctedDefaultVerifierRuns": 1,
+          "correctedMutationRuns": 1,
+          "mutationsDetected": 17,
+          "mutationsTotal": 17,
+          "behavioralSuitesRerun": false,
+          "implementationEdited": false,
+          "publicationOrBindingEditedByVerifier": false,
+          "remoteReads": false,
+          "remoteWrites": false,
+          "acceptanceDispatched": false,
+          "publicationDispatched": false,
+          "previewPerformed": false,
+          "productionAuthorized": false
+        },
+        "findings": []
+      }
+    },
+    "imageAcceptanceFinalReceiptRecheck": {
+      "scope": "Captain rechecked the final receipt after appending truthful failed-attempt metadata. Independent history-only correction verification is preserved separately.",
+      "publicationReceiptSha256": "0f0d932379f1b4166706f29daaff0d9ded1f1e7d3239f90e6f4dd5d617ecd260",
+      "verifierChanged": false,
+      "expectationsChanged": false,
+      "verifierPassed": true,
+      "mutationsCaught": 17,
+      "mutationsTotal": 17,
+      "runtimeAccepted": false,
+      "logs": [
+        {
+          "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/final-receipt-verifier.log",
+          "sha256": "e9a55e0375df5a89a40e0547a870176fa007bef8043a72d763ce3277bac56a75",
+          "bytes": 553,
+          "exitCode": 0
+        },
+        {
+          "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/final-receipt-mutations.log",
+          "sha256": "3b99218329a5c35e7717e1ce63004f7f1147aef061754c8c5d4551690ce71f09",
+          "bytes": 1054,
+          "exitCode": 0
+        }
+      ]
     }
   },
   "applicationAndWorker": {
@@ -4346,13 +4575,13 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "Receipt commit ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d is pushed to captain-release and read back. GitHub refused the requested read-only image-acceptance dispatch with HTTP 403 Resource not accessible by integration. Roger must dispatch the existing workflow from an account with dispatch permission and provide its run ID; publication must not be repeated.",
+      "Image-acceptance run 36006545373 completed with failure at the historical source-binding-exception guard. The receipt history layout is corrected and independently verified with unchanged controls. A successful read-only acceptance run from the corrected receipt commit is still required for the same a7ca0201 worker and sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869 image.",
       "Exact acceptance Preview, authenticated REST reader, existing#345 Storage/recovery and remote owner200/hash,stranger403,anonymous401 remain pending.",
       "Final current tools binding and ordinary50-dollar blank-promotion hosted_full dispatch remain unready until those identities and proofs exist."
     ],
     "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
     "authorizationReceived": true,
-    "executionBoundary": "The requested script ran once: push succeeded and was verified, dispatch was refused, and no matching acceptance run appears in readback. Await the read-only image-acceptance run for the already-pushed receipt commit. No authentication repair or state-changing retry was performed."
+    "executionBoundary": "Preview and existing-job recovery remain blocked until a corrected-receipt image-acceptance run completes with conclusion=success. Roger retains manual push/dispatch; no retry was dispatched and no image was republished."
   },
   "workerPublication": {
     "runId": 36004158153,
@@ -4396,7 +4625,7 @@
     "recordPath": "data/rcap-render/worker-publication-evidence.json",
     "priorRecordPreservedIn": "supersededPublication",
     "runtimeAccepted": false,
-    "imageAcceptanceRunId": null,
+    "imageAcceptanceRunId": 36006545373,
     "publicationDispatchedByCaptain": false,
     "additionalPublicationDispatched": false,
     "independentVerification": {
@@ -4407,7 +4636,7 @@
     },
     "readOnlyImageAcceptanceDispatch": {
       "prepared": true,
-      "dispatched": false,
+      "dispatched": true,
       "manualPushAndDispatchOwner": "Roger",
       "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
       "workflow": "rcap-worker-image-acceptance.yml",
@@ -4415,14 +4644,13 @@
       "inputs": {},
       "prerequisite": "Push the commit containing this publication record before dispatch. The workflow reads the image subject from that committed record.",
       "recordPath": "data/rcap-render/worker-publication-evidence.json",
-      "recordSha256": "edd7d50a6843c234cc4562af2f40b48b717662f9a7c4213b4ce384a487079d06",
       "subjectSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
       "subjectDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
       "runtimeAccepted": false,
       "scope": "Read-only image acceptance with no Supabase configuration. No publication, deployment, queue claim, Preview, hosted journey or Production operation.",
       "pushCompleted": true,
       "pushedReceiptCommit": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
-      "state": "PUSHED_DISPATCH_REFUSED_BY_GITHUB",
+      "state": "completed",
       "executionAttempt": {
         "path": "hosted-acceptance-evidence/worker/publication-36004158153/image-acceptance-dispatch-attempt.json",
         "sha256": "297cdcbcb026b995fe17a127dff25a1c8a578717dd5477bcbdd8b724094a45ee",
@@ -4566,7 +4794,181 @@
             "boundary": "Current GitHub integration is refused workflow dispatch. Roger must run the workflow from an authorized account; sending the command in chat executes it through the same restricted integration."
           }
         }
-      ]
+      ],
+      "runId": 36006545373,
+      "dispatchedBy": "Roger",
+      "conclusion": "failure",
+      "receiptHashAtFailedRun": "edd7d50a6843c234cc4562af2f40b48b717662f9a7c4213b4ce384a487079d06",
+      "currentCorrectedRecordSha256": "0f0d932379f1b4166706f29daaff0d9ded1f1e7d3239f90e6f4dd5d617ecd260",
+      "nextStep": "Roger pushes the corrected receipt commit and dispatches the same read-only workflow for the unchanged image tuple. Re-running the old run would use its old receipt commit. No worker publication or Preview is needed to repair this metadata."
+    },
+    "imageAcceptanceConclusion": "failure",
+    "imageAcceptanceNativeResult": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/native-result.json",
+      "sha256": "e8a6dd43d9689f58534c64349cd7afe40137444c20b5d93411d4699514e39abd",
+      "bytes": 4362,
+      "report": {
+        "schemaVersion": "rcap-native-image-acceptance-result/v1",
+        "runId": 36006545373,
+        "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36006545373",
+        "jobId": 107656055381,
+        "runAttempt": 1,
+        "headSha": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+        "status": "completed",
+        "conclusion": "failure",
+        "completedAt": "2026-09-24T13:36:03Z",
+        "sourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+        "digest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+        "runtimeAccepted": false,
+        "checks": [
+          {
+            "number": 4,
+            "name": "Take the subject from committed publication evidence",
+            "conclusion": "success"
+          },
+          {
+            "number": 5,
+            "name": "Ask the registry what the tag resolves to",
+            "conclusion": "success"
+          },
+          {
+            "number": 6,
+            "name": "Log in to GHCR",
+            "conclusion": "success"
+          },
+          {
+            "number": 7,
+            "name": "Anonymous pull is refused",
+            "conclusion": "success"
+          },
+          {
+            "number": 8,
+            "name": "Authenticated pull by immutable digest",
+            "conclusion": "success"
+          },
+          {
+            "number": 9,
+            "name": "Prove the tag and the digest are the same image",
+            "conclusion": "success"
+          },
+          {
+            "number": 10,
+            "name": "The source-binding exception stays exactly one digest wide",
+            "conclusion": "failure"
+          },
+          {
+            "number": 11,
+            "name": "Source binding \u2014 OCI revision, or the exact-digest exception",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 12,
+            "name": "Prove the container does not run as root",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 13,
+            "name": "Health is configured and its declared command succeeds",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 14,
+            "name": "Fail-closed startup, and module graph resolves",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 15,
+            "name": "Graceful shutdown on SIGTERM",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 16,
+            "name": "Scratch directory is present, owned, and clean",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 17,
+            "name": "The secret scan can still catch a secret",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 18,
+            "name": "Secret scan of the image filesystem",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 19,
+            "name": "Secret scan of the image configuration and history",
+            "conclusion": "skipped"
+          },
+          {
+            "number": 20,
+            "name": "This run deployed nothing and claimed nothing",
+            "conclusion": "skipped"
+          }
+        ],
+        "failure": "the retired exception names no tuple the evidence records as superseded",
+        "classification": "Successor publication receipt omitted the established top-level history chain while preserving it under the prior record.",
+        "controlExpectationsChanged": false,
+        "workflowOrRuntimeChanged": false,
+        "limits": "Source/OCI binding, runtime, health, shutdown, scratch, secret scans and final no-deploy/no-claim check were skipped. The full image acceptance has failed; successful earlier steps do not substitute for conclusion=success.",
+        "noPreviewOrRecoveryStarted": true,
+        "noRepublishNeeded": true,
+        "nativeEvidence": [
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/run.json",
+            "sha256": "9ed0da05771e3c95ca1cb7dbb5d62884682e0c6105dac472b35ed170de87f588",
+            "bytes": 15033
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/jobs.json",
+            "sha256": "bb6d7c5b2adad90a3db3bd0d02dcd9d2e1ca6d453adbdb0e192a3b185ad9b482",
+            "bytes": 5352
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/job.log",
+            "sha256": "1bfa3229c7c4d2946e8fe731dfb57df8120dcb1f13ea238ce0ed6099335d9fbd",
+            "bytes": 366622
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/failed-step.log",
+            "sha256": "a93fb8c8d414052b963aa1859596cb3e196f8967663a104d4d4629b2d984ea4e",
+            "bytes": 2177
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/artifacts.json",
+            "sha256": "d3ad979d01443a9d7342e7fbe39064b41ebdb340029293f1b099bcfb6c493c42",
+            "bytes": 33
+          }
+        ]
+      }
+    },
+    "publicationHistoryCorrection": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/history-layout-correction.json",
+      "sha256": "674b51146b8c21981f854ce62480ecdc4405a22d9d5975e49ef6d0ed772039d2",
+      "bytes": 1238,
+      "report": {
+        "schemaVersion": "rcap-publication-history-layout-correction/v1",
+        "classification": "Receipt metadata regression: retained history was nested, but the established verifier reads top-level supersededChain.",
+        "failedRunId": 36006545373,
+        "failedHead": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+        "unchangedVerifier": "scripts/verify-rcap-worker-source-binding-exception.mjs",
+        "priorRecordSource": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f:data/rcap-render/worker-publication-evidence.json",
+        "beforeSha256": "edd7d50a6843c234cc4562af2f40b48b717662f9a7c4213b4ce384a487079d06",
+        "afterHistoryLayoutSha256": "40b31072118464f2161d716fd522ce1790064b00f43fe680c648ae45e529b3d8",
+        "addedTopLevelField": "supersededChain",
+        "historyEntries": 37,
+        "sourceFormula": "[prior.supersededPublication, ...prior.supersededChain]",
+        "historicalObjectsCopiedExactly": true,
+        "completePriorPublicationPreservedUnchanged": true,
+        "everyOtherCurrentFieldUnchanged": true,
+        "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+        "workerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+        "runtimeAccepted": false,
+        "noImplementationOrWorkflowChange": true,
+        "previewOrRecoveryStarted": false
+      },
+      "finalPublicationRecordSha256": "0f0d932379f1b4166706f29daaff0d9ded1f1e7d3239f90e6f4dd5d617ecd260"
     }
   }
 }
