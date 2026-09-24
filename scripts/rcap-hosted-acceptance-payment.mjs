@@ -403,7 +403,56 @@ async function sql(query) {
   });
   let json = null;
   try { json = JSON.parse(await res.text()); } catch { /* non-JSON surfaces as null */ }
-  return { status: res.status, json };
+  // Match the hosted Checkout gate's Management API success convention while
+  // retaining the original status for evidence (SQL queries can return 201).
+  return { status: res.status, ok: res.ok, json };
+}
+
+/** The claimed-item gate, including transport, shape and every route/state invariant. */
+function seededItemReadbackAgreement({ readback, itemId, ownerId, derived, route, locale }) {
+  const rows = Array.isArray(readback.json) ? readback.json : [];
+  const seeded = rows[0];
+  const shape = (value) => value === null ? "null" : Array.isArray(value) ? "array" : typeof value;
+  const checks = [];
+  const check = (name, passed, actual, expected) => checks.push({ name, passed, actual, expected });
+  const equal = (name, actual, expected) => check(name, actual === expected, actual, expected);
+  check("sql_http_success", readback.ok === true, readback.status, "HTTP 200-299 (Response.ok)");
+  equal("sql_rows_shape", shape(readback.json), "array");
+  equal("sql_row_count", rows.length, 1);
+  equal("sql_row_shape", shape(seeded), "object");
+  equal("item_id", seeded?.id, itemId);
+  equal("owner_id", seeded?.user_id, ownerId);
+  equal("result_code", seeded?.result_code, derived.resultCode);
+  equal("packet_type", seeded?.packet_type, derived.packetType);
+  equal("pathway_label", seeded?.pathway_label, route.pathwayLabel);
+  equal("item_status", seeded?.status, "packet_ready");
+  equal("payment_status", seeded?.payment_status, "unpaid");
+  equal("payment_allowed", seeded?.payment_allowed, true);
+  equal("checkout_session_id", seeded?.checkout_session_id, null);
+  equal("packet_status", seeded?.packet_status, "not_started");
+  equal("provider_event_id", seeded?.provider_event_id, null);
+  check("source_pending_result_id", typeof seeded?.source_pending_result_id === "string",
+    seeded?.source_pending_result_id, "string");
+  equal("source_session_linkage", seeded?.source_session_id, seeded?.source_pending_result_id);
+  equal("attribution_product", seeded?.artifact_refs_json?.attribution?.product, "expungement_ai_dtc");
+  equal("attribution_locale", seeded?.artifact_refs_json?.attribution?.locale, locale);
+  equal("selected_track_id", seeded?.artifact_refs_json?.selectedTrackId, derived.trackId);
+  equal("jurisdiction", derived.jurisdiction, route.state);
+  equal("renderer_kind", derived.rendererKind, "packet_document_v1");
+  equal("route_kind", derived.routeKind, "factory_v2");
+  equal("fulfillment_authority", derived.authorityAllowed, true);
+  equal("profile_id", derived.profileId, route.state);
+  check("profile_version", typeof derived.profileVersion === "string" && derived.profileVersion.length > 0,
+    derived.profileVersion, "non-empty string");
+  equal("route_id", derived.routeId, `${route.state}:${derived.compiledPathwayId}`);
+
+  // Only the named scalar identities/state above may reach diagnostics. Never
+  // serialize an error body, attribution object or participant answer object.
+  const safe = (value) => typeof value === "string" ? redactSecrets(value).slice(0, 160)
+    : value === null || typeof value === "boolean" || typeof value === "number" ? value : `<${shape(value)}>`;
+  const failedConditions = checks.filter(({ passed }) => !passed)
+    .map(({ name, actual, expected }) => ({ name, actual: safe(actual), expected: safe(expected) }));
+  return { passed: failedConditions.length === 0, failedConditions };
 }
 
 let ANON_KEY = "";
@@ -1315,32 +1364,20 @@ await prechargeStep("claim_and_final_verification", async () => {
   `);
   const rows = Array.isArray(readback.json) ? readback.json : [];
   const seeded = rows[0] ?? null;
-  const agrees = readback.status === 200 && rows.length === 1
-    && seeded.id === itemId && seeded.user_id === A.id
-    && seeded.result_code === derived.resultCode && seeded.packet_type === derived.packetType
-    && seeded.pathway_label === route.pathwayLabel
-    && seeded.status === "packet_ready" && seeded.payment_status === "unpaid"
-    && seeded.payment_allowed === true && seeded.checkout_session_id === null
-    && seeded.packet_status === "not_started" && seeded.provider_event_id === null
-    && typeof seeded.source_pending_result_id === "string"
-    && seeded.source_session_id === seeded.source_pending_result_id
-    && seeded.artifact_refs_json?.attribution?.product === "expungement_ai_dtc"
-    && seeded.artifact_refs_json?.attribution?.locale === SYNTHETIC_PARTICIPANT_LOCALE
-    && seeded.artifact_refs_json?.selectedTrackId === derived.trackId
-    && derived.jurisdiction === route.state && derived.rendererKind === "packet_document_v1"
-    && derived.routeKind === "factory_v2" && derived.authorityAllowed === true
-    && derived.profileId === route.state
-    && typeof derived.profileVersion === "string" && derived.profileVersion.length > 0
-    && derived.routeId === `${route.state}:${derived.compiledPathwayId}`;
-  evidence.seededItem = { id: seeded?.id ?? null, status: seeded?.status ?? null,
+  const agreement = seededItemReadbackAgreement({ readback, itemId, ownerId: A.id,
+    derived, route, locale: SYNTHETIC_PARTICIPANT_LOCALE });
+  const agrees = agreement.passed;
+  evidence.seededItemAgreement = { sqlStatus: readback.status, ...agreement };
+  // Invalid bodies are represented only by the sanitized named failures above.
+  evidence.seededItem = agrees ? { id: seeded?.id ?? null, status: seeded?.status ?? null,
     resultCode: seeded?.result_code ?? null, pathwayLabel: seeded?.pathway_label ?? null,
     jurisdiction: route.state, sourceSessionId: seeded?.source_session_id ?? null,
     sourcePendingResultId: seeded?.source_pending_result_id ?? null,
     deliveryLocale: seeded?.artifact_refs_json?.attribution?.locale ?? null,
     selectedTrackId: seeded?.artifact_refs_json?.selectedTrackId ?? null,
-    creationAuthority: "pending screening, atomic participant claim, explicit final verification" };
+    creationAuthority: "pending screening, atomic participant claim, explicit final verification" } : null;
   record("seeded_item_agrees_with_the_authoritative_resolver", agrees,
-    `SQL=${readback.status}; rows=${rows.length}; claimed=${JSON.stringify(evidence.seededItem)}; route=${derived.routeId}`);
+    `SQL=${readback.status}; rows=${rows.length}; failedSubconditions=${JSON.stringify(agreement.failedConditions)}; item=${itemId}; route=${derived.routeId}`);
   if (!agrees) finish();
   preflightRoute = derived;
 });

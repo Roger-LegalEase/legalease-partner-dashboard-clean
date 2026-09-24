@@ -268,7 +268,7 @@ async function paymentInputs() {
     export {reviewed, derived, route};`;
   return import(`data:text/javascript;base64,${Buffer.from(script).toString('base64')}`);
 }
-function paymentContext(app, locale, inputs) {
+function paymentContext(app, locale, inputs, sqlStatus = 201) {
   const evidence = {};
   const cases = new Map();
   const context = { ...inputs, evidence, SYNTHETIC_PARTICIPANT_LOCALE: locale,
@@ -282,14 +282,20 @@ function paymentContext(app, locale, inputs) {
     personalized: app.personalized,
     identity: { consumerMatterIdForItem, resolveConsumerPersonId: async () => ({ ok: true, personId: 'consumer-person' }) },
     sqlText: (text) => String(text).replaceAll("'", "''"),
-    sql: async (query) => {
+    PROJECT_REF: 'isolated-project', SUPABASE_ACCESS_TOKEN: 'isolated-management-key',
+    fetch: async (url, options) => {
+      assert.equal(url, 'https://api.supabase.com/v1/projects/isolated-project/database/query');
+      const { query } = JSON.parse(options.body);
       assert.match(query, /from public\.consumer_briefcase_items/);
       assert.ok(query.includes(app.item.id) && query.includes(app.item.userId));
-      return { status: 200, json: [{ ...app.claimPayload, id: app.item.id, user_id: app.item.userId,
-        source_pending_result_id: app.pending.pending_id, checkout_session_id: null, provider_event_id: null }] };
+      return new Response(JSON.stringify([{ ...app.claimPayload, id: app.item.id, user_id: app.item.userId,
+        source_pending_result_id: app.pending.pending_id, checkout_session_id: null, provider_event_id: null }]),
+      { status: sqlStatus });
     }
   };
   vm.createContext(context);
+  vm.runInContext(paymentFunction('sql'), context);
+  vm.runInContext(paymentFunction('seededItemReadbackAgreement'), context);
   vm.runInContext(paymentFunction('record'), context);
   vm.runInContext(paymentFunction('prechargeStep'), context);
   vm.runInContext(paymentFunction('personalizedPacketIdFromRunner')
@@ -310,6 +316,8 @@ for (const locale of ['en', 'es']) {
     assert.equal(context.runNamespace.briefcaseItemId, app.item.id, 'replay scope follows the claimed ID');
     assert.equal(evidence.seededItem.sourceSessionId, app.pending.pending_id);
     assert.equal(evidence.seededItem.deliveryLocale, locale);
+    assert.equal(evidence.seededItemAgreement.sqlStatus, 201);
+    assert.equal(evidence.seededItemAgreement.passed, true);
     const id = await context.personalizedPacketIdFromRunner(context.A, app.item.id);
     const actual = await prepareBeforePayment(app);
     assert.equal(id, actual.prepared.spec.packetId);
@@ -344,11 +352,10 @@ test('#338 pre-charge exception records a failed verdict and writes payment evid
 test('#338 actual claimed-row predicate refuses identity, locale and premature payment/work mutations', async () => {
   const app = await claimed('en');
   const inputs = await paymentInputs();
-  const expression = paymentSyntax.nodes.find((n) => ts.isVariableDeclaration(n) && n.name.getText() === 'agrees').initializer.getText();
   const row = { ...app.claimPayload, id: app.item.id, user_id: app.item.userId,
     source_pending_result_id: app.pending.pending_id, checkout_session_id: null, provider_event_id: null };
-  const accepts = (seeded) => vm.runInNewContext(expression, { ...inputs, readback: { status: 200 }, rows: [seeded], seeded,
-    itemId: app.item.id, A: { id: app.item.userId }, SYNTHETIC_PARTICIPANT_LOCALE: 'en' });
+  const accepts = (seeded) => paymentReadbackProof({ status: 200, ok: true, json: [seeded] },
+    { ...inputs, itemId: app.item.id, ownerId: app.item.userId }).passed;
   assert.equal(accepts(row), true);
   for (const [name, change] of [
     ['wrong owner', (r) => { r.user_id = 'other'; }],
@@ -366,6 +373,155 @@ test('#338 actual claimed-row predicate refuses identity, locale and premature p
     const changed = structuredClone(row); change(changed);
     assert.equal(accepts(changed), false, name);
   }
+});
+
+// Evaluate the production helper AND its actual caller's verdict expression.
+// No hosted credentials, participant answers, database write or Stripe call.
+function paymentReadbackProof(readback, inputs) {
+  const initializer = (name) => paymentSyntax.nodes.find((n) => ts.isVariableDeclaration(n)
+    && n.name.getText() === name).initializer.getText();
+  const context = { readback, ...inputs, A: { id: inputs.ownerId }, SYNTHETIC_PARTICIPANT_LOCALE: 'en',
+    SUPABASE_ACCESS_TOKEN: 'secret-test-value', VERCEL_TOKEN: '', BYPASS: '', STRIPE_KEY: '', WEBHOOK_SECRET: '', ANON_KEY: '' };
+  const proof = vm.runInNewContext(`${paymentFunction('redactSecrets')}
+    ${paymentFunction('seededItemReadbackAgreement')}
+    const agreement = ${initializer('agreement')};
+    const agrees = ${initializer('agrees')};
+    ({ passed: agrees, failedConditions: agreement.failedConditions });`, context);
+  return JSON.parse(JSON.stringify(proof));
+}
+
+async function paymentSqlResponse(status, body) {
+  const context = vm.createContext({ PROJECT_REF: 'isolated-project', SUPABASE_ACCESS_TOKEN: 'isolated-key',
+    fetch: async () => new Response(typeof body === 'string' ? body : JSON.stringify(body), { status }) });
+  vm.runInContext(paymentFunction('sql'), context);
+  return context.sql('select recorded_response_only');
+}
+
+async function recordedPaymentReadback() {
+  const { derived, route } = await paymentInputs();
+  // Run 35933049147's status and directly verified fields. The route values
+  // come from the existing fixture; the source-session identifier is sanitized.
+  const inputs = { derived: structuredClone(derived), route: structuredClone(route),
+    itemId: 'c7f4bcab-869d-4cd3-b51a-c963060527e2', ownerId: 'b6dc86a3-12bb-490d-b130-48d95d426a1e' };
+  const row = { id: inputs.itemId, user_id: inputs.ownerId, status: 'packet_ready',
+    result_code: 'packet_ready_with_caution', packet_type: 'custom_pleading', pathway_label: route.pathwayLabel,
+    source_session_id: 'recorded-source-session', source_pending_result_id: 'recorded-source-session',
+    artifact_refs_json: { attribution: { product: 'expungement_ai_dtc', locale: 'en' }, selectedTrackId: derived.trackId },
+    payment_status: 'unpaid', payment_allowed: true, checkout_session_id: null, packet_status: 'not_started', provider_event_id: null };
+  return { inputs, row };
+}
+
+for (const status of [200, 201]) {
+  test(`#35933049147 actual SQL helper and predicate accept valid HTTP ${status}, preserving raw status`, async () => {
+    const { row, inputs } = await recordedPaymentReadback();
+    const response = await paymentSqlResponse(status, [row]);
+    assert.equal(response.status, status);
+    assert.equal(response.ok, true);
+    assert.deepEqual(paymentReadbackProof(response, inputs), { passed: true, failedConditions: [] });
+  });
+}
+for (const status of [300, 302, 400, 401, 403, 409, 422, 429, 500, 503]) {
+  test(`#35933049147 HTTP ${status} cannot pass with the exact plausible row`, async () => {
+    const { row, inputs } = await recordedPaymentReadback();
+    const response = await paymentSqlResponse(status, [row]);
+    assert.equal(response.status, status);
+    assert.equal(response.ok, false);
+    assert.deepEqual(paymentReadbackProof(response, inputs), { passed: false,
+      failedConditions: [{ name: 'sql_http_success', actual: status, expected: 'HTTP 200-299 (Response.ok)' }] });
+  });
+}
+for (const [name, body, condition] of [
+  ['non-JSON body', () => '<html>error</html>', 'sql_rows_shape'],
+  ['JSON null', () => null, 'sql_rows_shape'],
+  ['JSON string', () => '"error"', 'sql_rows_shape'],
+  ['empty object', () => ({}), 'sql_rows_shape'],
+  ['error body', () => ({ error: 'query failed' }), 'sql_rows_shape'],
+  ['error body containing plausible rows', (row) => ({ error: 'query failed', rows: [row] }), 'sql_rows_shape'],
+  ['single row without array', (row) => row, 'sql_rows_shape'],
+  ['empty rows', () => [], 'sql_row_count'],
+  ['multiple rows', (row) => [row, row], 'sql_row_count'],
+  ['null row', () => [null], 'sql_row_shape'],
+  ['array row', (row) => [[row]], 'sql_row_shape'],
+  ['scalar row', () => ['row'], 'sql_row_shape'],
+  ['error row', () => [{ error: 'query failed' }], 'item_id']
+]) {
+  test(`#35933049147 successful HTTP cannot hide ${name}`, async () => {
+    const { row, inputs } = await recordedPaymentReadback();
+    for (const status of [200, 201]) {
+      const proof = paymentReadbackProof(await paymentSqlResponse(status, body(row)), inputs);
+      assert.equal(proof.passed, false);
+      assert.ok(proof.failedConditions.some((failure) => failure.name === condition), JSON.stringify(proof));
+    }
+  });
+}
+
+for (const [condition, label, change] of [
+  ...Object.entries({ id: 'other', user_id: 'other', result_code: 'guidance_only', packet_type: 'guidance_packet',
+    pathway_label: 'other', status: 'review', payment_status: 'paid', payment_allowed: false,
+    checkout_session_id: 'cs_test_premature', packet_status: 'queued', provider_event_id: 'evt_premature',
+    source_pending_result_id: null, source_session_id: 'other' }).map(([key, value]) => [
+    ({ id: 'item_id', user_id: 'owner_id', status: 'item_status', source_session_id: 'source_session_linkage' })[key] ?? key,
+    key, (row) => { row[key] = value; }]),
+  ['payment_allowed', 'truthy payment allowance', (r) => { r.payment_allowed = 1; }],
+  ['checkout_session_id', 'missing checkout column', (r) => { delete r.checkout_session_id; }],
+  ['provider_event_id', 'missing event column', (r) => { delete r.provider_event_id; }],
+  ['source_pending_result_id', 'non-string source ids', (r) => { r.source_pending_result_id = r.source_session_id = 1; }],
+  ['attribution_product', 'wrong product', (r) => { r.artifact_refs_json.attribution.product = 'rcap_partner'; }],
+  ['attribution_product', 'missing attribution', (r) => { delete r.artifact_refs_json.attribution; }],
+  ...[undefined, null, 'es', 'fr'].map((locale) => ['attribution_locale', `locale ${locale}`,
+    (r) => { r.artifact_refs_json.attribution.locale = locale; }]),
+  ['selected_track_id', 'wrong track', (r) => { r.artifact_refs_json.selectedTrackId = 'other'; }],
+  ['selected_track_id', 'missing track', (r) => { delete r.artifact_refs_json.selectedTrackId; }],
+  ...Object.entries({ jurisdiction: 'IL', rendererKind: 'none', routeKind: 'legacy_retired', authorityAllowed: false,
+    profileId: 'IL', profileVersion: '', routeId: 'MS:other' }).map(([key, value]) => [
+    ({ jurisdiction: 'jurisdiction', rendererKind: 'renderer_kind', routeKind: 'route_kind',
+      authorityAllowed: 'fulfillment_authority', profileId: 'profile_id', profileVersion: 'profile_version', routeId: 'route_id' })[key],
+    key, (_row, inputs) => { inputs.derived[key] = value; }]),
+  ['fulfillment_authority', 'truthy authority', (_r, i) => { i.derived.authorityAllowed = 'true'; }],
+  ['profile_version', 'non-string profile version', (_r, i) => { i.derived.profileVersion = 1; }],
+  ['route_id', 'wrong compiled pathway', (_r, i) => { i.derived.compiledPathwayId = 'other'; }],
+  ['jurisdiction', 'wrong expected jurisdiction', (_r, i) => { i.route.state = 'IL'; }]
+]) {
+  test(`#35933049147 ${label} remains refused with named actual/expected diagnostics`, async () => {
+    const { row, inputs } = await recordedPaymentReadback();
+    change(row, inputs);
+    const proof = paymentReadbackProof(await paymentSqlResponse(201, [row]), inputs);
+    assert.equal(proof.passed, false);
+    const failure = proof.failedConditions.find((f) => f.name === condition);
+    assert.ok(failure, JSON.stringify(proof));
+    assert.ok(Object.hasOwn(failure, 'actual') && Object.hasOwn(failure, 'expected'));
+  });
+}
+
+test('#35933049147 diagnostics redact secrets and never serialize participant answers or error bodies', async () => {
+  const { row, inputs } = await recordedPaymentReadback();
+  row.artifact_refs_json.answers = { confidential: 'participant-answer-sentinel' };
+  row.result_code = { confidential: 'participant-answer-sentinel' };
+  row.artifact_refs_json.attribution.locale = 'secret-test-value';
+  const proof = paymentReadbackProof(await paymentSqlResponse(201, [row]), inputs);
+  assert.deepEqual(proof.failedConditions, [
+    { name: 'result_code', actual: '<object>', expected: 'packet_ready_with_caution' },
+    { name: 'attribution_locale', actual: '***REDACTED***', expected: 'en' }
+  ]);
+  assert.doesNotMatch(JSON.stringify(proof), /participant-answer-sentinel|secret-test-value/);
+  const errorProof = paymentReadbackProof(await paymentSqlResponse(201,
+    { error: 'secret-test-value participant-answer-sentinel', rows: [row] }), inputs);
+  assert.doesNotMatch(JSON.stringify(errorProof), /participant-answer-sentinel|secret-test-value/);
+});
+
+test('#35933049147 actual harness records the failed SQL subcondition and stops before charge', async () => {
+  const app = await application();
+  const { context, evidence, cases } = paymentContext(app, 'en', await paymentInputs(), 401);
+  const start = paymentSource.indexOf('let preflightRoute = null;');
+  const end = paymentSource.indexOf('// --- 3b. What the published image', start);
+  await assert.rejects(vm.runInContext(`(async () => { ${paymentSource.slice(start, end)} })()`, context), /EVIDENCE_FINISHED/);
+  const verdict = cases.get('seeded_item_agrees_with_the_authoritative_resolver');
+  assert.equal(verdict.passed, false);
+  assert.match(verdict.observed, /SQL=401; rows=1; failedSubconditions=\[\{"name":"sql_http_success","actual":401,"expected":"HTTP 200-299/);
+  assert.equal(evidence.seededItemAgreement.sqlStatus, 401);
+  assert.equal(evidence.seededItemAgreement.failedConditions.length, 1);
+  assert.equal(evidence.seededItem, null, 'invalid readback bodies must not be serialized into evidence');
+  assert.equal(app.paymentReads, 0);
 });
 
 test('#338 synthetic language is an explicit selection; diagnostic messages use the actual secret redactor', async () => {
