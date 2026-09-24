@@ -96,7 +96,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues.",
         resultCode: "checkout_provider_unavailable",
-        providerFailure: error.providerFailure
+        providerFailure: error.providerFailure,
+        bindingFailure: error.bindingFailure,
+        cleanupFailure: error.cleanupFailure
       }, { status: 503 });
     }
 

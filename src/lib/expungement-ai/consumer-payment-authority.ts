@@ -67,6 +67,67 @@ export type ConsumerCheckoutBindingResult =
   | { outcome: "refused"; reason: string }
   | { outcome: "unavailable"; reason: string };
 
+/**
+ * The outcome of replacing one stored Checkout Session with another.
+ *
+ * `conflicted` is not a failure of the swap so much as the answer to it: another
+ * request replaced the Session first, and `winningCheckoutSessionId` names the
+ * one that is now stored. The caller expires the Session it just created and
+ * reconciles against that winner; it never overwrites it.
+ */
+export type ConsumerCheckoutReplacementResult =
+  | { outcome: "replaced" }
+  | { outcome: "conflicted"; winningCheckoutSessionId: string | null }
+  | { outcome: "refused"; reason: string }
+  | { outcome: "unavailable"; reason: string };
+
+/**
+ * What the matter's row actually holds right now.
+ *
+ * `readable: false` is not "nothing is stored" — it is "this could not be
+ * established", and the two must never collapse into one another. A caller
+ * deciding whether to expire a Checkout Session has to be able to tell a proven
+ * absence from an unanswered question, because only one of them is authority to
+ * destroy an order.
+ */
+export type StoredConsumerCheckoutSession =
+  | { readable: true; checkoutSessionId: string | null }
+  | { readable: false; reason: string };
+
+/**
+ * Reads the Checkout Session id currently bound to a matter.
+ *
+ * This is a fresh read, taken after a compare-and-swap has already been decided,
+ * and it exists because the swap's own report of the winner is a snapshot and
+ * may be null. A losing path needs to know what the row holds NOW before it
+ * expires anything, since the id it is holding may be the very id that won.
+ *
+ * It reads through the service-role client, like every other authority in this
+ * module, and it reads only this column on the owner's own row.
+ */
+export async function readStoredConsumerCheckoutSession(input: {
+  userId: string;
+  briefcaseItemId: string;
+}): Promise<StoredConsumerCheckoutSession> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { readable: false, reason: "checkout_binding_storage_unavailable" };
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .select("checkout_session_id")
+    .eq("user_id", input.userId)
+    .eq("id", input.briefcaseItemId)
+    .maybeSingle<{ checkout_session_id: string | null }>();
+
+  if (error) return { readable: false, reason: "checkout_binding_read_failed" };
+  // A matter that is not there is not an answer about what it holds.
+  if (!data) return { readable: false, reason: "item_not_found" };
+  return {
+    readable: true,
+    checkoutSessionId: typeof data.checkout_session_id === "string" ? data.checkout_session_id : null
+  };
+}
+
 export type RecordConsumerPaymentInput = {
   briefcaseItemId: string;
   paymentStatus: "paid" | "refunded" | "unpaid";
@@ -348,4 +409,65 @@ export async function persistConsumerCheckoutBinding(input: {
     return { outcome: "refused", reason: typeof row.reason === "string" ? row.reason : "checkout_binding_refused" };
   }
   return { outcome: "unavailable", reason: "checkout_binding_response_invalid" };
+}
+
+/**
+ * Compare-and-swap replacement of an incompatible or stale OPEN Checkout
+ * Session.
+ *
+ * Used when the predecessor is expired or positively verified absent from the
+ * expected provider account and mode. The initial binding
+ * refuses any new id once one is stored — correctly, because that refusal is
+ * what stops a second Session being written over an existing order — so a
+ * replacement needs its own writer that names the id it is replacing and swaps
+ * only if that id is still the stored one.
+ */
+export async function replaceConsumerCheckoutSession(input: {
+  userId: string;
+  briefcaseItemId: string;
+  /** The exact Session this replacement expects to find stored, and expired. */
+  expectedCheckoutSessionId: string;
+  checkoutSessionId: string;
+  paymentProvider: "stripe" | "dry_run";
+  productId: typeof CONSUMER_PACKET_PRODUCT_ID;
+  personId: string;
+  matterId: string;
+  expectedVerificationHash: string;
+}): Promise<ConsumerCheckoutReplacementResult> {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch {
+    return { outcome: "refused", reason: "invalid_expected_verification_hash" };
+  }
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { outcome: "unavailable", reason: "checkout_replacement_storage_unavailable" };
+
+  const { data, error } = await supabase.rpc("replace_consumer_checkout_session", {
+    p_consumer_auth_user_id: input.userId,
+    p_briefcase_item_id: input.briefcaseItemId,
+    p_expected_checkout_session_id: input.expectedCheckoutSessionId,
+    p_checkout_session_id: input.checkoutSessionId,
+    p_payment_provider: input.paymentProvider,
+    p_product_id: input.productId,
+    p_person_id: input.personId,
+    p_matter_id: input.matterId,
+    p_expected_verification_hash: input.expectedVerificationHash
+  });
+  if (error) return { outcome: "unavailable", reason: error.message };
+  const row = Array.isArray(data) && data.length === 1 ? data[0] : null;
+  if (row?.ok === true
+    && row.briefcase_item_id === input.briefcaseItemId
+    && row.checkout_session_id === input.checkoutSessionId) {
+    return { outcome: "replaced" };
+  }
+  if (row?.ok === false && row.briefcase_item_id === input.briefcaseItemId && row.reason === "checkout_replacement_conflict") {
+    return {
+      outcome: "conflicted",
+      winningCheckoutSessionId: typeof row.checkout_session_id === "string" ? row.checkout_session_id : null
+    };
+  }
+  if (row?.ok === false) {
+    return { outcome: "refused", reason: typeof row.reason === "string" ? row.reason : "checkout_replacement_refused" };
+  }
+  return { outcome: "unavailable", reason: "checkout_replacement_response_invalid" };
 }

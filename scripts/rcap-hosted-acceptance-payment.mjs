@@ -1871,6 +1871,9 @@ let session = null;
     let replacementProduct = null;
     let incompatibleAfter = null;
     let plantedOk = false;
+    let replacementStatus = null;
+    let replacementSession = null;
+    let replacementBoundId = null;
     if (incompatible?.id) {
       // The real session is expired first: two open sessions for one matter is
       // not a state the application ever produces, and leaving it open would
@@ -1881,6 +1884,7 @@ let session = null;
       const plant = await setStoredSessionId(incompatible.id);
       plantedOk = plant.status === 200 || plant.status === 201;
       const replaced = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+      replacementStatus = replaced.status;
       replacementId = replaced.json?.checkoutSessionId ?? null;
       incompatibleAfter = await stripeSession(incompatible.id);
       if (replacementId) {
@@ -1890,6 +1894,9 @@ let session = null;
         ).then((r) => r.json()).catch(() => null);
         const product = items?.data?.[0]?.price?.product;
         replacementProduct = typeof product === "string" ? product : product?.id ?? null;
+        replacementSession = await stripeSession(replacementId, "?expand[]=discounts.promotion_code");
+        if (replacementSession) replacementSession.line_items = items;
+        replacementBoundId = await storedSessionIdNow();
       }
       evidence.resumedReplacement = {
         incompatibleId: incompatible.id,
@@ -1898,39 +1905,50 @@ let session = null;
         replacementProduct,
         expectedProduct: CATALOG_PRODUCT_ID,
         status: replaced.status,
-        outcome: replaced.json?.outcome ?? null
+        outcome: replaced.json?.outcome ?? null,
+        bindingFailure: replaced.json?.bindingFailure ?? null,
+        providerFailure: replaced.json?.providerFailure ?? null,
+        cleanupFailure: replaced.json?.cleanupFailure ?? null
       };
     }
 
+    const replacementChecks = [
+      ["incompatible_session_created", Boolean(incompatible?.id), true],
+      ["incompatible_session_planted", plantedOk, true],
+      ["replacement_http_status", replacementStatus, 200],
+      ["replacement_session_returned", Boolean(replacementId), true],
+      ["replacement_differs_from_predecessor", Boolean(replacementId) && replacementId !== incompatible?.id, true],
+      ["replacement_catalog_product", replacementProduct, CATALOG_PRODUCT_ID],
+      ["predecessor_expired", incompatibleAfter?.status ?? null, "expired"],
+      ["replacement_bound_to_matter", Boolean(replacementId) && replacementBoundId === replacementId, true],
+      ["replacement_readback_identity", Boolean(replacementId) && replacementSession?.id === replacementId, true],
+      ["replacement_open", replacementSession?.status ?? null, "open"],
+      ["replacement_unpaid", replacementSession?.payment_status ?? null, "unpaid"],
+      ["replacement_url_present", typeof replacementSession?.url === "string" && replacementSession.url.length > 0, true]
+    ].map(([name, actual, expected]) => ({ name, actual, expected, passed: actual === expected }));
+    const replacementPassed = replacementChecks.every(check => check.passed);
+    evidence.resumedReplacement = { ...evidence.resumedReplacement, checks: replacementChecks };
     record(
       "resumed_checkout_replaces_an_incompatible_open_session",
-      Boolean(incompatible?.id) && plantedOk && Boolean(replacementId)
-        && replacementId !== incompatible.id
-        && replacementProduct === CATALOG_PRODUCT_ID
-        && incompatibleAfter?.status === "expired",
+      replacementPassed,
       `an OPEN session on an ad-hoc product (${incompatible?.id ?? "could not be created"}) was stored on this matter,`
         + ` reproducing an order opened before the catalog correction. The deployed route answered with`
         + ` ${replacementId ?? "(no session)"} on product ${replacementProduct ?? "(unknown)"}`
         + ` (the catalog product is ${CATALOG_PRODUCT_ID}), and the incompatible session is now`
         + ` ${incompatibleAfter?.status ?? "(unknown)"}. Reusing it would have offered a line item the`
         + ` product-restricted coupon can only refuse, which is the defect this release exists to fix.`
+        + ` Failed subconditions: ${JSON.stringify(replacementChecks.filter(check => !check.passed))}`
     );
+
+    // Preserve the first causal failure and stop before any browser/payment
+    // work. The original Session was deliberately expired by this case.
+    if (!replacementPassed) finish();
 
     // The journey continues on the replacement, which is now the matter's live
     // order — the same thing a resumed participant would be paying.
-    if (replacementId) {
-      const fresh = await stripeSession(replacementId, "?expand[]=discounts.promotion_code");
-      if (fresh?.id) {
-        const items = await fetch(
-          `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(fresh.id)}/line_items?expand[]=data.price.product`,
-          { headers: { Authorization: `Bearer ${STRIPE_KEY}` } }
-        ).then((r) => r.json()).catch(() => null);
-        if (Array.isArray(items?.data) && items.data.length > 0) fresh.line_items = items;
-        session = fresh;
-        runNamespace.checkoutSessionId = fresh.id;
-        evidence.checkout = { sessionId: fresh.id, amountTotal: fresh.amount_total, currency: fresh.currency, expectedCents: consumerPacketPriceCents ?? null };
-      }
-    }
+    session = replacementSession;
+    runNamespace.checkoutSessionId = session.id;
+    evidence.checkout = { sessionId: session.id, amountTotal: session.amount_total, currency: session.currency, expectedCents: consumerPacketPriceCents ?? null };
   }
 }
 

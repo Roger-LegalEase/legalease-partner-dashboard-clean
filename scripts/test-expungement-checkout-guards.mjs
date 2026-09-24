@@ -3,6 +3,7 @@
 // unchanged in isolated PostgreSQL (PGlite). No hosted project is contacted.
 
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import Module from "node:module";
 import path from "node:path";
@@ -56,10 +57,10 @@ function requireFor(mocks) {
   };
 }
 
-function loadTsFile(resolved, mocks) {
+function loadTsFile(resolved, mocks, source) {
   const cached = REAL_MODULE_CACHE.get(resolved);
   if (cached) return cached;
-  const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
+  const transpiled = ts.transpileModule(source ?? fs.readFileSync(resolved, "utf8"), {
     compilerOptions: {
       esModuleInterop: true,
       module: ts.ModuleKind.CommonJS,
@@ -79,10 +80,10 @@ function loadTsFile(resolved, mocks) {
   return mod.exports;
 }
 
-function loadTsWithMocks(relPath, mocks) {
+export function loadTsWithMocks(relPath, mocks, source) {
   const resolved = path.join(rootDir, relPath);
   REAL_MODULE_CACHE.delete(resolved);
-  const loaded = loadTsFile(resolved, mocks);
+  const loaded = loadTsFile(resolved, mocks, source);
   REAL_MODULE_CACHE.delete(resolved);
   return loaded;
 }
@@ -124,7 +125,7 @@ const verifiedFixture = buildMsNonConvictionVerification({
   answerOverrides: HOSTED_FINAL_REVIEW_ANSWERS
 });
 
-function eligibleItem(overrides = {}) {
+export function eligibleItem(overrides = {}) {
   return {
     id: ITEM,
     paymentAllowed: true,
@@ -270,14 +271,18 @@ async function authoritativePersistenceBehavior() {
   }
 }
 
-function buildPaymentAdapter({
+export function buildPaymentAdapter({
   retrievedSession = null,
   persistOutcome = "bound",
   reviewReady = true,
   verificationSnapshotOverrides = {},
   verificationHash = "a".repeat(64),
   verificationRevision = 4,
-  stripeConfigurationError = null
+  stripeConfigurationError = null,
+  stripeOverride = null,
+  authorityOverride = null,
+  matterId = MATTER,
+  adapterSource
 } = {}) {
   const createCalls = [];
   const retrieveCalls = [];
@@ -287,7 +292,7 @@ function buildPaymentAdapter({
   const routeInputs = [];
   let verificationCalls = 0;
 
-  const stripeClient = {
+  const stripeClient = stripeOverride ?? {
     checkout: {
       sessions: {
         create: async (params, options) => {
@@ -301,6 +306,7 @@ function buildPaymentAdapter({
         },
         retrieve: async (id, params) => {
           retrieveCalls.push({ id, params });
+          if (id === "cs_test_new") return { id, mode: "payment", status: "open", url: `https://checkout.stripe.com/c/pay/${id}` };
           return retrievedSession;
         },
         update: async (id, params) => {
@@ -326,6 +332,7 @@ function buildPaymentAdapter({
         return stripeClient;
       },
       isProductionRuntime: () => false,
+      stripeSecretKeyIsLiveMode: () => false,
       isStripeConfigurationError: (error) => error?.name === "StripeConfigurationError"
     },
     "@/lib/expungement-ai/eligibility-adapter": {
@@ -357,12 +364,14 @@ function buildPaymentAdapter({
     },
     "@/lib/expungement-ai/consumer-identity": {
       resolveConsumerPersonId: async () => ({ ok: true, personId: PERSON }),
-      consumerMatterIdForItem: () => MATTER
+      consumerMatterIdForItem: () => matterId
     },
-    "@/lib/expungement-ai/consumer-payment-authority": {
+    "@/lib/expungement-ai/consumer-payment-authority": authorityOverride ?? {
       CONSUMER_PACKET_PRODUCT_ID: PRODUCT,
       CONSUMER_PACKET_PRICE_CENTS: 5000,
       CONSUMER_PACKET_CURRENCY: "usd",
+      readStoredConsumerCheckoutSession: async () => ({ readable: true, checkoutSessionId: retrievedSession?.id ?? null }),
+      replaceConsumerCheckoutSession: async () => ({ outcome: "replaced" }),
       persistConsumerCheckoutBinding: async (input) => {
         persistCalls.push(input);
         return { outcome: persistOutcome };
@@ -397,7 +406,7 @@ function buildPaymentAdapter({
         };
       }
     }
-  });
+  }, adapterSource);
 
   return {
     adapter,
@@ -1447,6 +1456,7 @@ await protectedCasBehavior();
 await webhookBehavior();
 await renderRequestBehavior();
 sourceContracts();
+execFileSync(process.execPath, ["--test", "scripts/test-consumer-checkout-binding-recovery.mjs"], { cwd: rootDir, stdio: "inherit" });
 
 console.log("Expungement.ai matter-level checkout guard tests passed.");
 console.log("- Final review gates Checkout and exact matter metadata is persisted before return.");
