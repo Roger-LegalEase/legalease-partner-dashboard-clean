@@ -61,6 +61,7 @@ test("the REST failure path redacts before any receipt is emitted", async () => 
   };
   const buildEnv = { NEXT_PUBLIC_SUPABASE_URL: supabaseUrl };
   const meta = {
+    ...transport.FROZEN_WORKER_METADATA,
     rcapApplicationSha: sha,
     rcapAcceptanceProjectRef: "hyflxnlhpmiqxvvcoiia",
     rcapReturnOrigin: identity.expectedHostedReturnOrigin(sha),

@@ -501,7 +501,7 @@ jobs:
 
       - name: Verify the bounded MVL Clinic Preview orchestration contract
         id: verify_clinic_preview
-        if: inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_preview' || inputs.phase == 'legal_aid_browser'
+        if: inputs.phase == 'clinic_preview' || inputs.phase == 'legal_aid_browser' || inputs.phase == 'clinic_deploy'
         run: node scripts/verify-rcap-hosted-ms-clinic-preview.mjs
 
       - name: Verify the reuse-only human Checkout gate
