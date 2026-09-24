@@ -39,7 +39,7 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
 const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
+const EXPECTED_WORKER_DIGEST = "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";
 const EXPECTED_EVENTS = [

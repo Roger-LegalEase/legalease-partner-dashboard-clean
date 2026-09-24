@@ -56,7 +56,7 @@ const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 // Accepted worker source fe2457a71 was published by run 35769217594 and
 // passed read-only image acceptance 35769776831. Application identity remains
 // separately bound; canonical input equivalence authorizes this digest reuse.
-const EXPECTED_WORKER_DIGEST = "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905";
+const EXPECTED_WORKER_DIGEST = "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",

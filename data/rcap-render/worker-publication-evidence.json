@@ -28,8 +28,8 @@
   "originalPublicationPath": null,
   "originalArchivePath": null,
   "originalPublicationSource": "Downloaded the native ZIP for artifact 10785287349 of run 35941806150; its SHA-256 equals the Actions artifact digest. Every native publication field is retained. Dockerfile and lockfile hashes match Git at 4f7d209de11265d0793b7b74c728eab4efde1aa5. The workflow definition ran from d3bfa531aff360303d347be992ac0ad512b7a09d; its detached build source is 4f7d209de11265d0793b7b74c728eab4efde1aa5.",
-  "registryPullByDigestStatus": "pending_read_only_image_acceptance",
-  "runtimeAccepted": false,
+  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
+  "runtimeAccepted": true,
   "authorization": "Roger Roman, current explicit authorization for candidate 4f7d209de11265d0793b7b74c728eab4efde1aa5: exactly one successor worker publication and read-only acceptance, the specified acceptance migration, exactly one successor Preview, and corresponding bindings. Publication was dispatched by Roger after the agent connection returned HTTP 403. No additional publication, Stripe retarget, hosted_full or Production action is authorized.",
   "priorPublicationEvidencePath": "private/transfers/cloud-recovery-20260915/publication/prior-publication-evidence.json",
   "supersededPublication": {
@@ -436,10 +436,45 @@
   "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
   "localVerificationDigest": null,
   "localVerificationDigestScope": "No local build or publication; the immutable digest comes from the native successful publication artifact.",
-  "imageAcceptanceAttempts": [],
-  "imageAcceptance": null,
-  "packageVisibility": null,
-  "packageVisibilityEvidence": "Pending read-only acceptance of this exact digest; prior-image measurements are retained only under supersededPublication.",
+  "imageAcceptanceAttempts": [
+    {
+      "runId": 35943884247,
+      "conclusion": "success"
+    }
+  ],
+  "imageAcceptance": {
+    "runId": 35943884247,
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35943884247",
+    "runAttempt": 1,
+    "conclusion": "success",
+    "acceptedAt": "2026-09-24T01:41:22Z",
+    "acceptedAtCommit": "a36a60c430be54323f5ca76cc1ada34767a85d7f",
+    "subjectTakenFrom": "Committed publication evidence at the exact workflow head; its source/digest and the logged subject were independently matched.",
+    "digest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+    "tag": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+    "readOnly": true,
+    "properties": {
+      "tagResolvesToExpectedDigest": true,
+      "authenticatedPullByDigest": true,
+      "anonymousPullRefused": true,
+      "anonymousStatus": 401,
+      "tagAndDigestAreTheSameImage": true,
+      "sourceBindingExceptionExactlyOneDigestWide": true,
+      "sourceBinding": "SOURCE BINDING: PASS; OCI REVISION: PRESENT; exact source revision verified on the normal path.",
+      "runsAsNonRoot": true,
+      "healthcheckDeclaredAndSucceeds": true,
+      "failsClosedWithoutCredentials": true,
+      "gracefulShutdownOnSigterm": true,
+      "scratchDirectory": "present, owned by rcapworker, empty and writable",
+      "secretScanPositiveAndNegativeControls": true,
+      "filesystemSecretScan": "clean",
+      "configAndHistorySecretScan": "config env matches 0; layer history matches 0",
+      "deployedNothingClaimedNothing": true
+    },
+    "evidenceLimit": "All 20 main steps passed. The full run log was downloaded and checked; no runtime property was inherited from the superseded image."
+  },
+  "packageVisibility": "private",
+  "packageVisibilityEvidence": "Run 35943884247: anonymous token refused HTTP 401; authenticated digest pull succeeded.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
@@ -448,5 +483,5 @@
     "configDigest": null,
     "note": "Not measured for this digest yet."
   },
-  "readBackLimitation": "The native artifact ZIP was downloaded and its SHA-256 verified against GitHub metadata; the full publication log confirms both tag guards found the tag free. Runtime and pull properties remain unverified until image acceptance runs."
+  "readBackLimitation": "Native publication artifact ZIP and complete read-only acceptance log downloaded. Artifact digest, committed subject, exact source revision and all acceptance step conclusions verified. Platform metadata fields remain unset where not independently read."
 }

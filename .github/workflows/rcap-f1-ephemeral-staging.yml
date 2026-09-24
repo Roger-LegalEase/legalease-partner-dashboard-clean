@@ -366,6 +366,9 @@ jobs:
     env:
       # Preproduction only; production jobs retain their existing containment.
       RELEASE_INTEGRATION_BRANCH: captain-release
+      # Accepted by read-only run 35943884247; scoped to this nonproduction job.
+      AUTHORIZED_WORKER_SOURCE_SHA: 4f7d209de11265d0793b7b74c728eab4efde1aa5
+      AUTHORIZED_WORKER_DIGEST: sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
