@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { after, NextRequest, NextResponse } from "next/server";
 
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
@@ -66,6 +66,7 @@ export async function GET(
     || decision.job.outputSha256 !== authority.expectedSha256) return unavailable();
 
   const response = await streamAuthorizedPacket(ports, decision, {
+    waitUntil: after,
     userId: session.userId,
     requestContext: {
       surface: "consumer_briefcase_grant",

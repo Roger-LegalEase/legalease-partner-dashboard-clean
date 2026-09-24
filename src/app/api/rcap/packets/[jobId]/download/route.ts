@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
@@ -73,6 +73,7 @@ export async function GET(
   }
 
   return streamAuthorizedPacket(ports, decision, {
+    waitUntil: after,
     userId: auth.userId as string,
     requestContext: {
       surface: "briefcase_download",

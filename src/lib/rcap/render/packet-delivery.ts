@@ -275,16 +275,41 @@ export async function authorizePacketDownload(
 export async function streamAuthorizedPacket(
   ports: DeliveryPorts,
   decision: Extract<DeliveryDecision, { ok: true }>,
-  input: { userId: string; requestContext?: Record<string, unknown>; chunkSize?: number }
+  input: {
+    userId: string;
+    requestContext?: Record<string, unknown>;
+    chunkSize?: number;
+    /** Serverless callers must retain receipt work after the response closes. */
+    waitUntil?: (receipt: Promise<void>) => void;
+  }
 ): Promise<Response> {
   const { job, bytes, filename } = decision;
 
-  await ports.recordEvent({
-    jobId: job.id,
-    eventType: "delivery_authorized",
-    actorUserId: input.userId,
-    requestContext: input.requestContext
-  });
+  // Serialize start/cancel races and refuse a missing RPC receipt. A successful
+  // PDF response alone must never be mistaken for a successfully recorded event.
+  let events = Promise.resolve();
+  const record = (eventType: DeliveryEventType) => {
+    events = events.then(async () => {
+      const receipt = await ports.recordEvent({
+        jobId: job.id, eventType, actorUserId: input.userId,
+        requestContext: input.requestContext
+      });
+      if (!receipt) throw new Error(`Packet delivery ${eventType} receipt failed`);
+    });
+    return events;
+  };
+  await record("delivery_authorized");
+
+  let receiptCompleted = () => {};
+  let receiptFailed: (error: unknown) => void = () => {};
+  if (input.waitUntil) {
+    // Register in the route's request scope, before returning the response.
+    // Next's after(promise) keeps this work alive even after the last PDF byte.
+    input.waitUntil(new Promise<void>((resolve, reject) => {
+      receiptCompleted = resolve;
+      receiptFailed = reject;
+    }));
+  }
 
   const CHUNK = input.chunkSize ?? 64 * 1024;
   let offset = 0;
@@ -292,42 +317,40 @@ export async function streamAuthorizedPacket(
   let transmitting = false;
 
   const body = new ReadableStream<Uint8Array>({
-    pull: (controller) => {
-      if (!transmitting) {
-        transmitting = true;
-        void ports.recordEvent({
-          jobId: job.id,
-          eventType: "transmission_started",
-          actorUserId: input.userId,
-          requestContext: input.requestContext
-        });
-      }
-      if (offset < bytes.length) {
-        controller.enqueue(new Uint8Array(bytes.subarray(offset, Math.min(offset + CHUNK, bytes.length))));
-        offset += CHUNK;
-        return;
-      }
-      controller.close();
-      if (!settled) {
+    pull: async (controller) => {
+      try {
+        if (!transmitting) {
+          transmitting = true;
+          await record("transmission_started");
+        }
+        if (settled) return;
+        if (offset < bytes.length) {
+          controller.enqueue(new Uint8Array(bytes.subarray(offset, Math.min(offset + CHUNK, bytes.length))));
+          offset += CHUNK;
+          return;
+        }
         settled = true;
+        controller.close();
         // The source produced every byte and the response accepted them.
-        void ports.recordEvent({
-          jobId: job.id,
-          eventType: "transmission_completed",
-          actorUserId: input.userId,
-          requestContext: input.requestContext
-        });
+        await record("transmission_completed");
+        receiptCompleted();
+      } catch (error) {
+        settled = true;
+        controller.error(error);
+        receiptFailed(error);
+        throw error;
       }
     },
-    cancel: () => {
+    cancel: async () => {
       if (!settled) {
         settled = true;
-        void ports.recordEvent({
-          jobId: job.id,
-          eventType: "transmission_aborted",
-          actorUserId: input.userId,
-          requestContext: input.requestContext
-        });
+        try {
+          await record("transmission_aborted");
+          receiptCompleted();
+        } catch (error) {
+          receiptFailed(error);
+          throw error;
+        }
       }
     }
   });

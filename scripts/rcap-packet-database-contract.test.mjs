@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { register } from 'node:module';
 import vm from 'node:vm';
 import ts from 'typescript';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { PDFDocument } from 'pdf-lib';
 import { packetTestDatabase, packetApplicationTestDatabase, applyPacketApplicationDependencies, readPacketCatalog, buildPacketReference } from './rcap-packet-database-reference.mjs';
 import { REPAIR_PATH, CORRECTION_PATH, CONTRACT_PATH, packetCatalogQuery, queueHealthQuery, comparePacketCatalog, digest } from './rcap-packet-database-contract.mjs';
@@ -14,6 +15,10 @@ import { packetDatabaseReadback } from './verify-rcap-packet-database.mjs';
 import { buildMsNonConvictionVerification, MS_NONCONVICTION_ROUTE } from './lib/rcap-ms-nonconviction-fixture.mjs';
 
 register('./lib/ts-esm-loader.mjs',import.meta.url);
+globalThis.AsyncLocalStorage ??= AsyncLocalStorage;
+const { AfterContext } = await import('next/dist/server/after/after-context.js');
+const { workAsyncStorage } = await import('next/dist/server/app-render/work-async-storage.external.js');
+const { after } = await import('./lib/next-server-esm-bridge.mjs');
 const { runWorkerCycle } = await import('../src/lib/rcap/render/render-worker.ts');
 const root=process.cwd();
 const sql = v => v === null ? 'null' : `'${String(v).replaceAll("'","''")}'`;
@@ -37,6 +42,93 @@ function sourceModule(relative, imports, source=fs.readFileSync(path.join(root,r
   new Function('require','module','exports',compiled)(require,loaded,loaded.exports);
   return loaded.exports;
 }
+
+// The installed Next after()/AfterContext executes unchanged. Only the host's
+// waitUntil transport is captured, so a late receipt must retain a real task.
+function deliveryRequestScope() {
+  const tasks=[],errors=[];
+  const afterContext=new AfterContext({waitUntil:task=>tasks.push(task),onClose(){},onTaskError:error=>errors.push(error)});
+  return {tasks,errors,run:fn=>workAsyncStorage.run({afterContext},fn)};
+}
+const deferred=()=>Promise.withResolvers();
+
+// Run these exact assertions against historical source via the optional ref;
+// never edit the old counterexample's defect-positive expectations.
+test('delivery receipt lifetime survives response completion and exposes receipt failures',async t=>{
+  const relative='src/lib/rcap/render/packet-delivery.ts';
+  const source=process.env.PACKET_DELIVERY_SOURCE_REF
+    ?execFileSync('git',['show',`${process.env.PACKET_DELIVERY_SOURCE_REF}:${relative}`],{encoding:'utf8'})
+    :fs.readFileSync(relative,'utf8');
+  const parsed=ts.createSourceFile(relative,source,ts.ScriptTarget.Latest,true);
+  const declaration=parsed.statements.find(node=>ts.isFunctionDeclaration(node)&&node.name?.text==='streamAuthorizedPacket');
+  assert.ok(declaration);
+  const {streamAuthorizedPacket}=sourceModule(relative,{},declaration.getText(parsed));
+  const bytes=Buffer.from('%PDF-1.7\n'+'existing artifact bytes\n'.repeat(20));
+  const decision={ok:true,job:{id:randomUUID()},bytes,filename:'packet.pdf'};
+  const input={userId:randomUUID(),waitUntil:after,chunkSize:16};
+
+  await t.test('real Next waitUntil remains pending until the delayed completion receipt persists',async()=>{
+    const scope=deliveryRequestScope(),gate=deferred(),entered=deferred(),events=[];
+    const response=await scope.run(()=>streamAuthorizedPacket({async recordEvent({eventType}){
+      if(eventType==='transmission_completed'){entered.resolve();await gate.promise;}
+      events.push(eventType);return randomUUID();
+    }},decision,input));
+    assert.equal(scope.tasks.length,1,'register the lifetime task in request scope before returning');
+    let finished=false;scope.tasks[0].then(()=>{finished=true;});
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()),bytes);
+    await entered.promise;
+    assert.equal(finished,false,'response completion cannot release pending receipt work');
+    assert.deepEqual(events,['delivery_authorized','transmission_started']);
+    gate.resolve();await Promise.all(scope.tasks);
+    assert.deepEqual(events,['delivery_authorized','transmission_started','transmission_completed']);
+    assert.deepEqual(scope.errors,[]);
+  });
+
+  for(const eventType of ['delivery_authorized','transmission_started','transmission_completed','transmission_aborted']) {
+    for(const mode of ['null','throw']) await t.test(`${eventType} ${mode} cannot fabricate a successful receipt`,async t=>{
+      const scope=deliveryRequestScope(),events=[];
+      t.mock.method(console,'error',()=>{}); // Next reports the same error through onTaskError below.
+      const ports={async recordEvent(event){
+        if(event.eventType===eventType){if(mode==='throw')throw new Error('injected receipt failure');return null;}
+        events.push(event.eventType);return randomUUID();
+      }};
+      const start=()=>scope.run(()=>streamAuthorizedPacket(ports,decision,input));
+      if(eventType==='delivery_authorized')await assert.rejects(start,/receipt.*fail/);
+      else {
+        const response=await start();
+        assert.equal(scope.tasks.length,1);
+        if(eventType==='transmission_started')await assert.rejects(response.arrayBuffer(),/receipt.*fail/);
+        else if(eventType==='transmission_aborted'){
+          const reader=response.body.getReader();await reader.read();
+          await assert.rejects(reader.cancel(),/receipt.*fail/);
+        } else assert.deepEqual(Buffer.from(await response.arrayBuffer()),bytes);
+        await Promise.all(scope.tasks);
+        assert.equal(scope.errors.length,1,'Next must observe the receipt failure');
+        assert.match(scope.errors[0].message,/receipt.*fail/);
+      }
+      assert.ok(!events.includes(eventType));
+      assert.ok(!events.includes('transmission_completed'),'failed/aborted delivery never manufactures completion');
+    });
+  }
+
+  await t.test('cancel during pending start preserves event order and waits for the abort receipt',async()=>{
+    const scope=deliveryRequestScope(),start=deferred(),abort=deferred(),events=[];
+    const response=await scope.run(()=>streamAuthorizedPacket({async recordEvent({eventType}){
+      if(eventType==='transmission_started')await start.promise;
+      if(eventType==='transmission_aborted')await abort.promise;
+      events.push(eventType);return randomUUID();
+    }},decision,input));
+    assert.equal(scope.tasks.length,1);
+    const reader=response.body.getReader(),read=reader.read(),cancel=reader.cancel();
+    let finished=false;scope.tasks[0].then(()=>{finished=true;});
+    start.resolve();await read;await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(finished,false);
+    assert.deepEqual(events,['delivery_authorized','transmission_started']);
+    abort.resolve();await cancel;await Promise.all(scope.tasks);
+    assert.deepEqual(events,['delivery_authorized','transmission_started','transmission_aborted']);
+    assert.deepEqual(scope.errors,[]);
+  });
+});
 
 test('missing sponsored reader dependency blocks pre-charge; legitimate correction restores the actual owner GET',async t=>{
   const configured=['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY'];
@@ -110,7 +202,11 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     '@/lib/rcap/render/job-queue':{...currentQueue,getRenderJob:frozenQueue.getRenderJob},
     '@/lib/rcap/render/packet-delivery':delivery
   });
-  const request=()=>route.GET(new Request(`https://local.invalid/api/rcap/packets/${id}/download`),{params:Promise.resolve({jobId:id})});
+  let requestScope;
+  const request=()=>{
+    requestScope=deliveryRequestScope();
+    return requestScope.run(()=>route.GET(new Request(`https://local.invalid/api/rcap/packets/${id}/download`),{params:Promise.resolve({jobId:id})}));
+  };
   const contract=buildPacketReference(root);
   const gate=()=>packetDatabaseReadback(contract,
     JSON.parse(db.sql(packetCatalogQuery()).trim().split('\n').at(-1)),
@@ -137,6 +233,30 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     assert.match(response.headers.get('content-type'),/application\/pdf/);
     const returned=Buffer.from(await response.arrayBuffer());
     assert.deepEqual(returned,bytes);assert.equal(digest(returned),hash);
+    assert.equal(requestScope.tasks.length,1,'actual download handler binds Next receipt lifetime');
+    await Promise.all(requestScope.tasks);assert.deepEqual(requestScope.errors,[]);
+    assert.equal(db.scalar(`select status from packet_render_jobs where id=${sql(id)}`),'delivered');
+    assert.equal(db.scalar(`select count(*) from packet_delivery_events where render_job_id=${sql(id)} and event_type='transmission_completed'`),'1');
+    assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
+  });
+  await t.test('actual consumer grant handler binds the same Next lifetime and persists its completion receipt',async()=>{
+    const grantRoute=sourceModule('src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts',{
+      'next/server':nextServer,
+      '@/lib/expungement-ai/briefcase':briefcase,
+      '@/lib/expungement-ai/packet-information':packetInformation,
+      '@/lib/expungement-ai/consumer-identity':identity,
+      '@/lib/expungement-ai/privacy/api-session':{requireConsumerBriefcaseApiSession:async()=>({ok:true,userId:owner})},
+      '@/lib/expungement-ai/private-delivery':{authorizeConsumerArtifactDownload:async()=>({renderJobId:id,storagePath,expectedSha256:hash,grantId:randomUUID(),fileName:'packet.pdf'})},
+      '@/lib/rcap/render/artifact-storage':storage,
+      '@/lib/rcap/render/job-queue':currentQueue,
+      '@/lib/rcap/render/packet-delivery':delivery
+    });
+    const scope=deliveryRequestScope();
+    const response=await scope.run(()=>grantRoute.GET(new nextServer.NextRequest(`https://local.invalid/api/expungement-ai/packet/artifacts/${item}?grant=local`),{params:Promise.resolve({itemId:item})}));
+    assert.equal(response.status,200);assert.deepEqual(Buffer.from(await response.arrayBuffer()),bytes);
+    assert.equal(scope.tasks.length,1,'actual grant handler binds Next receipt lifetime');
+    await Promise.all(scope.tasks);assert.deepEqual(scope.errors,[]);
+    assert.equal(db.scalar(`select count(*) from packet_delivery_events where render_job_id=${sql(id)} and event_type='transmission_completed'`),'2');
     assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
   });
   await t.test('stranger and anonymous GET requests remain denied before reading storage',async()=>{
