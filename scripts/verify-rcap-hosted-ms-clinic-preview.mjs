@@ -59,7 +59,7 @@ check("browser evidence records the screening session and server generation resp
 check("post-journey audit binds server-side Clinic, artifact, credit, and reset evidence", fs.existsSync("scripts/rcap-hosted-ms-clinic-preview-audit.mjs") && /id: clinic_audit[\s\S]{0,700}rcap-hosted-ms-clinic-preview-audit\.mjs/.test(hosted));
 check("anti-skip requires the post-journey server audit", /O_CLINIC_AUDIT:\s*\$\{\{ steps\.clinic_audit\.outcome \}\}/.test(hosted) && /require "Clinic server-side audit" "\$O_CLINIC_AUDIT"/.test(hosted));
 
-check("Clinic reuse is pinned and cannot create another Preview", /if \[ "\$PHASE" = "clinic_preview" \]; then[\s\S]*?dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ[\s\S]*?DEPLOY=false/.test(hosted)
+check("Clinic reuse is pinned and cannot create another Preview", /if \[ "\$PHASE" = "clinic_preview" \]; then[\s\S]*?dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT[\s\S]*?DEPLOY=false/.test(hosted)
   && hosted.includes("if: inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy"));
 check("Clinic worker requires registry access and current database readback", hosted.includes('require "Clinic immutable worker registry access"') && hosted.includes('require "Clinic current database"'));
 
@@ -96,7 +96,7 @@ function fixture() {
   const trace = [];
   let cycles = 0, downloads = 0, reads = 0;
   const ports = {
-    workerDigest, preview: { deploymentId: "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ" },
+    workerDigest, preview: { deploymentId: "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT" },
     targetJobs: async () => [cycles ? ready : job], accounting: async () => ({ consumed: 1, jobs: [job.id] }),
     readClaimOrder: async () => {
       trace.push("claim-order");

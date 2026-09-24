@@ -911,8 +911,8 @@ function writeClinicReceipt(name, value) {
 
 async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningSessionId }) {
   assert.equal(environmentClassification.previewVerified, true);
-  assert.equal(environmentClassification.deploymentId, "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ");
-  assert.equal(environmentClassification.hostname, "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app");
+  assert.equal(environmentClassification.deploymentId, "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT");
+  assert.equal(environmentClassification.hostname, "legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app");
   assert.equal(environmentClassification.applicationSha, "a0d0b933f7241a209379775754540fc22775f174");
   for (const id of [packetItemId, participantUserId, screeningSessionId, clinicEventId]) assert.ok(validUuid(id));
   const project = required("RCAP_BROWSER_ACCEPTANCE_PROJECT_REF");
