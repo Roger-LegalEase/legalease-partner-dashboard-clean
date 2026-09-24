@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-packet-database-repair-evidence/v1",
-  "recordedAt": "2026-09-24T12:58:45.151Z",
-  "status": "INDEPENDENT_CORRECTED_BEHAVIOR_RATIFIED_ACCEPTANCE_SEQUENCE_AUTHORIZED",
+  "recordedAt": "2026-09-24T13:06:31.372Z",
+  "status": "INDEPENDENT_LOCAL_RATIFICATION_PASS_ACCEPTANCE_DATABASE_AND_QUEUE_CORRECTED_RUNTIME_PUBLICATION_PENDING",
   "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
   "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
   "branch": "codex/packet-database-repair-345",
@@ -37,7 +37,7 @@
     },
     "jobsDeleted": 0,
     "jobsReset": 0,
-    "remoteQueueReconciled": false,
+    "remoteQueueReconciled": true,
     "obsoleteRpcsAbsent": {
       "claim_packet_render_job_text_text_array": true,
       "consume_rcap_packet_credit_text_text_uuid": true
@@ -135,7 +135,7 @@
       "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
       "bytes": 61195
     },
-    "alreadyRecorded": false,
+    "alreadyRecorded": true,
     "choice": "Additional forward delta because the previous repair is already recorded at its exact original SHA256.",
     "sourceAuthority": "Selected declarations from the existing Sep6 sponsored migration and its legitimate Sep6 regeneration successors, guarded by accepted predecessor/current function body identities; no replay of historical route registration or later payment definitions.",
     "contract": {
@@ -144,7 +144,15 @@
       "bytes": 427275
     },
     "currentPostconditionCount": 400,
-    "expectedReferenceOrigin": "Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion and checkout successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority."
+    "expectedReferenceOrigin": "Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion and checkout successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority.",
+    "recordedMigration": {
+      "version": "20260924125910",
+      "name": "packet_delivery_dependency_and_retry_errors",
+      "statements_sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+      "statements_md5": "a62184dd24a5c198bb65862626ddd9e2",
+      "statements_bytes": 61195
+    },
+    "mayReplay": false
   },
   "fourReviewedDefects": {
     "deliveryDependency": {
@@ -1802,6 +1810,455 @@
         "ratifiesExistingOperationScopeOnly": true,
         "enlargesPermissionScope": false
       }
+    },
+    "independentRemoteCorrection": {
+      "path": "hosted-acceptance-evidence/database/correction-independent-remote-evidence-verification.json",
+      "sha256": "92e267c72d5f56a4478e7a894002e5505e0b3e6f597570adc2808739e61f387d",
+      "bytes": 16476,
+      "report": {
+        "schemaVersion": "rcap-independent-remote-correction-evidence-verification/v1",
+        "recordedAt": "2026-09-24T13:06:10.059Z",
+        "verdict": "PASS_FOR_RECORDED_DATABASE_MIGRATION_AND_CANONICAL_RECONCILIATION",
+        "scope": "Independent local verification of Captain-recorded acceptance before/after artifacts. No new remote query, mutation or broad test run was performed by this verifier.",
+        "projectRef": "hyflxnlhpmiqxvvcoiia",
+        "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+        "priorLocalBehavioralRatification": {
+          "path": "hosted-acceptance-evidence/review/corrected-behavior-independent-ratification.json",
+          "sha256": "2e3456087d4b43c6af5e482d60bfe6b24667a86bd5aa78dba59d141cf1e236cd",
+          "bytes": 13299
+        },
+        "sourceAuthority": {
+          "contract": {
+            "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+            "sha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+            "bytes": 427275
+          },
+          "migration": {
+            "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+            "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+            "bytes": 61195
+          },
+          "allContractSourceHashesRevalidated": true,
+          "expectedAuthority": "Existing source-derived400-postcondition packet/current-reader/finalizer/download contract; no live database was used as expected authority."
+        },
+        "verifiedArtifacts": [
+          {
+            "path": "hosted-acceptance-evidence/database/ratified-before-catalog.json",
+            "sha256": "dea9abeaa66ad3bbbb7363ff4762375ad4cfa876c20a9c578197280ea4502500",
+            "bytes": 348939
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/ratified-before-health.json",
+            "sha256": "2c1cf6befcadf9f2de2ac3165cb86a55b87d0a6eb0dd783132b70dd8388adbae",
+            "bytes": 14701
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/ratified-before-ledger.json",
+            "sha256": "329aec9807a2980bf6f97bac5fd68ba0d78fe7056d8491b8f230f06915e236dd",
+            "bytes": 777
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/ratified-before-business-fingerprints.json",
+            "sha256": "46fc19b58295c2c277ba805dc74ee0e5391bb1cc686944f2e6e514ce629c6629",
+            "bytes": 3909
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-apply-response.json",
+            "sha256": "1bfee63d64e6463542aba83ed9c8f2c257ed80074018530a6f666125dd9f6bea",
+            "bytes": 642
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-migration-catalog.json",
+            "sha256": "f5137beeb57cd45afbe587d4b0f0e8ee54420d84308ec5f3d5f123da71ad8f71",
+            "bytes": 406432
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-migration-health.json",
+            "sha256": "77b8d21c801adc1149f9e5db8b363c2d6ad996ca4f20f8bad3a7b68495fac5b0",
+            "bytes": 14701
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-migration-ledger.json",
+            "sha256": "692e9c743e2ee581775d4c0e6088b3081deec96bbf99ec771784084ad3a005b3",
+            "bytes": 1039
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-migration-business.json",
+            "sha256": "8e7ec826d64b0359e7d0127ef5a9b1270884a2c8d102f3c7229e992f40af3494",
+            "bytes": 1421
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-before-reconciliation-history.json",
+            "sha256": "2c52798e49039f260fae9df58d86c36e85c1e00a11e90c14cf2b54b924555943",
+            "bytes": 6623
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-reconciliation-role-refusal.json",
+            "sha256": "f5cceec0ea25e82bb9b651f5b588e3a930e8bcb435956c9b3d7bb23f175d0776",
+            "bytes": 1029
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-role-refusal-custody.json",
+            "sha256": "588ae02f99fe3483a907d37d8092d7188eed99813d4e51540813a552f1d922de",
+            "bytes": 4604
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-reconciliation-response.json",
+            "sha256": "38d1f85d49d7d43689a88050b7de0b0c48cd7103f1180e1cf9b48d986403642c",
+            "bytes": 1374
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-catalog.json",
+            "sha256": "2ba81c029086550ac2f7927941f45c26d00168dab660daa78a534320a8f18c79",
+            "bytes": 406432
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-health.json",
+            "sha256": "c9469e019a19e5e38e944df534bd60ddbf3c447878fbdfa22ff29767e5c3e4e2",
+            "bytes": 14578
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-history.json",
+            "sha256": "ef8dc2cd8e48dd668415aebbd0ae72feb01b3345b8be84fb801d8e1d93555c77",
+            "bytes": 10646
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-business.json",
+            "sha256": "d3f9d251a7b37448f11c6b9a6ecacd7e63345448369be88754b5239f0138f919",
+            "bytes": 1421
+          },
+          {
+            "path": "hosted-acceptance-evidence/database/correction-remote-reconciliation-proof.json",
+            "sha256": "026c884c957c19a01bfdb53b7000a41895c4e1b97e13078ae20aeec955e64ae1",
+            "bytes": 6928
+          }
+        ],
+        "independentComputedProof": {
+          "path": "hosted-acceptance-evidence/database/correction-independent-artifact-check.json",
+          "sha256": "4e072b1eb7fe09b3e62cdfe5b0b91e1515a1a8e0da1daa4fcc240affe3e6fe0c",
+          "bytes": 6860
+        },
+        "migration": {
+          "recordedVersion": "20260924125910",
+          "recordedName": "packet_delivery_dependency_and_retry_errors",
+          "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+          "md5": "a62184dd24a5c198bb65862626ddd9e2",
+          "bytes": 61195,
+          "ledgerRowExact": true,
+          "previousTwoRecordedLedgerRowsUnchanged": true,
+          "applyResponseAloneNotUsedAsCertification": true,
+          "sourcePostconditionsSatisfied": 400,
+          "catalogEntryCountAfter": 401,
+          "existingBusinessRelationCount": 9,
+          "existingBusinessRowFingerprintsUnchanged": true,
+          "fingerprintProjection": "Compare the exact stored fixed projection excluding only the six newly added sponsored columns and new provenance superseded_artifacts field. All22 existing queue-row fields also match after dropping only the schema-dependent dynamic fingerprint.",
+          "dynamicFingerprintCaveat": "queueHealth authorityFingerprint hashes row JSON containing column names, so adding the approved null schema fields changes that hash across DDL. The fixed existing-column business fingerprints establish row preservation across migration; dynamic authority fingerprints are identical across reconciliation under the same schema.",
+          "preexistingExtraCatalogEntry": {
+            "key": "trigger:packet_render_jobs.clinic_sync_packet_reservation_after_job",
+            "unchanged": true,
+            "scope": "Existing legitimate Clinic authority retained beyond the400-key packet certificate."
+          }
+        },
+        "prechargeGate": {
+          "beforeMigration": {
+            "passed": false,
+            "failureCount": 54
+          },
+          "afterMigrationBeforeHousekeeping": {
+            "passed": false,
+            "postconditionCount": 400,
+            "failures": [
+              {
+                "name": "queue.duplicateRetryGroups",
+                "actual": 2,
+                "expected": 0
+              },
+              {
+                "name": "queue.expiredOverLimit",
+                "actual": 2,
+                "expected": 0
+              }
+            ]
+          },
+          "afterCanonicalHousekeeping": {
+            "passed": true,
+            "postconditionCount": 400,
+            "failures": []
+          },
+          "transport": "Recorded Supabase execute_sql catalog/health snapshots evaluated through the actual shipped packetDatabaseReadback function; not REST or owner HTTP evidence."
+        },
+        "reconciliation": {
+          "queryOrder": [
+            "public.release_expired_packet_render_claims()",
+            "public.requeue_retryable_packet_render_jobs()"
+          ],
+          "caller": {
+            "current_user": "postgres",
+            "session_user": "postgres",
+            "release_execute": true,
+            "requeue_execute": true
+          },
+          "returnedCounts": {
+            "release_count": 2,
+            "requeue_count": 3
+          },
+          "jobIdsBefore": 22,
+          "jobIdsAfter": 22,
+          "allOriginalIdsPreserved": true,
+          "allAttemptCountsAndCeilingsPreserved": true,
+          "authorityFieldsPreserved": true,
+          "allPriorHistoryPrefixesPreserved": true,
+          "singleHistoryAppendOnEachChangedJob": true,
+          "unchangedJobs": 15,
+          "changedJobs": 7,
+          "terminalExhaustedClaims": 2,
+          "terminalDuplicateLosers": 2,
+          "queuedCanonicalWinners": 3,
+          "changes": [
+            {
+              "id": "9fdc60c0-d1bc-40fa-81a8-7ee2eb90eaee",
+              "from": "claimed",
+              "to": "failed",
+              "disposition": "terminal",
+              "attemptCount": 39,
+              "historyReason": "attempt_limit_reached",
+              "authority": "release_expired_packet_render_claims",
+              "canonicalJobId": null
+            },
+            {
+              "id": "ca12bf6b-6ace-4e02-af5c-70e1bfb7d331",
+              "from": "claimed",
+              "to": "failed",
+              "disposition": "terminal",
+              "attemptCount": 23,
+              "historyReason": "attempt_limit_reached",
+              "authority": "release_expired_packet_render_claims",
+              "canonicalJobId": null
+            },
+            {
+              "id": "14c626c2-d287-4d5f-8fef-172fec8e52b9",
+              "from": "failed",
+              "to": "queued",
+              "disposition": null,
+              "attemptCount": 2,
+              "historyReason": "canonical_retry_due",
+              "authority": "requeue_retryable_packet_render_jobs",
+              "canonicalJobId": null
+            },
+            {
+              "id": "cab14012-a0ad-44d1-80d2-d0d4bebc87d8",
+              "from": "failed",
+              "to": "failed",
+              "disposition": "terminal",
+              "attemptCount": 1,
+              "historyReason": "live_sibling_exists",
+              "authority": "requeue_retryable_packet_render_jobs",
+              "canonicalJobId": "14c626c2-d287-4d5f-8fef-172fec8e52b9"
+            },
+            {
+              "id": "e5357bcb-0fb0-45ab-a68e-8ca4eadc6b7d",
+              "from": "failed",
+              "to": "queued",
+              "disposition": null,
+              "attemptCount": 1,
+              "historyReason": "canonical_retry_due",
+              "authority": "requeue_retryable_packet_render_jobs",
+              "canonicalJobId": null
+            },
+            {
+              "id": "36a86224-e7aa-4949-8f92-0a5c0e10c892",
+              "from": "failed",
+              "to": "failed",
+              "disposition": "terminal",
+              "attemptCount": 1,
+              "historyReason": "live_sibling_exists",
+              "authority": "requeue_retryable_packet_render_jobs",
+              "canonicalJobId": "e5357bcb-0fb0-45ab-a68e-8ca4eadc6b7d"
+            },
+            {
+              "id": "7f729c6a-6d90-498a-a50b-3f8b461c564c",
+              "from": "failed",
+              "to": "queued",
+              "disposition": null,
+              "attemptCount": 1,
+              "historyReason": "canonical_retry_due",
+              "authority": "requeue_retryable_packet_render_jobs",
+              "canonicalJobId": null
+            }
+          ],
+          "otherEightBusinessRelationsUnchanged": true,
+          "target345": {
+            "id": "7f729c6a-6d90-498a-a50b-3f8b461c564c",
+            "status": "queued",
+            "attemptCount": 1,
+            "errorCode": "storage_write_failed"
+          },
+          "jobDeletes": 0,
+          "attemptResets": 0,
+          "manualQueueUpdates": 0
+        },
+        "roleRefusal": {
+          "recordedFailure": "42501 permission denied to SET LOCAL ROLE rcap_render_worker",
+          "failedBeforeCanonicalFunctions": true,
+          "failureRecordedSeparatelyFromSuccess": true,
+          "noFalseZeroWorkSuccessClaim": true,
+          "exactOriginalJournalRecordsIndependentlyMatched": [
+            1802,
+            1807
+          ],
+          "recordedPostFailureReadbackComparison": "The executing transcript reads queueHealthQuery again, compares the entire returned JSON to the saved after-migration response, prints sameAsBeforeHousekeeping:true and throws on any drift. The exact execution and output records match the original session journal.",
+          "comparisonOutput": {
+            "sameAsBeforeHousekeeping": true
+          },
+          "standaloneIntermediateRawResponseRetained": false,
+          "custodyLimit": "The full intervening SQL response was compared in the execution context but was not retained as a standalone raw artifact. The earlier before-history snapshot is not relabeled as a later readback."
+        },
+        "preservedSecurityConditions": {
+          "supportedWorkerMutationRpcRestrictions": {
+            "claim_packet_render_job": {
+              "claim_packet_render_job(text,text[],integer)": {
+                "execute": {
+                  "anon": false,
+                  "service_role": true,
+                  "authenticated": false,
+                  "rcap_render_worker": true,
+                  "rcap_packet_delivery": false
+                },
+                "publicExecute": false
+              }
+            },
+            "start_packet_render": {
+              "start_packet_render(uuid,uuid)": {
+                "execute": {
+                  "anon": false,
+                  "service_role": true,
+                  "authenticated": false,
+                  "rcap_render_worker": true,
+                  "rcap_packet_delivery": false
+                },
+                "publicExecute": false
+              }
+            },
+            "start_packet_validation": {
+              "start_packet_validation(uuid,uuid)": {
+                "execute": {
+                  "anon": false,
+                  "service_role": true,
+                  "authenticated": false,
+                  "rcap_render_worker": true,
+                  "rcap_packet_delivery": false
+                },
+                "publicExecute": false
+              }
+            },
+            "fail_packet_render_job": {
+              "fail_packet_render_job(uuid,uuid,text,text,boolean)": {
+                "execute": {
+                  "anon": false,
+                  "service_role": true,
+                  "authenticated": false,
+                  "rcap_render_worker": true,
+                  "rcap_packet_delivery": false
+                },
+                "publicExecute": false
+              }
+            },
+            "finalize_packet_render_job": {
+              "finalize_packet_render_job(uuid,uuid,text,text,text,text,text,integer,integer,text)": {
+                "execute": {
+                  "anon": false,
+                  "service_role": true,
+                  "authenticated": false,
+                  "rcap_render_worker": true,
+                  "rcap_packet_delivery": false
+                },
+                "publicExecute": false
+              }
+            },
+            "release_expired_packet_render_claims": {
+              "release_expired_packet_render_claims()": {
+                "execute": {
+                  "anon": false,
+                  "service_role": true,
+                  "authenticated": false,
+                  "rcap_render_worker": true,
+                  "rcap_packet_delivery": false
+                },
+                "publicExecute": false
+              }
+            },
+            "requeue_retryable_packet_render_jobs": {
+              "requeue_retryable_packet_render_jobs()": {
+                "execute": {
+                  "anon": false,
+                  "service_role": true,
+                  "authenticated": false,
+                  "rcap_render_worker": true,
+                  "rcap_packet_delivery": false
+                },
+                "publicExecute": false
+              }
+            }
+          },
+          "obsoleteClaimRpcAbsent": true,
+          "obsoleteCreditRpcAbsent": true
+        },
+        "queueHealthBefore": {
+          "oldClaim": null,
+          "oldCredit": null,
+          "dueRetryable": 5,
+          "queuedOverLimit": 0,
+          "expiredOverLimit": 2,
+          "duplicateRetryGroups": 2,
+          "retryGroupsWithLiveSibling": 0
+        },
+        "queueHealthAfter": {
+          "oldClaim": null,
+          "oldCredit": null,
+          "dueRetryable": 0,
+          "queuedOverLimit": 0,
+          "expiredOverLimit": 0,
+          "duplicateRetryGroups": 0,
+          "retryGroupsWithLiveSibling": 0
+        },
+        "findings": [],
+        "remainingBoundaries": [
+          "The stored400-condition catalog and queue gate pass does not prove the exact REST reader or authenticated owner HTTP delivery against the hosted runtime.",
+          "The existing #345 job is queued at attempt1 with its storage_write_failed history preserved; no new stored artifact, completed recovery, owner PDF200/hash, stranger403 or anonymous401 remote result is claimed.",
+          "Captain reports the authorized implementation is not yet available through the Roger-owned remote push/workflow dispatch path; successor worker publication/image acceptance and Preview remain pending. This artifact review did not independently query GitHub.",
+          "Final current tools binding and one ordinary50-dollar blank-promotion hosted_full dispatch require the remaining runtime and delivery evidence.",
+          "#345 remains zero-dollar journey evidence. Hosted progress grants no Production or live-charge authorization."
+        ],
+        "remoteQueriesPerformedByVerifier": [],
+        "remoteMutationsPerformedByVerifier": [],
+        "newTestsRun": [],
+        "implementationChanges": [],
+        "dispatchReady": false,
+        "productionAuthorizedByThisReport": false
+      }
+    },
+    "successorPublicationBoundary": {
+      "path": "hosted-acceptance-evidence/review/successor-publication-boundary.json",
+      "sha256": "5a64c08e003968f06dc6419ad6de6b52778fa0062d7b699682656b1be83ade2b",
+      "bytes": 733,
+      "report": {
+        "observedAt": {
+          "current_time": "2026-09-24 13:05:37 UTC"
+        },
+        "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+        "releaseBranch": "captain-release",
+        "releaseBranchSha": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+        "candidateSourceSha": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+        "candidatePresent": false,
+        "candidateReadError": {
+          "message": "No commit found for SHA: 4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+          "documentation_url": "https://docs.github.com/rest/commits/commits#get-a-commit",
+          "status": "422"
+        },
+        "pushDispatchOwner": "Roger",
+        "authority": "Preserved CAPTAIN_LAUNCH_UNBLOCK.md line7: Roger will handle manual dispatch/push.",
+        "connectorRepairAttempted": false
+      }
     }
   },
   "applicationAndWorker": {
@@ -2356,9 +2813,449 @@
     }
   },
   "remoteAfter": {
-    "available": false,
-    "reason": "Independent local prerequisite now passed; exact approved acceptance sequence is next. No remote mutation has yet occurred.",
-    "mutationCount": 0
+    "available": true,
+    "projectRef": "hyflxnlhpmiqxvvcoiia",
+    "migrationApplications": 1,
+    "canonicalHousekeepingCalls": 2,
+    "successfulMutationTransportCalls": 2,
+    "migrationReceipt": {
+      "version": "20260924125910",
+      "name": "packet_delivery_dependency_and_retry_errors",
+      "statements_sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+      "statements_md5": "a62184dd24a5c198bb65862626ddd9e2",
+      "statements_bytes": 61195
+    },
+    "migrationExistingBusinessRowsUnchanged": true,
+    "verifiedBusinessRelationCount": 9,
+    "catalogPostconditions": {
+      "required": 400,
+      "passed": 400,
+      "differences": 0,
+      "observedEntryCount": 401,
+      "additionalPreservedEntry": "trigger:packet_render_jobs.clinic_sync_packet_reservation_after_job; same before and after; outside the400-entry packet dependency reference"
+    },
+    "canonicalReconciliation": {
+      "schemaVersion": "rcap-correction-remote-reconciliation-proof/v1",
+      "recordedAt": "2026-09-24T13:01:58.062Z",
+      "projectRef": "hyflxnlhpmiqxvvcoiia",
+      "passed": true,
+      "identitiesBefore": 22,
+      "identitiesAfter": 22,
+      "attemptsPreserved": true,
+      "authorityFieldsPreserved": true,
+      "priorHistoryPrefixPreserved": true,
+      "unchangedJobs": 15,
+      "changedJobs": 7,
+      "changes": [
+        {
+          "id": "9fdc60c0-d1bc-40fa-81a8-7ee2eb90eaee",
+          "before": {
+            "status": "claimed",
+            "disposition": null,
+            "attempt": 39
+          },
+          "after": {
+            "status": "failed",
+            "disposition": "terminal",
+            "attempt": 39
+          },
+          "historyAppend": {
+            "at": "2026-09-24T13:00:56.964282+00:00",
+            "reason": "attempt_limit_reached",
+            "authority": "release_expired_packet_render_claims",
+            "claimed_at": "2026-09-24T04:20:02.599906+00:00",
+            "claimed_by": "bc17437136ee-1",
+            "max_attempts": 5,
+            "prior_status": "claimed",
+            "attempt_count": 39,
+            "next_attempt_at": null,
+            "claim_expires_at": "2026-09-24T04:30:02.599906+00:00",
+            "prior_error_code": null,
+            "prior_failure_disposition": null
+          }
+        },
+        {
+          "id": "ca12bf6b-6ace-4e02-af5c-70e1bfb7d331",
+          "before": {
+            "status": "claimed",
+            "disposition": null,
+            "attempt": 23
+          },
+          "after": {
+            "status": "failed",
+            "disposition": "terminal",
+            "attempt": 23
+          },
+          "historyAppend": {
+            "at": "2026-09-24T13:00:56.964282+00:00",
+            "reason": "attempt_limit_reached",
+            "authority": "release_expired_packet_render_claims",
+            "claimed_at": "2026-09-24T04:22:46.485165+00:00",
+            "claimed_by": "bf22223270b6-1",
+            "max_attempts": 5,
+            "prior_status": "claimed",
+            "attempt_count": 23,
+            "next_attempt_at": null,
+            "claim_expires_at": "2026-09-24T04:24:46.485165+00:00",
+            "prior_error_code": null,
+            "prior_failure_disposition": null
+          }
+        },
+        {
+          "id": "14c626c2-d287-4d5f-8fef-172fec8e52b9",
+          "before": {
+            "status": "failed",
+            "disposition": "retryable",
+            "attempt": 2
+          },
+          "after": {
+            "status": "queued",
+            "disposition": null,
+            "attempt": 2
+          },
+          "historyAppend": {
+            "at": "2026-09-24T13:00:56.964282+00:00",
+            "reason": "canonical_retry_due",
+            "authority": "requeue_retryable_packet_render_jobs",
+            "claimed_at": "2026-08-20T20:59:58.338247+00:00",
+            "claimed_by": "b9eaf522436a-1",
+            "max_attempts": 5,
+            "prior_status": "failed",
+            "attempt_count": 2,
+            "next_attempt_at": "2026-08-20T21:01:58.565783+00:00",
+            "prior_error_code": "render_failed",
+            "prior_failure_disposition": "retryable"
+          }
+        },
+        {
+          "id": "cab14012-a0ad-44d1-80d2-d0d4bebc87d8",
+          "before": {
+            "status": "failed",
+            "disposition": "retryable",
+            "attempt": 1
+          },
+          "after": {
+            "status": "failed",
+            "disposition": "terminal",
+            "attempt": 1
+          },
+          "historyAppend": {
+            "at": "2026-09-24T13:00:56.964282+00:00",
+            "reason": "live_sibling_exists",
+            "authority": "requeue_retryable_packet_render_jobs",
+            "claimed_at": "2026-08-20T20:59:47.031884+00:00",
+            "claimed_by": "a4cd45e5670b-1",
+            "max_attempts": 5,
+            "prior_status": "failed",
+            "attempt_count": 1,
+            "next_attempt_at": "2026-08-20T21:00:47.258234+00:00",
+            "canonical_job_id": "14c626c2-d287-4d5f-8fef-172fec8e52b9",
+            "prior_error_code": "render_failed",
+            "requeue_sqlstate": null,
+            "requeue_constraint": null,
+            "prior_failure_disposition": "retryable"
+          }
+        },
+        {
+          "id": "e5357bcb-0fb0-45ab-a68e-8ca4eadc6b7d",
+          "before": {
+            "status": "failed",
+            "disposition": "retryable",
+            "attempt": 1
+          },
+          "after": {
+            "status": "queued",
+            "disposition": null,
+            "attempt": 1
+          },
+          "historyAppend": {
+            "at": "2026-09-24T13:00:56.964282+00:00",
+            "reason": "canonical_retry_due",
+            "authority": "requeue_retryable_packet_render_jobs",
+            "claimed_at": "2026-08-20T21:00:08.77477+00:00",
+            "claimed_by": "98df74401d07-1",
+            "max_attempts": 5,
+            "prior_status": "failed",
+            "attempt_count": 1,
+            "next_attempt_at": "2026-08-20T21:01:09.013941+00:00",
+            "prior_error_code": "render_failed",
+            "prior_failure_disposition": "retryable"
+          }
+        },
+        {
+          "id": "36a86224-e7aa-4949-8f92-0a5c0e10c892",
+          "before": {
+            "status": "failed",
+            "disposition": "retryable",
+            "attempt": 1
+          },
+          "after": {
+            "status": "failed",
+            "disposition": "terminal",
+            "attempt": 1
+          },
+          "historyAppend": {
+            "at": "2026-09-24T13:00:56.964282+00:00",
+            "reason": "live_sibling_exists",
+            "authority": "requeue_retryable_packet_render_jobs",
+            "claimed_at": "2026-08-21T00:21:46.92632+00:00",
+            "claimed_by": "dabc594083b0-1",
+            "max_attempts": 5,
+            "prior_status": "failed",
+            "attempt_count": 1,
+            "next_attempt_at": "2026-09-15T22:47:47.806022+00:00",
+            "canonical_job_id": "e5357bcb-0fb0-45ab-a68e-8ca4eadc6b7d",
+            "prior_error_code": "timeout",
+            "requeue_sqlstate": null,
+            "requeue_constraint": null,
+            "prior_failure_disposition": "retryable"
+          }
+        },
+        {
+          "id": "7f729c6a-6d90-498a-a50b-3f8b461c564c",
+          "before": {
+            "status": "failed",
+            "disposition": "retryable",
+            "attempt": 1
+          },
+          "after": {
+            "status": "queued",
+            "disposition": null,
+            "attempt": 1
+          },
+          "historyAppend": {
+            "at": "2026-09-24T13:00:56.964282+00:00",
+            "reason": "canonical_retry_due",
+            "authority": "requeue_retryable_packet_render_jobs",
+            "claimed_at": "2026-09-24T04:22:56.736739+00:00",
+            "claimed_by": "ba9e748d54b5-1",
+            "max_attempts": 5,
+            "prior_status": "failed",
+            "attempt_count": 1,
+            "next_attempt_at": "2026-09-24T04:23:58.061386+00:00",
+            "prior_error_code": "storage_write_failed",
+            "prior_failure_disposition": "retryable"
+          }
+        }
+      ],
+      "otherEightBusinessRelationsUnchanged": true,
+      "prechargeGate": {
+        "passed": true,
+        "postconditionCount": 400,
+        "failures": [],
+        "source": "Actual acceptance MCP catalog/health readbacks evaluated by shipped packetDatabaseReadback",
+        "transport": "Supabase execute_sql; no REST reader or owner HTTP claim"
+      },
+      "health": {
+        "oldClaim": null,
+        "oldCredit": null,
+        "dueRetryable": 0,
+        "queuedOverLimit": 0,
+        "expiredOverLimit": 0,
+        "duplicateRetryGroups": 0,
+        "retryGroupsWithLiveSibling": 0
+      }
+    },
+    "readbacks": [
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-migration-business.json",
+        "sha256": "8e7ec826d64b0359e7d0127ef5a9b1270884a2c8d102f3c7229e992f40af3494",
+        "bytes": 1421
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-migration-catalog.json",
+        "sha256": "f5137beeb57cd45afbe587d4b0f0e8ee54420d84308ec5f3d5f123da71ad8f71",
+        "bytes": 406432
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-migration-health.json",
+        "sha256": "77b8d21c801adc1149f9e5db8b363c2d6ad996ca4f20f8bad3a7b68495fac5b0",
+        "bytes": 14701
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-migration-ledger.json",
+        "sha256": "692e9c743e2ee581775d4c0e6088b3081deec96bbf99ec771784084ad3a005b3",
+        "bytes": 1039
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-business.json",
+        "sha256": "d3f9d251a7b37448f11c6b9a6ecacd7e63345448369be88754b5239f0138f919",
+        "bytes": 1421
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-catalog.json",
+        "sha256": "2ba81c029086550ac2f7927941f45c26d00168dab660daa78a534320a8f18c79",
+        "bytes": 406432
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-health.json",
+        "sha256": "c9469e019a19e5e38e944df534bd60ddbf3c447878fbdfa22ff29767e5c3e4e2",
+        "bytes": 14578
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-after-reconciliation-history.json",
+        "sha256": "ef8dc2cd8e48dd668415aebbd0ae72feb01b3345b8be84fb801d8e1d93555c77",
+        "bytes": 10646
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-apply-response.json",
+        "sha256": "1bfee63d64e6463542aba83ed9c8f2c257ed80074018530a6f666125dd9f6bea",
+        "bytes": 642
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-before-reconciliation-history.json",
+        "sha256": "2c52798e49039f260fae9df58d86c36e85c1e00a11e90c14cf2b54b924555943",
+        "bytes": 6623
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-reconciliation-response.json",
+        "sha256": "38d1f85d49d7d43689a88050b7de0b0c48cd7103f1180e1cf9b48d986403642c",
+        "bytes": 1374
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-reconciliation-role-refusal.json",
+        "sha256": "f5cceec0ea25e82bb9b651f5b588e3a930e8bcb435956c9b3d7bb23f175d0776",
+        "bytes": 1029
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-remote-reconciliation-proof.json",
+        "sha256": "026c884c957c19a01bfdb53b7000a41895c4e1b97e13078ae20aeec955e64ae1",
+        "bytes": 6928
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/correction-role-refusal-custody.json",
+        "sha256": "588ae02f99fe3483a907d37d8092d7188eed99813d4e51540813a552f1d922de",
+        "bytes": 4604
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/ratified-before-active-runs.json",
+        "sha256": "aca26fd81ac8dce7f0aa3dd4ae46bff345306148d0a352085a6f54b58ae8d082",
+        "bytes": 477
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/ratified-before-business-fingerprints.json",
+        "sha256": "46fc19b58295c2c277ba805dc74ee0e5391bb1cc686944f2e6e514ce629c6629",
+        "bytes": 3909
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/ratified-before-catalog.json",
+        "sha256": "dea9abeaa66ad3bbbb7363ff4762375ad4cfa876c20a9c578197280ea4502500",
+        "bytes": 348939
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/ratified-before-health.json",
+        "sha256": "2c1cf6befcadf9f2de2ac3165cb86a55b87d0a6eb0dd783132b70dd8388adbae",
+        "bytes": 14701
+      },
+      {
+        "path": "hosted-acceptance-evidence/database/ratified-before-ledger.json",
+        "sha256": "329aec9807a2980bf6f97bac5fd68ba0d78fe7056d8491b8f230f06915e236dd",
+        "bytes": 777
+      }
+    ],
+    "preservedWorkerAuthority": {
+      "claim_packet_render_job": {
+        "claim_packet_render_job(text,text[],integer)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "start_packet_render": {
+        "start_packet_render(uuid,uuid)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "start_packet_validation": {
+        "start_packet_validation(uuid,uuid)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "fail_packet_render_job": {
+        "fail_packet_render_job(uuid,uuid,text,text,boolean)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "finalize_packet_render_job": {
+        "finalize_packet_render_job(uuid,uuid,text,text,text,text,text,integer,integer,text)": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "release_expired_packet_render_claims": {
+        "release_expired_packet_render_claims()": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      },
+      "requeue_retryable_packet_render_jobs": {
+        "requeue_retryable_packet_render_jobs()": {
+          "execute": {
+            "anon": false,
+            "service_role": true,
+            "authenticated": false,
+            "rcap_render_worker": true,
+            "rcap_packet_delivery": false
+          },
+          "publicExecute": false
+        }
+      }
+    },
+    "obsoleteRpcsAbsent": true,
+    "unexpectedAttempt": {
+      "operation": "SET LOCAL ROLE rcap_render_worker before housekeeping",
+      "sqlstate": "42501",
+      "outcome": "refused before functions; reported as failure with no success counts; queue equality check passed; subsequent canonical function calls used existing postgres owner",
+      "evidence": {
+        "path": "hosted-acceptance-evidence/database/correction-role-refusal-custody.json",
+        "sha256": "588ae02f99fe3483a907d37d8092d7188eed99813d4e51540813a552f1d922de",
+        "bytes": 4604
+      }
+    },
+    "receiptFailureRecoveryNeeded": false,
+    "restReaderVerified": false,
+    "storageRecoveryVerified": false,
+    "ownerHttp200Verified": false,
+    "newCheckoutCreated": false,
+    "productionOperations": 0
   },
   "productionPreparation": {
     "prepared": true,
@@ -2377,7 +3274,7 @@
     }
   },
   "acceptanceWriteAuthorizationRequest": {
-    "status": "APPROVED_EXACT_SCOPE_REVISED_VERIFICATION_PASSED",
+    "status": "APPROVED_EXACT_SCOPE_DATABASE_AND_HOUSEKEEPING_COMPLETED_RUNTIME_SCOPE_REMAINS",
     "targetProject": "hyflxnlhpmiqxvvcoiia",
     "sourceCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
     "migrationFiles": [
@@ -2496,7 +3393,9 @@
       "conditionReaffirmedByUser": true,
       "noReconstructedReplacement": true,
       "originalReviewRole": "preserved historical defect reproduction; unchanged post-correction PASS not required by superseding user instruction",
-      "correctedBehaviorRatificationPassed": true
+      "correctedBehaviorRatificationPassed": true,
+      "migrationExecutionConsumed": true,
+      "reconciliationExecutionConsumed": true
     },
     "conditionHistory": [
       {
@@ -2544,7 +3443,12 @@
       "source": "Roger user reply",
       "userReplyVerbatim": "Preserve the recovered original four-case file byte-for-byte, record its SHA256, and retain its historical 4/4 result as evidence that it reproduced the pre-correction defects. Do not modify its expectations to manufacture a post-correction PASS.\nBefore any approved acceptance write proceeds, Codex must independently ratify the successor using the current executable migration-loop tests and actual PostgreSQL/download-handler tests, proving the corrected behavior:\nfailed receipt writes cannot count as successful certification;\nstale ledger evidence cannot bypass required current postconditions;\nunexpected retry SQL errors remain observable rather than being converted to successful zero-work or inappropriate terminalization;\nthe actual render-job reader succeeds against the corrected schema;\nthe actual owner download returns the validated PDF, while stranger and anonymous access remain denied;\nthe four historical defects reproduced by the original file are demonstrably absent.\nThe original file becoming 0/4 against the corrected implementation is not itself a failure where those cases assert the old defective behavior or depend on the superseded inline-loop implementation. Its role is historical counterexample preservation, not successor acceptance.\nPreviously approved operation scope remains unchanged. No additional writes are authorized. Writes remain blocked until the independent corrected-behavior verification passes.",
       "operationScopeChanged": false
-    }
+    },
+    "remainingAuthorizedScope": [
+      "One exact successor worker publication and read-only image acceptance",
+      "One exact acceptance Preview and bounded existing test webhook URL retarget",
+      "Bounded canonical storage/recovery for existing#345 and its two recorded predecessors; exact REST/HTTP proof; no new Checkout/payment/job"
+    ]
   },
   "dispatchReadiness": {
     "ready": false,
@@ -2553,11 +3457,13 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "Remote post-correction catalog/REST/queue/storage/owner-denial proof has not run.",
-      "New immutable worker acceptance and Preview identities do not exist; final CURRENT tools binding cannot yet be generated."
+      "Roger-owned push/manual publication dispatch: GitHub captain-release remains5f1c8204c4d4325c3f1706e5941ace94977fc78f and source4cfb78749edb6f6241df6f12c9c529f96f0886bc is not present remotely.",
+      "Successor immutable worker/image-acceptance and Preview identities do not exist.",
+      "Exact authenticated REST reader, real existing-job Storage/recovery and remote owner200/hash, stranger403/anonymous401 remain unverified.",
+      "Final tools binding and ordinary50-dollar blank-promotion hosted_full dispatch cannot be generated until those actual identities and proofs exist."
     ],
     "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
     "authorizationReceived": true,
-    "executionBoundary": "Approved migration and bounded reconciliation/recovery may proceed after exact fresh readbacks. Successor publication, Preview, remote delivery proof and final tools binding remain required before hosted_full."
+    "executionBoundary": "Local corrected-behavior gate, exact acceptance migration and canonical reconciliation have passed. Runtime continuation requires Roger-owned push/dispatch under the preserved handoff; no operation reapproval requested. Do not reuse the old worker or create a Checkout to test storage."
   }
 }
