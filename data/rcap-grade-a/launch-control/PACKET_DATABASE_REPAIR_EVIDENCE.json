@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-packet-database-repair-evidence/v1",
-  "recordedAt": "2026-09-24T13:06:31.372Z",
+  "recordedAt": "2026-09-24T13:11:20.413Z",
   "status": "INDEPENDENT_LOCAL_RATIFICATION_PASS_ACCEPTANCE_DATABASE_AND_QUEUE_CORRECTED_RUNTIME_PUBLICATION_PENDING",
   "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
   "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
@@ -3255,7 +3255,19 @@
     "storageRecoveryVerified": false,
     "ownerHttp200Verified": false,
     "newCheckoutCreated": false,
-    "productionOperations": 0
+    "productionOperations": 0,
+    "authorizationReaffirmationReadback": {
+      "path": "hosted-acceptance-evidence/database/authorization-reaffirmation-current-readback.json",
+      "sha256": "39a7bdcde429d35bac92b1ec42029119c5c0a2a736127e0c02fc794873e4e8b9",
+      "bytes": 421132,
+      "observedAt": {
+        "current_time": "2026-09-24 13:09:42 UTC"
+      },
+      "catalogAndQueueUnchanged": true,
+      "migrationRecordedExactlyOnce": true,
+      "requiredPostconditionsPassed": 400,
+      "noRemoteMutationThisTurn": true
+    }
   },
   "productionPreparation": {
     "prepared": true,
@@ -3448,6 +3460,19 @@
       "One exact successor worker publication and read-only image acceptance",
       "One exact acceptance Preview and bounded existing test webhook URL retarget",
       "Bounded canonical storage/recovery for existing#345 and its two recorded predecessors; exact REST/HTTP proof; no new Checkout/payment/job"
+    ],
+    "authorizationReaffirmations": [
+      {
+        "recordedAt": "2026-09-24T13:11:20.407Z",
+        "source": "Roger complete acceptance-only authorization followed by explicit correction of its obsolete test clause",
+        "fullAuthorizationVerbatim": "I approve this exact acceptance-only scope for Supabase `hyflxnlhpmiqxvvcoiia`, and no broader scope.\n\nAuthorized migration:\n`20260924120347_packet_delivery_dependency_and_retry_errors.sql`\n\nRequired SHA256:\n`86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795`\n\nThe migration may be applied only if its bytes hash exactly to that value and the current pre-apply readback still matches the recorded correction evidence.\n\nThe migration itself is authorized only for the stated schema/function correction and must not modify existing business rows.\n\nAfter that exact migration, I authorize only the recorded canonical acceptance housekeeping effects:\n\n* preserve all 22 existing job IDs and their history;\n* retain the two exhausted jobs as terminal history;\n* retain the two duplicate losers as terminal history;\n* requeue the three canonical winners;\n* do not delete jobs, reset attempts, recreate payments, or manufacture new authority.\n\nI also authorize:\n\n* one successor worker publication from `4cfb78749edb6f6241df6f12c9c529f96f0886bc`;\n* one read-only image acceptance of that exact successor worker;\n* one acceptance Preview from that exact source;\n* retargeting only the existing test webhook `we_1U4AKGRWROAHlAKyNFChAnWr` to that verified Preview;\n* recovery of the existing #345 job and its two canonical predecessors within the existing attempt, retry, and cycle limits;\n* verification of private storage, stored-byte/hash integrity, exact REST job reads, owner delivery, stranger denial, and anonymous denial.\n\nNo new Checkout is authorized.\nNo new payment or entitlement is authorized.\nNo Production operation is authorized.\nNo Production mutation is authorized.\nNo live charge is authorized.\n\nThe original four-case current-source independent reproduction must be recovered and pass byte-for-byte unchanged against the corrected implementation before this correction is considered proven and before proceeding beyond this bounded acceptance recovery sequence.\n\nIf any authorized operation applies but its receipt/evidence write fails: STOP. Read back actual catalog, queue, artifact, deployment, and job state first. Repair only the missing receipt when exact prior execution is proven. Never blindly replay the SQL, republish the worker, recreate the Preview, reset jobs, or repeat a state-changing step merely because its receipt is missing.\n\nAny variance in migration hash, project ref, successor source SHA, webhook identity, expected queue effects, application/worker inputs, or requested scope requires a new authorization.",
+        "controllingClarificationVerbatim": "**1. Keep the independently ratified corrected-behavior gate.**\n\nThat is the controlling condition.\n\nMy later message that said the unchanged original file must itself pass was wrong and inconsistent with the correction we had already made. The original four-case file is preserved as **historical counterexample evidence**. Its 0/4 result on the corrected implementation is expected where those cases assert the old defects or depend on the superseded inline-loop harness.\n\nThe active gate is:\n\n* preserve the original four-case file unchanged and record its SHA256;\n* preserve its historical 4/4 result as proof that it reproduced the old defects;\n* require **independent Codex verification of the corrected behavior** using the current executable migration-loop tests plus actual PostgreSQL/REST/download-handler tests;\n* require those successor tests to prove the old defects are absent;\n* do **not** replay the already-completed migration or housekeeping;\n* keep further state-changing operations blocked until that corrected-behavior verification passes.\n\nSo Captain should proceed under **option 1**, not reinstate the obsolete unchanged-pass requirement.",
+        "scopeExpanded": false,
+        "originalHistoricalTestRolePreserved": true,
+        "alreadyCompletedOperationsMustNotBeReplayed": true,
+        "independentLocalVerificationReference": "verification.independentCorrectedBehaviorRatification",
+        "actualHostedRestAndStorageProofStillRequired": true
+      }
     ]
   },
   "dispatchReadiness": {
