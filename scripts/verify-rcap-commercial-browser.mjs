@@ -219,7 +219,9 @@ try {
     throw new Error(`Screening result heading did not appear after ${JSON.stringify(answeredMississippi)}; evaluation statuses ${JSON.stringify(evaluationStatuses)}; visible headings: ${JSON.stringify(visible)}`);
   }
   check(evaluationStatuses.length > 0 && evaluationStatuses[evaluationStatuses.length - 1] < 400, `Authoritative screening evaluation statuses were ${JSON.stringify(evaluationStatuses)}; the last must succeed before the result renders.`);
-  await expectText(page, "Your packet is covered by your partner program.");
+  await page.locator('[data-partner-context="saved"]').filter({
+    hasText: /^Your partner program information is saved\. Packet coverage is confirmed before preparation\.$/
+  }).waitFor({ state: "visible" });
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner result");
   await screenshotPair(page, "01-partner-covered-result");
 

@@ -44,6 +44,7 @@ const baseEvaluation = {
   cautions: [],
   nextSteps: [],
   paymentAllowed: true,
+  consumerPacketAvailable: true,
   packetPlan: {
     pathwayId: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
     mode: "state_specific_custom_packet_from_source_rules",
@@ -138,6 +139,7 @@ const sponsoredPacket = {
   pathwayLabel: "Non-conviction expungement",
   packetType: "custom_pleading",
   packetDraft: { status: "available" },
+  commercialActions: { fulfillmentAvailable: true, checkoutAllowed: false, generationAllowed: false },
   paymentState: "sponsored"
 };
 const guidanceMatter = {
@@ -157,6 +159,7 @@ const dtcPacket = {
   pathwayLabel: "Non-conviction expungement",
   packetType: "custom_pleading",
   packetDraft: { status: "available" },
+  commercialActions: { fulfillmentAvailable: true, checkoutAllowed: false, generationAllowed: false },
   paymentState: "unpaid"
 };
 const dtcPaidPacket = {
@@ -186,8 +189,8 @@ const serverVerifiedPartner = renderResult(true);
 assert(!serverVerifiedPartner.includes("$50"), "A server-verified partner session must not render '$50'.");
 assert(serverVerifiedPartner.includes("Save to my Briefcase and continue"), "A server-verified partner session must describe the Briefcase handoff accurately.");
 assert(
-  serverVerifiedPartner.includes("Your packet is covered by your partner program."),
-  "A server-verified partner session must render the partner coverage helper text."
+  serverVerifiedPartner.includes('data-partner-context="saved">Your partner program information is saved. Packet coverage is confirmed before preparation.</p>'),
+  "A server-verified packet-ready partner session must render the exact preparation-coverage helper in the saved partner context."
 );
 
 // 2) No verified server prop keeps the DTC price disclosure and saves before payment.
