@@ -306,6 +306,116 @@ function retireQueued(db) {
   db.sql('update packet_render_jobs set attempt_count=max_attempts where status=\'queued\'; select release_expired_packet_render_claims()');
 }
 
+test('sponsored regeneration preserves durable attribution and idempotent accounting',async t=>{
+  const db=packetApplicationTestDatabase(root);t.after(()=>db.stop());
+  const migration=path.join(root,'supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql');
+  const signature='public.finalize_sponsored_packet_generation_for_route(text,uuid,uuid,text,jsonb,uuid)';
+  const jsql=value=>`${sql(JSON.stringify(value))}::jsonb`;
+  const route=db.json("select to_jsonb(r) from sponsored_packet_render_routes r where route_key='IL:felony-prostitution-relief'");
+  const sponsor=randomUUID(),event=randomUUID(),sponsorPerson=randomUUID();
+  db.sql(`insert into partner_records values(${sql(sponsor)},${sql(route.partner_slug)});
+    insert into rcap_persons values(${sql(sponsorPerson)},${sql(route.partner_slug)},'regeneration-attribution-test');
+    insert into partner_packet_entitlement(partner_id,packet_cap) values(${sql(sponsor)},20);
+    insert into partner_entitlement(partner_slug,screenings_allowed) values(${sql(route.partner_slug)},20);
+    insert into clinic_events(id,partner_slug,name,jurisdiction,status,sponsorship_allocation)
+      values(${sql(event)},${sql(route.partner_slug)},'Synthetic regeneration proof','IL','published',20);`);
+  const accounting=()=>db.json(`select jsonb_build_object(
+    'entitlement',(select to_jsonb(e) from partner_entitlement e where partner_slug=${sql(route.partner_slug)}),
+    'credits',(select jsonb_agg(to_jsonb(l) order by id) from packet_credit_ledger l),
+    'events',(select jsonb_agg(to_jsonb(e) order by id) from rcap_record_events e),
+    'analytics',(select jsonb_agg(to_jsonb(a) order by id) from rcap_screening_analytics_events a))`);
+  function participant(refs){
+    const owner=randomUUID(),item=randomUUID(),session=randomUUID(),pending=randomUUID();
+    const matter=db.scalar(`select consumer_matter_id_for_briefcase_item(${sql(item)})`);
+    db.sql(`insert into auth.users values(${sql(owner)});
+      insert into consumer_briefcase_items(id,user_id,item_type,jurisdiction,status,artifact_refs_json,source_pending_result_id)
+        values(${sql(item)},${sql(owner)},'result','IL','packet_ready',${jsql(refs)},${sql(pending)});
+      insert into consumer_pending_screening_results(pending_id,status,claimed_matter_id,claimed_user_id,anonymous_session_id,product,partner_slug,jurisdiction,event_id)
+        values(${sql(pending)},'CLAIMED',${sql(item)},${sql(owner)},${sql(session)},'rcap_partner',${sql(route.partner_slug)},'IL',${sql(event)});
+      insert into screening_sessions(session_id,flow_mode,partner_benefit_active,partner_slug,jurisdiction,claimed_slot_state,status)
+        values(${sql(session)},'rcap',true,${sql(route.partner_slug)},'IL','claimed','in_progress');
+      insert into clinic_cases(id,event_id,participant_user_id,screening_session_id,matter_id,jurisdiction,route_disposition)
+        values(${sql(randomUUID())},${sql(event)},${sql(owner)},${sql(session)},${sql(item)},'IL','packet');`);
+    return {owner,item,session,matter};
+  }
+  function validatedArtifact(p,revision){
+    const verification=digest(`${p.item}:verification:${revision}`),packet=randomUUID(),sha=digest(`${p.item}:artifact:${revision}`);
+    const snapshot={schemaVersion:'expungement-ai/final-verification/v1',jurisdiction:'IL',pathwayId:route.pathway_id,selectedTrackId:route.registry_track_id,revision};
+    db.sql(`insert into consumer_packet_verifications(briefcase_item_id,consumer_auth_user_id,matter_id,status,reason,verification_hash,verification_snapshot,draft_hash,draft_snapshot,revision)
+      values(${sql(p.item)},${sql(p.owner)},${sql(p.matter)},'verified','synthetic regeneration proof',${sql(verification)},${jsql(snapshot)},${sql(verification)},'{"schemaVersion":"expungement-ai/protected-packet-draft/v1"}',${revision})
+      on conflict(briefcase_item_id) do update set verification_hash=excluded.verification_hash,verification_snapshot=excluded.verification_snapshot,revision=excluded.revision;
+      insert into rcap_document_packets(id) values(${sql(packet)});`);
+    const job=db.scalar(`select id from enqueue_packet_render_job(
+      p_packet_id=>${sql(packet)},p_route_id=>${sql(route.route_key)},p_renderer_kind=>'packet_document_v1',p_renderer_version=>'1.0.0',
+      p_source_sha256=>null,p_profile_id=>'IL',p_profile_version=>'synthetic',p_input_hash=>${sql(verification)},
+      p_briefcase_item_id=>${sql(p.item)},p_partner_id=>${sql(sponsor)},p_person_id=>${sql(sponsorPerson)},p_matter_id=>${sql(p.matter)},
+      p_max_attempts=>5,p_consumer_briefcase_item_id=>null,p_expected_consumer_auth_user_id=>null)`);
+    db.sql(`update packet_render_jobs set sponsored_route_key=${sql(route.route_key)},sponsored_session_id=${sql(p.session)},
+      sponsored_clinic_event_id=${sql(event)},sponsored_consumer_briefcase_item_id=${sql(p.item)},
+      sponsored_consumer_auth_user_id=${sql(p.owner)},sponsored_verification_hash=${sql(verification)} where id=${sql(job)}`);
+    const claim=db.json("select to_jsonb(j) from claim_packet_render_job('attribution-proof',array['packet_document_v1'],600) j");
+    assert.equal(claim.id,job);
+    assert.equal(db.scalar(`select start_packet_render(${sql(job)},${sql(claim.fencing_token)})`),'t');
+    assert.equal(db.scalar(`select start_packet_validation(${sql(job)},${sql(claim.fencing_token)})`),'t');
+    const storagePath=`packet-artifacts/${sponsor}/${p.matter}/${job}/${sha}.pdf`;
+    assert.equal(db.scalar(`select delivery_eligibility from finalize_packet_render_job(${sql(job)},${sql(claim.fencing_token)},${sql(storagePath)},${sql(sha)},${sql(sha)},${sql(sha)},${sql(sha)},128,1,'synthetic-database-proof')`),'eligible');
+    return {provider:route.artifact_provider,source:route.artifact_source,contentType:route.artifact_content_type,
+      packetId:p.item,renderJobId:job,verificationHash:verification,packetSpecificationId:route.packet_specification_id,
+      packetSpecificationVersion:route.packet_specification_version,packetSpecificationSha256:route.packet_specification_sha256,
+      packetFamily:route.packet_family_id,artifactSha256:sha,storagePath,pageCount:1,documentCount:1};
+  }
+  const finalize=(p,a)=>db.json(`select to_jsonb(f) from finalize_sponsored_packet_generation_for_route(
+    ${sql(route.route_key)},${sql(p.session)},${sql(p.item)},${sql(a.verificationHash)},${jsql(a)},${sql(a.renderJobId)}) f`);
+  const refs=p=>db.json(`select artifact_refs_json from consumer_briefcase_items where id=${sql(p.item)}`);
+  const provenance=p=>db.json(`select to_jsonb(p) from consumer_packet_artifact_provenance p where briefcase_item_id=${sql(p.item)}`);
+  const attribution={locale:'en',source:'synthetic-existing-claim',nested:{retained:['whole','object']}};
+
+  await t.test('historical finalizer loses attribution after successful regeneration',()=>{
+    const p=participant({attribution});
+    assert.equal(finalize(p,validatedArtifact(p,1)).recorded,true);
+    assert.deepEqual(refs(p).attribution,attribution);
+    const next=validatedArtifact(p,2);
+    assert.equal(finalize(p,next).reason,'regenerated');
+    assert.equal(Object.hasOwn(refs(p),'attribution'),false);
+  });
+  const beforeCatalog=readPacketCatalog(db);
+  const beforeRows=db.json('select jsonb_agg(to_jsonb(i) order by id) from consumer_briefcase_items i');
+  db.applyFile(migration);
+  const successorCatalog=readPacketCatalog(db);
+  assert.deepEqual(Object.keys(successorCatalog).filter(key=>JSON.stringify(successorCatalog[key])!==JSON.stringify(beforeCatalog[key])),
+    ['functions:finalize_sponsored_packet_generation_for_route'],'only the finalizer changes');
+  assert.deepEqual(db.json('select jsonb_agg(to_jsonb(i) order by id) from consumer_briefcase_items i'),beforeRows,'migration does not rewrite existing metadata');
+  db.applyFile(migration);
+  assert.deepEqual(readPacketCatalog(db),successorCatalog,'migration safely accepts its exact successor');
+
+  for(const [name,initial] of [['whole attribution',{attribution}],['missing attribution',{}],['JSON null attribution',{attribution:null}]]) {
+    await t.test(name,()=>{
+      const p=participant(initial),first=validatedArtifact(p,1);
+      assert.deepEqual(refs(p),initial);
+      assert.equal(finalize(p,first).recorded,true);
+      assert.deepEqual(refs(p).attribution,initial.attribution);
+      const prior=provenance(p),next={...validatedArtifact(p,2),attribution:{locale:'es',source:'must-not-replace-durable-attribution'}};
+      const money=accounting();
+      assert.deepEqual(finalize(p,next),{ok:true,recorded:false,counted_as:'included',reason:'regenerated'});
+      const metadata={...next};delete metadata.attribution;
+      assert.deepEqual(refs(p),{...metadata,...initial},'only existing attribution is combined with new artifact metadata');
+      assert.deepEqual(accounting(),money,'regeneration never recounts sponsorship or credits');
+      const current=provenance(p);
+      assert.equal(current.revision,2);assert.equal(current.render_job_id,next.renderJobId);
+      assert.equal(current.superseded_artifacts.length,1);
+      assert.deepEqual(current.superseded_artifacts[0].artifact,prior.artifact);
+      assert.deepEqual(finalize(p,next),{ok:true,recorded:false,counted_as:'included',reason:'already_finalized'});
+      assert.deepEqual(provenance(p),current,'exact replay leaves revision/history unchanged');
+      assert.deepEqual(accounting(),money,'exact replay consumes nothing');
+      assert.deepEqual(refs(p),{...metadata,...initial});
+      if(!Object.hasOwn(initial,'attribution'))assert.equal(Object.hasOwn(refs(p),'attribution'),false,'missing attribution is never invented');
+    });
+  }
+  const functionDefinition=db.scalar(`select pg_get_functiondef(${sql(signature)}::regprocedure)`);
+  db.sql(functionDefinition.replace('AS $function$','AS $function$\n-- unrecognized successor\n'));
+  assert.match(db.sqlExpectError(fs.readFileSync(migration,'utf8')),/unrecognized current authority/);
+});
+
 test('forward delta repairs the legitimate predecessor without replaying later payment authority or changing historical rows',t=>{
   const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());
   db.sql(`insert into partner_records values('${partner}','retry-test');

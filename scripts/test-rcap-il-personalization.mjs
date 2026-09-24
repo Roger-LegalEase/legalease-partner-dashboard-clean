@@ -82,6 +82,7 @@ function setup() {
     // which is the database being right about a registration nobody updated.
     '20260919010000_illinois_carried_forward_specification_digest',
     '20260924161239_preserve_packet_publisher_attribution',
+    '20260924172645_preserve_sponsored_regeneration_attribution',
   ]) db.applyFile(`supabase/migrations/${migration}.sql`);
   db.sql(`insert into partner_records values(${q(partnerId)},'il-clinic-sponsor');
     insert into partner_packet_entitlement(partner_id,packet_cap,overage_enabled,overage_cap) values(${q(partnerId)},20,false,0);
@@ -359,6 +360,8 @@ try {
     assert.equal((await getConsumerPacketStatus({userId:claire.userId,briefcaseItemId:claire.itemId})).canDownload,false);
     db.sql(`update clinic_events set jurisdiction='IL' where id=${q(eventId)}`);
     assert.deepEqual(accounting(),beforeWrongEvent);
+    const sponsorAttribution=db.json(`select artifact_refs_json->'attribution' from consumer_briefcase_items where id=${q(claire.itemId)}`);
+    assert.equal(sponsorAttribution.locale,'en','initial sponsored finalization retains durable locale');
     const sponsorChanged={...claire.snapshot,packetAnswers:{...claire.snapshot.packetAnswers,mailing_address:'606 Sponsor Change'}};
     db.sql(`update consumer_packet_verifications set verification_snapshot=${q(JSON.stringify(sponsorChanged))},verification_hash=${q(hash(sponsorChanged))} where briefcase_item_id=${q(claire.itemId)}`);
     assert.equal((await authorizePacketDownload(ports,{jobId:claire.jobId,userId:claire.userId})).ok,false);
@@ -366,6 +369,9 @@ try {
       const changedSponsor=await generatePaidConsumerPacket({userId:claire.userId,briefcaseItemId:claire.itemId});
       assert.ok(changedSponsor.renderJobId); assert.notEqual(changedSponsor.renderJobId,claire.jobId);
       const cycle=await runWorkerCycle(deps); assert.equal(cycle.outcome,'finalized',JSON.stringify(cycle));
+      const regeneratedRefs=db.json(`select artifact_refs_json from consumer_briefcase_items where id=${q(claire.itemId)}`);
+      assert.deepEqual(regeneratedRefs.attribution,sponsorAttribution,'sponsored regeneration preserves the entire durable attribution');
+      assert.equal(regeneratedRefs.renderJobId,changedSponsor.renderJobId,'Briefcase points to the regenerated artifact');
       const ready=await getConsumerPacketStatus({userId:claire.userId,briefcaseItemId:claire.itemId});
       assert.equal(ready.canDownload,true,'sponsored regeneration must publish protected provenance');
       assert.equal(ready.artifactRefs.renderJobId,changedSponsor.renderJobId);
@@ -376,6 +382,7 @@ try {
       assert.ok(content.includes('606 Sponsor Change'));assert.ok(!content.includes('404 Third Street'));
       evidence.sponsoredChangedFact={field:'mailing_address',before:'404 Third Street',after:'606 Sponsor Change',sha256:hash(decision.bytes),jobId:changedSponsor.renderJobId};
       await assertRevision(claire,changedSponsor.renderJobId,hash(sponsorChanged));
+      assert.deepEqual(db.json(`select artifact_refs_json from consumer_briefcase_items where id=${q(claire.itemId)}`),regeneratedRefs,'exact replay preserves regenerated metadata and attribution');
       assert.deepEqual(accounting(),beforeWrongEvent,'sponsored regeneration consumes no additional allowance');
     }catch(error){
       evidence.failures.push({check:'sponsored changed-verification regeneration',error:error.message});
