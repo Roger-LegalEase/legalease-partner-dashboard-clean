@@ -35,6 +35,18 @@ function completenessProof(overrides = {}) {
         matchesRecordProvider: true,
         reconciliation: null,
         deterministicRenderVerified: true
+      },
+      isCurrentCommercialArtifact: false,
+      currentCommercialArtifactReview: {
+        state: "approved",
+        composedBy: "rcap_grade_a_composer_v1 -> composeGradeAPacket -> assembleParticipantPacket",
+        approval: {
+          path: "synthetic/owner-approval.json",
+          sha256: sha256("synthetic-approval"),
+          recordId: "SYNTHETIC-COMPOSED-ARTIFACT-APPROVAL",
+          artifactSha256: sha256("synthetic-composed.pdf")
+        },
+        why: "Synthetic fixture: the composed bytes are approved, so this dimension does not hold the route."
       }
     },
     ...overrides
