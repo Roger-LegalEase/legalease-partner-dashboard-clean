@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-packet-database-repair-evidence/v1",
-  "recordedAt": "2026-09-24T12:38:47.282Z",
-  "status": "LOCAL_CORRECTION_VERIFIED_ORIGINAL_BYTES_RECOVERED_UNCHANGED_PASS_GATE_UNSATISFIED",
+  "recordedAt": "2026-09-24T12:58:45.151Z",
+  "status": "INDEPENDENT_CORRECTED_BEHAVIOR_RATIFIED_ACCEPTANCE_SEQUENCE_AUTHORIZED",
   "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
   "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
   "branch": "codex/packet-database-repair-345",
@@ -1565,6 +1565,243 @@
           "The evidence JSON snapshot hash predates adding this custody report reference; implementation and previously tested source bytes remained unchanged."
         ]
       }
+    },
+    "independentCorrectedBehaviorRatification": {
+      "path": "hosted-acceptance-evidence/review/corrected-behavior-independent-ratification.json",
+      "sha256": "2e3456087d4b43c6af5e482d60bfe6b24667a86bd5aa78dba59d141cf1e236cd",
+      "bytes": 13299,
+      "report": {
+        "schemaVersion": "rcap-corrected-behavior-independent-ratification/v1",
+        "recordedAt": "2026-09-24T12:58:02.608Z",
+        "verdict": "PASS",
+        "scope": "Independent local corrected-behavior ratification of the four reviewed implementation defects under Roger's revised criterion. This is not remote acceptance, publication, dispatch readiness or Production authorization.",
+        "instructionBasis": "Roger explicitly replaced the unchanged-original-PASS condition with preserved-original custody plus independent current executable-loop and actual PostgreSQL/download behavioral verification, relayed by Captain for this task.",
+        "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
+        "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+        "headAtFullCertificationRun": "0c74b07abe6a4b8779d13484cee2d984b1e780b2",
+        "newRegression": {
+          "source": {
+            "path": "scripts/rcap-migration-certification.test.mjs",
+            "sha256": "dc827e94463a86a225bf2d528fb7e312dc50a45dba218c9e646ff2e172455384",
+            "bytes": 12919
+          },
+          "addedTests": 1,
+          "existingAssertionsChanged": false,
+          "implementationChanged": false,
+          "purpose": "Close the helper-only duplicate-execution coverage gap with an actual PostgreSQL duplicate CREATE TABLE failure through runAcceptanceMigrationSequence."
+        },
+        "verification": [
+          {
+            "command": "node --test scripts/rcap-migration-certification.test.mjs",
+            "disposition": "fresh full affected-suite rerun",
+            "tests": 11,
+            "passed": 11,
+            "failed": 0,
+            "skipped": 0,
+            "exitCode": 0,
+            "durationMs": 38799.87612,
+            "log": {
+              "path": "hosted-acceptance-evidence/review/migration-certification-independent-ratification.tap",
+              "sha256": "b557d8d6d093a0db35ea1b4b0e5ca7ff8a482c8c2b02365de4d1b7169244a54d",
+              "bytes": 83592
+            }
+          },
+          {
+            "command": "node --test scripts/rcap-packet-database-contract.test.mjs",
+            "disposition": "reuse independently executed and hash-verified result; tested source and complete canonical worker/application inputs unchanged",
+            "tests": 486,
+            "passed": 486,
+            "failed": 0,
+            "skipped": 0,
+            "exitCode": 0,
+            "log": {
+              "path": "tmp/packet-database-independent-corrected.tap",
+              "sha256": "13225608434197308c871346676fe7d186a1eb672dc73346131da0ef733e93b4",
+              "bytes": 190111
+            },
+            "priorIndependentReport": {
+              "path": "tmp/packet-independent-verification.json",
+              "sha256": "0b36840bb7dffba2f933ef4ba4d249d10ed66816bc5b999bb57ba0e495b14293",
+              "bytes": 4090
+            },
+            "selectedPassedBehavioralCases": [
+              "a missing current reader column refuses payment readiness and reproduces the actual owner 404",
+              "correct legitimate dependency passes the current pre-charge gate and the frozen reader returns the known row",
+              "actual owner handler returns 200 and precisely the finalized PDF bytes and hash",
+              "stranger and anonymous GET requests remain denied before reading storage",
+              "unexpected guard failure rejects retry without retiring history or reporting progress",
+              "a row refusing every update causes failure instead of warning-only zero-work success",
+              "unrelated unique constraint is not the expected live-input collision",
+              "same constraint name on another relation is not the expected live-input collision",
+              "same relation and constraint names in another schema is not the expected live-input collision",
+              "RPC error cannot be mapped to zero by the application adapter",
+              "worker housekeeping error cannot become an idle successful cycle",
+              "release RPC permission errors are surfaced too",
+              "future retries, exhausted queued rows and unsupported renderers are excluded",
+              "expired claims and due failed predecessors are included before housekeeping executes",
+              "equal timestamps break ties by id exactly as the actual claim RPC does",
+              "due same target renders, re-reads stored bytes and finalizes once",
+              "exact repaired database passes; worker/browser/server grants remain separated"
+            ]
+          }
+        ],
+        "sourceIdentity": {
+          "identityProof": {
+            "path": "hosted-acceptance-evidence/review/independent-ratification-input-identity.json",
+            "sha256": "165b7d6b95797410d285ddff6bc2a930727daa921c992eb027a650b91c33fe22",
+            "bytes": 8596
+          },
+          "unchangedRecordedSources": [
+            {
+              "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+              "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+              "currentSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+              "unchanged": true
+            },
+            {
+              "path": "scripts/rcap-packet-database-contract.mjs",
+              "sha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+              "currentSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+              "unchanged": true
+            },
+            {
+              "path": "scripts/rcap-packet-database-reference.mjs",
+              "sha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+              "currentSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+              "unchanged": true
+            },
+            {
+              "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+              "sha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+              "currentSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+              "unchanged": true
+            },
+            {
+              "path": "scripts/rcap-packet-database-contract.test.mjs",
+              "sha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+              "currentSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+              "unchanged": true
+            },
+            {
+              "path": "src/lib/rcap/render/job-queue.ts",
+              "sha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+              "currentSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+              "unchanged": true
+            },
+            {
+              "path": "scripts/rcap-migration-certification.mjs",
+              "sha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+              "currentSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+              "unchanged": true
+            },
+            {
+              "path": "scripts/rcap-hosted-acceptance-migrate.mjs",
+              "sha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+              "currentSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+              "unchanged": true
+            },
+            {
+              "path": "scripts/rcap-hosted-acceptance-payment.mjs",
+              "sha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+              "currentSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+              "unchanged": true
+            }
+          ],
+          "canonicalInputCount": 38,
+          "aggregateInputSha256": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+          "canonicalWorkingTreeDiffFromImplementation": [],
+          "changesSinceHistoricalAcceptedWorker": [
+            "src/lib/rcap/render/job-queue.ts"
+          ],
+          "oldAcceptedWorkerReusable": false,
+          "successorWorkerStillRequired": true
+        },
+        "fourReviewedDefects": {
+          "deliveryDependency": {
+            "verdict": "closed in current local source",
+            "negative": "Removing the real sponsored reader column makes the current pre-charge gate fail, the frozen reader return null and the actual owner handler return404.",
+            "positive": "The legitimate forward correction restores full current catalog certification and the frozen reader returns the known finalized job. The actual complete shipped GET returns owner200 with exact finalized PDF bytes/SHA256; stranger403 and anonymous401 occur before any storage read.",
+            "evidence": "486-test PostgreSQL/download suite",
+            "externalTransportBoundary": "Session and Storage SDK transport use existing local doubles; no remote Storage or authenticated HTTP endpoint is claimed."
+          },
+          "retryExceptions": {
+            "verdict": "closed in current local source and actual caller",
+            "negative": "Real arbitrary trigger errors and unrelated unique constraints, including same names on different relations/schemas, reject without terminalizing jobs or reporting successful zero-work. The actual queue adapter preserves failure and the actual worker cycle rejects before claim; release permission errors also surface.",
+            "positive": "Expected collision on the exact public packet_render_jobs live-input unique index preserves deterministic canonical winner and unrelated progress. One-live uniqueness, backoff, attempt ceilings and retained history remain verified.",
+            "evidence": "486-test real PostgreSQL lifecycle and actual adapter/worker tests"
+          },
+          "migrationCertification": {
+            "verdict": "closed in current executable loop",
+            "negative": "A real failed ledger write cannot certify or advance counters; committed SQL is accurately applied-but-unrecorded. Stale current state fails despite a matching non-Phase50 ledger. Real duplicate-object SQL execution fails with satisfied/applied0, no receipt/evidence and unchanged current catalog. False receipt and failed evidence persistence also fail.",
+            "positive": "Counters advance only after actual SQL, exact receipt and evidence persistence; complete current state has a verified no-write success path; recovery reads actual state rather than replaying SQL.",
+            "evidence": "fresh11-test actual migration-loop suite"
+          },
+          "claimOrder": {
+            "verdict": "closed in current diagnostic and canonical housekeeping behavior",
+            "negative": "Exhausted queued rows, future next-attempt rows and unsupported renderer rows are excluded; diagnostic is read-only and no cycle allowance is increased.",
+            "positive": "Equal timestamps order by id; due failed predecessors and expired claims that housekeeping makes eligible are counted. Projection agrees with actual release-expired then requeue then claim. SAME-target Storage retry follows canonical backoff and finalizes once.",
+            "evidence": "486-test diagnostic/housekeeping and actual worker-cycle tests"
+          }
+        },
+        "preservedConditions": {
+          "obsoleteWorkerRpcsAbsent": true,
+          "sevenSupportedWorkerMutationRoleRestrictionsReasserted": true,
+          "evidence": "source-derived postcondition/role checks in the unchanged486-test suite",
+          "remoteHistoricalJobsResetByVerifier": 0,
+          "remoteHistoricalJobsDeletedByVerifier": 0
+        },
+        "originalHistoricalArtifact": {
+          "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+          "sha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+          "bytes": 8000,
+          "preservedByteForByte": true,
+          "historicalResult": {
+            "passed": 4,
+            "failed": 0,
+            "meaning": "Defect reproduction plus one already-correct duplicate-apply control; not release acceptance."
+          },
+          "unchangedCurrentCandidateRun": {
+            "passed": 0,
+            "failed": 4,
+            "exitCode": 1,
+            "report": {
+              "path": "hosted-acceptance-evidence/review/original-current-candidate-independent.json",
+              "sha256": "d3396c2701c81dee2c4251978a27547faa29e72b0f450550ed56e2f8132b4b9a",
+              "bytes": 7007
+            }
+          },
+          "originalCaseMapping": {
+            "path": "hosted-acceptance-evidence/review/original-case-corrected-behavior-map.json",
+            "sha256": "61da434b5873f313c5dd4f720367fd71be37033aa041f26e965f32ea4c0554ad",
+            "bytes": 9207
+          },
+          "mappingConditionNote": "The mapping was recorded before Roger replaced the unchanged-PASS condition. Its unresolved-condition text is historical; this ratification applies the later explicit condition without editing the original."
+        },
+        "productionPreparation": {
+          "separateFromHostedAcceptance": true,
+          "priorIndependentReport": {
+            "path": "tmp/packet-independent-production-followup.json",
+            "sha256": "4182a913f97ef28c484c7c9cb387ce7ca7cefa71d3cd8e25cea740f3c2596ff2",
+            "bytes": 9412
+          },
+          "executionPerformed": false,
+          "authorizationGrantedByThisReport": false
+        },
+        "localVerificationGaps": [],
+        "remainingBoundaries": [
+          "Remote acceptance catalog and exact REST reader must still be verified after any separately authorized forward correction.",
+          "Canonical queue reconciliation, no-poison readback, existing-job Storage/recovery and remote owner/stranger/anonymous delivery remain unperformed by this verifier.",
+          "#345 remains historical zero-dollar evidence, not an ordinary50-dollar hosted acceptance.",
+          "Successor immutable worker publication/image acceptance, Preview identity, final current tools binding and dispatch remain Captain-owned next-stage work.",
+          "Production authorization is separate; no Production or live-charge authority is created here."
+        ],
+        "remoteMutationsPerformed": [],
+        "externalWritesPerformed": [],
+        "implementationEditsPerformed": [],
+        "unrelatedTestsRerun": [],
+        "ratifiesExistingOperationScopeOnly": true,
+        "enlargesPermissionScope": false
+      }
     }
   },
   "applicationAndWorker": {
@@ -2120,7 +2357,7 @@
   },
   "remoteAfter": {
     "available": false,
-    "reason": "Exact acceptance scope approved. Original review bytes recovered and independently rerun unchanged with0/4 passing; explicit unchanged-pass condition remains unsatisfied. No schema, queue, storage, recovery, publication, Preview, webhook or charge operation has run.",
+    "reason": "Independent local prerequisite now passed; exact approved acceptance sequence is next. No remote mutation has yet occurred.",
     "mutationCount": 0
   },
   "productionPreparation": {
@@ -2140,7 +2377,7 @@
     }
   },
   "acceptanceWriteAuthorizationRequest": {
-    "status": "APPROVED_CONDITIONALLY_ORIGINAL_REVIEW_PREREQUISITE_NOT_MET",
+    "status": "APPROVED_EXACT_SCOPE_REVISED_VERIFICATION_PASSED",
     "targetProject": "hyflxnlhpmiqxvvcoiia",
     "sourceCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
     "migrationFiles": [
@@ -2223,21 +2460,21 @@
     "productionAuthorized": false,
     "liveChargeAuthorized": false,
     "ordinarySandboxCheckoutExecuted": false,
-    "requiredBeforeAnyWrite": "The exact original file has now been recovered and rerun, but the explicit unchanged-pass condition is not satisfied. Keep writes blocked unless Roger explicitly resolves this gate conflict; existing operation scope remains approved.",
+    "requiredBeforeAnyWrite": "Independent corrected-behavior ratification PASS; exact approved migration hash and fresh matching pre-apply readback; preserve original historical counterexample bytes and results.",
     "approval": {
       "recordedAt": "2026-09-24T12:45:24.581Z",
       "source": "Roger user reply to exact acceptance-only authorization request",
       "scope": "The exact recorded acceptance-only request; no broader scope.",
       "userReplyVerbatim": "I approve this exact acceptance-only scope for Supabase `hyflxnlhpmiqxvvcoiia`, and no broader scope.\n\nAuthorized migration:\n`20260924120347_packet_delivery_dependency_and_retry_errors.sql`\n\nRequired SHA256:\n`86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795`\n\nThe migration may be applied only if its bytes hash exactly to that value and the current pre-apply readback still matches the recorded correction evidence.\n\nThe migration itself is authorized only for the stated schema/function correction and must not modify existing business rows.\n\nAfter that exact migration, I authorize only the recorded canonical acceptance housekeeping effects:\n\n* preserve all 22 existing job IDs and their history;\n* retain the two exhausted jobs as terminal history;\n* retain the two duplicate losers as terminal history;\n* requeue the three",
       "replyEndsMidBullet": true,
-      "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after “requeue the three”; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
+      "interpretation": "Exact previously approved acceptance-only operation scope remains unchanged. Roger explicitly superseded only its verification condition; independent corrected-behavior ratification now passes.",
       "migrationHashMatches": true,
       "currentCatalogMatchesRecorded": true,
       "currentJobRowsMatchRecorded": true,
       "currentLedgerMatchesRecorded": true,
       "originalReviewFileAvailable": true,
       "originalReviewRerunPassed": false,
-      "executionAllowedNow": false,
+      "executionAllowedNow": true,
       "readbackArtifacts": [
         {
           "path": "hosted-acceptance-evidence/database/approved-scope-before-catalog.json",
@@ -2257,7 +2494,56 @@
       ],
       "readbackMustBeRepeatedImmediatelyBeforeAnyLaterApply": true,
       "conditionReaffirmedByUser": true,
-      "noReconstructedReplacement": true
+      "noReconstructedReplacement": true,
+      "originalReviewRole": "preserved historical defect reproduction; unchanged post-correction PASS not required by superseding user instruction",
+      "correctedBehaviorRatificationPassed": true
+    },
+    "conditionHistory": [
+      {
+        "recordedAt": "2026-09-24T12:38:47.282Z",
+        "requiredBeforeAnyWrite": "The exact original file has now been recovered and rerun, but the explicit unchanged-pass condition is not satisfied. Keep writes blocked unless Roger explicitly resolves this gate conflict; existing operation scope remains approved.",
+        "approval": {
+          "recordedAt": "2026-09-24T12:45:24.581Z",
+          "source": "Roger user reply to exact acceptance-only authorization request",
+          "scope": "The exact recorded acceptance-only request; no broader scope.",
+          "userReplyVerbatim": "I approve this exact acceptance-only scope for Supabase `hyflxnlhpmiqxvvcoiia`, and no broader scope.\n\nAuthorized migration:\n`20260924120347_packet_delivery_dependency_and_retry_errors.sql`\n\nRequired SHA256:\n`86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795`\n\nThe migration may be applied only if its bytes hash exactly to that value and the current pre-apply readback still matches the recorded correction evidence.\n\nThe migration itself is authorized only for the stated schema/function correction and must not modify existing business rows.\n\nAfter that exact migration, I authorize only the recorded canonical acceptance housekeeping effects:\n\n* preserve all 22 existing job IDs and their history;\n* retain the two exhausted jobs as terminal history;\n* retain the two duplicate losers as terminal history;\n* requeue the three",
+          "replyEndsMidBullet": true,
+          "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after “requeue the three”; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
+          "migrationHashMatches": true,
+          "currentCatalogMatchesRecorded": true,
+          "currentJobRowsMatchRecorded": true,
+          "currentLedgerMatchesRecorded": true,
+          "originalReviewFileAvailable": true,
+          "originalReviewRerunPassed": false,
+          "executionAllowedNow": false,
+          "readbackArtifacts": [
+            {
+              "path": "hosted-acceptance-evidence/database/approved-scope-before-catalog.json",
+              "sha256": "b1b94f9f0da0fa1058f59d99e5b6f5f74987c80ad02c79450f1c903adfddc343",
+              "bytes": 348939
+            },
+            {
+              "path": "hosted-acceptance-evidence/database/approved-scope-before-health.json",
+              "sha256": "d0a1accef71644ad92c2cdba527e3b5652cd0b03e37b9ff1434c5593a91bd4f5",
+              "bytes": 14701
+            },
+            {
+              "path": "hosted-acceptance-evidence/database/approved-scope-before-ledger.json",
+              "sha256": "820164fc9af21b9ab81707003a622d085697a4bd47e37bc77f2d1da141d1e55d",
+              "bytes": 777
+            }
+          ],
+          "readbackMustBeRepeatedImmediatelyBeforeAnyLaterApply": true,
+          "conditionReaffirmedByUser": true,
+          "noReconstructedReplacement": true
+        }
+      }
+    ],
+    "verificationConditionSupersession": {
+      "recordedAt": "2026-09-24T12:58:45.151Z",
+      "source": "Roger user reply",
+      "userReplyVerbatim": "Preserve the recovered original four-case file byte-for-byte, record its SHA256, and retain its historical 4/4 result as evidence that it reproduced the pre-correction defects. Do not modify its expectations to manufacture a post-correction PASS.\nBefore any approved acceptance write proceeds, Codex must independently ratify the successor using the current executable migration-loop tests and actual PostgreSQL/download-handler tests, proving the corrected behavior:\nfailed receipt writes cannot count as successful certification;\nstale ledger evidence cannot bypass required current postconditions;\nunexpected retry SQL errors remain observable rather than being converted to successful zero-work or inappropriate terminalization;\nthe actual render-job reader succeeds against the corrected schema;\nthe actual owner download returns the validated PDF, while stranger and anonymous access remain denied;\nthe four historical defects reproduced by the original file are demonstrably absent.\nThe original file becoming 0/4 against the corrected implementation is not itself a failure where those cases assert the old defective behavior or depend on the superseded inline-loop implementation. Its role is historical counterexample preservation, not successor acceptance.\nPreviously approved operation scope remains unchanged. No additional writes are authorized. Writes remain blocked until the independent corrected-behavior verification passes.",
+      "operationScopeChanged": false
     }
   },
   "dispatchReadiness": {
@@ -2267,12 +2553,11 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "Original file recovered; unchanged run fails4/4. Its defect-reproduction assertions and obsolete harness cannot serve as a green corrected-acceptance gate without an explicit gate decision.",
       "Remote post-correction catalog/REST/queue/storage/owner-denial proof has not run.",
       "New immutable worker acceptance and Preview identities do not exist; final CURRENT tools binding cannot yet be generated."
     ],
     "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
     "authorizationReceived": true,
-    "executionBoundary": "Original-file access is resolved. The unchanged-pass gate is not satisfied; no acceptance write is permitted under the recorded conditional approval. Preserve exact original bytes and await resolution of the gate definition, then repeat pre-apply checks before any previously approved operation."
+    "executionBoundary": "Approved migration and bounded reconciliation/recovery may proceed after exact fresh readbacks. Successor publication, Preview, remote delivery proof and final tools binding remain required before hosted_full."
   }
 }
