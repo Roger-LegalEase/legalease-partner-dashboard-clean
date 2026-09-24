@@ -4508,7 +4508,65 @@
           "nextAction": "Roger dispatches rcap-worker-image-acceptance.yml on the already-pushed captain-release receipt commit from an account permitted to dispatch the workflow, then provides the run ID.",
           "nextCommand": "gh workflow run rcap-worker-image-acceptance.yml --repo Roger-LegalEase/legalease-partner-dashboard-clean --ref captain-release"
         }
-      }
+      },
+      "subsequentExplicitUserRequestedAttempts": [
+        {
+          "path": "hosted-acceptance-evidence/worker/publication-36004158153/image-acceptance-dispatch-attempt-2.json",
+          "sha256": "e243a8760b1a00c4ac739d409c731f398ac920eb5c2cd3fd6e8a961c559919f0",
+          "bytes": 2456,
+          "report": {
+            "schemaVersion": "rcap-image-acceptance-dispatch-attempt/v1",
+            "recordedAt": "2026-09-24T13:32:38.835Z",
+            "userInstruction": "gh workflow run rcap-worker-image-acceptance.yml \\\n  --repo Roger-LegalEase/legalease-partner-dashboard-clean \\\n  --ref captain-release",
+            "scope": "One explicit user-requested dispatch attempt; no push, publication or other operation.",
+            "beforeRemoteHead": "ab4dab6cd8170b0ff0c2461ec4b569ae3d506a9d",
+            "dispatchCommandExitCode": 1,
+            "observedOutput": "could not create workflow dispatch event: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/workflows/338164231/dispatches)\n",
+            "observedHttpStatus": 403,
+            "matchingRunsAfter": [],
+            "workflowRunReadback": [
+              {
+                "conclusion": "success",
+                "createdAt": "2026-09-24T01:39:27Z",
+                "databaseId": 35943884247,
+                "event": "workflow_dispatch",
+                "headSha": "a36a60c430be54323f5ca76cc1ada34767a85d7f",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35943884247"
+              },
+              {
+                "conclusion": "success",
+                "createdAt": "2026-09-22T18:49:49Z",
+                "databaseId": 35769776831,
+                "event": "workflow_dispatch",
+                "headSha": "0fda351646cd5a11688ea3cca3d8f529969438ea",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831"
+              },
+              {
+                "conclusion": "success",
+                "createdAt": "2026-09-22T16:03:34Z",
+                "databaseId": 35751543666,
+                "event": "workflow_dispatch",
+                "headSha": "f18d7c81821b7971b06b64da0e8464e3f3c78939",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35751543666"
+              },
+              {
+                "conclusion": "failure",
+                "createdAt": "2026-09-22T15:58:10Z",
+                "databaseId": 35750924874,
+                "event": "workflow_dispatch",
+                "headSha": "4c6bd498246ac4d6f4df3fd8499deb44694df924",
+                "status": "completed",
+                "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35750924874"
+              }
+            ],
+            "runtimeAccepted": false,
+            "boundary": "Current GitHub integration is refused workflow dispatch. Roger must run the workflow from an authorized account; sending the command in chat executes it through the same restricted integration."
+          }
+        }
+      ]
     }
   }
 }
