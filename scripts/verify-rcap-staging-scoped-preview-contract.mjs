@@ -247,7 +247,7 @@ if (MUTATIONS) {
     ["R5 the resolver is no longer told the phase requires staging_scoped", (h, r) =>
       [h.replace("          HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}\n", ""), r]],
     ["R5 the requirement stops being derived from the transacting phases", (h, r) =>
-      [h.replace('if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ]; then', 'if false; then'), r]],
+      [h.replace(/if \[ "\$MATRIX" = "true" \] \|\| \[ "\$GATE" = "true" \][^\n]*; then/, 'if false; then'), r]],
     ["R6 a failed staging-scoped lookup falls back to an unauthorized deployment", (h, r) =>
       [h, r.replace("      && routeStateAcceptable(state);", "      && true;")]],
     ["R6 the resolver stops looking for an existing exact Preview", (h, r) =>
@@ -259,8 +259,8 @@ if (MUTATIONS) {
     ["R8 the gate can pass vacuously again", (h, r) =>
       [h.replace('if [ "$O_CONTRACT" != "success" ]; then', 'if false; then'), r]],
     ["hosted_payment transacts without a migration readback", (h, r) =>
-      [h.replace("        if: inputs.phase == 'migrate' || inputs.phase == 'full' || inputs.phase == 'payment'",
-                 "        if: inputs.phase == 'migrate' || inputs.phase == 'full'"), r]],
+      [h.replace(/(id: migrate_readback[\s\S]*?\n        if: [^\n]*) \|\| inputs.phase == 'payment'/,
+                 '$1'), r]],
     ["the resolution record stops reporting the observed route state", (h, r) =>
       [h, r.replace("routeState: extra.routeState ?? null,", "")]],
     ["the reuse-only Checkout gate runs in a phase whose contract set GATE=false", (h, r) =>
@@ -278,8 +278,8 @@ if (MUTATIONS) {
       return [without.replace("      - name: Normalize the execution contract for this phase", block[0] + "\n\n      - name: Normalize the execution contract for this phase"), r, d];
     }],
     ["the dependency install stops covering the diagnosis phase", (h, r, d) =>
-      [h.replace("        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'\n        run: npm ci",
-                 "        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'\n        run: npm ci"), r, d]],
+      [h.replace(/(id: gate_deps\n        if: [^\n]*) \|\| steps.contract.outputs.diagnose == 'true'/,
+                 '$1'), r, d]],
     ["the anti-skip gate stops asserting the diagnosis", (h, r, d) =>
       [h.replace(/RUNS_DIAGNOSE/g, "RUNS_UNUSED"), r, d]],
     ["downstream stops falling back to the deploy step's deployment id", (h, r, d) =>
