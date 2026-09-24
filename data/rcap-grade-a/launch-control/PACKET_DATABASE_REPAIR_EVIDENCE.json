@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-packet-database-repair-evidence/v1",
   "recordedAt": "2026-09-24T12:38:47.282Z",
-  "status": "LOCAL_CORRECTION_VERIFIED_ACCEPTANCE_WRITES_AND_ORIGINAL_REVIEW_RERUN_PENDING",
+  "status": "LOCAL_CORRECTION_VERIFIED_SCOPE_APPROVED_ORIGINAL_REVIEW_FILE_UNAVAILABLE",
   "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
   "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
   "branch": "codex/packet-database-repair-345",
@@ -581,7 +581,25 @@
       "recreated": false,
       "rerun": false,
       "status": "UNAVAILABLE_AT_USER_SUPPLIED_PATH",
-      "independentSignoffLimitation": "The repository behavioral suites pass; the exact original four-case rerun cannot be asserted until this file is materialized unchanged."
+      "independentSignoffLimitation": "The repository behavioral suites pass; the exact original four-case rerun cannot be asserted until this file is materialized unchanged.",
+      "custodyClarification": {
+        "source": "Roger follow-up to missing original-file question",
+        "recordedAt": "2026-09-24T12:46:00.659Z",
+        "originalEnvironmentOnly": true,
+        "persistedRepositoryCopyAvailable": false,
+        "includedInHandoffZip": false,
+        "accessibleArtifactUrl": null,
+        "historicalTenCaseFile": "counterexamples.test.mjs",
+        "historicalTenCaseMaySubstitute": false,
+        "requiredProvider": "Original independent reviewer must export or attach the exact bytes from the environment where its4/4 run was produced.",
+        "acceptanceProcedure": [
+          "Record the supplied original file SHA256 and source provenance.",
+          "Run those exact bytes unchanged against the committed successor correction in the existing worktree.",
+          "Record command, exit status, all four outcomes, output hash and before/after original-file SHA256.",
+          "Only after that unchanged gate passes, repeat exact migration-byte and remote pre-apply state checks before using the recorded conditional authorization."
+        ],
+        "reconstructionPermitted": false
+      }
     },
     "independentCustody": {
       "path": "tmp/packet-independent-custody.json",
@@ -1781,7 +1799,7 @@
   },
   "remoteAfter": {
     "available": false,
-    "reason": "No acceptance write authorization for this new migration/runtime successor has been recorded. No remote schema/queue/storage/recovery/Preview/Stripe write was executed in this correction turn.",
+    "reason": "Exact acceptance scope approved, but the original four-case file is still absent. That approved prerequisite is not met; no schema, queue, storage, recovery, publication, Preview, webhook or charge operation has run.",
     "mutationCount": 0
   },
   "productionPreparation": {
@@ -1801,7 +1819,7 @@
     }
   },
   "acceptanceWriteAuthorizationRequest": {
-    "status": "REQUESTED_NOT_GRANTED",
+    "status": "APPROVED_CONDITIONALLY_ORIGINAL_REVIEW_PREREQUISITE_NOT_MET",
     "targetProject": "hyflxnlhpmiqxvvcoiia",
     "sourceCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
     "migrationFiles": [
@@ -1884,7 +1902,42 @@
     "productionAuthorized": false,
     "liveChargeAuthorized": false,
     "ordinarySandboxCheckoutExecuted": false,
-    "requiredBeforeAnyWrite": "Original user-supplied four-case file must be available and independently pass unchanged against this successor; otherwise keep the external-write boundary closed even if scope authorization arrives."
+    "requiredBeforeAnyWrite": "Original user-supplied four-case file must be available and independently pass unchanged against this successor; otherwise keep the external-write boundary closed even if scope authorization arrives.",
+    "approval": {
+      "recordedAt": "2026-09-24T12:45:24.581Z",
+      "source": "Roger user reply to exact acceptance-only authorization request",
+      "scope": "The exact recorded acceptance-only request; no broader scope.",
+      "userReplyVerbatim": "I approve this exact acceptance-only scope for Supabase `hyflxnlhpmiqxvvcoiia`, and no broader scope.\n\nAuthorized migration:\n`20260924120347_packet_delivery_dependency_and_retry_errors.sql`\n\nRequired SHA256:\n`86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795`\n\nThe migration may be applied only if its bytes hash exactly to that value and the current pre-apply readback still matches the recorded correction evidence.\n\nThe migration itself is authorized only for the stated schema/function correction and must not modify existing business rows.\n\nAfter that exact migration, I authorize only the recorded canonical acceptance housekeeping effects:\n\n* preserve all 22 existing job IDs and their history;\n* retain the two exhausted jobs as terminal history;\n* retain the two duplicate losers as terminal history;\n* requeue the three",
+      "replyEndsMidBullet": true,
+      "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after “requeue the three”; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
+      "migrationHashMatches": true,
+      "currentCatalogMatchesRecorded": true,
+      "currentJobRowsMatchRecorded": true,
+      "currentLedgerMatchesRecorded": true,
+      "originalReviewFileAvailable": false,
+      "originalReviewRerunPassed": false,
+      "executionAllowedNow": false,
+      "readbackArtifacts": [
+        {
+          "path": "hosted-acceptance-evidence/database/approved-scope-before-catalog.json",
+          "sha256": "b1b94f9f0da0fa1058f59d99e5b6f5f74987c80ad02c79450f1c903adfddc343",
+          "bytes": 348939
+        },
+        {
+          "path": "hosted-acceptance-evidence/database/approved-scope-before-health.json",
+          "sha256": "d0a1accef71644ad92c2cdba527e3b5652cd0b03e37b9ff1434c5593a91bd4f5",
+          "bytes": 14701
+        },
+        {
+          "path": "hosted-acceptance-evidence/database/approved-scope-before-ledger.json",
+          "sha256": "820164fc9af21b9ab81707003a622d085697a4bd47e37bc77f2d1da141d1e55d",
+          "bytes": 777
+        }
+      ],
+      "readbackMustBeRepeatedImmediatelyBeforeAnyLaterApply": true,
+      "conditionReaffirmedByUser": true,
+      "noReconstructedReplacement": true
+    }
   },
   "dispatchReadiness": {
     "ready": false,
@@ -1894,10 +1947,11 @@
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
       "Original user-specified four-case file is absent; unchanged rerun remains unproven.",
-      "New exact acceptance write/runtime-successor scope requires authorization.",
       "Remote post-correction catalog/REST/queue/storage/owner-denial proof has not run.",
       "New immutable worker acceptance and Preview identities do not exist; final CURRENT tools binding cannot yet be generated."
     ],
-    "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production."
+    "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
+    "authorizationReceived": true,
+    "executionBoundary": "Roger reaffirmed: original reviewer must export exact four-case bytes, whose SHA256 is recorded and whose unchanged rerun passes. The10-case historical file is separate. Repeat exact hash/current pre-apply checks only after that gate passes; approval is already recorded and need not be requested again for the same scope."
   }
 }
