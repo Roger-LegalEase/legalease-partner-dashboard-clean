@@ -29,7 +29,7 @@
       "bytes": 29816
     }
   },
-  "hostedAcceptanceStatus": "PREVIEW_PREPARED_AWAITING_ROGER_MANUAL_DISPATCH",
+  "hostedAcceptanceStatus": "READY_FOR_ONE_ACCEPTANCE_PREVIEW",
   "hostedAcceptance": {
     "journeys": [],
     "manualHostedFullReady": false,
@@ -521,7 +521,7 @@
               {
                 "runId": 35178342916,
                 "order": "Mississippi, no promotion code, 5000 cents",
-                "result": "PASS — real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
+                "result": "PASS \u2014 real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
               },
               {
                 "runId": 35179247131,
@@ -531,12 +531,12 @@
               {
                 "runId": 35180723873,
                 "order": "Illinois, no promotion code",
-                "result": "PASS — the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
+                "result": "PASS \u2014 the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
               },
               {
                 "runId": 35205114308,
                 "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
-                "result": "PASS — Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
+                "result": "PASS \u2014 Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
               }
             ]
           },
@@ -557,7 +557,7 @@
             "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
             "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
             "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95/95",
-            "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs — 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
+            "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs \u2014 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
             "syntheticPublicationFixture": false,
             "publishedWorkerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
             "publicationRunId": 35227578682,
@@ -934,7 +934,7 @@
   "productionAuthorized": false,
   "productionAuthorization": null,
   "productionAuthorizationNote": "Historical Production approvals remain bound to their historical tuples. No Production action is authorized.",
-  "scope": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Roger owns manual pushes/dispatches. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
+  "scope": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Captain now explicitly instructed to push and deploy this single Preview after exact final-diff ratification. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
   "previewBoundary": {
     "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
     "vercelProjectName": "legalease-partner-dashboard-clean",
@@ -1146,5 +1146,17 @@
     "canonicalHousekeeping": "COMPLETED_MUST_NOT_REPLAY",
     "historyPreserved": 22,
     "productionAuthorized": false
+  },
+  "previewExecutionInstruction": {
+    "instruction": "Roger: Finish the currently bounded Preview-control work, have Codex independently ratify the exact final diff, freeze that SHA, and stop changing source. Do not add further controls unless an existing test fails or remote Preview evidence exposes a specific defect. Then push and deploy exactly one Preview.",
+    "priorInstructionPreserved": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Roger owns manual pushes/dispatches. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
+    "interpretation": "Captain may push and dispatch this single Preview after exact independent ratification. Ordinary hosted_full retains Roger manual ownership. No other operational scope expands."
+  },
+  "independentPreviewControlRatification": {
+    "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-preview-successor-verification.json",
+    "sha256": "4a6ecd294b4668207bf71cf4dc14ba6912a60c80c4fac478c0afd493d20beaa4",
+    "bytes": 19615,
+    "status": "PASS",
+    "reviewedSourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4"
   }
 }

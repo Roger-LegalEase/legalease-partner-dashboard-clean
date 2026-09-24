@@ -1,238 +1,314 @@
 {
   "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-  "applicationSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-  "workerSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-  "workerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
-  "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
-  "toolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+  "applicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
+  "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+  "workerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+  "workerInputFingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+  "toolsSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
   "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
   "orchestrationFiles": [
-    ".github/workflows/rcap-f1-ephemeral-staging.yml",
-    ".github/workflows/rcap-github-hosted-acceptance.yml",
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
-    "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-    "scripts/rcap-github-acceptance-gate.mjs",
-    "scripts/rcap-github-post-payment-acceptance.mjs",
-    "scripts/rcap-hosted-acceptance-migrate.mjs",
-    "scripts/rcap-hosted-acceptance-payment.mjs",
-    "scripts/rcap-hosted-checkout-gate.mjs",
-    "scripts/rcap-hosted-target-retry.test.mjs",
-    "scripts/rcap-migration-certification.mjs",
-    "scripts/rcap-migration-certification.test.mjs",
-    "scripts/rcap-packet-database-contract.mjs",
-    "scripts/rcap-packet-database-contract.test.mjs",
-    "scripts/rcap-packet-database-reference.mjs",
-    "scripts/rcap-production-clinic-migrate.mjs",
-    "scripts/rcap-production-forward-chain-migrate.mjs",
-    "scripts/rcap-production-legal-aid-migrate.mjs",
-    "scripts/verify-rcap-packet-database.mjs",
-    "scripts/verify-rcap-target-worker-journey.mjs",
-    "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql"
+    "scripts/rcap-hosted-acceptance-deploy.mjs",
+    "scripts/rcap-hosted-resolve-preview.mjs",
+    "scripts/rcap-hosted-vercel-rest-transport.mjs",
+    "scripts/rcap-hosted-vercel-rest-transport.test.mjs"
   ],
-  "previousToolsSha": "6d7b8058ee7fb517bb120a9e812346e82a748131",
-  "previousBindingCommit": "316f680c3ef54daf9023e784215655e2bdbe8908",
-  "why": "#345 forward database correction: isolate retry collisions, cap claims, preserve lifecycle history, persist the accepted worker failure vocabulary, close incomplete Phase-50 security state, and require complete postcondition authority for migration adoption. Application, all 38 worker inputs, Preview and Stripe destination remain unchanged.",
-  "authorization": "Roger Roman mission lock: land the bounded forward correction and verifier, apply only that correction to acceptance hyflxnlhpmiqxvvcoiia, reconcile through canonical lifecycle, prove live readback, then ONE hosted_full with blank promotion input. No Production mutation, worker publication, Preview creation or Stripe retarget.",
-  "deploymentAuthorized": false,
-  "deploymentScope": "Reuse only dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak / legalease-rcap-4f7d209de112-roger947s-projects.vercel.app. Only supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql is authorized for acceptance; no Production migration.",
+  "previousToolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+  "previousBindingCommit": "1b0bfcd9e79828c5a6039361d3c9943f9f762f1f",
+  "previousBindingSha256": "3b051071090fb68c8e27103a78f32cc689ac9288284357f12d37fed698ba3715",
+  "why": "Bind the accepted correction worker and independently verified application admission metadata to exactly one acceptance Preview. Require native source/worker/Preview metadata, preserve Production snapshots, and refuse creating an Auth participant during replacement.",
+  "authorization": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Captain now explicitly instructed to push and deploy this single Preview after exact final-diff ratification. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
+  "deploymentAuthorized": true,
+  "deploymentScope": {
+    "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+    "vercelProjectName": "legalease-partner-dashboard-clean",
+    "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+    "target": "preview",
+    "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
+    "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
+    "productionTarget": false,
+    "productionAliasesMayMove": false,
+    "productionEnvironmentMayChange": false,
+    "publicDomainActivation": false
+  },
+  "manualPushAndDispatchOwner": "Captain explicitly instructed by Roger for this single Preview after independent final-diff ratification",
+  "hostedFullReady": false,
+  "productionAuthorized": false,
+  "migrationReplayAuthorized": false,
+  "housekeepingReplayAuthorized": false,
+  "additionalWorkerPublicationAuthorized": false,
   "regressionEvidence": {
-    "crossLayer": {
-      "command": "node --test scripts/test-consumer-checkout-binding-recovery.mjs",
-      "passed": 60,
+    "status": "PASS",
+    "sourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
+    "transportAndIdentity": {
+      "passed": 42,
       "failed": 0,
       "skipped": 0,
-      "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout.",
-      "verifiedAfterWorkerBinding": true
+      "log": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/packet-runtime-preview-tests-final.log",
+      "sha256": "2b67bdc8d76189edf3c5128a7dd0a2df94dfb482ddf3449e737a7b87a08ee220"
     },
-    "checkoutGuards": {
-      "command": "node scripts/test-expungement-checkout-guards.mjs",
-      "passed": true,
-      "bindingStateCases": 48,
-      "includesCrossLayerCases": 60
-    },
-    "sqlReadbackAndFinalVerification": {
-      "command": "node --test scripts/rcap-hosted-final-verification.test.mjs",
-      "passed": 109,
-      "failed": 0,
-      "skipped": 0
-    },
-    "typecheck": {
-      "command": "node_modules/.bin/tsc --noEmit --incremental false",
-      "exitCode": 0
-    },
-    "lint": {
-      "errors": 0,
-      "warnings": 1,
-      "warning": "Existing unused sanitize variable in rcap-hosted-acceptance-payment.mjs; left outside this correction."
-    },
-    "hostedVerdictChecks": {
-      "command": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs",
-      "exitCode": 0
-    },
-    "workerEquivalence": {
-      "canonicalInputs": 38,
-      "equivalent": true,
-      "changedPaths": 0,
-      "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-      "toolsSnapshot": "2b1c37b129b09eca32de763c30e73d96e6296684",
-      "fingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2"
-    },
-    "applicationBuild": {
-      "command": "npm run build -- --webpack",
-      "exitCode": 0,
-      "staticPages": 169,
-      "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-      "note": "Compiled, typechecked, generated pages and completed build traces using the exact candidate. Sparse-checkout omissions were restored from tracked bytes; no application or build-configuration change."
-    },
-    "previewCatalogReadOnly": {
-      "actualWorkflowStepExecuted": true,
-      "productId": "prod_VHEHkvH7dSvGv7",
-      "priceId": "price_1UGfowRWROAHlAKyIO2FISdR",
-      "method": "GET",
-      "mutations": 0,
-      "replacePreviewSkipsFixtureSetup": true
-    },
-    "vercelIdentity": {
-      "passed": 12,
-      "failed": 0
-    },
-    "previewReuseLegacyTextControl": {
-      "status": "BASELINE_STALE",
-      "baselineSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
-      "baselineAndCandidateFailure": "The textual verifier expects target !== production inline; the resolver uses the stricter isPreviewTarget(target) helper accepting only null or preview. Same single refusal reproduced by executing the accepted baseline files in an isolated fixture. Resolver and this verifier unchanged; the existing Vercel identity tests require the exact null-or-preview predicate."
-    },
-    "predecessorWorkerEquivalence": {
-      "canonicalInputs": 38,
-      "equivalent": false,
-      "changedPaths": 3
-    },
-    "authorityBinding": {
-      "generator": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-      "completed": true,
-      "staticWorkerAuthorityUnchanged": true,
-      "routeStatesUnchanged": true,
-      "commerciallyEligibleBefore": 6,
-      "commerciallyEligibleAfter": 6,
-      "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
-    },
-    "checkoutGate": {
-      "checks": 139,
-      "passed": 139,
-      "bindingStateCasesPassed": 48,
-      "bindingStateCasesTotal": 48
-    },
-    "githubAcceptanceGate": {
-      "checks": 196,
-      "passed": 196
-    },
-    "releaseBindings": {
+    "releaseCurrentness": {
       "current": true,
-      "status": "CURRENT",
-      "identityMutationsRefused": 8,
-      "identityMutationsTotal": 8,
-      "boundaryMutationsRefused": 38,
-      "boundaryMutationsTotal": 38,
-      "exactHostedToolsBindingTestPassed": true
+      "status": "CURRENT"
     },
-    "vercelRestTransport": {
-      "passed": 25,
-      "failed": 0
-    },
-    "applicationBytesEquivalentToCandidate": true,
-    "productionPinsChanged": false,
-    "databaseRepair": {
-      "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
-      "passed": 244,
-      "failed": 0,
-      "skipped": 0,
-      "phase50Postconditions": 157,
-      "currentPostconditions": 166,
-      "persistedFailureCodes": 23,
-      "missingPostconditionMutations": 166,
-      "realCatalogMutations": 20,
-      "productionForwardControl": 64,
-      "productionForwardMutations": 24,
-      "productionClinicControl": 21,
-      "productionLegalAidControl": 27,
-      "hostedRetryPromotionAndBindingTests": 20,
-      "lintErrors": 0,
-      "lintWarnings": 0
-    }
-  },
-  "controlRegressionEvidence": {
-    "targetRetryAndPromotion": {
-      "command": "node --test scripts/rcap-hosted-target-retry.test.mjs",
-      "passed": 19,
-      "failed": 0,
-      "skipped": 0,
-      "method": "Execute the production-used journey, worker-cycle wrapper, SQL readers, clock waits and workflow promotion expression with recorded transport responses. Original #345 bytes reproduce both failures. No real payment or job is created by this regression."
-    },
-    "targetAttributionMutations": {
-      "passed": 17,
-      "total": 17
-    },
-    "targetReplayMutations": {
-      "passed": 3,
-      "total": 3
-    },
-    "sqlReadbackAndFinalVerification": {
-      "passed": 109,
-      "failed": 0,
-      "skipped": 0
-    },
-    "applicationBytesChanged": false,
-    "workerInputCount": 38,
+    "identityMutationsRefused": 8,
+    "boundaryMutationsRefused": 38,
+    "workerCanonicalInputCount": 38,
     "workerInputsChanged": 0,
+    "applicationSourceCodeChanged": false,
+    "applicationAdmissionMetadataChanged": true,
     "lintErrors": 0,
-    "lintWarnings": 1,
-    "lintWarning": "Existing unused sanitize variable, unchanged.",
-    "checkoutControls": {
-      "passed": 139,
-      "total": 139,
-      "realSqlBindingCasesPassed": 48,
-      "realSqlBindingCasesTotal": 48
-    },
-    "releaseBinding": {
-      "current": true,
-      "status": "CURRENT",
-      "identityMutationsRefused": 8,
-      "identityMutationsTotal": 8,
-      "boundaryMutationsRefused": 38,
-      "boundaryMutationsTotal": 38,
-      "hostedToolsBindingTestsPassed": 1,
-      "hostedToolsBindingTestsTotal": 1
-    }
+    "lintWarnings": 18,
+    "sameWarningsAtReceiptHead": 18,
+    "independentMetadataReview": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-admission-metadata-successor-verification.json"
   },
-  "databaseCorrection": {
-    "sourceSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
-    "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
-    "sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
-    "projectRef": "hyflxnlhpmiqxvvcoiia",
-    "status": "PENDING_AUTHORIZED_ACCEPTANCE_APPLY",
-    "applicationInputsChanged": false,
-    "workerInputsChanged": 0,
-    "workerInputCount": 38,
-    "previewChanged": false,
-    "productionAuthorized": false,
-    "regressionEvidence": {
-      "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
-      "passed": 244,
-      "failed": 0,
-      "skipped": 0,
-      "phase50Postconditions": 157,
-      "currentPostconditions": 166,
-      "persistedFailureCodes": 23,
-      "missingPostconditionMutations": 166,
-      "realCatalogMutations": 20,
-      "productionForwardControl": 64,
-      "productionForwardMutations": 24,
-      "productionClinicControl": 21,
-      "productionLegalAidControl": 27,
-      "hostedRetryPromotionAndBindingTests": 20,
-      "lintErrors": 0,
-      "lintWarnings": 0
-    },
-    "readbackAuthority": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json"
+  "supersedes": [
+    {
+      "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
+      "applicationSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+      "workerSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+      "workerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+      "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
+      "toolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+      "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
+      "orchestrationFiles": [
+        ".github/workflows/rcap-f1-ephemeral-staging.yml",
+        ".github/workflows/rcap-github-hosted-acceptance.yml",
+        ".github/workflows/rcap-hosted-acceptance-staging.yml",
+        "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+        "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+        "scripts/rcap-github-acceptance-gate.mjs",
+        "scripts/rcap-github-post-payment-acceptance.mjs",
+        "scripts/rcap-hosted-acceptance-migrate.mjs",
+        "scripts/rcap-hosted-acceptance-payment.mjs",
+        "scripts/rcap-hosted-checkout-gate.mjs",
+        "scripts/rcap-hosted-target-retry.test.mjs",
+        "scripts/rcap-migration-certification.mjs",
+        "scripts/rcap-migration-certification.test.mjs",
+        "scripts/rcap-packet-database-contract.mjs",
+        "scripts/rcap-packet-database-contract.test.mjs",
+        "scripts/rcap-packet-database-reference.mjs",
+        "scripts/rcap-production-clinic-migrate.mjs",
+        "scripts/rcap-production-forward-chain-migrate.mjs",
+        "scripts/rcap-production-legal-aid-migrate.mjs",
+        "scripts/verify-rcap-packet-database.mjs",
+        "scripts/verify-rcap-target-worker-journey.mjs",
+        "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql"
+      ],
+      "previousToolsSha": "6d7b8058ee7fb517bb120a9e812346e82a748131",
+      "previousBindingCommit": "316f680c3ef54daf9023e784215655e2bdbe8908",
+      "why": "#345 forward database correction: isolate retry collisions, cap claims, preserve lifecycle history, persist the accepted worker failure vocabulary, close incomplete Phase-50 security state, and require complete postcondition authority for migration adoption. Application, all 38 worker inputs, Preview and Stripe destination remain unchanged.",
+      "authorization": "Roger Roman mission lock: land the bounded forward correction and verifier, apply only that correction to acceptance hyflxnlhpmiqxvvcoiia, reconcile through canonical lifecycle, prove live readback, then ONE hosted_full with blank promotion input. No Production mutation, worker publication, Preview creation or Stripe retarget.",
+      "deploymentAuthorized": false,
+      "deploymentScope": "Reuse only dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak / legalease-rcap-4f7d209de112-roger947s-projects.vercel.app. Only supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql is authorized for acceptance; no Production migration.",
+      "regressionEvidence": {
+        "crossLayer": {
+          "command": "node --test scripts/test-consumer-checkout-binding-recovery.mjs",
+          "passed": 60,
+          "failed": 0,
+          "skipped": 0,
+          "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout.",
+          "verifiedAfterWorkerBinding": true
+        },
+        "checkoutGuards": {
+          "command": "node scripts/test-expungement-checkout-guards.mjs",
+          "passed": true,
+          "bindingStateCases": 48,
+          "includesCrossLayerCases": 60
+        },
+        "sqlReadbackAndFinalVerification": {
+          "command": "node --test scripts/rcap-hosted-final-verification.test.mjs",
+          "passed": 109,
+          "failed": 0,
+          "skipped": 0
+        },
+        "typecheck": {
+          "command": "node_modules/.bin/tsc --noEmit --incremental false",
+          "exitCode": 0
+        },
+        "lint": {
+          "errors": 0,
+          "warnings": 1,
+          "warning": "Existing unused sanitize variable in rcap-hosted-acceptance-payment.mjs; left outside this correction."
+        },
+        "hostedVerdictChecks": {
+          "command": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs",
+          "exitCode": 0
+        },
+        "workerEquivalence": {
+          "canonicalInputs": 38,
+          "equivalent": true,
+          "changedPaths": 0,
+          "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+          "toolsSnapshot": "2b1c37b129b09eca32de763c30e73d96e6296684",
+          "fingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2"
+        },
+        "applicationBuild": {
+          "command": "npm run build -- --webpack",
+          "exitCode": 0,
+          "staticPages": 169,
+          "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+          "note": "Compiled, typechecked, generated pages and completed build traces using the exact candidate. Sparse-checkout omissions were restored from tracked bytes; no application or build-configuration change."
+        },
+        "previewCatalogReadOnly": {
+          "actualWorkflowStepExecuted": true,
+          "productId": "prod_VHEHkvH7dSvGv7",
+          "priceId": "price_1UGfowRWROAHlAKyIO2FISdR",
+          "method": "GET",
+          "mutations": 0,
+          "replacePreviewSkipsFixtureSetup": true
+        },
+        "vercelIdentity": {
+          "passed": 12,
+          "failed": 0
+        },
+        "previewReuseLegacyTextControl": {
+          "status": "BASELINE_STALE",
+          "baselineSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
+          "baselineAndCandidateFailure": "The textual verifier expects target !== production inline; the resolver uses the stricter isPreviewTarget(target) helper accepting only null or preview. Same single refusal reproduced by executing the accepted baseline files in an isolated fixture. Resolver and this verifier unchanged; the existing Vercel identity tests require the exact null-or-preview predicate."
+        },
+        "predecessorWorkerEquivalence": {
+          "canonicalInputs": 38,
+          "equivalent": false,
+          "changedPaths": 3
+        },
+        "authorityBinding": {
+          "generator": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+          "completed": true,
+          "staticWorkerAuthorityUnchanged": true,
+          "routeStatesUnchanged": true,
+          "commerciallyEligibleBefore": 6,
+          "commerciallyEligibleAfter": 6,
+          "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
+        },
+        "checkoutGate": {
+          "checks": 139,
+          "passed": 139,
+          "bindingStateCasesPassed": 48,
+          "bindingStateCasesTotal": 48
+        },
+        "githubAcceptanceGate": {
+          "checks": 196,
+          "passed": 196
+        },
+        "releaseBindings": {
+          "current": true,
+          "status": "CURRENT",
+          "identityMutationsRefused": 8,
+          "identityMutationsTotal": 8,
+          "boundaryMutationsRefused": 38,
+          "boundaryMutationsTotal": 38,
+          "exactHostedToolsBindingTestPassed": true
+        },
+        "vercelRestTransport": {
+          "passed": 25,
+          "failed": 0
+        },
+        "applicationBytesEquivalentToCandidate": true,
+        "productionPinsChanged": false,
+        "databaseRepair": {
+          "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
+          "passed": 244,
+          "failed": 0,
+          "skipped": 0,
+          "phase50Postconditions": 157,
+          "currentPostconditions": 166,
+          "persistedFailureCodes": 23,
+          "missingPostconditionMutations": 166,
+          "realCatalogMutations": 20,
+          "productionForwardControl": 64,
+          "productionForwardMutations": 24,
+          "productionClinicControl": 21,
+          "productionLegalAidControl": 27,
+          "hostedRetryPromotionAndBindingTests": 20,
+          "lintErrors": 0,
+          "lintWarnings": 0
+        }
+      },
+      "controlRegressionEvidence": {
+        "targetRetryAndPromotion": {
+          "command": "node --test scripts/rcap-hosted-target-retry.test.mjs",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "method": "Execute the production-used journey, worker-cycle wrapper, SQL readers, clock waits and workflow promotion expression with recorded transport responses. Original #345 bytes reproduce both failures. No real payment or job is created by this regression."
+        },
+        "targetAttributionMutations": {
+          "passed": 17,
+          "total": 17
+        },
+        "targetReplayMutations": {
+          "passed": 3,
+          "total": 3
+        },
+        "sqlReadbackAndFinalVerification": {
+          "passed": 109,
+          "failed": 0,
+          "skipped": 0
+        },
+        "applicationBytesChanged": false,
+        "workerInputCount": 38,
+        "workerInputsChanged": 0,
+        "lintErrors": 0,
+        "lintWarnings": 1,
+        "lintWarning": "Existing unused sanitize variable, unchanged.",
+        "checkoutControls": {
+          "passed": 139,
+          "total": 139,
+          "realSqlBindingCasesPassed": 48,
+          "realSqlBindingCasesTotal": 48
+        },
+        "releaseBinding": {
+          "current": true,
+          "status": "CURRENT",
+          "identityMutationsRefused": 8,
+          "identityMutationsTotal": 8,
+          "boundaryMutationsRefused": 38,
+          "boundaryMutationsTotal": 38,
+          "hostedToolsBindingTestsPassed": 1,
+          "hostedToolsBindingTestsTotal": 1
+        }
+      },
+      "databaseCorrection": {
+        "sourceSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+        "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
+        "sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+        "projectRef": "hyflxnlhpmiqxvvcoiia",
+        "status": "PENDING_AUTHORIZED_ACCEPTANCE_APPLY",
+        "applicationInputsChanged": false,
+        "workerInputsChanged": 0,
+        "workerInputCount": 38,
+        "previewChanged": false,
+        "productionAuthorized": false,
+        "regressionEvidence": {
+          "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
+          "passed": 244,
+          "failed": 0,
+          "skipped": 0,
+          "phase50Postconditions": 157,
+          "currentPostconditions": 166,
+          "persistedFailureCodes": 23,
+          "missingPostconditionMutations": 166,
+          "realCatalogMutations": 20,
+          "productionForwardControl": 64,
+          "productionForwardMutations": 24,
+          "productionClinicControl": 21,
+          "productionLegalAidControl": 27,
+          "hostedRetryPromotionAndBindingTests": 20,
+          "lintErrors": 0,
+          "lintWarnings": 0
+        },
+        "readbackAuthority": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json"
+      }
+    }
+  ],
+  "executionAuthorization": "Roger: Finish the currently bounded Preview-control work, have Codex independently ratify the exact final diff, freeze that SHA, and stop changing source. Then push and deploy exactly one Preview. No additional controls except an existing test failure or a specific remote Preview defect.",
+  "independentPreviewControlRatification": {
+    "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-preview-successor-verification.json",
+    "sha256": "4a6ecd294b4668207bf71cf4dc14ba6912a60c80c4fac478c0afd493d20beaa4",
+    "bytes": 19615,
+    "status": "PASS",
+    "reviewedSourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4"
   }
 }

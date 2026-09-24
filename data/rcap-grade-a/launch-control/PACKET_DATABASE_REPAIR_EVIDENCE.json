@@ -3211,7 +3211,7 @@
               "scripts/verify-rcap-worker-source-binding-exception.mjs"
             ],
             "exitCode": 0,
-            "stdout": "verify-rcap-worker-source-binding-exception passed.\n  no source-binding exception is in force.\n  the record is history for 5ac0d8d6910a… -> sha256:4e5b58e449228… (run 32307070302),\n  and names neither the accepted source a7ca0201fa8e… nor the digest under acceptance.\n  reusable: false; OCI revision present: false; provenance present: false\n  future publications record org.opencontainers.image.revision, so the next image needs no exception.\n  a contradictory revision still fails: the exception compensates for absence, never for disagreement.\n",
+            "stdout": "verify-rcap-worker-source-binding-exception passed.\n  no source-binding exception is in force.\n  the record is history for 5ac0d8d6910a\u2026 -> sha256:4e5b58e449228\u2026 (run 32307070302),\n  and names neither the accepted source a7ca0201fa8e\u2026 nor the digest under acceptance.\n  reusable: false; OCI revision present: false; provenance present: false\n  future publications record org.opencontainers.image.revision, so the next image needs no exception.\n  a contradictory revision still fails: the exception compensates for absence, never for disagreement.\n",
             "stderr": "",
             "log": {
               "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/independent-exception-corrected.log",
@@ -4703,7 +4703,7 @@
           "scope": "The exact recorded acceptance-only request; no broader scope.",
           "userReplyVerbatim": "I approve this exact acceptance-only scope for Supabase `hyflxnlhpmiqxvvcoiia`, and no broader scope.\n\nAuthorized migration:\n`20260924120347_packet_delivery_dependency_and_retry_errors.sql`\n\nRequired SHA256:\n`86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795`\n\nThe migration may be applied only if its bytes hash exactly to that value and the current pre-apply readback still matches the recorded correction evidence.\n\nThe migration itself is authorized only for the stated schema/function correction and must not modify existing business rows.\n\nAfter that exact migration, I authorize only the recorded canonical acceptance housekeeping effects:\n\n* preserve all 22 existing job IDs and their history;\n* retain the two exhausted jobs as terminal history;\n* retain the two duplicate losers as terminal history;\n* requeue the three",
           "replyEndsMidBullet": true,
-          "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after “requeue the three”; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
+          "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after \u201crequeue the three\u201d; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
           "migrationHashMatches": true,
           "currentCatalogMatchesRecorded": true,
           "currentJobRowsMatchRecorded": true,
@@ -4761,7 +4761,7 @@
     "publicationExecutionInstruction": {
       "recordedAt": "2026-09-24T13:18:55.712Z",
       "source": "Roger supplied the exact publication run and successor source",
-      "userReplyVerbatim": "**2. Roger will dispatch and provide the run ID** remains the controlling execution rule.\n\nBut in this case, **do not dispatch another publication**. The required publication is already running:\n\n* **Run:** `36004158153`\n* **Workflow:** Publish RCAP render worker\n* **Source:** `a7ca0201fa8e209216d9c4bd051294b0d5416b90`\n* **Branch:** `captain-release`\n* **Status:** in progress\n\nSo Captain should **not** publish `4cfb7874…` or start a duplicate run. `a7ca0201…` is the pushed, reviewed successor currently moving through publication.\n\nThe division stays:\n\n> Roger performs the manual pushes/dispatches required by the preserved handoff. Captain prepares the exact command/tuple, consumes the resulting run IDs, verifies each result, and continues the already-approved acceptance sequence.\n\nImmediate Captain action: **watch/consume publication run `36004158153`; when it succeeds, bind its immutable digest and prepare the exact read-only image-acceptance dispatch for Roger.**",
+      "userReplyVerbatim": "**2. Roger will dispatch and provide the run ID** remains the controlling execution rule.\n\nBut in this case, **do not dispatch another publication**. The required publication is already running:\n\n* **Run:** `36004158153`\n* **Workflow:** Publish RCAP render worker\n* **Source:** `a7ca0201fa8e209216d9c4bd051294b0d5416b90`\n* **Branch:** `captain-release`\n* **Status:** in progress\n\nSo Captain should **not** publish `4cfb7874\u2026` or start a duplicate run. `a7ca0201\u2026` is the pushed, reviewed successor currently moving through publication.\n\nThe division stays:\n\n> Roger performs the manual pushes/dispatches required by the preserved handoff. Captain prepares the exact command/tuple, consumes the resulting run IDs, verifies each result, and continues the already-approved acceptance sequence.\n\nImmediate Captain action: **watch/consume publication run `36004158153`; when it succeeds, bind its immutable digest and prepare the exact read-only image-acceptance dispatch for Roger.**",
       "runId": 36004158153,
       "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
       "manualPushDispatchOwner": "Roger",
@@ -4785,7 +4785,12 @@
       },
       "manualPushAndDispatchOwner": "Roger Roman",
       "captainAction": "Prepare exact tuple; consume returned run/deployment IDs; verify before further authorized state changes.",
-      "newWritesAuthorizedByThisRecord": false
+      "newWritesAuthorizedByThisRecord": false,
+      "previewExecutionSupersession": {
+        "instruction": "Roger: Finish the currently bounded Preview-control work, have Codex independently ratify the exact final diff, freeze that SHA, and stop changing source. Do not add further controls unless an existing test fails or remote Preview evidence exposes a specific defect. Then push and deploy exactly one Preview.",
+        "permittedOperations": "One push of independently ratified frozen head and one hosted_replace_preview dispatch; existing acceptance scope otherwise unchanged.",
+        "hostedFullDispatchedByCaptain": false
+      }
     }
   },
   "dispatchReadiness": {
@@ -4795,7 +4800,7 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "Roger manual push and single exact successor Preview dispatch",
+      "One push and hosted_replace_preview dispatch of the frozen final receipt head, after independent exact-head readback",
       "Native READY Preview source/worker/environment/Production-boundary evidence",
       "Existing test webhook retarget and readback",
       "Existing eligible #345 chain recovery, private storage write/read/hash and exact REST reader",
@@ -5081,7 +5086,7 @@
           },
           {
             "number": 11,
-            "name": "Source binding — OCI revision, or the exact-digest exception",
+            "name": "Source binding \u2014 OCI revision, or the exact-digest exception",
             "conclusion": "skipped"
           },
           {
@@ -5210,7 +5215,7 @@
     }
   },
   "previewPreparation": {
-    "status": "LOCAL_BINDING_PREPARATION",
+    "status": "INDEPENDENTLY_RATIFIED_READY_FOR_ONE_PREVIEW",
     "applicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
     "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
     "workerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
@@ -5236,6 +5241,59 @@
     "productionOperations": 0,
     "requiredMode": "hosted_replace_preview",
     "workerMayClaim": false,
-    "receiptFailureRule": "Stop, read actual remote state, repair only a missing receipt when exact prior execution is proven. Never replay deployment/webhook/SQL/queue/storage/worker processing."
+    "receiptFailureRule": "Stop, read actual remote state, repair only a missing receipt when exact prior execution is proven. Never replay deployment/webhook/SQL/queue/storage/worker processing.",
+    "existingParticipantsReadback": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/existing-participants-readback.json",
+      "sha256": "4c41afc9910ba76804a0d71dca3b60895bddd0eb6309e454ddef5dcc529c42cf",
+      "readOnly": true
+    },
+    "rootFocusedVerification": {
+      "transportAndIdentity": {
+        "passed": 42,
+        "failed": 0
+      },
+      "identityMutationRefusals": 8,
+      "boundaryMutationRefusals": 38,
+      "lintErrors": 0,
+      "lintWarnings": 18,
+      "baselineWarnings": 18,
+      "baselineSha": "1b0bfcd9e79828c5a6039361d3c9943f9f762f1f",
+      "evidence": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/preview-local-check-hashes.json",
+      "independentFinalDiffRatification": "PASS_SOURCE_941D_FINAL_DATA_HEAD_RECHECK_REQUIRED_BEFORE_PUSH",
+      "finalTestLog": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/packet-runtime-preview-tests-final.log",
+        "sha256": "2b67bdc8d76189edf3c5128a7dd0a2df94dfb482ddf3449e737a7b87a08ee220"
+      },
+      "binding": {
+        "current": true,
+        "status": "CURRENT",
+        "toolsSourceSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4"
+      }
+    },
+    "sourceChangesFinished": true,
+    "furtherSourceChangesRule": "Only a failing existing test or specific remote Preview evidence can justify a further source correction; never another broad control pass.",
+    "aliasAbsenceRegression": {
+      "preCorrection": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/alias-absence-independent-reproduction.json",
+        "sha256": "5f0f6924bb3b07a25f9f03bbdfb721dd75ea1930e4bd6ab285c5083cb8713285"
+      },
+      "corrected": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/alias-absence-independent-corrected.json",
+        "sha256": "5fdc99e447cf1383097209734cc68caf54522eac2fb7b4458d8ff9a5ba5a45ed"
+      },
+      "unchangedProbe": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/alias-absence-independent-probe.mjs",
+        "sha256": "24e57c17a7cf15c6b9ccbc4093d66bf3941a471fd1e85de7fb66e5df45107cff"
+      }
+    },
+    "pushAndDispatchAuthorized": true,
+    "sourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4"
+  },
+  "independentPreviewControlRatification": {
+    "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-preview-successor-verification.json",
+    "sha256": "4a6ecd294b4668207bf71cf4dc14ba6912a60c80c4fac478c0afd493d20beaa4",
+    "bytes": 19615,
+    "status": "PASS",
+    "reviewedSourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4"
   }
 }
