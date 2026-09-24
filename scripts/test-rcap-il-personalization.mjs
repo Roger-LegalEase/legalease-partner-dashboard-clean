@@ -286,10 +286,19 @@ try {
       return;
     }
     assert.ok(!alice.text.includes('Bruno Sample'));assert.ok(!bob.text.includes('Alice Example'));
-    const prepared=preparePersonalizedPacket({authUserId:alice.userId,briefcaseItemId:alice.itemId,personId:alice.personId,matterId:alice.matterId,verificationHash:alice.verificationHash,snapshot:alice.snapshot});
-    const { renderGradeAPacketPdf } = await import('../src/lib/rcap/grade-a/renderer.ts');
-    assert.deepEqual(await renderGradeAPacketPdf(prepared.packet),alice.bytes,'identical inputs reproduce exact bytes');
-    assert.equal(await computeNormalizedFingerprint(await renderGradeAPacketPdf(prepared.packet)),await computeNormalizedFingerprint(alice.bytes));
+    const deliveryLocale='en';
+    const prepared=preparePersonalizedPacket({authUserId:alice.userId,briefcaseItemId:alice.itemId,personId:alice.personId,matterId:alice.matterId,verificationHash:alice.verificationHash,snapshot:alice.snapshot,deliveryLocale});
+    const { renderParticipantPacketPdf, participantGuideMatter, PARTICIPANT_DELIVERY_VARIANT } = await import('../src/lib/rcap/render/participant-packet-assembly.ts');
+    const reproduceParticipantPacket=()=>renderParticipantPacketPdf(prepared.packet,{
+      routeKey:prepared.spec.routeId,
+      specification:prepared.specification,
+      variant:PARTICIPANT_DELIVERY_VARIANT,
+      locale:deliveryLocale,
+      verifiedAt:alice.snapshot.verifiedAt,
+      matter:participantGuideMatter(alice.snapshot,prepared.spec.packetId,deliveryLocale,prepared.specification)
+    });
+    assert.deepEqual(await reproduceParticipantPacket(),alice.bytes,'identical inputs reproduce exact bytes');
+    assert.equal(await computeNormalizedFingerprint(await reproduceParticipantPacket()),await computeNormalizedFingerprint(alice.bytes));
     assert.equal(db.scalar('select count(*) from packet_render_jobs'),'4');
     assert.equal(db.scalar('select count(*) from consumer_packet_artifact_provenance'),'4');
     assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'2');
