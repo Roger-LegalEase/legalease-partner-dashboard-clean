@@ -1,81 +1,120 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
   "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
-  "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
-  "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
-  "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
-  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
-  "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+  "applicationSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+  "workerSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+  "workerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+  "workerDigestReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+  "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
   "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "publication": {
-    "runId": 35769217594,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769217594",
+    "runId": 35941806150,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35941806150",
     "conclusion": "success"
   },
   "readOnlyImageAcceptance": {
-    "runId": 35769776831,
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831",
+    "runId": 35943884247,
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35943884247",
     "conclusion": "success"
   },
-  "hostedAcceptanceStatus": "FAILED_ON_THIS_CANDIDATE",
+  "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "runId": 35937819902,
-    "runNumber": 341,
-    "workflowSourceSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
-    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35937819902",
-    "artifactId": 10783811898,
-    "artifactSha256": "7626177f4a86d4973bef80bff21f2edf899dd40b811761e28da5a0062af8a561",
-    "deployment": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
-    "firstCausalCase": "resumed_checkout_replaces_an_incompatible_open_session",
-    "cause": "The application expired the incompatible OPEN Session, then used the initial-binding RPC for the new Session. That RPC correctly refused a different stored Session. Replacement requires the existing explicit-predecessor compare-and-swap contract.",
-    "downstreamFailure": "customer_completed_the_hosted_checkout_page followed the failed replacement and tried an expired Session; no Stripe fixture or browser-selector defect is inferred.",
-    "preservedPassingEvidence": {
-      "sqlReadback": {
-        "case": "seeded_item_agrees_with_the_authoritative_resolver",
-        "httpStatus": 201,
-        "passed": true
-      },
-      "checkoutGate": "38/38",
-      "goldenMatrix": "14/14",
-      "gallery": "8/8",
-      "previewResolution": "reused_exact_ready_preview",
-      "scope": "Exact prior application, Preview and accepted worker inputs only; not evidence for changed source."
-    },
-    "failedCases": [
-      "resumed_checkout_replaces_an_incompatible_open_session",
-      "customer_completed_the_hosted_checkout_page"
-    ],
-    "missingCases": [
-      "stripe_confirmed_the_discounted_purchase",
-      "checkout_line_item_is_on_the_catalog_product",
-      "stripe_delivered_the_completion_event_itself",
-      "fulfillment_honours_the_stripe_confirmed_total",
-      "forged_webhook_signature_is_rejected",
-      "signed_webhook_records_the_payment",
-      "payment_is_server_authoritative_in_the_database",
-      "paid_render_is_queued",
-      "render_job_carries_the_persisted_document_packet",
-      "worker_renders_and_stores_the_artifact",
-      "person_and_matter_are_bound_on_the_render_job",
-      "artifact_is_stored_privately_and_re_readable",
-      "delivery_serves_the_owner_and_refuses_everyone_else",
-      "event_replay_creates_no_second_entitlement_or_render_job",
-      "resumed_checkout_never_duplicates_a_completed_order"
-    ],
     "journeys": [],
-    "retainedPreview": {
-      "deploymentId": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
-      "hostname": "legalease-rcap-5592ab2bd80f-roger947s-projects.vercel.app",
-      "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b"
-    },
-    "note": "Payment through delivery remains unproven until the hosted journey actually completes."
+    "manualHostedFullReady": false,
+    "preview": null,
+    "note": "The replacement correction is locally regression-tested and its exact worker is accepted. One successor Preview is authorized and pending. Payment through delivery remains unproven until the hosted journey actually completes. No #341 journey evidence or Production authorization is inherited."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
     "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
+      "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+      "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+      "publication": {
+        "runId": 35769217594,
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769217594",
+        "conclusion": "success"
+      },
+      "readOnlyImageAcceptance": {
+        "runId": 35769776831,
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831",
+        "conclusion": "success"
+      },
+      "hostedAcceptanceStatus": "FAILED_ON_THIS_CANDIDATE",
+      "hostedAcceptance": {
+        "runId": 35937819902,
+        "runNumber": 341,
+        "workflowSourceSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35937819902",
+        "artifactId": 10783811898,
+        "artifactSha256": "7626177f4a86d4973bef80bff21f2edf899dd40b811761e28da5a0062af8a561",
+        "deployment": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+        "firstCausalCase": "resumed_checkout_replaces_an_incompatible_open_session",
+        "cause": "The application expired the incompatible OPEN Session, then used the initial-binding RPC for the new Session. That RPC correctly refused a different stored Session. Replacement requires the existing explicit-predecessor compare-and-swap contract.",
+        "downstreamFailure": "customer_completed_the_hosted_checkout_page followed the failed replacement and tried an expired Session; no Stripe fixture or browser-selector defect is inferred.",
+        "preservedPassingEvidence": {
+          "sqlReadback": {
+            "case": "seeded_item_agrees_with_the_authoritative_resolver",
+            "httpStatus": 201,
+            "passed": true
+          },
+          "checkoutGate": "38/38",
+          "goldenMatrix": "14/14",
+          "gallery": "8/8",
+          "previewResolution": "reused_exact_ready_preview",
+          "scope": "Exact prior application, Preview and accepted worker inputs only; not evidence for changed source."
+        },
+        "failedCases": [
+          "resumed_checkout_replaces_an_incompatible_open_session",
+          "customer_completed_the_hosted_checkout_page"
+        ],
+        "missingCases": [
+          "stripe_confirmed_the_discounted_purchase",
+          "checkout_line_item_is_on_the_catalog_product",
+          "stripe_delivered_the_completion_event_itself",
+          "fulfillment_honours_the_stripe_confirmed_total",
+          "forged_webhook_signature_is_rejected",
+          "signed_webhook_records_the_payment",
+          "payment_is_server_authoritative_in_the_database",
+          "paid_render_is_queued",
+          "render_job_carries_the_persisted_document_packet",
+          "worker_renders_and_stores_the_artifact",
+          "person_and_matter_are_bound_on_the_render_job",
+          "artifact_is_stored_privately_and_re_readable",
+          "delivery_serves_the_owner_and_refuses_everyone_else",
+          "event_replay_creates_no_second_entitlement_or_render_job",
+          "resumed_checkout_never_duplicates_a_completed_order"
+        ],
+        "journeys": [],
+        "retainedPreview": {
+          "deploymentId": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+          "hostname": "legalease-rcap-5592ab2bd80f-roger947s-projects.vercel.app",
+          "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b"
+        },
+        "note": "Payment through delivery remains unproven until the hosted journey actually completes."
+      },
+      "applicationPin": {
+        "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
+        "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
+        "why": "Successor to the audited release chain; the sole application change is .vercelignore artifacts/ -> /artifacts/. This deployment-input change supersedes f9116800d as application authority. No src, next.config.ts, authority data, package or worker input changed.",
+        "workerSourceIsAnAncestor": true,
+        "workerReuseEvidence": "Fresh canonical plan at application and final tools snapshot: 38 inputs, changedPaths=[], rebuildRequired=false, accepted source/digest/fingerprint unchanged.",
+        "priorRetainedBuild": {
+          "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
+          "buildId": "Xmnvlz5cA-tQpZsg_CivK",
+          "reuseScope": "Unchanged compiled modules, route behavior, source/authority bytes and worker authority. The retained build is not relabeled as a new build. The affected Vercel source-pruning boundary is proved separately with Git-ignore parity, all eleven actual reader targets, and the original/corrected fail-closed reader regression."
+        }
+      },
+      "productionAuthorized": false,
+      "recordedAtCommit": "a36a60c430be54323f5ca76cc1ada34767a85d7f",
+      "disposition": "superseded_by_explicit_predecessor_checkout_replacement",
+      "why": "Hosted run #341 exposed the product contract defect. Its SQL 201, Checkout 38/38, golden matrix 14/14, gallery 8/8 and exact Preview/worker evidence remain valid for the recorded prior inputs. The source correction changes three canonical worker inputs; its new image is independently published and accepted."
+    },
     {
       "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
       "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
@@ -339,15 +378,15 @@
   "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
   "scope": "Bounded #341 Checkout replacement correction and explicitly authorized successor publication, exact acceptance migration, one Preview and bindings. Application candidate is 4f7d209de11265d0793b7b74c728eab4efde1aa5. Remote identities are not invented or inherited. PRODUCTION AUTHORIZATION = NO.",
   "applicationPin": {
-    "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
-    "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
-    "why": "Successor to the audited release chain; the sole application change is .vercelignore artifacts/ -> /artifacts/. This deployment-input change supersedes f9116800d as application authority. No src, next.config.ts, authority data, package or worker input changed.",
+    "sha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+    "tree": "1e9784a0c609b8def07865f677c7e031e8868e8b",
+    "why": "Exact authorized #341 product correction: explicit predecessor-CAS replacement, paid/evidence protection, shared-winner/replay safety and immediate hosted-journey stop on failed replacement.",
     "workerSourceIsAnAncestor": true,
-    "workerReuseEvidence": "Fresh canonical plan at application and final tools snapshot: 38 inputs, changedPaths=[], rebuildRequired=false, accepted source/digest/fingerprint unchanged.",
-    "priorRetainedBuild": {
-      "applicationSha": "f9116800db2fcdc55801ce33b86fd548bc00801c",
-      "buildId": "Xmnvlz5cA-tQpZsg_CivK",
-      "reuseScope": "Unchanged compiled modules, route behavior, source/authority bytes and worker authority. The retained build is not relabeled as a new build. The affected Vercel source-pruning boundary is proved separately with Git-ignore parity, all eleven actual reader targets, and the original/corrected fail-closed reader regression."
+    "workerReuseEvidence": "The new worker is built from this exact application source. All 38 canonical inputs match the tools snapshot; no worker input is excluded.",
+    "build": {
+      "command": "npm run build -- --webpack",
+      "exitCode": 0,
+      "staticPages": 169
     }
   },
   "currentnessControl": {
@@ -360,9 +399,9 @@
       "scripts/verify-ms-paid-packet-proof-reconciliation.mjs"
     ]
   },
-  "pendingCorrection": {
+  "correction": {
     "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-    "status": "SUCCESSOR_PUBLISHED_PENDING_IMAGE_ACCEPTANCE",
+    "status": "ACCEPTED_WORKER_BOUND_PENDING_ONE_SUCCESSOR_PREVIEW",
     "sourceHistoryReused": [
       "62425c837b5edf3d7e22b110910885abdaec1692",
       "a01f4fdae0447fdc81eb4a26de7ab62c777d847f",
@@ -370,7 +409,7 @@
       "44ed5e395818503c0c878fd418fb9a896d591313"
     ],
     "applicationBytesChanged": true,
-    "workerRebuildRequired": true,
+    "workerRebuildRequired": false,
     "workerDigestChanged": true,
     "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
     "changedWorkerInputs": [
@@ -378,7 +417,7 @@
       "src/lib/expungement-ai/consumer-payment-authority.ts",
       "src/lib/expungement-ai/payment-adapter.ts"
     ],
-    "acceptedWorkerReusePermitted": false,
+    "acceptedWorkerReusePermitted": true,
     "migration": {
       "path": "supabase/migrations/20260924120000_consumer_checkout_replacement_evidence_guard.sql",
       "sha256": "cb8abf4587ec087f0e143f007058598cdb2a215178777dff311dbc6d44619dc8",
@@ -433,8 +472,10 @@
       },
       "workerEquivalence": {
         "canonicalInputs": 38,
-        "equivalent": false,
-        "changedPaths": 3
+        "equivalent": true,
+        "changedPaths": 0,
+        "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+        "toolsSnapshot": "07cbe65988240668a7b06556f7b3f4944fb1293c"
       },
       "applicationBuild": {
         "command": "npm run build -- --webpack",
@@ -442,11 +483,42 @@
         "staticPages": 169,
         "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
         "note": "Compiled, typechecked, generated pages and completed build traces using the exact candidate. Sparse-checkout omissions were restored from tracked bytes; no application or build-configuration change."
+      },
+      "previewCatalogReadOnly": {
+        "actualWorkflowStepExecuted": true,
+        "productId": "prod_VHEHkvH7dSvGv7",
+        "priceId": "price_1UGfowRWROAHlAKyIO2FISdR",
+        "method": "GET",
+        "mutations": 0,
+        "replacePreviewSkipsFixtureSetup": true
+      },
+      "vercelIdentity": {
+        "passed": 12,
+        "failed": 0
+      },
+      "previewReuseLegacyTextControl": {
+        "status": "BASELINE_STALE",
+        "baselineSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
+        "baselineAndCandidateFailure": "The textual verifier expects target !== production inline; the resolver uses the stricter isPreviewTarget(target) helper accepting only null or preview. Same single refusal reproduced by executing the accepted baseline files in an isolated fixture. Resolver and this verifier unchanged; the existing Vercel identity tests require the exact null-or-preview predicate."
+      },
+      "predecessorWorkerEquivalence": {
+        "canonicalInputs": 38,
+        "equivalent": false,
+        "changedPaths": 3
+      },
+      "authorityBinding": {
+        "generator": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+        "completed": true,
+        "staticWorkerAuthorityUnchanged": true,
+        "routeStatesUnchanged": true,
+        "commerciallyEligibleBefore": 6,
+        "commerciallyEligibleAfter": 6,
+        "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
       }
     },
     "manualHostedFullReady": false,
-    "releaseBoundary": "The retained tuple above is the #341 evidence subject, not a claim that the corrected source is deployed or worker-equivalent. No digest is substituted to clear incomplete evidence. A new accepted publication and Preview are required before a truthful hosted_full form can name the corrected application.",
-    "remoteActionsPerformed": "Controlled fast-forward source/evidence pushes; exact authorized acceptance migration applied and read back; Roger dispatched the one authorized worker publication and its native artifact is now ingested and verified. Read-only image acceptance is pending. No Preview creation, hosted_full, Stripe retarget or Production action.",
+    "releaseBoundary": "Application and accepted worker source are the exact authorized candidate. Publication and image acceptance are independent native runs. One successor Preview remains pending; no hosted journey or Production authority is asserted.",
+    "remoteActionsPerformed": "Exact acceptance migration applied and verified once; one successor publication and one successful read-only image acceptance verified. No Preview has been created yet. No Stripe mutation or retarget, hosted_full or Production action.",
     "authorization": "Roger Roman, current explicit authorization: candidate 4f7d209de11265d0793b7b74c728eab4efde1aa5; exactly one successor worker publication and verified acceptance, only 20260924120000_consumer_checkout_replacement_evidence_guard.sql on hyflxnlhpmiqxvvcoiia, exactly one successor Preview of that candidate, and corresponding bindings. No Stripe retarget, automatic hosted_full, production, unrelated migration, extra Preview or additional worker publication.",
     "publicationDispatch": {
       "attempted": true,
@@ -465,13 +537,6 @@
         "conclusion": "success"
       }
     },
-    "bindingVerification": {
-      "current": false,
-      "status": "STALE_OR_UNVERIFIED",
-      "reasons": [
-        "Candidate ancestry or current worker input proof could not be verified: Command failed: git diff --exit-code 26cff44081633ccf1b8d8b43001650d37da99197 -- .github/workflows/rcap-hosted-acceptance-staging.yml scripts/grade-a-launch-control/verify-release-candidate-binding.mjs scripts/rcap-checkout-metadata-contract.mjs scripts/rcap-deployment-source-ignore.mjs scripts/rcap-deployment-source-ignore.test.mjs scripts/rcap-github-acceptance-gate.mjs scripts/rcap-hosted-acceptance-gallery.mjs scripts/rcap-hosted-acceptance-matrix.mjs scripts/rcap-hosted-acceptance-payment.mjs scripts/rcap-hosted-checkout-gate.mjs scripts/rcap-hosted-final-verification.test.mjs scripts/rcap-hosted-response-contract.mjs scripts/rcap-hosted-surface-inspection.mjs scripts/test-expungement-checkout-guards.mjs scripts/test-rcap-hosted-surface-contract.mjs scripts/verify-expungement-consumer-checkout.mjs scripts/verify-rcap-checkout-metadata-contract.mjs scripts/verify-rcap-deployment-closure.mjs scripts/verify-rcap-github-hosted-acceptance.mjs scripts/verify-rcap-hosted-checkout-gate.mjs scripts/verify-rcap-hosted-evidence-completion.mjs scripts/verify-rcap-hosted-job-read-columns.mjs"
-      ]
-    },
     "publishedWorkerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
     "publication": {
       "runId": 35941806150,
@@ -481,7 +546,27 @@
       "artifactSha256": "sha256:978002c5bced81716989b33fdc4759d102cc82cc06f7f305e02df5ff545da53b",
       "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
       "digest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
-      "runtimeAccepted": false
+      "runtimeAccepted": true
+    },
+    "predecessorWorkerRebuildRequired": true,
+    "predecessorWorkerReusePermitted": false,
+    "imageAcceptance": {
+      "runId": 35943884247,
+      "workflowHead": "a36a60c430be54323f5ca76cc1ada34767a85d7f",
+      "conclusion": "success",
+      "mainStepsPassed": 20
+    },
+    "priorBindingVerification": {
+      "current": false,
+      "status": "STALE_OR_UNVERIFIED",
+      "reasons": [
+        "Candidate ancestry or current worker input proof could not be verified: Command failed: git diff --exit-code 26cff44081633ccf1b8d8b43001650d37da99197 -- .github/workflows/rcap-hosted-acceptance-staging.yml scripts/grade-a-launch-control/verify-release-candidate-binding.mjs scripts/rcap-checkout-metadata-contract.mjs scripts/rcap-deployment-source-ignore.mjs scripts/rcap-deployment-source-ignore.test.mjs scripts/rcap-github-acceptance-gate.mjs scripts/rcap-hosted-acceptance-gallery.mjs scripts/rcap-hosted-acceptance-matrix.mjs scripts/rcap-hosted-acceptance-payment.mjs scripts/rcap-hosted-checkout-gate.mjs scripts/rcap-hosted-final-verification.test.mjs scripts/rcap-hosted-response-contract.mjs scripts/rcap-hosted-surface-inspection.mjs scripts/test-expungement-checkout-guards.mjs scripts/test-rcap-hosted-surface-contract.mjs scripts/verify-expungement-consumer-checkout.mjs scripts/verify-rcap-checkout-metadata-contract.mjs scripts/verify-rcap-deployment-closure.mjs scripts/verify-rcap-github-hosted-acceptance.mjs scripts/verify-rcap-hosted-checkout-gate.mjs scripts/verify-rcap-hosted-evidence-completion.mjs scripts/verify-rcap-hosted-job-read-columns.mjs"
+      ]
+    },
+    "bindingVerification": {
+      "current": true,
+      "status": "CURRENT",
+      "reasons": []
     }
   }
 }

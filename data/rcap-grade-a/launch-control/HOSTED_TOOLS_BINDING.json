@@ -1,84 +1,102 @@
 {
   "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-  "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
-  "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
-  "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
-  "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "26cff44081633ccf1b8d8b43001650d37da99197",
-  "toolsShaIsNotHead": "Exact control-correction snapshot preceding this binding. It is not the application SHA.",
+  "applicationSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+  "workerSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+  "workerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+  "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
+  "toolsSha": "07cbe65988240668a7b06556f7b3f4944fb1293c",
+  "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
   "orchestrationFiles": [
+    ".github/workflows/rcap-f1-ephemeral-staging.yml",
+    ".github/workflows/rcap-github-hosted-acceptance.yml",
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
-    "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-    "scripts/rcap-checkout-metadata-contract.mjs",
-    "scripts/rcap-deployment-source-ignore.mjs",
-    "scripts/rcap-deployment-source-ignore.test.mjs",
     "scripts/rcap-github-acceptance-gate.mjs",
-    "scripts/rcap-hosted-acceptance-gallery.mjs",
-    "scripts/rcap-hosted-acceptance-matrix.mjs",
-    "scripts/rcap-hosted-acceptance-payment.mjs",
-    "scripts/rcap-hosted-checkout-gate.mjs",
-    "scripts/rcap-hosted-final-verification.test.mjs",
-    "scripts/rcap-hosted-response-contract.mjs",
-    "scripts/rcap-hosted-surface-inspection.mjs",
-    "scripts/test-expungement-checkout-guards.mjs",
-    "scripts/test-rcap-hosted-surface-contract.mjs",
-    "scripts/verify-expungement-consumer-checkout.mjs",
-    "scripts/verify-rcap-checkout-metadata-contract.mjs",
-    "scripts/verify-rcap-deployment-closure.mjs",
-    "scripts/verify-rcap-github-hosted-acceptance.mjs",
-    "scripts/verify-rcap-hosted-checkout-gate.mjs",
-    "scripts/verify-rcap-hosted-evidence-completion.mjs",
-    "scripts/verify-rcap-hosted-job-read-columns.mjs"
+    "scripts/rcap-github-post-payment-acceptance.mjs",
+    "scripts/rcap-hosted-checkout-gate.mjs"
   ],
-  "previousToolsSha": "31d6a7554acb3127cff0fd9118cab0c7bf9133fa",
-  "previousBindingCommit": "035e30fcd0dc2ca96d6dcb5777de6d83d9bf1abb",
-  "why": "Run 35933049147: the payment SQL helper now preserves Response.ok alongside the raw HTTP status, matching the existing Checkout gate. The production-used claimed-item predicate requires successful HTTP, one object row and every prior identity/state/authority invariant, with 27 named safe checks. The other SQL consumers in this payment script have no second HTTP-200-only assumption; three existing write checks already accept 200/201. No fixture or application bytes changed.",
-  "authorization": "Roger Roman, current instruction for run 35933049147: perform this bounded correction and regression pass, update the existing tools/release bindings, and use the primary Captain's existing controlled-push authorization within scope. Fast-forward only; verify the remote head. No automatic hosted dispatch or Production authorization.",
-  "deploymentAuthorized": false,
-  "deploymentScope": "Reuse exact Preview dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee, application 5592ab2bd80ffa9124e26434e28e51379029313b, accepted worker, acceptance project and existing Stripe destination. This fixes the measured SQL-readback rejection. Payment through delivery remains unproven until the hosted journey actually completes. PRODUCTION AUTHORIZATION = NO.",
+  "previousToolsSha": "26cff44081633ccf1b8d8b43001650d37da99197",
+  "previousBindingCommit": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
+  "why": "#341 explicit predecessor-CAS Checkout replacement is in the frozen application. Bind all callable nonproduction worker consumers to its independently accepted successor; preserve production pins. The deploy-only replacement phase reads the existing Stripe catalog without fixture mutations.",
+  "authorization": "Roger Roman, current explicit authorization: candidate 4f7d209de11265d0793b7b74c728eab4efde1aa5; exactly one successor worker publication and verified acceptance, only 20260924120000_consumer_checkout_replacement_evidence_guard.sql on hyflxnlhpmiqxvvcoiia, exactly one successor Preview of that candidate, and corresponding bindings. No Stripe retarget, automatic hosted_full, production, unrelated migration, extra Preview or additional worker publication.",
+  "deploymentAuthorized": true,
+  "deploymentScope": "Exactly one successor Preview of 4f7d209de11265d0793b7b74c728eab4efde1aa5 on acceptance hyflxnlhpmiqxvvcoiia. Migration already applied; no repeat. No additional worker, Stripe retarget, automatic hosted_full or Production action.",
   "regressionEvidence": {
-    "baselineSha": "035e30fcd0dc2ca96d6dcb5777de6d83d9bf1abb",
-    "originalProductionPredicate": {
-      "valid200": true,
-      "observedValid201": false,
-      "method": "Execute the actual agrees initializer extracted from the baseline harness; use the verified fields with sanitized route/source identifiers."
-    },
-    "baselineFinalVerificationTests": {
-      "passed": 46,
+    "crossLayer": {
+      "command": "node --test scripts/test-consumer-checkout-binding-recovery.mjs",
+      "passed": 60,
       "failed": 0,
-      "skipped": 0
+      "skipped": 0,
+      "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout."
     },
-    "correctedFinalVerificationTests": {
+    "checkoutGuards": {
+      "command": "node scripts/test-expungement-checkout-guards.mjs",
+      "passed": true,
+      "bindingStateCases": 48,
+      "includesCrossLayerCases": 60
+    },
+    "sqlReadbackAndFinalVerification": {
       "command": "node --test scripts/rcap-hosted-final-verification.test.mjs",
       "passed": 109,
       "failed": 0,
-      "skipped": 0,
-      "newSqlReadbackCases": 63
+      "skipped": 0
     },
-    "coverage": "Actual SQL helper, live predicate and caller; valid 200/201; ten non-success statuses with a plausible row; thirteen malformed/error/cardinality shapes at both 200 and 201; every existing identity/state/route/authority invariant; named safe values, redaction and pre-charge stop. Existing EN/ES, owner and final-verification refusals remain exercised.",
+    "typecheck": {
+      "command": "node_modules/.bin/tsc --noEmit --incremental false",
+      "exitCode": 0
+    },
+    "lint": {
+      "errors": 0,
+      "warnings": 1,
+      "warning": "Existing unused sanitize variable in rcap-hosted-acceptance-payment.mjs; left outside this correction."
+    },
     "hostedVerdictChecks": {
-      "passed": 41
+      "command": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs",
+      "exitCode": 0
     },
-    "hostedVerdictMutations": {
-      "rejected": 19,
-      "total": 19,
-      "restored": true
+    "workerEquivalence": {
+      "canonicalInputs": 38,
+      "equivalent": true,
+      "changedPaths": 0,
+      "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+      "toolsSnapshot": "07cbe65988240668a7b06556f7b3f4944fb1293c"
     },
-    "packetContract": "PASS",
-    "jobReadColumns": {
-      "schemaColumns": 43,
-      "selectedColumns": 35,
-      "unknownColumns": 0
+    "applicationBuild": {
+      "command": "npm run build -- --webpack",
+      "exitCode": 0,
+      "staticPages": 169,
+      "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+      "note": "Compiled, typechecked, generated pages and completed build traces using the exact candidate. Sparse-checkout omissions were restored from tracked bytes; no application or build-configuration change."
     },
-    "jobReadRegression": {
-      "passed": 16
+    "previewCatalogReadOnly": {
+      "actualWorkflowStepExecuted": true,
+      "productId": "prod_VHEHkvH7dSvGv7",
+      "priceId": "price_1UGfowRWROAHlAKyIO2FISdR",
+      "method": "GET",
+      "mutations": 0,
+      "replacePreviewSkipsFixtureSetup": true
     },
-    "remoteSideEffects": "None: recorded/local responses only; no new Stripe transaction, fixture mutation or hosted dispatch.",
-    "checkoutGate": {
-      "checks": 139,
-      "passed": 139,
-      "bindingStateRegressionsPassed": 48,
-      "bindingStateRegressionsTotal": 48
+    "vercelIdentity": {
+      "passed": 12,
+      "failed": 0
+    },
+    "previewReuseLegacyTextControl": {
+      "status": "BASELINE_STALE",
+      "baselineSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
+      "baselineAndCandidateFailure": "The textual verifier expects target !== production inline; the resolver uses the stricter isPreviewTarget(target) helper accepting only null or preview. Same single refusal reproduced by executing the accepted baseline files in an isolated fixture. Resolver and this verifier unchanged; the existing Vercel identity tests require the exact null-or-preview predicate."
+    },
+    "predecessorWorkerEquivalence": {
+      "canonicalInputs": 38,
+      "equivalent": false,
+      "changedPaths": 3
+    },
+    "authorityBinding": {
+      "generator": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+      "completed": true,
+      "staticWorkerAuthorityUnchanged": true,
+      "routeStatesUnchanged": true,
+      "commerciallyEligibleBefore": 6,
+      "commerciallyEligibleAfter": 6,
+      "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
     }
   }
 }
