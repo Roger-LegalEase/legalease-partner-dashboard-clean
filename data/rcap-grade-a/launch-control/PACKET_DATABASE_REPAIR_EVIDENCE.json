@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-packet-database-repair-evidence/v1",
-  "recordedAt": "2026-09-24T13:14:21.119Z",
-  "status": "INDEPENDENT_LOCAL_RATIFICATION_PASS_ACCEPTANCE_DATABASE_AND_QUEUE_CORRECTED_RUNTIME_PUBLICATION_PENDING",
+  "recordedAt": "2026-09-24T13:18:55.715Z",
+  "status": "DATABASE_AND_QUEUE_CORRECTED_SUCCESSOR_PUBLISHED_READ_ONLY_IMAGE_ACCEPTANCE_PENDING",
   "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
   "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
   "branch": "codex/packet-database-repair-345",
@@ -2288,6 +2288,823 @@
         "scopeAuthorizationReaffirmed": true,
         "verificationCondition": "Independent corrected-behavior gate; PASS report retained; original file is historical evidence."
       }
+    },
+    "independentPublishedInputEquivalence": {
+      "path": "hosted-acceptance-evidence/review/publication-36004158153-independent-input-equivalence.json",
+      "sha256": "8471ec07ee6c4fdb27283e3f6cd63eb8e482ed1e864699d9649613c7e7976388",
+      "bytes": 31096,
+      "report": {
+        "schemaVersion": "rcap-independent-successor-input-equivalence/v1",
+        "recordedAt": "2026-09-24T13:16:43.865Z",
+        "verdict": "INPUT_EQUIVALENT_BEHAVIORAL_EVIDENCE_REUSABLE_NATIVE_RECEIPT_PENDING",
+        "publicationRun": {
+          "runId": 36004158153,
+          "reportedWorkflowHead": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "workflowHeadProvenance": "Roger/Captain supplied run identity; this bounded check used local Git objects and did not query the run.",
+          "nativeBuildSourceSha": null,
+          "nativeImageDigest": null,
+          "nativeReceiptReviewed": false,
+          "duplicateDispatchPerformed": false
+        },
+        "commits": {
+          "implementation": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+          "pushedCorrectionReturn": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "currentLocalHead": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f"
+        },
+        "historicalAcceptedWorker": {
+          "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+          "digest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+          "reusableForCorrection": false
+        },
+        "canonicalWorkerInputs": {
+          "count": 38,
+          "aggregateInputSha256": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+          "aggregateAlgorithm": "sha256 of sorted path, mode, type, and Git object ID records",
+          "allThreeFingerprintsEqual": true,
+          "missingCanonicalInputs": [],
+          "changedPathsVersusHistoricalAcceptedWorker": [
+            "src/lib/rcap/render/job-queue.ts"
+          ],
+          "matrix": [
+            {
+              "path": "package.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 113bd969d035efdea6f281ad0cb0fac884e744e1",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 113bd969d035efdea6f281ad0cb0fac884e744e1",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 113bd969d035efdea6f281ad0cb0fac884e744e1"
+              },
+              "identical": true
+            },
+            {
+              "path": "package-lock.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 93a457994b1da08958d3b4ecdd51ce3e6f4e6269",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 93a457994b1da08958d3b4ecdd51ce3e6f4e6269",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 93a457994b1da08958d3b4ecdd51ce3e6f4e6269"
+              },
+              "identical": true
+            },
+            {
+              "path": "tsconfig.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 73fcd4e8c8b1d8e1f77dc1cfb63206b626250dfe",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 73fcd4e8c8b1d8e1f77dc1cfb63206b626250dfe",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 73fcd4e8c8b1d8e1f77dc1cfb63206b626250dfe"
+              },
+              "identical": true
+            },
+            {
+              "path": "scripts/rcap-render-worker.mjs",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob e1f5a3fd9a64a694d5bac86f674e408314abaad1",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob e1f5a3fd9a64a694d5bac86f674e408314abaad1",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob e1f5a3fd9a64a694d5bac86f674e408314abaad1"
+              },
+              "identical": true
+            },
+            {
+              "path": "scripts/lib",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "040000 tree 515f8da59f5b1ee9f4c3b7ddf7caa91f75f3ea21",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "040000 tree 515f8da59f5b1ee9f4c3b7ddf7caa91f75f3ea21",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "040000 tree 515f8da59f5b1ee9f4c3b7ddf7caa91f75f3ea21"
+              },
+              "identical": true
+            },
+            {
+              "path": "src",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "040000 tree e39bcdb22e55f8eeb909b9617c44bd3d9274783e",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "040000 tree e39bcdb22e55f8eeb909b9617c44bd3d9274783e",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "040000 tree e39bcdb22e55f8eeb909b9617c44bd3d9274783e"
+              },
+              "identical": true
+            },
+            {
+              "path": "deploy/rcap-render-worker/Dockerfile",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob a04c7010d78e8ab22b8b33b6c5da52ae96dfddf2",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob a04c7010d78e8ab22b8b33b6c5da52ae96dfddf2",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob a04c7010d78e8ab22b8b33b6c5da52ae96dfddf2"
+              },
+              "identical": true
+            },
+            {
+              "path": "deploy/rcap-render-worker/Dockerfile.dockerignore",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob d8b10bf6cabf3cfc87b21c7a9a10eb211935cacd",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob d8b10bf6cabf3cfc87b21c7a9a10eb211935cacd",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob d8b10bf6cabf3cfc87b21c7a9a10eb211935cacd"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/supplemental-guides",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "040000 tree 2f86552d06ccff7f1392ff6077700fbff0a26477",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "040000 tree 2f86552d06ccff7f1392ff6077700fbff0a26477",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "040000 tree 2f86552d06ccff7f1392ff6077700fbff0a26477"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/brand/legalease-logo.png",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 641bd4dd4d56122a7738e656491ab532af82cf54",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 641bd4dd4d56122a7738e656491ab532af82cf54",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 641bd4dd4d56122a7738e656491ab532af82cf54"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-all50/composed-routes",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "040000 tree 1db6bfd234050bb13eb64d03640363286bc55ed1",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "040000 tree 1db6bfd234050bb13eb64d03640363286bc55ed1",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "040000 tree 1db6bfd234050bb13eb64d03640363286bc55ed1"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-all50/guidance-packets",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "040000 tree a9d0c32d290717661f48f7250e2b27c880f08120",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "040000 tree a9d0c32d290717661f48f7250e2b27c880f08120",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "040000 tree a9d0c32d290717661f48f7250e2b27c880f08120"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-all50/problematic-pdf-register.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 8d940ceab81db82b410c3f6e318dc4480aa07d0f",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 8d940ceab81db82b410c3f6e318dc4480aa07d0f",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 8d940ceab81db82b410c3f6e318dc4480aa07d0f"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-all50/review-artifacts/f2-dispositions.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 29b5628293446ab7a3482eaaf1a955e2a49e6dfd",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 29b5628293446ab7a3482eaaf1a955e2a49e6dfd",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 29b5628293446ab7a3482eaaf1a955e2a49e6dfd"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-all50/terminalization-treatments",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "040000 tree a9fff01d1608c877c51868f9bcde0a010a1beaf0",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "040000 tree a9fff01d1608c877c51868f9bcde0a010a1beaf0",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "040000 tree a9fff01d1608c877c51868f9bcde0a010a1beaf0"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-codex/release-readiness.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 51b17198760af416c6d3bdcbfe3a687c70e7a47c",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 51b17198760af416c6d3bdcbfe3a687c70e7a47c",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 51b17198760af416c6d3bdcbfe3a687c70e7a47c"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-grade-a/maintenance/route-holds.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 51c326fd4eeaf72a5a2dd6f0ed47b24d09d899b8",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 51c326fd4eeaf72a5a2dd6f0ed47b24d09d899b8",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 51c326fd4eeaf72a5a2dd6f0ed47b24d09d899b8"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-grade-a/worker-static-authority.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 5325ee87fca08fca138df2e39064deb4bcd834e0",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 5325ee87fca08fca138df2e39064deb4bcd834e0",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 5325ee87fca08fca138df2e39064deb4bcd834e0"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 0e20df9935cc2f3c0bfb37d2882564c053532fdd",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 0e20df9935cc2f3c0bfb37d2882564c053532fdd",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 0e20df9935cc2f3c0bfb37d2882564c053532fdd"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob c0926d06fabe13fef19d6fbd969bb18ecc45922d",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob c0926d06fabe13fef19d6fbd969bb18ecc45922d",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob c0926d06fabe13fef19d6fbd969bb18ecc45922d"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob b628c5e48797f0a294b54cc2dd33fbf44aa8c1fc",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob b628c5e48797f0a294b54cc2dd33fbf44aa8c1fc",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob b628c5e48797f0a294b54cc2dd33fbf44aa8c1fc"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob dc4dda4fa3156a4f8bf144aafd617a25be80edf3",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob dc4dda4fa3156a4f8bf144aafd617a25be80edf3",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob dc4dda4fa3156a4f8bf144aafd617a25be80edf3"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 94b9df57857e3ebb733f1a2fc2c6b3e57289abf4",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 94b9df57857e3ebb733f1a2fc2c6b3e57289abf4",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 94b9df57857e3ebb733f1a2fc2c6b3e57289abf4"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 33938a43e26c0fdcd7cb619ed15ef67f8eaf1136",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 33938a43e26c0fdcd7cb619ed15ef67f8eaf1136",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 33938a43e26c0fdcd7cb619ed15ef67f8eaf1136"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/packet-correction-required.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob de3d7918247ff37fb750082555a56a2bf12851fa",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob de3d7918247ff37fb750082555a56a2bf12851fa",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob de3d7918247ff37fb750082555a56a2bf12851fa"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/packet-fulfillment-records.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 4cf4fbc56fbbaeb6d421550ccb1d98e55df50976",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 4cf4fbc56fbbaeb6d421550ccb1d98e55df50976",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 4cf4fbc56fbbaeb6d421550ccb1d98e55df50976"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/route-kind-adjudications.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob a588f719bb137157602d8deee9d334af3d1591f9",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob a588f719bb137157602d8deee9d334af3d1591f9",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob a588f719bb137157602d8deee9d334af3d1591f9"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/route-presentation-conflicts.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob a9975327802ebbf532086d5a4f54f3a51062bee8",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob a9975327802ebbf532086d5a4f54f3a51062bee8",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob a9975327802ebbf532086d5a4f54f3a51062bee8"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/rcap-ledger/track-pathway-crosswalk.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 4a9dc0edea70219f6f78cd85d90b0cb3ba8dc718",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 4a9dc0edea70219f6f78cd85d90b0cb3ba8dc718",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 4a9dc0edea70219f6f78cd85d90b0cb3ba8dc718"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/factory-v2-route-registry.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 41181cf325e647bef746266c7ec001d6b2125ff5",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 41181cf325e647bef746266c7ec001d6b2125ff5",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 41181cf325e647bef746266c7ec001d6b2125ff5"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob fd9eb4efd824cd9fdf18430a68843073487060ff",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob fd9eb4efd824cd9fdf18430a68843073487060ff",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob fd9eb4efd824cd9fdf18430a68843073487060ff"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 14131c7fd56a31cbcd6fa8270f63981a30e1680d",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 14131c7fd56a31cbcd6fa8270f63981a30e1680d",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 14131c7fd56a31cbcd6fa8270f63981a30e1680d"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 6b84484491030abb0a75f7c5afa6de02ee483ee6",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 6b84484491030abb0a75f7c5afa6de02ee483ee6",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 6b84484491030abb0a75f7c5afa6de02ee483ee6"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 50429f9b1b27026d38171f085212007e7a8570ac",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 50429f9b1b27026d38171f085212007e7a8570ac",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 50429f9b1b27026d38171f085212007e7a8570ac"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob dd6417c551eb99aa284d464fd28594c275f79978",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob dd6417c551eb99aa284d464fd28594c275f79978",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob dd6417c551eb99aa284d464fd28594c275f79978"
+              },
+              "identical": true
+            },
+            {
+              "path": "data/record-clearing/packet-specifications",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "040000 tree 9b9ffa65cb5859cefd2bc3b5e392166e347c7ad6",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "040000 tree 9b9ffa65cb5859cefd2bc3b5e392166e347c7ad6",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "040000 tree 9b9ffa65cb5859cefd2bc3b5e392166e347c7ad6"
+              },
+              "identical": true
+            },
+            {
+              "path": "deploy/rcap-render-worker/preflight.mjs",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob ab06ab2fd4a963e9a3bc2a7d15557f35905e3d50",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob ab06ab2fd4a963e9a3bc2a7d15557f35905e3d50",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob ab06ab2fd4a963e9a3bc2a7d15557f35905e3d50"
+              },
+              "identical": true
+            },
+            {
+              "path": "deploy/rcap-render-worker/runtime-data-manifest.json",
+              "gitModeTypeObjectByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "100644 blob 73422ee153a4564d698591619ee31df4a082f9ed",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "100644 blob 73422ee153a4564d698591619ee31df4a082f9ed",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "100644 blob 73422ee153a4564d698591619ee31df4a082f9ed"
+              },
+              "identical": true
+            }
+          ]
+        },
+        "applicationComparedRoots": [
+          "src",
+          "public",
+          "package.json",
+          "package-lock.json",
+          "next.config.ts",
+          "next.config.js",
+          "next.config.mjs",
+          "tsconfig.json",
+          "vercel.json",
+          "postcss.config.mjs",
+          "tailwind.config.ts"
+        ],
+        "sourceDifferences": [
+          {
+            "from": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+            "to": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+            "canonicalWorkerDifferences": [],
+            "applicationDifferences": [],
+            "allTreeDifferences": [
+              "A\tdata/rcap-grade-a/launch-control/PACKET_DATABASE_REPAIR_EVIDENCE.json",
+              "M\tdata/rcap-grade-a/mission-lock/successor-application-freeze.json",
+              "M\tscripts/rcap-migration-certification.test.mjs"
+            ]
+          },
+          {
+            "from": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+            "to": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f",
+            "canonicalWorkerDifferences": [],
+            "applicationDifferences": [],
+            "allTreeDifferences": [
+              "M\tdata/rcap-grade-a/launch-control/PACKET_DATABASE_REPAIR_EVIDENCE.json"
+            ]
+          },
+          {
+            "from": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+            "to": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f",
+            "canonicalWorkerDifferences": [],
+            "applicationDifferences": [],
+            "allTreeDifferences": [
+              "A\tdata/rcap-grade-a/launch-control/PACKET_DATABASE_REPAIR_EVIDENCE.json",
+              "M\tdata/rcap-grade-a/mission-lock/successor-application-freeze.json",
+              "M\tscripts/rcap-migration-certification.test.mjs"
+            ]
+          }
+        ],
+        "workingTreeClean": true,
+        "trackedCanonicalWorkingTreeDrift": [],
+        "correctedBehaviorEvidence": {
+          "priorRatification": {
+            "path": "hosted-acceptance-evidence/review/corrected-behavior-independent-ratification.json",
+            "sha256": "2e3456087d4b43c6af5e482d60bfe6b24667a86bd5aa78dba59d141cf1e236cd",
+            "bytes": 13299
+          },
+          "reusedVerifiedLogs": [
+            {
+              "path": "hosted-acceptance-evidence/review/migration-certification-independent-ratification.tap",
+              "sha256": "b557d8d6d093a0db35ea1b4b0e5ca7ff8a482c8c2b02365de4d1b7169244a54d",
+              "bytes": 83592,
+              "command": "node --test scripts/rcap-migration-certification.test.mjs",
+              "passed": 11,
+              "failed": 0,
+              "skipped": 0,
+              "reusable": true
+            },
+            {
+              "path": "tmp/packet-database-independent-corrected.tap",
+              "sha256": "13225608434197308c871346676fe7d186a1eb672dc73346131da0ef733e93b4",
+              "bytes": 190111,
+              "command": "node --test scripts/rcap-packet-database-contract.test.mjs",
+              "passed": 486,
+              "failed": 0,
+              "skipped": 0,
+              "reusable": true
+            }
+          ],
+          "sourceHashes": [
+            {
+              "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
+              "ratifiedSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795"
+              },
+              "workingTreeSha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795",
+              "reusable": true
+            },
+            {
+              "path": "scripts/rcap-packet-database-contract.mjs",
+              "ratifiedSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638"
+              },
+              "workingTreeSha256": "0fe8e58d2758a4c4df851e42ecbf50d45715e57bba3ae7701db257e359a31638",
+              "reusable": true
+            },
+            {
+              "path": "scripts/rcap-packet-database-reference.mjs",
+              "ratifiedSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9"
+              },
+              "workingTreeSha256": "ebbd3d6f482f29a85e97e43d7bb521999a730dfc2c02a854db0b7dd32f1840e9",
+              "reusable": true
+            },
+            {
+              "path": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+              "ratifiedSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182"
+              },
+              "workingTreeSha256": "7d0128a840e0a82bdae71bf36cb3d4b57e5a5040ccdda8b660b3d6c6e8228182",
+              "reusable": true
+            },
+            {
+              "path": "scripts/rcap-packet-database-contract.test.mjs",
+              "ratifiedSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4"
+              },
+              "workingTreeSha256": "4e67c7e25bd761fbf9f46fb1b08bff6c641d3797df0d290eeb71371d192d96a4",
+              "reusable": true
+            },
+            {
+              "path": "src/lib/rcap/render/job-queue.ts",
+              "ratifiedSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c"
+              },
+              "workingTreeSha256": "8ce83221b1bffbc85d403c932f47fddeaad9e240ac74bec2a165e347aa65d35c",
+              "reusable": true
+            },
+            {
+              "path": "scripts/rcap-migration-certification.mjs",
+              "ratifiedSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c"
+              },
+              "workingTreeSha256": "08e8dbe81681dcaff926750902308c18e03fe0c5649325ba21dbaf343c75de7c",
+              "reusable": true
+            },
+            {
+              "path": "scripts/rcap-hosted-acceptance-migrate.mjs",
+              "ratifiedSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66"
+              },
+              "workingTreeSha256": "9471802dc896d7fe5bcad51e0c9df40088dd6ac8299232518406ad64d9819c66",
+              "reusable": true
+            },
+            {
+              "path": "scripts/rcap-hosted-acceptance-payment.mjs",
+              "ratifiedSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+              "sha256ByCommit": {
+                "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+                "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+                "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745"
+              },
+              "workingTreeSha256": "f6643630e0cb95c25cf9efea3f09f82e9120f29720ccadb9774174328728c745",
+              "reusable": true
+            }
+          ],
+          "newDuplicateRegression": {
+            "path": "scripts/rcap-migration-certification.test.mjs",
+            "sha256ByCommit": {
+              "4cfb78749edb6f6241df6f12c9c529f96f0886bc": "c516bf27646a71e5c0c25923d8fddde9b5231b4b08e0dceed75c66b6d0637505",
+              "a7ca0201fa8e209216d9c4bd051294b0d5416b90": "dc827e94463a86a225bf2d528fb7e312dc50a45dba218c9e646ff2e172455384",
+              "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f": "dc827e94463a86a225bf2d528fb7e312dc50a45dba218c9e646ff2e172455384"
+            },
+            "changeFromImplementation": "Exactly24 added lines for the independently authored actual PostgreSQL duplicate-object executable-loop test; no prior test lines changed.",
+            "full11TestSuiteAlreadyPassedWithThisExactTestHash": true
+          },
+          "retestRequired": false,
+          "reason": "No worker/application or previously tested implementation/source inputs differ across the three trees. The only test addition from implementation to pushed return is already covered by the exact-hash full11-test ratification. Current local differs from pushed return only in the database correction evidence record."
+        },
+        "originalReviewArtifact": {
+          "path": "/tmp/rcap-db-repair-345/review-current-controls.test.mjs",
+          "sha256": "7b9786f6e64cb65652508fde5ded7075fff91c49c596ac6c4204fb35a4d75bfd",
+          "bytes": 8000
+        },
+        "limitations": [
+          "Input equivalence does not establish which commit the running native publication actually checks out.",
+          "No immutable digest or successful publication/image-acceptance receipt is asserted before its native artifact arrives.",
+          "This check does not alter release bindings, authorize any push/dispatch, or establish hosted REST/download/storage/recovery readiness."
+        ],
+        "testsRun": [],
+        "implementationChanges": [],
+        "bindingChanges": [],
+        "remoteReads": [],
+        "remoteWrites": [],
+        "manualPushOrDispatchPerformed": false
+      }
+    },
+    "independentNativePublication": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/independent-native-publication-verification.json",
+      "sha256": "68ab6608e4ad57b914da1ab64428bd745bc9213aa932daba037a7ec5ee139727",
+      "bytes": 9735,
+      "report": {
+        "schemaVersion": "rcap-independent-native-publication-verification/v1",
+        "recordedAt": "2026-09-24T13:21:04.848159+00:00",
+        "verdict": "PASS_NATIVE_PUBLICATION_CUSTODY_RUNTIME_ACCEPTANCE_PENDING",
+        "scope": "Independent local verification of saved native publication evidence and the prepared append-forward publication record. No behavioral tests, registry pull, GitHub request, dispatch, push, deployment, binding mutation or service operation performed.",
+        "currentLocalHead": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f",
+        "publication": {
+          "runId": 36004158153,
+          "runAttempt": 1,
+          "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36004158153",
+          "conclusion": "success",
+          "workflowSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "nativeBuildSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "artifactId": 10809204479,
+          "artifactName": "rcap-render-worker-publication-a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "artifactArchiveSha256": "sha256:03d6846d6d65de9332ca76334587771718721eddd9b53f260b1309d2c5b0286b",
+          "imageDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+          "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869"
+        },
+        "archiveVerification": {
+          "bytes": 751,
+          "apiArtifactDigestMatchesArchive": true,
+          "zipIntegrityValid": true,
+          "members": [
+            "rcap-render-worker-publication.json"
+          ],
+          "nativeMemberByteIdenticalToExtractedFile": true,
+          "nativeMemberBytes": 1248,
+          "nativeMemberSha256": "e80c3d34791864a89f3a305d0967c21da728a179ebb2588faac000b6b3e95f25",
+          "crc32": "40486902"
+        },
+        "sourceInputHashes": [
+          {
+            "path": "deploy/rcap-render-worker/Dockerfile",
+            "sourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+            "sha256": "75d30c7888ea4e34d4a9aa6176c2455e8b468e5bc7d59818738ccde5eef1ddaf",
+            "bytes": 7269,
+            "matchesNativeReceipt": true
+          },
+          {
+            "path": "package-lock.json",
+            "sourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+            "sha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+            "bytes": 280876,
+            "matchesNativeReceipt": true
+          }
+        ],
+        "executionEvidence": {
+          "jobId": 107647914899,
+          "allReportedStepsSucceeded": true,
+          "totalReportedSteps": 22,
+          "requiredSteps": [
+            {
+              "name": "Check out the exact supplied SHA",
+              "number": 6,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record the build inputs",
+              "number": 7,
+              "conclusion": "success"
+            },
+            {
+              "name": "Refuse to overwrite an existing source-SHA tag",
+              "number": 9,
+              "conclusion": "success"
+            },
+            {
+              "name": "Re-check the source-SHA tag at the last point before pushing",
+              "number": 12,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build and push by source-SHA tag only",
+              "number": 13,
+              "conclusion": "success"
+            },
+            {
+              "name": "Emit the machine-readable publication artifact",
+              "number": 14,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fail if the registry returned no digest",
+              "number": 15,
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload the publication artifact",
+              "number": 16,
+              "conclusion": "success"
+            }
+          ],
+          "bothGuardsPassedInLog": true,
+          "bothTagReplacementAuthorizationValuesEmpty": true,
+          "detachedSourceCheckoutLogged": true,
+          "exactTagAndDigestManifestPushLogged": true,
+          "archiveShaAndArtifactIdLogged": true,
+          "limitation": "This checks the supplied successful run and its no-replacement guards. It does not claim to have independently enumerated every historical workflow run or inspected the current registry."
+        },
+        "preparedRecordVerification": {
+          "record": {
+            "path": "data/rcap-render/worker-publication-evidence.json",
+            "sha256": "edd7d50a6843c234cc4562af2f40b48b717662f9a7c4213b4ce384a487079d06",
+            "bytes": 46796
+          },
+          "allNativeFieldsPreserved": true,
+          "onlyNativeTypeNormalization": "workflowRunId is stored as a JSON integer rather than the native receipt string; numeric identity is equal.",
+          "runtimeAccepted": false,
+          "imageAcceptance": null,
+          "registryPullByDigestStatus": "pending_read_only_image_acceptance",
+          "packageVisibility": null,
+          "allImagePlatformMeasurementsUnset": true,
+          "priorRecord": {
+            "gitRef": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f",
+            "path": "data/rcap-render/worker-publication-evidence.json",
+            "sha256": "2e0d91c564c8a46ea2761ace5b4c3dfa6551b1b9eccbe50a4af5d06a6c99af5c",
+            "bytes": 41704,
+            "fullParsedObjectIdenticalToSupersededPublication": true,
+            "priorSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+            "priorDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+            "priorRuntimeAccepted": true
+          },
+          "historicalAcceptanceNotTransferredToCurrentImage": true
+        },
+        "reusedInputEquivalence": {
+          "report": {
+            "path": "hosted-acceptance-evidence/review/publication-36004158153-independent-input-equivalence.json",
+            "sha256": "8471ec07ee6c4fdb27283e3f6cd63eb8e482ed1e864699d9649613c7e7976388",
+            "bytes": 31096
+          },
+          "canonicalInputCount": 38,
+          "fingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+          "implementationSource": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+          "publishedSource": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "currentLocalHead": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f",
+          "behavioralEvidenceReusable": true,
+          "newBehavioralTestsRequiredByPublicationReceipt": false,
+          "historicalPendingNativeReceiptReportPreservedUnchanged": true
+        },
+        "sourceControls": [
+          {
+            "path": ".github/workflows/publish-rcap-render-worker.yml",
+            "gitRef": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+            "sha256": "68e1c93daa86e02e108beb4ec67739ddec6bb986182d63453abd13178914a7bd",
+            "bytes": 14422
+          },
+          {
+            "path": ".github/workflows/rcap-worker-image-acceptance.yml",
+            "gitRef": "52a3d8e0980b3ae4c89da534f3efcee9e0c2ea7f",
+            "sha256": "0037e74760e88507b47e0b6335155843fd8a42113805d35e755cbc7854cdaf1e",
+            "bytes": 18709
+          }
+        ],
+        "requiredReadOnlyAcceptanceSubject": {
+          "workflow": ".github/workflows/rcap-worker-image-acceptance.yml",
+          "dispatchInputs": {},
+          "subjectTakenFrom": "data/rcap-render/worker-publication-evidence.json at the exact pushed workflow head",
+          "requiredSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "requiredImageTag": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+          "requiredDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+          "requiredDigestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+          "prerequisite": "Captain commits the reviewed prepared record; Roger manually pushes it and dispatches the existing image acceptance workflow against that pushed commit. The old committed record would select the old image.",
+          "manualPushAndDispatchOwner": "Roger",
+          "runtimeAcceptanceProven": false,
+          "stillRequired": [
+            "authenticated pull by immutable digest",
+            "registry tag and digest equality",
+            "anonymous pull refusal",
+            "OCI source revision and canonical source-input binding",
+            "non-root user",
+            "health command",
+            "startup refusal with no credentials and no network",
+            "SIGTERM shutdown",
+            "clean writable owned scratch directory",
+            "filesystem/config/history secret checks"
+          ]
+        },
+        "boundaries": {
+          "newPublicationRequired": false,
+          "duplicatePublicationPerformed": false,
+          "registryPullPerformed": false,
+          "previewAdvanced": false,
+          "finalReleaseBindingAdvanced": false,
+          "hostedAcceptanceEstablished": false,
+          "productionAuthorized": false,
+          "implementationOrBindingsEditedByVerifier": false
+        },
+        "evidenceProvenance": "Run, artifacts, jobs and log were downloaded by Captain and provided locally. This review independently hashes and cross-checks those bytes against native archive contents and exact local Git objects; it does not claim an independent remote read.",
+        "evidenceFiles": [
+          {
+            "path": "hosted-acceptance-evidence/worker/publication-36004158153/run.json",
+            "sha256": "ba2b6fc5d7efa1b8c457c6efb1fdb0ddb463e43ff2b71b094cf5f07e7ff0fd94",
+            "bytes": 15031
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/publication-36004158153/artifacts.json",
+            "sha256": "588beaba998c14c3884440e615dd3a813f1da40506524b8a82cf54531e7b2d5c",
+            "bytes": 1642
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/publication-36004158153/jobs.json",
+            "sha256": "167459f7dc0fcd111737f932bf3ce08bfbb3c314eaaebcb63960f3ed11cee8cb",
+            "bytes": 4977
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/publication-36004158153/job.log",
+            "sha256": "2ab3dd24c6d8b16a9d6e0818e9e5bd11fbf176e1a027d66aececc1b975ecde00",
+            "bytes": 551496
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/publication-36004158153/publication.zip",
+            "sha256": "03d6846d6d65de9332ca76334587771718721eddd9b53f260b1309d2c5b0286b",
+            "bytes": 751
+          },
+          {
+            "path": "hosted-acceptance-evidence/worker/publication-36004158153/rcap-render-worker-publication.json",
+            "sha256": "e80c3d34791864a89f3a305d0967c21da728a179ebb2588faac000b6b3e95f25",
+            "bytes": 1248
+          }
+        ],
+        "findings": []
+      }
     }
   },
   "applicationAndWorker": {
@@ -2420,9 +3237,16 @@
       "Accepted worker digest at4f7d209de112",
       "Preview dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak"
     ],
-    "newWorkerDigest": null,
+    "newWorkerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
     "newPreviewDeployment": null,
-    "successorMechanism": "data/rcap-grade-a/mission-lock/successor-application-freeze.json, followed by existing publication/read-only image acceptance and RELEASE_CANDIDATE_BINDING/HOSTED_TOOLS_BINDING procedure"
+    "successorMechanism": "data/rcap-grade-a/mission-lock/successor-application-freeze.json, followed by existing publication/read-only image acceptance and RELEASE_CANDIDATE_BINDING/HOSTED_TOOLS_BINDING procedure",
+    "publishedWorkerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+    "publishedInputPlan": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/worker-input-plan.json",
+      "sha256": "6ec662d2893cf41c99663aef18b7b5e31c4508bf343b3c15667efcf1ff9128b0",
+      "bytes": 5391
+    },
+    "workerRuntimeAccepted": false
   },
   "remoteBefore": {
     "projectRef": "hyflxnlhpmiqxvvcoiia",
@@ -3436,7 +4260,8 @@
       "originalReviewRole": "preserved historical defect reproduction; unchanged post-correction PASS not required by superseding user instruction",
       "correctedBehaviorRatificationPassed": true,
       "migrationExecutionConsumed": true,
-      "reconciliationExecutionConsumed": true
+      "reconciliationExecutionConsumed": true,
+      "workerPublicationExecutionConsumed": true
     },
     "conditionHistory": [
       {
@@ -3448,7 +4273,7 @@
           "scope": "The exact recorded acceptance-only request; no broader scope.",
           "userReplyVerbatim": "I approve this exact acceptance-only scope for Supabase `hyflxnlhpmiqxvvcoiia`, and no broader scope.\n\nAuthorized migration:\n`20260924120347_packet_delivery_dependency_and_retry_errors.sql`\n\nRequired SHA256:\n`86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795`\n\nThe migration may be applied only if its bytes hash exactly to that value and the current pre-apply readback still matches the recorded correction evidence.\n\nThe migration itself is authorized only for the stated schema/function correction and must not modify existing business rows.\n\nAfter that exact migration, I authorize only the recorded canonical acceptance housekeeping effects:\n\n* preserve all 22 existing job IDs and their history;\n* retain the two exhausted jobs as terminal history;\n* retain the two duplicate losers as terminal history;\n* requeue the three",
           "replyEndsMidBullet": true,
-          "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after “requeue the three”; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
+          "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after \u201crequeue the three\u201d; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
           "migrationHashMatches": true,
           "currentCatalogMatchesRecorded": true,
           "currentJobRowsMatchRecorded": true,
@@ -3486,7 +4311,7 @@
       "operationScopeChanged": false
     },
     "remainingAuthorizedScope": [
-      "One exact successor worker publication and read-only image acceptance",
+      "One read-only image acceptance of the observed a7ca0201fa8e209216d9c4bd051294b0d5416b90 successor, digestsha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869. No further worker publication.",
       "One exact acceptance Preview and bounded existing test webhook URL retarget",
       "Bounded canonical storage/recovery for existing#345 and its two recorded predecessors; exact REST/HTTP proof; no new Checkout/payment/job"
     ],
@@ -3502,7 +4327,17 @@
         "independentLocalVerificationReference": "verification.independentCorrectedBehaviorRatification",
         "actualHostedRestAndStorageProofStillRequired": true
       }
-    ]
+    ],
+    "publicationExecutionInstruction": {
+      "recordedAt": "2026-09-24T13:18:55.712Z",
+      "source": "Roger supplied the exact publication run and successor source",
+      "userReplyVerbatim": "**2. Roger will dispatch and provide the run ID** remains the controlling execution rule.\n\nBut in this case, **do not dispatch another publication**. The required publication is already running:\n\n* **Run:** `36004158153`\n* **Workflow:** Publish RCAP render worker\n* **Source:** `a7ca0201fa8e209216d9c4bd051294b0d5416b90`\n* **Branch:** `captain-release`\n* **Status:** in progress\n\nSo Captain should **not** publish `4cfb7874\u2026` or start a duplicate run. `a7ca0201\u2026` is the pushed, reviewed successor currently moving through publication.\n\nThe division stays:\n\n> Roger performs the manual pushes/dispatches required by the preserved handoff. Captain prepares the exact command/tuple, consumes the resulting run IDs, verifies each result, and continues the already-approved acceptance sequence.\n\nImmediate Captain action: **watch/consume publication run `36004158153`; when it succeeds, bind its immutable digest and prepare the exact read-only image-acceptance dispatch for Roger.**",
+      "runId": 36004158153,
+      "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+      "manualPushDispatchOwner": "Roger",
+      "sourceComparedToInitialApprovedImplementation": "All38 canonical inputs and application inputs unchanged from4cfb78749edb6f6241df6f12c9c529f96f0886bc; only evidence and the already-ratified migration-loop regression followed it.",
+      "duplicatePublicationForbidden": true
+    }
   },
   "dispatchReadiness": {
     "ready": false,
@@ -3511,13 +4346,80 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "The reviewed correction is now pushed: GitHub captain-release observed at a7ca0201fa8e209216d9c4bd051294b0d5416b90, containing approved source4cfb78749edb6f6241df6f12c9c529f96f0886bc. No successor publication run is observed; manual dispatch ownership remains assigned to Roger by the preserved handoff unless explicitly delegated.",
-      "Successor immutable worker/image-acceptance and Preview identities do not exist.",
-      "Exact authenticated REST reader, real existing-job Storage/recovery and remote owner200/hash, stranger403/anonymous401 remain unverified.",
-      "Final tools binding and ordinary50-dollar blank-promotion hosted_full dispatch cannot be generated until those actual identities and proofs exist."
+      "Published successor from a7ca0201fa8e209216d9c4bd051294b0d5416b90 awaits its exact read-only image acceptance. Roger performs its manual push/dispatch; Captain has prepared the independently verified publication receipt and exact command.",
+      "Exact acceptance Preview, authenticated REST reader, existing#345 Storage/recovery and remote owner200/hash,stranger403,anonymous401 remain pending.",
+      "Final current tools binding and ordinary50-dollar blank-promotion hosted_full dispatch remain unready until those identities and proofs exist."
     ],
     "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
     "authorizationReceived": true,
-    "executionBoundary": "Corrected-behavior verification is explicitly reaffirmed and passed; migration and housekeeping are complete and must not be replayed. Approved successor publication is next. Push is observed complete; dispatch ownership clarification is pending under the preserved handoff."
+    "executionBoundary": "Consume successful publication36004158153 without republishing. Current record binds its native source and immutable digest with runtimeAccepted=false. Next: Roger pushes the receipt commit and dispatches read-only image acceptance from that commit."
+  },
+  "workerPublication": {
+    "runId": 36004158153,
+    "sourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+    "workflowSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+    "digest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+    "runAttempt": 1,
+    "conclusion": "success",
+    "publicationArtifactId": 10809204479,
+    "publicationArtifactSha256": "sha256:03d6846d6d65de9332ca76334587771718721eddd9b53f260b1309d2c5b0286b",
+    "nativeReceipt": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/rcap-render-worker-publication.json",
+      "sha256": "e80c3d34791864a89f3a305d0967c21da728a179ebb2588faac000b6b3e95f25",
+      "bytes": 1248
+    },
+    "archive": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/publication.zip",
+      "sha256": "03d6846d6d65de9332ca76334587771718721eddd9b53f260b1309d2c5b0286b",
+      "bytes": 751
+    },
+    "run": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/run.json",
+      "sha256": "ba2b6fc5d7efa1b8c457c6efb1fdb0ddb463e43ff2b71b094cf5f07e7ff0fd94",
+      "bytes": 15031
+    },
+    "jobs": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/jobs.json",
+      "sha256": "167459f7dc0fcd111737f932bf3ce08bfbb3c314eaaebcb63960f3ed11cee8cb",
+      "bytes": 4977
+    },
+    "artifactMetadata": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/artifacts.json",
+      "sha256": "588beaba998c14c3884440e615dd3a813f1da40506524b8a82cf54531e7b2d5c",
+      "bytes": 1642
+    },
+    "log": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/job.log",
+      "sha256": "2ab3dd24c6d8b16a9d6e0818e9e5bd11fbf176e1a027d66aececc1b975ecde00",
+      "bytes": 551496
+    },
+    "recordPath": "data/rcap-render/worker-publication-evidence.json",
+    "priorRecordPreservedIn": "supersededPublication",
+    "runtimeAccepted": false,
+    "imageAcceptanceRunId": null,
+    "publicationDispatchedByCaptain": false,
+    "additionalPublicationDispatched": false,
+    "independentVerification": {
+      "path": "hosted-acceptance-evidence/worker/publication-36004158153/independent-native-publication-verification.json",
+      "sha256": "68ab6608e4ad57b914da1ab64428bd745bc9213aa932daba037a7ec5ee139727",
+      "bytes": 9735,
+      "verdict": "PASS_NATIVE_PUBLICATION_CUSTODY_RUNTIME_ACCEPTANCE_PENDING"
+    },
+    "readOnlyImageAcceptanceDispatch": {
+      "prepared": true,
+      "dispatched": false,
+      "manualPushAndDispatchOwner": "Roger",
+      "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+      "workflow": "rcap-worker-image-acceptance.yml",
+      "ref": "captain-release",
+      "inputs": {},
+      "prerequisite": "Push the commit containing this publication record before dispatch. The workflow reads the image subject from that committed record.",
+      "recordPath": "data/rcap-render/worker-publication-evidence.json",
+      "recordSha256": "edd7d50a6843c234cc4562af2f40b48b717662f9a7c4213b4ce384a487079d06",
+      "subjectSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+      "subjectDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+      "runtimeAccepted": false,
+      "scope": "Read-only image acceptance with no Supabase configuration. No publication, deployment, queue claim, Preview, hosted journey or Production operation."
+    }
   }
 }

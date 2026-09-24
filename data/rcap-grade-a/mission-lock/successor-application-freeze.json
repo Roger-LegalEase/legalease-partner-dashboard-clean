@@ -132,7 +132,7 @@
     "advanced": false,
     "toolsBindingPath": "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
     "finalToolsBindingGenerated": false,
-    "why": "New runtime bytes require actual publication, read-only image acceptance, successor Preview and authorized database/recovery evidence before final binding. The old records are preserved as historical authority and currently fail the release gate."
+    "why": "Successor publication is recorded. Its read-only image acceptance, actual acceptance Preview and existing-job delivery proof remain required before final release/tools binding."
   },
   "correctionEvidence": "data/rcap-grade-a/launch-control/PACKET_DATABASE_REPAIR_EVIDENCE.json",
   "knownRedControls": [
@@ -252,5 +252,20 @@
     ],
     "verificationCondition": "Roger superseded unchanged-PASS with independent corrected-behavior ratification; report PASS with original bytes preserved."
   },
-  "authorizationScope": "Only the exact acceptance successor image, Preview and operations recorded in PACKET_DATABASE_REPAIR_EVIDENCE.json; no Production or live charge."
+  "authorizationScope": "Only the exact acceptance successor image, Preview and operations recorded in PACKET_DATABASE_REPAIR_EVIDENCE.json; no Production or live charge.",
+  "observedWorkerPublication": {
+    "sourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+    "implementationSourceSha": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
+    "immutableDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+    "runId": 36004158153,
+    "artifactId": 10809204479,
+    "canonicalInputFingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+    "canonicalInputsEquivalent": true,
+    "sourceInstruction": "Roger explicitly instructed consumption of this a7ca0201 publication and read-only acceptance; do not start another 4cf publication.",
+    "runtimeAccepted": false,
+    "imageAcceptancePending": true,
+    "doesNotAdvancePreviewOrFinalReleaseBinding": true
+  },
+  "workerPublicationCompleted": true,
+  "additionalWorkerPublicationAuthorized": false
 }
