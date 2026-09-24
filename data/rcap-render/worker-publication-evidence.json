@@ -28,8 +28,8 @@
   "originalPublicationPath": "hosted-acceptance-evidence/worker/publication-36004158153/rcap-render-worker-publication.json",
   "originalArchivePath": "hosted-acceptance-evidence/worker/publication-36004158153/publication.zip",
   "originalPublicationSource": "Native publication artifact10809204479 from Roger-dispatched run36004158153. Downloaded ZIP SHA256 matches the Actions artifact digest; detached source and workflow commit botha7ca0201fa8e209216d9c4bd051294b0d5416b90. Dockerfile and lockfile hashes independently match Git at that source.",
-  "registryPullByDigestStatus": "passed",
-  "runtimeAccepted": false,
+  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
+  "runtimeAccepted": true,
   "authorization": "Roger explicitly identified run36004158153 from a7ca0201fa8e209216d9c4bd051294b0d5416b90 as the pushed reviewed successor, instructed Captain to consume it without another publication, bind the immutable digest and prepare the read-only image-acceptance dispatch. Roger retains manual push/dispatch ownership. This consumed publication changes no Production authority.",
   "priorPublicationEvidencePath": "data/rcap-render/worker-publication-evidence.json#/supersededPublication",
   "supersededPublication": {
@@ -1029,17 +1029,60 @@
         }
       ],
       "runtimeAccepted": false
+    },
+    {
+      "runId": 36008455059,
+      "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36008455059",
+      "runAttempt": 1,
+      "headSha": "1b0bfcd9e79828c5a6039361d3c9943f9f762f1f",
+      "conclusion": "success",
+      "jobId": 107662643336
     }
   ],
-  "imageAcceptance": null,
+  "imageAcceptance": {
+    "runId": 36008455059,
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36008455059",
+    "runAttempt": 1,
+    "conclusion": "success",
+    "acceptedAt": "2026-09-24T13:52:17Z",
+    "acceptedAtCommit": "1b0bfcd9e79828c5a6039361d3c9943f9f762f1f",
+    "subjectTakenFrom": "Committed publication evidence at the exact workflow head; the native log and all successful job steps name the accepted source and immutable digest.",
+    "digest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+    "tag": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+    "readOnly": true,
+    "properties": {
+      "tagResolvesToExpectedDigest": true,
+      "authenticatedPullByDigest": true,
+      "anonymousPullRefused": true,
+      "anonymousStatus": 401,
+      "tagAndDigestAreTheSameImage": true,
+      "sourceBindingExceptionExactlyOneDigestWide": true,
+      "sourceBinding": "SOURCE BINDING: PASS; OCI REVISION: PRESENT; exact source revision verified on the normal path.",
+      "runsAsNonRoot": true,
+      "healthcheckDeclaredAndSucceeds": true,
+      "failsClosedWithoutCredentials": true,
+      "gracefulShutdownOnSigterm": true,
+      "scratchDirectory": "present, owned by rcapworker, empty and writable",
+      "secretScanPositiveAndNegativeControls": true,
+      "filesystemSecretScan": "clean",
+      "configAndHistorySecretScan": "config env matches 0; layer history matches 0",
+      "deployedNothingClaimedNothing": true
+    },
+    "nativeResult": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/native-result.json",
+      "sha256": "2a047e541fcdeac321d3c814705737c9b982e9bfd48326be61859ecda7a8458a",
+      "bytes": 4193
+    },
+    "evidenceLimit": "All 20 main steps and all 24 reported steps passed. This proves the image boundary only; Preview, remote REST and existing-job recovery remain pending."
+  },
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Image-acceptance run 36006545373 refused the anonymous token with HTTP 401 and authenticated pull of the exact digest passed. Full image acceptance failed at the subsequent retired-exception history control.",
+  "packageVisibilityEvidence": "Successful read-only image-acceptance run 36008455059 refused anonymous access with HTTP 401 and authenticated pull of the exact immutable digest passed.",
   "publishedImagePlatform": {
     "os": null,
     "architecture": null,
     "manifestMediaType": null,
     "configDigest": "sha256:d879da51e044b162847d03f792f741b525ac06ef0cb50c5fe9ab180d0553c331",
-    "note": "Config digest was read by the tag/digest equality step in run 36006545373. OS, architecture and manifest media type are not separately recorded; the later source/runtime checks were skipped."
+    "note": "Config digest was observed by tag/digest identity checks; OCI source revision and all runtime checks passed in run 36008455059. OS, architecture and manifest media type are not separately recorded."
   },
-  "readBackLimitation": "Authenticated private pull and tag/digest equality passed in run 36006545373. Full acceptance failed because the receipt omitted the top-level historical chain. The corrected receipt passes the unchanged local guard; OCI/source binding, non-root runtime, no-credentials refusal, health/shutdown, scratch and secret checks still require a successful image-acceptance run."
+  "readBackLimitation": "Image acceptance is complete for the exact a7ca0201 source and 46dc digest. This record establishes no Preview deployment, hosted acceptance, queue recovery or Production authorization."
 }
