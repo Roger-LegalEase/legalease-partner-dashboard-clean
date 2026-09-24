@@ -269,7 +269,7 @@ test('state fallback, ambiguous creation and timeouts keep distinct evidence',as
 
 // Execute the actual deploy/resolver program and REST transport with provider
 // responses at the fetch boundary. No deployment, Auth or queue call is real.
-async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=200, afterEnvChanged=false, reused=false, remotePatch={}, receiptFailure=false}={}) {
+async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=200, aliasReadbackAbsent=false, afterEnvChanged=false, reused=false, remotePatch={}, receiptFailure=false}={}) {
   const calls=[], writes=new Map(); let deployment=null, aliasBound=reused, envReads=0;
   const owner='b6dc86a3-12bb-490d-b130-48d95d426a1e';
   const origin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA);
@@ -282,7 +282,7 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
     if(url.pathname.endsWith('/env')) {
       envReads++;return reply({envs:[{key:'PRODUCTION_SENTINEL',target:['production'],updatedAt:afterEnvChanged&&envReads>1?2:1}]},boundaryStatus);
     }
-    if(url.pathname.startsWith('/v9/projects/'))return reply({...identity,id:identity.projectId,name:identity.projectName,accountId:identity.teamId,alias:[{target:'PRODUCTION',domain:'production.example.test'}]});
+    if(url.pathname.startsWith('/v9/projects/'))return reply({...identity,id:identity.projectId,name:identity.projectName,accountId:identity.teamId,...(aliasReadbackAbsent?{}:{alias:[{target:'PRODUCTION',domain:'production.example.test'}]})});
     if(url.pathname.endsWith('/api-keys')) return reply([{name:'anon',api_key:'synthetic-anon'},{name:'service_role',api_key:'synthetic-service'}]);
     if(url.pathname.endsWith('/database/query')) return reply(missingOwner?[]:[{id:owner}]);
     if(url.pathname==='/v6/deployments') return reply({deployments:deployment?[{...deployment,uid:deployment.id}]:[]});
@@ -324,7 +324,7 @@ test('actual replacement Preview loop creates once, preserves Production and use
 });
 
 test('actual replacement Preview refuses missing existing owner and unreadable boundary before create',async()=>{
-  for(const options of [{missingOwner:true},{boundaryStatus:403}]) {
+  for(const options of [{missingOwner:true},{boundaryStatus:403},{aliasReadbackAbsent:true}]) {
     const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',options);
     assert.equal(r.exitCode,1);
     assert.equal(r.calls.some(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments'),false);

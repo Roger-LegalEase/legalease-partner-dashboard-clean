@@ -157,7 +157,7 @@ const evidence = {
 // --- 0. Before-picture of everything this run must not disturb ---------------
 const beforeProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
 const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
-if (beforeProject.status !== 200 || beforeEnv.status !== 200 || !Array.isArray(beforeEnv.json?.envs)) {
+if (beforeProject.status !== 200 || !Array.isArray(beforeProject.json?.alias) || beforeEnv.status !== 200 || !Array.isArray(beforeEnv.json?.envs)) {
   throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
 }
 const aliasesBefore = Array.isArray(beforeProject.json?.alias)
@@ -571,7 +571,7 @@ console.log(`  exact acceptance return origin: ${previewUrl}`);
   );
 
   const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
-  if (afterProject.status !== 200 || afterEnv.status !== 200 || !Array.isArray(afterEnv.json?.envs)) {
+  if (afterProject.status !== 200 || !Array.isArray(afterProject.json?.alias) || afterEnv.status !== 200 || !Array.isArray(afterEnv.json?.envs)) {
     throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
   }
   const envAfter = envShape(Array.isArray(afterEnv.json?.envs) ? afterEnv.json.envs : []);
