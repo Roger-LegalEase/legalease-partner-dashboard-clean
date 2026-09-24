@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
+        options: [ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -359,6 +359,95 @@ jobs:
       HOSTED_LEGAL_AID_RESEND_API_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESEND_API_KEY }}
       HOSTED_LEGAL_AID_TEST_MAILBOX: ${{ secrets.HOSTED_LEGAL_AID_TEST_MAILBOX }}
       HOSTED_LEGAL_AID_EMAIL_FROM: ${{ secrets.HOSTED_LEGAL_AID_EMAIL_FROM }}
+
+  # Repository test only. This verdict is not F1, image or release acceptance.
+  # The shared form's worker/tools inputs remain required for existing modes;
+  # this job neither consumes those inputs nor asserts worker-image equivalence.
+  required_worker_delivery:
+    name: TEST ONLY — required worker-delivery repository suite
+    if: inputs.mode == 'required_worker_delivery'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    permissions:
+      contents: read
+    env:
+      RELEASE_INTEGRATION_BRANCH: captain-release
+      APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+    steps:
+      - name: Require an exact application commit SHA
+        run: |
+          set -euo pipefail
+          [[ "$APPLICATION_SHA_INPUT" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify release ancestry and check out the exact application
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$RELEASE_INTEGRATION_BRANCH"
+          git cat-file -e "${APPLICATION_SHA_INPUT}^{commit}" || { echo "::error::application_sha does not resolve"; exit 1; }
+          git merge-base --is-ancestor "$APPLICATION_SHA_INPUT" "origin/$RELEASE_INTEGRATION_BRANCH" || { echo "::error::application_sha is outside the canonical integration history"; exit 1; }
+          git checkout --detach "$APPLICATION_SHA_INPUT"
+          [ "$(git rev-parse HEAD)" = "$APPLICATION_SHA_INPUT" ] || { echo "::error::application checkout does not match the requested SHA"; exit 1; }
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies from the frozen lockfile
+        run: npm ci
+
+      - name: Install the suite's PostgreSQL and PDF-text prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y postgresql-16 postgresql-client-16 poppler-utils
+
+      - name: Run the unchanged required worker-delivery suite
+        id: required_suite
+        run: |
+          set +e
+          node scripts/verify-rcap-render-worker-delivery.mjs
+          test_exit_status=$?
+          printf 'exit_status=%s\n' "$test_exit_status" >> "$GITHUB_OUTPUT"
+          exit "$test_exit_status"
+
+      - name: Record the test-only result
+        if: always()
+        env:
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+          TEST_OUTCOME: ${{ steps.required_suite.outcome }}
+          TEST_EXIT_STATUS: ${{ steps.required_suite.outputs.exit_status }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const input = process.env.APPLICATION_SHA_INPUT ?? '';
+          const applicationSha = input.length === 40 && /^[0-9a-f]{40}$/.test(input) ? input : null;
+          const exitStatus = /^\d+$/.test(process.env.TEST_EXIT_STATUS ?? '') ? Number(process.env.TEST_EXIT_STATUS) : null;
+          const passed = process.env.TEST_OUTCOME === 'success' && exitStatus === 0;
+          fs.mkdirSync('required-worker-delivery-evidence', { recursive: true });
+          fs.writeFileSync('required-worker-delivery-evidence/result.json', JSON.stringify({
+            mode: 'required_worker_delivery',
+            releaseAcceptance: false,
+            applicationSha,
+            workflowSha: process.env.WORKFLOW_SHA,
+            runId: process.env.GITHUB_RUN_ID,
+            testExitStatus: exitStatus,
+            result: passed ? 'PASS' : exitStatus === null ? 'NOT_COMPLETED' : 'FAIL'
+          }, null, 2) + '\n');
+          NODE
+
+      - name: Upload minimal test-only evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-required-worker-delivery-${{ github.run_id }}
+          path: required-worker-delivery-evidence/result.json
+          if-no-files-found: error
 
   f1:
     name: Ephemeral F1 staging rehearsal (rcap-ci-staging)
