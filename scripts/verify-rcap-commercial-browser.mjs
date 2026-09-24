@@ -1,13 +1,18 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import assert from "node:assert/strict";
+import vm from "node:vm";
+import ts from "typescript";
+import { spawnSync } from "node:child_process";
+import { register } from "node:module";
 import { answerBuilderStep } from "./rcap-packet-builder-filler.mjs";
 import { chromium } from "playwright";
 import { hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 // Hosted browser proof for the sponsored RCAP lane only. It crosses the
-// synchronous sponsored-generation boundary after explicit final verification;
-// it never calls Stripe, creates a consumer checkout, or runs a worker.
+// durable sponsored-generation boundary after explicit final verification.
+// Clinic mode permits one target-first immutable worker cycle; no Stripe or Checkout.
 //
 // Required fixture/runtime contract:
 // - an active `we-must-vote` partner_record (paid or demo_paid, qualified,
@@ -325,7 +330,22 @@ try {
   const generationResponseBody = await generationResponse.json().catch(() => null);
   check(generationResponse.ok(), `Sponsored packet generation returned ${generationResponse.status()}.`);
   check(generationRequests.length === 1, `Expected one sponsored generation request after verification; saw ${generationRequests.length}.`);
+  // The durable job must finish before the Briefcase can expose its artifact.
+  // Reuse the payment harness's exact claim-order and worker-cycle contract.
+  let clinicProof = null;
+  if (clinicMode) {
+    assert.equal(failures.length, 0, failures.join("\n"));
+    const ports = await clinicDeliveryPorts({ packetItemId, participantUserId, screeningSessionId });
+    clinicProof = await runClinicTargetCycle(ports, {
+      packetItemId, participantUserId, screeningSessionId, clinicEventId,
+      generatedItemId: generationResponseBody?.briefcaseItemId
+    });
+    result.naturalDelivery = clinicProof.evidence;
+    clinicProof.ports = ports;
+  }
   await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}`, { timeout: 20_000 });
+  // Refresh only the existing matter view; this is not another generation or download.
+  if (clinicMode) await page.reload({ waitUntil: "networkidle" });
   assertNoCommercialCopy(await page.locator("main").innerText(), "generated partner packet action");
   await screenshotPair(page, "05-partner-packet-generated");
 
@@ -334,14 +354,30 @@ try {
   const downloadHref = await download.getAttribute("href");
   check(Boolean(downloadHref), "Generated packet has no private download link.");
   if (!downloadHref) throw new Error(failures.join("\n"));
-  const firstDownload = await context.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
-  const firstBytes = await firstDownload.body();
-  const secondDownload = await context.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
-  const secondBytes = await secondDownload.body();
-  const firstHash = crypto.createHash("sha256").update(firstBytes).digest("hex");
-  const secondHash = crypto.createHash("sha256").update(secondBytes).digest("hex");
-  check(firstDownload.status() === 200 && /^application\/pdf/i.test(firstDownload.headers()["content-type"] ?? ""), `First private packet download returned ${firstDownload.status()}.`);
-  check(secondDownload.status() === 200 && firstHash === secondHash, `Repeat packet download returned ${secondDownload.status()} with stable bytes=${firstHash === secondHash}.`);
+  const downloadUrl = new URL(downloadHref, baseUrl);
+  assert.equal(downloadUrl.origin, new URL(baseUrl).origin, "download must stay on the verified Preview");
+  const downloadOnce = async () => {
+    const response = await context.request.get(downloadUrl.href, { headers: bypassHeaders() });
+    return { status: response.status(), contentType: response.headers()["content-type"] ?? "", bytes: await response.body() };
+  };
+  let firstBytes, firstHash, secondHash;
+  if (clinicProof) {
+    const delivery = await proveClinicFirstDelivery({
+      ...clinicProof.ports, downloadOnce,
+      generationCount: () => generationRequests.length
+    }, clinicProof.target, clinicProof.evidence);
+    firstBytes = delivery.firstBytes;
+    firstHash = delivery.firstHash;
+    secondHash = delivery.secondHash;
+  } else {
+    const firstDownload = await downloadOnce();
+    firstBytes = firstDownload.bytes;
+    firstHash = pdfSha(firstBytes);
+    check(firstDownload.status === 200 && /^application\/pdf/i.test(firstDownload.contentType), `First private packet download returned ${firstDownload.status}.`);
+    const secondDownload = await downloadOnce();
+    secondHash = pdfSha(secondDownload.bytes);
+    check(secondDownload.status === 200 && firstHash === secondHash, `Repeat packet download returned ${secondDownload.status} with stable bytes=${firstHash === secondHash}.`);
+  }
   result.packetItemId = packetItemId;
   result.screeningSessionId = screeningSessionId;
   result.generationResponseBody = generationResponseBody;
@@ -361,7 +397,14 @@ try {
     await negativePage.waitForURL((url) => url.pathname === "/briefcase");
     const denied = await negativeContext.request.get(new URL(downloadHref, baseUrl).href, { headers: bypassHeaders() });
     check(denied.status() === 404, `Participant B private artifact denial returned ${denied.status()} instead of indistinguishable 404.`);
+    if (clinicProof) clinicProof.evidence.strangerStatus = denied.status();
     await negativeContext.close();
+    const anonymousContext = await browser.newContext();
+    await attachBypass(anonymousContext);
+    const anonymous = await anonymousContext.request.get(downloadUrl.href, { headers: bypassHeaders() });
+    assert.ok([401, 404].includes(anonymous.status()), `Anonymous artifact denial returned ${anonymous.status()}`);
+    if (clinicProof) clinicProof.evidence.anonymousStatus = anonymous.status();
+    await anonymousContext.close();
 
     const staffEmail = required("RCAP_BROWSER_STAFF_EMAIL");
     const staffPassword = required("RCAP_BROWSER_STAFF_PASSWORD");
@@ -469,10 +512,16 @@ try {
     failures.push(...browserErrors);
   }
   check(stripeRequests.length === 0, `Clinic journey observed ${stripeRequests.length} Stripe or Checkout request(s).`);
+  if (result.naturalDelivery) {
+    result.naturalDelivery.stripeRequests = stripeRequests.length;
+    result.naturalDelivery.checkoutRequests = stripeRequests.filter(r => /checkout/i.test(r.path)).length;
+    result.naturalDelivery.productionMutation = false;
+  }
 
   if (failures.length > 0) {
     throw new Error(failures.join("\n"));
   }
+  if (result.naturalDelivery) writeClinicReceipt("complete", result.naturalDelivery);
 
   console.log("RCAP commercial browser proof passed.");
   console.log(`Partner start: ${new URL(`/p/${partnerSlug}`, baseUrl).href}`);
@@ -722,4 +771,251 @@ function check(condition, message) {
 function fail(message) {
   console.error(message);
   process.exit(1);
+}
+
+// These two controllers are also executed with fault-injected ports by the
+// existing Clinic contract verifier. Every write is either the ONE canonical
+// worker cycle or an actual browser request. Database probes are SELECT only.
+function pdfSha(bytes) {
+  return crypto.createHash("sha256").update(bytes).digest("hex");
+}
+
+async function runClinicTargetCycle(ports, fixture) {
+  const rows = await ports.targetJobs();
+  assert.equal(rows.length, 1, "Clinic fixture must enqueue exactly one target job");
+  const target = rows[0];
+  assert.equal(fixture.generatedItemId, fixture.packetItemId, "generation response must name the fresh fixture item");
+  assert.equal(target.sponsored_consumer_briefcase_item_id, fixture.packetItemId);
+  assert.equal(target.briefcase_item_id, fixture.packetItemId);
+  assert.equal(target.sponsored_consumer_auth_user_id, fixture.participantUserId);
+  assert.equal(target.sponsored_session_id, fixture.screeningSessionId);
+  assert.equal(target.sponsored_clinic_event_id, fixture.clinicEventId);
+  assert.equal(target.route_id, "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal");
+  assert.equal(target.sponsored_route_key, target.route_id);
+  assert.equal(target.sponsored_verification_hash, target.current_verification_hash);
+  assert.match(target.sponsored_verification_hash ?? "", /^[a-f0-9]{64}$/);
+  assert.ok(target.matter_id && target.partner_id);
+  assert.equal(target.renderer_kind, "packet_document_v1", "accepted worker must support the target renderer");
+  assert.equal(target.status, "queued");
+  assert.equal(target.attempt_count, 0, "fresh fixture cannot reuse a processed job");
+  const accountingBefore = await ports.accounting();
+  const claimOrder = await ports.readClaimOrder(target.id, target.renderer_kind);
+  assert.equal(claimOrder.readOutcome, "read");
+  assert.equal(claimOrder.targetIsClaimable, true);
+  assert.equal(claimOrder.predictedFirstClaim, target.id, "historical predecessor blocks this proof");
+  assert.equal(claimOrder.targetClaimRank, 1);
+  assert.equal(claimOrder.claimablePredecessors, 0);
+  await ports.requireNoHistoricalHousekeeping(target.id);
+  const evidence = {
+    participantId: fixture.participantUserId, briefcaseItemId: fixture.packetItemId,
+    screeningSessionId: fixture.screeningSessionId, targetRenderJobId: target.id,
+    verificationHash: target.sponsored_verification_hash, matterId: target.matter_id,
+    route: target.route_id, rendererKind: target.renderer_kind,
+    workerDigest: ports.workerDigest, preview: ports.preview,
+    claimOrder, targetBefore: target, accountingBeforeWorker: accountingBefore,
+    completionObservedBeforeRepeatDownload: false, receiptRepairPerformed: false
+  };
+  await ports.receipt("before-worker", evidence);
+  const cycle = await ports.runOneCycle(target.id);
+  await ports.receipt("worker-result", { ...evidence, cycle });
+  assert.equal(cycle.exitCode, 0, `worker failed: ${JSON.stringify(cycle.cycleResult)}`);
+  assert.equal(cycle.cycleResult?.jobId, target.id, "worker stdout must identify the target");
+  assert.equal(cycle.cycleResult?.outcome, "finalized", `target failure: ${JSON.stringify(cycle.cycleResult)}`);
+  assert.deepEqual(Array.from(cycle.rowsThatMoved ?? []).sort(), [target.id], "worker must not mutate historical jobs");
+  const finalRows = await ports.targetJobs();
+  assert.equal(finalRows.length, 1);
+  const finalized = finalRows[0];
+  for (const key of ["id", "matter_id", "route_id", "sponsored_verification_hash", "sponsored_consumer_auth_user_id", "sponsored_consumer_briefcase_item_id", "sponsored_session_id", "sponsored_clinic_event_id"]) {
+    assert.equal(finalized[key], target[key], `worker changed ${key}`);
+  }
+  assert.equal(finalized.status, "artifact_validated", "first download must begin before delivered");
+  assert.equal(finalized.delivery_eligibility, "eligible");
+  assert.equal(finalized.container_digest, ports.workerDigest);
+  assert.match(finalized.output_sha256 ?? "", /^[a-f0-9]{64}$/);
+  assert.ok(finalized.output_storage_path?.includes(target.id));
+  assert.ok(finalized.output_storage_path?.includes(finalized.output_sha256));
+  assert.ok(Number(finalized.output_byte_count) > 0);
+  evidence.workerCycle = cycle;
+  evidence.finalizedSha256 = finalized.output_sha256;
+  evidence.finalizedBytes = Number(finalized.output_byte_count);
+  evidence.storagePath = finalized.output_storage_path;
+  evidence.accountingAfterWorker = await ports.accounting();
+  await ports.receipt("artifact-ready", evidence);
+  return { target: finalized, evidence };
+}
+
+async function proveClinicFirstDelivery(ports, target, evidence) {
+  const before = await ports.deliveryState(target.id);
+  assert.equal(before.job.id, target.id);
+  assert.equal(before.job.status, "artifact_validated");
+  assert.equal(before.job.delivered_at, null);
+  assert.deepEqual(before.events, [], "fresh target must have no prior delivery requests");
+  evidence.preDownload = before;
+  evidence.sponsorshipBeforeDownload = await ports.accounting();
+  await ports.receipt("before-first-owner", evidence);
+  const first = await ports.downloadOnce();
+  const firstBytes = first.bytes;
+  const firstHash = pdfSha(firstBytes);
+  Object.assign(evidence, { ownerHttpStatus: first.status, ownerByteCount: firstBytes.length,
+    ownerSha256: firstHash, firstResponseConsumedAt: new Date().toISOString() });
+  await ports.receipt("first-owner-response", evidence);
+  assert.equal(first.status, 200);
+  assert.match(first.contentType, /^application\/pdf/i);
+  assert.ok(firstBytes.length > 0);
+  assert.equal(firstBytes.subarray(0, 5).toString("latin1"), "%PDF-");
+  assert.equal(firstBytes.length, Number(target.output_byte_count));
+  assert.equal(firstHash, target.output_sha256, "first owner bytes must match finalized artifact");
+  let state;
+  // Same bounded read-only completion wait already used by post-payment proof.
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    state = await ports.deliveryState(target.id);
+    if (state.events.some(e => ["transmission_failed", "transmission_aborted"].includes(e.event_type))) break;
+    if (state.job.status === "delivered" && state.events.some(e => e.event_type === "transmission_completed")) break;
+    await ports.sleep(500);
+  }
+  evidence.firstRequestReadback = state;
+  await ports.receipt("first-owner-readback", evidence);
+  assert.equal(state.job.id, target.id);
+  assert.equal(state.job.status, "delivered", "first request must complete naturally before repeat");
+  assert.ok(Number.isFinite(Date.parse(state.job.delivered_at)));
+  assert.equal(state.job.output_sha256, target.output_sha256);
+  assert.equal(state.job.output_storage_path, target.output_storage_path);
+  assert.deepEqual(state.events.map(e => e.event_type), ["delivery_authorized", "transmission_started", "transmission_completed"]);
+  const eventTimes = state.events.map(e => Date.parse(e.created_at));
+  assert.ok(eventTimes.every(Number.isFinite));
+  assert.ok(eventTimes.every((time, i) => i === 0 || time >= eventTimes[i - 1]));
+  const actualJob = await ports.getRenderJob(target.id);
+  assert.equal(actualJob?.id, target.id);
+  assert.equal(actualJob.status, "delivered");
+  assert.equal(actualJob.outputSha256, target.output_sha256);
+  assert.equal(actualJob.outputStoragePath, target.output_storage_path);
+  Object.assign(evidence, { deliveryEvents: state.events, delivered_at: state.job.delivered_at,
+    getRenderJob: actualJob, completionObservedBeforeRepeatDownload: true });
+  await ports.receipt("completion-before-repeat", evidence);
+  // This is deliberately unreachable on any missing/failed first receipt.
+  const second = await ports.downloadOnce();
+  const secondHash = pdfSha(second.bytes);
+  assert.equal(second.status, 200);
+  assert.equal(secondHash, firstHash, "repeat owner bytes must remain identical");
+  evidence.repeatDownloadSha256 = secondHash;
+  evidence.sponsorshipAfterRepeat = await ports.accounting();
+  assert.deepEqual(evidence.sponsorshipAfterRepeat, evidence.sponsorshipBeforeDownload, "repeat must not consume sponsorship again");
+  assert.equal(ports.generationCount(), 1, "repeat must not generate another packet");
+  await ports.receipt("repeat-owner-response", evidence);
+  return { firstBytes, firstHash, secondHash };
+}
+
+function writeClinicReceipt(name, value) {
+  fs.writeFileSync(path.join(evidenceDir, `natural-delivery-${name}.json`), `${JSON.stringify(value, null, 2)}\n`, { flag: "wx" });
+}
+
+async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningSessionId }) {
+  assert.equal(environmentClassification.previewVerified, true);
+  assert.equal(environmentClassification.deploymentId, "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ");
+  assert.equal(environmentClassification.hostname, "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app");
+  assert.equal(environmentClassification.applicationSha, "a0d0b933f7241a209379775754540fc22775f174");
+  for (const id of [packetItemId, participantUserId, screeningSessionId, clinicEventId]) assert.ok(validUuid(id));
+  const project = required("RCAP_BROWSER_ACCEPTANCE_PROJECT_REF");
+  assert.equal(project, "hyflxnlhpmiqxvvcoiia");
+  const workerSource = required("RCAP_BROWSER_WORKER_SOURCE_SHA");
+  const workerDigest = required("RCAP_BROWSER_WORKER_DIGEST");
+  assert.equal(workerSource, "615b4021f7fff4b41b774967a78f4b117cfce3e2");
+  assert.equal(workerDigest, "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b");
+  const image = `ghcr.io/roger-legalease/rcap-render-worker@${workerDigest}`;
+  const managementToken = required("SUPABASE_ACCESS_TOKEN");
+  const supabaseUrl = `https://${project}.supabase.co`;
+  const keyResponse = await fetch(`https://api.supabase.com/v1/projects/${project}/api-keys?reveal=true`, { headers: { Authorization: `Bearer ${managementToken}` } });
+  assert.ok(keyResponse.ok, "acceptance service credential read failed");
+  const service = (await keyResponse.json()).find(k => k.name === "service_role")?.api_key;
+  assert.ok(service);
+  const claims = JSON.parse(Buffer.from(service.split(".")[1], "base64url"));
+  assert.equal(claims.ref, project); assert.equal(claims.role, "service_role");
+  const sql = async query => {
+    assert.match(query.trim(), /^(select|with)\s/i, "Clinic harness database calls must be read-only");
+    const response = await fetch(`https://api.supabase.com/v1/projects/${project}/database/query`, {
+      method: "POST", headers: { Authorization: `Bearer ${managementToken}`, "Content-Type": "application/json" }, body: JSON.stringify({ query })
+    });
+    const json = await response.json();
+    assert.ok(response.ok && Array.isArray(json), `Clinic readback failed: HTTP ${response.status}`);
+    return { ok: true, status: response.status, json };
+  };
+  const targetJobs = async () => (await sql(`
+    select j.id,j.route_id,j.renderer_kind,j.status,j.attempt_count,j.max_attempts,j.matter_id,j.partner_id,
+      j.briefcase_item_id,j.sponsored_route_key,j.sponsored_session_id,j.sponsored_clinic_event_id,
+      j.sponsored_consumer_briefcase_item_id,j.sponsored_consumer_auth_user_id,j.sponsored_verification_hash,
+      j.output_sha256,j.output_storage_path,j.output_byte_count,j.container_digest,j.delivery_eligibility,
+      v.verification_hash as current_verification_hash
+    from public.packet_render_jobs j left join public.consumer_packet_verifications v
+      on v.briefcase_item_id=j.sponsored_consumer_briefcase_item_id and v.consumer_auth_user_id=j.sponsored_consumer_auth_user_id and v.status='verified'
+    where j.briefcase_item_id='${packetItemId}' or j.sponsored_consumer_briefcase_item_id='${packetItemId}'
+    order by j.created_at,j.id
+  `)).json;
+  const accounting = async () => (await sql(`select jsonb_build_object(
+    'entitlement',(select to_jsonb(e) from public.partner_entitlement e where e.partner_slug='${partnerSlug.replaceAll("'", "''")}'),
+    'generationEvents',(select coalesce(jsonb_agg(to_jsonb(a) order by a.occurred_at,a.id),'[]'::jsonb) from public.rcap_screening_analytics_events a where a.session_id='${screeningSessionId}' and a.event_type='packet_generated'),
+    'jobs',(select coalesce(jsonb_agg(j.id order by j.id),'[]'::jsonb) from public.packet_render_jobs j where j.sponsored_consumer_briefcase_item_id='${packetItemId}')
+  ) as accounting`)).json[0].accounting;
+  const paymentSource = fs.readFileSync("scripts/rcap-hosted-acceptance-payment.mjs", "utf8");
+  const ast = ts.createSourceFile("payment.mjs", paymentSource, ts.ScriptTarget.Latest, true);
+  const names = ["TERMINAL_SUCCESS", "WORKER_CLAIM_SECONDS", "CLAIM_STATE_FIELDS", "jobRowOrNull", "readJob", "claimablePredicate", "readClaimOrder", "claimStateSnapshot", "rowsThatChanged", "parseCycleResult", "classifyCycle", "cycleBoundary", "claimedTupleFor", "runOneCycle"];
+  const declarations = names.map(name => {
+    const matches = [];
+    const visit = node => {
+      if (ts.isFunctionDeclaration(node) && node.name?.text === name) matches.push(node.getText(ast));
+      if (ts.isVariableStatement(node) && node.declarationList.declarations.some(d => d.name.getText(ast) === name)) matches.push(node.getText(ast));
+      ts.forEachChild(node, visit);
+    };
+    visit(ast); assert.equal(matches.length, 1, `one canonical declaration required: ${name}`);
+    return matches[0];
+  }).join("\n");
+  const diagnostics = { cycles: [] };
+  const redact = value => [service, managementToken, bypassSecret].reduce((text, secret) => secret ? text.split(secret).join("[REDACTED]") : text, String(value ?? ""))
+    .replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "[REDACTED]")
+    .replace(/sk_(test|live)_[A-Za-z0-9]{10,}/g, "[REDACTED]")
+    .replace(/whsec_[A-Za-z0-9]{10,}/g, "[REDACTED]");
+  const context = vm.createContext({ crypto, fs, path, Buffer, console, Date, sql,
+    sqlText: value => String(value).replaceAll("'", "''"), redact, redactSecrets: redact,
+    diagnostics, itemId: packetItemId, targetJobId: null, EVIDENCE_DIR: evidenceDir,
+    containerName: `rcap-clinic-${packetItemId}`, service, SUPABASE_URL: supabaseUrl,
+    WORKER_PARTNER_DATA_FLAG: "true", WORKER_DIGEST_REF: image,
+    spawnSync(command, args, options) {
+      assert.equal(command, "docker"); assert.ok(args.includes(image)); assert.equal(args.at(-1), "--once");
+      // Same invocation and credential, transported via environment rather than argv.
+      return spawnSync(command, args.map(arg => arg.startsWith("SUPABASE_SERVICE_ROLE_KEY=") ? "SUPABASE_SERVICE_ROLE_KEY" : arg), {
+        ...options, env: { ...process.env, SUPABASE_SERVICE_ROLE_KEY: service }
+      });
+    }
+  });
+  vm.runInContext(declarations, context);
+  process.env.NEXT_PUBLIC_SUPABASE_URL = supabaseUrl;
+  process.env.SUPABASE_SERVICE_ROLE_KEY = service;
+  register("./lib/ts-esm-loader.mjs", import.meta.url);
+  const { getRenderJob } = await import("../src/lib/rcap/render/job-queue.ts");
+  return {
+    workerDigest, preview: environmentClassification, targetJobs, accounting, getRenderJob,
+    receipt: writeClinicReceipt, sleep: ms => new Promise(resolve => setTimeout(resolve, ms)),
+    readClaimOrder: (id, kind) => context.readClaimOrder(id, kind),
+    async requireNoHistoricalHousekeeping(targetId) {
+      const rows = (await sql(`select id from public.packet_render_jobs where id<>'${targetId}' and (
+        (status='queued' and attempt_count>=max_attempts)
+        or (status in ('claimed','rendering','validating') and claim_expires_at<now())
+        or (status='failed' and failure_disposition='retryable'))`)).json;
+      assert.equal(rows.length, 0, "historical housekeeping would occur; do not run the worker");
+    },
+    async runOneCycle(id) {
+      assert.equal(diagnostics.cycles.length, 0, "exactly one Clinic worker cycle");
+      context.targetJobId = id;
+      await context.runOneCycle(1, id, { targetCycles: 0, backlogCycles: 0, noJobCycles: 0, unprovenCycles: 0, backlogJobsClaimed: [] });
+      assert.equal(diagnostics.cycles.length, 1);
+      return JSON.parse(JSON.stringify(diagnostics.cycles[0]));
+    },
+    async deliveryState(id) {
+      assert.ok(validUuid(id));
+      const rows = (await sql(`select jsonb_build_object(
+        'job',(select jsonb_build_object('id',id,'status',status,'delivered_at',delivered_at,'output_sha256',output_sha256,'output_storage_path',output_storage_path) from public.packet_render_jobs where id='${id}'),
+        'events',(select coalesce(jsonb_agg(jsonb_build_object('id',id,'event_type',event_type,'created_at',created_at) order by created_at,id),'[]'::jsonb) from public.packet_delivery_events where render_job_id='${id}')
+      ) as state`)).json;
+      assert.equal(rows.length, 1); return rows[0].state;
+    }
+  };
 }

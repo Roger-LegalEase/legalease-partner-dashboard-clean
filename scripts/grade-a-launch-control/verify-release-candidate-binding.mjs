@@ -213,6 +213,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-production-legal-aid-keys.mjs',
         'scripts/verify-rcap-production-legal-aid-keys.mjs',
         'scripts/verify-rcap-commercial-browser.mjs',
+        // Bounded Clinic natural-delivery proof; exact bytes remain declared
+        // in HOSTED_TOOLS_BINDING, with application and worker inputs equal.
+        'scripts/verify-rcap-hosted-ms-clinic-preview.mjs',
+        'scripts/rcap-hosted-ms-clinic-preview-audit.mjs',
         // 2026-09-16 production incident controls: the forward migration
         // chain apply/readback and the public save-transition probe.
         'scripts/rcap-production-forward-chain-migrate.mjs',

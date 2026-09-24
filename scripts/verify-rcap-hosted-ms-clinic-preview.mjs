@@ -2,6 +2,8 @@
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import crypto from "node:crypto";
+import ts from "typescript";
 
 const entry = fs.readFileSync(".github/workflows/rcap-f1-ephemeral-staging.yml", "utf8");
 const hosted = fs.readFileSync(".github/workflows/rcap-hosted-acceptance-staging.yml", "utf8");
@@ -53,4 +55,155 @@ check("browser evidence records the screening session and server generation resp
 check("post-journey audit binds server-side Clinic, artifact, credit, and reset evidence", fs.existsSync("scripts/rcap-hosted-ms-clinic-preview-audit.mjs") && /id: clinic_audit[\s\S]{0,700}rcap-hosted-ms-clinic-preview-audit\.mjs/.test(hosted));
 check("anti-skip requires the post-journey server audit", /O_CLINIC_AUDIT:\s*\$\{\{ steps\.clinic_audit\.outcome \}\}/.test(hosted) && /require "Clinic server-side audit" "\$O_CLINIC_AUDIT"/.test(hosted));
 
-console.log(`Hosted Mississippi Clinic Preview workflow: PASS — ${checks.length}/${checks.length} contract checks.`);
+check("Clinic reuse is pinned and cannot create another Preview", /if \[ "\$PHASE" = "clinic_preview" \]; then[\s\S]*?dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ[\s\S]*?DEPLOY=false/.test(hosted)
+  && hosted.includes("if: inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy"));
+check("Clinic worker requires registry access and current database readback", hosted.includes('require "Clinic immutable worker registry access"') && hosted.includes('require "Clinic current database"'));
+
+// Execute the actual browser controllers, without starting a browser, worker,
+// or remote write. Faults must stop the real orchestration before its next
+// state-changing operation, rather than merely satisfy source-string checks.
+function controllers(source) {
+  const ast = ts.createSourceFile("browser.mjs", source, ts.ScriptTarget.Latest, true);
+  const names = ["pdfSha", "runClinicTargetCycle", "proveClinicFirstDelivery"];
+  const declarations = names.map(name => {
+    const nodes = ast.statements.filter(n => ts.isFunctionDeclaration(n) && n.name?.text === name);
+    assert.equal(nodes.length, 1, `one actual browser controller: ${name}`);
+    return nodes[0].getText(ast);
+  });
+  return new Function("assert", "crypto", `${declarations.join("\n")}\nreturn {runClinicTargetCycle,proveClinicFirstDelivery};`)(assert, crypto);
+}
+
+function fixture() {
+  const bytes = Buffer.from("%PDF-1.7\nClinic synthetic verification\n%%EOF\n");
+  const hash = crypto.createHash("sha256").update(bytes).digest("hex");
+  const identity = { packetItemId: "fixture-item", generatedItemId: "fixture-item", participantUserId: "fixture-owner", screeningSessionId: "fixture-session", clinicEventId: "fixture-event" };
+  const job = { id: "fixture-job", briefcase_item_id: identity.packetItemId,
+    sponsored_consumer_briefcase_item_id: identity.packetItemId, sponsored_consumer_auth_user_id: identity.participantUserId,
+    sponsored_session_id: identity.screeningSessionId, sponsored_clinic_event_id: identity.clinicEventId,
+    route_id: "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+    sponsored_route_key: "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+    sponsored_verification_hash: "a".repeat(64), current_verification_hash: "a".repeat(64),
+    matter_id: "fixture-matter", partner_id: "fixture-partner", renderer_kind: "packet_document_v1", status: "queued", attempt_count: 0 };
+  const workerDigest = "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b";
+  const ready = { ...job, status: "artifact_validated", output_sha256: hash, output_storage_path: `fixture-job/${hash}.pdf`,
+    output_byte_count: bytes.length, container_digest: workerDigest, delivery_eligibility: "eligible", delivered_at: null };
+  const events = ["delivery_authorized", "transmission_started", "transmission_completed"].map((event_type, i) => ({ id: `${i}`, event_type, created_at: `2026-09-24T12:00:0${i}.000Z` }));
+  const finalState = { job: { ...ready, status: "delivered", delivered_at: events[2].created_at }, events };
+  const trace = [];
+  let cycles = 0, downloads = 0, reads = 0;
+  const ports = {
+    workerDigest, preview: { deploymentId: "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ" },
+    targetJobs: async () => [cycles ? ready : job], accounting: async () => ({ consumed: 1, jobs: [job.id] }),
+    readClaimOrder: async () => {
+      trace.push("claim-order");
+      return { readOutcome: "read", targetIsClaimable: true, predictedFirstClaim: job.id, targetClaimRank: 1, claimablePredecessors: 0 };
+    },
+    requireNoHistoricalHousekeeping: async () => { trace.push("history-check"); },
+    receipt: async name => { trace.push(`receipt:${name}`); },
+    runOneCycle: async id => {
+      assert.ok(trace.includes("claim-order") && trace.includes("history-check") && trace.includes("receipt:before-worker"), "worker cannot precede target-first proof and receipt");
+      assert.equal(id, job.id); assert.equal(cycles++, 0); trace.push("worker");
+      return { exitCode: 0, cycleResult: { jobId: job.id, outcome: "finalized" }, rowsThatMoved: [job.id] };
+    },
+    deliveryState: async () => {
+      trace.push("delivery-read"); reads += 1;
+      // First post-response read is deliberately incomplete.
+      return reads < 3 ? { job: ready, events: [] } : structuredClone(finalState);
+    },
+    downloadOnce: async () => {
+      downloads += 1;
+      if (downloads === 2) assert.ok(trace.includes("real-reader") && trace.includes("receipt:completion-before-repeat"), "repeat cannot cause first-request completion");
+      assert.ok(downloads <= 2); trace.push(`download:${downloads}`);
+      return { status: 200, contentType: "application/pdf", bytes };
+    },
+    getRenderJob: async id => { assert.equal(id, job.id); trace.push("real-reader"); return { id, status: "delivered", outputSha256: hash, outputStoragePath: ready.output_storage_path }; },
+    generationCount: () => 1, sleep: async () => { trace.push("read-only-wait"); }
+  };
+  return { identity, job, ready, finalState, ports, trace, counts: () => ({ cycles, downloads }) };
+}
+
+const actual = controllers(browser);
+const positive = fixture();
+const proof = await actual.runClinicTargetCycle(positive.ports, positive.identity);
+await actual.proveClinicFirstDelivery(positive.ports, proof.target, proof.evidence);
+check("actual Clinic controllers retain delayed first-request completion before repeat", proof.evidence.completionObservedBeforeRepeatDownload === true
+  && proof.evidence.receiptRepairPerformed === false && positive.trace.includes("read-only-wait")
+  && positive.counts().cycles === 1 && positive.counts().downloads === 2);
+
+for (const [label, change] of [
+  ["claimable predecessor", f => { f.ports.readClaimOrder = async () => ({ readOutcome: "read", targetIsClaimable: true, predictedFirstClaim: "historical-job", targetClaimRank: 2, claimablePredecessors: 1 }); }],
+  ["unreadable claim order", f => { f.ports.readClaimOrder = async () => ({ readOutcome: "query_error" }); }],
+  ["another item's job", f => { f.job.sponsored_consumer_briefcase_item_id = "other-item"; }],
+  ["another owner", f => { f.job.sponsored_consumer_auth_user_id = "other-owner"; }],
+  ["changed verification", f => { f.job.current_verification_hash = "b".repeat(64); }],
+  ["unsupported renderer", f => { f.job.renderer_kind = "unsupported"; }],
+  ["duplicate targets", f => { f.ports.targetJobs = async () => [f.job, f.job]; }],
+  ["historical housekeeping", f => { f.ports.requireNoHistoricalHousekeeping = async () => { throw Error("historical job would move"); }; }],
+  ["failed pre-worker receipt", f => { f.ports.receipt = async () => { throw Error("disk receipt failed"); }; }]
+]) {
+  const f = fixture(); change(f);
+  await assert.rejects(actual.runClinicTargetCycle(f.ports, f.identity));
+  check(`${label} blocks the worker entirely`, f.counts().cycles === 0 && f.counts().downloads === 0);
+}
+for (const [label, change] of [
+  ["worker reports another job", cycle => { cycle.cycleResult.jobId = "other-job"; }],
+  ["target is retryable", cycle => { cycle.cycleResult = { jobId: "fixture-job", outcome: "failed", disposition: "retryable", errorCode: "storage_failure" }; }],
+  ["worker changes historical state", cycle => { cycle.rowsThatMoved.push("historical-job"); }]
+]) {
+  const f = fixture(), run = f.ports.runOneCycle;
+  f.ports.runOneCycle = async id => { const cycle = await run(id); change(cycle); return cycle; };
+  await assert.rejects(actual.runClinicTargetCycle(f.ports, f.identity));
+  check(`${label} stops without a retry or download`, f.counts().cycles === 1 && f.counts().downloads === 0);
+}
+for (const [label, change] of [
+  ["missing completion", f => { f.ports.deliveryState = async () => ({ job: f.ready, events: [] }); }],
+  ["aborted transmission", f => { f.finalState.events[2].event_type = "transmission_aborted"; }],
+  ["failed transmission", f => { f.finalState.events[2].event_type = "transmission_failed"; }],
+  ["unordered events", f => { f.finalState.events.reverse(); }],
+  ["missing delivered timestamp", f => { f.finalState.job.delivered_at = null; }],
+  ["null real reader", f => { f.ports.getRenderJob = async () => null; }],
+  ["wrong real reader identity", f => { f.ports.getRenderJob = async () => ({ id: "other-job", status: "delivered" }); }],
+  ["incorrect finalized hash", f => { f.ready.output_sha256 = "b".repeat(64); }],
+  ["incorrect finalized byte count", f => { f.ready.output_byte_count += 1; }],
+  ["failed completion evidence write", f => { const receipt = f.ports.receipt; f.ports.receipt = async name => { if (name === "completion-before-repeat") throw Error("receipt failed"); await receipt(name); }; }]
+]) {
+  const f = fixture(); change(f);
+  await assert.rejects(actual.proveClinicFirstDelivery(f.ports, f.ready, {}));
+  check(`${label} cannot be repaired by a repeat request`, f.counts().downloads === 1);
+}
+
+function assertBrowserWiring(source) {
+  assert.match(source, /await runClinicTargetCycle\(ports,/);
+  assert.match(source, /await proveClinicFirstDelivery\(/);
+  assert.match(source, /bytes: await response\.body\(\)/);
+  assert.match(source, /const \{ getRenderJob \} = await import\("\.\.\/src\/lib\/rcap\/render\/job-queue\.ts"\)/);
+  assert.match(source, /workerDigest, preview: environmentClassification, targetJobs, accounting, getRenderJob,/);
+  assert.match(source, /assert\.ok\(\[401, 404\]\.includes\(anonymous\.status\(\)\)/);
+  assert.match(source, /anonymousContext\.request\.get\(downloadUrl\.href/);
+  assert.match(source, /assert\.equal\(firstHash, target\.output_sha256/);
+  assert.doesNotMatch(source, /record_packet_delivery_event|recordDeliveryEvent\s*\(|\bupdate\s+(?:public\.)?packet_render_jobs\b|\.update\(\s*\{\s*(?:status|delivered_at)/i);
+}
+assertBrowserWiring(browser);
+check("actual browser wires full-body download, real reader, exact hash and anonymous denial without receipt writes", true);
+for (const [label, from, to] of [
+  ["direct event write", "// These two controllers", "await sql('select record_packet_delivery_event()');\n// These two controllers"],
+  ["direct status update", "// These two controllers", "await sql(\"update public.packet_render_jobs set status='delivered'\");\n// These two controllers"],
+  ["missing anonymous denial", "assert.ok([401, 404].includes(anonymous.status())", "assert.ok(true"],
+  ["missing real reader", 'const { getRenderJob } = await import("../src/lib/rcap/render/job-queue.ts")', 'const getRenderJob = async () => ({status:"delivered"})'],
+  ["missing artifact hash comparison", "assert.equal(firstHash, target.output_sha256", "assert.equal(firstHash, firstHash"]
+]) {
+  assert.ok(browser.includes(from));
+  assert.throws(() => assertBrowserWiring(browser.replace(from, to)));
+  check(`proof verifier rejects ${label}`, true);
+}
+const premature = browser.replace('const claimOrder = await ports.readClaimOrder(target.id, target.renderer_kind);', 'await ports.runOneCycle(target.id);\n  const claimOrder = await ports.readClaimOrder(target.id, target.renderer_kind);');
+const f = fixture();
+await assert.rejects(controllers(premature).runClinicTargetCycle(f.ports, f.identity), /worker cannot precede/);
+check("proof verifier rejects a worker before target-first claim order", f.counts().cycles === 0);
+const earlyRepeat = browser.replace('let state;\n  // Same bounded', 'await ports.downloadOnce();\n  let state;\n  // Same bounded');
+assert.notEqual(earlyRepeat, browser);
+const repeated = fixture();
+await assert.rejects(controllers(earlyRepeat).proveClinicFirstDelivery(repeated.ports, repeated.ready, {}), /repeat cannot cause/);
+check("proof verifier rejects repeat before first completion is observed", true);
+
+console.log(`Hosted Mississippi Clinic Preview workflow: PASS — ${checks.length}/${checks.length} contract and behavioral checks.`);

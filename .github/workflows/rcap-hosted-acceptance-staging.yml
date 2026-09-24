@@ -375,11 +375,6 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-hosted-legal-aid-migrate.mjs
 
-      - name: Verify the bounded MVL Clinic Preview orchestration contract
-        id: verify_clinic_preview
-        if: inputs.phase == 'clinic_preview' || inputs.phase == 'legal_aid_browser'
-        run: node scripts/verify-rcap-hosted-ms-clinic-preview.mjs
-
       - name: Verify the hosted Legal Aid Clinic Mode browser contract
         id: verify_legal_aid_browser
         if: inputs.phase == 'legal_aid_browser'
@@ -435,6 +430,12 @@ jobs:
               exit 1
               ;;
           esac
+          if [ "$PHASE" = "clinic_preview" ]; then
+            test '${{ inputs.preview_deployment_id }}' = 'dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ'
+            test '${{ inputs.preview_hostname }}' = 'legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app'
+            test '${{ inputs.application_sha }}' = 'a0d0b933f7241a209379775754540fc22775f174'
+            DEPLOY=false
+          fi
           {
             echo "phase=$PHASE"
             echo "deploy=$DEPLOY"
@@ -489,6 +490,11 @@ jobs:
         id: gate_deps
         if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
         run: npm ci
+
+      - name: Verify the bounded MVL Clinic Preview orchestration contract
+        id: verify_clinic_preview
+        if: inputs.phase == 'clinic_preview' || inputs.phase == 'legal_aid_browser'
+        run: node scripts/verify-rcap-hosted-ms-clinic-preview.mjs
 
       - name: Verify the reuse-only human Checkout gate
         id: verify_checkout_gate
@@ -577,7 +583,7 @@ jobs:
         id: deploy_preview
         # Suppressed entirely when the resolver reused an exact READY Preview:
         # reuse means no Vercel deployment command runs at all.
-        if: steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
+        if: inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -638,7 +644,7 @@ jobs:
 
       - name: Log in to the container registry for the pinned worker image
         id: registry_login
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.clinic == 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -672,6 +678,14 @@ jobs:
           HOSTED_CLINIC_DEMO_ACCESS_CODE: ${{ secrets.HOSTED_CLINIC_DEMO_ACCESS_CODE }}
         run: node scripts/rcap-hosted-ms-clinic-preview-seed.mjs
 
+      - name: Verify current acceptance schema before the Clinic worker cycle
+        id: clinic_database_readback
+        if: steps.contract.outputs.clinic == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+        run: node scripts/verify-rcap-packet-database.mjs
+
       - name: Run the MVL Clinic screening-to-packet journey without Stripe
         id: clinic_journey
         if: steps.contract.outputs.clinic == 'true'
@@ -695,6 +709,9 @@ jobs:
           RCAP_BROWSER_ACCEPTANCE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           RCAP_BROWSER_EXPECTED_SCOPE_SHA256: ${{ steps.auth_identities.outputs.staging_scope_sha256 }}
           RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          RCAP_BROWSER_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_BROWSER_WORKER_DIGEST: ${{ inputs.worker_digest }}
           RCAP_BROWSER_ALLOW_MUTATION: "1"
           RCAP_BROWSER_EVIDENCE_DIR: hosted-acceptance-evidence/ms-clinic-preview
         run: node scripts/verify-rcap-commercial-browser.mjs
@@ -931,6 +948,8 @@ jobs:
           O_VERIFY_CLINIC_PREVIEW: ${{ steps.verify_clinic_preview.outcome }}
           O_CLINIC_SEED: ${{ steps.clinic_seed.outcome }}
           O_CLINIC_JOURNEY: ${{ steps.clinic_journey.outcome }}
+          O_CLINIC_DATABASE: ${{ steps.clinic_database_readback.outcome }}
+          O_REGISTRY_LOGIN: ${{ steps.registry_login.outcome }}
           O_CLINIC_AUDIT: ${{ steps.clinic_audit.outcome }}
           O_RESOLVE: ${{ steps.resolve_preview.outcome }}
           O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
@@ -988,6 +1007,8 @@ jobs:
             require "acceptance Auth and MVL identities" "$O_AUTH"
             require "frozen dependencies" "$O_DEPS"
             require "Clinic synthetic seed" "$O_CLINIC_SEED"
+            require "Clinic current database" "$O_CLINIC_DATABASE"
+            require "Clinic immutable worker registry access" "$O_REGISTRY_LOGIN"
             require "Clinic screening-to-packet journey" "$O_CLINIC_JOURNEY"
             require "Clinic server-side audit" "$O_CLINIC_AUDIT"
             if [ "$RUNS_LEGAL_AID" = "true" ]; then

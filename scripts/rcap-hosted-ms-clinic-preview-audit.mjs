@@ -105,6 +105,15 @@ const checks = {
     && server?.provenance?.entitlement_source === "partner_sponsorship"
     && provenanceArtifact.artifactSha256 === browser.artifactSha256
     && browser.repeatDownloadSha256 === browser.artifactSha256,
+  naturalFirstDelivery: server?.render_jobs?.length === 1
+    && server.render_jobs[0].id === browser.naturalDelivery?.targetRenderJobId
+    && server.render_jobs[0].status === "delivered"
+    && server.render_jobs[0].output_sha256 === browser.artifactSha256
+    && browser.naturalDelivery?.getRenderJob?.id === server.render_jobs[0].id
+    && browser.naturalDelivery?.getRenderJob?.status === "delivered"
+    && browser.naturalDelivery?.completionObservedBeforeRepeatDownload === true
+    && browser.naturalDelivery?.receiptRepairPerformed === false
+    && [401, 404].includes(browser.naturalDelivery?.anonymousStatus),
   oneIncludedSponsorCredit: Number(server?.credit_event_count) === 1
     && server?.credit_event?.counted_as === "included"
     && server?.credit_event?.clinic_event_id === EVENT_ID
@@ -125,9 +134,9 @@ const evidence = {
   screeningSessionId: browser.screeningSessionId,
   briefcaseMatterId: itemId,
   renderOperation: {
-    mode: "synchronous_grade_a_composer",
+    mode: "durable_sponsored_render_job",
     queuedRenderJobId: server?.render_jobs?.[0]?.id ?? null,
-    note: "This sponsored route composes and validates the PDF synchronously; packet_render_jobs is not its execution path."
+    note: "One target-first immutable worker cycle; first owner request naturally completed delivery before any repeat request."
   },
   sponsorCreditIdempotencyKeySha256: expectedIdempotencyKey,
   checks,
