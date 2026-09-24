@@ -23,6 +23,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
+import { assertPreviewResponse, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA } from "./rcap-hosted-vercel-rest-transport.mjs";
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import {
   expectedHostedReturnOrigin,
@@ -54,6 +55,7 @@ if (!/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
   console.error("PREVIEW RESOLUTION: HOSTED_APPLICATION_SHA must be one exact lowercase 40-character SHA");
   process.exit(1);
 }
+if (APPLICATION_SHA !== FROZEN_APPLICATION_SHA) throw new Error("PREVIEW_FROZEN_APPLICATION_MISMATCH");
 if (PROJECT_REF !== EXPECTED_PROJECT_REF) {
   console.error("PREVIEW RESOLUTION: ACCEPTANCE_SUPABASE_PROJECT_REF is not the pinned acceptance project");
   process.exit(1);
@@ -102,6 +104,7 @@ function emit(outcome, extra = {}) {
     target: extra.target ?? null,
     applicationSha: extra.applicationSha ?? null,
     acceptanceProjectRef: PROJECT_REF || null,
+    workerBinding: FROZEN_WORKER_METADATA,
     // Emitted explicitly, always — an unstated route state is how a disabled
     // Preview passed for a staging-scoped one.
     routeState: extra.routeState ?? null,
@@ -151,6 +154,8 @@ async function findExistingExactPreview() {
     let full;
     try { full = await api(`/v13/deployments/${encodeURIComponent(id)}`); } catch { continue; }
     const meta = full.meta ?? {};
+    try { assertPreviewResponse(full, { rcapApplicationSha: APPLICATION_SHA, ...FROZEN_WORKER_METADATA }, id); }
+    catch { examined.push({ id, matches: false, reason: "source_target_or_worker_binding_mismatch" }); continue; }
     const state = routeStateOf(full);
     const matches = (full.readyState ?? full.status) === "READY"
       && isPreviewTarget(full.target)
@@ -233,6 +238,12 @@ const deploymentId = deployment.id ?? deployment.uid ?? null;
 const readyState = deployment.readyState ?? deployment.status ?? null;
 const target = deployment.target ?? null;
 const meta = deployment.meta ?? {};
+try {
+  assertPreviewResponse(deployment, { rcapApplicationSha: APPLICATION_SHA, ...FROZEN_WORKER_METADATA }, DEPLOYMENT_ID_INPUT || undefined);
+  ok("deployment_source_and_accepted_worker_match", `${deployment.gitSource.sha}; ${meta.rcapWorkerDigest}`);
+} catch (error) {
+  bad("deployment_source_and_accepted_worker_match", error.message);
+}
 const resolvedHost = EXPECTED_RETURN_HOST;
 
 deploymentId ? ok("deployment_id_resolved", deploymentId) : bad("deployment_id_resolved", "Vercel returned no deployment id");

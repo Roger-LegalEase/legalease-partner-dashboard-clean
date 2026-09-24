@@ -2,10 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import crypto from 'node:crypto';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {CANDIDATE_PATH, verifyReleaseCandidateBinding} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
-import {createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
-import {resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
+import {assertPreviewResponse, createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
+import {hostedVercelScopedUrl, resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
 function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
@@ -16,7 +19,7 @@ function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
   // running on `CATALOG_PRODUCT_ID is not defined` rather than on a contract.
   const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,acceptanceServerSecret:(purpose,bytes)=>Buffer.alloc(bytes,7),Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
   const env=vm.runInNewContext(source.slice(source.indexOf('const runtimeEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
-  return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
+  return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{...FROZEN_WORKER_METADATA,rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
 }
 function response(o,changes={}) {return {id:'dpl_Synthetic123',url:'synthetic-preview.vercel.app',target:null,projectId:HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:FROZEN_APPLICATION_SHA},meta:o.meta,readyState:'READY',...changes};}
 function mock(o,{status=200,changes={}}={}) {
@@ -41,6 +44,16 @@ test('exact team/project/SHA and per-deployment runtime/build values; no product
 test('wrong team, project, project name, SHA, acceptance project and live Stripe refuse before HTTP',async()=>{
   for(const patch of [{identity:{...identity,teamId:'team_wrong'}},{identity:{...identity,projectId:'prj_wrong'}},{identity:{...identity,projectName:'wrong'}},{applicationSha:'0'.repeat(40)},{meta:{...fixture().meta,rcapAcceptanceProjectRef:'wrong'}},{runtimeEnv:{...fixture().runtimeEnv,STRIPE_SECRET_KEY:'sk_live_never'}},{buildEnv:{...fixture().buildEnv,VERCEL_ENV:'production'}}]) {
     const o={...fixture(),...patch};const m=mock(o);await assert.rejects(createRestPreview(o,m));assert.equal(m.calls.length,0);
+  }
+});
+test('every accepted worker identity is required in request and remote readback',async()=>{
+  for(const key of Object.keys(FROZEN_WORKER_METADATA)) for(const value of [undefined,'wrong']) {
+    const o=fixture();o.meta[key]=value;const m=mock(o);
+    await assert.rejects(createRestPreview(o,m),/REST_ACCEPTED_WORKER_MISMATCH/);
+    assert.equal(m.calls.length,0);
+    const valid=fixture();const remote=mock(valid,{changes:{meta:{...valid.meta,[key]:value}}});
+    await assert.rejects(createRestPreview(valid,remote),/REST_ACCEPTED_WORKER_MISMATCH/);
+    assert.equal(remote.calls.length,1);
   }
 });
 test('REST identity resolves pinned name, ID and owner and refuses wrong owners before creation',async()=>{
@@ -192,7 +205,7 @@ test('build polling is GET-only, exact ID-bound, and never creates twice',async(
   assert.equal(r.creationCalls,1);assert.deepEqual(calls.map(c=>c.init.method),['POST','GET']);assert.match(calls[1].url,/\/dpl_Synthetic123\?teamId=team_/);
   const m=mock(o,{changes:{readyState:'BUILDING'}});await assert.rejects(createRestPreview(o,{...m,maxPolls:0}),/REST_BUILD_TIMEOUT_NO_RETRY/);assert.equal(m.calls.length,1);
 });
-test('reuse, metadata inputs, snapshots and post-probes preserved; alias gated after identity',()=>{
+test('unchanged runtime environment and probes preserved; alias gated after exact identity',()=>{
   // Re-pinned from 6a0217b024c to 7d606f90a, the commit that owns these
   // segments today. Two of the four had legitimately moved forward since
   // 6a0217b: findReusableDeployment gained the rcapCatalogProduct
@@ -205,7 +218,10 @@ test('reuse, metadata inputs, snapshots and post-probes preserved; alias gated a
   // rather than two different ones that only happened to align at 6a0217b.
   const baseline=execFileSync('git',['show','7d606f90ac9f750f94d2c7b99a3bb2c38f2fb2a3:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
   const segment=(s,a,b)=>s.slice(s.indexOf(a),s.indexOf(b,s.indexOf(a)));
-  for(const [a,b] of [['async function findReusableDeployment()','// Resolve the acceptance'],['const runtimeEnv =','const deploymentMeta ='],['// --- 0. Before-picture','// --- 0b.'],['// --- 2b.','// --- verdict']]) {
+  // Reuse and before/after snapshots now bind the accepted worker and require
+  // successful readback. Their new behavior is executed below; the unchanged
+  // application environment and remote probe bodies retain the historical check.
+  for(const [a,b] of [['const runtimeEnv =','const deploymentMeta ='],['// --- 4. Probe','// --- verdict']]) {
     assert.notEqual(segment(source,a,b),'',a);
     assert.equal(segment(source,a,b),segment(baseline,a,b));
   }
@@ -249,4 +265,93 @@ test('state fallback, ambiguous creation and timeouts keep distinct evidence',as
   await assert.rejects(createRestPreview(o,{...m,onState:r=>saved.push(r)}),/REST_BUILD_ERROR/);assert.equal(saved.at(-1).state,'ERROR');
   const ambiguous=[];await assert.rejects(createRestPreview(o,{onState:r=>ambiguous.push(r),fetchImpl:async()=>{throw Error('network');}}));assert.equal(ambiguous.at(-1).creationPostCount,1);assert.equal(ambiguous.at(-1).creationHttpStatus,null);assert.equal(ambiguous.at(-1).phase,'CREATE_ATTEMPTED');
   const timeout=[];await assert.rejects(createRestPreview(o,{...mock(o,{changes:{readyState:'BUILDING'}}),onState:r=>timeout.push(r),maxPolls:0}),/REST_BUILD_TIMEOUT_NO_RETRY/);assert.equal(timeout.at(-1).readyState,'BUILDING');assert.equal(timeout.at(-1).pollTimedOut,true);
+});
+
+// Execute the actual deploy/resolver program and REST transport with provider
+// responses at the fetch boundary. No deployment, Auth or queue call is real.
+async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=200, afterEnvChanged=false, reused=false, remotePatch={}, receiptFailure=false}={}) {
+  const calls=[], writes=new Map(); let deployment=null, aliasBound=reused, envReads=0;
+  const owner='b6dc86a3-12bb-490d-b130-48d95d426a1e';
+  const origin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA);
+  const meta={...fixture('staging_scoped').meta,rcapCatalogProduct:'prod_synthetic',rcapStagingScopeSha256:crypto.createHash('sha256').update(owner).digest('hex')};
+  const remote=()=>({...response({meta}),...remotePatch});
+  if(reused) deployment=remote();
+  const fetchImpl=async(input,init={})=>{
+    const url=new URL(input); const method=init.method??'GET';calls.push({url:String(url),method,body:init.body});
+    const reply=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
+    if(url.pathname.endsWith('/env')) {
+      envReads++;return reply({envs:[{key:'PRODUCTION_SENTINEL',target:['production'],updatedAt:afterEnvChanged&&envReads>1?2:1}]},boundaryStatus);
+    }
+    if(url.pathname.startsWith('/v9/projects/'))return reply({...identity,id:identity.projectId,name:identity.projectName,accountId:identity.teamId,alias:[{target:'PRODUCTION',domain:'production.example.test'}]});
+    if(url.pathname.endsWith('/api-keys')) return reply([{name:'anon',api_key:'synthetic-anon'},{name:'service_role',api_key:'synthetic-service'}]);
+    if(url.pathname.endsWith('/database/query')) return reply(missingOwner?[]:[{id:owner}]);
+    if(url.pathname==='/v6/deployments') return reply({deployments:deployment?[{...deployment,uid:deployment.id}]:[]});
+    if(url.pathname==='/v13/deployments'&&method==='POST') {
+      const body=JSON.parse(init.body);deployment={...response({meta:body.meta}),...remotePatch};return reply(deployment);
+    }
+    if(url.pathname.endsWith('/aliases')) {
+      if(method==='POST'){assert.equal(JSON.parse(init.body).alias,new URL(origin).host);aliasBound=true;return reply({});}
+      return reply({aliases:[]});
+    }
+    if(url.pathname.startsWith('/v13/deployments/')) {
+      if(url.pathname.endsWith(new URL(origin).host)&&!aliasBound)return reply({},404);
+      return deployment?reply(deployment):reply({},404);
+    }
+    if(url.pathname==='/api/health')return reply({checks:{database:'ok'}});
+    if(url.pathname==='/api/expungement-ai/packet/render')return reply({error:'unauthorized'},401);
+    throw new Error(`unexpected provider call ${method} ${url.pathname}`);
+  };
+  const env={VERCEL_TOKEN:'synthetic-token',SUPABASE_ACCESS_TOKEN:'synthetic-access',ACCEPTANCE_SUPABASE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',HOSTED_APPLICATION_SHA:FROZEN_APPLICATION_SHA,HOSTED_ROUTE_STATE:'staging_scoped',HOSTED_EXISTING_PARTICIPANT_ONLY:'true',HOSTED_REQUIRE_STAGING_SCOPED:'true',HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic',HOSTED_STRIPE_CATALOG_PRODUCT_ID:'prod_synthetic'};
+  if(name==='rcap-hosted-resolve-preview.mjs')env.HOSTED_PREVIEW_DEPLOYMENT_ID='dpl_Synthetic123';
+  const program=fs.readFileSync(new URL(`./${name}`,import.meta.url),'utf8').replace(/^#![^\n]*\n/,'').replace(/^import[\s\S]*?;\n/gm,'').replaceAll('import.meta.url',JSON.stringify(new URL(`./${name}`,import.meta.url).href));
+  let exitCode=0,error=null;
+  const context={crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse,createRestPreview:options=>createRestPreview(options,{fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
+  try {await vm.runInNewContext(`(async()=>{${program}\n})()`,context);} catch(e){exitCode=e.exitCode??1;error=e.message;}
+  return {exitCode,error,calls,writes,meta};
+}
+
+test('actual replacement Preview loop creates once, preserves Production and uses the existing owner',async()=>{
+  const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs');
+  assert.equal(r.exitCode,0,r.error);
+  const e=r.writes.get('deploy.json');assert.equal(e.passed,true);
+  assert.equal(e.deployment.target,null);assert.equal(e.deployment.readyState,'READY');assert.equal(e.deployment.gitSourceSha,FROZEN_APPLICATION_SHA);
+  for(const [key,value] of Object.entries(FROZEN_WORKER_METADATA))assert.equal(e.deployment.metadata[key],value);
+  assert.deepEqual(e.productionBefore,e.productionAfter);
+  assert.deepEqual(e.syntheticConsumerBootstrap,['reused_acceptance-consumer-a']);
+  assert.equal(r.calls.filter(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments').length,1);
+  assert.equal(r.calls.some(c=>c.url.includes('/auth/v1/admin')),false);
+  assert.equal(r.calls.some(c=>c.method!=='GET'&&c.url.includes('/projects/')&&!c.url.includes('/database/query')),false);
+});
+
+test('actual replacement Preview refuses missing existing owner and unreadable boundary before create',async()=>{
+  for(const options of [{missingOwner:true},{boundaryStatus:403}]) {
+    const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',options);
+    assert.equal(r.exitCode,1);
+    assert.equal(r.calls.some(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments'),false);
+    assert.equal(r.calls.some(c=>c.url.includes('/auth/v1/admin')),false);
+  }
+});
+
+test('actual Preview rejects source/worker/target drift before aliasing and never repeats a creation',async()=>{
+  for(const remotePatch of [{target:'production'},{gitSource:{sha:'0'.repeat(40)}},{meta:{...fixture().meta,rcapWorkerDigest:'sha256:'+'0'.repeat(64)}}]) {
+    const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{remotePatch});assert.equal(r.exitCode,1);
+    assert.equal(r.calls.filter(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments').length,1);
+    assert.equal(r.calls.some(c=>c.method==='POST'&&c.url.includes('/aliases')),false);
+  }
+  const receipt=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{receiptFailure:true});
+  assert.equal(receipt.exitCode,1);assert.equal(receipt.error,'RECEIPT_WRITE_FAILED');
+  assert.equal(receipt.calls.filter(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments').length,1);
+  assert.equal(receipt.calls.some(c=>c.method==='POST'&&c.url.includes('/aliases')),false);
+  const changed=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{afterEnvChanged:true});
+  assert.equal(changed.exitCode,1);assert.equal(changed.writes.get('deploy.json').passed,false);
+  assert(changed.writes.get('deploy.json').failedCases.includes('production_environment_variables_unchanged'));
+});
+
+test('actual resolver accepts exact READY Preview and rejects wrong worker, source, project and target without writes',async()=>{
+  for(const remotePatch of [{},{target:'production'},{gitSource:{sha:'0'.repeat(40)}},{projectId:'prj_wrong'},{meta:{...fixture().meta,rcapWorkerDigest:'sha256:'+'0'.repeat(64)}}]) {
+    const r=await executePreviewProgram('rcap-hosted-resolve-preview.mjs',{reused:true,remotePatch});
+    assert.equal(r.exitCode,Object.keys(remotePatch).length?1:0,r.error);
+    assert.equal(r.writes.get('preview-resolution.json')?.outcome,Object.keys(remotePatch).length?'refused_no_exact_preview':'reused_exact_ready_preview');
+    assert.equal(r.calls.some(c=>c.method!=='GET'&&new URL(c.url).hostname==='api.vercel.com'),false);
+  }
 });

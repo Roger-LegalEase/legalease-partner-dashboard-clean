@@ -6,7 +6,13 @@ import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_N
 // Preview source is the validated release candidate's application, independent
 // of its reusable worker source and later tools commit. Read the canonical
 // binding from this checkout, never a caller-supplied SHA or the branch tip.
-export const FROZEN_APPLICATION_SHA = requireCurrentReleaseCandidate(fileURLToPath(new URL('..', import.meta.url))).applicationSha;
+const release = requireCurrentReleaseCandidate(fileURLToPath(new URL('..', import.meta.url)));
+export const FROZEN_APPLICATION_SHA = release.applicationSha;
+export const FROZEN_WORKER_METADATA = Object.freeze({
+  rcapWorkerSourceSha: release.workerSourceSha,
+  rcapWorkerDigest: release.workerDigest,
+  rcapWorkerInputFingerprint: release.workerInputFingerprint
+});
 export const CREATE_PREVIEW_URL = `https://api.vercel.com/v13/deployments?teamId=${HOSTED_VERCEL_TEAM_ID}`;
 const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 
@@ -16,6 +22,7 @@ const ACCEPTANCE_PROJECT = 'hyflxnlhpmiqxvvcoiia';
 export function createPreviewRequest({identity, applicationSha, runtimeEnv, buildEnv, meta}) {
   if (identity?.teamId !== HOSTED_VERCEL_TEAM_ID || identity?.projectId !== HOSTED_VERCEL_PROJECT_ID || identity?.projectName !== HOSTED_VERCEL_PROJECT_NAME) throw new Error('REST_PINNED_IDENTITY_MISMATCH');
   if (applicationSha !== FROZEN_APPLICATION_SHA || meta?.rcapApplicationSha !== applicationSha || meta?.rcapAcceptanceProjectRef !== ACCEPTANCE_PROJECT || meta?.rcapReturnOrigin !== expectedHostedReturnOrigin(applicationSha)) throw new Error('REST_FROZEN_METADATA_MISMATCH');
+  if (Object.entries(FROZEN_WORKER_METADATA).some(([key,value]) => meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
   for (const name of ['rcapStripeConfigured','rcapRouteState','rcapClinicDemoMode','rcapStagingScopeSha256']) if (typeof meta[name] !== 'string') throw new Error('REST_METADATA_MISSING');
   for (const env of [runtimeEnv, buildEnv]) {
     if (!env || Object.values(env).some(value => typeof value !== 'string')) throw new Error('REST_ENV_INVALID');
@@ -38,6 +45,7 @@ export function assertPreviewResponse(d, expectedMeta, expectedId) {
   if (!Object.hasOwn(d, 'target') || (d.target !== null && d.target !== 'preview')) throw new Error('REST_NON_PREVIEW_REFUSED');
   if (!/^[a-z0-9-]+\.vercel\.app$/.test(d.url ?? '')) throw new Error('REST_DEPLOYMENT_URL_INVALID');
   if (d.projectId !== HOSTED_VERCEL_PROJECT_ID || d.gitSource?.sha !== FROZEN_APPLICATION_SHA) throw new Error('REST_DEPLOYMENT_SOURCE_MISMATCH');
+  if (Object.entries(FROZEN_WORKER_METADATA).some(([key,value]) => d.meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
   if (Object.entries(expectedMeta).some(([key,value]) => d.meta?.[key] !== value)) throw new Error('REST_DEPLOYMENT_METADATA_MISMATCH');
   return d;
 }

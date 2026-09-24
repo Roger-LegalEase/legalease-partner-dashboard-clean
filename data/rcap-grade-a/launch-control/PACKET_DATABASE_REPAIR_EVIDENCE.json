@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-packet-database-repair-evidence/v1",
-  "recordedAt": "2026-09-24T13:18:55.715Z",
-  "status": "DATABASE_AND_QUEUE_CORRECTED_SUCCESSOR_PUBLISHED_READ_ONLY_IMAGE_ACCEPTANCE_PENDING",
+  "recordedAt": "2026-09-24T14:08:52.510Z",
+  "status": "DATABASE_QUEUE_AND_IMAGE_VERIFIED_SUCCESSOR_PREVIEW_PREPARED_NOT_DEPLOYED",
   "reviewedIntegratedBaseline": "5f1c8204c4d4325c3f1706e5941ace94977fc78f",
   "implementationCommit": "4cfb78749edb6f6241df6f12c9c529f96f0886bc",
   "branch": "codex/packet-database-repair-345",
@@ -3211,7 +3211,7 @@
               "scripts/verify-rcap-worker-source-binding-exception.mjs"
             ],
             "exitCode": 0,
-            "stdout": "verify-rcap-worker-source-binding-exception passed.\n  no source-binding exception is in force.\n  the record is history for 5ac0d8d6910a\u2026 -> sha256:4e5b58e449228\u2026 (run 32307070302),\n  and names neither the accepted source a7ca0201fa8e\u2026 nor the digest under acceptance.\n  reusable: false; OCI revision present: false; provenance present: false\n  future publications record org.opencontainers.image.revision, so the next image needs no exception.\n  a contradictory revision still fails: the exception compensates for absence, never for disagreement.\n",
+            "stdout": "verify-rcap-worker-source-binding-exception passed.\n  no source-binding exception is in force.\n  the record is history for 5ac0d8d6910a… -> sha256:4e5b58e449228… (run 32307070302),\n  and names neither the accepted source a7ca0201fa8e… nor the digest under acceptance.\n  reusable: false; OCI revision present: false; provenance present: false\n  future publications record org.opencontainers.image.revision, so the next image needs no exception.\n  a contradictory revision still fails: the exception compensates for absence, never for disagreement.\n",
             "stderr": "",
             "log": {
               "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/independent-exception-corrected.log",
@@ -3334,6 +3334,91 @@
           "exitCode": 0
         }
       ]
+    },
+    "successfulImageAcceptance": {
+      "native": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/native-result.json",
+        "sha256": "2a047e541fcdeac321d3c814705737c9b982e9bfd48326be61859ecda7a8458a",
+        "bytes": 4193
+      },
+      "independent": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-image-acceptance-verification.json",
+        "sha256": "19207d5756ef65d1f36a7299bbaecc053daca8181a9b72a689f36ba137b70974",
+        "bytes": 29816
+      }
+    },
+    "acceptedApplicationAdmissionMetadata": {
+      "independent": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-admission-metadata-successor-verification.json",
+        "sha256": "a579b564e3f4e6f21deaa2ebe9cfde33548308d5c852e33374aa6c5b999eada2",
+        "bytes": 18524
+      },
+      "applicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
+      "admissionRefresh": {
+        "schemaVersion": "rcap-publication-admission-refresh/v1",
+        "method": "Existing generator only; publication-dependent external admission evidence refreshed. No source, packet, legal decision or route-state change.",
+        "command": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+        "exitCode": 0,
+        "files": [
+          {
+            "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+            "beforeSha256": "9d779288796304a2af8ccf65652aed6d19c57c63dc57f6328ef61e7e604df711",
+            "afterSha256": "5ec976d4399f49441230ca734d6c0843efef657e165ffd3112786de9785d1942",
+            "changed": true
+          },
+          {
+            "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+            "beforeSha256": "2a3e914fb1cb17d08b370cc4e772107ec2b1f4c922826504e8502dd9befca298",
+            "afterSha256": "00ada070375a67d6dde027cb4b71fd5e116d2789af1fb136f521e07cb8696dcf",
+            "changed": true
+          },
+          {
+            "path": "data/rcap-grade-a/fulfillment-authority-projection.json",
+            "beforeSha256": "956b9ac006529e9ac8188ef91c00a25d402aa69dc46506383ce228e80a7626cd",
+            "afterSha256": "a68ca5943ed87c310383882ed4764868b122ec71677d26bcaf9a0b7a9b125cb8",
+            "changed": true
+          },
+          {
+            "path": "data/rcap-grade-a/worker-static-authority.json",
+            "beforeSha256": "316953204f7c9ed235384fc3e87893158fedf147aaee4d7f8b32af79845415f3",
+            "afterSha256": "316953204f7c9ed235384fc3e87893158fedf147aaee4d7f8b32af79845415f3",
+            "changed": false
+          }
+        ],
+        "beforeCounters": {
+          "routesWithARecord": 14,
+          "completePacketProven": 6,
+          "incomplete": 7,
+          "stale": 0,
+          "revoked": 0,
+          "superseded": 1,
+          "commerciallyEligible": 6
+        },
+        "afterCounters": {
+          "routesWithARecord": 14,
+          "completePacketProven": 6,
+          "incomplete": 7,
+          "stale": 0,
+          "revoked": 0,
+          "superseded": 1,
+          "commerciallyEligible": 6
+        },
+        "allRouteIdentitiesStatusesAndMissingProofUnchanged": true,
+        "staticWorkerAuthorityByteIdentical": true,
+        "acceptedPublicationReceiptSha256": "8d539d80501d94a0c3f73bf21b949d969c0a5e0ae1f50533d884f229c0f33a6e",
+        "applicationSourceRequiresMetadataSuccessor": true,
+        "runtimeRecoveryPerformed": false,
+        "applicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
+        "check": {
+          "command": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check",
+          "exitCode": 0,
+          "log": {
+            "path": "tmp/packet-runtime-recovery-authority-check.log",
+            "sha256": "529afde76e80ea101f0bfd38f6bf57cc2636c9ea390ff3b5ea54a310d6d75ee8",
+            "bytes": 189
+          }
+        }
+      }
     }
   },
   "applicationAndWorker": {
@@ -3475,7 +3560,123 @@
       "sha256": "6ec662d2893cf41c99663aef18b7b5e31c4508bf343b3c15667efcf1ff9128b0",
       "bytes": 5391
     },
-    "workerRuntimeAccepted": false
+    "workerRuntimeAccepted": true,
+    "successorPreviewApplicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
+    "acceptedApplicationWorkerInputPlan": {
+      "schemaVersion": "rcap-worker-input-plan/v1",
+      "acceptedSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+      "acceptedDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+      "candidateSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
+      "canonicalInputs": [
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json",
+        "scripts/rcap-render-worker.mjs",
+        "scripts/lib",
+        "src",
+        "deploy/rcap-render-worker/Dockerfile",
+        "deploy/rcap-render-worker/Dockerfile.dockerignore",
+        "data/record-clearing/supplemental-guides",
+        "data/record-clearing/brand/legalease-logo.png",
+        "data/rcap-all50/composed-routes",
+        "data/rcap-all50/guidance-packets",
+        "data/rcap-all50/problematic-pdf-register.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/terminalization-treatments",
+        "data/rcap-codex/release-readiness.json",
+        "data/rcap-grade-a/maintenance/route-holds.json",
+        "data/rcap-grade-a/worker-static-authority.json",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+        "data/rcap-ledger/packet-correction-required.json",
+        "data/rcap-ledger/packet-fulfillment-records.json",
+        "data/rcap-ledger/route-kind-adjudications.json",
+        "data/rcap-ledger/route-presentation-conflicts.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/factory-v2-route-registry.json",
+        "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "data/record-clearing/legal-decisions/route-ratification-registry.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/record-clearing/packet-specifications",
+        "deploy/rcap-render-worker/preflight.mjs",
+        "deploy/rcap-render-worker/runtime-data-manifest.json"
+      ],
+      "comparedInputs": [
+        "data/rcap-all50/composed-routes",
+        "data/rcap-all50/guidance-packets",
+        "data/rcap-all50/problematic-pdf-register.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/terminalization-treatments",
+        "data/rcap-codex/release-readiness.json",
+        "data/rcap-grade-a/maintenance/route-holds.json",
+        "data/rcap-grade-a/worker-static-authority.json",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+        "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json",
+        "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json",
+        "data/rcap-ledger/packet-correction-required.json",
+        "data/rcap-ledger/packet-fulfillment-records.json",
+        "data/rcap-ledger/route-kind-adjudications.json",
+        "data/rcap-ledger/route-presentation-conflicts.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/brand/legalease-logo.png",
+        "data/record-clearing/factory-v2-route-registry.json",
+        "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json",
+        "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "data/record-clearing/legal-decisions/route-ratification-registry.json",
+        "data/record-clearing/legal-design-packet-set-manifests.json",
+        "data/record-clearing/packet-specifications",
+        "data/record-clearing/supplemental-guides",
+        "deploy/rcap-render-worker/Dockerfile",
+        "deploy/rcap-render-worker/Dockerfile.dockerignore",
+        "deploy/rcap-render-worker/preflight.mjs",
+        "deploy/rcap-render-worker/runtime-data-manifest.json",
+        "package-lock.json",
+        "package.json",
+        "scripts/lib",
+        "scripts/rcap-render-worker.mjs",
+        "src",
+        "tsconfig.json"
+      ],
+      "changedPaths": [],
+      "missingCanonicalInputs": [],
+      "aggregateInputSha256": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+      "aggregateAlgorithm": "sha256 of sorted path, mode, type, and Git object ID records",
+      "rebuildRequired": false,
+      "decision": "reuse-accepted-digest",
+      "image": {
+        "sourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+        "tags": [],
+        "tagPolicy": "full-40-character-candidate-sha-only",
+        "digest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+        "ociAnnotations": {
+          "org.opencontainers.image.revision": "a7ca0201fa8e209216d9c4bd051294b0d5416b90"
+        }
+      }
+    },
+    "reusedAfterAcceptedPublication": {
+      "workerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+      "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+      "canonicalInputs": 38,
+      "changedPaths": [],
+      "independentCorrectionBehavior": "11 executable-loop and 486 actual PostgreSQL/reader/download/adapter cases remain identical; original historical four-case file unchanged.",
+      "sourceCodeUnchanged": true,
+      "applicationMetadataChanged": [
+        "data/rcap-grade-a/fulfillment-authority-registry.json",
+        "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+        "data/rcap-grade-a/fulfillment-authority-projection.json",
+        "data/rcap-render/worker-publication-evidence.json"
+      ]
+    }
   },
   "remoteBefore": {
     "projectRef": "hyflxnlhpmiqxvvcoiia",
@@ -4502,7 +4703,7 @@
           "scope": "The exact recorded acceptance-only request; no broader scope.",
           "userReplyVerbatim": "I approve this exact acceptance-only scope for Supabase `hyflxnlhpmiqxvvcoiia`, and no broader scope.\n\nAuthorized migration:\n`20260924120347_packet_delivery_dependency_and_retry_errors.sql`\n\nRequired SHA256:\n`86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795`\n\nThe migration may be applied only if its bytes hash exactly to that value and the current pre-apply readback still matches the recorded correction evidence.\n\nThe migration itself is authorized only for the stated schema/function correction and must not modify existing business rows.\n\nAfter that exact migration, I authorize only the recorded canonical acceptance housekeeping effects:\n\n* preserve all 22 existing job IDs and their history;\n* retain the two exhausted jobs as terminal history;\n* retain the two duplicate losers as terminal history;\n* requeue the three",
           "replyEndsMidBullet": true,
-          "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after \u201crequeue the three\u201d; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
+          "interpretation": "The opening sentence explicitly approves the exact recorded scope. The received reply ends after “requeue the three”; no missing text is invented. Original unchanged four-case success remains a condition of the approved question.",
           "migrationHashMatches": true,
           "currentCatalogMatchesRecorded": true,
           "currentJobRowsMatchRecorded": true,
@@ -4560,12 +4761,31 @@
     "publicationExecutionInstruction": {
       "recordedAt": "2026-09-24T13:18:55.712Z",
       "source": "Roger supplied the exact publication run and successor source",
-      "userReplyVerbatim": "**2. Roger will dispatch and provide the run ID** remains the controlling execution rule.\n\nBut in this case, **do not dispatch another publication**. The required publication is already running:\n\n* **Run:** `36004158153`\n* **Workflow:** Publish RCAP render worker\n* **Source:** `a7ca0201fa8e209216d9c4bd051294b0d5416b90`\n* **Branch:** `captain-release`\n* **Status:** in progress\n\nSo Captain should **not** publish `4cfb7874\u2026` or start a duplicate run. `a7ca0201\u2026` is the pushed, reviewed successor currently moving through publication.\n\nThe division stays:\n\n> Roger performs the manual pushes/dispatches required by the preserved handoff. Captain prepares the exact command/tuple, consumes the resulting run IDs, verifies each result, and continues the already-approved acceptance sequence.\n\nImmediate Captain action: **watch/consume publication run `36004158153`; when it succeeds, bind its immutable digest and prepare the exact read-only image-acceptance dispatch for Roger.**",
+      "userReplyVerbatim": "**2. Roger will dispatch and provide the run ID** remains the controlling execution rule.\n\nBut in this case, **do not dispatch another publication**. The required publication is already running:\n\n* **Run:** `36004158153`\n* **Workflow:** Publish RCAP render worker\n* **Source:** `a7ca0201fa8e209216d9c4bd051294b0d5416b90`\n* **Branch:** `captain-release`\n* **Status:** in progress\n\nSo Captain should **not** publish `4cfb7874…` or start a duplicate run. `a7ca0201…` is the pushed, reviewed successor currently moving through publication.\n\nThe division stays:\n\n> Roger performs the manual pushes/dispatches required by the preserved handoff. Captain prepares the exact command/tuple, consumes the resulting run IDs, verifies each result, and continues the already-approved acceptance sequence.\n\nImmediate Captain action: **watch/consume publication run `36004158153`; when it succeeds, bind its immutable digest and prepare the exact read-only image-acceptance dispatch for Roger.**",
       "runId": 36004158153,
       "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
       "manualPushDispatchOwner": "Roger",
       "sourceComparedToInitialApprovedImplementation": "All38 canonical inputs and application inputs unchanged from4cfb78749edb6f6241df6f12c9c529f96f0886bc; only evidence and the already-ratified migration-loop regression followed it.",
       "duplicatePublicationForbidden": true
+    },
+    "runtimeRecoveryInstruction": {
+      "recordedAt": "2026-09-24T14:08:52.510Z",
+      "authorization": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Roger owns manual pushes/dispatches. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
+      "previewBoundary": {
+        "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+        "vercelProjectName": "legalease-partner-dashboard-clean",
+        "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+        "target": "preview",
+        "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
+        "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
+        "productionTarget": false,
+        "productionAliasesMayMove": false,
+        "productionEnvironmentMayChange": false,
+        "publicDomainActivation": false
+      },
+      "manualPushAndDispatchOwner": "Roger Roman",
+      "captainAction": "Prepare exact tuple; consume returned run/deployment IDs; verify before further authorized state changes.",
+      "newWritesAuthorizedByThisRecord": false
     }
   },
   "dispatchReadiness": {
@@ -4575,13 +4795,16 @@
     "eventualPromotionInput": "",
     "eventualOrdinarySandboxAmountCents": 5000,
     "unresolved": [
-      "Image-acceptance run 36006545373 completed with failure at the historical source-binding-exception guard. The receipt history layout is corrected and independently verified with unchanged controls. A successful read-only acceptance run from the corrected receipt commit is still required for the same a7ca0201 worker and sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869 image.",
-      "Exact acceptance Preview, authenticated REST reader, existing#345 Storage/recovery and remote owner200/hash,stranger403,anonymous401 remain pending.",
-      "Final current tools binding and ordinary50-dollar blank-promotion hosted_full dispatch remain unready until those identities and proofs exist."
+      "Roger manual push and single exact successor Preview dispatch",
+      "Native READY Preview source/worker/environment/Production-boundary evidence",
+      "Existing test webhook retarget and readback",
+      "Existing eligible #345 chain recovery, private storage write/read/hash and exact REST reader",
+      "Actual owner download and stranger/anonymous denial",
+      "Final current tools/application/worker binding before ordinary blank-promotion $50 hosted_full"
     ],
     "rule": "Only after those boundaries close: generate the exact final tools binding and one ready-to-use blank-promotion hosted_full dispatch for Roger. Hosted acceptance never authorizes Production.",
     "authorizationReceived": true,
-    "executionBoundary": "Preview and existing-job recovery remain blocked until a corrected-receipt image-acceptance run completes with conclusion=success. Roger retains manual push/dispatch; no retry was dispatched and no image was republished."
+    "executionBoundary": "Image acceptance and independent ratification passed. Prepare Preview only; no migration or housekeeping replay, worker publication, new Checkout or Production operation."
   },
   "workerPublication": {
     "runId": 36004158153,
@@ -4624,8 +4847,8 @@
     },
     "recordPath": "data/rcap-render/worker-publication-evidence.json",
     "priorRecordPreservedIn": "supersededPublication",
-    "runtimeAccepted": false,
-    "imageAcceptanceRunId": 36006545373,
+    "runtimeAccepted": true,
+    "imageAcceptanceRunId": 36008455059,
     "publicationDispatchedByCaptain": false,
     "additionalPublicationDispatched": false,
     "independentVerification": {
@@ -4802,7 +5025,7 @@
       "currentCorrectedRecordSha256": "0f0d932379f1b4166706f29daaff0d9ded1f1e7d3239f90e6f4dd5d617ecd260",
       "nextStep": "Roger pushes the corrected receipt commit and dispatches the same read-only workflow for the unchanged image tuple. Re-running the old run would use its old receipt commit. No worker publication or Preview is needed to repair this metadata."
     },
-    "imageAcceptanceConclusion": "failure",
+    "imageAcceptanceConclusion": "success",
     "imageAcceptanceNativeResult": {
       "path": "hosted-acceptance-evidence/worker/image-acceptance-36006545373/native-result.json",
       "sha256": "e8a6dd43d9689f58534c64349cd7afe40137444c20b5d93411d4699514e39abd",
@@ -4858,7 +5081,7 @@
           },
           {
             "number": 11,
-            "name": "Source binding \u2014 OCI revision, or the exact-digest exception",
+            "name": "Source binding — OCI revision, or the exact-digest exception",
             "conclusion": "skipped"
           },
           {
@@ -4969,6 +5192,50 @@
         "previewOrRecoveryStarted": false
       },
       "finalPublicationRecordSha256": "0f0d932379f1b4166706f29daaff0d9ded1f1e7d3239f90e6f4dd5d617ecd260"
+    },
+    "successfulImageAcceptance": {
+      "runId": 36008455059,
+      "conclusion": "success",
+      "headSha": "1b0bfcd9e79828c5a6039361d3c9943f9f762f1f",
+      "native": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/native-result.json",
+        "sha256": "2a047e541fcdeac321d3c814705737c9b982e9bfd48326be61859ecda7a8458a",
+        "bytes": 4193
+      },
+      "independent": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-image-acceptance-verification.json",
+        "sha256": "19207d5756ef65d1f36a7299bbaecc053daca8181a9b72a689f36ba137b70974",
+        "bytes": 29816
+      }
     }
+  },
+  "previewPreparation": {
+    "status": "LOCAL_BINDING_PREPARATION",
+    "applicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
+    "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+    "workerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+    "workerInputFingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+    "boundary": {
+      "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+      "vercelProjectName": "legalease-partner-dashboard-clean",
+      "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+      "target": "preview",
+      "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
+      "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
+      "productionTarget": false,
+      "productionAliasesMayMove": false,
+      "productionEnvironmentMayChange": false,
+      "publicDomainActivation": false
+    },
+    "existingTestWebhookId": "we_1U4AKGRWROAHlAKyNFChAnWr",
+    "existingOwnerId": "b6dc86a3-12bb-490d-b130-48d95d426a1e",
+    "existingStrangerId": "bdfefe78-def5-40c9-bbb0-e9e311eb2da6",
+    "deploymentId": null,
+    "hostname": null,
+    "remoteStateChangesPerformed": 0,
+    "productionOperations": 0,
+    "requiredMode": "hosted_replace_preview",
+    "workerMayClaim": false,
+    "receiptFailureRule": "Stop, read actual remote state, repair only a missing receipt when exact prior execution is proven. Never replay deployment/webhook/SQL/queue/storage/worker processing."
   }
 }

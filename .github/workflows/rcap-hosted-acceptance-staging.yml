@@ -115,8 +115,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: 4f7d209de11265d0793b7b74c728eab4efde1aa5
-  AUTHORIZED_WORKER_DIGEST: sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d
+  AUTHORIZED_WORKER_SOURCE_SHA: a7ca0201fa8e209216d9c4bd051294b0d5416b90
+  AUTHORIZED_WORKER_DIGEST: sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   RELEASE_INTEGRATION_BRANCH: captain-release
@@ -594,6 +594,9 @@ jobs:
           # to the named synthetic identity the deploy resolves. Nontransacting
           # phases leave the control at its disabled default.
           HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped == 'true' && 'staging_scoped' || '' }}
+          # The authorized replacement Preview reuses the existing #345 owner.
+          # A missing identity is a refusal; this phase cannot create Auth users.
+          HOSTED_EXISTING_PARTICIPANT_ONLY: ${{ inputs.phase == 'replace_preview' && 'true' || 'false' }}
           HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}

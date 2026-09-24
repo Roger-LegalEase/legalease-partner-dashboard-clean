@@ -27,7 +27,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { createRestPreview } from "./rcap-hosted-vercel-rest-transport.mjs";
+import { assertPreviewResponse, createRestPreview, FROZEN_WORKER_METADATA } from "./rcap-hosted-vercel-rest-transport.mjs";
 import { fileURLToPath } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
@@ -78,6 +78,7 @@ function record(caseId, passed, observed) {
 const REQUIRED_CASES = [
   "deployed_to_preview_not_production",
   "deployment_carries_the_final_application_sha",
+  "deployment_carries_the_accepted_worker_binding",
   "deterministic_nonproduction_return_alias_bound",
   "bound_to_the_acceptance_supabase_project_only",
   "production_aliases_unchanged",
@@ -156,10 +157,14 @@ const evidence = {
 // --- 0. Before-picture of everything this run must not disturb ---------------
 const beforeProject = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
 const beforeEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
+if (beforeProject.status !== 200 || beforeEnv.status !== 200 || !Array.isArray(beforeEnv.json?.envs)) {
+  throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
+}
 const aliasesBefore = Array.isArray(beforeProject.json?.alias)
   ? beforeProject.json.alias.filter((a) => a?.target === "PRODUCTION").map((a) => a.domain).sort()
   : [];
 const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.envs : []);
+evidence.productionBefore = { aliases: aliasesBefore, environmentShape: envBefore };
 if (aliasesBefore.includes(RETURN_ALIAS_HOST)) {
   console.error(`DEPLOY: deterministic acceptance alias ${RETURN_ALIAS_HOST} is attached to Production; refusing`);
   process.exit(1);
@@ -205,6 +210,7 @@ async function findReusableDeployment() {
       (d.readyState ?? d.state) === "READY" &&
       (d.target === null || d.target === "preview") &&
       d.meta?.rcapApplicationSha === APPLICATION_SHA &&
+      Object.entries(FROZEN_WORKER_METADATA).every(([key,value]) => d.meta?.[key] === value) &&
       d.meta?.rcapAcceptanceProjectRef === PROJECT_REF &&
       d.meta?.rcapStripeConfigured === String(STRIPE_CONFIGURED) &&
       d.meta?.rcapCatalogProduct === CATALOG_PRODUCT_TAG &&
@@ -247,6 +253,9 @@ if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
     });
     const rows = await lookup.json().catch(() => null);
     let id = Array.isArray(rows) ? rows[0]?.id : null;
+    if (!id && process.env.HOSTED_EXISTING_PARTICIPANT_ONLY === "true") {
+      throw new Error("DEPLOY_EXISTING_ACCEPTANCE_PARTICIPANT_REQUIRED");
+    }
     if (!id) {
       const created = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
         method: "POST",
@@ -372,6 +381,7 @@ const buildEnv = {
 }
 
 const deploymentMeta = {
+  ...FROZEN_WORKER_METADATA,
   rcapApplicationSha: APPLICATION_SHA,
   rcapAcceptanceProjectRef: PROJECT_REF,
   rcapStripeConfigured: String(STRIPE_CONFIGURED),
@@ -419,6 +429,9 @@ let deploymentId = null;
 {
   const host = deploymentUrl.replace(/^https:\/\//, "");
   const detail = await vercelApi(`/v13/deployments/${encodeURIComponent(host)}`);
+  if (detail.status !== 200) throw new Error("DEPLOY_EXACT_READBACK_FAILED");
+  assertPreviewResponse(detail.json, deploymentMeta, reusable?.id);
+  if (detail.json.readyState !== "READY") throw new Error("DEPLOY_PREVIEW_NOT_READY");
   const target = detail.json?.target ?? null;
   const meta = detail.json?.meta ?? {};
   deploymentId = detail.json?.id ?? detail.json?.uid ?? null;
@@ -428,12 +441,20 @@ let deploymentId = null;
     `Vercel reports target=${JSON.stringify(target)} for this deployment (must be Preview); readyState=${detail.json?.readyState ?? "unknown"}`
   );
   record(
+    "deployment_carries_the_accepted_worker_binding",
+    Object.entries(FROZEN_WORKER_METADATA).every(([key,value]) => meta[key] === value),
+    `deployment metadata records worker ${meta.rcapWorkerSourceSha} at ${meta.rcapWorkerDigest}; canonical inputs ${meta.rcapWorkerInputFingerprint}`
+  );
+  record(
     "deployment_carries_the_final_application_sha",
     meta.rcapApplicationSha === APPLICATION_SHA && meta.rcapReturnOrigin === RETURN_ORIGIN,
     `deployment metadata records rcapApplicationSha=${meta.rcapApplicationSha ?? "(absent)"} and rcapReturnOrigin=${meta.rcapReturnOrigin ?? "(absent)"}`
   );
   deployedAcceptanceProjectRef = meta.rcapAcceptanceProjectRef ?? null;
   evidence.deployment = { id: deploymentId, target, readyState: detail.json?.readyState ?? null, immutableHostname: host };
+  evidence.deployment.gitSourceSha = detail.json.gitSource.sha;
+  evidence.deployment.projectId = detail.json.projectId;
+  evidence.deployment.metadata = meta;
   evidence.deploymentAliases = Array.isArray(detail.json?.alias) ? detail.json.alias : [];
 }
 
@@ -550,6 +571,9 @@ console.log(`  exact acceptance return origin: ${previewUrl}`);
   );
 
   const afterEnv = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
+  if (afterProject.status !== 200 || afterEnv.status !== 200 || !Array.isArray(afterEnv.json?.envs)) {
+    throw new Error("DEPLOY_PRODUCTION_BOUNDARY_READBACK_FAILED");
+  }
   const envAfter = envShape(Array.isArray(afterEnv.json?.envs) ? afterEnv.json.envs : []);
   record(
     "production_environment_variables_unchanged",
@@ -557,6 +581,7 @@ console.log(`  exact acceptance return origin: ${previewUrl}`);
     `${envBefore.length} production-target variable(s) before and ${envAfter.length} after, with identical keys, targets and updatedAt stamps — no value was read into this comparison`
   );
   evidence.productionUntouched = { aliasCount: aliasesAfter.length, productionVariableCount: envAfter.length };
+  evidence.productionAfter = { aliases: aliasesAfter, environmentShape: envAfter };
 }
 
 // --- 4. Probe the deployed instance -----------------------------------------
