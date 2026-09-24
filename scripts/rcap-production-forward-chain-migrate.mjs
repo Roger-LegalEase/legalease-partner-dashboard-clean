@@ -5,30 +5,21 @@
 // Mississippi result page): the Production database's migration ledger ends
 // at 20260823171000 and the deployed application writes columns and calls
 // functions that the forward migrations from 20260828100000 onward create.
-// This control applies exactly those ten committed forward migrations, in
-// repository order, each hash-pinned to its bytes at the frozen application
-// commit, reads signature objects as inventory only, and records each version only after successful exact execution in this run
-// in supabase_migrations.schema_migrations so a later `supabase db push`
-// sees the same history. Nothing else is written. No participant, checkout,
-// deployment, alias, worker or environment action is performed.
+// Preserve that historical chain and its authorization records as inventory.
+// For a successor release, verify the current packet dependency contract without
+// replaying historical payment/sponsorship definitions or adopting ledger rows.
+// An incomplete current state requires a separately authorized forward delta.
+// No participant, checkout, deployment, alias, worker or environment action is
+// performed by this release-dependency control.
 
 import { requireMigrationCertification } from './rcap-migration-certification.mjs';
+import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
+import { loadPacketContract, packetCatalogQuery, normalizeCatalog } from './rcap-packet-database-contract.mjs';
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
-const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const AUTHORIZATION_PATH = "data/rcap-production-forward-chain-migration-authorization.json";
-const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
-const INPUT_APPLICATION_SHA = (process.env.RCAP_APPLICATION_SHA ?? "").trim();
-const INPUT_PROJECT_REF = (process.env.RCAP_PRODUCTION_PROJECT_REF ?? "").trim();
-const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
-const EVIDENCE_DIR = path.resolve(process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
-const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-${PHASE || "forward-chain"}.json`);
 
 // The thirteen versions the Production ledger carries, read back exactly by
 // run 35127720320: the recovered remote baseline 20260728213131 and the
@@ -88,6 +79,21 @@ export const PHASE_PREREQUISITES = Object.freeze([
   { name: "enqueue_packet_render_job", kind: "function" },
   { name: "consumer_packet_payment_authority", kind: "function" }
 ]);
+
+export async function runProductionForwardChainMigration({
+  env = process.env, rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."),
+  fetch = globalThis.fetch, requireRelease = requireProductionMigrationRelease,
+  packetContract = loadPacketContract,
+} = {}) {
+const ROOT_DIR = rootDir;
+const APPLICATION_SHA = (env.RCAP_APPLICATION_SHA ?? "").trim();
+const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
+const PHASE = (env.RCAP_PRODUCTION_PHASE ?? "").trim();
+const INPUT_APPLICATION_SHA = (env.RCAP_APPLICATION_SHA ?? "").trim();
+const INPUT_PROJECT_REF = (env.RCAP_PRODUCTION_PROJECT_REF ?? "").trim();
+const SUPABASE_ACCESS_TOKEN = env.SUPABASE_ACCESS_TOKEN ?? "";
+const EVIDENCE_DIR = path.resolve(env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
+const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-${PHASE || "forward-chain"}.json`);
 
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
@@ -150,7 +156,7 @@ async function managementQuery(query, caseId) {
 }
 
 /** Bytes of one migration at the frozen application commit; refuses any drift from the pinned hash. */
-export function frozenMigrationSql(rootDir, migration) {
+function frozenMigrationSql(rootDir, migration) {
   const result = spawnSync("git", ["show", `${APPLICATION_SHA}:${migration.path}`], { cwd: rootDir, stdio: ["ignore", "pipe", "pipe"] });
   if (result.status !== 0) throw new Error(`git show failed for ${migration.path} at ${APPLICATION_SHA}: ${result.stderr.toString("utf8").slice(0, 200)}`);
   const hash = createHash("sha256").update(result.stdout).digest("hex");
@@ -166,7 +172,7 @@ function signatureProbe(signature) {
   throw new Error(`unknown signature kind ${signature.kind}`);
 }
 
-export function readbackQuery() {
+function readbackQuery() {
   return `
     select
       to_regclass('supabase_migrations.schema_migrations') is not null as ledger_present,
@@ -182,7 +188,7 @@ export function readbackQuery() {
 // policies, tables, indexes), lower-cased and without the public. prefix.
 // Used to prove that applying a skipped earlier file after later files have
 // run cannot overwrite a definition one of those later files owns.
-export function definedObjects(sql) {
+function definedObjects(sql) {
   const names = new Set();
   const pattern = /create\s+(?:or\s+replace\s+)?(?:unique\s+)?(?:function|view|trigger|policy|table|index)\s+(?:if\s+not\s+exists\s+)?"?([a-z0-9_.]+)"?/gi;
   for (const match of sql.matchAll(pattern)) names.add(match[1].toLowerCase().replace(/^public\./, ""));
@@ -193,7 +199,7 @@ export function definedObjects(sql) {
 // already present and which define an object the absent file also defines.
 // A late apply of that file would clobber the later definition, so it is
 // unsafe; an ordered prefix has no such gaps by construction.
-export function unsafeGaps(summary, sqlByVersion) {
+function unsafeGaps(summary, sqlByVersion) {
   return MIGRATIONS.filter((migration) => !summary.signatures[migration.version]).map((migration) => {
     const own = definedObjects(sqlByVersion.get(migration.version) ?? "");
     const clobbered = MIGRATIONS
@@ -212,7 +218,7 @@ function postgresArray(value) {
   return inner ? inner.split(",").map((entry) => entry.replace(/^"|"$/g, "")) : [];
 }
 
-export function summarizeReadback(row) {
+function summarizeReadback(row) {
   const ledgerVersions = postgresArray(row.ledger_versions);
   const prerequisites = Object.fromEntries(PHASE_PREREQUISITES.map((entry) => [entry.name, truthy(row[`prereq_${entry.name}`])]));
   const signatures = Object.fromEntries(MIGRATIONS.map((migration) => [migration.version, truthy(row[`sig_${migration.version}`])]));
@@ -338,15 +344,6 @@ async function backupReadback() {
   };
 }
 
-async function recordLedgerRow(migration, hasNameColumn) {
-  requireMigrationCertification({ executed:certifiedExecutions.has(migration.version) });
-  const name = path.basename(migration.path, ".sql").replace(/^\d+_/, "");
-  const query = hasNameColumn
-    ? `insert into supabase_migrations.schema_migrations (version, name) values (${sqlLiteral(migration.version)}, ${sqlLiteral(name)}) on conflict (version) do nothing`
-    : `insert into supabase_migrations.schema_migrations (version) values (${sqlLiteral(migration.version)}) on conflict (version) do nothing`;
-  await managementQuery(query, `ledger_row_${migration.version}`);
-  evidence.ledgerRowsRecorded.push(migration.version);
-}
 
 try {
   if (PHASE !== "forward_chain_readback" && PHASE !== "forward_chain_migrate") throw new Error("only the forward-chain readback and migration phases are enabled");
@@ -354,6 +351,8 @@ try {
     throw new Error("exact Production forward-chain inputs are unavailable");
   }
 
+  const release = requireRelease(ROOT_DIR, env);
+  evidence.releaseTuple = { applicationSha: release.applicationSha, workerSourceSha: release.workerSourceSha, workerDigest: release.workerDigest, toolsSha: env.RCAP_TOOLS_SHA };
   const project = await managementGet(`/v1/projects/${encodeURIComponent(PRODUCTION_PROJECT_REF)}`);
   record(
     "canonical_production_project_is_authenticated",
@@ -409,95 +408,37 @@ try {
     persist(true);
     console.log(`PRODUCTION FORWARD-CHAIN READBACK PASS — ${before.missing.length} of ${MIGRATIONS.length} forward migrations absent: ${before.missing.join(", ") || "none"}`);
   } else {
-    const authorization = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, AUTHORIZATION_PATH), "utf8"));
-    const authorized = authorization?.status === "authorized_production_incident"
-      && authorization?.productionProjectRef === PRODUCTION_PROJECT_REF
-      && authorization?.applicationSha === APPLICATION_SHA
-      && Array.isArray(authorization?.migrations)
-      && authorization.migrations.length === MIGRATIONS.length
-      && authorization.migrations.every((entry, index) => entry.path === MIGRATIONS[index].path && entry.sha256 === MIGRATIONS[index].sha256)
-      && /^[0-9]{6,}$/.test(String(authorization?.readbackRunId ?? ""))
-      && authorization?.dropAuthorized === false;
-    record(
-      "independent_production_authorization_names_the_exact_chain",
-      authorized,
-      `status=${authorization?.status}; readback run=${authorization?.readbackRunId ?? "none"}; migrations=${authorization?.migrations?.length ?? 0}; drop authorized=${authorization?.dropAuthorized}`
-    );
-    // The revocation in 20260828100000 marks REVOKED every stored pending
-    // result that stays PENDING and carries no claim token or an old-scheme
-    // claim without a provable matter. The apply is allowed only while each
-    // revocation bucket, re-read now, stays within the maximum the owner
-    // accepted in the authorization record after the readback run; a larger
-    // live effect stops here before any write.
-    const accepted = authorization?.acceptedRevocation ?? {};
-    const revocationBounds = [
-      ["unexpiredUnclaimedRowsToBeRevoked", "maxUnexpiredUnclaimedRowsRevoked"],
-      ["claimedRowsWithoutProvableMatterToBeRevoked", "maxClaimedRowsWithoutProvableMatterRevoked"],
-      ["expiredUnclaimedRowsToBeRevoked", "maxExpiredUnclaimedRowsRevoked"]
-    ];
-    record(
-      "existing_row_revocation_within_the_owner_accepted_bound",
-      revocationBounds.every(([observedKey, acceptedKey]) => Number.isInteger(accepted[acceptedKey]) && accepted[acceptedKey] >= 0 && impact[observedKey] <= accepted[acceptedKey]),
-      revocationBounds.map(([observedKey, acceptedKey]) => `${observedKey}=${impact[observedKey]} (owner-accepted maximum ${Number.isInteger(accepted[acceptedKey]) ? accepted[acceptedKey] : "not recorded"})`).join("; ")
-    );
-
-    for (const migration of MIGRATIONS) {
-      const current = await readback(`pre_apply_readback_${migration.version}`);
-      if (current.signatures[migration.version]) {
-        // A ledger-only signature can be satisfied by a row recorded without an
-        // execution. The authorization record may name such a version once,
-        // with its reason; the idempotent file is then executed so the row is
-        // backed by an execution. Object signatures are never re-executed.
-        const reExecute = Array.isArray(authorization?.executeDespiteLedgerRow?.versions)
-          && authorization.executeDespiteLedgerRow.versions.includes(migration.version)
-          && migration.signature.kind === "ledger";
-        if (reExecute) {
-          await managementQuery(sqlByVersion.get(migration.version), `forward_migration_${migration.position}_executed`);
-          certifiedExecutions.add(migration.version);
-          requireMigrationCertification({ executed:true });
-          evidence.productionDatabaseMutated = true;
-          evidence.migrationsApplied.push(migration.version);
-          record(`forward_migration_${migration.position}_executed_to_back_its_ledger_row`, true, `${migration.path} executed although its ledger row was already present (${authorization.executeDespiteLedgerRow.why ?? "reason recorded"})`);
-          continue;
-        }
-        // A table/column/function signature and a ledger row cannot prove a
-        // whole multi-statement file. No complete catalog certificate for this
-        // historical forward chain is currently committed. Refuse adoption
-        // before a ledger write; do not replay old bytes over later ownership.
-        requireMigrationCertification();
-      }
-      const gap = unsafeGaps(current, sqlByVersion).find((entry) => entry.version === migration.version);
-      record(
-        `forward_migration_${migration.position}_late_apply_cannot_clobber_later_definitions`,
-        !gap,
-        gap ? `${migration.path} would overwrite ${gap.clobbered.join(", ")}` : `${migration.path} defines nothing a present later migration owns`
-      );
-      const ledgerRowBeforeApply = current.ledgerVersions.includes(migration.version);
-      await managementQuery(sqlByVersion.get(migration.version), `forward_migration_${migration.position}_applied`);
-      certifiedExecutions.add(migration.version);
-      evidence.productionDatabaseMutated = true;
-      evidence.migrationsApplied.push(migration.version);
-      const after = await readback(`post_apply_readback_${migration.version}`);
-      if (!after.ledgerVersions.includes(migration.version)) await recordLedgerRow(migration, after.ledgerHasNameColumn);
-      const proven = requireMigrationCertification({ executed:certifiedExecutions.has(migration.version) }).certified
-        && (migration.signature.kind === "ledger" || after.signatures[migration.version] === true);
-      record(`forward_migration_${migration.position}_applied_and_read_back`, proven, `${migration.path} applied; signature ${migration.signature.kind}:${migration.signature.name} present=${proven}; ledger row before apply=${ledgerRowBeforeApply}`);
-    }
-
-    const final = await readback("forward_chain_final_readback");
-    evidence.readback.after = final;
-    record("forward_chain_complete_after_apply", final.complete && final.orderedPrefix, `present=[${final.present.join(", ")}]; missing=[${final.missing.join(", ")}]`);
-    record(
-      "ledger_records_every_forward_version",
-      MIGRATIONS.every((migration) => final.ledgerVersions.includes(migration.version)),
-      `ledger versions=${final.ledgerVersions.length}: [${final.ledgerVersions.join(", ")}]`
-    );
+    // This release needs current packet dependencies, not a second certificate
+    // for every historical forward-chain object. A stale/partial state requires
+    // its own exact forward delta; old payment/sponsorship SQL is never replayed.
+    record("forward_chain_current_release_inventory_complete", before.signaturesComplete,
+      `present=[${before.present.join(", ")}]; missing=[${before.missing.join(", ")}]`);
+    const contract = packetContract(ROOT_DIR);
+    const catalogRows = await managementQuery(packetCatalogQuery(), "current_release_packet_catalog");
+    evidence.certification = requireMigrationCertification({
+      expected: contract.current, actual: normalizeCatalog(catalogRows[0]?.catalog ?? {})
+    });
+    evidence.certification.scope = "current_release_packet_dependencies_only";
+    evidence.migrationDisposition = "current_release_dependencies_verified_no_write";
+    evidence.historicalChainCertified = false;
+    evidence.readback.after = await readback("forward_chain_final_readback");
+    record("forward_chain_current_release_postconditions_verified", evidence.certification.certified,
+      "Source-derived current runtime dependencies verified; historical inventory is not a whole-chain certificate.");
+    record("current_release_verification_wrote_nothing", evidence.productionDatabaseMutated === false
+      && evidence.migrationsApplied.length === 0 && evidence.ledgerRowsRecorded.length === 0,
+      "No historical replay or ledger adoption. A partial state needs an independently authorized forward delta.");
     persist(true);
-    console.log(`PRODUCTION FORWARD-CHAIN MIGRATION PASS — applied ${evidence.migrationsApplied.length}, already present ${evidence.migrationsAlreadyPresent.length}, ledger rows recorded ${evidence.ledgerRowsRecorded.length}`);
+    console.log("PRODUCTION FORWARD-CHAIN RELEASE DEPENDENCIES PASS — exact current packet state; no writes");
   }
 } catch (error) {
   const failure = error instanceof Error ? error.message : String(error);
   persist(false, failure);
   console.error(`PRODUCTION FORWARD-CHAIN ${PHASE === "forward_chain_migrate" ? "MIGRATION" : "READBACK"} REFUSED — ${failure}`);
-  process.exit(1);
+}
+return evidence;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const result = await runProductionForwardChainMigration();
+  if (!result.passed) process.exitCode = 1;
 }

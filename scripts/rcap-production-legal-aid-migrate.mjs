@@ -10,20 +10,25 @@
 // No ledger, fixture, participant, checkout, deployment, alias, or worker
 // action is performed. Nothing is ever dropped.
 
-import { requireMigrationCertification } from './rcap-migration-certification.mjs';
+import { requireProductionMigrationRelease, buildClinicSourceReference, clinicSourceCatalogQuery, certifyClinicSourceCatalog } from './rcap-production-migration-contract.mjs';
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { LEGAL_AID_MIGRATION, LEGAL_AID_TABLES, LEGAL_AID_FUNCTIONS, PRODUCTION_PROJECT_REF, frozenMigrationSql, readbackQuery, summarizeReadback } from "./rcap-legal-aid/contract.mjs";
 
-const APPLICATION_SHA = "436520e4a99f0b8a290ace32f1d717b951630319";
-const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+export async function runProductionLegalAidMigration({
+  env = process.env, rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."),
+  fetch = globalThis.fetch, requireRelease = requireProductionMigrationRelease,
+  sourceReference = buildClinicSourceReference,
+} = {}) {
+const APPLICATION_SHA = (env.RCAP_APPLICATION_SHA ?? "").trim();
+const ROOT_DIR = rootDir;
 const AUTHORIZATION_PATH = "data/rcap-production-legal-aid-migration-authorization.json";
-const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
-const INPUT_APPLICATION_SHA = (process.env.RCAP_APPLICATION_SHA ?? "").trim();
-const INPUT_PROJECT_REF = (process.env.RCAP_PRODUCTION_PROJECT_REF ?? "").trim();
-const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
-const EVIDENCE_DIR = path.resolve(process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
+const PHASE = (env.RCAP_PRODUCTION_PHASE ?? "").trim();
+const INPUT_APPLICATION_SHA = (env.RCAP_APPLICATION_SHA ?? "").trim();
+const INPUT_PROJECT_REF = (env.RCAP_PRODUCTION_PROJECT_REF ?? "").trim();
+const SUPABASE_ACCESS_TOKEN = env.SUPABASE_ACCESS_TOKEN ?? "";
+const EVIDENCE_DIR = path.resolve(env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
 const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-${PHASE || "legal-aid"}.json`);
 
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
@@ -112,6 +117,9 @@ try {
     throw new Error("exact Production Legal Aid inputs are unavailable");
   }
 
+  const release = requireRelease(ROOT_DIR, env);
+  evidence.releaseTuple = { applicationSha: release.applicationSha, workerSourceSha: release.workerSourceSha, workerDigest: release.workerDigest, toolsSha: env.RCAP_TOOLS_SHA };
+  const reference = await sourceReference(ROOT_DIR);
   const project = await managementGet(`/v1/projects/${encodeURIComponent(PRODUCTION_PROJECT_REF)}`);
   record(
     "canonical_production_project_is_authenticated",
@@ -155,6 +163,10 @@ try {
     `empty=${before.empty}; complete=${before.complete}; tables=${before.legalAid.tableCount}/${LEGAL_AID_TABLES.length}; functions=${before.legalAid.functionCount}/${LEGAL_AID_FUNCTIONS.length}`
   );
 
+  if (before.complete) {
+    const actualRows = await managementQuery(clinicSourceCatalogQuery, "legal_aid_source_postconditions_before");
+    evidence.certification = certifyClinicSourceCatalog(reference, actualRows[0]?.catalog, { legalAid: true });
+  }
   if (PHASE === "legal_aid_readback") {
     // Read-only onboarding facts for the MVLP coordinator setup (Roger's
     // 2026-09-16 onboarding authorization): whether the MVLP organization,
@@ -213,8 +225,8 @@ try {
       && authorization?.dropAuthorized === false;
     record(
       "independent_production_authorization_names_passing_acceptance",
-      authorized,
-      `status=${authorization?.status}; acceptance migrate run=${authorization?.hostedAcceptance?.legalAidMigrateRunId ?? "none"}; acceptance browser run=${authorization?.hostedAcceptance?.browserRunId ?? "none"}; drop authorized=${authorization?.dropAuthorized}`
+      !before.empty || authorized,
+      `no-write existing state=${!before.empty}; status=${authorization?.status}; acceptance migrate run=${authorization?.hostedAcceptance?.legalAidMigrateRunId ?? "none"}; acceptance browser run=${authorization?.hostedAcceptance?.browserRunId ?? "none"}; drop authorized=${authorization?.dropAuthorized}`
     );
     if (before.empty) {
       await managementQuery(sql, "legal_aid_migration_applied");
@@ -222,11 +234,11 @@ try {
       evidence.productionDatabaseMutated = true;
       evidence.migrationDisposition = "applied_exact_frozen_file";
     } else {
-      // Object counts and ACL probes are inventory, not complete definitions.
-      // No historical adoption without a complete source-derived certificate.
-      requireMigrationCertification();
+      evidence.migrationDisposition = "already_exact_source_postconditions_no_write";
     }
-    record("legal_aid_migration_applied_or_already_exact", requireMigrationCertification({ executed:evidence.migrationApplied }).certified, evidence.migrationDisposition);
+    const catalogRows = await managementQuery(clinicSourceCatalogQuery, "legal_aid_source_postconditions_after");
+    evidence.certification = certifyClinicSourceCatalog(reference, catalogRows[0]?.catalog, { legalAid: true });
+    record("legal_aid_migration_applied_or_already_exact", evidence.certification.certified, evidence.migrationDisposition);
     const after = await readback("legal_aid_catalog_direct_readback");
     record("all_12_legal_aid_tables_exist_with_rls_enabled", after.legalAid.tableCount === LEGAL_AID_TABLES.length && after.legalAid.rlsTableCount === LEGAL_AID_TABLES.length, `tables=${after.legalAid.tableCount}/${LEGAL_AID_TABLES.length}; RLS=${after.legalAid.rlsTableCount}/${LEGAL_AID_TABLES.length}`);
     record("all_32_legal_aid_functions_exist", after.legalAid.functionCount === LEGAL_AID_FUNCTIONS.length, `functions=${after.legalAid.functionCount}/${LEGAL_AID_FUNCTIONS.length}`);
@@ -240,5 +252,11 @@ try {
   const failure = error instanceof Error ? error.message : String(error);
   persist(false, failure);
   console.error(`PRODUCTION LEGAL AID ${PHASE === "legal_aid_readback" ? "READBACK" : "MIGRATE"} REFUSED — ${failure}`);
-  process.exit(1);
+}
+return evidence;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const result = await runProductionLegalAidMigration();
+  if (!result.passed) process.exitCode = 1;
 }

@@ -44,14 +44,14 @@ const mutations = [
     "order_ignored"
   ],
   [
-    "late-apply clobber guard",
-    "_late_apply_cannot_clobber_later_definitions",
-    "_late_apply_unguarded"
+    "current postconditions",
+    "expected: contract.current, actual: normalizeCatalog(",
+    "expected: {}, actual: normalizeCatalog("
   ],
   [
-    "ledger-only re-execution guard",
-    "&& migration.signature.kind === \"ledger\"",
-    "&& true"
+    "historical ledger re-execution",
+    "const certifiedExecutions = new Set();",
+    "const certifiedExecutions = new Set(); /* insert into supabase_migrations.schema_migrations */"
   ],
   [
     "non-unique signature",
@@ -59,14 +59,14 @@ const mutations = [
     "signature: { kind: \"function\", name: \"finalize_sponsored_packet_generation_for_route\" }"
   ],
   [
-    "independent authorization",
-    "independent_production_authorization_names_the_exact_chain",
-    "authorization_ignored"
+    "current release authorization",
+    "const release = requireRelease(ROOT_DIR, env);",
+    "const release = {};"
   ],
   [
-    "existing-row revocation bound",
-    "existing_row_revocation_within_the_owner_accepted_bound",
-    "revocation_unbounded"
+    "no-write dependency verification",
+    "current_release_verification_wrote_nothing",
+    "writes_ignored"
   ],
   [
     "read-only phase",

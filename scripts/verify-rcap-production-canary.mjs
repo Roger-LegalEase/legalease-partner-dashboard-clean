@@ -13,7 +13,7 @@ const dispatcher = read(".github/workflows/rcap-f1-ephemeral-staging.yml");
 const script = read("scripts/rcap-production-canary.mjs");
 
 check(workflow.includes("RCAP controlled Production canary"), "dedicated Production workflow exists");
-check(dispatcher.includes("production_preflight"), "dispatcher exposes the read-only Production preflight");
+check(dispatcher.includes("production_preflight"), "dispatcher exposes the controlled Production preflight (may stage a deployment)");
 check(!dispatcher.includes("production_url_reclassify"), "withdrawn environment-mutation mode is not dispatchable");
 check(workflow.includes('RCAP_PRODUCTION_PHASE: "preflight"'), "preflight phase is fixed by the workflow");
 check(workflow.includes("permissions:\n  contents: read\n  packages: read"), "workflow permissions are read-only");
@@ -24,13 +24,13 @@ check(workflow.includes("node scripts/rcap-production-canary.mjs"), "workflow ru
 check(workflow.includes("if: always()"), "evidence uploads even after refusal");
 check(workflow.includes("VERCEL_AUTOMATION_BYPASS_SECRET"), "runtime inspection receives the existing protection-bypass secret without printing it");
 
-check(script.includes('const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb"'), "application SHA is exact");
-check(script.includes('const TOOLS_SHA = "43cbb6e661e30135ba65b4d2e2ca3810028a9880"'), "tools SHA is exact");
-check(script.includes('const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530"'), "worker source SHA is exact");
-check(script.includes('const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06"'), "worker digest is exact");
+check(script.includes('const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;'), "application SHA is exact");
+check(script.includes('const TOOLS_SHA = process.env.RCAP_TOOLS_SHA;'), "tools SHA is exact");
+check(script.includes('const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;'), "worker source SHA is exact");
+check(script.includes('const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;'), "worker digest is exact");
 check(script.includes('const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"'), "acceptance project is an explicit negative control");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production project is pinned explicitly");
-check(script.includes('const ACCEPTANCE_DEPLOYMENT_ID = "dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ"'), "accepted Preview deployment is pinned exactly");
+check(script.includes('const ACCEPTANCE_DEPLOYMENT_ID = RELEASE_CANDIDATE.hostedAcceptance?.preview?.deploymentId;'), "accepted Preview deployment is pinned exactly");
 check(script.includes("production_environment_is_separate_from_acceptance"), "environment separation is a required verdict");
 check(script.includes("staged_production_deployment_is_exact"), "exact READY staged Production deployment is a required verdict");
 check(script.includes("accepted_preview_deployment_is_exact"), "accepted Preview deployment identity is required before runtime inspection");
@@ -55,6 +55,8 @@ check(script.includes('method: "GET"'), "runtime and management inspection retai
 check(!script.includes("console.log(origin") && !script.includes("console.error(origin"), "runtime origins are never logged directly");
 check(script.includes("originPersisted: false"), "evidence records that runtime origins are not persisted");
 
+check(script.includes('requireProductionMigrationRelease(ROOT_DIR, process.env);'), "separate Production phase permission and current tuple guard every operation");
+check(workflow.includes('node scripts/rcap-production-migration-contract.mjs'), "workflow validates current successor binding before service access");
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
 if (failed.length) {

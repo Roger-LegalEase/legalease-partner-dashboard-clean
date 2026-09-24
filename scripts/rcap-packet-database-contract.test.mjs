@@ -3,11 +3,15 @@ import test from 'node:test';
 import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { register } from 'node:module';
+import vm from 'node:vm';
 import ts from 'typescript';
 import { PDFDocument } from 'pdf-lib';
-import { packetTestDatabase, readPacketCatalog, buildPacketReference } from './rcap-packet-database-reference.mjs';
-import { REPAIR_PATH, CONTRACT_PATH, packetCatalogQuery, comparePacketCatalog, digest } from './rcap-packet-database-contract.mjs';
+import { packetTestDatabase, packetApplicationTestDatabase, applyPacketApplicationDependencies, readPacketCatalog, buildPacketReference } from './rcap-packet-database-reference.mjs';
+import { REPAIR_PATH, CORRECTION_PATH, CONTRACT_PATH, packetCatalogQuery, queueHealthQuery, comparePacketCatalog, digest } from './rcap-packet-database-contract.mjs';
+import { packetDatabaseReadback } from './verify-rcap-packet-database.mjs';
+import { buildMsNonConvictionVerification, MS_NONCONVICTION_ROUTE } from './lib/rcap-ms-nonconviction-fixture.mjs';
 
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const { runWorkerCycle } = await import('../src/lib/rcap/render/render-worker.ts');
@@ -15,23 +19,164 @@ const root=process.cwd();
 const sql = v => v === null ? 'null' : `'${String(v).replaceAll("'","''")}'`;
 const partner='11111111-1111-1111-1111-111111111111';
 const person='aaaaaaaa-1111-1111-1111-111111111111';
+
+// Compile the entire shipped module, replacing only its external clients.
+// This executes getRenderJob and the actual HTTP GET, never a restatement of
+// either. Unknown dependencies fail the test rather than silently becoming a
+// permissive stub.
+function sourceModule(relative, imports, source=fs.readFileSync(path.join(root,relative),'utf8')) {
+  const compiled=ts.transpileModule(source,{fileName:relative,compilerOptions:{
+    module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022
+  }}).outputText;
+  const loaded={exports:{}};
+  const require=name=>{
+    if(name==='server-only')return {};
+    assert.ok(Object.hasOwn(imports,name),`unexpected dependency in ${relative}: ${name}`);
+    return imports[name];
+  };
+  new Function('require','module','exports',compiled)(require,loaded,loaded.exports);
+  return loaded.exports;
+}
+
+test('missing sponsored reader dependency blocks pre-charge; legitimate correction restores the actual owner GET',async t=>{
+  const configured=['NEXT_PUBLIC_SUPABASE_URL','NEXT_PUBLIC_SUPABASE_ANON_KEY'];
+  const priorEnv=Object.fromEntries(configured.map(key=>[key,process.env[key]]));
+  process.env.NEXT_PUBLIC_SUPABASE_URL='http://ephemeral-database.invalid';
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY='local-transport-only';
+  t.after(()=>{for(const key of configured)if(priorEnv[key]===undefined)delete process.env[key];else process.env[key]=priorEnv[key];});
+  register('./lib/consumer-payment-test-loader.mjs',import.meta.url);
+  const doubles=await import('./lib/consumer-payment-test-doubles.mjs');
+  const [briefcase,packetInformation,identity,deliveryControl,delivery,nextServer,screening]=await Promise.all([
+    import('../src/lib/expungement-ai/briefcase.ts'),
+    import('../src/lib/expungement-ai/packet-information.ts'),
+    import('../src/lib/expungement-ai/consumer-identity.ts'),
+    import('../src/lib/rcap/render/consumer-delivery-control.ts'),
+    import('../src/lib/rcap/render/packet-delivery.ts'),
+    import('./lib/next-server-esm-bridge.mjs'),
+    import('../src/lib/expungement-ai/authoritative-screening-result.ts')
+  ]);
+  const db=packetApplicationTestDatabase(root);t.after(()=>{doubles.bindEphemeralDb(null);doubles.setSession(null);db.stop();});
+  doubles.bindEphemeralDb(db);
+  const owner=randomUUID(),stranger=randomUUID(),item=randomUUID(),consumerPerson=randomUUID(),packet=randomUUID();
+  const matter=identity.consumerMatterIdForItem(item);
+  const participant=buildMsNonConvictionVerification({
+    ...packetInformation,...screening,matterId:matter
+  });
+  const jsql=value=>`${sql(JSON.stringify(value))}::jsonb`;
+  db.sql(`insert into auth.users values(${sql(owner)}),(${sql(stranger)});
+    insert into consumer_briefcase_items(id,user_id,item_type,jurisdiction,pathway_label,result_code,packet_type,payment_allowed,status,payment_status,artifact_refs_json)
+      values(${sql(item)},${sql(owner)},'result','MS',${sql(participant.item.pathwayLabel)},${sql(participant.item.resultCode)},${sql(participant.item.packetType)},true,'packet_ready','unpaid',${jsql(participant.item.artifactRefs)});
+    insert into rcap_persons(id,partner_slug,match_key) values(${sql(consumerPerson)},'expungement-ai-consumer',${sql(identity.consumerPersonMatchKey(owner))});
+    insert into consumer_packet_verifications(briefcase_item_id,consumer_auth_user_id,matter_id,status,reason,verification_hash,verification_snapshot,draft_hash,draft_snapshot,revision)
+      values(${sql(item)},${sql(owner)},${sql(matter)},'verified','independent local delivery proof',${sql(participant.hash)},${jsql(participant.snapshot)},${sql(participant.verification.draftHash)},${jsql(participant.verification.draftSnapshot)},${participant.verification.revision});
+    insert into rcap_document_packets(id) values(${sql(packet)});`);
+  const binding=db.json(`select to_jsonb(b) from bind_consumer_checkout_verification(${sql(owner)},${sql(item)},'cs_test_local_reader_proof','stripe','expungement_packet',${sql(consumerPerson)},${sql(matter)},${sql(participant.hash)}) b`);
+  assert.equal(binding.ok,true,JSON.stringify(binding));
+  const payment=db.json(`select to_jsonb(p) from record_consumer_packet_payment(${sql(item)},'paid',0,5000,5000,'usd','stripe','evt_local_reader_proof','cs_test_local_reader_proof',null,null,'server_webhook','independent-local-proof','expungement_packet',${sql(consumerPerson)},${sql(matter)},${sql(participant.hash)}) p`);
+  assert.equal(payment.outcome,'recorded_paid');
+  const id=db.scalar(`select id from enqueue_packet_render_job(${sql(packet)},${sql(MS_NONCONVICTION_ROUTE.routeId)},'packet_document_v1','1.0.0',null,'MS',${sql(MS_NONCONVICTION_ROUTE.profileVersion)},${sql(digest('reader-proof-input'))},${sql(item)},null,${sql(consumerPerson)},${sql(matter)},5,${sql(item)},${sql(owner)})`);
+  db.sql(`update packet_render_jobs set consumer_verification_hash=${sql(participant.hash)} where id=${sql(id)}`);
+  const claim=db.json("select to_jsonb(c) from claim_packet_render_job('download-proof',array['packet_document_v1'],600) c");
+  assert.equal(claim.id,id);
+  db.scalar(`select start_packet_render(${sql(id)},${sql(claim.fencing_token)})`);
+  db.scalar(`select start_packet_validation(${sql(id)},${sql(claim.fencing_token)})`);
+  const pdf=await PDFDocument.create();pdf.addPage([612,792]);const bytes=Buffer.from(await pdf.save());
+  const hash=digest(bytes),storagePath=`packet-artifacts/consumer/${matter}/${id}/${hash}.pdf`;
+  const final=db.json(`select to_jsonb(f) from finalize_packet_render_job(${sql(id)},${sql(claim.fencing_token)},${sql(storagePath)},${sql(hash)},${sql(hash)},${sql(hash)},${sql(hash)},${bytes.length},1,${sql('sha256:'+digest('local-container'))}) f`);
+  assert.equal(final.delivery_eligibility,'eligible');
+  assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
+
+  const queueImports={'@/lib/supabase/server':doubles};
+  const currentQueue=sourceModule('src/lib/rcap/render/job-queue.ts',queueImports);
+  const frozenSource=execFileSync('git',['show','4f7d209de11265d0793b7b74c728eab4efde1aa5:src/lib/rcap/render/job-queue.ts'],{cwd:root,encoding:'utf8'});
+  const frozenQueue=sourceModule('src/lib/rcap/render/job-queue.ts',queueImports,frozenSource);
+  assert.equal(currentQueue.getRenderJob.toString(),frozenQueue.getRenderJob.toString(),'current reader must preserve the frozen application SELECT and mapping');
+  let reads=0;
+  const storage=sourceModule('src/lib/rcap/render/artifact-storage.ts',{
+    '@/lib/rcap/render/job-contract':await import('../src/lib/rcap/render/job-contract.ts'),
+    '@/lib/supabase/server':{getSupabaseAdminClient:()=>({storage:{from(bucket){
+      assert.equal(bucket,'rcap-packet-artifacts-private');
+      return {async download(objectPath){reads++;assert.equal(objectPath,storagePath);return {error:null,data:new Blob([bytes],{type:'application/pdf'})};}};
+    }}})}
+  });
+  const route=sourceModule('src/app/api/rcap/packets/[jobId]/download/route.ts',{
+    'next/server':nextServer,
+    '@/lib/rcap/briefcase/auth':doubles,
+    '@/lib/expungement-ai/briefcase':briefcase,
+    '@/lib/expungement-ai/packet-information':packetInformation,
+    '@/lib/expungement-ai/consumer-identity':identity,
+    '@/lib/rcap/render/consumer-delivery-control':deliveryControl,
+    '@/lib/rcap/render/artifact-storage':storage,
+    '@/lib/rcap/render/job-queue':{...currentQueue,getRenderJob:frozenQueue.getRenderJob},
+    '@/lib/rcap/render/packet-delivery':delivery
+  });
+  const request=()=>route.GET(new Request(`https://local.invalid/api/rcap/packets/${id}/download`),{params:Promise.resolve({jobId:id})});
+  const contract=buildPacketReference(root);
+  const gate=()=>packetDatabaseReadback(contract,
+    JSON.parse(db.sql(packetCatalogQuery()).trim().split('\n').at(-1)),
+    JSON.parse(db.sql(queueHealthQuery).trim()));
+  await t.test('a missing current reader column refuses payment readiness and reproduces the actual owner 404',async()=>{
+    db.sql('alter table packet_render_jobs drop column sponsored_consumer_auth_user_id');
+    assert.equal(gate().passed,false);
+    assert.ok(gate().failures.some(f=>f.name==='column:packet_render_jobs.sponsored_consumer_auth_user_id'));
+    assert.equal(await frozenQueue.getRenderJob(id),null);
+    doubles.setSession({isAuthenticated:true,userId:owner});
+    assert.equal((await request()).status,404);
+    assert.equal(reads,0);
+  });
+  db.applyFile(path.join(root,CORRECTION_PATH));
+  await t.test('correct legitimate dependency passes the current pre-charge gate and the frozen reader returns the known row',async()=>{
+    const readback=gate();assert.equal(readback.passed,true,JSON.stringify(readback.failures));
+    const job=await frozenQueue.getRenderJob(id);
+    assert.equal(job?.id,id);assert.equal(job.outputSha256,hash);assert.equal(job.consumerAuthUserId,owner);
+  });
+  await t.test('actual owner handler returns 200 and precisely the finalized PDF bytes and hash',async()=>{
+    doubles.setSession({isAuthenticated:true,userId:owner});
+    const response=await request();
+    assert.equal(response.status,200,response.status===200?'':await response.text());
+    assert.match(response.headers.get('content-type'),/application\/pdf/);
+    const returned=Buffer.from(await response.arrayBuffer());
+    assert.deepEqual(returned,bytes);assert.equal(digest(returned),hash);
+    assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
+  });
+  await t.test('stranger and anonymous GET requests remain denied before reading storage',async()=>{
+    const priorReads=reads;
+    doubles.setSession({isAuthenticated:true,userId:stranger});assert.equal((await request()).status,403);
+    doubles.setSession(null);assert.equal((await request()).status,401);
+    assert.equal(reads,priorReads);
+  });
+});
+
+function sourceDeclarations(relative,names) {
+  const source=fs.readFileSync(path.join(root,relative),'utf8');
+  const parsed=ts.createSourceFile(relative,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
+  return names.map(name=>{
+    const matches=[];
+    const visit=node=>{
+      if((ts.isFunctionDeclaration(node)||ts.isVariableDeclaration(node))&&node.name?.getText(parsed)===name)matches.push(node);
+      ts.forEachChild(node,visit);
+    };
+    visit(parsed);assert.equal(matches.length,1,`expected one current-source ${name}`);
+    return ts.isFunctionDeclaration(matches[0])?matches[0].getText(parsed):`const ${matches[0].getText(parsed)};`;
+  }).join('\n');
+}
+
 function setup(repaired=true) {
-  const db=packetTestDatabase(root);
-  if(repaired) db.applyFile(path.join(root,REPAIR_PATH));
+  const db=repaired?packetApplicationTestDatabase(root):packetTestDatabase(root,55,true);
+  if(!repaired) applyPacketApplicationDependencies(db,root);
   db.sql(`insert into partner_records values ('${partner}','retry-test');
     insert into rcap_persons values ('${person}','retry-test','a');
     insert into partner_packet_entitlement(partner_id,packet_cap) values ('${partner}',100);`);
   return db;
 }
 const row=(db,id)=>db.json(`select to_jsonb(j) from packet_render_jobs j where id=${sql(id)}`);
-function seed(db,{packet=randomUUID(),hash=digest(randomUUID()),status='failed',attempts=1,max=5,next="now()-interval '1 second'",created='now()'}={}) {
-  const id=randomUUID();
+function seed(db,{id=randomUUID(),packet=randomUUID(),hash=digest(randomUUID()),status='failed',attempts=1,max=5,next="now()-interval '1 second'",created='now()',renderer='packet_document_v1'}={}) {
   // Historical fixtures are inserted through the same trigger coordination
   // required by the canonical functions. Tests never disable a constraint.
   db.sql(`insert into rcap_document_packets(id) values (${sql(packet)}) on conflict do nothing;
     select set_config('rcap.packet_mutation_authority','enqueue_packet_render_job',false);
-    insert into packet_render_jobs(id,packet_id,route_id,renderer_kind,renderer_version,profile_id,profile_version,input_hash,partner_id,person_id,matter_id,max_attempts,created_at,status,error_code)
-    values (${sql(id)},${sql(packet)},'MS:retry-test','packet_document_v1','1.0.0','MS','1.3.0',${sql(hash)},'${partner}','${person}',${sql(randomUUID())},${max},${created},${sql(status)},${status==='failed'?"'storage_write_failed'":'null'});
+    insert into packet_render_jobs(id,packet_id,route_id,renderer_kind,renderer_version,source_sha256,profile_id,profile_version,input_hash,partner_id,person_id,matter_id,max_attempts,created_at,status,error_code)
+    values (${sql(id)},${sql(packet)},'MS:retry-test',${sql(renderer)},'1.0.0',${renderer==='packet_document_v1'?'null':sql(digest('source-fixture'))},'MS','1.3.0',${sql(hash)},'${partner}','${person}',${sql(randomUUID())},${max},${created},${sql(status)},${status==='failed'?"'storage_write_failed'":'null'});
     select set_config('rcap.packet_mutation_authority','fail_packet_render_job',false);
     update packet_render_jobs set status=${sql(status)},attempt_count=${attempts},failure_disposition=${status==='failed'?"'retryable'":'null'},
       error_code=${status==='failed'?"'storage_write_failed'":'null'},next_attempt_at=${next} where id=${sql(id)};`);
@@ -40,6 +185,79 @@ function seed(db,{packet=randomUUID(),hash=digest(randomUUID()),status='failed',
 function retireQueued(db) {
   db.sql('update packet_render_jobs set attempt_count=max_attempts where status=\'queued\'; select release_expired_packet_render_claims()');
 }
+
+test('forward delta repairs the legitimate predecessor without replaying later payment authority or changing historical rows',t=>{
+  const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());
+  db.sql(`insert into partner_records values('${partner}','retry-test');
+    insert into rcap_persons values('${person}','retry-test','a');`);
+  for(let i=0;i<22;i++)seed(db);
+  const priorRows=db.json('select jsonb_agg(to_jsonb(j) order by id) from packet_render_jobs j');
+  const before=readPacketCatalog(db);
+  const paymentKeys=Object.keys(before).filter(k=>k.startsWith('functions:')&&/payment|checkout|verification_authority|persist_consumer|paid_matter|consumption_binding/.test(k));
+  assert.equal(before['column:packet_render_jobs.sponsored_consumer_auth_user_id'],undefined);
+  db.applyFile(path.join(root,CORRECTION_PATH));
+  const after=readPacketCatalog(db);
+  assert.deepEqual(comparePacketCatalog(JSON.parse(fs.readFileSync(CONTRACT_PATH,'utf8')).current,after),[]);
+  for(const key of paymentKeys)assert.deepEqual(after[key],before[key],key);
+  const projected=db.json(`select jsonb_agg(to_jsonb(j)-array['sponsored_route_key','sponsored_session_id','sponsored_clinic_event_id','sponsored_consumer_briefcase_item_id','sponsored_consumer_auth_user_id','sponsored_verification_hash'] order by id) from packet_render_jobs j`);
+  assert.deepEqual(projected,priorRows,'no job reset, retirement, deletion, attempt change or reconciliation during DDL');
+  assert.equal(db.scalar('select count(*) from sponsored_packet_render_routes'),'0','DDL does not replay historical registrations or entitlements');
+  assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'0');
+  const authority=db.scalar("select pg_get_functiondef('get_consumer_packet_artifact_authority(uuid,uuid)'::regprocedure)");
+  db.sql(authority.replace('AS $function$','AS $function$\n-- unknown successor\n'));
+  assert.match(db.sqlExpectError(fs.readFileSync(CORRECTION_PATH,'utf8')),/unrecognized current authority/);
+});
+
+async function actualClaimOrder(db,jobId,rendererKind='packet_document_v1') {
+  const declarations=sourceDeclarations('scripts/rcap-hosted-acceptance-payment.mjs',['claimablePredicate','readClaimOrder']);
+  const context={jobId,rendererKind,itemId:null,sqlText:value=>String(value).replaceAll("'","''"),redactSecrets:String,
+    async sql(query) {
+      assert.match(query.trim(),/^(select|with)\b/i);
+      assert.doesNotMatch(query,/\b(insert|update|delete|call|release_expired_packet_render_claims|requeue_retryable_packet_render_jobs)\s*\(/i);
+      try {
+        const result=db.sql(`begin read only; select coalesce(json_agg(q),'[]') from (${query.trim().replace(/;$/,'')}) q; rollback;`);
+        return {ok:true,status:200,json:JSON.parse(result.split('\n').filter(line=>!['BEGIN','ROLLBACK',''].includes(line)).join('\n'))};
+      } catch(error) {return {ok:false,status:400,json:{message:String(error.stderr??error.message)}};}
+    }
+  };
+  return JSON.parse(JSON.stringify(await vm.runInNewContext(`${declarations}\nreadClaimOrder(jobId,rendererKind)`,context)));
+}
+
+test('actual read-only claim-order diagnostic matches the canonical housekeeping then claim sequence',async t=>{
+  const db=setup();t.after(()=>db.stop());
+  const expired=seed(db,{status:'queued',attempts:0,next:'null',created:"'2020-01-01'"});
+  assert.equal(db.scalar("select id from claim_packet_render_job('diagnostic',array['packet_document_v1'],600)"),expired);
+  db.sql(`update packet_render_jobs set claim_expires_at=now()-interval '1 second' where id=${sql(expired)}`);
+  const high='eeeeeeee-2222-4222-8222-222222222222',low='22222222-2222-4222-8222-222222222222';
+  seed(db,{id:high,status:'queued',attempts:0,next:'null',created:"'2020-02-01'"});
+  seed(db,{id:low,status:'queued',attempts:0,next:'null',created:"'2020-02-01'"});
+  const due=seed(db,{created:"'2020-01-15'"});
+  const exhausted=seed(db,{status:'queued',attempts:5,next:'null',created:"'2019-01-01'"});
+  seed(db,{status:'queued',attempts:0,next:"now()+interval '1 hour'",created:"'2018-01-01'"});
+  seed(db,{status:'queued',attempts:0,next:'null',created:"'2017-01-01'",renderer:'official_pdf_overlay'});
+  const target=seed(db,{status:'queued',attempts:0,next:'null',created:"'2020-03-01'"});
+  const before=db.json('select json_agg(j order by id) from packet_render_jobs j');
+  const diagnostic=await actualClaimOrder(db,target);
+  assert.equal(diagnostic.readOutcome,'read',JSON.stringify(diagnostic));
+  assert.deepEqual(db.json('select json_agg(j order by id) from packet_render_jobs j'),before,'diagnostic must not mutate the queue');
+  await t.test('future retries, exhausted queued rows and unsupported renderers are excluded',()=>{
+    assert.equal(diagnostic.currentlyClaimable,5);
+    assert.equal(diagnostic.targetClaimRank,5);
+  });
+  await t.test('expired claims and due failed predecessors are included before housekeeping executes',()=>{
+    assert.deepEqual(diagnostic.predecessors.map(r=>r.id),[expired,due,low,high]);
+  });
+  await t.test('equal timestamps break ties by id exactly as the actual claim RPC does',()=>{
+    db.scalar('select release_expired_packet_render_claims()');
+    db.scalar('select requeue_retryable_packet_render_jobs()');
+    const actual=[];
+    for(let i=0;i<5;i++)actual.push(db.scalar("select id from claim_packet_render_job('diagnostic',array['packet_document_v1'],600)"));
+    assert.deepEqual(actual,[expired,due,low,high,target]);
+    assert.deepEqual([diagnostic.predictedFirstClaim,...diagnostic.predecessors.slice(1).map(r=>r.id),target],actual);
+    assert.equal(row(db,exhausted).failure_disposition,'terminal');
+    assert.equal(db.scalar("select count(*) from claim_packet_render_job('diagnostic',array['packet_document_v1'],600)"),'0');
+  });
+});
 
 test('real database retry lifecycle, collisions and attempt limits',async t=>{
   const db=setup(false); t.after(()=>db.stop());
@@ -56,6 +274,7 @@ test('real database retry lifecycle, collisions and attempt limits',async t=>{
     assert.match(db.sqlExpectError(`update packet_render_jobs set error_code='profile_version_unknown' where id=${sql(target)}`),/packet_render_jobs_error_code_check/);
   });
   db.applyFile(path.join(root,REPAIR_PATH));
+  db.applyFile(path.join(root,CORRECTION_PATH));
   await t.test('duplicate siblings cannot abort unrelated retry; deterministic one-live winner',()=>{
     assert.equal(db.scalar('select requeue_retryable_packet_render_jobs()'),'2');
     assert.equal(row(db,a).status,'queued');
@@ -155,26 +374,104 @@ test('real database retry lifecycle, collisions and attempt limits',async t=>{
     assert.equal(row(db,winner).status,'queued');assert.equal(row(db,unrelated).status,'queued');
     db.sql('drop trigger zz_test_pause_retry on packet_render_jobs; drop function test_pause_retry()');
   });
-  await t.test('one historical row rejected by another guard cannot roll back unrelated work',()=>{
+  await t.test('unexpected guard failure rejects retry without retiring history or reporting progress',()=>{
     const poison=seed(db),target=seed(db);
     db.sql(`create function test_reject_retry() returns trigger language plpgsql as $$ begin
       if new.id=${sql(poison)} and new.status='queued' then raise exception 'historical row refused'; end if;
       return new; end $$;
       create trigger zz_test_reject_retry before update on packet_render_jobs for each row execute function test_reject_retry();`);
-    db.scalar('select requeue_retryable_packet_render_jobs()');
-    assert.equal(row(db,target).status,'queued');assert.equal(row(db,poison).failure_disposition,'terminal');
-    assert.equal(row(db,poison).retry_reconciliation_history.at(-1).requeue_sqlstate,'P0001');
-    assert.equal(row(db,poison).error_code,'storage_write_failed');
-    db.sql('drop trigger zz_test_reject_retry on packet_render_jobs; drop function test_reject_retry()');
+    const before=[row(db,poison),row(db,target)];
+    try {
+      assert.match(db.sqlExpectError('select requeue_retryable_packet_render_jobs()'),/historical row refused/);
+      assert.deepEqual([row(db,poison),row(db,target)],before);
+    } finally { db.sql('drop trigger zz_test_reject_retry on packet_render_jobs; drop function test_reject_retry()'); }
   });
-  await t.test('a row refusing even terminal bookkeeping stays failed without rolling back another input',()=>{
+  await t.test('a row refusing every update causes failure instead of warning-only zero-work success',()=>{
     const poison=seed(db),target=seed(db);
     db.sql(`create function test_reject_all_updates() returns trigger language plpgsql as $$ begin
       if new.id=${sql(poison)} then raise exception 'historical row refused'; end if; return new; end $$;
       create trigger zz_test_reject_all_updates before update on packet_render_jobs for each row execute function test_reject_all_updates();`);
-    db.scalar('select requeue_retryable_packet_render_jobs()');
-    assert.equal(row(db,target).status,'queued');assert.equal(row(db,poison).status,'failed');
-    db.sql('drop trigger zz_test_reject_all_updates on packet_render_jobs; drop function test_reject_all_updates()');
+    const before=[row(db,poison),row(db,target)];
+    try {
+      assert.match(db.sqlExpectError('select requeue_retryable_packet_render_jobs()'),/historical row refused/);
+      assert.deepEqual([row(db,poison),row(db,target)],before);
+    } finally { db.sql('drop trigger zz_test_reject_all_updates on packet_render_jobs; drop function test_reject_all_updates()'); }
+  });
+  for (const [label,schema,tableName,constraint] of [
+    ['unrelated unique constraint','public','unrelated_retry_fixture','unrelated_retry_unique'],
+    ['same constraint name on another relation','retry_fixture','other_jobs','packet_render_jobs_input_hash_live_unique'],
+    ['same relation and constraint names in another schema','retry_fixture','packet_render_jobs','packet_render_jobs_input_hash_live_unique']
+  ]) await t.test(`${label} is not the expected live-input collision`,()=>{
+    const poison=seed(db),target=seed(db);
+    db.sql(`create schema if not exists ${schema};
+      create table ${schema}.${tableName}(id integer constraint ${constraint} unique);
+      insert into ${schema}.${tableName} values(1);
+      create function test_unrelated_retry_unique() returns trigger language plpgsql as $$ begin
+        if new.id=${sql(poison)} and new.status='queued' then insert into ${schema}.${tableName} values(1); end if;
+        return new; end $$;
+      create trigger zz_test_unrelated_retry_unique before update on packet_render_jobs for each row execute function test_unrelated_retry_unique();`);
+    const before=[row(db,poison),row(db,target)];
+    try {
+      assert.match(db.sqlExpectError('select requeue_retryable_packet_render_jobs()'),new RegExp(constraint));
+      assert.deepEqual([row(db,poison),row(db,target)],before);
+    } finally {
+      db.sql(`drop trigger zz_test_unrelated_retry_unique on packet_render_jobs; drop function test_unrelated_retry_unique(); drop table ${schema}.${tableName}`);
+    }
+  });
+});
+
+test('the actual queue adapter exposes SQL errors through the actual worker cycle',async t=>{
+  const db=setup();t.after(()=>db.stop());
+  const calls=[];
+  const adapter=sourceModule('src/lib/rcap/render/job-queue.ts',{
+    '@/lib/supabase/server':{getSupabaseAdminClient:()=>({
+      async rpc(name) {
+        assert.ok(['release_expired_packet_render_claims','requeue_retryable_packet_render_jobs'].includes(name));
+        calls.push(name);
+        try {
+          const value=db.sql(`set role service_role; select ${name}()`).trim().split('\n').at(-1);
+          return {data:Number(value),error:null};
+        } catch(error) {
+          return {data:null,error:{message:String(error.stderr??error.message)}};
+        }
+      }
+    })}
+  });
+  await t.test('a successful empty queue remains a genuine zero-work result',async()=>{
+    assert.equal(await adapter.releaseExpiredRenderClaims(),0);
+    assert.equal(await adapter.requeueRetryableRenderJobs(),0);
+  });
+  const poison=seed(db);
+  db.sql(`create function test_adapter_rejection() returns trigger language plpgsql as $$ begin
+    if new.id=${sql(poison)} and new.status='queued' then raise exception 'adapter SQL failure must remain visible'; end if;
+    return new; end $$;
+    create trigger zz_test_adapter_rejection before update on packet_render_jobs for each row execute function test_adapter_rejection();`);
+  const before=row(db,poison);
+  await t.test('RPC error cannot be mapped to zero by the application adapter',async()=>{
+    await assert.rejects(adapter.requeueRetryableRenderJobs(),error=>{
+      assert.match(error.message,/requeue_retryable_packet_render_jobs/);
+      assert.match(error.cause?.message??error.message,/adapter SQL failure must remain visible/);return true;
+    });
+    assert.deepEqual(row(db,poison),before);
+  });
+  await t.test('worker housekeeping error cannot become an idle successful cycle',async()=>{
+    await assert.rejects(runWorkerCycle({containerDigest:'sha256:'+digest('local-container'),queue:{
+      releaseExpired:adapter.releaseExpiredRenderClaims,
+      requeueRetryable:adapter.requeueRetryableRenderJobs,
+      claim:async()=>assert.fail('claim must not execute after failed housekeeping')
+    }}),error=>{
+      assert.match(error.message,/requeue_retryable_packet_render_jobs/);
+      assert.match(error.cause?.message??error.message,/adapter SQL failure must remain visible/);return true;
+    });
+    assert.deepEqual(row(db,poison),before);
+    assert.deepEqual(calls.slice(-2),['release_expired_packet_render_claims','requeue_retryable_packet_render_jobs']);
+  });
+  await t.test('release RPC permission errors are surfaced too',async()=>{
+    db.sql('revoke execute on function release_expired_packet_render_claims() from service_role');
+    await assert.rejects(adapter.releaseExpiredRenderClaims(),error=>{
+      assert.match(error.message,/release_expired_packet_render_claims/);
+      assert.match(error.cause?.message??error.message,/permission denied/);return true;
+    });
   });
 });
 
@@ -201,7 +498,7 @@ function workerCodes() {
   return [...new Set(codes)].sort();
 }
 
-test('unchanged production worker with real queue RPCs and persisted failure vocabulary',async t=>{
+test('actual worker cycle with real queue RPCs and persisted failure vocabulary',async t=>{
   const db=setup();t.after(()=>db.stop());
   const id=seed(db,{status:'queued',attempts:0,next:'null'});
   const before=row(db,id), objects=new Map(); let uploads=0;
@@ -227,9 +524,11 @@ test('unchanged production worker with real queue RPCs and persisted failure voc
   });
   await t.test('actual worker cannot claim target before its canonical 60-second backoff',async()=>{
     const r=row(db,id);assert.ok(Date.parse(r.next_attempt_at)>Date.now()+55000);
+    assert.equal((await actualClaimOrder(db,id)).targetClaimRank,null);
     assert.deepEqual(await runWorkerCycle(deps),{outcome:'idle'});assert.equal(uploads,1);
     // Advance only this disposable database's fixture time, never hosted time.
     db.sql(`update packet_render_jobs set next_attempt_at=now()-interval '1 millisecond' where id=${sql(id)}`);
+    const due=await actualClaimOrder(db,id);assert.equal(due.targetClaimRank,1);assert.equal(due.predictedFirstClaim,id);
   });
   await t.test('due same target renders, re-reads stored bytes and finalizes once',async()=>{
     const r=await runWorkerCycle(deps);assert.equal(r.outcome,'finalized');assert.equal(r.jobId,id);
@@ -275,7 +574,7 @@ test('unchanged production worker with real queue RPCs and persisted failure voc
   });
 });
 
-test('source-derived Phase-50 complete postcondition authority',async t=>{
+test('source-derived current delivery and worker postcondition authority',async t=>{
   const reference=buildPacketReference(root),committed=JSON.parse(fs.readFileSync(CONTRACT_PATH,'utf8'));
   assert.deepEqual(reference,committed,'committed catalog must reproduce from exact source, never from live acceptance');
   for(const [name,value] of Object.entries(reference.current))await t.test(`mutation rejects missing ${name}`,()=>{

@@ -29,7 +29,7 @@
 // attempt it, against this database.
 
 import { loadPacketContract, packetCatalogQuery, normalizeCatalog } from './rcap-packet-database-contract.mjs';
-import { migrationCertification, acceptanceLedgerExecution } from './rcap-migration-certification.mjs';
+import { migrationCertification, runAcceptanceMigrationSequence } from './rcap-migration-certification.mjs';
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -38,15 +38,16 @@ import { fileURLToPath } from "node:url";
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
+export async function runHostedAcceptanceMigrate({ query: injectedQuery, environment = process.env, evidenceWriter } = {}) {
+const { root: EVIDENCE_DIR } = evidenceWriter ? {} : prepareHostedAcceptanceEvidenceLayout({ rootDir, environment });
+const persistEvidence = evidenceWriter ?? (value => fs.writeFileSync(path.join(EVIDENCE_DIR, "migrate.json"), `${JSON.stringify(value, null, 2)}\n`));
 
-const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
-const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
+const SUPABASE_ACCESS_TOKEN = environment.SUPABASE_ACCESS_TOKEN ?? "";
+const PROJECT_REF = environment.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 if (!SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF) {
-  console.error("MIGRATE: SUPABASE_ACCESS_TOKEN and the pinned acceptance project ref are required");
-  process.exit(1);
+  throw new Error("MIGRATE: SUPABASE_ACCESS_TOKEN and the pinned acceptance project ref are required");
 }
 
 const verdicts = new Map();
@@ -70,7 +71,7 @@ const REQUIRED_CASES = [
 
 const sha256File = (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(rootDir, rel))).digest("hex");
 
-async function query(sql) {
+async function managementQuery(sql) {
   const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
     method: "POST",
     headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
@@ -81,6 +82,7 @@ async function query(sql) {
   try { json = JSON.parse(text); } catch { /* non-JSON surfaces through text */ }
   return { ok: res.status >= 200 && res.status < 300 && Array.isArray(json), status: res.status, json, text };
 }
+const query = injectedQuery ?? managementQuery;
 
 /** One scalar out of a single-row single-column result. */
 async function scalar(sql) {
@@ -137,15 +139,16 @@ const authorizedMigrationPaths = new Set(sequence.map((entry) => entry.path));
       : `HASH DRIFT — refusing to apply anything: ${bad.map((r) => `phase ${r.phase} (action=${r.matchesAction}, readiness=${r.matchesReadiness})`).join(", ")}`
   );
   if (bad.length > 0) {
-    fs.writeFileSync(path.join(EVIDENCE_DIR, "migrate.json"), `${JSON.stringify({ ...evidence, passed: false }, null, 2)}\n`);
+    evidence.passed = false;
+    await persistEvidence(evidence);
     console.error("\nMIGRATE REFUSED — a migration on disk does not match its authorization record. Nothing was applied.");
-    process.exit(1);
+    return evidence;
   }
 }
 
 // Existing environments must never replay the old baseline over later authority.
-// Read the ledger before the first write, then prove Phase 50 from its complete
-// source-derived catalog. The old adopted_existing_objects receipt is not proof.
+// Read the ledger and actual current release dependencies before the first
+// write. A historical receipt proves neither current state nor safe replay.
 const ledgerExists = await query(`select to_regclass('public.rcap_acceptance_migration_ledger') is not null as present`);
 if (!ledgerExists.ok || !Array.isArray(ledgerExists.json) || ledgerExists.json.length !== 1 || typeof ledgerExists.json[0].present !== 'boolean') {
   throw new Error('Migration ledger presence could not be read; no writes authorized by this control');
@@ -155,28 +158,43 @@ const priorLedger = ledgerExists.json[0].present
   : { ok:true, json:[] };
 if (!priorLedger.ok || !Array.isArray(priorLedger.json)) throw new Error('Migration ledger read failed; refusing writes');
 const priorRows = priorLedger.ok && Array.isArray(priorLedger.json) ? priorLedger.json : [];
-const existingSequence = priorRows.length > 0;
-let phase50Proof = null;
-async function certifyPhase50() {
+const packetSchema = await query(`select to_regclass('public.packet_render_jobs') is not null as present`);
+if (!packetSchema.ok || packetSchema.json?.length !== 1 || typeof packetSchema.json[0].present !== 'boolean') {
+  throw new Error('Existing packet schema could not be inspected; refusing historical replay');
+}
+const existingSequence = priorRows.length > 0 || packetSchema.json[0].present;
+async function certifyCurrent() {
   const contract = loadPacketContract(rootDir);
   const readback = await query(packetCatalogQuery());
   const actual = readback.ok && Array.isArray(readback.json) && readback.json.length === 1
     ? normalizeCatalog(readback.json[0].catalog ?? {}) : {};
-  // Later authorized phases and this forward correction supersede only the
-  // exact objects recorded by the disposable replay, never an arbitrary match.
-  const current = migrationCertification({ expected:contract.current, actual });
-  const original = migrationCertification({ expected:contract.phase50, actual });
-  return current.certified ? { ...current, revision:'forward_corrected', httpStatus:readback.status }
-    : original.certified ? { ...original, revision:'phase50_exact', httpStatus:readback.status }
-    : { ...current, httpStatus:readback.status };
+  return {
+    ...migrationCertification({ expected:contract.current, actual }),
+    revision:'current_release_dependencies', httpStatus:readback.status
+  };
 }
-if (existingSequence) {
-  phase50Proof = await certifyPhase50();
-  evidence.readback.phase50Catalog = phase50Proof;
-  if (!phase50Proof.certified) {
-    fs.writeFileSync(path.join(EVIDENCE_DIR,'migrate.json'), JSON.stringify({ ...evidence, passed:false },null,2)+'\n');
-    throw new Error('Existing Phase-50 catalog is incomplete; apply an authorized forward correction. No baseline or ledger write was performed.');
-  }
+const currentProof = await certifyCurrent();
+evidence.readback.currentReleaseCatalog = currentProof;
+if (currentProof.certified || existingSequence) {
+  const result = await runAcceptanceMigrationSequence({
+    sequence, rows:evidence.authorizedSequence, priorRows, preserveExistingState:true,
+    query, readSql:rel => fs.readFileSync(path.join(rootDir, rel), 'utf8'), certifyCurrent,
+    persistEvidence:state => persistEvidence({ ...evidence, authorizedSequence:state.rows, sequenceResult:{ ...state, rows:undefined }, passed:false })
+  });
+  evidence.sequenceResult = result;
+  evidence.mode = 'current_release_dependency_verification_no_write';
+  record('current_release_dependency_catalog', currentProof.certified, currentProof.certified
+    ? 'Complete current source-derived catalog verified; historical phases, metadata, hardening, and mutation probes were not replayed.'
+    : 'Current runtime state is incomplete despite historical execution evidence. An authorized forward correction is required; no writes performed.');
+  record('authorized_sequence_applied_in_order', result.passed, result.passed
+    ? `${result.satisfied}/${authorizedPhaseCount} release dependency obligations verified and recorded; ${result.applied} migrations applied this run.`
+    : result.failure);
+  evidence.requiredCases = ['authorized_hashes_agree_across_both_records','current_release_dependency_catalog','authorized_sequence_applied_in_order'];
+  evidence.failedCases = evidence.requiredCases.filter(caseId => !verdicts.get(caseId)?.passed);
+  evidence.missingCases = [];
+  evidence.passed = evidence.failedCases.length === 0;
+  await persistEvidence(evidence);
+  return evidence;
 }
 
 // --- 1b. Stamp the environment before the first write -----------------------
@@ -197,7 +215,7 @@ if (existingSequence) {
     insert into public.rcap_acceptance_environment_marker (project_ref, application_sha, note)
     values (
       '${PROJECT_REF}',
-      '${(process.env.HOSTED_APPLICATION_SHA ?? "unrecorded").replace(/[^0-9a-f]/g, "").slice(0, 40) || "unrecorded"}',
+      '${(environment.HOSTED_APPLICATION_SHA ?? "unrecorded").replace(/[^0-9a-f]/g, "").slice(0, 40) || "unrecorded"}',
       'RCAP acceptance environment. Stamped by the hosted acceptance pipeline immediately before its first write, at which point every production witness table was proven absent or empty. Not a production database.'
     )
     on conflict (project_ref) do update set stamped_at = now(), application_sha = excluded.application_sha
@@ -299,93 +317,44 @@ if (existingSequence) {
       : `required baseline table(s) missing after the baseline pass: ${missing.join(", ")}`
   );
   if (missing.length > 0) {
-    fs.writeFileSync(path.join(EVIDENCE_DIR, "migrate.json"), `${JSON.stringify({ ...evidence, passed: false }, null, 2)}\n`);
+    evidence.passed = false;
+    await persistEvidence(evidence);
     console.error(`\nMIGRATE STOPPED — the baseline did not produce the schema the authorized sequence builds on. Authorized phases ${authorizedPhaseLabel} were NOT applied.`);
-    process.exit(1);
+    return evidence;
   }
 }
 
-// --- 3. The authorized sequence, in order, indivisibly ----------------------
+// --- 3. The authorized sequence, with required current postconditions -------
 {
-  // A migration ledger, because "apply the sequence" and "the sequence is
-  // applied" are different claims and only the second one matters.
-  //
-  // These files contain non-idempotent statements. An execution receipt can
-  // skip an exact previously executed file; a duplicate-error adoption cannot.
-  // Phase 50 always receives full definition/privilege/postcondition readback.
-  await query(`
-    create table if not exists public.rcap_acceptance_migration_ledger (
-      phase int primary key,
-      sha256 text not null,
-      authorization_id text not null,
-      applied_at timestamptz not null default now(),
-      applied_by text not null
-    )
-  `);
-  await query(`revoke all on public.rcap_acceptance_migration_ledger from anon, authenticated`);
-  await query(`alter table public.rcap_acceptance_migration_ledger enable row level security`);
-
-  const ledgerRows = await query(`select phase, sha256, applied_by from public.rcap_acceptance_migration_ledger`);
-  const ledger = new Map(
-    (Array.isArray(ledgerRows.json) ? ledgerRows.json : []).map((row) => [Number(row.phase), row])
-  );
-
-  // Duplicate responses are only failed executions. Exact postconditions may
-  // independently prove adoption; no error pattern can certify a phase.
-  let satisfied = 0;
-  let failure = null;
-  for (const entry of sequence) {
-    const row = evidence.authorizedSequence.find((candidate) => candidate.phase === entry.phase);
-    const onDisk = row.onDisk;
-
-    const ledgerEntry = ledger.get(entry.phase);
-    const proof = entry.phase === 50 ? (phase50Proof ?? await certifyPhase50()) : null;
-    if ((entry.phase === 50 && proof.certified)
-        || (entry.phase !== 50 && acceptanceLedgerExecution(ledgerEntry,onDisk))) {
-      row.applied = true;
-      row.disposition = entry.phase === 50 ? "complete_postconditions_verified" : "prior_exact_execution_at_this_hash";
-      if (proof) row.postconditions = proof;
-      satisfied += 1;
-      console.log(`    phase ${entry.phase} already applied at ${onDisk.slice(0, 12)}… (ledger)`);
-      continue;
-    }
-
-    if (ledgerEntry && !acceptanceLedgerExecution(ledgerEntry,onDisk)) {
-      row.applied = false;
-      failure = `phase ${entry.phase}: legacy adoption has no complete postcondition authority; explicit forward reconciliation required`;
-      break;
-    }
-    const sql = fs.readFileSync(path.join(rootDir, entry.path), "utf8");
-    const r = await query(sql);
-    const readbackProof = entry.phase === 50 ? await certifyPhase50() : null;
-    const certification = readbackProof ?? migrationCertification({ executed:r.ok });
-    if (certification.certified) {
-      await query(`
-        insert into public.rcap_acceptance_migration_ledger (phase, sha256, authorization_id, applied_by)
-        values (${entry.phase}, '${onDisk}', '${entry.authorizationId}', '${r.ok ? "hosted_acceptance_pipeline" : "complete_postconditions_verified"}')
-        on conflict (phase) do update set sha256 = excluded.sha256, applied_at = now(), applied_by = excluded.applied_by
-      `);
-      row.applied = true;
-      row.disposition = r.ok ? "applied_by_this_run" : "complete_postconditions_verified";
-      row.postconditions = certification;
-      satisfied += 1;
-      console.log(`    phase ${entry.phase} ${r.ok ? "applied" : "verified by complete postconditions"} (${entry.authorizationId})`);
-      continue;
-    }
-
-    row.applied = false;
-    row.error = String(r.json?.message ?? r.text).slice(0, 400);
-    failure = `phase ${entry.phase} failed: ${row.error}`;
-    break;
+  // Metadata preparation must succeed before executing an authorized migration.
+  for (const sql of [
+    `create table if not exists public.rcap_acceptance_migration_ledger (
+      phase int primary key, sha256 text not null, authorization_id text not null,
+      applied_at timestamptz not null default now(), applied_by text not null
+    )`,
+    `revoke all on public.rcap_acceptance_migration_ledger from anon, authenticated`,
+    `alter table public.rcap_acceptance_migration_ledger enable row level security`
+  ]) {
+    const response = await query(sql);
+    if (!response.ok) throw new Error('Migration receipt storage preparation failed; no authorized migration was executed');
   }
-
-  record(
-    "authorized_sequence_applied_in_order",
-    satisfied === sequence.length,
-    satisfied === sequence.length
-      ? `${authorizedPhaseLabel} are all present on ${PROJECT_REF} at their authorized hashes (${satisfied}/${authorizedPhaseCount}: ${evidence.authorizedSequence.map((r) => `${r.phase}=${r.disposition}`).join(", ")}). The readback below is what proves they took effect.`
-      : `${failure} — satisfied ${satisfied}/${authorizedPhaseCount}; the sequence is indivisible, so this environment must not serve a participant`
-  );
+  const ledgerRows = await query(`select phase, sha256, applied_by from public.rcap_acceptance_migration_ledger`);
+  if (!ledgerRows.ok || !Array.isArray(ledgerRows.json)) throw new Error('Migration ledger read failed; no authorized migration was executed');
+  const result = await runAcceptanceMigrationSequence({
+    sequence, rows:evidence.authorizedSequence, priorRows:ledgerRows.json,
+    preserveExistingState:existingSequence, query,
+    readSql:rel => fs.readFileSync(path.join(rootDir,rel),'utf8'), certifyCurrent,
+    persistEvidence:state => persistEvidence({ ...evidence, authorizedSequence:state.rows, sequenceResult:{ ...state, rows:undefined }, passed:false })
+  });
+  evidence.sequenceResult = result;
+  record('authorized_sequence_applied_in_order', result.passed, result.passed
+    ? `${result.satisfied}/${authorizedPhaseCount} current release dependency obligations verified and recorded; ${result.applied} migrations applied this run.`
+    : `${result.failure} — satisfied ${result.satisfied}/${authorizedPhaseCount}; SQL effects and receipt failures are recorded separately.`);
+  if (!result.passed) {
+    evidence.passed = false;
+    await persistEvidence(evidence);
+    return evidence;
+  }
 }
 
 // --- 3b. The hardening phase, last ------------------------------------------
@@ -659,11 +628,22 @@ if (existingSequence) {
   evidence.missingCases = missing;
   evidence.failedCases = failed;
   evidence.passed = missing.length === 0 && failed.length === 0;
-  fs.writeFileSync(path.join(EVIDENCE_DIR, "migrate.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+  await persistEvidence(evidence);
 
   console.log("");
   if (missing.length > 0) console.error(`MIGRATE INCOMPLETE — no verdict registered for: ${missing.join(", ")}`);
   if (failed.length > 0) console.error(`MIGRATE FAILED — ${failed.join(", ")}`);
   if (evidence.passed) console.log(`MIGRATE PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; ${authorizedPhaseLabel} are applied and enforcing on ${PROJECT_REF}.`);
-  process.exit(evidence.passed ? 0 : 1);
+  return evidence;
+}
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try {
+    const result = await runHostedAcceptanceMigrate();
+    process.exitCode = result.passed ? 0 : 1;
+  } catch (error) {
+    console.error(`MIGRATE FAILED — ${error.message}`);
+    process.exitCode = 1;
+  }
 }

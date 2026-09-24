@@ -6,7 +6,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
+// This historical permission remains bound to its original tuple. It never
+// supplies successor Production permission.
+const HISTORICAL_AUTHORIZATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
+const APPLICATION_SHA = process.env.RCAP_APPLICATION_SHA ?? JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json','utf8')).applicationSha;
 const LEDGER_BASELINE_LAST_VERSION = "20260823171000";
 const RECOVERED_REMOTE_BASELINE_VERSION = "20260728213131";
 const UNLEDGERED_PREFILL_VERSION = "20260822180000";
@@ -42,7 +45,8 @@ check(workflow.includes("node scripts/test-rcap-production-forward-chain-migrate
 check(workflow.includes("node scripts/rcap-production-forward-chain-migrate.mjs"), "workflow invokes the dedicated forward-chain control");
 check(workflow.includes('RCAP_PRODUCTION_PHASE: "forward_chain_readback"') && workflow.includes('RCAP_PRODUCTION_PHASE: "forward_chain_migrate"'), "workflow fixes each phase name");
 check(script.includes(`const PRODUCTION_PROJECT_REF = "${PRODUCTION_PROJECT_REF}"`), "Production project ref is exact");
-check(script.includes(`const APPLICATION_SHA = "${APPLICATION_SHA}"`), "application SHA is exact");
+check(script.includes('const release = requireRelease(ROOT_DIR, env);') && script.includes('requireRelease = requireProductionMigrationRelease'), "current successor tuple and separate phase permission are verified before service access");
+check(workflow.includes('node scripts/rcap-production-migration-contract.mjs') && workflow.includes('node --test scripts/rcap-production-migration-contract.test.mjs'), "workflow requires exact binding and behavioral proof");
 check(script.includes('PHASE !== "forward_chain_readback" && PHASE !== "forward_chain_migrate"'), "control enables only the forward-chain readback and migration phases");
 check(migrations.length === EXPECTED_POSITIONS.length, `control pins exactly ${EXPECTED_POSITIONS.length} forward migrations`);
 check(migrations.map((entry) => entry.position).join(",") === EXPECTED_POSITIONS.join(","), "forward migrations carry positions 17 through 26 in order");
@@ -73,11 +77,8 @@ check(script.includes("frozen_forward_chain_hashes_exact"), "frozen forward-chai
 check(script.includes("migration_ledger_carries_the_recovered_baseline"), "migration ledger must carry the recovered baseline before mutation");
 check(script.includes("loose_phase_prerequisites_present"), "loose phase prerequisites are read before mutation");
 check(script.includes("forward_chain_gaps_cannot_clobber_later_definitions") && script.includes("unsafeGaps("), "a partial forward chain is refused when a late apply would overwrite a later migration's definitions");
-check(script.includes("_late_apply_cannot_clobber_later_definitions"), "each late apply is guarded against clobbering a present later migration");
-check(
-  script.includes("executeDespiteLedgerRow") && script.includes('&& migration.signature.kind === "ledger"'),
-  "a ledger row recorded without an execution can be backed by executing the file only when the authorization names the version and the signature is ledger-only"
-);
+check(script.includes('expected: contract.current, actual: normalizeCatalog('), "current complete source postconditions are required");
+check(!script.includes('managementQuery(sqlByVersion.get(') && !script.includes('insert into supabase_migrations.schema_migrations'), "historical SQL and ledger receipts are never replayed or adopted");
 
 // Every object signature must be created by no earlier migration file, or the
 // control would treat a file as applied because an earlier file created the
@@ -109,17 +110,11 @@ for (const signature of signatures) {
   check(unique, `forward migration ${signature.position} signature ${signature.kind}:${signature.name} is created by no earlier migration file`);
 }
 check(script.includes("readback_phase_wrote_nothing"), "readback phase asserts it wrote nothing");
-check(script.includes("independent_production_authorization_names_the_exact_chain"), "Production apply requires the independent authorization naming the exact chain");
-check(
-  script.includes("existing_row_revocation_within_the_owner_accepted_bound")
-    && ["maxUnexpiredUnclaimedRowsRevoked", "maxClaimedRowsWithoutProvableMatterRevoked", "maxExpiredUnclaimedRowsRevoked"].every((key) => script.includes(`"${key}"`))
-    && script.includes("pending_result_existing_row_impact_read_as_counts"),
-  "existing-row revocation is counted before any write and must stay within every owner-accepted maximum"
-);
-check(script.includes("forward_chain_complete_after_apply"), "complete forward chain is read back after apply");
-check(script.includes("ledger_records_every_forward_version"), "ledger readback of every forward version is required");
-check(script.includes("database/query"), "DDL and direct readback use the exact Supabase project endpoint");
-check(script.includes("on conflict (version) do nothing"), "ledger rows are recorded idempotently");
+check(script.includes('current_release_dependencies_verified_no_write') && script.includes('current_release_verification_wrote_nothing'), "complete current state has a no-write success path");
+check(script.includes('historicalChainCertified = false'), "current dependency proof is not a certificate for unrelated historical schema");
+check(script.includes('forward_chain_current_release_inventory_complete'), "historical inventory cannot hide a missing prerequisite");
+check(script.includes('forward_chain_current_release_postconditions_verified'), "the required current dependency proof is recorded");
+check(script.includes("database/query"), "direct readback uses the exact Supabase project endpoint");
 check(!/api\.vercel\.com|vercel@|\/aliases|vercel promote/.test(script), "migration phase cannot deploy or move aliases");
 check(!/delete\s+from|truncate\s|drop\s+(?:table|schema|database|column)/i.test(script), "control contains no destructive SQL of its own");
 check(script.includes("structureDropped: false"), "evidence fixes structure drops to false");
@@ -157,7 +152,7 @@ if (readbackOnly && !authorizationPresent) {
 } else {
   check(authorization?.status === "authorized_production_incident", "authorization record carries the Production incident status");
   check(authorization?.productionProjectRef === PRODUCTION_PROJECT_REF, "authorization record names the canonical Production project");
-  check(authorization?.applicationSha === APPLICATION_SHA, "authorization record pins the same application SHA");
+  check(authorization?.applicationSha === HISTORICAL_AUTHORIZATION_SHA, "historical authorization retains its original application SHA");
   check(authorization?.dropAuthorized === false, "authorization record forbids dropping structure");
   check(/^[0-9]{6,}$/.test(String(authorization?.readbackRunId ?? "")), "authorization record names the incident readback run");
   check(

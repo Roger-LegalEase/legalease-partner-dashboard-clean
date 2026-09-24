@@ -23,23 +23,17 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
-const TOOLS_SHA = "43cbb6e661e30135ba65b4d2e2ca3810028a9880";
-const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
+const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
+const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
+const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
+const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;
+const TOOLS_SHA = process.env.RCAP_TOOLS_SHA;
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-// The Preview this release's acceptance actually ran on, and the current holder
-// of the deterministic alias legalease-rcap-4e16d6d8ebe9-roger947s-projects
-// .vercel.app. The hosted payment-to-packet matrix passed on it in run
-// 35245020794, selling the catalog Product prod_VHEHkvH7dSvGv7 against a
-// Stripe coupon restricted to exactly that Product.
-//
-// It replaces dpl_4VJ9SwLKsdiCSAy5T85tcab48698, the Preview of the superseded
-// application 0fee79bd1. This control's job is to compare Production against
-// the deployment acceptance was earned on, so it names the deployment this
-// release's journey actually touched and no other.
-const ACCEPTANCE_DEPLOYMENT_ID = "dpl_E1k7iEXpniURdJjENJ5BKgdj12zZ";
+// Historical Preview records remain in the successor ledger. This control
+// uses the exact Preview recorded for the current application tuple.
+const ACCEPTANCE_DEPLOYMENT_ID = RELEASE_CANDIDATE.hostedAcceptance?.preview?.deploymentId;
 const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
@@ -409,6 +403,7 @@ try {
     throw new Error("required secret-backed read-only sessions are unavailable");
   }
 
+  requireProductionMigrationRelease(ROOT_DIR, process.env);
   const identityExact = INPUT_APPLICATION_SHA === APPLICATION_SHA
     && INPUT_ACCEPTED_TOOLS_SHA === TOOLS_SHA
     && /^[0-9a-f]{40}$/.test(INPUT_TOOLS_SHA)

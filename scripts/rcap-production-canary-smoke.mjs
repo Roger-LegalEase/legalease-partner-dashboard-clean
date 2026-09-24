@@ -8,6 +8,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   HOSTED_VERCEL_PROJECT_NAME,
@@ -15,34 +16,23 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
-const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
+const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
+const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
+const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
+const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// Read back from Vercel by preflight 35247428602, which staged the candidate
-// and recorded the live deployment before touching anything: staged
-// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP, rollback (current Production)
-// dpl_DjAscmNucgJHauNsTtpbzGp9zfpU.
-//
-// The previous release's pins had these two the wrong way round -- they named
-// the then-live deployment as the staged candidate, so activation would have
-// promoted what was already serving and shipped nothing. Smoke run 35209693969
-// refused on exact_staged_application_worker_identity rather than smoke-testing
-// the live site and calling the new release sound. Both move together here for
-// that reason.
-const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
-// The recovery target is the deployment live now: dpl_DjAscm, running
-// application 0fee79bd1. Unlike the 3e3a528b5 rollback this replaces, it is
-// payment-compatible: it post-dates 20260917090000, so it calls the current
-// record_consumer_packet_payment signature rather than the retired one, and it
-// can settle an order as well as serve the site.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
+// Exact deployment/recovery identities follow this tuple's separate
+// Production permission. They must be populated from its actual preflight.
+const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;
+const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;
 const REQUIRED_MIGRATION_HASHES = Object.freeze([
   "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef",
   "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835",
   "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010"
 ]);
 
+const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
 const INPUT_APPLICATION_SHA = (process.env.RCAP_APPLICATION_SHA ?? "").trim();
 const INPUT_WORKER_SOURCE_SHA = (process.env.RCAP_WORKER_SOURCE_SHA ?? "").trim();
@@ -321,6 +311,7 @@ try {
     throw new Error("exact Production smoke inputs are unavailable");
   }
 
+  requireProductionMigrationRelease(ROOT_DIR, process.env);
   const identity = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
   const vercel = (pathname) => getJson(hostedVercelScopedUrl(pathname, identity), VERCEL_TOKEN);
   const [project, staged, rollback, domains] = await Promise.all([

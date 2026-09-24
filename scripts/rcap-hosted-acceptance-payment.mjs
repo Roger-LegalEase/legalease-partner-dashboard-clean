@@ -2533,27 +2533,14 @@ function cycleBoundary(result) {
 
 // --- the queue the claim function will actually walk --------------------------
 //
-// This mirrors `claim_packet_render_job` (phase 50) EXACTLY:
-//
-//   where status = 'queued'
-//     and (next_attempt_at is null or next_attempt_at <= now())
-//     and renderer_kind = any (...)
-//   order by created_at
-//   for update skip locked
-//   limit 1
-//
-// `queued` and `currently claimable` are different sets. A retryable job whose
-// next_attempt_at is in the future is queued and cannot be claimed; counting it
-// as a predecessor over-states the backlog, and omitting the predicate
-// altogether under-states it. Either error names the wrong row as the one
-// standing in front of the target, so the predicate is reproduced rather than
-// approximated.
-// A declaration rather than a const arrow: readClaimOrder is called by the
-// pre-charge preflight, which runs earlier in the file than this line, and a
-// const would still be in its temporal dead zone there.
+// Read-only projection of release_expired -> requeue_retryable -> claim.
+// The claim predicate and tie breaker match the corrected canonical RPC. A due
+// failed predecessor is part of the upcoming workload even before housekeeping
+// changes its persisted status. No queue mutation is performed here.
 function claimablePredicate(rendererKind) {
   return `
        status = 'queued'
+       and attempt_count < max_attempts
        and (next_attempt_at is null or next_attempt_at <= now())
        ${rendererKind ? `and renderer_kind = '${sqlText(rendererKind)}'` : ""}`;
 }
@@ -2564,13 +2551,47 @@ async function readClaimOrder(jobId, rendererKind) {
     select id, status, attempt_count, max_attempts, next_attempt_at, created_at,
            renderer_kind, profile_id, profile_version, consumer_briefcase_item_id,
            left(coalesce(error_code, ''), 80) as error_code
-      from public.packet_render_jobs
+      from (
+        with released as (
+          select j.*,
+            case
+              when status='queued' and attempt_count>=max_attempts then 'failed'
+              when status in ('claimed','rendering','validating') and claim_expires_at<now()
+                then case when status='claimed' and attempt_count<max_attempts then 'queued' else 'failed' end
+              else status end as after_status,
+            case
+              when status='queued' and attempt_count>=max_attempts then 'terminal'
+              when status in ('claimed','rendering','validating') and claim_expires_at<now()
+                then case when attempt_count>=max_attempts then 'terminal'
+                  when status='claimed' then null else 'retryable' end
+              else failure_disposition end as after_disposition,
+            case
+              when status in ('rendering','validating') and claim_expires_at<now() and attempt_count<max_attempts
+                then now()+make_interval(secs=>least(3600,30*power(2,attempt_count))::integer)
+              when attempt_count>=max_attempts and (status='queued' or
+                (status in ('claimed','rendering','validating') and claim_expires_at<now())) then null
+              else next_attempt_at end as after_next
+          from public.packet_render_jobs j
+        ), retries as (
+          select id, row_number() over(partition by packet_id,input_hash order by created_at,id) as retry_rank
+          from released
+          where after_status='failed' and after_disposition='retryable'
+            and attempt_count<max_attempts and after_next is not null and isfinite(after_next)
+        )
+        select r.id, r.attempt_count, r.max_attempts, r.after_next as next_attempt_at,
+          r.created_at, r.renderer_kind, r.profile_id, r.profile_version,
+          r.consumer_briefcase_item_id, r.error_code,
+          case when r.after_status='failed' and retry.retry_rank=1 and r.after_next<=now()
+            and not exists(select 1 from released live where live.packet_id=r.packet_id
+              and live.input_hash=r.input_hash and live.after_status<>'failed')
+            then 'queued' else r.after_status end as status
+        from released r left join retries retry on retry.id=r.id
+      ) after_housekeeping
      where ${claimablePredicate(rendererKind)}
-     order by created_at
-     limit 200
+     order by created_at, id
   `);
   const queued = await sql(`select count(*)::int as n from public.packet_render_jobs where status = 'queued'`);
-  if (!Array.isArray(res.json)) {
+  if (!res.ok || !Array.isArray(res.json) || !queued.ok || !Array.isArray(queued.json)) {
     return {
       readOutcome: "query_error",
       detail: redactSecrets(typeof res.json?.message === "string" ? res.json.message : String(res.text ?? "")).slice(0, 300)
@@ -2582,6 +2603,7 @@ async function readClaimOrder(jobId, rendererKind) {
   return {
     readOutcome: "read",
     predicateMirrorsLiveClaimFunction: true,
+    eligibilityStage: "after_release_expired_then_requeue_retryable",
     rendererKindFilter: rendererKind ?? null,
     totalQueued: Array.isArray(queued.json) ? (queued.json[0]?.n ?? null) : null,
     currentlyClaimable: rows.length,

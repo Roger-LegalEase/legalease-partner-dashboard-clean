@@ -16,8 +16,8 @@ check(workflow.includes("inputs.phase == 'smoke'"), "smoke is isolated from migr
 check(workflow.includes("node scripts/verify-rcap-production-smoke.mjs"), "workflow self-verifies the smoke contract");
 check(workflow.includes("node scripts/test-rcap-production-smoke-mutations.mjs"), "workflow runs focused smoke mutation proof");
 check(workflow.includes("node scripts/rcap-production-canary-smoke.mjs"), "workflow invokes the dedicated smoke control");
-check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP"'), "exact staged deployment is pinned");
-check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"'), "exact rollback deployment is pinned");
+check(script.includes('const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;'), "exact staged deployment is pinned");
+check(script.includes('const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;'), "exact rollback deployment is pinned");
 check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration deployment is named by no pin, so it cannot be a recovery target");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "Production project is pinned");
 check(script.includes("exact_staged_application_worker_identity"), "staged application and worker identity are required");
@@ -42,6 +42,8 @@ check(!script.includes("vercel promote") && !script.includes("/aliases"), "smoke
 check(!/\bdelete\s+from\b/i.test(script), "smoke contains no destructive cleanup statement");
 check(script.includes("SQLSTATE=") && script.includes("<synthetic-email>"), "transaction failures expose only safe SQL classification");
 
+check(script.includes('requireProductionMigrationRelease(ROOT_DIR, process.env);'), "separate Production phase permission and current tuple guard every operation");
+check(workflow.includes('node scripts/rcap-production-migration-contract.mjs'), "workflow validates current successor binding before service access");
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
 if (failed.length) {

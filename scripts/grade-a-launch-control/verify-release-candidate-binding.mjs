@@ -147,6 +147,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         // These exact database/tool authorities are outside application/worker
         // inputs; additional migrations still fail this closed path allowlist.
         'supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql',
+        'supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql',
         'data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json',
         'scripts/rcap-hosted-acceptance-migrate.mjs',
         'scripts/rcap-packet-database-contract.mjs',
@@ -156,6 +157,10 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-migration-certification.mjs',
         'scripts/rcap-migration-certification.test.mjs',
         'scripts/rcap-production-clinic-migrate.mjs',
+        'scripts/verify-rcap-production-clinic-migrate.mjs',
+        'scripts/test-rcap-production-clinic-migrate-mutations.mjs',
+        'scripts/rcap-production-migration-contract.mjs',
+        'scripts/rcap-production-migration-contract.test.mjs',
         // #345 bounded target retry and explicit promotion-input controls.
         'scripts/verify-rcap-target-worker-journey.mjs',
         'scripts/rcap-hosted-target-retry.test.mjs',

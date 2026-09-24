@@ -13,8 +13,9 @@ const files = [
   "scripts/verify-rcap-production-smoke.mjs"
 ];
 const mutations = [
-  ["staged deployment", "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP", "dpl_wrongstaged"],
-  ["rollback deployment", "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU", "dpl_wrongrollback"],
+  ["separate phase authorization", "requireProductionMigrationRelease(ROOT_DIR, process.env);", "/* authorization removed */"],
+  ["staged deployment", "const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;", "dpl_wrongstaged"],
+  ["rollback deployment", "const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;", "dpl_wrongrollback"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
   ["staged identity", "exact_staged_application_worker_identity", "staged_identity_removed"],
   ["rollback readiness", "rollback_target_is_ready_and_still_active", "rollback_readiness_removed"],

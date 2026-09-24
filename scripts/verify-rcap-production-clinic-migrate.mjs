@@ -19,7 +19,9 @@ check(workflow.includes("node scripts/verify-rcap-production-clinic-migrate.mjs"
 check(workflow.includes("node scripts/test-rcap-production-clinic-migrate-mutations.mjs"), "workflow runs focused mutation resistance proof");
 check(workflow.includes("node scripts/rcap-production-clinic-migrate.mjs"), "workflow invokes the dedicated migration control");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "Production project ref is exact");
-check(script.includes('const APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5"'), "application SHA is exact");
+check(script.includes('const release = requireRelease(ROOT_DIR, env);') && script.includes('requireRelease = requireProductionMigrationRelease'), "current successor application, worker and tools tuple is verified before service access");
+check(script.includes('certifyClinicSourceCatalog(reference,') && script.includes('already_exact_source_postconditions_no_write'), "complete source postconditions allow verified no-write success");
+check(workflow.includes('node scripts/rcap-production-migration-contract.mjs') && workflow.includes('node --test scripts/rcap-production-migration-contract.test.mjs'), "workflow requires current release authorization and behavioral migration proof");
 for (const [name, hash] of [
   ["core", "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef"],
   ["security", "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835"],

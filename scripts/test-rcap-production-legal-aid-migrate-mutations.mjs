@@ -14,15 +14,16 @@ const files = [
 ];
 
 const mutations = [
+  ["current schema proof", "certifyClinicSourceCatalog(reference,", "falseReceipt(reference,"],
   [
     "Production project",
     "wwtwtsmywnckfkdaqqeg",
     "hyflxnlhpmiqxvvcoiia"
   ],
   [
-    "application SHA",
-    "436520e4a99f0b8a290ace32f1d717b951630319",
-    "0dc8df2341c99c44d7646578505eed170daa5c8d"
+    "current release tuple",
+    "const release = requireRelease(ROOT_DIR, env);",
+    "const release = {};"
   ],
   [
     "migration hash",

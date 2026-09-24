@@ -39,12 +39,13 @@ permissions:
   actions: read
 
 env:
-  APPLICATION_SHA: 4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb
-  ACCEPTED_TOOLS_SHA: 43cbb6e661e30135ba65b4d2e2ca3810028a9880
-  WORKER_SOURCE_SHA: c88f10341fec848b3f6f4dec9fc3381e6eea0530
-  WORKER_DIGEST: sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06
+  RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+  RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+  RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+  RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+  RCAP_PRODUCTION_PHASE: ${{ inputs.phase }}
+  RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
 
 jobs:
   preflight:
@@ -63,9 +64,9 @@ jobs:
         run: |
           set -euo pipefail
           case "$INPUT_PHASE" in preflight|clinic_migrate|forward_chain_readback|forward_chain_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
-          [ "$INPUT_APPLICATION_SHA" = "$APPLICATION_SHA" ] || { echo "::error::application SHA mismatch"; exit 1; }
-          [ "$INPUT_WORKER_SOURCE_SHA" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker source SHA mismatch"; exit 1; }
-          [ "$INPUT_WORKER_DIGEST" = "$WORKER_DIGEST" ] || { echo "::error::worker digest mismatch"; exit 1; }
+          printf '%s' "$INPUT_APPLICATION_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application SHA must be full"; exit 1; }
+          printf '%s' "$INPUT_WORKER_SOURCE_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::worker source SHA must be full"; exit 1; }
+          printf '%s' "$INPUT_WORKER_DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$' || { echo "::error::worker digest must be immutable"; exit 1; }
           [ "$INPUT_TOOLS_SHA" = "$WORKFLOW_SHA" ] || { echo "::error::tools SHA must equal the workflow source SHA"; exit 1; }
           printf '%s' "$INPUT_TOOLS_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools SHA must be full"; exit 1; }
 
@@ -77,23 +78,24 @@ jobs:
       - name: Verify the exact frozen identity and image-input equivalence
         run: |
           set -euo pipefail
-          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
-          for SHA in "$APPLICATION_SHA" "$ACCEPTED_TOOLS_SHA" "${{ inputs.tools_sha }}"; do
-            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
-            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside canonical history"; exit 1; }
-          done
-          git merge-base --is-ancestor "$APPLICATION_SHA" "$ACCEPTED_TOOLS_SHA" || { echo "::error::accepted tools do not descend from the application"; exit 1; }
-          git merge-base --is-ancestor "$ACCEPTED_TOOLS_SHA" "${{ inputs.tools_sha }}" || { echo "::error::execution tools do not descend from accepted hosted tools"; exit 1; }
-          git diff --quiet "$APPLICATION_SHA" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
-            || { echo "::error::execution tools differ from the frozen application"; exit 1; }
-          git diff --quiet "$WORKER_SOURCE_SHA" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
-            || { echo "::error::execution tools differ from immutable worker inputs"; exit 1; }
-          git checkout --detach "${{ inputs.tools_sha }}"
+          [ "$(git rev-parse HEAD)" = "${{ inputs.tools_sha }}" ] || { echo "::error::checked out tools SHA mismatch"; exit 1; }
+          # Existing successor binding verifies ancestry, exact orchestration
+          # bytes and canonical worker input equivalence. Separate current
+          # Production phase permission is required before any service access.
+          node scripts/rcap-production-migration-contract.mjs
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Install exact dependencies for source-derived Clinic certificates
+        if: inputs.phase == 'clinic_migrate' || inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
+        run: npm ci
+
+      - name: Verify the Production migration behavior
+        if: inputs.phase == 'clinic_migrate' || inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
+        run: node --test scripts/rcap-production-migration-contract.test.mjs
 
       - name: Verify the Production control contract
         run: node scripts/verify-rcap-production-canary.mjs
@@ -161,7 +163,7 @@ jobs:
         env:
           RCAP_PRODUCTION_PHASE: "preflight"
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
-          RCAP_ACCEPTED_TOOLS_SHA: ${{ env.ACCEPTED_TOOLS_SHA }}
+          RCAP_ACCEPTED_TOOLS_SHA: ${{ inputs.tools_sha }}
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
@@ -231,10 +233,10 @@ jobs:
         if: inputs.phase == 'activate'
         uses: actions/download-artifact@v4
         with:
-          name: rcap-production-smoke-35248212982
+          name: rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}
           path: prior-production-smoke-evidence
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 35248212982
+          run-id: ${{ env.PRODUCTION_SMOKE_RUN_ID }}
 
       - name: Activate the exact staged Production deployment with rollback protection
         if: inputs.phase == 'activate'

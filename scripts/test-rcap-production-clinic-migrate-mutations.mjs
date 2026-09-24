@@ -14,8 +14,9 @@ const files = [
 ];
 
 const mutations = [
+  ["current schema proof", "certifyClinicSourceCatalog(reference,", "falseReceipt(reference,"],
   ["Production project", "wwtwtsmywnckfkdaqqeg", "hyflxnlhpmiqxvvcoiia"],
-  ["application SHA", "441ee3188ee52047a012232d8d11f890a09b4ac5", "041ee3188ee52047a012232d8d11f890a09b4ac5"],
+  ["current release tuple", "const release = requireRelease(ROOT_DIR, env);", "const release = {};"],
   ["core hash", "5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef", "0e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef"],
   ["security hash", "9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835", "0a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835"],
   ["accounting hash", "9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010", "0fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010"],

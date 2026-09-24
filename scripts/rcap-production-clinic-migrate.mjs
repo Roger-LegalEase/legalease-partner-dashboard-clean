@@ -5,21 +5,26 @@
 // ledger, fixture, participant, checkout, deployment, alias, or worker action
 // is performed. A partial pre-existing Clinic schema is refused.
 
-import { requireMigrationCertification } from './rcap-migration-certification.mjs';
+import { requireProductionMigrationRelease, buildClinicSourceReference, clinicSourceCatalogQuery, certifyClinicSourceCatalog } from './rcap-production-migration-contract.mjs';
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
+export async function runProductionClinicMigration({
+  env = process.env, rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."),
+  fetch = globalThis.fetch, requireRelease = requireProductionMigrationRelease,
+  sourceReference = buildClinicSourceReference,
+} = {}) {
+const APPLICATION_SHA = (env.RCAP_APPLICATION_SHA ?? "").trim();
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
-const INPUT_APPLICATION_SHA = (process.env.RCAP_APPLICATION_SHA ?? "").trim();
-const INPUT_PROJECT_REF = (process.env.RCAP_PRODUCTION_PROJECT_REF ?? "").trim();
-const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
-const EVIDENCE_DIR = path.resolve(process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
+const ROOT_DIR = rootDir;
+const PHASE = (env.RCAP_PRODUCTION_PHASE ?? "").trim();
+const INPUT_APPLICATION_SHA = (env.RCAP_APPLICATION_SHA ?? "").trim();
+const INPUT_PROJECT_REF = (env.RCAP_PRODUCTION_PROJECT_REF ?? "").trim();
+const SUPABASE_ACCESS_TOKEN = env.SUPABASE_ACCESS_TOKEN ?? "";
+const EVIDENCE_DIR = path.resolve(env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
 const EVIDENCE_FILE = path.join(EVIDENCE_DIR, "production-clinic-migrate.json");
 
 const MIGRATIONS = Object.freeze([
@@ -296,6 +301,9 @@ try {
     throw new Error("exact Production Clinic inputs are unavailable");
   }
 
+  const release = requireRelease(ROOT_DIR, env);
+  evidence.releaseTuple = { applicationSha: release.applicationSha, workerSourceSha: release.workerSourceSha, workerDigest: release.workerDigest, toolsSha: env.RCAP_TOOLS_SHA };
+  const reference = await sourceReference(ROOT_DIR);
   const project = await managementGet(`/v1/projects/${encodeURIComponent(PRODUCTION_PROJECT_REF)}`);
   record(
     "canonical_production_project_is_authenticated",
@@ -335,18 +343,21 @@ try {
   if (empty) {
     for (const migration of loaded) {
       await managementQuery(migration.sql, `clinic_migration_${migration.position}_applied`);
+      evidence.productionDatabaseMutated = true;
+      (evidence.appliedMigrationFiles ??= []).push(migration.path);
     }
     evidence.migrationApplied = true;
-    evidence.productionDatabaseMutated = true;
     evidence.migrationDisposition = "applied_exact_three_file_sequence";
   } else {
-    // Object counts and ACL probes are inventory, not complete definitions.
-      // No historical adoption without a complete source-derived certificate.
-      requireMigrationCertification();
+    const actualRows = await managementQuery(clinicSourceCatalogQuery, "clinic_source_postconditions_before");
+    evidence.certification = certifyClinicSourceCatalog(reference, actualRows[0]?.catalog);
+    evidence.migrationDisposition = "already_exact_source_postconditions_no_write";
   }
+  const catalogRows = await managementQuery(clinicSourceCatalogQuery, "clinic_source_postconditions_after");
+  evidence.certification = certifyClinicSourceCatalog(reference, catalogRows[0]?.catalog);
   record(
     "clinic_migrations_applied_in_exact_order",
-    requireMigrationCertification({ executed:evidence.migrationApplied }).certified,
+    evidence.certification.certified,
     evidence.migrationDisposition
   );
 
@@ -379,5 +390,11 @@ try {
   const failure = error instanceof Error ? error.message : String(error);
   persist(false, failure);
   console.error(`PRODUCTION CLINIC MIGRATE REFUSED — ${failure}`);
-  process.exit(1);
+}
+return evidence;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const result = await runProductionClinicMigration();
+  if (!result.passed) process.exitCode = 1;
 }

@@ -17,20 +17,20 @@ check(dispatcher.includes("production_activate"), "dispatcher exposes one isolat
 check(workflow.includes("inputs.phase == 'activate'"), "activation is isolated from preflight, migration, and smoke");
 check(workflow.includes("actions: read"), "workflow can read only the exact prior smoke artifact");
 check(dispatcher.includes("permissions:\n  contents: read\n  packages: read\n  actions: read"), "dispatcher grants the reusable workflow prior-artifact read access");
-check(workflow.includes("run-id: 35248212982"), "workflow pins the successful Production smoke run");
-check(workflow.includes("rcap-production-smoke-35248212982"), "workflow pins the exact successful smoke artifact");
+check(workflow.includes("run-id: ${{ env.PRODUCTION_SMOKE_RUN_ID }}"), "workflow pins the successful Production smoke run");
+check(workflow.includes("rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}"), "workflow pins the exact successful smoke artifact");
 check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "workflow self-verifies the activation contract");
 check(workflow.includes("node scripts/test-rcap-production-activation-mutations.mjs"), "workflow runs activation mutation proof");
 check(workflow.includes("node scripts/rcap-production-activate.mjs"), "workflow invokes only the dedicated activation control");
 
-check(script.includes('const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP"'), "exact staged deployment is pinned");
-check(script.includes('const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU"'), "exact rollback deployment is pinned");
+check(script.includes('const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;'), "exact staged deployment is pinned");
+check(script.includes('const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;'), "exact rollback deployment is pinned");
 check(!script.includes('"dpl_DGDUFV4B7ufTAW5wsfR2txJE2dVL"'), "the pre-migration deployment is named by no pin, so it cannot be a recovery target");
-check(script.includes('const SMOKE_RUN_ID = "35248212982"'), "exact successful smoke run is pinned");
+check(script.includes('const SMOKE_RUN_ID = RELEASE_CANDIDATE.productionAuthorization?.smokeRunId;'), "exact successful smoke run is pinned");
 check(script.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "canonical Production Supabase project is pinned");
-check(script.includes('const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb"'), "final application SHA is pinned");
-check(script.includes('const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530"'), "accepted worker source is pinned");
-check(script.includes('const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06"'), "immutable worker digest is pinned");
+check(script.includes('const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;'), "final application SHA is pinned");
+check(script.includes('const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;'), "accepted worker source is pinned");
+check(script.includes('const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;'), "immutable worker digest is pinned");
 check(script.includes("successful_smoke_artifact_is_exact"), "activation requires the exact successful smoke artifact");
 check(script.includes("rollback_is_ready_and_active_before_promotion"), "rollback is READY and active before promotion");
 check(script.includes("staged_deployment_identity_is_exact"), "staged deployment identity is rechecked before promotion");
@@ -54,6 +54,9 @@ check(!script.includes("stripe.com") && !script.includes("checkout/sessions"), "
 check(!script.includes("insert into") && !script.includes("update ") && !script.includes("delete from"), "activation contains no database writes");
 check(script.includes("applicationChanged: false") && script.includes("workerChanged: false"), "evidence fixes application and worker changes to false");
 
+check(script.includes('requireProductionMigrationRelease(ROOT_DIR, process.env);'), "separate Production phase permission and current tuple guard every operation");
+check(workflow.includes('node scripts/rcap-production-migration-contract.mjs'), "workflow validates current successor binding before service access");
+check(script.includes('sha256(smokeText) === RELEASE_CANDIDATE.productionAuthorization.smokeArtifactSha256'), "a claimed successful smoke receipt must match the authorized artifact hash");
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
 if (failed.length) {

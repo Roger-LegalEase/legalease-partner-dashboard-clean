@@ -7,6 +7,7 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   HOSTED_VERCEL_PROJECT_NAME,
@@ -14,40 +15,17 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
-const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
+const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
+const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
+const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
+const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// This is the promotion, so a stale pin here is the most expensive kind. The
-// pair is read back from Vercel by preflight 35247428602, which staged the
-// candidate and recorded the live deployment before touching anything: staged
-// dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP, rollback (current Production)
-// dpl_DjAscmNucgJHauNsTtpbzGp9zfpU.
-//
-// The previous release's pins had them the wrong way round -- the then-live
-// deployment was named as the staged candidate -- so promoting would have moved
-// the alias onto the deployment it was already on, reported success, and
-// shipped nothing.
-const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
-// The recovery target is the deployment live now: dpl_DjAscm, running
-// application 0fee79bd1.
-//
-// Unlike the 3e3a528b5 rollback this replaces, it IS payment-compatible.
-// 20260917090000 retired the legacy 14- and 15-argument
-// record_consumer_packet_payment signatures in favour of unconditional
-// invalid_payment_evidence refusals, and 3e3a528b5 called the legacy signature,
-// so that older deployment could restore availability but not settlement.
-// 0fee79bd1 post-dates that migration and calls the current signature, so
-// rolling back to it restores a Production that can serve the site AND settle
-// an order.
-//
-// That does not make rollback the preferred recovery. Forward -- promoting a
-// corrected application -- remains the route, and any order stranded during a
-// failed activation is settled by replaying its Stripe event through the
-// idempotent reconciliation path, never by reversing a migration or restoring
-// a retired writer.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
-const SMOKE_RUN_ID = "35248212982";
+// Exact deployment/recovery identities follow this tuple's separate
+// Production permission. They must be populated from its actual preflight.
+const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;
+const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;
+const SMOKE_RUN_ID = RELEASE_CANDIDATE.productionAuthorization?.smokeRunId;
 const SMOKE_FILE = path.resolve(
   process.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE
     ?? "prior-production-smoke-evidence/production-canary-smoke.json"
@@ -78,6 +56,7 @@ const REQUIRED_FUNCTIONS = Object.freeze([
   "clinic_transition_event_case", "clinic_get_follow_ups", "clinic_get_event_report"
 ]);
 
+const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
 const INPUT_APPLICATION_SHA = (process.env.RCAP_APPLICATION_SHA ?? "").trim();
 const INPUT_WORKER_SOURCE_SHA = (process.env.RCAP_WORKER_SOURCE_SHA ?? "").trim();
@@ -493,9 +472,11 @@ try {
     throw new Error("exact Production activation inputs are unavailable");
   }
 
+  requireProductionMigrationRelease(ROOT_DIR, process.env);
   const smokeText = fs.readFileSync(SMOKE_FILE, "utf8");
   const smoke = parseJson(smokeText);
-  const smokeExact = smoke?.passed === true
+  const smokeExact = sha256(smokeText) === RELEASE_CANDIDATE.productionAuthorization.smokeArtifactSha256
+    && smoke?.passed === true
     && smoke?.applicationSha === APPLICATION_SHA
     && smoke?.workerSourceSha === WORKER_SOURCE_SHA
     && smoke?.workerDigest === WORKER_DIGEST

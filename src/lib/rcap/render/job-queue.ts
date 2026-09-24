@@ -427,16 +427,26 @@ export async function finalizeRenderJob(input: {
 
 export async function releaseExpiredRenderClaims() {
   const supabase = getSupabaseAdminClient();
-  if (!supabase) return 0;
+  if (!supabase) throw new Error("Packet queue database is unavailable");
   const { data, error } = await supabase.rpc("release_expired_packet_render_claims");
-  return error ? 0 : Number(data ?? 0);
+  if (error) throw new Error("release_expired_packet_render_claims failed", { cause: error });
+  const count = Number(data);
+  if (data === null || !Number.isSafeInteger(count) || count < 0) {
+    throw new Error("release_expired_packet_render_claims returned an invalid count");
+  }
+  return count;
 }
 
 export async function requeueRetryableRenderJobs() {
   const supabase = getSupabaseAdminClient();
-  if (!supabase) return 0;
+  if (!supabase) throw new Error("Packet queue database is unavailable");
   const { data, error } = await supabase.rpc("requeue_retryable_packet_render_jobs");
-  return error ? 0 : Number(data ?? 0);
+  if (error) throw new Error("requeue_retryable_packet_render_jobs failed", { cause: error });
+  const count = Number(data);
+  if (data === null || !Number.isSafeInteger(count) || count < 0) {
+    throw new Error("requeue_retryable_packet_render_jobs returned an invalid count");
+  }
+  return count;
 }
 
 /**
