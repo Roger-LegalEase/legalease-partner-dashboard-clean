@@ -362,7 +362,7 @@
   },
   "pendingCorrection": {
     "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-    "status": "MIGRATION_VERIFIED_WORKER_DISPATCH_BLOCKED_BY_GITHUB_PERMISSION",
+    "status": "SUCCESSOR_PUBLISHED_PENDING_IMAGE_ACCEPTANCE",
     "sourceHistoryReused": [
       "62425c837b5edf3d7e22b110910885abdaec1692",
       "a01f4fdae0447fdc81eb4a26de7ab62c777d847f",
@@ -371,7 +371,7 @@
     ],
     "applicationBytesChanged": true,
     "workerRebuildRequired": true,
-    "workerDigestChanged": false,
+    "workerDigestChanged": true,
     "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
     "changedWorkerInputs": [
       "src/app/api/expungement-ai/checkout/route.ts",
@@ -446,7 +446,7 @@
     },
     "manualHostedFullReady": false,
     "releaseBoundary": "The retained tuple above is the #341 evidence subject, not a claim that the corrected source is deployed or worker-equivalent. No digest is substituted to clear incomplete evidence. A new accepted publication and Preview are required before a truthful hosted_full form can name the corrected application.",
-    "remoteActionsPerformed": "Controlled fast-forward source push; exact authorized acceptance migration applied and body/ACL/unique-index readback verified. Worker dispatch denied by GitHub HTTP 403; no run created. No worker publication, Preview creation, hosted_full, Stripe retarget or Production action.",
+    "remoteActionsPerformed": "Controlled fast-forward source/evidence pushes; exact authorized acceptance migration applied and read back; Roger dispatched the one authorized worker publication and its native artifact is now ingested and verified. Read-only image acceptance is pending. No Preview creation, hosted_full, Stripe retarget or Production action.",
     "authorization": "Roger Roman, current explicit authorization: candidate 4f7d209de11265d0793b7b74c728eab4efde1aa5; exactly one successor worker publication and verified acceptance, only 20260924120000_consumer_checkout_replacement_evidence_guard.sql on hyflxnlhpmiqxvvcoiia, exactly one successor Preview of that candidate, and corresponding bindings. No Stripe retarget, automatic hosted_full, production, unrelated migration, extra Preview or additional worker publication.",
     "publicationDispatch": {
       "attempted": true,
@@ -458,7 +458,12 @@
       "resolveFromRef": "captain-release",
       "tagReplacementAuthorization": "",
       "runCreated": false,
-      "publicationCount": 0
+      "publicationCount": 1,
+      "resolvedBy": {
+        "actor": "Roger Roman",
+        "runId": 35941806150,
+        "conclusion": "success"
+      }
     },
     "bindingVerification": {
       "current": false,
@@ -466,6 +471,17 @@
       "reasons": [
         "Candidate ancestry or current worker input proof could not be verified: Command failed: git diff --exit-code 26cff44081633ccf1b8d8b43001650d37da99197 -- .github/workflows/rcap-hosted-acceptance-staging.yml scripts/grade-a-launch-control/verify-release-candidate-binding.mjs scripts/rcap-checkout-metadata-contract.mjs scripts/rcap-deployment-source-ignore.mjs scripts/rcap-deployment-source-ignore.test.mjs scripts/rcap-github-acceptance-gate.mjs scripts/rcap-hosted-acceptance-gallery.mjs scripts/rcap-hosted-acceptance-matrix.mjs scripts/rcap-hosted-acceptance-payment.mjs scripts/rcap-hosted-checkout-gate.mjs scripts/rcap-hosted-final-verification.test.mjs scripts/rcap-hosted-response-contract.mjs scripts/rcap-hosted-surface-inspection.mjs scripts/test-expungement-checkout-guards.mjs scripts/test-rcap-hosted-surface-contract.mjs scripts/verify-expungement-consumer-checkout.mjs scripts/verify-rcap-checkout-metadata-contract.mjs scripts/verify-rcap-deployment-closure.mjs scripts/verify-rcap-github-hosted-acceptance.mjs scripts/verify-rcap-hosted-checkout-gate.mjs scripts/verify-rcap-hosted-evidence-completion.mjs scripts/verify-rcap-hosted-job-read-columns.mjs"
       ]
+    },
+    "publishedWorkerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+    "publication": {
+      "runId": 35941806150,
+      "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35941806150",
+      "workflowSourceSha": "d3bfa531aff360303d347be992ac0ad512b7a09d",
+      "artifactId": 10785287349,
+      "artifactSha256": "sha256:978002c5bced81716989b33fdc4759d102cc82cc06f7f305e02df5ff545da53b",
+      "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+      "digest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+      "runtimeAccepted": false
     }
   }
 }
