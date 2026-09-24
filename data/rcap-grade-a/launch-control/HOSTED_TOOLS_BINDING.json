@@ -4,7 +4,7 @@
   "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
   "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
   "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
-  "toolsSha": "31d6a7554acb3127cff0fd9118cab0c7bf9133fa",
+  "toolsSha": "26cff44081633ccf1b8d8b43001650d37da99197",
   "toolsShaIsNotHead": "Exact control-correction snapshot preceding this binding. It is not the application SHA.",
   "orchestrationFiles": [
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
@@ -30,10 +30,55 @@
     "scripts/verify-rcap-hosted-evidence-completion.mjs",
     "scripts/verify-rcap-hosted-job-read-columns.mjs"
   ],
-  "previousToolsSha": "8b532bc72478c18feed3ec53c517a4f3f5ed7d33",
-  "previousBindingCommit": "ba3aaee3743bdc622c4d269ab65feb8ca596486a",
-  "why": "Hosted #338 payment fixture now uses the existing pending-screening, atomic claim and explicit final-review APIs with an explicitly selected synthetic participant locale. Removes direct item INSERT and manual protected-verification seeding. Preserves the claimed item ID in replay scope; verifies owned attribution/source session/track before charge; persists redacted diagnostic evidence if preparation throws. The actual pending/claim, final verification and personalized packet paths pass focused English/Spanish and refusal regressions. Application and database bytes are unchanged.",
-  "authorization": "Roger Roman: correct the concrete #338 payment-fixture defect in this workspace, complete targeted proof and focused review, update tools/binding, and follow the existing controlled fast-forward push authorization after checks pass. Return the complete manual hosted_full form; do not retry the denied dispatch credential.",
+  "previousToolsSha": "31d6a7554acb3127cff0fd9118cab0c7bf9133fa",
+  "previousBindingCommit": "035e30fcd0dc2ca96d6dcb5777de6d83d9bf1abb",
+  "why": "Run 35933049147: the payment SQL helper now preserves Response.ok alongside the raw HTTP status, matching the existing Checkout gate. The production-used claimed-item predicate requires successful HTTP, one object row and every prior identity/state/authority invariant, with 27 named safe checks. The other SQL consumers in this payment script have no second HTTP-200-only assumption; three existing write checks already accept 200/201. No fixture or application bytes changed.",
+  "authorization": "Roger Roman, current instruction for run 35933049147: perform this bounded correction and regression pass, update the existing tools/release bindings, and use the primary Captain's existing controlled-push authorization within scope. Fast-forward only; verify the remote head. No automatic hosted dispatch or Production authorization.",
   "deploymentAuthorized": false,
-  "deploymentScope": "Reuse exact Preview dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee, accepted worker and existing Stripe destination. No replacement deployment, retarget, hosted dispatch or Production authorization in this task. End-to-end payment/delivery pending; ledger completeness NOT CERTIFIED."
+  "deploymentScope": "Reuse exact Preview dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee, application 5592ab2bd80ffa9124e26434e28e51379029313b, accepted worker, acceptance project and existing Stripe destination. This fixes the measured SQL-readback rejection. Payment through delivery remains unproven until the hosted journey actually completes. PRODUCTION AUTHORIZATION = NO.",
+  "regressionEvidence": {
+    "baselineSha": "035e30fcd0dc2ca96d6dcb5777de6d83d9bf1abb",
+    "originalProductionPredicate": {
+      "valid200": true,
+      "observedValid201": false,
+      "method": "Execute the actual agrees initializer extracted from the baseline harness; use the verified fields with sanitized route/source identifiers."
+    },
+    "baselineFinalVerificationTests": {
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0
+    },
+    "correctedFinalVerificationTests": {
+      "command": "node --test scripts/rcap-hosted-final-verification.test.mjs",
+      "passed": 109,
+      "failed": 0,
+      "skipped": 0,
+      "newSqlReadbackCases": 63
+    },
+    "coverage": "Actual SQL helper, live predicate and caller; valid 200/201; ten non-success statuses with a plausible row; thirteen malformed/error/cardinality shapes at both 200 and 201; every existing identity/state/route/authority invariant; named safe values, redaction and pre-charge stop. Existing EN/ES, owner and final-verification refusals remain exercised.",
+    "hostedVerdictChecks": {
+      "passed": 41
+    },
+    "hostedVerdictMutations": {
+      "rejected": 19,
+      "total": 19,
+      "restored": true
+    },
+    "packetContract": "PASS",
+    "jobReadColumns": {
+      "schemaColumns": 43,
+      "selectedColumns": 35,
+      "unknownColumns": 0
+    },
+    "jobReadRegression": {
+      "passed": 16
+    },
+    "remoteSideEffects": "None: recorded/local responses only; no new Stripe transaction, fixture mutation or hosted dispatch.",
+    "checkoutGate": {
+      "checks": 139,
+      "passed": 139,
+      "bindingStateRegressionsPassed": 48,
+      "bindingStateRegressionsTotal": 48
+    }
+  }
 }

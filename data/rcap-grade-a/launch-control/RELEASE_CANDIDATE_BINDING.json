@@ -20,7 +20,7 @@
   },
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "note": "Focused #338 fixture successor; existing participant lifecycle records explicitly selected language and protected verification. Captain self-review and targeted local tests only; this tools tuple has not run hosted_full. End-to-end payment and delivery remain pending. Ledger completeness remains NOT CERTIFIED.",
+    "note": "This fixes the measured SQL-readback rejection. Payment through delivery remains unproven until the hosted journey actually completes. Local recorded-response and participant-lifecycle regressions passed; no hosted run was dispatched. Ledger completeness remains NOT CERTIFIED.",
     "journeys": [],
     "deliberatelyEmpty": "No complete hosted journey or Production authorization is inherited.",
     "retainedPreview": {
@@ -34,6 +34,33 @@
     "note": "Read live rather than pinned: the ledger is append-forward and a hash pinned here would be false at the next legitimate publication. The release verifier reads the ledger and requires it to name this exact source, digest, successful publication, runtimeAccepted true, and a successful read-only acceptance of this digest and tag."
   },
   "supersedes": [
+    {
+      "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
+      "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
+      "workerDigest": "sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905",
+      "workerInputFingerprint": "sha256:786240e0aad5d1bdaed395a8ea57fda8c370d0cdcad1e1779a0f826c6525a4ac",
+      "bindingCommit": "035e30fcd0dc2ca96d6dcb5777de6d83d9bf1abb",
+      "toolsSha": "31d6a7554acb3127cff0fd9118cab0c7bf9133fa",
+      "hostedAcceptanceStatus": "FAILED_ON_THIS_CONTROL_CANDIDATE",
+      "hostedAcceptance": {
+        "runId": 35933049147,
+        "runNumber": 340,
+        "workflowSourceSha": "035e30fcd0dc2ca96d6dcb5777de6d83d9bf1abb",
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35933049147",
+        "deployment": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+        "firstCausalCase": "seeded_item_agrees_with_the_authoritative_resolver",
+        "observed": {
+          "sqlStatus": 201,
+          "rows": 1
+        },
+        "cause": "The SQL readback retained the successful Management API HTTP 201, but the harness predicate required HTTP 200. The row invariants were directly verified; the existing item was not rewritten or recreated.",
+        "journeys": []
+      },
+      "productionAuthorized": false,
+      "productionAuthorization": null,
+      "disposition": "superseded_by_bounded_sql_readback_success_correction",
+      "why": "Preserve participant claim, explicit language, final verification, ownership, route and unpaid-state requirements. Correct the transport-status predicate and add safe named failure diagnostics; no payment-through-delivery PASS is claimed."
+    },
     {
       "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b",
       "workerSourceSha": "fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e",
@@ -268,7 +295,7 @@
   "productionAuthorized": false,
   "productionAuthorization": null,
   "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
-  "scope": "Control-only #338 payment-fixture correction, targeted regressions, focused Captain self-review, ordinary fast-forward advancement, and manual hosted_full form. Application, Preview, worker and Stripe destination unchanged. No workflow dispatch, new Session, deployment, retarget or Production authorization.",
+  "scope": "Bounded correction for run 35933049147: successful Management API SQL readback handling, safe named subconditions, existing regression infrastructure, binding/equivalence checks and controlled fast-forward push. Application, retained Preview, accepted worker, acceptance project and Stripe destination are unchanged. No workflow dispatch, replacement Preview, Stripe retarget, fixture rewrite, new audit session, duplicate handoff or Production authorization.",
   "applicationPin": {
     "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
     "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
