@@ -18,16 +18,58 @@
     "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35769776831",
     "conclusion": "success"
   },
-  "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
+  "hostedAcceptanceStatus": "FAILED_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
-    "note": "This fixes the measured SQL-readback rejection. Payment through delivery remains unproven until the hosted journey actually completes. Local recorded-response and participant-lifecycle regressions passed; no hosted run was dispatched. Ledger completeness remains NOT CERTIFIED.",
+    "runId": 35937819902,
+    "runNumber": 341,
+    "workflowSourceSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
+    "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35937819902",
+    "artifactId": 10783811898,
+    "artifactSha256": "7626177f4a86d4973bef80bff21f2edf899dd40b811761e28da5a0062af8a561",
+    "deployment": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
+    "firstCausalCase": "resumed_checkout_replaces_an_incompatible_open_session",
+    "cause": "The application expired the incompatible OPEN Session, then used the initial-binding RPC for the new Session. That RPC correctly refused a different stored Session. Replacement requires the existing explicit-predecessor compare-and-swap contract.",
+    "downstreamFailure": "customer_completed_the_hosted_checkout_page followed the failed replacement and tried an expired Session; no Stripe fixture or browser-selector defect is inferred.",
+    "preservedPassingEvidence": {
+      "sqlReadback": {
+        "case": "seeded_item_agrees_with_the_authoritative_resolver",
+        "httpStatus": 201,
+        "passed": true
+      },
+      "checkoutGate": "38/38",
+      "goldenMatrix": "14/14",
+      "gallery": "8/8",
+      "previewResolution": "reused_exact_ready_preview",
+      "scope": "Exact prior application, Preview and accepted worker inputs only; not evidence for changed source."
+    },
+    "failedCases": [
+      "resumed_checkout_replaces_an_incompatible_open_session",
+      "customer_completed_the_hosted_checkout_page"
+    ],
+    "missingCases": [
+      "stripe_confirmed_the_discounted_purchase",
+      "checkout_line_item_is_on_the_catalog_product",
+      "stripe_delivered_the_completion_event_itself",
+      "fulfillment_honours_the_stripe_confirmed_total",
+      "forged_webhook_signature_is_rejected",
+      "signed_webhook_records_the_payment",
+      "payment_is_server_authoritative_in_the_database",
+      "paid_render_is_queued",
+      "render_job_carries_the_persisted_document_packet",
+      "worker_renders_and_stores_the_artifact",
+      "person_and_matter_are_bound_on_the_render_job",
+      "artifact_is_stored_privately_and_re_readable",
+      "delivery_serves_the_owner_and_refuses_everyone_else",
+      "event_replay_creates_no_second_entitlement_or_render_job",
+      "resumed_checkout_never_duplicates_a_completed_order"
+    ],
     "journeys": [],
-    "deliberatelyEmpty": "No complete hosted journey or Production authorization is inherited.",
     "retainedPreview": {
       "deploymentId": "dpl_2iWfNi2nibGdrtcQaSFd2jrbEVee",
       "hostname": "legalease-rcap-5592ab2bd80f-roger947s-projects.vercel.app",
       "applicationSha": "5592ab2bd80ffa9124e26434e28e51379029313b"
-    }
+    },
+    "note": "Payment through delivery remains unproven until the hosted journey actually completes."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
@@ -213,7 +255,7 @@
           {
             "runId": 35178342916,
             "order": "Mississippi, no promotion code, 5000 cents",
-            "result": "PASS \u2014 real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
+            "result": "PASS — real Stripe event evt_1UGW7PRWROAHlAKymy25jkUD, worker render at sha256:d7e0d4a6, 33790-byte 12-page PDF, owner 200 / other participant 403 / anonymous 401 / legacy 404, replay refused as duplicate"
           },
           {
             "runId": 35179247131,
@@ -223,12 +265,12 @@
           {
             "runId": 35180723873,
             "order": "Illinois, no promotion code",
-            "result": "PASS \u2014 the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
+            "result": "PASS — the composed-route repair sells and delivers IL:felony-prostitution-relief through il-prostitution-j-vacate"
           },
           {
             "runId": 35205114308,
             "order": "Mississippi, ACCEPTFREE100, 5000 subtotal cleared to 0",
-            "result": "PASS \u2014 Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
+            "result": "PASS — Stripe reported status=complete, payment_status=paid, amount_discount=5000, amount_total=0 and no PaymentIntent"
           }
         ]
       },
@@ -249,7 +291,7 @@
         "productionActivation": "node scripts/verify-rcap-production-activation.mjs 39/39; mutations 18/18",
         "forwardChain": "node scripts/verify-rcap-production-forward-chain-migrate.mjs 64/64; mutations 24/24",
         "hostedCheckoutGate": "node scripts/verify-rcap-hosted-checkout-gate.mjs 95/95",
-        "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs \u2014 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
+        "gradeAAuthority": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs — 6 commercially eligible routes, regenerated against the accepted digest rather than edited",
         "syntheticPublicationFixture": false,
         "publishedWorkerDigest": "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06",
         "publicationRunId": 35227578682,
@@ -295,7 +337,7 @@
   "productionAuthorized": false,
   "productionAuthorization": null,
   "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
-  "scope": "Bounded correction for run 35933049147: successful Management API SQL readback handling, safe named subconditions, existing regression infrastructure, binding/equivalence checks and controlled fast-forward push. Application, retained Preview, accepted worker, acceptance project and Stripe destination are unchanged. No workflow dispatch, replacement Preview, Stripe retarget, fixture rewrite, new audit session, duplicate handoff or Production authorization.",
+  "scope": "Bounded #341 Checkout replacement correction and explicitly authorized successor publication, exact acceptance migration, one Preview and bindings. Application candidate is 4f7d209de11265d0793b7b74c728eab4efde1aa5. Remote identities are not invented or inherited. PRODUCTION AUTHORIZATION = NO.",
   "applicationPin": {
     "sha": "5592ab2bd80ffa9124e26434e28e51379029313b",
     "tree": "7c261a1137f834581e8ba400972ab5417cec94a2",
@@ -317,5 +359,113 @@
       "scripts/test-ms-proof-currentness.mjs",
       "scripts/verify-ms-paid-packet-proof-reconciliation.mjs"
     ]
+  },
+  "pendingCorrection": {
+    "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+    "status": "MIGRATION_VERIFIED_WORKER_DISPATCH_BLOCKED_BY_GITHUB_PERMISSION",
+    "sourceHistoryReused": [
+      "62425c837b5edf3d7e22b110910885abdaec1692",
+      "a01f4fdae0447fdc81eb4a26de7ab62c777d847f",
+      "2a5c4ea73856b1aac37a6485cc0234910a2757a9",
+      "44ed5e395818503c0c878fd418fb9a896d591313"
+    ],
+    "applicationBytesChanged": true,
+    "workerRebuildRequired": true,
+    "workerDigestChanged": false,
+    "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
+    "changedWorkerInputs": [
+      "src/app/api/expungement-ai/checkout/route.ts",
+      "src/lib/expungement-ai/consumer-payment-authority.ts",
+      "src/lib/expungement-ai/payment-adapter.ts"
+    ],
+    "acceptedWorkerReusePermitted": false,
+    "migration": {
+      "path": "supabase/migrations/20260924120000_consumer_checkout_replacement_evidence_guard.sql",
+      "sha256": "cb8abf4587ec087f0e143f007058598cdb2a215178777dff311dbc6d44619dc8",
+      "projectRef": "hyflxnlhpmiqxvvcoiia",
+      "applied": true,
+      "version": "20260924005744",
+      "readback": {
+        "bodyMatchesCommittedMigration": true,
+        "securityDefiner": true,
+        "emptySearchPath": [
+          "search_path=\"\""
+        ],
+        "anonExecute": false,
+        "authenticatedExecute": false,
+        "serviceRoleExecute": true,
+        "uniqueIndex": "CREATE UNIQUE INDEX consumer_briefcase_items_checkout_session_uk ON public.consumer_briefcase_items USING btree (checkout_session_id) WHERE (checkout_session_id IS NOT NULL)",
+        "migrationVersion": "20260924005744"
+      }
+    },
+    "regressionEvidence": {
+      "crossLayer": {
+        "command": "node --test scripts/test-consumer-checkout-binding-recovery.mjs",
+        "passed": 60,
+        "failed": 0,
+        "skipped": 0,
+        "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout."
+      },
+      "checkoutGuards": {
+        "command": "node scripts/test-expungement-checkout-guards.mjs",
+        "passed": true,
+        "bindingStateCases": 48,
+        "includesCrossLayerCases": 60
+      },
+      "sqlReadbackAndFinalVerification": {
+        "command": "node --test scripts/rcap-hosted-final-verification.test.mjs",
+        "passed": 109,
+        "failed": 0,
+        "skipped": 0
+      },
+      "typecheck": {
+        "command": "node_modules/.bin/tsc --noEmit --incremental false",
+        "exitCode": 0
+      },
+      "lint": {
+        "errors": 0,
+        "warnings": 1,
+        "warning": "Existing unused sanitize variable in rcap-hosted-acceptance-payment.mjs; left outside this correction."
+      },
+      "hostedVerdictChecks": {
+        "command": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs",
+        "exitCode": 0
+      },
+      "workerEquivalence": {
+        "canonicalInputs": 38,
+        "equivalent": false,
+        "changedPaths": 3
+      },
+      "applicationBuild": {
+        "command": "npm run build -- --webpack",
+        "exitCode": 0,
+        "staticPages": 169,
+        "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+        "note": "Compiled, typechecked, generated pages and completed build traces using the exact candidate. Sparse-checkout omissions were restored from tracked bytes; no application or build-configuration change."
+      }
+    },
+    "manualHostedFullReady": false,
+    "releaseBoundary": "The retained tuple above is the #341 evidence subject, not a claim that the corrected source is deployed or worker-equivalent. No digest is substituted to clear incomplete evidence. A new accepted publication and Preview are required before a truthful hosted_full form can name the corrected application.",
+    "remoteActionsPerformed": "Controlled fast-forward source push; exact authorized acceptance migration applied and body/ACL/unique-index readback verified. Worker dispatch denied by GitHub HTTP 403; no run created. No worker publication, Preview creation, hosted_full, Stripe retarget or Production action.",
+    "authorization": "Roger Roman, current explicit authorization: candidate 4f7d209de11265d0793b7b74c728eab4efde1aa5; exactly one successor worker publication and verified acceptance, only 20260924120000_consumer_checkout_replacement_evidence_guard.sql on hyflxnlhpmiqxvvcoiia, exactly one successor Preview of that candidate, and corresponding bindings. No Stripe retarget, automatic hosted_full, production, unrelated migration, extra Preview or additional worker publication.",
+    "publicationDispatch": {
+      "attempted": true,
+      "httpStatus": 403,
+      "message": "Resource not accessible by integration",
+      "workflow": "publish-rcap-render-worker.yml",
+      "ref": "captain-release",
+      "integrationSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+      "resolveFromRef": "captain-release",
+      "tagReplacementAuthorization": "",
+      "runCreated": false,
+      "publicationCount": 0
+    },
+    "bindingVerification": {
+      "current": false,
+      "status": "STALE_OR_UNVERIFIED",
+      "reasons": [
+        "Candidate ancestry or current worker input proof could not be verified: Command failed: git diff --exit-code 26cff44081633ccf1b8d8b43001650d37da99197 -- .github/workflows/rcap-hosted-acceptance-staging.yml scripts/grade-a-launch-control/verify-release-candidate-binding.mjs scripts/rcap-checkout-metadata-contract.mjs scripts/rcap-deployment-source-ignore.mjs scripts/rcap-deployment-source-ignore.test.mjs scripts/rcap-github-acceptance-gate.mjs scripts/rcap-hosted-acceptance-gallery.mjs scripts/rcap-hosted-acceptance-matrix.mjs scripts/rcap-hosted-acceptance-payment.mjs scripts/rcap-hosted-checkout-gate.mjs scripts/rcap-hosted-final-verification.test.mjs scripts/rcap-hosted-response-contract.mjs scripts/rcap-hosted-surface-inspection.mjs scripts/test-expungement-checkout-guards.mjs scripts/test-rcap-hosted-surface-contract.mjs scripts/verify-expungement-consumer-checkout.mjs scripts/verify-rcap-checkout-metadata-contract.mjs scripts/verify-rcap-deployment-closure.mjs scripts/verify-rcap-github-hosted-acceptance.mjs scripts/verify-rcap-hosted-checkout-gate.mjs scripts/verify-rcap-hosted-evidence-completion.mjs scripts/verify-rcap-hosted-job-read-columns.mjs"
+      ]
+    }
   }
 }
