@@ -6,7 +6,7 @@ export function bindDeliveryDb(database) { db = database; }
 export const literal = (v) => v === null ? 'null' : `'${String(v).replaceAll("'", "''")}'`;
 export async function getBriefcaseItem(userId, id) {
   const row = db.json(`select row_to_json(t) from (select * from consumer_briefcase_items where id=${literal(id)} and user_id=${literal(userId)}) t`);
-  return row && { id: row.id, state: row.jurisdiction, packetStatus: row.packet_status, paymentProvider: row.payment_provider };
+  return row && { id: row.id, state: row.jurisdiction, packetStatus: row.packet_status, paymentProvider: row.payment_provider, artifactRefs: row.artifact_refs_json };
 }
 export const getBriefcaseItemForWebhook = getBriefcaseItem;
 export const partnerSlugForPacketItem = () => null;

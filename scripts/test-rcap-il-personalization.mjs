@@ -81,6 +81,7 @@ function setup() {
     // this the enqueue refuses with 'sponsored render route binding mismatch',
     // which is the database being right about a registration nobody updated.
     '20260919010000_illinois_carried_forward_specification_digest',
+    '20260924161239_preserve_packet_publisher_attribution',
   ]) db.applyFile(`supabase/migrations/${migration}.sql`);
   db.sql(`insert into partner_records values(${q(partnerId)},'il-clinic-sponsor');
     insert into partner_packet_entitlement(partner_id,packet_cap,overage_enabled,overage_cap) values(${q(partnerId)},20,false,0);
@@ -109,8 +110,8 @@ function seed(name, address, sponsored=false) {
   const draft = { ...snapshot, schemaVersion: 'expungement-ai/protected-packet-draft/v1', capturedAt: snapshot.verifiedAt };
   db.sql(`insert into auth.users values(${q(userId)});
     insert into rcap_persons(id,partner_slug,match_key) values(${q(personId)},'expungement-ai-consumer',${q(consumerPersonMatchKey(userId))});
-    insert into consumer_briefcase_items(id,user_id,item_type,status,jurisdiction,pathway_label,result_code,packet_type,payment_allowed,payment_status,packet_status)
-      values(${q(itemId)},${q(userId)},'result','packet_ready','IL','felony-prostitution-relief','packet_ready','custom_pleading',true,'unpaid','not_started');
+    insert into consumer_briefcase_items(id,user_id,item_type,status,jurisdiction,pathway_label,result_code,packet_type,payment_allowed,payment_status,packet_status,artifact_refs_json)
+      values(${q(itemId)},${q(userId)},'result','packet_ready','IL','felony-prostitution-relief','packet_ready','custom_pleading',true,'unpaid','not_started','{"attribution":{"locale":"en"}}'::jsonb);
     insert into consumer_packet_verifications(briefcase_item_id,consumer_auth_user_id,matter_id,status,reason,verification_hash,verification_snapshot,draft_hash,draft_snapshot,revision)
       values(${q(itemId)},${q(userId)},${q(matterId)},'verified','synthetic fixture',${q(verificationHash)},${q(JSON.stringify(snapshot))},${q(hash(draft))},${q(JSON.stringify(draft))},1);`);
   let sourceSessionId=null;
