@@ -216,6 +216,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-production-legal-aid-keys.mjs',
         'scripts/verify-rcap-production-legal-aid-keys.mjs',
         'scripts/verify-rcap-commercial-browser.mjs',
+        'scripts/verify-rcap-partner-result-cta.mjs',
         // Bounded Clinic natural-delivery proof; exact bytes remain declared
         // in HOSTED_TOOLS_BINDING, with application and worker inputs equal.
         'scripts/verify-rcap-hosted-ms-clinic-preview.mjs',
