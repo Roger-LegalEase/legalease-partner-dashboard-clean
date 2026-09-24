@@ -93,6 +93,14 @@
     {
       "path": "supabase/migrations/20260924120347_packet_delivery_dependency_and_retry_errors.sql",
       "sha256": "86991c0d5bd772fd40e244c31cd902c78a88c15491c224ef37d6a29576932795"
+    },
+    {
+      "path": "supabase/migrations/20260924161239_preserve_packet_publisher_attribution.sql",
+      "sha256": "fee9a600ed9db1ea80fe9ff7c357dd925a1a2e789b8e069d9e72b52acd76e978"
+    },
+    {
+      "path": "supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql",
+      "sha256": "af514f99b4aaca1d7f92c7eaaf6e6f12079919961fc5a0911caaef31b8c715d2"
     }
   ],
   "phase50": {
@@ -5192,6 +5200,18 @@
       "keys": [
         "functions:requeue_retryable_packet_render_jobs",
         "functions:publish_validated_consumer_render_artifact"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260924161239_preserve_packet_publisher_attribution.sql",
+      "keys": [
+        "functions:publish_validated_consumer_render_artifact"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql",
+      "keys": [
+        "functions:finalize_sponsored_packet_generation_for_route"
       ]
     }
   ],
@@ -12229,7 +12249,7 @@
         },
         "publicExecute": false,
         "securityDefiner": true,
-        "definitionSha256": "1593ea3b1c08bc6f372c521f63943b87911781a9ef9472adb9d6193144b2e538"
+        "definitionSha256": "60644c9e19a49ff9177e95a2ed7a1d2cd1ac6e7e26068886b1908c8082ba5036"
       }
     },
     "index:packet_credit_ledger.packet_credit_ledger_pkey": {
@@ -13111,7 +13131,7 @@
         },
         "publicExecute": false,
         "securityDefiner": true,
-        "definitionSha256": "d8bc09052e18e7a336a21c48f9918f0ea2b6d4ca180dbacf77c53f854b70f61a"
+        "definitionSha256": "c277fcbb0bbc47ee6eddac1fde3a1c1ad01e2854fa72911b8f2244acf403a3bf"
       }
     },
     "index:packet_delivery_events.packet_delivery_events_pkey": {

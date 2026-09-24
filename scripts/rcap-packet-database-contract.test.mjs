@@ -9,7 +9,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { PDFDocument } from 'pdf-lib';
-import { packetTestDatabase, packetApplicationTestDatabase, applyPacketApplicationDependencies, readPacketCatalog, buildPacketReference } from './rcap-packet-database-reference.mjs';
+import { packetTestDatabase, packetApplicationTestDatabase, applyPacketApplicationDependencies, readPacketCatalog, buildPacketReference, ATTRIBUTION_FILES } from './rcap-packet-database-reference.mjs';
 import { REPAIR_PATH, CORRECTION_PATH, CONTRACT_PATH, packetCatalogQuery, queueHealthQuery, comparePacketCatalog, digest } from './rcap-packet-database-contract.mjs';
 import { packetDatabaseReadback } from './verify-rcap-packet-database.mjs';
 import { buildMsNonConvictionVerification, MS_NONCONVICTION_ROUTE } from './lib/rcap-ms-nonconviction-fixture.mjs';
@@ -147,7 +147,7 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     import('./lib/next-server-esm-bridge.mjs'),
     import('../src/lib/expungement-ai/authoritative-screening-result.ts')
   ]);
-  const db=packetApplicationTestDatabase(root);t.after(()=>{doubles.bindEphemeralDb(null);doubles.setSession(null);db.stop();});
+  const db=packetApplicationTestDatabase(root,{attributionSuccessors:false});t.after(()=>{doubles.bindEphemeralDb(null);doubles.setSession(null);db.stop();});
   doubles.bindEphemeralDb(db);
   const owner=randomUUID(),stranger=randomUUID(),item=randomUUID(),consumerPerson=randomUUID(),packet=randomUUID();
   const matter=identity.consumerMatterIdForItem(item);
@@ -174,10 +174,6 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
   db.scalar(`select start_packet_validation(${sql(id)},${sql(claim.fencing_token)})`);
   const pdf=await PDFDocument.create();pdf.addPage([612,792]);const bytes=Buffer.from(await pdf.save());
   const hash=digest(bytes),storagePath=`packet-artifacts/consumer/${matter}/${id}/${hash}.pdf`;
-  const final=db.json(`select to_jsonb(f) from finalize_packet_render_job(${sql(id)},${sql(claim.fencing_token)},${sql(storagePath)},${sql(hash)},${sql(hash)},${sql(hash)},${sql(hash)},${bytes.length},1,${sql('sha256:'+digest('local-container'))}) f`);
-  assert.equal(final.delivery_eligibility,'eligible');
-  assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
-
   const queueImports={'@/lib/supabase/server':doubles};
   const currentQueue=sourceModule('src/lib/rcap/render/job-queue.ts',queueImports);
   const frozenSource=execFileSync('git',['show','4f7d209de11265d0793b7b74c728eab4efde1aa5:src/lib/rcap/render/job-queue.ts'],{cwd:root,encoding:'utf8'});
@@ -221,6 +217,17 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     assert.equal(reads,0);
   });
   db.applyFile(path.join(root,CORRECTION_PATH));
+  for(const file of ATTRIBUTION_FILES)db.applyFile(path.join(root,file));
+  const durableAttribution={...participant.item.artifactRefs.attribution,locale:'en',preservedProof:{source:'existing synthetic claim',values:[1,2]}};
+  db.sql(`update consumer_briefcase_items set artifact_refs_json=jsonb_build_object('attribution',${jsql(durableAttribution)}) where id=${sql(item)}`);
+  const final=db.json(`select to_jsonb(f) from finalize_packet_render_job(${sql(id)},${sql(claim.fencing_token)},${sql(storagePath)},${sql(hash)},${sql(hash)},${sql(hash)},${sql(hash)},${bytes.length},1,${sql('sha256:'+digest('local-container'))}) f`);
+  assert.equal(final.delivery_eligibility,'eligible');
+  assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
+  await t.test('current publisher preserves the entire existing attribution while publishing validated metadata',()=>{
+    const refs=db.json(`select artifact_refs_json from consumer_briefcase_items where id=${sql(item)}`);
+    assert.deepEqual(refs.attribution,durableAttribution);
+    assert.equal(refs.renderJobId,id);assert.equal(refs.artifactSha256,hash);assert.equal(refs.storagePath,storagePath);
+  });
   await t.test('correct legitimate dependency passes the current pre-charge gate and the frozen reader returns the known row',async()=>{
     const readback=gate();assert.equal(readback.passed,true,JSON.stringify(readback.failures));
     const job=await frozenQueue.getRenderJob(id);
@@ -265,6 +272,14 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     doubles.setSession(null);assert.equal((await request()).status,401);
     assert.equal(reads,priorReads);
   });
+  await t.test('current publisher never fabricates missing attribution',()=>{
+    db.sql(`update consumer_briefcase_items set artifact_refs_json='{}'::jsonb where id=${sql(item)};
+      update packet_render_jobs set updated_at=now() where id=${sql(id)}`);
+    const refs=db.json(`select artifact_refs_json from consumer_briefcase_items where id=${sql(item)}`);
+    assert.equal(Object.hasOwn(refs,'attribution'),false);
+    assert.equal(refs.renderJobId,id);assert.equal(refs.artifactSha256,hash);
+    assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
+  });
 });
 
 function sourceDeclarations(relative,names) {
@@ -307,7 +322,7 @@ function retireQueued(db) {
 }
 
 test('sponsored regeneration preserves durable attribution and idempotent accounting',async t=>{
-  const db=packetApplicationTestDatabase(root);t.after(()=>db.stop());
+  const db=packetApplicationTestDatabase(root,{attributionSuccessors:false});t.after(()=>db.stop());
   const migration=path.join(root,'supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql');
   const signature='public.finalize_sponsored_packet_generation_for_route(text,uuid,uuid,text,jsonb,uuid)';
   const jsql=value=>`${sql(JSON.stringify(value))}::jsonb`;
@@ -426,6 +441,11 @@ test('forward delta repairs the legitimate predecessor without replaying later p
   const paymentKeys=Object.keys(before).filter(k=>k.startsWith('functions:')&&/payment|checkout|verification_authority|persist_consumer|paid_matter|consumption_binding/.test(k));
   assert.equal(before['column:packet_render_jobs.sponsored_consumer_auth_user_id'],undefined);
   db.applyFile(path.join(root,CORRECTION_PATH));
+  const authority=db.scalar("select pg_get_functiondef('get_consumer_packet_artifact_authority(uuid,uuid)'::regprocedure)");
+  db.sql(authority.replace('AS $function$','AS $function$\n-- unknown successor\n'));
+  assert.match(db.sqlExpectError(fs.readFileSync(CORRECTION_PATH,'utf8')),/unrecognized current authority/);
+  db.sql(authority);
+  for(const file of ATTRIBUTION_FILES)db.applyFile(path.join(root,file));
   const after=readPacketCatalog(db);
   assert.deepEqual(comparePacketCatalog(JSON.parse(fs.readFileSync(CONTRACT_PATH,'utf8')).current,after),[]);
   for(const key of paymentKeys)assert.deepEqual(after[key],before[key],key);
@@ -433,9 +453,6 @@ test('forward delta repairs the legitimate predecessor without replaying later p
   assert.deepEqual(projected,priorRows,'no job reset, retirement, deletion, attempt change or reconciliation during DDL');
   assert.equal(db.scalar('select count(*) from sponsored_packet_render_routes'),'0','DDL does not replay historical registrations or entitlements');
   assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'0');
-  const authority=db.scalar("select pg_get_functiondef('get_consumer_packet_artifact_authority(uuid,uuid)'::regprocedure)");
-  db.sql(authority.replace('AS $function$','AS $function$\n-- unknown successor\n'));
-  assert.match(db.sqlExpectError(fs.readFileSync(CORRECTION_PATH,'utf8')),/unrecognized current authority/);
 });
 
 async function actualClaimOrder(db,jobId,rendererKind='packet_document_v1') {
@@ -813,6 +830,16 @@ test('source-derived current delivery and worker postcondition authority',async 
     if(value&&typeof value==='object') {changed[name]={};assert.ok(comparePacketCatalog(reference.current,changed).length>0||Object.keys(value).length===0);}
   });
   const db=setup();t.after(()=>db.stop());
+  await t.test('old attribution definitions fail exactly two current postconditions; both forward corrections pass',()=>{
+    const prior=packetApplicationTestDatabase(root,{attributionSuccessors:false});
+    try {
+      assert.deepEqual(comparePacketCatalog(reference.current,readPacketCatalog(prior)).map(f=>f.name).sort(),[
+        'functions:finalize_sponsored_packet_generation_for_route','functions:publish_validated_consumer_render_artifact'
+      ]);
+      for(const file of ATTRIBUTION_FILES)prior.applyFile(path.join(root,file));
+      assert.deepEqual(comparePacketCatalog(reference.current,readPacketCatalog(prior)),[]);
+    } finally {prior.stop();}
+  });
   await t.test('exact repaired database passes; worker/browser/server grants remain separated',()=>{
     assert.deepEqual(comparePacketCatalog(reference.current,readPacketCatalog(db)),[]);
     for(const role of ['anon','authenticated'])assert.match(db.sqlExpectError(`set role ${role}; select requeue_retryable_packet_render_jobs()`),/permission denied/);

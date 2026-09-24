@@ -5,7 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { migrationCertification, requireMigrationCertification, acceptanceLedgerExecution, runAcceptanceMigrationSequence } from './rcap-migration-certification.mjs';
 import { CONTRACT_PATH, CORRECTION_PATH, digest } from './rcap-packet-database-contract.mjs';
-import { packetApplicationTestDatabase, readPacketCatalog } from './rcap-packet-database-reference.mjs';
+import { packetApplicationTestDatabase, readPacketCatalog, ATTRIBUTION_FILES } from './rcap-packet-database-reference.mjs';
 import { runHostedAcceptanceMigrate } from './rcap-hosted-acceptance-migrate.mjs';
 
 const contract=JSON.parse(fs.readFileSync(CONTRACT_PATH,'utf8'));
@@ -49,8 +49,13 @@ const createLedger=db=>db.sql(`create table rcap_acceptance_migration_ledger (
   phase integer primary key,sha256 text not null,authorization_id text not null,applied_by text not null
 )`);
 const root=process.cwd();
-const correction=fs.readFileSync(CORRECTION_PATH,'utf8');
-const entry={phase:56,path:CORRECTION_PATH,authorizationId:'local_forward_correction_test'};
+const correction=fs.readFileSync(ATTRIBUTION_FILES.at(-1),'utf8');
+const entry={phase:56,path:ATTRIBUTION_FILES.at(-1),authorizationId:'local_forward_correction_test'};
+function beforeCurrentCorrection() {
+  const db=packetApplicationTestDatabase(root,{attributionSuccessors:false});
+  try {db.applyFile(path.join(root,ATTRIBUTION_FILES[0]));return db;}
+  catch(error){db.stop();throw error;}
+}
 function loop(db,{writeEvidence=async()=>{},query,calls=[],priorRows=[],rows=[{phase:entry.phase,onDisk:digest(correction)}],preserveExistingState=false}={}) {
   const operations=query??databaseQuery(db,calls);
   return {rows,calls,run:()=>runAcceptanceMigrationSequence({
@@ -86,7 +91,7 @@ test('actual migration loop rejects PostgreSQL duplicate-object execution withou
 });
 
 test('actual migration loop distinguishes a committed database correction from a failed execution receipt',async t=>{
-  const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());
+  const db=beforeCurrentCorrection();t.after(()=>db.stop());
   createLedger(db);
   db.sql(`create function reject_test_receipt() returns trigger language plpgsql as $$ begin
     raise exception 'receipt write rejected'; end $$;
@@ -111,7 +116,7 @@ test('actual migration loop distinguishes a committed database correction from a
 });
 
 test('actual loop advances counters only after SQL, exact receipt and evidence persistence succeed',async t=>{
-  const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());createLedger(db);
+  const db=beforeCurrentCorrection();t.after(()=>db.stop());createLedger(db);
   const evidence=[];
   const run=loop(db,{writeEvidence:async value=>{
     assert.equal(db.scalar('select count(*) from rcap_acceptance_migration_ledger'),'1');
@@ -125,7 +130,7 @@ test('actual loop advances counters only after SQL, exact receipt and evidence p
 });
 
 test('a failed local evidence write never turns committed SQL into a claimed rollback or success',async t=>{
-  const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());createLedger(db);
+  const db=beforeCurrentCorrection();t.after(()=>db.stop());createLedger(db);
   const run=loop(db,{writeEvidence:async()=>{throw new Error('evidence volume unavailable');}});
   const result=await run.run();
   assert.equal(result.passed,false);assert.equal(result.satisfied,0);assert.equal(result.applied,0);
@@ -136,7 +141,7 @@ test('a failed local evidence write never turns committed SQL into a claimed rol
 });
 
 test('an HTTP-success false receipt is rejected by the actual executable loop',async t=>{
-  const db=packetApplicationTestDatabase(root,{corrected:false,deliverySuccessors:false});t.after(()=>db.stop());createLedger(db);
+  const db=beforeCurrentCorrection();t.after(()=>db.stop());createLedger(db);
   const calls=[],query=databaseQuery(db,calls);
   const run=loop(db,{calls,query:async text=>{
     const response=await query(text);
@@ -149,7 +154,7 @@ test('an HTTP-success false receipt is rejected by the actual executable loop',a
 });
 
 test('actual hosted entrypoint rejects stale current state despite a matching non-Phase-50 ledger, and verifies correct state without writes',async t=>{
-  const db=packetApplicationTestDatabase(root);t.after(()=>db.stop());createLedger(db);
+  const db=packetApplicationTestDatabase(root,{attributionSuccessors:false});t.after(()=>db.stop());createLedger(db);
   const historical=JSON.parse(fs.readFileSync('data/rcap-staging-action.json','utf8')).migrationsInApplyOrder.find(entry=>entry.phase===55);
   db.sql(`insert into rcap_acceptance_migration_ledger values(55,'${historical.sha256}','${historical.authorizationId}','hosted_acceptance_pipeline')`);
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-loop-evidence-'));t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
@@ -163,6 +168,11 @@ test('actual hosted entrypoint rejects stale current state despite a matching no
   assert.match(stale.sequenceResult.failure,/current_postconditions_failed_no_replay/);
   assert.ok(calls.every(text=>/^(select|set search_path)\b/.test(text.trim())), 'existing-environment refusal must precede every write');
   db.applyFile(path.join(root,CORRECTION_PATH));calls.length=0;
+  const staleAttribution=await runHostedAcceptanceMigrate({query,environment,evidenceWriter});
+  assert.equal(staleAttribution.passed,false,'a repaired reader and matching ledger cannot certify stale attribution functions');
+  assert.equal(staleAttribution.sequenceResult.satisfied,0);assert.equal(staleAttribution.sequenceResult.applied,0);
+  assert.ok(calls.every(text=>/^(select|set search_path)\b/.test(text.trim())));
+  for(const file of ATTRIBUTION_FILES)db.applyFile(path.join(root,file));calls.length=0;
   const complete=await runHostedAcceptanceMigrate({query,environment,evidenceWriter});
   assert.equal(complete.passed,true,JSON.stringify(complete));
   assert.equal(complete.sequenceResult.applied,0);assert.equal(complete.sequenceResult.satisfied,complete.authorizedSequence.length);

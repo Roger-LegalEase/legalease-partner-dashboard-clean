@@ -31,6 +31,10 @@ export const APPLICATION_FILES = [
   'supabase/migrations/20260917090000_consumer_promotion_codes.sql',
   'supabase/migrations/20260924120000_consumer_checkout_replacement_evidence_guard.sql'
 ];
+export const ATTRIBUTION_FILES = [
+  'supabase/migrations/20260924161239_preserve_packet_publisher_attribution.sql',
+  'supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql'
+];
 
 // Existing local PostgreSQL harness, with only prerequisite relations. Every
 // Phase-50 statement executes, including Storage and runtime-role revokes.
@@ -116,12 +120,15 @@ export function applyPacketApplicationDependencies(db, root, { deliverySuccessor
   }
 }
 
-export function packetApplicationTestDatabase(root, { corrected = true, deliverySuccessors = true } = {}) {
+export function packetApplicationTestDatabase(root, { corrected = true, deliverySuccessors = true, attributionSuccessors = true } = {}) {
   const db=packetTestDatabase(root,55,true);
   try {
     applyPacketApplicationDependencies(db,root,{deliverySuccessors});
     db.applyFile(path.join(root,REPAIR_PATH));
-    if(corrected) db.applyFile(path.join(root,CORRECTION_PATH));
+    if(corrected) {
+      db.applyFile(path.join(root,CORRECTION_PATH));
+      if(attributionSuccessors) for(const file of ATTRIBUTION_FILES) db.applyFile(path.join(root,file));
+    }
     return db;
   } catch(error) { db.stop(); throw error; }
 }
@@ -136,7 +143,7 @@ export function buildPacketReference(root) {
     const phase50 = readPacketCatalog(db);
     const supersessions = [];
     let prior = phase50;
-    for (const file of [...PHASE_FILES.slice(2), ...APPLICATION_FILES, REPAIR_PATH, CORRECTION_PATH]) {
+    for (const file of [...PHASE_FILES.slice(2), ...APPLICATION_FILES, REPAIR_PATH, CORRECTION_PATH, ...ATTRIBUTION_FILES]) {
       if (file === APPLICATION_FILES[0]) {
         applyConsumerGrants(db,root);
         db.sql(clinicFixtures());
@@ -152,7 +159,7 @@ export function buildPacketReference(root) {
     return {
       schemaVersion:'rcap-packet-database-contract/v2',
       derivation:'Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion and checkout successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority.',
-      sources:[...CONSUMER_PHASE_FILES,CONSUMER_GRANTS_SOURCE,CONSUMER_CLAIM_SOURCE,...PHASE_FILES,...APPLICATION_FILES,REPAIR_PATH,CORRECTION_PATH].map(file=>({path:file,sha256:digest(fs.readFileSync(path.join(root,file)))})),
+      sources:[...CONSUMER_PHASE_FILES,CONSUMER_GRANTS_SOURCE,CONSUMER_CLAIM_SOURCE,...PHASE_FILES,...APPLICATION_FILES,REPAIR_PATH,CORRECTION_PATH,...ATTRIBUTION_FILES].map(file=>({path:file,sha256:digest(fs.readFileSync(path.join(root,file)))})),
       phase50, supersessions, current:prior
     };
   } finally { db.stop(); }
