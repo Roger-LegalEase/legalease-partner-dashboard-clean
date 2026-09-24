@@ -4,26 +4,38 @@
   "workerSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
   "workerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
   "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
-  "toolsSha": "6d7b8058ee7fb517bb120a9e812346e82a748131",
+  "toolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
   "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
   "orchestrationFiles": [
     ".github/workflows/rcap-f1-ephemeral-staging.yml",
     ".github/workflows/rcap-github-hosted-acceptance.yml",
     ".github/workflows/rcap-hosted-acceptance-staging.yml",
+    "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
     "scripts/rcap-github-acceptance-gate.mjs",
     "scripts/rcap-github-post-payment-acceptance.mjs",
+    "scripts/rcap-hosted-acceptance-migrate.mjs",
     "scripts/rcap-hosted-acceptance-payment.mjs",
     "scripts/rcap-hosted-checkout-gate.mjs",
     "scripts/rcap-hosted-target-retry.test.mjs",
-    "scripts/verify-rcap-target-worker-journey.mjs"
+    "scripts/rcap-migration-certification.mjs",
+    "scripts/rcap-migration-certification.test.mjs",
+    "scripts/rcap-packet-database-contract.mjs",
+    "scripts/rcap-packet-database-contract.test.mjs",
+    "scripts/rcap-packet-database-reference.mjs",
+    "scripts/rcap-production-clinic-migrate.mjs",
+    "scripts/rcap-production-forward-chain-migrate.mjs",
+    "scripts/rcap-production-legal-aid-migrate.mjs",
+    "scripts/verify-rcap-packet-database.mjs",
+    "scripts/verify-rcap-target-worker-journey.mjs",
+    "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql"
   ],
-  "previousToolsSha": "07cbe65988240668a7b06556f7b3f4944fb1293c",
-  "previousBindingCommit": "4bfe42c98bbdc2a0fa9c50a0b360bb609e4f2dbb",
-  "why": "#345 control-only correction: retain the same target through canonical retry backoff within its attempt and wait budgets; preserve blank promotion input for ordinary $50 Checkout. Reused-Preview runs skip the migration step. Application, worker, Preview and Stripe destination are unchanged.",
-  "authorization": "Roger Roman: correct the two #345 hosted controls, bind and push exact tools, then dispatch ONE hosted_full with promotion_code blank on the existing Preview and acceptance project. No src/ or worker changes, publication, Preview creation, migration, Stripe retarget or Production action.",
+  "previousToolsSha": "6d7b8058ee7fb517bb120a9e812346e82a748131",
+  "previousBindingCommit": "316f680c3ef54daf9023e784215655e2bdbe8908",
+  "why": "#345 forward database correction: isolate retry collisions, cap claims, preserve lifecycle history, persist the accepted worker failure vocabulary, close incomplete Phase-50 security state, and require complete postcondition authority for migration adoption. Application, all 38 worker inputs, Preview and Stripe destination remain unchanged.",
+  "authorization": "Roger Roman mission lock: land the bounded forward correction and verifier, apply only that correction to acceptance hyflxnlhpmiqxvvcoiia, reconcile through canonical lifecycle, prove live readback, then ONE hosted_full with blank promotion input. No Production mutation, worker publication, Preview creation or Stripe retarget.",
   "deploymentAuthorized": false,
-  "deploymentScope": "Reuse only dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak / legalease-rcap-4f7d209de112-roger947s-projects.vercel.app. No deployment or migration is authorized.",
+  "deploymentScope": "Reuse only dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak / legalease-rcap-4f7d209de112-roger947s-projects.vercel.app. Only supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql is authorized for acceptance; no Production migration.",
   "regressionEvidence": {
     "crossLayer": {
       "command": "node --test scripts/test-consumer-checkout-binding-recovery.mjs",
@@ -63,7 +75,8 @@
       "equivalent": true,
       "changedPaths": 0,
       "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-      "toolsSnapshot": "07cbe65988240668a7b06556f7b3f4944fb1293c"
+      "toolsSnapshot": "2b1c37b129b09eca32de763c30e73d96e6296684",
+      "fingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2"
     },
     "applicationBuild": {
       "command": "npm run build -- --webpack",
@@ -127,7 +140,25 @@
       "failed": 0
     },
     "applicationBytesEquivalentToCandidate": true,
-    "productionPinsChanged": false
+    "productionPinsChanged": false,
+    "databaseRepair": {
+      "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
+      "passed": 244,
+      "failed": 0,
+      "skipped": 0,
+      "phase50Postconditions": 157,
+      "currentPostconditions": 166,
+      "persistedFailureCodes": 23,
+      "missingPostconditionMutations": 166,
+      "realCatalogMutations": 20,
+      "productionForwardControl": 64,
+      "productionForwardMutations": 24,
+      "productionClinicControl": 21,
+      "productionLegalAidControl": 27,
+      "hostedRetryPromotionAndBindingTests": 20,
+      "lintErrors": 0,
+      "lintWarnings": 0
+    }
   },
   "controlRegressionEvidence": {
     "targetRetryAndPromotion": {
@@ -172,5 +203,36 @@
       "hostedToolsBindingTestsPassed": 1,
       "hostedToolsBindingTestsTotal": 1
     }
+  },
+  "databaseCorrection": {
+    "sourceSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+    "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
+    "sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+    "projectRef": "hyflxnlhpmiqxvvcoiia",
+    "status": "PENDING_AUTHORIZED_ACCEPTANCE_APPLY",
+    "applicationInputsChanged": false,
+    "workerInputsChanged": 0,
+    "workerInputCount": 38,
+    "previewChanged": false,
+    "productionAuthorized": false,
+    "regressionEvidence": {
+      "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
+      "passed": 244,
+      "failed": 0,
+      "skipped": 0,
+      "phase50Postconditions": 157,
+      "currentPostconditions": 166,
+      "persistedFailureCodes": 23,
+      "missingPostconditionMutations": 166,
+      "realCatalogMutations": 20,
+      "productionForwardControl": 64,
+      "productionForwardMutations": 24,
+      "productionClinicControl": 21,
+      "productionLegalAidControl": 27,
+      "hostedRetryPromotionAndBindingTests": 20,
+      "lintErrors": 0,
+      "lintWarnings": 0
+    },
+    "readbackAuthority": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json"
   }
 }

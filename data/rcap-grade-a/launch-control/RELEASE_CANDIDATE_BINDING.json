@@ -21,7 +21,7 @@
   "hostedAcceptanceStatus": "PENDING_ON_THIS_CANDIDATE",
   "hostedAcceptance": {
     "journeys": [],
-    "manualHostedFullReady": true,
+    "manualHostedFullReady": false,
     "preview": {
       "runId": 35945286841,
       "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/35945286841",
@@ -59,7 +59,7 @@
       "hostedPaymentSkipped": true,
       "productionJobsSkipped": true
     },
-    "note": "The #345 passing evidence is preserved in supersedes. Corrected controls are ready for one authorized hosted_full with promotion_code blank, reusing the exact Preview, worker and acceptance project. The ordinary $50 path and payment through delivery remain unproven until that journey completes."
+    "note": "Preserve all #345 evidence in supersedes. Await the authorized forward database correction, exact live catalog/queue readback, and final CURRENT tools binding before the one blank-promotion hosted_full. Payment through delivery remains unproven."
   },
   "publicationReceipt": {
     "path": "data/rcap-render/worker-publication-evidence.json",
@@ -560,7 +560,7 @@
   "productionAuthorized": false,
   "productionAuthorization": null,
   "productionAuthorizationNote": "No Production authorization. Historical approvals remain bound to their historical tuples.",
-  "scope": "Bounded #345 hosted-acceptance controls only. Application and accepted worker source/digest, exact Preview and Stripe sandbox destination remain unchanged. One hosted_full with explicit blank promotion input is authorized after CURRENT binding and verified push. PRODUCTION AUTHORIZATION = NO.",
+  "scope": "Bounded #345 packet database lifecycle/security correction and migration-certification tools. Application, accepted worker source/digest, exact Preview and Stripe destination are retained. One ordinary $50 hosted_full is authorized only after exact live readback and CURRENT binding. PRODUCTION AUTHORIZATION = NO.",
   "applicationPin": {
     "sha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
     "tree": "1e9784a0c609b8def07865f677c7e031e8868e8b",
@@ -849,5 +849,36 @@
       "status": "CURRENT",
       "reasons": []
     }
+  },
+  "databaseCorrection": {
+    "sourceSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+    "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
+    "sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+    "projectRef": "hyflxnlhpmiqxvvcoiia",
+    "status": "PENDING_AUTHORIZED_ACCEPTANCE_APPLY",
+    "applicationInputsChanged": false,
+    "workerInputsChanged": 0,
+    "workerInputCount": 38,
+    "previewChanged": false,
+    "productionAuthorized": false,
+    "regressionEvidence": {
+      "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
+      "passed": 244,
+      "failed": 0,
+      "skipped": 0,
+      "phase50Postconditions": 157,
+      "currentPostconditions": 166,
+      "persistedFailureCodes": 23,
+      "missingPostconditionMutations": 166,
+      "realCatalogMutations": 20,
+      "productionForwardControl": 64,
+      "productionForwardMutations": 24,
+      "productionClinicControl": 21,
+      "productionLegalAidControl": 27,
+      "hostedRetryPromotionAndBindingTests": 20,
+      "lintErrors": 0,
+      "lintWarnings": 0
+    },
+    "readbackAuthority": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json"
   }
 }
