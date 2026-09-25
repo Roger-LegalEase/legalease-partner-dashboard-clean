@@ -247,4 +247,35 @@ try {
   fs.rmSync(executionDir, { recursive: true });
 }
 
+
+// Execute the real identity verifier at a mocked Vercel HTTP boundary. The
+// successor is supplied by the caller; no transient release literal is authority.
+{
+  const ast=ts.createSourceFile('browser.mjs',browser,ts.ScriptTarget.Latest,true);
+  const fn=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='verifyExactHostedPreview').getText(ast);
+  const env={RCAP_BROWSER_VERCEL_TOKEN:'test-token',RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID:'dpl_SyntheticSuccessor',RCAP_BROWSER_APPLICATION_SHA:'a'.repeat(40),RCAP_BROWSER_WORKER_SOURCE_SHA:'b'.repeat(40),RCAP_BROWSER_WORKER_DIGEST:'sha256:'+'c'.repeat(64),RCAP_BROWSER_ACCEPTANCE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',RCAP_BROWSER_EXPECTED_SCOPE_SHA256:'d'.repeat(64)};
+  const host='successor-clinic.vercel.app';
+  const fixture={id:env.RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID,readyState:'READY',target:null,projectId:'prj_Test',gitSource:{sha:env.RCAP_BROWSER_APPLICATION_SHA},meta:{rcapApplicationSha:env.RCAP_BROWSER_APPLICATION_SHA,rcapWorkerSourceSha:env.RCAP_BROWSER_WORKER_SOURCE_SHA,rcapWorkerDigest:env.RCAP_BROWSER_WORKER_DIGEST,rcapAcceptanceProjectRef:env.RCAP_BROWSER_ACCEPTANCE_PROJECT_REF,rcapRouteState:'staging_scoped',rcapClinicDemoMode:'mississippi_preview',rcapStagingScopeSha256:env.RCAP_BROWSER_EXPECTED_SCOPE_SHA256,rcapStripeConfigured:'false'}};
+  const required=k=>{assert.ok(env[k],k);return env[k];};
+  const verify=async(d=fixture,aliasId=fixture.id)=>new Function('required','clinicMode','resolveHostedVercelIdentity','hostedVercelScopedUrl','fetch','fail',fn+';return verifyExactHostedPreview;')(
+    required,true,async()=>({projectId:'prj_Test'}),route=>'https://api.vercel.test'+route,
+    async url=>({ok:true,json:async()=>url.endsWith('/aliases')?{aliases:[]}:url.endsWith(host)?{id:aliasId}:d}),message=>{throw Error(message);})(`https://${host}`,'test-bypass');
+  const verified=await verify();assert.equal(verified.workerSourceSha,env.RCAP_BROWSER_WORKER_SOURCE_SHA);assert.equal(verified.workerDigest,env.RCAP_BROWSER_WORKER_DIGEST);
+  check('provider identity returns the exact supplied verified worker tuple',true);
+  for (const field of ['rcapApplicationSha','rcapWorkerSourceSha','rcapWorkerDigest','rcapAcceptanceProjectRef','rcapRouteState','rcapClinicDemoMode','rcapStagingScopeSha256','rcapStripeConfigured']) {
+    await assert.rejects(verify({...fixture,meta:{...fixture.meta,[field]:'wrong'}}));
+    check(`provider identity refuses mismatched ${field}`,true);
+  }
+  for (const patch of [{id:'dpl_Other'},{gitSource:{sha:'e'.repeat(40)}},{projectId:'prj_Other'},{target:'production'},{readyState:'ERROR'}]) await assert.rejects(verify({...fixture,...patch}));
+  await assert.rejects(verify(fixture,'dpl_Other'));
+  check('provider identity refuses wrong deployment/source/project/target/state/alias',true);
+  const ports=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text==='clinicDeliveryPorts').getText(ast);
+  const start=ports.indexOf('  assert.equal(environmentClassification.previewVerified');
+  const prefix=ports.slice(start,ports.indexOf('  const image ='));
+  const validate=value=>new Function('assert','environmentClassification','required','baseUrl','packetItemId','participantUserId','screeningSessionId','clinicEventId','validUuid',prefix)(assert,value,required,`https://${host}`,'id','id','id','id',()=>true);
+  validate(verified);
+  for(const field of ['previewVerified','deploymentId','hostname','applicationSha','workerSourceSha','workerDigest','acceptanceProjectRef','clinicDemoMode','routeState','stripeConfigured'])assert.throws(()=>validate({...verified,[field]:'wrong'}));
+  check('Clinic delivery consumes verified identity and refuses any tuple divergence before credential access',true);
+  check('Clinic delivery carries no historical release literals',!/(dpl_3RALTW|a0d0b933|615b4021|4704199f)/.test(ports));
+}
 console.log(`Hosted Mississippi Clinic Preview workflow: PASS — ${checks.length}/${checks.length} contract and behavioral checks.`);
