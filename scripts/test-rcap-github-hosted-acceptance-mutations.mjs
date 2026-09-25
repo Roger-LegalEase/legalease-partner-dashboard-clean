@@ -92,18 +92,18 @@ const mutations = [
     expected: "must not create a Stripe Session directly"
   },
   {
-    name: "schema-invalid compatibility packet pathway",
+    name: "schema-invalid application-owned packet pathway",
     file: "gate",
     mutate: (text) => text.replace(
-      'const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan";',
-      'const ACCEPTANCE_PACKET_PATHWAY = "Path A — Non-conviction expungement";'
+      'const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";',
+      'const CONSUMER_PACKET_STORAGE_PATHWAY = "Path A — Non-conviction expungement";'
     ),
     expected: "checkout gate is missing"
   },
   {
-    name: "compatibility fixture launch blocker removed",
+    name: "forbidden compatibility fixture admitted",
     file: "gate",
-    mutate: (text) => text.replace("finalLaunchBlocked: true", "finalLaunchBlocked: false"),
+    mutate: (text) => text.replace("compatibilityFixtureUsed: false", "compatibilityFixtureUsed: true"),
     expected: "checkout gate is missing"
   },
   {

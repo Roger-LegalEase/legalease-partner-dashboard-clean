@@ -244,6 +244,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         '.github/workflows/rcap-github-hosted-acceptance.yml',
         'scripts/rcap-github-acceptance-gate.mjs',
         'scripts/verify-rcap-github-hosted-acceptance.mjs',
+        'scripts/test-rcap-github-hosted-acceptance-mutations.mjs',
         'scripts/rcap-github-post-payment-acceptance.mjs',
         'scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs',
         'scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs',
