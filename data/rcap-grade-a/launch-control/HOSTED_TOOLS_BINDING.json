@@ -10,20 +10,36 @@
   "workerSourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
   "workerDigest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
   "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
-  "toolsSha": "cd75f83268c1d29fff87bf6616dcf962c9da78b5",
+  "toolsSha": "9948dcc6f196f4b06534c91cd8dc42067b9ddae0",
   "toolsShaIsNotHead": "Exact reviewed orchestration snapshot preceding this data binding. Manual dispatch tools_sha must equal final Captain workflow head; orchestration bytes must match this snapshot.",
   "orchestrationFiles": [
+    ".github/workflows/rcap-f1-ephemeral-staging.yml",
+    ".github/workflows/rcap-github-hosted-acceptance.yml",
+    ".github/workflows/rcap-hosted-acceptance-staging.yml",
     "data/rcap-staging-authorization-readiness.json",
+    "scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs",
     "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+    "scripts/rcap-github-acceptance-gate.mjs",
+    "scripts/rcap-github-post-payment-acceptance.mjs",
+    "scripts/rcap-hosted-checkout-gate.mjs",
     "scripts/rcap-hosted-clinic-migrate.mjs",
+    "scripts/rcap-production-canary.mjs",
+    "scripts/rcap-production-forward-chain-migrate.mjs",
+    "scripts/rcap-production-migration-contract.mjs",
+    "scripts/rcap-production-migration-contract.test.mjs",
+    "scripts/rcap-production-public-verify.mjs",
     "scripts/test-briefcase-presentation-authority.mjs",
+    "scripts/test-rcap-github-hosted-acceptance-mutations.mjs",
+    "scripts/test-rcap-release-containment.mjs",
+    "scripts/verify-rcap-github-hosted-acceptance.mjs",
+    "scripts/verify-rcap-hosted-checkout-gate.mjs",
     "scripts/verify-rcap-hosted-clinic-migrate.mjs",
     "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
   ],
-  "previousToolsSha": "0b70498640fc158ab23dcff30ebef019e3f76306",
-  "previousBindingSha256": "a4888bf63c8d7a2f92a535797943d133e1bd6bf24dd8925277350c8ec6cefd61",
-  "why": "Certification-only correction to current authorized provenance 12/8 and sponsored wrapper/route finalizer identity. #13 is already applied and ledgered; application 525e16ea and all worker inputs remain unchanged.",
-  "authorization": "Tools-only reconciliation of the entire hosted Clinic post-apply certification surface to existing Grade-A authority after run 36155894476. #13 already applied; no reapply. Application/worker unchanged. Stop before push; no dispatch, Acceptance mutation, migration/source change, Preview or Production action.",
+  "previousToolsSha": "cd75f83268c1d29fff87bf6616dcf962c9da78b5",
+  "previousBindingSha256": "abf9f9992a207117c4555e1b56b6ca09ca51fd8ba3f28449d4eec15ae0eaf941",
+  "why": "Dynamic exact Clinic Preview reuse; accepted Checkout worker; current authorized Production preflight/public verification; exact read-only canonical-matter certification. Historical incident containment preserved.",
+  "authorization": "Final launch-runway tools/control currentness reconciliation. Application and worker unchanged; completed 13/13 Clinic certification preserved. Local review only: no push, dispatch, remote mutation, Preview or Production action.",
   "deploymentAuthorized": false,
   "manualPushAndDispatchOwner": "Roger; local review only, no push or dispatch in this task.",
   "hostedFullReady": false,
@@ -1038,7 +1054,7 @@
       "retrySetup": "Existing bounded Clinic seed/setup only"
     }
   },
-  "previousBindingCommit": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
+  "previousBindingCommit": "27c8b5022d5a42e552e439ffd053f3953e942422",
   "deploymentEvidence": null,
   "clinicMigrationDispatchReady": true,
   "supersededPreview": {
@@ -1134,6 +1150,27 @@
       "migrationSqlExecuted": 0,
       "authorityAndAssertionAudit": "data/rcap-staging-authorization-readiness.json#/clinicModePreviewMigrationAuthorization/currentHostedCertification",
       "capturedQueriesSha256": "681e7083374aa0dba25ba3418145e459fb972082a15382ad877277679d539299"
+    }
+  },
+  "runwayCurrentness": {
+    "status": "LOCAL_STRUCTURAL_VERIFICATION_ONLY",
+    "nextMutableExternalOperation": "hosted_clinic_deploy",
+    "optionalReadOnlyReceipt": "hosted_clinic_migrate; 13/13; zero migration SQL",
+    "clinicPreview": "dynamic exact ID/hostname; resolver verified; reuse only; no deploy",
+    "hostedFull": "Requires separate exact current Stripe-enabled ordinary Preview; isolated Clinic Preview cannot satisfy this contract.",
+    "production": "Unauthorized. Current release binding and separate phase authorization required. Future live canonical-matter RPC readback must pass; a mismatch requires separately authorized correction.",
+    "historicalIncidentProbes": "HISTORICAL ONLY / NON-CONTROLLING; production_save_transition_* and production_live_zero_dollar_order excluded from current readiness",
+    "remoteActionsThisTask": 0,
+    "activeLiteralSweep": {
+      "filesScanned": 169,
+      "occurrencesClassified": 122,
+      "remainingSupersededActiveBugs": 0,
+      "classificationCounts": {
+        "CURRENT CONTROLLING": 12,
+        "HISTORICAL EVIDENCE ONLY": 21,
+        "HISTORICAL NEGATIVE TEST": 82,
+        "MIGRATION/SOURCE PROVENANCE AUTHORITY": 7
+      }
     }
   }
 }

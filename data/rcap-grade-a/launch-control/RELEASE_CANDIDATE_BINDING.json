@@ -52,18 +52,22 @@
     "note": "Application SHA remains 525e16ea64ed08b3bd65a368ff95a1ee5dc25509. Run 36155894476 applied and ledgered #13 before stale certification failed. Entire corrected post-ledger path now passes read-only Acceptance certification; no workflow rerun or successor Preview created. Failed runs remain preserved."
   },
   "supersededRecordSha256": "0a8b797e98d0eb09891649328fc5345f38265718abcb1268af087618ee2142e3",
-  "scope": "Tools-only reconciliation of the entire hosted Clinic post-apply certification surface to existing Grade-A authority after run 36155894476. #13 already applied; no reapply. Application/worker unchanged. Stop before push; no dispatch, Acceptance mutation, migration/source change, Preview or Production action.",
+  "scope": "Final launch-runway tools/control currentness reconciliation. Application and worker unchanged; completed 13/13 Clinic certification preserved. Local review only: no push, dispatch, remote mutation, Preview or Production action.",
   "previewExecutionInstruction": {
-    "mode": "hosted_clinic_migrate",
+    "mode": "hosted_clinic_deploy",
     "manualDispatchOwner": "Roger",
     "nextSequence": [
-      "hosted_clinic_migrate",
-      "hosted_clinic_deploy",
-      "bind returned exact Preview pins",
-      "hosted_clinic_preview"
+      "optional hosted_clinic_migrate zero-write certification receipt (13/13 already applied)",
+      "hosted_clinic_deploy (one isolated Preview; blank Preview inputs)",
+      "bind returned exact Preview identity",
+      "hosted_clinic_preview (reuse only)",
+      "bind Clinic PASS",
+      "prepare/reuse exact current ordinary payment Preview and existing sandbox webhook binding under separate authorization",
+      "hosted_full",
+      "record hosted_full PASS; request Roger Production authorization"
     ],
-    "authorization": "Stop before push or dispatch. #13 is already applied; do not reapply. Any separately authorized future hosted_clinic_migrate execution must see 13/13 and execute zero migration SQL.",
-    "workflowInputsBeforeDispatch": "Use this application SHA and the final reviewed tools SHA. Preview ID/hostname blank for migrate/deploy. Exact successor Preview must be read back and bound before clinic_preview."
+    "authorization": "No external execution authorized by this task. Next mutable external operation is one hosted_clinic_deploy. #13 already applied; any optional certification must execute zero migration SQL.",
+    "workflowInputsBeforeDispatch": "Frozen application/worker tuple and final reviewed Captain workflow/tools SHA. Preview ID/hostname blank for deploy; supply exact returned identities for clinic_preview. Ordinary hosted_full requires its own exact Stripe-enabled Preview."
   },
   "applicationPin": {
     "sourceSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
@@ -1707,8 +1711,8 @@
     },
     "independentExactBindingReviewRequiredBeforePush": true
   },
-  "previousBindingCommit": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
-  "previousBindingSha256": "e356b1d5eb45d29aa19b1e779bd4dc42770417a3be30c17be30748a4befabf93",
+  "previousBindingCommit": "27c8b5022d5a42e552e439ffd053f3953e942422",
+  "previousBindingSha256": "3413f1c9b1625307842daf385c8ca74df5a34eb489d311d3f15c1cc0b039ea87",
   "failedClinicMigrationRun": {
     "runId": 36151713747,
     "workflowSha": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
