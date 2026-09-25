@@ -14,7 +14,7 @@
   "productionAuthorization": null,
   "productionAuthorizationNote": "Historical Production approvals remain bound to historical tuples. No Production action is authorized.",
   "independentExactBindingReviewRequiredBeforePush": true,
-  "applicationSha": "67503e7e8d98b4a63103f4d7b66a413b8eb57823",
+  "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
   "workerSourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
   "workerDigest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
   "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
@@ -43,35 +43,59 @@
       "bytes": 266589
     }
   },
-  "hostedAcceptanceStatus": "READY_FOR_ONE_ISOLATED_CLINIC_PREVIEW",
+  "hostedAcceptanceStatus": "PENDING_EXACT_CLINIC_MIGRATION_12_AND_SUCCESSOR_PREVIEW",
   "hostedAcceptance": {
     "journeys": [],
     "manualHostedFullReady": false,
     "preview": null,
     "naturalDelivery": null,
-    "note": "Successor isolated Clinic Preview has not been created. Prior Preview and failed journeys remain historical; no current Clinic or hosted_full PASS is asserted."
+    "note": "New application SHA is required because the bounded Clinic migrator reads exact migration bytes from the application commit. Migration #12 is not applied; no successor Preview created; failed run remains preserved."
   },
-  "scope": "Record successful Gate-2 image acceptance and prepare Gate-3 hosted_clinic_deploy for Roger manual dispatch. Stop before dispatch. No publication, Clinic journey, database mutation, hosted_full or Production action.",
+  "supersededRecordSha256": "0a8b797e98d0eb09891649328fc5345f38265718abcb1268af087618ee2142e3",
+  "scope": "Targeted canonical Clinic presentation identity repair for failed run 36141023122. Local independent review only; no push, dispatch, migration apply, deployment, worker publication or Production action.",
   "previewExecutionInstruction": {
-    "mode": "hosted_clinic_deploy",
+    "mode": "hosted_clinic_migrate",
     "manualDispatchOwner": "Roger",
-    "previewCountAuthorized": 1,
-    "workflowInputsBeforeDispatch": "Use exact final Captain tools SHA and application SHA; Preview ID/hostname blank. mississippi_preview and staging_scoped, existing A/B only. No Stripe retarget or participant journey."
+    "nextSequence": [
+      "hosted_clinic_migrate",
+      "hosted_clinic_deploy",
+      "bind returned exact Preview pins",
+      "hosted_clinic_preview"
+    ],
+    "authorization": "Prepared locally only. Stop before push or dispatch. Migration12 must PASS before one new isolated Preview; no ordinary Preview change.",
+    "workflowInputsBeforeDispatch": "Use this application SHA and the final reviewed tools SHA. Preview ID/hostname blank for migrate/deploy. Exact successor Preview must be read back and bound before clinic_preview."
   },
   "applicationPin": {
-    "sourceSha": "67503e7e8d98b4a63103f4d7b66a413b8eb57823",
+    "sourceSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
     "canonicalInputBaseline": "2742392d59579d823cd0cdc54456f5e80a210aaf",
     "canonicalApplicationInputDiff": [],
     "canonicalWorkerInputDiff": [],
     "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
-    "staticWorkerAuthorityByteIdentical": true
+    "staticWorkerAuthorityByteIdentical": true,
+    "databaseRuntimeChange": "Forward RPC correction only, not yet applied.",
+    "migrationPath": "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql",
+    "migrationSha256": "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc"
   },
-  "inheritedRed": {
-    "classification": "INHERITED_RED_NOT_CAUSED_BY_PUBLICATION_BINDING",
-    "command": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check",
-    "cause": "Existing Mississippi proof pins personalized-packet.ts before source 2742392. No proof regenerated or legal/packet fact changed in this publication-only lane."
+  "failedClinicRun": {
+    "runId": 36141023122,
+    "artifactId": 10867040781,
+    "artifactZipSha256": "a3625fb880756f0f827d9cd6adb20a30629d30bd0317678474ae57392362b40d",
+    "workflowSha": "7a401c31d94bc9863d9279d8784877ed7e15b706",
+    "briefcaseItemId": "baa3ea24-b656-4743-92a2-b0efb9a48948",
+    "canonicalMatterId": "5293f5a5-c2a3-4453-959e-37646d02504a",
+    "incorrectPendingMatterId": "69eb4d66-d672-44be-854d-93e6022d2995",
+    "failure": "Timeout waiting for packet/generate; trusted presentation RPC returned pending correlation instead of canonical consumer matter. Protected sponsored comparison correctly refused.",
+    "sourceOfDiagnosis": "Roger independent Acceptance readback; native artifact confirms exact reused Preview and response timeout. Local PostgreSQL reproduces the wrong pending identity and proves the forward correction.",
+    "historicalRowsPreserved": true
   },
-  "supersededRecordSha256": "0a8b797e98d0eb09891649328fc5345f38265718abcb1268af087618ee2142e3",
+  "verificationLimitations": {
+    "postPaymentWrapper": "Baseline and candidate both fail existing ScreeningFlow assertion and origin/main diff resolution. Its legacy exact-path scope registry additionally does not consume the Clinic-specific authorization for the new migration. Dedicated Clinic migration verifier validates the exact owner-authorized path/hash; no generic authority expanded.",
+    "inheritedMississippiProof": {
+      "classification": "INHERITED_RED_NOT_CAUSED_BY_PUBLICATION_BINDING",
+      "command": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check",
+      "cause": "Existing Mississippi proof pins personalized-packet.ts before source 2742392. No proof regenerated or legal/packet fact changed in this publication-only lane."
+    }
+  },
   "supersedes": {
     "schemaVersion": "rcap-release-candidate-binding/v1",
     "status": "FROZEN_FOR_PREVIEW_ACCEPTANCE",
@@ -1682,5 +1706,7 @@
       "workflowInputsBeforeDispatch": "Exact final workflow/tools SHA required; Preview hostname and deployment id blank. No Checkout/payment or migration phase."
     },
     "independentExactBindingReviewRequiredBeforePush": true
-  }
+  },
+  "previousBindingCommit": "7a401c31d94bc9863d9279d8784877ed7e15b706",
+  "previousBindingSha256": "69621f818ea180c13b9be306d752ec648af0272aa434440de6f734d3b8df72d6"
 }

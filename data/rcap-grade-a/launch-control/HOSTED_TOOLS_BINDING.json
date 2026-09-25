@@ -6,30 +6,25 @@
   "additionalWorkerPublicationAuthorized": false,
   "imageAcceptanceRerunAuthorized": false,
   "independentExactBindingReviewRequiredBeforePush": true,
-  "applicationSha": "67503e7e8d98b4a63103f4d7b66a413b8eb57823",
+  "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
   "workerSourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
   "workerDigest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
   "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
-  "toolsSha": "53f087d2dfba0f8b8b904b6b0524b15143171f6b",
+  "toolsSha": "82f9d5556b998ba62303dbae59daf8221374aaec",
   "toolsShaIsNotHead": "Exact reviewed orchestration snapshot preceding this data binding. Manual dispatch tools_sha must equal final Captain workflow head; orchestration bytes must match this snapshot.",
   "orchestrationFiles": [
-    ".github/workflows/rcap-f1-ephemeral-staging.yml",
-    ".github/workflows/rcap-hosted-acceptance-staging.yml",
-    "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-    "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
-    "scripts/test-rcap-release-containment.mjs",
     "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
   ],
-  "previousToolsSha": "e2879f825b8c30ccb197d02262d006c0af8f7618",
-  "previousBindingSha256": "94bfd2b696cf2479590beacd98fbe006aac9150f26004750b8db9e47b872df1b",
-  "why": "Bind the existing successor Clinic Preview from successful deploy run 36137447419 into reuse-only Clinic acceptance; application and worker tuple unchanged.",
-  "authorization": "Roger authorized exact successor Preview pins, the matching application guard and tools binding, independent review and push. Stop before dispatch.",
+  "previousToolsSha": "53f087d2dfba0f8b8b904b6b0524b15143171f6b",
+  "previousBindingSha256": "91363dd7692d9cc1e8d4e5aa97b98f4a690cf9d3604052d4d6f527c117682e47",
+  "why": "Targeted canonical-matter migration and provider-verified Clinic worker identity. Worker unchanged. New application commit carries migration12 for the existing frozen-source runner.",
+  "authorization": "Targeted canonical Clinic presentation identity repair for failed run 36141023122. Local independent review only; no push, dispatch, migration apply, deployment, worker publication or Production action.",
   "deploymentAuthorized": false,
-  "manualPushAndDispatchOwner": "Roger manually dispatches hosted_clinic_preview; Captain stops before dispatch.",
+  "manualPushAndDispatchOwner": "Roger; local review only, no push or dispatch in this task.",
   "hostedFullReady": false,
-  "clinicDispatchReady": true,
+  "clinicDispatchReady": false,
   "clinicDeployDispatchReady": false,
-  "executionAuthorizationStatus": "HELD_ROGER_MANUAL_CLINIC_PREVIEW_READY",
+  "executionAuthorizationStatus": "HELD_LOCAL_REVIEW_NO_PUSH_OR_DISPATCH",
   "deploymentScope": {
     "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
     "vercelProjectName": "legalease-partner-dashboard-clean",
@@ -41,16 +36,16 @@
     "productionAliasesMayMove": false,
     "productionEnvironmentMayChange": false,
     "publicDomainActivation": false,
-    "existingDeploymentId": "dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i",
-    "existingHostname": "legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
-    "reuseOnly": true,
+    "existingDeploymentId": null,
+    "existingHostname": null,
+    "reuseOnly": false,
     "creationAuthorized": false,
-    "maximumCreations": 0,
-    "phase": "clinic_preview",
+    "maximumCreations": 1,
+    "phase": "clinic_deploy",
     "previewPurpose": "mississippi_clinic",
     "clinicDemoMode": "mississippi_preview",
     "routeState": "staging_scoped",
-    "returnOrigin": "https://legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
+    "returnOrigin": "https://legalease-rcap-clinic-525e16ea64ed-roger947s-projects.vercel.app",
     "stagingScope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
     "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
     "preservedOrdinaryPreview": {
@@ -58,12 +53,13 @@
       "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
       "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
     },
-    "immutableHostname": "legalease-partner-dashboard-clean-qucrcbw16-roger947s-projects.vercel.app",
-    "creationAuthorization": "No further Preview creation authorized; reuse this exact deployment only."
+    "immutableHostname": null,
+    "creationAuthorization": "No creation by agent. After migration12 passes and Roger dispatches, create/reuse one successor at the new exact application SHA."
   },
   "unresolvedBoundaries": [
-    "Clinic journey and hosted_full remain pending.",
-    "Production remains unauthorized."
+    "Migration12 not applied.",
+    "New application requires a successor Clinic Preview after migration PASS; old Preview remains untouched.",
+    "Clinic journey and hosted_full remain pending; Production unauthorized."
   ],
   "supersedes": {
     "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
@@ -1037,16 +1033,63 @@
       "retrySetup": "Existing bounded Clinic seed/setup only"
     }
   },
-  "previousBindingCommit": "efdd3f5fc8866a796757281a3ebe2e350e977d80",
-  "deploymentEvidence": {
-    "runId": 36137447419,
-    "conclusion": "success",
-    "workflowSha": "efdd3f5fc8866a796757281a3ebe2e350e977d80",
-    "artifactId": 10865194081,
-    "artifactZipSha256": "dbad440595dd159797c18bcee18eba9cb0052da73382b3b81d5970329ccd5e13",
-    "nativeDeployReceiptSha256": "c86f86473d3ce45c52353a3cd1263737a9f108cc98ecd200560c2c808016ab9c",
-    "ordinaryBeforeAfterEqual": true,
-    "productionBeforeAfterEqual": true,
-    "clinicExecutionPerformed": false
+  "previousBindingCommit": "7a401c31d94bc9863d9279d8784877ed7e15b706",
+  "deploymentEvidence": null,
+  "clinicMigrationDispatchReady": true,
+  "supersededPreview": {
+    "scope": {
+      "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+      "vercelProjectName": "legalease-partner-dashboard-clean",
+      "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+      "target": "preview",
+      "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
+      "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
+      "productionTarget": false,
+      "productionAliasesMayMove": false,
+      "productionEnvironmentMayChange": false,
+      "publicDomainActivation": false,
+      "existingDeploymentId": "dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i",
+      "existingHostname": "legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
+      "reuseOnly": true,
+      "creationAuthorized": false,
+      "maximumCreations": 0,
+      "phase": "clinic_preview",
+      "previewPurpose": "mississippi_clinic",
+      "clinicDemoMode": "mississippi_preview",
+      "routeState": "staging_scoped",
+      "returnOrigin": "https://legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
+      "stagingScope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
+      "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
+      "preservedOrdinaryPreview": {
+        "deploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
+        "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
+        "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
+      },
+      "immutableHostname": "legalease-partner-dashboard-clean-qucrcbw16-roger947s-projects.vercel.app",
+      "creationAuthorization": "No further Preview creation authorized; reuse this exact deployment only."
+    },
+    "deploymentEvidence": {
+      "runId": 36137447419,
+      "conclusion": "success",
+      "workflowSha": "efdd3f5fc8866a796757281a3ebe2e350e977d80",
+      "artifactId": 10865194081,
+      "artifactZipSha256": "dbad440595dd159797c18bcee18eba9cb0052da73382b3b81d5970329ccd5e13",
+      "nativeDeployReceiptSha256": "c86f86473d3ce45c52353a3cd1263737a9f108cc98ecd200560c2c808016ab9c",
+      "ordinaryBeforeAfterEqual": true,
+      "productionBeforeAfterEqual": true,
+      "clinicExecutionPerformed": false
+    },
+    "failedClinicRun": {
+      "runId": 36141023122,
+      "artifactId": 10867040781,
+      "artifactZipSha256": "a3625fb880756f0f827d9cd6adb20a30629d30bd0317678474ae57392362b40d",
+      "workflowSha": "7a401c31d94bc9863d9279d8784877ed7e15b706",
+      "briefcaseItemId": "baa3ea24-b656-4743-92a2-b0efb9a48948",
+      "canonicalMatterId": "5293f5a5-c2a3-4453-959e-37646d02504a",
+      "incorrectPendingMatterId": "69eb4d66-d672-44be-854d-93e6022d2995",
+      "failure": "Timeout waiting for packet/generate; trusted presentation RPC returned pending correlation instead of canonical consumer matter. Protected sponsored comparison correctly refused.",
+      "sourceOfDiagnosis": "Roger independent Acceptance readback; native artifact confirms exact reused Preview and response timeout. Local PostgreSQL reproduces the wrong pending identity and proves the forward correction.",
+      "historicalRowsPreserved": true
+    }
   }
 }
