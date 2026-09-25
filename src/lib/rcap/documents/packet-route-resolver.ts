@@ -508,6 +508,12 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
   return { ...base, availability: deriveAvailability(base, input) };
 }
 
+/** Technical reconstruction for already-claimed jobs. It carries every route
+ * suppression but grants no commercial availability or publication authority. */
+export function resolveClaimedPacketRenderRoute(input: PacketRouteInput): PacketRouteResolution {
+  return { ...resolvePacketRouteBase(input), availability: "UNFINISHED" };
+}
+
 function resolvePacketRouteBase(input: PacketRouteInput): PacketRouteBaseResolution {
   const jurisdiction = normalizeJurisdictionCode(String(input.state ?? "")).toUpperCase();
   const pathwayId = String(input.pathway ?? "").trim();

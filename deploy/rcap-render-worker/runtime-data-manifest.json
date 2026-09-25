@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 145,
-  "totalBytes": 15668899,
+  "fileCount": 142,
+  "totalBytes": 15108709,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -681,20 +681,6 @@
       "why": "Read only when the delivery route state is live. Absent, deploymentConfigIncomplete() fails closed and every live route stops resolving."
     },
     {
-      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
-      "sha256": "2350dea6c883362d18756d4264cf83d5d95d7f400ebf39c19985287ef65e72fa",
-      "bytes": 439152,
-      "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts",
-      "why": "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses."
-    },
-    {
-      "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
-      "sha256": "862ff2859f98026e3aa83e24243ad7cf97e34aee289441b0121947a7527f0448",
-      "bytes": 23768,
-      "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts",
-      "why": "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses."
-    },
-    {
       "path": "data/rcap-grade-a/maintenance/route-holds.json",
       "sha256": "54d7cdd734e207399e1f65977bfca6b6df7bea33c99e236a4f4264c6eb1a0d41",
       "bytes": 9791,
@@ -784,13 +770,6 @@
       "bytes": 1021917,
       "readBy": "src/lib/rcap/documents/guidance-packet-registry.ts (CROSSWALK_PATH)",
       "why": "Track-to-pathway crosswalk used while resolving a route."
-    },
-    {
-      "path": "data/rcap-render/worker-publication-evidence.json",
-      "sha256": "978ffaa74b0926b1148357ad09e77f3f77d3e55e666170840893a9806c947db8",
-      "bytes": 97270,
-      "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts",
-      "why": "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses."
     },
     {
       "path": "data/record-clearing/brand/legalease-logo.png",

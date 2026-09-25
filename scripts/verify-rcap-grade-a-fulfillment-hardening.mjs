@@ -882,7 +882,18 @@ if (MUTATIONS) {
   });
   check("entitlement and credit entry points explicitly demand current channel authority", () => {
     assert.ok(readSource("src/lib/rcap/render/job-queue.ts").includes('sponsoredRenderAuthority({ routeId: spec.routeId, ...identity }, "sponsored entitlement")'));
-    assert.ok(readSource("src/lib/rcap/render/sponsored-packet.ts").includes('authUserId: job.sponsored_consumer_auth_user_id }, "packet credit consumption")'));
+    const sponsored = readSource("src/lib/rcap/render/sponsored-packet.ts");
+    const workerBoundary = sponsored.slice(sponsored.indexOf("export async function sponsoredRenderJobAdmitted"),
+      sponsored.indexOf("export async function sponsoredRenderDeliveryReady"));
+    assert.ok(workerBoundary.includes("workerStaticPacketBinding(job.route_id, snapshot.selectedTrackId)"));
+    assert.ok(workerBoundary.includes("currentSponsoredChannelAllowed(binding.staticRecord"));
+    assert.ok(workerBoundary.includes('"packet credit consumption", context)'));
+    for (const forbidden of ["packetFulfillmentAuthority(", "sponsoredRenderAuthority(", "governArtifactAttachment(", "preparePersonalizedPacket("]) {
+      assert.equal(workerBoundary.includes(forbidden), false, `worker must not re-enter publication authority: ${forbidden}`);
+    }
+    const queue = readSource("src/lib/rcap/render/job-queue.ts");
+    assert.ok(queue.indexOf("await sponsoredRenderJobAdmitted(input.jobId)") < queue.indexOf('supabase.rpc("finalize_packet_render_job"'));
+    assert.ok(queue.includes("finalizeSponsoredRenderArtifact(input.jobId, sponsoredAuthority)"));
     assert.ok(readSource("src/lib/expungement-ai/rcap-slot-lifecycle.ts").includes('}, "packet credit consumption")'));
     assert.ok(readSource("src/lib/expungement-ai/packet-generation.ts").includes('sponsoredContext: sponsoredContext ?? undefined'));
     assert.ok(readSource("src/lib/expungement-ai/briefcase-presentation-authority.ts").includes('sponsoredContext: sponsoredContext ?? undefined'));

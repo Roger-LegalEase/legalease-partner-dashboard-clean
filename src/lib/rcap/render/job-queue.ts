@@ -402,7 +402,8 @@ export async function finalizeRenderJob(input: {
   // Admission precedes the transaction that commits credit consumption. Read
   // the protected job binding, never a worker-supplied sponsorship claim.
   const { sponsoredRenderJobAdmitted } = await import("@/lib/rcap/render/sponsored-packet");
-  if (!await sponsoredRenderJobAdmitted(input.jobId)) return null;
+  const sponsoredAuthority = await sponsoredRenderJobAdmitted(input.jobId);
+  if (!sponsoredAuthority) return null;
   const { data, error } = await supabase.rpc("finalize_packet_render_job", {
     p_job_id: input.jobId,
     p_fencing_token: input.fencingToken,
@@ -419,7 +420,7 @@ export async function finalizeRenderJob(input: {
   const row = (Array.isArray(data) ? data[0] : data) as Record<string, unknown>;
   if (row.delivery_eligibility === "eligible") {
     const { finalizeSponsoredRenderArtifact } = await import("@/lib/rcap/render/sponsored-packet");
-    if (!await finalizeSponsoredRenderArtifact(input.jobId)) return null;
+    if (!await finalizeSponsoredRenderArtifact(input.jobId, sponsoredAuthority)) return null;
   }
   return {
     accountingResult: String(row.accounting_result) as PacketAccountingResult,

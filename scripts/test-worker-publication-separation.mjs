@@ -62,16 +62,22 @@ try {
 } finally {fs.rmSync(rootDir,{recursive:true,force:true});}
 const docker=fs.readFileSync('deploy/rcap-render-worker/Dockerfile','utf8');
 assert(docker.includes('COPY '+STATIC_AUTHORITY_PATH));
-// Canonical admission now runs inside the worker before credit finalization.
-// Test the actual image, never a repository data mount or filesystem shim.
-const requiredAuthorityInputs = [
+// Commercial publication proof is application/release authority. It must
+// never become an input to the image whose final digest it would need to name.
+const publicationInputs = [
  'data/rcap-grade-a/fulfillment-authority-registry.json',
  'data/rcap-grade-a/fulfillment-observation-snapshot.json',
- 'data/rcap-render/worker-publication-evidence.json',
- 'data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'
+ 'data/rcap-render/worker-publication-evidence.json'
 ];
-for(const f of requiredAuthorityInputs) assert(docker.replace(/\\\n\s*/g,' ').split('\n').filter(l=>l.startsWith('COPY ')).join('\n').includes(f));
-console.log('Canonical admission inputs are explicit Docker COPY sources.');
+const requiredAuthorityInputs = [STATIC_AUTHORITY_PATH,
+ 'data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'];
+const copies=docker.replace(/\\\n\s*/g,' ').split('\n').filter(l=>l.startsWith('COPY ')).join('\n');
+const runtimeManifest=JSON.parse(fs.readFileSync('deploy/rcap-render-worker/runtime-data-manifest.json'));
+for(const f of publicationInputs) {
+ assert(!copies.includes(f));assert(!runtimeManifest.files.some(entry=>entry.path===f));
+}
+for(const f of requiredAuthorityInputs) assert(copies.includes(f));
+console.log('Worker COPY and manifest exclude publication-backed authority; static and channel authority remain packaged.');
 const reviewImage=process.env.RCAP_REVIEW_WORKER_IMAGE;
 const packagedRoot=process.env.RCAP_REVIEW_WORKER_ROOT;
 if(reviewImage || packagedRoot) {
@@ -83,28 +89,30 @@ if(reviewImage || packagedRoot) {
  register('./scripts/lib/ts-esm-loader.mjs',new URL('file://'+process.cwd()+'/probe.mjs'));
  try {
  const {sponsoredChannelDecisions,currentSponsoredChannelAllowed}=await import('./src/lib/rcap/fulfillment/sponsored-channel-authority.ts');
- const {getCurrentFulfillmentRecord}=await import('./src/lib/rcap/fulfillment/grade-a-registry.ts');
- const {packetFulfillmentAuthority}=await import('./src/lib/expungement-ai/packet-fulfillment-authority.ts');
+ const {workerStaticPacketBinding}=await import('./src/lib/rcap/fulfillment/worker-static-authority.ts');
  const g=sponsoredChannelDecisions[0];
  Object.assign(process.env,{VERCEL_ENV:'preview',VERCEL_TARGET_ENV:'preview',RCAP_SPONSORED_PREVIEW_CHANNEL:g.channel,
  RCAP_CONSUMER_DELIVERY_ROUTE_STATE:g.routeState,NEXT_PUBLIC_SUPABASE_URL:'https://'+g.acceptanceProjectRef+'.supabase.co',
  RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:g.participantUserIds.join(',')});
  const context={participantUserId:g.participantUserIds[0],partnerSlug:g.partnerSlug,eventName:g.eventName,eventId:g.eventId,registeredSpecificationSha256:g.packetSpecificationSha256};
- const canonical=getCurrentFulfillmentRecord(g.routeId);
- const channelAlone=canonical ? currentSponsoredChannelAllowed(canonical,g.trackId,'packet credit consumption',context):false;
- const admission=packetFulfillmentAuthority('MS',g.routeId.split(':')[1],'packet credit consumption',{trackId:g.trackId,sponsoredContext:context});
- console.log(JSON.stringify({channelAlone,workerAdmission:admission.allowed,reason:admission.reason,reads:[...reads]}));
+ const binding=workerStaticPacketBinding(g.routeId,g.trackId);
+ const channelAlone=binding ? currentSponsoredChannelAllowed(binding.staticRecord,g.trackId,'packet credit consumption',context):false;
+ const workerAdmission=Boolean(binding && channelAlone && binding.packetSpecificationFileSha256===context.registeredSpecificationSha256);
+ console.log(JSON.stringify({channelAlone,workerAdmission,staticProviderDigest:binding?.staticRecord.provider.imageDigest,reads:[...reads]}));
  }catch(error){console.log(JSON.stringify({channelAlone:false,workerAdmission:false,error:String(error),reads:[...reads]}));}
  `;
- const run=(input,mutation)=>{
-  // The only mount is the test driver. All runtime source/data come from COPY.
+ const run=(input)=>{
+  // All runtime source/data come from Docker COPY; no repository data mount.
   const args=['run','--rm','--network=none','--user=root','--entrypoint=node',reviewImage,'--input-type=module','-e',input];
   const out=packagedRoot
     ? execFileSync(process.execPath,['--input-type=module','-e',input],{cwd:packagedRoot,encoding:'utf8',maxBuffer:8*1024*1024})
     : execFileSync('docker',args,{encoding:'utf8',maxBuffer:8*1024*1024});
   return JSON.parse(out.trim().split('\n').at(-1));
  };
- const exact=run(probe);assert.equal(exact.channelAlone,true);assert.equal(exact.workerAdmission,true,JSON.stringify(exact));
+ if(packagedRoot)for(const f of publicationInputs)assert(!fs.existsSync(path.join(packagedRoot,f)));
+ const exact=run(probe);assert.equal(exact.staticProviderDigest,'');
+ for(const f of publicationInputs)assert(!exact.reads.includes(f),'worker read publication authority: '+f);
+ assert.equal(exact.channelAlone,true);assert.equal(exact.workerAdmission,true,JSON.stringify(exact));
  const manifest=JSON.parse(fs.readFileSync('deploy/rcap-render-worker/runtime-data-manifest.json'));
  const paths=new Set(manifest.files.map(f=>f.path));
  for(const f of exact.reads) assert(paths.has(f),'runtime read absent from manifest: '+f);

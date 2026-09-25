@@ -100,7 +100,8 @@ export function preparePersonalizedPacket(input: PersonalizedInput) {
   return prepareBoundPersonalizedPacket(input, {packetSpecificationSha256:authority.record.packetSpecificationSha256,
     packetSpecificationFileSha256:authority.record.packetSpecificationFileSha256});
 }
-function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {packetSpecificationSha256: string; packetSpecificationFileSha256: string}) {
+/** Caller must supply an admitted application binding or validated static worker binding. */
+export function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {packetSpecificationSha256: string; packetSpecificationFileSha256: string}, purpose: "application" | "claimed_worker" = "application") {
   const { snapshot } = input;
   const routeId = `${snapshot.jurisdiction}:${snapshot.pathwayId}`;
   if (!isPersonalizedDeliveryRoute(routeId)
@@ -169,7 +170,7 @@ function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding: {pack
   };
   const packetId = uuidFor(`rcap:personalized-packet:v1:${stableStringify(payload)}`);
   const built = buildRenderJobSpec({ packetId, state: snapshot.jurisdiction, pathway: snapshot.pathwayId,
-    trackId: snapshot.selectedTrackId, briefcaseItemId: input.briefcaseItemId, packetFields: payload });
+    trackId: snapshot.selectedTrackId, briefcaseItemId: input.briefcaseItemId, packetFields: payload }, purpose);
   if (!built.spec) throw new Error("personalized route cannot render");
   return {
     packet, specification, spec: built.spec,
@@ -244,7 +245,7 @@ export async function renderPersonalizedClaim(claim: RenderJobClaim): Promise<Bu
   if (!binding) throw new Error("personalized static render authority refused");
   const prepared = prepareBoundPersonalizedPacket({ authUserId: payload.authUserId, briefcaseItemId: payload.briefcaseItemId,
     personId: claim.personId ?? "", matterId: claim.matterId ?? "", verificationHash: verification.hash,
-    snapshot: verification.snapshot, deliveryLocale: jobLocale }, binding);
+    snapshot: verification.snapshot, deliveryLocale: jobLocale }, binding, "claimed_worker");
   if (prepared.spec.packetId !== claim.packetId || prepared.spec.inputHash !== claim.inputHash
     || prepared.spec.rendererKind !== claim.rendererKind || prepared.spec.rendererVersion !== claim.rendererVersion
     || prepared.spec.profileId !== claim.profileId || prepared.spec.profileVersion !== claim.profileVersion) {

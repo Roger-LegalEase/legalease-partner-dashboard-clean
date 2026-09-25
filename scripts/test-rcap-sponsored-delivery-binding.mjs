@@ -41,7 +41,7 @@ register("./lib/consumer-payment-test-loader.mjs", import.meta.url);
 const { bindEphemeralDb } = await import("./lib/consumer-payment-test-doubles.mjs");
 const { runWorkerCycle } = await import("../src/lib/rcap/render/render-worker.ts");
 const { readSponsoredChannelContext } = await import("../src/lib/rcap/fulfillment/sponsored-channel-context.ts");
-const { getRenderJob, finalizeRenderJob } = await import("../src/lib/rcap/render/job-queue.ts");
+const { getRenderJob, finalizeRenderJob, enqueueVerifiedSponsoredRender } = await import("../src/lib/rcap/render/job-queue.ts");
 const { authorizePacketDownload, streamAuthorizedPacket } = await import("../src/lib/rcap/render/packet-delivery.ts");
 const { consumerPersonMatchKey, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
 
@@ -464,7 +464,7 @@ try {
   const { buildMsNonConvictionVerification } = await import('./lib/rcap-ms-nonconviction-fixture.mjs');
   const { evaluateAuthoritativeScreeningResult } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
   const { packetInformationPatch, protectedPacketDraftSeedFromAuthoritative, protectedPacketDraftHash } = await import('../src/lib/expungement-ai/packet-information.ts');
-  const { preparePersonalizedPacket } = await import('../src/lib/rcap/render/personalized-packet.ts');
+  const { preparePersonalizedPacket, prepareBoundPersonalizedPacket } = await import('../src/lib/rcap/render/personalized-packet.ts');
   const { sponsoredChannelDecisions } = await import('../src/lib/rcap/fulfillment/sponsored-channel-authority.ts');
   const grant = sponsoredChannelDecisions[0];
   const msPartnerId = randomUUID();
@@ -494,10 +494,32 @@ try {
     where briefcase_item_id=${q(p.itemId)};`);
   const prepared=preparePersonalizedPacket({authUserId:p.userId,briefcaseItemId:p.itemId,personId:p.personId,
     matterId:p.matterId,verificationHash:p.verificationHash,snapshot:p.snapshot,deliveryLocale:'en'});
-  const r={...renderPayload(p,grant.routeId),packetId:prepared.spec.packetId,inputHash:prepared.spec.inputHash,
-    payload:prepared.payload.renderInputPayload};
-  r.packet.id=r.packetId;
-  const jobId=db.scalar(enqueueSql(p,r));
+  // Independent real files: application admission gets release authority;
+  // the post-claim worker gets only its packaged runtime closure.
+  const runtimeRoot=path.join(storageRoot,'runtime');
+  const publicationInputs=['data/rcap-grade-a/fulfillment-authority-registry.json',
+    'data/rcap-grade-a/fulfillment-observation-snapshot.json','data/rcap-render/worker-publication-evidence.json'];
+  const manifest=JSON.parse(fs.readFileSync(path.join(root,'deploy/rcap-render-worker/runtime-data-manifest.json')));
+  for(const file of [...manifest.files.map(f=>f.path),...publicationInputs]) {
+    const dest=path.join(runtimeRoot,file);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.copyFileSync(path.join(publicationInputs.includes(file) ? root : process.env.RCAP_REVIEW_WORKER_ROOT ?? root,file),dest);
+  }
+  const {resetFulfillmentRegistryCache}=await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
+  const {resetObservationCache}=await import('../src/lib/rcap/fulfillment/grade-a-admission.ts');
+  const reset=()=>{resetFulfillmentRegistryCache();resetObservationCache();};
+  const identity={authUserId:p.userId,briefcaseItemId:p.itemId,sourceSessionId:p.sessionId,
+    partnerSlug:grant.partnerSlug,personId:p.personId,matterId:p.matterId,verificationHash:p.verificationHash};
+  process.chdir(runtimeRoot);reset();
+  for(const file of publicationInputs) {
+    const original=fs.readFileSync(file);fs.unlinkSync(file);reset();
+    try {check(`application enqueue refuses absent ${file}`,await enqueueVerifiedSponsoredRender(prepared.spec,identity,prepared.payload)===null
+      && db.scalar(`select count(*) from packet_render_jobs where briefcase_item_id=${q(p.itemId)}`)==='0');}
+    finally {fs.writeFileSync(file,original);reset();}
+  }
+  const enqueued=await enqueueVerifiedSponsoredRender(prepared.spec,identity,prepared.payload);
+  check('application enqueue succeeds with full commercial, publication and channel authority',Boolean(enqueued));
+  const jobId=enqueued.id;
+  for(const file of publicationInputs) fs.unlinkSync(file);
+  reset();
   const claim=await queue.claim('current-channel-boundary');
   assert.equal(claim.id,jobId);
   assert.equal(await queue.startRender(jobId,claim.fencingToken),true);
@@ -510,14 +532,41 @@ try {
     units:Number(db.scalar(`select count(distinct consumption_unit_hash) from packet_credit_ledger where render_job_id=${q(jobId)}`)),
     clinic:Number(db.scalar(`select screenings_used from partner_entitlement where partner_slug=${q(grant.partnerSlug)}`)),
     publication:Number(db.scalar(`select count(*) from consumer_packet_artifact_provenance where briefcase_item_id=${q(p.itemId)}`))});
+  async function finalizeWithoutPublication(input) {
+    const read=fs.readFileSync, attempted=[];
+    // Observe real filesystem reads; never substitute bytes or a decision.
+    fs.readFileSync=function(file,...args) {
+      if(typeof file==='string' && publicationInputs.includes(path.relative(runtimeRoot,path.resolve(file)))) attempted.push(file);
+      return read.call(this,file,...args);
+    };
+    try {return await finalizeRenderJob(input);}
+    finally {fs.readFileSync=read;assert.deepEqual(attempted,[],'worker finalization must never read commercial/publication authority');}
+  }
   async function refuses(label, mutate, restore) {
     mutate();
     try {
-      const outcome=await finalizeRenderJob(input);
+      const outcome=await finalizeWithoutPublication(input);
       check(`${label}: real finalizer refuses before accounting (0 → 0)`,outcome===null && counts().credits===0 && counts().units===0 && counts().clinic===0 && counts().publication===0,{outcome,counts:counts()});
       check(`${label}: no deliverable artifact`,db.scalar(`select delivery_eligibility from packet_render_jobs where id=${q(jobId)}`)!=='eligible');
     } finally { restore(); }
   }
+  const staticPath='data/rcap-grade-a/worker-static-authority.json';
+  const staticBytes=fs.readFileSync(staticPath);
+  await refuses('missing static authority',()=>fs.unlinkSync(staticPath),()=>fs.writeFileSync(staticPath,staticBytes));
+  await refuses('corrupt static authority',()=>fs.writeFileSync(staticPath,'{}'),()=>fs.writeFileSync(staticPath,staticBytes));
+  const {staticAuthorityHash}=await import('./lib/worker-static-authority.mjs');
+  const wrong=JSON.parse(staticBytes);const entry=wrong.entries.find(e=>e.record.routeId===grant.routeId);
+  entry.record.revocation.revoked=true;entry.sha256=staticAuthorityHash({record:entry.record,observation:entry.observation});
+  await refuses('revoked static packet authority',()=>fs.writeFileSync(staticPath,JSON.stringify(wrong)),()=>fs.writeFileSync(staticPath,staticBytes));
+  const receipt=JSON.parse(fs.readFileSync(path.join(root,publicationInputs[2])));
+  const selfReference=JSON.parse(staticBytes);const selfEntry=selfReference.entries.find(e=>e.record.routeId===grant.routeId);
+  selfEntry.record.provider.imageDigest=receipt.immutableRegistryDigest;
+  selfEntry.observation.provider.imageDigest=receipt.immutableRegistryDigest;
+  selfEntry.observation.externalPublication={sourceSha:receipt.sourceSha,immutableRegistryDigest:receipt.immutableRegistryDigest};
+  selfEntry.sha256=staticAuthorityHash({record:selfEntry.record,observation:selfEntry.observation});
+  assert.notEqual(input.containerDigest,receipt.immutableRegistryDigest);
+  await refuses('old published source/digest cannot authorize a different running worker',
+    ()=>fs.writeFileSync(staticPath,JSON.stringify(selfReference)),()=>fs.writeFileSync(staticPath,staticBytes));
   await refuses('absent current grant',()=>sponsoredChannelDecisions.pop(),()=>sponsoredChannelDecisions.push(grant));
   await refuses('wrong specification',()=>db.sql(`update sponsored_packet_render_routes set packet_specification_sha256=${q('a'.repeat(64))} where route_key=${q(grant.routeId)}`),
     ()=>db.sql(`update sponsored_packet_render_routes set packet_specification_sha256=${q(grant.packetSpecificationSha256)} where route_key=${q(grant.routeId)}`));
@@ -532,14 +581,36 @@ try {
   }
   await refuses('Production',()=>{process.env.VERCEL_ENV='production';process.env.VERCEL_TARGET_ENV='production';},
     ()=>{process.env.VERCEL_ENV='preview';process.env.VERCEL_TARGET_ENV='preview';});
-  const outcome=await finalizeRenderJob(input);
+  check('worker finalization has no committed publication authority files',publicationInputs.every(f=>!fs.existsSync(f)));
+  const outcome=await finalizeWithoutPublication(input);
   check('exact approved channel: real finalizer consumes and publishes once',outcome?.accountingResult==='consumed'
     && outcome.deliveryEligibility==='eligible' && counts().credits===1 && counts().units===1 && counts().clinic===1 && counts().publication===1,{outcome,counts:counts()});
-  const again=await finalizeRenderJob(input);
+  const again=await finalizeWithoutPublication(input);
   check('real finalizer replay adds no credit or publication',again!==null && counts().credits===1 && counts().units===1 && counts().clinic===1 && counts().publication===1,{again,counts:counts()});
+
+  const outsider=seedParticipant({jurisdiction:'MS',pathway:grant.routeId.split(':')[1],track:grant.trackId,
+    event:grant.eventId,partnerSlug:grant.partnerSlug});
+  outsider.snapshot=p.snapshot;outsider.verificationHash=p.verificationHash;
+  db.sql(`update consumer_briefcase_items set artifact_refs_json='{"attribution":{"locale":"en"}}'::jsonb where id=${q(outsider.itemId)};
+    update consumer_packet_verifications set verification_snapshot=${q(JSON.stringify(p.snapshot))},verification_hash=${q(p.verificationHash)},
+    draft_snapshot=${q(JSON.stringify(draft))},draft_hash=${q(protectedPacketDraftHash(draft))} where briefcase_item_id=${q(outsider.itemId)};`);
+  const {workerStaticPacketBinding}=await import('../src/lib/rcap/fulfillment/worker-static-authority.ts');
+  const outsiderPacket=prepareBoundPersonalizedPacket({authUserId:outsider.userId,briefcaseItemId:outsider.itemId,
+    personId:outsider.personId,matterId:outsider.matterId,verificationHash:outsider.verificationHash,snapshot:outsider.snapshot,deliveryLocale:'en'},
+    workerStaticPacketBinding(grant.routeId,grant.trackId), "claimed_worker");
+  // An otherwise protected registered job cannot rely on registration alone.
+  const outsiderJob=db.scalar(enqueueSql(outsider,{routeKey:grant.routeId,packetId:outsiderPacket.spec.packetId,
+    inputHash:outsiderPacket.spec.inputHash,packet:outsiderPacket.payload.renderPacket,payload:outsiderPacket.payload.renderInputPayload}));
+  const outsiderClaim=await queue.claim('outsider-refusal');assert.equal(outsiderClaim.id,outsiderJob);
+  await queue.startRender(outsiderJob,outsiderClaim.fencingToken);await queue.startValidation(outsiderJob,outsiderClaim.fencingToken);
+  check('wrong participant refuses before accounting (0 → 0)',await finalizeWithoutPublication({...input,jobId:outsiderJob,
+    fencingToken:outsiderClaim.fencingToken,outputStoragePath:`${outsiderJob}/${sha(bytes)}.pdf`})===null
+    && db.scalar(`select count(*) from packet_credit_ledger where render_job_id=${q(outsiderJob)}`)==='0'
+    && db.scalar(`select count(*) from consumer_packet_artifact_provenance where briefcase_item_id=${q(outsider.itemId)}`)==='0');
 
   console.log(`Sponsored delivery binding: ${checks.length} checks PASS on the shipped job loader, publication check and delivery core (local ephemeral PostgreSQL; the non-Illinois registration is a test-only fixture row)`);
 } finally {
+  process.chdir(root);
   db.stop();
   fs.rmSync(storageRoot, { recursive: true, force: true });
 }

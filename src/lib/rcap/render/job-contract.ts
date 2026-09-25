@@ -12,7 +12,7 @@
 
 import { createHash } from "node:crypto";
 import { PDFDocument } from "pdf-lib";
-import { packetRouteCanRender, resolvePacketRoute, type PacketRouteResolution } from "@/lib/rcap/documents/packet-route-resolver";
+import { packetRouteCanRender, resolvePacketRoute, resolveClaimedPacketRenderRoute, type PacketRouteResolution } from "@/lib/rcap/documents/packet-route-resolver";
 import { PACKET_RENDERER_KIND, PACKET_RENDERER_VERSION } from "@/lib/rcap/documents/packet-document-renderer";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import routeRatificationRegistry from "@/../data/record-clearing/legal-decisions/route-ratification-registry.json";
@@ -389,8 +389,9 @@ export function buildRenderJobSpec(input: {
    */
   trackId?: string | null;
   packetFields: Record<string, unknown>;
-}): { spec: RenderJobSpec; route: PacketRouteResolution } | { spec: null; route: PacketRouteResolution } {
-  const route = resolvePacketRoute({ state: input.state, pathway: input.pathway, trackId: input.trackId ?? null });
+}, purpose: "application" | "claimed_worker" = "application"): { spec: RenderJobSpec; route: PacketRouteResolution } | { spec: null; route: PacketRouteResolution } {
+  const resolveRoute = purpose === "claimed_worker" ? resolveClaimedPacketRenderRoute : resolvePacketRoute;
+  const route = resolveRoute({ state: input.state, pathway: input.pathway, trackId: input.trackId ?? null });
   // No job for a deferred route, so there is no artifact finalization and no
   // path into partner-credit accounting.
   if (route.routeKind === "component_deferral" || route.routeKind === "exact_supported_deferral" || !packetRouteCanRender(route)) {

@@ -47,8 +47,6 @@ COPY data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-previe
 # Without these the image starts and then refuses every route, because each
 # reader is guarded and treats an absent file as "no authority".
 COPY deploy/rcap-render-worker/runtime-data-manifest.json deploy/rcap-render-worker/preflight.mjs deploy/rcap-render-worker/
-COPY data/rcap-grade-a/fulfillment-authority-registry.json data/rcap-grade-a/fulfillment-observation-snapshot.json data/rcap-grade-a/
-COPY data/rcap-render/worker-publication-evidence.json data/rcap-render/
 COPY data/rcap-grade-a/worker-static-authority.json data/rcap-grade-a/
 COPY data/rcap-grade-a/maintenance/route-holds.json data/rcap-grade-a/maintenance/
 COPY data/rcap-codex/release-readiness.json data/rcap-codex/

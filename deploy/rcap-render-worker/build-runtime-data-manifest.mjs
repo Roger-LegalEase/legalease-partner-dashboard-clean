@@ -29,9 +29,6 @@ const OUT = path.join(here, "runtime-data-manifest.json");
 
 /** Every entry carries why it is in the image and what reads it. */
 const ENTRIES = [
-  { path: "data/rcap-grade-a/fulfillment-authority-registry.json", kind: "file", readBy: "src/lib/rcap/fulfillment/grade-a-registry.ts", why: "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses." },
-  { path: "data/rcap-grade-a/fulfillment-observation-snapshot.json", kind: "file", readBy: "src/lib/rcap/fulfillment/grade-a-admission.ts", why: "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses." },
-  { path: "data/rcap-render/worker-publication-evidence.json", kind: "file", readBy: "src/lib/rcap/fulfillment/grade-a-admission.ts", why: "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses." },
   { path: "data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json", kind: "file",
     readBy: "src/lib/rcap/fulfillment/sponsored-channel-authority.ts", why: "Current immutable sponsored Preview channel decision; absent or mismatched scope refuses." },
   // The MS paid-consumer successor loader reads every one of these on each
